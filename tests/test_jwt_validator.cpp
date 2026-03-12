@@ -239,6 +239,11 @@ TEST(JWTValidatorTest, TokenBlacklist_NonRevokedJtiAccepted) {
 }
 
 // ---------------------------------------------------------------------------
+// Thread-safety: 32 threads is enough to reliably expose data races under
+// TSAN and represents a realistic high-concurrency auth load.
+// ---------------------------------------------------------------------------
+static constexpr int JWKS_THREAD_SAFETY_TEST_THREADS = 32;
+
 // Thread-safety: concurrent reads on warm JWKS cache (no data race)
 // ---------------------------------------------------------------------------
 
@@ -255,19 +260,18 @@ TEST(JWTValidatorTest, ConcurrentValidate_WarmCache_NoDataRace) {
     std::string up = build_token("test-key-1", payload);
     std::string token = up + "." + sign_RS256(fix.pkey, up);
 
-    // Warm cache: TTL long enough that all 32 threads hit the shared-lock path
+    // Warm cache: TTL long enough that all threads hit the shared-lock path
     JWTValidatorConfig cfg{"", "issuerX", "audX",
                            std::chrono::seconds(600), std::chrono::seconds(60)};
     JWTValidator validator(cfg);
     validator.setJWKSForTesting(jwks);
 
-    constexpr int THREADS = 32;
     std::atomic<int> success_count{0};
     std::atomic<int> error_count{0};
     std::vector<std::thread> threads;
-    threads.reserve(THREADS);
+    threads.reserve(JWKS_THREAD_SAFETY_TEST_THREADS);
 
-    for (int i = 0; i < THREADS; ++i) {
+    for (int i = 0; i < JWKS_THREAD_SAFETY_TEST_THREADS; ++i) {
         threads.emplace_back([&]() {
             try {
                 auto c = validator.parseAndValidate(token);
@@ -282,7 +286,7 @@ TEST(JWTValidatorTest, ConcurrentValidate_WarmCache_NoDataRace) {
 
     for (auto& t : threads) t.join();
 
-    EXPECT_EQ(success_count.load(), THREADS);
+    EXPECT_EQ(success_count.load(), JWKS_THREAD_SAFETY_TEST_THREADS);
     EXPECT_EQ(error_count.load(), 0);
 }
 
@@ -302,16 +306,15 @@ TEST(JWTValidatorTest, ConcurrentValidate_ExpiredCache_NoDataRace) {
     cfg.jwks_timeout_seconds = 1;       // 1-second curl timeout
     JWTValidator validator(cfg);
 
-    constexpr int THREADS = 32;
     std::atomic<int> throw_count{0};
     std::vector<std::thread> threads;
-    threads.reserve(THREADS);
+    threads.reserve(JWKS_THREAD_SAFETY_TEST_THREADS);
 
     // A dummy (unsigned) token — validation will never reach signature check
     // because fetchJWKS() will throw before that.
     const std::string dummy_token = "eyJhbGciOiJSUzI1NiIsImtpZCI6InRlc3QifQ.eyJzdWIiOiJ1In0.sig";
 
-    for (int i = 0; i < THREADS; ++i) {
+    for (int i = 0; i < JWKS_THREAD_SAFETY_TEST_THREADS; ++i) {
         threads.emplace_back([&]() {
             try {
                 validator.parseAndValidate(dummy_token);
@@ -324,6 +327,6 @@ TEST(JWTValidatorTest, ConcurrentValidate_ExpiredCache_NoDataRace) {
     for (auto& t : threads) t.join();
 
     // All threads must have thrown (no real JWKS endpoint); none must have crashed.
-    EXPECT_EQ(throw_count.load(), THREADS);
+    EXPECT_EQ(throw_count.load(), JWKS_THREAD_SAFETY_TEST_THREADS);
 }
 

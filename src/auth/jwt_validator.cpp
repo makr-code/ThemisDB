@@ -541,7 +541,11 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     if (!kid.empty()) {
         jwk = findJwkForKid(jwks, kid);
         if (!jwk) {
-            jwks_cache_time_ = std::chrono::system_clock::time_point::min();
+            // Force cache expiry under the write lock so other threads see the invalidation
+            {
+                std::unique_lock<std::shared_mutex> lock(jwks_cache_mutex_);
+                jwks_cache_time_ = std::chrono::system_clock::time_point::min();
+            }
             jwks = fetchJWKS();
             jwk = findJwkForKid(jwks, kid);
         }
