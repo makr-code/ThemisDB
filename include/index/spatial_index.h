@@ -158,6 +158,29 @@ public:
     };
     IndexStats getStats(std::string_view table) const;
     
+    // ===== Bulk Operations =====
+
+    /**
+     * @brief Bulk-load a collection of (primary_key, sidecar) pairs into the
+     *        spatial index for a given table.
+     *
+     * Uses STR (Sort-Tile-Recursive) packing via GeoRTree::bulkLoad(), which
+     * is 3–5× faster than incremental insertion for read-heavy workloads.
+     * Replaces any previously cached in-memory R-tree for the table.
+     *
+     * Memory usage is reported as a structured log entry with field
+     * `geo_index_bytes_allocated` after the bulk load completes.
+     *
+     * @param table   Name of the table whose spatial index should be populated.
+     * @param entries Vector of {primary_key, GeoSidecar} pairs to index.
+     * @return Status::OK() on success or Status::Error() if the table has no
+     *         spatial index registered.
+     */
+    Status bulkLoad(
+        std::string_view table,
+        const std::vector<std::pair<std::string, geo::GeoSidecar>>& entries
+    );
+
     // ===== Insert/Update/Delete =====
     
     /// Insert entity into spatial index
