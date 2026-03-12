@@ -25,11 +25,11 @@
 
 /**
  * Plugin Name: ThemisDB Feature Matrix
- * Plugin URI: https://github.com/makr-code/ThemisDB
+ * Plugin URI: https://github.com/makr-code/wordpressPlugins
  * Description: Interactive feature comparison matrix for ThemisDB vs PostgreSQL, MongoDB, Neo4j
  * Version: 1.0.0
  * Author: ThemisDB Team
- * Author URI: https://github.com/makr-code/ThemisDB
+ * Author URI: https://github.com/makr-code/wordpressPlugins
  * License: MIT
  * Text Domain: themisdb-feature-matrix
  * Domain Path: /languages

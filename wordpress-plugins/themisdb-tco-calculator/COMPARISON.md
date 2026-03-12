@@ -251,7 +251,7 @@ Total:             ~€70-650/Jahr
 **Schritt 1:** Original-Version deployen
 ```bash
 cd /path/to/webserver
-git clone https://github.com/makr-code/ThemisDB.git
+git clone https://github.com/makr-code/wordpressPlugins.git
 cd ThemisDB/tools/tco-calculator
 # Webserver konfigurieren
 ```

@@ -39,7 +39,7 @@ class ThemisDB_Downloads_GitHub_API {
     private $cache_duration;
     
     public function __construct() {
-        $this->repo = get_option('themisdb_github_repo', 'makr-code/ThemisDB');
+        $this->repo = get_option('themisdb_github_repo', 'makr-code/wordpressPlugins');
         $this->token = get_option('themisdb_github_token', '');
         $this->cache_duration = get_option('themisdb_cache_duration', 3600);
     }

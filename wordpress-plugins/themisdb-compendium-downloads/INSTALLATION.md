@@ -47,7 +47,7 @@ Für Entwickler, die direkt aus dem GitHub-Repository installieren möchten:
 cd /path/to/wordpress/wp-content/plugins/
 
 # Repository klonen
-git clone https://github.com/makr-code/ThemisDB.git themisdb-temp
+git clone https://github.com/makr-code/wordpressPlugins.git themisdb-temp
 
 # Plugin-Verzeichnis kopieren
 cp -r themisdb-temp/wordpress-plugin/themisdb-compendium-downloads ./
@@ -65,7 +65,7 @@ Nach der Aktivierung des Plugins:
 ### 1. Grundeinstellungen konfigurieren
 
 1. Gehen Sie zu **Einstellungen → Kompendium Downloads**
-2. Überprüfen Sie das GitHub-Repository (Standard: `makr-code/ThemisDB`)
+2. Überprüfen Sie das GitHub-Repository (Standard: `makr-code/wordpressPlugins`)
 3. Passen Sie die Cache-Dauer an, falls gewünscht (Standard: 3600 Sekunden)
 4. Wählen Sie Ihren bevorzugten Button-Stil (Modern, Klassisch, Minimal)
 5. Aktivieren/Deaktivieren Sie die Anzeige von Dateigrößen
@@ -212,7 +212,7 @@ Wenn das Plugin über WordPress.org installiert wurde:
 Bei Problemen oder Fragen:
 
 - **Dokumentation**: Siehe [README.md](README.md)
-- **GitHub Issues**: https://github.com/makr-code/ThemisDB/issues
+- **GitHub Issues**: https://github.com/makr-code/wordpressPlugins/issues
 - **WordPress Support Forum**: (falls auf wordpress.org verfügbar)
 
 ---

@@ -164,8 +164,8 @@ Lösung: Browser-Konsole prüfen (F12)
 
 ## 📞 Support
 
-- **GitHub**: [makr-code/ThemisDB](https://github.com/makr-code/ThemisDB)
-- **Issues**: [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)
+- **GitHub**: [makr-code/wordpressPlugins](https://github.com/makr-code/wordpressPlugins)
+- **Issues**: [GitHub Issues](https://github.com/makr-code/wordpressPlugins/issues)
 - **Dokumentation**: Siehe README.md und INSTALLATION.md
 
 ## 📦 Lieferumfang

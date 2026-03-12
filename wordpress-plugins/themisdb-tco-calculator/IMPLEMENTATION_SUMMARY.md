@@ -142,7 +142,7 @@ initializeEventListeners() {
 **Install:**
 ```bash
 cd /wp-content/plugins/
-git clone https://github.com/makr-code/ThemisDB.git
+git clone https://github.com/makr-code/wordpressPlugins.git
 cp -r ThemisDB/tools/tco-calculator-wordpress ./themisdb-tco-calculator
 # Activate in WordPress Admin
 ```

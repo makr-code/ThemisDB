@@ -25,11 +25,11 @@
 
 /**
  * Plugin Name: ThemisDB Taxonomy Manager
- * Plugin URI: https://github.com/makr-code/ThemisDB
+ * Plugin URI: https://github.com/makr-code/wordpressPlugins
  * Description: Manage custom taxonomies for ThemisDB features, use-cases, and industries with visual tree view
  * Version: 1.0.0
  * Author: ThemisDB Team
- * Author URI: https://github.com/makr-code/ThemisDB
+ * Author URI: https://github.com/makr-code/wordpressPlugins
  * License: MIT
  * Text Domain: themisdb-taxonomy
  * Domain Path: /languages

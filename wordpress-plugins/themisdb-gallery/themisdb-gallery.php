@@ -25,11 +25,11 @@
 
 /**
  * Plugin Name: ThemisDB Gallery
- * Plugin URI: https://github.com/makr-code/ThemisDB
+ * Plugin URI: https://github.com/makr-code/wordpressPlugins
  * Description: Hilft beim Artikel erstellen relevante frei verfügbare thematisch passende Bilder im Internet zu finden, herunterzuladen und einzubinden - mit vollen Credits (Urheber usw.)
  * Version: 1.0.1
  * Author: ThemisDB Team
- * Author URI: https://github.com/makr-code/ThemisDB
+ * Author URI: https://github.com/makr-code/wordpressPlugins
  * License: MIT
  * Text Domain: themisdb-gallery
  * Domain Path: /languages

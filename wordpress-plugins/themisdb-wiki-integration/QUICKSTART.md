@@ -29,7 +29,7 @@
 ### Minimale Konfiguration
 
 Belassen Sie die Standardwerte:
-- **GitHub Repository**: `makr-code/ThemisDB` ✅
+- **GitHub Repository**: `makr-code/wordpressPlugins` ✅
 - **Branch**: `main` ✅
 - **Dokumentationspfad**: `docs` ✅
 - **Standard-Sprache**: `de` ✅
@@ -114,7 +114,7 @@ Besuchen Sie Ihre Seite und sehen Sie die ThemisDB-Dokumentation direkt aus GitH
 
 - **Installation**: Siehe `INSTALLATION.md`
 - **Alle Features**: Siehe `README.md`
-- **Support**: https://github.com/makr-code/ThemisDB/issues
+- **Support**: https://github.com/makr-code/wordpressPlugins/issues
 
 ---
 
@@ -142,4 +142,4 @@ Besuchen Sie Ihre Seite und sehen Sie die ThemisDB-Dokumentation direkt aus GitH
 
 **Viel Erfolg! 🚀**
 
-Bei Fragen: https://github.com/makr-code/ThemisDB/issues
+Bei Fragen: https://github.com/makr-code/wordpressPlugins/issues

@@ -304,8 +304,8 @@ add_action('themisdb_docker_cache_updated', function() {
 
 ## Support & Beiträge
 
-- **GitHub Repository:** [makr-code/ThemisDB](https://github.com/makr-code/ThemisDB)
-- **Issues:** [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)
+- **GitHub Repository:** [makr-code/wordpressPlugins](https://github.com/makr-code/wordpressPlugins)
+- **Issues:** [GitHub Issues](https://github.com/makr-code/wordpressPlugins/issues)
 - **Dokumentation:** [docs/de/deployment/](../../docs/de/deployment/)
 
 ## Lizenz

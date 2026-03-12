@@ -153,7 +153,7 @@ if (!defined('ABSPATH')) {
             <small>
                 <?php printf(
                     __('Powered by %s', 'themisdb-benchmark-visualizer'),
-                    '<a href="https://github.com/makr-code/ThemisDB" target="_blank">ThemisDB</a>'
+                    '<a href="https://github.com/makr-code/wordpressPlugins" target="_blank">ThemisDB</a>'
                 ); ?>
             </small>
         </p>

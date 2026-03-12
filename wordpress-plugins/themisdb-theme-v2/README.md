@@ -310,4 +310,4 @@ add_action( 'wp_enqueue_scripts', function() {
 
 ---
 
-*ThemisDB v2 Theme — MIT License — https://github.com/makr-code/ThemisDB*
+*ThemisDB v2 Theme — MIT License — https://github.com/makr-code/wordpressPlugins*

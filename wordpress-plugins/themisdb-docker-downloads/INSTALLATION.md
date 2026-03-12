@@ -198,7 +198,7 @@ When the plugin is submitted to WordPress.org, updates will be automatic through
 ## Additional Resources
 
 - **Plugin Documentation:** See README.md in the plugin directory
-- **Support:** [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)
+- **Support:** [GitHub Issues](https://github.com/makr-code/wordpressPlugins/issues)
 - **ThemisDB Documentation:** [docs/de/deployment/](../../docs/de/deployment/)
 
 ## File Structure Verification

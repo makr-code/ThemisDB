@@ -131,7 +131,7 @@ Einstellungen → Formula Renderer
 
 Einstellungen → Kompendium Downloads
 
-- **GitHub Repository:** makr-code/ThemisDB (Standard)
+- **GitHub Repository:** makr-code/wordpressPlugins (Standard)
 - **Cache-Dauer:** 3600 Sekunden (1 Stunde)
 - **Button-Stil:** Modern, Classic, oder Minimal
 - **Dateigröße anzeigen:** Ja/Nein
@@ -330,9 +330,9 @@ Lösung:
 
 ### ThemisDB Ressourcen
 
-- **GitHub Repository:** https://github.com/makr-code/ThemisDB
-- **Issues:** https://github.com/makr-code/ThemisDB/issues
-- **Discussions:** https://github.com/makr-code/ThemisDB/discussions
+- **GitHub Repository:** https://github.com/makr-code/wordpressPlugins
+- **Issues:** https://github.com/makr-code/wordpressPlugins/issues
+- **Discussions:** https://github.com/makr-code/wordpressPlugins/discussions
 
 ### WordPress Ressourcen
 

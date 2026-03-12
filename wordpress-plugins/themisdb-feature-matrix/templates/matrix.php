@@ -162,7 +162,7 @@ $enable_csv = get_option('themisdb_fm_enable_csv_export', 'yes') === 'yes';
             <small>
                 <?php printf(
                     __('Powered by %s - The Multi-Model Database with AI/ML Integration', 'themisdb-feature-matrix'),
-                    '<a href="https://github.com/makr-code/ThemisDB" target="_blank" rel="noopener">ThemisDB</a>'
+                    '<a href="https://github.com/makr-code/wordpressPlugins" target="_blank" rel="noopener">ThemisDB</a>'
                 ); ?>
             </small>
         </p>

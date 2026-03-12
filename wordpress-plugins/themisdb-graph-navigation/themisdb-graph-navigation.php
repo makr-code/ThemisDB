@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: ThemisDB Graph Navigation
- * Plugin URI: https://github.com/makr-code/ThemisDB
+ * Plugin URI: https://github.com/makr-code/wordpressPlugins
  * Description: Lagert die Graph-Navigation aus dem Theme in ein eigenstaendiges Plugin aus.
  * Version: 1.0.0
  * Author: ThemisDB Team
- * Author URI: https://github.com/makr-code/ThemisDB
+ * Author URI: https://github.com/makr-code/wordpressPlugins
  * License: MIT
  * Text Domain: themisdb-graph-navigation
  * Requires at least: 5.8

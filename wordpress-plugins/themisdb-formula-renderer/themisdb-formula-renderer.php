@@ -25,11 +25,11 @@
 
 /**
  * Plugin Name: ThemisDB Formula Renderer
- * Plugin URI: https://github.com/makr-code/ThemisDB
+ * Plugin URI: https://github.com/makr-code/wordpressPlugins
  * Description: Rendert mathematische Formeln in LaTeX-Notation ($$...$$) in anzeigbare Formeln mit KaTeX. Unterstützt sowohl Inline- als auch Block-Formeln.
  * Version: 1.1.0
  * Author: ThemisDB Team
- * Author URI: https://github.com/makr-code/ThemisDB
+ * Author URI: https://github.com/makr-code/wordpressPlugins
  * License: MIT
  * Text Domain: themisdb-formula-renderer
  * Domain Path: /languages

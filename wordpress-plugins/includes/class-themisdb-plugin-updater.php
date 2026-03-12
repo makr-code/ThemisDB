@@ -31,7 +31,7 @@
  * 
  * @package ThemisDB
  * @version 1.0.0
- * @link https://github.com/makr-code/ThemisDB
+ * @link https://github.com/makr-code/wordpressPlugins
  */
 
 if (!defined('ABSPATH')) {
@@ -51,6 +51,18 @@ class ThemisDB_Plugin_Updater {
      * @var string
      */
     private $repository;
+
+    /**
+     * GitHub repository branch
+     * @var string
+     */
+    private $repository_branch = 'main';
+
+    /**
+     * Optional plugin base path inside repository
+     * @var string
+     */
+    private $repository_plugin_path = '';
     
     /**
      * Plugin slug (directory name)
@@ -89,14 +101,18 @@ class ThemisDB_Plugin_Updater {
      * @param string $plugin_slug Plugin slug (directory name)
      * @param string $version Current plugin version
      * @param string $username GitHub username (default: makr-code)
-     * @param string $repository GitHub repository (default: ThemisDB)
+     * @param string $repository GitHub repository (default: wordpressPlugins)
      */
-    public function __construct($plugin_file, $plugin_slug, $version, $username = 'makr-code', $repository = 'ThemisDB') {
+    public function __construct($plugin_file, $plugin_slug, $version, $username = 'makr-code', $repository = 'wordpressPlugins') {
         $this->plugin_file = plugin_basename($plugin_file);
         $this->plugin_slug = $plugin_slug;
         $this->version = $version;
-        $this->username = $username;
-        $this->repository = $repository;
+        $this->username = apply_filters('themisdb_plugin_updater_repo_owner', $username, $plugin_slug);
+        $this->repository = apply_filters('themisdb_plugin_updater_repo_name', $repository, $plugin_slug);
+        $this->repository_branch = apply_filters('themisdb_plugin_updater_repo_branch', 'main', $plugin_slug);
+
+        $path = apply_filters('themisdb_plugin_updater_repo_plugin_path', '', $plugin_slug);
+        $this->repository_plugin_path = trim((string) $path, '/');
         
         // Hook into WordPress update system
         add_filter('pre_set_site_transient_update_plugins', array($this, 'check_for_update'));
@@ -252,23 +268,50 @@ class ThemisDB_Plugin_Updater {
      * @return array|false Plugin metadata or false on failure
      */
     private function fetch_plugin_metadata() {
-        $metadata_url = "https://raw.githubusercontent.com/{$this->username}/{$this->repository}/main/wordpress-plugins/{$this->plugin_slug}/update-info.json";
-        
-        $response = wp_remote_get($metadata_url, array(
-            'timeout' => 10,
-            'headers' => array(
-                'Accept' => 'application/json',
-            ),
-        ));
-        
-        if (is_wp_error($response)) {
-            return false;
+        $paths = array();
+
+        if (!empty($this->repository_plugin_path)) {
+            $paths[] = $this->repository_plugin_path;
         }
-        
-        $body = wp_remote_retrieve_body($response);
-        $metadata = json_decode($body, true);
-        
-        return is_array($metadata) ? $metadata : false;
+
+        // Default path for the new dedicated plugin repository.
+        $paths[] = '';
+
+        // Backward-compatibility fallbacks during migration.
+        $paths[] = 'wordpress-plugins';
+        $paths[] = 'wordpress-plugin';
+
+        $paths = array_values(array_unique($paths));
+
+        foreach ($paths as $path) {
+            $prefix = empty($path) ? '' : $path . '/';
+            $metadata_url = "https://raw.githubusercontent.com/{$this->username}/{$this->repository}/{$this->repository_branch}/{$prefix}{$this->plugin_slug}/update-info.json";
+
+            $response = wp_remote_get($metadata_url, array(
+                'timeout' => 10,
+                'headers' => array(
+                    'Accept' => 'application/json',
+                ),
+            ));
+
+            if (is_wp_error($response)) {
+                continue;
+            }
+
+            $status = wp_remote_retrieve_response_code($response);
+            if ($status !== 200) {
+                continue;
+            }
+
+            $body = wp_remote_retrieve_body($response);
+            $metadata = json_decode($body, true);
+
+            if (is_array($metadata)) {
+                return $metadata;
+            }
+        }
+
+        return false;
     }
     
     /**

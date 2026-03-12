@@ -247,7 +247,7 @@ $diagram_id = 'diagram-' . uniqid();
             <small>
                 <?php printf(
                     __('Powered by %s', 'themisdb-architecture-diagrams'),
-                    '<a href="https://github.com/makr-code/ThemisDB" target="_blank">ThemisDB</a>'
+                    '<a href="https://github.com/makr-code/wordpressPlugins" target="_blank">ThemisDB</a>'
                 ); ?>
             </small>
         </p>

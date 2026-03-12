@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       plugin_slug:
-        description: "Plugin directory in wordpress-plugins (e.g. themisdb-downloads)"
+        description: "Plugin directory name (e.g. themisdb-downloads)"
         required: true
         type: string
       version:
@@ -44,14 +44,19 @@ jobs:
 
           PLUGIN_SLUG="${{ github.event.inputs.plugin_slug }}"
           VERSION="${{ github.event.inputs.version }}"
-          PLUGIN_DIR="wordpress-plugins/${PLUGIN_SLUG}"
-          METADATA_FILE="${PLUGIN_DIR}/update-info.json"
-          MAIN_FILE="${PLUGIN_DIR}/${PLUGIN_SLUG}.php"
-
-          if [[ ! -d "${PLUGIN_DIR}" ]]; then
-            echo "Plugin directory does not exist: ${PLUGIN_DIR}" >&2
+          if [[ -d "${PLUGIN_SLUG}" ]]; then
+            PLUGIN_DIR="${PLUGIN_SLUG}"
+            REPO_LAYOUT="flat"
+          elif [[ -d "wordpress-plugins/${PLUGIN_SLUG}" ]]; then
+            PLUGIN_DIR="wordpress-plugins/${PLUGIN_SLUG}"
+            REPO_LAYOUT="nested"
+          else
+            echo "Plugin directory does not exist in flat or nested layout: ${PLUGIN_SLUG}" >&2
             exit 1
           fi
+
+          METADATA_FILE="${PLUGIN_DIR}/update-info.json"
+          MAIN_FILE="${PLUGIN_DIR}/${PLUGIN_SLUG}.php"
 
           if [[ ! -f "${METADATA_FILE}" ]]; then
             echo "Missing metadata file: ${METADATA_FILE}" >&2
@@ -75,6 +80,7 @@ jobs:
 
           echo "plugin_slug=${PLUGIN_SLUG}" >> "$GITHUB_OUTPUT"
           echo "plugin_dir=${PLUGIN_DIR}" >> "$GITHUB_OUTPUT"
+          echo "repo_layout=${REPO_LAYOUT}" >> "$GITHUB_OUTPUT"
           echo "main_file=${MAIN_FILE}" >> "$GITHUB_OUTPUT"
           echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
           echo "tag_name=${PLUGIN_SLUG}/v${VERSION}" >> "$GITHUB_OUTPUT"
@@ -86,10 +92,13 @@ jobs:
 
           PLUGIN_DIR="${{ steps.validate.outputs.plugin_dir }}"
           LOCAL_UPDATER="${PLUGIN_DIR}/includes/class-themisdb-plugin-updater.php"
-          SHARED_UPDATER="wordpress-plugins/includes/class-themisdb-plugin-updater.php"
 
-          if [[ ! -f "${SHARED_UPDATER}" ]]; then
-            echo "Shared updater file missing: ${SHARED_UPDATER}" >&2
+          if [[ -f "includes/class-themisdb-plugin-updater.php" ]]; then
+            SHARED_UPDATER="includes/class-themisdb-plugin-updater.php"
+          elif [[ -f "wordpress-plugins/includes/class-themisdb-plugin-updater.php" ]]; then
+            SHARED_UPDATER="wordpress-plugins/includes/class-themisdb-plugin-updater.php"
+          else
+            echo "Shared updater file missing in flat or nested layout." >&2
             exit 1
           fi
 
@@ -104,16 +113,25 @@ jobs:
 
           PLUGIN_SLUG="${{ steps.validate.outputs.plugin_slug }}"
           PLUGIN_DIR="${{ steps.validate.outputs.plugin_dir }}"
+          REPO_LAYOUT="${{ steps.validate.outputs.repo_layout }}"
 
           mkdir -p dist
           ZIP_FILE="dist/${PLUGIN_SLUG}.zip"
           rm -f "${ZIP_FILE}"
 
-          (cd wordpress-plugins && zip -r "../${ZIP_FILE}" "${PLUGIN_SLUG}" \
-            -x "${PLUGIN_SLUG}/.git/*" \
-            -x "${PLUGIN_SLUG}/.DS_Store" \
-            -x "${PLUGIN_SLUG}/node_modules/*" \
-            -x "${PLUGIN_SLUG}/dist/*")
+          if [[ "${REPO_LAYOUT}" == "nested" ]]; then
+            (cd wordpress-plugins && zip -r "../${ZIP_FILE}" "${PLUGIN_SLUG}" \
+              -x "${PLUGIN_SLUG}/.git/*" \
+              -x "${PLUGIN_SLUG}/.DS_Store" \
+              -x "${PLUGIN_SLUG}/node_modules/*" \
+              -x "${PLUGIN_SLUG}/dist/*")
+          else
+            zip -r "${ZIP_FILE}" "${PLUGIN_SLUG}" \
+              -x "${PLUGIN_SLUG}/.git/*" \
+              -x "${PLUGIN_SLUG}/.DS_Store" \
+              -x "${PLUGIN_SLUG}/node_modules/*" \
+              -x "${PLUGIN_SLUG}/dist/*"
+          fi
 
           if [[ ! -f "${ZIP_FILE}" ]]; then
             echo "ZIP package was not created." >&2

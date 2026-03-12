@@ -447,8 +447,8 @@ Beide Plugins funktionieren "out of the box" mit Themis Theme:
 
 ### Bei Fragen zur Dokumentation
 
-- **GitHub Issues:** https://github.com/makr-code/ThemisDB/issues
-- **GitHub Discussions:** https://github.com/makr-code/ThemisDB/discussions
+- **GitHub Issues:** https://github.com/makr-code/wordpressPlugins/issues
+- **GitHub Discussions:** https://github.com/makr-code/wordpressPlugins/discussions
 
 ### Bei Plugin-Problemen
 

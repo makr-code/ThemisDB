@@ -48,7 +48,7 @@ Nach der Aktivierung:
 
 | Einstellung | Beschreibung | Standard |
 |-------------|--------------|----------|
-| **GitHub Repository** | Das GitHub Repository im Format `owner/repository` | `makr-code/ThemisDB` |
+| **GitHub Repository** | Das GitHub Repository im Format `owner/repository` | `makr-code/wordpressPlugins` |
 | **GitHub Token** | Optional: Personal Access Token für höhere API-Limits | - |
 | **Cache Dauer** | Wie lange Release-Daten gecacht werden sollen (in Sekunden) | `3600` (1 Stunde) |
 | **Anzahl Releases** | Wie viele Releases angezeigt werden sollen | `10` |
@@ -477,8 +477,8 @@ add_action('themisdb_cache_updated', function() {
 
 ## Support & Beiträge
 
-- **GitHub Repository:** [makr-code/ThemisDB](https://github.com/makr-code/ThemisDB)
-- **Issues:** [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)
+- **GitHub Repository:** [makr-code/wordpressPlugins](https://github.com/makr-code/wordpressPlugins)
+- **Issues:** [GitHub Issues](https://github.com/makr-code/wordpressPlugins/issues)
 - **Dokumentation:** [docs/de/deployment/](../../docs/de/deployment/)
 
 ## Lizenz

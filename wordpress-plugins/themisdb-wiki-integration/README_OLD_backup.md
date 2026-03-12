@@ -39,7 +39,7 @@ This WordPress plugin enables automatic integration of ThemisDB documentation (w
 
 ```bash
 cd /path/to/wordpress/wp-content/plugins/
-git clone https://github.com/makr-code/ThemisDB.git themisdb-repo
+git clone https://github.com/makr-code/wordpressPlugins.git themisdb-repo
 cp -r themisdb-repo/tools/themisdb-wiki-integration ./
 rm -rf themisdb-repo
 ```
@@ -48,7 +48,7 @@ rm -rf themisdb-repo
 
 Nach der Aktivierung gehen Sie zu **Einstellungen → ThemisDB Wiki** und konfigurieren Sie:
 
-- **GitHub Repository**: `makr-code/ThemisDB` (Standard)
+- **GitHub Repository**: `makr-code/wordpressPlugins` (Standard)
 - **Branch**: `main` oder `develop`
 - **Dokumentationspfad**: `docs` (Standard)
 - **Standard-Sprache**: `de`, `en`, oder `fr`
@@ -248,9 +248,9 @@ wp_enqueue_script('mermaid-js', 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/me
 
 ## Support & Beiträge
 
-- **Repository**: https://github.com/makr-code/ThemisDB
-- **Issues**: https://github.com/makr-code/ThemisDB/issues
-- **Dokumentation**: https://github.com/makr-code/ThemisDB/tree/main/docs
+- **Repository**: https://github.com/makr-code/wordpressPlugins
+- **Issues**: https://github.com/makr-code/wordpressPlugins/issues
+- **Dokumentation**: https://github.com/makr-code/wordpressPlugins/tree/main/docs
 
 ## Roadmap
 

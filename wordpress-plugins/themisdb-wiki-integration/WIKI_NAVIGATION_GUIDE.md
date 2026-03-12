@@ -400,10 +400,10 @@ function filter_nav_sections($sections) {
 
 **Lösung:**
 1. Prüfen Sie die Plugin-Einstellungen:
-   - Repository: `makr-code/ThemisDB` ✓
+   - Repository: `makr-code/wordpressPlugins` ✓
    - Branch: `main` ✓
    - Docs Path: `docs` ✓
-2. Manuell testen: https://github.com/makr-code/ThemisDB/blob/main/docs/_Sidebar.md
+2. Manuell testen: https://github.com/makr-code/wordpressPlugins/blob/main/docs/_Sidebar.md
 3. "Sync Now" im Admin-Panel klicken
 
 ### Problem: Links funktionieren nicht

@@ -513,4 +513,4 @@ The ThemisDB Taxonomy Manager plugin v1.0.0 has been successfully implemented wi
 **Release Date**: 2026-02-11  
 **License**: MIT  
 **Author**: ThemisDB Team  
-**Repository**: https://github.com/makr-code/ThemisDB
+**Repository**: https://github.com/makr-code/wordpressPlugins

@@ -81,5 +81,5 @@ After installation:
 
 Need help? Check:
 - [README.md](README.md) - Full documentation
-- [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)
+- [GitHub Issues](https://github.com/makr-code/wordpressPlugins/issues)
 - [WordPress Support](https://wordpress.org/support/)

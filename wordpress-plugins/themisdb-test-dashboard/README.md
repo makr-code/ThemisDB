@@ -56,7 +56,7 @@ Displays test coverage, CI/CD status, and quality metrics for ThemisDB project.
 ## ⚙️ Settings
 
 - **GitHub Token**: For API access (Settings → Test Dashboard)
-- **Repository**: makr-code/ThemisDB
+- **Repository**: makr-code/wordpressPlugins
 - **Refresh Rate**: Configurable cache duration
 - **Metrics Display**: Customize visible metrics
 

@@ -25,11 +25,11 @@
 
 /**
  * Plugin Name: ThemisDB Order Request & Contract Management
- * Plugin URI: https://github.com/makr-code/ThemisDB
+ * Plugin URI: https://github.com/makr-code/wordpressPlugins
  * Description: Dialog-basiertes Bestellanfrage-System für ThemisDB mit Vertragsrecht-CRUD, automatischer PDF-Generierung und E-Mail-Versand. Integriert mit epServer für Stammdaten.
  * Version: 1.0.0
  * Author: ThemisDB Team
- * Author URI: https://github.com/makr-code/ThemisDB
+ * Author URI: https://github.com/makr-code/wordpressPlugins
  * License: MIT
  * Text Domain: themisdb-order-request
  * Domain Path: /languages

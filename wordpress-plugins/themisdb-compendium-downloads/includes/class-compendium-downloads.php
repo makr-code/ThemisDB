@@ -64,7 +64,7 @@ class ThemisDB_Compendium_Downloads {
         }
         
         // Fetch from GitHub API
-        $repo = get_option('themisdb_compendium_github_repo', 'makr-code/ThemisDB');
+        $repo = get_option('themisdb_compendium_github_repo', 'makr-code/wordpressPlugins');
         $api_url = "https://api.github.com/repos/{$repo}/releases/latest";
         
         $response = wp_remote_get($api_url, array(

@@ -768,7 +768,7 @@ Beide WordPress-Plugins sind vollständig kompatibel mit dem ThemisDB Themis The
 
 **Fragen zu diesem Bericht?**
 
-- **GitHub Issues:** https://github.com/makr-code/ThemisDB/issues
+- **GitHub Issues:** https://github.com/makr-code/wordpressPlugins/issues
 - **Dokumentation:** `/wordpress-plugin/WORDPRESS_PLUGIN_BEST_PRACTICES.md`
 - **Plugin READMEs:** Siehe jeweilige Plugin-Verzeichnisse
 

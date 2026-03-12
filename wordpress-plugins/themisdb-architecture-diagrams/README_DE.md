@@ -271,8 +271,8 @@ private function get_custom_diagram() {
 
 ## Support und Weiterentwicklung
 
-- **GitHub**: https://github.com/makr-code/ThemisDB
-- **Issues**: https://github.com/makr-code/ThemisDB/issues
+- **GitHub**: https://github.com/makr-code/wordpressPlugins
+- **Issues**: https://github.com/makr-code/wordpressPlugins/issues
 - **Plugin-Pfad**: `/wordpress-plugin/architecture-diagrams-wordpress/`
 
 ## Lizenz

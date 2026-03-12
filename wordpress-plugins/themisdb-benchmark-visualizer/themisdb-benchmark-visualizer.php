@@ -25,11 +25,11 @@
 
 /**
  * Plugin Name: ThemisDB Benchmark Visualizer
- * Plugin URI: https://github.com/makr-code/ThemisDB
+ * Plugin URI: https://github.com/makr-code/wordpressPlugins
  * Description: Interactive visualization of ThemisDB performance benchmarks. Compare ThemisDB performance against PostgreSQL, MongoDB, and Neo4j. Use shortcode [themisdb_benchmark_visualizer] to embed.
  * Version: 1.0.0
  * Author: ThemisDB Team
- * Author URI: https://github.com/makr-code/ThemisDB
+ * Author URI: https://github.com/makr-code/wordpressPlugins
  * License: MIT
  * License URI: https://opensource.org/licenses/MIT
  * Text Domain: themisdb-benchmark-visualizer
@@ -48,7 +48,7 @@ define('THEMISDB_BV_VERSION', '1.0.0');
 define('THEMISDB_BV_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('THEMISDB_BV_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('THEMISDB_BV_PLUGIN_FILE', __FILE__);
-define('THEMISDB_BV_GITHUB_REPO', 'makr-code/ThemisDB');
+define('THEMISDB_BV_GITHUB_REPO', 'makr-code/wordpressPlugins');
 define('THEMISDB_BV_GITHUB_PATH', 'tools/benchmark-visualizer-wordpress');
 
 // Load updater class
@@ -124,7 +124,7 @@ class ThemisDB_Benchmark_Visualizer {
         // Set default options
         $defaults = array(
             'data_source' => 'local',
-            'github_data_url' => 'https://raw.githubusercontent.com/makr-code/ThemisDB/main/benchmarks/benchmark_results/',
+            'github_data_url' => 'https://raw.githubusercontent.com/makr-code/wordpressPlugins/main/benchmarks/benchmark_results/',
             'default_comparison_dbs' => 'postgresql,mongodb',
             'chart_theme' => 'light',
             'auto_update_interval' => 86400, // 24 hours

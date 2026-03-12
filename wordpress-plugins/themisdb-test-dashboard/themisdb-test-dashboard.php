@@ -25,11 +25,11 @@
 
 /**
  * Plugin Name: ThemisDB Test Dashboard
- * Plugin URI: https://github.com/makr-code/ThemisDB
+ * Plugin URI: https://github.com/makr-code/wordpressPlugins
  * Description: Comprehensive testing and quality metrics dashboard for ThemisDB. Monitor CI/CD pipelines, test coverage, and quality gates.
  * Version: 1.0.0
  * Author: ThemisDB Team
- * Author URI: https://github.com/makr-code/ThemisDB
+ * Author URI: https://github.com/makr-code/wordpressPlugins
  * License: MIT
  * Text Domain: themisdb-test-dashboard
  */
@@ -110,7 +110,7 @@ function themisdb_test_dashboard_shortcode($atts) {
     $atts = shortcode_atts(array(
         'view' => 'overview',
         'period' => '30',
-        'repo' => get_option('themisdb_test_dashboard_repo', 'makr-code/ThemisDB'),
+        'repo' => get_option('themisdb_test_dashboard_repo', 'makr-code/wordpressPlugins'),
         'chart_type' => 'line',
         'height' => '600px'
     ), $atts);
@@ -129,7 +129,7 @@ function themisdb_test_dashboard_fetch_data() {
     
     $view = sanitize_text_field($_POST['view'] ?? 'overview');
     $period = intval($_POST['period'] ?? 30);
-    $repo = sanitize_text_field($_POST['repo'] ?? get_option('themisdb_test_dashboard_repo', 'makr-code/ThemisDB'));
+    $repo = sanitize_text_field($_POST['repo'] ?? get_option('themisdb_test_dashboard_repo', 'makr-code/wordpressPlugins'));
     
     // Check transient cache
     $cache_key = 'themisdb_test_dashboard_' . md5($view . $period . $repo);

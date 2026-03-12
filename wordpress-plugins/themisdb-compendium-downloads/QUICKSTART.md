@@ -22,7 +22,7 @@
 WordPress Admin → Einstellungen → Kompendium Downloads
 
 Empfohlene Einstellungen:
-- GitHub Repository: makr-code/ThemisDB ✓
+- GitHub Repository: makr-code/wordpressPlugins ✓
 - Dateigrößen anzeigen: Ja ✓
 - Cache-Dauer: 3600 Sekunden ✓
 - Button-Stil: Modern ✓
@@ -51,7 +51,7 @@ Willkommen zur ThemisDB Dokumentation! Hier finden Sie alle wichtigen Ressourcen
 
 ## Weitere Ressourcen
 
-- [GitHub Repository](https://github.com/makr-code/ThemisDB)
+- [GitHub Repository](https://github.com/makr-code/wordpressPlugins)
 - [Online Dokumentation](https://makr-code.github.io/ThemisDB/)
 - [Docker Hub](https://hub.docker.com/r/themisdb/themisdb)
 ```
@@ -139,7 +139,7 @@ Für Footer oder schmale Bereiche:
         <p>Docker Images finden Sie auf <a href="https://hub.docker.com/r/themisdb/themisdb">Docker Hub</a></p>
         
         <h2>📦 GitHub Releases</h2>
-        <p>Binaries und Source Code auf <a href="https://github.com/makr-code/ThemisDB/releases">GitHub</a></p>
+        <p>Binaries und Source Code auf <a href="https://github.com/makr-code/wordpressPlugins/releases">GitHub</a></p>
     </div>
 </div>
 ```
@@ -176,7 +176,7 @@ Für Footer oder schmale Bereiche:
 
 2. Repository prüfen:
    Einstellungen → Kompendium Downloads → GitHub Repository
-   → Soll sein: makr-code/ThemisDB
+   → Soll sein: makr-code/wordpressPlugins
 
 3. Browser-Cache leeren:
    Strg+Shift+R (Chrome/Firefox)
@@ -211,7 +211,7 @@ Für Footer oder schmale Bereiche:
 
 - **Dokumentation**: Siehe [README.md](README.md)
 - **Installation**: Siehe [INSTALLATION.md](INSTALLATION.md)
-- **Issues**: https://github.com/makr-code/ThemisDB/issues
+- **Issues**: https://github.com/makr-code/wordpressPlugins/issues
 
 ---
 

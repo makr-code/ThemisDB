@@ -219,5 +219,5 @@ Der Rechner aktualisiert sich automatisch beim Bewegen der Schieberegler:
 ## Support
 
 Bei Fragen oder Problemen:
-- GitHub Issues: https://github.com/makr-code/ThemisDB/issues
+- GitHub Issues: https://github.com/makr-code/wordpressPlugins/issues
 - Dokumentation: Siehe README.md im Plugin-Ordner

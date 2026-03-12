@@ -25,11 +25,11 @@
 
 /**
  * Plugin Name: ThemisDB TCO Calculator
- * Plugin URI: https://github.com/makr-code/ThemisDB
+ * Plugin URI: https://github.com/makr-code/wordpressPlugins
  * Description: Total Cost of Ownership Calculator für ThemisDB - Vergleichen Sie die Gesamtbetriebskosten verschiedener Datenbanklösungen. Verwenden Sie den Shortcode [themisdb_tco_calculator] um den Rechner einzubinden.
  * Version: 1.0.0
  * Author: ThemisDB Team
- * Author URI: https://github.com/makr-code/ThemisDB
+ * Author URI: https://github.com/makr-code/wordpressPlugins
  * License: MIT
  * License URI: https://opensource.org/licenses/MIT
  * Text Domain: themisdb-tco-calculator
@@ -48,7 +48,7 @@ define('THEMISDB_TCO_VERSION', '1.0.0');
 define('THEMISDB_TCO_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('THEMISDB_TCO_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('THEMISDB_TCO_PLUGIN_FILE', __FILE__);
-define('THEMISDB_TCO_GITHUB_REPO', 'makr-code/ThemisDB');
+define('THEMISDB_TCO_GITHUB_REPO', 'makr-code/wordpressPlugins');
 define('THEMISDB_TCO_GITHUB_PATH', 'tools/tco-calculator-wordpress');
 
 // Load updater class

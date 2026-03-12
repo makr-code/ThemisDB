@@ -25,11 +25,11 @@
 
 /**
  * Plugin Name: ThemisDB Docker Downloads
- * Plugin URI: https://github.com/makr-code/ThemisDB
+ * Plugin URI: https://github.com/makr-code/wordpressPlugins
  * Description: Automatisch die neuesten ThemisDB Docker Images von Docker Hub abrufen und als Download-Links mit SHA256-Digests anzeigen.
  * Version: 1.0.0
  * Author: ThemisDB Team
- * Author URI: https://github.com/makr-code/ThemisDB
+ * Author URI: https://github.com/makr-code/wordpressPlugins
  * License: MIT
  * Text Domain: themisdb-docker-downloads
  * Domain Path: /languages

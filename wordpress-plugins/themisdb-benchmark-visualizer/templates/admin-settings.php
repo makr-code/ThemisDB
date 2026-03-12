@@ -236,7 +236,7 @@ if (!defined('ABSPATH')) {
         <p>
             <strong><?php _e('Version:', 'themisdb-benchmark-visualizer'); ?></strong> <?php echo THEMISDB_BV_VERSION; ?><br>
             <strong><?php _e('GitHub:', 'themisdb-benchmark-visualizer'); ?></strong> 
-            <a href="https://github.com/makr-code/ThemisDB" target="_blank">makr-code/ThemisDB</a>
+            <a href="https://github.com/makr-code/wordpressPlugins" target="_blank">makr-code/wordpressPlugins</a>
         </p>
     </div>
 </div>

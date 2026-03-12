@@ -230,8 +230,8 @@ MIT - Part of the ThemisDB project
 
 ## Support
 
-- GitHub Issues: https://github.com/makr-code/ThemisDB/issues
-- Documentation: https://github.com/makr-code/ThemisDB/wiki
+- GitHub Issues: https://github.com/makr-code/wordpressPlugins/issues
+- Documentation: https://github.com/makr-code/wordpressPlugins/wiki
 
 ## 📋 Overview
 
@@ -486,13 +486,13 @@ MIT License - See LICENSE file for details
 ## 👥 Author
 
 **ThemisDB Team**
-- GitHub: https://github.com/makr-code/ThemisDB
+- GitHub: https://github.com/makr-code/wordpressPlugins
 - Website: https://themisdb.org
 
 ## 🆘 Support
 
-- GitHub Issues: https://github.com/makr-code/ThemisDB/issues
-- Documentation: https://github.com/makr-code/ThemisDB/wiki
+- GitHub Issues: https://github.com/makr-code/wordpressPlugins/issues
+- Documentation: https://github.com/makr-code/wordpressPlugins/wiki
 
 ## 📝 Changelog
 

@@ -235,7 +235,7 @@ MIT License - See LICENSE file for details
 
 ## 🔗 Links
 
-- **GitHub**: [makr-code/ThemisDB](https://github.com/makr-code/ThemisDB)
+- **GitHub**: [makr-code/wordpressPlugins](https://github.com/makr-code/wordpressPlugins)
 - **Plugin Directory**: `wordpress-plugin/themisdb-feature-matrix-wordpress/`
 - **Documentation**: This README
 
@@ -264,4 +264,4 @@ See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
 
 ---
 
-**Powered by [ThemisDB](https://github.com/makr-code/ThemisDB)** - The Multi-Model Database with AI/ML Integration
+**Powered by [ThemisDB](https://github.com/makr-code/wordpressPlugins)** - The Multi-Model Database with AI/ML Integration

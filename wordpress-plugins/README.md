@@ -17,7 +17,9 @@
 - ✅ Automatische Version-Prüfung
 - ✅ Sichere HTTPS-Verbindungen
 
-**Weitere Informationen:** [AUTOMATIC_UPDATES.md](AUTOMATIC_UPDATES.md)
+**Weitere Informationen:** [docs/plugins/WORDPRESS_PLUGIN_AUTOMATIC_UPDATES.md](../docs/plugins/WORDPRESS_PLUGIN_AUTOMATIC_UPDATES.md)
+
+**Betrieb (Runbook):** [docs/ci-cd/WORDPRESS_PLUGIN_OPERATIONS.md](../docs/ci-cd/WORDPRESS_PLUGIN_OPERATIONS.md)
 
 ---
 
@@ -51,7 +53,7 @@ Zeigt Kompendium PDF-Downloads von GitHub Releases an.
 - Checklisten für Admins und Entwickler
 
 ### Für Updates & Releases
-🔄 **[AUTOMATIC_UPDATES.md](AUTOMATIC_UPDATES.md)** (11 KB) **NEU!**
+🔄 **[WordPress Plugin Automatic Updates](../docs/plugins/WORDPRESS_PLUGIN_AUTOMATIC_UPDATES.md)** **NEU!**
 - Automatisches Update-System
 - Release-Prozess für Entwickler
 - Troubleshooting für Updates
@@ -222,9 +224,9 @@ Mehr Details: [QUICK_START_GUIDE.md](QUICK_START_GUIDE.md)
 ## 🔗 Ressourcen
 
 ### ThemisDB
-- [GitHub Repository](https://github.com/makr-code/ThemisDB)
-- [Issues](https://github.com/makr-code/ThemisDB/issues)
-- [Discussions](https://github.com/makr-code/ThemisDB/discussions)
+- [GitHub Repository](https://github.com/makr-code/wordpressPlugins)
+- [Issues](https://github.com/makr-code/wordpressPlugins/issues)
+- [Discussions](https://github.com/makr-code/wordpressPlugins/discussions)
 
 ### WordPress
 - [Plugin Handbook](https://developer.wordpress.org/plugins/)
@@ -277,8 +279,8 @@ Mehr Details: [QUICK_START_GUIDE.md](QUICK_START_GUIDE.md)
 ## 📞 Kontakt
 
 **Fragen?** Siehe [QUICK_START_GUIDE.md](QUICK_START_GUIDE.md)  
-**Probleme?** [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)  
-**Diskussionen?** [GitHub Discussions](https://github.com/makr-code/ThemisDB/discussions)
+**Probleme?** [GitHub Issues](https://github.com/makr-code/wordpressPlugins/issues)  
+**Diskussionen?** [GitHub Discussions](https://github.com/makr-code/wordpressPlugins/discussions)
 
 ---
 

@@ -34,7 +34,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$repo = get_option('themisdb_test_dashboard_repo', 'makr-code/ThemisDB');
+$repo = get_option('themisdb_test_dashboard_repo', 'makr-code/wordpressPlugins');
 $github_token = get_option('themisdb_test_dashboard_github_token', '');
 $default_view = get_option('themisdb_test_dashboard_default_view', 'overview');
 $default_period = get_option('themisdb_test_dashboard_default_period', 30);
@@ -59,7 +59,7 @@ $default_period = get_option('themisdb_test_dashboard_default_period', 30);
                            value="<?php echo esc_attr($repo); ?>" 
                            class="regular-text" 
                            placeholder="owner/repository">
-                    <p class="description">GitHub repository in format "owner/repo" (e.g., "makr-code/ThemisDB")</p>
+                    <p class="description">GitHub repository in format "owner/repo" (e.g., "makr-code/wordpressPlugins")</p>
                 </td>
             </tr>
             
@@ -147,7 +147,7 @@ $default_period = get_option('themisdb_test_dashboard_default_period', 30);
     
     <h3>With Parameters</h3>
     <pre><code>[themisdb_test_dashboard view="coverage" period="30"]</code></pre>
-    <pre><code>[themisdb_test_dashboard view="pipeline" repo="makr-code/ThemisDB"]</code></pre>
+    <pre><code>[themisdb_test_dashboard view="pipeline" repo="makr-code/wordpressPlugins"]</code></pre>
     <pre><code>[themisdb_test_dashboard height="800px"]</code></pre>
     
     <h3>Available Parameters</h3>
@@ -247,7 +247,7 @@ $default_period = get_option('themisdb_test_dashboard_default_period', 30);
     
     <p>
         <strong>Plugin Version:</strong> <?php echo THEMISDB_TEST_DASHBOARD_VERSION; ?><br>
-        <strong>Documentation:</strong> <a href="https://github.com/makr-code/ThemisDB/tree/main/tools/test-dashboard-wordpress" target="_blank">View on GitHub →</a>
+        <strong>Documentation:</strong> <a href="https://github.com/makr-code/wordpressPlugins/tree/main/tools/test-dashboard-wordpress" target="_blank">View on GitHub →</a>
     </p>
 </div>
 

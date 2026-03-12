@@ -458,9 +458,9 @@ Sie können die Gesamtkosten durch 3 teilen und mit der Anzahl Jahre multiplizie
 ## Support und Feedback
 
 ### Community Support
-- **GitHub Issues**: [ThemisDB Issues](https://github.com/makr-code/ThemisDB/issues)
+- **GitHub Issues**: [ThemisDB Issues](https://github.com/makr-code/wordpressPlugins/issues)
 - **Diskussionen**: GitHub Discussions
-- **Dokumentation**: [Online-Doku](https://github.com/makr-code/ThemisDB)
+- **Dokumentation**: [Online-Doku](https://github.com/makr-code/wordpressPlugins)
 
 ### Enterprise Support
 - **E-Mail**: enterprise@themisdb.org

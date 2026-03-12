@@ -155,7 +155,7 @@ Gesamt: ~58 KB (kompakt und effizient)
 
 ### Admin-Panel (Einstellungen → ThemisDB Wiki)
 
-1. **GitHub Repository**: `makr-code/ThemisDB` (Standard)
+1. **GitHub Repository**: `makr-code/wordpressPlugins` (Standard)
 2. **Branch**: `main` oder beliebiger Branch
 3. **Dokumentationspfad**: `docs` (Standard)
 4. **Standard-Sprache**: `de`, `en`, `fr`
@@ -186,7 +186,7 @@ Gesamt: ~58 KB (kompakt und effizient)
 
 ```bash
 cd /pfad/zu/wordpress/wp-content/plugins/
-git clone https://github.com/makr-code/ThemisDB.git themisdb-repo
+git clone https://github.com/makr-code/wordpressPlugins.git themisdb-repo
 cp -r themisdb-repo/tools/themisdb-wiki-integration ./
 rm -rf themisdb-repo
 ```
@@ -415,9 +415,9 @@ Bei €75/Stunde: **~€525-600**
 
 ## Kontakt & Support
 
-**Repository:** https://github.com/makr-code/ThemisDB  
-**Issues:** https://github.com/makr-code/ThemisDB/issues  
-**Dokumentation:** https://github.com/makr-code/ThemisDB/tree/main/docs  
+**Repository:** https://github.com/makr-code/wordpressPlugins  
+**Issues:** https://github.com/makr-code/wordpressPlugins/issues  
+**Dokumentation:** https://github.com/makr-code/wordpressPlugins/tree/main/docs  
 
 ---
 

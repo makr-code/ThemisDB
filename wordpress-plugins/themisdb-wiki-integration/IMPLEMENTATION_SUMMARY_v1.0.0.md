@@ -311,5 +311,5 @@ The ThemisDB Wiki Integration v1.0.0 plugin has been successfully implemented wi
 
 **Development Team**: ThemisDB Team  
 **License**: MIT  
-**Repository**: https://github.com/makr-code/ThemisDB  
-**Support**: https://github.com/makr-code/ThemisDB/issues
+**Repository**: https://github.com/makr-code/wordpressPlugins  
+**Support**: https://github.com/makr-code/wordpressPlugins/issues

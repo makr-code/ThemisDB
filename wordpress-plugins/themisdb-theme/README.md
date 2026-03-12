@@ -210,7 +210,7 @@ ThemisDB theme follows WordPress accessibility standards:
 ## Support
 
 For support, please visit:
-- **GitHub**: https://github.com/makr-code/ThemisDB
+- **GitHub**: https://github.com/makr-code/wordpressPlugins
 - **Documentation**: See repository docs folder
 
 ## Changelog

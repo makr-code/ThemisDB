@@ -43,7 +43,7 @@ Dieses Plugin ist eine WordPress-Adaptation des [JavaScript TCO-Rechners](../tco
 1. **Plugin herunterladen**
    ```bash
    cd /path/to/wordpress/wp-content/plugins/
-   git clone https://github.com/makr-code/ThemisDB.git
+   git clone https://github.com/makr-code/wordpressPlugins.git
    cp -r ThemisDB/tools/tco-calculator-wordpress ./themisdb-tco-calculator
    ```
 
@@ -384,7 +384,7 @@ Verbesserungsvorschläge und Pull Requests sind willkommen!
 
 ```bash
 # Repository klonen
-git clone https://github.com/makr-code/ThemisDB.git
+git clone https://github.com/makr-code/wordpressPlugins.git
 cd ThemisDB/tools/tco-calculator-wordpress
 
 # In lokale WordPress-Installation kopieren
@@ -431,9 +431,9 @@ SOFTWARE.
 
 ## 📞 Support & Kontakt
 
-- **GitHub Repository**: [makr-code/ThemisDB](https://github.com/makr-code/ThemisDB)
-- **Issues**: [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)
-- **Dokumentation**: [ThemisDB Docs](https://github.com/makr-code/ThemisDB)
+- **GitHub Repository**: [makr-code/wordpressPlugins](https://github.com/makr-code/wordpressPlugins)
+- **Issues**: [GitHub Issues](https://github.com/makr-code/wordpressPlugins/issues)
+- **Dokumentation**: [ThemisDB Docs](https://github.com/makr-code/wordpressPlugins)
 
 ## ⚠️ Disclaimer
 

@@ -114,7 +114,7 @@ Gehen Sie zu **Einstellungen → Kompendium Downloads** um das Plugin zu konfigu
 
 #### Haupteinstellungen
 
-- **GitHub Repository**: Das Repository, von dem Releases abgerufen werden (Standard: `makr-code/ThemisDB`)
+- **GitHub Repository**: Das Repository, von dem Releases abgerufen werden (Standard: `makr-code/wordpressPlugins`)
 - **Dateigrößen anzeigen**: Aktivieren/Deaktivieren der Anzeige von Dateigrößen
 - **Cache-Dauer**: Wie lange Release-Daten zwischengespeichert werden (Standard: 3600 Sekunden = 1 Stunde)
 - **Button-Stil**: Standard-Stil für Download-Buttons (Modern, Klassisch, Minimal)
@@ -266,7 +266,7 @@ MIT License - siehe [LICENSE](LICENSE) Datei
 
 ## Credits
 
-- **ThemisDB Team**: https://github.com/makr-code/ThemisDB
+- **ThemisDB Team**: https://github.com/makr-code/wordpressPlugins
 - **GitHub API**: https://docs.github.com/en/rest
 
 ## Changelog
@@ -276,7 +276,7 @@ Siehe [CHANGELOG.md](CHANGELOG.md) für Versionshistorie.
 ## Support
 
 - **Dokumentation**: Siehe dieses README
-- **GitHub Issues**: https://github.com/makr-code/ThemisDB/issues
+- **GitHub Issues**: https://github.com/makr-code/wordpressPlugins/issues
 - **WordPress Support Forum**: (wenn auf wordpress.org verfügbar)
 
 ## Weiterentwicklung

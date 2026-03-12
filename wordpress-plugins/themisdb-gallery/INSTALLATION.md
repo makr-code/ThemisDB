@@ -233,7 +233,7 @@ DELETE FROM wp_postmeta WHERE meta_key LIKE '_themisdb_gallery_%';
 Bei Problemen:
 1. Lesen Sie die [README.md](README.md) FAQ-Sektion
 2. Aktivieren Sie WP_DEBUG und überprüfen Sie die Logs
-3. Erstellen Sie ein Issue auf GitHub: https://github.com/makr-code/ThemisDB/issues
+3. Erstellen Sie ein Issue auf GitHub: https://github.com/makr-code/wordpressPlugins/issues
 
 ## Weiterführende Links
 

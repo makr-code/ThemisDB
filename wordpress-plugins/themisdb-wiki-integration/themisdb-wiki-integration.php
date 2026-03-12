@@ -25,7 +25,7 @@
 
 /**
  * Plugin Name: ThemisDB Wiki Integration
- * Plugin URI: https://github.com/makr-code/ThemisDB
+ * Plugin URI: https://github.com/makr-code/wordpressPlugins
  * Description: Integrates ThemisDB documentation/wiki from GitHub into WordPress. Fetches markdown files on-demand and displays them with proper formatting. Manual sync recommended.
  * Version: 1.0.1
  * Author: ThemisDB Team
@@ -107,7 +107,7 @@ class ThemisDB_Wiki_Integration {
      */
     public function activate() {
         // Set default options
-        add_option('themisdb_wiki_github_repo', 'makr-code/ThemisDB');
+        add_option('themisdb_wiki_github_repo', 'makr-code/wordpressPlugins');
         add_option('themisdb_wiki_github_branch', 'main');
         add_option('themisdb_wiki_docs_path', 'docs');
         add_option('themisdb_wiki_auto_sync', 'no'); // Changed to 'no' - sync only on-demand
@@ -225,7 +225,7 @@ class ThemisDB_Wiki_Integration {
      * Fetch file from GitHub
      */
     private function fetch_github_file($file_path, $lang = null) {
-        $repo = get_option('themisdb_wiki_github_repo', 'makr-code/ThemisDB');
+        $repo = get_option('themisdb_wiki_github_repo', 'makr-code/wordpressPlugins');
         $branch = get_option('themisdb_wiki_github_branch', 'main');
         $docs_path = get_option('themisdb_wiki_docs_path', 'docs');
         $github_token = get_option('themisdb_wiki_github_token', '');
@@ -292,7 +292,7 @@ class ThemisDB_Wiki_Integration {
      * List available documentation files
      */
     private function list_docs_files($lang = null) {
-        $repo = get_option('themisdb_wiki_github_repo', 'makr-code/ThemisDB');
+        $repo = get_option('themisdb_wiki_github_repo', 'makr-code/wordpressPlugins');
         $branch = get_option('themisdb_wiki_github_branch', 'main');
         $docs_path = get_option('themisdb_wiki_docs_path', 'docs');
         $github_token = get_option('themisdb_wiki_github_token', '');

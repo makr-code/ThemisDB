@@ -428,8 +428,8 @@ $html = apply_filters('themisdb_email_template', $html, $type, $data);
 
 ## 📞 Support
 
-- **GitHub Issues**: https://github.com/makr-code/ThemisDB/issues
-- **Dokumentation**: https://github.com/makr-code/ThemisDB/tree/main/wordpress-plugin
+- **GitHub Issues**: https://github.com/makr-code/wordpressPlugins/issues
+- **Dokumentation**: https://github.com/makr-code/wordpressPlugins/tree/main/wordpress-plugin
 - **E-Mail**: support@themisdb.com
 
 ## 📄 Lizenz
@@ -440,7 +440,7 @@ MIT License - Siehe [LICENSE](../../LICENSE) Datei
 
 Entwickelt mit ❤️ für das ThemisDB-Projekt
 
-- **ThemisDB Team**: https://github.com/makr-code/ThemisDB
+- **ThemisDB Team**: https://github.com/makr-code/wordpressPlugins
 - **Contributors**: Siehe GitHub Contributors
 
 ## 🗺️ Roadmap

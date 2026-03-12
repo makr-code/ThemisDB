@@ -25,11 +25,11 @@
 
 /**
  * Plugin Name: ThemisDB Downloads
- * Plugin URI: https://github.com/makr-code/ThemisDB
+ * Plugin URI: https://github.com/makr-code/wordpressPlugins
  * Description: Automatisch die neuesten ThemisDB Packages von GitHub abrufen und als Download-Links mit SHA256-Checksums anzeigen. Extrahiert automatisch Schlagwörter und Kategorien aus Beitragsinhalten.
  * Version: 1.2.0
  * Author: ThemisDB Team
- * Author URI: https://github.com/makr-code/ThemisDB
+ * Author URI: https://github.com/makr-code/wordpressPlugins
  * License: MIT
  * Text Domain: themisdb-downloads
  * Domain Path: /languages
@@ -131,7 +131,7 @@ function themisdb_downloads_show_shared_taxonomy_notice() {
 function themisdb_downloads_activate() {
     // Set default options
     if (!get_option('themisdb_github_repo')) {
-        add_option('themisdb_github_repo', 'makr-code/ThemisDB');
+        add_option('themisdb_github_repo', 'makr-code/wordpressPlugins');
     }
     if (!get_option('themisdb_cache_duration')) {
         add_option('themisdb_cache_duration', 3600); // 1 hour

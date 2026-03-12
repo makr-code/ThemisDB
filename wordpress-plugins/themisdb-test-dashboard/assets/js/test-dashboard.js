@@ -54,7 +54,7 @@
         
         const view = $('#tdb-view-select').val() || 'overview';
         const period = $('#tdb-period-select').val() || '30';
-        const repo = $('#tdb-repo-input').val() || 'makr-code/ThemisDB';
+        const repo = $('#tdb-repo-input').val() || 'makr-code/wordpressPlugins';
         
         // Show loading
         showLoading();

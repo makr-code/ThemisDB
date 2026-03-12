@@ -25,11 +25,11 @@
 
 /**
  * Plugin Name: ThemisDB Release Timeline Visualizer
- * Plugin URI: https://github.com/makr-code/ThemisDB
+ * Plugin URI: https://github.com/makr-code/wordpressPlugins
  * Description: Interactive release timeline visualization with Mermaid.js for ThemisDB versions, featuring GitHub API integration, CHANGELOG parsing, and multiple timeline views.
  * Version: 1.0.0
  * Author: ThemisDB Team
- * Author URI: https://github.com/makr-code/ThemisDB
+ * Author URI: https://github.com/makr-code/wordpressPlugins
  * License: MIT
  * Text Domain: themisdb-release-timeline
  */
@@ -169,7 +169,7 @@ add_action('wp_ajax_nopriv_themisdb_rt_load_data', 'themisdb_rt_ajax_load_data')
  * Fetch releases from GitHub API
  */
 function themisdb_rt_fetch_github_releases($count = 10) {
-    $github_repo = get_option('themisdb_rt_github_repo', 'makr-code/ThemisDB');
+    $github_repo = get_option('themisdb_rt_github_repo', 'makr-code/wordpressPlugins');
     $api_url = "https://api.github.com/repos/{$github_repo}/releases?per_page={$count}";
     
     $response = wp_remote_get($api_url, array(

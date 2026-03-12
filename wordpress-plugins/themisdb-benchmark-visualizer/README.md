@@ -324,7 +324,7 @@ This plugin is open source and available under the [MIT License](LICENSE).
 
 ## 🔗 Links
 
-- **GitHub Repository**: [makr-code/ThemisDB](https://github.com/makr-code/ThemisDB)
+- **GitHub Repository**: [makr-code/wordpressPlugins](https://github.com/makr-code/wordpressPlugins)
 - **Plugin Path**: `/tools/benchmark-visualizer-wordpress/`
 - **Documentation**: See `/docs/` directory in main repository
 
@@ -332,7 +332,7 @@ This plugin is open source and available under the [MIT License](LICENSE).
 
 For issues, questions, or feature requests:
 
-1. Open an issue on [GitHub](https://github.com/makr-code/ThemisDB/issues)
+1. Open an issue on [GitHub](https://github.com/makr-code/wordpressPlugins/issues)
 2. Include plugin version and WordPress version
 3. Provide detailed description and steps to reproduce
 
@@ -362,4 +362,4 @@ For issues, questions, or feature requests:
 
 ---
 
-**Powered by [ThemisDB](https://github.com/makr-code/ThemisDB)** - The Multi-Model Database with Native LLM Integration
+**Powered by [ThemisDB](https://github.com/makr-code/wordpressPlugins)** - The Multi-Model Database with Native LLM Integration

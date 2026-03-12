@@ -284,7 +284,7 @@ Falls Sie CDN-Probleme haben, können Sie KaTeX lokal hosten:
 ## Support
 
 - **Dokumentation**: Siehe [KaTeX Documentation](https://katex.org/docs/support_table.html)
-- **GitHub Issues**: https://github.com/makr-code/ThemisDB/issues
+- **GitHub Issues**: https://github.com/makr-code/wordpressPlugins/issues
 - **LaTeX Hilfe**: https://en.wikibooks.org/wiki/LaTeX/Mathematics
 
 ## Lizenz
@@ -294,7 +294,7 @@ MIT License - siehe [LICENSE](LICENSE) Datei
 ## Credits
 
 - **KaTeX**: https://katex.org/
-- **ThemisDB Team**: https://github.com/makr-code/ThemisDB
+- **ThemisDB Team**: https://github.com/makr-code/wordpressPlugins
 
 ## Changelog
 

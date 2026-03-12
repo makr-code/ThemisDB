@@ -166,9 +166,9 @@ MIT License
 
 ## 🔗 Links
 
-- **GitHub**: [makr-code/ThemisDB](https://github.com/makr-code/ThemisDB)
+- **GitHub**: [makr-code/wordpressPlugins](https://github.com/makr-code/wordpressPlugins)
 - **ThemisDB PHP Client**: `/clients/php/`
 
 ---
 
-**Powered by [ThemisDB](https://github.com/makr-code/ThemisDB)** - Phase 2.2 Implementation
+**Powered by [ThemisDB](https://github.com/makr-code/wordpressPlugins)** - Phase 2.2 Implementation

@@ -142,13 +142,13 @@ Erste Veröffentlichung des Plugins.
 == Development ==
 
 Das Plugin ist Teil des ThemisDB-Projekts:
-* GitHub: https://github.com/makr-code/ThemisDB
-* Issues: https://github.com/makr-code/ThemisDB/issues
+* GitHub: https://github.com/makr-code/wordpressPlugins
+* Issues: https://github.com/makr-code/wordpressPlugins/issues
 
 == Support ==
 
 Bei Fragen oder Problemen erstellen Sie bitte ein Issue auf GitHub:
-https://github.com/makr-code/ThemisDB/issues
+https://github.com/makr-code/wordpressPlugins/issues
 
 == License ==
 

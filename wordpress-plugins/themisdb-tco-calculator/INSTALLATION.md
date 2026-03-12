@@ -400,7 +400,7 @@ add_filter('themisdb_tco_assets_url', function($url) {
 Bei Problemen während der Installation:
 
 1. **Dokumentation prüfen**: README.md und diese Datei
-2. **GitHub Issues**: [ThemisDB Issues](https://github.com/makr-code/ThemisDB/issues)
+2. **GitHub Issues**: [ThemisDB Issues](https://github.com/makr-code/wordpressPlugins/issues)
 3. **Community**: WordPress.org Support-Forum
 
 ## 🔄 Updates

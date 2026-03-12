@@ -44,9 +44,24 @@ function Assert-PathExists {
 }
 
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
-$pluginDir = Join-Path $repoRoot "wordpress-plugins/$PluginSlug"
+$nestedPluginDir = Join-Path $repoRoot "wordpress-plugins/$PluginSlug"
+$flatPluginDir = Join-Path $repoRoot $PluginSlug
+
+if (Test-Path $flatPluginDir) {
+    $pluginDir = $flatPluginDir
+    $sharedUpdater = Join-Path $repoRoot 'includes/class-themisdb-plugin-updater.php'
+    $pluginRelative = $PluginSlug
+}
+elseif (Test-Path $nestedPluginDir) {
+    $pluginDir = $nestedPluginDir
+    $sharedUpdater = Join-Path $repoRoot 'wordpress-plugins/includes/class-themisdb-plugin-updater.php'
+    $pluginRelative = "wordpress-plugins/$PluginSlug"
+}
+else {
+    throw "Plugin-Verzeichnis fehlt im Flat- oder Nested-Layout: $PluginSlug"
+}
+
 $metadataPath = Join-Path $pluginDir 'update-info.json'
-$sharedUpdater = Join-Path $repoRoot 'wordpress-plugins/includes/class-themisdb-plugin-updater.php'
 
 Assert-PathExists -Path $pluginDir -Label 'Plugin-Verzeichnis'
 Assert-PathExists -Path $metadataPath -Label 'update-info.json'
@@ -115,7 +130,7 @@ try {
         throw "ZIP-Validierung fehlgeschlagen: update-info.json fehlt ($metadataEntry)."
     }
 
-    $releaseCmd = "gh release create `"$tagName`" --title `"$PluginSlug v$Version`" --notes-file `"wordpress-plugins/$PluginSlug/CHANGELOG.md`""
+    $releaseCmd = "gh release create `"$tagName`" --title `"$PluginSlug v$Version`" --notes-file `"$pluginRelative/CHANGELOG.md`""
 
     Write-Output "DRY_RUN_OK"
     Write-Output "plugin_slug=$PluginSlug"

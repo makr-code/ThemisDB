@@ -117,7 +117,7 @@ Parameters:
 
 After activation, go to Settings → ThemisDB Wiki and configure:
 
-* GitHub Repository: Format owner/repository (default: makr-code/ThemisDB)
+* GitHub Repository: Format owner/repository (default: makr-code/wordpressPlugins)
 * Branch: Repository branch (default: main)
 * Documentation Path: Path to docs folder (default: docs)
 * Default Language: de, en, or fr
@@ -144,8 +144,8 @@ After activation, go to Settings → ThemisDB Wiki and configure:
 == Support ==
 
 For support, please visit:
-* GitHub Issues: https://github.com/makr-code/ThemisDB/issues
-* Documentation: https://github.com/makr-code/ThemisDB/tree/main/docs
+* GitHub Issues: https://github.com/makr-code/wordpressPlugins/issues
+* Documentation: https://github.com/makr-code/wordpressPlugins/tree/main/docs
 
 == License ==
 

@@ -210,7 +210,7 @@
     <p>
         <strong>Version:</strong> <?php echo THEMISDB_TCO_VERSION; ?><br>
         <strong>Lizenz:</strong> MIT License<br>
-        <strong>GitHub:</strong> <a href="https://github.com/makr-code/ThemisDB" target="_blank">makr-code/ThemisDB</a>
+        <strong>GitHub:</strong> <a href="https://github.com/makr-code/wordpressPlugins" target="_blank">makr-code/wordpressPlugins</a>
     </p>
     
     <h3><?php _e('Features', 'themisdb-tco-calculator'); ?></h3>
@@ -226,6 +226,6 @@
     <h3><?php _e('Support', 'themisdb-tco-calculator'); ?></h3>
     <p>
         <?php _e('Bei Fragen oder Problemen erstellen Sie bitte ein Issue auf', 'themisdb-tco-calculator'); ?> 
-        <a href="https://github.com/makr-code/ThemisDB/issues" target="_blank">GitHub</a>.
+        <a href="https://github.com/makr-code/wordpressPlugins/issues" target="_blank">GitHub</a>.
     </p>
 </div>

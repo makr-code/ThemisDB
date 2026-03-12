@@ -245,7 +245,7 @@ Bei Problemen:
 
 1. Überprüfen Sie die [Fehlerbehebung](README.md#fehlerbehebung) im README
 2. Konsultieren Sie die [KaTeX-Dokumentation](https://katex.org/docs/support_table.html)
-3. Öffnen Sie ein Issue auf [GitHub](https://github.com/makr-code/ThemisDB/issues)
+3. Öffnen Sie ein Issue auf [GitHub](https://github.com/makr-code/wordpressPlugins/issues)
 
 ## Updates
 

@@ -308,8 +308,8 @@ Nach erfolgreicher Installation:
 
 Bei Problemen oder Fragen:
 - 📧 E-Mail: support@themisdb.com
-- 🐛 GitHub Issues: https://github.com/makr-code/ThemisDB/issues
-- 📚 Dokumentation: https://github.com/makr-code/ThemisDB/tree/main/wordpress-plugin
+- 🐛 GitHub Issues: https://github.com/makr-code/wordpressPlugins/issues
+- 📚 Dokumentation: https://github.com/makr-code/wordpressPlugins/tree/main/wordpress-plugin
 
 ---
 

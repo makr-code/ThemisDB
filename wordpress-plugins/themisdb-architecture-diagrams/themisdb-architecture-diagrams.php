@@ -25,11 +25,11 @@
 
 /**
  * Plugin Name: ThemisDB Architecture Diagrams
- * Plugin URI: https://github.com/makr-code/ThemisDB
+ * Plugin URI: https://github.com/makr-code/wordpressPlugins
  * Description: Interactive architecture diagrams for ThemisDB. Visualize multi-model architecture, storage layer, LLM integration, and sharding with Mermaid.js. Use shortcode [themisdb_architecture] to embed.
  * Version: 1.1.0
  * Author: ThemisDB Team
- * Author URI: https://github.com/makr-code/ThemisDB
+ * Author URI: https://github.com/makr-code/wordpressPlugins
  * License: MIT
  * License URI: https://opensource.org/licenses/MIT
  * Text Domain: themisdb-architecture-diagrams
@@ -48,7 +48,7 @@ define('THEMISDB_AD_VERSION', '1.1.0');
 define('THEMISDB_AD_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('THEMISDB_AD_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('THEMISDB_AD_PLUGIN_FILE', __FILE__);
-define('THEMISDB_AD_GITHUB_REPO', 'makr-code/ThemisDB');
+define('THEMISDB_AD_GITHUB_REPO', 'makr-code/wordpressPlugins');
 define('THEMISDB_AD_GITHUB_PATH', 'tools/architecture-diagrams-wordpress');
 
 // Load updater class

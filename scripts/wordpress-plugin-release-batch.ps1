@@ -1,16 +1,25 @@
 param(
-    [string]$Repository = 'makr-code/ThemisDB'
+    [string]$Repository = 'makr-code/wordpressPlugins'
 )
 
 $ErrorActionPreference = 'Stop'
 $env:GH_PAGER = 'cat'
 
-$sharedUpdater = 'wordpress-plugins/includes/class-themisdb-plugin-updater.php'
+$nestedRoot = 'wordpress-plugins'
+if (Test-Path $nestedRoot) {
+    $pluginRoot = $nestedRoot
+    $sharedUpdater = 'wordpress-plugins/includes/class-themisdb-plugin-updater.php'
+}
+else {
+    $pluginRoot = '.'
+    $sharedUpdater = 'includes/class-themisdb-plugin-updater.php'
+}
+
 if (-not (Test-Path $sharedUpdater)) {
     throw "Missing shared updater: $sharedUpdater"
 }
 
-$plugins = Get-ChildItem 'wordpress-plugins' -Directory |
+$plugins = Get-ChildItem $pluginRoot -Directory |
     Where-Object { Test-Path (Join-Path $_.FullName 'update-info.json') } |
     Sort-Object Name
 

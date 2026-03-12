@@ -86,6 +86,10 @@ nav:
 - 🗺️ Navigation Guide: DOCUMENTATION_NAVIGATION_GUIDE.md
 - 📑 Category Index: CATEGORY_INDEX.md
 - ❓ FAQ: FAQ.md
+- 🔌 WordPress Plugin Updates: plugins/WORDPRESS_PLUGIN_AUTOMATIC_UPDATES.md
+- 🔁 WordPress Update Examples: plugins/WORDPRESS_PLUGIN_UPDATE_EXAMPLES.md
+- ⚙️ WordPress Plugin Release CI/CD: ci-cd/WORDPRESS_PLUGIN_RELEASE_PIPELINE.md
+- 🧭 WordPress Plugin Operations Runbook: ci-cd/WORDPRESS_PLUGIN_OPERATIONS.md
 - 🚀 Quick Start: ../QUICKSTART.md
 - 📖 Examples Index: EXAMPLES_INDEX_NEW.md
 - 💡 Use Cases:

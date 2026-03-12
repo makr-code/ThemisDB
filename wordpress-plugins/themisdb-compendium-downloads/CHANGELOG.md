@@ -39,4 +39,4 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 - Lazy Loading von Assets
 - Optimierte CSS- und JavaScript-Dateien
 
-[1.0.0]: https://github.com/makr-code/ThemisDB/releases/tag/v1.0.0
+[1.0.0]: https://github.com/makr-code/wordpressPlugins/releases/tag/v1.0.0

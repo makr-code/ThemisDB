@@ -60,7 +60,7 @@ if (isset($_POST['themisdb_rt_save_settings'])) {
 }
 
 // Get current settings
-$github_repo = get_option('themisdb_rt_github_repo', 'makr-code/ThemisDB');
+$github_repo = get_option('themisdb_rt_github_repo', 'makr-code/wordpressPlugins');
 $changelog_path = get_option('themisdb_rt_changelog_path', '');
 $manual_releases = get_option('themisdb_rt_manual_releases', '');
 $default_view = get_option('themisdb_rt_default_view', 'chronological');
@@ -89,7 +89,7 @@ $show_features = get_option('themisdb_rt_show_features', '1');
                            value="<?php echo esc_attr($github_repo); ?>" 
                            class="regular-text" placeholder="owner/repository">
                     <p class="description">
-                        GitHub repository in format: owner/repository (e.g., makr-code/ThemisDB)
+                        GitHub repository in format: owner/repository (e.g., makr-code/wordpressPlugins)
                     </p>
                 </td>
             </tr>

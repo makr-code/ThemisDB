@@ -1019,11 +1019,11 @@ themisdb-plugin-name/
 <?php
 /**
  * Plugin Name: ThemisDB Plugin Name
- * Plugin URI: https://github.com/makr-code/ThemisDB
+ * Plugin URI: https://github.com/makr-code/wordpressPlugins
  * Description: Plugin description
  * Version: 1.0.0
  * Author: ThemisDB Team
- * Author URI: https://github.com/makr-code/ThemisDB
+ * Author URI: https://github.com/makr-code/wordpressPlugins
  * License: MIT
  * Text Domain: themisdb-plugin-name
  * Domain Path: /languages
@@ -1250,7 +1250,7 @@ Alle Plugins MÜSSEN kompatibel sein mit:
 - [Stylelint](https://stylelint.io/)
 
 ### ThemisDB Ressourcen
-- [ThemisDB Repository](https://github.com/makr-code/ThemisDB)
+- [ThemisDB Repository](https://github.com/makr-code/wordpressPlugins)
 - [ThemisDB Contributing Guidelines](../../CONTRIBUTING.md)
 - [WordPress Theme Documentation](../docs/WORDPRESS_THEME_COMPLETE.md)
 
@@ -1260,8 +1260,8 @@ Alle Plugins MÜSSEN kompatibel sein mit:
 
 ### Fragen zu diesem Dokument?
 
-**GitHub Issues:** https://github.com/makr-code/ThemisDB/issues  
-**Diskussionen:** https://github.com/makr-code/ThemisDB/discussions
+**GitHub Issues:** https://github.com/makr-code/wordpressPlugins/issues  
+**Diskussionen:** https://github.com/makr-code/wordpressPlugins/discussions
 
 ---
 

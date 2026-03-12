@@ -200,7 +200,7 @@ class ThemisDB_Wiki_Admin {
     public function render_repo_field() {
         $value = get_option('themisdb_wiki_github_repo', '');
         echo '<input type="text" name="themisdb_wiki_github_repo" value="' . esc_attr($value) . '" class="regular-text" placeholder="owner/repository">';
-        echo '<p class="description">' . __('Format: owner/repository (e.g., makr-code/ThemisDB)', 'themisdb-wiki') . '</p>';
+        echo '<p class="description">' . __('Format: owner/repository (e.g., makr-code/wordpressPlugins)', 'themisdb-wiki') . '</p>';
     }
     
     /**

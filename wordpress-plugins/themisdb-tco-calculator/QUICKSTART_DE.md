@@ -98,7 +98,7 @@ Die Styles und Scripts werden nur auf Seiten mit dem Shortcode geladen - keine A
 
 Bei weiteren Fragen oder Problemen:
 
-- **GitHub Issues**: https://github.com/makr-code/ThemisDB/issues
+- **GitHub Issues**: https://github.com/makr-code/wordpressPlugins/issues
 - **Dokumentation**: Siehe README.md im Plugin-Ordner
 
 ---

@@ -25,11 +25,11 @@
 
 /**
  * Plugin Name: ThemisDB Compendium Downloads
- * Plugin URI: https://github.com/makr-code/ThemisDB
+ * Plugin URI: https://github.com/makr-code/wordpressPlugins
  * Description: Bietet ThemisDB Kompendium PDF-Versionen als Downloads auf der Website an, analog zu Docker und GitHub Releases.
  * Version: 1.0.0
  * Author: ThemisDB Team
- * Author URI: https://github.com/makr-code/ThemisDB
+ * Author URI: https://github.com/makr-code/wordpressPlugins
  * License: MIT
  * Text Domain: themisdb-compendium-downloads
  * Domain Path: /languages
@@ -111,7 +111,7 @@ add_action('widgets_init', 'themisdb_compendium_register_widgets');
 function themisdb_compendium_activate() {
     // Set default options
     if (get_option('themisdb_compendium_github_repo') === false) {
-        add_option('themisdb_compendium_github_repo', 'makr-code/ThemisDB');
+        add_option('themisdb_compendium_github_repo', 'makr-code/wordpressPlugins');
     }
     if (get_option('themisdb_compendium_show_file_sizes') === false) {
         add_option('themisdb_compendium_show_file_sizes', 1);

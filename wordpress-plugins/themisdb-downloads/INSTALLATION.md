@@ -51,7 +51,7 @@ wp plugin activate themisdb-downloads
 
 1. Gehen Sie zu **Einstellungen → ThemisDB Downloads**
 2. Überprüfen Sie die Standard-Einstellungen:
-   - **GitHub Repository:** `makr-code/ThemisDB` (Standard)
+   - **GitHub Repository:** `makr-code/wordpressPlugins` (Standard)
    - **Cache Dauer:** `3600` Sekunden (1 Stunde)
    - **Anzahl Releases:** `10`
 3. Optional: Fügen Sie einen GitHub Personal Access Token hinzu für höhere API-Limits
@@ -128,7 +128,7 @@ Sie können mehrere Seiten mit unterschiedlichen Filtern erstellen:
 **Lösung:**
 - Überprüfen Sie die Repository-Einstellung
 - Format muss sein: `owner/repository`
-- Beispiel: `makr-code/ThemisDB`
+- Beispiel: `makr-code/wordpressPlugins`
 
 ### Problem: "Keine Releases gefunden"
 
@@ -146,7 +146,7 @@ Sie können mehrere Seiten mit unterschiedlichen Filtern erstellen:
 ## Support
 
 Bei Problemen:
-- Erstellen Sie ein Issue auf GitHub: https://github.com/makr-code/ThemisDB/issues
+- Erstellen Sie ein Issue auf GitHub: https://github.com/makr-code/wordpressPlugins/issues
 - Überprüfen Sie die Dokumentation im README.md
 - Kontaktieren Sie das ThemisDB-Team
 

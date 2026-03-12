@@ -72,7 +72,7 @@
 cd /pfad/zu/wordpress/wp-content/plugins/
 
 # 2. ThemisDB Repository klonen
-git clone https://github.com/makr-code/ThemisDB.git themisdb-repo
+git clone https://github.com/makr-code/wordpressPlugins.git themisdb-repo
 
 # 3. Plugin-Ordner kopieren
 cp -r themisdb-repo/tools/themisdb-wiki-integration ./
@@ -110,10 +110,10 @@ wp plugin list
 
 #### GitHub Repository
 ```
-Standardwert: makr-code/ThemisDB
+Standardwert: makr-code/wordpressPlugins
 Format: besitzer/repository-name
 Beispiele:
-  - makr-code/ThemisDB
+  - makr-code/wordpressPlugins
   - your-org/your-repo
 ```
 
@@ -252,12 +252,12 @@ Optionen:
 **Lösung:**
 ```
 1. Überprüfen Sie Einstellungen → ThemisDB Wiki:
-   - Repository: makr-code/ThemisDB ✅
+   - Repository: makr-code/wordpressPlugins ✅
    - Branch: main (nicht master!) ✅
    - Docs Path: docs ✅
 
 2. Testen Sie manuell:
-   https://github.com/makr-code/ThemisDB/blob/main/docs/README.md
+   https://github.com/makr-code/wordpressPlugins/blob/main/docs/README.md
    
 3. Wenn Datei existiert, überprüfen Sie Schreibweise
 ```
@@ -373,8 +373,8 @@ Optionen:
 ## Support
 
 **Fragen? Probleme?**
-- GitHub Issues: https://github.com/makr-code/ThemisDB/issues
-- Dokumentation: https://github.com/makr-code/ThemisDB/tree/main/docs
+- GitHub Issues: https://github.com/makr-code/wordpressPlugins/issues
+- Dokumentation: https://github.com/makr-code/wordpressPlugins/tree/main/docs
 - Community: ThemisDB Discord/Slack
 
 ---

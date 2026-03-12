@@ -138,7 +138,7 @@ class ThemisDB_Downloads_Admin {
         }
         
         // Get current settings
-        $repo = get_option('themisdb_github_repo', 'makr-code/ThemisDB');
+        $repo = get_option('themisdb_github_repo', 'makr-code/wordpressPlugins');
         $token = get_option('themisdb_github_token', '');
         $cache_duration = get_option('themisdb_cache_duration', 3600);
         $show_prerelease = get_option('themisdb_show_prerelease', 0);
@@ -185,7 +185,7 @@ class ThemisDB_Downloads_Admin {
                                    value="<?php echo esc_attr($repo); ?>" 
                                    class="regular-text"
                                    placeholder="owner/repository">
-                            <p class="description">Format: owner/repository (z.B. makr-code/ThemisDB)</p>
+                            <p class="description">Format: owner/repository (z.B. makr-code/wordpressPlugins)</p>
                         </td>
                     </tr>
                     

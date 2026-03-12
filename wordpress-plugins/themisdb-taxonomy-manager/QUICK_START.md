@@ -244,8 +244,8 @@ https://yoursite.com/wp-json/themisdb/v1/taxonomy/themisdb_feature/tree
 - Testing guide: TESTING.md
 
 ### Support Channels
-- GitHub Issues: https://github.com/makr-code/ThemisDB/issues
-- Wiki: https://github.com/makr-code/ThemisDB/wiki
+- GitHub Issues: https://github.com/makr-code/wordpressPlugins/issues
+- Wiki: https://github.com/makr-code/wordpressPlugins/wiki
 
 ### Debug Mode
 Enable WordPress debug mode to see detailed errors:

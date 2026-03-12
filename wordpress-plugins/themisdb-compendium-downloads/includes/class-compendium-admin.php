@@ -126,9 +126,9 @@ class ThemisDB_Compendium_Admin {
      * Render GitHub repo field
      */
     public function render_github_repo_field() {
-        $value = get_option('themisdb_compendium_github_repo', 'makr-code/ThemisDB');
+        $value = get_option('themisdb_compendium_github_repo', 'makr-code/wordpressPlugins');
         echo '<input type="text" name="themisdb_compendium_github_repo" value="' . esc_attr($value) . '" class="regular-text">';
-        echo '<p class="description">' . __('Format: owner/repository (z.B. makr-code/ThemisDB)', 'themisdb-compendium-downloads') . '</p>';
+        echo '<p class="description">' . __('Format: owner/repository (z.B. makr-code/wordpressPlugins)', 'themisdb-compendium-downloads') . '</p>';
     }
     
     /**

@@ -276,7 +276,7 @@ MIT License - See LICENSE file
 
 ## 🔗 Links
 
-- **GitHub**: [makr-code/ThemisDB](https://github.com/makr-code/ThemisDB)
+- **GitHub**: [makr-code/wordpressPlugins](https://github.com/makr-code/wordpressPlugins)
 - **Plugin Path**: `/tools/architecture-diagrams-wordpress/`
 
 ## 🗺️ Roadmap
@@ -300,4 +300,4 @@ MIT License - See LICENSE file
 
 ---
 
-**Powered by [ThemisDB](https://github.com/makr-code/ThemisDB)** - Part of Phase 2 Implementation
+**Powered by [ThemisDB](https://github.com/makr-code/wordpressPlugins)** - Part of Phase 2 Implementation

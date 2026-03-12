@@ -36,7 +36,7 @@ if (!defined('ABSPATH')) {
 
 $view = isset($atts['view']) ? esc_attr($atts['view']) : 'overview';
 $period = isset($atts['period']) ? intval($atts['period']) : 30;
-$repo = isset($atts['repo']) ? esc_attr($atts['repo']) : get_option('themisdb_test_dashboard_repo', 'makr-code/ThemisDB');
+$repo = isset($atts['repo']) ? esc_attr($atts['repo']) : get_option('themisdb_test_dashboard_repo', 'makr-code/wordpressPlugins');
 $height = isset($atts['height']) ? esc_attr($atts['height']) : '600px';
 ?>
 

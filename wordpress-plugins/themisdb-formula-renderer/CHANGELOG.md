@@ -173,5 +173,5 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 - TikZ und PGF/TikZ werden nicht unterstützt (nur pure KaTeX)
 - Benötigt Internet-Verbindung für CDN (kann auf lokales Hosting umgestellt werden)
 
-[1.1.0]: https://github.com/makr-code/ThemisDB/releases/tag/v1.1.0
-[1.0.0]: https://github.com/makr-code/ThemisDB/releases/tag/v1.0.0
+[1.1.0]: https://github.com/makr-code/wordpressPlugins/releases/tag/v1.1.0
+[1.0.0]: https://github.com/makr-code/wordpressPlugins/releases/tag/v1.0.0

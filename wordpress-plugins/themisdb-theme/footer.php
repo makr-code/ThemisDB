@@ -18,8 +18,8 @@
                 <?php
                 printf(
                     esc_html__( '⚡ Powered by %1$s | 🎨 Theme: %2$s', 'themisdb' ),
-                    '<a href="' . esc_url( 'https://github.com/makr-code/ThemisDB' ) . '">ThemisDB</a>',
-                    '<a href="' . esc_url( 'https://github.com/makr-code/ThemisDB' ) . '">ThemisDB Theme</a>'
+                    '<a href="' . esc_url( 'https://github.com/makr-code/wordpressPlugins' ) . '">ThemisDB</a>',
+                    '<a href="' . esc_url( 'https://github.com/makr-code/wordpressPlugins' ) . '">ThemisDB Theme</a>'
                 );
                 ?>
             </p>

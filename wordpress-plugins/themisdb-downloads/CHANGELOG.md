@@ -115,7 +115,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Initial release of ThemisDB Downloads WordPress Plugin
-- GitHub API integration for fetching releases from makr-code/ThemisDB
+- GitHub API integration for fetching releases from makr-code/wordpressPlugins
 - Automatic parsing of release assets and SHA256SUMS files
 - Frontend display with three styles: Standard, Compact, and Table
 - Platform detection and filtering (Windows, Linux, Docker, QNAP, ARM, macOS)
@@ -209,7 +209,7 @@ This is the first public release of the ThemisDB Downloads WordPress Plugin. It 
 See [INSTALLATION.md](INSTALLATION.md) for detailed instructions.
 
 **Support:**
-- GitHub Issues: https://github.com/makr-code/ThemisDB/issues
+- GitHub Issues: https://github.com/makr-code/wordpressPlugins/issues
 - Documentation: See README.md
 
 ---

@@ -84,10 +84,10 @@ Jedes Plugin hat eine JSON-Datei mit:
 {
   "name": "ThemisDB Feature Matrix",
   "version": "1.0.0",
-  "homepage": "https://github.com/makr-code/ThemisDB",
+  "homepage": "https://github.com/makr-code/wordpressPlugins",
   "description": "Interactive feature comparison matrix...",
   "author": "ThemisDB Team",
-  "author_uri": "https://github.com/makr-code/ThemisDB",
+  "author_uri": "https://github.com/makr-code/wordpressPlugins",
   "requires": "5.8",
   "tested": "6.4",
   "requires_php": "7.4"
@@ -145,7 +145,7 @@ wordpress-plugin/
    ↓
 2. ThemisDB_Plugin_Updater wird initialisiert
    ↓
-3. GitHub API: /repos/makr-code/ThemisDB/releases/latest
+3. GitHub API: /repos/makr-code/wordpressPlugins/releases/latest
    ↓
 4. update-info.json wird geladen
    ↓

@@ -57,7 +57,7 @@ if (!defined('ABSPATH')) {
                     <input type="text" 
                            id="themisdb_wiki_github_repo" 
                            name="themisdb_wiki_github_repo" 
-                           value="<?php echo esc_attr(get_option('themisdb_wiki_github_repo', 'makr-code/ThemisDB')); ?>" 
+                           value="<?php echo esc_attr(get_option('themisdb_wiki_github_repo', 'makr-code/wordpressPlugins')); ?>" 
                            class="regular-text" />
                     <p class="description"><?php _e('GitHub repository in format: owner/repository', 'themisdb-wiki-integration'); ?></p>
                 </td>

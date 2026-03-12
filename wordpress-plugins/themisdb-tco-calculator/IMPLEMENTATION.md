@@ -330,7 +330,7 @@ Beaver Builder: Shortcode-Modul
 
 ### Option 1: GitHub-Repository
 ```bash
-git clone https://github.com/makr-code/ThemisDB.git
+git clone https://github.com/makr-code/wordpressPlugins.git
 cp -r ThemisDB/tools/tco-calculator-wordpress /wp-content/plugins/themisdb-tco-calculator
 ```
 

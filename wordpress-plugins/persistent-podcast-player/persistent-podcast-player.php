@@ -22,11 +22,11 @@
  */
 /**
  * Plugin Name: Persistent Podcast Player
- * Plugin URI: https://github.com/makr-code/ThemisDB
+ * Plugin URI: https://github.com/makr-code/wordpressPlugins
  * Description: A persistent podcast player with episode excerpts and related post links
  * Version: 1.0.0
  * Author: ThemisDB Team
- * Author URI: https://github.com/makr-code/ThemisDB
+ * Author URI: https://github.com/makr-code/wordpressPlugins
  * License: MIT
  * License URI: https://opensource.org/licenses/MIT
  * Text Domain: persistent-podcast-player
