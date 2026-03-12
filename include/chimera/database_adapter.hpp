@@ -1210,6 +1210,25 @@ public:
      * @return true if registered successfully, false if already exists
      */
     static bool register_adapter(const std::string& system_name, AdapterCreator creator);
+
+    /**
+     * @brief Register a new adapter together with a static capability hint list
+     *
+     * @details
+     * The @p static_capabilities list is stored in a lightweight capability
+     * hints map keyed by @p system_name.  When create_with_capabilities() is
+     * called, it uses the hints to negotiate without instantiating any adapter,
+     * avoiding expensive construction (and potential resource acquisition) for
+     * non-qualifying candidates.
+     *
+     * @param system_name        System name (e.g., "PostgreSQL:16")
+     * @param creator            Factory function for the adapter
+     * @param static_capabilities Capabilities the adapter is known to support
+     * @return true if registered successfully, false if already exists
+     */
+    static bool register_adapter(const std::string& system_name,
+                                  AdapterCreator creator,
+                                  const std::vector<Capability>& static_capabilities);
     
     /**
      * @brief Get list of supported systems
@@ -1229,11 +1248,11 @@ public:
      *
      * @details
      * Iterates through @p candidates in order and returns the first adapter
-     * that is registered.  This enables version-specific fallback chains, e.g.
-     * try "PostgreSQL:16", then "PostgreSQL:15", then "PostgreSQL:14".
+     * that can be successfully created.  This enables version-specific fallback
+     * chains, e.g. try "PostgreSQL:16", then "PostgreSQL:15", then "PostgreSQL:14".
      *
      * @param candidates Ordered list of system names to try (highest priority first)
-     * @return First successfully created adapter, or nullptr if none are registered
+     * @return First successfully created adapter, or nullptr if none can be created
      */
     static std::unique_ptr<IDatabaseAdapter> create_with_fallback(
         const std::vector<std::string>& candidates);
@@ -1259,6 +1278,7 @@ public:
 
 private:
     static std::map<std::string, AdapterCreator>& get_registry();
+    static std::map<std::string, std::vector<Capability>>& get_capability_hints();
 };
 
 /**

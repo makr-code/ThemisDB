@@ -31,6 +31,7 @@
 
 #include "chimera/database_adapter.hpp"
 #include <mutex>
+#include <shared_mutex>
 #include <algorithm>
 
 namespace chimera {
@@ -76,10 +77,41 @@ bool AdapterFactory::is_supported(const std::string& system_name) {
     return registry.find(system_name) != registry.end();
 }
 
+// Thread-safe singleton capability hints registry
+std::map<std::string, std::vector<Capability>>& AdapterFactory::get_capability_hints() {
+    static std::map<std::string, std::vector<Capability>> hints;
+    return hints;
+}
+
+// Shared mutex protecting the capability hints map.
+// Used with exclusive ownership during writes (register_adapter overload) and
+// shared ownership during reads (create_with_capabilities).
+static std::shared_mutex& hints_shared_mutex() {
+    static std::shared_mutex mtx;
+    return mtx;
+}
+
+bool AdapterFactory::register_adapter(const std::string& system_name,
+                                       AdapterCreator creator,
+                                       const std::vector<Capability>& static_capabilities) {
+    // Store capability hints thread-safely under exclusive ownership before
+    // delegating to the base overload.  Hints are stored unconditionally so
+    // that re-registration can update capabilities even when the creator slot
+    // is already taken.
+    {
+        std::unique_lock<std::shared_mutex> lock(hints_shared_mutex());
+        get_capability_hints()[system_name] = static_capabilities;
+    }
+    return register_adapter(system_name, std::move(creator));
+}
+
 std::unique_ptr<IDatabaseAdapter> AdapterFactory::create_with_fallback(
     const std::vector<std::string>& candidates
 ) {
     for (const auto& name : candidates) {
+        if (!is_supported(name)) {
+            continue;
+        }
         auto adapter = create(name);
         if (adapter) {
             return adapter;
@@ -92,21 +124,56 @@ std::unique_ptr<IDatabaseAdapter> AdapterFactory::create_with_capabilities(
     const std::vector<std::string>& candidates,
     const std::vector<Capability>& required_capabilities
 ) {
+    // Acquire a shared (read) lock for the duration of the lookup so that
+    // concurrent registrations cannot race with hint reads.
+    std::shared_lock<std::shared_mutex> hints_lock(hints_shared_mutex());
+    auto& hints = get_capability_hints();
+
     for (const auto& name : candidates) {
+        if (!is_supported(name)) {
+            continue;
+        }
+
+        // Fast path: if static capability hints were registered, use them to
+        // negotiate without instantiating the adapter, avoiding potentially
+        // expensive construction for non-qualifying candidates.
+        auto hint_it = hints.find(name);
+        if (hint_it != hints.end()) {
+            bool meets_requirements = true;
+            for (const auto& cap : required_capabilities) {
+                if (std::find(hint_it->second.begin(), hint_it->second.end(), cap)
+                        == hint_it->second.end()) {
+                    meets_requirements = false;
+                    break;
+                }
+            }
+            if (!meets_requirements) {
+                continue;
+            }
+        }
+
+        // Create the adapter — either hints confirmed it qualifies, or no
+        // hints were registered and we must probe via the live instance.
         auto adapter = create(name);
         if (!adapter) {
             continue;
         }
-        bool meets_requirements = true;
-        for (const auto& cap : required_capabilities) {
-            if (!adapter->has_capability(cap)) {
-                meets_requirements = false;
-                break;
+
+        // If no static hints, fall back to runtime capability probing.
+        if (hint_it == hints.end()) {
+            bool meets_requirements = true;
+            for (const auto& cap : required_capabilities) {
+                if (!adapter->has_capability(cap)) {
+                    meets_requirements = false;
+                    break;
+                }
+            }
+            if (!meets_requirements) {
+                continue;
             }
         }
-        if (meets_requirements) {
-            return adapter;
-        }
+
+        return adapter;
     }
     return nullptr;
 }

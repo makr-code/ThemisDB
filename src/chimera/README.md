@@ -685,18 +685,26 @@ static bool register_adapter(
     AdapterCreator creator
 );
 
+// Register adapter with static capability hints (avoids instantiation during negotiation)
+static bool register_adapter(
+    const std::string& system_name,
+    AdapterCreator creator,
+    const std::vector<Capability>& static_capabilities
+);
+
 // Query available systems
 static std::vector<std::string> get_supported_systems();
 
 // Check if system is registered
 static bool is_supported(const std::string& system_name);
 
-// Create from prioritised fallback list (returns first registered)
+// Create from prioritised fallback list (returns first successfully created)
 static std::unique_ptr<IDatabaseAdapter> create_with_fallback(
     const std::vector<std::string>& candidates
 );
 
 // Create first adapter in list that meets required capabilities
+// Uses static capability hints when registered, otherwise probes the live instance
 static std::unique_ptr<IDatabaseAdapter> create_with_capabilities(
     const std::vector<std::string>& candidates,
     const std::vector<Capability>& required_capabilities

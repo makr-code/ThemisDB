@@ -546,18 +546,32 @@ TEST(MultiDatabaseAdapterTest, VersionedAdapterRegistration) {
 }
 
 /**
- * @brief create_with_fallback returns the first registered adapter in the list.
+ * @brief create_with_fallback returns the first *registered* candidate in list order.
+ *
+ * FallbackDB:4 is absent; FallbackDB:3 is the earliest registered candidate so
+ * it must be returned – not FallbackDB:2.  The adapters are given distinguishable
+ * capability sets so the test can verify *which* instance was returned.
  */
 TEST(MultiDatabaseAdapterTest, CreateWithFallbackReturnsFirstRegistered) {
+    // FallbackDB:3 supports RELATIONAL_QUERIES; FallbackDB:2 supports VECTOR_SEARCH.
     AdapterFactory::register_adapter("FallbackDB:3",
-        []() { return std::make_unique<MockAdapter>(); });
+        []() {
+            return std::make_unique<CapableAdapter>(
+                std::vector<Capability>{Capability::RELATIONAL_QUERIES});
+        });
     AdapterFactory::register_adapter("FallbackDB:2",
-        []() { return std::make_unique<MockAdapter>(); });
+        []() {
+            return std::make_unique<CapableAdapter>(
+                std::vector<Capability>{Capability::VECTOR_SEARCH});
+        });
 
-    // FallbackDB:4 is not registered; FallbackDB:3 is – it should be returned.
+    // FallbackDB:4 is not registered; FallbackDB:3 is first registered – it wins.
     auto adapter = AdapterFactory::create_with_fallback(
         {"FallbackDB:4", "FallbackDB:3", "FallbackDB:2"});
     ASSERT_NE(adapter, nullptr);
+    // Verify FallbackDB:3 was selected (RELATIONAL_QUERIES present, VECTOR_SEARCH absent).
+    EXPECT_TRUE(adapter->has_capability(Capability::RELATIONAL_QUERIES));
+    EXPECT_FALSE(adapter->has_capability(Capability::VECTOR_SEARCH));
 }
 
 /**
@@ -631,6 +645,72 @@ TEST(MultiDatabaseAdapterTest, CreateWithCapabilitiesEmptyRequirementsActsAsFall
     auto adapter = AdapterFactory::create_with_capabilities(
         {"CapDB:any"}, {});
     EXPECT_NE(adapter, nullptr);
+}
+
+/**
+ * @brief When multiple candidates satisfy the required capabilities,
+ *        create_with_capabilities returns the earliest qualifying candidate.
+ */
+TEST(MultiDatabaseAdapterTest, CreateWithCapabilitiesPrefersEarlierWhenMultipleQualify) {
+    // First candidate: supports VECTOR_SEARCH only.
+    AdapterFactory::register_adapter("CapDB:vs_only",
+        []() {
+            return std::make_unique<CapableAdapter>(
+                std::vector<Capability>{Capability::VECTOR_SEARCH});
+        });
+
+    // Second candidate: supports VECTOR_SEARCH and TRANSACTIONS.
+    AdapterFactory::register_adapter("CapDB:vs_plus_tx",
+        []() {
+            return std::make_unique<CapableAdapter>(
+                std::vector<Capability>{
+                    Capability::VECTOR_SEARCH,
+                    Capability::TRANSACTIONS});
+        });
+
+    auto adapter = AdapterFactory::create_with_capabilities(
+        {"CapDB:vs_only", "CapDB:vs_plus_tx"},
+        {Capability::VECTOR_SEARCH});
+
+    ASSERT_NE(adapter, nullptr);
+    // Both candidates have VECTOR_SEARCH, so this alone doesn't distinguish them.
+    EXPECT_TRUE(adapter->has_capability(Capability::VECTOR_SEARCH));
+    // Only the second candidate has TRANSACTIONS; lack of this capability
+    // proves the first candidate was selected.
+    EXPECT_FALSE(adapter->has_capability(Capability::TRANSACTIONS));
+}
+
+/**
+ * @brief register_adapter with static capability hints allows create_with_capabilities
+ *        to negotiate without instantiating non-qualifying adapters.
+ */
+TEST(MultiDatabaseAdapterTest, CreateWithCapabilitiesUsesStaticHints) {
+    AdapterFactory::register_adapter(
+        "HintedDB:low",
+        []() {
+            return std::make_unique<CapableAdapter>(
+                std::vector<Capability>{Capability::RELATIONAL_QUERIES});
+        },
+        {Capability::RELATIONAL_QUERIES});
+
+    AdapterFactory::register_adapter(
+        "HintedDB:high",
+        []() {
+            return std::make_unique<CapableAdapter>(
+                std::vector<Capability>{
+                    Capability::RELATIONAL_QUERIES,
+                    Capability::GRAPH_TRAVERSAL});
+        },
+        {Capability::RELATIONAL_QUERIES, Capability::GRAPH_TRAVERSAL});
+
+    // Only HintedDB:high satisfies GRAPH_TRAVERSAL.
+    auto adapter = AdapterFactory::create_with_capabilities(
+        {"HintedDB:low", "HintedDB:high"},
+        {Capability::GRAPH_TRAVERSAL});
+
+    ASSERT_NE(adapter, nullptr);
+    EXPECT_TRUE(adapter->has_capability(Capability::GRAPH_TRAVERSAL));
+    EXPECT_FALSE(adapter->has_capability(Capability::VECTOR_SEARCH));
 }
 
 /**
