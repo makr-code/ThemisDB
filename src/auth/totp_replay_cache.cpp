@@ -53,13 +53,12 @@ bool TOTPReplayCache::checkAndMarkUsed(const std::string& user_id, const std::st
     auto now = std::chrono::system_clock::now();
     
     // Check if code already used.
-    // TOTP codes are short fixed-length numeric strings (6–8 digits); all
-    // entries in user_cache share the same length, so std::string::operator==
-    // performs a fixed-length byte comparison that is effectively constant-time
-    // in practice.  The replay-cache lookup is a secondary defence: a valid
-    // TOTP code must already have passed cryptographic HMAC validation before
-    // reaching this path, so timing differences here do not constitute a
-    // practical oracle for code brute-force.
+    // entries in user_cache are expected to share the same length, and we use
+    // the standard std::string equality operator for comparison here.
+    // This replay-cache lookup is a secondary defence: a valid TOTP code must
+    // already have passed cryptographic HMAC validation before reaching this
+    // path, so we do not rely on constant-time comparison at this stage and
+    // any timing differences are not intended to be a security boundary.
     auto& user_cache = user_caches_[user_id];
     
     for (const auto& used_code : user_cache) {

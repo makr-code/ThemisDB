@@ -462,8 +462,10 @@ TEST_F(SessionApiHandlerTest, Constructor_NullManagerThrows) {
 // ===========================================================================
 
 /**
- * @brief Verify that validateSession works correctly via hash-based lookup and
- *        that a raw session token is not stored as-is in the session map.
+ * @brief Verify that validateSession returns the correct session after creation.
+ *
+ * This tests functional correctness of the lookup path; the internal storage
+ * format (hash-keyed map) is an encapsulated implementation detail.
  */
 TEST(SessionManagerHashTest, ValidateSession_WorksAfterHashedStorage) {
     SessionManager mgr;

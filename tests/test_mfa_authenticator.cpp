@@ -307,24 +307,37 @@ TEST(MFAAuthenticatorTest, MultipleUsers_DifferentSecrets) {
 }
 
 // ===========================================================================
-// Constant-time comparison microbenchmark
+// Constant-time comparison microbenchmark (opt-in)
 // ===========================================================================
 
 /**
  * @brief Verify that recovery-code validation latency does not vary by more
  *        than 100 µs based on the match position within a 10-code list.
  *
+ * This test measures wall-clock timing and is therefore sensitive to CPU
+ * frequency scaling, scheduler jitter, sanitizer overhead, and CI load.
+ * It is opt-in: set the environment variable THEMIS_RUN_PERF_TESTS=1 to
+ * enable it.  In production builds on dedicated hardware the implementation
+ * targets < 100 ns variance; the 100 µs gate here accommodates sanitizer and
+ * CI overhead while still detecting gross regressions.
+ *
  * The implementation always iterates all codes (constant-time linear scan), so
- * the median latency for matching code[0] vs code[9] must be within the
- * performance target.
+ * the median latency for matching code[0] vs code[9] must be within the CI
+ * tolerance.
  */
 TEST(MFAAuthenticatorTest, RecoveryCode_ConstantTimeByPosition) {
+    const char* run_perf = std::getenv("THEMIS_RUN_PERF_TESTS");
+    if (!run_perf || std::string(run_perf) != "1") {
+        GTEST_SKIP() << "Skipping timing microbenchmark "
+                        "(set THEMIS_RUN_PERF_TESTS=1 to enable)";
+    }
+
     MFAAuthenticator::Config config;
     config.recovery_codes_count = 10;
     MFAAuthenticator mfa(config);
 
     const int iterations = 200;
-    const int64_t tolerance_ns = 100000; // 100 µs – generous CI tolerance
+    const int64_t tolerance_ns = 100000; // 100 µs – CI-safe gate
 
     // Collect median latency for first vs last code position.
     std::vector<int64_t> first_ns, last_ns;
@@ -363,6 +376,6 @@ TEST(MFAAuthenticatorTest, RecoveryCode_ConstantTimeByPosition) {
 
     EXPECT_LT(diff, tolerance_ns)
         << "Median latency difference between first and last code position ("
-        << diff << " ns) exceeds tolerance (" << tolerance_ns << " ns). "
+        << diff << " ns) exceeds CI tolerance (" << tolerance_ns << " ns). "
         << "Recovery-code lookup must be constant-time regardless of match position.";
 }

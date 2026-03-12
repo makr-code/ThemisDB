@@ -133,7 +133,7 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 - `[x]` Add microbenchmark that measures TOTP/recovery-code verification latency variance under ThreadSanitizer to confirm constant-time behaviour
 
 **Performance Targets:**
-- Recovery code verification time must vary by < 100 ns regardless of match position in a list of 10 codes
+- Recovery code verification time must vary by < 100 ns regardless of match position in a list of 10 codes (production hardware target; CI gate uses < 100 µs to accommodate sanitizer/scheduler overhead)
 
 ---
 
