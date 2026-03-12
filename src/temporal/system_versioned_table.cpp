@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            system_versioned_table.cpp                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:35                                ║
+  Version:         0.1.0                                              ║
+  Last Modified:   2026-03-12                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     379                                            ║
+    • Total Lines:     450                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -41,7 +41,54 @@ namespace temporal {
 SystemVersionedTable::SystemVersionedTable(std::string table_name,
                                            std::string source_node)
     : table_name_(std::move(table_name)),
-      source_node_(std::move(source_node)) {}
+      source_node_(std::move(source_node)) {
+    // Initialise config with defaults; history_table_name follows convention.
+    config_.history_table_name = table_name_ + "_history";
+}
+
+SystemVersionedTable::SystemVersionedTable(std::string table_name,
+                                           Config config,
+                                           std::string source_node)
+    : table_name_(std::move(table_name)),
+      source_node_(std::move(source_node)),
+      config_(std::move(config)) {
+    if (config_.history_table_name.empty()) {
+        config_.history_table_name = table_name_ + "_history";
+    }
+}
+
+SystemVersionedTable::SystemVersionedTable(SystemVersionedTable&& other) noexcept
+    : table_name_(std::move(other.table_name_)),
+      source_node_(std::move(other.source_node_)),
+      config_(std::move(other.config_)),
+      schema_(std::move(other.schema_)),
+      rows_(std::move(other.rows_))
+    // mutex_ is default-constructed (not moved).  This is safe for the
+    // factory use-case where the object is moved before being shared.
+{}
+
+// static
+SystemVersionedTable SystemVersionedTable::createVersionedTable(
+    const std::string& table_name,
+    const Document&    schema,
+    Config             config,
+    const std::string& source_node) {
+
+    if (config.history_table_name.empty()) {
+        config.history_table_name = table_name + "_history";
+    }
+
+    SystemVersionedTable tbl(table_name, std::move(config), source_node);
+    tbl.schema_ = schema;
+    return tbl;
+}
+
+// static
+SystemVersionedTable SystemVersionedTable::createVersionedTable(
+    const std::string& table_name,
+    const Document&    schema) {
+    return createVersionedTable(table_name, schema, Config{}, "local");
+}
 
 // ============================================================================
 // DML
@@ -58,14 +105,8 @@ bool SystemVersionedTable::insert(const std::string& key, const Document& doc) {
         }
     }
 
-    VersionedDocument vdoc;
-    vdoc.key         = key;
-    vdoc.data        = doc;
-    vdoc.sys_time    = {now(), kMaxTimestamp};
-    vdoc.valid_time  = {now(), kMaxTimestamp};
-    vdoc.modified_by = source_node_;
-
-    versions.push_back(std::move(vdoc));
+    Timestamp ts = now();
+    versions.push_back(makeVersion(key, doc, ts));
     return true;
 }
 
@@ -102,15 +143,40 @@ bool SystemVersionedTable::update(const std::string& key,
         merged[k] = val;
     }
 
-    VersionedDocument vdoc;
-    vdoc.key         = key;
-    vdoc.data        = std::move(merged);
-    vdoc.sys_time    = {ts, kMaxTimestamp};
-    vdoc.valid_time  = {ts, kMaxTimestamp};
-    vdoc.modified_by = source_node_;
-
-    versions.push_back(std::move(vdoc));
+    versions.push_back(makeVersion(key, std::move(merged), ts));
     return true;
+}
+
+bool SystemVersionedTable::upsert(const std::string& key, const Document& doc) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto& versions = rows_[key];
+
+    // Check if a current version exists
+    VersionedDocument* current = nullptr;
+    for (auto& v : versions) {
+        if (v.sys_time.end == kMaxTimestamp) {
+            current = &v;
+            break;
+        }
+    }
+
+    Timestamp ts = now();
+
+    if (!current) {
+        // Insert path
+        versions.push_back(makeVersion(key, doc, ts));
+        return true;
+    }
+
+    // Update path: close existing version and open a new merged one
+    closeCurrentVersion(versions, ts);
+    Document merged = current->data;
+    for (auto& [k, val] : doc.items()) {
+        merged[k] = val;
+    }
+    versions.push_back(makeVersion(key, std::move(merged), ts));
+    return false;
 }
 
 bool SystemVersionedTable::deleteRow(const std::string& key) {
@@ -358,11 +424,42 @@ nlohmann::json SystemVersionedTable::getStatistics() const {
         }
     }
 
-    return {{"table_name", table_name_},
-            {"key_count", rows_.size()},
-            {"current_rows", current_count},
-            {"historical_rows", historical_count},
-            {"total_versions", current_count + historical_count}};
+    nlohmann::json stats = {
+        {"table_name",       table_name_},
+        {"history_table",    config_.history_table_name},
+        {"key_count",        rows_.size()},
+        {"current_rows",     current_count},
+        {"historical_rows",  historical_count},
+        {"total_versions",   current_count + historical_count},
+        {"compress_history", config_.compress_history},
+        {"track_user_id",    config_.track_user_id},
+        {"retention_period_ms",
+             static_cast<int64_t>(config_.retention_period.count())}};
+
+    if (!schema_.is_null() && !schema_.empty()) {
+        stats["schema"] = schema_;
+    }
+
+    return stats;
+}
+
+// ============================================================================
+// Retention
+// ============================================================================
+
+size_t SystemVersionedTable::enforceRetentionPolicy() {
+    if (config_.retention_period.count() == 0) {
+        return 0;
+    }
+
+    // retention_period is stored in milliseconds; Timestamp is also in ms.
+    const Timestamp cutoff = now() - static_cast<Timestamp>(
+        config_.retention_period.count());
+
+    return purgeHistoricalVersions([cutoff](const VersionedDocument& v) {
+        // Remove historical versions whose sys_end is before the cutoff
+        return v.sys_time.end < cutoff;
+    });
 }
 
 // ============================================================================
@@ -376,6 +473,20 @@ void SystemVersionedTable::closeCurrentVersion(VersionList& versions,
             v.sys_time.end = close_time;
         }
     }
+}
+
+VersionedDocument SystemVersionedTable::makeVersion(const std::string& key,
+                                                    Document data,
+                                                    Timestamp ts) const {
+    VersionedDocument vdoc;
+    vdoc.key        = key;
+    vdoc.data       = std::move(data);
+    vdoc.sys_time   = {ts, kMaxTimestamp};
+    vdoc.valid_time = {ts, kMaxTimestamp};
+    if (config_.track_user_id) {
+        vdoc.modified_by = source_node_;
+    }
+    return vdoc;
 }
 
 } // namespace temporal

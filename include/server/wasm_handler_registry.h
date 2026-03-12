@@ -140,8 +140,37 @@ struct WasmHandlerEntry {
     WasmHandlerEntry() = default;
     WasmHandlerEntry(const WasmHandlerEntry&)            = delete;
     WasmHandlerEntry& operator=(const WasmHandlerEntry&) = delete;
-    WasmHandlerEntry(WasmHandlerEntry&&)                 = default;
-    WasmHandlerEntry& operator=(WasmHandlerEntry&&)      = default;
+    WasmHandlerEntry(WasmHandlerEntry&& other) noexcept
+        : id(std::move(other.id)),
+          tenant_id(std::move(other.tenant_id)),
+          name(std::move(other.name)),
+          description(std::move(other.description)),
+          wasm_bytes(std::move(other.wasm_bytes)),
+          module_info(std::move(other.module_info)),
+          config(std::move(other.config)),
+          created_at(std::move(other.created_at)),
+          updated_at(std::move(other.updated_at)),
+          version(other.version),
+          invocation_count(other.invocation_count.load(std::memory_order_relaxed)) {}
+
+    WasmHandlerEntry& operator=(WasmHandlerEntry&& other) noexcept {
+        if (this != &other) {
+            id = std::move(other.id);
+            tenant_id = std::move(other.tenant_id);
+            name = std::move(other.name);
+            description = std::move(other.description);
+            wasm_bytes = std::move(other.wasm_bytes);
+            module_info = std::move(other.module_info);
+            config = std::move(other.config);
+            created_at = std::move(other.created_at);
+            updated_at = std::move(other.updated_at);
+            version = other.version;
+            invocation_count.store(
+                other.invocation_count.load(std::memory_order_relaxed),
+                std::memory_order_relaxed);
+        }
+        return *this;
+    }
 
     /// Serialise to JSON for API responses (does not include binary bytes).
     nlohmann::json toJson() const;

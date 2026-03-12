@@ -110,11 +110,11 @@ void ErrorApiHandler::handleGetError(const Request& req, Response& res) {
 }
 
 void ErrorApiHandler::handleGetCategories(const Request& req, Response& res) {
+    auto span = Tracer::startSpan("handleGetCategories");
     auto& registry = errors::ErrorRegistry::getInstance();
     auto categories = registry.getAllCategories();
     
     json response = {
-    auto span = Tracer::startSpan("handleGetCategories");
         {"status", "success"},
         {"categories", categories},
         {"count", categories.size()}
@@ -125,12 +125,12 @@ void ErrorApiHandler::handleGetCategories(const Request& req, Response& res) {
 }
 
 void ErrorApiHandler::handleSearchErrors(const Request& req, Response& res) {
+    auto span = Tracer::startSpan("handleSearchErrors");
     auto& registry = errors::ErrorRegistry::getInstance();
     
     // Get search query
     std::string query;
     if (req.query.contains("q")) {
-    auto span = Tracer::startSpan("handleSearchErrors");
         query = req.query["q"].get<std::string>();
     }
     

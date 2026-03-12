@@ -338,7 +338,7 @@ TEST_F(MaintenanceOrchestratorTest, DeleteSchedule_RemovesEntry) {
     ASSERT_TRUE(created);
 
     auto del = orchestrator_->deleteSchedule(created->id);
-    EXPECT_TRUE(del) << del.error();
+    EXPECT_TRUE(del) << del.error().message();
 
     // Should no longer be accessible
     auto fetched = orchestrator_->getSchedule(created->id);

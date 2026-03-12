@@ -381,6 +381,12 @@ httplib::Response& ImportApiHandler::jsonError(httplib::Response& res,
 void ImportApiHandler::handleGetSchema(const httplib::Request& req,
                                         httplib::Response& res) {
     auto span = Tracer::startSpan("handleGetSchema");
+#ifndef THEMIS_ENABLE_POSTGRES_WIRE
+    (void)req;
+    jsonError(res, 501,
+              "Schema preview requires PostgreSQL wire support; rebuild with THEMIS_ENABLE_POSTGRES_WIRE=ON");
+    return;
+#else
     const std::string job_id = req.matches[1];
     auto handle = registry_->get(job_id);
     if (!handle) {
@@ -413,11 +419,18 @@ void ImportApiHandler::handleGetSchema(const httplib::Request& req,
     }
 
     jsonOk(res, json{{"job_id", job_id}, {"schema", schema}});
+#endif
 }
 
 void ImportApiHandler::handleValidateSchema(const httplib::Request& req,
                                              httplib::Response& res) {
     auto span = Tracer::startSpan("handleValidateSchema");
+#ifndef THEMIS_ENABLE_POSTGRES_WIRE
+    (void)req;
+    jsonError(res, 501,
+              "Schema validation requires PostgreSQL wire support; rebuild with THEMIS_ENABLE_POSTGRES_WIRE=ON");
+    return;
+#else
     json body;
     try {
         body = parseRequestBody(req.body);
@@ -482,6 +495,7 @@ void ImportApiHandler::handleValidateSchema(const httplib::Request& req,
         {"errors", err_arr},
         {"circular_references", cycles}
     });
+#endif
 }
 
 void ImportApiHandler::handleUpdateRelationships(const httplib::Request& req,

@@ -1,0 +1,12 @@
+{
+  "inputs": {},
+  "ref": "refs/heads/develop",
+  "action": "workflow_dispatch",
+  "commits": [
+    {
+      "added": [],
+      "modified": ["grafana/dashboards/llm-inference.json"],
+      "removed": []
+    }
+  ]
+}

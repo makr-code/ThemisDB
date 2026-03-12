@@ -602,10 +602,10 @@ struct ImportOptions {
             {"merge_depth", merge_depth},
             {"validate_schema", validate_schema},
             {"schema_sample_rows", schema_sample_rows},
-            {"preserve_foreign_keys", preserve_foreign_keys}
+            {"preserve_foreign_keys", preserve_foreign_keys},
             {"preserve_relationships", preserve_relationships},
             {"validate_references", validate_references},
-            {"relationship_mapping_mode", relationship_mapping_mode}
+            {"relationship_mapping_mode", relationship_mapping_mode},
             {"entity_linking", entity_linking.toJson()}
         };
     }
