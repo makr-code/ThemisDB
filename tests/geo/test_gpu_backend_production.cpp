@@ -399,7 +399,7 @@ static std::vector<double> seededDoubles(int count, double lo, double hi, int se
 // (correct) and not 1 (false positive from a pure MBR filter).
 // ---------------------------------------------------------------------------
 
-TEST(GpuProductionParityTest, BatchIntersects_OverlappingMBR_NonIntersecting) {
+TEST(GpuProductionParityTest, BatchIntersects_LShapeAndSquare_OverlappingMBR_NoIntersection) {
     // L-shape A occupies left column + bottom row of [0,0,2,2].
     // Small square B sits in the top-right 1×1 cell [1,1,2,2] — inside the
     // MBR of A but completely in the "empty" part of the L.

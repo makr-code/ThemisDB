@@ -349,10 +349,22 @@ public:
 
         // Phase 2: CPU exact verification for MBR-positive candidates.
         // Eliminates false positives from the conservative MBR filter.
-        CpuParallelBackend cpu_exact;
+        // Build a sub-batch of only the candidates to leverage parallel threading.
+        SpatialBatchInputs candidates;
+        std::vector<size_t> candidate_indices;
         for (int i = 0; i < n; ++i) {
             if (out.mask[i]) {
-                out.mask[i] = cpu_exact.exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1u : 0u;
+                candidate_indices.push_back(static_cast<size_t>(i));
+                candidates.geoms_a.push_back(in.geoms_a[i]);
+                candidates.geoms_b.push_back(in.geoms_b[i]);
+            }
+        }
+        if (!candidate_indices.empty()) {
+            candidates.count = candidate_indices.size();
+            auto exact_results = cpu_exact_.batchIntersects(candidates);
+            for (size_t j = 0; j < candidate_indices.size(); ++j) {
+                out.mask[candidate_indices[j]] =
+                    (j < exact_results.mask.size()) ? exact_results.mask[j] : 0u;
             }
         }
 
@@ -362,13 +374,13 @@ public:
     bool exactIntersects(const GeometryInfo& geom1, const GeometryInfo& geom2) override {
         // For single geometry checks, CPU is often faster due to transfer overhead
         // Fall back to CPU-based check
-        CpuParallelBackend cpu_backend;
-        return cpu_backend.exactIntersects(geom1, geom2);
+        return cpu_exact_.exactIntersects(geom1, geom2);
     }
     
 private:
     int device_id_;
     bool is_available_;
+    CpuParallelBackend cpu_exact_;  // reused across calls for Phase 2 verification
 
     // Cached device buffers — grown on demand, freed in destructor.
     int      cached_n_        = 0;
@@ -626,10 +638,22 @@ public:
 
         // Phase 2: CPU exact verification for MBR-positive candidates.
         // Eliminates false positives from the conservative MBR filter.
-        CpuParallelBackend cpu_exact;
+        // Build a sub-batch of only the candidates to leverage parallel threading.
+        SpatialBatchInputs candidates;
+        std::vector<size_t> candidate_indices;
         for (int i = 0; i < n; ++i) {
             if (out.mask[i]) {
-                out.mask[i] = cpu_exact.exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1u : 0u;
+                candidate_indices.push_back(static_cast<size_t>(i));
+                candidates.geoms_a.push_back(in.geoms_a[i]);
+                candidates.geoms_b.push_back(in.geoms_b[i]);
+            }
+        }
+        if (!candidate_indices.empty()) {
+            candidates.count = candidate_indices.size();
+            auto exact_results = cpu_exact_.batchIntersects(candidates);
+            for (size_t j = 0; j < candidate_indices.size(); ++j) {
+                out.mask[candidate_indices[j]] =
+                    (j < exact_results.mask.size()) ? exact_results.mask[j] : 0u;
             }
         }
 
@@ -638,8 +662,7 @@ public:
     
     bool exactIntersects(const GeometryInfo& geom1, const GeometryInfo& geom2) override {
         // For single geometry checks, use CPU backend
-        CpuParallelBackend cpu_backend;
-        return cpu_backend.exactIntersects(geom1, geom2);
+        return cpu_exact_.exactIntersects(geom1, geom2);
     }
     
 private:
@@ -648,6 +671,7 @@ private:
     cl_command_queue queue_;
     cl_program program_;
     bool is_available_ = false;
+    CpuParallelBackend cpu_exact_;  // reused across calls for Phase 2 verification
 
     /// Compile geo intersection kernels from source; called once in the constructor.
     bool compileKernels() {
