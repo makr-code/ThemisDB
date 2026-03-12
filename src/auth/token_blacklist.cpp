@@ -33,8 +33,26 @@ namespace auth {
 
 TokenBlacklist::TokenBlacklist(const Config& config)
     : config_(config)
+    , bloom_(config.max_entries)
     , last_cleanup_(std::chrono::steady_clock::now())
 {}
+
+// ============================================================================
+// ITokenBlacklist interface implementation
+// ============================================================================
+
+void TokenBlacklist::add(const std::string& jti,
+                         std::chrono::system_clock::time_point expiry) {
+    revoke(jti, expiry);
+}
+
+void TokenBlacklist::purgeExpired() {
+    pruneExpired();
+}
+
+// ============================================================================
+// Core implementation
+// ============================================================================
 
 void TokenBlacklist::revoke(const std::string& jti,
                              std::chrono::system_clock::time_point expires_at) {
@@ -50,17 +68,7 @@ void TokenBlacklist::revoke(const std::string& jti,
 
         // Prune first to stay under the cap
         if (needsCleanup()) {
-            // Inline prune (lock already held)
-            auto now = std::chrono::system_clock::now();
-            for (auto it = blacklist_.begin(); it != blacklist_.end(); ) {
-                if (it->second.expires_at <= now) {
-                    it = blacklist_.erase(it);
-                    stats_.pruned_entries++;
-                } else {
-                    ++it;
-                }
-            }
-            last_cleanup_ = std::chrono::steady_clock::now();
+            pruneExpiredLocked();
         }
 
         // Enforce hard cap
@@ -76,9 +84,12 @@ void TokenBlacklist::revoke(const std::string& jti,
             }
             blacklist_.erase(oldest);
             stats_.pruned_entries++;
+            // Bloom filter is not updated on single eviction; a rebuild
+            // happens on the next scheduled pruneExpiredLocked() pass.
         }
 
         blacklist_[jti] = Entry{expires_at};
+        bloom_.add(jti);
         stats_.total_revocations++;
 
         if (audit_logger_) {
@@ -104,6 +115,13 @@ bool TokenBlacklist::isRevoked(const std::string& jti) const {
     std::lock_guard<std::mutex> lock(mutex_);
     stats_.total_checks++;
 
+    // Bloom filter fast path: a definitive NO means the token is not revoked.
+    // False positives cause a fall-through to the hash-map lookup.
+    if (!bloom_.mayContain(jti)) {
+        stats_.bloom_negatives++;
+        return false;
+    }
+
     auto it = blacklist_.find(jti);
     if (it == blacklist_.end()) {
         return false;
@@ -124,27 +142,22 @@ bool TokenBlacklist::unrevoke(const std::string& jti) {
     auto it = blacklist_.find(jti);
     if (it == blacklist_.end()) return false;
     blacklist_.erase(it);
+    // Bloom filter cannot remove individual entries; the filter may still
+    // return true for this JTI until the next rebuild (pruneExpiredLocked).
+    // The hash-map lookup after a false-positive will correctly return false.
     THEMIS_INFO("TokenBlacklist: un-revoked JTI '{}'", jti);
     return true;
 }
 
 void TokenBlacklist::pruneExpired() {
     std::lock_guard<std::mutex> lock(mutex_);
-    auto now = std::chrono::system_clock::now();
-    for (auto it = blacklist_.begin(); it != blacklist_.end(); ) {
-        if (it->second.expires_at <= now) {
-            it = blacklist_.erase(it);
-            stats_.pruned_entries++;
-        } else {
-            ++it;
-        }
-    }
-    last_cleanup_ = std::chrono::steady_clock::now();
+    pruneExpiredLocked();
 }
 
 void TokenBlacklist::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     blacklist_.clear();
+    bloom_.reset();
     THEMIS_INFO("TokenBlacklist cleared");
 }
 
@@ -165,6 +178,26 @@ bool TokenBlacklist::needsCleanup() const {
     auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(
         now - last_cleanup_).count();
     return static_cast<uint32_t>(elapsed) >= config_.cleanup_interval_seconds;
+}
+
+void TokenBlacklist::pruneExpiredLocked() {
+    auto now = std::chrono::system_clock::now();
+    for (auto it = blacklist_.begin(); it != blacklist_.end(); ) {
+        if (it->second.expires_at <= now) {
+            it = blacklist_.erase(it);
+            stats_.pruned_entries++;
+        } else {
+            ++it;
+        }
+    }
+    last_cleanup_ = std::chrono::steady_clock::now();
+
+    // Rebuild the Bloom filter from surviving entries so that previously
+    // evicted or expired JTIs do not accumulate as false positives.
+    bloom_.reset();
+    for (const auto& kv : blacklist_) {
+        bloom_.add(kv.first);
+    }
 }
 
 void TokenBlacklist::setOnRevokeCallback(RevocationCallback cb) {

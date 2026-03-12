@@ -610,6 +610,8 @@ set(THEMIS_SECURITY_SOURCES
     # Authentication
     ../src/auth/jwt_validator.cpp
     ../src/auth/token_blacklist.cpp
+    ../src/auth/redis_token_blacklist.cpp
+    ../src/auth/rocksdb_token_blacklist.cpp
     ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
     ../src/auth/mtls_authenticator.cpp
