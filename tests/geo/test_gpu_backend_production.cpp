@@ -364,6 +364,20 @@ static GeometryInfo makeSquare(double cx, double cy, double hw) {
     return g;
 }
 
+// Build an L-shaped polygon within the [ox, ox+2] × [oy, oy+2] bounding box.
+// The L occupies the left column and bottom row, leaving the top-right 1×1
+// cell empty.  MBR = [ox, oy, ox+2, oy+2].
+static GeometryInfo makeLShape(double ox, double oy) {
+    GeometryInfo g(GeometryType::Polygon);
+    // Outer ring (closed): columns go left then right; rows go bottom then top.
+    g.rings.push_back({
+        {ox,   oy},   {ox+2, oy},   {ox+2, oy+1},
+        {ox+1, oy+1}, {ox+1, oy+2}, {ox,   oy+2},
+        {ox,   oy}    // closed
+    });
+    return g;
+}
+
 // Seeded pseudo-random doubles in [lo, hi].
 static std::vector<double> seededDoubles(int count, double lo, double hi, int seed) {
     std::vector<double> v(count);
@@ -376,6 +390,54 @@ static std::vector<double> seededDoubles(int count, double lo, double hi, int se
 }
 
 } // anonymous namespace
+
+// ---------------------------------------------------------------------------
+// Non-intersecting geometries with overlapping MBRs
+//
+// Two L-shaped polygons share a common 2×2 bounding box but their actual
+// shapes do not overlap.  This validates that batchIntersects returns 0
+// (correct) and not 1 (false positive from a pure MBR filter).
+// ---------------------------------------------------------------------------
+
+TEST(GpuProductionParityTest, BatchIntersects_OverlappingMBR_NonIntersecting) {
+    // L-shape A occupies left column + bottom row of [0,0,2,2].
+    // Small square B sits in the top-right 1×1 cell [1,1,2,2] — inside the
+    // MBR of A but completely in the "empty" part of the L.
+    GeometryInfo lshape = makeLShape(0.0, 0.0);
+
+    // Small square strictly inside the empty top-right corner of the L.
+    GeometryInfo small_sq(GeometryType::Polygon);
+    small_sq.rings.push_back({
+        {1.1, 1.1}, {1.9, 1.1}, {1.9, 1.9}, {1.1, 1.9}, {1.1, 1.1}
+    });
+
+    // Confirm: MBRs overlap (small_sq is inside L's MBR).
+    auto mbr_l  = lshape.computeMBR();
+    auto mbr_sq = small_sq.computeMBR();
+    ASSERT_TRUE(mbr_l.intersects(mbr_sq))
+        << "Test pre-condition: MBRs must overlap";
+
+    // Confirm: CPU exact backend says they do NOT intersect.
+    auto* cpu = getCpuExactBackend();
+    ASSERT_NE(cpu, nullptr);
+    bool cpu_exact = cpu->exactIntersects(lshape, small_sq);
+    ASSERT_FALSE(cpu_exact)
+        << "Test pre-condition: L-shape and square in empty corner must NOT intersect";
+
+    // GPU production backend must also return 0 (no intersection).
+    SpatialBatchInputs in;
+    in.count = 1;
+    in.geoms_a = {lshape};
+    in.geoms_b = {small_sq};
+
+    auto* gpu = getProductionGpuBackend();
+    ASSERT_NE(gpu, nullptr);
+    auto gpu_results = gpu->batchIntersects(in);
+    ASSERT_EQ(gpu_results.mask.size(), 1u);
+    EXPECT_EQ(gpu_results.mask[0], 0u)
+        << "batchIntersects must return 0 for L-shape vs square-in-empty-corner "
+           "(overlapping MBR, non-intersecting geometry)";
+}
 
 // ---------------------------------------------------------------------------
 // 10 K batch-intersects parity

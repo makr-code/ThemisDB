@@ -26,6 +26,7 @@
 #include "utils/logger.h"
 #include <vector>
 #include <memory>
+#include <mutex>
 #include <thread>
 #include <algorithm>
 #include <cmath>
@@ -264,6 +265,7 @@ public:
     }
     
     ~CudaBackend() {
+        freeCachedBuffers();
         cudaDeviceReset();
     }
     
@@ -275,6 +277,10 @@ public:
         return is_available_; 
     }
     
+    // Two-phase exact batch intersection:
+    //   Phase 1 — GPU MBR filter (conservative, no false negatives).
+    //   Phase 2 — CPU exact verification for MBR-positive candidates only.
+    // Device buffers are cached and grown on demand to amortise cudaMalloc cost.
     SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) override {
         SpatialBatchResults out;
         out.mask.resize(in.count);
@@ -302,53 +308,52 @@ public:
             mbrs_b[i*4+2] = mb.maxx; mbrs_b[i*4+3] = mb.maxy;
         }
 
-        // Upload geometry MBRs to device memory.
+        // Grow cached device buffers if needed (amortises alloc cost).
         const size_t mbr_sz = static_cast<size_t>(n) * 4 * sizeof(double);
         const size_t res_sz = static_cast<size_t>(n) * sizeof(uint8_t);
 
-        double*  d_mbrs_a  = nullptr;
-        double*  d_mbrs_b  = nullptr;
-        uint8_t* d_results = nullptr;
-
-        cudaError_t e;
-        if ((e = cudaMalloc(&d_mbrs_a,  mbr_sz)) != cudaSuccess ||
-            (e = cudaMalloc(&d_mbrs_b,  mbr_sz)) != cudaSuccess ||
-            (e = cudaMalloc(&d_results, res_sz)) != cudaSuccess) {
-            cudaFree(d_mbrs_a); cudaFree(d_mbrs_b); cudaFree(d_results);
-            THEMIS_WARN("CUDA allocation failed ({}), falling back to CPU-parallel",
-                        static_cast<int>(e));
+        if (!ensureCachedBuffers(n, mbr_sz, res_sz)) {
+            THEMIS_WARN("CUDA buffer cache failed, falling back to CPU-parallel");
             CpuParallelBackend cpu_fallback;
             return cpu_fallback.batchIntersects(in);
         }
 
-        if ((e = cudaMemcpy(d_mbrs_a, mbrs_a.data(), mbr_sz, cudaMemcpyHostToDevice)) != cudaSuccess ||
-            (e = cudaMemcpy(d_mbrs_b, mbrs_b.data(), mbr_sz, cudaMemcpyHostToDevice)) != cudaSuccess ||
-            (e = cudaMemset(d_results, 0, res_sz))                                    != cudaSuccess) {
-            cudaFree(d_mbrs_a); cudaFree(d_mbrs_b); cudaFree(d_results);
+        // Upload geometry MBRs to device memory.
+        cudaError_t e;
+        if ((e = cudaMemcpy(d_cached_mbrs_a_, mbrs_a.data(), mbr_sz, cudaMemcpyHostToDevice)) != cudaSuccess ||
+            (e = cudaMemcpy(d_cached_mbrs_b_, mbrs_b.data(), mbr_sz, cudaMemcpyHostToDevice)) != cudaSuccess ||
+            (e = cudaMemset(d_cached_results_, 0, res_sz))                                    != cudaSuccess) {
             THEMIS_WARN("CUDA upload failed ({}), falling back to CPU-parallel",
                         static_cast<int>(e));
             CpuParallelBackend cpu_fallback;
             return cpu_fallback.batchIntersects(in);
         }
 
-        // Dispatch pairwise MBR intersection kernel.
+        // Phase 1: dispatch pairwise MBR intersection kernel.
         const int blockSize = 256;
         const int gridSize  = (n + blockSize - 1) / blockSize;
         cuda_pairwise_intersects_kernel<<<gridSize, blockSize>>>(
-            d_mbrs_a, d_mbrs_b, d_results, n);
+            d_cached_mbrs_a_, d_cached_mbrs_b_, d_cached_results_, n);
 
         e = cudaDeviceSynchronize();
         if (e == cudaSuccess) {
-            e = cudaMemcpy(out.mask.data(), d_results, res_sz, cudaMemcpyDeviceToHost);
+            e = cudaMemcpy(out.mask.data(), d_cached_results_, res_sz, cudaMemcpyDeviceToHost);
         }
-
-        cudaFree(d_mbrs_a); cudaFree(d_mbrs_b); cudaFree(d_results);
 
         if (e != cudaSuccess) {
             THEMIS_WARN("CUDA execution failed ({}), falling back to CPU-parallel",
                         static_cast<int>(e));
             CpuParallelBackend cpu_fallback;
             return cpu_fallback.batchIntersects(in);
+        }
+
+        // Phase 2: CPU exact verification for MBR-positive candidates.
+        // Eliminates false positives from the conservative MBR filter.
+        CpuParallelBackend cpu_exact;
+        for (int i = 0; i < n; ++i) {
+            if (out.mask[i]) {
+                out.mask[i] = cpu_exact.exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1u : 0u;
+            }
         }
 
         return out;
@@ -364,6 +369,36 @@ public:
 private:
     int device_id_;
     bool is_available_;
+
+    // Cached device buffers — grown on demand, freed in destructor.
+    int      cached_n_        = 0;
+    double*  d_cached_mbrs_a_ = nullptr;
+    double*  d_cached_mbrs_b_ = nullptr;
+    uint8_t* d_cached_results_ = nullptr;
+
+    void freeCachedBuffers() noexcept {
+        if (d_cached_mbrs_a_)  { cudaFree(d_cached_mbrs_a_);  d_cached_mbrs_a_  = nullptr; }
+        if (d_cached_mbrs_b_)  { cudaFree(d_cached_mbrs_b_);  d_cached_mbrs_b_  = nullptr; }
+        if (d_cached_results_) { cudaFree(d_cached_results_); d_cached_results_ = nullptr; }
+        cached_n_ = 0;
+    }
+
+    /// Ensure the cached device buffers are large enough for `n` pairs.
+    /// Returns false on allocation failure (caller falls back to CPU).
+    bool ensureCachedBuffers(int n, size_t mbr_sz, size_t res_sz) {
+        if (n <= cached_n_) return true;  // already large enough
+        freeCachedBuffers();
+        cudaError_t e;
+        if ((e = cudaMalloc(&d_cached_mbrs_a_,  mbr_sz)) != cudaSuccess ||
+            (e = cudaMalloc(&d_cached_mbrs_b_,  mbr_sz)) != cudaSuccess ||
+            (e = cudaMalloc(&d_cached_results_, res_sz))  != cudaSuccess) {
+            freeCachedBuffers();
+            THEMIS_WARN("CUDA cudaMalloc failed ({})", static_cast<int>(e));
+            return false;
+        }
+        cached_n_ = n;
+        return true;
+    }
 };
 
 #endif // THEMIS_ENABLE_CUDA
@@ -529,12 +564,44 @@ public:
             return cpu_fallback.batchIntersects(in);
         }
 
-        clSetKernelArg(kernel, 0, sizeof(cl_mem), &d_mbrs_a);
-        clSetKernelArg(kernel, 1, sizeof(cl_mem), &d_mbrs_b);
-        clSetKernelArg(kernel, 2, sizeof(cl_mem), &d_results);
-        clSetKernelArg(kernel, 3, sizeof(cl_int),  &n);
+        err = clSetKernelArg(kernel, 0, sizeof(cl_mem), &d_mbrs_a);
+        if (err != CL_SUCCESS) {
+            clReleaseKernel(kernel);
+            clReleaseMemObject(d_mbrs_a); clReleaseMemObject(d_mbrs_b);
+            clReleaseMemObject(d_results);
+            THEMIS_WARN("OpenCL clSetKernelArg failed for arg 0, falling back to CPU");
+            CpuParallelBackend cpu_fallback;
+            return cpu_fallback.batchIntersects(in);
+        }
+        err = clSetKernelArg(kernel, 1, sizeof(cl_mem), &d_mbrs_b);
+        if (err != CL_SUCCESS) {
+            clReleaseKernel(kernel);
+            clReleaseMemObject(d_mbrs_a); clReleaseMemObject(d_mbrs_b);
+            clReleaseMemObject(d_results);
+            THEMIS_WARN("OpenCL clSetKernelArg failed for arg 1, falling back to CPU");
+            CpuParallelBackend cpu_fallback;
+            return cpu_fallback.batchIntersects(in);
+        }
+        err = clSetKernelArg(kernel, 2, sizeof(cl_mem), &d_results);
+        if (err != CL_SUCCESS) {
+            clReleaseKernel(kernel);
+            clReleaseMemObject(d_mbrs_a); clReleaseMemObject(d_mbrs_b);
+            clReleaseMemObject(d_results);
+            THEMIS_WARN("OpenCL clSetKernelArg failed for arg 2, falling back to CPU");
+            CpuParallelBackend cpu_fallback;
+            return cpu_fallback.batchIntersects(in);
+        }
+        err = clSetKernelArg(kernel, 3, sizeof(cl_int), &n);
+        if (err != CL_SUCCESS) {
+            clReleaseKernel(kernel);
+            clReleaseMemObject(d_mbrs_a); clReleaseMemObject(d_mbrs_b);
+            clReleaseMemObject(d_results);
+            THEMIS_WARN("OpenCL clSetKernelArg failed for arg 3, falling back to CPU");
+            CpuParallelBackend cpu_fallback;
+            return cpu_fallback.batchIntersects(in);
+        }
 
-        // Enqueue NDRange kernel: one work-item per geometry pair.
+        // Phase 1: enqueue NDRange kernel — one work-item per geometry pair.
         const size_t global_work_size = static_cast<size_t>(n);
         err = clEnqueueNDRangeKernel(queue_, kernel, 1,
                                      nullptr, &global_work_size, nullptr,
@@ -555,6 +622,15 @@ public:
             THEMIS_WARN("OpenCL execution failed, falling back to CPU-parallel");
             CpuParallelBackend cpu_fallback;
             return cpu_fallback.batchIntersects(in);
+        }
+
+        // Phase 2: CPU exact verification for MBR-positive candidates.
+        // Eliminates false positives from the conservative MBR filter.
+        CpuParallelBackend cpu_exact;
+        for (int i = 0; i < n; ++i) {
+            if (out.mask[i]) {
+                out.mask[i] = cpu_exact.exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1u : 0u;
+            }
         }
 
         return out;
@@ -588,9 +664,12 @@ private:
             size_t log_sz = 0;
             clGetProgramBuildInfo(program_, device_, CL_PROGRAM_BUILD_LOG,
                                   0, nullptr, &log_sz);
-            std::string log(log_sz, '\0');
-            clGetProgramBuildInfo(program_, device_, CL_PROGRAM_BUILD_LOG,
-                                  log_sz, &log[0], nullptr);
+            std::string log;
+            if (log_sz > 0) {
+                log.assign(log_sz, '\0');
+                clGetProgramBuildInfo(program_, device_, CL_PROGRAM_BUILD_LOG,
+                                      log_sz, &log[0], nullptr);
+            }
             THEMIS_WARN("OpenCL kernel build failed: {}", log);
             clReleaseProgram(program_);
             program_ = nullptr;
@@ -699,11 +778,14 @@ public:
 };
 
 static void register_production_backend() {
-    g_production_backend = std::make_unique<ProductionGpuBackend>();
-    // Register in the global geo backend registry for runtime discoverability.
-    if (auto* reg = getGeoBackendRegistry()) {
-        reg->registerBackend(std::make_unique<ProductionGpuRegistryProxy>());
-    }
+    static std::once_flag s_once;
+    std::call_once(s_once, []() {
+        g_production_backend = std::make_unique<ProductionGpuBackend>();
+        // Register in the global geo backend registry for runtime discoverability.
+        if (auto* reg = getGeoBackendRegistry()) {
+            reg->registerBackend(std::make_unique<ProductionGpuRegistryProxy>());
+        }
+    });
 }
 
 // Auto-register on module load
