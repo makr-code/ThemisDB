@@ -177,6 +177,15 @@ public:
                             const std::string& reason,
                             const std::string& request_id = "");
 
+    /**
+     * @brief Emitted when background async re-evaluation revokes an active session.
+     *
+     * Resource path: "zero_trust/re_evaluation_failed"
+     */
+    void logZeroTrustReEvaluationFailed(const std::string& user_id,
+                                        const std::string& session_id,
+                                        const std::string& reason);
+
     // -----------------------------------------------------------------------
     // Anomaly detection events (brute-force, credential stuffing)
     // -----------------------------------------------------------------------

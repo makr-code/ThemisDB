@@ -232,6 +232,17 @@ void AuthAuditLogger::logZeroTrustDenied(const std::string& user_id,
          "zero_trust/" + resource, d);
 }
 
+void AuthAuditLogger::logZeroTrustReEvaluationFailed(const std::string& user_id,
+                                                      const std::string& session_id,
+                                                      const std::string& reason)
+{
+    nlohmann::json d;
+    d["reason"]     = reason;
+    d["session_id"] = session_id;
+    emit(utils::SecurityEventType::TOKEN_REVOKED, user_id,
+         "zero_trust/re_evaluation_failed", d);
+}
+
 // ---------------------------------------------------------------------------
 // Anomaly detection events (brute-force, credential stuffing)
 // ---------------------------------------------------------------------------
