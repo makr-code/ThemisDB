@@ -49,6 +49,7 @@
 
 #include "auth/jwt_validator.h"
 #include "auth/token_blacklist.h"
+#include "utils/logger.h"
 
 using namespace themis::auth;
 
@@ -277,6 +278,25 @@ TEST_F(JtiRevocationTest, TokenWithNoJtiAcceptedEvenWhenBlacklistAttached) {
     // Token has no jti claim – should be accepted (no jti = no check)
     auto token = makeES256Token(key_, "ec1", {});
     EXPECT_NO_THROW(val_->parseAndValidate(token));
+}
+
+TEST_F(JtiRevocationTest, BlacklistAttachedAndNoJtiEmitsWarningOnce) {
+    val_->setTokenBlacklist(&blacklist_);
+    auto token = makeES256Token(key_, "ec1", {});
+
+    // Use warn_count deltas to avoid perturbing global metrics shared across tests.
+    // The warning must fire exactly once per validator lifecycle (deduplication).
+    auto before_first = themis::utils::Logger::getMetrics().snapshot();
+    EXPECT_NO_THROW(val_->parseAndValidate(token));
+    auto after_first = themis::utils::Logger::getMetrics().snapshot();
+    EXPECT_EQ(after_first.warn_count - before_first.warn_count, 1u)
+        << "Expected exactly one warning on first no-jti token";
+
+    // Second call: warn_count must NOT increase further (deduplication)
+    EXPECT_NO_THROW(val_->parseAndValidate(token));
+    auto after_second = themis::utils::Logger::getMetrics().snapshot();
+    EXPECT_EQ(after_second.warn_count, after_first.warn_count)
+        << "Warning should be suppressed on subsequent no-jti tokens";
 }
 
 TEST_F(JtiRevocationTest, DetachingBlacklistStopsRevocationCheck) {

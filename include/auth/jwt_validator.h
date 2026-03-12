@@ -32,6 +32,7 @@
 #include <optional>
 #include <memory>
 #include <shared_mutex>
+#include <atomic>
 
 #include "auth/token_blacklist.h"
 
@@ -199,6 +200,7 @@ private:
     std::vector<std::string> revoked_kids_runtime_;  // Runtime revocation list
     TokenBlacklist* token_blacklist_ = nullptr;      // Optional JTI-based revocation
     utils::AuditLogger* audit_logger_ = nullptr;     // Optional audit logger (non-owning)
+    mutable std::atomic<bool> warned_blacklist_no_jti_{false};  // Warn once when blacklist set but token has no jti
 };
 
 } // namespace auth

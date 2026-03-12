@@ -489,8 +489,9 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     if (cfg_.require_jti && claims.jti.empty()) {
         utils::Logger::warn("JWT validation failed: Missing required jti claim");
         if (audit_logger_) {
+            // Use empty subject: token is not yet signature-verified so claims.sub is untrusted
             audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
-                claims.sub, "jwt/token", {{"reason", "missing_jti"}});
+                "", "jwt/token", {{"reason", "missing_jti"}});
         }
         throw std::runtime_error("Missing required jti claim");
     }
@@ -611,7 +612,11 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     }
     // Per-token revocation check: reject if the JTI is in the blacklist
     if (token_blacklist_ && claims.jti.empty()) {
-        utils::Logger::warn("JWT has no jti; per-token revocation impossible for this token");
+        // Warn once per validator lifecycle to avoid per-request log flooding
+        bool already_warned = warned_blacklist_no_jti_.exchange(true, std::memory_order_relaxed);
+        if (!already_warned) {
+            utils::Logger::warn("JWT has no jti; per-token revocation impossible for this token");
+        }
     }
     if (token_blacklist_ && !claims.jti.empty() && token_blacklist_->isRevoked(claims.jti)) {
         utils::Logger::warn("JWT validation failed: Token revoked (jti: " + claims.jti + ")");
