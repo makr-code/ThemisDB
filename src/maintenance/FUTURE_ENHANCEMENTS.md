@@ -11,7 +11,7 @@ Centralized database maintenance orchestration (`database_maintenance_orchestrat
 
 ## Design Constraints
 
-- `[ ]` Schedules must survive server restarts — in-memory-only schedules are explicitly documented as a known limitation in `ROADMAP.md`.
+- `[x]` Schedules must survive server restarts — in-memory-only schedules are explicitly documented as a known limitation in `ROADMAP.md`.
 - `[ ]` `schedules_mutex_` is held exclusively for all read operations (`listSchedules`, `getSchedule`) — upgrade to `shared_mutex` to reduce read contention.
 - `[ ]` `halt_on_task_failure` semantics must be preserved: a failed task stops execution of subsequent tasks in the same run; parallel task execution must not be introduced without preserving this contract.
 - `[ ]` All admin operations (`DELETE`, `PATCH`, `POST/run`) must be atomic with respect to the running cron job; no partial state must be visible to concurrent readers.
@@ -40,11 +40,11 @@ Centralized database maintenance orchestration (`database_maintenance_orchestrat
 Schedules are currently in-memory (`std::unordered_map<std::string, MaintenanceScheduleEntry> schedules_`). They are lost on every server restart. Operators must re-create all schedules after each deployment.
 
 **Implementation Notes:**
-- `[ ]` Add a `MaintenanceScheduleStore` class wrapping the existing `StorageEngine` API; key format: `maint_sched::{id}` (UTF-8 JSON value).
-- `[ ]` In `DatabaseMaintenanceOrchestrator::start()`, call `MaintenanceScheduleStore::loadAll()` and populate `schedules_` before registering cron jobs.
-- `[ ]` In `createSchedule`, `updateSchedule`, `patchSchedule`, `deleteSchedule` — persist the change to RocksDB inside the `schedules_mutex_` critical section (write-through).
-- `[ ]` Corrupt schedule JSON on load: log `WARN` and skip that entry; all valid entries must be loaded.
-- `[ ]` Add a restart-persistence integration test: create 3 schedules, restart the orchestrator, verify all 3 are present.
+- `[x]` Add a `MaintenanceScheduleStore` class wrapping the existing `StorageEngine` API; key format: `maint_sched::{id}` (UTF-8 JSON value).
+- `[x]` In `DatabaseMaintenanceOrchestrator::start()`, call `MaintenanceScheduleStore::loadAll()` and populate `schedules_` before registering cron jobs.
+- `[x]` In `createSchedule`, `updateSchedule`, `patchSchedule`, `deleteSchedule` — persist the change to RocksDB inside the `schedules_mutex_` critical section (write-through).
+- `[x]` Corrupt schedule JSON on load: log `WARN` and skip that entry; all valid entries must be loaded.
+- `[x]` Add a restart-persistence integration test: create 3 schedules, restart the orchestrator, verify all 3 are present.
 
 **Performance Targets:**
 - `loadAll()` at startup: ≤ 100 ms for 10 000 stored schedules.
