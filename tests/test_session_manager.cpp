@@ -456,3 +456,53 @@ TEST_F(SessionApiHandlerTest, Constructor_NullManagerThrows) {
         SessionApiHandler(auth_, nullptr),
         std::invalid_argument);
 }
+
+// ===========================================================================
+// Session ID hashing security tests
+// ===========================================================================
+
+/**
+ * @brief Verify that validateSession returns the correct session after creation.
+ *
+ * This tests functional correctness of the lookup path; the internal storage
+ * format (hash-keyed map) is an encapsulated implementation detail.
+ */
+TEST(SessionManagerHashTest, ValidateSession_WorksAfterHashedStorage) {
+    SessionManager mgr;
+    std::string sid = mgr.createSession("alice", "fp", "1.2.3.4", "agent");
+
+    // Validation of the raw token must succeed (implementation hashes internally).
+    auto result = mgr.validateSession(sid);
+    EXPECT_TRUE(result.valid);
+    EXPECT_TRUE(result.session.has_value());
+    EXPECT_EQ(result.session->user_id, "alice");
+}
+
+/**
+ * @brief Verify that terminateSession works when the map is keyed by hash.
+ */
+TEST(SessionManagerHashTest, TerminateSession_WorksAfterHashedStorage) {
+    SessionManager mgr;
+    std::string sid = mgr.createSession("bob", "fp", "1.2.3.4", "agent");
+
+    mgr.terminateSession(sid);
+    auto result = mgr.validateSession(sid);
+    EXPECT_FALSE(result.valid);
+}
+
+/**
+ * @brief Verify that terminateAllOtherSessions keeps only the specified session.
+ */
+TEST(SessionManagerHashTest, TerminateAllOtherSessions_KeepsCorrectSession) {
+    SessionManager mgr;
+    std::string s1 = mgr.createSession("carol", "fp1", "1.1.1.1", "a");
+    std::string s2 = mgr.createSession("carol", "fp2", "1.1.1.2", "b");
+    std::string s3 = mgr.createSession("carol", "fp3", "1.1.1.3", "c");
+
+    int removed = mgr.terminateAllOtherSessions("carol", s2);
+    EXPECT_EQ(removed, 2);
+
+    EXPECT_FALSE(mgr.validateSession(s1).valid);
+    EXPECT_TRUE(mgr.validateSession(s2).valid);
+    EXPECT_FALSE(mgr.validateSession(s3).valid);
+}
