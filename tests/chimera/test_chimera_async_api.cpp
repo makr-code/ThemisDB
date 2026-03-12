@@ -336,6 +336,52 @@ TEST_F(AsyncAdapterTest, CancelAsyncTokenCleanedUpAfterCompletion) {
     EXPECT_EQ(cancel_result.error_code, ErrorCode::NOT_FOUND);
 }
 
+TEST_F(AsyncAdapterTest, DuplicateOperationIdReturnsAlreadyExists) {
+    // Launching two operations with the same operation_id while the first is
+    // still in flight must be rejected with ALREADY_EXISTS for the second.
+    // We use a large batch to keep the first operation alive long enough.
+    auto rows = make_rows(2000);
+    AsyncQueryOptions opts;
+    opts.operation_id = "dup-op-id";
+
+    auto first = adapter.batch_insert_async("dup_table_1", rows, nullptr, opts);
+    ASSERT_TRUE(first.valid());
+
+    // Attempt to launch a second operation with the same id immediately.
+    auto second = adapter.batch_insert_async("dup_table_2", rows, nullptr, opts);
+    ASSERT_TRUE(second.valid());
+
+    // The second future must resolve with ALREADY_EXISTS without waiting on
+    // the first.
+    auto second_result = second.get();
+    EXPECT_TRUE(second_result.is_err());
+    EXPECT_EQ(second_result.error_code, ErrorCode::ALREADY_EXISTS);
+
+    // The first must still succeed.
+    auto first_result = first.get();
+    EXPECT_TRUE(first_result.is_ok()) << first_result.error_message;
+}
+
+TEST_F(AsyncAdapterTest, DuplicateOperationIdQueryReturnsAlreadyExists) {
+    // Same check for execute_query_async.
+    AsyncQueryOptions opts;
+    opts.operation_id = "dup-query-op";
+
+    auto rows = make_rows(2000);
+    // Keep a batch running to hold the token
+    auto busy = adapter.batch_insert_async("dup_busy_table", rows, nullptr, opts);
+    ASSERT_TRUE(busy.valid());
+
+    // A second async query with the same id should be rejected immediately.
+    auto dup = adapter.execute_query_async("SELECT 1", {}, opts);
+    ASSERT_TRUE(dup.valid());
+    auto dup_result = dup.get();
+    EXPECT_TRUE(dup_result.is_err());
+    EXPECT_EQ(dup_result.error_code, ErrorCode::ALREADY_EXISTS);
+
+    busy.get(); // drain
+}
+
 // ---------------------------------------------------------------------------
 // IAsyncDatabaseAdapter pointer-based usage
 // ---------------------------------------------------------------------------

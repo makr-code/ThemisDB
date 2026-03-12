@@ -989,17 +989,37 @@ public:
  * @struct AsyncQueryOptions
  * @brief Configuration options for asynchronous database operations
  *
- * @details Controls timeout, cancellation token, and priority for
- *          operations launched through IAsyncDatabaseAdapter.
+ * @details Controls per-operation identity, timeout hints, and scheduling
+ *          priority hints for operations launched through IAsyncDatabaseAdapter.
+ *
+ * **Note on timeout and priority:**
+ * These fields are *scheduling hints* intended for production adapter
+ * implementations backed by real network drivers (e.g. HTTP connection pools
+ * with per-request deadline propagation).  The in-process simulation adapter
+ * (`ThemisDBAdapter`) does not enforce them — `timeout` is stored but not
+ * applied to the `std::async` worker, and `priority` is reserved for future
+ * use.  Callers that rely on hard deadlines should enforce them externally
+ * (e.g. with `std::future::wait_for`).
  */
 struct AsyncQueryOptions {
-    /// Maximum time to wait for the operation to complete. std::nullopt means no limit.
+    /**
+     * @brief Maximum wall-clock time allowed for the operation.
+     *
+     * `std::nullopt` means no limit.  Production drivers that support request
+     * timeouts will propagate this value to the underlying network call.
+     * The simulation adapter ignores this field.
+     */
     std::optional<std::chrono::milliseconds> timeout;
 
     /// Human-readable tag used to identify the operation for cancellation and logging.
     std::string operation_id;
 
-    /// Scheduling priority hint (higher value = higher priority, implementation-defined).
+    /**
+     * @brief Scheduling priority hint (higher = higher priority).
+     *
+     * Interpretation is implementation-defined.  The simulation adapter
+     * does not alter thread scheduling based on this value.
+     */
     int priority = 0;
 };
 
