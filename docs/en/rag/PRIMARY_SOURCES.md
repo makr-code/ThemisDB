@@ -5,10 +5,13 @@
 - `include/rag/FUTURE_ENHANCEMENTS.md`
 - `include/rag/README.md`
 - `src/rag/ARCHITECTURE.md`
+- `src/rag/AUDIT.md`
+- `src/rag/CHANGELOG.md`
 - `src/rag/FUTURE_ENHANCEMENTS.md`
 - `src/rag/QUALITY_CONTROL_README.md`
 - `src/rag/README.md`
 - `src/rag/ROADMAP.md`
+- `src/rag/SECURITY.md`
 
 **Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -27,10 +30,13 @@ This index lists all Markdown documentation files for module **`rag`** from the 
 | File | Path |
 |------|------|
 | `ARCHITECTURE.md` | [`src/rag/ARCHITECTURE.md`](../../../src/rag/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/rag/AUDIT.md`](../../../src/rag/AUDIT.md) |
+| `CHANGELOG.md` | [`src/rag/CHANGELOG.md`](../../../src/rag/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/rag/FUTURE_ENHANCEMENTS.md`](../../../src/rag/FUTURE_ENHANCEMENTS.md) |
 | `QUALITY_CONTROL_README.md` | [`src/rag/QUALITY_CONTROL_README.md`](../../../src/rag/QUALITY_CONTROL_README.md) |
 | `README.md` | [`src/rag/README.md`](../../../src/rag/README.md) |
 | `ROADMAP.md` | [`src/rag/ROADMAP.md`](../../../src/rag/ROADMAP.md) |
+| `SECURITY.md` | [`src/rag/SECURITY.md`](../../../src/rag/SECURITY.md) |
 
 ### `include/rag/`
 

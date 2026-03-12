@@ -44,10 +44,14 @@ namespace themis {
 // Forward declarations – keeps the orchestrator header dependency-light.
 class TaskScheduler;
 class IndexMaintenanceManager;
+class IStorageEngine;
 
 namespace utils { class AuditLogger; }
 
 namespace maintenance {
+
+// Forward declaration – avoids pulling in storage headers transitively.
+class MaintenanceScheduleStore;
 
 // ---------------------------------------------------------------------------
 // Callback type for module health probes
@@ -101,11 +105,17 @@ public:
      *                          May be nullptr; index operations will return
      *                          an error in that case.
      * @param audit_logger      Optional audit logger.  May be nullptr.
+     * @param storage           Optional storage engine for schedule persistence
+     *                          (RocksDB via StorageEngine).  When non-null,
+     *                          schedules are written through on every CRUD
+     *                          mutation and reloaded on start().  May be nullptr
+     *                          for in-memory-only operation (e.g., in tests).
      */
     explicit DatabaseMaintenanceOrchestrator(
         TaskScheduler*                           scheduler,
         std::shared_ptr<IndexMaintenanceManager> index_maintenance = nullptr,
-        std::shared_ptr<utils::AuditLogger>      audit_logger      = nullptr);
+        std::shared_ptr<utils::AuditLogger>      audit_logger      = nullptr,
+        IStorageEngine*                          storage           = nullptr);
 
     ~DatabaseMaintenanceOrchestrator();
 
@@ -216,9 +226,14 @@ public:
      * a background thread.
      *
      * @param schedule_id  ID of the schedule to run now.
+     * @param force        When true, bypass the UTC maintenance window check.
+     *                     Requires `maintenance:admin` scope at the API layer.
+     *                     The resulting job has `forced=true` and the audit log
+     *                     entry carries `"forced": true`.
      * @return Result with the newly created job (in RUNNING state) or error.
      */
-    Result<OrchestratorJob> triggerNow(const std::string& schedule_id);
+    Result<OrchestratorJob> triggerNow(const std::string& schedule_id,
+                                       bool force = false);
 
     /**
      * @brief Cancel a running job.
@@ -288,7 +303,8 @@ private:
     void deregisterFromScheduler(const std::string& schedule_id);
     std::string schedulerTaskId(const std::string& schedule_id) const;
 
-    void executeSchedule(const std::string& schedule_id, const std::string& job_id);
+    void executeSchedule(const std::string& schedule_id, const std::string& job_id,
+                         bool force = false);
     void executeTask(MaintenanceTaskType task_type,
                      OrchestratorJob& job);
 
@@ -300,6 +316,9 @@ private:
     TaskScheduler*                           scheduler_;
     std::shared_ptr<IndexMaintenanceManager> index_maintenance_;
     std::shared_ptr<utils::AuditLogger>      audit_logger_;
+
+    // Optional durable store (nullptr → in-memory only)
+    std::unique_ptr<MaintenanceScheduleStore> schedule_store_;
 
     // Persisted schedules
     mutable std::mutex                                       schedules_mutex_;

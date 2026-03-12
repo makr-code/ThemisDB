@@ -5,9 +5,12 @@
 - `include/security/FUTURE_ENHANCEMENTS.md`
 - `include/security/README.md`
 - `src/security/ARCHITECTURE.md`
+- `src/security/AUDIT.md`
+- `src/security/CHANGELOG.md`
 - `src/security/FUTURE_ENHANCEMENTS.md`
 - `src/security/README.md`
 - `src/security/ROADMAP.md`
+- `src/security/SECURITY.md`
 
 **Bezug / Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -26,9 +29,12 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`security`*
 | Datei | Pfad |
 |-------|------|
 | `ARCHITECTURE.md` | [`src/security/ARCHITECTURE.md`](../../../src/security/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/security/AUDIT.md`](../../../src/security/AUDIT.md) |
+| `CHANGELOG.md` | [`src/security/CHANGELOG.md`](../../../src/security/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/security/FUTURE_ENHANCEMENTS.md`](../../../src/security/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/security/README.md`](../../../src/security/README.md) |
 | `ROADMAP.md` | [`src/security/ROADMAP.md`](../../../src/security/ROADMAP.md) |
+| `SECURITY.md` | [`src/security/SECURITY.md`](../../../src/security/SECURITY.md) |
 
 ### `include/security/`
 

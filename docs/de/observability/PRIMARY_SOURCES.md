@@ -5,9 +5,12 @@
 - `include/observability/FUTURE_ENHANCEMENTS.md`
 - `include/observability/README.md`
 - `src/observability/ARCHITECTURE.md`
+- `src/observability/AUDIT.md`
+- `src/observability/CHANGELOG.md`
 - `src/observability/FUTURE_ENHANCEMENTS.md`
 - `src/observability/README.md`
 - `src/observability/ROADMAP.md`
+- `src/observability/SECURITY.md`
 
 **Bezug / Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -26,9 +29,12 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`observabil
 | Datei | Pfad |
 |-------|------|
 | `ARCHITECTURE.md` | [`src/observability/ARCHITECTURE.md`](../../../src/observability/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/observability/AUDIT.md`](../../../src/observability/AUDIT.md) |
+| `CHANGELOG.md` | [`src/observability/CHANGELOG.md`](../../../src/observability/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/observability/FUTURE_ENHANCEMENTS.md`](../../../src/observability/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/observability/README.md`](../../../src/observability/README.md) |
 | `ROADMAP.md` | [`src/observability/ROADMAP.md`](../../../src/observability/ROADMAP.md) |
+| `SECURITY.md` | [`src/observability/SECURITY.md`](../../../src/observability/SECURITY.md) |
 
 ### `include/observability/`
 

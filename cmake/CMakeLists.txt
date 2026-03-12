@@ -1867,7 +1867,7 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/grpc_channel_pool.cpp
     ../src/utils/thread_pool_manager.cpp
     ../src/themis/build_info.cpp
-    ../src/utils/license_info.cpp
+    ../src/themis/license_info.cpp
     ../src/utils/runtime_license_gate.cpp
     ../src/utils/error_registry.cpp
     ../src/utils/memory/pool_allocator.cpp
@@ -2241,6 +2241,15 @@ set(THEMIS_CORE_SOURCES
     ../src/importers/postgres_importer_mdm.cpp
     ../src/aql/llm_metrics_collector.cpp
     ../src/aql/aql_syntax_highlighter.cpp
+
+    # Process Modeling Module (BPMN/EPK/VCC-VPB + Graph-RAG for Verwaltungsvorgänge)
+    ../src/process/process_model_manager.cpp
+    ../src/process/bpmn_serializer.cpp
+    ../src/process/epk_serializer.cpp
+    ../src/process/llm_process_descriptor.cpp
+    ../src/process/vcc_vpb_importer.cpp
+    ../src/process/process_linker.cpp
+    ../src/process/process_graph_rag.cpp
 
     # OLAP Analytics
     ../src/analytics/olap.cpp

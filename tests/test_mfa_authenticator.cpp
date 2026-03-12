@@ -305,3 +305,77 @@ TEST(MFAAuthenticatorTest, MultipleUsers_DifferentSecrets) {
     EXPECT_NE(enrollment1.secret_base32, enrollment3.secret_base32);
     EXPECT_NE(enrollment2.secret_base32, enrollment3.secret_base32);
 }
+
+// ===========================================================================
+// Constant-time comparison microbenchmark (opt-in)
+// ===========================================================================
+
+/**
+ * @brief Verify that recovery-code validation latency does not vary by more
+ *        than 100 µs based on the match position within a 10-code list.
+ *
+ * This test measures wall-clock timing and is therefore sensitive to CPU
+ * frequency scaling, scheduler jitter, sanitizer overhead, and CI load.
+ * It is opt-in: set the environment variable THEMIS_RUN_PERF_TESTS=1 to
+ * enable it.  In production builds on dedicated hardware the implementation
+ * targets < 100 ns variance; the 100 µs gate here accommodates sanitizer and
+ * CI overhead while still detecting gross regressions.
+ *
+ * The implementation always iterates all codes (constant-time linear scan), so
+ * the median latency for matching code[0] vs code[9] must be within the CI
+ * tolerance.
+ */
+TEST(MFAAuthenticatorTest, RecoveryCode_ConstantTimeByPosition) {
+    const char* run_perf = std::getenv("THEMIS_RUN_PERF_TESTS");
+    if (!run_perf || std::string(run_perf) != "1") {
+        GTEST_SKIP() << "Skipping timing microbenchmark "
+                        "(set THEMIS_RUN_PERF_TESTS=1 to enable)";
+    }
+
+    MFAAuthenticator::Config config;
+    config.recovery_codes_count = 10;
+    MFAAuthenticator mfa(config);
+
+    const int iterations = 200;
+    const int64_t tolerance_ns = 100000; // 100 µs – CI-safe gate
+
+    // Collect median latency for first vs last code position.
+    std::vector<int64_t> first_ns, last_ns;
+    first_ns.reserve(iterations);
+    last_ns.reserve(iterations);
+
+    for (int iter = 0; iter < iterations; ++iter) {
+        // Fresh enrollment per iteration so codes are not consumed.
+        auto enrollment_first = mfa.generateEnrollment("bench_user");
+        std::string code_first = enrollment_first.recovery_codes[0];
+
+        auto t0 = std::chrono::steady_clock::now();
+        bool ok_first = mfa.validateRecoveryCode(enrollment_first, code_first);
+        auto t1 = std::chrono::steady_clock::now();
+        ASSERT_TRUE(ok_first);
+        first_ns.push_back(
+            std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count());
+
+        auto enrollment_last = mfa.generateEnrollment("bench_user");
+        std::string code_last = enrollment_last.recovery_codes[9];
+
+        auto t2 = std::chrono::steady_clock::now();
+        bool ok_last = mfa.validateRecoveryCode(enrollment_last, code_last);
+        auto t3 = std::chrono::steady_clock::now();
+        ASSERT_TRUE(ok_last);
+        last_ns.push_back(
+            std::chrono::duration_cast<std::chrono::nanoseconds>(t3 - t2).count());
+    }
+
+    // Compare medians to avoid outlier sensitivity.
+    std::sort(first_ns.begin(), first_ns.end());
+    std::sort(last_ns.begin(), last_ns.end());
+    int64_t median_first = first_ns[iterations / 2];
+    int64_t median_last  = last_ns[iterations / 2];
+    int64_t diff = std::abs(median_last - median_first);
+
+    EXPECT_LT(diff, tolerance_ns)
+        << "Median latency difference between first and last code position ("
+        << diff << " ns) exceeds CI tolerance (" << tolerance_ns << " ns). "
+        << "Recovery-code lookup must be constant-time regardless of match position.";
+}

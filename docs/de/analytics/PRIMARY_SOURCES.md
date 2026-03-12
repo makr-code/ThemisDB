@@ -5,9 +5,12 @@
 - `include/analytics/FUTURE_ENHANCEMENTS.md`
 - `include/analytics/README.md`
 - `src/analytics/ARCHITECTURE.md`
+- `src/analytics/AUDIT.md`
+- `src/analytics/CHANGELOG.md`
 - `src/analytics/FUTURE_ENHANCEMENTS.md`
 - `src/analytics/README.md`
 - `src/analytics/ROADMAP.md`
+- `src/analytics/SECURITY.md`
 
 **Bezug / Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -26,9 +29,12 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`analytics`
 | Datei | Pfad |
 |-------|------|
 | `ARCHITECTURE.md` | [`src/analytics/ARCHITECTURE.md`](../../../src/analytics/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/analytics/AUDIT.md`](../../../src/analytics/AUDIT.md) |
+| `CHANGELOG.md` | [`src/analytics/CHANGELOG.md`](../../../src/analytics/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/analytics/FUTURE_ENHANCEMENTS.md`](../../../src/analytics/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/analytics/README.md`](../../../src/analytics/README.md) |
 | `ROADMAP.md` | [`src/analytics/ROADMAP.md`](../../../src/analytics/ROADMAP.md) |
+| `SECURITY.md` | [`src/analytics/SECURITY.md`](../../../src/analytics/SECURITY.md) |
 
 ### `include/analytics/`
 

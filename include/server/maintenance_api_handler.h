@@ -79,8 +79,14 @@ public:
     /** POST /api/v1/maintenance/jobs/{id}/cancel */
     nlohmann::json cancelJob(const std::string& id);
 
-    /** POST /api/v1/maintenance/schedules/{id}/run */
-    nlohmann::json triggerNow(const std::string& schedule_id);
+    /** POST /api/v1/maintenance/schedules/{id}/run
+     *
+     *  Optional body: { "force": true }
+     *  When force=true the maintenance window check is bypassed.
+     *  Requires maintenance:admin scope; regular (non-forced) trigger
+     *  requires only maintenance:write (enforced at the HTTP layer).
+     */
+    nlohmann::json triggerNow(const std::string& schedule_id, bool force = false);
 
     // ---- Observability -------------------------------------------------------
 

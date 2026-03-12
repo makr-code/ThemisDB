@@ -3,11 +3,12 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — Transaction-time tracking, time-travel queries (`AS OF`, `FROM...TO`, `BETWEEN...AND`), HLC-based conflict resolution, bitemporal joins, and SEQUENCED/NON-SEQUENCED query semantics are fully operational. SQL `PERIOD FOR` DDL syntax is not yet supported.
+**Beta** — Transaction-time tracking, time-travel queries (`AS OF`, `FROM...TO`, `BETWEEN...AND`), HLC-based conflict resolution, bitemporal joins, and SEQUENCED/NON-SEQUENCED query semantics are fully operational. `SystemVersionedTable::Config`, `createVersionedTable`, `upsert`, and `enforceRetentionPolicy` are now available (v1.1.0). SQL `PERIOD FOR` DDL syntax is not yet supported.
 
 ## Completed ✅
 - [x] HLC-based temporal conflict resolver with multiple policies (last-write-wins, first-write-wins, node-priority, manual, CRDT-merge) (`temporal_conflict_resolver.cpp`)
 - [x] System-versioned table: automatic transaction-time versioning, non-destructive updates (`system_versioned_table.cpp`)
+- [x] **Full System-Versioned Table Support (v1.1.0):** `Config` struct (retention_period, compress_history, track_user_id, history_table_name), `createVersionedTable` DDL factory, `upsert`, `enforceRetentionPolicy`, user-attribution tracking (`system_versioned_table.cpp`)
 - [x] Bi-temporal table: system time + valid time axes, valid-time overlap detection, full-table bi-temporal scan (`bi_temporal.cpp`)
 - [x] Time-travel query engine: `AS OF`, `FROM...TO`, `BETWEEN...AND` queries with row filters (`temporal_query_engine.cpp`)
 - [x] Period-based temporal index: B-tree on `(sys_start, sys_end)` for efficient range lookups (`temporal_index.cpp`)
@@ -48,6 +49,7 @@
 
 ### Phase 2: Full Temporal Data Model (Status: Completed ✅)
 - [x] `SystemVersionedTable`: insert, update (close old / open new version), delete, `scan(as_of)`, `getHistoryInRange()`, `getAllKeys()` (`system_versioned_table.cpp`)
+- [x] `SystemVersionedTable::Config`: `history_table_name`, `compress_history`, `retention_period`, `track_user_id`; constructors + `createVersionedTable` DDL factory; `upsert`; `enforceRetentionPolicy`; `getConfig`; `getStatistics` extended with config fields (`system_versioned_table.cpp`, v1.1.0)
 - [x] `BiTemporalTable`: valid-time period management, overlap rejection on insert, bitemporal scan (`bi_temporal.cpp`); new: `scanBiTemporal(sys_as_of, valid_at)`, `getAllKeys()`
 - [x] `TemporalIndex`: period B-tree index with `insert`, `queryAsOf`, `queryRange`, `stats` (`temporal_index.cpp`)
 - [x] `TemporalQueryEngine`: `queryAsOf`, `queryFromTo`, `queryBetween` with composable row filters (`temporal_query_engine.cpp`)

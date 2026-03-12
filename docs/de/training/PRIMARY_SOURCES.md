@@ -4,9 +4,12 @@
 **Primary (Quelle der Wahrheit):**
 - `include/training/FUTURE_ENHANCEMENTS.md`
 - `src/training/ARCHITECTURE.md`
+- `src/training/AUDIT.md`
+- `src/training/CHANGELOG.md`
 - `src/training/FUTURE_ENHANCEMENTS.md`
 - `src/training/README.md`
 - `src/training/ROADMAP.md`
+- `src/training/SECURITY.md`
 
 **Bezug / Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -25,9 +28,12 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`training`*
 | Datei | Pfad |
 |-------|------|
 | `ARCHITECTURE.md` | [`src/training/ARCHITECTURE.md`](../../../src/training/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/training/AUDIT.md`](../../../src/training/AUDIT.md) |
+| `CHANGELOG.md` | [`src/training/CHANGELOG.md`](../../../src/training/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/training/FUTURE_ENHANCEMENTS.md`](../../../src/training/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/training/README.md`](../../../src/training/README.md) |
 | `ROADMAP.md` | [`src/training/ROADMAP.md`](../../../src/training/ROADMAP.md) |
+| `SECURITY.md` | [`src/training/SECURITY.md`](../../../src/training/SECURITY.md) |
 
 ### `include/training/`
 

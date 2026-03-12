@@ -5,9 +5,12 @@
 - `include/search/FUTURE_ENHANCEMENTS.md`
 - `include/search/README.md`
 - `src/search/ARCHITECTURE.md`
+- `src/search/AUDIT.md`
+- `src/search/CHANGELOG.md`
 - `src/search/FUTURE_ENHANCEMENTS.md`
 - `src/search/README.md`
 - `src/search/ROADMAP.md`
+- `src/search/SECURITY.md`
 
 **Bezug / Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -26,9 +29,12 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`search`** 
 | Datei | Pfad |
 |-------|------|
 | `ARCHITECTURE.md` | [`src/search/ARCHITECTURE.md`](../../../src/search/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/search/AUDIT.md`](../../../src/search/AUDIT.md) |
+| `CHANGELOG.md` | [`src/search/CHANGELOG.md`](../../../src/search/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/search/FUTURE_ENHANCEMENTS.md`](../../../src/search/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/search/README.md`](../../../src/search/README.md) |
 | `ROADMAP.md` | [`src/search/ROADMAP.md`](../../../src/search/ROADMAP.md) |
+| `SECURITY.md` | [`src/search/SECURITY.md`](../../../src/search/SECURITY.md) |
 
 ### `include/search/`
 

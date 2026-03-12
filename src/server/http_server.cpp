@@ -5454,10 +5454,42 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
 
         case Route::MaintenanceScheduleRunPost: {
-            if (auto auth_err = requireAccess(req, "maintenance:admin",
+            // Step 1: baseline auth – all callers need at least maintenance:write.
+            if (auto auth_err = requireAccess(req, "maintenance:write",
                                               "maintenance.schedules.run",
                                               "/api/v1/maintenance/schedules")) {
                 response = *auth_err; break;
+            }
+            // Step 2: parse and validate the optional body.
+            //   - Invalid JSON  → 400
+            //   - "force" not a boolean → 400
+            bool force_run = false;
+            {
+                const auto& body_str = req.body();
+                if (!body_str.empty()) {
+                    auto body = nlohmann::json::parse(body_str, nullptr, false);
+                    if (body.is_discarded()) {
+                        response = makeErrorResponse(http::status::bad_request,
+                                                     "Invalid JSON body", req);
+                        break;
+                    }
+                    if (body.is_object() && body.contains("force")) {
+                        if (!body["force"].is_boolean()) {
+                            response = makeErrorResponse(http::status::bad_request,
+                                                         "\"force\" must be a boolean", req);
+                            break;
+                        }
+                        force_run = body["force"].get<bool>();
+                    }
+                }
+            }
+            // Step 3: force=true requires elevated maintenance:admin scope.
+            if (force_run) {
+                if (auto auth_err = requireAccess(req, "maintenance:admin",
+                                                  "maintenance.schedules.run.force",
+                                                  "/api/v1/maintenance/schedules")) {
+                    response = *auth_err; break;
+                }
             }
             {
                 static constexpr std::string_view kPfx{"/api/v1/maintenance/schedules/"};
@@ -5470,7 +5502,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                                                  "Maintenance orchestrator not initialized", req);
                     break;
                 }
-                auto result = maintenance_api_->triggerNow(id);
+                auto result = maintenance_api_->triggerNow(id, force_run);
                 if (result.value("status", "") == "error") {
                     response = makeErrorResponse(http::status::not_found,
                                                  result.value("error", "Not found"), req);

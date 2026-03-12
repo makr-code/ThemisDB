@@ -3,9 +3,12 @@
 **Status:** draft  
 **Primary Source:**
 - `src/gpu/ARCHITECTURE.md`
+- `src/gpu/AUDIT.md`
+- `src/gpu/CHANGELOG.md`
 - `src/gpu/FUTURE_ENHANCEMENTS.md`
 - `src/gpu/README.md`
 - `src/gpu/ROADMAP.md`
+- `src/gpu/SECURITY.md`
 
 **Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -24,9 +27,12 @@ This index lists all Markdown documentation files for module **`gpu`** from the 
 | File | Path |
 |------|------|
 | `ARCHITECTURE.md` | [`src/gpu/ARCHITECTURE.md`](../../../src/gpu/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/gpu/AUDIT.md`](../../../src/gpu/AUDIT.md) |
+| `CHANGELOG.md` | [`src/gpu/CHANGELOG.md`](../../../src/gpu/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/gpu/FUTURE_ENHANCEMENTS.md`](../../../src/gpu/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/gpu/README.md`](../../../src/gpu/README.md) |
 | `ROADMAP.md` | [`src/gpu/ROADMAP.md`](../../../src/gpu/ROADMAP.md) |
+| `SECURITY.md` | [`src/gpu/SECURITY.md`](../../../src/gpu/SECURITY.md) |
 
 ---
 

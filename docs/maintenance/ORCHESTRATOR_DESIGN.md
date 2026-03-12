@@ -159,7 +159,8 @@ mechanism:
 | Read status/health/list | `maintenance:read` |
 | Create/update/delete/patch schedule | `maintenance:write` |
 | Cancel job | `maintenance:write` |
-| Trigger immediate run | `maintenance:admin` |
+| Trigger immediate run (within window) | `maintenance:write` |
+| Trigger immediate run with `force: true` (bypass window) | `maintenance:admin` |
 
 ## Job States
 
@@ -345,7 +346,8 @@ mechanism:
 | Read status/health/list | `maintenance:read` |
 | Create/update/delete/patch schedule | `maintenance:write` |
 | Cancel job | `maintenance:write` |
-| Trigger immediate run | `maintenance:admin` |
+| Trigger immediate run (within window) | `maintenance:write` |
+| Trigger immediate run with `force: true` (bypass window) | `maintenance:admin` |
 
 ## Key Data Structures
 

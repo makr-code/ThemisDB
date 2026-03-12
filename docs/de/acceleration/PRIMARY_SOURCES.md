@@ -6,9 +6,12 @@
 - `include/acceleration/README.md`
 - `include/acceleration/raii/README.md`
 - `src/acceleration/ARCHITECTURE.md`
+- `src/acceleration/AUDIT.md`
+- `src/acceleration/CHANGELOG.md`
 - `src/acceleration/FUTURE_ENHANCEMENTS.md`
 - `src/acceleration/README.md`
 - `src/acceleration/ROADMAP.md`
+- `src/acceleration/SECURITY.md`
 - `src/acceleration/future_enhancements.md`
 
 **Bezug / Reference:**
@@ -28,9 +31,12 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`accelerati
 | Datei | Pfad |
 |-------|------|
 | `ARCHITECTURE.md` | [`src/acceleration/ARCHITECTURE.md`](../../../src/acceleration/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/acceleration/AUDIT.md`](../../../src/acceleration/AUDIT.md) |
+| `CHANGELOG.md` | [`src/acceleration/CHANGELOG.md`](../../../src/acceleration/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/acceleration/FUTURE_ENHANCEMENTS.md`](../../../src/acceleration/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/acceleration/README.md`](../../../src/acceleration/README.md) |
 | `ROADMAP.md` | [`src/acceleration/ROADMAP.md`](../../../src/acceleration/ROADMAP.md) |
+| `SECURITY.md` | [`src/acceleration/SECURITY.md`](../../../src/acceleration/SECURITY.md) |
 | `future_enhancements.md` | [`src/acceleration/future_enhancements.md`](../../../src/acceleration/future_enhancements.md) |
 
 ### `include/acceleration/`

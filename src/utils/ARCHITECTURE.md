@@ -58,8 +58,8 @@ distance computation, gRPC channel pooling, HTTP client pooling, license gating,
 | `thread_pool_manager.cpp` | Shared thread pool manager |
 | `file_utils.cpp` | Filesystem utilities (safe read/write, atomic rename) |
 | `error_registry.cpp` | Structured error code registry |
-| `build_info.cpp` | Build metadata (version, git hash, compile flags) |
-| `license_info.cpp` | License metadata access |
+| ~~`build_info.cpp`~~ | Migrated to `src/themis/build_info.cpp` (v1.7.0) |
+| ~~`license_info.cpp`~~ | Migrated to `src/themis/license_info.cpp` (v1.7.0) |
 | `runtime_license_gate.cpp` | Per-feature license gate at runtime |
 | `capability_auto_generator.cpp` | Automatic capability manifest generation |
 | `saga_logger.cpp` | SAGA step logging for distributed transactions |

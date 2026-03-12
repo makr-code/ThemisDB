@@ -28,6 +28,7 @@
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
+#include <openssl/crypto.h>
 #include <openssl/hmac.h>
 #include <openssl/sha.h>
 #include <spdlog/spdlog.h>
@@ -166,13 +167,33 @@ bool MFAAuthenticator::validateRecoveryCode(
     EnrollmentData& enrollment,
     const std::string& recovery_code
 ) {
-    auto it = std::find(enrollment.recovery_codes.begin(), 
-                       enrollment.recovery_codes.end(), 
-                       recovery_code);
-    
-    if (it != enrollment.recovery_codes.end()) {
-        // Remove used recovery code
-        enrollment.recovery_codes.erase(it);
+    // Constant-time linear scan: always traverse every code regardless of match
+    // to prevent an attacker from inferring the match position through timing
+    // differences (early-exit prevention). CRYPTO_memcmp() is used for the
+    // per-code comparison to avoid compiler-optimised short-circuit evaluation.
+    bool found = false;
+    size_t found_idx = 0;
+    const size_t incoming_len = recovery_code.size();
+
+    for (size_t i = 0; i < enrollment.recovery_codes.size(); ++i) {
+        const auto& stored = enrollment.recovery_codes[i];
+        // Length mismatch cannot be a match; the branch does not leak the
+        // match position because it depends only on the (fixed) stored length,
+        // not on which index matched.
+        bool len_match = (stored.size() == incoming_len);
+        int diff = len_match
+            ? CRYPTO_memcmp(stored.data(), recovery_code.data(), incoming_len)
+            : 1;
+        if (diff == 0 && !found) {
+            found = true;
+            found_idx = i;
+        }
+    }
+
+    if (found) {
+        // Remove the used recovery code so it cannot be replayed.
+        enrollment.recovery_codes.erase(
+            enrollment.recovery_codes.begin() + static_cast<ptrdiff_t>(found_idx));
         spdlog::info("Recovery code validated for user: {}", enrollment.user_id);
         if (audit_logger_) {
             audit_logger_->logSecurityEvent(utils::SecurityEventType::MFA_RECOVERY_CODE_USED,
@@ -180,7 +201,7 @@ bool MFAAuthenticator::validateRecoveryCode(
         }
         return true;
     }
-    
+
     spdlog::debug("Recovery code validation failed");
     return false;
 }

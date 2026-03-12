@@ -149,7 +149,7 @@ set(THEMIS_BASE_SOURCES
     ../src/config/config_audit_log.cpp
     ../src/config/config_encrypted_store.cpp
     ../src/themis/build_info.cpp
-    ../src/utils/license_info.cpp
+    ../src/themis/license_info.cpp
     ../src/utils/runtime_license_gate.cpp
     ../src/utils/error_registry.cpp
     ../src/utils/memory/pool_allocator.cpp
@@ -216,7 +216,12 @@ set(THEMIS_BASE_SOURCES
     ../src/plugins/rpc_service_registry.cpp
     
     # Module loader (for security verification of modular DLLs)
-    ../src/base/module_loader.cpp
+    # Migrated to src/themis/ (v1.7.0): split into platform-independent core,
+    # platform-specific helpers, and security verifier.
+    ../src/themis/module_loader.cpp
+    ../src/themis/module_loader_win32.cpp
+    ../src/themis/module_loader_linux.cpp
+    ../src/themis/module_security.cpp
     ../src/base/module_sandbox.cpp
     ../src/base/hot_reload_manager.cpp
     ../src/base/ab_test_manager.cpp
@@ -483,6 +488,14 @@ set(THEMIS_QUERY_SOURCES
     ../src/analytics/streaming_window.cpp
     ../src/analytics/incremental_view.cpp
     ../src/analytics/columnar_execution.cpp
+    # Process Modeling Module
+    ../src/process/process_model_manager.cpp
+    ../src/process/bpmn_serializer.cpp
+    ../src/process/epk_serializer.cpp
+    ../src/process/llm_process_descriptor.cpp
+    ../src/process/vcc_vpb_importer.cpp
+    ../src/process/process_linker.cpp
+    ../src/process/process_graph_rag.cpp
     ../src/analytics/jit_aggregation.cpp
     ../src/analytics/anomaly_detection.cpp
     ../src/analytics/forecasting.cpp
@@ -1223,6 +1236,7 @@ set(THEMIS_NETWORK_SOURCES
     $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/server/feedback_api_handler.cpp>
     # Maintenance Orchestrator (always compiled when HTTP server is on)
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/maintenance/database_maintenance_orchestrator.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/maintenance/maintenance_schedule_store.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/maintenance/maintenance_registry.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/maintenance_api_handler.cpp>
 

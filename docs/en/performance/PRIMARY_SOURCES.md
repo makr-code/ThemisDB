@@ -5,9 +5,12 @@
 - `include/performance/FUTURE_ENHANCEMENTS.md`
 - `include/performance/README.md`
 - `src/performance/ARCHITECTURE.md`
+- `src/performance/AUDIT.md`
+- `src/performance/CHANGELOG.md`
 - `src/performance/FUTURE_ENHANCEMENTS.md`
 - `src/performance/README.md`
 - `src/performance/ROADMAP.md`
+- `src/performance/SECURITY.md`
 
 **Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -26,9 +29,12 @@ This index lists all Markdown documentation files for module **`performance`** f
 | File | Path |
 |------|------|
 | `ARCHITECTURE.md` | [`src/performance/ARCHITECTURE.md`](../../../src/performance/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/performance/AUDIT.md`](../../../src/performance/AUDIT.md) |
+| `CHANGELOG.md` | [`src/performance/CHANGELOG.md`](../../../src/performance/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/performance/FUTURE_ENHANCEMENTS.md`](../../../src/performance/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/performance/README.md`](../../../src/performance/README.md) |
 | `ROADMAP.md` | [`src/performance/ROADMAP.md`](../../../src/performance/ROADMAP.md) |
+| `SECURITY.md` | [`src/performance/SECURITY.md`](../../../src/performance/SECURITY.md) |
 
 ### `include/performance/`
 

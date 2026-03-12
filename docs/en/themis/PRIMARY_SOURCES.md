@@ -6,9 +6,12 @@
 - `include/themis/README.md`
 - `include/themis/base/README.md`
 - `src/themis/ARCHITECTURE.md`
+- `src/themis/AUDIT.md`
+- `src/themis/CHANGELOG.md`
 - `src/themis/FUTURE_ENHANCEMENTS.md`
 - `src/themis/README.md`
 - `src/themis/ROADMAP.md`
+- `src/themis/SECURITY.md`
 
 **Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -27,9 +30,12 @@ This index lists all Markdown documentation files for module **`themis`** from t
 | File | Path |
 |------|------|
 | `ARCHITECTURE.md` | [`src/themis/ARCHITECTURE.md`](../../../src/themis/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/themis/AUDIT.md`](../../../src/themis/AUDIT.md) |
+| `CHANGELOG.md` | [`src/themis/CHANGELOG.md`](../../../src/themis/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/themis/FUTURE_ENHANCEMENTS.md`](../../../src/themis/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/themis/README.md`](../../../src/themis/README.md) |
 | `ROADMAP.md` | [`src/themis/ROADMAP.md`](../../../src/themis/ROADMAP.md) |
+| `SECURITY.md` | [`src/themis/SECURITY.md`](../../../src/themis/SECURITY.md) |
 
 ### `include/themis/`
 

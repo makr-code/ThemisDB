@@ -7,10 +7,13 @@
 - `include/core/concerns/CACHE_STRATEGIES_README.md`
 - `include/core/concerns/README.md`
 - `src/core/ARCHITECTURE.md`
+- `src/core/AUDIT.md`
+- `src/core/CHANGELOG.md`
 - `src/core/FUTURE_ENHANCEMENTS.md`
 - `src/core/PRODUCTION_REQUIREMENTS.md`
 - `src/core/README.md`
 - `src/core/ROADMAP.md`
+- `src/core/SECURITY.md`
 
 **Bezug / Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -29,10 +32,13 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`core`** au
 | Datei | Pfad |
 |-------|------|
 | `ARCHITECTURE.md` | [`src/core/ARCHITECTURE.md`](../../../src/core/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/core/AUDIT.md`](../../../src/core/AUDIT.md) |
+| `CHANGELOG.md` | [`src/core/CHANGELOG.md`](../../../src/core/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/core/FUTURE_ENHANCEMENTS.md`](../../../src/core/FUTURE_ENHANCEMENTS.md) |
 | `PRODUCTION_REQUIREMENTS.md` | [`src/core/PRODUCTION_REQUIREMENTS.md`](../../../src/core/PRODUCTION_REQUIREMENTS.md) |
 | `README.md` | [`src/core/README.md`](../../../src/core/README.md) |
 | `ROADMAP.md` | [`src/core/ROADMAP.md`](../../../src/core/ROADMAP.md) |
+| `SECURITY.md` | [`src/core/SECURITY.md`](../../../src/core/SECURITY.md) |
 
 ### `include/core/`
 

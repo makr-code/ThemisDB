@@ -5,9 +5,12 @@
 - `include/chimera/FUTURE_ENHANCEMENTS.md`
 - `include/chimera/README.md`
 - `src/chimera/ARCHITECTURE.md`
+- `src/chimera/AUDIT.md`
+- `src/chimera/CHANGELOG.md`
 - `src/chimera/FUTURE_ENHANCEMENTS.md`
 - `src/chimera/README.md`
 - `src/chimera/ROADMAP.md`
+- `src/chimera/SECURITY.md`
 
 **Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -26,9 +29,12 @@ This index lists all Markdown documentation files for module **`chimera`** from 
 | File | Path |
 |------|------|
 | `ARCHITECTURE.md` | [`src/chimera/ARCHITECTURE.md`](../../../src/chimera/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/chimera/AUDIT.md`](../../../src/chimera/AUDIT.md) |
+| `CHANGELOG.md` | [`src/chimera/CHANGELOG.md`](../../../src/chimera/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/chimera/FUTURE_ENHANCEMENTS.md`](../../../src/chimera/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/chimera/README.md`](../../../src/chimera/README.md) |
 | `ROADMAP.md` | [`src/chimera/ROADMAP.md`](../../../src/chimera/ROADMAP.md) |
+| `SECURITY.md` | [`src/chimera/SECURITY.md`](../../../src/chimera/SECURITY.md) |
 
 ### `include/chimera/`
 

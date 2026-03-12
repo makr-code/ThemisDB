@@ -5,9 +5,12 @@
 - `include/geo/FUTURE_ENHANCEMENTS.md`
 - `include/geo/README.md`
 - `src/geo/ARCHITECTURE.md`
+- `src/geo/AUDIT.md`
+- `src/geo/CHANGELOG.md`
 - `src/geo/FUTURE_ENHANCEMENTS.md`
 - `src/geo/README.md`
 - `src/geo/ROADMAP.md`
+- `src/geo/SECURITY.md`
 
 **Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -26,9 +29,12 @@ This index lists all Markdown documentation files for module **`geo`** from the 
 | File | Path |
 |------|------|
 | `ARCHITECTURE.md` | [`src/geo/ARCHITECTURE.md`](../../../src/geo/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/geo/AUDIT.md`](../../../src/geo/AUDIT.md) |
+| `CHANGELOG.md` | [`src/geo/CHANGELOG.md`](../../../src/geo/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/geo/FUTURE_ENHANCEMENTS.md`](../../../src/geo/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/geo/README.md`](../../../src/geo/README.md) |
 | `ROADMAP.md` | [`src/geo/ROADMAP.md`](../../../src/geo/ROADMAP.md) |
+| `SECURITY.md` | [`src/geo/SECURITY.md`](../../../src/geo/SECURITY.md) |
 
 ### `include/geo/`
 

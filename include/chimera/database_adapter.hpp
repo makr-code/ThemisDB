@@ -66,6 +66,7 @@
 #include <variant>
 #include <chrono>
 #include <functional>
+#include <thread>
 
 /**
  * @namespace chimera
@@ -93,7 +94,8 @@ enum class ErrorCode {
     INTERNAL_ERROR = 9,       ///< Internal system error
     UNSUPPORTED = 10,         ///< Operation not supported
     TRANSACTION_ABORTED = 11, ///< Transaction was aborted
-    CONSTRAINT_VIOLATION = 12 ///< Data integrity constraint violated
+    CONSTRAINT_VIOLATION = 12, ///< Data integrity constraint violated
+    DEADLOCK = 13             ///< Deadlock detected between concurrent transactions
 };
 
 /**
@@ -251,6 +253,39 @@ struct TransactionOptions {
     IsolationLevel isolation_level = IsolationLevel::READ_COMMITTED;
     std::optional<std::chrono::milliseconds> timeout; ///< Transaction timeout
     bool read_only = false;                      ///< Read-only transaction
+    bool allow_nested = false;                   ///< Allow nested transactions via savepoints
+    size_t max_retries = 0;                      ///< Max automatic retries on deadlock (0 = no retry)
+    std::chrono::milliseconds retry_backoff{10}; ///< Initial backoff between retries (doubles each attempt)
+};
+
+/**
+ * @struct TransactionStats
+ * @brief Runtime statistics for an active transaction
+ */
+struct TransactionStats {
+    std::string transaction_id;                          ///< Transaction identifier
+    std::chrono::system_clock::time_point start_time;   ///< When the transaction began
+    std::chrono::milliseconds elapsed_time{0};           ///< Time elapsed since begin
+    size_t operations_count = 0;                         ///< Number of operations executed
+    size_t savepoint_count = 0;                          ///< Number of savepoints created
+    size_t retry_count = 0;                              ///< Number of automatic retries attempted
+    bool is_read_only = false;                           ///< Whether the transaction is read-only
+    TransactionOptions::IsolationLevel isolation_level =
+        TransactionOptions::IsolationLevel::READ_COMMITTED; ///< Isolation level in effect
+};
+
+/**
+ * @struct TransactionState
+ * @brief Full state snapshot of an active transaction
+ */
+struct TransactionState {
+    std::string transaction_id;                          ///< Transaction identifier
+    TransactionOptions::IsolationLevel isolation_level =
+        TransactionOptions::IsolationLevel::READ_COMMITTED; ///< Isolation level
+    std::chrono::system_clock::time_point start_time;   ///< When the transaction began
+    std::vector<std::string> savepoints;                 ///< Active savepoint names (LIFO order)
+    bool is_read_only = false;                           ///< Read-only flag
+    std::optional<std::chrono::milliseconds> elapsed_time; ///< Time elapsed since begin
 };
 
 /**
@@ -592,6 +627,124 @@ public:
      * @return Success or error
      */
     virtual Result<bool> rollback_transaction(const std::string& transaction_id) = 0;
+
+    /**
+     * @brief Create a savepoint within an active transaction
+     * @param transaction_id Transaction ID
+     * @param savepoint_name Unique name for the savepoint within the transaction
+     * @return Savepoint name on success, or NOT_IMPLEMENTED if not supported
+     */
+    virtual Result<std::string> create_savepoint(
+        const std::string& /*transaction_id*/,
+        const std::string& /*savepoint_name*/
+    ) {
+        return Result<std::string>::err(
+            ErrorCode::NOT_IMPLEMENTED,
+            "Savepoints not supported by this adapter"
+        );
+    }
+
+    /**
+     * @brief Rollback the transaction to a previously created savepoint
+     * @param transaction_id Transaction ID
+     * @param savepoint_name Name of the savepoint to roll back to
+     * @return Success or NOT_IMPLEMENTED if not supported
+     */
+    virtual Result<bool> rollback_to_savepoint(
+        const std::string& /*transaction_id*/,
+        const std::string& /*savepoint_name*/
+    ) {
+        return Result<bool>::err(
+            ErrorCode::NOT_IMPLEMENTED,
+            "Savepoints not supported by this adapter"
+        );
+    }
+
+    /**
+     * @brief Release (destroy) a savepoint without rolling back
+     * @param transaction_id Transaction ID
+     * @param savepoint_name Name of the savepoint to release
+     * @return Success or NOT_IMPLEMENTED if not supported
+     */
+    virtual Result<bool> release_savepoint(
+        const std::string& /*transaction_id*/,
+        const std::string& /*savepoint_name*/
+    ) {
+        return Result<bool>::err(
+            ErrorCode::NOT_IMPLEMENTED,
+            "Savepoints not supported by this adapter"
+        );
+    }
+
+    /**
+     * @brief Retrieve runtime statistics for an active transaction
+     * @param transaction_id Transaction ID
+     * @return Transaction statistics or NOT_IMPLEMENTED if not supported
+     */
+    virtual Result<TransactionStats> get_transaction_stats(
+        const std::string& /*transaction_id*/
+    ) {
+        return Result<TransactionStats>::err(
+            ErrorCode::NOT_IMPLEMENTED,
+            "Transaction statistics not supported by this adapter"
+        );
+    }
+
+    /**
+     * @brief Retrieve the full state of an active transaction
+     * @param transaction_id Transaction ID
+     * @return Transaction state or NOT_IMPLEMENTED if not supported
+     */
+    virtual Result<TransactionState> get_transaction_state(
+        const std::string& /*transaction_id*/
+    ) {
+        return Result<TransactionState>::err(
+            ErrorCode::NOT_IMPLEMENTED,
+            "Transaction state not supported by this adapter"
+        );
+    }
+
+    /**
+     * @brief Execute an operation with automatic retry on deadlock
+     *
+     * @details Calls @p operation repeatedly until it succeeds, returns a
+     *          non-deadlock error, or @p max_retries attempts have been
+     *          exhausted.  Each retry is preceded by an exponential backoff
+     *          starting at @p initial_backoff_ms milliseconds.
+     *
+     * @tparam T Result value type
+     * @tparam F Callable type returning Result<T>
+     * @param operation  Callable returning Result<T>
+     * @param max_retries Maximum number of additional attempts after the first
+     * @param initial_backoff_ms Initial sleep duration before the first retry
+     * @return The first successful result, the last deadlock result after all
+     *         retries are exhausted, or any non-deadlock error immediately
+     */
+    template<typename T, typename F>
+    Result<T> execute_with_retry(
+        F&& operation,
+        size_t max_retries = 3,
+        std::chrono::milliseconds initial_backoff_ms = std::chrono::milliseconds{10}
+    ) {
+        static constexpr size_t kMaxBackoffShift = 5; ///< Cap backoff at 32x initial value
+        Result<T> last = operation();
+        for (size_t attempt = 0; attempt < max_retries && last.is_err() &&
+                                  last.error_code == ErrorCode::DEADLOCK; ++attempt) {
+            const size_t shift = attempt < kMaxBackoffShift ? attempt : kMaxBackoffShift;
+            const auto factor = static_cast<std::chrono::milliseconds::rep>(1u << shift);
+            const auto max_ms = std::chrono::milliseconds::max();
+            const std::chrono::milliseconds::rep base = initial_backoff_ms.count();
+            std::chrono::milliseconds safe_duration;
+            if (base > 0 && factor > 0 && base > max_ms.count() / factor) {
+                safe_duration = max_ms;
+            } else {
+                safe_duration = initial_backoff_ms * factor;
+            }
+            std::this_thread::sleep_for(safe_duration);
+            last = operation();
+        }
+        return last;
+    }
 };
 
 /**

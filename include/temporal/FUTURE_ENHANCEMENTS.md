@@ -28,87 +28,41 @@
 
 ## Planned API Extensions
 
-### System-Versioned Table API
+### ~~System-Versioned Table API~~ ✅ Implemented (v1.1.0)
 **Priority:** High  
-**Target Version:** v1.1.0
+**Target Version:** v1.1.0  
+**Status:** ✅ **Delivered** — `include/temporal/system_versioned_table.h`
 
 Public API for system-versioned temporal tables.
 
-**New Headers:**
+**Implemented API (see system_versioned_table.h for full docs):**
 ```cpp
-// temporal/system_versioned_table.h
-namespace themisdb {
-namespace temporal {
-
-class SystemVersionedTable {
-public:
-    explicit SystemVersionedTable(
-        const std::string& table_name,
-        RocksDBWrapper* storage
-    );
-    
-    // Create with automatic history table
-    static Result<SystemVersionedTable> create(
-        const std::string& table_name,
-        const TableSchema& schema,
-        RocksDBWrapper* storage
-    );
-    
-    // DML operations with automatic versioning
-    Result<bool> insert(const Document& doc);
-    Result<bool> update(const std::string& key, const Document& updates);
-    Result<bool> deleteRow(const std::string& key);
-    
-    // Query historical data
-    Result<std::vector<VersionedDocument>> getHistory(
-        const std::string& key
-    ) const;
-    
-    Result<std::vector<VersionedDocument>> getHistoryInRange(
-        const std::string& key,
-        const TimeRange& range
-    ) const;
-    
-    // Configuration
-    Result<bool> setRetentionPeriod(std::chrono::seconds period);
-    Result<bool> enableCompression(bool enable);
+// Config struct
+struct SystemVersionedTable::Config {
+    std::string history_table_name;              // defaults to "<table>_history"
+    bool compress_history = true;
+    std::chrono::milliseconds retention_period{365LL * 24 * 3600 * 1000};
+    bool track_user_id = true;
 };
 
-struct VersionedDocument {
-    std::string key;
-    Document data;
-    Timestamp sys_start;
-    Timestamp sys_end;
-    std::string modified_by;
-};
+// DDL factory with JSON schema
+static SystemVersionedTable createVersionedTable(
+    const std::string& table_name,
+    const Document& schema,
+    Config config,
+    const std::string& source_node = "local");
 
-}}
-```
+// DML
+bool insert(const std::string& key, const Document& doc);
+bool update(const std::string& key, const Document& updates);
+bool upsert(const std::string& key, const Document& doc);
+bool deleteRow(const std::string& key);
 
-**Example Usage:**
-```cpp
-auto table = SystemVersionedTable::create(
-    "employees",
-    employee_schema,
-    db_storage
-);
+// Retention
+size_t enforceRetentionPolicy();
 
-// Insert automatically creates version
-table->insert({
-    {"id", 1},
-    {"name", "Alice"},
-    {"salary", 50000}
-});
-
-// Update creates new version, keeps old
-table->update("1", {{"salary", 55000}});
-
-// Query history
-auto history = table->getHistory("1");
-for (const auto& version : history) {
-    std::cout << "Salary at " << version.sys_start 
-              << ": " << version.data["salary"] << std::endl;
-}
+// Config accessor
+const Config& getConfig() const noexcept;
 ```
 
 ---

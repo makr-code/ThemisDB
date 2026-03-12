@@ -15,6 +15,7 @@
  */
 
 #include "maintenance/database_maintenance_orchestrator.h"
+#include "maintenance/maintenance_schedule_store.h"
 #include "scheduler/task_scheduler.h"
 #include "storage/index_maintenance.h"
 #include "utils/audit_logger.h"
@@ -96,10 +97,12 @@ bool isInMaintenanceWindow(int window_start_hour, int window_end_hour) {
 DatabaseMaintenanceOrchestrator::DatabaseMaintenanceOrchestrator(
     TaskScheduler*                           scheduler,
     std::shared_ptr<IndexMaintenanceManager> index_maintenance,
-    std::shared_ptr<utils::AuditLogger>      audit_logger)
+    std::shared_ptr<utils::AuditLogger>      audit_logger,
+    IStorageEngine*                          storage)
     : scheduler_(scheduler)
     , index_maintenance_(std::move(index_maintenance))
     , audit_logger_(std::move(audit_logger))
+    , schedule_store_(storage ? std::make_unique<MaintenanceScheduleStore>(storage) : nullptr)
 {}
 
 DatabaseMaintenanceOrchestrator::~DatabaseMaintenanceOrchestrator() {
@@ -114,6 +117,30 @@ Result<void> DatabaseMaintenanceOrchestrator::start() {
     if (running_.load()) {
         return {}; // Already running – idempotent
     }
+
+    // Load persisted schedules from storage into a temporary map first.
+    // This step does not require a scheduler and is safe to do before the
+    // scheduler availability check so that schedules_ is populated regardless
+    // of whether cron registration will succeed.
+    if (schedule_store_) {
+        std::map<std::string, MaintenanceScheduleEntry> loaded;
+        auto load_result = schedule_store_->loadAll(loaded);
+        if (!load_result.has_value()) {
+            spdlog::error("DatabaseMaintenanceOrchestrator::start: failed to load "
+                          "schedules from storage: {}", load_result.error().message());
+            // Non-fatal: continue with whatever was already in schedules_.
+        }
+        // Merge loaded entries into schedules_ under the lock.
+        // Use insert_or_assign so persisted entries always take precedence
+        // over any schedules that were inserted before start() was called.
+        {
+            std::lock_guard<std::mutex> lock(schedules_mutex_);
+            for (auto& [id, entry] : loaded) {
+                schedules_.insert_or_assign(id, std::move(entry));
+            }
+        }
+    }
+
     if (!scheduler_) {
         return tl::unexpected(Error(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                                     "DatabaseMaintenanceOrchestrator: TaskScheduler is null"));
@@ -182,6 +209,16 @@ Result<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::createSchedule
 
     {
         std::lock_guard<std::mutex> lock(schedules_mutex_);
+        // Persist to durable storage first; fail the operation if persistence
+        // fails so the caller can retry rather than silently losing durability.
+        if (schedule_store_) {
+            auto persist_result = schedule_store_->save(entry);
+            if (!persist_result.has_value()) {
+                return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                    "Failed to persist schedule id=" + entry.id + ": " +
+                    persist_result.error().message()));
+            }
+        }
         schedules_[entry.id] = entry;
     }
 
@@ -274,6 +311,17 @@ Result<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::updateSchedule
         entry.cron_expression = frequencyToCron(entry.frequency, entry.window_start_hour);
     }
 
+    // Persist to durable storage before committing the in-memory change so
+    // that a storage failure leaves the existing entry intact and returnable.
+    if (schedule_store_) {
+        auto persist_result = schedule_store_->save(entry);
+        if (!persist_result.has_value()) {
+            return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                "Failed to persist schedule id=" + id + ": " +
+                persist_result.error().message()));
+        }
+    }
+
     it->second = entry;
 
     // Update scheduler registration
@@ -310,23 +358,36 @@ Result<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::patchSchedule(
                                     "Schedule not found: " + id));
     }
 
-    it->second.applyPatch(patch);
-    it->second.updated_at_ms = nowMs();
+    // Apply the patch to a working copy so that the in-memory entry is only
+    // modified after a successful durable write.
+    MaintenanceScheduleEntry updated = it->second;
+    updated.applyPatch(patch);
+    updated.updated_at_ms = nowMs();
 
     // Re-derive cron if frequency changed
-    if (it->second.frequency != ScheduleFrequency::CUSTOM) {
-        it->second.cron_expression =
-            frequencyToCron(it->second.frequency, it->second.window_start_hour);
+    if (updated.frequency != ScheduleFrequency::CUSTOM) {
+        updated.cron_expression =
+            frequencyToCron(updated.frequency, updated.window_start_hour);
     }
 
     try {
-        validateEntry(it->second);
+        validateEntry(updated);
     } catch (const std::exception& ex) {
-        // Roll back – not needed for in-memory store; return error
         return tl::unexpected(Error(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT, ex.what()));
     }
 
-    MaintenanceScheduleEntry updated = it->second;
+    // Persist the patched entry to durable storage before updating in-memory
+    // state; a storage failure leaves it->second unchanged.
+    if (schedule_store_) {
+        auto persist_result = schedule_store_->save(updated);
+        if (!persist_result.has_value()) {
+            return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                "Failed to persist schedule id=" + id + ": " +
+                persist_result.error().message()));
+        }
+    }
+
+    it->second = updated;
 
     // Update scheduler registration
     deregisterFromScheduler(id);
@@ -360,8 +421,20 @@ Result<void> DatabaseMaintenanceOrchestrator::deleteSchedule(const std::string& 
                                     "Schedule not found: " + id));
     }
 
-    deregisterFromScheduler(id);
     std::string name = it->second.name;
+
+    // Remove from durable store first; if the durable remove fails, abort the
+    // delete so the schedule does not resurrect itself on the next restart.
+    if (schedule_store_) {
+        auto persist_result = schedule_store_->remove(id);
+        if (!persist_result.has_value()) {
+            return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                "Failed to remove schedule id=" + id + " from storage: " +
+                persist_result.error().message()));
+        }
+    }
+
+    deregisterFromScheduler(id);
     schedules_.erase(it);
 
     spdlog::info("MaintenanceSchedule deleted: id={}", id);
@@ -385,7 +458,7 @@ Result<void> DatabaseMaintenanceOrchestrator::deleteSchedule(const std::string& 
 // ---------------------------------------------------------------------------
 
 Result<OrchestratorJob> DatabaseMaintenanceOrchestrator::triggerNow(
-    const std::string& schedule_id)
+    const std::string& schedule_id, bool force)
 {
     MaintenanceScheduleEntry entry;
     {
@@ -410,6 +483,7 @@ Result<OrchestratorJob> DatabaseMaintenanceOrchestrator::triggerNow(
     job.task_type   = entry.tasks.front();
     job.state       = MaintenanceJobState::RUNNING;
     job.started_at_ms = nowMs();
+    job.forced      = force;
 
     {
         std::lock_guard<std::mutex> lock(jobs_mutex_);
@@ -422,6 +496,7 @@ Result<OrchestratorJob> DatabaseMaintenanceOrchestrator::triggerNow(
             {"job_id",      job.id},
             {"schedule_id", schedule_id},
             {"task_type",   taskTypeToString(job.task_type)},
+            {"forced",      force},
             {"timestamp_ms", job.started_at_ms},
         });
     }
@@ -431,8 +506,8 @@ Result<OrchestratorJob> DatabaseMaintenanceOrchestrator::triggerNow(
 
     // Run asynchronously
     std::string job_id = job.id;
-    std::thread([this, schedule_id, job_id]() {
-        executeSchedule(schedule_id, job_id);
+    std::thread([this, schedule_id, job_id, force]() {
+        executeSchedule(schedule_id, job_id, force);
     }).detach();
 
     return job;
@@ -684,7 +759,7 @@ void DatabaseMaintenanceOrchestrator::deregisterFromScheduler(
 }
 
 void DatabaseMaintenanceOrchestrator::executeSchedule(
-    const std::string& schedule_id, const std::string& job_id)
+    const std::string& schedule_id, const std::string& job_id, bool force)
 {
     MaintenanceScheduleEntry entry;
     {
@@ -703,7 +778,9 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
     }
 
     // ---- Maintenance window enforcement --------------------------------
-    if (entry.enforce_window &&
+    // When force=true the window check is bypassed entirely.
+    if (!force &&
+        entry.enforce_window &&
         !isInMaintenanceWindow(entry.window_start_hour, entry.window_end_hour)) {
         spdlog::warn("MaintenanceJob {} skipped: outside window [{}-{}] UTC (current hour={})",
                      job_id, entry.window_start_hour, entry.window_end_hour,
@@ -816,6 +893,7 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
             {"schedule_id",  schedule_id},
             {"duration_ms",  static_cast<int64_t>(total_dur_ms)},
             {"error",        last_error},
+            {"forced",       force},
             {"timestamp_ms", now},
         });
     }

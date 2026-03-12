@@ -5,9 +5,12 @@
 - `include/plugins/FUTURE_ENHANCEMENTS.md`
 - `include/plugins/README.md`
 - `src/plugins/ARCHITECTURE.md`
+- `src/plugins/AUDIT.md`
+- `src/plugins/CHANGELOG.md`
 - `src/plugins/FUTURE_ENHANCEMENTS.md`
 - `src/plugins/README.md`
 - `src/plugins/ROADMAP.md`
+- `src/plugins/SECURITY.md`
 
 **Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -26,9 +29,12 @@ This index lists all Markdown documentation files for module **`plugins`** from 
 | File | Path |
 |------|------|
 | `ARCHITECTURE.md` | [`src/plugins/ARCHITECTURE.md`](../../../src/plugins/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/plugins/AUDIT.md`](../../../src/plugins/AUDIT.md) |
+| `CHANGELOG.md` | [`src/plugins/CHANGELOG.md`](../../../src/plugins/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/plugins/FUTURE_ENHANCEMENTS.md`](../../../src/plugins/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/plugins/README.md`](../../../src/plugins/README.md) |
 | `ROADMAP.md` | [`src/plugins/ROADMAP.md`](../../../src/plugins/ROADMAP.md) |
+| `SECURITY.md` | [`src/plugins/SECURITY.md`](../../../src/plugins/SECURITY.md) |
 
 ### `include/plugins/`
 

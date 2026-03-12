@@ -5,9 +5,12 @@
 - `include/transaction/FUTURE_ENHANCEMENTS.md`
 - `include/transaction/README.md`
 - `src/transaction/ARCHITECTURE.md`
+- `src/transaction/AUDIT.md`
+- `src/transaction/CHANGELOG.md`
 - `src/transaction/FUTURE_ENHANCEMENTS.md`
 - `src/transaction/README.md`
 - `src/transaction/ROADMAP.md`
+- `src/transaction/SECURITY.md`
 
 **Bezug / Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -26,9 +29,12 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`transactio
 | Datei | Pfad |
 |-------|------|
 | `ARCHITECTURE.md` | [`src/transaction/ARCHITECTURE.md`](../../../src/transaction/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/transaction/AUDIT.md`](../../../src/transaction/AUDIT.md) |
+| `CHANGELOG.md` | [`src/transaction/CHANGELOG.md`](../../../src/transaction/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/transaction/FUTURE_ENHANCEMENTS.md`](../../../src/transaction/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/transaction/README.md`](../../../src/transaction/README.md) |
 | `ROADMAP.md` | [`src/transaction/ROADMAP.md`](../../../src/transaction/ROADMAP.md) |
+| `SECURITY.md` | [`src/transaction/SECURITY.md`](../../../src/transaction/SECURITY.md) |
 
 ### `include/transaction/`
 

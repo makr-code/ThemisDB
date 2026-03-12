@@ -5,9 +5,12 @@
 - `include/governance/FUTURE_ENHANCEMENTS.md`
 - `include/governance/README.md`
 - `src/governance/ARCHITECTURE.md`
+- `src/governance/AUDIT.md`
+- `src/governance/CHANGELOG.md`
 - `src/governance/FUTURE_ENHANCEMENTS.md`
 - `src/governance/README.md`
 - `src/governance/ROADMAP.md`
+- `src/governance/SECURITY.md`
 
 **Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -26,9 +29,12 @@ This index lists all Markdown documentation files for module **`governance`** fr
 | File | Path |
 |------|------|
 | `ARCHITECTURE.md` | [`src/governance/ARCHITECTURE.md`](../../../src/governance/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/governance/AUDIT.md`](../../../src/governance/AUDIT.md) |
+| `CHANGELOG.md` | [`src/governance/CHANGELOG.md`](../../../src/governance/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/governance/FUTURE_ENHANCEMENTS.md`](../../../src/governance/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/governance/README.md`](../../../src/governance/README.md) |
 | `ROADMAP.md` | [`src/governance/ROADMAP.md`](../../../src/governance/ROADMAP.md) |
+| `SECURITY.md` | [`src/governance/SECURITY.md`](../../../src/governance/SECURITY.md) |
 
 ### `include/governance/`
 

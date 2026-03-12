@@ -5,9 +5,12 @@
 - `include/llm/FUTURE_ENHANCEMENTS.md`
 - `include/llm/README.md`
 - `src/llm/ARCHITECTURE.md`
+- `src/llm/AUDIT.md`
+- `src/llm/CHANGELOG.md`
 - `src/llm/FUTURE_ENHANCEMENTS.md`
 - `src/llm/README.md`
 - `src/llm/ROADMAP.md`
+- `src/llm/SECURITY.md`
 - `src/llm/gguf_loader_README.md`
 - `src/llm/grammars/README.md`
 - `src/llm/llama_lora_adapter_README.md`
@@ -29,9 +32,12 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`llm`** aus
 | Datei | Pfad |
 |-------|------|
 | `ARCHITECTURE.md` | [`src/llm/ARCHITECTURE.md`](../../../src/llm/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/llm/AUDIT.md`](../../../src/llm/AUDIT.md) |
+| `CHANGELOG.md` | [`src/llm/CHANGELOG.md`](../../../src/llm/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/llm/FUTURE_ENHANCEMENTS.md`](../../../src/llm/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/llm/README.md`](../../../src/llm/README.md) |
 | `ROADMAP.md` | [`src/llm/ROADMAP.md`](../../../src/llm/ROADMAP.md) |
+| `SECURITY.md` | [`src/llm/SECURITY.md`](../../../src/llm/SECURITY.md) |
 | `gguf_loader_README.md` | [`src/llm/gguf_loader_README.md`](../../../src/llm/gguf_loader_README.md) |
 | `README.md` | [`src/llm/grammars/README.md`](../../../src/llm/grammars/README.md) |
 | `llama_lora_adapter_README.md` | [`src/llm/llama_lora_adapter_README.md`](../../../src/llm/llama_lora_adapter_README.md) |

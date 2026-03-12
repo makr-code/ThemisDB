@@ -8,8 +8,8 @@ on:
       - main
       - develop
     paths:
-      - 'src/utils/build_info.cpp'
-      - 'src/utils/license_info.cpp'
+      - 'src/themis/build_info.cpp'
+      - 'src/themis/license_info.cpp'
       - 'src/utils/runtime_license_gate.cpp'
       - 'src/base/module_loader.cpp'
       - 'src/base/module_sandbox.cpp'
@@ -17,6 +17,11 @@ on:
       - 'src/network/wire_protocol_performance.cpp'
       - 'include/themis/build_info.h'
       - 'include/themis/license_info.h'
+      - 'include/themis/edition_manager.h'
+      - 'include/themis/edition.h'
+      - 'include/themis/module_hash_verifier.h'
+      - 'include/themis/module_signature_verifier.h'
+      - 'include/themis/export.h'
       - 'include/themis/runtime_license_gate.h'
       - 'include/themis/base/module_loader.h'
       - 'include/themis/base/module_sandbox.h'
@@ -61,8 +66,8 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
-      - 'src/utils/build_info.cpp'
-      - 'src/utils/license_info.cpp'
+      - 'src/themis/build_info.cpp'
+      - 'src/themis/license_info.cpp'
       - 'src/utils/runtime_license_gate.cpp'
       - 'src/base/module_loader.cpp'
       - 'src/base/module_sandbox.cpp'
@@ -70,6 +75,11 @@ on:
       - 'src/network/wire_protocol_performance.cpp'
       - 'include/themis/build_info.h'
       - 'include/themis/license_info.h'
+      - 'include/themis/edition_manager.h'
+      - 'include/themis/edition.h'
+      - 'include/themis/module_hash_verifier.h'
+      - 'include/themis/module_signature_verifier.h'
+      - 'include/themis/export.h'
       - 'include/themis/runtime_license_gate.h'
       - 'include/themis/base/module_loader.h'
       - 'include/themis/base/module_sandbox.h'
@@ -533,8 +543,8 @@ jobs:
       - name: Check for TODO/FIXME in new source files
         run: |
           count=$(grep -rn "TODO\|FIXME\|HACK\|XXX" \
-            src/utils/build_info.cpp \
-            src/utils/license_info.cpp \
+            src/themis/build_info.cpp \
+            src/themis/license_info.cpp \
             src/base/module_sandbox.cpp \
             src/network/wire_protocol_v2.cpp \
             src/network/wire_protocol_performance.cpp \
@@ -621,3 +631,91 @@ jobs:
           echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "Test file: \`scripts/license-server/test_license_server.py\`" >> "$GITHUB_STEP_SUMMARY"
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # 5.  Windows MSVC compile-check (verifies DLL export macros)
+  # ───────────────────────────────────────────────────────────────────────────
+  windows-compile-check:
+    needs: ci-scope-classifier
+    if: needs.ci-scope-classifier.outputs.has_code_changes == 'true'
+    name: Windows compile-check (MSVC / x64)
+    runs-on: windows-2022
+    timeout-minutes: 30
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Enable Developer Command Prompt (MSVC)
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Install Ninja
+        run: choco install ninja --no-progress -y
+
+      - name: Cache vcpkg packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ github.workspace }}/vcpkg/installed
+            ${{ github.workspace }}/vcpkg/packages
+            ${{ github.workspace }}/vcpkg/downloads
+          key: vcpkg-windows-x64-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
+          restore-keys: |
+            vcpkg-windows-x64-
+
+      - name: Bootstrap vcpkg
+        run: |
+          cd vcpkg
+          .\bootstrap-vcpkg.bat -disableMetrics
+        shell: cmd
+
+      - name: Configure (CMake – modular build, COMMUNITY, Debug)
+        run: |
+          cmake -S cmake -B build-windows-check `
+            -G Ninja `
+            -DCMAKE_C_COMPILER=cl.exe `
+            -DCMAKE_CXX_COMPILER=cl.exe `
+            -DCMAKE_BUILD_TYPE=Debug `
+            -DTHEMIS_BUILD_MODULAR=ON `
+            -DTHEMIS_EDITION=COMMUNITY `
+            -DTHEMIS_ENABLE_GPU=OFF `
+            -DTHEMIS_ENABLE_LLM=OFF `
+            -DTHEMIS_ENABLE_CUDA=OFF `
+            -DTHEMIS_ENABLE_TRACING=OFF `
+            -DTHEMIS_ENABLE_GRPC=OFF `
+            -DTHEMIS_BUILD_TESTS=OFF `
+            -DTHEMIS_CI_MODE=ON `
+            "-DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake" `
+            -DVCPKG_TARGET_TRIPLET=x64-windows
+        shell: pwsh
+
+      - name: Build themis_base (DLL export check)
+        run: cmake --build build-windows-check --target themis_base --config Debug -- -j2
+        shell: pwsh
+
+      - name: Write job summary
+        if: always()
+        shell: pwsh
+        run: |
+          $summary = @"
+          ## 🪟 Themis Core CI – Windows Compile Check
+
+          | Parameter | Value |
+          |-----------|-------|
+          | **OS** | ``windows-2022`` |
+          | **Compiler** | ``MSVC (cl.exe)`` |
+          | **Build type** | ``Debug`` |
+          | **Modular build** | ``ON`` |
+          | **Edition** | ``COMMUNITY`` |
+          | **Event** | ``${{ github.event_name }}`` |
+          | **Branch** | ``${{ github.ref_name }}`` |
+          | **Commit** | ``${{ github.sha }}`` |
+
+          Verifies that ``THEMIS_BASE_API`` export macros compile correctly with MSVC.
+          "@
+          $summary | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Encoding utf8 -Append

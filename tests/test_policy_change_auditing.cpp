@@ -240,6 +240,8 @@ protected:
 
         JWTValidatorConfig cfg;
         cfg.jwks_url = "http://localhost:8080/jwks";
+        cfg.require_issuer_validation = false;
+        cfg.require_audience_validation = false;
         validator_ = std::make_unique<JWTValidator>(cfg);
         logger_    = std::make_unique<AuditLogger>(nullptr, nullptr,
                                                     makeAuditConfig(log_path_));

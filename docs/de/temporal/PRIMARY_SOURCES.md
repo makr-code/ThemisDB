@@ -5,9 +5,12 @@
 - `include/temporal/FUTURE_ENHANCEMENTS.md`
 - `include/temporal/README.md`
 - `src/temporal/ARCHITECTURE.md`
+- `src/temporal/AUDIT.md`
+- `src/temporal/CHANGELOG.md`
 - `src/temporal/FUTURE_ENHANCEMENTS.md`
 - `src/temporal/README.md`
 - `src/temporal/ROADMAP.md`
+- `src/temporal/SECURITY.md`
 
 **Bezug / Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -26,9 +29,12 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`temporal`*
 | Datei | Pfad |
 |-------|------|
 | `ARCHITECTURE.md` | [`src/temporal/ARCHITECTURE.md`](../../../src/temporal/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/temporal/AUDIT.md`](../../../src/temporal/AUDIT.md) |
+| `CHANGELOG.md` | [`src/temporal/CHANGELOG.md`](../../../src/temporal/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/temporal/FUTURE_ENHANCEMENTS.md`](../../../src/temporal/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/temporal/README.md`](../../../src/temporal/README.md) |
 | `ROADMAP.md` | [`src/temporal/ROADMAP.md`](../../../src/temporal/ROADMAP.md) |
+| `SECURITY.md` | [`src/temporal/SECURITY.md`](../../../src/temporal/SECURITY.md) |
 
 ### `include/temporal/`
 

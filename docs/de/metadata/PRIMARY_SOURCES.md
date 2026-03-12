@@ -5,9 +5,12 @@
 - `include/metadata/FUTURE_ENHANCEMENTS.md`
 - `include/metadata/README.md`
 - `src/metadata/ARCHITECTURE.md`
+- `src/metadata/AUDIT.md`
+- `src/metadata/CHANGELOG.md`
 - `src/metadata/FUTURE_ENHANCEMENTS.md`
 - `src/metadata/README.md`
 - `src/metadata/ROADMAP.md`
+- `src/metadata/SECURITY.md`
 
 **Bezug / Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -26,9 +29,12 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`metadata`*
 | Datei | Pfad |
 |-------|------|
 | `ARCHITECTURE.md` | [`src/metadata/ARCHITECTURE.md`](../../../src/metadata/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/metadata/AUDIT.md`](../../../src/metadata/AUDIT.md) |
+| `CHANGELOG.md` | [`src/metadata/CHANGELOG.md`](../../../src/metadata/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/metadata/FUTURE_ENHANCEMENTS.md`](../../../src/metadata/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/metadata/README.md`](../../../src/metadata/README.md) |
 | `ROADMAP.md` | [`src/metadata/ROADMAP.md`](../../../src/metadata/ROADMAP.md) |
+| `SECURITY.md` | [`src/metadata/SECURITY.md`](../../../src/metadata/SECURITY.md) |
 
 ### `include/metadata/`
 
