@@ -2,6 +2,7 @@
 **Date:** 2026-03-12  
 **Status:** draft  
 **Primary Source:**
+- `src/maintenance/FUTURE_ENHANCEMENTS.md`
 - `src/maintenance/ROADMAP.md`
 
 **Reference:**
@@ -20,6 +21,7 @@ This index lists all Markdown documentation files for module **`maintenance`** f
 
 | File | Path |
 |------|------|
+| `FUTURE_ENHANCEMENTS.md` | [`src/maintenance/FUTURE_ENHANCEMENTS.md`](../../../src/maintenance/FUTURE_ENHANCEMENTS.md) |
 | `ROADMAP.md` | [`src/maintenance/ROADMAP.md`](../../../src/maintenance/ROADMAP.md) |
 
 ---
