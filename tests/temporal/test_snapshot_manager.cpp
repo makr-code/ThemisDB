@@ -271,7 +271,7 @@ TEST_F(TemporalSnapshotManagerTest, GarbageCollectByAge_RemovesExpired) {
     SystemVersionedTable t{"tbl", "node_a"};
     populateTable(t);
 
-    // Create snapshot at fake_time_ = 1000
+    // Create snapshot at the current fake_time_
     auto handle = mgr.createSnapshot({{"tbl", &t}});
 
     // Advance clock by 100ms so the 10ms max_age threshold is exceeded
@@ -324,7 +324,7 @@ TEST_F(TemporalSnapshotManagerTest, GarbageCollectByAge_OnlyRemovesExpired) {
     SystemVersionedTable t{"tbl", "node_a"};
     populateTable(t);
 
-    // Snapshot at t=1000
+    // Snapshot at the current fake_time_
     auto old_handle = mgr.createSnapshot({{"tbl", &t}});
 
     // Advance so old snapshot is 100ms old, then create a fresh one
