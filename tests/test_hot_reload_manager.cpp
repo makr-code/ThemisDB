@@ -459,6 +459,10 @@ TEST_F(HotReloadManagerTest, ConcurrentReadersWithReloadThread) {
     const int iterations  = 50;
 
     std::atomic<bool> done{false};
+    // Tracks whether any reader thread observed an empty module list.
+    // Using an atomic avoids calling EXPECT_* from non-main threads, which is
+    // not thread-safe in GoogleTest.
+    std::atomic<bool> reader_saw_empty_list{false};
 
     // 1 reload thread – all reload calls will fail (nonexistent path) but
     // they exercise the write path protected by std::unique_lock.
@@ -479,14 +483,21 @@ TEST_F(HotReloadManagerTest, ConcurrentReadersWithReloadThread) {
                 (void)mgr.isRollbackAvailable("shared_mod");
                 auto names = mgr.registeredModules();
                 (void)mgr.getStats();
-                // "shared_mod" must remain registered throughout.
-                EXPECT_FALSE(names.empty());
+                // Record failure condition without calling EXPECT_* from a
+                // worker thread (GoogleTest assertions are not thread-safe).
+                if (names.empty()) {
+                    reader_saw_empty_list.store(true, std::memory_order_relaxed);
+                }
             }
         });
     }
 
     reload_thread.join();
     for (auto& t : readers) t.join();
+
+    // All assertions run on the main test thread after all workers have joined.
+    EXPECT_FALSE(reader_saw_empty_list.load())
+        << "A reader thread observed an empty module list during concurrent access";
 
     // Verify state is consistent after concurrent access.
     auto names = mgr.registeredModules();
