@@ -9,9 +9,10 @@
  * process authoring tool for the ThemisDB ecosystem.  It produces YAML files
  * using the schema documented in `config/process_models/README.md`.
  *
- * Implementation note: the YAML parser uses nlohmann/json's built-in YAML-to-JSON
- * adapter when available; otherwise we provide a minimal hand-written parser
- * that covers the subset of YAML used by VCC-VPB.
+ * Implementation note: the YAML parser is a minimal hand-written parser that
+ * covers the subset of YAML used by VCC-VPB (single-level keys, simple lists,
+ * indented activity/edge blocks). Full YAML 1.2 constructs (anchors, custom
+ * tags, multi-document streams) are not supported.
  */
 
 #include "process/vcc_vpb_importer.h"

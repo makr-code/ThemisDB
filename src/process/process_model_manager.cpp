@@ -35,6 +35,8 @@ std::string_view toString(ProcessNotation n) {
         case ProcessNotation::BPMN_2_0:  return "BPMN_2_0";
         case ProcessNotation::EPK:        return "EPK";
         case ProcessNotation::VCC_VPB:    return "VCC_VPB";
+        case ProcessNotation::CMMN_1_1:  return "CMMN_1_1";
+        case ProcessNotation::DMN_1_5:   return "DMN_1_5";
     }
     return "UNKNOWN";
 }
@@ -66,6 +68,8 @@ ProcessNotation notationFromString(std::string_view s) {
     if (s == "BPMN_2_0" || s == "BPMN") return ProcessNotation::BPMN_2_0;
     if (s == "EPK")                       return ProcessNotation::EPK;
     if (s == "VCC_VPB")                   return ProcessNotation::VCC_VPB;
+    if (s == "CMMN_1_1" || s == "CMMN")  return ProcessNotation::CMMN_1_1;
+    if (s == "DMN_1_5"  || s == "DMN")   return ProcessNotation::DMN_1_5;
     return ProcessNotation::BPMN_2_0;
 }
 

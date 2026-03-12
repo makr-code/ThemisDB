@@ -19,6 +19,8 @@ enum class ProcessNotation {
     BPMN_2_0,   ///< Business Process Model and Notation 2.0 (ISO/IEC 19510)
     EPK,         ///< Ereignisgesteuerte Prozesskette (Event-driven Process Chain)
     VCC_VPB,     ///< VCC-VPB YAML process definition format
+    CMMN_1_1,   ///< Case Management Model and Notation 1.1 (OMG)
+    DMN_1_5,    ///< Decision Model and Notation 1.5 (OMG)
 };
 
 /**
