@@ -31,6 +31,7 @@
 #pragma once
 
 #include <string>
+#include "themis/export.h"
 
 namespace themis {
 namespace modules {
@@ -60,7 +61,7 @@ struct ModuleSignatureVerificationResult {
  *
  * Thread-safety: all methods are stateless and thread-safe.
  */
-class ModuleSignatureVerifier {
+class THEMIS_BASE_API ModuleSignatureVerifier {
 public:
     /**
      * @brief Verify the digital signature of a module file.

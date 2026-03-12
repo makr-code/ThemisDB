@@ -75,6 +75,8 @@ See "In Progress" section above for `license_info.cpp` and `module_loader.cpp` m
 - [x] Unit tests for module signature verifier (tests/test_module_signature_verifier.cpp; CTest: ModuleSignatureVerifierFocusedTests)
 - [x] Unit tests for module dependency resolver (tests/test_module_dependency_resolver.cpp; CTest: ModuleDependencyResolverFocusedTests)
 - [x] Build system: edition_manager.cpp, module_hash_verifier.cpp, module_signature_verifier.cpp registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake
+- [x] Export macros: THEMIS_BASE_API applied to all public API declarations in build_info.h, edition_manager.h, license_info.h, module_hash_verifier.h, module_signature_verifier.h
+- [x] Windows CI: windows-compile-check job added to themis-core-ci.yml (MSVC/x64, modular build, verifies DLL export macros)
 - [?] Integration tests (module load, license validation, build info)
 - [?] Performance benchmarks (module load time, license check overhead)
 - [?] Security audit (signature verification, constant-time license comparison)

@@ -56,6 +56,7 @@
 #define THEMIS_EDITION_MANAGER_H
 
 #include "themis/edition.h"
+#include "themis/export.h"
 
 #include <mutex>
 #include <optional>
@@ -77,7 +78,7 @@ namespace edition {
  *
  * All public methods are thread-safe.
  */
-class EditionManager {
+class THEMIS_BASE_API EditionManager {
 public:
     /// Retrieve the process-wide singleton instance.
     static EditionManager& instance();
