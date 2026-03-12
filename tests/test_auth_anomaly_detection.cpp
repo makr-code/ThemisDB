@@ -31,6 +31,7 @@
 
 #include <gtest/gtest.h>
 #include "auth/auth_rate_limiter.h"
+#include "auth/auth_metrics.h"
 #include "utils/audit_logger.h"
 #include <atomic>
 #include <string>
@@ -541,37 +542,38 @@ protected:
         cfg.enable_cs_persistent_backend = false;
     }
 
-    // Helper: trigger credential stuffing threshold from a fresh IP by sending
-    // `threshold` distinct usernames.  Collect the resulting anomaly event.
-    // After this, the IP window resets so the helper can be called multiple
-    // times with different IPs to drive multiple breaches for the same user.
+    // Helper: trigger credential stuffing threshold from a unique IP by sending
+    // `threshold` distinct usernames.  Returns the resulting anomaly event.
+    //
+    // Each call uses its own `ip` argument so IP-level state never needs to be
+    // cleared between calls — the breach counter for `user_id` accumulates
+    // across calls while the IP windows are independent.  No reset() is used,
+    // which lets the per-user breach count grow naturally across successive
+    // calls in the same test.
     AuthAnomalyEvent triggerStuffingForUser(AuthRateLimiter& rl,
                                             const std::string& user_id,
                                             const std::string& ip)
     {
-        rl.reset();  // clear IP-level state so each call gets a fresh window
-        // Re-register callback after reset
+        collected.clear();
         rl.setAnomalyCallback([&](const AuthAnomalyEvent& ev) {
             if (ev.type == AuthAnomalyEvent::Type::CREDENTIAL_STUFFING_SUSPECTED) {
                 std::lock_guard<std::mutex> l(collected.mtx);
                 collected.events.push_back(ev);
             }
         });
-        // Use threshold-1 filler users then the target user to cross the threshold
+        // Use threshold-1 filler users then the target user to cross the threshold.
+        // All attempts come from the same `ip` so the IP-level window fires.
         for (size_t i = 0; i + 1 < cfg.credential_stuffing_user_threshold; ++i) {
             rl.recordFailedAuth("filler_" + ip + "_" + std::to_string(i), ip, "bad_pw");
         }
         rl.recordFailedAuth(user_id, ip, "bad_pw");
 
-        // Wait briefly for the async-free callback
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
-
+        // The anomaly callback is invoked synchronously inside recordFailedAuth,
+        // so no sleep is needed here.
         std::lock_guard<std::mutex> l(collected.mtx);
         EXPECT_FALSE(collected.events.empty()) << "Expected a stuffing event";
         if (collected.events.empty()) return AuthAnomalyEvent{};
-        AuthAnomalyEvent ev = collected.events.back();
-        collected.events.clear();
-        return ev;
+        return collected.events.back();
     }
 };
 
@@ -633,7 +635,7 @@ TEST_F(CredentialStuffingEscalationTest, AnomalyEventCarriesUserIdOnFailedAuth) 
     EXPECT_TRUE(found) << "Expected anomaly event with user_id='" << victim << "'";
 }
 
-TEST_F(CredentialStuffingEscalationTest, InMemoryBreachCountPersistsAcrossReset) {
+TEST_F(CredentialStuffingEscalationTest, InMemoryBreachCountClearedByReset) {
     // When enable_cs_persistent_backend=false (in-memory), the breach count
     // is stored in the in-process map and is cleared by reset().
     // After a reset the breach count starts fresh.
@@ -671,8 +673,6 @@ TEST_F(CredentialStuffingEscalationTest, InMemoryBreachCountPersistsAcrossReset)
 // AuthMetrics: credential_stuffing_attempts_total
 // ─────────────────────────────────────────────────────────────────────────────
 
-#include "auth/auth_metrics.h"
-
 TEST(AuthMetricsCredentialStuffingTest, RecordIncreasesInternalCounter) {
     AuthMetrics metrics;
     metrics.recordCredentialStuffingAttempt("user1", "1.2.3.4", "captcha_required");
@@ -693,12 +693,13 @@ TEST(AuthMetricsCredentialStuffingTest, MetricsWiredToRateLimiter) {
     AuthRateLimiter rl(cfg);
     rl.setMetrics(&metrics);
 
+    const auto before_total = metrics.getCredentialStuffingTotal();
+
     const std::string ip = "10.9.0.1";
     for (size_t i = 0; i + 1 < cfg.credential_stuffing_user_threshold; ++i) {
         rl.recordFailedAuth("fill" + std::to_string(i), ip, "bad");
     }
     rl.recordFailedAuth("wired_victim", ip, "bad");  // crosses threshold → metric recorded
 
-    // No crash and the call succeeded.
-    SUCCEED();
+    EXPECT_GT(metrics.getCredentialStuffingTotal(), before_total);
 }

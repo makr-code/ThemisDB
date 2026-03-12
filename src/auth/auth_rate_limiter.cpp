@@ -279,6 +279,7 @@ AuthRateLimiter::AuthRateLimiter(const AuthRateLimitConfig& config)
 
 #ifdef THEMIS_ENABLE_REDIS
     if (config_.enable_cs_persistent_backend) {
+        std::lock_guard<std::mutex> rlock(cs_redis_mutex_);
         connectCsRedis();
     }
 #else
@@ -528,12 +529,15 @@ uint32_t AuthRateLimiter::incrementAndGetBreachCount(const std::string& user_id)
             if (reply && reply->type == REDIS_REPLY_INTEGER) {
                 long long count = reply->integer;
                 freeReplyObject(reply);
-                // Set 25h TTL so the key expires shortly after the day rolls over.
-                // EXPIRE only changes TTL when key is not brand new; harmless to repeat.
-                redisReply* ex = static_cast<redisReply*>(
-                    redisCommand(cs_redis_ctx_, "EXPIRE %s %d",
-                                 key.c_str(), kCsBreachKeyTtlSeconds));
-                if (ex) freeReplyObject(ex);
+                // Set TTL only when the key is first created so it expires near
+                // the intended day boundary and is not extended by subsequent
+                // breaches under the same key.
+                if (count == 1) {
+                    redisReply* ex = static_cast<redisReply*>(
+                        redisCommand(cs_redis_ctx_, "EXPIRE %s %d",
+                                     key.c_str(), kCsBreachKeyTtlSeconds));
+                    if (ex) freeReplyObject(ex);
+                }
                 return static_cast<uint32_t>(count);
             }
             if (reply) freeReplyObject(reply);
