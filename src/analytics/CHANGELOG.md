@@ -1,0 +1,53 @@
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+
+# Changelog — Analytics Module
+
+All notable changes to the Analytics module are documented here.  
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+
+## [Unreleased]
+- Federated analytics query dispatch across multiple ThemisDB clusters (Target: Q3 2026)
+- SARIMA and Prophet-style forecasting models (Target: Q4 2026)
+- AutoML ONNX export and deployment pipeline (Target: Q4 2026)
+- GPU-accelerated OLAP aggregations (CUDA) — PR open (Issue #1469)
+- Zero-copy Arrow data transfer optimizations — PR open (Issue #1471)
+
+## [1.7.0] — 2026-03-09
+### Added
+- AutoML integration: automated model selection for Logistic Regression, Decision Tree, Random Forest, Gradient Boosting, KNN, Linear Regression with hyperparameter search, feature engineering, ensemble generation, and SHAP-based explanations (`analytics/automl.cpp`)
+- Integration with external ML tools: ONNX Runtime (local inference) and TensorFlow Serving (REST API) via unified `MLServingClient` (`analytics/ml_serving.cpp`)
+- Model serving and online inference pipeline: named+versioned model registry, online/batch inference, class-probability output, per-model health metrics (`analytics/model_serving.cpp`)
+- Predictive analytics and time-series forecasting: LINEAR_REGRESSION, EXP_SMOOTHING, Holt-Winters triple exponential, ARIMA (Yule-Walker), ENSEMBLE with weighted combination; confidence intervals, seasonal decomposition, accuracy metrics (MAE, RMSE, MAPE, sMAPE) (`analytics/forecasting.cpp`)
+- Multi-language NLP support and full morphological lemmatization (Issue #1478, #1479)
+- Advanced graph analytics: betweenness centrality, Louvain community detection (Issue #1475)
+- Arrow Flight RPC support for remote analytics: in-process + optional native gRPC transport (`analytics/arrow_flight.cpp`)
+
+## [1.6.0] — 2026-02-15
+### Added
+- CEP stateful pattern matching with checkpointing: `PatternMatcher::serializeState()`/`restoreState()`, `RuleEngine::serializeMatcherStates()`/`restoreMatcherStates()` — full NFA partial-match persistence across restarts
+- CEP engine backpressure: engine queue depth limit, drop policy, backpressure signal at configurable threshold, Prometheus metrics
+- Streaming aggregation windows: `TumblingWindow`, `SlidingWindow`, `SessionWindow`, `HoppingWindow` with watermark support (`analytics/streaming_window.cpp`)
+- Incremental materialized views with delta-maintenance for all 10 aggregation functions; Welford STDDEV/VARIANCE; COUNT_DISTINCT ref-counting (`analytics/incremental_view.cpp`)
+- Real-time anomaly detection: Z-Score, Modified Z-Score (MAD), IQR, Isolation Forest, LOF, Ensemble with adaptive learning (`analytics/anomaly_detection.cpp`)
+
+## [1.5.0] — 2026-01-10
+### Added
+- CEP full engine: NFA pattern matching, EPL parser (`CREATE RULE … AS`), SELECT aggregations with GROUP BY, WINDOW specs, PATTERN WITHIN, ACTION dispatch (alert/webhook/db_write/log/slack/kafka/email) (`analytics/cep_engine.cpp`)
+- SIMD-accelerated aggregations (AVX2) for GROUP BY queries
+- Process mining: Alpha Miner, Heuristic Miner, Inductive Miner; conformance checking (token replay and alignment-based)
+- NLP text analyzer: tokenization, TF-IDF, NER, sentiment, keyword extraction (`analytics/nlp_text_analyzer.cpp`)
+- LLM process analyzer: OpenAI, Anthropic, Azure OpenAI, llama.cpp integration (`analytics/llm_process_analyzer.cpp`)
+- Diff engine: changefeed-backed git-like document diffs (`analytics/diff_engine.cpp`)
+- Distributed analytics: `DistributedOLAPEngine` for scatter-gather across shards (`analytics/distributed_analytics.cpp`)
+
+## [1.0.0] — 2024-01-01
+### Added
+- OLAP engine with GROUP BY, CUBE, ROLLUP, and GROUPING SETS
+- Window functions: ROW_NUMBER, SUM OVER, AVG OVER with frame specs
+- Statistical aggregations: COUNT, SUM, AVG, MIN, MAX, STDDEV, VARIANCE, MEDIAN, PERCENTILE
+- Hash-based aggregation with result caching
+- Columnar (Arrow) RecordBatch storage
+- JSON and CSV export
+- Optional Apache Arrow IPC, Parquet (with compression), and Feather export
+- Thread-safe `OLAPEngine` for concurrent queries
