@@ -305,8 +305,20 @@ TEST_P(QueryAcceleratorParityTest, HashJoin_Parity) {
     auto cpu_res = cpu_acc.hashJoin(left_rows, right_rows, key_fn, key_fn);
     auto gpu_res = gpu_acc.hashJoin(left_rows, right_rows, key_fn, key_fn);
 
-    // Both paths must produce the same number of result pairs.
-    EXPECT_EQ(cpu_res.pairs.size(), gpu_res.pairs.size());
+    ASSERT_EQ(cpu_res.pairs.size(), gpu_res.pairs.size());
+
+    // Compare actual pair contents: build (left.id, right.id) multisets from
+    // both results and assert they are identical, regardless of emit order.
+    using IdPair = std::pair<uint64_t, uint64_t>;
+    auto toIdPairs = [](const std::vector<std::pair<Row, Row>>& pairs) {
+        std::vector<IdPair> v;
+        v.reserve(pairs.size());
+        for (const auto& p : pairs) v.emplace_back(p.first.id, p.second.id);
+        std::sort(v.begin(), v.end());
+        return v;
+    };
+
+    EXPECT_EQ(toIdPairs(cpu_res.pairs), toIdPairs(gpu_res.pairs));
 }
 
 TEST_P(QueryAcceleratorParityTest, HashJoin_NoMatch_Parity) {

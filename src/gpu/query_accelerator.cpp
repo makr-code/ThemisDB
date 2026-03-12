@@ -263,27 +263,49 @@ GPUQueryAccelerator::scan(const std::vector<Row>& rows, FilterFn filter) {
     if (use_gpu && !filter) {
         bool gpu_done = false;
         try {
-            // Pass-all scan: demonstrate device data movement.
-            // With a host-callable filter the predicate evaluation itself must
-            // run on the host; we therefore only take the GPU path when filter
-            // is nullptr (pass-everything scan), where we round-trip through
-            // device memory to exercise the GPU data path.
+            // Pass-all scan: use thrust::copy_if with an always-true device
+            // predicate to exercise a real GPU select primitive.  Host-callable
+            // filter predicates fall through to the CPU path below.
             const size_t n = rows.size();
-            thrust::device_vector<uint32_t> d_idx(n);
-            thrust::sequence(d_idx.begin(), d_idx.end());
 
-            // All rows pass — copy indices back (no device-side filter needed)
-            std::vector<uint32_t> h_idx(n);
-            thrust::copy(d_idx.begin(), d_idx.end(), h_idx.begin());
+            // Generate row indices [0, 1, ..., n-1] on device.
+            thrust::device_vector<uint64_t> d_idx(n);
+            thrust::sequence(thrust::device, d_idx.begin(), d_idx.end(),
+                             uint64_t{0});
 
-            result.rows.reserve(n);
-            for (uint32_t i : h_idx) {
-                result.rows.push_back(rows[i]);
+            // Device-side select with always-true predicate (copy_if).
+            struct AlwaysTrue {
+                __host__ __device__ bool operator()(const uint64_t&) const {
+                    return true;
+                }
+            };
+
+            thrust::device_vector<uint64_t> d_selected(n);
+            auto d_end = thrust::copy_if(thrust::device,
+                                         d_idx.begin(), d_idx.end(),
+                                         d_selected.begin(),
+                                         AlwaysTrue{});
+            const size_t selected_count =
+                static_cast<size_t>(d_end - d_selected.begin());
+
+            // Copy selected indices back to host.
+            std::vector<uint64_t> h_idx(selected_count);
+            thrust::copy(thrust::device,
+                         d_selected.begin(), d_end,
+                         h_idx.begin());
+
+            result.rows.reserve(selected_count);
+            for (uint64_t i : h_idx) {
+                result.rows.push_back(rows[static_cast<size_t>(i)]);
             }
             result.rows_passed = result.rows.size();
             gpu_done = true;
+        } catch (const std::exception& ex) {
+            // Thrust system_error or std::runtime_error — fall through.
+            (void)ex;
+            result.rows.clear();
+            gpu_done = false;
         } catch (...) {
-            // Device memory allocation failure or Thrust error — fall through.
             result.rows.clear();
             gpu_done = false;
         }
@@ -352,16 +374,17 @@ GPUQueryAccelerator::sort(std::vector<Row> rows, KeyFn key_fn, SortOrder order) 
             const size_t n = rows.size();
 
             // 1. Extract numeric keys and row indices on host.
+            // Use uint64_t for indices to support datasets larger than 2^32 rows.
             std::vector<double>   h_keys(n);
-            std::vector<uint32_t> h_idx(n);
+            std::vector<uint64_t> h_idx(n);
             for (size_t i = 0; i < n; ++i) {
                 h_keys[i] = key_fn(rows[i]);
-                h_idx[i]  = static_cast<uint32_t>(i);
+                h_idx[i]  = static_cast<uint64_t>(i);
             }
 
             // 2. Upload to device.
             thrust::device_vector<double>   d_keys(h_keys.begin(), h_keys.end());
-            thrust::device_vector<uint32_t> d_idx(h_idx.begin(), h_idx.end());
+            thrust::device_vector<uint64_t> d_idx(h_idx.begin(), h_idx.end());
 
             // 3. Stable sort indices by key (ascending or descending).
             if (order == SortOrder::ASC) {
@@ -374,18 +397,21 @@ GPUQueryAccelerator::sort(std::vector<Row> rows, KeyFn key_fn, SortOrder order) 
             }
 
             // 4. Copy sorted indices back to host.
-            std::vector<uint32_t> sorted_idx(n);
+            std::vector<uint64_t> sorted_idx(n);
             thrust::copy(d_idx.begin(), d_idx.end(), sorted_idx.begin());
 
             // 5. Gather rows into sorted order.
             std::vector<Row> sorted_rows(n);
             for (size_t i = 0; i < n; ++i) {
-                sorted_rows[i] = std::move(rows[sorted_idx[i]]);
+                sorted_rows[i] = std::move(rows[static_cast<size_t>(sorted_idx[i])]);
             }
             rows = std::move(sorted_rows);
             gpu_done = true;
+        } catch (const std::exception& ex) {
+            // Thrust system_error or std::runtime_error — fall through to CPU.
+            (void)ex;
+            gpu_done = false;
         } catch (...) {
-            // cudaMalloc / Thrust error — fall through to CPU path.
             gpu_done = false;
         }
         if (gpu_done) {
@@ -493,8 +519,11 @@ GPUQueryAccelerator::aggregate(const std::vector<Row>& rows,
             }
             result.value = gpu_result;
             gpu_done = true;
+        } catch (const std::exception& ex) {
+            // Thrust system_error or std::runtime_error — fall through to CPU.
+            (void)ex;
+            gpu_done = false;
         } catch (...) {
-            // cudaMalloc / Thrust error — fall through to CPU path.
             gpu_done = false;
         }
         if (gpu_done) {
@@ -583,9 +612,12 @@ GPUQueryAccelerator::hashJoin(const std::vector<Row>& left,
 
     // GPU path — two-phase sort-based join using Thrust (CUDA/HIP).
     //
-    // Phase 1 (Build): copy build-side keys to device, sort with row indices.
-    // Phase 2 (Probe): for each probe key use device binary search to find the
-    //   range of matching build keys, then emit pairs on host.
+    // Phase 1 (Build): copy build-side keys to device, sort with row indices
+    //   using thrust::stable_sort_by_key — this is where the GPU is used.
+    // Phase 2 (Probe): download sorted keys+indices to host; for each probe
+    //   key run std::lower/upper_bound over the host-side sorted array.
+    //   The probe is sequential since JoinKeyFn is a host functor; the GPU
+    //   work is the sort in Phase 1.
     //
     // Sort-based joins deliver predictable O(n log n) device-side work without
     // requiring custom hash-table kernels, and leverage Thrust's tuned sort
@@ -598,31 +630,30 @@ GPUQueryAccelerator::hashJoin(const std::vector<Row>& left,
             const size_t bn = build_side->size();
             const size_t pn = probe_side->size();
 
+            // Use uint64_t for indices to support tables larger than 2^32 rows.
             std::vector<uint64_t> h_build_keys(bn);
-            std::vector<uint32_t> h_build_idx(bn);
+            std::vector<uint64_t> h_build_idx(bn);
             for (size_t i = 0; i < bn; ++i) {
                 h_build_keys[i] = build_key((*build_side)[i]);
-                h_build_idx[i]  = static_cast<uint32_t>(i);
+                h_build_idx[i]  = static_cast<uint64_t>(i);
             }
 
             // Upload build-side keys and sort on device.
             thrust::device_vector<uint64_t> d_bkeys(h_build_keys.begin(),
                                                      h_build_keys.end());
-            thrust::device_vector<uint32_t> d_bidx(h_build_idx.begin(),
+            thrust::device_vector<uint64_t> d_bidx(h_build_idx.begin(),
                                                     h_build_idx.end());
             thrust::stable_sort_by_key(d_bkeys.begin(), d_bkeys.end(),
                                        d_bidx.begin());
 
             // Download sorted build keys and indices for probe phase.
             std::vector<uint64_t> sorted_bkeys(bn);
-            std::vector<uint32_t> sorted_bidx(bn);
+            std::vector<uint64_t> sorted_bidx(bn);
             thrust::copy(d_bkeys.begin(), d_bkeys.end(), sorted_bkeys.begin());
             thrust::copy(d_bidx.begin(), d_bidx.end(),  sorted_bidx.begin());
 
-            // Probe phase: for each probe key do binary search over the
-            // host-side sorted build keys (the GPU sort already paid for the
-            // O(n log n) work; the probe is sequential since probe_key is a
-            // host functor).
+            // Probe phase: for each probe key binary-search the host-side
+            // sorted build keys (GPU sort already paid for O(n log n) work).
             for (size_t pi = 0; pi < pn; ++pi) {
                 uint64_t pk = probe_key((*probe_side)[pi]);
                 auto lo = std::lower_bound(sorted_bkeys.begin(),
@@ -630,8 +661,8 @@ GPUQueryAccelerator::hashJoin(const std::vector<Row>& left,
                 auto hi = std::upper_bound(sorted_bkeys.begin(),
                                            sorted_bkeys.end(), pk);
                 for (auto it = lo; it != hi; ++it) {
-                    size_t bi = sorted_bidx[
-                        static_cast<size_t>(std::distance(sorted_bkeys.begin(), it))];
+                    size_t bi = static_cast<size_t>(sorted_bidx[
+                        static_cast<size_t>(std::distance(sorted_bkeys.begin(), it))]);
                     if (!swapped) {
                         result.pairs.emplace_back((*build_side)[bi],
                                                   (*probe_side)[pi]);
@@ -642,8 +673,12 @@ GPUQueryAccelerator::hashJoin(const std::vector<Row>& left,
                 }
             }
             gpu_done = true;
+        } catch (const std::exception& ex) {
+            // Thrust system_error or std::runtime_error — fall through to CPU.
+            (void)ex;
+            result.pairs.clear();
+            gpu_done = false;
         } catch (...) {
-            // cudaMalloc / Thrust error — fall through to CPU path.
             result.pairs.clear();
             gpu_done = false;
         }
@@ -713,11 +748,11 @@ GPUQueryAccelerator::dotProduct(const std::vector<float>& a,
     // GPU path — cuBLAS (CUDA) / hipBLAS (HIP) dispatch.
     //
     // FP32: cublasSdot / hipblasSdot — single-precision dot product.
-    // FP16: cublasHgemm / hipblasHgemm treating the two vectors as 1×n and
-    //       n×1 matrices, giving a 1×1 result equal to the dot product.
-    //       Inputs are quantised to __half on host before upload.
-    // BF16: cublasGemmEx with CUDA_R_16BF / hipblasGemmEx with HIPBLAS_R_16B —
-    //       same matrix trick with bfloat16 inputs.
+    // FP16: cublasGemmEx / hipblasGemmEx with CUDA_R_16F / HIPBLAS_R_16F inputs
+    //       and CUDA_R_32F / HIPBLAS_R_32F output, treating vectors as 1×n × n×1
+    //       matrices.  FP32 output avoids __half overflow/saturation on long vectors.
+    // BF16: cublasGemmEx with CUDA_R_16BF inputs + CUDA_R_32F output (CUDA only;
+    //       HIP BF16 support varies by ROCm version and falls to CPU).
     //
     // The cuBLAS handle is created per-call for simplicity.  In a production
     // deployment the handle should be owned by GpuModule and reused across
@@ -734,61 +769,70 @@ GPUQueryAccelerator::dotProduct(const std::vector<float>& a,
                     // --- FP32: cublasSdot ---
                     float* d_a = nullptr;
                     float* d_b = nullptr;
-                    if (cudaMalloc(&d_a, n * sizeof(float)) == cudaSuccess &&
-                        cudaMalloc(&d_b, n * sizeof(float)) == cudaSuccess) {
+                    const bool alloc_ok =
+                        cudaMalloc(&d_a, n * sizeof(float)) == cudaSuccess &&
+                        cudaMalloc(&d_b, n * sizeof(float)) == cudaSuccess;
+                    if (alloc_ok &&
                         cudaMemcpy(d_a, a.data(), n * sizeof(float),
-                                   cudaMemcpyHostToDevice);
+                                   cudaMemcpyHostToDevice) == cudaSuccess &&
                         cudaMemcpy(d_b, b.data(), n * sizeof(float),
-                                   cudaMemcpyHostToDevice);
+                                   cudaMemcpyHostToDevice) == cudaSuccess) {
                         float dot_result = 0.0f;
                         if (cublasSdot(blas_handle, n, d_a, 1, d_b, 1,
                                        &dot_result) == CUBLAS_STATUS_SUCCESS) {
                             result.value = static_cast<double>(dot_result);
                             gpu_done = true;
                         }
-                        cudaFree(d_a);
-                        cudaFree(d_b);
                     }
+                    // Unconditional cleanup — safe to call on nullptr.
+                    if (d_a) cudaFree(d_a);
+                    if (d_b) cudaFree(d_b);
 
                 } else if (config_.precision_mode == PrecisionMode::FP16) {
-                    // --- FP16: quantise on host, cublasHgemm (1×n × n×1) ---
+                    // --- FP16: quantise on host, cublasGemmEx (1×n × n×1) ---
+                    // Use CUDA_R_16F inputs with CUDA_R_32F output + FP32 compute
+                    // to avoid overflow/saturation that a __half output would cause.
                     std::vector<__half> ha(n), hb(n);
                     for (int i = 0; i < n; ++i) {
                         ha[i] = __float2half(a[i]);
                         hb[i] = __float2half(b[i]);
                     }
-                    __half* d_a  = nullptr;
-                    __half* d_b  = nullptr;
-                    __half* d_c  = nullptr;
-                    if (cudaMalloc(&d_a, n * sizeof(__half)) == cudaSuccess &&
+                    __half* d_a = nullptr;
+                    __half* d_b = nullptr;
+                    float*  d_c = nullptr;  // FP32 output avoids __half saturation
+                    const bool alloc_ok =
+                        cudaMalloc(&d_a, n * sizeof(__half)) == cudaSuccess &&
                         cudaMalloc(&d_b, n * sizeof(__half)) == cudaSuccess &&
-                        cudaMalloc(&d_c, sizeof(__half))     == cudaSuccess) {
+                        cudaMalloc(&d_c, sizeof(float))      == cudaSuccess;
+                    if (alloc_ok &&
                         cudaMemcpy(d_a, ha.data(), n * sizeof(__half),
-                                   cudaMemcpyHostToDevice);
+                                   cudaMemcpyHostToDevice) == cudaSuccess &&
                         cudaMemcpy(d_b, hb.data(), n * sizeof(__half),
-                                   cudaMemcpyHostToDevice);
-                        const __half alpha = __float2half(1.0f);
-                        const __half beta  = __float2half(0.0f);
-                        // Compute C (1×1) = A (1×n) * B (n×1)
-                        if (cublasHgemm(blas_handle,
-                                        CUBLAS_OP_N, CUBLAS_OP_N,
-                                        1, 1, n,
-                                        &alpha,
-                                        d_b, 1,   // B column-major: n×1
-                                        d_a, n,   // A column-major: 1×n stored as n×1 transposed
-                                        &beta,
-                                        d_c, 1)
-                            == CUBLAS_STATUS_SUCCESS) {
-                            __half h_c;
-                            cudaMemcpy(&h_c, d_c, sizeof(__half),
-                                       cudaMemcpyDeviceToHost);
-                            result.value = static_cast<double>(__half2float(h_c));
-                            gpu_done = true;
+                                   cudaMemcpyHostToDevice) == cudaSuccess) {
+                        const float alpha = 1.0f, beta = 0.0f;
+                        // Compute C (1×1) = A (1×n) * B (n×1) with FP32 accumulation
+                        if (cublasGemmEx(blas_handle,
+                                         CUBLAS_OP_N, CUBLAS_OP_N,
+                                         1, 1, n,
+                                         &alpha,
+                                         d_b, CUDA_R_16F, 1,   // B: n×1 column-major
+                                         d_a, CUDA_R_16F, n,   // A: 1×n as n×1 transposed
+                                         &beta,
+                                         d_c, CUDA_R_32F, 1,
+                                         CUBLAS_COMPUTE_32F,
+                                         CUBLAS_GEMM_DEFAULT) == CUBLAS_STATUS_SUCCESS) {
+                            float c_host = 0.0f;
+                            if (cudaMemcpy(&c_host, d_c, sizeof(float),
+                                           cudaMemcpyDeviceToHost) == cudaSuccess) {
+                                result.value = static_cast<double>(c_host);
+                                gpu_done = true;
+                            }
                         }
-                        cudaFree(d_a);
-                        cudaFree(d_b);
-                        cudaFree(d_c);
                     }
+                    // Unconditional cleanup.
+                    if (d_a) cudaFree(d_a);
+                    if (d_b) cudaFree(d_b);
+                    if (d_c) cudaFree(d_c);
 
                 } else {
                     // --- BF16: quantise on host, cublasGemmEx with BF16 types ---
@@ -800,13 +844,15 @@ GPUQueryAccelerator::dotProduct(const std::vector<float>& a,
                     __nv_bfloat16* d_a = nullptr;
                     __nv_bfloat16* d_b = nullptr;
                     float*         d_c = nullptr;  // accumulate in FP32
-                    if (cudaMalloc(&d_a, n * sizeof(__nv_bfloat16)) == cudaSuccess &&
+                    const bool alloc_ok =
+                        cudaMalloc(&d_a, n * sizeof(__nv_bfloat16)) == cudaSuccess &&
                         cudaMalloc(&d_b, n * sizeof(__nv_bfloat16)) == cudaSuccess &&
-                        cudaMalloc(&d_c, sizeof(float))              == cudaSuccess) {
+                        cudaMalloc(&d_c, sizeof(float))              == cudaSuccess;
+                    if (alloc_ok &&
                         cudaMemcpy(d_a, ba.data(), n * sizeof(__nv_bfloat16),
-                                   cudaMemcpyHostToDevice);
+                                   cudaMemcpyHostToDevice) == cudaSuccess &&
                         cudaMemcpy(d_b, bb.data(), n * sizeof(__nv_bfloat16),
-                                   cudaMemcpyHostToDevice);
+                                   cudaMemcpyHostToDevice) == cudaSuccess) {
                         const float alpha_f = 1.0f, beta_f = 0.0f;
                         if (cublasGemmEx(blas_handle,
                                          CUBLAS_OP_N, CUBLAS_OP_N,
@@ -817,20 +863,25 @@ GPUQueryAccelerator::dotProduct(const std::vector<float>& a,
                                          &beta_f,
                                          d_c, CUDA_R_32F,  1,
                                          CUBLAS_COMPUTE_32F,
-                                         CUBLAS_GEMM_DEFAULT)
-                            == CUBLAS_STATUS_SUCCESS) {
-                            float h_c;
-                            cudaMemcpy(&h_c, d_c, sizeof(float),
-                                       cudaMemcpyDeviceToHost);
-                            result.value = static_cast<double>(h_c);
-                            gpu_done = true;
+                                         CUBLAS_GEMM_DEFAULT) == CUBLAS_STATUS_SUCCESS) {
+                            float h_c = 0.0f;
+                            if (cudaMemcpy(&h_c, d_c, sizeof(float),
+                                           cudaMemcpyDeviceToHost) == cudaSuccess) {
+                                result.value = static_cast<double>(h_c);
+                                gpu_done = true;
+                            }
                         }
-                        cudaFree(d_a);
-                        cudaFree(d_b);
-                        cudaFree(d_c);
                     }
+                    // Unconditional cleanup.
+                    if (d_a) cudaFree(d_a);
+                    if (d_b) cudaFree(d_b);
+                    if (d_c) cudaFree(d_c);
                 }
             }
+        } catch (const std::exception& ex) {
+            // cuBLAS, Thrust, or std::runtime_error — fall through to CPU.
+            (void)ex;
+            gpu_done = false;
         } catch (...) {
             gpu_done = false;
         }
@@ -860,24 +911,29 @@ GPUQueryAccelerator::dotProduct(const std::vector<float>& a,
                     // --- FP32: hipblasSdot ---
                     float* d_a = nullptr;
                     float* d_b = nullptr;
-                    if (hipMalloc(&d_a, n * sizeof(float)) == hipSuccess &&
-                        hipMalloc(&d_b, n * sizeof(float)) == hipSuccess) {
+                    const bool alloc_ok =
+                        hipMalloc(&d_a, n * sizeof(float)) == hipSuccess &&
+                        hipMalloc(&d_b, n * sizeof(float)) == hipSuccess;
+                    if (alloc_ok &&
                         hipMemcpy(d_a, a.data(), n * sizeof(float),
-                                  hipMemcpyHostToDevice);
+                                  hipMemcpyHostToDevice) == hipSuccess &&
                         hipMemcpy(d_b, b.data(), n * sizeof(float),
-                                  hipMemcpyHostToDevice);
+                                  hipMemcpyHostToDevice) == hipSuccess) {
                         float dot_result = 0.0f;
                         if (hipblasSdot(blas_handle, n, d_a, 1, d_b, 1,
                                         &dot_result) == HIPBLAS_STATUS_SUCCESS) {
                             result.value = static_cast<double>(dot_result);
                             gpu_done = true;
                         }
-                        hipFree(d_a);
-                        hipFree(d_b);
                     }
+                    // Unconditional cleanup — safe to call on nullptr.
+                    if (d_a) hipFree(d_a);
+                    if (d_b) hipFree(d_b);
 
                 } else if (config_.precision_mode == PrecisionMode::FP16) {
-                    // --- FP16: quantise on host, hipblasHgemm (1×n × n×1) ---
+                    // --- FP16: quantise on host, hipblasGemmEx (1×n × n×1) ---
+                    // Use HIPBLAS_R_16F inputs + HIPBLAS_R_32F output to avoid
+                    // overflow/saturation from a hipblasHalf output.
                     std::vector<hipblasHalf> ha(n), hb(n);
                     for (int i = 0; i < n; ++i) {
                         ha[i] = __float2half(a[i]);
@@ -885,35 +941,40 @@ GPUQueryAccelerator::dotProduct(const std::vector<float>& a,
                     }
                     hipblasHalf* d_a = nullptr;
                     hipblasHalf* d_b = nullptr;
-                    hipblasHalf* d_c = nullptr;
-                    if (hipMalloc(&d_a, n * sizeof(hipblasHalf)) == hipSuccess &&
+                    float*       d_c = nullptr;  // FP32 output avoids saturation
+                    const bool alloc_ok =
+                        hipMalloc(&d_a, n * sizeof(hipblasHalf)) == hipSuccess &&
                         hipMalloc(&d_b, n * sizeof(hipblasHalf)) == hipSuccess &&
-                        hipMalloc(&d_c, sizeof(hipblasHalf))     == hipSuccess) {
+                        hipMalloc(&d_c, sizeof(float))           == hipSuccess;
+                    if (alloc_ok &&
                         hipMemcpy(d_a, ha.data(), n * sizeof(hipblasHalf),
-                                  hipMemcpyHostToDevice);
+                                  hipMemcpyHostToDevice) == hipSuccess &&
                         hipMemcpy(d_b, hb.data(), n * sizeof(hipblasHalf),
-                                  hipMemcpyHostToDevice);
-                        const hipblasHalf alpha = __float2half(1.0f);
-                        const hipblasHalf beta  = __float2half(0.0f);
-                        if (hipblasHgemm(blas_handle,
-                                         HIPBLAS_OP_N, HIPBLAS_OP_N,
-                                         1, 1, n,
-                                         &alpha,
-                                         d_b, 1,
-                                         d_a, n,
-                                         &beta,
-                                         d_c, 1)
-                            == HIPBLAS_STATUS_SUCCESS) {
-                            hipblasHalf h_c;
-                            hipMemcpy(&h_c, d_c, sizeof(hipblasHalf),
-                                      hipMemcpyDeviceToHost);
-                            result.value = static_cast<double>(__half2float(h_c));
-                            gpu_done = true;
+                                  hipMemcpyHostToDevice) == hipSuccess) {
+                        const float alpha = 1.0f, beta = 0.0f;
+                        if (hipblasGemmEx(blas_handle,
+                                          HIPBLAS_OP_N, HIPBLAS_OP_N,
+                                          1, 1, n,
+                                          &alpha,
+                                          d_b, HIPBLAS_R_16F, 1,
+                                          d_a, HIPBLAS_R_16F, n,
+                                          &beta,
+                                          d_c, HIPBLAS_R_32F, 1,
+                                          HIPBLAS_COMPUTE_32F,
+                                          HIPBLAS_GEMM_DEFAULT)
+                             == HIPBLAS_STATUS_SUCCESS) {
+                            float c_host = 0.0f;
+                            if (hipMemcpy(&c_host, d_c, sizeof(float),
+                                          hipMemcpyDeviceToHost) == hipSuccess) {
+                                result.value = static_cast<double>(c_host);
+                                gpu_done = true;
+                            }
                         }
-                        hipFree(d_a);
-                        hipFree(d_b);
-                        hipFree(d_c);
                     }
+                    // Unconditional cleanup.
+                    if (d_a) hipFree(d_a);
+                    if (d_b) hipFree(d_b);
+                    if (d_c) hipFree(d_c);
 
                 } else {
                     // BF16 on ROCm: fall through to CPU path (hipblasGemmEx
@@ -922,6 +983,10 @@ GPUQueryAccelerator::dotProduct(const std::vector<float>& a,
                     gpu_done = false;
                 }
             }
+        } catch (const std::exception& ex) {
+            // hipBLAS, Thrust, or std::runtime_error — fall through to CPU.
+            (void)ex;
+            gpu_done = false;
         } catch (...) {
             gpu_done = false;
         }
