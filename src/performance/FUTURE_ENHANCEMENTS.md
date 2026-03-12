@@ -1,6 +1,7 @@
-# Performance Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-<!-- status: current | validated: 2026-03-10 -->
+# Performance Module - Future Enhancements
 <!-- Links: Primary README → src/performance/README.md | Secondary → docs/de/performance/README.md -->
 
 ## Scope
@@ -39,7 +40,20 @@
 
 ## Planned Features
 
-### Hardware-Accelerated Query Execution
+### Phase 4: PMU Counters — Non-Linux Stub Coverage
+**Priority:** Low
+**Target Version:** v1.9.0
+
+`phase4/pmu_counters.cpp` has explicit non-Linux stubs (lines 186, 218): all PMU counters report "unavailable" on non-Linux platforms and when disabled at compile time. macOS (`kperf`) and Windows (`QueryPerformanceCounter` + ETW hardware counters) support is not implemented.
+
+**Implementation Notes:**
+- `[ ]` Implement macOS PMU backend using `kperf` / `kpc` private API (available since macOS 10.12, public in macOS 14+) behind `#ifdef __APPLE__`.
+- `[ ]` Implement Windows PMU backend using `QueryThreadCycleTime` + ETW hardware counter session behind `#ifdef _WIN32`.
+- `[ ]` All non-Linux platforms should at minimum report `RDTSC`-based cycle counts as a fallback so the `CycleMetrics` class is not entirely useless on developer workstations.
+
+---
+
+
 **Priority:** High  
 **Target Version:** v1.8.0  
 **Research Basis:** Multiple papers on GPU database acceleration

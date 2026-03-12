@@ -1,6 +1,7 @@
-# Observability Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/observability/ -->
 
-<!-- Status: current | validated: 2026-03-09 -->
+# Observability Module - Future Enhancements
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · docs/de/observability/README.md -->
 
 ## Scope
@@ -52,6 +53,25 @@ Planned monitoring, tracing, and performance analysis features for ThemisDB.
 8. [Predictive Analytics](#predictive-analytics)
 9. [Enhanced Visualization](#enhanced-visualization)
 10. [Integration Enhancements](#integration-enhancements)
+
+---
+
+## Source Code Audit Findings (2026-03-12)
+
+### `MetricsCollector`: Upgrade to `shared_mutex` for Metric Read Path
+**Priority:** Medium
+**Target Version:** v1.8.0
+
+`metrics_collector.cpp` uses `std::lock_guard<std::mutex>` (exclusive) for all read operations (`getMetric`, `scrapePrometheus`, `getAllMetrics` — lines 240, 251, 256). Under high-frequency Prometheus scraping, all metric reads serialize with each other. The `dropped_series_` atomic (line 261) is already correctly using an atomic; this pattern should be extended to the remaining read paths.
+
+**Implementation Notes:**
+- `[ ]` Replace `std::mutex mutex_` with `std::shared_mutex` in `MetricsCollector`.
+- `[ ]` Upgrade `getMetric`, `scrapePrometheus`, `getAllMetrics`, `getSeriesCount` to `std::shared_lock`.
+- `[ ]` Keep `record`, `increment`, `setGauge`, `observeHistogram`, `reset` on `std::unique_lock`.
+- `[ ]` Add a TSAN-enabled stress test: 16 Prometheus scrape threads + 8 metric write threads concurrently.
+
+**Performance Targets:**
+- `scrapePrometheus()` throughput under 16 concurrent scrapers: ≥ 3× improvement vs. exclusive-mutex baseline.
 
 ---
 

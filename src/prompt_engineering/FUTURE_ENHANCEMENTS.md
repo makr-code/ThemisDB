@@ -1,5 +1,7 @@
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/prompt_engineering/ -->
+
 # Prompt Engineering Module - Future Enhancements
-<!-- Status: current | validated: 2026-03-09 -->
 <!-- Links: src/prompt_engineering/README.md · src/prompt_engineering/ROADMAP.md · src/prompt_engineering/ARCHITECTURE.md · docs/de/prompt_engineering/README.md -->
 
 ## Scope
