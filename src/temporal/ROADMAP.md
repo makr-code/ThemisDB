@@ -7,6 +7,10 @@
 
 ## Completed ✅
 - [x] HLC-based temporal conflict resolver with multiple policies (last-write-wins, first-write-wins, node-priority, manual, CRDT-merge) (`temporal_conflict_resolver.cpp`)
+- [x] `TemporalConflictDetector`: detects CONCURRENT_UPDATE, OVERLAPPING_PERIODS, REFERENTIAL_INTEGRITY, and UNIQUENESS_VIOLATION conflicts between temporal snapshots (`temporal_conflict_resolver.cpp`)
+- [x] Optimistic-locking conflict detection via concurrent HLC comparison (neither snapshot happened-before the other)
+- [x] Auto-resolution of detected conflicts with configurable ConflictPolicy delegation
+- [x] Manual-resolution queue: queue, retrieve, and clear unresolved conflicts
 - [x] System-versioned table: automatic transaction-time versioning, non-destructive updates (`system_versioned_table.cpp`)
 - [x] **Full System-Versioned Table Support (v1.1.0):** `Config` struct (retention_period, compress_history, track_user_id, history_table_name), `createVersionedTable` DDL factory, `upsert`, `enforceRetentionPolicy`, user-attribution tracking (`system_versioned_table.cpp`)
 - [x] Bi-temporal table: system time + valid time axes, valid-time overlap detection, full-table bi-temporal scan (`bi_temporal.cpp`)
@@ -44,8 +48,9 @@
 ### Phase 1: Core Temporal Infrastructure (Status: Completed ✅)
 - [x] HLC timestamp generation and distributed causal ordering (`storage/hlc.cpp` dependency)
 - [x] `TemporalConflictResolver` with five resolution policies and conflict audit log
+- [x] `TemporalConflictDetector`: four ConflictType categories, `detectConflicts`, `autoResolveConflict`, `queueForManualResolution`, `getQueuedConflicts`, `clearQueue`
 - [x] `TemporalSnapshot` serialization/deserialization (JSON round-trip)
-- [x] Unit tests for all conflict resolution policies (`tests/temporal/test_temporal_conflict_resolver.cpp`)
+- [x] Unit tests for all conflict resolution policies and all detector conflict types (`tests/temporal/test_temporal_conflict_resolver.cpp`)
 
 ### Phase 2: Full Temporal Data Model (Status: Completed ✅)
 - [x] `SystemVersionedTable`: insert, update (close old / open new version), delete, `scan(as_of)`, `getHistoryInRange()`, `getAllKeys()` (`system_versioned_table.cpp`)
