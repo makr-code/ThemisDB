@@ -1033,6 +1033,7 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/calibration_manager.cpp
     ../src/rag/batch_evaluator.cpp
     ../src/rag/bias_detector.cpp
+    ../src/rag/adversarial_tester.cpp
 
     # LLM-owned AQL support files
     ../src/aql/llm_aql_handler.cpp
