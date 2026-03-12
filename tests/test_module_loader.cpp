@@ -1339,6 +1339,147 @@ TEST(ModuleMetrics, TotalUnloadsField) {
 }
 
 // ============================================================================
+// Concurrent access tests (O(1) module lookup / shared_mutex)
+// ============================================================================
+
+// Verify that concurrent read-only calls (isModuleLoaded / getModuleInfo /
+// getAllLoadedModules) do not race or deadlock.  Eight reader threads issue
+// repeated lookups against an empty ModuleLoader instance to stress shared
+// read-only access paths under contention. The test must pass cleanly under
+// TSAN.
+TEST(ModuleLoader, ConcurrentReadersDoNotRace) {
+    ModuleLoader loader;
+
+    constexpr int kReaders    = 8;
+    constexpr int kIterations = 200;
+
+    std::atomic<bool> start{false};
+    // Accumulate results in atomics; EXPECT_* is not guaranteed thread-safe.
+    std::atomic<int> unexpectedLoaded{0};
+    std::atomic<int> unexpectedInfo{0};
+    std::atomic<int> unexpectedNonEmpty{0};
+
+    auto readerTask = [&]() {
+        while (!start.load(std::memory_order_acquire)) {
+            std::this_thread::yield();
+        }
+        for (int i = 0; i < kIterations; ++i) {
+            if (loader.isModuleLoaded("nonexistent_module"))
+                unexpectedLoaded.fetch_add(1, std::memory_order_relaxed);
+            if (loader.getModuleInfo("nonexistent_module").has_value())
+                unexpectedInfo.fetch_add(1, std::memory_order_relaxed);
+            if (!loader.getAllLoadedModules().empty())
+                unexpectedNonEmpty.fetch_add(1, std::memory_order_relaxed);
+        }
+    };
+
+    std::vector<std::thread> readers;
+    readers.reserve(kReaders);
+    for (int i = 0; i < kReaders; ++i) {
+        readers.emplace_back(readerTask);
+    }
+
+    start.store(true, std::memory_order_release);
+
+    for (auto& t : readers) {
+        t.join();
+    }
+
+    EXPECT_EQ(unexpectedLoaded.load(), 0);
+    EXPECT_EQ(unexpectedInfo.load(), 0);
+    EXPECT_EQ(unexpectedNonEmpty.load(), 0);
+}
+
+// Verify that concurrent write calls (unloadModule on a non-existent module
+// is a benign no-op) do not race with concurrent reads.
+TEST(ModuleLoader, ConcurrentReadWriteDoNotRace) {
+    ModuleLoader loader;
+
+    constexpr int kReaders    = 8;
+    constexpr int kWriters    = 2;
+    constexpr int kIterations = 100;
+
+    std::atomic<bool> start{false};
+
+    auto readerTask = [&]() {
+        while (!start.load(std::memory_order_acquire)) {
+            std::this_thread::yield();
+        }
+        for (int i = 0; i < kIterations; ++i) {
+            (void)loader.isModuleLoaded("no_such_module");
+            (void)loader.getModuleInfo("no_such_module");
+            (void)loader.getAllLoadedModules();
+        }
+    };
+
+    // Writers call unloadModule for a non-existent module (no-op but acquires
+    // the unique_lock, exercising the writer path).
+    auto writerTask = [&]() {
+        while (!start.load(std::memory_order_acquire)) {
+            std::this_thread::yield();
+        }
+        for (int i = 0; i < kIterations; ++i) {
+            loader.unloadModule("no_such_module");
+        }
+    };
+
+    std::vector<std::thread> threads;
+    threads.reserve(kReaders + kWriters);
+    for (int i = 0; i < kReaders; ++i) {
+        threads.emplace_back(readerTask);
+    }
+    for (int i = 0; i < kWriters; ++i) {
+        threads.emplace_back(writerTask);
+    }
+
+    start.store(true, std::memory_order_release);
+
+    for (auto& t : threads) {
+        t.join();
+    }
+}
+
+// Verify getModuleInfo O(1) lookup: calling it 8 times concurrently from
+// independent threads must not corrupt the loader's internal state.
+TEST(ModuleLoader, GetModuleInfoO1LookupIsSafe) {
+    ModuleLoader loader;
+
+    constexpr int kThreads    = 8;
+    constexpr int kIterations = 500;
+
+    std::atomic<bool> start{false};
+    std::atomic<int>  found{0};
+
+    auto task = [&]() {
+        while (!start.load(std::memory_order_acquire)) {
+            std::this_thread::yield();
+        }
+        for (int i = 0; i < kIterations; ++i) {
+            auto info = loader.getModuleInfo("absent");
+            if (info.has_value()) {
+                found.fetch_add(1, std::memory_order_relaxed);
+            }
+        }
+    };
+
+    std::vector<std::thread> threads;
+    threads.reserve(kThreads);
+    for (int i = 0; i < kThreads; ++i) {
+        threads.emplace_back(task);
+    }
+
+    start.store(true, std::memory_order_release);
+
+    for (auto& t : threads) {
+        t.join();
+    }
+
+    // No module was ever loaded, so none should have been found.
+    EXPECT_EQ(found.load(), 0);
+}
+
+
+// ============================================================================
 // ModuleDependencyResolver Tests
 // ============================================================================
 
