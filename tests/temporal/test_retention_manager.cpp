@@ -323,7 +323,9 @@ TEST_F(RetentionManagerTest, StorageBased_OverLimit_DeletesOldestFirst) {
 
     RetentionPolicy policy;
     policy.type              = RetentionType::STORAGE_BASED;
-    policy.max_storage_bytes = 1; // essentially 0 – forces deletion of all history
+    // Set max_storage_bytes to 1 byte so any historical data exceeds the limit,
+    // forcing deletion of all eligible historical versions.
+    policy.max_storage_bytes = 1;
 
     auto stats = mgr.enforceRetention(t, policy);
     EXPECT_GT(stats.versions_deleted, 0u);
@@ -399,7 +401,9 @@ TEST_F(RetentionManagerTest, MinimumRetention_ProtectsRecentVersions) {
     RetentionPolicy policy;
     policy.type                       = RetentionType::TIME_BASED;
     policy.retention_period           = std::chrono::milliseconds(0); // want to delete all
-    policy.minimum_retention_period   = std::chrono::hours(24 * 365 * 100); // 100-year minimum
+    // 100 years minimum keeps every version created in the test.
+    // std::chrono::hours(24 * 365 * 100) ≈ 876 000 hours ≈ 100 years.
+    policy.minimum_retention_period   = std::chrono::hours(24 * 365 * 100);
 
     auto stats = mgr.enforceRetention(t, policy);
     // All versions are within the 100-year minimum – nothing should be deleted
