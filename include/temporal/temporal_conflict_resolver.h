@@ -155,5 +155,124 @@ private:
     TemporalSnapshot resolveCRDT(const TemporalSnapshot& local, const TemporalSnapshot& remote);
 };
 
+/**
+ * Conflict type classification for temporal conflict detection.
+ */
+enum class ConflictType {
+    CONCURRENT_UPDATE,      ///< Two writes with concurrent (non-causal) HLC timestamps
+    OVERLAPPING_PERIODS,    ///< Valid-time periods of two versions overlap for the same entity
+    REFERENTIAL_INTEGRITY,  ///< A data reference in one version does not match the other
+    UNIQUENESS_VIOLATION    ///< Same entity claimed by both versions with divergent data
+};
+
+/**
+ * A detected temporal conflict between two snapshot versions.
+ */
+struct Conflict {
+    ConflictType type;
+    std::string entity_id;
+    TemporalSnapshot local_version;
+    TemporalSnapshot remote_version;
+    std::vector<std::string> affected_columns; ///< Data fields involved in the conflict
+};
+
+/**
+ * TemporalConflictDetector
+ *
+ * Detects conflicts between two temporal snapshots of the same entity.
+ *
+ * Detection logic per ConflictType:
+ *   CONCURRENT_UPDATE     – HLC timestamps are concurrent (neither happened-before
+ *                           the other) and the data differs.
+ *   OVERLAPPING_PERIODS   – Both snapshots carry a valid_time range in their JSON
+ *                           payload (keys "valid_start"/"valid_end") and those ranges
+ *                           overlap while the data diverges.
+ *   REFERENTIAL_INTEGRITY – A "ref_entity_id" field present in one snapshot's data
+ *                           is absent or different in the other.
+ *   UNIQUENESS_VIOLATION  – Both snapshots share the same entity_id but carry
+ *                           different data values for any common key.
+ *
+ * Auto-resolution delegates to a TemporalConflictResolver with the chosen policy.
+ * Conflicts queued for manual resolution are held in an in-memory queue and can
+ * be retrieved via getQueuedConflicts().
+ *
+ * Thread-safety: all public methods are thread-safe.
+ */
+class TemporalConflictDetector {
+public:
+    TemporalConflictDetector() = default;
+
+    /**
+     * Detect all conflicts between @p local and @p remote for @p table_name.
+     *
+     * @return A (possibly empty) list of detected Conflict objects. An empty list
+     *         means the two snapshots are compatible.
+     */
+    std::vector<Conflict> detectConflicts(
+        const std::string& table_name,
+        const TemporalSnapshot& local,
+        const TemporalSnapshot& remote
+    );
+
+    /**
+     * Automatically resolve @p conflict using @p policy.
+     *
+     * @return The winning snapshot, or std::nullopt if the policy is MANUAL
+     *         (use queueForManualResolution instead).
+     */
+    std::optional<TemporalSnapshot> autoResolveConflict(
+        const Conflict& conflict,
+        ConflictPolicy policy
+    );
+
+    /**
+     * Queue @p conflict for manual resolution.
+     *
+     * @return true if the conflict was queued; false if an identical conflict_id
+     *         is already in the queue.
+     */
+    bool queueForManualResolution(const Conflict& conflict);
+
+    /**
+     * Return a snapshot of all currently queued conflicts.
+     */
+    std::vector<Conflict> getQueuedConflicts() const;
+
+    /**
+     * Remove all entries from the manual-resolution queue.
+     */
+    void clearQueue();
+
+private:
+    mutable std::mutex queue_mutex_;
+    /// Key: generated conflict key ("table|entity_id|type"), Value: Conflict
+    std::map<std::string, Conflict> manual_queue_;
+
+    /// Helper: generate a deterministic queue key for a conflict
+    static std::string makeQueueKey(const std::string& table_name,
+                                    const Conflict& conflict);
+
+    /// Sub-detectors — each returns an optional Conflict if detected
+    static std::optional<Conflict> detectConcurrentUpdate(
+        const TemporalSnapshot& local,
+        const TemporalSnapshot& remote
+    );
+
+    static std::optional<Conflict> detectOverlappingPeriods(
+        const TemporalSnapshot& local,
+        const TemporalSnapshot& remote
+    );
+
+    static std::optional<Conflict> detectReferentialIntegrity(
+        const TemporalSnapshot& local,
+        const TemporalSnapshot& remote
+    );
+
+    static std::optional<Conflict> detectUniquenessViolation(
+        const TemporalSnapshot& local,
+        const TemporalSnapshot& remote
+    );
+};
+
 } // namespace temporal
 } // namespace themisdb

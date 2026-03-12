@@ -580,18 +580,19 @@ public:
 
 ---
 
-### Temporal Conflict Detection and Resolution
+### ~~Temporal Conflict Detection and Resolution~~ ✅ Implemented (v1.1.0)
 **Priority:** High  
-**Target Version:** v1.1.0
+**Target Version:** v1.1.0  
+**Status:** Delivered in `src/temporal/temporal_conflict_resolver.cpp` + `include/temporal/temporal_conflict_resolver.h`
 
 Enhanced conflict detection for distributed temporal databases.
 
 **Features:**
-- Multi-version concurrency control (MVCC)
-- Optimistic locking for temporal updates
-- Automatic conflict resolution strategies
-- Manual conflict resolution interface
-- Conflict audit trail
+- ✅ Multi-version concurrency control (MVCC) — concurrent HLC detection via `detectConcurrentUpdate`
+- ✅ Optimistic locking for temporal updates — CONCURRENT_UPDATE conflict type
+- ✅ Automatic conflict resolution strategies — `autoResolveConflict` with configurable `ConflictPolicy`
+- ✅ Manual conflict resolution interface — `queueForManualResolution`, `getQueuedConflicts`, `clearQueue`
+- ✅ Conflict audit trail — inherited from `TemporalConflictResolver::exportAuditLog`
 
 **Implementation:**
 ```cpp

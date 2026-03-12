@@ -12988,6 +12988,51 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_module.cpp")
 endif()
 
 # ============================================================================
+# Temporal Module Focused Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_conflict_resolver.cpp")
+    message(STATUS "Adding Temporal: TemporalConflictResolver + TemporalConflictDetector focused tests")
+
+    add_executable(test_temporal_conflict_resolver_focused
+        temporal/test_temporal_conflict_resolver.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/temporal_conflict_resolver.cpp
+        ${CMAKE_SOURCE_DIR}/src/replication/replication_manager.cpp
+    )
+
+    target_include_directories(test_temporal_conflict_resolver_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_temporal_conflict_resolver_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    if(TARGET themis_core)
+        target_link_libraries(test_temporal_conflict_resolver_focused PRIVATE themis_core)
+    endif()
+
+    target_compile_definitions(test_temporal_conflict_resolver_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TemporalConflictResolverFocusedTests COMMAND test_temporal_conflict_resolver_focused)
+
+    set_tests_properties(TemporalConflictResolverFocusedTests PROPERTIES
+        LABELS "temporal;conflict;resolver;detector;mvcc;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  TemporalConflictResolver: LWW, FWW, NODE_PRIORITY, MANUAL, CRDT_MERGE policies, audit log")
+    message(STATUS "  TemporalConflictDetector: CONCURRENT_UPDATE, OVERLAPPING_PERIODS, REFERENTIAL_INTEGRITY, UNIQUENESS_VIOLATION")
+else()
+    message(STATUS "Temporal conflict resolver tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_conflict_resolver.cpp")
+endif()
+
+# ============================================================================
 # Custom Test Targets
 # ============================================================================
 add_custom_target(run_tests

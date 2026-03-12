@@ -308,19 +308,286 @@ nlohmann::json TemporalConflictResolver::getStatistics() const {
 }
 
 std::string TemporalConflictResolver::generateConflictId() const {
-    // Generate a unique conflict ID based on timestamp and random number
     auto now = std::chrono::system_clock::now();
     auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         now.time_since_epoch()
     ).count();
-    
+
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<uint32_t> dist;
-    
+
     std::ostringstream oss;
     oss << "conflict_" << now_ms << "_" << dist(gen);
     return oss.str();
+}
+
+// ============================================================================
+// TemporalConflictDetector Implementation
+// ============================================================================
+
+// ---------------------------------------------------------------------------
+// detectConflicts
+// ---------------------------------------------------------------------------
+
+std::vector<Conflict> TemporalConflictDetector::detectConflicts(
+    const std::string& table_name,
+    const TemporalSnapshot& local,
+    const TemporalSnapshot& remote
+) {
+    std::vector<Conflict> conflicts;
+
+    // Run each sub-detector and collect results.
+    auto concurrent = detectConcurrentUpdate(local, remote);
+    if (concurrent) {
+        concurrent->entity_id = local.snapshot_id;
+        conflicts.push_back(std::move(*concurrent));
+    }
+
+    auto overlapping = detectOverlappingPeriods(local, remote);
+    if (overlapping) {
+        overlapping->entity_id = local.snapshot_id;
+        conflicts.push_back(std::move(*overlapping));
+    }
+
+    auto refint = detectReferentialIntegrity(local, remote);
+    if (refint) {
+        refint->entity_id = local.snapshot_id;
+        conflicts.push_back(std::move(*refint));
+    }
+
+    auto uniq = detectUniquenessViolation(local, remote);
+    if (uniq) {
+        uniq->entity_id = local.snapshot_id;
+        conflicts.push_back(std::move(*uniq));
+    }
+
+    // Stamp each conflict with the table_name in the entity_id for traceability.
+    for (auto& c : conflicts) {
+        if (!table_name.empty()) {
+            c.entity_id = table_name + "|" + c.entity_id;
+        }
+    }
+
+    return conflicts;
+}
+
+// ---------------------------------------------------------------------------
+// autoResolveConflict
+// ---------------------------------------------------------------------------
+
+std::optional<TemporalSnapshot> TemporalConflictDetector::autoResolveConflict(
+    const Conflict& conflict,
+    ConflictPolicy policy
+) {
+    if (policy == ConflictPolicy::MANUAL) {
+        return std::nullopt;
+    }
+    TemporalConflictResolver resolver(policy);
+    return resolver.resolve(conflict.local_version, conflict.remote_version, policy);
+}
+
+// ---------------------------------------------------------------------------
+// queueForManualResolution
+// ---------------------------------------------------------------------------
+
+bool TemporalConflictDetector::queueForManualResolution(const Conflict& conflict) {
+    const std::string key = makeQueueKey("", conflict);
+    std::lock_guard<std::mutex> lock(queue_mutex_);
+    if (manual_queue_.count(key)) {
+        return false;  // already queued
+    }
+    manual_queue_[key] = conflict;
+    return true;
+}
+
+std::vector<Conflict> TemporalConflictDetector::getQueuedConflicts() const {
+    std::lock_guard<std::mutex> lock(queue_mutex_);
+    std::vector<Conflict> result;
+    result.reserve(manual_queue_.size());
+    for (const auto& [k, v] : manual_queue_) {
+        result.push_back(v);
+    }
+    return result;
+}
+
+void TemporalConflictDetector::clearQueue() {
+    std::lock_guard<std::mutex> lock(queue_mutex_);
+    manual_queue_.clear();
+}
+
+// ---------------------------------------------------------------------------
+// makeQueueKey (private static)
+// ---------------------------------------------------------------------------
+
+std::string TemporalConflictDetector::makeQueueKey(
+    const std::string& table_name,
+    const Conflict& conflict
+) {
+    std::string type_str;
+    switch (conflict.type) {
+        case ConflictType::CONCURRENT_UPDATE:     type_str = "CONCURRENT_UPDATE";     break;
+        case ConflictType::OVERLAPPING_PERIODS:   type_str = "OVERLAPPING_PERIODS";   break;
+        case ConflictType::REFERENTIAL_INTEGRITY: type_str = "REFERENTIAL_INTEGRITY"; break;
+        case ConflictType::UNIQUENESS_VIOLATION:  type_str = "UNIQUENESS_VIOLATION";  break;
+    }
+    return table_name + "|" + conflict.entity_id + "|" + type_str
+         + "|" + conflict.local_version.snapshot_id
+         + "|" + conflict.remote_version.snapshot_id;
+}
+
+// ---------------------------------------------------------------------------
+// Sub-detectors (private static)
+// ---------------------------------------------------------------------------
+
+std::optional<Conflict> TemporalConflictDetector::detectConcurrentUpdate(
+    const TemporalSnapshot& local,
+    const TemporalSnapshot& remote
+) {
+    // Two updates are concurrent when neither HLC happened-before the other,
+    // i.e., !(local < remote) && !(remote < local), but the snapshots differ.
+    const auto& l = local.hlc;
+    const auto& r = remote.hlc;
+
+    bool local_before_remote = (l < r);
+    bool remote_before_local = (r < l);
+
+    // Strictly ordered: no concurrent update conflict.
+    if (local_before_remote || remote_before_local) {
+        return std::nullopt;
+    }
+
+    // Equal HLC with same node: identical write — no conflict.
+    if (l.node_id == r.node_id && local.data == remote.data) {
+        return std::nullopt;
+    }
+
+    // Collect differing data keys as affected columns.
+    std::vector<std::string> affected;
+    if (local.data.is_object() && remote.data.is_object()) {
+        for (auto& [key, val] : local.data.items()) {
+            if (remote.data.contains(key) && remote.data[key] != val) {
+                affected.push_back(key);
+            }
+        }
+    } else if (local.data != remote.data) {
+        affected.push_back("data");
+    }
+
+    Conflict c;
+    c.type             = ConflictType::CONCURRENT_UPDATE;
+    c.local_version    = local;
+    c.remote_version   = remote;
+    c.affected_columns = std::move(affected);
+    return c;
+}
+
+std::optional<Conflict> TemporalConflictDetector::detectOverlappingPeriods(
+    const TemporalSnapshot& local,
+    const TemporalSnapshot& remote
+) {
+    // Snapshots may carry valid_start / valid_end fields in their JSON data.
+    // If both snapshots have these fields, check for a valid-time overlap.
+    const auto& ld = local.data;
+    const auto& rd = remote.data;
+
+    if (!ld.is_object() || !rd.is_object()) {
+        return std::nullopt;
+    }
+    if (!ld.contains("valid_start") || !ld.contains("valid_end") ||
+        !rd.contains("valid_start") || !rd.contains("valid_end")) {
+        return std::nullopt;
+    }
+
+    int64_t l_start = ld.at("valid_start").get<int64_t>();
+    int64_t l_end   = ld.at("valid_end").get<int64_t>();
+    int64_t r_start = rd.at("valid_start").get<int64_t>();
+    int64_t r_end   = rd.at("valid_end").get<int64_t>();
+
+    // Half-open [start, end) overlap: l_start < r_end && r_start < l_end
+    bool overlap = (l_start < r_end) && (r_start < l_end);
+    if (!overlap) {
+        return std::nullopt;
+    }
+
+    // Only a conflict when the data also differs (otherwise it is the same version).
+    if (local.data == remote.data) {
+        return std::nullopt;
+    }
+
+    Conflict c;
+    c.type             = ConflictType::OVERLAPPING_PERIODS;
+    c.local_version    = local;
+    c.remote_version   = remote;
+    c.affected_columns = {"valid_start", "valid_end"};
+    return c;
+}
+
+std::optional<Conflict> TemporalConflictDetector::detectReferentialIntegrity(
+    const TemporalSnapshot& local,
+    const TemporalSnapshot& remote
+) {
+    // Check for a "ref_entity_id" field.  If both snapshots carry it but the
+    // values differ, that signals a referential integrity conflict.
+    const auto& ld = local.data;
+    const auto& rd = remote.data;
+
+    if (!ld.is_object() || !rd.is_object()) {
+        return std::nullopt;
+    }
+    if (!ld.contains("ref_entity_id") || !rd.contains("ref_entity_id")) {
+        return std::nullopt;
+    }
+
+    if (ld.at("ref_entity_id") == rd.at("ref_entity_id")) {
+        return std::nullopt;  // references agree
+    }
+
+    Conflict c;
+    c.type             = ConflictType::REFERENTIAL_INTEGRITY;
+    c.local_version    = local;
+    c.remote_version   = remote;
+    c.affected_columns = {"ref_entity_id"};
+    return c;
+}
+
+std::optional<Conflict> TemporalConflictDetector::detectUniquenessViolation(
+    const TemporalSnapshot& local,
+    const TemporalSnapshot& remote
+) {
+    // A uniqueness conflict exists when both snapshots claim to be the current
+    // version of the same entity (same snapshot_id prefix or same source node)
+    // but carry different data.
+    if (local.source_node_id == remote.source_node_id) {
+        return std::nullopt;  // same origin — not a distributed uniqueness conflict
+    }
+
+    if (local.data == remote.data) {
+        return std::nullopt;  // identical content — no violation
+    }
+
+    // Collect keys that exist in both but have different values.
+    std::vector<std::string> affected;
+    if (local.data.is_object() && remote.data.is_object()) {
+        for (auto& [key, val] : local.data.items()) {
+            if (remote.data.contains(key) && remote.data[key] != val) {
+                affected.push_back(key);
+            }
+        }
+    } else {
+        affected.push_back("data");
+    }
+
+    if (affected.empty()) {
+        return std::nullopt;  // no common keys diverge — no violation
+    }
+
+    Conflict c;
+    c.type             = ConflictType::UNIQUENESS_VIOLATION;
+    c.local_version    = local;
+    c.remote_version   = remote;
+    c.affected_columns = std::move(affected);
+    return c;
 }
 
 } // namespace temporal
