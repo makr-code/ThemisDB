@@ -360,6 +360,14 @@ TEST_F(AsyncAdapterTest, DuplicateOperationIdReturnsAlreadyExists) {
     // The first must still succeed.
     auto first_result = first.get();
     EXPECT_TRUE(first_result.is_ok()) << first_result.error_message;
+
+    // After the first completes its token is removed by ScopedTokenRemover;
+    // a third operation with the same id must therefore succeed.
+    auto rows_small = make_rows(5);
+    auto reuse = adapter.batch_insert_async("dup_table_reuse", rows_small, nullptr, opts);
+    ASSERT_TRUE(reuse.valid());
+    auto reuse_result = reuse.get();
+    EXPECT_TRUE(reuse_result.is_ok()) << reuse_result.error_message;
 }
 
 TEST_F(AsyncAdapterTest, DuplicateOperationIdQueryReturnsAlreadyExists) {
@@ -379,7 +387,14 @@ TEST_F(AsyncAdapterTest, DuplicateOperationIdQueryReturnsAlreadyExists) {
     EXPECT_TRUE(dup_result.is_err());
     EXPECT_EQ(dup_result.error_code, ErrorCode::ALREADY_EXISTS);
 
-    busy.get(); // drain
+    // Wait for the first to finish so the token is released.
+    busy.get();
+
+    // Now the id must be available again.
+    auto reuse = adapter.execute_query_async("SELECT 1", {}, opts);
+    ASSERT_TRUE(reuse.valid());
+    auto reuse_result = reuse.get();
+    EXPECT_TRUE(reuse_result.is_ok()) << reuse_result.error_message;
 }
 
 // ---------------------------------------------------------------------------

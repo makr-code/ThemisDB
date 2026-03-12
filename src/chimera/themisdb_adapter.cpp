@@ -1241,6 +1241,8 @@ struct ScopedTokenRemover {
 
     ScopedTokenRemover(const ScopedTokenRemover&)            = delete;
     ScopedTokenRemover& operator=(const ScopedTokenRemover&) = delete;
+    ScopedTokenRemover(ScopedTokenRemover&&)                 = default;
+    ScopedTokenRemover& operator=(ScopedTokenRemover&&)      = delete;
 };
 
 /**
