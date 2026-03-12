@@ -1,6 +1,7 @@
-# LLM Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/llm/ -->
 
-<!-- Status: current | validated: 2026-03-09 | Primary: src/llm/ | Secondary: docs/de/llm/ -->
+# LLM Module - Future Enhancements
 <!-- Links: README.md · ROADMAP.md · ARCHITECTURE.md · ../../include/llm/FUTURE_ENHANCEMENTS.md -->
 
 ## Scope
@@ -26,7 +27,51 @@ This document covers planned enhancements to the LLM module beyond what is track
 
 ## Planned Features
 
-### Streaming Token Output (SSE / Chunked Response)
+### `LoraSecurityValidator`: Certificate Store Integration
+**Priority:** High
+**Target Version:** v1.8.0
+
+`lora_security_validator.cpp` has 2 critical TODOs for certificate retrieval (lines 249 and 365):
+- Line 249: "TODO: Retrieve from certificate store by fingerprint" — `cert_pem` is left empty; signature verification is effectively **never performed** when no inline certificate is provided in the metadata.
+- Line 365: "TODO: Implement certificate store integration for production deployments"
+
+This means LoRA adapter signature validation silently succeeds without verifying the certificate chain.
+
+**Implementation Notes:**
+- `[ ]` Implement a `LoRACertificateStore` class backed by `src/security/secret_manager.cpp` or a filesystem path (`config/security/lora_certs/`).
+- `[ ]` In `verifyLoRASignature()` at line 248, look up the certificate by fingerprint from `LoRACertificateStore`; fail closed if the certificate is not found (return `SIGNATURE_UNVERIFIABLE` error, not success).
+- `[ ]` Wire integration with the system certificate store (`/etc/ssl/certs` on Linux; `HCERTSTORE` on Windows) as a fallback after the local `LoRACertificateStore`.
+- `[ ]` Add unit tests: missing cert → verification fails; valid cert + valid sig → passes; valid cert + tampered sig → fails.
+
+---
+
+### `LLMDeploymentPlugin`: RocksDB Model Storage
+**Priority:** Medium
+**Target Version:** v1.8.0
+
+`llm_deployment_plugin.cpp` line 273 has: "Store in BaseEntity storage (RocksDB) - TODO: Uncomment when `llm_model_storage.cpp` exists". The plugin currently operates in "Filesystem-only mode" (line 136). Model metadata is not persisted to the database, breaking admin query ("list all deployed models") across restarts.
+
+**Implementation Notes:**
+- `[ ]` Implement `llm_model_storage.cpp` providing `LLMModelStorage::save(model_id, metadata)` and `load(model_id)` using the existing `StorageEngine` API with key prefix `llm_model::`.
+- `[ ]` Uncomment the RocksDB persistence block at line 273; inject `StorageEngine*` into `LLMDeploymentPlugin` constructor.
+- `[ ]` Implement `TODO(enhancement)` at line 916: check `model_id` existence before deployment to surface clear errors for unknown model IDs.
+- `[ ]` Implement `TODO(feature)` at line 175: propagate authenticated user context from the request JWT into `audit.user` instead of hardcoding `"system"`.
+
+---
+
+### `AIOrchestrator`: Tool Call Parsing
+**Priority:** Medium
+**Target Version:** v1.8.0
+
+`ai_orchestrator.cpp` line 494 has: "TODO(extensible): parse tool calls from `result.text` using `react_agent`". Without tool call parsing, the orchestrator cannot dispatch function calls returned by the LLM, making the ReAct loop incomplete.
+
+**Implementation Notes:**
+- `[ ]` Add tool call extraction to `AIOrchestrator::execute()` at line 494: parse the structured JSON block from `result.text` using `nlohmann::json`; dispatch to the registered tool via `AQLReActAgent::dispatchTool()`.
+- `[ ]` Handle malformed tool call JSON gracefully: log a warning and continue with the raw text result rather than crashing.
+
+---
+
+
 **Priority:** High
 **Target Version:** v1.7.0
 
