@@ -1371,6 +1371,19 @@ set_tests_properties(ModuleDependencyResolverFocusedTests PROPERTIES
     TIMEOUT 60
 )
 
+# Module Loader core tests (subset of AllTests)
+# Covers: ModuleErrorCode enum values/ranges, ErrorCategory values,
+#         ModuleMetadata defaults/isValid, ModuleVerificationResult defaults,
+#         LoadedModule defaults, ModuleRegistry singleton/register/unregister,
+#         error message strings, error categorization, hash manifest
+#         (from test_module_loader.cpp)
+add_test(NAME ModuleLoaderFocusedTests
+    COMMAND themis_tests --gtest_filter=ModuleLoader.*:ModuleRegistry.*:ModuleMetadata.*:ModuleVerificationResult.*:LoadedModule.*)
+set_tests_properties(ModuleLoaderFocusedTests PROPERTIES
+    LABELS "module;loader;security;themis;unit"
+    TIMEOUT 60
+)
+
 # Plugin Watchdog tests (subset of AllTests)
 # Covers: WatchdogConfig defaults/custom values/zero-max-restarts,
 #         WatchdogModuleStats defaults/field completeness, lifecycle

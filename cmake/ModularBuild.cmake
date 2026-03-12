@@ -216,7 +216,12 @@ set(THEMIS_BASE_SOURCES
     ../src/plugins/rpc_service_registry.cpp
     
     # Module loader (for security verification of modular DLLs)
-    ../src/base/module_loader.cpp
+    # Migrated to src/themis/ (v1.7.0): split into platform-independent core,
+    # platform-specific helpers, and security verifier.
+    ../src/themis/module_loader.cpp
+    ../src/themis/module_loader_win32.cpp
+    ../src/themis/module_loader_linux.cpp
+    ../src/themis/module_security.cpp
     ../src/base/module_sandbox.cpp
     ../src/base/hot_reload_manager.cpp
     ../src/base/ab_test_manager.cpp

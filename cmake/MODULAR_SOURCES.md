@@ -104,7 +104,7 @@
   - graph_auto_buffer.cpp
   - http_type_adapter.cpp
   - sampling_strategy.cpp
-  - module_loader.cpp
+  - module_loader.cpp (src/themis/), module_loader_win32.cpp, module_loader_linux.cpp, module_security.cpp
   - ab_test_manager.cpp
   - plugin_dependency_graph.cpp
 
