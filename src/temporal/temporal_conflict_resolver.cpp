@@ -340,33 +340,30 @@ std::vector<Conflict> TemporalConflictDetector::detectConflicts(
     // Run each sub-detector and collect results.
     auto concurrent = detectConcurrentUpdate(local, remote);
     if (concurrent) {
-        concurrent->entity_id = local.snapshot_id;
+        concurrent->table_name = table_name;
+        concurrent->entity_id  = local.snapshot_id;
         conflicts.push_back(std::move(*concurrent));
     }
 
     auto overlapping = detectOverlappingPeriods(local, remote);
     if (overlapping) {
-        overlapping->entity_id = local.snapshot_id;
+        overlapping->table_name = table_name;
+        overlapping->entity_id  = local.snapshot_id;
         conflicts.push_back(std::move(*overlapping));
     }
 
     auto refint = detectReferentialIntegrity(local, remote);
     if (refint) {
-        refint->entity_id = local.snapshot_id;
+        refint->table_name = table_name;
+        refint->entity_id  = local.snapshot_id;
         conflicts.push_back(std::move(*refint));
     }
 
     auto uniq = detectUniquenessViolation(local, remote);
     if (uniq) {
-        uniq->entity_id = local.snapshot_id;
+        uniq->table_name = table_name;
+        uniq->entity_id  = local.snapshot_id;
         conflicts.push_back(std::move(*uniq));
-    }
-
-    // Stamp each conflict with the table_name in the entity_id for traceability.
-    for (auto& c : conflicts) {
-        if (!table_name.empty()) {
-            c.entity_id = table_name + "|" + c.entity_id;
-        }
     }
 
     return conflicts;
@@ -391,13 +388,17 @@ std::optional<TemporalSnapshot> TemporalConflictDetector::autoResolveConflict(
 // queueForManualResolution
 // ---------------------------------------------------------------------------
 
-bool TemporalConflictDetector::queueForManualResolution(const Conflict& conflict) {
-    const std::string key = makeQueueKey("", conflict);
+bool TemporalConflictDetector::queueForManualResolution(const std::string& table_name,
+                                                        const Conflict& conflict) {
+    const std::string key = makeQueueKey(table_name, conflict);
     std::lock_guard<std::mutex> lock(queue_mutex_);
     if (manual_queue_.count(key)) {
         return false;  // already queued
     }
-    manual_queue_[key] = conflict;
+    // Store a copy with table_name set so the queued entry is self-consistent.
+    Conflict stored = conflict;
+    stored.table_name = table_name;
+    manual_queue_[key] = std::move(stored);
     return true;
 }
 
@@ -499,10 +500,21 @@ std::optional<Conflict> TemporalConflictDetector::detectOverlappingPeriods(
         return std::nullopt;
     }
 
-    int64_t l_start = ld.at("valid_start").get<int64_t>();
-    int64_t l_end   = ld.at("valid_end").get<int64_t>();
-    int64_t r_start = rd.at("valid_start").get<int64_t>();
-    int64_t r_end   = rd.at("valid_end").get<int64_t>();
+    const auto& l_start_val = ld.at("valid_start");
+    const auto& l_end_val   = ld.at("valid_end");
+    const auto& r_start_val = rd.at("valid_start");
+    const auto& r_end_val   = rd.at("valid_end");
+
+    // Treat non-integer valid-time fields as "no period information present".
+    if (!l_start_val.is_number_integer() || !l_end_val.is_number_integer() ||
+        !r_start_val.is_number_integer() || !r_end_val.is_number_integer()) {
+        return std::nullopt;
+    }
+
+    int64_t l_start = l_start_val.get<int64_t>();
+    int64_t l_end   = l_end_val.get<int64_t>();
+    int64_t r_start = r_start_val.get<int64_t>();
+    int64_t r_end   = r_end_val.get<int64_t>();
 
     // Half-open [start, end) overlap: l_start < r_end && r_start < l_end
     bool overlap = (l_start < r_end) && (r_start < l_end);
@@ -566,11 +578,20 @@ std::optional<Conflict> TemporalConflictDetector::detectUniquenessViolation(
         return std::nullopt;  // identical content — no violation
     }
 
-    // Collect keys that exist in both but have different values.
+    // Collect affected columns as the symmetric difference of diverging keys:
+    // - Keys present in both but with different values
+    // - Keys present in only one snapshot
     std::vector<std::string> affected;
     if (local.data.is_object() && remote.data.is_object()) {
+        // Keys in local: diverging or missing in remote
         for (auto& [key, val] : local.data.items()) {
-            if (remote.data.contains(key) && remote.data[key] != val) {
+            if (!remote.data.contains(key) || remote.data[key] != val) {
+                affected.push_back(key);
+            }
+        }
+        // Keys present only in remote (not already captured above)
+        for (auto& [key, val] : remote.data.items()) {
+            if (!local.data.contains(key)) {
                 affected.push_back(key);
             }
         }

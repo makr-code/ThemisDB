@@ -704,13 +704,14 @@ TEST_F(TemporalConflictDetectorTest, Queue_AddAndRetrieve) {
     c.local_version  = local;
     c.remote_version = remote;
 
-    bool queued = detector.queueForManualResolution(c);
+    bool queued = detector.queueForManualResolution("orders", c);
     EXPECT_TRUE(queued);
 
     auto queued_conflicts = detector.getQueuedConflicts();
     ASSERT_EQ(queued_conflicts.size(), 1u);
     EXPECT_EQ(queued_conflicts[0].type, themisdb::temporal::ConflictType::CONCURRENT_UPDATE);
     EXPECT_EQ(queued_conflicts[0].entity_id, "entity_1");
+    EXPECT_EQ(queued_conflicts[0].table_name, "orders");
 }
 
 TEST_F(TemporalConflictDetectorTest, Queue_DuplicateNotQueued) {
@@ -723,10 +724,27 @@ TEST_F(TemporalConflictDetectorTest, Queue_DuplicateNotQueued) {
     c.local_version  = local;
     c.remote_version = remote;
 
-    EXPECT_TRUE(detector.queueForManualResolution(c));
-    EXPECT_FALSE(detector.queueForManualResolution(c));  // duplicate
+    EXPECT_TRUE(detector.queueForManualResolution("orders", c));
+    EXPECT_FALSE(detector.queueForManualResolution("orders", c));  // duplicate
 
     EXPECT_EQ(detector.getQueuedConflicts().size(), 1u);
+}
+
+TEST_F(TemporalConflictDetectorTest, Queue_SameConflictDifferentTables_BothQueued) {
+    // Identical conflict data but different table_name must be stored separately.
+    auto local  = makeSnap("l1", 1000, 5, "node_a", {{"x", 1}});
+    auto remote = makeSnap("r1", 1000, 5, "node_b", {{"x", 2}});
+
+    Conflict c;
+    c.type           = themisdb::temporal::ConflictType::CONCURRENT_UPDATE;
+    c.entity_id      = "entity_1";
+    c.local_version  = local;
+    c.remote_version = remote;
+
+    EXPECT_TRUE(detector.queueForManualResolution("table_a", c));
+    EXPECT_TRUE(detector.queueForManualResolution("table_b", c));  // different table
+
+    EXPECT_EQ(detector.getQueuedConflicts().size(), 2u);
 }
 
 TEST_F(TemporalConflictDetectorTest, Queue_ClearEmptiesQueue) {
@@ -739,23 +757,24 @@ TEST_F(TemporalConflictDetectorTest, Queue_ClearEmptiesQueue) {
     c.local_version  = local;
     c.remote_version = remote;
 
-    detector.queueForManualResolution(c);
+    detector.queueForManualResolution("tbl", c);
     ASSERT_EQ(detector.getQueuedConflicts().size(), 1u);
 
     detector.clearQueue();
     EXPECT_TRUE(detector.getQueuedConflicts().empty());
 }
 
-// --- detectConflicts: table_name prefix ---
+// --- detectConflicts: table_name and entity_id fields ---
 
-TEST_F(TemporalConflictDetectorTest, DetectConflicts_EntityIdContainsTableName) {
+TEST_F(TemporalConflictDetectorTest, DetectConflicts_TableNameAndEntityIdSet) {
     auto local  = makeSnap("snap1", 1000, 5, "node_a", {{"v", 1}});
     auto remote = makeSnap("snap2", 1000, 5, "node_b", {{"v", 2}});
 
     auto conflicts = detector.detectConflicts("orders", local, remote);
     ASSERT_FALSE(conflicts.empty());
     for (const auto& c : conflicts) {
-        EXPECT_TRUE(c.entity_id.find("orders") == 0) << "entity_id should start with table name 'orders'";
+        EXPECT_EQ(c.table_name, "orders") << "table_name should be set to 'orders'";
+        EXPECT_EQ(c.entity_id, "snap1")   << "entity_id should be local snapshot_id";
     }
 }
 
@@ -767,4 +786,41 @@ TEST_F(TemporalConflictDetectorTest, DetectConflicts_IdenticalSnapshots_Empty) {
     // Identical snapshot from same node — no conflict of any kind
     auto conflicts = detector.detectConflicts("tbl", local, local);
     EXPECT_TRUE(conflicts.empty());
+}
+
+// --- Uniqueness violation: asymmetric keys ---
+
+TEST_F(TemporalConflictDetectorTest, DetectUniquenessViolation_AsymmetricKeys_Detected) {
+    // local has key "a"; remote has key "b". Shared keys all match (none).
+    // Both sides diverge because each has a key the other lacks.
+    auto local  = makeSnap("l1", 1000, 5, "node_a", {{"a", 1}});
+    auto remote = makeSnap("r1", 1000, 5, "node_b", {{"b", 2}});
+
+    auto conflicts = detector.detectConflicts("tbl", local, remote);
+
+    auto it = std::find_if(conflicts.begin(), conflicts.end(), [](const Conflict& c) {
+        return c.type == themisdb::temporal::ConflictType::UNIQUENESS_VIOLATION;
+    });
+    ASSERT_NE(it, conflicts.end()) << "Asymmetric keys should trigger UNIQUENESS_VIOLATION";
+    // Both "a" (only in local) and "b" (only in remote) should be in affected_columns
+    EXPECT_TRUE(std::find(it->affected_columns.begin(), it->affected_columns.end(), "a") !=
+                it->affected_columns.end());
+    EXPECT_TRUE(std::find(it->affected_columns.begin(), it->affected_columns.end(), "b") !=
+                it->affected_columns.end());
+}
+
+// --- OVERLAPPING_PERIODS: non-integer valid_time fields are ignored ---
+
+TEST_F(TemporalConflictDetectorTest, DetectOverlappingPeriods_NonIntegerFields_NoConflict) {
+    // valid_start/valid_end present but as strings — should be treated as absent
+    auto local  = makeSnap("l1", 1000, 1, "node_a",
+                           {{"valid_start", "not-a-number"}, {"valid_end", "not-a-number"}, {"v", "a"}});
+    auto remote = makeSnap("r1", 1001, 1, "node_b",
+                           {{"valid_start", "not-a-number"}, {"valid_end", "not-a-number"}, {"v", "b"}});
+
+    auto conflicts = detector.detectConflicts("tbl", local, remote);
+
+    for (const auto& c : conflicts) {
+        EXPECT_NE(c.type, themisdb::temporal::ConflictType::OVERLAPPING_PERIODS);
+    }
 }

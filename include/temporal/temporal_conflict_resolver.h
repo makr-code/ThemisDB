@@ -161,16 +161,24 @@ private:
 enum class ConflictType {
     CONCURRENT_UPDATE,      ///< Two writes with concurrent (non-causal) HLC timestamps
     OVERLAPPING_PERIODS,    ///< Valid-time periods of two versions overlap for the same entity
-    REFERENTIAL_INTEGRITY,  ///< A data reference in one version does not match the other
-    UNIQUENESS_VIOLATION    ///< Same entity claimed by both versions with divergent data
+    REFERENTIAL_INTEGRITY,  ///< Both snapshots carry a "ref_entity_id" field but the values differ
+    UNIQUENESS_VIOLATION    ///< Two different-origin snapshots carry divergent data for the same entity
 };
 
 /**
  * A detected temporal conflict between two snapshot versions.
+ *
+ * `table_name` and `entity_id` together identify what conflicted:
+ *   - `table_name` is the table passed to detectConflicts().
+ *   - `entity_id`  is the snapshot_id of the local snapshot (set by detectConflicts()).
+ *
+ * Version identity is preserved in `local_version.snapshot_id` and
+ * `remote_version.snapshot_id`.
  */
 struct Conflict {
     ConflictType type;
-    std::string entity_id;
+    std::string table_name;  ///< Table in which the conflict was detected
+    std::string entity_id;   ///< snapshot_id of the local snapshot (version identity)
     TemporalSnapshot local_version;
     TemporalSnapshot remote_version;
     std::vector<std::string> affected_columns; ///< Data fields involved in the conflict
@@ -182,19 +190,23 @@ struct Conflict {
  * Detects conflicts between two temporal snapshots of the same entity.
  *
  * Detection logic per ConflictType:
- *   CONCURRENT_UPDATE     – HLC timestamps are concurrent (neither happened-before
- *                           the other) and the data differs.
- *   OVERLAPPING_PERIODS   – Both snapshots carry a valid_time range in their JSON
- *                           payload (keys "valid_start"/"valid_end") and those ranges
- *                           overlap while the data diverges.
- *   REFERENTIAL_INTEGRITY – A "ref_entity_id" field present in one snapshot's data
- *                           is absent or different in the other.
- *   UNIQUENESS_VIOLATION  – Both snapshots share the same entity_id but carry
- *                           different data values for any common key.
+ *   CONCURRENT_UPDATE     – Neither HLC happened-before the other (concurrent writes)
+ *                           and the snapshot data differs.
+ *   OVERLAPPING_PERIODS   – Both snapshots carry integer "valid_start"/"valid_end"
+ *                           fields (half-open [start, end) intervals) that overlap
+ *                           while the data diverges.  Fields with non-integer values
+ *                           are treated as "no period information present".
+ *   REFERENTIAL_INTEGRITY – Both snapshots carry a "ref_entity_id" field but the
+ *                           values differ.  If either snapshot is missing the field,
+ *                           no conflict is raised.
+ *   UNIQUENESS_VIOLATION  – Snapshots from different source nodes carry different
+ *                           data.  affected_columns contains the symmetric difference
+ *                           of diverging keys (keys that differ OR are present in only
+ *                           one snapshot).
  *
  * Auto-resolution delegates to a TemporalConflictResolver with the chosen policy.
- * Conflicts queued for manual resolution are held in an in-memory queue and can
- * be retrieved via getQueuedConflicts().
+ * Conflicts queued for manual resolution are held in a thread-safe in-memory queue
+ * and can be retrieved via getQueuedConflicts().
  *
  * Thread-safety: all public methods are thread-safe.
  */
@@ -204,6 +216,9 @@ public:
 
     /**
      * Detect all conflicts between @p local and @p remote for @p table_name.
+     *
+     * Each returned Conflict has its `table_name` set to @p table_name and its
+     * `entity_id` set to `local.snapshot_id`.
      *
      * @return A (possibly empty) list of detected Conflict objects. An empty list
      *         means the two snapshots are compatible.
@@ -217,8 +232,8 @@ public:
     /**
      * Automatically resolve @p conflict using @p policy.
      *
-     * @return The winning snapshot, or std::nullopt if the policy is MANUAL
-     *         (use queueForManualResolution instead).
+     * @return The winning snapshot, or std::nullopt when @p policy is MANUAL
+     *         (call queueForManualResolution instead).
      */
     std::optional<TemporalSnapshot> autoResolveConflict(
         const Conflict& conflict,
@@ -226,12 +241,18 @@ public:
     );
 
     /**
-     * Queue @p conflict for manual resolution.
+     * Queue @p conflict for manual resolution within @p table_name.
      *
-     * @return true if the conflict was queued; false if an identical conflict_id
-     *         is already in the queue.
+     * The stored entry has its `table_name` field overwritten with @p table_name
+     * so the queued conflict is always self-consistent.  The dedup key is derived
+     * from table_name + entity_id + conflict type + both snapshot IDs, so the
+     * same logical conflict is never queued twice for the same table.
+     *
+     * @return true if the conflict was queued; false if an identical conflict
+     *         entry is already in the queue.
      */
-    bool queueForManualResolution(const Conflict& conflict);
+    bool queueForManualResolution(const std::string& table_name,
+                                  const Conflict& conflict);
 
     /**
      * Return a snapshot of all currently queued conflicts.
@@ -245,10 +266,10 @@ public:
 
 private:
     mutable std::mutex queue_mutex_;
-    /// Key: generated conflict key ("table|entity_id|type"), Value: Conflict
+    /// Key: "table_name|entity_id|type|local_snapshot_id|remote_snapshot_id"
     std::map<std::string, Conflict> manual_queue_;
 
-    /// Helper: generate a deterministic queue key for a conflict
+    /// Helper: generate a deterministic dedup key for a conflict
     static std::string makeQueueKey(const std::string& table_name,
                                     const Conflict& conflict);
 
