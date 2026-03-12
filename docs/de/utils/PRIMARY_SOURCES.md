@@ -6,9 +6,12 @@
 - `include/utils/LOSSLESS_COMPRESSION_README.md`
 - `include/utils/README.md`
 - `src/utils/ARCHITECTURE.md`
+- `src/utils/AUDIT.md`
+- `src/utils/CHANGELOG.md`
 - `src/utils/FUTURE_ENHANCEMENTS.md`
 - `src/utils/README.md`
 - `src/utils/ROADMAP.md`
+- `src/utils/SECURITY.md`
 
 **Bezug / Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -27,9 +30,12 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`utils`** a
 | Datei | Pfad |
 |-------|------|
 | `ARCHITECTURE.md` | [`src/utils/ARCHITECTURE.md`](../../../src/utils/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/utils/AUDIT.md`](../../../src/utils/AUDIT.md) |
+| `CHANGELOG.md` | [`src/utils/CHANGELOG.md`](../../../src/utils/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/utils/FUTURE_ENHANCEMENTS.md`](../../../src/utils/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/utils/README.md`](../../../src/utils/README.md) |
 | `ROADMAP.md` | [`src/utils/ROADMAP.md`](../../../src/utils/ROADMAP.md) |
+| `SECURITY.md` | [`src/utils/SECURITY.md`](../../../src/utils/SECURITY.md) |
 
 ### `include/utils/`
 

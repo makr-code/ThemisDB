@@ -5,9 +5,12 @@
 - `include/cache/FUTURE_ENHANCEMENTS.md`
 - `include/cache/README.md`
 - `src/cache/ARCHITECTURE.md`
+- `src/cache/AUDIT.md`
+- `src/cache/CHANGELOG.md`
 - `src/cache/FUTURE_ENHANCEMENTS.md`
 - `src/cache/README.md`
 - `src/cache/ROADMAP.md`
+- `src/cache/SECURITY.md`
 
 **Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -26,9 +29,12 @@ This index lists all Markdown documentation files for module **`cache`** from th
 | File | Path |
 |------|------|
 | `ARCHITECTURE.md` | [`src/cache/ARCHITECTURE.md`](../../../src/cache/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/cache/AUDIT.md`](../../../src/cache/AUDIT.md) |
+| `CHANGELOG.md` | [`src/cache/CHANGELOG.md`](../../../src/cache/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/cache/FUTURE_ENHANCEMENTS.md`](../../../src/cache/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/cache/README.md`](../../../src/cache/README.md) |
 | `ROADMAP.md` | [`src/cache/ROADMAP.md`](../../../src/cache/ROADMAP.md) |
+| `SECURITY.md` | [`src/cache/SECURITY.md`](../../../src/cache/SECURITY.md) |
 
 ### `include/cache/`
 

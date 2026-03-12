@@ -4,9 +4,12 @@
 **Primary Source:**
 - `include/prompt_engineering/FUTURE_ENHANCEMENTS.md`
 - `src/prompt_engineering/ARCHITECTURE.md`
+- `src/prompt_engineering/AUDIT.md`
+- `src/prompt_engineering/CHANGELOG.md`
 - `src/prompt_engineering/FUTURE_ENHANCEMENTS.md`
 - `src/prompt_engineering/README.md`
 - `src/prompt_engineering/ROADMAP.md`
+- `src/prompt_engineering/SECURITY.md`
 
 **Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -25,9 +28,12 @@ This index lists all Markdown documentation files for module **`prompt_engineeri
 | File | Path |
 |------|------|
 | `ARCHITECTURE.md` | [`src/prompt_engineering/ARCHITECTURE.md`](../../../src/prompt_engineering/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/prompt_engineering/AUDIT.md`](../../../src/prompt_engineering/AUDIT.md) |
+| `CHANGELOG.md` | [`src/prompt_engineering/CHANGELOG.md`](../../../src/prompt_engineering/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/prompt_engineering/FUTURE_ENHANCEMENTS.md`](../../../src/prompt_engineering/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/prompt_engineering/README.md`](../../../src/prompt_engineering/README.md) |
 | `ROADMAP.md` | [`src/prompt_engineering/ROADMAP.md`](../../../src/prompt_engineering/ROADMAP.md) |
+| `SECURITY.md` | [`src/prompt_engineering/SECURITY.md`](../../../src/prompt_engineering/SECURITY.md) |
 
 ### `include/prompt_engineering/`
 

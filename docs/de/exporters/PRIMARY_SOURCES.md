@@ -5,9 +5,12 @@
 - `include/exporters/FUTURE_ENHANCEMENTS.md`
 - `include/exporters/README.md`
 - `src/exporters/ARCHITECTURE.md`
+- `src/exporters/AUDIT.md`
+- `src/exporters/CHANGELOG.md`
 - `src/exporters/FUTURE_ENHANCEMENTS.md`
 - `src/exporters/README.md`
 - `src/exporters/ROADMAP.md`
+- `src/exporters/SECURITY.md`
 
 **Bezug / Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -26,9 +29,12 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`exporters`
 | Datei | Pfad |
 |-------|------|
 | `ARCHITECTURE.md` | [`src/exporters/ARCHITECTURE.md`](../../../src/exporters/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/exporters/AUDIT.md`](../../../src/exporters/AUDIT.md) |
+| `CHANGELOG.md` | [`src/exporters/CHANGELOG.md`](../../../src/exporters/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/exporters/FUTURE_ENHANCEMENTS.md`](../../../src/exporters/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/exporters/README.md`](../../../src/exporters/README.md) |
 | `ROADMAP.md` | [`src/exporters/ROADMAP.md`](../../../src/exporters/ROADMAP.md) |
+| `SECURITY.md` | [`src/exporters/SECURITY.md`](../../../src/exporters/SECURITY.md) |
 
 ### `include/exporters/`
 

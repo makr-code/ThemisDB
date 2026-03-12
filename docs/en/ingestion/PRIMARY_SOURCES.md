@@ -4,9 +4,12 @@
 **Primary Source:**
 - `include/ingestion/FUTURE_ENHANCEMENTS.md`
 - `src/ingestion/ARCHITECTURE.md`
+- `src/ingestion/AUDIT.md`
+- `src/ingestion/CHANGELOG.md`
 - `src/ingestion/FUTURE_ENHANCEMENTS.md`
 - `src/ingestion/README.md`
 - `src/ingestion/ROADMAP.md`
+- `src/ingestion/SECURITY.md`
 
 **Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -25,9 +28,12 @@ This index lists all Markdown documentation files for module **`ingestion`** fro
 | File | Path |
 |------|------|
 | `ARCHITECTURE.md` | [`src/ingestion/ARCHITECTURE.md`](../../../src/ingestion/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/ingestion/AUDIT.md`](../../../src/ingestion/AUDIT.md) |
+| `CHANGELOG.md` | [`src/ingestion/CHANGELOG.md`](../../../src/ingestion/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/ingestion/FUTURE_ENHANCEMENTS.md`](../../../src/ingestion/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/ingestion/README.md`](../../../src/ingestion/README.md) |
 | `ROADMAP.md` | [`src/ingestion/ROADMAP.md`](../../../src/ingestion/ROADMAP.md) |
+| `SECURITY.md` | [`src/ingestion/SECURITY.md`](../../../src/ingestion/SECURITY.md) |
 
 ### `include/ingestion/`
 

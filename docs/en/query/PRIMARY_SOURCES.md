@@ -5,9 +5,12 @@
 - `include/query/FUTURE_ENHANCEMENTS.md`
 - `include/query/README.md`
 - `src/query/ARCHITECTURE.md`
+- `src/query/AUDIT.md`
+- `src/query/CHANGELOG.md`
 - `src/query/FUTURE_ENHANCEMENTS.md`
 - `src/query/README.md`
 - `src/query/ROADMAP.md`
+- `src/query/SECURITY.md`
 
 **Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -26,9 +29,12 @@ This index lists all Markdown documentation files for module **`query`** from th
 | File | Path |
 |------|------|
 | `ARCHITECTURE.md` | [`src/query/ARCHITECTURE.md`](../../../src/query/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/query/AUDIT.md`](../../../src/query/AUDIT.md) |
+| `CHANGELOG.md` | [`src/query/CHANGELOG.md`](../../../src/query/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/query/FUTURE_ENHANCEMENTS.md`](../../../src/query/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/query/README.md`](../../../src/query/README.md) |
 | `ROADMAP.md` | [`src/query/ROADMAP.md`](../../../src/query/ROADMAP.md) |
+| `SECURITY.md` | [`src/query/SECURITY.md`](../../../src/query/SECURITY.md) |
 
 ### `include/query/`
 

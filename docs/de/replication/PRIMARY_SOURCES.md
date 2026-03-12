@@ -5,9 +5,12 @@
 - `include/replication/FUTURE_ENHANCEMENTS.md`
 - `include/replication/README.md`
 - `src/replication/ARCHITECTURE.md`
+- `src/replication/AUDIT.md`
+- `src/replication/CHANGELOG.md`
 - `src/replication/FUTURE_ENHANCEMENTS.md`
 - `src/replication/README.md`
 - `src/replication/ROADMAP.md`
+- `src/replication/SECURITY.md`
 
 **Bezug / Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -26,9 +29,12 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`replicatio
 | Datei | Pfad |
 |-------|------|
 | `ARCHITECTURE.md` | [`src/replication/ARCHITECTURE.md`](../../../src/replication/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/replication/AUDIT.md`](../../../src/replication/AUDIT.md) |
+| `CHANGELOG.md` | [`src/replication/CHANGELOG.md`](../../../src/replication/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/replication/FUTURE_ENHANCEMENTS.md`](../../../src/replication/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/replication/README.md`](../../../src/replication/README.md) |
 | `ROADMAP.md` | [`src/replication/ROADMAP.md`](../../../src/replication/ROADMAP.md) |
+| `SECURITY.md` | [`src/replication/SECURITY.md`](../../../src/replication/SECURITY.md) |
 
 ### `include/replication/`
 

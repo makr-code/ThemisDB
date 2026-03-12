@@ -3,9 +3,12 @@
 **Status:** draft  
 **Primary Source:**
 - `src/config/ARCHITECTURE.md`
+- `src/config/AUDIT.md`
+- `src/config/CHANGELOG.md`
 - `src/config/FUTURE_ENHANCEMENTS.md`
 - `src/config/README.md`
 - `src/config/ROADMAP.md`
+- `src/config/SECURITY.md`
 
 **Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -24,9 +27,12 @@ This index lists all Markdown documentation files for module **`config`** from t
 | File | Path |
 |------|------|
 | `ARCHITECTURE.md` | [`src/config/ARCHITECTURE.md`](../../../src/config/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/config/AUDIT.md`](../../../src/config/AUDIT.md) |
+| `CHANGELOG.md` | [`src/config/CHANGELOG.md`](../../../src/config/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/config/FUTURE_ENHANCEMENTS.md`](../../../src/config/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/config/README.md`](../../../src/config/README.md) |
 | `ROADMAP.md` | [`src/config/ROADMAP.md`](../../../src/config/ROADMAP.md) |
+| `SECURITY.md` | [`src/config/SECURITY.md`](../../../src/config/SECURITY.md) |
 
 ---
 

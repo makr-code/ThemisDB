@@ -5,9 +5,12 @@
 - `include/scheduler/FUTURE_ENHANCEMENTS.md`
 - `include/scheduler/README.md`
 - `src/scheduler/ARCHITECTURE.md`
+- `src/scheduler/AUDIT.md`
+- `src/scheduler/CHANGELOG.md`
 - `src/scheduler/FUTURE_ENHANCEMENTS.md`
 - `src/scheduler/README.md`
 - `src/scheduler/ROADMAP.md`
+- `src/scheduler/SECURITY.md`
 
 **Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -26,9 +29,12 @@ This index lists all Markdown documentation files for module **`scheduler`** fro
 | File | Path |
 |------|------|
 | `ARCHITECTURE.md` | [`src/scheduler/ARCHITECTURE.md`](../../../src/scheduler/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/scheduler/AUDIT.md`](../../../src/scheduler/AUDIT.md) |
+| `CHANGELOG.md` | [`src/scheduler/CHANGELOG.md`](../../../src/scheduler/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/scheduler/FUTURE_ENHANCEMENTS.md`](../../../src/scheduler/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/scheduler/README.md`](../../../src/scheduler/README.md) |
 | `ROADMAP.md` | [`src/scheduler/ROADMAP.md`](../../../src/scheduler/ROADMAP.md) |
+| `SECURITY.md` | [`src/scheduler/SECURITY.md`](../../../src/scheduler/SECURITY.md) |
 
 ### `include/scheduler/`
 

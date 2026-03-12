@@ -5,9 +5,12 @@
 - `include/timeseries/FUTURE_ENHANCEMENTS.md`
 - `include/timeseries/README.md`
 - `src/timeseries/ARCHITECTURE.md`
+- `src/timeseries/AUDIT.md`
+- `src/timeseries/CHANGELOG.md`
 - `src/timeseries/FUTURE_ENHANCEMENTS.md`
 - `src/timeseries/README.md`
 - `src/timeseries/ROADMAP.md`
+- `src/timeseries/SECURITY.md`
 
 **Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -26,9 +29,12 @@ This index lists all Markdown documentation files for module **`timeseries`** fr
 | File | Path |
 |------|------|
 | `ARCHITECTURE.md` | [`src/timeseries/ARCHITECTURE.md`](../../../src/timeseries/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/timeseries/AUDIT.md`](../../../src/timeseries/AUDIT.md) |
+| `CHANGELOG.md` | [`src/timeseries/CHANGELOG.md`](../../../src/timeseries/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/timeseries/FUTURE_ENHANCEMENTS.md`](../../../src/timeseries/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/timeseries/README.md`](../../../src/timeseries/README.md) |
 | `ROADMAP.md` | [`src/timeseries/ROADMAP.md`](../../../src/timeseries/ROADMAP.md) |
+| `SECURITY.md` | [`src/timeseries/SECURITY.md`](../../../src/timeseries/SECURITY.md) |
 
 ### `include/timeseries/`
 

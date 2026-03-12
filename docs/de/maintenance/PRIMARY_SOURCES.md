@@ -2,8 +2,13 @@
 **Datum:** 2026-03-12  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
+- `src/maintenance/ARCHITECTURE.md`
+- `src/maintenance/AUDIT.md`
+- `src/maintenance/CHANGELOG.md`
 - `src/maintenance/FUTURE_ENHANCEMENTS.md`
+- `src/maintenance/README.md`
 - `src/maintenance/ROADMAP.md`
+- `src/maintenance/SECURITY.md`
 
 **Bezug / Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -21,8 +26,13 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`maintenanc
 
 | Datei | Pfad |
 |-------|------|
+| `ARCHITECTURE.md` | [`src/maintenance/ARCHITECTURE.md`](../../../src/maintenance/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/maintenance/AUDIT.md`](../../../src/maintenance/AUDIT.md) |
+| `CHANGELOG.md` | [`src/maintenance/CHANGELOG.md`](../../../src/maintenance/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/maintenance/FUTURE_ENHANCEMENTS.md`](../../../src/maintenance/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/maintenance/README.md`](../../../src/maintenance/README.md) |
 | `ROADMAP.md` | [`src/maintenance/ROADMAP.md`](../../../src/maintenance/ROADMAP.md) |
+| `SECURITY.md` | [`src/maintenance/SECURITY.md`](../../../src/maintenance/SECURITY.md) |
 
 ---
 
