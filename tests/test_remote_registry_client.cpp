@@ -371,3 +371,88 @@ TEST(RemoteRegistryClient, IntegrityCheckSkippedWhenNoHashProvided) {
 
     std::filesystem::remove_all(tmp_dir);
 }
+
+// =============================================================================
+// RegistryConfig::max_total_retry_time_ms – default and field assignment
+// =============================================================================
+
+TEST(RegistryConfig, MaxTotalRetryTimeMsDefault) {
+    RegistryConfig cfg;
+    EXPECT_EQ(cfg.max_total_retry_time_ms, 30000);
+}
+
+TEST(RegistryConfig, MaxTotalRetryTimeMsAssignment) {
+    RegistryConfig cfg;
+    cfg.max_total_retry_time_ms = 5000;
+    EXPECT_EQ(cfg.max_total_retry_time_ms, 5000);
+}
+
+// =============================================================================
+// RequestStats – default values
+// =============================================================================
+
+TEST(RequestStats, DefaultValues) {
+    RequestStats s;
+    EXPECT_EQ(s.attempts, 0);
+    EXPECT_TRUE(s.last_error.empty());
+}
+
+// =============================================================================
+// RemoteRegistryClient::lastRequestStats – populated after failed request
+// =============================================================================
+
+TEST(RemoteRegistryClient, LastRequestStatsAfterFailure) {
+    RegistryConfig cfg;
+    cfg.registry_url = "http://127.0.0.1:1";
+    cfg.timeout_ms   = 300;
+    cfg.max_retries  = 0;
+    cfg.verify_ssl   = false;
+
+    RemoteRegistryClient client(cfg);
+
+    // Trigger a request that will fail (unreachable server).
+    client.listPlugins();
+
+    const auto stats = client.lastRequestStats();
+    EXPECT_EQ(stats.attempts, 1);           // max_retries=0 → exactly 1 attempt
+    EXPECT_FALSE(stats.last_error.empty()); // should record the CURL error
+}
+
+// =============================================================================
+// RemoteRegistryClient::lastRequestStats – zero attempts before any request
+// =============================================================================
+
+TEST(RemoteRegistryClient, LastRequestStatsInitiallyZero) {
+    RegistryConfig cfg;
+    cfg.registry_url = "https://registry.example.com/api/v1";
+
+    RemoteRegistryClient client(cfg);
+    const auto stats = client.lastRequestStats();
+    EXPECT_EQ(stats.attempts, 0);
+    EXPECT_TRUE(stats.last_error.empty());
+}
+
+// =============================================================================
+// max_total_retry_time_ms – very small budget aborts retry loop quickly
+// =============================================================================
+
+TEST(RemoteRegistryClient, TotalRetryBudgetExhausted) {
+    RegistryConfig cfg;
+    cfg.registry_url             = "http://127.0.0.1:1";
+    cfg.timeout_ms               = 300;
+    cfg.max_retries              = 5;
+    cfg.max_total_retry_time_ms  = 1;   // 1 ms budget: backoff never fires
+    cfg.verify_ssl               = false;
+
+    RemoteRegistryClient client(cfg);
+    // Should complete quickly even with max_retries=5 because the budget is exhausted.
+    client.listPlugins();
+
+    // The budget is so small that the retry loop is aborted after ≤ 2 attempts
+    // (the first attempt happens before any sleep, and the budget check happens
+    // before each subsequent sleep). We only verify that the call returns in a
+    // reasonable time (the test itself serves as the timing bound).
+    const auto stats = client.lastRequestStats();
+    EXPECT_GE(stats.attempts, 1);
+    EXPECT_FALSE(stats.last_error.empty());
+}

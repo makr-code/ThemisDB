@@ -33,6 +33,7 @@
 #include "themis/base/module_loader.h"
 
 #include <nlohmann/json.hpp>
+#include <mutex>
 #include <optional>
 #include <string>
 #include <vector>
@@ -66,6 +67,11 @@ struct RegistryConfig {
 
     /// Maximum number of retry attempts on transient HTTP errors.
     int max_retries = 3;
+
+    /// Total wall-clock budget (ms) across all retry attempts for a single
+    /// request.  The retry loop is aborted when this limit is reached, even if
+    /// max_retries has not been exhausted.  Default: 30 000 ms.
+    int max_total_retry_time_ms = 30000;
 
     /// Verify SSL/TLS certificates (set to false only in test environments).
     bool verify_ssl = true;
@@ -134,6 +140,25 @@ struct PluginDownloadResult {
     std::string plugin_name;          ///< Name from RegistryPluginEntry
     std::string version;              ///< Version from RegistryPluginEntry
     std::string error_message;        ///< Non-empty on failure
+};
+
+// =============================================================================
+// RequestStats – observability for the last HTTP request
+// =============================================================================
+
+/**
+ * @brief Statistics for the most recent HTTP request issued by
+ *        RemoteRegistryClient.
+ *
+ * Populated by both httpGet() and httpGetBinary() so callers can inspect
+ * retry counts and error details without relying on log output.
+ */
+struct RequestStats {
+    /// Number of HTTP attempts made (1 = no retries were needed).
+    int attempts = 0;
+
+    /// Last error description; empty when the final attempt succeeded.
+    std::string last_error;
 };
 
 // =============================================================================
@@ -240,8 +265,26 @@ public:
     /// Return the current configuration.
     const RegistryConfig& config() const { return config_; }
 
+    // -------------------------------------------------------------------------
+    // Observability
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Return statistics from the most recent httpGet or httpGetBinary
+     *        call.
+     *
+     * The returned struct reflects the last completed request (success or
+     * failure).  Thread-safe: safe to call concurrently with other public
+     * methods.
+     */
+    RequestStats lastRequestStats() const;
+
 private:
     RegistryConfig config_;
+
+    // Stats for the most recently completed HTTP request.
+    mutable std::mutex stats_mutex_;
+    RequestStats       last_stats_;
 
     // HTTP helpers
     std::string httpGet(const std::string& url);
@@ -251,8 +294,12 @@ private:
     static bool verifyIntegrity(const std::string& file_path,
                                 const std::string& expected_sha256);
 
-    // Auth header building (returns header value for Authorization or X-API-Key)
+// Auth header building (returns header value for Authorization or X-API-Key)
     std::string buildAuthorizationHeader() const;
+
+    // Perform a back-off wait of `ms` milliseconds on an async thread so the
+    // calling thread is not tied up for the full sleep duration.
+    static void asyncBackoffSleep(int ms);
 
     // Parse a single JSON object into a RegistryPluginEntry (returns false on
     // missing mandatory fields).
