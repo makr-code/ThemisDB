@@ -24,6 +24,7 @@
 #pragma once
 
 #include "auth/auth_error.h"
+#include "auth/ldap_connection_pool.h"
 
 #include <string>
 #include <vector>
@@ -80,6 +81,24 @@ struct LDAPConfig {
 
     // Fallback role assigned when no group mapping matches
     std::string default_role{"readonly"};
+
+    // -----------------------------------------------------------------------
+    // Connection pool settings (used when the pool is enabled)
+    // -----------------------------------------------------------------------
+
+    /// Enable the LDAP connection pool.  When false, a new connection is
+    /// opened for every authenticate() call (pre-pool behaviour).
+    bool pool_enabled{true};
+
+    /// Minimum number of idle connections kept alive in the pool.
+    int pool_min_idle{2};
+
+    /// Maximum total connections (idle + active) in the pool.
+    int pool_max_size{16};
+
+    /// Maximum time (milliseconds) to wait for a free connection before
+    /// authenticate() returns a failure.
+    int pool_checkout_timeout_ms{5000};
 };
 
 /**
@@ -174,7 +193,10 @@ public:
      *
      * Validates the configuration (non-empty server_url and bind_dn_template)
      * but does NOT open a network connection — connections are opened per
-     * authenticate() call to keep the authenticator stateless.
+     * authenticate() call (or kept alive in the connection pool).
+     *
+     * When config.pool_enabled is true (the default) a connection pool is
+     * pre-warmed with config.pool_min_idle connections.
      *
      * @param config  LDAP configuration
      * @return true on success, false if the configuration is invalid
@@ -201,6 +223,14 @@ public:
      * @brief Return the current configuration (after initialize()).
      */
     const LDAPConfig& getConfig() const { return config_; }
+
+    /**
+     * @brief Return a non-owning pointer to the connection pool, or nullptr
+     * if the pool is disabled or the authenticator is not yet initialised.
+     *
+     * Exposed for metrics collection (pool_size, idle_connections, …).
+     */
+    const LDAPConnectionPool* connectionPool() const noexcept { return pool_.get(); }
 
     /**
      * @brief Build a user DN by substituting {username} in the template.
@@ -240,10 +270,15 @@ private:
     LDAPConfig   config_;
     utils::AuditLogger* audit_logger_{nullptr}; ///< Non-owning, optional.
 
+    /// Connection pool — created on initialize() when pool_enabled is true.
+    std::unique_ptr<LDAPConnectionPool> pool_;
+
     /**
      * @brief Perform the LDAP bind and optional group search.
      *
      * Called by authenticate() after input validation.
+     * When a connection pool is available the connection is checked out from
+     * the pool; otherwise a fresh connection is opened per-call.
      */
     LDAPAuthResult performBind(const std::string& username,
                                const std::string& dn,

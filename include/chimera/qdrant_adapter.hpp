@@ -60,6 +60,7 @@
 #ifndef CHIMERA_QDRANT_ADAPTER_HPP
 #define CHIMERA_QDRANT_ADAPTER_HPP
 
+#include "chimera/connection_pool.hpp"
 #include "chimera/database_adapter.hpp"
 #include <atomic>
 #include <memory>
@@ -229,6 +230,14 @@ private:
 
     bool connected_ = false;
     std::string connection_string_;
+
+    // Connection pool configuration (configurable before connect()).
+    ConnectionPoolConfig pool_config_;
+
+    // Opaque driver-specific state (httplib pool for real Qdrant REST calls).
+    // Defined in qdrant_adapter.cpp; nullptr in simulation mode.
+    struct QdrantState;
+    std::unique_ptr<QdrantState> qdrant_state_;
 
     // In-process vector store for simulation.
     // Maps collection_name -> vector of (Document encoding vector + metadata).
