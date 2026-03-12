@@ -25,6 +25,7 @@
 #include "utils/logger.h"
 #include <openssl/bio.h>
 #include <openssl/buffer.h>
+#include <openssl/crypto.h>
 #include <openssl/evp.h>
 #include <openssl/rand.h>
 #include <openssl/sha.h>
@@ -46,6 +47,15 @@ struct TOTPSecretEncryption::Impl {
     explicit Impl(const Config& cfg) : config(cfg) {
         if (config.master_key.size() != 32) {
             throw std::invalid_argument("Master key must be 32 bytes for AES-256");
+        }
+    }
+
+    ~Impl() {
+        // Explicitly zero the master key before deallocation.
+        // SecureBuffer destructor also handles this, but we are explicit here
+        // so the intent is visible at the point of use.
+        if (!config.master_key.empty()) {
+            OPENSSL_cleanse(config.master_key.data(), config.master_key.size());
         }
     }
 };
@@ -287,7 +297,7 @@ std::string TOTPSecretEncryption::deserializeAndDecrypt(const std::string& seria
     return decrypt(encrypted);
 }
 
-void TOTPSecretEncryption::rotateKey(const std::vector<uint8_t>& new_master_key, int new_version) {
+void TOTPSecretEncryption::rotateKey(const SecureBuffer<uint8_t>& new_master_key, int new_version) {
     if (new_master_key.size() != 32) {
         throw std::invalid_argument("New master key must be 32 bytes for AES-256");
     }
@@ -311,18 +321,18 @@ TOTPSecretEncryption::reencrypt(const EncryptedSecret& old_encrypted) {
     return encrypt(plaintext);
 }
 
-std::vector<uint8_t> TOTPSecretEncryption::deriveKey(const std::vector<uint8_t>& salt) {
-    std::vector<uint8_t> derived_key(32);  // 256 bits for AES-256
+SecureBuffer<uint8_t> TOTPSecretEncryption::deriveKey(const std::vector<uint8_t>& salt) {
+    SecureBuffer<uint8_t> derived_key(32);  // 256 bits for AES-256, zeroed on scope exit
     
     // Use PBKDF2-HMAC-SHA256
     if (PKCS5_PBKDF2_HMAC(
             reinterpret_cast<const char*>(impl_->config.master_key.data()),
-            impl_->config.master_key.size(),
+            static_cast<int>(impl_->config.master_key.size()),
             salt.data(),
-            salt.size(),
+            static_cast<int>(salt.size()),
             impl_->config.pbkdf2_iterations,
             EVP_sha256(),
-            derived_key.size(),
+            static_cast<int>(derived_key.size()),
             derived_key.data()) != 1) {
         throw std::runtime_error("Key derivation failed");
     }
