@@ -53,6 +53,8 @@ protected:
     void SetUp() override {
         JWTValidatorConfig cfg;
         cfg.jwks_url = "http://localhost:8080/jwks"; // Not called in tests
+        cfg.require_issuer_validation = false;
+        cfg.require_audience_validation = false;
         validator_ = std::make_unique<JWTValidator>(cfg);
         mgr_ = std::make_unique<JWTKeyRotationManager>(*validator_);
     }
@@ -259,6 +261,8 @@ TEST_F(KeyRotationTest, Statistics_Counts) {
 TEST(KeyRotationAutoRevokeTest, CheckAndRotate_ExpiredPassive_AutoRevoked) {
     JWTValidatorConfig cfg;
     cfg.jwks_url = "http://localhost:8080/jwks";
+    cfg.require_issuer_validation = false;
+    cfg.require_audience_validation = false;
     JWTValidator validator(cfg);
 
     JWTKeyRotationManager::Config mgr_cfg;
@@ -289,6 +293,8 @@ TEST(KeyRotationAutoRevokeTest, CheckAndRotate_ExpiredPassive_AutoRevoked) {
 TEST(KeyRotationThreadSafetyTest, ConcurrentRotations_NoDataRace) {
     JWTValidatorConfig cfg;
     cfg.jwks_url = "http://localhost:8080/jwks";
+    cfg.require_issuer_validation = false;
+    cfg.require_audience_validation = false;
     JWTValidator validator(cfg);
     JWTKeyRotationManager mgr(validator);
 

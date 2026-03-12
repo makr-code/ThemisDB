@@ -292,6 +292,8 @@ TEST_F(AuthAuditLoggerTest, MFAAuthenticator_NoAuditLogger_DoesNotCrash) {
 TEST_F(AuthAuditLoggerTest, JWTValidator_SetAuditLogger_AcceptsNull) {
     JWTValidatorConfig cfg;
     cfg.jwks_url = "https://example.com/jwks";
+    cfg.require_issuer_validation = false;
+    cfg.require_audience_validation = false;
     JWTValidator v(cfg);
     EXPECT_NO_THROW(v.setAuditLogger(nullptr));
     EXPECT_NO_THROW(v.setAuditLogger(logger_.get()));

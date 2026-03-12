@@ -236,3 +236,108 @@ TEST(JWTValidatorTest, TokenBlacklist_NonRevokedJtiAccepted) {
     EXPECT_EQ(claims.jti, "valid-jti-002");
 }
 
+// --- Mandatory issuer/audience validation tests ---
+
+TEST(JWTValidatorTest, ConstructorThrows_RequireIssuerValidation_NoIssuerSet) {
+    JWTValidatorConfig cfg;
+    cfg.jwks_url = "";
+    cfg.expected_audience = "audX";
+    cfg.require_issuer_validation = true;
+    // expected_issuer is nullopt → must throw
+    EXPECT_THROW(JWTValidator{cfg}, std::runtime_error);
+}
+
+TEST(JWTValidatorTest, ConstructorThrows_RequireAudienceValidation_NoAudienceSet) {
+    JWTValidatorConfig cfg;
+    cfg.jwks_url = "";
+    cfg.expected_issuer = "issuerX";
+    cfg.require_audience_validation = true;
+    // expected_audience is nullopt → must throw
+    EXPECT_THROW(JWTValidator{cfg}, std::runtime_error);
+}
+
+TEST(JWTValidatorTest, ConstructorSucceeds_RequireFlags_False_NoValues) {
+    JWTValidatorConfig cfg;
+    cfg.jwks_url = "";
+    cfg.require_issuer_validation = false;
+    cfg.require_audience_validation = false;
+    // No expected_issuer/audience set, but require flags are false → no throw
+    EXPECT_NO_THROW(JWTValidator{cfg});
+}
+
+TEST(JWTValidatorTest, ConstructorSucceeds_BothSet) {
+    JWTValidatorConfig cfg;
+    cfg.jwks_url = "";
+    cfg.expected_issuer = "issuerX";
+    cfg.expected_audience = "audX";
+    EXPECT_NO_THROW(JWTValidator{cfg});
+}
+
+TEST(JWTValidatorTest, MissingIssClaim_WhenIssuerValidationEnabled) {
+    RSAFixture fix; auto jwks = make_jwks(fix.rsa);
+    JWTValidatorConfig cfg;
+    cfg.expected_issuer = "issuerX";
+    cfg.expected_audience = "audX";
+    JWTValidator validator(cfg);
+    validator.setJWKSForTesting(jwks);
+    auto now = std::chrono::system_clock::now();
+    auto exp = std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch()).count() + 300;
+    // Token without 'iss' claim
+    nlohmann::json payload = {{"sub","u1"},{"email","u1@x"},{"aud","audX"},{"exp",exp}};
+    std::string up = build_token("test-key-1", payload);
+    std::string token = up + "." + sign_RS256(fix.pkey, up);
+    // Empty issuer from token won't match expected "issuerX" → should throw
+    EXPECT_THROW(validator.parseAndValidate(token), std::runtime_error);
+}
+
+TEST(JWTValidatorTest, MissingAudClaim_WhenAudienceValidationEnabled) {
+    RSAFixture fix; auto jwks = make_jwks(fix.rsa);
+    JWTValidatorConfig cfg;
+    cfg.expected_issuer = "issuerX";
+    cfg.expected_audience = "audX";
+    JWTValidator validator(cfg);
+    validator.setJWKSForTesting(jwks);
+    auto now = std::chrono::system_clock::now();
+    auto exp = std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch()).count() + 300;
+    // Token without 'aud' claim
+    nlohmann::json payload = {{"sub","u1"},{"email","u1@x"},{"iss","issuerX"},{"exp",exp}};
+    std::string up = build_token("test-key-1", payload);
+    std::string token = up + "." + sign_RS256(fix.pkey, up);
+    // No 'aud' in token but audience validation is configured → should throw
+    EXPECT_THROW(validator.parseAndValidate(token), std::runtime_error);
+}
+
+TEST(JWTValidatorTest, ValidToken_IssuerValidationDisabled) {
+    RSAFixture fix; auto jwks = make_jwks(fix.rsa);
+    JWTValidatorConfig cfg;
+    cfg.require_issuer_validation = false;   // no issuer check
+    cfg.expected_audience = "audX";
+    JWTValidator validator(cfg);
+    validator.setJWKSForTesting(jwks);
+    auto now = std::chrono::system_clock::now();
+    auto exp = std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch()).count() + 300;
+    // Token with arbitrary issuer – should be accepted
+    nlohmann::json payload = {{"sub","u1"},{"email","u1@x"},{"iss","any-issuer"},{"aud","audX"},{"exp",exp}};
+    std::string up = build_token("test-key-1", payload);
+    std::string token = up + "." + sign_RS256(fix.pkey, up);
+    auto claims = validator.parseAndValidate(token);
+    EXPECT_EQ(claims.sub, "u1");
+}
+
+TEST(JWTValidatorTest, ValidToken_AudienceValidationDisabled) {
+    RSAFixture fix; auto jwks = make_jwks(fix.rsa);
+    JWTValidatorConfig cfg;
+    cfg.expected_issuer = "issuerX";
+    cfg.require_audience_validation = false;  // no audience check
+    JWTValidator validator(cfg);
+    validator.setJWKSForTesting(jwks);
+    auto now = std::chrono::system_clock::now();
+    auto exp = std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch()).count() + 300;
+    // Token with arbitrary audience – should be accepted
+    nlohmann::json payload = {{"sub","u1"},{"email","u1@x"},{"iss","issuerX"},{"aud","any-audience"},{"exp",exp}};
+    std::string up = build_token("test-key-1", payload);
+    std::string token = up + "." + sign_RS256(fix.pkey, up);
+    auto claims = validator.parseAndValidate(token);
+    EXPECT_EQ(claims.sub, "u1");
+}
+
