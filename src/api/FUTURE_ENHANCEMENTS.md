@@ -1,8 +1,11 @@
+<!-- Status: current | validated: 2026-06-09 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+
 # API Module - Future Enhancements
 
 ## Scope
 
-This document covers implementation-specific future enhancements for the API module (`src/api/`), which exposes ThemisDB over HTTP using Crow/Beast (`http_server.cpp` is a legacy stub; the live implementation resides in `src/server/http_server.cpp`), GraphQL (`graphql.cpp`, 1,214 lines), and geospatial index hooks (`geo_index_hooks.cpp`). Enhancements to underlying AQL execution, storage, or authentication are out of scope; only the API surface, transport layer, and middleware pipeline are in scope here.
+This document covers implementation-specific future enhancements for the API module (`src/api/` and `include/api/`), which exposes ThemisDB over HTTP (stub in `src/api/http_server.cpp`; live implementation in `src/server/http_server.cpp`), GraphQL (`graphql.cpp` + `graphql_ws_handler.cpp`), WebSocket CDC streaming (`ws_handler.cpp`), gRPC (`grpc_server.cpp` + `themisdb_grpc_service.cpp`), geospatial index hooks (`geo_index_hooks.cpp`), request tracing (`tracing_middleware.cpp`), and OTLP span export (`otlp_exporter.cpp`). Supporting header-only components in `include/api/` — `rate_limiter.h`, `audit_logger.h`, `graphql_cache.h`, `persisted_queries.h`, `websocket_handler.h`, `grpc_bridge.h` — are equally in scope. Enhancements to AQL execution, storage engines, or authentication internals are out of scope; only the API surface, transport layer, and middleware pipeline are covered here.
 
 ## Design Constraints
 
@@ -10,6 +13,8 @@ This document covers implementation-specific future enhancements for the API mod
 - `[x]` The GraphQL parser in `graphql.cpp` uses `QueryLimits::defaults()` for depth/complexity guards; any new field resolver must enforce those limits to prevent query amplification. (**Enforced** — `QueryLimits` passed to `Parser::parse()` in all call sites; `QueryLimits::production()` disables introspection.)
 - `[x]` TLS is mandatory for all production transports; new WebSocket and gRPC transports must share the same TLS context as the existing HTTP listener. (**Enforced** — `GrpcApiServer` uses `grpc::SslServerCredentials` from the same PEM paths; WebSocket upgrades go through the Beast TLS acceptor.)
 - `[x]` Auth middleware (`src/auth/`) is a hard dependency; no new transport may bypass JWT/JWKS validation enforced by `jwt_validator.cpp`. (**Enforced** — `WsChangeHandler::validate()` and gRPC interceptor both call `AuthMiddleware::authorize` before any data is exchanged.)
+- `[ ]` `GrpcApiServer::start()` must not hold `mutex_` across blocking operations (port bind, TLS handshake). The current implementation calls `builder.BuildAndStart()` inside a `std::lock_guard<std::mutex>` in `grpc_server.cpp:start()`, causing the lock to be held during a potentially long network bind, which blocks `stop()` and `isRunning()` callers for the entire duration. (Target: v2.1.0)
+- `[ ]` `GrpcApiServer::stop()` must specify a shutdown deadline. The current call `server_->Shutdown()` with no argument blocks indefinitely if in-flight RPCs do not terminate. (Target: v2.1.0)
 
 ## Required Interfaces
 
@@ -20,6 +25,7 @@ This document covers implementation-specific future enhancements for the API mod
 | `auth::JWTValidator` | All HTTP/WS/gRPC handlers | Must propagate tenant ID into request context |
 | `cdc::Changefeed` | Planned WebSocket change-stream endpoint | Requires `Changefeed::subscribe()` returning an async event iterator |
 | `aql::LLMAQLHandler` | AQL execution endpoint | Streaming result set needed for `/v2/query/stream` |
+| `IGRPCBridge` (`include/api/grpc_bridge.h`) | gRPC bridge consumers | Pure-virtual interface with no registered concrete implementation yet; callers must inject one via factory |
 
 ## Planned Features
 
@@ -35,6 +41,10 @@ This document covers implementation-specific future enhancements for the API mod
 - `[x]` Subscription transport: use Boost.Beast WebSocket upgrades; create `graphql_ws_handler.cpp` implementing the `graphql-transport-ws` protocol (not the legacy `subscriptions-transport-ws`).
 - `[x]` Wire `cdc::Changefeed::subscribe(filter)` as the event source for `subscription { onChange(collection: "...") { ... } }`. Implemented: `Changefeed::subscribe(SubscriptionFilter, SubscriptionCallback)` + `SubscriptionHandle` RAII type in `changefeed.h/cpp`; wired in `GraphQLWsHandler::handleSubscribe()` via `extractOnChangeCollection()`.
 - `[x]` Enforce `QueryLimits::maxSubscriptions` per connection to prevent fan-out DoS.
+- `[ ]` In `graphql.h`, the `Parser` class explicitly documents "Not yet supported: Fragments, Directives, Inline fragments." Implement `parseFragmentDefinition()` and `parseInlineFragment()` in `graphql.cpp` — without fragment support, clients using Apollo's automatic persisted query fragments or any relay-style fragment composition will fail at parse time.
+- `[ ]` `graphql.h::Parser::error()` is documented as **deprecated** ("Deprecated: Use `Result<T>` return types instead of `error()` method") but the method still exists in the class definition. Remove it after migrating all call sites in `graphql.cpp` to return `themis::Result<T>` with structured `ParseError` objects to eliminate the dual error-reporting path.
+- `[ ]` `Schema::introspect()` in `graphql.cpp` only handles `__schema` and `__type` fields. The GraphQL June 2018 spec also requires `__typename` on every composite type, `__Field`, `__InputValue`, `__EnumValue`, and `__Directive` meta-types. Add these to `Schema::introspect()` so introspection-based tooling (code generators, schema diffing tools) works fully.
+- `[ ]` `Executor::executeSelections()` in `graphql.cpp` resolves fields serially in a range-for loop. For independent sibling fields that each invoke storage I/O, this means sequential round-trips. Add parallel field resolution via `std::async` or a small task graph; guard behind a `QueryLimits::parallel_fields_enabled` flag to allow gradual rollout.
 
 **Performance Targets:**
 - GraphQL parse + validate + execute for a 10-field document query in < 2 ms (p99) under 500 concurrent HTTP/2 connections.
@@ -70,6 +80,7 @@ Add a dedicated WebSocket endpoint `/v2/changes` that multiplexes multiple `cdc:
 - `[x]` Client subscribes/unsubscribes by sending `{"action":"subscribe","collection":"orders","filter":{"type":"PUT"}}` control frames. (`WebSocketSession::processMessage` handles `type="subscribe"/"unsubscribe"` for `/v2/changes`; `CdcWebSocketHandler::handleFrame` handles `action="subscribe"/"unsubscribe"/"ack"` for `/v2/cdc/stream`)
 - `[x]` Implement per-connection back-pressure: if the outbound frame queue exceeds 1,000 entries, close with `1011 Internal Error` and log tenant/connection ID. (`WebSocketSession::kMaxQueueDepth = 1000`)
 - `[x]` Reuse `auth::JWTValidator` middleware already wired for HTTP; extract Bearer token from the WebSocket upgrade `Authorization` header. (`WsChangeHandler::validate()` requires `cdc:subscribe` scope)
+- `[ ]` `WsChangeHandler::validate()` in `ws_handler.cpp` parses query-string parameters (`from_sequence`, `key_prefix`) with ad-hoc string search using `std::string::find`. URL-encoded characters (e.g., `key_prefix=orders%3A`) are never decoded, so clients that percent-encode the query string will receive incorrect filter values. Replace with a proper URL-decoding step (e.g., using `boost::urls` or a small `url_decode()` utility) before extracting parameter values.
 
 **Performance Targets:**
 - ≥ 10,000 concurrent WebSocket connections on a single node with < 50 MB additional RSS.
@@ -96,18 +107,29 @@ Current REST routes use unversioned paths (e.g., `/documents/{id}`). Introduce a
 
 ---
 
-### gRPC API Surface
-**Priority:** Medium
+### gRPC API Surface — Wire Stub Implementations
+**Priority:** High
 **Target Version:** v2.0.0
 
-Add a gRPC service alongside REST, sharing the same business logic. Define a `ThemisDB` protobuf service in `proto/themisdb.proto` covering document CRUD, AQL execution, and vector search. This is a major version addition and must not affect REST.
+`themisdb_grpc_service.cpp` reports "Open Issues: Stubs: 4" in its header. All five non-CRUD RPC methods return `grpc::StatusCode::UNIMPLEMENTED`. The gRPC surface cannot be used for its primary value (AQL execution, vector search) until these stubs are replaced with real engine delegation via `ThemisDBGrpcServiceFactory`.
 
 **Implementation Notes:**
 - `[x]` Create `src/api/grpc_server.cpp`; gRPC C++ server using `grpc::ServerBuilder` (synchronous dispatch model, consistent with the rest of the codebase).
 - `[x]` Reuse existing service-layer infrastructure via `GrpcApiServer::registerService()`; no business logic duplication — service implementations are registered externally.
-- `[x]` Implement server-side streaming RPC `StreamAQL(AQLQueryRequest) returns (stream AQLRow)` service-layer handler that delegates to `aql::LLMAQLHandler`.
 - `[x]` TLS: `grpc::SslServerCredentials` using the same PEM cert/key pair as the Beast HTTP listener; fail-closed on cert load failure.
 - `[x]` Expose gRPC reflection service in debug builds only to prevent schema leakage in production.
+- `[ ]` **`ExecuteAQL` stub** (`themisdb_grpc_service.cpp:~line 302`): returns `UNIMPLEMENTED` with message "AQL execution requires an AQLEngine; wire one in via ThemisDBGrpcServiceFactory". Implement `ThemisDBGrpcServiceFactory` that accepts an `AQLEngine*` and injects it into `ServiceImpl` so `ExecuteAQL` can delegate to `engine_->execute(req->query(), ...)`.
+- `[ ]` **`StreamAQL` stub** (`themisdb_grpc_service.cpp:~line 337`): the comment block already shows the exact streaming loop implementation needed (inject `AQLEngine`, call `executeStreaming`, write rows via `writer->Write(row)`). The code exists as a comment — uncomment and wire after `ThemisDBGrpcServiceFactory` provides the engine. Implement server-side streaming RPC `StreamAQL(AQLQueryRequest) returns (stream AQLRow)`.
+- `[ ]` **`VectorSearch` stub** (`themisdb_grpc_service.cpp:~line 354`): returns `UNIMPLEMENTED`. Add a `VectorIndex*` injection point to `ServiceImpl` (parallel to the `AQLEngine*` injection) and delegate to `vector_index_->search(req->collection(), req->vector(), req->k())`.
+- `[ ]` **`FilteredVectorSearch` stub** (`themisdb_grpc_service.cpp:~line 367`): returns `UNIMPLEMENTED`, message "filtered vector search not yet wired". Wire alongside `VectorSearch` in the same injection pass.
+- `[ ]` **`HybridSearch` stub** (`themisdb_grpc_service.cpp:~line 380`): returns `UNIMPLEMENTED`. Implement after `VectorSearch` and full-text index injection are complete.
+- `[ ]` **`FullTextSearch` stub** (`themisdb_grpc_service.cpp:~line 393`): returns `UNIMPLEMENTED`, message "full-text search not yet wired". Add `FullTextIndex*` injection point alongside `VectorIndex*`.
+- `[ ]` **Hard-coded document version** in `CreateDocument` and `UpdateDocument` (`themisdb_grpc_service.cpp`): both handlers unconditionally set `resp->set_version(1)`, regardless of whether the document already existed. Add a real version counter sourced from the storage layer (e.g., a RocksDB sequence number or a dedicated version key) so optimistic-concurrency clients can detect conflicting updates.
+- `[ ]` **`BatchWrite` silent partial failures** (`themisdb_grpc_service.cpp`): the loop over `req->upserts()` increments `upserted` only when `db_->put(key, body)` returns true, but the final response always sets `resp->set_success(true)`. If some puts fail (e.g., storage full), the caller receives a success response with a `upserted_count` less than the number of requested writes, with no error code. Change to: if `upserted_count != req->upserts_size()`, set `success = false` and include error details.
+- `[ ]` **`BatchWrite`/`BatchRead` lack input bounds checks**: no validation of the number of documents in `req->upserts()` or keys in `req->keys()`. A single request can contain arbitrarily many items, leading to unbounded memory allocation. Add a hard upper limit (e.g., 10,000 items) with a `RESOURCE_EXHAUSTED` gRPC status code on violation.
+- `[ ]` **`GrpcApiServer::start()` holds `mutex_` across `BuildAndStart()`** (`grpc_server.cpp:start()`): `builder.BuildAndStart()` performs a blocking socket bind and TLS handshake inside a `std::lock_guard<std::mutex> lock(mutex_)`. If the port is unavailable or TLS cert loading is slow, `isRunning()` and `stop()` are both blocked for the entire duration. Extract the `ServerBuilder` setup before acquiring the lock; acquire the lock only to store `server_` and set `running_ = true`.
+- `[ ]` **`GrpcApiServer::stop()` holds `mutex_` during `server_->Shutdown()`** (`grpc_server.cpp:stop()`): `Shutdown()` without a deadline can block indefinitely waiting for in-flight RPCs. Use `server_->Shutdown(std::chrono::system_clock::now() + std::chrono::seconds(30))` and release the mutex before calling `Shutdown()` to avoid deadlocking callers of `isRunning()` during shutdown.
+- `[ ]` **`GrpcServerConfig::max_message_size_bytes` hard-coded** (`grpc_server.h`): default value of `100 * 1024 * 1024` (100 MB) is set in the struct definition rather than loaded from `config/networking/`. Expose as a config key (e.g., `grpc.max_message_size_mb`) loaded at `GrpcApiServer::initialize()` time so operators can tune it without recompiling.
 
 **Performance Targets:**
 - gRPC unary `GetDocument` < 1 ms added latency vs equivalent REST call (same process).
@@ -132,6 +154,96 @@ All inbound requests must carry or receive a `X-Correlation-ID` header that prop
 - Middleware overhead < 10 µs per request (UUID generation + thread-local write).
 - Zero correlation ID collision probability for ≥ 1 billion requests (UUID v4 guarantee).
 
+---
+
+### OTLP Exporter Performance and Reliability
+**Priority:** Medium
+**Target Version:** v2.1.0
+
+`otlp_exporter.cpp` implements an async queue + background-thread OTLP/HTTP exporter using libcurl. Two structural inefficiencies limit throughput and reliability at production scale.
+
+**Implementation Notes:**
+- `[ ]` **New `CURL*` handle per flush batch** (`otlp_exporter.cpp::flushBatch()`): every call to `flushBatch()` opens a new TCP connection via `curl_easy_init()` and cleans up with `curl_easy_cleanup()` after the POST. Under the default flush interval (5 s) with 64-span batches this is infrequent, but if the batch interval is reduced or the collector is remote, connection setup becomes the dominant latency. Replace with a persistent `CURL*` handle created once in `start()` and reused across batches (set `CURLOPT_FORBID_REUSE=0L` and `CURLOPT_TCP_KEEPALIVE=1L`).
+- `[ ]` **`queue_` uses `std::vector` with `erase(begin, begin+n)` dequeue** (`otlp_exporter.h` + `otlp_exporter.cpp::flushLoop()`): the internal span queue is a `std::vector<SpanData>` and the dequeue path calls `queue_.erase(queue_.begin(), queue_.begin() + take_offset)`, which is O(n) because it shifts all remaining elements. Replace with `std::deque<SpanData>` or a fixed-size ring buffer to get O(1) pop-front at the cost of a trivial container change.
+- `[ ]` **No retry on transient HTTP errors**: `flushBatch()` logs a warning and drops the entire batch if the collector returns a non-2xx status or `curl_easy_perform` fails. Add exponential-backoff retry (e.g., up to 3 attempts, 100/200/400 ms delays) for retriable status codes (429, 503) before dropping, to survive brief collector restarts without data loss.
+- `[ ]` **`droppedSpanCount` metric not exposed via Prometheus**: `OtlpExporter::droppedSpanCount()` and `exportedSpanCount()` exist but are not wired to the Prometheus `/metrics` endpoint. Register `otlp_spans_exported_total` and `otlp_spans_dropped_total` counters in the Prometheus registry at `OtlpExporter::start()` time.
+
+**Performance Targets:**
+- Span enqueue (hot path) < 500 ns per call (single lock acquire + vector push_back or deque push_back).
+- Flush of 64 spans to a local OTLP collector < 5 ms end-to-end (reusing a persistent connection).
+
+---
+
+### Rate Limiter — Stale Bucket Eviction and Nested Lock Contention
+**Priority:** Medium
+**Target Version:** v2.0.0
+
+`include/api/rate_limiter.h` implements a token-bucket rate limiter. Two structural issues limit correctness and scalability in long-running deployments.
+
+**Implementation Notes:**
+- `[ ]` **`buckets_` map grows unbounded** (`rate_limiter.h::RateLimiter::allow()`): every unique key passed to `allow()` creates a `Bucket` entry that is never removed. In production, keys are typically tenant IDs or IP addresses; a deployment running for weeks will accumulate thousands of stale buckets. Add a TTL-based eviction pass: in `allow()` (or a dedicated background sweep), remove buckets whose `last_refill` is older than `2 × window` and whose `tokens >= capacity` (fully recharged means no active traffic).
+- `[ ]` **`OperationRateLimiter::allow()` holds outer mutex while calling inner `RateLimiter::allow()`** (`rate_limiter.h`): `OperationRateLimiter::allow()` takes `mutex_` with a `std::lock_guard`, then calls `it->second->allow(key, cost)`, which in turn takes `RateLimiter::mutex_`. This is a two-mutex lock chain on every allowed request. Under high concurrency (e.g., 5,000 GraphQL requests/sec), this creates a mutex bottleneck on the outer lock. Replace the outer `std::mutex` with `std::shared_mutex` (shared lock for `allow()`/`remaining()`; exclusive lock only for `setLimit()`).
+- `[ ]` **`RateLimiter::allow()` calls `steady_clock::now()` inside the lock** (`rate_limiter.h::Bucket::consume()`): `Bucket::refill()` calls `std::chrono::steady_clock::now()` while the outer `mutex_` is held. A clock syscall under a mutex adds unnecessary critical-section time. Compute `now` before acquiring the lock and pass it to `consume()`.
+
+**Performance Targets:**
+- `RateLimiter::allow()` throughput ≥ 1,000,000 calls/sec single-thread (vs. ~200,000 with current nested locks).
+- Stale bucket count bounded to ≤ 2× the number of active clients at any time.
+
+---
+
+### GraphQL Response Cache — Pattern-Based Invalidation
+**Priority:** Medium
+**Target Version:** v2.0.0
+
+`include/api/graphql_cache.h::ResponseCache::invalidatePattern()` contains a `TODO: Implement pattern-based invalidation` comment. The current implementation nukes the entire cache on any collection change, causing unnecessary cache misses for queries targeting unrelated collections.
+
+**Implementation Notes:**
+- `[ ]` **`ResponseCache::invalidatePattern()` always clears entire cache** (`graphql_cache.h:290`): the method receives a `pattern` argument (e.g., the collection name `"orders"`) but ignores it and calls `cache_.clear()`, invalidating all cached responses regardless of which collection they reference. Implement selective eviction: at cache insertion time, tag each `CachedResponse` with the set of collections it reads (extracted from the resolved query fields). In `invalidatePattern(collection)`, iterate the cache and evict only entries whose tag set contains `collection`. This requires extending `CachedResponse` with a `std::unordered_set<std::string> collections` field.
+
+**Performance Targets:**
+- Targeted invalidation of a single collection evicts ≤ 10% of cached entries when 10 distinct collections are active.
+
+---
+
+### Audit Logger — Non-Blocking Handler Dispatch
+**Priority:** Medium
+**Target Version:** v2.0.0
+
+`include/api/audit_logger.h::AuditLogger::log()` holds `mutex_` for the entire duration of calling all registered handlers. Handlers may write to disk, push to a network audit sink, or run regex matching — all while the mutex is held.
+
+**Implementation Notes:**
+- `[ ]` **`AuditLogger::log()` holds `mutex_` during handler callbacks** (`audit_logger.h::log()`): a `std::lock_guard<std::mutex> lock(mutex_)` is held for the entire body of `log()`, including the inner `for (const auto& handler : handlers_) { handler(entry); }` loop. File-writing or network-sending handlers will stall every concurrent API thread that tries to emit an audit entry. Decouple: copy the handlers vector under the lock (O(n) pointer copies), release the lock, then invoke the handlers outside the critical section. The buffer append (also inside the lock) is already fast and should remain protected.
+- `[ ]` **In-memory audit buffer is not persistent** (`audit_logger.h`): `buffer_` (a circular in-memory vector) is lost on process restart. Add an optional file-backed `AuditLogHandler` that appends newline-delimited JSON audit entries to a configurable path, and register it by default when `config/audit.yaml` specifies `persistence: file`.
+
+---
+
+### GraphQL WebSocket Handler — CDC Callback Lifetime Safety
+**Priority:** High
+**Target Version:** v1.8.0
+
+`graphql_ws_handler.cpp::handleSubscribe()` captures a raw `GraphQLWsHandler*` (`self`) pointer inside the CDC callback lambda that is passed to `Changefeed::subscribe()`. The `SubscriptionHandle` RAII type should cancel the subscription on destruction, but the safety of this interaction depends on CDC correctly serialising the callback teardown before the handle destructor returns.
+
+**Implementation Notes:**
+- `[ ]` **Raw `self` pointer captured in CDC callback** (`graphql_ws_handler.cpp::handleSubscribe()`): the lambda `[self, sub_id](const themis::Changefeed::ChangeEvent& ev) { ... std::lock_guard<std::mutex> lk(self->mutex_); self->pending_frames_.push_back(frame); }` is invoked by the CDC system on its own thread. If the CDC implementation allows callbacks to fire after `SubscriptionHandle` destruction (even briefly), this is a use-after-free. Add a `std::shared_ptr<std::atomic<bool>>` "alive" flag shared between the handler and the lambda; the lambda checks it before dereferencing `self`, and the flag is set to false in `GraphQLWsHandler::reset()` before subscriptions are cleared.
+- `[ ]` **Missing step-2 in `handleSubscribe()` comment sequence** (`graphql_ws_handler.cpp`): the comment block labels "step 1" (reject duplicate IDs + enforce max_subscriptions) and "step 3" (parse payload), with no "step 2". This indicates a planned intermediate validation step (likely query variable type-checking against the schema) was omitted. Add schema-level argument type validation: verify that `variables` provided in the payload match the declared `VariableDefinition` types in the parsed operation before registering the subscription.
+
+**Performance Targets:**
+- Zero use-after-free races under 10,000 concurrent subscription setup/teardown cycles.
+
+---
+
+### gRPC Bridge Interface — Concrete Implementation
+**Priority:** Low
+**Target Version:** v2.1.0
+
+`include/api/grpc_bridge.h` defines a pure-virtual `IGRPCBridge` interface and supporting plain-data structs (`ServiceDescriptor`, `GRPCRequest`, `GRPCMetadata`) for registering and routing gRPC services. No concrete implementation is registered anywhere in the codebase.
+
+**Implementation Notes:**
+- `[ ]` **`IGRPCBridge` has no concrete implementation** (`grpc_bridge.h`): the interface exposes `registerService()`, `route()`, `getMetadata()`, and `listServices()` pure-virtual methods. Implement `GrpcBridgeImpl` in `src/api/grpc_bridge.cpp` that holds a `std::unordered_map<std::string, ServiceDescriptor>` guarded by `std::shared_mutex` and delegates routing to `GrpcApiServer::registerService()`.
+- `[ ]` **`IGRPCBridge` has no integration tests**: add `tests/api/grpc_bridge_test.cpp` exercising service registration, duplicate-name rejection, and metadata lookup.
+
+---
+
 ## Test Strategy
 
 | Test Type | Coverage Target | Notes |
@@ -139,6 +251,7 @@ All inbound requests must carry or receive a `X-Correlation-ID` header that prop
 | Unit | >80% new code | Test `graphql::Parser` new resolvers with `QueryLimits` boundary cases; mock `Changefeed` for subscription tests |
 | Integration | All `/v1/` routes ≥ 95% | `tests/api/rest_integration_test.cpp`; add WebSocket client tests for `/v2/changes` |
 | Performance | Regression ≤ 5% on existing endpoints | Benchmark with `wrk` at 500 concurrent connections; alert on p99 regression |
+| gRPC stub coverage | All 6 stub RPCs have integration tests | `tests/api/grpc_service_test.cpp`; use `grpc::testing::MockServerWriter` for `StreamAQL` |
 
 ## Performance Targets
 
@@ -148,9 +261,13 @@ All inbound requests must carry or receive a `X-Correlation-ID` header that prop
 | WebSocket concurrent connections | 0 (not implemented) | ≥ 10,000 | Load test with `k6` |
 | Bulk insert 10K docs via `/v2/documents` | N/A | < 500 ms | `tests/api/bulk_bench.cpp` |
 | Correlation ID middleware overhead | N/A | < 10 µs/req | microbenchmark in `benchmarks/api_bench.cpp` |
+| OTLP span flush (64 spans, persistent conn) | N/A | < 5 ms | `benchmarks/otlp_bench.cpp` |
+| `RateLimiter::allow()` throughput | ~200K calls/sec (est.) | ≥ 1M calls/sec | microbenchmark after shared_mutex migration |
 
 ## Security / Reliability
 
 - `[x]` All WebSocket upgrade requests must be validated by `auth::JWTValidator` before the upgrade handshake completes; reject with HTTP 401 before protocol switch. (`WsChangeHandler::validate()` checks Bearer token / JWT using `AuthMiddleware::authorize` with `cdc:subscribe` scope before any handshake)
 - `[x]` GraphQL `__schema` introspection disabled via `QueryLimits::allow_introspection = false`; `QueryLimits::production()` factory sets this to `false`; enforced in `Parser::parseField()`. Expose a config flag in `config/networking/` when a configuration layer is added.
 - `[x]` Rate limiting middleware (`RateLimitingMiddleware`) is applied to all `/v2/` routes via `HttpServer::checkRateLimit()`; `/v2/documents` has a tighter per-endpoint override (50% of default capacity) to prevent bulk-insert abuse.
+- `[ ]` **`QueryAllowList` disabled by default** (`include/api/persisted_queries.h::QueryAllowList`): `enabled_ = false` in the default constructor. In production deployments, the allow-list should be enforced to prevent ad-hoc query injection. Document the activation path (`QueryAllowList::instance().setEnabled(true)`) in the operations runbook and add a startup check that logs a `THEMIS_WARN` if the allow-list is disabled in a production build (detected via `NDEBUG`).
+- `[ ]` **`BatchWrite` in gRPC service has no atomicity guarantee** (`themisdb_grpc_service.cpp`): individual document writes in `BatchWrite` are not wrapped in a `RocksDB::WriteBatch`. A server crash mid-loop leaves a partially applied batch with no way for the client to distinguish committed from uncommitted entries. Use `RocksDBWrapper::WriteBatchWrapper` (already in the codebase, used by `GeoIndexHooks::onEntityPutAtomic`) to make `BatchWrite` atomic.
