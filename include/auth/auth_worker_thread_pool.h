@@ -21,7 +21,9 @@
 #include <queue>
 #include <stdexcept>
 #include <thread>
+#include <tuple>
 #include <type_traits>
+#include <utility>
 #include <vector>
 
 namespace themis {
@@ -102,8 +104,15 @@ public:
 
         auto task = std::make_shared<std::packaged_task<ReturnType()>>(
             [func = std::forward<Func>(f),
-             bound_args = std::tuple<std::decay_t<Args>...>(std::forward<Args>(args)...)]() mutable {
-                return std::apply(std::move(func), std::move(bound_args));
+             bound_args = std::tuple<std::decay_t<Args>...>(
+                 std::forward<Args>(args)...)]() mutable -> ReturnType {
+                // Use if constexpr to correctly handle void return types:
+                // 'return void_expr;' is valid C++17 but some toolchains warn.
+                if constexpr (std::is_void_v<ReturnType>) {
+                    std::apply(std::move(func), std::move(bound_args));
+                } else {
+                    return std::apply(std::move(func), std::move(bound_args));
+                }
             });
 
         std::future<ReturnType> fut = task->get_future();

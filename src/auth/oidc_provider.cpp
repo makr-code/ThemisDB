@@ -235,7 +235,13 @@ std::string OIDCProvider::httpGet(const std::string& url) const {
         throw std::runtime_error("Failed to initialize libcurl multi handle");
     }
 
-    curl_multi_add_handle(multi, curl);
+    CURLMcode add_rc = curl_multi_add_handle(multi, curl);
+    if (add_rc != CURLM_OK) {
+        curl_multi_cleanup(multi);
+        curl_easy_cleanup(curl);
+        throw std::runtime_error(
+            std::string("curl_multi_add_handle failed: ") + curl_multi_strerror(add_rc));
+    }
 
     int still_running = 0;
     do {
@@ -259,6 +265,20 @@ std::string OIDCProvider::httpGet(const std::string& url) const {
         }
     } while (still_running);
 
+    // Inspect the per-transfer result via curl_multi_info_read() to get the
+    // actionable CURLcode for this easy handle (e.g., DNS/SSL/connect failures
+    // would otherwise be masked as HTTP 0).
+    CURLcode easy_rc = CURLE_OK;
+    {
+        CURLMsg* msg = nullptr;
+        int msgs_left = 0;
+        while ((msg = curl_multi_info_read(multi, &msgs_left))) {
+            if (msg->msg == CURLMSG_DONE && msg->easy_handle == curl) {
+                easy_rc = msg->data.result;
+            }
+        }
+    }
+
     long http_code = 0;
     curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
 
@@ -266,6 +286,10 @@ std::string OIDCProvider::httpGet(const std::string& url) const {
     curl_multi_cleanup(multi);
     curl_easy_cleanup(curl);
 
+    if (easy_rc != CURLE_OK) {
+        throw std::runtime_error(
+            std::string("libcurl error: ") + curl_easy_strerror(easy_rc));
+    }
     if (http_code != 200) {
         throw std::runtime_error(
             "HTTP " + std::to_string(http_code) + " from " + url);

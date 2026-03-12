@@ -216,7 +216,18 @@ private:
     TokenBlacklist* token_blacklist_ = nullptr;      // Optional JTI-based revocation
     utils::AuditLogger* audit_logger_ = nullptr;     // Optional audit logger (non-owning)
 
+    /// Prevents concurrent JWKS refresh stampedes: only one thread performs the
+    /// HTTP fetch at a time; others wait on jwks_refresh_cv_ for it to finish.
+    mutable std::mutex jwks_refresh_mutex_;
+    mutable std::condition_variable jwks_refresh_cv_;
+    mutable bool jwks_refreshing_{false};
+
     /// Worker thread pool for validateAsync().
+    /// LIFETIME NOTE: worker_pool_ MUST be the last data member declared.
+    /// C++ destroys members in reverse-declaration order, so worker_pool_ is
+    /// destroyed first — its shutdown() joins all in-flight tasks before any
+    /// other member (cache, config, etc.) is released.  This guarantees that
+    /// tasks capturing 'this' never access a dangling member.
     std::unique_ptr<AuthWorkerThreadPool> worker_pool_;
 };
 

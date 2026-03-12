@@ -506,21 +506,37 @@ TEST(JWTValidatorAsyncTest, ValidateAsyncMatchesSyncWithCachedJWKS)
 }
 
 // validateAsync() must propagate exceptions through the future when the
-// token is invalid (no JWKS available).
+// token fails validation.  Uses a pre-loaded JWKS cache so no network I/O
+// is needed — the failure is caused by the malformed token structure, not
+// by a missing/unreachable JWKS endpoint.
 TEST(JWTValidatorAsyncTest, ValidateAsyncPropagatesExceptionForInvalidToken)
 {
+    RSAFixture rsa;
     JWTValidatorConfig cfg;
-    cfg.jwks_url = "https://unreachable.example.com/jwks";
+    cfg.jwks_url = "https://idp.example.com/jwks";
     cfg.require_issuer_validation   = false;
     cfg.require_audience_validation = false;
-    cfg.jwks_max_retries = 1;
-    cfg.jwks_timeout_seconds = 1;
 
     JWTValidator validator(cfg);
 
+    // Pre-load JWKS so no HTTP fetch is triggered.
+    const BIGNUM* n = nullptr;
+    const BIGNUM* e_bn = nullptr;
+    RSA_get0_key(EVP_PKEY_get0_RSA(rsa.pkey), &n, &e_bn, nullptr);
+    auto n_bytes = std::vector<uint8_t>(BN_num_bytes(n));
+    auto e_bytes = std::vector<uint8_t>(BN_num_bytes(e_bn));
+    BN_bn2bin(n, n_bytes.data());
+    BN_bn2bin(e_bn, e_bytes.data());
+    nlohmann::json jwks = {
+        {"keys", {{{"kty","RSA"},{"use","sig"},{"alg","RS256"},{"kid","k1"},
+                   {"n", b64url(n_bytes)}, {"e", b64url(e_bytes)}}}}};
+    validator.setJWKSForTesting(jwks);
+
+    // Malformed token (not a valid JWT) must cause an exception that the
+    // future propagates — entirely without network I/O.
     auto fut = validator.validateAsync("not.a.valid.jwt");
     ASSERT_TRUE(fut.valid());
-    ASSERT_EQ(fut.wait_for(std::chrono::seconds(10)), std::future_status::ready);
+    ASSERT_EQ(fut.wait_for(std::chrono::seconds(5)), std::future_status::ready);
 
     EXPECT_THROW(fut.get(), std::exception);
 }

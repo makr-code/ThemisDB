@@ -134,7 +134,7 @@ std::string JWTValidator::decodeBase64UrlToString(const std::string& input) {
 nlohmann::json JWTValidator::fetchJWKS() {
     auto now = std::chrono::system_clock::now();
 
-    // Fast path: shared (reader) lock — concurrent reads proceed in parallel
+    // Fast path: shared (reader) lock — concurrent reads proceed in parallel.
     {
         std::shared_lock<std::shared_mutex> read_lock(jwks_cache_mutex_);
         if (!jwks_cache_.empty() && now - jwks_cache_time_ < cfg_.cache_ttl) {
@@ -142,37 +142,46 @@ nlohmann::json JWTValidator::fetchJWKS() {
         }
     }
 
-    // Slow path: upgrade to exclusive (writer) lock for cache refresh.
-    // IMPORTANT: the write lock is released between retry attempts so that
-    // concurrent readers (and other writers) are not stalled during the
-    // exponential back-off sleep.
-    std::string response;
-    int attempt = 0;
-    int retry_delay_ms = 100; // Start with 100 ms; doubles each attempt
-    CURLcode rc = CURLE_FAILED_INIT;
-    long code = 0;
+    // Single-flight: only one thread performs the HTTP fetch at a time.
+    // Others wait for it to finish and then read from the (now-fresh) cache.
+    {
+        std::unique_lock<std::mutex> refresh_lock(jwks_refresh_mutex_);
+        // Wait if another thread is already refreshing.
+        jwks_refresh_cv_.wait(refresh_lock, [this] { return !jwks_refreshing_; });
 
-    while (attempt < cfg_.jwks_max_retries) {
-        attempt++;
-
-        // Re-acquire the write lock only for the duration of the HTTP fetch
-        // and the subsequent cache update.  The lock is released before any
-        // sleep so concurrent readers/validators are not blocked.
+        // Double-check: the refreshing thread may have just updated the cache.
         {
-            std::unique_lock<std::shared_mutex> write_lock(jwks_cache_mutex_);
-            // Double-check: another thread may have refreshed the cache while
-            // we were sleeping or waiting for the lock.
-            const auto lock_now = std::chrono::system_clock::now();
-            if (!jwks_cache_.empty() && lock_now - jwks_cache_time_ < cfg_.cache_ttl) {
+            std::shared_lock<std::shared_mutex> read_lock(jwks_cache_mutex_);
+            const auto recheck_now = std::chrono::system_clock::now();
+            if (!jwks_cache_.empty() && recheck_now - jwks_cache_time_ < cfg_.cache_ttl) {
                 return jwks_cache_;
             }
+        }
+
+        // We are the designated refresher for this round.
+        jwks_refreshing_ = true;
+    }
+
+    // Perform the HTTP fetch completely outside all locks so concurrent
+    // readers/validators are never stalled.
+    nlohmann::json fetched_json;
+    std::exception_ptr fetch_exc;
+
+    try {
+        std::string response;
+        int attempt = 0;
+        int retry_delay_ms = 100; // Start with 100 ms; doubles each attempt
+        CURLcode rc = CURLE_FAILED_INIT;
+        long http_code = 0;
+
+        while (attempt < cfg_.jwks_max_retries) {
+            attempt++;
+            response.clear();
 
             CURL* curl = curl_easy_init();
             if (!curl) {
                 utils::Logger::error("Failed to init curl for JWKS fetch");
-                // Release write lock before sleeping (fall through to back-off below)
             } else {
-                response.clear();
                 curl_easy_setopt(curl, CURLOPT_URL, jwks_url_.c_str());
                 curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteToString);
                 curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
@@ -181,57 +190,114 @@ nlohmann::json JWTValidator::fetchJWKS() {
                 curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT,
                                  static_cast<long>(cfg_.jwks_timeout_seconds));
 
-                rc = curl_easy_perform(curl);
-                curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &code);
-                curl_easy_cleanup(curl);
+                CURLM* multi = curl_multi_init();
+                if (!multi) {
+                    curl_easy_cleanup(curl);
+                    curl = nullptr;
+                } else {
+                    CURLMcode add_rc = curl_multi_add_handle(multi, curl);
+                    if (add_rc != CURLM_OK) {
+                        curl_multi_cleanup(multi);
+                        curl_easy_cleanup(curl);
+                        curl = nullptr;
+                    } else {
+                        int still_running = 0;
+                        CURLMcode mc = CURLM_OK;
+                        do {
+                            mc = curl_multi_perform(multi, &still_running);
+                            if (mc != CURLM_OK) break;
+                            if (still_running) {
+                                curl_multi_wait(multi, nullptr, 0, 1000, nullptr);
+                            }
+                        } while (still_running && mc == CURLM_OK);
 
-                if (rc == CURLE_OK && code == 200) {
-                    // Parse and validate the JWKS document while still holding
-                    // the write lock, then update the cache.
-                    auto json = nlohmann::json::parse(response);
-                    if (!json.is_object() || !json.contains("keys")) {
-                        utils::Logger::error("Invalid JWKS document (missing keys)");
-                        throw std::runtime_error("Invalid JWKS document (missing keys)");
+                        // Read per-transfer result via curl_multi_info_read().
+                        if (mc == CURLM_OK) {
+                            CURLMsg* msg = nullptr;
+                            int msgs_left = 0;
+                            while ((msg = curl_multi_info_read(multi, &msgs_left))) {
+                                if (msg->msg == CURLMSG_DONE &&
+                                    msg->easy_handle == curl) {
+                                    rc = msg->data.result;
+                                }
+                            }
+                        }
+
+                        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+                        curl_multi_remove_handle(multi, curl);
+                        curl_multi_cleanup(multi);
+                        curl_easy_cleanup(curl);
+                        curl = nullptr;
                     }
-
-                    JWKSValidator jwks_validator;
-                    try {
-                        jwks_validator.validateOrThrow(json);
-                    } catch (const std::exception& e) {
-                        utils::Logger::error("JWKS schema validation failed: {}", e.what());
-                        throw std::runtime_error(
-                            std::string("JWKS schema validation failed: ") + e.what());
-                    }
-
-                    jwks_cache_ = json;
-                    jwks_cache_time_ = lock_now;
-                    utils::Logger::info(
-                        "JWKS fetched successfully on attempt " + std::to_string(attempt));
-                    return jwks_cache_;
                 }
+            }
 
+            if (rc == CURLE_OK && http_code == 200) {
+                break;
+            }
+
+            if (attempt < cfg_.jwks_max_retries) {
                 utils::Logger::warn(
                     "JWKS fetch attempt " + std::to_string(attempt) +
-                    " failed (HTTP " + std::to_string(code) +
-                    ", curl error " + std::to_string(rc) + ")");
+                    " failed (HTTP " + std::to_string(http_code) +
+                    ", curl error " + std::to_string(rc) + "), retrying...");
+                // Back-off: no lock held, so readers/validators remain unblocked.
+                std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));
+                retry_delay_ms *= 2;
             }
-        } // write_lock released here — callers are unblocked during back-off
+        }
 
-        // Exponential back-off without holding the mutex so the validation
-        // hot path is never stalled waiting for this sleep to finish.
-        if (attempt < cfg_.jwks_max_retries) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));
-            retry_delay_ms *= 2;
+        if (rc != CURLE_OK || http_code != 200) {
+            utils::Logger::error(
+                "JWKS HTTP error after " + std::to_string(attempt) +
+                " attempts: HTTP " + std::to_string(http_code) +
+                ", curl error " + std::to_string(rc));
+            throw std::runtime_error(
+                "JWKS HTTP error: " + std::to_string(http_code) +
+                " (after " + std::to_string(attempt) + " attempts)");
+        }
+
+        auto json = nlohmann::json::parse(response);
+        if (!json.is_object() || !json.contains("keys")) {
+            utils::Logger::error("Invalid JWKS document (missing keys)");
+            throw std::runtime_error("Invalid JWKS document (missing keys)");
+        }
+
+        JWKSValidator jwks_validator;
+        jwks_validator.validateOrThrow(json);
+
+        fetched_json = std::move(json);
+        utils::Logger::info("JWKS fetched successfully on attempt " +
+                            std::to_string(attempt));
+    } catch (...) {
+        fetch_exc = std::current_exception();
+    }
+
+    // Briefly acquire the write lock only to update the cache (or discard if
+    // another thread already refreshed while we were fetching).
+    if (!fetch_exc) {
+        std::unique_lock<std::shared_mutex> write_lock(jwks_cache_mutex_);
+        const auto cache_now = std::chrono::system_clock::now();
+        if (jwks_cache_.empty() || cache_now - jwks_cache_time_ >= cfg_.cache_ttl) {
+            jwks_cache_      = fetched_json;
+            jwks_cache_time_ = cache_now;
         }
     }
 
-    utils::Logger::error(
-        "JWKS HTTP error after " + std::to_string(attempt) +
-        " attempts: HTTP " + std::to_string(code) +
-        ", curl error " + std::to_string(rc));
-    throw std::runtime_error(
-        "JWKS HTTP error: " + std::to_string(code) +
-        " (after " + std::to_string(attempt) + " attempts)");
+    // Release single-flight lock and wake any waiting threads.
+    {
+        std::lock_guard<std::mutex> refresh_lock(jwks_refresh_mutex_);
+        jwks_refreshing_ = false;
+    }
+    jwks_refresh_cv_.notify_all();
+
+    if (fetch_exc) {
+        std::rethrow_exception(fetch_exc);
+    }
+
+    // Return whatever is now in the cache (may be from a concurrent refresher).
+    std::shared_lock<std::shared_mutex> read_lock(jwks_cache_mutex_);
+    return jwks_cache_;
 }
 
 const nlohmann::json* JWTValidator::findJwkForKid(const nlohmann::json& jwks, const std::string& kid) const {

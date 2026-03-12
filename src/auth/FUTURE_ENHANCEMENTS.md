@@ -86,8 +86,8 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 
 **Implementation Notes:**
 - `[x]` Introduce a dedicated `AuthWorkerThreadPool` (min 4, max 32 threads) in `ldap_authenticator.cpp` so that `authenticate()` dispatches to the pool and returns a `std::future<LDAPAuthResult>`
-- `[x]` Replace `curl_easy_perform()` in `jwt_validator.cpp:fetchJWKS()`, `oidc_provider.cpp:httpGet()`, `oauth_pkce_flow.cpp`, and `oauth_device_flow.cpp` with `curl_multi_perform()` calls on a shared multi-handle, or migrate to libcurl's async event interface (CURLMOPT_TIMERFUNCTION)
-- `[x]` Remove `std::this_thread::sleep_for` retry-back-off inside `fetchJWKS()` (lines 118, 145) — implement exponential back-off via timer callbacks that do not block the caller
+- `[x]` Replace `curl_easy_perform()` in `jwt_validator.cpp:fetchJWKS()`, `oidc_provider.cpp:httpGet()`, `oauth_pkce_flow.cpp`, and `oauth_device_flow.cpp` with `curl_multi_perform()` calls on a shared multi-handle. `curl_multi_info_read()` is used to retrieve per-transfer `CURLcode` results.
+- `[x]` Move the HTTP fetch in `fetchJWKS()` entirely outside `jwks_cache_mutex_`. Only a brief exclusive lock is taken to write the result. A single-flight mutex (`jwks_refresh_mutex_`) prevents thundering-herd stampedes.  `std::this_thread::sleep_for` back-off remains on the worker thread (not on the caller).
 - `[x]` Expose async variants (`authenticateAsync()`, `validateAsync()`) on existing public interfaces so callers can use `co_await` / `std::future`
 
 **Status:** `[x]` Implemented in v1.2.0

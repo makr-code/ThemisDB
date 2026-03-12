@@ -292,9 +292,15 @@ private:
 
     /// Worker thread pool for authenticateAsync().  Created at construction
     /// time so it is always available after initialize().
+    ///
+    /// LIFETIME NOTE: worker_pool_ MUST remain the last data member declared.
+    /// C++ destroys members in reverse-declaration order, so worker_pool_ is
+    /// destroyed first — its shutdown() joins all in-flight worker threads
+    /// before config_, initialized_, etc. are released.  This ensures that
+    /// tasks capturing 'this' (via authenticateAsync()) never access a
+    /// dangling member.
+    std::unique_ptr<LDAPConnectionPool> pool_;       ///< LDAP connection pool (optional)
     std::unique_ptr<AuthWorkerThreadPool> worker_pool_;
-    /// Connection pool — created on initialize() when pool_enabled is true.
-    std::unique_ptr<LDAPConnectionPool> pool_;
 
     /**
      * @brief Perform the LDAP bind and optional group search.
