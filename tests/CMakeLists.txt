@@ -8732,6 +8732,43 @@ else()
     message(STATUS "LDAP Authenticator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ldap_authenticator.cpp")
 endif()
 
+# LDAP Connection Pool Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ldap_connection_pool.cpp")
+    message(STATUS "Adding LDAP Connection Pool tests")
+
+    add_executable(test_ldap_connection_pool
+        test_ldap_connection_pool.cpp
+    )
+
+    target_link_libraries(test_ldap_connection_pool PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    if(THEMIS_LDAP_LIBRARIES)
+        target_link_libraries(test_ldap_connection_pool PRIVATE ${THEMIS_LDAP_LIBRARIES})
+    endif()
+
+    target_compile_definitions(test_ldap_connection_pool PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME LDAPConnectionPoolTests COMMAND test_ldap_connection_pool)
+
+    set_tests_properties(LDAPConnectionPoolTests PROPERTIES
+        LABELS "auth;ldap;pool;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  LDAP Connection Pool: pool lifecycle, checkout/return, health check, metrics")
+else()
+    message(STATUS "LDAP Connection Pool tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ldap_connection_pool.cpp")
+endif()
+
 # MFA Authenticator Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_mfa_authenticator.cpp")
     message(STATUS "Adding MFA Authenticator tests")

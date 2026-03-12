@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — Transaction-time tracking, time-travel queries (`AS OF`, `FROM...TO`, `BETWEEN...AND`), HLC-based conflict resolution, bitemporal joins, and SEQUENCED/NON-SEQUENCED query semantics are fully operational. `SystemVersionedTable::Config`, `createVersionedTable`, `upsert`, and `enforceRetentionPolicy` are now available (v1.1.0). SQL `PERIOD FOR` DDL syntax is not yet supported.
+**v1.2.0** — All C++ temporal query engine features are production-ready.  Core capabilities include system-versioned tables, bi-temporal tables, full time-travel queries (AS OF, FROM…TO, BETWEEN…AND), application-time queries, temporal joins, SEQUENCED/NON-SEQUENCED semantics, index-accelerated queries, and result caching.  SQL `PERIOD FOR` DDL syntax and AQL clause parsing remain deferred to Phase 3b.
 
 ## Completed ✅
 - [x] HLC-based temporal conflict resolver with multiple policies (last-write-wins, first-write-wins, node-priority, manual, CRDT-merge) (`temporal_conflict_resolver.cpp`)
@@ -27,6 +27,7 @@
 - [x] Unit tests for conflict resolver, query engine, temporal index, aggregator, and bi-temporal table (`tests/temporal/`)
 - [x] Bitemporal joins: combined transaction-time + valid-time join predicates (`TemporalQueryEngine::joinBiTemporal`)
 - [x] SEQUENCED vs. NON-SEQUENCED temporal query semantics per SQL:2011 §4.16.5 (`TemporalQueryEngine::queryWithSemantics`)
+- [x] **Time-Travel Query Engine (v1.2.0):** `queryBetween` (FOR SYSTEM_TIME BETWEEN…AND), `queryApplicationTime` / `queryApplicationTimeRange` (FOR APPLICATION_TIME), `queryAsOfWithIndex` (index-accelerated version pruning), `QueryCache` + `detail::queryAsOfCached` (result caching for frequently accessed historical data) (`temporal_query_engine.cpp`)
 
 ## In Progress 🚧
 *(no items currently in progress)*
@@ -73,6 +74,11 @@
 - [x] Temporal uniqueness constraints — `BiTemporalTable::hasUniquenessConflict(key, period)` (C++ layer; SQL syntax deferred → Phase 3b)
 - [x] Gap detection in valid-time coverage — `BiTemporalTable::findGaps(key, from, to)` (C++ layer; SQL syntax deferred → Phase 3b)
 - [x] Temporal foreign keys — `TemporalForeignKey::validate(parent, key, period)` (C++ layer; CASCADE/RESTRICT at SQL layer deferred → Phase 4)
+- [x] `FOR SYSTEM_TIME BETWEEN…AND` — `TemporalQueryEngine::queryBetween()` (closed-interval variant of `queryFromTo`)
+- [x] `FOR APPLICATION_TIME AS OF` — `TemporalQueryEngine::queryApplicationTime()` (valid-time point query over `BiTemporalTable`)
+- [x] `FOR APPLICATION_TIME FROM…TO` — `TemporalQueryEngine::queryApplicationTimeRange()` (valid-time range query over `BiTemporalTable`)
+- [x] Index-accelerated AS-OF query — `TemporalQueryEngine::queryAsOfWithIndex()` (version pruning via `TemporalIndex`)
+- [x] Result caching — `QueryCache` + `detail::queryAsOfCached()` (LRU cache for frequently accessed historical snapshots)
 - [I] `PERIOD FOR SYSTEM_TIME` / `PERIOD FOR APPLICATION_TIME` DDL in AQL parser (deferred → Phase 3b)
 - [I] `FOR SYSTEM_TIME AS OF` / `FOR APPLICATION_TIME` temporal clause parsing (deferred → Phase 3b)
 

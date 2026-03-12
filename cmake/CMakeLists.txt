@@ -1952,6 +1952,7 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
     ../src/auth/ldap_authenticator.cpp
+    ../src/auth/ldap_connection_pool.cpp
     ../src/auth/mtls_authenticator.cpp
     ../src/auth/saml_authenticator.cpp
     ../src/auth/oauth_device_flow.cpp
@@ -4159,10 +4160,9 @@ if(THEMIS_BUILD_TESTS)
             WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_snapshot_manager>
             EXTRA_ARGS --gtest_color=yes
             CONFIGURATIONS Release Debug
-        )
-        set_tests_properties(test_temporal_snapshot_manager PROPERTIES
-            LABELS "temporal;snapshot;isolation;unit"
-            TIMEOUT 60
+            PROPERTIES
+                LABELS "temporal;snapshot;isolation;unit"
+                TIMEOUT 60
         )
         message(STATUS "  TemporalSnapshotManager: versioning, GC (TTL + max-count), metadata, isolation")
     endif()
@@ -5552,9 +5552,69 @@ if(THEMIS_ENABLE_LLM)
 endif()
 
 # Enterprise Plugins
-option(THEMIS_BUILD_ENTERPRISE_PLUGINS "Build enterprise plugins" ON)
-if(THEMIS_BUILD_ENTERPRISE_PLUGINS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugins")
-    add_subdirectory(plugins)
+# Plugin feature flags are defined in cmake/features/PluginFeatures.cmake which is
+# already included via FeatureDefaults.cmake.
+#
+# Plugin implementations live flat under src/ (sources + private headers) and
+# include/ (public API headers) — no extra plugins/ subdirectory.
+# Manifest / configuration files for non-compiled plugins remain in plugins/.
+#
+# THEMIS_ENABLE_ENTERPRISE_PLUGINS is set by the edition (ON for ENTERPRISE and
+# above, OFF for MINIMAL/COMMUNITY).  THEMIS_BUILD_ENTERPRISE_PLUGINS lets users
+# override that default at configure time.
+if(NOT DEFINED THEMIS_BUILD_ENTERPRISE_PLUGINS)
+    if(DEFINED THEMIS_ENABLE_ENTERPRISE_PLUGINS)
+        set(_plugin_default ${THEMIS_ENABLE_ENTERPRISE_PLUGINS})
+    else()
+        set(_plugin_default ON)
+    endif()
+    option(THEMIS_BUILD_ENTERPRISE_PLUGINS "Build enterprise plugins" ${_plugin_default})
+else()
+    option(THEMIS_BUILD_ENTERPRISE_PLUGINS "Build enterprise plugins" ON)
+endif()
+
+if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
+    # -------------------------------------------------------------------------
+    # Ethics AI Plugin (v1.4.0+) – src/ethics_ai/
+    # Flag: THEMIS_PLUGIN_ETHICS_AI
+    # -------------------------------------------------------------------------
+    if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${THEMIS_ROOT_DIR}/src/ethics_ai/CMakeLists.txt")
+        add_subdirectory(${THEMIS_ROOT_DIR}/src/ethics_ai
+                         ${CMAKE_CURRENT_BINARY_DIR}/src/ethics_ai)
+    endif()
+
+    # -------------------------------------------------------------------------
+    # gRPC RPC Plugin (v1.3.0+) – src/rpc_grpc/
+    # Flag: THEMIS_PLUGIN_RPC_GRPC
+    # -------------------------------------------------------------------------
+    if(THEMIS_PLUGIN_RPC_GRPC AND EXISTS "${THEMIS_ROOT_DIR}/src/rpc_grpc/CMakeLists.txt")
+        add_subdirectory(${THEMIS_ROOT_DIR}/src/rpc_grpc
+                         ${CMAKE_CURRENT_BINARY_DIR}/src/rpc_grpc)
+    endif()
+
+    # -------------------------------------------------------------------------
+    # ONNX CLIP Image Analysis Plugin – src/onnx_clip/
+    # Flag: THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX
+    # -------------------------------------------------------------------------
+    if(THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX AND EXISTS "${THEMIS_ROOT_DIR}/src/onnx_clip/CMakeLists.txt")
+        add_subdirectory(${THEMIS_ROOT_DIR}/src/onnx_clip
+                         ${CMAKE_CURRENT_BINARY_DIR}/src/onnx_clip)
+    endif()
+
+    # -------------------------------------------------------------------------
+    # User Storage Encrypted Plugin (v1.5.0+) – src/user_storage_encrypted/
+    # Flag: THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED
+    # -------------------------------------------------------------------------
+    if(THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED AND EXISTS "${THEMIS_ROOT_DIR}/src/user_storage_encrypted/CMakeLists.txt")
+        add_subdirectory(${THEMIS_ROOT_DIR}/src/user_storage_encrypted
+                         ${CMAKE_CURRENT_BINARY_DIR}/src/user_storage_encrypted)
+    endif()
+
+    # Non-compiled plugin manifests / legacy orchestration: plugins/
+    if(EXISTS "${THEMIS_ROOT_DIR}/plugins/CMakeLists.txt")
+        add_subdirectory(${THEMIS_ROOT_DIR}/plugins
+                         ${CMAKE_CURRENT_BINARY_DIR}/plugins)
+    endif()
 endif()
 
 # Enterprise Modules (new modular DLL architecture)
