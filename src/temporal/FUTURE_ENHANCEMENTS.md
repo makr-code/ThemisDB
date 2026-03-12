@@ -53,7 +53,7 @@ Complete implementation of SQL:2011 temporal table standard.
 struct SystemVersionedTable::Config {
     std::string history_table_name;          // defaults to "<table>_history"
     bool compress_history = true;
-    std::chrono::seconds retention_period{365LL * 24 * 3600}; // 1 year
+    std::chrono::milliseconds retention_period{365LL * 24 * 3600 * 1000}; // 1 year
     bool track_user_id = true;
 };
 

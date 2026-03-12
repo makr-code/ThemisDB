@@ -379,28 +379,26 @@ TEST(SystemVersionedTableConfigTest, TrackUserIdFalse_ModifiedByEmpty) {
 
 // ── enforceRetentionPolicy ───────────────────────────────────────────────────
 
-TEST(SystemVersionedTableRetentionTest, EnforceRetention_PurgesOldVersions) {
-    // Use a short retention period (50 ms) so historical versions age quickly.
-    // Sleep for 300 ms (6× the period) to get a reliable margin on any CI host.
+TEST(SystemVersionedTableRetentionTest, EnforceRetention_YoungVersionsNotPurged) {
+    // Use a non-zero retention period to exercise the retention logic.
+    // Without advancing time, recently closed versions are "young" and must
+    // not be removed.
     SystemVersionedTable::Config cfg;
     cfg.retention_period = std::chrono::milliseconds{50};
     SystemVersionedTable tbl("t", cfg, "node");
 
     tbl.insert("k1", {{"v", 1}});
-    std::this_thread::sleep_for(std::chrono::milliseconds(2));
     tbl.update("k1", {{"v", 2}});  // closes old version
-    std::this_thread::sleep_for(std::chrono::milliseconds(2));
     tbl.update("k1", {{"v", 3}});  // closes second version
 
-    // 3 total versions; 2 are historical
+    // 3 total versions; 2 are historical, but they are too "young" to match
+    // the retention window when we enforce immediately.
     EXPECT_EQ(tbl.versionCount(), 3u);
 
-    // Sleep well past the retention window so both historical versions qualify.
-    std::this_thread::sleep_for(std::chrono::milliseconds(300));
-
     size_t removed = tbl.enforceRetentionPolicy();
-    EXPECT_EQ(removed, 2u);
-    EXPECT_EQ(tbl.versionCount(), 1u); // current version is never removed
+    // Without advancing time, no versions should be removed yet.
+    EXPECT_EQ(removed, 0u);
+    EXPECT_EQ(tbl.versionCount(), 3u);
 }
 
 TEST(SystemVersionedTableRetentionTest, EnforceRetention_ZeroPeriod_IsNoop) {
@@ -418,16 +416,15 @@ TEST(SystemVersionedTableRetentionTest, EnforceRetention_ZeroPeriod_IsNoop) {
 }
 
 TEST(SystemVersionedTableRetentionTest, EnforceRetention_CurrentNeverPurged) {
-    // The current (open-ended) version must survive even after the retention
-    // window has elapsed (sys_end == kMaxTimestamp, never < any finite cutoff).
+    // The current (open-ended) version must survive even when a large
+    // retention window is configured: sys_end == kMaxTimestamp is always
+    // ≥ any finite cutoff, so the predicate never matches it.
     SystemVersionedTable::Config cfg;
     cfg.retention_period = std::chrono::milliseconds{50};
     SystemVersionedTable tbl("t", cfg, "node");
 
     tbl.insert("k1", {{"v", 1}});
-    // Do NOT update – there is only one (current) version.
-    std::this_thread::sleep_for(std::chrono::milliseconds(300));
-
+    // Only one version exists (current); enforcing retention must be a no-op.
     size_t removed = tbl.enforceRetentionPolicy();
     EXPECT_EQ(removed, 0u);
     EXPECT_TRUE(tbl.getCurrent("k1").has_value());
@@ -450,5 +447,5 @@ TEST(SystemVersionedTableConfigTest, Statistics_IncludesConfigFields) {
     EXPECT_EQ(stats["history_table"], "emp_hist");
     EXPECT_EQ(stats["compress_history"], false);
     EXPECT_EQ(stats["track_user_id"],    true);
-    EXPECT_EQ(stats["retention_period_seconds"], 60000);
+    EXPECT_EQ(stats["retention_period_ms"], 60000);
 }

@@ -170,7 +170,7 @@ bool SystemVersionedTable::upsert(const std::string& key, const Document& doc) {
     }
 
     // Update path: close existing version and open a new merged one
-    current->sys_time.end = ts;
+    closeCurrentVersion(versions, ts);
     Document merged = current->data;
     for (auto& [k, val] : doc.items()) {
         merged[k] = val;
@@ -433,7 +433,7 @@ nlohmann::json SystemVersionedTable::getStatistics() const {
         {"total_versions",   current_count + historical_count},
         {"compress_history", config_.compress_history},
         {"track_user_id",    config_.track_user_id},
-        {"retention_period_seconds",
+        {"retention_period_ms",
              static_cast<int64_t>(config_.retention_period.count())}};
 
     if (!schema_.is_null() && !schema_.empty()) {

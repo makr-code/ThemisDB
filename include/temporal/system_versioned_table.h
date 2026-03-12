@@ -67,9 +67,9 @@ public:
          *  statistics/logging).  Defaults to "<table>_history". */
         std::string history_table_name;
 
-        /** When true, historical versions are eligible for compression.
-         *  The actual compression is applied lazily on read or during
-         *  enforceRetentionPolicy(). */
+        /** When true, historical versions are marked as eligible for
+         *  compression.  This flag is currently reserved for future
+         *  compression integration and does not change runtime behaviour. */
         bool compress_history = true;
 
         /** Maximum age of historical versions before automatic purge.
