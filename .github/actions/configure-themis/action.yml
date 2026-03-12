@@ -3,10 +3,13 @@ description: |
   Runs CMake configure (Ninja generator) for the Themis project and
   optionally builds a single target.
 
-  The four feature flags that every CI job disables
-  (THEMIS_ENABLE_LLM, THEMIS_ENABLE_GPU, THEMIS_ENABLE_TRACING,
-  THEMIS_ENABLE_GRPC) are always set to OFF so callers never have to
-  repeat them.
+  LLM and GPU feature flags are set according to the requested edition:
+  - COMMUNITY / ENTERPRISE / HYPERSCALER: LLM=ON, GPU=ON with CPU-only
+    fallback (CUDA, HIP, OpenCL and Vulkan remain OFF so no GPU hardware
+    is required on CI runners).
+  - MINIMAL / MILITARY / (no edition): LLM=OFF, GPU=OFF.
+  Hardware-specific backends (CUDA, HIP, OpenCL, Vulkan), TRACING and
+  gRPC are always disabled in CI regardless of edition.
 
   Optional compiler flags for coverage instrumentation and AddressSanitizer
   + UndefinedBehaviorSanitizer are generated from dedicated boolean inputs
@@ -86,6 +89,12 @@ runs:
         CMAKE_ARGS+=(-DCMAKE_C_COMPILER="$CC_BIN")
         CMAKE_ARGS+=(-DCMAKE_CXX_COMPILER="$CXX_BIN")
 
+        # Use ccache as compiler launcher when available (set up by setup-cpp-build)
+        if command -v ccache &>/dev/null; then
+          CMAKE_ARGS+=(-DCMAKE_C_COMPILER_LAUNCHER=ccache)
+          CMAKE_ARGS+=(-DCMAKE_CXX_COMPILER_LAUNCHER=ccache)
+        fi
+
         # THEMIS_BUILD_TESTS
         [ "$BUILD_TESTS" != "OFF" ] && CMAKE_ARGS+=("-DTHEMIS_BUILD_TESTS=$BUILD_TESTS")
 
@@ -95,9 +104,30 @@ runs:
         # CI mode: relax REQUIRED feature enforcement for edition builds
         [ "$CI_MODE" = "true" ] && CMAKE_ARGS+=("-DTHEMIS_CI_MODE=ON")
 
-        # Always-disabled features common to every CI job
-        CMAKE_ARGS+=(-DTHEMIS_ENABLE_LLM=OFF)
-        CMAKE_ARGS+=(-DTHEMIS_ENABLE_GPU=OFF)
+        # Edition-aware LLM and GPU configuration:
+        #   COMMUNITY / ENTERPRISE / HYPERSCALER → LLM=ON, GPU=ON (CPU-only fallback)
+        #   MINIMAL / MILITARY / (no edition set) → LLM=OFF, GPU=OFF
+        # NOTE: The job summary in edition-build-ci.yml mirrors this logic for display.
+        # Keep both in sync when adding new editions.
+        case "$EDITION" in
+          COMMUNITY|ENTERPRISE|HYPERSCALER)
+            CMAKE_ARGS+=(-DTHEMIS_ENABLE_LLM=ON)
+            CMAKE_ARGS+=(-DTHEMIS_ENABLE_GPU=ON)
+            ;;
+          *)
+            CMAKE_ARGS+=(-DTHEMIS_ENABLE_LLM=OFF)
+            CMAKE_ARGS+=(-DTHEMIS_ENABLE_GPU=OFF)
+            ;;
+        esac
+
+        # Always disable hardware-specific GPU backends in CI
+        # (no NVIDIA/AMD GPU or Vulkan drivers available on GitHub runners)
+        CMAKE_ARGS+=(-DTHEMIS_ENABLE_CUDA=OFF)
+        CMAKE_ARGS+=(-DTHEMIS_ENABLE_HIP=OFF)
+        CMAKE_ARGS+=(-DTHEMIS_ENABLE_OPENCL=OFF)
+        CMAKE_ARGS+=(-DTHEMIS_ENABLE_VULKAN=OFF)
+
+        # Runtime services not available in CI
         CMAKE_ARGS+=(-DTHEMIS_ENABLE_TRACING=OFF)
         CMAKE_ARGS+=(-DTHEMIS_ENABLE_GRPC=OFF)
 
