@@ -37,7 +37,6 @@
 #include "chimera/database_adapter.hpp"
 #include "chimera/postgresql_adapter.hpp"
 #include "chimera/themisdb_adapter.hpp"
-#include "chimera/mongodb_adapter.hpp"
 
 #include <atomic>
 #include <chrono>
@@ -169,7 +168,7 @@ TEST_F(BatchOperationsPostgresTest, BatchAdvancedBatchSizeLargerThanRows) {
     EXPECT_EQ(br.batch_results.size(), 1u);
 }
 
-TEST_F(BatchOperationsPostgresTest, ProgressCallbackIsInvokedForEachRow) {
+TEST_F(BatchOperationsPostgresTest, ProgressCallbackIsInvokedForEachChunk) {
     const size_t N = 7;
     auto rows = make_rows(N);
 
@@ -279,6 +278,63 @@ TEST_F(BatchOperationsPostgresTest, NoStopOnErrorContinuesAfterChunkFailure) {
     EXPECT_EQ(br.batch_results.size(), 3u);
     EXPECT_EQ(br.failed,  9u);
     EXPECT_EQ(br.successful, 0u);
+}
+
+TEST_F(BatchOperationsPostgresTest, BatchCallbackIsInvokedForFailingChunks) {
+    adapter.disconnect();
+    auto rows = make_rows(6);
+
+    std::vector<bool> cb_ok_flags;
+    BatchOptions opts;
+    opts.batch_size    = 3;
+    opts.stop_on_error = false;
+    opts.batch_callback = [&](size_t /*idx*/, const Result<size_t>& r) {
+        cb_ok_flags.push_back(r.is_ok());
+    };
+
+    auto result = adapter.batch_insert_advanced(kTable, rows, opts);
+    ASSERT_TRUE(result.is_ok());
+
+    // Both chunks fail, but the callback must still be invoked for each
+    ASSERT_EQ(cb_ok_flags.size(), 2u);
+    EXPECT_FALSE(cb_ok_flags[0]);
+    EXPECT_FALSE(cb_ok_flags[1]);
+}
+
+TEST_F(BatchOperationsPostgresTest, CallbacksFiredBeforeStopOnErrorBreaks) {
+    adapter.disconnect();
+    auto rows = make_rows(9);
+
+    size_t progress_fires = 0;
+    size_t batch_fires    = 0;
+
+    BatchOptions opts;
+    opts.batch_size        = 3;
+    opts.stop_on_error     = true;
+    opts.progress_callback = [&](size_t, size_t) { ++progress_fires; };
+    opts.batch_callback    = [&](size_t, const Result<size_t>&) { ++batch_fires; };
+
+    auto result = adapter.batch_insert_advanced(kTable, rows, opts);
+    ASSERT_TRUE(result.is_ok());
+
+    // Exactly one chunk attempted; both callbacks must fire for that chunk
+    EXPECT_EQ(result.value.value().batch_results.size(), 1u);
+    EXPECT_EQ(progress_fires, 1u);
+    EXPECT_EQ(batch_fires,    1u);
+}
+
+TEST_F(BatchOperationsPostgresTest, BatchSizeZeroTreatedAsSingleChunk) {
+    auto rows = make_rows(7);
+
+    BatchOptions opts;
+    opts.batch_size = 0; // should default to all rows in one chunk
+
+    auto result = adapter.batch_insert_advanced(kTable, rows, opts);
+    ASSERT_TRUE(result.is_ok());
+
+    const auto& br = result.value.value();
+    EXPECT_EQ(br.total_processed,     7u);
+    EXPECT_EQ(br.batch_results.size(), 1u);
 }
 
 // ---------------------------------------------------------------------------

@@ -425,14 +425,18 @@ public:
      *          and @c BatchOptions::batch_callback are invoked after every
      *          chunk so callers can observe throughput or cancel early.
      *
-     *          The default implementation is provided here; subclasses may
-     *          override for database-specific optimisations.
+     *          The default implementation always returns
+     *          @c Result<BatchResult>::ok(...) and surfaces per-chunk failures
+     *          (including connection issues reported by @c batch_insert) via
+     *          @c BatchResult::batch_results and the @c successful / @c failed
+     *          counters rather than as a top-level error.
+     *          Subclasses may override this method for database-specific
+     *          optimisations or to implement stricter error propagation.
      *
      * @param table_name Target table.
      * @param rows       Rows to insert.
      * @param options    Chunking, callback, and error-handling options.
-     * @return Aggregated @c BatchResult or an error if the adapter is not
-     *         connected.
+     * @return Aggregated @c BatchResult wrapped in a successful @c Result.
      */
     virtual Result<BatchResult> batch_insert_advanced(
         const std::string& table_name,
@@ -447,14 +451,25 @@ public:
 
         size_t processed = 0;
         size_t batch_idx = 0;
+        std::vector<RelationalRow> slice;
+        slice.reserve(chunk);
         for (size_t offset = 0; offset < rows.size(); offset += chunk, ++batch_idx) {
             const size_t end = std::min(offset + chunk, rows.size());
-            const std::vector<RelationalRow> slice(rows.begin() + static_cast<std::ptrdiff_t>(offset),
-                                                   rows.begin() + static_cast<std::ptrdiff_t>(end));
+            slice.clear();
+            slice.insert(
+                slice.end(),
+                rows.begin() + static_cast<std::ptrdiff_t>(offset),
+                rows.begin() + static_cast<std::ptrdiff_t>(end)
+            );
             auto chunk_result = batch_insert(table_name, slice);
 
             if (chunk_result.is_ok()) {
-                result.successful += chunk_result.value.value_or(0);
+                size_t inserted = chunk_result.value.value_or(0);
+                if (inserted > slice.size()) {
+                    inserted = slice.size();
+                }
+                result.successful += inserted;
+                result.failed += (slice.size() - inserted);
             } else {
                 result.failed += slice.size();
             }
@@ -649,10 +664,16 @@ public:
      *          @c batch_insert_documents for each chunk, and aggregates the
      *          results.  Optional callbacks are invoked after each chunk.
      *
+     *          The default implementation always returns
+     *          @c Result<BatchResult>::ok(...) and surfaces per-chunk failures
+     *          via @c BatchResult::batch_results and the @c successful /
+     *          @c failed counters rather than as a top-level error.
+     *          Subclasses may override for database-specific optimisations.
+     *
      * @param collection Target collection.
      * @param docs       Documents to insert.
      * @param options    Chunking, callback, and error-handling options.
-     * @return Aggregated @c BatchResult.
+     * @return Aggregated @c BatchResult wrapped in a successful @c Result.
      */
     virtual Result<BatchResult> batch_insert_documents_advanced(
         const std::string& collection,
@@ -667,14 +688,25 @@ public:
 
         size_t processed = 0;
         size_t batch_idx = 0;
+        std::vector<Document> slice;
+        slice.reserve(chunk);
         for (size_t offset = 0; offset < docs.size(); offset += chunk, ++batch_idx) {
             const size_t end = std::min(offset + chunk, docs.size());
-            const std::vector<Document> slice(docs.begin() + static_cast<std::ptrdiff_t>(offset),
-                                              docs.begin() + static_cast<std::ptrdiff_t>(end));
+            slice.clear();
+            slice.insert(
+                slice.end(),
+                docs.begin() + static_cast<std::ptrdiff_t>(offset),
+                docs.begin() + static_cast<std::ptrdiff_t>(end)
+            );
             auto chunk_result = batch_insert_documents(collection, slice);
 
             if (chunk_result.is_ok()) {
-                result.successful += chunk_result.value.value_or(0);
+                size_t inserted = chunk_result.value.value_or(0);
+                if (inserted > slice.size()) {
+                    inserted = slice.size();
+                }
+                result.successful += inserted;
+                result.failed += (slice.size() - inserted);
             } else {
                 result.failed += slice.size();
             }
