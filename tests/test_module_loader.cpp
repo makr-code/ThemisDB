@@ -1344,9 +1344,9 @@ TEST(ModuleMetrics, TotalUnloadsField) {
 
 // Verify that concurrent read-only calls (isModuleLoaded / getModuleInfo /
 // getAllLoadedModules) do not race or deadlock.  Eight reader threads issue
-// repeated lookups while a single writer thread calls unloadModule() for a
-// module that was never loaded (a no-op unload that still acquires the
-// unique_lock).  The test must pass cleanly under TSAN.
+// repeated lookups against an empty ModuleLoader instance to stress shared
+// read-only access paths under contention. The test must pass cleanly under
+// TSAN.
 TEST(ModuleLoader, ConcurrentReadersDoNotRace) {
     ModuleLoader loader;
 
@@ -1354,13 +1354,22 @@ TEST(ModuleLoader, ConcurrentReadersDoNotRace) {
     constexpr int kIterations = 200;
 
     std::atomic<bool> start{false};
+    // Accumulate results in atomics; EXPECT_* is not guaranteed thread-safe.
+    std::atomic<int> unexpectedLoaded{0};
+    std::atomic<int> unexpectedInfo{0};
+    std::atomic<int> unexpectedNonEmpty{0};
 
     auto readerTask = [&]() {
-        while (!start.load(std::memory_order_acquire)) {}
+        while (!start.load(std::memory_order_acquire)) {
+            std::this_thread::yield();
+        }
         for (int i = 0; i < kIterations; ++i) {
-            EXPECT_FALSE(loader.isModuleLoaded("nonexistent_module"));
-            EXPECT_FALSE(loader.getModuleInfo("nonexistent_module").has_value());
-            EXPECT_TRUE(loader.getAllLoadedModules().empty());
+            if (loader.isModuleLoaded("nonexistent_module"))
+                unexpectedLoaded.fetch_add(1, std::memory_order_relaxed);
+            if (loader.getModuleInfo("nonexistent_module").has_value())
+                unexpectedInfo.fetch_add(1, std::memory_order_relaxed);
+            if (!loader.getAllLoadedModules().empty())
+                unexpectedNonEmpty.fetch_add(1, std::memory_order_relaxed);
         }
     };
 
@@ -1375,6 +1384,10 @@ TEST(ModuleLoader, ConcurrentReadersDoNotRace) {
     for (auto& t : readers) {
         t.join();
     }
+
+    EXPECT_EQ(unexpectedLoaded.load(), 0);
+    EXPECT_EQ(unexpectedInfo.load(), 0);
+    EXPECT_EQ(unexpectedNonEmpty.load(), 0);
 }
 
 // Verify that concurrent write calls (unloadModule on a non-existent module
@@ -1389,7 +1402,9 @@ TEST(ModuleLoader, ConcurrentReadWriteDoNotRace) {
     std::atomic<bool> start{false};
 
     auto readerTask = [&]() {
-        while (!start.load(std::memory_order_acquire)) {}
+        while (!start.load(std::memory_order_acquire)) {
+            std::this_thread::yield();
+        }
         for (int i = 0; i < kIterations; ++i) {
             (void)loader.isModuleLoaded("no_such_module");
             (void)loader.getModuleInfo("no_such_module");
@@ -1400,7 +1415,9 @@ TEST(ModuleLoader, ConcurrentReadWriteDoNotRace) {
     // Writers call unloadModule for a non-existent module (no-op but acquires
     // the unique_lock, exercising the writer path).
     auto writerTask = [&]() {
-        while (!start.load(std::memory_order_acquire)) {}
+        while (!start.load(std::memory_order_acquire)) {
+            std::this_thread::yield();
+        }
         for (int i = 0; i < kIterations; ++i) {
             loader.unloadModule("no_such_module");
         }
@@ -1434,7 +1451,9 @@ TEST(ModuleLoader, GetModuleInfoO1LookupIsSafe) {
     std::atomic<int>  found{0};
 
     auto task = [&]() {
-        while (!start.load(std::memory_order_acquire)) {}
+        while (!start.load(std::memory_order_acquire)) {
+            std::this_thread::yield();
+        }
         for (int i = 0; i < kIterations; ++i) {
             auto info = loader.getModuleInfo("absent");
             if (info.has_value()) {

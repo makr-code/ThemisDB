@@ -367,7 +367,7 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
 
     {
         std::unique_lock<std::shared_mutex> lk(modulesMutex_);
-        loadedModules_[module.name] = module;
+        loadedModules_.insert_or_assign(module.name, module);
     }
     ModuleRegistry::instance().registerModule(module);
 
@@ -519,6 +519,10 @@ std::vector<LoadedModule> ModuleLoader::getAllLoadedModules() const {
     for (const auto& [name, module] : loadedModules_) {
         result.push_back(module);
     }
+    std::sort(result.begin(), result.end(),
+              [](const LoadedModule& a, const LoadedModule& b) {
+                  return a.name < b.name;
+              });
     return result;
 }
 
