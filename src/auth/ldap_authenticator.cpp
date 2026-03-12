@@ -31,6 +31,7 @@
 #include <spdlog/spdlog.h>
 
 #include <algorithm>
+#include <future>
 
 // ---------------------------------------------------------------------------
 // Platform-specific LDAP includes
@@ -138,7 +139,11 @@ std::string escapeLDAPFilterValue(const std::string& value)
 // Construction / destruction
 // ===========================================================================
 
-LDAPAuthenticator::LDAPAuthenticator() = default;
+LDAPAuthenticator::LDAPAuthenticator()
+    : worker_pool_(std::make_unique<AuthWorkerThreadPool>(
+          AuthWorkerThreadPool::kMinThreads,
+          AuthWorkerThreadPool::kMaxThreads))
+{}
 
 LDAPAuthenticator::~LDAPAuthenticator() = default;
 
@@ -270,6 +275,49 @@ LDAPAuthResult LDAPAuthenticator::authenticate(const std::string& username,
     }
 
     return performBind(username, dn, password);
+}
+
+std::future<LDAPAuthResult> LDAPAuthenticator::authenticateAsync(
+    const std::string& username,
+    const std::string& password)
+{
+    // Validate inputs synchronously on the caller's thread to give fast
+    // feedback for invalid arguments — no need to dispatch to the pool.
+    if (username.empty()) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
+            "Authentication failed",
+            "LDAP: username must not be empty"
+        ));
+    }
+    if (username.size() > MAX_LDAP_USERNAME_LENGTH) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
+            "Authentication failed",
+            "LDAP: username exceeds maximum length"
+        ));
+    }
+    if (password.empty()) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
+            "Authentication failed",
+            "LDAP: password must not be empty (anonymous bind not permitted)"
+        ));
+    }
+    if (password.size() > MAX_LDAP_PASSWORD_LENGTH) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
+            "Authentication failed",
+            "LDAP: password exceeds maximum length"
+        ));
+    }
+
+    // Dispatch the blocking LDAP bind to the worker pool so the caller is
+    // never stalled by network latency (P99 ≤ 50 ms goal from the roadmap).
+    return worker_pool_->submit(
+        [this, username, password]() mutable {
+            return this->authenticate(username, password);
+        });
 }
 
 // ===========================================================================

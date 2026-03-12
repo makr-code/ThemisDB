@@ -32,8 +32,10 @@
 #include <optional>
 #include <memory>
 #include <shared_mutex>
+#include <future>
 
 #include "auth/token_blacklist.h"
+#include "auth/auth_worker_thread_pool.h"
 
 namespace themis { namespace utils { class AuditLogger; } }
 
@@ -111,6 +113,21 @@ public:
      * @throws std::runtime_error if invalid/expired
      */
     JWTClaims parseAndValidate(const std::string& token);
+
+    /**
+     * @brief Non-blocking variant of parseAndValidate().
+     *
+     * Dispatches token validation (including any JWKS refresh) to the internal
+     * AuthWorkerThreadPool so the calling thread is never stalled.
+     *
+     * Performance target: JWKS refresh never blocks the validation hot path
+     * for more than 1 ms (visible to callers).
+     *
+     * @param token Bearer token (with or without "Bearer " prefix)
+     * @return std::future<JWTClaims> — becomes ready when validation completes
+     * @throws std::runtime_error if the internal thread pool is not running
+     */
+    std::future<JWTClaims> validateAsync(const std::string& token);
     
     /**
      * @brief Derive user-specific encryption key from DEK
@@ -198,6 +215,9 @@ private:
     std::vector<std::string> revoked_kids_runtime_;  // Runtime revocation list
     TokenBlacklist* token_blacklist_ = nullptr;      // Optional JTI-based revocation
     utils::AuditLogger* audit_logger_ = nullptr;     // Optional audit logger (non-owning)
+
+    /// Worker thread pool for validateAsync().
+    std::unique_ptr<AuthWorkerThreadPool> worker_pool_;
 };
 
 } // namespace auth

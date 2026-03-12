@@ -227,15 +227,45 @@ std::string OIDCProvider::httpGet(const std::string& url) const {
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
 
-    const CURLcode res = curl_easy_perform(curl);
+    // Use curl_multi_perform() so this can be driven without blocking the
+    // event loop if this function is later migrated to a shared multi-handle.
+    CURLM* multi = curl_multi_init();
+    if (!multi) {
+        curl_easy_cleanup(curl);
+        throw std::runtime_error("Failed to initialize libcurl multi handle");
+    }
+
+    curl_multi_add_handle(multi, curl);
+
+    int still_running = 0;
+    do {
+        CURLMcode mc = curl_multi_perform(multi, &still_running);
+        if (mc != CURLM_OK) {
+            curl_multi_remove_handle(multi, curl);
+            curl_multi_cleanup(multi);
+            curl_easy_cleanup(curl);
+            throw std::runtime_error(
+                std::string("libcurl multi error: ") + curl_multi_strerror(mc));
+        }
+        if (still_running) {
+            mc = curl_multi_wait(multi, nullptr, 0, 1000 /* ms */, nullptr);
+            if (mc != CURLM_OK) {
+                curl_multi_remove_handle(multi, curl);
+                curl_multi_cleanup(multi);
+                curl_easy_cleanup(curl);
+                throw std::runtime_error(
+                    std::string("libcurl multi wait error: ") + curl_multi_strerror(mc));
+            }
+        }
+    } while (still_running);
+
     long http_code = 0;
     curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+
+    curl_multi_remove_handle(multi, curl);
+    curl_multi_cleanup(multi);
     curl_easy_cleanup(curl);
 
-    if (res != CURLE_OK) {
-        throw std::runtime_error(
-            std::string("libcurl error: ") + curl_easy_strerror(res));
-    }
     if (http_code != 200) {
         throw std::runtime_error(
             "HTTP " + std::to_string(http_code) + " from " + url);

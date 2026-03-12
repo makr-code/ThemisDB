@@ -435,3 +435,152 @@ TEST(JWTValidatorTest, ConcurrentValidate_ExpiredCache_NoDataRace) {
     EXPECT_EQ(throw_count.load(), JWKS_THREAD_SAFETY_TEST_THREADS);
 }
 
+
+// ===========================================================================
+// validateAsync() — non-blocking future-based validation
+// ===========================================================================
+
+// A validator with a pre-loaded JWKS cache returns a ready future whose
+// result is the same as the synchronous parseAndValidate() call.
+TEST(JWTValidatorAsyncTest, ValidateAsyncMatchesSyncWithCachedJWKS)
+{
+    RSAFixture rsa;
+    JWTValidatorConfig cfg;
+    cfg.jwks_url = "https://idp.example.com/jwks";
+    cfg.require_issuer_validation   = false;
+    cfg.require_audience_validation = false;
+
+    JWTValidator validator(cfg);
+
+    // Pre-load JWKS from the RSA fixture
+    const BIGNUM* n = nullptr;
+    const BIGNUM* e_bn = nullptr;
+    RSA_get0_key(EVP_PKEY_get0_RSA(rsa.pkey), &n, &e_bn, nullptr);
+    auto n_bytes = std::vector<uint8_t>(BN_num_bytes(n));
+    auto e_bytes = std::vector<uint8_t>(BN_num_bytes(e_bn));
+    BN_bn2bin(n, n_bytes.data());
+    BN_bn2bin(e_bn, e_bytes.data());
+
+    nlohmann::json jwks = {
+        {"keys", {{
+            {"kty", "RSA"}, {"use", "sig"}, {"alg", "RS256"},
+            {"kid", "k1"},
+            {"n", b64url(n_bytes)},
+            {"e", b64url(e_bytes)}
+        }}}
+    };
+    validator.setJWKSForTesting(jwks);
+
+    // Build a minimal valid JWT
+    nlohmann::json hdr = {{"alg", "RS256"}, {"kid", "k1"}};
+    auto now_tp = std::chrono::system_clock::now();
+    long now = (long)std::chrono::duration_cast<std::chrono::seconds>(
+        now_tp.time_since_epoch()).count();
+    nlohmann::json payload = {
+        {"sub", "testuser"},
+        {"exp", now + 3600},
+        {"iat", now}
+    };
+
+    auto b64hdr  = b64url(std::vector<uint8_t>(
+        hdr.dump().begin(), hdr.dump().end()));
+    auto b64pay  = b64url(std::vector<uint8_t>(
+        payload.dump().begin(), payload.dump().end()));
+    std::string header_payload = b64hdr + "." + b64pay;
+    std::string sig = sign_RS256(rsa.pkey, header_payload);
+    std::string token = header_payload + "." + sig;
+
+    // Sync result
+    JWTClaims sync_result;
+    ASSERT_NO_THROW(sync_result = validator.parseAndValidate(token));
+
+    // Async result must match
+    auto fut = validator.validateAsync(token);
+    ASSERT_TRUE(fut.valid());
+    ASSERT_EQ(fut.wait_for(std::chrono::seconds(5)), std::future_status::ready);
+
+    JWTClaims async_result;
+    ASSERT_NO_THROW(async_result = fut.get());
+    EXPECT_EQ(async_result.sub, sync_result.sub);
+    EXPECT_EQ(async_result.sub, "testuser");
+}
+
+// validateAsync() must propagate exceptions through the future when the
+// token is invalid (no JWKS available).
+TEST(JWTValidatorAsyncTest, ValidateAsyncPropagatesExceptionForInvalidToken)
+{
+    JWTValidatorConfig cfg;
+    cfg.jwks_url = "https://unreachable.example.com/jwks";
+    cfg.require_issuer_validation   = false;
+    cfg.require_audience_validation = false;
+    cfg.jwks_max_retries = 1;
+    cfg.jwks_timeout_seconds = 1;
+
+    JWTValidator validator(cfg);
+
+    auto fut = validator.validateAsync("not.a.valid.jwt");
+    ASSERT_TRUE(fut.valid());
+    ASSERT_EQ(fut.wait_for(std::chrono::seconds(10)), std::future_status::ready);
+
+    EXPECT_THROW(fut.get(), std::exception);
+}
+
+// Multiple concurrent validateAsync() calls must not deadlock or crash.
+TEST(JWTValidatorAsyncTest, ConcurrentValidateAsyncNoCrash)
+{
+    RSAFixture rsa;
+    JWTValidatorConfig cfg;
+    cfg.jwks_url = "https://idp.example.com/jwks";
+    cfg.require_issuer_validation   = false;
+    cfg.require_audience_validation = false;
+
+    JWTValidator validator(cfg);
+
+    // Pre-load JWKS
+    const BIGNUM* n = nullptr;
+    const BIGNUM* e_bn = nullptr;
+    RSA_get0_key(EVP_PKEY_get0_RSA(rsa.pkey), &n, &e_bn, nullptr);
+    auto n_bytes = std::vector<uint8_t>(BN_num_bytes(n));
+    auto e_bytes = std::vector<uint8_t>(BN_num_bytes(e_bn));
+    BN_bn2bin(n, n_bytes.data());
+    BN_bn2bin(e_bn, e_bytes.data());
+    nlohmann::json jwks = {
+        {"keys", {{
+            {"kty", "RSA"}, {"use", "sig"}, {"alg", "RS256"},
+            {"kid", "k1"},
+            {"n", b64url(n_bytes)},
+            {"e", b64url(e_bytes)}
+        }}}
+    };
+    validator.setJWKSForTesting(jwks);
+
+    long now = (long)std::chrono::duration_cast<std::chrono::seconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    nlohmann::json hdr = {{"alg", "RS256"}, {"kid", "k1"}};
+    nlohmann::json payload = {{"sub", "u"}, {"exp", now + 3600}, {"iat", now}};
+    auto b64hdr = b64url(std::vector<uint8_t>(hdr.dump().begin(), hdr.dump().end()));
+    auto b64pay = b64url(std::vector<uint8_t>(payload.dump().begin(), payload.dump().end()));
+    std::string hp = b64hdr + "." + b64pay;
+    std::string token = hp + "." + sign_RS256(rsa.pkey, hp);
+
+    constexpr int kTasks = 20;
+    std::vector<std::future<JWTClaims>> futures;
+    futures.reserve(kTasks);
+    for (int i = 0; i < kTasks; ++i) {
+        futures.push_back(validator.validateAsync(token));
+    }
+
+    int success_count = 0;
+    for (auto& f : futures) {
+        ASSERT_TRUE(f.valid());
+        ASSERT_EQ(f.wait_for(std::chrono::seconds(5)), std::future_status::ready);
+        try {
+            auto claims = f.get();
+            EXPECT_EQ(claims.sub, "u");
+            ++success_count;
+        } catch (const std::exception& ex) {
+            ADD_FAILURE() << "Unexpected exception: " << ex.what();
+        }
+    }
+    EXPECT_EQ(success_count, kTasks);
+}
