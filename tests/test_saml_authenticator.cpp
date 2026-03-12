@@ -809,8 +809,19 @@ TEST(SAMLAuthenticatorTest, ProcessResponseRejectsRequireEncryptedAssertionWithP
 
 // ---------------------------------------------------------------------------
 // Test SP key material (RSA 2048-bit, for assertion decryption tests only)
-// NOTE: This key is used exclusively in automated tests. Never use test keys
-//       in production. In production, load the key from an HSM or KMS.
+//
+// SECURITY NOTICE: This is a disposable, test-only key that was generated
+// solely for automated unit tests.  It must NEVER appear in production code,
+// configuration files, or any deployed environment.
+//
+// In production deployments, provide the SP private key through the
+// SAMLConfig::sp_private_key_loader callback, which should load the key
+// from a hardware security module (HSM), key management service (KMS), or
+// a secrets manager (e.g. HashiCorp Vault, AWS Secrets Manager, Azure Key Vault).
+// Example:
+//   cfg.sp_private_key_loader = []() {
+//       return SecretsManager::getSecret("saml/sp-private-key");
+//   };
 // ---------------------------------------------------------------------------
 static const char* TEST_SP_PRIVATE_KEY_PEM = R"(
 -----BEGIN PRIVATE KEY-----

@@ -615,9 +615,18 @@ std::string SAMLAuthenticator::decryptAssertion(
 
     // Select RSA padding: OAEP is the default; fall back to PKCS1-v1.5 when
     // explicitly indicated by the algorithm URI.
-    const int rsa_padding = (key_transport_alg.find("rsa-1_5") != std::string::npos)
-                            ? RSA_PKCS1_PADDING      // RSA-PKCS1-v1.5 (legacy)
-                            : RSA_PKCS1_OAEP_PADDING; // RSA-OAEP (default per XMLEnc)
+    const bool using_pkcs1_v1_5 = (key_transport_alg.find("rsa-1_5") != std::string::npos);
+    const int  rsa_padding       = using_pkcs1_v1_5
+                                   ? RSA_PKCS1_PADDING      // RSA-PKCS1-v1.5 (legacy)
+                                   : RSA_PKCS1_OAEP_PADDING; // RSA-OAEP (default per XMLEnc)
+
+    if (using_pkcs1_v1_5) {
+        THEMIS_WARN("SAML: IdP is using RSA-PKCS1-v1.5 for EncryptedKey transport "
+                    "(algorithm URI: {}). This algorithm is deprecated and vulnerable to "
+                    "Bleichenbacher-style attacks. Configure the IdP to use "
+                    "RSA-OAEP (http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p) instead.",
+                    key_transport_alg);
+    }
 
     EVP_PKEY_CTX* rsa_ctx = EVP_PKEY_CTX_new(sp_pkey, nullptr);
     EVP_PKEY_free(sp_pkey);
