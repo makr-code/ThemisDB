@@ -24,6 +24,7 @@
 
 #pragma once
 
+#include "auth/secure_memory.h"
 #include <string>
 #include <vector>
 #include <optional>
@@ -60,9 +61,11 @@ namespace auth {
 class TOTPSecretEncryption {
 public:
     struct Config {
-        // Master encryption key (32 bytes for AES-256)
-        // In production, this should come from KMS/HSM
-        std::vector<uint8_t> master_key;
+        // Master encryption key (32 bytes for AES-256).
+        // Stored in locked, cleanse-on-free memory to prevent key material
+        // appearing in core dumps or freed heap pages.
+        // In production, this should come from KMS/HSM.
+        SecureBuffer<uint8_t> master_key;
         
         // Key derivation iterations (PBKDF2)
         // Higher = more secure but slower (100k recommended)
@@ -151,10 +154,10 @@ public:
      * Updates master key and key version. Old secrets can still be decrypted
      * with old key if provided via rotation support.
      * 
-     * @param new_master_key New master key (32 bytes)
+     * @param new_master_key New master key (32 bytes), stored securely
      * @param new_version New key version number
      */
-    void rotateKey(const std::vector<uint8_t>& new_master_key, int new_version);
+    void rotateKey(const SecureBuffer<uint8_t>& new_master_key, int new_version);
     
     /**
      * @brief Check if secret needs re-encryption (old key version)
@@ -178,8 +181,9 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
     
-    // Derive encryption key from master key and salt
-    std::vector<uint8_t> deriveKey(const std::vector<uint8_t>& salt);
+    // Derive encryption key from master key and salt.
+    // Returns a SecureBuffer so the derived key is zeroed when it goes out of scope.
+    SecureBuffer<uint8_t> deriveKey(const std::vector<uint8_t>& salt);
     
     // Generate random bytes
     std::vector<uint8_t> generateRandomBytes(size_t size);

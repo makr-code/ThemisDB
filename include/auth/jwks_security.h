@@ -23,6 +23,7 @@
 
 #pragma once
 
+#include "auth/secure_memory.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -82,7 +83,7 @@ public:
         bool enable_mtls = false;
         std::string client_cert_path;               // Client certificate
         std::string client_key_path;                // Client private key
-        std::string client_key_password;            // Key password (optional)
+        SecureString client_key_password;           // Key password (optional, zeroed on destruction)
         
         // TLS Configuration
         TLSVersion min_tls_version = TLSVersion::TLS_1_2;
