@@ -370,6 +370,9 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
             // Use a countdown predicate so that versions sharing identical
             // sys_time intervals (e.g. millisecond-resolution collisions) do not
             // cause more than one version to be removed per meta entry.
+            // purgeHistoricalVersions holds the table mutex and evaluates the
+            // predicate sequentially via std::remove_if, so the mutable
+            // remaining_to_delete counter is safe without further synchronisation.
             size_t remaining_to_delete = 1;
             Timestamp del_start = meta.sys_start;
             Timestamp del_end   = meta.sys_end;

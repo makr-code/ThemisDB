@@ -319,7 +319,8 @@ TEST_F(RetentionManagerTest, StorageBased_UnderLimit_DeletesNothing) {
 
 TEST_F(RetentionManagerTest, StorageBased_OverLimit_DeletesOldestFirst) {
     SystemVersionedTable t{"tbl", "node_a"};
-    // Insert 5 updates; sleep between some to ensure distinct timestamps.
+    // Insert 5 updates; sleep between updates to guarantee strictly increasing
+    // sys_start timestamps (Timestamp resolution is 1 ms).
     t.insert("k1", {{"value", 0}});
     std::this_thread::sleep_for(std::chrono::milliseconds(2));
     t.update("k1", {{"value", 1}});
@@ -339,6 +340,8 @@ TEST_F(RetentionManagerTest, StorageBased_OverLimit_DeletesOldestFirst) {
 
     // Allow only 1 historical version to survive besides the current row.
     // Compute max_storage_bytes that would hold at most 1 historical entry.
+    // estimateVersionSize returns key.size() + data.dump().size() + 32 (overhead);
+    // adding 10 gives a small margin so that exactly 1 entry fits within the limit.
     uint64_t one_entry_approx = before[0].key.size() + before[0].data.dump().size() + 32 + 10;
 
     RetentionPolicy policy;
