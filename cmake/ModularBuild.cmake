@@ -149,7 +149,7 @@ set(THEMIS_BASE_SOURCES
     ../src/config/config_audit_log.cpp
     ../src/config/config_encrypted_store.cpp
     ../src/themis/build_info.cpp
-    ../src/utils/license_info.cpp
+    ../src/themis/license_info.cpp
     ../src/utils/runtime_license_gate.cpp
     ../src/utils/error_registry.cpp
     ../src/utils/memory/pool_allocator.cpp
@@ -493,6 +493,14 @@ set(THEMIS_QUERY_SOURCES
     ../src/analytics/streaming_window.cpp
     ../src/analytics/incremental_view.cpp
     ../src/analytics/columnar_execution.cpp
+    # Process Modeling Module
+    ../src/process/process_model_manager.cpp
+    ../src/process/bpmn_serializer.cpp
+    ../src/process/epk_serializer.cpp
+    ../src/process/llm_process_descriptor.cpp
+    ../src/process/vcc_vpb_importer.cpp
+    ../src/process/process_linker.cpp
+    ../src/process/process_graph_rag.cpp
     ../src/analytics/jit_aggregation.cpp
     ../src/analytics/anomaly_detection.cpp
     ../src/analytics/forecasting.cpp

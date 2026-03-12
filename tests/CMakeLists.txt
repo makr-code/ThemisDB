@@ -12947,6 +12947,45 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_core.cpp")
     message(STATUS "  ShardingCore: Raft consensus, shard routing, rebalancing")
 endif()
 
+# Process Modeling Module focused tests
+# Covers: BpmnSerializer, EpkSerializer, VccVpbImporter, LlmProcessDescriptor,
+#         ProcessModelManager, ProcessLinker, ProcessGraphRag
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_module.cpp")
+    message(STATUS "Adding Process Module focused tests")
+    add_executable(test_process_module_focused
+        test_process_module.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/llm_process_descriptor.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_linker.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_graph_rag.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
+    )
+    target_include_directories(test_process_module_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_process_module_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_process_module_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    add_test(NAME ProcessModuleFocusedTests COMMAND test_process_module_focused)
+    set_tests_properties(ProcessModuleFocusedTests PROPERTIES
+        LABELS "process;bpmn;epk;vcc-vpb;graph-rag;linker;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  ProcessModule: BPMN/EPK/VCC-VPB import-export, ProcessModelManager CRUD,")
+    message(STATUS "                 ProcessLinker attach/detach/required-docs, ProcessGraphRag")
+endif()
+
 # ============================================================================
 # Custom Test Targets
 # ============================================================================

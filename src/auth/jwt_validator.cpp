@@ -43,6 +43,7 @@
 #include <curl/curl.h>
 
 #include <algorithm>
+#include <mutex>
 #include <sstream>
 #include <stdexcept>
 #include <cstring>
@@ -61,14 +62,41 @@ size_t curlWriteToString(char* ptr, size_t size, size_t nmemb, void* userdata) {
 }
 
 JWTValidator::JWTValidator(const std::string& jwks_url)
-    : cfg_{JWTValidatorConfig{jwks_url, "", "", std::chrono::seconds(600), std::chrono::seconds(60)}}
+    : cfg_{JWTValidatorConfig{
+          .jwks_url                  = jwks_url,
+          .expected_issuer           = std::nullopt,
+          .expected_audience         = std::nullopt,
+          .cache_ttl                 = std::chrono::seconds(600),
+          .clock_skew                = std::chrono::seconds(60),
+          .require_issuer_validation  = false,
+          .require_audience_validation = false,
+      }}
     , jwks_url_(jwks_url)
     , jwks_cache_time_(std::chrono::system_clock::time_point::min()) {}
 
 JWTValidator::JWTValidator(const JWTValidatorConfig& cfg)
     : cfg_(cfg)
     , jwks_url_(cfg.jwks_url)
-    , jwks_cache_time_(std::chrono::system_clock::time_point::min()) {}
+    , jwks_cache_time_(std::chrono::system_clock::time_point::min()) {
+    // Normalize empty string values to nullopt so empty strings are treated as 'unset'
+    auto normalizeOptional = [](std::optional<std::string>& opt) {
+        if (opt.has_value() && opt->empty()) opt = std::nullopt;
+    };
+    normalizeOptional(cfg_.expected_issuer);
+    normalizeOptional(cfg_.expected_audience);
+    if (cfg_.require_issuer_validation && !cfg_.expected_issuer.has_value()) {
+        throw std::runtime_error("Issuer validation not configured");
+    }
+    if (cfg_.require_audience_validation && !cfg_.expected_audience.has_value()) {
+        throw std::runtime_error("Audience validation not configured");
+    }
+    if (!cfg_.require_issuer_validation && !cfg_.expected_issuer.has_value()) {
+        utils::Logger::warn("JWT issuer validation is disabled - tokens from any issuer will be accepted");
+    }
+    if (!cfg_.require_audience_validation && !cfg_.expected_audience.has_value()) {
+        utils::Logger::warn("JWT audience validation is disabled - tokens with any audience will be accepted");
+    }
+}
 
 std::vector<uint8_t> JWTValidator::decodeBase64Url(const std::string& input) {
     std::string base64 = input;
@@ -97,7 +125,20 @@ std::string JWTValidator::decodeBase64UrlToString(const std::string& input) {
 
 nlohmann::json JWTValidator::fetchJWKS() {
     auto now = std::chrono::system_clock::now();
-    if (!jwks_cache_.empty() && now - jwks_cache_time_ < cfg_.cache_ttl) {
+
+    // Fast path: shared (reader) lock — concurrent reads proceed in parallel
+    {
+        std::shared_lock<std::shared_mutex> read_lock(jwks_cache_mutex_);
+        if (!jwks_cache_.empty() && now - jwks_cache_time_ < cfg_.cache_ttl) {
+            return jwks_cache_;
+        }
+    }
+
+    // Slow path: upgrade to exclusive (writer) lock for cache refresh
+    std::unique_lock<std::shared_mutex> write_lock(jwks_cache_mutex_);
+    // Double-check: another thread may have refreshed the cache while we waited
+    const auto write_lock_now = std::chrono::system_clock::now();
+    if (!jwks_cache_.empty() && write_lock_now - jwks_cache_time_ < cfg_.cache_ttl) {
         return jwks_cache_;
     }
     
@@ -170,7 +211,7 @@ nlohmann::json JWTValidator::fetchJWKS() {
     }
     
     jwks_cache_ = json;
-    jwks_cache_time_ = now;
+    jwks_cache_time_ = write_lock_now;
     utils::Logger::info("JWKS fetched successfully on attempt " + std::to_string(attempt));
     return jwks_cache_;
 }
@@ -342,14 +383,14 @@ bool JWTValidator::verifySignatureEdDSA(const std::string& header_payload,
 }
 
 bool JWTValidator::checkAudience(const nlohmann::json& payload) const {
-    if (cfg_.expected_audience.empty()) return true;
+    if (!cfg_.expected_audience.has_value()) return true;
     if (!payload.contains("aud")) return false;
     if (payload["aud"].is_string()) {
-        return payload["aud"].get<std::string>() == cfg_.expected_audience;
+        return payload["aud"].get<std::string>() == *cfg_.expected_audience;
     }
     if (payload["aud"].is_array()) {
         for (auto& v : payload["aud"]) {
-            if (v.is_string() && v.get<std::string>() == cfg_.expected_audience) return true;
+            if (v.is_string() && v.get<std::string>() == *cfg_.expected_audience) return true;
         }
         return false;
     }
@@ -358,6 +399,7 @@ bool JWTValidator::checkAudience(const nlohmann::json& payload) const {
 
 void JWTValidator::setJWKSForTesting(const nlohmann::json& jwks,
                                      std::chrono::system_clock::time_point t) {
+    std::unique_lock<std::shared_mutex> lock(jwks_cache_mutex_);
     jwks_cache_ = jwks;
     jwks_cache_time_ = t;
 }
@@ -503,8 +545,8 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
         }
         throw std::runtime_error("Token expired");
     }
-    if (!cfg_.expected_issuer.empty() && claims.issuer != cfg_.expected_issuer) {
-        utils::Logger::warn("JWT validation failed: Issuer mismatch (expected: " + cfg_.expected_issuer + ", got: " + claims.issuer + ")");
+    if (cfg_.expected_issuer.has_value() && claims.issuer != *cfg_.expected_issuer) {
+        utils::Logger::warn("JWT validation failed: Issuer mismatch (expected: " + *cfg_.expected_issuer + ", got: " + claims.issuer + ")");
         if (audit_logger_) {
             audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
                 claims.sub, "jwt/token", {{"reason", "issuer_mismatch"}, {"issuer", claims.issuer}});
@@ -526,7 +568,11 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     if (!kid.empty()) {
         jwk = findJwkForKid(jwks, kid);
         if (!jwk) {
-            jwks_cache_time_ = std::chrono::system_clock::time_point::min();
+            // Force cache expiry under the write lock so other threads see the invalidation
+            {
+                std::unique_lock<std::shared_mutex> lock(jwks_cache_mutex_);
+                jwks_cache_time_ = std::chrono::system_clock::time_point::min();
+            }
             jwks = fetchJWKS();
             jwk = findJwkForKid(jwks, kid);
         }

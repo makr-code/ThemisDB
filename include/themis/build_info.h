@@ -35,6 +35,7 @@
 #include <map>
 #include <utility>
 #include "themis/edition.h"
+#include "themis/export.h"
 
 namespace themis {
 namespace build_info {
@@ -73,22 +74,32 @@ struct BuildConfiguration {
 // ============================================================================
 // BUILD INFORMATION COLLECTION
 // ============================================================================
-
+//
+// Windows DLL / STL ABI note:
+//   The APIs below pass and return STL types (std::string, std::vector,
+//   std::optional, std::map) across the DLL boundary.  This is safe only
+//   when the consumer and the DLL are compiled with the *same* MSVC toolset
+//   version and the same CRT linkage (default: /MD, MultiThreadedDLL).
+//   Mixing toolset versions or CRT flavours (/MT vs /MD) will cause crashes
+//   or heap corruption at runtime.  Third-party consumers must therefore
+//   build against the same Visual Studio version that produced
+//   themis_base.dll.  A stable C ABI wrapper is planned for v2.0.
+//
 /**
  * Get complete build configuration including edition and modules
  */
-BuildConfiguration getBuildConfiguration();
+THEMIS_BASE_API BuildConfiguration getBuildConfiguration();
 
 /**
  * Format build configuration as a human-readable string
  * suitable for logging at server startup
  */
-std::string formatBuildInfo(const BuildConfiguration& config);
+THEMIS_BASE_API std::string formatBuildInfo(const BuildConfiguration& config);
 
 /**
  * Get a compact summary of key build information for version endpoint
  */
-std::string getVersionSummary();
+THEMIS_BASE_API std::string getVersionSummary();
 
 // ============================================================================
 // MODULE STATUS QUERIES
@@ -97,17 +108,17 @@ std::string getVersionSummary();
 /**
  * Check if a specific module was compiled into the binary
  */
-bool isModuleCompiledIn(const std::string& module_name);
+THEMIS_BASE_API bool isModuleCompiledIn(const std::string& module_name);
 
 /**
  * Get list of all modules compiled into this binary
  */
-std::vector<std::string> getCompiledModules();
+THEMIS_BASE_API std::vector<std::string> getCompiledModules();
 
 /**
  * Get list of all supported but not compiled modules
  */
-std::vector<std::string> getDisabledModules();
+THEMIS_BASE_API std::vector<std::string> getDisabledModules();
 
 // ============================================================================
 // BUILD REPRODUCIBILITY (Phase 1 - v1.7.0)
@@ -140,7 +151,7 @@ struct ReproducibilityInfo {
  * (THEMIS_GIT_COMMIT, THEMIS_GIT_BRANCH, THEMIS_GIT_DIRTY,
  *  THEMIS_BUILD_HOST, THEMIS_BUILD_USER).  Those definitions are read here.
  */
-ReproducibilityInfo getReproducibilityInfo();
+THEMIS_BASE_API ReproducibilityInfo getReproducibilityInfo();
 
 /**
  * @brief Write a JSON build-manifest to @p output_path.
@@ -152,7 +163,7 @@ ReproducibilityInfo getReproducibilityInfo();
  * @param output_path  Destination file path (will be created or overwritten).
  * @return true on success, false on I/O error.
  */
-bool exportBuildManifest(const std::string& output_path);
+THEMIS_BASE_API bool exportBuildManifest(const std::string& output_path);
 
 /**
  * @brief Verify that the build manifest at @p manifest_path matches the
@@ -164,7 +175,7 @@ bool exportBuildManifest(const std::string& output_path);
  * @param manifest_path  Path to a previously generated manifest JSON file.
  * @return true if all compared fields match, false otherwise.
  */
-bool verifyBuildManifest(const std::string& manifest_path);
+THEMIS_BASE_API bool verifyBuildManifest(const std::string& manifest_path);
 
 } // namespace build_info
 } // namespace themis

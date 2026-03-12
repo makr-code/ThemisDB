@@ -357,6 +357,8 @@ TEST(EdDSAAllowlistRegression, UnsupportedAlgorithmHintIncludesEdDSA) {
     // that lists the SUPPORTED algorithms — which must now include EdDSA.
     JWTValidatorConfig cfg;
     cfg.jwks_url = "";
+    cfg.require_issuer_validation = false;
+    cfg.require_audience_validation = false;
     JWTValidator val(cfg);
 
     // Build a token with alg: "HS256" (unsupported) to trigger the early check

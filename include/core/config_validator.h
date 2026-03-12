@@ -116,12 +116,16 @@ public:
                 result.addError("JWT jwks_url is required in production mode");
             }
             
-            if (config.expected_issuer.empty()) {
+            if (!config.expected_issuer.has_value()) {
                 result.addError("JWT expected_issuer is required in production mode");
             }
             
-            if (config.expected_audience.empty()) {
-                result.addWarning("JWT expected_audience not set - audience validation disabled");
+            if (!config.expected_audience.has_value()) {
+                if (config.require_audience_validation) {
+                    result.addError("JWT expected_audience is required in production mode");
+                } else {
+                    result.addWarning("JWT expected_audience not set - audience validation disabled");
+                }
             }
         } else {
             // In development, just warnings
@@ -129,7 +133,7 @@ public:
                 result.addWarning("JWT jwks_url not set");
             }
             
-            if (config.expected_issuer.empty()) {
+            if (!config.expected_issuer.has_value()) {
                 result.addWarning("JWT expected_issuer not set - issuer validation disabled");
             }
         }

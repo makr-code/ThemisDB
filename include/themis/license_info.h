@@ -35,6 +35,7 @@
 #include <functional>
 #include <optional>
 #include <string>
+#include "themis/export.h"
 
 namespace themis {
 namespace license {
@@ -78,36 +79,36 @@ struct LicenseData {
  * Get the embedded license data from this build
  * Returns empty optional if no license data was embedded
  */
-std::optional<LicenseData> getEmbeddedLicense();
+THEMIS_BASE_API std::optional<LicenseData> getEmbeddedLicense();
 
 /**
  * Check if this build has embedded license data
  */
-bool hasEmbeddedLicense();
+THEMIS_BASE_API bool hasEmbeddedLicense();
 
 /**
  * Get a human-readable summary of the license information
  * suitable for logging at server startup
  */
-std::string formatLicenseInfo(const LicenseData& license);
+THEMIS_BASE_API std::string formatLicenseInfo(const LicenseData& license);
 
 /**
  * Verify license validity (expiry date check)
  * Returns true if license is currently valid
  */
-bool isLicenseValid(const LicenseData& license);
+THEMIS_BASE_API bool isLicenseValid(const LicenseData& license);
 
 /**
  * Get number of days until license expires
  * Returns negative value if already expired
  */
-int getDaysUntilExpiry(const LicenseData& license);
+THEMIS_BASE_API int getDaysUntilExpiry(const LicenseData& license);
 
 /**
  * Verify license signature (if present)
  * Returns true if signature is valid or no signature present
  */
-bool verifyLicenseSignature(const LicenseData& license);
+THEMIS_BASE_API bool verifyLicenseSignature(const LicenseData& license);
 
 // ============================================================================
 // LICENSE CLIENT – Online / Offline Activation (Phase 6 – v1.7.0)
@@ -151,7 +152,7 @@ struct LicenseClientConfig {
  *   3. **Offline mode** – If `allow_offline = true`, permanently falls back to
  *      the embedded license without ever contacting the server.
  */
-class LicenseClient {
+class THEMIS_BASE_API LicenseClient {
 public:
     explicit LicenseClient(const LicenseClientConfig& config);
     ~LicenseClient();
