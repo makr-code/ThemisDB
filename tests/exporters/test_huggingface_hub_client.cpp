@@ -601,6 +601,20 @@ TEST(HuggingFaceHubClientTest, UploadShardsAuditLogWrittenOnNoToken) {
     shard.content       = {'x'};
 
     const auto result = client.uploadShards({shard});
+    EXPECT_FALSE(result.success);
+
+    audit_logger->flush();
+    std::ifstream f(log_path);
+    ASSERT_TRUE(f.good()) << "Audit log not found: " << log_path;
+    std::string content_str((std::istreambuf_iterator<char>(f)),
+                            std::istreambuf_iterator<char>());
+    EXPECT_NE(content_str.find("hub_upload"), std::string::npos);
+    EXPECT_NE(content_str.find("failed"), std::string::npos);
+    EXPECT_NE(content_str.find("missing_token"), std::string::npos);
+
+    fs::remove(log_path);
+}
+
 // ── hf_token_kek_id / KEK token resolution ───────────────────────────────────
 
 TEST(HuggingFaceHubClientTest, DefaultConfigHasNoKekFields) {
@@ -779,15 +793,4 @@ TEST(HuggingFaceHubClientTest, MemoryShardSpecHoldsDataCorrectly) {
     EXPECT_EQ(shard.relative_path, "data/train-00000-of-00001.jsonl");
     EXPECT_EQ(shard.content.size(), jsonl.size());
     EXPECT_EQ(std::string(shard.content.begin(), shard.content.end()), jsonl);
-}
-    ASSERT_TRUE(f.good()) << "Audit log file not found: " << log_path;
-    std::string content((std::istreambuf_iterator<char>(f)),
-                         std::istreambuf_iterator<char>());
-    EXPECT_FALSE(content.empty()) << "Audit log should not be empty";
-    EXPECT_NE(content.find("hub_upload"), std::string::npos)
-        << "Expected 'hub_upload' event in audit log";
-    EXPECT_NE(content.find("error"), std::string::npos)
-        << "Expected 'error' outcome in audit log";
-
-    fs::remove(log_path);
 }

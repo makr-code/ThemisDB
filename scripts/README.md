@@ -50,6 +50,58 @@ explicit `(Target: …)` annotation and require manual milestone assignment.
 python3 -m pytest tests/test_sync_milestones.py -v
 ```
 
+### Issue Sync from Consolidated Roadmap
+
+Create and reconcile GitHub issues from the consolidated [src/ROADMAP.md](../src/ROADMAP.md)
+backlog. The script resolves each roadmap row to the linked
+`src/<module>/FUTURE_ENHANCEMENTS.md` section, extracts acceptance criteria, and
+can backfill issue references into the roadmap after successful creation. Generated
+issues use governance-aligned `area:*`, `priority:*`, `type:*`, and `status:*`
+labels and render the mandatory `Context`, `Goal`, `Acceptance Criteria`,
+`Relationships`, and `References` sections in the issue body.
+
+- **`sync-issues-from-roadmap.py`** – Preview, apply, and backfill roadmap issues.
+
+**Usage:**
+
+```bash
+# Generate issue bodies and preview reports only
+python3 scripts/sync-issues-from-roadmap.py --mode preview
+
+# Limit to a specific module or priority for batching
+python3 scripts/sync-issues-from-roadmap.py --mode preview --module auth --limit 5
+python3 scripts/sync-issues-from-roadmap.py --mode preview --priority critical
+
+# Create missing issues with gh CLI and write Issue references back to src/ROADMAP.md
+python3 scripts/sync-issues-from-roadmap.py --mode apply --backfill
+
+# Backfill later from a prior apply manifest
+python3 scripts/sync-issues-from-roadmap.py --mode backfill \
+  --manifest artifacts/roadmap-issues/roadmap-issues-apply.json
+
+# Optional: run the same flow via workflow_dispatch in GitHub Actions
+gh workflow run sync-roadmap-issues.yml -f mode=preview -f priority=critical -f limit=10
+```
+
+**Outputs:**
+
+- `artifacts/roadmap-issues/roadmap-issues-preview.json`
+- `artifacts/roadmap-issues/roadmap-issues-preview.md`
+- `artifacts/roadmap-issues/bodies/*.md`
+- `artifacts/roadmap-issues/roadmap-issues-apply.json`
+- `artifacts/roadmap-issues/roadmap-issues-summary.json`
+- `artifacts/roadmap-issues/roadmap-issues-summary.md`
+
+The summary artifacts are written automatically after `preview`, `apply`, and
+`backfill` runs and contain per-priority totals plus any remaining roadmap rows
+without an issue reference.
+
+**Tests:** `tests/test_sync_issues_from_roadmap.py`
+
+```bash
+python3 -m pytest tests/test_sync_issues_from_roadmap.py -v
+```
+
 ---
 
 ### Release Scripts

@@ -24,7 +24,7 @@ namespace {
 /// Regex that matches a German legal section header (§ N Title)
 static const std::regex kSectionRe(
     "^\\s*§\\s*\\d+[a-z]*",
-    std::regex::ECMAScript | std::regex::multiline);
+    std::regex::ECMAScript);
 
 /// Regex that detects a date expression in German legal text
 static const std::regex kTemporalRe(
@@ -37,7 +37,7 @@ static const std::regex kTemporalRe(
 /// Regex used to split a document into per-section fragments
 static const std::regex kSplitRe(
     "(?=^\\s*§\\s*\\d)",
-    std::regex::ECMAScript | std::regex::multiline);
+    std::regex::ECMAScript);
 
 /// Extract the section reference (§ N) from the beginning of a fragment.
 static std::string extractSectionRef(const std::string& fragment) {

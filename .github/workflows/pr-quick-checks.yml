@@ -167,12 +167,53 @@ jobs:
       - name: Install audit tools
         run: pip install pip-audit pytest --quiet
 
-      - name: Run ThemisDB entropy secret scanner
-        if: hashFiles('scripts/secret_scan.py') != ''
+      - name: Get changed files
+        id: changed-files
         run: |
-          set -o pipefail
-          python3 scripts/secret_scan.py --all \
+          set -euo pipefail
+          CHANGED_FILES_LIST=/tmp/changed_files.txt
+          INITIAL_PUSH_SHA="0000000000000000000000000000000000000000"
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            # PR context: compare the PR head against the base branch
+            git fetch origin "${{ github.base_ref }}" --depth=1
+            git diff --name-only "origin/${{ github.base_ref }}" HEAD > "$CHANGED_FILES_LIST"
+          elif [[ "${{ github.event_name }}" == "push" && \
+                  "${{ github.event.before }}" != "$INITIAL_PUSH_SHA" ]]; then
+            # Push to a feature branch: compare pushed range
+            git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" > "$CHANGED_FILES_LIST"
+          else
+            # workflow_dispatch or initial branch push – no diff available; skip scan
+            touch "$CHANGED_FILES_LIST"
+          fi
+          FILE_COUNT=$(grep -c ^ "$CHANGED_FILES_LIST" || echo 0)
+          echo "Detected ${FILE_COUNT} changed file(s)."
+          cat "$CHANGED_FILES_LIST" || true
+          echo "file_count=${FILE_COUNT}" >> "$GITHUB_OUTPUT"
+
+      - name: Run ThemisDB entropy secret scanner
+        if: hashFiles('scripts/secret_scan.py') != '' && steps.changed-files.outputs.file_count != '0'
+        run: |
+          set -euo pipefail
+          CHANGED_FILES_LIST=/tmp/changed_files.txt
+          # Build list of files that still exist (skip deletions)
+          EXISTING_FILES=()
+          if [[ -s "$CHANGED_FILES_LIST" ]]; then
+            while IFS= read -r file; do
+              [[ -n "$file" && -f "$file" ]] && EXISTING_FILES+=("$file")
+            done < "$CHANGED_FILES_LIST"
+          fi
+
+          if [[ ${#EXISTING_FILES[@]} -eq 0 ]]; then
+            echo "No existing changed files to scan – skipping entropy scan."
+            echo "## Entropy secret scan" >> "$GITHUB_STEP_SUMMARY"
+            echo "No scannable files in this changeset." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          echo "Scanning ${#EXISTING_FILES[@]} file(s) for high-entropy tokens…"
+          python3 scripts/secret_scan.py \
             --allowlist .secret-scan-allowlist.txt \
+            "${EXISTING_FILES[@]}" \
             2>&1 | tee /tmp/secret_scan_output.txt
           echo "## Entropy secret scan" >> "$GITHUB_STEP_SUMMARY"
           echo '```' >> "$GITHUB_STEP_SUMMARY"

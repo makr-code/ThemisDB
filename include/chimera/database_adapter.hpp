@@ -66,6 +66,7 @@
 #include <variant>
 #include <chrono>
 #include <functional>
+#include <thread>
 
 /**
  * @namespace chimera
@@ -93,7 +94,8 @@ enum class ErrorCode {
     INTERNAL_ERROR = 9,       ///< Internal system error
     UNSUPPORTED = 10,         ///< Operation not supported
     TRANSACTION_ABORTED = 11, ///< Transaction was aborted
-    CONSTRAINT_VIOLATION = 12 ///< Data integrity constraint violated
+    CONSTRAINT_VIOLATION = 12, ///< Data integrity constraint violated
+    DEADLOCK = 13             ///< Deadlock detected between concurrent transactions
 };
 
 /**
@@ -251,6 +253,39 @@ struct TransactionOptions {
     IsolationLevel isolation_level = IsolationLevel::READ_COMMITTED;
     std::optional<std::chrono::milliseconds> timeout; ///< Transaction timeout
     bool read_only = false;                      ///< Read-only transaction
+    bool allow_nested = false;                   ///< Allow nested transactions via savepoints
+    size_t max_retries = 0;                      ///< Max automatic retries on deadlock (0 = no retry)
+    std::chrono::milliseconds retry_backoff{10}; ///< Initial backoff between retries (doubles each attempt)
+};
+
+/**
+ * @struct TransactionStats
+ * @brief Runtime statistics for an active transaction
+ */
+struct TransactionStats {
+    std::string transaction_id;                          ///< Transaction identifier
+    std::chrono::system_clock::time_point start_time;   ///< When the transaction began
+    std::chrono::milliseconds elapsed_time{0};           ///< Time elapsed since begin
+    size_t operations_count = 0;                         ///< Number of operations executed
+    size_t savepoint_count = 0;                          ///< Number of savepoints created
+    size_t retry_count = 0;                              ///< Number of automatic retries attempted
+    bool is_read_only = false;                           ///< Whether the transaction is read-only
+    TransactionOptions::IsolationLevel isolation_level =
+        TransactionOptions::IsolationLevel::READ_COMMITTED; ///< Isolation level in effect
+};
+
+/**
+ * @struct TransactionState
+ * @brief Full state snapshot of an active transaction
+ */
+struct TransactionState {
+    std::string transaction_id;                          ///< Transaction identifier
+    TransactionOptions::IsolationLevel isolation_level =
+        TransactionOptions::IsolationLevel::READ_COMMITTED; ///< Isolation level
+    std::chrono::system_clock::time_point start_time;   ///< When the transaction began
+    std::vector<std::string> savepoints;                 ///< Active savepoint names (LIFO order)
+    bool is_read_only = false;                           ///< Read-only flag
+    std::optional<std::chrono::milliseconds> elapsed_time; ///< Time elapsed since begin
 };
 
 /**
@@ -263,6 +298,51 @@ struct QueryStatistics {
     size_t rows_returned;                        ///< Rows returned
     size_t bytes_read;                           ///< Bytes read from storage
     std::map<std::string, Scalar> additional_metrics; ///< System-specific metrics
+};
+
+/**
+ * @struct BatchResult
+ * @brief Result of an advanced batch operation
+ *
+ * @details Aggregates per-batch results, counts of successes and failures,
+ *          and the total elapsed wall-clock time so callers can assess
+ *          partial success without throwing exceptions.
+ */
+struct BatchResult {
+    size_t total_processed = 0;                       ///< Total items attempted
+    size_t successful      = 0;                       ///< Items that succeeded
+    size_t failed          = 0;                       ///< Items that failed
+    std::vector<Result<size_t>> batch_results;        ///< Per-chunk results
+    std::chrono::milliseconds total_time{0};          ///< Wall-clock duration
+};
+
+/**
+ * @struct BatchOptions
+ * @brief Configuration for advanced batch operations
+ *
+ * @details Controls chunking, error semantics, and optional progress/batch
+ *          callbacks so callers can observe and react to in-flight progress.
+ */
+struct BatchOptions {
+    /// Number of items to process per internal chunk.
+    size_t batch_size = 1000;
+
+    /// When true the operation stops immediately after the first chunk error.
+    bool stop_on_error = false;
+
+    /**
+     * @brief Optional progress callback invoked after each processed chunk.
+     * @param processed Cumulative items processed so far (across all chunks).
+     * @param total     Total items to process.
+     */
+    std::function<void(size_t processed, size_t total)> progress_callback;
+
+    /**
+     * @brief Optional per-chunk callback invoked after each chunk finishes.
+     * @param batch_index Zero-based chunk index.
+     * @param result      Result of that chunk (number of rows inserted or error).
+     */
+    std::function<void(size_t batch_index, const Result<size_t>&)> batch_callback;
 };
 
 /**
@@ -370,7 +450,86 @@ public:
         const std::string& table_name,
         const std::vector<RelationalRow>& rows
     ) = 0;
-    
+
+    /**
+     * @brief Advanced batch insert with progress tracking and error control.
+     *
+     * @details Splits @p rows into chunks of @p options.batch_size, calls
+     *          @c batch_insert for each chunk, and aggregates the results into
+     *          a @c BatchResult.  Optional @c BatchOptions::progress_callback
+     *          and @c BatchOptions::batch_callback are invoked after every
+     *          chunk so callers can observe throughput or cancel early.
+     *
+     *          The default implementation always returns
+     *          @c Result<BatchResult>::ok(...) and surfaces per-chunk failures
+     *          (including connection issues reported by @c batch_insert) via
+     *          @c BatchResult::batch_results and the @c successful / @c failed
+     *          counters rather than as a top-level error.
+     *          Subclasses may override this method for database-specific
+     *          optimisations or to implement stricter error propagation.
+     *
+     * @param table_name Target table.
+     * @param rows       Rows to insert.
+     * @param options    Chunking, callback, and error-handling options.
+     * @return Aggregated @c BatchResult wrapped in a successful @c Result.
+     */
+    virtual Result<BatchResult> batch_insert_advanced(
+        const std::string& table_name,
+        const std::vector<RelationalRow>& rows,
+        const BatchOptions& options = {}
+    ) {
+        const auto start = std::chrono::steady_clock::now();
+        const size_t chunk = options.batch_size > 0 ? options.batch_size : rows.size();
+
+        BatchResult result;
+        result.total_processed = rows.size();
+
+        size_t processed = 0;
+        size_t batch_idx = 0;
+        std::vector<RelationalRow> slice;
+        slice.reserve(chunk);
+        for (size_t offset = 0; offset < rows.size(); offset += chunk, ++batch_idx) {
+            const size_t end = std::min(offset + chunk, rows.size());
+            slice.clear();
+            slice.insert(
+                slice.end(),
+                rows.begin() + static_cast<std::ptrdiff_t>(offset),
+                rows.begin() + static_cast<std::ptrdiff_t>(end)
+            );
+            auto chunk_result = batch_insert(table_name, slice);
+
+            if (chunk_result.is_ok()) {
+                size_t inserted = chunk_result.value.value_or(0);
+                if (inserted > slice.size()) {
+                    inserted = slice.size();
+                }
+                result.successful += inserted;
+                result.failed += (slice.size() - inserted);
+            } else {
+                result.failed += slice.size();
+            }
+
+            result.batch_results.push_back(chunk_result);
+
+            if (options.batch_callback) {
+                options.batch_callback(batch_idx, chunk_result);
+            }
+
+            processed += slice.size();
+            if (options.progress_callback) {
+                options.progress_callback(processed, rows.size());
+            }
+
+            if (!chunk_result.is_ok() && options.stop_on_error) {
+                break;
+            }
+        }
+
+        result.total_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - start);
+        return Result<BatchResult>::ok(std::move(result));
+    }
+
     /**
      * @brief Get query execution statistics
      * @return Query statistics or error
@@ -532,6 +691,81 @@ public:
         const std::string& collection,
         const std::vector<Document>& docs
     ) = 0;
+
+    /**
+     * @brief Advanced batch insert for documents with progress tracking.
+     *
+     * @details Splits @p docs into chunks of @p options.batch_size, calls
+     *          @c batch_insert_documents for each chunk, and aggregates the
+     *          results.  Optional callbacks are invoked after each chunk.
+     *
+     *          The default implementation always returns
+     *          @c Result<BatchResult>::ok(...) and surfaces per-chunk failures
+     *          via @c BatchResult::batch_results and the @c successful /
+     *          @c failed counters rather than as a top-level error.
+     *          Subclasses may override for database-specific optimisations.
+     *
+     * @param collection Target collection.
+     * @param docs       Documents to insert.
+     * @param options    Chunking, callback, and error-handling options.
+     * @return Aggregated @c BatchResult wrapped in a successful @c Result.
+     */
+    virtual Result<BatchResult> batch_insert_documents_advanced(
+        const std::string& collection,
+        const std::vector<Document>& docs,
+        const BatchOptions& options = {}
+    ) {
+        const auto start = std::chrono::steady_clock::now();
+        const size_t chunk = options.batch_size > 0 ? options.batch_size : docs.size();
+
+        BatchResult result;
+        result.total_processed = docs.size();
+
+        size_t processed = 0;
+        size_t batch_idx = 0;
+        std::vector<Document> slice;
+        slice.reserve(chunk);
+        for (size_t offset = 0; offset < docs.size(); offset += chunk, ++batch_idx) {
+            const size_t end = std::min(offset + chunk, docs.size());
+            slice.clear();
+            slice.insert(
+                slice.end(),
+                docs.begin() + static_cast<std::ptrdiff_t>(offset),
+                docs.begin() + static_cast<std::ptrdiff_t>(end)
+            );
+            auto chunk_result = batch_insert_documents(collection, slice);
+
+            if (chunk_result.is_ok()) {
+                size_t inserted = chunk_result.value.value_or(0);
+                if (inserted > slice.size()) {
+                    inserted = slice.size();
+                }
+                result.successful += inserted;
+                result.failed += (slice.size() - inserted);
+            } else {
+                result.failed += slice.size();
+            }
+
+            result.batch_results.push_back(chunk_result);
+
+            if (options.batch_callback) {
+                options.batch_callback(batch_idx, chunk_result);
+            }
+
+            processed += slice.size();
+            if (options.progress_callback) {
+                options.progress_callback(processed, docs.size());
+            }
+
+            if (!chunk_result.is_ok() && options.stop_on_error) {
+                break;
+            }
+        }
+
+        result.total_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - start);
+        return Result<BatchResult>::ok(std::move(result));
+    }
     
     /**
      * @brief Find documents matching criteria
@@ -592,6 +826,124 @@ public:
      * @return Success or error
      */
     virtual Result<bool> rollback_transaction(const std::string& transaction_id) = 0;
+
+    /**
+     * @brief Create a savepoint within an active transaction
+     * @param transaction_id Transaction ID
+     * @param savepoint_name Unique name for the savepoint within the transaction
+     * @return Savepoint name on success, or NOT_IMPLEMENTED if not supported
+     */
+    virtual Result<std::string> create_savepoint(
+        const std::string& /*transaction_id*/,
+        const std::string& /*savepoint_name*/
+    ) {
+        return Result<std::string>::err(
+            ErrorCode::NOT_IMPLEMENTED,
+            "Savepoints not supported by this adapter"
+        );
+    }
+
+    /**
+     * @brief Rollback the transaction to a previously created savepoint
+     * @param transaction_id Transaction ID
+     * @param savepoint_name Name of the savepoint to roll back to
+     * @return Success or NOT_IMPLEMENTED if not supported
+     */
+    virtual Result<bool> rollback_to_savepoint(
+        const std::string& /*transaction_id*/,
+        const std::string& /*savepoint_name*/
+    ) {
+        return Result<bool>::err(
+            ErrorCode::NOT_IMPLEMENTED,
+            "Savepoints not supported by this adapter"
+        );
+    }
+
+    /**
+     * @brief Release (destroy) a savepoint without rolling back
+     * @param transaction_id Transaction ID
+     * @param savepoint_name Name of the savepoint to release
+     * @return Success or NOT_IMPLEMENTED if not supported
+     */
+    virtual Result<bool> release_savepoint(
+        const std::string& /*transaction_id*/,
+        const std::string& /*savepoint_name*/
+    ) {
+        return Result<bool>::err(
+            ErrorCode::NOT_IMPLEMENTED,
+            "Savepoints not supported by this adapter"
+        );
+    }
+
+    /**
+     * @brief Retrieve runtime statistics for an active transaction
+     * @param transaction_id Transaction ID
+     * @return Transaction statistics or NOT_IMPLEMENTED if not supported
+     */
+    virtual Result<TransactionStats> get_transaction_stats(
+        const std::string& /*transaction_id*/
+    ) {
+        return Result<TransactionStats>::err(
+            ErrorCode::NOT_IMPLEMENTED,
+            "Transaction statistics not supported by this adapter"
+        );
+    }
+
+    /**
+     * @brief Retrieve the full state of an active transaction
+     * @param transaction_id Transaction ID
+     * @return Transaction state or NOT_IMPLEMENTED if not supported
+     */
+    virtual Result<TransactionState> get_transaction_state(
+        const std::string& /*transaction_id*/
+    ) {
+        return Result<TransactionState>::err(
+            ErrorCode::NOT_IMPLEMENTED,
+            "Transaction state not supported by this adapter"
+        );
+    }
+
+    /**
+     * @brief Execute an operation with automatic retry on deadlock
+     *
+     * @details Calls @p operation repeatedly until it succeeds, returns a
+     *          non-deadlock error, or @p max_retries attempts have been
+     *          exhausted.  Each retry is preceded by an exponential backoff
+     *          starting at @p initial_backoff_ms milliseconds.
+     *
+     * @tparam T Result value type
+     * @tparam F Callable type returning Result<T>
+     * @param operation  Callable returning Result<T>
+     * @param max_retries Maximum number of additional attempts after the first
+     * @param initial_backoff_ms Initial sleep duration before the first retry
+     * @return The first successful result, the last deadlock result after all
+     *         retries are exhausted, or any non-deadlock error immediately
+     */
+    template<typename T, typename F>
+    Result<T> execute_with_retry(
+        F&& operation,
+        size_t max_retries = 3,
+        std::chrono::milliseconds initial_backoff_ms = std::chrono::milliseconds{10}
+    ) {
+        static constexpr size_t kMaxBackoffShift = 5; ///< Cap backoff at 32x initial value
+        Result<T> last = operation();
+        for (size_t attempt = 0; attempt < max_retries && last.is_err() &&
+                                  last.error_code == ErrorCode::DEADLOCK; ++attempt) {
+            const size_t shift = attempt < kMaxBackoffShift ? attempt : kMaxBackoffShift;
+            const auto factor = static_cast<std::chrono::milliseconds::rep>(1u << shift);
+            const auto max_ms = std::chrono::milliseconds::max();
+            const std::chrono::milliseconds::rep base = initial_backoff_ms.count();
+            std::chrono::milliseconds safe_duration;
+            if (base > 0 && factor > 0 && base > max_ms.count() / factor) {
+                safe_duration = max_ms;
+            } else {
+                safe_duration = initial_backoff_ms * factor;
+            }
+            std::this_thread::sleep_for(safe_duration);
+            last = operation();
+        }
+        return last;
+    }
 };
 
 /**
