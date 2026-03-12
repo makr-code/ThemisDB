@@ -3,8 +3,8 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.0  
-**Last Updated:** 2026-02-27  
-**Scope:** Aggregated roadmap across all 44 modules in `src/`
+**Last Updated:** 2026-03-12  
+**Scope:** Aggregated roadmap across all 46 modules in `src/`
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
 
@@ -12,7 +12,7 @@
 
 ## Overview
 
-ThemisDB is a high-performance multi-model database with native AI/LLM integration. This top-level roadmap aggregates the status and planned work across all 44 source modules. The project follows a phased approach: stabilise core infrastructure first, then harden distributed and AI layers, and finally deliver operational excellence at hyperscale.
+ThemisDB is a high-performance multi-model database with native AI/LLM integration. This top-level roadmap aggregates the status and planned work across all 46 source modules. The project follows a phased approach: stabilise core infrastructure first, then harden distributed and AI layers, and finally deliver operational excellence at hyperscale.
 
 **Overall Timeline:** Q1 2026 – Q4 2027  
 **Current Release:** v1.5.0-dev
@@ -44,11 +44,13 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **index** | ✅ Production-ready | [src/index/ROADMAP.md](src/index/ROADMAP.md) |
 | **ingestion** | ✅ Production-ready | [src/ingestion/ROADMAP.md](src/ingestion/ROADMAP.md) |
 | **llm** | ✅ Production-ready (v1.16.0) | [src/llm/ROADMAP.md](src/llm/ROADMAP.md) |
+| **maintenance** | ✅ Production-ready (v1.1.0) — Orchestration, schedule persistence, window enforcement, health aggregation complete | [src/maintenance/ROADMAP.md](src/maintenance/ROADMAP.md) |
 | **metadata** | ✅ Production-ready | [src/metadata/ROADMAP.md](src/metadata/ROADMAP.md) |
 | **network** | ✅ Production-ready | [src/network/ROADMAP.md](src/network/ROADMAP.md) |
 | **observability** | ✅ Production-ready | [src/observability/ROADMAP.md](src/observability/ROADMAP.md) |
 | **performance** | ✅ Production-ready | [src/performance/ROADMAP.md](src/performance/ROADMAP.md) |
 | **plugins** | ✅ Production-ready | [src/plugins/ROADMAP.md](src/plugins/ROADMAP.md) |
+| **process** | 🟡 Beta — Core BPMN/EPK/VCC-VPB import, Graph-RAG, and ProcessLinker complete; semantic search (embeddings) in progress | [src/process/ROADMAP.md](src/process/ROADMAP.md) |
 | **prompt_engineering** | ✅ Production-ready (v1.x) | [src/prompt_engineering/ROADMAP.md](src/prompt_engineering/ROADMAP.md) |
 | **query** | ✅ Production-ready | [src/query/ROADMAP.md](src/query/ROADMAP.md) |
 | **rag** | ✅ Production-ready | [src/rag/ROADMAP.md](src/rag/ROADMAP.md) |
@@ -254,7 +256,7 @@ Focus: Hyperscale distributed operations, multi-region support, and advanced con
 Focus: Enterprise-grade monitoring, alerting, and automated operations.
 
 #### 4.1 Observability — Extended Tracing
-- [I] End-to-end distributed trace correlation across all 44 modules (Target: Q4 2026)
+- [I] End-to-end distributed trace correlation across all 46 modules (Target: Q4 2026)
 - [I] Anomaly-driven alerting with root cause analysis hints (Target: Q4 2026)
 - [I] Continuous profiling integration (eBPF / perf) (Target: Q4 2026)
 
@@ -269,6 +271,17 @@ Focus: Enterprise-grade monitoring, alerting, and automated operations.
 #### 4.4 Config — Full Migration Tooling
 - [I] Automated legacy config migration script with dry-run mode (Issue: #1661) (Target: Q4 2026)
 - [I] Integration with JSON Schema / YAML schema validation (Issue: #1666) (Target: Q4 2026)
+
+#### 4.5 Maintenance — Advanced Orchestration
+- [ ] Explicit per-task DAG dependency graph with topological sort (Target: v1.2.0)
+- [ ] Replica consistency check integration with sharding/replication module (Target: v1.2.0)
+- [ ] StorageCompaction integration with `CompactionManager` (Target: v1.2.0)
+
+#### 4.6 Process — Semantic Search & LLM Integration
+- [~] Auto-generate process model embeddings via LLM module on import (Target: Q2 2026)
+- [ ] Full-text inverted index over process model descriptions (Target: Q2 2026)
+- [ ] AgenticRAG integration for iterative process question answering (Target: Q3 2026)
+- [ ] EPK ARIS-XML import (Target: Q3 2026)
 
 ---
 
@@ -308,7 +321,7 @@ Focus: Developer experience, official SDKs, and community ecosystem.
 
 #### 6.2 Documentation
 - [I] Interactive API reference (Swagger UI / Redoc) (Target: Q2 2027)
-- [I] Module-level architecture decision records (ADRs) for all 44 modules (Target: Q3 2027)
+- [I] Module-level architecture decision records (ADRs) for all 46 modules (Target: Q3 2027)
 - [I] End-to-end tutorial series (20+ guides) (Target: Q3 2027)
 
 #### 6.3 Plugin Ecosystem
@@ -326,7 +339,7 @@ Focus: Developer experience, official SDKs, and community ecosystem.
 
 ## Production Readiness Checklist
 
-### Per-Module Requirements (applied to all 44 modules)
+### Per-Module Requirements (applied to all 46 modules)
 - [x] Module has `README.md`, `ARCHITECTURE.md`, `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`
 - [x] Current Status section with maturity indicator (Alpha / Beta / Production-ready)
 - [x] Unit test coverage target defined
@@ -337,7 +350,7 @@ Focus: Developer experience, official SDKs, and community ecosystem.
 - [x] Prometheus metrics exported where applicable
 
 ### System-Wide Requirements
-- [x] All 44 modules integrated into the CMake build system
+- [x] All 46 modules integrated into the CMake build system
 - [x] Edition matrix (MINIMAL / COMMUNITY / ENTERPRISE / HYPERSCALER) enforced at build time
 - [x] Docker image builds for all supported editions
 - [x] CI pipeline covers core module matrix
@@ -365,6 +378,9 @@ Focus: Developer experience, official SDKs, and community ecosystem.
 | 10 | config | Legacy config migration tooling not yet implemented | 📋 Planned |
 | 11 | training | Multi-GPU distributed training coordination not implemented | 📋 Planned |
 | 12 | prompt_engineering | Token counting / context-window budget enforcement not implemented | 📋 Planned |
+| 13 | process | Embedding-based similarity search requires pre-computed embeddings; auto-generation not yet implemented | 🚧 In progress |
+| 14 | process | BPMN parser uses regex (not DOM/SAX); deeply nested sub-process pools may not parse correctly | ⚠️ Known limitation |
+| 15 | maintenance | Explicit per-task DAG dependency graph not yet implemented; tasks execute in list order | 📋 Planned v1.2.0 |
 
 ---
 
@@ -382,7 +398,9 @@ Focus: Developer experience, official SDKs, and community ecosystem.
 
 - [ARCHITECTURE.md](ARCHITECTURE.md) — Full system architecture documentation
 - [README.md](README.md) — Project overview and quick start
+- [AUDIT.md](AUDIT.md) — Security and compliance audit record
 - [CHANGELOG.md](CHANGELOG.md) — Release history
 - [CONTRIBUTING.md](CONTRIBUTING.md) — Contribution guidelines
+- [SECURITY.md](SECURITY.md) — Security policy and vulnerability reporting
 - [src/README.md](src/README.md) — Source directory overview
 - [src/ROADMAP.md](src/ROADMAP.md) — Module-level roadmap index

@@ -15,7 +15,7 @@ ThemisDB is a high-performance, multi-model database system that integrates rela
 
 ## Main Directory Structure
 
-### `/src/` - Implementation (44 Core Components)
+### `/src/` - Implementation (46 Core Components)
 
 | Directory | Purpose | Key Classes |
 |-----------|---------|-------------|
@@ -40,11 +40,13 @@ ThemisDB is a high-performance, multi-model database system that integrates rela
 | **index/** | Vector indexing (HNSW, quantization), graph indices | VectorIndex, GraphIndex, HnswIndex |
 | **ingestion/** | Multi-source data intake (filesystem, HuggingFace, REST API), rate limiting, checkpointing | IngestionManager, FileSystemIngester, HuggingFaceConnector |
 | **llm/** | LLM integration, inference, LoRA, embeddings, vision | EmbeddedLlm, LoraFramework, FlashAttention |
+| **maintenance/** | Centralized DB maintenance orchestration: cron scheduling, maintenance windows, health aggregation | DatabaseMaintenanceOrchestrator, MaintenanceRegistry |
 | **metadata/** | Schema management | SchemaManager |
 | **network/** | Wire protocol, socket management | WireProtocolServer |
 | **observability/** | Metrics, profiling, alerting | MetricsCollector, QueryProfiler |
 | **performance/** | Advanced data structures (RCU, LIRS, lock-free buffers) | PerformanceOptimizations |
 | **plugins/** | Plugin system, hot-plugging, RPC interfaces | PluginManager, PluginRegistry |
+| **process/** | BPMN 2.0, EPK, VCC-VPB process model management; LLM descriptors; Graph-RAG for Verwaltungsvorgänge | ProcessModelManager, BpmnSerializer, EpkSerializer, ProcessLinker, ProcessGraphRag |
 | **prompt_engineering/** | Prompt template lifecycle, version control, A/B testing, self-optimization, injection detection | PromptManager, PromptOptimizer, SelfImprovementOrchestrator, PromptInjectionDetector |
 | **query/** | AQL parser, optimizer, execution engine | QueryEngine, AqlParser, QueryOptimizer |
 | **rag/** | RAG evaluation (faithfulness, relevance, bias detection) | RagJudge, CoherenceEvaluator |
@@ -418,10 +420,12 @@ themisdb::                        # Secondary root namespace (sharding, replicat
 ├── geo::                         # Geospatial operations
 ├── graph::                       # Graph processing
 ├── ingestion::                   # Multi-source data intake pipeline
+├── maintenance::                 # Centralized DB maintenance orchestration
 ├── metadata::                    # Schema management
 ├── network::                     # Network protocols
 ├── observability::               # Monitoring & metrics
 ├── plugins::                     # Plugin system
+├── process::                     # BPMN/EPK/VCC-VPB process model management & Graph-RAG
 ├── prompt_engineering::          # Prompt template lifecycle & optimization
 ├── rag::                         # RAG evaluation
 ├── replication::                 # Data replication
@@ -1373,4 +1377,4 @@ build if any discrepancies are found.
 
 ---
 
-*Last Updated: 2026-02-06 | Generated from codebase analysis*
+*Last Updated: 2026-03-12 | Generated from codebase analysis*

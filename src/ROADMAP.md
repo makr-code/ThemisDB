@@ -5,7 +5,7 @@
 # ThemisDB — Consolidated Source Roadmap
 
 > **Purpose:** This document aggregates every open TODO, stub-replacement, and planned feature
-> from all 45 module `FUTURE_ENHANCEMENTS.md` files.  
+> from all 46 module `FUTURE_ENHANCEMENTS.md` files.  
 > It is sorted by **Priority → Target Version → Module** and is the canonical input for
 > creating GitHub Issues with full implementation context.
 
@@ -630,6 +630,6 @@ epic:llm-integration       LLM inference, LoRA, training pipeline
 
 ---
 
-*Generated: 2026-03-12 · Based on: `src/*/FUTURE_ENHANCEMENTS.md` (45 modules)*  
+*Generated: 2026-03-12 · Based on: `src/*/FUTURE_ENHANCEMENTS.md` (46 modules)*  
 *Next update: when any module FUTURE_ENHANCEMENTS.md is changed.*  
 *Issues tracker: [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)*
