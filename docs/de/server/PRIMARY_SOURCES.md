@@ -5,9 +5,12 @@
 - `include/server/FUTURE_ENHANCEMENTS.md`
 - `include/server/README.md`
 - `src/server/ARCHITECTURE.md`
+- `src/server/AUDIT.md`
+- `src/server/CHANGELOG.md`
 - `src/server/FUTURE_ENHANCEMENTS.md`
 - `src/server/README.md`
 - `src/server/ROADMAP.md`
+- `src/server/SECURITY.md`
 - `src/server/VCCDB Design.md`
 - `src/server/rpc/README.md`
 
@@ -28,9 +31,12 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`server`** 
 | Datei | Pfad |
 |-------|------|
 | `ARCHITECTURE.md` | [`src/server/ARCHITECTURE.md`](../../../src/server/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/server/AUDIT.md`](../../../src/server/AUDIT.md) |
+| `CHANGELOG.md` | [`src/server/CHANGELOG.md`](../../../src/server/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/server/FUTURE_ENHANCEMENTS.md`](../../../src/server/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/server/README.md`](../../../src/server/README.md) |
 | `ROADMAP.md` | [`src/server/ROADMAP.md`](../../../src/server/ROADMAP.md) |
+| `SECURITY.md` | [`src/server/SECURITY.md`](../../../src/server/SECURITY.md) |
 | `VCCDB Design.md` | [`src/server/VCCDB Design.md`](../../../src/server/VCCDB Design.md) |
 | `README.md` | [`src/server/rpc/README.md`](../../../src/server/rpc/README.md) |
 

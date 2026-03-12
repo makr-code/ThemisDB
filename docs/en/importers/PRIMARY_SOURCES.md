@@ -5,9 +5,12 @@
 - `include/importers/FUTURE_ENHANCEMENTS.md`
 - `include/importers/README.md`
 - `src/importers/ARCHITECTURE.md`
+- `src/importers/AUDIT.md`
+- `src/importers/CHANGELOG.md`
 - `src/importers/FUTURE_ENHANCEMENTS.md`
 - `src/importers/README.md`
 - `src/importers/ROADMAP.md`
+- `src/importers/SECURITY.md`
 
 **Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -26,9 +29,12 @@ This index lists all Markdown documentation files for module **`importers`** fro
 | File | Path |
 |------|------|
 | `ARCHITECTURE.md` | [`src/importers/ARCHITECTURE.md`](../../../src/importers/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/importers/AUDIT.md`](../../../src/importers/AUDIT.md) |
+| `CHANGELOG.md` | [`src/importers/CHANGELOG.md`](../../../src/importers/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/importers/FUTURE_ENHANCEMENTS.md`](../../../src/importers/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/importers/README.md`](../../../src/importers/README.md) |
 | `ROADMAP.md` | [`src/importers/ROADMAP.md`](../../../src/importers/ROADMAP.md) |
+| `SECURITY.md` | [`src/importers/SECURITY.md`](../../../src/importers/SECURITY.md) |
 
 ### `include/importers/`
 

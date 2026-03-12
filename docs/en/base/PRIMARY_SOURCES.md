@@ -3,9 +3,12 @@
 **Status:** draft  
 **Primary Source:**
 - `src/base/ARCHITECTURE.md`
+- `src/base/AUDIT.md`
+- `src/base/CHANGELOG.md`
 - `src/base/FUTURE_ENHANCEMENTS.md`
 - `src/base/README.md`
 - `src/base/ROADMAP.md`
+- `src/base/SECURITY.md`
 
 **Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -24,9 +27,12 @@ This index lists all Markdown documentation files for module **`base`** from the
 | File | Path |
 |------|------|
 | `ARCHITECTURE.md` | [`src/base/ARCHITECTURE.md`](../../../src/base/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/base/AUDIT.md`](../../../src/base/AUDIT.md) |
+| `CHANGELOG.md` | [`src/base/CHANGELOG.md`](../../../src/base/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/base/FUTURE_ENHANCEMENTS.md`](../../../src/base/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/base/README.md`](../../../src/base/README.md) |
 | `ROADMAP.md` | [`src/base/ROADMAP.md`](../../../src/base/ROADMAP.md) |
+| `SECURITY.md` | [`src/base/SECURITY.md`](../../../src/base/SECURITY.md) |
 
 ---
 

@@ -6,9 +6,12 @@
 - `include/graph/README.md`
 - `src/graph/ADVANCED_FEATURES_README.md`
 - `src/graph/ARCHITECTURE.md`
+- `src/graph/AUDIT.md`
+- `src/graph/CHANGELOG.md`
 - `src/graph/FUTURE_ENHANCEMENTS.md`
 - `src/graph/README.md`
 - `src/graph/ROADMAP.md`
+- `src/graph/SECURITY.md`
 
 **Bezug / Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -28,9 +31,12 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`graph`** a
 |-------|------|
 | `ADVANCED_FEATURES_README.md` | [`src/graph/ADVANCED_FEATURES_README.md`](../../../src/graph/ADVANCED_FEATURES_README.md) |
 | `ARCHITECTURE.md` | [`src/graph/ARCHITECTURE.md`](../../../src/graph/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/graph/AUDIT.md`](../../../src/graph/AUDIT.md) |
+| `CHANGELOG.md` | [`src/graph/CHANGELOG.md`](../../../src/graph/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/graph/FUTURE_ENHANCEMENTS.md`](../../../src/graph/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/graph/README.md`](../../../src/graph/README.md) |
 | `ROADMAP.md` | [`src/graph/ROADMAP.md`](../../../src/graph/ROADMAP.md) |
+| `SECURITY.md` | [`src/graph/SECURITY.md`](../../../src/graph/SECURITY.md) |
 
 ### `include/graph/`
 

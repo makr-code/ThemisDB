@@ -5,9 +5,12 @@
 - `include/cdc/FUTURE_ENHANCEMENTS.md`
 - `include/cdc/README.md`
 - `src/cdc/ARCHITECTURE.md`
+- `src/cdc/AUDIT.md`
+- `src/cdc/CHANGELOG.md`
 - `src/cdc/FUTURE_ENHANCEMENTS.md`
 - `src/cdc/README.md`
 - `src/cdc/ROADMAP.md`
+- `src/cdc/SECURITY.md`
 
 **Bezug / Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -26,9 +29,12 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`cdc`** aus
 | Datei | Pfad |
 |-------|------|
 | `ARCHITECTURE.md` | [`src/cdc/ARCHITECTURE.md`](../../../src/cdc/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/cdc/AUDIT.md`](../../../src/cdc/AUDIT.md) |
+| `CHANGELOG.md` | [`src/cdc/CHANGELOG.md`](../../../src/cdc/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/cdc/FUTURE_ENHANCEMENTS.md`](../../../src/cdc/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/cdc/README.md`](../../../src/cdc/README.md) |
 | `ROADMAP.md` | [`src/cdc/ROADMAP.md`](../../../src/cdc/ROADMAP.md) |
+| `SECURITY.md` | [`src/cdc/SECURITY.md`](../../../src/cdc/SECURITY.md) |
 
 ### `include/cdc/`
 

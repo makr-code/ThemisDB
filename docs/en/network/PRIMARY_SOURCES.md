@@ -5,9 +5,12 @@
 - `include/network/FUTURE_ENHANCEMENTS.md`
 - `include/network/README.md`
 - `src/network/ARCHITECTURE.md`
+- `src/network/AUDIT.md`
+- `src/network/CHANGELOG.md`
 - `src/network/FUTURE_ENHANCEMENTS.md`
 - `src/network/README.md`
 - `src/network/ROADMAP.md`
+- `src/network/SECURITY.md`
 
 **Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -26,9 +29,12 @@ This index lists all Markdown documentation files for module **`network`** from 
 | File | Path |
 |------|------|
 | `ARCHITECTURE.md` | [`src/network/ARCHITECTURE.md`](../../../src/network/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/network/AUDIT.md`](../../../src/network/AUDIT.md) |
+| `CHANGELOG.md` | [`src/network/CHANGELOG.md`](../../../src/network/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/network/FUTURE_ENHANCEMENTS.md`](../../../src/network/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/network/README.md`](../../../src/network/README.md) |
 | `ROADMAP.md` | [`src/network/ROADMAP.md`](../../../src/network/ROADMAP.md) |
+| `SECURITY.md` | [`src/network/SECURITY.md`](../../../src/network/SECURITY.md) |
 
 ### `include/network/`
 

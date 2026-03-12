@@ -5,9 +5,12 @@
 - `include/updates/FUTURE_ENHANCEMENTS.md`
 - `include/updates/README.md`
 - `src/updates/ARCHITECTURE.md`
+- `src/updates/AUDIT.md`
+- `src/updates/CHANGELOG.md`
 - `src/updates/FUTURE_ENHANCEMENTS.md`
 - `src/updates/README.md`
 - `src/updates/ROADMAP.md`
+- `src/updates/SECURITY.md`
 
 **Bezug / Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -26,9 +29,12 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`updates`**
 | Datei | Pfad |
 |-------|------|
 | `ARCHITECTURE.md` | [`src/updates/ARCHITECTURE.md`](../../../src/updates/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/updates/AUDIT.md`](../../../src/updates/AUDIT.md) |
+| `CHANGELOG.md` | [`src/updates/CHANGELOG.md`](../../../src/updates/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/updates/FUTURE_ENHANCEMENTS.md`](../../../src/updates/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/updates/README.md`](../../../src/updates/README.md) |
 | `ROADMAP.md` | [`src/updates/ROADMAP.md`](../../../src/updates/ROADMAP.md) |
+| `SECURITY.md` | [`src/updates/SECURITY.md`](../../../src/updates/SECURITY.md) |
 
 ### `include/updates/`
 

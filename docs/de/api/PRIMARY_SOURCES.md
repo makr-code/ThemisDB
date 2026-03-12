@@ -5,9 +5,12 @@
 - `include/api/FUTURE_ENHANCEMENTS.md`
 - `include/api/README.md`
 - `src/api/ARCHITECTURE.md`
+- `src/api/AUDIT.md`
+- `src/api/CHANGELOG.md`
 - `src/api/FUTURE_ENHANCEMENTS.md`
 - `src/api/README.md`
 - `src/api/ROADMAP.md`
+- `src/api/SECURITY.md`
 
 **Bezug / Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -26,9 +29,12 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`api`** aus
 | Datei | Pfad |
 |-------|------|
 | `ARCHITECTURE.md` | [`src/api/ARCHITECTURE.md`](../../../src/api/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/api/AUDIT.md`](../../../src/api/AUDIT.md) |
+| `CHANGELOG.md` | [`src/api/CHANGELOG.md`](../../../src/api/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/api/FUTURE_ENHANCEMENTS.md`](../../../src/api/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/api/README.md`](../../../src/api/README.md) |
 | `ROADMAP.md` | [`src/api/ROADMAP.md`](../../../src/api/ROADMAP.md) |
+| `SECURITY.md` | [`src/api/SECURITY.md`](../../../src/api/SECURITY.md) |
 
 ### `include/api/`
 

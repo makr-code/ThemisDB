@@ -5,9 +5,12 @@
 - `include/auth/FUTURE_ENHANCEMENTS.md`
 - `include/auth/README.md`
 - `src/auth/ARCHITECTURE.md`
+- `src/auth/AUDIT.md`
+- `src/auth/CHANGELOG.md`
 - `src/auth/FUTURE_ENHANCEMENTS.md`
 - `src/auth/README.md`
 - `src/auth/ROADMAP.md`
+- `src/auth/SECURITY.md`
 
 **Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -26,9 +29,12 @@ This index lists all Markdown documentation files for module **`auth`** from the
 | File | Path |
 |------|------|
 | `ARCHITECTURE.md` | [`src/auth/ARCHITECTURE.md`](../../../src/auth/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/auth/AUDIT.md`](../../../src/auth/AUDIT.md) |
+| `CHANGELOG.md` | [`src/auth/CHANGELOG.md`](../../../src/auth/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/auth/FUTURE_ENHANCEMENTS.md`](../../../src/auth/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/auth/README.md`](../../../src/auth/README.md) |
 | `ROADMAP.md` | [`src/auth/ROADMAP.md`](../../../src/auth/ROADMAP.md) |
+| `SECURITY.md` | [`src/auth/SECURITY.md`](../../../src/auth/SECURITY.md) |
 
 ### `include/auth/`
 

@@ -5,9 +5,12 @@
 - `include/index/FUTURE_ENHANCEMENTS.md`
 - `include/index/README.md`
 - `src/index/ARCHITECTURE.md`
+- `src/index/AUDIT.md`
+- `src/index/CHANGELOG.md`
 - `src/index/FUTURE_ENHANCEMENTS.md`
 - `src/index/README.md`
 - `src/index/ROADMAP.md`
+- `src/index/SECURITY.md`
 - `src/index/VECTOR_ADVANCED_FEATURES_README.md`
 
 **Reference:**
@@ -27,9 +30,12 @@ This index lists all Markdown documentation files for module **`index`** from th
 | File | Path |
 |------|------|
 | `ARCHITECTURE.md` | [`src/index/ARCHITECTURE.md`](../../../src/index/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/index/AUDIT.md`](../../../src/index/AUDIT.md) |
+| `CHANGELOG.md` | [`src/index/CHANGELOG.md`](../../../src/index/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/index/FUTURE_ENHANCEMENTS.md`](../../../src/index/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/index/README.md`](../../../src/index/README.md) |
 | `ROADMAP.md` | [`src/index/ROADMAP.md`](../../../src/index/ROADMAP.md) |
+| `SECURITY.md` | [`src/index/SECURITY.md`](../../../src/index/SECURITY.md) |
 | `VECTOR_ADVANCED_FEATURES_README.md` | [`src/index/VECTOR_ADVANCED_FEATURES_README.md`](../../../src/index/VECTOR_ADVANCED_FEATURES_README.md) |
 
 ### `include/index/`

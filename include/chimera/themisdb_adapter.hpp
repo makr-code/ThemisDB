@@ -49,6 +49,9 @@
 #define CHIMERA_THEMISDB_ADAPTER_HPP
 
 #include "chimera/database_adapter.hpp"
+#include <map>
+#include <mutex>
+#include <unordered_set>
 
 #include <map>
 #include <mutex>
@@ -215,6 +218,24 @@ public:
     
     Result<bool> commit_transaction(const std::string& transaction_id) override;
     Result<bool> rollback_transaction(const std::string& transaction_id) override;
+    Result<std::string> create_savepoint(
+        const std::string& transaction_id,
+        const std::string& savepoint_name
+    ) override;
+    Result<bool> rollback_to_savepoint(
+        const std::string& transaction_id,
+        const std::string& savepoint_name
+    ) override;
+    Result<bool> release_savepoint(
+        const std::string& transaction_id,
+        const std::string& savepoint_name
+    ) override;
+    Result<TransactionStats> get_transaction_stats(
+        const std::string& transaction_id
+    ) override;
+    Result<TransactionState> get_transaction_state(
+        const std::string& transaction_id
+    ) override;
     
     // ISystemInfoAdapter
     Result<SystemInfo> get_system_info() const override;
@@ -261,6 +282,19 @@ private:
 
     /// Generate a new unique ID (UUID v4).
     static std::string generate_id();
+    // Transaction tracking state
+    struct TxnEntry {
+        TransactionOptions options;
+        std::chrono::system_clock::time_point start_time;   ///< Wall-clock start (for reporting)
+        std::chrono::steady_clock::time_point steady_start; ///< Monotonic start (for elapsed time)
+        std::vector<std::string> savepoints;          ///< Active savepoints in creation order
+        std::unordered_set<std::string> savepoint_set;///< Fast O(1) membership lookup
+        size_t operations_count = 0;
+        size_t retry_count = 0;
+    };
+    mutable std::mutex txn_mutex_;
+    std::map<std::string, TxnEntry> active_transactions_;
+    size_t next_txn_id_ = 0;
 
     // Credential security helpers
     static bool is_valid_connection_string(const std::string& connection_string);

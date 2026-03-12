@@ -393,9 +393,311 @@ TEST_F(ThemisDBTransactionTest, BeginTransactionWhenDisconnectedReturnsError) {
     EXPECT_EQ(result.error_code, ErrorCode::CONNECTION_ERROR);
 }
 
+TEST_F(ThemisDBTransactionTest, MultipleTransactionsGetUniqueIds) {
+    auto txn1 = adapter.begin_transaction();
+    auto txn2 = adapter.begin_transaction();
+    ASSERT_TRUE(txn1.is_ok());
+    ASSERT_TRUE(txn2.is_ok());
+    EXPECT_NE(txn1.value.value(), txn2.value.value());
+    adapter.rollback_transaction(txn1.value.value());
+    adapter.rollback_transaction(txn2.value.value());
+}
+
+TEST_F(ThemisDBTransactionTest, CommitUnknownTransactionReturnsNotFound) {
+    auto result = adapter.commit_transaction("nonexistent_txn");
+    EXPECT_TRUE(result.is_err());
+    EXPECT_EQ(result.error_code, ErrorCode::NOT_FOUND);
+}
+
+TEST_F(ThemisDBTransactionTest, RollbackUnknownTransactionReturnsNotFound) {
+    auto result = adapter.rollback_transaction("nonexistent_txn");
+    EXPECT_TRUE(result.is_err());
+    EXPECT_EQ(result.error_code, ErrorCode::NOT_FOUND);
+}
+
+TEST_F(ThemisDBTransactionTest, CommitEmptyIdReturnsInvalidArgument) {
+    auto result = adapter.commit_transaction("");
+    EXPECT_TRUE(result.is_err());
+    EXPECT_EQ(result.error_code, ErrorCode::INVALID_ARGUMENT);
+}
+
 // ---------------------------------------------------------------------------
-// Capability and system information
+// Savepoints
 // ---------------------------------------------------------------------------
+
+TEST_F(ThemisDBTransactionTest, CreateSavepointSucceeds) {
+    auto txn = adapter.begin_transaction();
+    ASSERT_TRUE(txn.is_ok());
+    const std::string txn_id = txn.value.value();
+
+    auto sp = adapter.create_savepoint(txn_id, "sp1");
+    EXPECT_TRUE(sp.is_ok());
+    EXPECT_EQ(sp.value.value(), "sp1");
+
+    adapter.rollback_transaction(txn_id);
+}
+
+TEST_F(ThemisDBTransactionTest, CreateDuplicateSavepointReturnsAlreadyExists) {
+    auto txn = adapter.begin_transaction();
+    ASSERT_TRUE(txn.is_ok());
+    const std::string txn_id = txn.value.value();
+
+    ASSERT_TRUE(adapter.create_savepoint(txn_id, "sp1").is_ok());
+    auto sp2 = adapter.create_savepoint(txn_id, "sp1");
+    EXPECT_TRUE(sp2.is_err());
+    EXPECT_EQ(sp2.error_code, ErrorCode::ALREADY_EXISTS);
+
+    adapter.rollback_transaction(txn_id);
+}
+
+TEST_F(ThemisDBTransactionTest, RollbackToSavepointSucceeds) {
+    auto txn = adapter.begin_transaction();
+    ASSERT_TRUE(txn.is_ok());
+    const std::string txn_id = txn.value.value();
+
+    ASSERT_TRUE(adapter.create_savepoint(txn_id, "sp1").is_ok());
+    ASSERT_TRUE(adapter.create_savepoint(txn_id, "sp2").is_ok());
+
+    auto rollback = adapter.rollback_to_savepoint(txn_id, "sp1");
+    EXPECT_TRUE(rollback.is_ok());
+
+    // After rolling back to sp1, only sp1 should remain
+    auto state = adapter.get_transaction_state(txn_id);
+    ASSERT_TRUE(state.is_ok());
+    EXPECT_EQ(state.value.value().savepoints.size(), 1u);
+    EXPECT_EQ(state.value.value().savepoints[0], "sp1");
+
+    adapter.rollback_transaction(txn_id);
+}
+
+TEST_F(ThemisDBTransactionTest, RollbackToNonExistentSavepointReturnsNotFound) {
+    auto txn = adapter.begin_transaction();
+    ASSERT_TRUE(txn.is_ok());
+    const std::string txn_id = txn.value.value();
+
+    auto result = adapter.rollback_to_savepoint(txn_id, "nonexistent");
+    EXPECT_TRUE(result.is_err());
+    EXPECT_EQ(result.error_code, ErrorCode::NOT_FOUND);
+
+    adapter.rollback_transaction(txn_id);
+}
+
+TEST_F(ThemisDBTransactionTest, ReleaseSavepointSucceeds) {
+    auto txn = adapter.begin_transaction();
+    ASSERT_TRUE(txn.is_ok());
+    const std::string txn_id = txn.value.value();
+
+    ASSERT_TRUE(adapter.create_savepoint(txn_id, "sp1").is_ok());
+    auto release = adapter.release_savepoint(txn_id, "sp1");
+    EXPECT_TRUE(release.is_ok());
+
+    // sp1 should no longer exist
+    auto state = adapter.get_transaction_state(txn_id);
+    ASSERT_TRUE(state.is_ok());
+    EXPECT_TRUE(state.value.value().savepoints.empty());
+
+    adapter.rollback_transaction(txn_id);
+}
+
+TEST_F(ThemisDBTransactionTest, ReleaseNonExistentSavepointReturnsNotFound) {
+    auto txn = adapter.begin_transaction();
+    ASSERT_TRUE(txn.is_ok());
+    const std::string txn_id = txn.value.value();
+
+    auto result = adapter.release_savepoint(txn_id, "sp_missing");
+    EXPECT_TRUE(result.is_err());
+    EXPECT_EQ(result.error_code, ErrorCode::NOT_FOUND);
+
+    adapter.rollback_transaction(txn_id);
+}
+
+TEST_F(ThemisDBTransactionTest, SavepointOperationsOnClosedTransactionReturnNotFound) {
+    auto txn = adapter.begin_transaction();
+    ASSERT_TRUE(txn.is_ok());
+    const std::string txn_id = txn.value.value();
+    adapter.commit_transaction(txn_id);
+
+    EXPECT_EQ(adapter.create_savepoint(txn_id, "sp").error_code, ErrorCode::NOT_FOUND);
+    EXPECT_EQ(adapter.rollback_to_savepoint(txn_id, "sp").error_code, ErrorCode::NOT_FOUND);
+    EXPECT_EQ(adapter.release_savepoint(txn_id, "sp").error_code, ErrorCode::NOT_FOUND);
+}
+
+// ---------------------------------------------------------------------------
+// Transaction statistics and state
+// ---------------------------------------------------------------------------
+
+TEST_F(ThemisDBTransactionTest, GetTransactionStatsReturnsValidData) {
+    TransactionOptions opts;
+    opts.isolation_level = TransactionOptions::IsolationLevel::SERIALIZABLE;
+    opts.read_only = true;
+
+    auto txn = adapter.begin_transaction(opts);
+    ASSERT_TRUE(txn.is_ok());
+    const std::string txn_id = txn.value.value();
+
+    ASSERT_TRUE(adapter.create_savepoint(txn_id, "sp1").is_ok());
+    ASSERT_TRUE(adapter.create_savepoint(txn_id, "sp2").is_ok());
+
+    auto stats = adapter.get_transaction_stats(txn_id);
+    ASSERT_TRUE(stats.is_ok());
+    const auto& s = stats.value.value();
+
+    EXPECT_EQ(s.transaction_id, txn_id);
+    EXPECT_EQ(s.savepoint_count, 2u);
+    EXPECT_TRUE(s.is_read_only);
+    EXPECT_EQ(s.isolation_level, TransactionOptions::IsolationLevel::SERIALIZABLE);
+
+    adapter.rollback_transaction(txn_id);
+}
+
+TEST_F(ThemisDBTransactionTest, GetTransactionStatsForUnknownIdReturnsNotFound) {
+    auto result = adapter.get_transaction_stats("no_such_txn");
+    EXPECT_TRUE(result.is_err());
+    EXPECT_EQ(result.error_code, ErrorCode::NOT_FOUND);
+}
+
+TEST_F(ThemisDBTransactionTest, GetTransactionStateReturnsCorrectIsolationLevel) {
+    TransactionOptions opts;
+    opts.isolation_level = TransactionOptions::IsolationLevel::REPEATABLE_READ;
+
+    auto txn = adapter.begin_transaction(opts);
+    ASSERT_TRUE(txn.is_ok());
+    const std::string txn_id = txn.value.value();
+
+    auto state = adapter.get_transaction_state(txn_id);
+    ASSERT_TRUE(state.is_ok());
+    EXPECT_EQ(state.value.value().isolation_level,
+              TransactionOptions::IsolationLevel::REPEATABLE_READ);
+    EXPECT_EQ(state.value.value().transaction_id, txn_id);
+    EXPECT_TRUE(state.value.value().elapsed_time.has_value());
+
+    adapter.rollback_transaction(txn_id);
+}
+
+TEST_F(ThemisDBTransactionTest, GetTransactionStateForUnknownIdReturnsNotFound) {
+    auto result = adapter.get_transaction_state("no_such_txn");
+    EXPECT_TRUE(result.is_err());
+    EXPECT_EQ(result.error_code, ErrorCode::NOT_FOUND);
+}
+
+TEST_F(ThemisDBTransactionTest, GetTransactionStateListsSavepoints) {
+    auto txn = adapter.begin_transaction();
+    ASSERT_TRUE(txn.is_ok());
+    const std::string txn_id = txn.value.value();
+
+    ASSERT_TRUE(adapter.create_savepoint(txn_id, "alpha").is_ok());
+    ASSERT_TRUE(adapter.create_savepoint(txn_id, "beta").is_ok());
+
+    auto state = adapter.get_transaction_state(txn_id);
+    ASSERT_TRUE(state.is_ok());
+    EXPECT_EQ(state.value.value().savepoints.size(), 2u);
+    EXPECT_EQ(state.value.value().savepoints[0], "alpha");
+    EXPECT_EQ(state.value.value().savepoints[1], "beta");
+
+    adapter.rollback_transaction(txn_id);
+}
+
+// ---------------------------------------------------------------------------
+// Deadlock retry (execute_with_retry)
+// ---------------------------------------------------------------------------
+
+TEST_F(ThemisDBTransactionTest, ExecuteWithRetrySucceedsOnFirstAttempt) {
+    int call_count = 0;
+    auto result = adapter.execute_with_retry<bool>(
+        [&]() -> Result<bool> {
+            ++call_count;
+            return Result<bool>::ok(true);
+        },
+        3
+    );
+    EXPECT_TRUE(result.is_ok());
+    EXPECT_EQ(call_count, 1);
+}
+
+TEST_F(ThemisDBTransactionTest, ExecuteWithRetryRetriesOnDeadlock) {
+    int call_count = 0;
+    constexpr int kFailTimes = 2;
+    auto result = adapter.execute_with_retry<bool>(
+        [&]() -> Result<bool> {
+            ++call_count;
+            if (call_count <= kFailTimes) {
+                return Result<bool>::err(ErrorCode::DEADLOCK, "simulated deadlock");
+            }
+            return Result<bool>::ok(true);
+        },
+        5,
+        std::chrono::milliseconds{0}  // zero backoff for fast test
+    );
+    EXPECT_TRUE(result.is_ok());
+    EXPECT_EQ(call_count, kFailTimes + 1);
+}
+
+TEST_F(ThemisDBTransactionTest, ExecuteWithRetryExhaustsMaxRetries) {
+    int call_count = 0;
+    constexpr size_t kMaxRetries = 3;
+    auto result = adapter.execute_with_retry<bool>(
+        [&]() -> Result<bool> {
+            ++call_count;
+            return Result<bool>::err(ErrorCode::DEADLOCK, "always deadlocked");
+        },
+        kMaxRetries,
+        std::chrono::milliseconds{0}
+    );
+    EXPECT_TRUE(result.is_err());
+    EXPECT_EQ(result.error_code, ErrorCode::DEADLOCK);
+    EXPECT_EQ(static_cast<size_t>(call_count), kMaxRetries + 1);
+}
+
+TEST_F(ThemisDBTransactionTest, ExecuteWithRetryDoesNotRetryNonDeadlockError) {
+    int call_count = 0;
+    auto result = adapter.execute_with_retry<bool>(
+        [&]() -> Result<bool> {
+            ++call_count;
+            return Result<bool>::err(ErrorCode::INTERNAL_ERROR, "fatal");
+        },
+        3,
+        std::chrono::milliseconds{0}
+    );
+    EXPECT_TRUE(result.is_err());
+    EXPECT_EQ(result.error_code, ErrorCode::INTERNAL_ERROR);
+    EXPECT_EQ(call_count, 1);  // no retry for non-deadlock errors
+}
+
+// ---------------------------------------------------------------------------
+// TransactionOptions – nested / retry configuration
+// ---------------------------------------------------------------------------
+
+TEST_F(ThemisDBTransactionTest, BeginTransactionWithAllIsolationLevels) {
+    const std::vector<TransactionOptions::IsolationLevel> levels = {
+        TransactionOptions::IsolationLevel::READ_UNCOMMITTED,
+        TransactionOptions::IsolationLevel::READ_COMMITTED,
+        TransactionOptions::IsolationLevel::REPEATABLE_READ,
+        TransactionOptions::IsolationLevel::SERIALIZABLE,
+    };
+    for (auto level : levels) {
+        TransactionOptions opts;
+        opts.isolation_level = level;
+        auto txn = adapter.begin_transaction(opts);
+        ASSERT_TRUE(txn.is_ok()) << "Failed for isolation level: " << static_cast<int>(level);
+        auto state = adapter.get_transaction_state(txn.value.value());
+        ASSERT_TRUE(state.is_ok());
+        EXPECT_EQ(state.value.value().isolation_level, level);
+        adapter.rollback_transaction(txn.value.value());
+    }
+}
+
+TEST_F(ThemisDBTransactionTest, BeginTransactionWithAllowNestedOption) {
+    TransactionOptions opts;
+    opts.allow_nested = true;
+    auto txn = adapter.begin_transaction(opts);
+    ASSERT_TRUE(txn.is_ok());
+
+    // Savepoints act as nested transaction boundaries
+    ASSERT_TRUE(adapter.create_savepoint(txn.value.value(), "nested_sp").is_ok());
+    adapter.rollback_transaction(txn.value.value());
+}
+
+
 
 class ThemisDBCapabilityTest : public ::testing::Test {
 protected:

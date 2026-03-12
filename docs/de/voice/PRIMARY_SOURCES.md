@@ -5,9 +5,12 @@
 - `include/voice/FUTURE_ENHANCEMENTS.md`
 - `include/voice/README.md`
 - `src/voice/ARCHITECTURE.md`
+- `src/voice/AUDIT.md`
+- `src/voice/CHANGELOG.md`
 - `src/voice/FUTURE_ENHANCEMENTS.md`
 - `src/voice/README.md`
 - `src/voice/ROADMAP.md`
+- `src/voice/SECURITY.md`
 
 **Bezug / Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -26,9 +29,12 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`voice`** a
 | Datei | Pfad |
 |-------|------|
 | `ARCHITECTURE.md` | [`src/voice/ARCHITECTURE.md`](../../../src/voice/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/voice/AUDIT.md`](../../../src/voice/AUDIT.md) |
+| `CHANGELOG.md` | [`src/voice/CHANGELOG.md`](../../../src/voice/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/voice/FUTURE_ENHANCEMENTS.md`](../../../src/voice/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/voice/README.md`](../../../src/voice/README.md) |
 | `ROADMAP.md` | [`src/voice/ROADMAP.md`](../../../src/voice/ROADMAP.md) |
+| `SECURITY.md` | [`src/voice/SECURITY.md`](../../../src/voice/SECURITY.md) |
 
 ### `include/voice/`
 
