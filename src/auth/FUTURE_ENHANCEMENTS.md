@@ -276,9 +276,9 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 `auth_rate_limiter.cpp:463` gates credential stuffing detection on `config_.enable_credential_stuffing_detection` but the underlying counters are in-memory only. Cross-session detection (tracking a user across multiple login sessions over hours) requires persisted, time-windowed counters. Currently, process restart resets all detection state.
 
 **Implementation Notes:**
-- `[ ]` Store credential-stuffing counters in the same `IRateLimiterBackend` (Redis) with a dedicated key namespace `cs:{user_id}:{day}`
-- `[ ]` Implement exponential back-off lock-out: first breach triggers CAPTCHA requirement, second triggers email OTP, third triggers 24-hour account lock (`auth_rate_limiter.cpp:282-300`)
-- `[ ]` Expose `credential_stuffing_attempts_total` metric counter in `auth_metrics.cpp` with labels `{user_id, ip, outcome}`
+- `[x]` Store credential-stuffing counters in the same `IRateLimiterBackend` (Redis) with a dedicated key namespace `cs:{user_id}:{day}`
+- `[x]` Implement exponential back-off lock-out: first breach triggers CAPTCHA requirement, second triggers email OTP, third triggers 24-hour account lock (`auth_rate_limiter.cpp:282-300`)
+- `[x]` Expose `credential_stuffing_attempts_total` metric counter in `auth_metrics.cpp` with labels `{user_id, ip, outcome}`
 
 ---
 

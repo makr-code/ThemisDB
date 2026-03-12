@@ -39,6 +39,7 @@
 #include <memory>
 #include <mutex>
 #include <optional>
+#include <shared_mutex>
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -120,7 +121,10 @@ struct HotReloadResult {
  *  - **Reload notifications**: registered callbacks are invoked at each phase
  *    (BEFORE_UNLOAD, AFTER_UNLOAD, AFTER_LOAD, ROLLBACK).
  *
- * Thread safety: all public methods are thread-safe.
+ * Thread safety: all public methods are thread-safe. Read-only queries hold
+ * a shared lock (std::shared_lock) to allow concurrent readers; write
+ * operations (reloadModule, rollback, registration) hold an exclusive lock
+ * (std::unique_lock) on the internal std::shared_mutex.
  *
  * Typical usage:
  * @code
@@ -332,7 +336,7 @@ private:
     };
 
     Config config_;
-    mutable std::mutex mutex_;
+    mutable std::shared_mutex mutex_;
 
     std::unordered_map<std::string, ModuleSlot> slots_;
 
