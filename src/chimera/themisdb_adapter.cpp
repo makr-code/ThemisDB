@@ -41,6 +41,7 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <future>
 #include <numeric>
 #include <queue>
 
@@ -1158,6 +1159,7 @@ bool ThemisDBAdapter::has_capability(Capability cap) const {
         case Capability::TIME_SERIES:
         case Capability::BATCH_OPERATIONS:
         case Capability::SECONDARY_INDEXES:
+        case Capability::ASYNC_OPERATIONS:
             return true;
         default:
             return false;
@@ -1176,7 +1178,8 @@ std::vector<Capability> ThemisDBAdapter::get_capabilities() const {
         Capability::GEOSPATIAL_QUERIES,
         Capability::TIME_SERIES,
         Capability::BATCH_OPERATIONS,
-        Capability::SECONDARY_INDEXES
+        Capability::SECONDARY_INDEXES,
+        Capability::ASYNC_OPERATIONS
     };
 }
 
@@ -1209,6 +1212,166 @@ std::string ThemisDBAdapter::mask_credentials(
     }
 
     return prefix + "***:***@" + rest.substr(at_pos + 1);
+}
+
+// ---------------------------------------------------------------------------
+// IAsyncDatabaseAdapter — async wrappers around synchronous operations
+// ---------------------------------------------------------------------------
+
+namespace {
+
+/// Register an operation's cancellation token and return it.
+/// Returns nullptr if operation_id is empty (no cancellation tracking needed).
+std::shared_ptr<std::atomic<bool>> make_cancel_token(
+    const std::string& operation_id,
+    std::mutex& cancel_mutex,
+    std::map<std::string, std::shared_ptr<std::atomic<bool>>>& cancel_tokens
+) {
+    if (operation_id.empty()) {
+        return nullptr;
+    }
+    auto token = std::make_shared<std::atomic<bool>>(false);
+    {
+        std::lock_guard<std::mutex> lk(cancel_mutex);
+        cancel_tokens[operation_id] = token;
+    }
+    return token;
+}
+
+/// Remove the token once the operation finishes.
+void remove_cancel_token(
+    const std::string& operation_id,
+    std::mutex& cancel_mutex,
+    std::map<std::string, std::shared_ptr<std::atomic<bool>>>& cancel_tokens
+) {
+    if (operation_id.empty()) {
+        return;
+    }
+    std::lock_guard<std::mutex> lk(cancel_mutex);
+    cancel_tokens.erase(operation_id);
+}
+
+} // anonymous namespace
+
+std::future<Result<RelationalTable>> ThemisDBAdapter::execute_query_async(
+    const std::string& query,
+    const std::vector<Scalar>& params,
+    const AsyncQueryOptions& opts
+) {
+    auto token = make_cancel_token(opts.operation_id, cancel_mutex_, cancel_tokens_);
+
+    return std::async(std::launch::async,
+        [this, query, params, op_id = opts.operation_id, token]() -> Result<RelationalTable> {
+            if (token && token->load(std::memory_order_relaxed)) {
+                remove_cancel_token(op_id, cancel_mutex_, cancel_tokens_);
+                return Result<RelationalTable>::err(
+                    ErrorCode::TIMEOUT, "Async operation cancelled: " + op_id);
+            }
+
+            auto result = execute_query(query, params);
+
+            remove_cancel_token(op_id, cancel_mutex_, cancel_tokens_);
+            return result;
+        }
+    );
+}
+
+std::future<Result<size_t>> ThemisDBAdapter::batch_insert_async(
+    const std::string& table_name,
+    const std::vector<RelationalRow>& rows,
+    std::function<void(size_t processed)> progress_callback,
+    const AsyncQueryOptions& opts
+) {
+    auto token = make_cancel_token(opts.operation_id, cancel_mutex_, cancel_tokens_);
+
+    return std::async(std::launch::async,
+        [this, table_name, rows, progress_callback,
+         op_id = opts.operation_id, token]() -> Result<size_t> {
+            if (token && token->load(std::memory_order_relaxed)) {
+                remove_cancel_token(op_id, cancel_mutex_, cancel_tokens_);
+                return Result<size_t>::err(
+                    ErrorCode::TIMEOUT, "Async operation cancelled: " + op_id);
+            }
+
+            if (progress_callback) {
+                // Drive the insert in chunks to report incremental progress.
+                constexpr size_t kChunkSize = 500;
+                size_t total_inserted = 0;
+                for (size_t offset = 0; offset < rows.size(); offset += kChunkSize) {
+                    if (token && token->load(std::memory_order_relaxed)) {
+                        remove_cancel_token(op_id, cancel_mutex_, cancel_tokens_);
+                        return Result<size_t>::err(
+                            ErrorCode::TIMEOUT,
+                            "Async operation cancelled mid-batch: " + op_id);
+                    }
+
+                    const size_t end = std::min(offset + kChunkSize, rows.size());
+                    std::vector<RelationalRow> chunk(
+                        rows.begin() + static_cast<std::ptrdiff_t>(offset),
+                        rows.begin() + static_cast<std::ptrdiff_t>(end));
+
+                    auto chunk_result = batch_insert(table_name, chunk);
+                    if (chunk_result.is_err()) {
+                        remove_cancel_token(op_id, cancel_mutex_, cancel_tokens_);
+                        return chunk_result;
+                    }
+                    total_inserted += chunk_result.value.value_or(0);
+                    progress_callback(total_inserted);
+                }
+                remove_cancel_token(op_id, cancel_mutex_, cancel_tokens_);
+                return Result<size_t>::ok(total_inserted);
+            }
+
+            auto result = batch_insert(table_name, rows);
+            remove_cancel_token(op_id, cancel_mutex_, cancel_tokens_);
+            return result;
+        }
+    );
+}
+
+std::future<Result<std::vector<std::pair<Vector, double>>>> ThemisDBAdapter::search_vectors_async(
+    const std::string& collection,
+    const Vector& query_vector,
+    size_t k,
+    const std::map<std::string, Scalar>& filters,
+    const AsyncQueryOptions& opts
+) {
+    auto token = make_cancel_token(opts.operation_id, cancel_mutex_, cancel_tokens_);
+
+    return std::async(std::launch::async,
+        [this, collection, query_vector, k, filters,
+         op_id = opts.operation_id, token]()
+             -> Result<std::vector<std::pair<Vector, double>>> {
+            if (token && token->load(std::memory_order_relaxed)) {
+                remove_cancel_token(op_id, cancel_mutex_, cancel_tokens_);
+                return Result<std::vector<std::pair<Vector, double>>>::err(
+                    ErrorCode::TIMEOUT, "Async operation cancelled: " + op_id);
+            }
+
+            auto result = search_vectors(collection, query_vector, k, filters);
+
+            remove_cancel_token(op_id, cancel_mutex_, cancel_tokens_);
+            return result;
+        }
+    );
+}
+
+Result<bool> ThemisDBAdapter::cancel_async(const std::string& operation_id) {
+    if (operation_id.empty()) {
+        return Result<bool>::err(
+            ErrorCode::INVALID_ARGUMENT, "operation_id must not be empty");
+    }
+
+    std::lock_guard<std::mutex> lk(cancel_mutex_);
+    auto it = cancel_tokens_.find(operation_id);
+    if (it == cancel_tokens_.end()) {
+        return Result<bool>::err(
+            ErrorCode::NOT_FOUND,
+            "No active async operation with id: " + operation_id);
+    }
+
+    it->second->store(true, std::memory_order_relaxed);
+    return Result<bool>::ok(true);
 }
 
 } // namespace chimera

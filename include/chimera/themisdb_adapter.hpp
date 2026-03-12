@@ -49,6 +49,7 @@
 #define CHIMERA_THEMISDB_ADAPTER_HPP
 
 #include "chimera/database_adapter.hpp"
+#include <atomic>
 #include <map>
 #include <mutex>
 #include <unordered_set>
@@ -84,7 +85,8 @@ namespace chimera {
  *          operation to the supplied ThemisDB back-end components, enabling
  *          true production-grade integration.
  */
-class ThemisDBAdapter : public IDatabaseAdapter {
+class ThemisDBAdapter : public IDatabaseAdapter,
+                        public IAsyncDatabaseAdapter {
 public:
     /**
      * @brief Default constructor — in-process simulation mode.
@@ -240,6 +242,30 @@ public:
     bool has_capability(Capability cap) const override;
     std::vector<Capability> get_capabilities() const override;
 
+    // IAsyncDatabaseAdapter
+    std::future<Result<RelationalTable>> execute_query_async(
+        const std::string& query,
+        const std::vector<Scalar>& params = {},
+        const AsyncQueryOptions& opts = {}
+    ) override;
+
+    std::future<Result<size_t>> batch_insert_async(
+        const std::string& table_name,
+        const std::vector<RelationalRow>& rows,
+        std::function<void(size_t processed)> progress_callback = nullptr,
+        const AsyncQueryOptions& opts = {}
+    ) override;
+
+    std::future<Result<std::vector<std::pair<Vector, double>>>> search_vectors_async(
+        const std::string& collection,
+        const Vector& query_vector,
+        size_t k,
+        const std::map<std::string, Scalar>& filters = {},
+        const AsyncQueryOptions& opts = {}
+    ) override;
+
+    Result<bool> cancel_async(const std::string& operation_id) override;
+
 private:
     // ── Connection state ────────────────────────────────────────────────────
     bool connected_ = false;
@@ -293,6 +319,12 @@ private:
     // Credential security helpers
     static bool is_valid_connection_string(const std::string& connection_string);
     static std::string mask_credentials(const std::string& connection_string);
+
+    // ── Async cancellation tracking ──────────────────────────────────────────
+    // Maps operation_id → shared cancellation flag.  The worker lambda
+    // checks this flag before and after each major step.
+    mutable std::mutex cancel_mutex_;
+    std::map<std::string, std::shared_ptr<std::atomic<bool>>> cancel_tokens_;
 };
 
 } // namespace chimera
