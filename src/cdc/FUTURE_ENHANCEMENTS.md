@@ -1,5 +1,7 @@
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/cdc/ -->
+
 # CDC Module - Future Enhancements
-<!-- Status: current | validated: 2026-03-09 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · include/cdc/FUTURE_ENHANCEMENTS.md · docs/de/cdc/ -->
 
 ## Scope
@@ -327,7 +329,24 @@ For enterprise deployments that use Kafka as a message bus, add a CDC-to-Kafka b
 
 ---
 
-### Change Log Compaction and Retention Policies
+### Changefeed Sequence Counter: RocksDB Merge Operator
+**Priority:** Medium
+**Target Version:** v1.8.0
+
+`Changefeed::nextSequence()` in `changefeed.cpp` (line 146, marked with an explicit `// TODO: Consider using RocksDB merge operator for better performance`) uses a mutex + Read-Modify-Write (`Get` then `Put`) round-trip to the RocksDB column family on every change event. Under high write throughput each event serializes through `sequence_mutex_` and issues two synchronous RocksDB operations.
+
+**Implementation Notes:**
+- `[ ]` Implement a `SequenceIncrementOperator` (subclass of `rocksdb::AssociativeMergeOperator`) that atomically increments a little-endian uint64 stored under `SEQUENCE_KEY`.
+- `[ ]` Register the merge operator on the changefeed column family via `ColumnFamilyOptions::merge_operator` at DB open time in `Changefeed::open()`.
+- `[ ]` Replace the `Get` + `Put` in `nextSequence()` with a single `Merge()` call; remove `sequence_mutex_`.
+- `[ ]` The returned sequence is still required; fetch via `GetForUpdate` with snapshot isolation, or maintain an in-process atomic counter with periodic RocksDB persistence for crash recovery.
+
+**Performance Targets:**
+- Sequence generation throughput: ≥ 200 K/s (from ~50 K/s with mutex+Get+Put) under 8 writer threads.
+
+---
+
+
 **Priority:** Medium
 **Target Version:** v1.8.0
 

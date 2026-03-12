@@ -1,6 +1,7 @@
-# Chimera Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Scope
+# Chimera Module - Future Enhancements
 
 - Database adapter/driver abstraction layer for multi-database benchmark scenarios
 - Connection pool lifecycle management (acquire, release, health-check, eviction)
@@ -37,18 +38,20 @@
 ## Planned Features
 
 ### Production ThemisDB Adapter Integration
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.1.0
+
+`src/chimera/themisdb_adapter.cpp` has **7 confirmed stubs** (lines 105, 121, 136, 161, 192, 247, and the class-level comment "This is a stub implementation demonstrating the adapter pattern"). All data operations (`query`, `insert`, `update`, `delete`, `vector_search`, `graph_traverse`) return empty results or placeholder IDs without calling the actual ThemisDB API.
 
 Replace stub implementation with full ThemisDB client integration.
 
-**Features:**
-- Actual ThemisDB client library integration
-- Real query execution via AQL
-- Vector index operations using HNSW/FAISS backend
-- Graph traversal using ThemisDB's graph engine
-- Document storage and retrieval
-- Transaction support with ACID guarantees
+**Implementation Notes:**
+- `[ ]` Inject a `ThemisDBClient` (or `StorageEngine*`) into `ThemisDBAdapter` constructor; remove the in-process simulation maps.
+- `[ ]` Replace stub `query()` (line 105 "Would execute actual query via ThemisDB API") with real AQL execution via `AQLRunner::execute()`.
+- `[ ]` Replace stub `vector_search()` (line 192 "Return empty results") with `VectorIndex::search()` dispatch.
+- `[ ]` Replace stub `graph_traverse()` (line 247 "Return empty path") with `GraphEngine::traverse()`.
+- `[ ]` Replace stub `generateId()` (line 161) with UUID generation via `utils/uuid.h`.
+- `[ ]` Add integration tests for the wired adapter against a live (in-process) ThemisDB instance.
 
 **Implementation:**
 ```cpp
@@ -93,7 +96,22 @@ public:
 
 ---
 
-### Connection Pooling
+### MongoDB / Qdrant / Neo4j: Replace In-Process Simulation with Real Drivers
+**Priority:** High
+**Target Version:** v1.2.0
+
+`mongodb_adapter.cpp`, `qdrant_adapter.cpp`, and `neo4j_adapter.cpp` all document explicitly that they "operate in an in-process simulation mode backed by `std::unordered_map`" when the respective native driver is absent. The simulation passes tests but does not exercise real network I/O, serialization, or back-pressure. Production benchmarks against these backends are meaningless without real driver integration.
+
+**Implementation Notes:**
+- `[ ]` **MongoDB**: Wire `#ifdef THEMIS_ENABLE_MONGODB` blocks in `mongodb_adapter.cpp` to actual `mongocxx::client` calls; add `mongocxx::instance` singleton initialization in `AdapterFactory::create()`.
+- `[ ]` **Qdrant**: Wire `#ifdef THEMIS_ENABLE_QDRANT` blocks to real HTTP calls (cpp-httplib or cpr); replace simulation `std::unordered_map` with REST API calls to `POST /collections/{name}/points`.
+- `[ ]` **Neo4j**: Wire `#ifdef THEMIS_ENABLE_NEO4J` blocks to Bolt protocol client (`neo4j-cpp-driver` or libneo4j-client); replace simulation path traversal with real Cypher `MATCH` queries.
+- `[ ]` All three adapters return `metrics.cpu.thread_count = 0` (hardcoded) — populate from the driver's connection pool stats.
+- `[ ]` Add CI integration tests using Docker Compose with real MongoDB/Qdrant/Neo4j containers.
+
+---
+
+
 **Priority:** High  
 **Target Version:** v1.1.0
 
