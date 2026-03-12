@@ -31,8 +31,6 @@
 #include <spdlog/spdlog.h>
 
 #include <algorithm>
-#include <iomanip>
-#include <sstream>
 
 // ---------------------------------------------------------------------------
 // Platform-specific LDAP includes
