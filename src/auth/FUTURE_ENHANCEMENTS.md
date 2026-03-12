@@ -66,10 +66,10 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 `include/auth/jwt_validator.h` declares `jwks_cache_` (line 192) and `jwks_cache_time_` (line 193) as plain non-atomic member fields. There is **no `mutable std::mutex`** guarding them in the header or in `jwt_validator.cpp`. When multiple threads call `JWTValidator::validate()` concurrently and the cache expires, they all race into `fetchJWKS()` simultaneously — writing `jwks_cache_` and `jwks_cache_time_` from multiple threads is a data race (undefined behaviour under C++11 and later).
 
 **Implementation Notes:**
-- `[ ]` Add `mutable std::shared_mutex jwks_cache_mutex_` to `jwt_validator.h` alongside `jwks_cache_` (`jwt_validator.h:192`)
-- `[ ]` Wrap all reads of `jwks_cache_` in `fetchJWKS()` with `std::shared_lock` and all writes with `std::unique_lock` (`jwt_validator.cpp:98-174`)
-- `[ ]` Implement "double-checked locking" pattern: acquire shared lock first, check staleness, upgrade to unique lock only if refresh is needed, then re-check to avoid thundering-herd on cache expiry
-- `[ ]` Add unit test: spawn 32 threads each calling `validate()` concurrently with cache TTL of 0 — verify no crash under Thread Sanitizer (TSAN)
+- `[x]` Add `mutable std::shared_mutex jwks_cache_mutex_` to `jwt_validator.h` alongside `jwks_cache_` (`jwt_validator.h:192`)
+- `[x]` Wrap all reads of `jwks_cache_` in `fetchJWKS()` with `std::shared_lock` and all writes with `std::unique_lock` (`jwt_validator.cpp:98-174`)
+- `[x]` Implement "double-checked locking" pattern: acquire shared lock first, check staleness, upgrade to unique lock only if refresh is needed, then re-check to avoid thundering-herd on cache expiry
+- `[x]` Add unit test: spawn 32 threads each calling `validate()` concurrently with cache TTL of 0 — verify no crash under Thread Sanitizer (TSAN)
 
 **Performance Targets:**
 - Zero-overhead on warm-cache path (shared_lock is reader-writer; concurrent readers proceed in parallel)

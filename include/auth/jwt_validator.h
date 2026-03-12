@@ -31,6 +31,7 @@
 #include <chrono>
 #include <optional>
 #include <memory>
+#include <shared_mutex>
 
 #include "auth/token_blacklist.h"
 
@@ -191,6 +192,7 @@ public:
 private:
     JWTValidatorConfig cfg_;
     std::string jwks_url_;
+    mutable std::shared_mutex jwks_cache_mutex_;
     nlohmann::json jwks_cache_;
     std::chrono::system_clock::time_point jwks_cache_time_;
     std::vector<std::string> revoked_kids_runtime_;  // Runtime revocation list
