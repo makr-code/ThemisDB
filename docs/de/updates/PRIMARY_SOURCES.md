@@ -1,0 +1,42 @@
+[docs](../../index.md) > [de](../index.md) > [updates](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
+**Datum:** 2026-03-12  
+**Status:** draft  
+**Primary (Quelle der Wahrheit):**
+- `include/updates/FUTURE_ENHANCEMENTS.md`
+- `include/updates/README.md`
+- `src/updates/ARCHITECTURE.md`
+- `src/updates/FUTURE_ENHANCEMENTS.md`
+- `src/updates/README.md`
+- `src/updates/ROADMAP.md`
+
+**Bezug / Reference:**
+- Tool: `tools/module_docs_builder.py`
+- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `updates`
+
+---
+
+# Primary Sources — `updates`
+
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`updates`** aus den Verzeichnissen `src/updates/` und/oder `include/updates/`.
+
+## Primäre Markdown-Dateien
+
+### `src/updates/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/updates/ARCHITECTURE.md`](../../../src/updates/ARCHITECTURE.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/updates/FUTURE_ENHANCEMENTS.md`](../../../src/updates/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/updates/README.md`](../../../src/updates/README.md) |
+| `ROADMAP.md` | [`src/updates/ROADMAP.md`](../../../src/updates/ROADMAP.md) |
+
+### `include/updates/`
+
+| Datei | Pfad |
+|-------|------|
+| `FUTURE_ENHANCEMENTS.md` | [`include/updates/FUTURE_ENHANCEMENTS.md`](../../../include/updates/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`include/updates/README.md`](../../../include/updates/README.md) |
+
+---
+
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-12*

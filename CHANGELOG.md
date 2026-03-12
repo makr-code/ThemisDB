@@ -349,6 +349,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added proper error handling with default case in PITR progress phase conversion
 
 ### Documentation
+
+- **Module-Docs Sync 📚 — 2026-03-12**
+  - 47 Module indexiert; 277 Primary-Markdown-Dateien in `src/` und `include/`
+  - 15 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
+  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
+  - Tool: `tools/module_docs_builder.py` v1.0.0
+  <!-- changelog-updater: module-docs-sync-2026-03-12 -->
 - **GPU Master Tracking Document** 📋
   - Added `docs/GPU_MASTER_TRACKING.md` - Comprehensive master tracking document for GPU implementation roadmap (v2.x series)
   - Complete timeline and deliverables for all GPU backends (CUDA, Vulkan, HIP, Multi-GPU)

@@ -348,6 +348,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      issues: write    # needed to create drift-warning issues
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -360,6 +361,7 @@ jobs:
           python-version: '3.11'
 
       - name: Run drift detector
+        id: drift_text
         run: |
           python3 scripts/drift-detector.py \
             --format text \
@@ -367,11 +369,28 @@ jobs:
         continue-on-error: true
 
       - name: Generate drift report (JSON)
+        id: drift_json
         if: always()
         run: |
           python3 scripts/drift-detector.py \
             --format json \
             --output /tmp/drift-report.json
+        continue-on-error: true
+
+      - name: Create issues for drifting / stale docs
+        # Only create issues on the develop branch to avoid noise from PRs.
+        # Only runs when the JSON report was successfully generated.
+        if: >
+          always() &&
+          steps.drift_json.outcome == 'success' &&
+          github.ref == 'refs/heads/develop' &&
+          github.event_name != 'pull_request'
+        run: |
+          python3 tools/ci/module_docs_issue_reporter.py \
+            --report /tmp/drift-report.json \
+            --repo "${{ github.repository }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
 
       - name: Upload drift report
@@ -394,6 +413,7 @@ jobs:
           echo "| **Primary Index** | \`docs/_generated/primary_index.json\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Drifting threshold** | 90 days |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Stale threshold** | 180 days |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Issue creation** | on \`develop\` push only |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
           if [ -f /tmp/drift-report.txt ]; then
             echo "" >> "$GITHUB_STEP_SUMMARY"

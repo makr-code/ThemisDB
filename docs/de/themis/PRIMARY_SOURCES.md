@@ -1,0 +1,44 @@
+[docs](../../index.md) > [de](../index.md) > [themis](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
+**Datum:** 2026-03-12  
+**Status:** draft  
+**Primary (Quelle der Wahrheit):**
+- `include/themis/FUTURE_ENHANCEMENTS.md`
+- `include/themis/README.md`
+- `include/themis/base/README.md`
+- `src/themis/ARCHITECTURE.md`
+- `src/themis/FUTURE_ENHANCEMENTS.md`
+- `src/themis/README.md`
+- `src/themis/ROADMAP.md`
+
+**Bezug / Reference:**
+- Tool: `tools/module_docs_builder.py`
+- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `themis`
+
+---
+
+# Primary Sources — `themis`
+
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`themis`** aus den Verzeichnissen `src/themis/` und/oder `include/themis/`.
+
+## Primäre Markdown-Dateien
+
+### `src/themis/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/themis/ARCHITECTURE.md`](../../../src/themis/ARCHITECTURE.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/themis/FUTURE_ENHANCEMENTS.md`](../../../src/themis/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/themis/README.md`](../../../src/themis/README.md) |
+| `ROADMAP.md` | [`src/themis/ROADMAP.md`](../../../src/themis/ROADMAP.md) |
+
+### `include/themis/`
+
+| Datei | Pfad |
+|-------|------|
+| `FUTURE_ENHANCEMENTS.md` | [`include/themis/FUTURE_ENHANCEMENTS.md`](../../../include/themis/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`include/themis/README.md`](../../../include/themis/README.md) |
+| `README.md` | [`include/themis/base/README.md`](../../../include/themis/base/README.md) |
+
+---
+
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-12*

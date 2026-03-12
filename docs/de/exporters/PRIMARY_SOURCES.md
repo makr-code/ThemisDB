@@ -1,0 +1,42 @@
+[docs](../../index.md) > [de](../index.md) > [exporters](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
+**Datum:** 2026-03-12  
+**Status:** draft  
+**Primary (Quelle der Wahrheit):**
+- `include/exporters/FUTURE_ENHANCEMENTS.md`
+- `include/exporters/README.md`
+- `src/exporters/ARCHITECTURE.md`
+- `src/exporters/FUTURE_ENHANCEMENTS.md`
+- `src/exporters/README.md`
+- `src/exporters/ROADMAP.md`
+
+**Bezug / Reference:**
+- Tool: `tools/module_docs_builder.py`
+- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `exporters`
+
+---
+
+# Primary Sources — `exporters`
+
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`exporters`** aus den Verzeichnissen `src/exporters/` und/oder `include/exporters/`.
+
+## Primäre Markdown-Dateien
+
+### `src/exporters/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/exporters/ARCHITECTURE.md`](../../../src/exporters/ARCHITECTURE.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/exporters/FUTURE_ENHANCEMENTS.md`](../../../src/exporters/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/exporters/README.md`](../../../src/exporters/README.md) |
+| `ROADMAP.md` | [`src/exporters/ROADMAP.md`](../../../src/exporters/ROADMAP.md) |
+
+### `include/exporters/`
+
+| Datei | Pfad |
+|-------|------|
+| `FUTURE_ENHANCEMENTS.md` | [`include/exporters/FUTURE_ENHANCEMENTS.md`](../../../include/exporters/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`include/exporters/README.md`](../../../include/exporters/README.md) |
+
+---
+
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-12*
