@@ -1251,3 +1251,242 @@ TEST_F(MaintenanceOrchestratorTest, ForceRun_ApiHandler_PassesForceFlagToOrchest
     EXPECT_TRUE(final_job->forced);
 }
 
+
+// ===========================================================================
+// DAG / task_dependencies tests
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// Serialisation round-trip for MaintenanceTaskDependency
+// ---------------------------------------------------------------------------
+TEST(TaskDependencyTest, JsonRoundTrip) {
+    MaintenanceTaskDependency dep;
+    dep.task_type  = MaintenanceTaskType::STORAGE_COMPACTION;
+    dep.depends_on = {MaintenanceTaskType::MVCC_CLEANUP,
+                      MaintenanceTaskType::METRICS_COLLECTION};
+
+    auto j        = dep.toJson();
+    auto restored = MaintenanceTaskDependency::fromJson(j);
+
+    EXPECT_EQ(restored.task_type,    MaintenanceTaskType::STORAGE_COMPACTION);
+    ASSERT_EQ(restored.depends_on.size(), 2u);
+    EXPECT_EQ(restored.depends_on[0], MaintenanceTaskType::MVCC_CLEANUP);
+    EXPECT_EQ(restored.depends_on[1], MaintenanceTaskType::METRICS_COLLECTION);
+}
+
+// ---------------------------------------------------------------------------
+// Full schedule JSON round-trip with task_dependencies
+// ---------------------------------------------------------------------------
+TEST_F(MaintenanceOrchestratorTest, ScheduleEntry_JsonRoundTrip_WithTaskDependencies) {
+    MaintenanceScheduleEntry e = makeEntry("DAG Round-Trip");
+    e.tasks = {MaintenanceTaskType::MVCC_CLEANUP,
+               MaintenanceTaskType::STORAGE_COMPACTION};
+
+    MaintenanceTaskDependency dep;
+    dep.task_type  = MaintenanceTaskType::STORAGE_COMPACTION;
+    dep.depends_on = {MaintenanceTaskType::MVCC_CLEANUP};
+    e.task_dependencies = {dep};
+
+    auto j        = e.toJson();
+    auto restored = MaintenanceScheduleEntry::fromJson(j);
+
+    ASSERT_EQ(restored.task_dependencies.size(), 1u);
+    EXPECT_EQ(restored.task_dependencies[0].task_type,
+              MaintenanceTaskType::STORAGE_COMPACTION);
+    ASSERT_EQ(restored.task_dependencies[0].depends_on.size(), 1u);
+    EXPECT_EQ(restored.task_dependencies[0].depends_on[0],
+              MaintenanceTaskType::MVCC_CLEANUP);
+}
+
+// ---------------------------------------------------------------------------
+// Create schedule with valid task_dependencies succeeds
+// ---------------------------------------------------------------------------
+TEST_F(MaintenanceOrchestratorTest, CreateSchedule_WithTaskDependencies_Succeeds) {
+    auto entry = makeEntry("DAG Schedule");
+    entry.tasks = {MaintenanceTaskType::MVCC_CLEANUP,
+                   MaintenanceTaskType::STORAGE_COMPACTION};
+
+    MaintenanceTaskDependency dep;
+    dep.task_type  = MaintenanceTaskType::STORAGE_COMPACTION;
+    dep.depends_on = {MaintenanceTaskType::MVCC_CLEANUP};
+    entry.task_dependencies = {dep};
+
+    auto result = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(result) << result.error().message();
+    ASSERT_EQ(result->task_dependencies.size(), 1u);
+    EXPECT_EQ(result->task_dependencies[0].task_type,
+              MaintenanceTaskType::STORAGE_COMPACTION);
+}
+
+// ---------------------------------------------------------------------------
+// Update schedule with valid task_dependencies succeeds
+// ---------------------------------------------------------------------------
+TEST_F(MaintenanceOrchestratorTest, UpdateSchedule_WithTaskDependencies_Succeeds) {
+    auto created = orchestrator_->createSchedule(makeEntry("DAG Update Test"));
+    ASSERT_TRUE(created);
+
+    MaintenanceScheduleEntry upd = *created;
+    upd.tasks = {MaintenanceTaskType::METRICS_COLLECTION,
+                 MaintenanceTaskType::CONSISTENCY_CHECK};
+    MaintenanceTaskDependency dep;
+    dep.task_type  = MaintenanceTaskType::CONSISTENCY_CHECK;
+    dep.depends_on = {MaintenanceTaskType::METRICS_COLLECTION};
+    upd.task_dependencies = {dep};
+
+    auto result = orchestrator_->updateSchedule(created->id, upd);
+    ASSERT_TRUE(result) << result.error().message();
+    ASSERT_EQ(result->task_dependencies.size(), 1u);
+}
+
+// ---------------------------------------------------------------------------
+// Cycle detection: createSchedule with a cyclic DAG must be rejected
+// ---------------------------------------------------------------------------
+TEST_F(MaintenanceOrchestratorTest, CreateSchedule_CyclicDependencies_Rejected) {
+    auto entry = makeEntry("Cyclic DAG");
+    entry.tasks = {MaintenanceTaskType::MVCC_CLEANUP,
+                   MaintenanceTaskType::STORAGE_COMPACTION};
+
+    // A -> B and B -> A
+    MaintenanceTaskDependency dep_a;
+    dep_a.task_type  = MaintenanceTaskType::STORAGE_COMPACTION;
+    dep_a.depends_on = {MaintenanceTaskType::MVCC_CLEANUP};
+
+    MaintenanceTaskDependency dep_b;
+    dep_b.task_type  = MaintenanceTaskType::MVCC_CLEANUP;
+    dep_b.depends_on = {MaintenanceTaskType::STORAGE_COMPACTION};
+
+    entry.task_dependencies = {dep_a, dep_b};
+
+    auto result = orchestrator_->createSchedule(entry);
+    ASSERT_FALSE(result) << "Cyclic dependency should be rejected";
+    // Must return ERR_UTIL_INVALID_ARGUMENT (exposed via error message content)
+    EXPECT_NE(result.error().message().find("cycle"), std::string::npos)
+        << "Expected cycle error, got: " << result.error().message();
+}
+
+// ---------------------------------------------------------------------------
+// Cycle detection: updateSchedule with a cyclic DAG must be rejected
+// ---------------------------------------------------------------------------
+TEST_F(MaintenanceOrchestratorTest, UpdateSchedule_CyclicDependencies_Rejected) {
+    auto created = orchestrator_->createSchedule(makeEntry("Cyclic Update"));
+    ASSERT_TRUE(created);
+
+    MaintenanceScheduleEntry upd = *created;
+    upd.tasks = {MaintenanceTaskType::MVCC_CLEANUP,
+                 MaintenanceTaskType::STORAGE_COMPACTION};
+
+    MaintenanceTaskDependency dep_a;
+    dep_a.task_type  = MaintenanceTaskType::STORAGE_COMPACTION;
+    dep_a.depends_on = {MaintenanceTaskType::MVCC_CLEANUP};
+
+    MaintenanceTaskDependency dep_b;
+    dep_b.task_type  = MaintenanceTaskType::MVCC_CLEANUP;
+    dep_b.depends_on = {MaintenanceTaskType::STORAGE_COMPACTION};
+
+    upd.task_dependencies = {dep_a, dep_b};
+
+    auto result = orchestrator_->updateSchedule(created->id, upd);
+    ASSERT_FALSE(result) << "Cyclic dependency should be rejected on update";
+}
+
+// ---------------------------------------------------------------------------
+// DAG ordering correctness: execution respects declared dependencies
+// ---------------------------------------------------------------------------
+TEST_F(MaintenanceOrchestratorTest, TaskExecution_DAGOrderRespected) {
+    // Schedule two tasks where STORAGE_COMPACTION depends on MVCC_CLEANUP.
+    // Both are module-delegated tasks that always succeed.
+    auto entry = makeEntry("DAG Order Test");
+    entry.tasks = {MaintenanceTaskType::STORAGE_COMPACTION,  // listed first intentionally
+                   MaintenanceTaskType::MVCC_CLEANUP};
+    entry.enforce_window = false;
+
+    MaintenanceTaskDependency dep;
+    dep.task_type  = MaintenanceTaskType::STORAGE_COMPACTION;
+    dep.depends_on = {MaintenanceTaskType::MVCC_CLEANUP};
+    entry.task_dependencies = {dep};
+
+    auto created = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(created) << created.error().message();
+
+    auto job_result = orchestrator_->triggerNow(created->id, /*force=*/true);
+    ASSERT_TRUE(job_result) << job_result.error().message();
+    waitForTerminalJobState(orchestrator_.get(), job_result->id);
+
+    auto final_job = orchestrator_->getJob(job_result->id);
+    ASSERT_TRUE(final_job);
+    EXPECT_EQ(final_job->state, MaintenanceJobState::SUCCEEDED)
+        << "DAG schedule should complete with SUCCEEDED. Got: "
+        << jobStateToString(final_job->state);
+}
+
+// ---------------------------------------------------------------------------
+// applyPatch round-trip for task_dependencies
+// ---------------------------------------------------------------------------
+TEST_F(MaintenanceOrchestratorTest, ApplyPatch_UpdatesTaskDependencies) {
+    auto entry = makeEntry("Patch DAG");
+    entry.tasks = {MaintenanceTaskType::MVCC_CLEANUP,
+                   MaintenanceTaskType::STORAGE_COMPACTION};
+    auto created = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(created);
+
+    MaintenanceTaskDependency dep;
+    dep.task_type  = MaintenanceTaskType::STORAGE_COMPACTION;
+    dep.depends_on = {MaintenanceTaskType::MVCC_CLEANUP};
+
+    nlohmann::json patch;
+    patch["task_dependencies"] = nlohmann::json::array({dep.toJson()});
+
+    auto patched = orchestrator_->patchSchedule(created->id, patch);
+    ASSERT_TRUE(patched) << patched.error().message();
+    ASSERT_EQ(patched->task_dependencies.size(), 1u);
+    EXPECT_EQ(patched->task_dependencies[0].task_type,
+              MaintenanceTaskType::STORAGE_COMPACTION);
+}
+
+// ---------------------------------------------------------------------------
+// No task_dependencies -> falls back to positional order (existing behaviour)
+// ---------------------------------------------------------------------------
+TEST_F(MaintenanceOrchestratorTest, TaskExecution_NoDAG_PositionalOrderUnchanged) {
+    auto entry = makeEntry("No DAG");
+    entry.tasks = {MaintenanceTaskType::METRICS_COLLECTION,
+                   MaintenanceTaskType::QUOTA_CHECK};
+    entry.enforce_window = false;
+    // task_dependencies intentionally empty
+
+    auto created = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(created);
+
+    auto job_result = orchestrator_->triggerNow(created->id, /*force=*/true);
+    ASSERT_TRUE(job_result);
+    waitForTerminalJobState(orchestrator_.get(), job_result->id);
+
+    auto final_job = orchestrator_->getJob(job_result->id);
+    ASSERT_TRUE(final_job);
+    EXPECT_EQ(final_job->state, MaintenanceJobState::SUCCEEDED);
+}
+
+// ---------------------------------------------------------------------------
+// halt_on_task_failure with DAG: flag is preserved in JSON round-trip
+// ---------------------------------------------------------------------------
+TEST_F(MaintenanceOrchestratorTest, DAG_HaltOnTaskFailure_FlagPreserved) {
+    auto entry = makeEntry("DAG Halt");
+    entry.tasks = {MaintenanceTaskType::MVCC_CLEANUP,
+                   MaintenanceTaskType::STORAGE_COMPACTION};
+    entry.halt_on_task_failure = true;
+    entry.enforce_window = false;
+
+    MaintenanceTaskDependency dep;
+    dep.task_type  = MaintenanceTaskType::STORAGE_COMPACTION;
+    dep.depends_on = {MaintenanceTaskType::MVCC_CLEANUP};
+    entry.task_dependencies = {dep};
+
+    auto created = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(created) << created.error().message();
+    EXPECT_TRUE(created->halt_on_task_failure);
+
+    // JSON round-trip preserves both flag and DAG
+    auto j        = created->toJson();
+    auto restored = MaintenanceScheduleEntry::fromJson(j);
+    EXPECT_TRUE(restored.halt_on_task_failure);
+    ASSERT_EQ(restored.task_dependencies.size(), 1u);
+}

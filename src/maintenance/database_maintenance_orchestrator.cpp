@@ -21,6 +21,7 @@
 #include "utils/audit_logger.h"
 #include "utils/error_registry.h"
 #include "observability/metrics_collector.h"
+#include "themis/base/module_loader.h"
 
 #include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>
@@ -813,7 +814,19 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
     std::string last_error;
     int64_t job_start_ms = themis::maintenance::nowMs();
 
-    for (auto task_type : entry.tasks) {
+    // Determine execution order: use DAG sort when task_dependencies are
+    // declared, otherwise fall back to the positional order of entry.tasks.
+    std::vector<MaintenanceTaskType> ordered_tasks;
+    try {
+        ordered_tasks = resolveTaskExecutionOrder(entry);
+    } catch (const std::exception& ex) {
+        // Should not happen (already validated on create/update), but guard
+        // defensively in case an invalid schedule was inserted directly.
+        spdlog::error("MaintenanceJob {}: task order resolution failed: {}", job_id, ex.what());
+        ordered_tasks = entry.tasks;
+    }
+
+    for (auto task_type : ordered_tasks) {
         // Check cancellation
         {
             std::lock_guard<std::mutex> jlock(jobs_mutex_);
@@ -1104,6 +1117,64 @@ void DatabaseMaintenanceOrchestrator::validateEntry(
     if (entry.window_end_hour < 0 || entry.window_end_hour > 23) {
         throw std::invalid_argument("window_end_hour must be in [0, 23]");
     }
+
+    // ---- Validate task_dependencies DAG (cycle detection) ----------------
+    if (!entry.task_dependencies.empty()) {
+        try {
+            resolveTaskExecutionOrder(entry);
+        } catch (const std::invalid_argument&) {
+            throw; // propagate cycle error with original message
+        }
+    }
+}
+
+/*static*/ std::vector<MaintenanceTaskType>
+DatabaseMaintenanceOrchestrator::resolveTaskExecutionOrder(
+    const MaintenanceScheduleEntry& entry)
+{
+    if (entry.task_dependencies.empty()) {
+        // No DAG declarations → return tasks in their declared list order.
+        return entry.tasks;
+    }
+
+    // Use ModuleDependencyResolver (Kahn's algorithm) to compute a safe
+    // execution order.  Each MaintenanceTaskType is mapped to its string
+    // representation so we can reuse the existing infrastructure.
+
+    themis::modules::ModuleDependencyResolver resolver;
+
+    // Register every task that appears in `tasks` as a "module".
+    for (auto t : entry.tasks) {
+        resolver.registerModule(taskTypeToString(t), {});
+    }
+
+    // Apply dependency edges from task_dependencies.
+    for (const auto& dep : entry.task_dependencies) {
+        const std::string dependent = taskTypeToString(dep.task_type);
+        std::vector<themis::modules::ModuleDependency> deps_vec;
+        for (auto prereq : dep.depends_on) {
+            themis::modules::ModuleDependency md;
+            md.name     = taskTypeToString(prereq);
+            md.required = true;
+            deps_vec.push_back(md);
+        }
+        // Re-register with the dependency list (replaces the empty registration).
+        resolver.registerModule(dependent, deps_vec);
+    }
+
+    auto res = resolver.resolve();
+    if (!res.success) {
+        // Cycle or missing dependency — surface as invalid-argument.
+        throw std::invalid_argument("task_dependencies: " + res.errorMessage);
+    }
+
+    // Map the resolved string names back to MaintenanceTaskType.
+    std::vector<MaintenanceTaskType> ordered;
+    ordered.reserve(res.loadOrder.size());
+    for (const auto& name : res.loadOrder) {
+        ordered.push_back(taskTypeFromString(name));
+    }
+    return ordered;
 }
 
 } // namespace maintenance

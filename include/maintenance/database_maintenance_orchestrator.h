@@ -312,6 +312,11 @@ private:
 
     void validateEntry(const MaintenanceScheduleEntry& entry) const;
 
+    /// Resolve task execution order from task_dependencies using topological sort.
+    /// Returns the ordered task list.  Throws std::invalid_argument on cycle.
+    static std::vector<MaintenanceTaskType> resolveTaskExecutionOrder(
+        const MaintenanceScheduleEntry& entry);
+
     // ---- Members ----------------------------------------------------------
     TaskScheduler*                           scheduler_;
     std::shared_ptr<IndexMaintenanceManager> index_maintenance_;
