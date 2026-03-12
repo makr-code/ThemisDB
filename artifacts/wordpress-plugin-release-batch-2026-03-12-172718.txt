@@ -1,5 +1,0 @@
-BATCH_RELEASE total=0 created=0 exists=0 failed=0
-JSON=artifacts/wordpress-plugin-release-batch-2026-03-12-172718.json
-TXT=artifacts/wordpress-plugin-release-batch-2026-03-12-172718.txt
-
-DETAILS:
