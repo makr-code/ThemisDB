@@ -76,13 +76,16 @@ All Arrow-based user management operations silently no-op.
 **Priority:** High
 **Target Version:** v1.4.0
 
-`aql_injection_detector.cpp` line 246: "TODO (v1.4.0): Implement AST-level operation validation". The current detector operates on raw query strings using regex patterns. AST-level validation would catch injection attacks that evade regex by using non-standard whitespace, Unicode escapes, or concatenation.
+`aql_injection_detector.cpp`: AST-level operation validation implemented in v1.4.0. The detector now parses queries into an AST and validates them structurally, catching injection attacks that evade regex by using non-standard whitespace, Unicode escapes, or concatenation.
 
 **Implementation Notes:**
-- `[ ]` Integrate with `src/query/aql_parser.cpp`: parse the query into an AST before validation.
-- `[ ]` Walk the AST to detect disallowed operation nodes (e.g., `EXECUTE`, DDL operations in read-only contexts, unbounded `FOR` loops without `LIMIT`).
-- `[ ]` Fall back to regex-based detection if AST parsing fails (defense in depth).
-- `[ ]` Add unit tests: queries that bypass regex but have dangerous AST nodes are detected.
+- `[x]` Integrate with `src/query/aql_parser.cpp`: parse the query into an AST before validation.
+- `[x]` Walk the AST to detect disallowed operation/function nodes in expressions (e.g., `EXECUTE`, `EXEC`, `SYSTEM`, `SHELL`, `XP_CMDSHELL`, `SP_EXECUTESQL`, `WAITFOR`, `BENCHMARK`, `SLEEP`, `LOAD_FILE`).
+- `[x]` Fall back to regex-based detection if AST parsing fails (defense in depth).
+- `[x]` Add unit tests: queries that bypass regex but contain disallowed operation/function nodes in the AST are detected.
+- `[ ]` Extend AST validation to detect DDL/write operations in read-only contexts.
+- `[ ]` Extend AST validation to flag unbounded `FOR` loops that do not contain a `LIMIT` clause.
+- `[ ]` Add unit tests: queries with DDL in read-only contexts and unbounded `FOR` loops without `LIMIT` are rejected once AST validation is extended.
 
 ---
 

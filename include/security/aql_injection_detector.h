@@ -26,6 +26,7 @@
 #include <vector>
 #include <memory>
 #include <regex>
+#include <unordered_set>
 #include "query/aql_parser.h"
 #include "utils/expected.h"
 
@@ -168,6 +169,16 @@ private:
      * @brief Parse AQL query into AST
      */
     Result<std::shared_ptr<query::Query>> parseAQL(const std::string& aql);
+
+    /**
+     * @brief Recursively scan an expression node for dangerous operations
+     *
+     * Traverses every node in the expression tree and returns true if any
+     * FunctionCallExpr has a name that belongs to the disallowed-operations
+     * list (EXECUTE, EXEC, SYSTEM, SHELL, etc.).  Sub-queries embedded inside
+     * ANY/ALL/SubqueryExpr are delegated back to containsDangerousOperations().
+     */
+    bool scanExpressionForDangerousOps(const std::shared_ptr<query::Expression>& expr);
 };
 
 } // namespace security
