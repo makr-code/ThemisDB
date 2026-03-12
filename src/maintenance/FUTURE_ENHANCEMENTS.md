@@ -58,10 +58,10 @@ Schedules are currently in-memory (`std::unordered_map<std::string, MaintenanceS
 There is no way to trigger a schedule outside its maintenance window without editing the window configuration. Operators need an emergency override for urgent maintenance.
 
 **Implementation Notes:**
-- `[ ]` Add `POST /api/v1/maintenance/schedules/{id}/run` with optional body `{"force": true}`.
-- `[ ]` When `force: true`, bypass the UTC window check in `executeSchedule()`; set `forced: true` in the audit log entry.
-- `[ ]` Require `maintenance:admin` scope for the force flag; `maintenance:write` allows manual trigger within the window only.
-- `[ ]` Unit test: schedule with a window that excludes the current hour; force-run triggers execution; regular run is skipped.
+- `[x]` Add `POST /api/v1/maintenance/schedules/{id}/run` with optional body `{"force": true}`.
+- `[x]` When `force: true`, bypass the UTC window check in `executeSchedule()`; set `forced: true` in the audit log entry.
+- `[x]` Require `maintenance:admin` scope for the force flag; `maintenance:write` allows manual trigger within the window only.
+- `[x]` Unit test: schedule with a window that excludes the current hour; force-run triggers execution; regular run is skipped.
 
 ---
 

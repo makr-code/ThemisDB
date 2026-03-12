@@ -738,3 +738,143 @@ TEST(JobStateTest, SkippedStateJson) {
               std::string::npos);
 }
 
+// ===========================================================================
+// Force-run: window override
+// ===========================================================================
+
+// Returns a UTC hour that is guaranteed not to be the current UTC hour
+// (offset by 12 h), using the same gmtime_r/gmtime_s path as the production
+// isInMaintenanceWindow() helper to avoid drift if clock sources change.
+static int excludedWindowHour() {
+    std::time_t t = std::chrono::system_clock::to_time_t(
+        std::chrono::system_clock::now());
+    std::tm tm{};
+#ifdef _WIN32
+    gmtime_s(&tm, &t);
+#else
+    gmtime_r(&t, &tm);
+#endif
+    return (tm.tm_hour + 12) % 24;
+}
+
+// Polls until the job reaches a terminal state (not RUNNING/PENDING) or the
+// timeout is exhausted.  Returns the final job state via the orchestrator.
+static void waitForTerminalJobState(
+    DatabaseMaintenanceOrchestrator* orch,
+    const std::string& job_id,
+    int max_iterations = 60,
+    std::chrono::milliseconds poll_interval = std::chrono::milliseconds(50))
+{
+    for (int i = 0; i < max_iterations; ++i) {
+        std::this_thread::sleep_for(poll_interval);
+        auto j = orch->getJob(job_id);
+        if (j && j->state != MaintenanceJobState::RUNNING &&
+                 j->state != MaintenanceJobState::PENDING) break;
+    }
+}
+
+TEST_F(MaintenanceOrchestratorTest, ForceRun_BypassesWindowEnforcement) {
+    // Build a schedule whose window is guaranteed to exclude the current hour.
+    int excluded_hour = excludedWindowHour();
+
+    auto entry = makeEntry("Force Run Test");
+    entry.enforce_window    = true;
+    entry.window_start_hour = excluded_hour;
+    entry.window_end_hour   = (excluded_hour + 1) % 24;
+    entry.tasks             = {MaintenanceTaskType::METRICS_COLLECTION};
+
+    auto created = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(created) << created.error().message();
+
+    // A normal trigger should be SKIPPED (outside window).
+    auto normal_job = orchestrator_->triggerNow(created->id, /*force=*/false);
+    ASSERT_TRUE(normal_job);
+    waitForTerminalJobState(orchestrator_.get(), normal_job->id);
+    auto normal_final = orchestrator_->getJob(normal_job->id);
+    ASSERT_TRUE(normal_final);
+    EXPECT_EQ(normal_final->state, MaintenanceJobState::SKIPPED)
+        << "Expected SKIPPED but got: " << jobStateToString(normal_final->state);
+    EXPECT_FALSE(normal_final->forced);
+
+    // A force trigger must bypass the window and not be SKIPPED.
+    auto force_job = orchestrator_->triggerNow(created->id, /*force=*/true);
+    ASSERT_TRUE(force_job);
+    EXPECT_TRUE(force_job->forced);
+
+    waitForTerminalJobState(orchestrator_.get(), force_job->id);
+    auto force_final = orchestrator_->getJob(force_job->id);
+    ASSERT_TRUE(force_final);
+    EXPECT_TRUE(
+        force_final->state == MaintenanceJobState::SUCCEEDED ||
+        force_final->state == MaintenanceJobState::FAILED)
+        << "Force-run should complete with SUCCEEDED or FAILED, not be skipped. Got: "
+        << jobStateToString(force_final->state);
+    EXPECT_TRUE(force_final->forced);
+}
+
+TEST_F(MaintenanceOrchestratorTest, ForceRun_ForcedFieldInJson) {
+    // Verify that the forced flag is serialised to JSON correctly.
+    OrchestratorJob job;
+    job.id             = "force-job";
+    job.schedule_id    = "sched-x";
+    job.task_type      = MaintenanceTaskType::METRICS_COLLECTION;
+    job.state          = MaintenanceJobState::SUCCEEDED;
+    job.started_at_ms  = 1000;
+    job.finished_at_ms = 2000;
+    job.forced         = true;
+
+    auto j = job.toJson();
+    ASSERT_TRUE(j.contains("forced"));
+    EXPECT_TRUE(j["forced"].get<bool>());
+
+    // A non-forced job should also carry the field, set to false.
+    OrchestratorJob nf;
+    nf.id             = "normal-job";
+    nf.task_type      = MaintenanceTaskType::METRICS_COLLECTION;
+    nf.state          = MaintenanceJobState::SUCCEEDED;
+    nf.started_at_ms  = 1000;
+    nf.finished_at_ms = 2000;
+    nf.forced         = false;
+
+    auto jn = nf.toJson();
+    ASSERT_TRUE(jn.contains("forced"));
+    EXPECT_FALSE(jn["forced"].get<bool>());
+}
+
+TEST_F(MaintenanceOrchestratorTest, ForceRun_ApiHandler_PassesForceFlagToOrchestrator) {
+    // Verify that MaintenanceApiHandler::triggerNow propagates the force flag
+    // and the response contains the forced field.
+    int excluded_hour = excludedWindowHour();
+
+    auto entry = makeEntry("API Force Run Test");
+    entry.enforce_window    = true;
+    entry.window_start_hour = excluded_hour;
+    entry.window_end_hour   = (excluded_hour + 1) % 24;
+    entry.tasks             = {MaintenanceTaskType::METRICS_COLLECTION};
+
+    auto created = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(created);
+
+    server::MaintenanceApiHandler handler(orchestrator_.get());
+
+    // Force-trigger via the API handler
+    auto resp = handler.triggerNow(created->id, /*force=*/true);
+    ASSERT_FALSE(resp.contains("error")) << resp.dump();
+    EXPECT_EQ(resp.value("status", ""), "triggered");
+    EXPECT_TRUE(resp.value("forced", false));
+
+    // Wait for the background thread to reach a terminal state
+    std::string job_id = resp.value("id", "");
+    ASSERT_FALSE(job_id.empty());
+    waitForTerminalJobState(orchestrator_.get(), job_id);
+
+    auto final_job = orchestrator_->getJob(job_id);
+    ASSERT_TRUE(final_job);
+    EXPECT_TRUE(
+        final_job->state == MaintenanceJobState::SUCCEEDED ||
+        final_job->state == MaintenanceJobState::FAILED)
+        << "Force-run should complete, not be skipped. Got: "
+        << jobStateToString(final_job->state);
+    EXPECT_TRUE(final_job->forced);
+}
+

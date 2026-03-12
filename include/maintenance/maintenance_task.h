@@ -147,6 +147,7 @@ struct OrchestratorJob {
     double               progress_pct = 0.0;
     int64_t              started_at_ms = 0;
     int64_t              finished_at_ms = 0;
+    bool                 forced = false; ///< true when the job was triggered with force=true (bypassed window)
 
     nlohmann::json toJson() const {
         nlohmann::json j;
@@ -159,6 +160,7 @@ struct OrchestratorJob {
         j["progress_pct"]   = progress_pct;
         j["started_at_ms"]  = started_at_ms;
         j["finished_at_ms"] = finished_at_ms;
+        j["forced"]         = forced;
         if (started_at_ms > 0 && finished_at_ms > 0) {
             j["duration_ms"] = finished_at_ms - started_at_ms;
         }

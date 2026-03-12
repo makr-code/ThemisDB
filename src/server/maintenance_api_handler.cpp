@@ -149,11 +149,11 @@ json MaintenanceApiHandler::cancelJob(const std::string& id) {
     return {{"status", "cancelled"}, {"id", id}};
 }
 
-json MaintenanceApiHandler::triggerNow(const std::string& schedule_id) {
+json MaintenanceApiHandler::triggerNow(const std::string& schedule_id, bool force) {
     if (!orchestrator_) return errorResponse("Orchestrator not initialized");
     if (schedule_id.empty()) return errorResponse("Schedule id must not be empty");
 
-    auto result = orchestrator_->triggerNow(schedule_id);
+    auto result = orchestrator_->triggerNow(schedule_id, force);
     if (!result) return errorResponse(result.error().message());
     json resp = jobToResponse(*result);
     resp["status"] = "triggered";
