@@ -1,3 +1,4 @@
+<?php
 /*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
@@ -21,7 +22,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-<?php
+
 /**
  * Plugin Name: ThemisDB Release Timeline Visualizer
  * Plugin URI: https://github.com/makr-code/ThemisDB

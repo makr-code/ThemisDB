@@ -1,3 +1,4 @@
+<?php
 /*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
@@ -21,7 +22,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-<?php
+
 /**
  * Taxonomy Widget
  * Displays taxonomies in List, Cloud, or Grid format

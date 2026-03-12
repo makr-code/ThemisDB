@@ -1,0 +1,98 @@
+[
+  {
+    "plugin_slug": "persistent-podcast-player",
+    "version": "1.0.0",
+    "status": "failed",
+    "info": "gh release create failed"
+  },
+  {
+    "plugin_slug": "themisdb-architecture-diagrams",
+    "version": "1.1.0",
+    "status": "exists",
+    "info": "themisdb-architecture-diagrams/v1.1.0"
+  },
+  {
+    "plugin_slug": "themisdb-benchmark-visualizer",
+    "version": "1.0.0",
+    "status": "failed",
+    "info": "gh release create failed"
+  },
+  {
+    "plugin_slug": "themisdb-compendium-downloads",
+    "version": "1.0.0",
+    "status": "exists",
+    "info": "themisdb-compendium-downloads/v1.0.0"
+  },
+  {
+    "plugin_slug": "themisdb-docker-downloads",
+    "version": "1.0.0",
+    "status": "exists",
+    "info": "themisdb-docker-downloads/v1.0.0"
+  },
+  {
+    "plugin_slug": "themisdb-downloads",
+    "version": "1.2.0",
+    "status": "exists",
+    "info": "themisdb-downloads/v1.2.0"
+  },
+  {
+    "plugin_slug": "themisdb-feature-matrix",
+    "version": "1.0.0",
+    "status": "exists",
+    "info": "themisdb-feature-matrix/v1.0.0"
+  },
+  {
+    "plugin_slug": "themisdb-formula-renderer",
+    "version": "1.1.0",
+    "status": "exists",
+    "info": "themisdb-formula-renderer/v1.1.0"
+  },
+  {
+    "plugin_slug": "themisdb-gallery",
+    "version": "1.0.1",
+    "status": "exists",
+    "info": "themisdb-gallery/v1.0.1"
+  },
+  {
+    "plugin_slug": "themisdb-order-request",
+    "version": "1.0.0",
+    "status": "exists",
+    "info": "themisdb-order-request/v1.0.0"
+  },
+  {
+    "plugin_slug": "themisdb-query-playground",
+    "version": "1.0.0",
+    "status": "failed",
+    "info": "gh release create failed"
+  },
+  {
+    "plugin_slug": "themisdb-release-timeline",
+    "version": "1.0.0",
+    "status": "failed",
+    "info": "gh release create failed"
+  },
+  {
+    "plugin_slug": "themisdb-taxonomy-manager",
+    "version": "1.0.0",
+    "status": "exists",
+    "info": "themisdb-taxonomy-manager/v1.0.0"
+  },
+  {
+    "plugin_slug": "themisdb-tco-calculator",
+    "version": "1.0.0",
+    "status": "failed",
+    "info": "gh release create failed"
+  },
+  {
+    "plugin_slug": "themisdb-test-dashboard",
+    "version": "1.0.0",
+    "status": "failed",
+    "info": "gh release create failed"
+  },
+  {
+    "plugin_slug": "themisdb-wiki-integration",
+    "version": "1.0.1",
+    "status": "exists",
+    "info": "themisdb-wiki-integration/v1.0.1"
+  }
+]

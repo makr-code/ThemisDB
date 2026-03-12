@@ -1,3 +1,4 @@
+<?php
 /*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
@@ -19,8 +20,6 @@
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
-
-<?php
 /**
  * Plugin Name: Persistent Podcast Player
  * Plugin URI: https://github.com/makr-code/ThemisDB

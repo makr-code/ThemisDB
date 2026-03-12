@@ -1,3 +1,4 @@
+<?php
 /*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
@@ -21,7 +22,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-<?php
+
 /**
  * epServer API Integration for ThemisDB Order Request Plugin
  * Handles master data synchronization with epServer

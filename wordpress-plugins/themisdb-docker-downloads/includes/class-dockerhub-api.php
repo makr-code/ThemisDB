@@ -1,3 +1,4 @@
+<?php
 /*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
@@ -21,7 +22,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-<?php
+
 /**
  * Docker Hub API Handler
  * Handles communication with Docker Hub API to fetch image tags and metadata

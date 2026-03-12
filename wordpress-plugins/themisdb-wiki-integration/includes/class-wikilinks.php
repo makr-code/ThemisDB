@@ -1,3 +1,4 @@
+<?php
 /*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
@@ -21,7 +22,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-<?php
+
 /**
  * WikiLinks Parser
  * Handles [[WikiLink]] syntax and TOC generation
