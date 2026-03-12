@@ -24,6 +24,7 @@
 #include "utils/logger.h"
 #include <algorithm>
 #include <cctype>
+#include <unordered_set>
 #include <fmt/format.h>
 
 namespace themis {
@@ -79,14 +80,32 @@ AQLInjectionDetector::validateAQLAST(const std::string& aql) {
     // Step 1: Parse AQL into AST
     auto parse_result = parseAQL(aql);
     if (!parse_result) {
+        // Defense in depth: even when parsing fails, run regex checks so that
+        // detected patterns are reported in the error message.
         result.is_safe = false;
-        result.error_message = fmt::format("Parse error: {}", parse_result.error().message());
+        if (containsSuspiciousPatterns(aql)) {
+            result.detected_patterns = extractPatterns(aql);
+            result.error_message = fmt::format(
+                "Parse error with suspicious patterns: {}",
+                parse_result.error().message()
+            );
+        } else {
+            result.error_message = fmt::format("Parse error: {}", parse_result.error().message());
+        }
         return result;
     }
     
     const auto& ast = *parse_result.value();
     
-    // Step 2: Check for suspicious patterns in the original query string
+    // Step 2: AST-level operation validation — catches attacks that evade
+    // regex via non-standard whitespace, Unicode escapes, or concatenation.
+    if (containsDangerousOperations(ast)) {
+        result.is_safe = false;
+        result.error_message = "Query AST contains dangerous operation nodes";
+        return result;
+    }
+    
+    // Step 3: Check for suspicious patterns in the original query string
     // This catches injection attempts before they can be parsed
     if (containsSuspiciousPatterns(aql)) {
         result.is_safe = false;
@@ -95,7 +114,7 @@ AQLInjectionDetector::validateAQLAST(const std::string& aql) {
         return result;
     }
     
-    // Step 3: Validate all string literals in AST
+    // Step 4: Validate all string literals in AST
     auto literals = extractStringLiterals(ast);
     for (const auto& literal : literals) {
         if (containsSQLKeywords(literal)) {
@@ -243,19 +262,144 @@ bool AQLInjectionDetector::containsSQLKeywords(const std::string& str) {
 }
 
 bool AQLInjectionDetector::containsDangerousOperations(const query::Query& ast) {
-    // TODO (v1.4.0): Implement AST-level operation validation
-    // 
-    // Note: Standard AQL (ArangoDB-style) uses FOR...RETURN for read-only queries.
-    // Write operations (UPDATE, DELETE, INSERT, etc.) use separate AQL syntax
-    // and are not valid within FOR...RETURN query context.
-    // 
-    // Dangerous operations are currently detected via:
-    // 1. containsSuspiciousPatterns() - regex-based pattern detection
-    // 2. containsSQLKeywords() - keyword detection in string literals
-    // 
-    // This function returns false as pattern-based detection is more reliable
-    // for the standard AQL dialect. When dialect support expands, implement
-    // recursive AST traversal here to check for dangerous operation nodes.
+    // Dangerous AQL/SQL function names that must never appear in a query AST.
+    // Checked case-insensitively in scanExpressionForDangerousOps().
+    // This list intentionally mirrors the regex patterns in
+    // containsSuspiciousPatterns() to provide AST-level defense-in-depth
+    // against evasions that use non-standard whitespace, Unicode escapes, or
+    // comment-based obfuscation that can confuse regex matchers.
+    
+    // Check all filter conditions
+    for (const auto& filter : ast.filters) {
+        if (filter && filter->condition) {
+            if (scanExpressionForDangerousOps(filter->condition)) {
+                return true;
+            }
+        }
+    }
+    
+    // Check return expression
+    if (ast.return_node && ast.return_node->expression) {
+        if (scanExpressionForDangerousOps(ast.return_node->expression)) {
+            return true;
+        }
+    }
+    
+    // Check sort expressions
+    if (ast.sort) {
+        for (const auto& spec : ast.sort->specifications) {
+            if (scanExpressionForDangerousOps(spec.expression)) {
+                return true;
+            }
+        }
+    }
+    
+    // Check LET expressions
+    for (const auto& let_node : ast.let_nodes) {
+        if (let_node.expression) {
+            if (scanExpressionForDangerousOps(let_node.expression)) {
+                return true;
+            }
+        }
+    }
+    
+    // Check CTE sub-queries (WITH clause)
+    if (ast.with_clause) {
+        for (const auto& cte : ast.with_clause->ctes) {
+            if (cte.subquery && containsDangerousOperations(*cte.subquery)) {
+                return true;
+            }
+        }
+    }
+    
+    // Check COLLECT group/aggregate expressions
+    if (ast.collect) {
+        for (const auto& [var, expr] : ast.collect->groups) {
+            if (scanExpressionForDangerousOps(expr)) {
+                return true;
+            }
+        }
+        for (const auto& agg : ast.collect->aggregations) {
+            if (scanExpressionForDangerousOps(agg.argument)) {
+                return true;
+            }
+        }
+    }
+    
+    return false;
+}
+
+bool AQLInjectionDetector::scanExpressionForDangerousOps(
+    const std::shared_ptr<query::Expression>& expr
+) {
+    if (!expr) return false;
+    
+    // Disallowed function names — checked case-insensitively.
+    static const std::unordered_set<std::string> kDangerousFunctions = {
+        "EXECUTE", "EXEC", "SYSTEM", "SHELL",
+        "XP_CMDSHELL", "SP_EXECUTESQL",
+        "WAITFOR", "BENCHMARK", "SLEEP",
+        "LOAD_FILE",
+    };
+    
+    auto node_type = expr->getType();
+    
+    if (node_type == query::ASTNodeType::FunctionCall) {
+        auto func_expr = std::static_pointer_cast<query::FunctionCallExpr>(expr);
+        std::string upper_name = func_expr->name;
+        std::transform(upper_name.begin(), upper_name.end(), upper_name.begin(), ::toupper);
+        if (kDangerousFunctions.count(upper_name) > 0) {
+            return true;
+        }
+        for (const auto& arg : func_expr->arguments) {
+            if (scanExpressionForDangerousOps(arg)) {
+                return true;
+            }
+        }
+    } else if (node_type == query::ASTNodeType::BinaryOp) {
+        auto binary_expr = std::static_pointer_cast<query::BinaryOpExpr>(expr);
+        return scanExpressionForDangerousOps(binary_expr->left) ||
+               scanExpressionForDangerousOps(binary_expr->right);
+    } else if (node_type == query::ASTNodeType::UnaryOp) {
+        auto unary_expr = std::static_pointer_cast<query::UnaryOpExpr>(expr);
+        return scanExpressionForDangerousOps(unary_expr->operand);
+    } else if (node_type == query::ASTNodeType::ArrayLiteral) {
+        auto array_expr = std::static_pointer_cast<query::ArrayLiteralExpr>(expr);
+        for (const auto& elem : array_expr->elements) {
+            if (scanExpressionForDangerousOps(elem)) return true;
+        }
+    } else if (node_type == query::ASTNodeType::ObjectConstruct) {
+        auto obj_expr = std::static_pointer_cast<query::ObjectConstructExpr>(expr);
+        for (const auto& [key, value] : obj_expr->fields) {
+            if (scanExpressionForDangerousOps(value)) return true;
+        }
+    } else if (node_type == query::ASTNodeType::FieldAccess) {
+        auto field_expr = std::static_pointer_cast<query::FieldAccessExpr>(expr);
+        return scanExpressionForDangerousOps(field_expr->object);
+    } else if (node_type == query::ASTNodeType::SubqueryExpr) {
+        auto subq_expr = std::static_pointer_cast<query::SubqueryExpr>(expr);
+        if (subq_expr->subquery) {
+            return containsDangerousOperations(*subq_expr->subquery);
+        }
+    } else if (node_type == query::ASTNodeType::AnyExpr) {
+        auto any_expr = std::static_pointer_cast<query::AnyExpr>(expr);
+        return scanExpressionForDangerousOps(any_expr->arrayExpr) ||
+               scanExpressionForDangerousOps(any_expr->condition);
+    } else if (node_type == query::ASTNodeType::AllExpr) {
+        auto all_expr = std::static_pointer_cast<query::AllExpr>(expr);
+        return scanExpressionForDangerousOps(all_expr->arrayExpr) ||
+               scanExpressionForDangerousOps(all_expr->condition);
+    } else if (node_type == query::ASTNodeType::SimilarityCall) {
+        auto sim_expr = std::static_pointer_cast<query::SimilarityCallExpr>(expr);
+        for (const auto& arg : sim_expr->arguments) {
+            if (scanExpressionForDangerousOps(arg)) return true;
+        }
+    } else if (node_type == query::ASTNodeType::ProximityCall) {
+        auto prox_expr = std::static_pointer_cast<query::ProximityCallExpr>(expr);
+        for (const auto& arg : prox_expr->arguments) {
+            if (scanExpressionForDangerousOps(arg)) return true;
+        }
+    }
     
     return false;
 }

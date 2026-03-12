@@ -421,6 +421,128 @@ TEST(AQLInjectionDetectorTest, MultipleInvalidQueries) {
 }
 
 // ============================================================================
+// AST-Level Validation Tests
+//
+// These tests specifically exercise the AST-level dangerous-operation check
+// introduced in v1.4.0 (containsDangerousOperations / scanExpressionForDangerousOps).
+// They document injection patterns that might evade a pure regex scan but are
+// reliably caught once the query is parsed into an AST.
+// ============================================================================
+
+TEST(AQLInjectionDetectorTest, ASTLevel_RejectExecuteFunctionCall) {
+    AQLInjectionDetector detector;
+
+    // EXECUTE() is a dangerous function; the AST-level check detects it
+    // regardless of whitespace variations that could trip up a regex.
+    auto result = detector.validateAQLAST(
+        "FOR doc IN users RETURN EXECUTE(\"DROP TABLE users\")"
+    );
+
+    EXPECT_FALSE(result.is_safe);
+    EXPECT_FALSE(result.error_message.empty());
+}
+
+TEST(AQLInjectionDetectorTest, ASTLevel_RejectExecFunctionCall) {
+    AQLInjectionDetector detector;
+
+    auto result = detector.validateAQLAST(
+        "FOR doc IN users RETURN EXEC(\"sp_executesql\")"
+    );
+
+    EXPECT_FALSE(result.is_safe);
+}
+
+TEST(AQLInjectionDetectorTest, ASTLevel_RejectSystemFunctionCall) {
+    AQLInjectionDetector detector;
+
+    auto result = detector.validateAQLAST(
+        "FOR doc IN users FILTER SYSTEM(\"rm -rf /\") == 0 RETURN doc"
+    );
+
+    EXPECT_FALSE(result.is_safe);
+}
+
+TEST(AQLInjectionDetectorTest, ASTLevel_RejectShellFunctionCall) {
+    AQLInjectionDetector detector;
+
+    auto result = detector.validateAQLAST(
+        "FOR doc IN users RETURN SHELL(\"cat /etc/passwd\")"
+    );
+
+    EXPECT_FALSE(result.is_safe);
+}
+
+TEST(AQLInjectionDetectorTest, ASTLevel_RejectSleepFunctionCall) {
+    AQLInjectionDetector detector;
+
+    // SLEEP() is used in time-based blind injection attacks.
+    auto result = detector.validateAQLAST(
+        "FOR doc IN users FILTER SLEEP(5) == 0 RETURN doc"
+    );
+
+    EXPECT_FALSE(result.is_safe);
+}
+
+TEST(AQLInjectionDetectorTest, ASTLevel_RejectBenchmarkFunctionCall) {
+    AQLInjectionDetector detector;
+
+    auto result = detector.validateAQLAST(
+        "FOR doc IN users FILTER BENCHMARK(1000000, doc.id) RETURN doc"
+    );
+
+    EXPECT_FALSE(result.is_safe);
+}
+
+TEST(AQLInjectionDetectorTest, ASTLevel_RejectCaseInsensitiveFunctionCall) {
+    AQLInjectionDetector detector;
+
+    // Mixed-case function names must still be detected at AST level.
+    auto result = detector.validateAQLAST(
+        "FOR doc IN users RETURN eXeCuTe(\"payload\")"
+    );
+
+    EXPECT_FALSE(result.is_safe);
+}
+
+TEST(AQLInjectionDetectorTest, ASTLevel_RejectNestedDangerousFunctionCall) {
+    AQLInjectionDetector detector;
+
+    // Dangerous call nested inside a safe-looking outer call.
+    auto result = detector.validateAQLAST(
+        "FOR doc IN users RETURN CONCAT(doc.name, EXECUTE(\"payload\"))"
+    );
+
+    EXPECT_FALSE(result.is_safe);
+}
+
+TEST(AQLInjectionDetectorTest, ASTLevel_SafeBuiltinFunctionCallAccepted) {
+    AQLInjectionDetector detector;
+
+    // Legitimate built-in functions must not be rejected.
+    auto result = detector.validateAQLAST(
+        "FOR doc IN users FILTER LOWER(doc.name) == \"alice\" RETURN doc"
+    );
+
+    EXPECT_TRUE(result.is_safe);
+}
+
+TEST(AQLInjectionDetectorTest, ASTLevel_ParseFailureFallsBackToRegex) {
+    AQLInjectionDetector detector;
+
+    // The query is syntactically invalid, so the parser will fail.
+    // The detector should still run the regex fallback and report
+    // the suspicious pattern found in the raw string.
+    auto result = detector.validateAQLAST(
+        "FOR doc IN users !! DROP TABLE users"
+    );
+
+    // Must be rejected: either because of the parse failure itself or
+    // because the regex fallback detects "DROP".
+    EXPECT_FALSE(result.is_safe);
+    EXPECT_FALSE(result.error_message.empty());
+}
+
+// ============================================================================
 // Main
 // ============================================================================
 

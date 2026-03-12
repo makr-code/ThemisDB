@@ -435,7 +435,7 @@ Affects: `auth`, `security`, `server`, `llm`, `utils`, `sharding`, `storage`
 - LLM: LoRA cert store never verifies certificates (#75)
 - Server: JWT scope extraction not enforced (#100)
 - Utils: PKI client fallback to base64-hash comparison (#218)
-- Security: Arrow plugin is a complete stub (#99); AQL injection AST-level validation missing (#27)
+- Security: Arrow plugin is a complete stub (#99); AQL injection AST-level validation implemented (#27 ✅)
 - Storage: SecuritySignatureManager cannot iterate without `RocksDBWrapper::iterateRange()` (#206)
 
 **Suggested Epic Label:** `epic:security-hardening` · **Target:** v1.8.0
