@@ -8,8 +8,8 @@ name: PR Quick Checks
 # compile + test suite) and unsuitable as a fast feedback signal for every
 # PR update.  This workflow runs three fast, build-free jobs instead:
 #
-#   lint            – cppcheck static analysis on changed C++/header files
-#   cmake-validate  – syntax validation of all CMakeLists.txt files
+#   lint            – cppcheck static analysis on C++ sources and headers in src/ and include/
+#   cmake-validate  – CMake configure-only validation (cmake -S . -B <tmpdir>)
 #   audit           – dependency / security audit (Python scripts, secret
 #                     entropy scan via scripts/secret_scan.py)
 #
@@ -56,13 +56,13 @@ permissions:
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Job 1 · lint
-# Runs cppcheck (static analysis) over C++ sources and headers.
+# Runs cppcheck (static analysis) over all C++ sources and headers.
 # No compilation required – cppcheck parses the source tree directly.
 # ─────────────────────────────────────────────────────────────────────────────
 jobs:
   lint:
     name: lint (cppcheck static analysis)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 10
 
     steps:
@@ -101,56 +101,56 @@ jobs:
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Job 2 · cmake-validate
-# Parses all CMakeLists.txt files to catch obvious syntax errors without
-# running a full configure step (no compiler or toolchain required).
+# Runs a configure-only CMake pass (no build) to catch syntax errors and
+# broken variable references in CMakeLists.txt before they reach develop.
+# Uses cmake -S . -B <tmpdir> which exercises the real CMake parser and
+# will fail (non-zero exit) on malformed files.
 # ─────────────────────────────────────────────────────────────────────────────
   cmake-validate:
-    name: cmake-validate (syntax check)
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
+    name: cmake-validate (configure check)
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install CMake
-        run: sudo apt-get update -qq && sudo apt-get install -y cmake
+      - name: Set up C++ build environment
+        uses: ./.github/actions/setup-cpp-build
+        with:
+          cc:  gcc-12
+          cxx: g++-12
+          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev librocksdb-dev libfmt-dev libtbb-dev libspdlog-dev nlohmann-json3-dev
 
-      - name: Validate CMakeLists.txt files
+      - name: Run CMake configure (MINIMAL edition, no build)
         run: |
-          set -e
-          ERRORS=0
-          while IFS= read -r -d '' cmake_file; do
-            echo "Checking: $cmake_file"
-            if ! cmake --no-warn-unused-cli -P "$cmake_file" > /tmp/cmake_check_out.txt 2>&1; then
-              # cmake -P (script mode) may fail for project files – that is expected.
-              # We use a separate heuristic: just verify the file is parsable by
-              # checking for common syntax errors via cmake --warn-uninitialized pass.
-              :
-            fi
-          done < <(find . -name "CMakeLists.txt" -not -path "./.git/*" -print0)
+          set -euo pipefail
+          BUILD_DIR="$(mktemp -d -t cmake-validate-XXXXXX)"
+          trap 'rm -rf "$BUILD_DIR"' EXIT
 
-          # More robust approach: try cmake --trace-expand on the top-level list
-          # file, stopping immediately after parsing (no toolchain needed).
-          if [ -f "cmake/CMakeLists.txt" ]; then
-            echo "Top-level cmake/CMakeLists.txt found – running minimal parse check."
-          fi
+          echo "Running configure-only CMake validation in $BUILD_DIR"
+          cmake -S . -B "$BUILD_DIR" \
+            --warn-uninitialized \
+            -DCMAKE_C_COMPILER=gcc-12 \
+            -DCMAKE_CXX_COMPILER=g++-12 \
+            -DTHEMIS_EDITION=MINIMAL \
+            -DTHEMIS_CI_MODE=ON
 
-          echo "✅ CMakeLists.txt syntax check passed (no critical errors detected)."
+          echo "✅ CMakeLists.txt syntax check passed (CMake configuration succeeded)."
           echo "## cmake-validate" >> "$GITHUB_STEP_SUMMARY"
-          echo "✅ CMakeLists.txt files parsed without critical syntax errors." >> "$GITHUB_STEP_SUMMARY"
+          echo "✅ CMake configuration completed successfully; CMakeLists.txt files parsed without critical syntax errors." >> "$GITHUB_STEP_SUMMARY"
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Job 3 · audit
 # Security & dependency audit:
 #   • ThemisDB entropy-based secret scanner (scripts/secret_scan.py)
-#   • pip-audit for Python dependency vulnerabilities
-#   • error-handling compliance check (tools/error_handling_audit.py)
+#   • pip-audit for Python dependency vulnerabilities (enforcing)
+#   • error-handling compliance check (tools/error_handling_audit.py, enforcing)
 # Note: Gitleaks + detect-secrets run separately in secret-scanning-ci.yml.
 # ─────────────────────────────────────────────────────────────────────────────
   audit:
     name: audit (security & dependency scan)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 10
 
     steps:
@@ -183,25 +183,24 @@ jobs:
       - name: Audit Python dependencies (pip-audit)
         run: |
           set -o pipefail
-          # Collect all requirements files in the repo
-          REQ_FILES=$(find . -name "requirements*.txt" \
+          REQ_FILES_FOUND=false
+          while IFS= read -r -d '' req; do
+            REQ_FILES_FOUND=true
+            echo "Auditing $req …"
+            pip-audit -r "$req" --desc 2>&1
+          done < <(find . -name "requirements*.txt" \
             -not -path "./.git/*" \
             -not -path "./build/*" \
             -not -path "./vcpkg*" \
             -not -path "./llama.cpp/*" \
-            2>/dev/null || true)
-          if [ -z "$REQ_FILES" ]; then
+            -print0 2>/dev/null || true)
+          if [ "$REQ_FILES_FOUND" = false ]; then
             echo "No requirements*.txt found – skipping pip-audit."
-          else
-            for req in $REQ_FILES; do
-              echo "Auditing $req …"
-              pip-audit -r "$req" --desc 2>&1 || true
-            done
           fi
           echo "## pip-audit" >> "$GITHUB_STEP_SUMMARY"
           echo "pip-audit completed (see logs above)." >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Run error-handling audit (fast mode)
+      - name: Run error-handling audit
         if: hashFiles('tools/error_handling_audit.py') != ''
         run: |
           set -o pipefail
@@ -209,10 +208,10 @@ jobs:
             src include \
             --quiet \
             --no-color \
-            2>&1 | tee /tmp/error_audit_output.txt || true
+            2>&1 | tee /tmp/error_audit_output.txt
           echo "## Error-handling audit" >> "$GITHUB_STEP_SUMMARY"
           echo '```' >> "$GITHUB_STEP_SUMMARY"
-          head -40 /tmp/error_audit_output.txt >> "$GITHUB_STEP_SUMMARY" || true
+          head -40 /tmp/error_audit_output.txt >> "$GITHUB_STEP_SUMMARY"
           echo '```' >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload audit reports
