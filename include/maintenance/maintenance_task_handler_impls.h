@@ -63,6 +63,10 @@ public:
 
     Result<std::string> execute(const std::string& /*job_id*/,
                                 MaintenanceTaskType /*task_type*/) override {
+        if (!compaction_manager_) {
+            return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                                        "StorageCompactionHandler: CompactionManager is null"));
+        }
         auto result = compaction_manager_->compactAll();
         if (!result) {
             return tl::unexpected(result.error());
@@ -109,6 +113,10 @@ public:
 
     Result<std::string> execute(const std::string& /*job_id*/,
                                 MaintenanceTaskType /*task_type*/) override {
+        if (!check_fn_) {
+            return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                                        "ReplicaValidationHandler: no check function configured"));
+        }
         return check_fn_();
     }
 
@@ -151,6 +159,14 @@ public:
 
     Result<std::string> execute(const std::string& /*job_id*/,
                                 MaintenanceTaskType /*task_type*/) override {
+        if (!mvcc_store_) {
+            return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                                        "MvccCleanupHandler: MVCCStore is null"));
+        }
+        if (watermark_ms_ < 0) {
+            return tl::unexpected(Error(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+                                        "MvccCleanupHandler: watermark_ms must be non-negative"));
+        }
         // Compute the GC cutoff timestamp: everything older than now - watermark_ms_.
         auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now().time_since_epoch()).count();
@@ -200,6 +216,11 @@ public:
 
     Result<std::string> execute(const std::string& job_id,
                                 MaintenanceTaskType task_type) override {
+        if (!fn_) {
+            return tl::unexpected(Error(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+                                        "FunctionMaintenanceTaskHandler '" + name_ +
+                                        "' called with empty execute function"));
+        }
         return fn_(job_id, task_type);
     }
 

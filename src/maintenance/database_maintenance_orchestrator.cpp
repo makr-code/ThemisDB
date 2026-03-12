@@ -680,6 +680,11 @@ void DatabaseMaintenanceOrchestrator::registerTaskHandler(
     MaintenanceTaskType task_type,
     std::shared_ptr<IMaintenanceTaskHandler> handler)
 {
+    if (!handler) {
+        spdlog::warn("registerTaskHandler: ignoring null handler for task type '{}'",
+                     taskTypeToString(task_type));
+        return;
+    }
     std::lock_guard<std::mutex> lock(handlers_mutex_);
     task_handlers_[static_cast<int>(task_type)] = std::move(handler);
 }
@@ -690,8 +695,12 @@ DatabaseMaintenanceOrchestrator::listTaskHandlers() const
     std::lock_guard<std::mutex> lock(handlers_mutex_);
     std::map<std::string, std::string> result;
     for (const auto& [key, handler] : task_handlers_) {
-        result[taskTypeToString(static_cast<MaintenanceTaskType>(key))] =
-            handler->handlerName();
+        const auto task_type_str = taskTypeToString(static_cast<MaintenanceTaskType>(key));
+        if (handler) {
+            result[task_type_str] = handler->handlerName();
+        } else {
+            result[task_type_str] = "<null-handler>";
+        }
     }
     return result;
 }
