@@ -83,7 +83,7 @@ See "In Progress" section above for `license_info.cpp` migration status. `module
 - [x] API stability guaranteed (public header include/themis/network/wire_protocol_server.hpp frozen for v1.x)
 
 ## Known Issues & Limitations
-- The `src/themis/` directory contains all six implementation files: `build_info.cpp`, `wire_protocol_server.cpp`, `module_dependency_resolver.cpp`, `edition_manager.cpp`, `module_hash_verifier.cpp`, and `module_signature_verifier.cpp`. `license_info.cpp` and `module_loader.cpp` remain in `src/utils/` and `src/base/` respectively, pending migration (see Planned Features).
+- The `src/themis/` directory now contains all ten implementation files: `build_info.cpp`, `wire_protocol_server.cpp`, `module_dependency_resolver.cpp`, `edition_manager.cpp`, `module_hash_verifier.cpp`, `module_signature_verifier.cpp`, `module_loader.cpp`, `module_loader_win32.cpp`, `module_loader_linux.cpp`, and `module_security.cpp`. Only `license_info.cpp` remains in `src/utils/`, pending migration (see Planned Features).
 - `WireProtocolServer::sessions_` is never pruned when a session disconnects; the
   map grows monotonically and `active_sessions()` never decreases. Fixing this
   requires adding a disconnect-callback member to `WireProtocolSession`, which
@@ -100,8 +100,7 @@ See "In Progress" section above for `license_info.cpp` migration status. `module
 - `OpCode::PING` and `OpCode::PONG` share the same wire value (`0xFE`) in the
   frozen header; this is a pre-existing design decision.
 - Modularization is blocked on the v1.7.0 architectural refactor.
-- Platform-specific module loading (Windows LoadLibrary, Linux dlopen) is planned
-  but not yet implemented here.
+- Platform-specific module loading (Windows `LoadLibrary`/`FreeLibrary`/`GetProcAddress` and Linux `dlopen`/`dlclose`/`dlsym`) is implemented in `src/themis/module_loader.cpp`, `module_loader_win32.cpp`, and `module_loader_linux.cpp`.
 
 ## Breaking Changes
 - `module_dependency_resolver.cpp` is already present; all remaining APIs are new.
