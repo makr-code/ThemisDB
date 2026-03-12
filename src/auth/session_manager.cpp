@@ -28,6 +28,7 @@
 #include "utils/logger.h"
 
 #include <openssl/rand.h>
+#include <openssl/sha.h>
 
 #include <algorithm>
 #include <sstream>
@@ -36,6 +37,30 @@
 
 namespace themis {
 namespace auth {
+
+// ---------------------------------------------------------------------------
+// File-local helper
+// ---------------------------------------------------------------------------
+
+namespace {
+
+/// Returns the hex-encoded SHA-256 digest of @p session_id.
+/// Session tokens are stored under their hash so that an in-memory snapshot
+/// of the sessions_ map does not expose raw bearer tokens, and so that all
+/// map lookups have normalised comparison time regardless of input content.
+std::string hashSessionId(const std::string& session_id) {
+    unsigned char digest[SHA256_DIGEST_LENGTH];
+    SHA256(reinterpret_cast<const unsigned char*>(session_id.data()),
+           session_id.size(), digest);
+    std::ostringstream oss;
+    oss << std::hex << std::setfill('0');
+    for (unsigned char b : digest) {
+        oss << std::setw(2) << static_cast<int>(b);
+    }
+    return oss.str();
+}
+
+} // anonymous namespace
 
 // ---------------------------------------------------------------------------
 // Construction
@@ -157,7 +182,7 @@ std::string SessionManager::createSession(
     info.last_accessed_at   = now;
     info.expires_at         = expires_at;
 
-    sessions_.emplace(session_id, std::move(info));
+    sessions_.emplace(hashSessionId(session_id), std::move(info));
 
     THEMIS_INFO("SessionManager: created session '{}' for user '{}'", session_id, user_id);
     return session_id;
@@ -177,7 +202,7 @@ SessionManager::ValidationResult SessionManager::validateSession(
 
     std::lock_guard<std::mutex> lock(mutex_);
 
-    auto it = sessions_.find(session_id);
+    auto it = sessions_.find(hashSessionId(session_id));
     if (it == sessions_.end()) {
         return {false, std::nullopt, "session not found"};
     }
@@ -201,7 +226,7 @@ SessionManager::ValidationResult SessionManager::validateSession(
 
 void SessionManager::terminateSession(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(mutex_);
-    auto it = sessions_.find(session_id);
+    auto it = sessions_.find(hashSessionId(session_id));
     if (it != sessions_.end()) {
         THEMIS_INFO("SessionManager: terminated session '{}' (user='{}')",
                     session_id, it->second.user_id);
@@ -221,7 +246,10 @@ int SessionManager::terminateAllOtherSessions(
 
     std::vector<std::string> to_erase;
     for (const auto& [id, info] : sessions_) {
-        if (info.user_id == user_id && id != keep_session_id) {
+        // `id` is the SHA-256 hash of the original token; compare against
+        // info.session_id (which holds the original token) so that the raw
+        // keep_session_id can be matched correctly.
+        if (info.user_id == user_id && info.session_id != keep_session_id) {
             to_erase.push_back(id);
         }
     }

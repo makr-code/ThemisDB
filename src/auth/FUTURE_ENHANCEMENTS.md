@@ -128,9 +128,9 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 - `totp_replay_cache.cpp`: TOTP code comparison inside `markUsed` uses `std::unordered_set` integer hash lookup — effectively constant-time for integers, but worth documenting explicitly.
 
 **Implementation Notes:**
-- `[ ]` In `mfa_authenticator.cpp`, replace `std::find` over recovery codes with a loop using `CRYPTO_memcmp()` that always iterates all entries regardless of match, then returns true/false after full traversal (prevents early-exit timing leak) (line 173)
-- `[ ]` In `session_manager.cpp`, store session IDs as their SHA-256 hash in the lookup map; compare incoming tokens by hashing them first, which normalises comparison time regardless of input content (`session_manager.cpp:205`, `sessions_` member)
-- `[ ]` Add microbenchmark that measures TOTP/recovery-code verification latency variance under ThreadSanitizer to confirm constant-time behaviour
+- `[x]` In `mfa_authenticator.cpp`, replace `std::find` over recovery codes with a loop using `CRYPTO_memcmp()` that always iterates all entries regardless of match, then returns true/false after full traversal (prevents early-exit timing leak) (line 173)
+- `[x]` In `session_manager.cpp`, store session IDs as their SHA-256 hash in the lookup map; compare incoming tokens by hashing them first, which normalises comparison time regardless of input content (`session_manager.cpp:205`, `sessions_` member)
+- `[x]` Add microbenchmark that measures TOTP/recovery-code verification latency variance under ThreadSanitizer to confirm constant-time behaviour
 
 **Performance Targets:**
 - Recovery code verification time must vary by < 100 ns regardless of match position in a list of 10 codes
