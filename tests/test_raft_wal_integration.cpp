@@ -15,6 +15,9 @@
 #include <openssl/sha.h>
 #include <sstream>
 
+// The sharding code is split across two top-level namespaces in this repo:
+// - themisdb::sharding  → RaftLog, RaftState, LogEntry (include/sharding/raft_*.h)
+// - themis::sharding    → WALShipper, SnapshotChunk    (include/sharding/wal_shipper.h)
 using namespace themisdb::sharding;
 using namespace themis::sharding;
 

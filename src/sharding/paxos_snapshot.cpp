@@ -234,8 +234,8 @@ std::optional<uint64_t> PaxosSnapshotManager::createSnapshot(
         std::string filepath = getSnapshotPath(snapshot.snapshot_id);
 
         auto compressed = snapshot.compress(compression_level_);
-        const bool use_compression = !compressed.empty();
-        const double ratio = use_compression
+        const bool compression_succeeded = !compressed.empty();
+        const double ratio = compression_succeeded
             ? static_cast<double>(snapshot.toJSON().dump().size()) /
               std::max<size_t>(1, compressed.size())
             : 1.0;
@@ -246,7 +246,7 @@ std::optional<uint64_t> PaxosSnapshotManager::createSnapshot(
             return std::nullopt;
         }
 
-        if (use_compression) {
+        if (compression_succeeded) {
             // Binary format: "PAXZ" magic + compressed bytes
             const char magic[4] = {'P', 'A', 'X', 'Z'};
             file.write(magic, 4);
@@ -264,7 +264,7 @@ std::optional<uint64_t> PaxosSnapshotManager::createSnapshot(
                      "compressed={} ratio={:.2f}x",
                     snapshot.snapshot_id, last_committed_slot,
                     instances.size(), committed_log.size(),
-                    use_compression, ratio);
+                    compression_succeeded, ratio);
         
         // Cleanup old snapshots
         cleanupOldSnapshots(max_snapshots_);
