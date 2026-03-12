@@ -140,7 +140,52 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
 - [ ] Real-time SLA monitoring via CEP engine (Target: Q4 2026)
 - [ ] Cross-case bottleneck analytics (Target: Q4 2026)
 
-### Phase 6: Production Hardening (Status: Planned)
+### Phase 7: State-of-the-Art – SotA-Derived Features (Status: Planned)
+
+> Wissenschaftliche Grundlagen: [`docs/de/process/STATE_OF_THE_ART.md`](../../docs/de/process/STATE_OF_THE_ART.md)
+
+- [ ] PPR-basiertes GraphRAG Scoring (HippoRAG-Ansatz, Gutierrez 2024) (Target: Q2 2026)
+  - Ersetzt BFS in `ProcessGraphRag::extractSubgraph()` durch Personalized PageRank
+  - Multi-Hop-Anfragen werden korrekt bewertet; relevante entfernte Knoten fließen in Kontext
+  - Perf: ≤ 20 ms für 500-Knoten-Graph; Tests: 3-Hop-Anfrage korrekt aufgelöst
+- [ ] LLM-to-BPMN Generator (ProcessGPT, Busch 2023) (Target: Q2 2026)
+  - `ProcessModelGenerator::generateFromDescription()`: Freitext → ProcessModelRecord
+  - Max 3 Validierungsrunden (generate → BPMN-check → fix); keine Deadlocks/isolierten Knoten
+  - Tests: generiertes Bauantrag-Modell hat ≥ 5 Knoten, ≥ 1 Gateway, deploybar
+- [ ] OCEL 2.0 Export (Berti 2023) (Target: Q2 2026)
+  - `OcelExporter::exportInstance/exportModel()` → PM4Py/Celonis-kompatibles JSON
+  - Event-Objekt-Beziehungen aus ProcessLinker-Anhängen
+  - Tests: OCEL 2.0 JSON-Schema-Validierung; Round-trip mit PM4Py
+- [ ] Leiden-Community-Detection für Prozesscluster (GraphRAG, Edge 2024) (Target: Q3 2026)
+  - `ProcessCommunityDetector::detect()` → thematische Knotengruppen
+  - LLM-Community-Reports pro Cluster, gecacht unter `proc:community:`
+  - Globale Anfragen ("Beschreibe den Genehmigungsablauf") über Reports statt Knotentraversal
+  - Perf: Recompute < 500 ms für 500 Knoten
+- [ ] Duales Retrieval Local/Global (LightRAG, Guo 2024) (Target: Q3 2026)
+  - `ProcessLightRetriever::retrieve(query, instance_id, mode: LOW|HIGH|AUTO)`
+  - Low = Entity-zentriert (Sachbearbeiter-Anfragen), High = Community-zentriert (Bürger-Anfragen)
+  - AUTO wählt Modus basierend auf Anfrage-Typ (spezifisch vs. konzeptuell)
+- [ ] Object-Centric Process Mining / OCPM (van der Aalst 2022) (Target: Q3 2026)
+  - `ObjectCentricTracer`: OCEL 2.0 Log aus Instanz + Anhängen; DFG pro Objekttyp
+  - Konvergenz/Divergenz-Analyse für Verwaltungsvorgänge (Antragsteller, Dokument, Prüfer)
+  - Perf: DFG-Berechnung ≤ 5 s für 10.000 Events
+- [ ] DMN 1.5 Entscheidungstabellen (OMG 2023) (Target: Q3 2026)
+  - `DmnEvaluator::loadFromXml/Json()`, `evaluate()`, `evaluateFeel()`
+  - FEEL-Subset: numerische Vergleiche, Bereiche `[a..b]`, String-Gleichheit
+  - Integration in `checkCompliance()`: DMN-referenzierende Knoten werden zur Laufzeit ausgewertet
+- [ ] FIM-Prozessbibliothek-Import (FITKO 2024) (Target: Q4 2026)
+  - `FimImporter::importFimXml()`, `importFimCatalogue()`, `importFromFitkoApi()`
+  - 5.000+ standardisierte Verwaltungsprozesse aus dem Bundesportal importierbar
+  - FIM-Leistungscode in `compliance_tags` erhalten
+- [ ] CMMN 1.1 Case Management Support (OMG 2016) (Target: Q4 2026)
+  - `CmmnSerializer::importXml/exportXml()` für adaptive Fallmodelle
+  - Discretionary Tasks: Sachbearbeiter entscheidet Reihenfolge zur Laufzeit
+  - `ProcessNotation::CMMN_1_1` als neuer Notation-Typ
+- [ ] ProcessTransformer Vorhersage (Bukhsh 2021) (Target: Q1 2027)
+  - `ProcessPredictor::predict()`: nächste Aktivität, Outcome, verbleibende Zeit, Bearbeiter
+  - Training auf abgeschlossenen Instanzen via `updateModel()`
+  - SHAP-Aktivitäts-Wichtigkeit für Erklärbarkeit (Verwaltungs-Transparenzgebot)
+  - Accuracy-Ziel: ≥ 85 % Next-Activity-Prediction auf BPIC-Benchmarks
 
 - [ ] Unit test coverage > 90 % for all components (Target: Q2 2026)
 - [ ] Integration tests with real VCC-VPB model library (Target: Q2 2026)

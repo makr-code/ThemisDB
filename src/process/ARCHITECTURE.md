@@ -313,3 +313,27 @@ The normalised process model may carry an `sla_ms` value in `normalized.metadata
 | VCC-VPB model library | Pre-loaded models on startup | `config/process_models/` |
 | Storage | `RocksDBWrapper::scanPrefix()`, `get()`, `put()` | `include/storage/rocksdb_wrapper.h` |
 | LLM descriptors | `LlmProcessDescriptor::generateSystemPrompt()` | `src/process/llm_process_descriptor.cpp` |
+
+---
+
+## 11. Stand der Wissenschaft und Technik
+
+Diese Architektur berücksichtigt und integriert den aktuellen Stand der Forschung.
+Eine vollständige Literaturanalyse mit konkreten Implementierungsableitungen findet sich in:
+
+> **[`docs/de/process/STATE_OF_THE_ART.md`](../../docs/de/process/STATE_OF_THE_ART.md)**
+
+Schlüsselreferenzen, die die aktuelle Architektur begründen:
+
+| Forschungsbereich | Quelle | ThemisDB-Implementierung |
+|-------------------|--------|--------------------------|
+| Graph-RAG | Edge et al. (2024) – GraphRAG | `ProcessGraphRag::buildKnowledgeGraph()` |
+| Graph-RAG Scoring | Gutierrez et al. (2024) – HippoRAG | BFS-Subgraph → PPR (geplant Q2 2026) |
+| Duales Retrieval | Guo et al. (2024) – LightRAG | `ProcessRagConfig::mode` (geplant Q3 2026) |
+| Process Mining LLM | Busch et al. (2023) – ProcessGPT | `LlmProcessDescriptor::buildConformancePrompt()` |
+| OCPM | van der Aalst (2022) | `ObjectCentricTracer` (geplant Q3 2026) |
+| Event Log Standard | Berti et al. (2023) – OCEL 2.0 | `OcelExporter` (geplant Q2 2026) |
+| Verwaltungsdigitalisierung | FITKO FIM (2024) | `FimImporter` (geplant Q4 2026) |
+| Case Management | OMG CMMN 1.1 (2016) | `CmmnSerializer` (geplant Q4 2026) |
+| Decision Tables | OMG DMN 1.5 (2023) | `DmnEvaluator` (geplant Q3 2026) |
+| Predictive Monitoring | Bukhsh et al. (2021) – ProcessTransformer | `ProcessPredictor` (geplant Q1 2027) |
