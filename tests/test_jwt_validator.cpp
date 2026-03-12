@@ -27,6 +27,8 @@
 #include <openssl/pem.h>
 #include <openssl/evp.h>
 #include <openssl/bn.h>
+#include <thread>
+#include <atomic>
 #include "auth/jwt_validator.h"
 #include "auth/token_blacklist.h"
 
@@ -234,5 +236,97 @@ TEST(JWTValidatorTest, TokenBlacklist_NonRevokedJtiAccepted) {
     auto claims = validator.parseAndValidate(token);
     EXPECT_EQ(claims.sub, "u2");
     EXPECT_EQ(claims.jti, "valid-jti-002");
+}
+
+// ---------------------------------------------------------------------------
+// Thread-safety: 32 threads is enough to reliably expose data races under
+// TSAN and represents a realistic high-concurrency auth load.
+// ---------------------------------------------------------------------------
+static constexpr int JWKS_THREAD_SAFETY_TEST_THREADS = 32;
+
+// Thread-safety: concurrent reads on warm JWKS cache (no data race)
+// ---------------------------------------------------------------------------
+
+TEST(JWTValidatorTest, ConcurrentValidate_WarmCache_NoDataRace) {
+    RSAFixture fix;
+    auto jwks = make_jwks(fix.rsa);
+
+    // Build a valid token shared by all threads
+    auto now = std::chrono::system_clock::now();
+    auto exp_ts = std::chrono::duration_cast<std::chrono::seconds>(
+                      now.time_since_epoch()).count() + 300;
+    nlohmann::json payload = {{"sub","u-concurrent"},{"email","c@x"},
+                               {"iss","issuerX"},{"aud","audX"},{"exp",exp_ts}};
+    std::string up = build_token("test-key-1", payload);
+    std::string token = up + "." + sign_RS256(fix.pkey, up);
+
+    // Warm cache: TTL long enough that all threads hit the shared-lock path
+    JWTValidatorConfig cfg{"", "issuerX", "audX",
+                           std::chrono::seconds(600), std::chrono::seconds(60)};
+    JWTValidator validator(cfg);
+    validator.setJWKSForTesting(jwks);
+
+    std::atomic<int> success_count{0};
+    std::atomic<int> error_count{0};
+    std::vector<std::thread> threads;
+    threads.reserve(JWKS_THREAD_SAFETY_TEST_THREADS);
+
+    for (int i = 0; i < JWKS_THREAD_SAFETY_TEST_THREADS; ++i) {
+        threads.emplace_back([&]() {
+            try {
+                auto c = validator.parseAndValidate(token);
+                if (c.sub == "u-concurrent") {
+                    success_count.fetch_add(1, std::memory_order_relaxed);
+                }
+            } catch (...) {
+                error_count.fetch_add(1, std::memory_order_relaxed);
+            }
+        });
+    }
+
+    for (auto& t : threads) t.join();
+
+    EXPECT_EQ(success_count.load(), JWKS_THREAD_SAFETY_TEST_THREADS);
+    EXPECT_EQ(error_count.load(), 0);
+}
+
+// ---------------------------------------------------------------------------
+// Thread-safety: TTL=0 forces write-lock path — verifies no data race on
+// concurrent cache-refresh attempts (thundering-herd protection).
+// All threads will fail to fetch JWKS (no real server), but none must crash.
+// ---------------------------------------------------------------------------
+
+TEST(JWTValidatorTest, ConcurrentValidate_ExpiredCache_NoDataRace) {
+    // jwks_url points to an unreachable host so curl fails fast; the important
+    // thing is that no thread crashes or triggers a data race on jwks_cache_.
+    JWTValidatorConfig cfg{"http://127.0.0.1:0/jwks", "issuerX", "audX",
+                           std::chrono::seconds(0),   // TTL=0: cache always stale
+                           std::chrono::seconds(60)};
+    cfg.jwks_max_retries = 1;           // one attempt only to keep the test fast
+    cfg.jwks_timeout_seconds = 1;       // 1-second curl timeout
+    JWTValidator validator(cfg);
+
+    std::atomic<int> throw_count{0};
+    std::vector<std::thread> threads;
+    threads.reserve(JWKS_THREAD_SAFETY_TEST_THREADS);
+
+    // A dummy (unsigned) token — validation will never reach signature check
+    // because fetchJWKS() will throw before that.
+    const std::string dummy_token = "eyJhbGciOiJSUzI1NiIsImtpZCI6InRlc3QifQ.eyJzdWIiOiJ1In0.sig";
+
+    for (int i = 0; i < JWKS_THREAD_SAFETY_TEST_THREADS; ++i) {
+        threads.emplace_back([&]() {
+            try {
+                validator.parseAndValidate(dummy_token);
+            } catch (const std::exception&) {
+                throw_count.fetch_add(1, std::memory_order_relaxed);
+            }
+        });
+    }
+
+    for (auto& t : threads) t.join();
+
+    // All threads must have thrown (no real JWKS endpoint); none must have crashed.
+    EXPECT_EQ(throw_count.load(), JWKS_THREAD_SAFETY_TEST_THREADS);
 }
 
