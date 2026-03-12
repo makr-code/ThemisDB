@@ -1,6 +1,7 @@
-# Transaction Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Scope
+# Transaction Module - Future Enhancements
 
 The transaction module provides ACID transaction semantics for all ThemisDB data operations. It covers: multi-version concurrency control (MVCC) via RocksDB transactions, three isolation levels (`ReadCommitted`, `Snapshot`, `SerializableSnapshot`/SSI with predicate locking), optimistic concurrency control (OCC) with per-entity version numbers, two-phase commit (2PC) coordinator for distributed multi-shard transactions, SAGA orchestration (sequential and parallel DAG), distributed SAGA with cross-service compensation, named savepoints with partial rollback, bulk write batching and coalescing, read-only transaction fast path, and a transaction audit trail. Affected source files: `transaction_manager.cpp`, `transaction_manager.h`, `saga_manager.cpp`, and associated headers under `include/transaction/`.
 

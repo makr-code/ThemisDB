@@ -1,6 +1,7 @@
-# Updates Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Scope
+# Updates Module - Future Enhancements
 
 - Zero-downtime hot-reload via atomic file replacement with fsync and all-or-nothing semantics (`HotReloadEngine`)
 - CMS/PKCS#7 signature validation and X.509 certificate chain verification before applying any binary update
@@ -34,7 +35,20 @@
 
 ## Planned Features
 
-### Distributed Cluster Updates
+### `ManifestDatabase`: Delete Associated Files on Entry Removal
+**Priority:** Medium
+**Target Version:** v1.8.0
+
+`manifest_database.cpp` line 479: "TODO: Delete associated files from registry". When a manifest entry is removed, the associated binary files are not cleaned up from the registry directory, causing accumulation of orphaned files.
+
+**Implementation Notes:**
+- `[ ]` In `ManifestDatabase::removeEntry()`, after removing the RocksDB manifest record, enumerate associated file paths from the entry metadata and call `std::filesystem::remove()` for each.
+- `[ ]` Guard against race: delete files only after the RocksDB entry is committed; use a tombstone key during the deletion window.
+- `[ ]` Add test: insert manifest entry with 3 associated files, remove entry, verify all 3 files are deleted.
+
+---
+
+
 **Priority:** High  
 **Target Version:** v1.7.0
 

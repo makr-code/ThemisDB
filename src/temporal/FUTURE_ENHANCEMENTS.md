@@ -1,6 +1,7 @@
-# Temporal Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Scope
+# Temporal Module - Future Enhancements
 
 The temporal module adds SQL:2011 bi-temporal table support to ThemisDB. It covers: system-versioned tables (transaction time), application-versioned tables (valid time), time-travel queries (`AS OF`, `FROM…TO`, `BETWEEN…AND`), temporal indexes (B-tree and interval-tree), automated retention and archival policies, temporal aggregations (tumbling, sliding, session windows), temporal foreign keys with period-aware referential integrity, and CDC streaming of version change events. Affected source files: `temporal_manager.cpp`, `temporal_query_engine.cpp`, `temporal_index_manager.cpp`, `retention_policy_manager.cpp`, and associated headers under `include/temporal/`.
 

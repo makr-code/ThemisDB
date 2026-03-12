@@ -1,6 +1,7 @@
-# Timeseries Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Scope
+# Timeseries Module - Future Enhancements
 
 This document covers planned enhancements to ThemisDB's time series storage subsystem, which provides append-optimised storage via `tsstore.h`/`tsstore.cpp`, Gorilla delta-of-delta compression (`gorilla.cpp`), continuous aggregation (`continuous_agg.cpp`), configurable retention management (`retention.cpp`), hypertable partitioning (`hypertable.cpp`), and the `TSAutoBuffer` (`ts_auto_buffer.cpp`) for auto-batching high-frequency single-point inserts. The module is in Beta state and requires improved query performance, tighter integration with the downsampling pipeline, and hardened compression paths before GA.
 
@@ -24,7 +25,21 @@ This document covers planned enhancements to ThemisDB's time series storage subs
 
 ## Planned Features
 
-### [ ] Vectorised Gorilla Chunk Decoder with SIMD
+### `TSStore`: Single-Point Insert Buffering for Gorilla Compression
+**Priority:** High
+**Target Version:** v1.8.0
+
+`tsstore.cpp` line 213 (1 confirmed TODO): "TODO: Implement buffering strategy for single-point inserts with Gorilla". When individual data points are inserted one at a time (the common IoT write pattern), Gorilla compression cannot be applied because it requires a buffer of consecutive timestamps. Each point is stored uncompressed, negating the 4–8× compression ratio Gorilla provides for batched writes.
+
+**Implementation Notes:**
+- `[ ]` The `TSAutoBuffer` (`ts_auto_buffer.cpp`) already exists as the adaptive flush layer; wire `TSStore::insert(single_point)` to route through `TSAutoBuffer` rather than writing directly to RocksDB when batch size = 1.
+- `[ ]` `TSAutoBuffer` should accumulate up to `config_.gorilla_batch_size` (default 128) points before encoding with Gorilla and writing as a single chunk.
+- `[ ]` Add backpressure signal to `TSAutoBuffer::push()`: return `BUFFER_FULL` when the in-memory buffer exceeds `config_.max_buffer_bytes`.
+- `[ ]` Add unit test: 1000 single-point inserts, verify compressed on-disk size is ≤ 15% of raw (Gorilla target), p99 insert latency ≤ 50 µs.
+
+---
+
+
 **Priority:** High
 **Target Version:** v0.9.0
 

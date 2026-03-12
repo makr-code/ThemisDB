@@ -1,6 +1,7 @@
-# Utils Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Scope
+# Utils Module - Future Enhancements
 
 This document covers planned enhancements to ThemisDB's shared utilities subsystem, which provides foundational cross-cutting infrastructure consumed by all other modules: audit logging (`audit_logger.cpp`), cursor/pagination (`cursor.cpp`), HKDF key derivation (`hkdf_helper.cpp`, `hkdf_cache.cpp`), LEK (Local Encryption Key) management (`lek_manager.cpp`), structured logging (`logger.cpp`), data normalisation (`normalizer.cpp`), PII detection and pseudonymisation (`pii_detection_engine.cpp`, `pii_detector.cpp`, `pii_pseudonymizer.cpp`), PKI client (`pki_client.cpp`), retention manager (`retention_manager.cpp`), SAGA logging (`saga_logger.cpp`), serialisation (`serialization.cpp`), text processing (`stemmer.cpp`, `stopwords.cpp`), distributed tracing (`tracing.cpp`), ZSTD codec (`zstd_codec.cpp`), and geospatial utilities (`geo/`). The module is Beta-stage and is the primary dependency of all other ThemisDB modules.
 
@@ -26,7 +27,39 @@ This document covers planned enhancements to ThemisDB's shared utilities subsyst
 
 ## Planned Features
 
-### [ ] Streaming PII Detection and Pseudonymisation Pipeline
+### `CapabilityAutoGenerator`: Persist Schedule and Document Count State
+**Priority:** Medium
+**Target Version:** v1.8.0
+
+`capability_auto_generator.cpp` has 3 TODOs:
+- Line 193: "Check last update time and compare with schedule interval" — schedule checking is a no-op; updates run every invocation regardless of interval.
+- Line 373: "Store previous document count somewhere" — document count delta cannot be computed without persistence.
+- Line 435: "Implement YAML serialization and file writing" — generated capabilities are not persisted to disk.
+
+**Implementation Notes:**
+- `[ ]` Use a small RocksDB key (`utils_capgen_state`) to persist `last_run_timestamp` and `last_document_count`; load on construction.
+- `[ ]` At line 193: compare `now - last_run_timestamp` against `config_.schedule_interval_s`; skip regeneration if within interval.
+- `[ ]` At line 373: persist the current `document_count` to the state key after each successful run.
+- `[ ]` At line 435: serialize the generated `CapabilitySet` to YAML using `yaml-cpp` and atomically write via `ConfigPathResolver::resolveWritable()`.
+
+---
+
+### `PKIClient`: Replace Fallback Stub Verification
+**Priority:** High
+**Target Version:** v1.8.0
+
+`pki_client.cpp` has 2 stub fallback paths:
+- Line 456: "Fallback: stub behavior (base64 of hash)" — certificate issuance falls back to a non-standard base64 encoding instead of real PKCS#10 / X.509 certificate.
+- Line 575: "Fallback stub verification: compare base64(hash) equality" — TLS certificate verification falls back to comparing base64 hashes instead of validating the certificate chain.
+
+**Implementation Notes:**
+- `[ ]` Line 456: implement real PKCS#10 CSR generation and submission using OpenSSL `X509_REQ_*` API; only fall back when ACME/internal CA is not configured.
+- `[ ]` Line 575: implement real X.509 chain verification using `X509_verify_cert()` with the configured trust store; never fall back to hash comparison for production traffic.
+- `[ ]` Add explicit `#ifdef THEMIS_TEST_MODE` guard around the stub paths so they cannot be used in production builds.
+
+---
+
+
 **Priority:** High
 **Target Version:** v0.9.0
 

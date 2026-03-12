@@ -1,6 +1,7 @@
-# Training Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Scope
+# Training Module - Future Enhancements
 
 This document covers planned enhancements to ThemisDB's legal-domain model training subsystem, which provides `LegalAutoLabeler` (`auto_labeler.cpp`) for extracting training samples from legal documents via NLP modality detection, an incremental LoRA adapter trainer with checkpoint/resume (`incremental_lora_trainer.cpp`), `KnowledgeGraphEnricher` (`knowledge_graph_enricher.cpp`) for enriching samples via AQL graph traversal, and a confidence-threshold filtering pipeline (`training_pipeline.cpp`). The module is Alpha-stage and requires hardened data provenance tracking, production-grade checkpoint management, and expanded training modalities before Beta.
 
@@ -23,7 +24,20 @@ This document covers planned enhancements to ThemisDB's legal-domain model train
 
 ## Planned Features
 
-### [x] Multi-Modality Legal Document Parser
+### `ProvenanceTracker`: Replace AQL Template Stubs with Live Connection
+**Priority:** High
+**Target Version:** v1.8.0
+
+`provenance_tracker.cpp` line 36 documents: "AQL template stubs (production: bind against live ArangoDB connection)". The provenance tracker uses in-process simulation for AQL-based lineage queries (line 141: "build a stub tree from in-process store"). In production, provenance information is not queryable via the AQL API.
+
+**Implementation Notes:**
+- `[ ]` Replace the in-process stub with `AQLRunner::execute(provenance_query, bindings)` calls; inject `AQLRunner*` into `ProvenanceTracker`.
+- `[ ]` `knowledge_graph_enricher.cpp` has `vector_index_ = nullptr` guard (non-owning, "offline/stub"); inject a real `VectorIndexManager*` for production builds; fail fast (not silently degrade) when `nullptr` in non-test builds.
+- `[ ]` Add integration test for provenance lineage round-trip: create training sample, verify AQL provenance query returns correct lineage.
+
+---
+
+
 **Priority:** High
 **Target Version:** v0.9.0
 
