@@ -1278,6 +1278,7 @@ set(THEMIS_NETWORK_SOURCES
     ../src/server/load_shedder.cpp
     ../src/auth/auth_rate_limiter.cpp
     ../src/server/api_version.cpp
+    ../src/server/response_transformer.cpp
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_gateway.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/distributed_gateway.cpp>
     ../src/server/update_api_handler.cpp

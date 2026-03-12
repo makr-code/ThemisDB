@@ -815,23 +815,47 @@ APIVersion APIGateway::processVersionHeaders(
             url_version_str = *path_version;
             version_header = *path_version;
         } else {
-            // Fall back to Accept-Version header
-            auto it = req.find(APIHeaders::ACCEPT_VERSION);
+            // Priority 1: API-Version request header (client's current version)
+            auto it = req.find(APIHeaders::API_VERSION);
             if (it != req.end()) {
                 version_header = std::string(it->value());
+            }
+            // Priority 2: Accept-Version header (legacy)
+            if (version_header.empty()) {
+                auto it2 = req.find(APIHeaders::ACCEPT_VERSION);
+                if (it2 != req.end()) {
+                    version_header = std::string(it2->value());
+                }
             }
         }
     }
 
-    // Resolve version: URL path prefix takes precedence over Accept-Version header.
-    // The raw URL token (e.g. "v1", "v1.4") is passed directly to resolveVersion so
-    // that partial versions resolve to the latest matching release (v1 → v1.4.1, etc.)
+    // Check for Accept-API-Version range header (e.g. "1.0-2.0").
+    // When present and no explicit version was determined from the URL or
+    // API-Version header, resolve the best matching version within the range.
     APIVersion version;
     if (url_version_str) {
         version = version_manager_->resolveVersion(*url_version_str);
         spdlog::debug("APIGateway: version resolved from URL path prefix: {}", version.toString());
-    } else {
+    } else if (!version_header.empty()) {
         version = version_manager_->resolveVersion(version_header);
+    } else {
+        // Check Accept-API-Version range header as final fallback
+        auto range_it = req.find(APIHeaders::ACCEPT_API_VERSION);
+        if (range_it != req.end()) {
+            auto range = APIVersionRange::parse(std::string(range_it->value()));
+            if (range) {
+                version = version_manager_->resolveVersionRange(*range);
+                spdlog::debug("APIGateway: version resolved from Accept-API-Version range '{}': {}",
+                              std::string(range_it->value()), version.toString());
+            } else {
+                spdlog::warn("APIGateway: invalid Accept-API-Version range '{}', using current",
+                             std::string(range_it->value()));
+                version = version_manager_->getCurrentVersion();
+            }
+        } else {
+            version = version_manager_->resolveVersion("");
+        }
     }
 
     // Add API-Version response header
@@ -880,6 +904,16 @@ void APIGateway::addDeprecationHeaders(
     response.set(APIHeaders::DEPRECATION_WARNING, 
                  "true; deprecated-version=\"" + deprecation->deprecated_in.toString() + 
                  "\"; removal-version=\"" + deprecation->removed_in.toString() + "\"");
+
+    // Add API-Deprecated header (issue-specified format: "v1.0 (remove YYYY-MM-DD)")
+    auto removal_time_t = std::chrono::system_clock::to_time_t(deprecation->removal_date);
+    std::tm removal_tm_api;
+    portable_gmtime_r_impl(&removal_time_t, &removal_tm_api);
+    char api_deprecated_buf[64];
+    std::strftime(api_deprecated_buf, sizeof(api_deprecated_buf), "%Y-%m-%d", &removal_tm_api);
+    response.set(APIHeaders::API_DEPRECATED,
+                 deprecation->deprecated_in.toString() + " (remove " +
+                 std::string(api_deprecated_buf) + ")");
     
     // Add Sunset header (RFC 8594) with removal date
     auto removal_time = std::chrono::system_clock::to_time_t(deprecation->removal_date);
