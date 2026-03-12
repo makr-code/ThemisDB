@@ -43,6 +43,12 @@
 #include <shared_mutex>
 #include <unordered_map>
 #include <spdlog/spdlog.h>
+#include <nlohmann/json.hpp>
+#include <zip.h>
+#include <openssl/evp.h>
+#include <openssl/pem.h>
+#include <openssl/bio.h>
+#include <openssl/err.h>
 
 #ifdef _WIN32
     #include <windows.h>
@@ -1439,6 +1445,416 @@ uint64_t ModuleLoader::watchdogCalculateBackoff(
     return static_cast<uint64_t>(
         std::min(backoff,
                  static_cast<double>(watchdogConfig_.max_backoff_ms)));
+}
+
+} // namespace modules
+} // namespace themis
+
+// ============================================================================
+// PluginBundleLoader — cross-platform bundle loading (v1.4.0)
+// ============================================================================
+
+namespace themis {
+namespace modules {
+
+namespace {
+
+/// Return the OpenSSL error string for the most recent error.
+std::string opensslLastError() {
+    char buf[256];
+    ERR_error_string_n(ERR_get_error(), buf, sizeof(buf));
+    return buf;
+}
+
+/// Generate a unique temporary directory path under the system temp root.
+std::string makeTempDirPath() {
+    namespace fs = std::filesystem;
+    auto base = fs::temp_directory_path() / "themis_bundle";
+    auto ns = std::chrono::steady_clock::now().time_since_epoch().count();
+    return (base / std::to_string(ns)).string();
+}
+
+} // anonymous namespace
+
+// ----------------------------------------------------------------------------
+// PluginBundleLoader — construction / destruction
+// ----------------------------------------------------------------------------
+
+PluginBundleLoader::PluginBundleLoader() = default;
+PluginBundleLoader::~PluginBundleLoader() = default;
+
+// ----------------------------------------------------------------------------
+// setPublicKey
+// ----------------------------------------------------------------------------
+
+void PluginBundleLoader::setPublicKey(const std::string& publicKeyPem) {
+    publicKeyPem_ = publicKeyPem;
+}
+
+// ----------------------------------------------------------------------------
+// currentPlatform
+// ----------------------------------------------------------------------------
+
+std::string PluginBundleLoader::currentPlatform() {
+#if defined(_WIN32) || defined(_WIN64)
+    const std::string os = "windows";
+#elif defined(__APPLE__)
+    const std::string os = "macos";
+#elif defined(__linux__)
+    const std::string os = "linux";
+#else
+    const std::string os = "unknown";
+#endif
+
+#if defined(__x86_64__) || defined(_M_X64)
+    const std::string arch = "x86_64";
+#elif defined(__aarch64__) || defined(_M_ARM64)
+    const std::string arch = "arm64";
+#elif defined(__arm__) || defined(_M_ARM)
+    const std::string arch = "arm";
+#elif defined(__i386__) || defined(_M_IX86)
+    const std::string arch = "x86";
+#else
+    const std::string arch = "unknown";
+#endif
+
+    return os + "-" + arch;
+}
+
+// ----------------------------------------------------------------------------
+// parseManifest
+// ----------------------------------------------------------------------------
+
+bool PluginBundleLoader::parseManifest(const std::string& jsonText,
+                                       PluginBundleManifest& manifest,
+                                       std::string& error) {
+    try {
+        auto j = nlohmann::json::parse(jsonText);
+
+        // Mandatory fields
+        if (!j.contains("name") || !j["name"].is_string()) {
+            error = "manifest.json missing required string field 'name'";
+            return false;
+        }
+        if (!j.contains("version") || !j["version"].is_string()) {
+            error = "manifest.json missing required string field 'version'";
+            return false;
+        }
+
+        manifest.name    = j["name"].get<std::string>();
+        manifest.version = j["version"].get<std::string>();
+
+        if (manifest.name.empty()) {
+            error = "manifest.json 'name' must not be empty";
+            return false;
+        }
+        if (manifest.version.empty()) {
+            error = "manifest.json 'version' must not be empty";
+            return false;
+        }
+
+        // Optional fields
+        if (j.contains("description") && j["description"].is_string()) {
+            manifest.description = j["description"].get<std::string>();
+        }
+        if (j.contains("author") && j["author"].is_string()) {
+            manifest.author = j["author"].get<std::string>();
+        }
+        if (j.contains("wasmFallback") && j["wasmFallback"].is_string()) {
+            manifest.wasmFallback = j["wasmFallback"].get<std::string>();
+        }
+        if (j.contains("signatureFile") && j["signatureFile"].is_string()) {
+            manifest.signatureFile = j["signatureFile"].get<std::string>();
+        }
+
+        // nativeLibraries: map<string, string>
+        if (j.contains("nativeLibraries") && j["nativeLibraries"].is_object()) {
+            for (auto& [platform, libPath] : j["nativeLibraries"].items()) {
+                if (libPath.is_string()) {
+                    manifest.nativeLibraries[platform] = libPath.get<std::string>();
+                }
+            }
+        }
+
+        return true;
+    } catch (const nlohmann::json::exception& ex) {
+        error = std::string("JSON parse error in manifest.json: ") + ex.what();
+        return false;
+    }
+}
+
+// ----------------------------------------------------------------------------
+// verifyEd25519Signature
+// ----------------------------------------------------------------------------
+
+bool PluginBundleLoader::verifyEd25519Signature(const uint8_t* message,
+                                                  size_t messageLen,
+                                                  const std::vector<uint8_t>& signatureBytes,
+                                                  const std::string& publicKeyPem,
+                                                  std::string& error) {
+    if (signatureBytes.size() != 64) {
+        error = "Ed25519 signature must be exactly 64 bytes, got " +
+                std::to_string(signatureBytes.size());
+        return false;
+    }
+
+    BIO* bio = BIO_new_mem_buf(publicKeyPem.data(),
+                               static_cast<int>(publicKeyPem.size()));
+    if (!bio) {
+        error = "BIO_new_mem_buf failed";
+        return false;
+    }
+
+    EVP_PKEY* pkey = PEM_read_bio_PUBKEY(bio, nullptr, nullptr, nullptr);
+    BIO_free(bio);
+    if (!pkey) {
+        error = "Failed to parse Ed25519 public key: " + opensslLastError();
+        return false;
+    }
+
+    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+    if (!ctx) {
+        EVP_PKEY_free(pkey);
+        error = "EVP_MD_CTX_new failed";
+        return false;
+    }
+
+    // For Ed25519, the digest parameter must be NULL.
+    if (EVP_DigestVerifyInit(ctx, nullptr, nullptr, nullptr, pkey) != 1) {
+        EVP_MD_CTX_free(ctx);
+        EVP_PKEY_free(pkey);
+        error = "EVP_DigestVerifyInit failed: " + opensslLastError();
+        return false;
+    }
+
+    int rc = EVP_DigestVerify(ctx,
+                               signatureBytes.data(), signatureBytes.size(),
+                               message, messageLen);
+    EVP_MD_CTX_free(ctx);
+    EVP_PKEY_free(pkey);
+
+    if (rc == 1) {
+        return true;
+    }
+    error = (rc == 0)
+        ? "Ed25519 signature verification failed: signature does not match"
+        : ("EVP_DigestVerify error: " + opensslLastError());
+    return false;
+}
+
+// ----------------------------------------------------------------------------
+// extractToTempDir
+// ----------------------------------------------------------------------------
+
+std::string PluginBundleLoader::extractToTempDir(const std::string& bundlePath,
+                                                  std::string& error) {
+    namespace fs = std::filesystem;
+
+    int zipErr = 0;
+    zip_t* archive = zip_open(bundlePath.c_str(), ZIP_RDONLY, &zipErr);
+    if (!archive) {
+        zip_error_t ze;
+        zip_error_init_with_code(&ze, zipErr);
+        error = std::string("Failed to open bundle archive '") + bundlePath +
+                "': " + zip_error_strerror(&ze);
+        zip_error_fini(&ze);
+        return {};
+    }
+
+    std::string tempDir = makeTempDirPath();
+    std::error_code fsErr;
+    if (!fs::create_directories(tempDir, fsErr)) {
+        zip_close(archive);
+        error = "Failed to create temp directory '" + tempDir + "': " + fsErr.message();
+        return {};
+    }
+
+    zip_int64_t entryCount = zip_get_num_entries(archive, 0);
+    for (zip_int64_t i = 0; i < entryCount; ++i) {
+        const char* entryName = zip_get_name(archive, i, 0);
+        if (!entryName) continue;
+
+        fs::path entryPath = fs::path(tempDir) / entryName;
+        std::string nameStr(entryName);
+
+        // Directory entries end with '/'
+        if (!nameStr.empty() && nameStr.back() == '/') {
+            fs::create_directories(entryPath, fsErr);
+            continue;
+        }
+
+        fs::create_directories(entryPath.parent_path(), fsErr);
+
+        zip_file_t* zf = zip_fopen_index(archive, i, 0);
+        if (!zf) {
+            zip_close(archive);
+            error = std::string("Failed to open archive entry '") + entryName + "'";
+            return {};
+        }
+
+        std::ofstream outFile(entryPath, std::ios::binary);
+        if (!outFile.is_open()) {
+            zip_fclose(zf);
+            zip_close(archive);
+            error = "Failed to create output file '" + entryPath.string() + "'";
+            return {};
+        }
+
+        static constexpr zip_uint64_t kBufSize = 65536;
+        std::vector<char> buf(kBufSize);
+        zip_int64_t bytesRead = 0;
+        while ((bytesRead = zip_fread(zf, buf.data(), kBufSize)) > 0) {
+            outFile.write(buf.data(), bytesRead);
+        }
+
+        zip_fclose(zf);
+        outFile.close();
+
+        if (bytesRead < 0) {
+            zip_close(archive);
+            error = std::string("Read error while extracting '") + entryName + "'";
+            return {};
+        }
+    }
+
+    zip_close(archive);
+    return tempDir;
+}
+
+// ----------------------------------------------------------------------------
+// loadBundle
+// ----------------------------------------------------------------------------
+
+PluginBundleLoadResult PluginBundleLoader::loadBundle(const std::string& bundlePath,
+                                                       ModuleLoader& loader) {
+    PluginBundleLoadResult result;
+
+    // ── Step 1: Extract archive to temp dir ───────────────────────────────
+    std::string extractError;
+    std::string tempDir = extractToTempDir(bundlePath, extractError);
+    if (tempDir.empty()) {
+        result.errorMessage = "Bundle extraction failed: " + extractError;
+        spdlog::error("PluginBundleLoader: {}", result.errorMessage);
+        return result;
+    }
+    result.tempDirectory = tempDir;
+    spdlog::debug("PluginBundleLoader: extracted '{}' → '{}'", bundlePath, tempDir);
+
+    // ── Step 2: Parse manifest.json ────────────────────────────────────────
+    namespace fs = std::filesystem;
+    fs::path manifestPath = fs::path(tempDir) / "manifest.json";
+
+    std::ifstream manifestFile(manifestPath);
+    if (!manifestFile.is_open()) {
+        result.errorMessage = "manifest.json not found in bundle '" + bundlePath + "'";
+        spdlog::error("PluginBundleLoader: {}", result.errorMessage);
+        return result;
+    }
+
+    std::string manifestJson((std::istreambuf_iterator<char>(manifestFile)),
+                              std::istreambuf_iterator<char>());
+    manifestFile.close();
+
+    std::string parseError;
+    if (!parseManifest(manifestJson, result.manifest, parseError)) {
+        result.errorMessage = "Failed to parse manifest: " + parseError;
+        spdlog::error("PluginBundleLoader: {}", result.errorMessage);
+        return result;
+    }
+
+    // ── Step 3: Verify Ed25519 signature of manifest.json ─────────────────
+    if (!publicKeyPem_.empty()) {
+        fs::path sigPath = fs::path(tempDir) / result.manifest.signatureFile;
+        std::ifstream sigFile(sigPath, std::ios::binary);
+        if (!sigFile.is_open()) {
+            result.errorMessage = "Signature file '" +
+                                   result.manifest.signatureFile +
+                                   "' not found in bundle";
+            spdlog::error("PluginBundleLoader: {}", result.errorMessage);
+            return result;
+        }
+
+        std::vector<uint8_t> sigBytes((std::istreambuf_iterator<char>(sigFile)),
+                                       std::istreambuf_iterator<char>());
+        sigFile.close();
+
+        std::string sigError;
+        if (!verifyEd25519Signature(
+                reinterpret_cast<const uint8_t*>(manifestJson.data()),
+                manifestJson.size(),
+                sigBytes,
+                publicKeyPem_,
+                sigError)) {
+            result.errorMessage = "Bundle signature verification failed: " + sigError;
+            spdlog::error("PluginBundleLoader: {}", result.errorMessage);
+            return result;
+        }
+
+        spdlog::info("PluginBundleLoader: Ed25519 signature of '{}' verified OK",
+                     bundlePath);
+    } else {
+        spdlog::warn("PluginBundleLoader: no public key set — skipping signature "
+                     "verification for '{}'", bundlePath);
+    }
+
+    // ── Step 4: Select native library or fall back to WASM ────────────────
+    const std::string platform = currentPlatform();
+    auto it = result.manifest.nativeLibraries.find(platform);
+
+    std::string selectedRelPath;
+    if (it != result.manifest.nativeLibraries.end()) {
+        selectedRelPath = it->second;
+        result.usedWasmFallback = false;
+        spdlog::debug("PluginBundleLoader: selected native library '{}' for platform '{}'",
+                      selectedRelPath, platform);
+    } else if (!result.manifest.wasmFallback.empty()) {
+        selectedRelPath = result.manifest.wasmFallback;
+        result.usedWasmFallback = true;
+        spdlog::info("PluginBundleLoader: no native library for platform '{}' — "
+                     "using WASM fallback '{}'", platform, selectedRelPath);
+    } else {
+        result.errorMessage = "Bundle '" + bundlePath +
+                               "' has no native library for platform '" + platform +
+                               "' and no WASM fallback";
+        spdlog::error("PluginBundleLoader: {}", result.errorMessage);
+        return result;
+    }
+
+    result.resolvedBinaryPath = (fs::path(tempDir) / selectedRelPath).string();
+
+    if (!fs::exists(result.resolvedBinaryPath)) {
+        result.errorMessage = "Resolved binary '" + result.resolvedBinaryPath +
+                               "' not found after extraction";
+        spdlog::error("PluginBundleLoader: {}", result.errorMessage);
+        return result;
+    }
+
+    // ── Step 5: Delegate to ModuleLoader (native) or flag for WASM runtime ─
+    if (!result.usedWasmFallback) {
+        auto loadResult = loader.loadModule(result.resolvedBinaryPath,
+                                            result.manifest.name);
+        if (!loadResult.success) {
+            result.errorMessage = "ModuleLoader::loadModule failed for '" +
+                                   result.resolvedBinaryPath + "': " +
+                                   loadResult.errorMessage;
+            spdlog::error("PluginBundleLoader: {}", result.errorMessage);
+            return result;
+        }
+        spdlog::info("PluginBundleLoader: successfully loaded bundle '{}' "
+                     "(plugin '{}' v{})",
+                     bundlePath, result.manifest.name, result.manifest.version);
+    } else {
+        // WASM-only path: the resolved path points to the .wasm binary.
+        // Actual WASM execution is handled by WasmPluginSandbox; we report
+        // success so the caller knows the binary path to hand off.
+        spdlog::info("PluginBundleLoader: WASM-only bundle '{}' (plugin '{}' v{}) "
+                     "extracted to '{}'; hand off to WASM runtime",
+                     bundlePath, result.manifest.name, result.manifest.version,
+                     result.resolvedBinaryPath);
+    }
+
+    result.success = true;
+    return result;
 }
 
 } // namespace modules

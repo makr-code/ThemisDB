@@ -1509,6 +1509,11 @@ function(themis_build_modular)
     if(TARGET CURL::libcurl)
         list(APPEND _themis_base_deps CURL::libcurl)
     endif()
+    if(TARGET libzip::zip)
+        list(APPEND _themis_base_deps libzip::zip)
+    elseif(TARGET libzip::libzip)
+        list(APPEND _themis_base_deps libzip::libzip)
+    endif()
 
     themis_add_module(base
         SOURCES ${THEMIS_BASE_SOURCES}

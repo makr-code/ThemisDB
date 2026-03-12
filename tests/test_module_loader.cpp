@@ -1339,6 +1339,185 @@ TEST(ModuleMetrics, TotalUnloadsField) {
 }
 
 // ============================================================================
+// PluginBundle tests  (v1.4.0 — Cross-Platform Module Format)
+// ============================================================================
+
+// ── PluginBundleManifest ────────────────────────────────────────────────────
+
+TEST(PluginBundleManifest, DefaultConstruction) {
+    PluginBundleManifest m;
+    EXPECT_TRUE(m.name.empty());
+    EXPECT_TRUE(m.version.empty());
+    EXPECT_TRUE(m.description.empty());
+    EXPECT_TRUE(m.author.empty());
+    EXPECT_TRUE(m.nativeLibraries.empty());
+    EXPECT_TRUE(m.wasmFallback.empty());
+    EXPECT_EQ(m.signatureFile, "plugin.sig");
+    EXPECT_FALSE(m.isValid());
+}
+
+TEST(PluginBundleManifest, IsValidRequiresNameAndVersion) {
+    PluginBundleManifest m;
+    m.name = "my_plugin";
+    EXPECT_FALSE(m.isValid());  // version still empty
+
+    m.version = "1.0.0";
+    EXPECT_TRUE(m.isValid());
+}
+
+// ── PluginBundleLoadResult ──────────────────────────────────────────────────
+
+TEST(PluginBundleLoadResult, DefaultConstruction) {
+    PluginBundleLoadResult r;
+    EXPECT_FALSE(r.success);
+    EXPECT_TRUE(r.errorMessage.empty());
+    EXPECT_TRUE(r.resolvedBinaryPath.empty());
+    EXPECT_FALSE(r.usedWasmFallback);
+    EXPECT_TRUE(r.tempDirectory.empty());
+}
+
+// ── PluginBundleLoader — currentPlatform ────────────────────────────────────
+
+TEST(PluginBundleLoader, CurrentPlatformNonEmpty) {
+    std::string p = PluginBundleLoader::currentPlatform();
+    EXPECT_FALSE(p.empty());
+    // Must contain a '-' separating OS and architecture tokens.
+    EXPECT_NE(p.find('-'), std::string::npos);
+}
+
+TEST(PluginBundleLoader, CurrentPlatformKnownOS) {
+    std::string p = PluginBundleLoader::currentPlatform();
+    bool knownOS = (p.rfind("linux-",   0) == 0) ||
+                   (p.rfind("windows-", 0) == 0) ||
+                   (p.rfind("macos-",   0) == 0) ||
+                   (p.rfind("unknown-", 0) == 0);
+    EXPECT_TRUE(knownOS) << "Unexpected platform token: " << p;
+}
+
+// ── PluginBundleLoader — parseManifest ─────────────────────────────────────
+
+TEST(PluginBundleLoader, ParseManifestMinimal) {
+    const std::string json = R"({"name":"test_plugin","version":"1.2.3"})";
+    PluginBundleManifest m;
+    std::string err;
+    EXPECT_TRUE(PluginBundleLoader::parseManifest(json, m, err));
+    EXPECT_EQ(m.name,    "test_plugin");
+    EXPECT_EQ(m.version, "1.2.3");
+    EXPECT_TRUE(m.description.empty());
+    EXPECT_TRUE(m.wasmFallback.empty());
+    EXPECT_EQ(m.signatureFile, "plugin.sig");  // default preserved
+}
+
+TEST(PluginBundleLoader, ParseManifestFull) {
+    const std::string json = R"({
+        "name": "my_backend",
+        "version": "2.0.1",
+        "description": "An example backend",
+        "author": "ThemisDB Team",
+        "signatureFile": "bundle.sig",
+        "wasmFallback": "plugin.wasm",
+        "nativeLibraries": {
+            "linux-x86_64":  "linux-x86_64/libmy_backend.so",
+            "windows-x86_64":"windows-x86_64/my_backend.dll",
+            "macos-arm64":   "macos-arm64/libmy_backend.dylib"
+        }
+    })";
+
+    PluginBundleManifest m;
+    std::string err;
+    ASSERT_TRUE(PluginBundleLoader::parseManifest(json, m, err)) << err;
+    EXPECT_EQ(m.name,         "my_backend");
+    EXPECT_EQ(m.version,      "2.0.1");
+    EXPECT_EQ(m.description,  "An example backend");
+    EXPECT_EQ(m.author,       "ThemisDB Team");
+    EXPECT_EQ(m.signatureFile,"bundle.sig");
+    EXPECT_EQ(m.wasmFallback, "plugin.wasm");
+    ASSERT_EQ(m.nativeLibraries.size(), 3u);
+    EXPECT_EQ(m.nativeLibraries.at("linux-x86_64"),   "linux-x86_64/libmy_backend.so");
+    EXPECT_EQ(m.nativeLibraries.at("windows-x86_64"), "windows-x86_64/my_backend.dll");
+    EXPECT_EQ(m.nativeLibraries.at("macos-arm64"),    "macos-arm64/libmy_backend.dylib");
+}
+
+TEST(PluginBundleLoader, ParseManifestMissingName) {
+    const std::string json = R"({"version":"1.0.0"})";
+    PluginBundleManifest m;
+    std::string err;
+    EXPECT_FALSE(PluginBundleLoader::parseManifest(json, m, err));
+    EXPECT_FALSE(err.empty());
+}
+
+TEST(PluginBundleLoader, ParseManifestMissingVersion) {
+    const std::string json = R"({"name":"plugin_x"})";
+    PluginBundleManifest m;
+    std::string err;
+    EXPECT_FALSE(PluginBundleLoader::parseManifest(json, m, err));
+    EXPECT_FALSE(err.empty());
+}
+
+TEST(PluginBundleLoader, ParseManifestEmptyName) {
+    const std::string json = R"({"name":"","version":"1.0.0"})";
+    PluginBundleManifest m;
+    std::string err;
+    EXPECT_FALSE(PluginBundleLoader::parseManifest(json, m, err));
+    EXPECT_FALSE(err.empty());
+}
+
+TEST(PluginBundleLoader, ParseManifestInvalidJson) {
+    const std::string json = "{ this is not valid json }";
+    PluginBundleManifest m;
+    std::string err;
+    EXPECT_FALSE(PluginBundleLoader::parseManifest(json, m, err));
+    EXPECT_FALSE(err.empty());
+}
+
+TEST(PluginBundleLoader, ParseManifestWasmFallbackOnly) {
+    // A WASM-only bundle has no nativeLibraries but has wasmFallback.
+    const std::string json = R"({
+        "name": "portable_plugin",
+        "version": "0.1.0",
+        "wasmFallback": "plugin.wasm"
+    })";
+    PluginBundleManifest m;
+    std::string err;
+    ASSERT_TRUE(PluginBundleLoader::parseManifest(json, m, err)) << err;
+    EXPECT_EQ(m.wasmFallback, "plugin.wasm");
+    EXPECT_TRUE(m.nativeLibraries.empty());
+}
+
+// ── PluginBundleLoader — loadBundle error paths ─────────────────────────────
+
+TEST(PluginBundleLoader, LoadBundleNonexistentFileReturnsError) {
+    PluginBundleLoader bundleLoader;
+    ModuleLoader moduleLoader;
+    auto result = bundleLoader.loadBundle("/nonexistent/path/plugin.tdb", moduleLoader);
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.errorMessage.empty());
+}
+
+// ── PluginBundleLoader — Ed25519 signature verification ─────────────────────
+
+TEST(PluginBundleLoader, VerifyEd25519InvalidKeyReturnsError) {
+    const uint8_t msg[] = "hello";
+    std::vector<uint8_t> fakeSig(64, 0xAB);
+    std::string err;
+    bool ok = PluginBundleLoader::verifyEd25519Signature(
+        msg, sizeof(msg), fakeSig, "not-a-real-pem-key", err);
+    EXPECT_FALSE(ok);
+    EXPECT_FALSE(err.empty());
+}
+
+TEST(PluginBundleLoader, VerifyEd25519WrongSigLengthReturnsError) {
+    const uint8_t msg[] = "data";
+    std::vector<uint8_t> shortSig(10, 0x00);  // must be exactly 64 bytes
+    std::string err;
+    bool ok = PluginBundleLoader::verifyEd25519Signature(
+        msg, sizeof(msg), shortSig, "", err);
+    EXPECT_FALSE(ok);
+    EXPECT_FALSE(err.empty());
+}
+
+
+// ============================================================================
 // Concurrent access tests (O(1) module lookup / shared_mutex)
 // ============================================================================
 

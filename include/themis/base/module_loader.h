@@ -996,5 +996,175 @@ private:
         const std::vector<std::string>& nodes) const;
 };
 
+// ============================================================================
+// CROSS-PLATFORM PLUGIN BUNDLE FORMAT  (v1.4.0)
+// ============================================================================
+
+/**
+ * @brief Parsed contents of the manifest.json file inside a PluginBundle.
+ *
+ * A PluginBundle is a ZIP archive (conventionally using the .tdb extension)
+ * that packages native libraries for multiple platforms together with an
+ * optional WASM fallback and an Ed25519 signature of the manifest.
+ *
+ * Archive layout:
+ * @code
+ *   plugin.tdb
+ *   ├── manifest.json       – this structure, serialised as JSON
+ *   ├── plugin.sig          – Ed25519 signature of manifest.json (raw bytes)
+ *   ├── linux-x86_64/
+ *   │   └── libplugin.so
+ *   ├── windows-x86_64/
+ *   │   └── plugin.dll
+ *   ├── macos-arm64/
+ *   │   └── libplugin.dylib
+ *   └── plugin.wasm         – optional portable WASM fallback
+ * @endcode
+ *
+ * The platform token format is "<os>-<arch>" where os ∈ {linux, windows, macos}
+ * and arch ∈ {x86_64, aarch64, arm64}.
+ */
+struct PluginBundleManifest {
+    std::string name;           ///< Plugin name (e.g., "themis_my_backend")
+    std::string version;        ///< Semantic version (e.g., "1.0.0")
+    std::string description;    ///< Human-readable description (may be empty)
+    std::string author;         ///< Plugin author / organisation (may be empty)
+
+    /// Maps the canonical platform token to the in-archive path of the
+    /// corresponding native library.
+    /// Example: { "linux-x86_64" → "linux-x86_64/libplugin.so" }
+    std::map<std::string, std::string> nativeLibraries;
+
+    /// In-archive path of the optional WASM fallback ("" = none present).
+    std::string wasmFallback;
+
+    /// In-archive path of the Ed25519 signature file (default: "plugin.sig").
+    std::string signatureFile = "plugin.sig";
+
+    /// Returns true when the mandatory fields (name, version) are non-empty.
+    bool isValid() const {
+        return !name.empty() && !version.empty();
+    }
+};
+
+/**
+ * @brief Result returned by PluginBundleLoader::loadBundle().
+ */
+struct PluginBundleLoadResult {
+    bool success = false;
+    std::string errorMessage;
+
+    /// Full filesystem path to the binary (native .so/.dll/.dylib or .wasm)
+    /// that was selected and passed to the ModuleLoader.  Populated on both
+    /// success and the WASM-fallback path.
+    std::string resolvedBinaryPath;
+
+    /// True when no native library was found for the current platform and the
+    /// WASM fallback was used instead.
+    bool usedWasmFallback = false;
+
+    /// The parsed manifest from the bundle.  Populated on success.
+    PluginBundleManifest manifest;
+
+    /// Path to the temporary directory where the bundle was unpacked.
+    /// The directory persists until the loaded native library is unloaded
+    /// (dlopen/LoadLibrary hold a reference to files inside it).
+    std::string tempDirectory;
+};
+
+/**
+ * @brief Loader for cross-platform PluginBundle ZIP archives.
+ *
+ * loadBundle() orchestrates the following steps:
+ *  1. Unpack the ZIP archive to a unique temporary directory.
+ *  2. Parse manifest.json.
+ *  3. Verify the Ed25519 signature of manifest.json (skipped when no public key
+ *     has been configured — development/test mode only).
+ *  4. Select the native library for the running platform (currentPlatform()).
+ *     Falls back to the WASM entry if no native library is present.
+ *  5. Delegate the actual binary load to the supplied ModuleLoader instance.
+ *
+ * Thread-Safety: An individual PluginBundleLoader instance is NOT thread-safe.
+ * Create one instance per loading thread or serialise access externally.
+ */
+class PluginBundleLoader {
+public:
+    PluginBundleLoader();
+    ~PluginBundleLoader();
+
+    PluginBundleLoader(const PluginBundleLoader&) = delete;
+    PluginBundleLoader& operator=(const PluginBundleLoader&) = delete;
+
+    /**
+     * @brief Set the PEM-encoded Ed25519 public key used to verify bundle
+     *        signatures.
+     *
+     * When no key is set (the default) signature verification is skipped,
+     * which is only suitable for development / unit-testing.  In production,
+     * always set a public key before calling loadBundle().
+     *
+     * @param publicKeyPem  PEM-encoded Ed25519 public key.
+     */
+    void setPublicKey(const std::string& publicKeyPem);
+
+    /**
+     * @brief Return the canonical platform token for the current build.
+     *
+     * Examples: "linux-x86_64", "linux-aarch64", "windows-x86_64",
+     *           "macos-arm64", "macos-x86_64".
+     */
+    static std::string currentPlatform();
+
+    /**
+     * @brief Load a PluginBundle archive and delegate to a ModuleLoader.
+     *
+     * @param bundlePath  Path to the .tdb (ZIP) bundle file.
+     * @param loader      ModuleLoader instance used for the final native-
+     *                    library load step.
+     * @return PluginBundleLoadResult indicating success/failure and details.
+     */
+    PluginBundleLoadResult loadBundle(const std::string& bundlePath,
+                                      ModuleLoader& loader);
+
+    /**
+     * @brief Parse a PluginBundleManifest from raw JSON text.
+     *
+     * Exposed as a public static helper to facilitate unit testing without
+     * requiring a real ZIP archive.
+     *
+     * @param jsonText  Contents of manifest.json.
+     * @param manifest  Output: populated on success.
+     * @param error     Output: human-readable error message on failure.
+     * @return true if parsing succeeded and the manifest is valid.
+     */
+    static bool parseManifest(const std::string& jsonText,
+                               PluginBundleManifest& manifest,
+                               std::string& error);
+
+    /**
+     * @brief Verify an Ed25519 signature over a message.
+     *
+     * @param message       Pointer to the data that was signed.
+     * @param messageLen    Length of the data in bytes.
+     * @param signatureBytes Raw 64-byte Ed25519 signature.
+     * @param publicKeyPem  PEM-encoded Ed25519 public key.
+     * @param error         Output: error description on failure.
+     * @return true if the signature is valid; false otherwise.
+     */
+    static bool verifyEd25519Signature(const uint8_t* message,
+                                       size_t messageLen,
+                                       const std::vector<uint8_t>& signatureBytes,
+                                       const std::string& publicKeyPem,
+                                       std::string& error);
+
+private:
+    std::string publicKeyPem_;
+
+    /// Unpack the ZIP at bundlePath into a new temporary subdirectory.
+    /// Returns the path to the temp dir on success or an empty string + error.
+    static std::string extractToTempDir(const std::string& bundlePath,
+                                        std::string& error);
+};
+
 } // namespace modules
 } // namespace themis
