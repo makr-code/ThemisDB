@@ -34,6 +34,7 @@
 #include <map>
 #include <optional>
 #include <string>
+#include "themis/export.h"
 
 namespace themis {
 namespace modules {
@@ -69,7 +70,7 @@ struct ModuleHashVerificationResult {
  * Thread-safety: the static helpers are thread-safe.  The manifest methods
  * are NOT thread-safe; callers must synchronise external access if needed.
  */
-class ModuleHashVerifier {
+class THEMIS_BASE_API ModuleHashVerifier {
 public:
     // ---- static helpers (no manifest required) -------------------------
 

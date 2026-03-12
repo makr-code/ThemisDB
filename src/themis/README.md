@@ -138,9 +138,9 @@ Currently integrated with server module.
 ## Migration Plan
 
 ### Phase 1: Extract to Separate Files (v1.7.0)
-- Move build info implementation to `src/themis/build_info.cpp`
-- Move license implementation to `src/themis/license_info.cpp`
-- Move wire protocol to `src/themis/wire_protocol_server.cpp`
+- Move build info implementation to `src/themis/build_info.cpp` ✅
+- Move license implementation to `src/themis/license_info.cpp` ✅
+- Move wire protocol to `src/themis/wire_protocol_server.cpp` ✅
 
 ### Phase 2: Create themis-base Library (v1.7.0)
 - Build `libthemis-base.so` / `themis-base.dll`

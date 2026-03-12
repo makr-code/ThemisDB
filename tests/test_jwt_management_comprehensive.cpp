@@ -102,11 +102,13 @@ TEST(JWTValidatorConfigTest, DefaultConfig_SaneDefaults) {
     EXPECT_EQ(cfg.cache_ttl, std::chrono::seconds(600));
     EXPECT_EQ(cfg.clock_skew, std::chrono::seconds(60));
     EXPECT_TRUE(cfg.jwks_url.empty());
-    EXPECT_TRUE(cfg.expected_issuer.empty());
-    EXPECT_TRUE(cfg.expected_audience.empty());
+    EXPECT_FALSE(cfg.expected_issuer.has_value());
+    EXPECT_FALSE(cfg.expected_audience.has_value());
     EXPECT_TRUE(cfg.revoked_kids.empty());
     EXPECT_EQ(cfg.jwks_timeout_seconds, DEFAULT_JWKS_TIMEOUT_SECONDS);
     EXPECT_EQ(cfg.jwks_max_retries, MAX_JWKS_RETRY_ATTEMPTS);
+    EXPECT_TRUE(cfg.require_issuer_validation);
+    EXPECT_TRUE(cfg.require_audience_validation);
 }
 
 TEST(JWTValidatorConfigTest, Constants_ValidValues) {
@@ -132,6 +134,8 @@ protected:
     void SetUp() override {
         JWTValidatorConfig cfg;
         cfg.jwks_url = "http://localhost:8080/jwks"; // Won't be called in tests
+        cfg.require_issuer_validation = false;
+        cfg.require_audience_validation = false;
         validator_ = std::make_unique<JWTValidator>(cfg);
     }
 
@@ -168,6 +172,8 @@ TEST_F(JWTRevocationTest, RevokedKidInConfig_CheckedOnValidation) {
     JWTValidatorConfig cfg;
     cfg.jwks_url = "http://localhost/jwks";
     cfg.revoked_kids = {"pre-revoked-key"};
+    cfg.require_issuer_validation = false;
+    cfg.require_audience_validation = false;
     JWTValidator v(cfg);
 
     // Pre-revoked key should be revoked even before any runtime revocation
@@ -237,6 +243,8 @@ TEST(JWTAccessControlTest, HasAccess_MultipleGroups_AllChecked) {
 TEST(JWTTokenValidationTest, EmptyToken_ThrowsOrReturnsError) {
     JWTValidatorConfig cfg;
     cfg.jwks_url = "http://localhost/jwks";
+    cfg.require_issuer_validation = false;
+    cfg.require_audience_validation = false;
     JWTValidator v(cfg);
 
     EXPECT_THROW(v.parseAndValidate(""), std::exception);
@@ -245,6 +253,8 @@ TEST(JWTTokenValidationTest, EmptyToken_ThrowsOrReturnsError) {
 TEST(JWTTokenValidationTest, TooLargeToken_Rejected) {
     JWTValidatorConfig cfg;
     cfg.jwks_url = "http://localhost/jwks";
+    cfg.require_issuer_validation = false;
+    cfg.require_audience_validation = false;
     JWTValidator v(cfg);
 
     // Token larger than MAX_JWT_TOKEN_SIZE (16KB)
@@ -255,6 +265,8 @@ TEST(JWTTokenValidationTest, TooLargeToken_Rejected) {
 TEST(JWTTokenValidationTest, TokenWithOnlyTwoParts_Rejected) {
     JWTValidatorConfig cfg;
     cfg.jwks_url = "http://localhost/jwks";
+    cfg.require_issuer_validation = false;
+    cfg.require_audience_validation = false;
     JWTValidator v(cfg);
 
     // JWT must have 3 parts separated by dots
@@ -264,6 +276,8 @@ TEST(JWTTokenValidationTest, TokenWithOnlyTwoParts_Rejected) {
 TEST(JWTTokenValidationTest, GarbageToken_Rejected) {
     JWTValidatorConfig cfg;
     cfg.jwks_url = "http://localhost/jwks";
+    cfg.require_issuer_validation = false;
+    cfg.require_audience_validation = false;
     JWTValidator v(cfg);
 
     EXPECT_THROW(v.parseAndValidate("not.a.jwt"), std::exception);
@@ -274,6 +288,8 @@ TEST(JWTTokenValidationTest, NoneAlgorithmToken_Rejected) {
     // This represents the "algorithm confusion" attack
     JWTValidatorConfig cfg;
     cfg.jwks_url = "http://localhost/jwks";
+    cfg.require_issuer_validation = false;
+    cfg.require_audience_validation = false;
     JWTValidator v(cfg);
 
     // Base64url-encoded: {"alg":"none","typ":"JWT"}

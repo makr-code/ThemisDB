@@ -456,7 +456,7 @@ Result<void> DatabaseMaintenanceOrchestrator::deleteSchedule(const std::string& 
 // ---------------------------------------------------------------------------
 
 Result<OrchestratorJob> DatabaseMaintenanceOrchestrator::triggerNow(
-    const std::string& schedule_id)
+    const std::string& schedule_id, bool force)
 {
     MaintenanceScheduleEntry entry;
     {
@@ -481,6 +481,7 @@ Result<OrchestratorJob> DatabaseMaintenanceOrchestrator::triggerNow(
     job.task_type   = entry.tasks.front();
     job.state       = MaintenanceJobState::RUNNING;
     job.started_at_ms = nowMs();
+    job.forced      = force;
 
     {
         std::lock_guard<std::mutex> lock(jobs_mutex_);
@@ -493,6 +494,7 @@ Result<OrchestratorJob> DatabaseMaintenanceOrchestrator::triggerNow(
             {"job_id",      job.id},
             {"schedule_id", schedule_id},
             {"task_type",   taskTypeToString(job.task_type)},
+            {"forced",      force},
             {"timestamp_ms", job.started_at_ms},
         });
     }
@@ -502,8 +504,8 @@ Result<OrchestratorJob> DatabaseMaintenanceOrchestrator::triggerNow(
 
     // Run asynchronously
     std::string job_id = job.id;
-    std::thread([this, schedule_id, job_id]() {
-        executeSchedule(schedule_id, job_id);
+    std::thread([this, schedule_id, job_id, force]() {
+        executeSchedule(schedule_id, job_id, force);
     }).detach();
 
     return job;
@@ -755,7 +757,7 @@ void DatabaseMaintenanceOrchestrator::deregisterFromScheduler(
 }
 
 void DatabaseMaintenanceOrchestrator::executeSchedule(
-    const std::string& schedule_id, const std::string& job_id)
+    const std::string& schedule_id, const std::string& job_id, bool force)
 {
     MaintenanceScheduleEntry entry;
     {
@@ -774,7 +776,9 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
     }
 
     // ---- Maintenance window enforcement --------------------------------
-    if (entry.enforce_window &&
+    // When force=true the window check is bypassed entirely.
+    if (!force &&
+        entry.enforce_window &&
         !isInMaintenanceWindow(entry.window_start_hour, entry.window_end_hour)) {
         spdlog::warn("MaintenanceJob {} skipped: outside window [{}-{}] UTC (current hour={})",
                      job_id, entry.window_start_hour, entry.window_end_hour,
@@ -887,6 +891,7 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
             {"schedule_id",  schedule_id},
             {"duration_ms",  static_cast<int64_t>(total_dur_ms)},
             {"error",        last_error},
+            {"forced",       force},
             {"timestamp_ms", now},
         });
     }

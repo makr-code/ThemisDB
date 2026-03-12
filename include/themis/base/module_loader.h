@@ -161,6 +161,7 @@ enum class ModuleErrorCode {
  * @brief Error category for error handling strategy
  */
 enum class ErrorCategory {
+    NONE,           // No error (operation succeeded)
     TRANSIENT,      // Temporary failure, retry may succeed
     PERMANENT,      // Persistent failure, retry unlikely to help
     RECOVERABLE,    // Can be fixed by user action
@@ -314,7 +315,7 @@ struct WatchdogModuleStats {
 struct ModuleVerificationResult {
     bool success = false;
     ModuleErrorCode errorCode = ModuleErrorCode::SUCCESS;
-    ErrorCategory errorCategory = ErrorCategory::PERMANENT;
+    ErrorCategory errorCategory = ErrorCategory::NONE;
     std::string errorMessage;
     std::string moduleHash;
     std::string modulePath;

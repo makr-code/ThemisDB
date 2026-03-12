@@ -66,10 +66,10 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 `include/auth/jwt_validator.h` declares `jwks_cache_` (line 192) and `jwks_cache_time_` (line 193) as plain non-atomic member fields. There is **no `mutable std::mutex`** guarding them in the header or in `jwt_validator.cpp`. When multiple threads call `JWTValidator::validate()` concurrently and the cache expires, they all race into `fetchJWKS()` simultaneously — writing `jwks_cache_` and `jwks_cache_time_` from multiple threads is a data race (undefined behaviour under C++11 and later).
 
 **Implementation Notes:**
-- `[ ]` Add `mutable std::shared_mutex jwks_cache_mutex_` to `jwt_validator.h` alongside `jwks_cache_` (`jwt_validator.h:192`)
-- `[ ]` Wrap all reads of `jwks_cache_` in `fetchJWKS()` with `std::shared_lock` and all writes with `std::unique_lock` (`jwt_validator.cpp:98-174`)
-- `[ ]` Implement "double-checked locking" pattern: acquire shared lock first, check staleness, upgrade to unique lock only if refresh is needed, then re-check to avoid thundering-herd on cache expiry
-- `[ ]` Add unit test: spawn 32 threads each calling `validate()` concurrently with cache TTL of 0 — verify no crash under Thread Sanitizer (TSAN)
+- `[x]` Add `mutable std::shared_mutex jwks_cache_mutex_` to `jwt_validator.h` alongside `jwks_cache_` (`jwt_validator.h:192`)
+- `[x]` Wrap all reads of `jwks_cache_` in `fetchJWKS()` with `std::shared_lock` and all writes with `std::unique_lock` (`jwt_validator.cpp:98-174`)
+- `[x]` Implement "double-checked locking" pattern: acquire shared lock first, check staleness, upgrade to unique lock only if refresh is needed, then re-check to avoid thundering-herd on cache expiry
+- `[x]` Add unit test: spawn 32 threads each calling `validate()` concurrently with cache TTL of 0 — verify no crash under Thread Sanitizer (TSAN)
 
 **Performance Targets:**
 - Zero-overhead on warm-cache path (shared_lock is reader-writer; concurrent readers proceed in parallel)
@@ -104,12 +104,12 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 `ldap_authenticator.cpp:buildUserDN()` (lines 90-97) substitutes the raw `username` string into a DN template by replacing the `{username}` placeholder with no escaping at all. An attacker supplying a username containing DN special characters (`,`, `=`, `+`, `<`, `>`, `#`, `;`, `\`, `"`) can manipulate the constructed DN to bind as a different directory entry. This is a textbook LDAP injection vulnerability.
 
 **Implementation Notes:**
-- `[ ]` Implement `escapeLDAPDNComponent(const std::string& value)` in `ldap_authenticator.cpp` following RFC 4514 Section 2.4: escape characters `,`, `+`, `"`, `\`, `<`, `>`, `;`, and leading/trailing spaces and `#`
-- `[ ]` Implement `escapeLDAPFilterValue(const std::string& value)` following RFC 4515 Section 3: escape `*`, `(`, `)`, `\`, NUL
-- `[ ]` Call `escapeLDAPDNComponent()` on `username` inside `buildUserDN()` before string substitution (line 96)
-- `[ ]` Call `escapeLDAPFilterValue()` on all user-controlled values inserted into LDAP search filter strings (lines 257, 379)
-- `[ ]` Add `LDAP_OPT_REFERRALS = LDAP_OPT_OFF` to both the Windows path (line 208) and the POSIX path (line 317) — referral chasing with attacker-controlled usernames can redirect authentication to a rogue LDAP server
-- `[ ]` Add fuzz test (libFuzzer) targeting `buildUserDN()` with adversarial username inputs
+- `[x]` Implement `escapeLDAPDNComponent(const std::string& value)` in `ldap_authenticator.cpp` following RFC 4514 Section 2.4: escape characters `,`, `+`, `"`, `\`, `<`, `>`, `;`, and leading/trailing spaces and `#`
+- `[x]` Implement `escapeLDAPFilterValue(const std::string& value)` following RFC 4515 Section 3: escape `*`, `(`, `)`, `\`, NUL
+- `[x]` Call `escapeLDAPDNComponent()` on `username` inside `buildUserDN()` before string substitution (line 96)
+- `[x]` Call `escapeLDAPFilterValue()` on all user-controlled values inserted into LDAP search filter strings (lines 257, 379)
+- `[x]` Add `LDAP_OPT_REFERRALS = LDAP_OPT_OFF` to both the Windows path (line 208) and the POSIX path (line 317) — referral chasing with attacker-controlled usernames can redirect authentication to a rogue LDAP server
+- `[x]` Add fuzz test (libFuzzer) targeting `buildUserDN()` with adversarial username inputs
 
 **Performance Targets:**
 - Escaping adds < 5 µs overhead per authentication call

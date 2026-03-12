@@ -87,7 +87,11 @@ SecurityLayerBuilder& SecurityLayerBuilder::withJWT(
     // For now, store the cert file path
     // In a real implementation, we'd load the certificate
     jwt_config_.jwks_url = cert_file;  // Using jwks_url to store cert path
-    jwt_config_.expected_issuer = allowed_issuers.empty() ? "" : allowed_issuers[0];
+    if (!allowed_issuers.empty()) {
+        jwt_config_.expected_issuer = allowed_issuers[0];
+    } else {
+        jwt_config_.require_issuer_validation = false;
+    }
     jwt_configured_ = true;
     return *this;
 }

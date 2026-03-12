@@ -31,7 +31,6 @@
 #include <spdlog/spdlog.h>
 
 #include <algorithm>
-#include <sstream>
 
 // ---------------------------------------------------------------------------
 // Platform-specific LDAP includes
@@ -48,6 +47,92 @@
 
 namespace themis {
 namespace auth {
+
+// ===========================================================================
+// LDAP injection-prevention helpers (file-internal)
+// ===========================================================================
+
+namespace {
+
+/**
+ * @brief Escape a value for use as a DN attribute value component (RFC 4514 §2.4).
+ *
+ * The following characters are escaped with a preceding backslash:
+ *   , + " \ < > ; = (always)
+ *   # (only when leading)
+ *   space (only when leading or trailing)
+ * NUL bytes are encoded as the two-char hex sequence \00.
+ * All other characters are left unmodified.
+ */
+std::string escapeLDAPDNComponent(const std::string& value)
+{
+    if (value.empty()) {
+        return value;
+    }
+
+    std::string out;
+    out.reserve(value.size() * 2);
+
+    for (std::size_t i = 0; i < value.size(); ++i) {
+        const unsigned char c = static_cast<unsigned char>(value[i]);
+
+        // Leading '#' must be escaped
+        if (i == 0 && c == '#') {
+            out += "\\#";
+            continue;
+        }
+
+        // Leading or trailing space must be escaped
+        if (c == ' ' && (i == 0 || i == value.size() - 1)) {
+            out += "\\ ";
+            continue;
+        }
+
+        // Always-escaped DN special characters per RFC 4514
+        switch (c) {
+            case ',':  out += "\\,";  break;
+            case '+':  out += "\\+";  break;
+            case '"':  out += "\\\""; break;
+            case '\\': out += "\\\\"; break;
+            case '<':  out += "\\<";  break;
+            case '>':  out += "\\>";  break;
+            case ';':  out += "\\;";  break;
+            case '=':  out += "\\=";  break;
+            // NUL would truncate c_str() passed to LDAP C APIs; encode it.
+            case '\0': out += "\\00"; break;
+            default:   out += static_cast<char>(c); break;
+        }
+    }
+
+    return out;
+}
+
+/**
+ * @brief Escape a value for use inside an LDAP search filter (RFC 4515 §3).
+ *
+ * The following bytes are backslash-hex escaped as \XX for LDAP filters:
+ *   * ( ) \ NUL
+ */
+std::string escapeLDAPFilterValue(const std::string& value)
+{
+    std::string out;
+    out.reserve(value.size() * 3);
+
+    for (const unsigned char c : value) {
+        switch (c) {
+            case '*':  out += "\\2a"; break;
+            case '(':  out += "\\28"; break;
+            case ')':  out += "\\29"; break;
+            case '\\': out += "\\5c"; break;
+            case '\0': out += "\\00"; break;
+            default:   out += static_cast<char>(c); break;
+        }
+    }
+
+    return out;
+}
+
+} // anonymous namespace
 
 // ===========================================================================
 // Construction / destruction
@@ -93,7 +178,7 @@ std::string LDAPAuthenticator::buildUserDN(const std::string& username) const
     const std::string placeholder = "{username}";
     const auto pos = dn.find(placeholder);
     if (pos != std::string::npos) {
-        dn.replace(pos, placeholder.size(), username);
+        dn.replace(pos, placeholder.size(), escapeLDAPDNComponent(username));
     }
     return dn;
 }
@@ -120,6 +205,17 @@ std::vector<std::string> LDAPAuthenticator::mapGroupsToRoles(
     }
 
     return roles;
+}
+
+std::string LDAPAuthenticator::buildGroupSearchFilter(const std::string& dn) const
+{
+    std::string filter = config_.group_search_filter;
+    const std::string ph = "{dn}";
+    const auto pos = filter.find(ph);
+    if (pos != std::string::npos) {
+        filter.replace(pos, ph.size(), escapeLDAPFilterValue(dn));
+    }
+    return filter;
 }
 
 // ===========================================================================
@@ -207,6 +303,19 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
     ULONG timelimit = static_cast<ULONG>(config_.search_timeout_seconds);
     ldap_set_option(ld, LDAP_OPT_TIMELIMIT, static_cast<void*>(&timelimit));
 
+    // Disable referral chasing — following attacker-controlled referrals can
+    // redirect authentication to a rogue LDAP server.
+    ULONG referrals_off = LDAP_OPT_OFF;
+    const ULONG referrals_result =
+        ldap_set_option(ld, LDAP_OPT_REFERRALS, static_cast<void*>(&referrals_off));
+    if (referrals_result != LDAP_SUCCESS) {
+        spdlog::error("LDAPAuthenticator: failed to disable LDAP referrals: {}",
+                      referrals_result);
+        ldap_unbind(ld);
+        audit.logLDAPFailure(username, "disable_referrals_failed");
+        return LDAPAuthResult::Failed("LDAP configuration error (referrals still enabled)");
+    }
+
     // StartTLS if requested
     if (config_.use_tls) {
         const ULONG tls_result = ldap_start_tls_s(ld, nullptr, nullptr, nullptr, nullptr);
@@ -236,13 +345,8 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
     // Optional group search
     std::vector<std::string> groups;
     if (config_.enable_group_search && !config_.group_search_filter.empty()) {
-        // Build group filter with {dn} substituted
-        std::string filter = config_.group_search_filter;
-        const std::string ph = "{dn}";
-        const auto pos = filter.find(ph);
-        if (pos != std::string::npos) {
-            filter.replace(pos, ph.size(), dn);
-        }
+        // Build group filter with {dn} substituted and filter-escaped (RFC 4515).
+        const std::string filter = buildGroupSearchFilter(dn);
 
         const std::string search_base =
             config_.group_search_base.empty()
@@ -328,6 +432,18 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
     srch_tv.tv_usec = 0;
     ldap_set_option(ld, LDAP_OPT_TIMEOUT, &srch_tv);
 
+    // Disable referral chasing — following attacker-controlled referrals can
+    // redirect authentication to a rogue LDAP server.
+    int referrals_off = LDAP_OPT_OFF;
+    rc = ldap_set_option(ld, LDAP_OPT_REFERRALS, &referrals_off);
+    if (rc != LDAP_SUCCESS) {
+        spdlog::error("LDAPAuthenticator: failed to disable LDAP referrals: {}",
+                      ldap_err2string(rc));
+        ldap_unbind_ext_s(ld, nullptr, nullptr);
+        audit.logLDAPFailure(username, "disable_referrals_failed");
+        return LDAPAuthResult::Failed("LDAP configuration error (referrals still enabled)");
+    }
+
     // StartTLS if requested
     if (config_.use_tls) {
         rc = ldap_start_tls_s(ld, nullptr, nullptr);
@@ -358,12 +474,8 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
     // Optional group search
     std::vector<std::string> groups;
     if (config_.enable_group_search && !config_.group_search_filter.empty()) {
-        std::string filter = config_.group_search_filter;
-        const std::string ph = "{dn}";
-        const auto pos = filter.find(ph);
-        if (pos != std::string::npos) {
-            filter.replace(pos, ph.size(), dn);
-        }
+        // Build group filter with {dn} substituted and filter-escaped (RFC 4515).
+        const std::string filter = buildGroupSearchFilter(dn);
 
         const std::string search_base =
             config_.group_search_base.empty()

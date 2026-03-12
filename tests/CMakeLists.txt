@@ -1371,6 +1371,19 @@ set_tests_properties(ModuleDependencyResolverFocusedTests PROPERTIES
     TIMEOUT 60
 )
 
+# Module Loader core tests (subset of AllTests)
+# Covers: ModuleErrorCode enum values/ranges, ErrorCategory values,
+#         ModuleMetadata defaults/isValid, ModuleVerificationResult defaults,
+#         LoadedModule defaults, ModuleRegistry singleton/register/unregister,
+#         error message strings, error categorization, hash manifest
+#         (from test_module_loader.cpp)
+add_test(NAME ModuleLoaderFocusedTests
+    COMMAND themis_tests --gtest_filter=ModuleLoader.*:ModuleRegistry.*:ModuleMetadata.*:ModuleVerificationResult.*:LoadedModule.*)
+set_tests_properties(ModuleLoaderFocusedTests PROPERTIES
+    LABELS "module;loader;security;themis;unit"
+    TIMEOUT 60
+)
+
 # Plugin Watchdog tests (subset of AllTests)
 # Covers: WatchdogConfig defaults/custom values/zero-max-restarts,
 #         WatchdogModuleStats defaults/field completeness, lifecycle
@@ -12933,6 +12946,45 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_core.cpp")
     add_test(NAME ShardingCoreFocusedTests COMMAND test_sharding_core_focused)
     set_tests_properties(ShardingCoreFocusedTests PROPERTIES LABELS "sharding;core;raft;consensus;focused;unit" TIMEOUT 90)
     message(STATUS "  ShardingCore: Raft consensus, shard routing, rebalancing")
+endif()
+
+# Process Modeling Module focused tests
+# Covers: BpmnSerializer, EpkSerializer, VccVpbImporter, LlmProcessDescriptor,
+#         ProcessModelManager, ProcessLinker, ProcessGraphRag
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_module.cpp")
+    message(STATUS "Adding Process Module focused tests")
+    add_executable(test_process_module_focused
+        test_process_module.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/llm_process_descriptor.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_linker.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_graph_rag.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
+    )
+    target_include_directories(test_process_module_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_process_module_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_process_module_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    add_test(NAME ProcessModuleFocusedTests COMMAND test_process_module_focused)
+    set_tests_properties(ProcessModuleFocusedTests PROPERTIES
+        LABELS "process;bpmn;epk;vcc-vpb;graph-rag;linker;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  ProcessModule: BPMN/EPK/VCC-VPB import-export, ProcessModelManager CRUD,")
+    message(STATUS "                 ProcessLinker attach/detach/required-docs, ProcessGraphRag")
 endif()
 
 # ============================================================================
