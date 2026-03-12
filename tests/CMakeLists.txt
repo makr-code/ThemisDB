@@ -8612,7 +8612,47 @@ else()
     message(STATUS "Auth Rate Limiter tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_auth_rate_limiter.cpp")
 endif()
 
-# Auth Middleware Focused Tests
+# Auth Rate Limiter Distributed Tests (IRateLimiterBackend + shared InMemory backend)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_auth_rate_limiter_distributed.cpp")
+    message(STATUS "Adding Auth Rate Limiter Distributed tests")
+
+    add_executable(test_auth_rate_limiter_distributed
+        test_auth_rate_limiter_distributed.cpp
+    )
+
+    target_link_libraries(test_auth_rate_limiter_distributed PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_auth_rate_limiter_distributed PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    if(THEMIS_ENABLE_REDIS AND hiredis_FOUND)
+        if(TARGET hiredis::hiredis)
+            target_link_libraries(test_auth_rate_limiter_distributed PRIVATE hiredis::hiredis)
+        elseif(TARGET hiredis)
+            target_link_libraries(test_auth_rate_limiter_distributed PRIVATE hiredis)
+        endif()
+        target_compile_definitions(test_auth_rate_limiter_distributed PRIVATE THEMIS_ENABLE_REDIS=1)
+    endif()
+
+    add_test(NAME AuthRateLimiterDistributedTests COMMAND test_auth_rate_limiter_distributed)
+
+    set_tests_properties(AuthRateLimiterDistributedTests PROPERTIES
+        LABELS "auth;rate-limiter;distributed;backend;integration"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Auth Rate Limiter Distributed: IRateLimiterBackend, InMemory, Redis, shared state")
+else()
+    message(STATUS "Auth Rate Limiter Distributed tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_auth_rate_limiter_distributed.cpp")
+endif()
+
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_auth_middleware.cpp")
     message(STATUS "Adding Auth Middleware focused tests")
 

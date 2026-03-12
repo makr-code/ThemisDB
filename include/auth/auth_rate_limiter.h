@@ -25,6 +25,7 @@
 
 #pragma once
 
+#include "auth/rate_limiter_backend.h"
 #include "server/rate_limiter.h"
 #include "utils/audit_logger.h"
 #include <string>
@@ -311,6 +312,24 @@ public:
      * callback.  Pass nullptr to detach.  Does not take ownership.
      */
     void setAuditLogger(utils::AuditLogger* logger);
+
+    /**
+     * @brief Inject a shared rate-limiter backend for distributed counter storage.
+     *
+     * When a backend is set, AuthRateLimiter uses it instead of the internal
+     * in-process token-bucket for IP and user rate limiting.  Two or more
+     * AuthRateLimiter instances that share the same backend instance will
+     * observe each other's request counts, enabling consistent rate limiting
+     * across nodes (or across multiple in-process instances for testing).
+     *
+     * - Pass an InMemoryRateLimiterBackend instance for single-node deployments
+     *   (or shared between multiple in-process instances for testing).
+     * - Pass a RedisRateLimiterBackend instance for multi-node deployments.
+     * - Pass nullptr to revert to the default in-process token-bucket behaviour.
+     *
+     * Typically called once during initialisation before any concurrent access.
+     */
+    void setBackend(std::shared_ptr<IRateLimiterBackend> backend);
     
     /**
      * @brief Update configuration at runtime
@@ -353,6 +372,11 @@ private:
     
     // Account lockout management
     std::unique_ptr<AccountLockoutManager> lockout_manager_;
+
+    // Optional pluggable backend for distributed counter storage.
+    // When set, replaces ip_rate_limiter_ and user_rate_limiter_ for counting.
+    // Protected by stats_mutex_.
+    std::shared_ptr<IRateLimiterBackend> backend_;
 
     // ── Credential-stuffing detection state ─────────────────────────────
     struct CredentialStuffingEntry {

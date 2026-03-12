@@ -285,7 +285,14 @@ bool AuthRateLimiter::allowAuthAttempt(
 
         // Check IP rate limit
         if (config_.enable_ip_rate_limiting) {
-            if (!ip_rate_limiter_->allowRequest(ip_address)) {
+            if (backend_) {
+                auto count = backend_->increment("ip:" + ip_address, 60);
+                if (static_cast<size_t>(count) > config_.max_attempts_per_ip_per_minute) {
+                    stats_.rate_limited_attempts++;
+                    utils::Logger::warn("Authentication rate limited by IP (distributed): " + ip_address);
+                    return false;
+                }
+            } else if (!ip_rate_limiter_->allowRequest(ip_address)) {
                 stats_.rate_limited_attempts++;
                 utils::Logger::warn("Authentication rate limited by IP: " + ip_address);
                 return false;
@@ -294,7 +301,14 @@ bool AuthRateLimiter::allowAuthAttempt(
 
         // Check user rate limit
         if (!user_id.empty() && config_.enable_user_rate_limiting) {
-            if (!user_rate_limiter_->allowRequest("", user_id)) {
+            if (backend_) {
+                auto count = backend_->increment("user:" + user_id, 60);
+                if (static_cast<size_t>(count) > config_.max_attempts_per_user_per_minute) {
+                    stats_.rate_limited_attempts++;
+                    utils::Logger::warn("Authentication rate limited for user (distributed): " + user_id);
+                    return false;
+                }
+            } else if (!user_rate_limiter_->allowRequest("", user_id)) {
                 stats_.rate_limited_attempts++;
                 utils::Logger::warn("Authentication rate limited for user: " + user_id);
                 return false;
@@ -407,6 +421,14 @@ bool AuthRateLimiter::unlockAccount(const std::string& user_id) {
 }
 
 uint32_t AuthRateLimiter::getRetryAfter(const std::string& ip_address) const {
+    std::lock_guard<std::mutex> lock(stats_mutex_);
+    if (backend_) {
+        auto count = backend_->getCount("ip:" + ip_address, 60);
+        if (static_cast<size_t>(count) >= config_.max_attempts_per_ip_per_minute) {
+            return 60; // standard window length
+        }
+        return 0;
+    }
     return ip_rate_limiter_->getRetryAfter(ip_address, "");
 }
 
@@ -422,6 +444,11 @@ void AuthRateLimiter::setAnomalyCallback(AuthAnomalyCallback callback) {
 void AuthRateLimiter::setAuditLogger(utils::AuditLogger* logger) {
     std::lock_guard<std::mutex> lock(callback_mutex_);
     audit_logger_ = logger;
+}
+
+void AuthRateLimiter::setBackend(std::shared_ptr<IRateLimiterBackend> backend) {
+    std::lock_guard<std::mutex> lock(stats_mutex_);
+    backend_ = std::move(backend);
 }
 
 void AuthRateLimiter::fireAuthAnomaly(AuthAnomalyEvent::Type type,
