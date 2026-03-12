@@ -38,9 +38,11 @@
 #include <memory>
 #include <optional>
 #include <map>
+#include <unordered_map>
 #include <functional>
 #include <thread>
 #include <mutex>
+#include <shared_mutex>
 #include <atomic>
 #include <condition_variable>
 #include <chrono>
@@ -696,7 +698,8 @@ public:
 #endif
     
 private:
-    std::vector<LoadedModule> loadedModules_;
+    std::unordered_map<std::string, LoadedModule> loadedModules_;
+    mutable std::shared_mutex modulesMutex_;
     std::unique_ptr<ModuleSecurityVerifier> verifier_;
     
     // SHA-256 hash manifest for integrity verification (Issue #2471)

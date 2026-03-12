@@ -39,6 +39,8 @@
 #include <map>
 #include <queue>
 #include <set>
+#include <shared_mutex>
+#include <unordered_map>
 #include <spdlog/spdlog.h>
 
 #ifdef _WIN32
@@ -483,7 +485,10 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
     
     module.fullyActivated = true;
     
-    loadedModules_.push_back(module);
+    {
+        std::unique_lock<std::shared_mutex> lk(modulesMutex_);
+        loadedModules_[module.name] = module;
+    }
     ModuleRegistry::instance().registerModule(module);
     
     // Log successful load to per-plugin audit trail
@@ -562,8 +567,8 @@ size_t ModuleLoader::loadAllModules(const std::string& moduleDirectory) {
 }
 
 void ModuleLoader::unloadModule(const std::string& moduleName) {
-    auto it = std::find_if(loadedModules_.begin(), loadedModules_.end(),
-                          [&moduleName](const LoadedModule& m) { return m.name == moduleName; });
+    std::unique_lock<std::shared_mutex> lk(modulesMutex_);
+    auto it = loadedModules_.find(moduleName);
     
     if (it != loadedModules_.end()) {
         spdlog::info("Unloading module: {}", moduleName);
@@ -572,25 +577,27 @@ void ModuleLoader::unloadModule(const std::string& moduleName) {
         auto& auditor = PluginSecurityAuditor::instance();
         auditor.logEvent({
             PluginSecurityEvent::EventType::PLUGIN_UNLOADED,
-            it->path,
-            it->fileHash,
+            it->second.path,
+            it->second.fileHash,
             "Module unloaded: " + moduleName,
             now,
             "INFO"
         });
-        unloadLibrary(it->handle);
-        ModuleRegistry::instance().unregisterModule(moduleName);
+        unloadLibrary(it->second.handle);
         loadedModules_.erase(it);
+        lk.unlock();
+        ModuleRegistry::instance().unregisterModule(moduleName);
         metrics_.totalUnloads++;
     }
 }
 
 void ModuleLoader::unloadAllModules() {
+    std::unique_lock<std::shared_mutex> lk(modulesMutex_);
     spdlog::info("Unloading all modules ({} loaded)", loadedModules_.size());
     
     auto& auditor = PluginSecurityAuditor::instance();
     uint64_t now = static_cast<uint64_t>(std::time(nullptr));
-    for (auto& module : loadedModules_) {
+    for (auto& [name, module] : loadedModules_) {
         auditor.logEvent({
             PluginSecurityEvent::EventType::PLUGIN_UNLOADED,
             module.path,
@@ -608,24 +615,29 @@ void ModuleLoader::unloadAllModules() {
 }
 
 bool ModuleLoader::isModuleLoaded(const std::string& moduleName) const {
-    return std::find_if(loadedModules_.begin(), loadedModules_.end(),
-                       [&moduleName](const LoadedModule& m) { return m.name == moduleName; })
-           != loadedModules_.end();
+    std::shared_lock<std::shared_mutex> lk(modulesMutex_);
+    return loadedModules_.count(moduleName) > 0;
 }
 
 std::optional<LoadedModule> ModuleLoader::getModuleInfo(const std::string& moduleName) const {
-    auto it = std::find_if(loadedModules_.begin(), loadedModules_.end(),
-                          [&moduleName](const LoadedModule& m) { return m.name == moduleName; });
+    std::shared_lock<std::shared_mutex> lk(modulesMutex_);
+    auto it = loadedModules_.find(moduleName);
     
     if (it != loadedModules_.end()) {
-        return *it;
+        return it->second;
     }
     
     return std::nullopt;
 }
 
 std::vector<LoadedModule> ModuleLoader::getAllLoadedModules() const {
-    return loadedModules_;
+    std::shared_lock<std::shared_mutex> lk(modulesMutex_);
+    std::vector<LoadedModule> result;
+    result.reserve(loadedModules_.size());
+    for (const auto& [name, module] : loadedModules_) {
+        result.push_back(module);
+    }
+    return result;
 }
 
 void ModuleLoader::setRequireSignature(bool require) {
@@ -1116,36 +1128,36 @@ void ModuleLoader::setStagedLoadingEnabled(bool enable) {
 }
 
 std::optional<LoadStage> ModuleLoader::queryModuleStage(const std::string& moduleName) const {
-    auto it = std::find_if(loadedModules_.begin(), loadedModules_.end(),
-                          [&moduleName](const LoadedModule& m) { return m.name == moduleName; });
+    std::shared_lock<std::shared_mutex> lk(modulesMutex_);
+    auto it = loadedModules_.find(moduleName);
     
     if (it == loadedModules_.end()) {
         return std::nullopt;
     }
     
-    return it->currentStage;
+    return it->second.currentStage;
 }
 
 std::vector<HealthCheckResult> ModuleLoader::getHealthCheckResults(const std::string& moduleName) const {
-    auto it = std::find_if(loadedModules_.begin(), loadedModules_.end(),
-                          [&moduleName](const LoadedModule& m) { return m.name == moduleName; });
+    std::shared_lock<std::shared_mutex> lk(modulesMutex_);
+    auto it = loadedModules_.find(moduleName);
     
     if (it == loadedModules_.end()) {
         return {};
     }
     
-    return it->healthChecks;
+    return it->second.healthChecks;
 }
 
 bool ModuleLoader::updateModuleStage(const std::string& moduleName, LoadStage newStage) {
-    auto it = std::find_if(loadedModules_.begin(), loadedModules_.end(),
-                          [&moduleName](LoadedModule& m) { return m.name == moduleName; });
+    std::unique_lock<std::shared_mutex> lk(modulesMutex_);
+    auto it = loadedModules_.find(moduleName);
     
     if (it == loadedModules_.end()) {
         return false;
     }
     
-    it->currentStage = newStage;
+    it->second.currentStage = newStage;
     spdlog::debug("Module {} stage updated to {}", moduleName, static_cast<int>(newStage));
     return true;
 }
@@ -1748,14 +1760,16 @@ void ModuleLoader::watchdogLoop() {
 }
 
 void ModuleLoader::watchdogCheckAllModules() {
-    // Take a snapshot of currently loaded, fully-activated modules.
-    // loadedModules_ has no dedicated mutex in the existing design; the
-    // watchdog is expected to run when the main thread is not concurrently
-    // modifying the module list (e.g., during steady-state operation).
+    // Take a snapshot of currently loaded, fully-activated modules under a
+    // shared_lock so that concurrent load/unload operations do not race with
+    // this iteration.
     std::vector<std::pair<std::string, std::string>> snapshot;  // name → path
-    for (const auto& mod : loadedModules_) {
-        if (mod.fullyActivated) {
-            snapshot.emplace_back(mod.name, mod.path);
+    {
+        std::shared_lock<std::shared_mutex> lk(modulesMutex_);
+        for (const auto& [name, mod] : loadedModules_) {
+            if (mod.fullyActivated) {
+                snapshot.emplace_back(mod.name, mod.path);
+            }
         }
     }
 
@@ -1765,12 +1779,15 @@ void ModuleLoader::watchdogCheckAllModules() {
         }
 
         // Verify module is still loaded (may have been unloaded between snapshot and now)
-        auto it = std::find_if(loadedModules_.begin(), loadedModules_.end(),
-                               [&name](const LoadedModule& m) { return m.name == name; });
-        if (it == loadedModules_.end()) {
-            continue;  // Module was unloaded since snapshot
+        LoadedModule modCopy;
+        {
+            std::shared_lock<std::shared_mutex> lk(modulesMutex_);
+            auto it = loadedModules_.find(name);
+            if (it == loadedModules_.end()) {
+                continue;  // Module was unloaded since snapshot
+            }
+            modCopy = it->second;
         }
-        LoadedModule modCopy = *it;
 
         if (healthChecks_.empty()) {
             continue;  // Nothing to check
