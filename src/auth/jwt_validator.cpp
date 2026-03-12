@@ -43,6 +43,7 @@
 #include <curl/curl.h>
 
 #include <algorithm>
+#include <mutex>
 #include <sstream>
 #include <stdexcept>
 #include <cstring>
@@ -97,7 +98,20 @@ std::string JWTValidator::decodeBase64UrlToString(const std::string& input) {
 
 nlohmann::json JWTValidator::fetchJWKS() {
     auto now = std::chrono::system_clock::now();
-    if (!jwks_cache_.empty() && now - jwks_cache_time_ < cfg_.cache_ttl) {
+
+    // Fast path: shared (reader) lock — concurrent reads proceed in parallel
+    {
+        std::shared_lock<std::shared_mutex> read_lock(jwks_cache_mutex_);
+        if (!jwks_cache_.empty() && now - jwks_cache_time_ < cfg_.cache_ttl) {
+            return jwks_cache_;
+        }
+    }
+
+    // Slow path: upgrade to exclusive (writer) lock for cache refresh
+    std::unique_lock<std::shared_mutex> write_lock(jwks_cache_mutex_);
+    // Double-check: another thread may have refreshed the cache while we waited
+    const auto write_lock_now = std::chrono::system_clock::now();
+    if (!jwks_cache_.empty() && write_lock_now - jwks_cache_time_ < cfg_.cache_ttl) {
         return jwks_cache_;
     }
     
@@ -170,7 +184,7 @@ nlohmann::json JWTValidator::fetchJWKS() {
     }
     
     jwks_cache_ = json;
-    jwks_cache_time_ = now;
+    jwks_cache_time_ = write_lock_now;
     utils::Logger::info("JWKS fetched successfully on attempt " + std::to_string(attempt));
     return jwks_cache_;
 }
@@ -358,6 +372,7 @@ bool JWTValidator::checkAudience(const nlohmann::json& payload) const {
 
 void JWTValidator::setJWKSForTesting(const nlohmann::json& jwks,
                                      std::chrono::system_clock::time_point t) {
+    std::unique_lock<std::shared_mutex> lock(jwks_cache_mutex_);
     jwks_cache_ = jwks;
     jwks_cache_time_ = t;
 }
