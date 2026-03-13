@@ -80,20 +80,31 @@ struct GpuCompressionConfig {
     GpuAccelerationType accel_type = GpuAccelerationType::AUTO;
 
     int  device_id           = 0;       ///< CUDA/HIP device index
-    bool fallback_cpu        = true;    ///< Fall back to CPU on GPU failure
-    bool async_compute       = true;    ///< Use non-blocking GPU streams
+
+    /// When true (default), a GPU failure transparently falls back to the
+    /// CPU implementation.  When false, GPU failures surface as a failed
+    /// GpuCompressionResult / empty decompression result instead of silently
+    /// routing to CPU.
+    bool fallback_cpu        = true;
+
+    /// Reserved for future implementation: use non-blocking GPU streams and
+    /// expose a wait/poll interface.  Currently all GPU calls are synchronous.
+    bool async_compute       = true;
 
     /// Minimum uncompressed bytes before GPU path is attempted.
     /// Below this threshold the CPU path is always used to avoid
     /// PCIe / HBM transfer overhead dominating latency.
+    /// Must be > 0; a value of 0 is treated as if the threshold were 1.
     size_t min_size_for_gpu  = 256 * 1024;   // 256 KB
 
-    /// nvCOMP / ROCm chunk size for batched compression (bytes).
+    /// nvCOMP / ROCm chunk size for per-buffer compression (bytes).
+    /// Must be > 0.
     size_t chunk_size        = 64 * 1024;    // 64 KB
 
     int zstd_level           = 3;       ///< Zstd compression level (1-22)
 
-    /// Maximum GPU memory budget (MB). 0 = unlimited.
+    /// Reserved for future implementation: cap GPU memory usage.
+    /// Currently has no effect; 0 means unlimited.
     size_t max_gpu_memory_mb = 2048;
 };
 
@@ -143,9 +154,11 @@ class GpuCompressionImpl;
  * ```
  *
  * ### Thread-safety
- * `compress()` and `decompress()` are safe to call from multiple threads
- * **after** construction. Modifying the config via `set_config()` is not
- * thread-safe and must be done before spawning worker threads.
+ * This class is **NOT thread-safe**.  Concurrent calls to `compress()` or
+ * `decompress()` from multiple threads require external synchronization
+ * (e.g., a `std::mutex`).  Construction and destruction must also be
+ * externally serialized.  `set_config()` must only be called before any
+ * concurrent use begins.
  */
 class GpuCompressionManager {
 public:
@@ -207,11 +220,16 @@ public:
     /**
      * @brief Compress multiple independent buffers in a single GPU dispatch.
      *
-     * Batching amortises host-device transfer overhead and is the primary
-     * mechanism through which 5-10× throughput is achieved.  Falls back to
-     * sequential CPU compression when no GPU is available.
+     * When a GPU backend is available all buffers are transferred to the device
+     * and compressed in a single nvCOMP batched call (one kernel launch), then
+     * the results are copied back in one pass.  This amortises host-device
+     * transfer overhead and is the primary mechanism through which 5-10×
+     * throughput is achieved versus sequential per-buffer GPU calls.
      *
-     * @param buffers  Input buffers (may have different sizes).
+     * When no GPU is available the implementation falls back to sequential
+     * CPU compression (one buffer at a time).
+     *
+     * @param buffers    Input buffers (may have different sizes).
      * @param algorithm  Algorithm to use for all buffers.
      * @return One GpuCompressionResult per input buffer, in the same order.
      */
@@ -300,6 +318,13 @@ private:
         const std::vector<uint8_t>& data, size_t original_size);
     std::vector<uint8_t> cpu_decompress_lz4(
         const std::vector<uint8_t>& data, size_t original_size);
+
+    /// CPU-side decoder for data produced by the GPU (nvCOMP) path.
+    /// Parses the GPU container format and decompresses each chunk with
+    /// the corresponding native CPU library.
+    std::vector<uint8_t> cpu_decompress_gpu_container(
+        const std::vector<uint8_t>& compressed,
+        GpuCompressionAlgorithm algorithm);
 
     // -------------------------------------------------------------------------
     // State

@@ -92,6 +92,23 @@ public:
         GpuCompressionAlgorithm algorithm,
         size_t original_size,
         const GpuCompressionConfig& cfg) = 0;
+
+    /// Batch compress: all buffers in a single GPU dispatch.  Default
+    /// implementation falls back to per-buffer compress(); override for true
+    /// single-dispatch GPU batching.
+    virtual std::vector<GpuCompressionResult> compress_batch(
+        const std::vector<const uint8_t*>& ptrs,
+        const std::vector<size_t>& sizes,
+        GpuCompressionAlgorithm algorithm,
+        const GpuCompressionConfig& cfg)
+    {
+        std::vector<GpuCompressionResult> results;
+        results.reserve(ptrs.size());
+        for (size_t i = 0; i < ptrs.size(); ++i) {
+            results.push_back(compress(ptrs[i], sizes[i], algorithm, cfg));
+        }
+        return results;
+    }
 };
 
 // ============================================================================
@@ -99,6 +116,89 @@ public:
 // ============================================================================
 
 namespace {
+
+// ============================================================================
+// GPU container format constants and helpers
+// ============================================================================
+//
+// GPU-compressed data (produced by the CUDA/nvCOMP path) is wrapped in a
+// custom container so that it can be reliably detected and correctly
+// decompressed on any node — even one without a GPU.
+//
+// Wire format:
+//   [MAGIC:8][n_chunks:uint64_t LE][orig_size:uint64_t LE]
+//   [chunk_sizes: n_chunks × uint64_t LE][chunk_data ...]
+//
+// CPU-compressed data is stored in native library format (no magic prefix)
+// and is routed to the native CPU decoder on decompression.
+//
+static constexpr size_t kGpuMagicSize = 8;
+static constexpr uint8_t kGpuMagic[kGpuMagicSize] = {
+    'T', 'G', 'C', 'P', 'R', 'S', 1, 0   // "TGCPRS" + version 1.0
+};
+
+/// Write a little-endian uint64_t to @p dst.
+static void write_le64(uint8_t* dst, uint64_t val) {
+    for (int i = 0; i < 8; ++i) { dst[i] = static_cast<uint8_t>(val & 0xFF); val >>= 8; }
+}
+
+/// Read a little-endian uint64_t from @p src.
+static uint64_t read_le64(const uint8_t* src) {
+    uint64_t val = 0;
+    for (int i = 0; i < 8; ++i) val |= static_cast<uint64_t>(src[i]) << (8 * i);
+    return val;
+}
+
+/// Returns true if @p data starts with the GPU container magic bytes.
+static bool has_gpu_magic(const std::vector<uint8_t>& data) {
+    return data.size() >= kGpuMagicSize &&
+           memcmp(data.data(), kGpuMagic, kGpuMagicSize) == 0;
+}
+
+/// Parse the header of a GPU container.  Returns false on malformed input.
+static bool parse_gpu_container(
+    const std::vector<uint8_t>& compressed,
+    uint64_t& out_n_chunks,
+    uint64_t& out_orig_size,
+    std::vector<uint64_t>& out_chunk_sizes,
+    const uint8_t*& out_chunk_data_start)
+{
+    if (!has_gpu_magic(compressed)) return false;
+    const uint8_t* p   = compressed.data() + kGpuMagicSize;
+    const uint8_t* end = compressed.data() + compressed.size();
+
+    if (p + 16 > end) return false;
+    out_n_chunks  = read_le64(p); p += 8;
+    out_orig_size = read_le64(p); p += 8;
+
+    // Sanity cap: 64 M chunks would be > 512 MB of header alone
+    static constexpr uint64_t kMaxChunks = 64u * 1024 * 1024;
+    if (out_n_chunks == 0 || out_n_chunks > kMaxChunks) return false;
+    if (p + out_n_chunks * 8 > end) return false;
+
+    out_chunk_sizes.resize(static_cast<size_t>(out_n_chunks));
+    for (uint64_t i = 0; i < out_n_chunks; ++i) {
+        out_chunk_sizes[i] = read_le64(p); p += 8;
+    }
+    out_chunk_data_start = p;
+    return true;
+}
+
+/// Build and append the GPU container header to @p out.
+/// @p out must have been empty (or cleared) before the call.
+static void write_gpu_container_header(
+    std::vector<uint8_t>& out,
+    uint64_t n_chunks,
+    uint64_t orig_size,
+    const std::vector<uint64_t>& chunk_sizes)
+{
+    out.resize(kGpuMagicSize + 8 + 8 + chunk_sizes.size() * 8);
+    uint8_t* p = out.data();
+    memcpy(p, kGpuMagic, kGpuMagicSize); p += kGpuMagicSize;
+    write_le64(p, n_chunks);  p += 8;
+    write_le64(p, orig_size); p += 8;
+    for (const uint64_t cs : chunk_sizes) { write_le64(p, cs); p += 8; }
+}
 
 // ---------------------------------------------------------------------------
 // Timing helper (returns elapsed ms since 'start')
@@ -166,7 +266,7 @@ public:
     bool is_available() const override { return available_; }
 
     // ------------------------------------------------------------------
-    // compress
+    // compress (single buffer, split into cfg.chunk_size chunks)
     // ------------------------------------------------------------------
     GpuCompressionResult compress(
         const uint8_t* data, size_t size,
@@ -177,28 +277,40 @@ public:
         result.algorithm     = algorithm;
         result.original_size = size;
 
-        // Allocate device input buffer
+        // Upload input to device
         void* d_in = nullptr;
-        if (cudaMalloc(&d_in, size) != cudaSuccess) {
-            result.error_message = "cudaMalloc failed for input buffer";
+        cudaError_t err = cudaMalloc(&d_in, size);
+        if (err != cudaSuccess) {
+            result.error_message = std::string("cudaMalloc input: ") +
+                                   cudaGetErrorString(err);
+            spdlog::error("[gpu_compress] {}", result.error_message);
             return result;
         }
-        cudaMemcpyAsync(d_in, data, size,
-                        cudaMemcpyHostToDevice, stream_);
+        err = cudaMemcpyAsync(d_in, data, size, cudaMemcpyHostToDevice, stream_);
+        if (err != cudaSuccess) {
+            cudaFree(d_in);
+            result.error_message = std::string("cudaMemcpyAsync H2D: ") +
+                                   cudaGetErrorString(err);
+            spdlog::error("[gpu_compress] {}", result.error_message);
+            return result;
+        }
 
         bool ok = false;
         switch (algorithm) {
             case GpuCompressionAlgorithm::ZSTD:
-                ok = nvcomp_compress_zstd(
-                    static_cast<uint8_t*>(d_in), size, cfg, result);
+                ok = nvcomp_compress_chunked(
+                    static_cast<uint8_t*>(d_in), size, cfg, result,
+                    NvcompAlgo::ZSTD);
                 break;
             case GpuCompressionAlgorithm::SNAPPY:
-                ok = nvcomp_compress_snappy(
-                    static_cast<uint8_t*>(d_in), size, cfg, result);
+                ok = nvcomp_compress_chunked(
+                    static_cast<uint8_t*>(d_in), size, cfg, result,
+                    NvcompAlgo::SNAPPY);
                 break;
             case GpuCompressionAlgorithm::LZ4:
-                ok = nvcomp_compress_lz4(
-                    static_cast<uint8_t*>(d_in), size, cfg, result);
+                ok = nvcomp_compress_chunked(
+                    static_cast<uint8_t*>(d_in), size, cfg, result,
+                    NvcompAlgo::LZ4);
                 break;
         }
 
@@ -215,382 +327,541 @@ public:
     }
 
     // ------------------------------------------------------------------
-    // decompress
+    // decompress (GPU-container format)
     // ------------------------------------------------------------------
     std::vector<uint8_t> decompress(
         const std::vector<uint8_t>& compressed,
         GpuCompressionAlgorithm algorithm,
-        size_t original_size,
+        size_t /*original_size*/,
         const GpuCompressionConfig& /*cfg*/) override
     {
         switch (algorithm) {
             case GpuCompressionAlgorithm::ZSTD:
-                return nvcomp_decompress_zstd(compressed, original_size);
+                return nvcomp_decompress_chunked(compressed, NvcompAlgo::ZSTD);
             case GpuCompressionAlgorithm::SNAPPY:
-                return nvcomp_decompress_snappy(compressed, original_size);
+                return nvcomp_decompress_chunked(compressed, NvcompAlgo::SNAPPY);
             case GpuCompressionAlgorithm::LZ4:
-                return nvcomp_decompress_lz4(compressed, original_size);
+                return nvcomp_decompress_chunked(compressed, NvcompAlgo::LZ4);
         }
         return {};
     }
 
+    // ------------------------------------------------------------------
+    // compress_batch: ONE nvCOMP call for all buffers (true batching)
+    // Each input buffer is treated as a single nvCOMP chunk.
+    // ------------------------------------------------------------------
+    std::vector<GpuCompressionResult> compress_batch(
+        const std::vector<const uint8_t*>& h_ptrs,
+        const std::vector<size_t>& h_sizes,
+        GpuCompressionAlgorithm algorithm,
+        const GpuCompressionConfig& cfg) override
+    {
+        size_t n = h_ptrs.size();
+        std::vector<GpuCompressionResult> results(n);
+        for (size_t i = 0; i < n; ++i) {
+            results[i].algorithm     = algorithm;
+            results[i].original_size = h_sizes[i];
+        }
+        if (n == 0) return results;
+
+        // Tracking all device pointers for cleanup
+        std::vector<void*> to_free;
+        auto cuda_alloc = [&](void** ptr, size_t bytes) -> bool {
+            if (bytes == 0) { *ptr = nullptr; return true; }
+            cudaError_t e = cudaMalloc(ptr, bytes);
+            if (e != cudaSuccess) {
+                spdlog::error("[gpu_compress] cudaMalloc({}) failed: {}",
+                              bytes, cudaGetErrorString(e));
+                return false;
+            }
+            to_free.push_back(*ptr);
+            return true;
+        };
+        auto free_all = [&]() {
+            for (void* p : to_free) cudaFree(p);
+            to_free.clear();
+        };
+
+        // --- Step 1: Upload all input buffers ---
+        std::vector<void*> d_in_bufs(n, nullptr);
+        size_t max_in_size = 0;
+        for (size_t i = 0; i < n; ++i) {
+            max_in_size = std::max(max_in_size, h_sizes[i]);
+            if (!cuda_alloc(&d_in_bufs[i], h_sizes[i])) {
+                free_all(); return results;
+            }
+            cudaError_t e = cudaMemcpyAsync(d_in_bufs[i], h_ptrs[i], h_sizes[i],
+                                            cudaMemcpyHostToDevice, stream_);
+            if (e != cudaSuccess) {
+                spdlog::error("[gpu_compress] cudaMemcpyAsync H2D[{}] failed: {}",
+                              i, cudaGetErrorString(e));
+                free_all(); return results;
+            }
+        }
+
+        // --- Step 2: Get max output size per buffer ---
+        size_t max_out = 0;
+        switch (algorithm) {
+            case GpuCompressionAlgorithm::ZSTD: {
+                nvcompBatchedZstdOpts_t opts{cfg.zstd_level};
+                nvcompBatchedZstdCompressGetMaxOutputChunkSize(
+                    max_in_size, opts, &max_out);
+                break;
+            }
+            case GpuCompressionAlgorithm::SNAPPY:
+                nvcompBatchedSnappyCompressGetMaxOutputChunkSize(
+                    max_in_size, nvcompBatchedSnappyDefaultOpts, &max_out);
+                break;
+            case GpuCompressionAlgorithm::LZ4:
+                nvcompBatchedLZ4CompressGetMaxOutputChunkSize(
+                    max_in_size, nvcompBatchedLZ4DefaultOpts, &max_out);
+                break;
+        }
+
+        // --- Step 3: Allocate device pointer/size arrays + output buffers ---
+        void** d_in_ptrs_arr   = nullptr;
+        void** d_out_ptrs_arr  = nullptr;
+        size_t* d_in_sz_arr    = nullptr;
+        size_t* d_out_sz_arr   = nullptr;
+        void* d_workspace      = nullptr;
+        size_t ws_sz           = 0;
+
+        if (!cuda_alloc(reinterpret_cast<void**>(&d_in_ptrs_arr),  n * sizeof(void*)) ||
+            !cuda_alloc(reinterpret_cast<void**>(&d_out_ptrs_arr), n * sizeof(void*)) ||
+            !cuda_alloc(reinterpret_cast<void**>(&d_in_sz_arr),    n * sizeof(size_t)) ||
+            !cuda_alloc(reinterpret_cast<void**>(&d_out_sz_arr),   n * sizeof(size_t))) {
+            free_all(); return results;
+        }
+
+        std::vector<void*> d_out_bufs(n, nullptr);
+        for (size_t i = 0; i < n; ++i) {
+            if (!cuda_alloc(&d_out_bufs[i], max_out)) { free_all(); return results; }
+        }
+
+        // Get workspace size
+        switch (algorithm) {
+            case GpuCompressionAlgorithm::ZSTD: {
+                nvcompBatchedZstdOpts_t opts{cfg.zstd_level};
+                nvcompBatchedZstdCompressGetWorkspaceSize(
+                    n, max_in_size, opts, &ws_sz);
+                break;
+            }
+            case GpuCompressionAlgorithm::SNAPPY:
+                nvcompBatchedSnappyCompressGetWorkspaceSize(
+                    n, max_in_size, nvcompBatchedSnappyDefaultOpts, &ws_sz);
+                break;
+            case GpuCompressionAlgorithm::LZ4:
+                nvcompBatchedLZ4CompressGetWorkspaceSize(
+                    n, max_in_size, nvcompBatchedLZ4DefaultOpts, &ws_sz);
+                break;
+        }
+        if (!cuda_alloc(&d_workspace, ws_sz)) { free_all(); return results; }
+
+        // Copy pointer/size arrays to device
+        std::vector<size_t> h_in_sizes(h_sizes.begin(), h_sizes.end());
+        cudaError_t e;
+        e = cudaMemcpyAsync(d_in_ptrs_arr, d_in_bufs.data(),
+                            n * sizeof(void*), cudaMemcpyHostToDevice, stream_);
+        if (e != cudaSuccess) { free_all(); return results; }
+        e = cudaMemcpyAsync(d_out_ptrs_arr, d_out_bufs.data(),
+                            n * sizeof(void*), cudaMemcpyHostToDevice, stream_);
+        if (e != cudaSuccess) { free_all(); return results; }
+        e = cudaMemcpyAsync(d_in_sz_arr, h_in_sizes.data(),
+                            n * sizeof(size_t), cudaMemcpyHostToDevice, stream_);
+        if (e != cudaSuccess) { free_all(); return results; }
+
+        // --- Step 4: Single nvCOMP batched call ---
+        nvcompStatus_t status = nvcompSuccess;
+        switch (algorithm) {
+            case GpuCompressionAlgorithm::ZSTD: {
+                nvcompBatchedZstdOpts_t opts{cfg.zstd_level};
+                status = nvcompBatchedZstdCompressAsync(
+                    (const void* const*)d_in_ptrs_arr, d_in_sz_arr,
+                    max_in_size, n,
+                    d_workspace, ws_sz,
+                    d_out_ptrs_arr, d_out_sz_arr,
+                    opts, stream_);
+                break;
+            }
+            case GpuCompressionAlgorithm::SNAPPY:
+                status = nvcompBatchedSnappyCompressAsync(
+                    (const void* const*)d_in_ptrs_arr, d_in_sz_arr,
+                    max_in_size, n,
+                    d_workspace, ws_sz,
+                    d_out_ptrs_arr, d_out_sz_arr,
+                    nvcompBatchedSnappyDefaultOpts, stream_);
+                break;
+            case GpuCompressionAlgorithm::LZ4:
+                status = nvcompBatchedLZ4CompressAsync(
+                    (const void* const*)d_in_ptrs_arr, d_in_sz_arr,
+                    max_in_size, n,
+                    d_workspace, ws_sz,
+                    d_out_ptrs_arr, d_out_sz_arr,
+                    nvcompBatchedLZ4DefaultOpts, stream_);
+                break;
+        }
+        e = cudaStreamSynchronize(stream_);
+
+        if (status != nvcompSuccess || e != cudaSuccess) {
+            spdlog::error("[gpu_compress] batch compress failed: nvcomp={} cuda={}",
+                          static_cast<int>(status), cudaGetErrorString(e));
+            free_all();
+            return results;
+        }
+
+        // --- Step 5: Copy results back ---
+        std::vector<size_t> h_out_sizes(n);
+        e = cudaMemcpy(h_out_sizes.data(), d_out_sz_arr,
+                       n * sizeof(size_t), cudaMemcpyDeviceToHost);
+        if (e != cudaSuccess) { free_all(); return results; }
+
+        for (size_t i = 0; i < n; ++i) {
+            // Wrap each result in GPU container format (n_chunks=1)
+            std::vector<uint64_t> cs = { static_cast<uint64_t>(h_out_sizes[i]) };
+            write_gpu_container_header(results[i].data,
+                                       1,
+                                       static_cast<uint64_t>(h_sizes[i]),
+                                       cs);
+            size_t hdr = results[i].data.size();
+            results[i].data.resize(hdr + h_out_sizes[i]);
+            e = cudaMemcpy(results[i].data.data() + hdr,
+                           d_out_bufs[i], h_out_sizes[i],
+                           cudaMemcpyDeviceToHost);
+            if (e != cudaSuccess) {
+                spdlog::error("[gpu_compress] batch D2H[{}] failed: {}", i,
+                              cudaGetErrorString(e));
+                results[i].data.clear();
+                continue;
+            }
+            results[i].compression_ratio =
+                static_cast<float>(h_sizes[i]) /
+                static_cast<float>(results[i].data.size());
+            results[i].used_gpu = true;
+            results[i].success  = true;
+        }
+
+        free_all();
+        return results;
+    }
+
 private:
-    int            device_id_  = 0;
-    cudaStream_t   stream_     = nullptr;
-    bool           available_  = false;
+    int          device_id_  = 0;
+    cudaStream_t stream_     = nullptr;
+    bool         available_  = false;
+
+    enum class NvcompAlgo { ZSTD, SNAPPY, LZ4 };
 
     // ------------------------------------------------------------------
-    // nvCOMP Zstd compress
+    // Generic chunked compress (splits one buffer into cfg.chunk_size pieces)
     // ------------------------------------------------------------------
-    bool nvcomp_compress_zstd(
+    bool nvcomp_compress_chunked(
         const uint8_t* d_in, size_t in_size,
         const GpuCompressionConfig& cfg,
-        GpuCompressionResult& result)
+        GpuCompressionResult& result,
+        NvcompAlgo algo)
     {
-        nvcompBatchedZstdOpts_t opts{cfg.zstd_level};
-        const size_t chunk   = cfg.chunk_size;
-        size_t n_chunks      = (in_size + chunk - 1) / chunk;
+        const size_t chunk  = cfg.chunk_size;
+        size_t n_chunks     = (in_size + chunk - 1) / chunk;
 
-        // Build host-side chunk pointer arrays
-        std::vector<void*>   h_in_ptrs(n_chunks);
-        std::vector<size_t>  h_in_sizes(n_chunks);
+        std::vector<void*>  h_in_ptrs(n_chunks);
+        std::vector<size_t> h_in_sizes(n_chunks);
         for (size_t i = 0; i < n_chunks; ++i) {
             h_in_ptrs[i]  = const_cast<uint8_t*>(d_in) + i * chunk;
             h_in_sizes[i] = std::min(chunk, in_size - i * chunk);
         }
 
-        size_t max_out_per_chunk = 0;
-        nvcompBatchedZstdCompressGetMaxOutputChunkSize(
-            chunk, opts, &max_out_per_chunk);
+        // Tracking for RAII cleanup
+        std::vector<void*> to_free;
+        auto cuda_alloc = [&](void** ptr, size_t bytes) -> bool {
+            cudaError_t e = cudaMalloc(ptr, bytes);
+            if (e != cudaSuccess) {
+                spdlog::error("[gpu_compress] cudaMalloc({}) failed: {}",
+                              bytes, cudaGetErrorString(e));
+                return false;
+            }
+            to_free.push_back(*ptr);
+            return true;
+        };
+        auto free_all = [&]() {
+            for (void* p : to_free) cudaFree(p);
+            to_free.clear();
+        };
 
-        // Device arrays
+        size_t max_out_per_chunk = 0;
+        size_t workspace_sz = 0;
+
+        switch (algo) {
+            case NvcompAlgo::ZSTD: {
+                nvcompBatchedZstdOpts_t opts{cfg.zstd_level};
+                nvcompBatchedZstdCompressGetMaxOutputChunkSize(
+                    chunk, opts, &max_out_per_chunk);
+                nvcompBatchedZstdCompressGetWorkspaceSize(
+                    n_chunks, chunk, opts, &workspace_sz);
+                break;
+            }
+            case NvcompAlgo::SNAPPY:
+                nvcompBatchedSnappyCompressGetMaxOutputChunkSize(
+                    chunk, nvcompBatchedSnappyDefaultOpts, &max_out_per_chunk);
+                nvcompBatchedSnappyCompressGetWorkspaceSize(
+                    n_chunks, chunk, nvcompBatchedSnappyDefaultOpts, &workspace_sz);
+                break;
+            case NvcompAlgo::LZ4:
+                nvcompBatchedLZ4CompressGetMaxOutputChunkSize(
+                    chunk, nvcompBatchedLZ4DefaultOpts, &max_out_per_chunk);
+                nvcompBatchedLZ4CompressGetWorkspaceSize(
+                    n_chunks, chunk, nvcompBatchedLZ4DefaultOpts, &workspace_sz);
+                break;
+        }
+
+        void** d_in_ptrs    = nullptr;
+        size_t* d_in_sizes  = nullptr;
+        void** d_out_ptrs   = nullptr;
+        size_t* d_out_sizes = nullptr;
+        void* d_workspace   = nullptr;
+
+        if (!cuda_alloc(reinterpret_cast<void**>(&d_in_ptrs),   n_chunks * sizeof(void*)) ||
+            !cuda_alloc(reinterpret_cast<void**>(&d_in_sizes),  n_chunks * sizeof(size_t)) ||
+            !cuda_alloc(reinterpret_cast<void**>(&d_out_ptrs),  n_chunks * sizeof(void*)) ||
+            !cuda_alloc(reinterpret_cast<void**>(&d_out_sizes), n_chunks * sizeof(size_t)) ||
+            !cuda_alloc(&d_workspace, workspace_sz)) {
+            free_all();
+            result.error_message = "cudaMalloc failed for device arrays";
+            return false;
+        }
+
+        std::vector<void*> h_out_ptrs(n_chunks);
+        for (size_t i = 0; i < n_chunks; ++i) {
+            if (!cuda_alloc(&h_out_ptrs[i], max_out_per_chunk)) {
+                free_all();
+                result.error_message = "cudaMalloc failed for output chunk";
+                return false;
+            }
+        }
+
+        cudaError_t e;
+        e = cudaMemcpyAsync(d_in_ptrs, h_in_ptrs.data(),
+                            n_chunks * sizeof(void*), cudaMemcpyHostToDevice, stream_);
+        if (e != cudaSuccess) { free_all(); result.error_message = cudaGetErrorString(e); return false; }
+        e = cudaMemcpyAsync(d_in_sizes, h_in_sizes.data(),
+                            n_chunks * sizeof(size_t), cudaMemcpyHostToDevice, stream_);
+        if (e != cudaSuccess) { free_all(); result.error_message = cudaGetErrorString(e); return false; }
+        e = cudaMemcpyAsync(d_out_ptrs, h_out_ptrs.data(),
+                            n_chunks * sizeof(void*), cudaMemcpyHostToDevice, stream_);
+        if (e != cudaSuccess) { free_all(); result.error_message = cudaGetErrorString(e); return false; }
+
+        nvcompStatus_t status = nvcompSuccess;
+        switch (algo) {
+            case NvcompAlgo::ZSTD: {
+                nvcompBatchedZstdOpts_t opts{cfg.zstd_level};
+                status = nvcompBatchedZstdCompressAsync(
+                    (const void* const*)d_in_ptrs, d_in_sizes,
+                    chunk, n_chunks,
+                    d_workspace, workspace_sz,
+                    d_out_ptrs, d_out_sizes,
+                    opts, stream_);
+                break;
+            }
+            case NvcompAlgo::SNAPPY:
+                status = nvcompBatchedSnappyCompressAsync(
+                    (const void* const*)d_in_ptrs, d_in_sizes,
+                    chunk, n_chunks,
+                    d_workspace, workspace_sz,
+                    d_out_ptrs, d_out_sizes,
+                    nvcompBatchedSnappyDefaultOpts, stream_);
+                break;
+            case NvcompAlgo::LZ4:
+                status = nvcompBatchedLZ4CompressAsync(
+                    (const void* const*)d_in_ptrs, d_in_sizes,
+                    chunk, n_chunks,
+                    d_workspace, workspace_sz,
+                    d_out_ptrs, d_out_sizes,
+                    nvcompBatchedLZ4DefaultOpts, stream_);
+                break;
+        }
+        e = cudaStreamSynchronize(stream_);
+
+        bool ok = (status == nvcompSuccess && e == cudaSuccess);
+        if (ok) {
+            std::vector<size_t> h_out_sizes(n_chunks);
+            e = cudaMemcpy(h_out_sizes.data(), d_out_sizes,
+                           n_chunks * sizeof(size_t), cudaMemcpyDeviceToHost);
+            ok = (e == cudaSuccess);
+
+            if (ok) {
+                size_t total_out = 0;
+                for (size_t s : h_out_sizes) total_out += s;
+
+                // Assemble: [MAGIC][n_chunks:u64][orig_size:u64][chunk_sizes...][data...]
+                std::vector<uint64_t> chunk_sizes_u64(n_chunks);
+                for (size_t i = 0; i < n_chunks; ++i)
+                    chunk_sizes_u64[i] = static_cast<uint64_t>(h_out_sizes[i]);
+
+                write_gpu_container_header(result.data,
+                                           static_cast<uint64_t>(n_chunks),
+                                           static_cast<uint64_t>(in_size),
+                                           chunk_sizes_u64);
+                size_t hdr_sz = result.data.size();
+                result.data.resize(hdr_sz + total_out);
+                uint8_t* p = result.data.data() + hdr_sz;
+
+                for (size_t i = 0; i < n_chunks; ++i) {
+                    e = cudaMemcpy(p, h_out_ptrs[i], h_out_sizes[i],
+                                   cudaMemcpyDeviceToHost);
+                    if (e != cudaSuccess) { ok = false; break; }
+                    p += h_out_sizes[i];
+                }
+            }
+        }
+
+        if (!ok) {
+            result.data.clear();
+            result.error_message = "nvCOMP compress failed";
+            spdlog::error("[gpu_compress] nvcomp_compress_chunked failed (algo={})",
+                          static_cast<int>(algo));
+        }
+
+        free_all();
+        return ok;
+    }
+
+    // ------------------------------------------------------------------
+    // Generic chunked decompress (reads GPU container format)
+    // ------------------------------------------------------------------
+    std::vector<uint8_t> nvcomp_decompress_chunked(
+        const std::vector<uint8_t>& compressed,
+        NvcompAlgo algo)
+    {
+        uint64_t n_chunks64 = 0, orig_size64 = 0;
+        std::vector<uint64_t> chunk_sizes64;
+        const uint8_t* chunk_data = nullptr;
+        if (!parse_gpu_container(compressed, n_chunks64, orig_size64,
+                                 chunk_sizes64, chunk_data)) {
+            spdlog::error("[gpu_compress] GPU decompress: invalid container format");
+            return {};
+        }
+        size_t n_chunks  = static_cast<size_t>(n_chunks64);
+        size_t orig_size = static_cast<size_t>(orig_size64);
+
+        // Tracking for RAII cleanup
+        std::vector<void*> to_free;
+        auto cuda_alloc = [&](void** ptr, size_t bytes) -> bool {
+            cudaError_t e = cudaMalloc(ptr, bytes);
+            if (e != cudaSuccess) {
+                spdlog::error("[gpu_compress] cudaMalloc({}) failed: {}",
+                              bytes, cudaGetErrorString(e));
+                return false;
+            }
+            to_free.push_back(*ptr);
+            return true;
+        };
+        auto free_all = [&]() {
+            for (void* p : to_free) cudaFree(p);
+            to_free.clear();
+        };
+
+        std::vector<void*> h_in_ptrs(n_chunks), h_out_ptrs(n_chunks);
+        size_t per_chunk_out = (orig_size + n_chunks - 1) / n_chunks + 512;
+
+        for (size_t i = 0; i < n_chunks; ++i) {
+            size_t cs = static_cast<size_t>(chunk_sizes64[i]);
+            if (!cuda_alloc(&h_in_ptrs[i],  cs) ||
+                !cuda_alloc(&h_out_ptrs[i], per_chunk_out)) {
+                free_all(); return {};
+            }
+            cudaError_t e = cudaMemcpyAsync(h_in_ptrs[i], chunk_data, cs,
+                                            cudaMemcpyHostToDevice, stream_);
+            if (e != cudaSuccess) {
+                spdlog::error("[gpu_compress] cudaMemcpyAsync H2D chunk[{}] failed: {}",
+                              i, cudaGetErrorString(e));
+                free_all(); return {};
+            }
+            chunk_data += cs;
+        }
+
         void** d_in_ptrs   = nullptr;
         size_t* d_in_sizes = nullptr;
         void** d_out_ptrs  = nullptr;
         size_t* d_out_sizes = nullptr;
         void* d_workspace   = nullptr;
-        size_t workspace_sz = 0;
 
-        cudaMalloc(&d_in_ptrs,   n_chunks * sizeof(void*));
-        cudaMalloc(&d_in_sizes,  n_chunks * sizeof(size_t));
-        cudaMalloc(&d_out_ptrs,  n_chunks * sizeof(void*));
-        cudaMalloc(&d_out_sizes, n_chunks * sizeof(size_t));
-
-        // Allocate per-chunk output on device
-        std::vector<void*> h_out_ptrs(n_chunks);
-        for (size_t i = 0; i < n_chunks; ++i) {
-            cudaMalloc(&h_out_ptrs[i], max_out_per_chunk);
+        size_t ws_sz = 0;
+        switch (algo) {
+            case NvcompAlgo::ZSTD:
+                nvcompBatchedZstdDecompressGetTempSize(n_chunks, per_chunk_out, &ws_sz);
+                break;
+            case NvcompAlgo::SNAPPY:
+                nvcompBatchedSnappyDecompressGetTempSize(n_chunks, per_chunk_out, &ws_sz);
+                break;
+            case NvcompAlgo::LZ4:
+                nvcompBatchedLZ4DecompressGetTempSize(n_chunks, per_chunk_out, &ws_sz);
+                break;
         }
 
-        cudaMemcpyAsync(d_in_ptrs,  h_in_ptrs.data(),
-                        n_chunks * sizeof(void*),  cudaMemcpyHostToDevice, stream_);
-        cudaMemcpyAsync(d_in_sizes, h_in_sizes.data(),
-                        n_chunks * sizeof(size_t), cudaMemcpyHostToDevice, stream_);
-        cudaMemcpyAsync(d_out_ptrs, h_out_ptrs.data(),
-                        n_chunks * sizeof(void*),  cudaMemcpyHostToDevice, stream_);
-
-        nvcompBatchedZstdCompressGetWorkspaceSize(
-            n_chunks, chunk, opts, &workspace_sz);
-        cudaMalloc(&d_workspace, workspace_sz);
-
-        nvcompStatus_t status = nvcompBatchedZstdCompressAsync(
-            (const void* const*)d_in_ptrs, d_in_sizes,
-            chunk, n_chunks,
-            d_workspace, workspace_sz,
-            d_out_ptrs, d_out_sizes,
-            opts, stream_);
-        cudaStreamSynchronize(stream_);
-
-        bool ok = (status == nvcompSuccess);
-        if (ok) {
-            std::vector<size_t> h_out_sizes(n_chunks);
-            cudaMemcpy(h_out_sizes.data(), d_out_sizes,
-                       n_chunks * sizeof(size_t), cudaMemcpyDeviceToHost);
-
-            // Assemble result: [n_chunks:8][chunk_size:8][sizes...][data...]
-            size_t total_out = 0;
-            for (size_t s : h_out_sizes) total_out += s;
-
-            result.data.resize(8 + 8 + n_chunks * 8 + total_out);
-            uint8_t* p = result.data.data();
-            memcpy(p, &n_chunks,  8); p += 8;
-            memcpy(p, &in_size,   8); p += 8;
-            for (size_t i = 0; i < n_chunks; ++i) {
-                memcpy(p, &h_out_sizes[i], 8); p += 8;
-            }
-            for (size_t i = 0; i < n_chunks; ++i) {
-                cudaMemcpy(p, h_out_ptrs[i], h_out_sizes[i],
-                           cudaMemcpyDeviceToHost);
-                p += h_out_sizes[i];
-            }
+        if (!cuda_alloc(reinterpret_cast<void**>(&d_in_ptrs),   n_chunks * sizeof(void*)) ||
+            !cuda_alloc(reinterpret_cast<void**>(&d_in_sizes),  n_chunks * sizeof(size_t)) ||
+            !cuda_alloc(reinterpret_cast<void**>(&d_out_ptrs),  n_chunks * sizeof(void*)) ||
+            !cuda_alloc(reinterpret_cast<void**>(&d_out_sizes), n_chunks * sizeof(size_t)) ||
+            !cuda_alloc(&d_workspace, ws_sz)) {
+            free_all(); return {};
         }
 
-        // Cleanup
-        for (auto* ptr : h_out_ptrs) cudaFree(ptr);
-        cudaFree(d_in_ptrs);
-        cudaFree(d_in_sizes);
-        cudaFree(d_out_ptrs);
-        cudaFree(d_out_sizes);
-        cudaFree(d_workspace);
-
-        return ok;
-    }
-
-    // ------------------------------------------------------------------
-    // nvCOMP Snappy compress
-    // ------------------------------------------------------------------
-    bool nvcomp_compress_snappy(
-        const uint8_t* d_in, size_t in_size,
-        const GpuCompressionConfig& cfg,
-        GpuCompressionResult& result)
-    {
-        const size_t chunk  = cfg.chunk_size;
-        size_t n_chunks     = (in_size + chunk - 1) / chunk;
-
-        std::vector<void*>  h_in_ptrs(n_chunks);
-        std::vector<size_t> h_in_sizes(n_chunks);
-        for (size_t i = 0; i < n_chunks; ++i) {
-            h_in_ptrs[i]  = const_cast<uint8_t*>(d_in) + i * chunk;
-            h_in_sizes[i] = std::min(chunk, in_size - i * chunk);
-        }
-
-        size_t max_out_per_chunk = 0;
-        nvcompBatchedSnappyCompressGetMaxOutputChunkSize(
-            chunk, nvcompBatchedSnappyDefaultOpts, &max_out_per_chunk);
-
-        void** d_in_ptrs    = nullptr;
-        size_t* d_in_sizes  = nullptr;
-        void** d_out_ptrs   = nullptr;
-        size_t* d_out_sizes = nullptr;
-        void* d_workspace   = nullptr;
-        size_t workspace_sz = 0;
-
-        cudaMalloc(&d_in_ptrs,   n_chunks * sizeof(void*));
-        cudaMalloc(&d_in_sizes,  n_chunks * sizeof(size_t));
-        cudaMalloc(&d_out_ptrs,  n_chunks * sizeof(void*));
-        cudaMalloc(&d_out_sizes, n_chunks * sizeof(size_t));
-
-        std::vector<void*> h_out_ptrs(n_chunks);
+        std::vector<size_t> h_chunk_sizes(n_chunks);
         for (size_t i = 0; i < n_chunks; ++i)
-            cudaMalloc(&h_out_ptrs[i], max_out_per_chunk);
-
-        cudaMemcpyAsync(d_in_ptrs,  h_in_ptrs.data(),
-                        n_chunks * sizeof(void*),  cudaMemcpyHostToDevice, stream_);
-        cudaMemcpyAsync(d_in_sizes, h_in_sizes.data(),
-                        n_chunks * sizeof(size_t), cudaMemcpyHostToDevice, stream_);
-        cudaMemcpyAsync(d_out_ptrs, h_out_ptrs.data(),
-                        n_chunks * sizeof(void*),  cudaMemcpyHostToDevice, stream_);
-
-        nvcompBatchedSnappyCompressGetWorkspaceSize(
-            n_chunks, chunk, nvcompBatchedSnappyDefaultOpts, &workspace_sz);
-        cudaMalloc(&d_workspace, workspace_sz);
-
-        nvcompStatus_t status = nvcompBatchedSnappyCompressAsync(
-            (const void* const*)d_in_ptrs, d_in_sizes,
-            chunk, n_chunks,
-            d_workspace, workspace_sz,
-            d_out_ptrs, d_out_sizes,
-            nvcompBatchedSnappyDefaultOpts, stream_);
-        cudaStreamSynchronize(stream_);
-
-        bool ok = (status == nvcompSuccess);
-        if (ok) {
-            std::vector<size_t> h_out_sizes(n_chunks);
-            cudaMemcpy(h_out_sizes.data(), d_out_sizes,
-                       n_chunks * sizeof(size_t), cudaMemcpyDeviceToHost);
-
-            size_t total_out = 0;
-            for (size_t s : h_out_sizes) total_out += s;
-
-            result.data.resize(8 + 8 + n_chunks * 8 + total_out);
-            uint8_t* p = result.data.data();
-            memcpy(p, &n_chunks, 8); p += 8;
-            memcpy(p, &in_size,  8); p += 8;
-            for (size_t i = 0; i < n_chunks; ++i) {
-                memcpy(p, &h_out_sizes[i], 8); p += 8;
-            }
-            for (size_t i = 0; i < n_chunks; ++i) {
-                cudaMemcpy(p, h_out_ptrs[i], h_out_sizes[i],
-                           cudaMemcpyDeviceToHost);
-                p += h_out_sizes[i];
-            }
-        }
-
-        for (auto* ptr : h_out_ptrs) cudaFree(ptr);
-        cudaFree(d_in_ptrs);
-        cudaFree(d_in_sizes);
-        cudaFree(d_out_ptrs);
-        cudaFree(d_out_sizes);
-        cudaFree(d_workspace);
-
-        return ok;
-    }
-
-    // ------------------------------------------------------------------
-    // nvCOMP LZ4 compress
-    // ------------------------------------------------------------------
-    bool nvcomp_compress_lz4(
-        const uint8_t* d_in, size_t in_size,
-        const GpuCompressionConfig& cfg,
-        GpuCompressionResult& result)
-    {
-        const size_t chunk  = cfg.chunk_size;
-        size_t n_chunks     = (in_size + chunk - 1) / chunk;
-
-        std::vector<void*>  h_in_ptrs(n_chunks);
-        std::vector<size_t> h_in_sizes(n_chunks);
-        for (size_t i = 0; i < n_chunks; ++i) {
-            h_in_ptrs[i]  = const_cast<uint8_t*>(d_in) + i * chunk;
-            h_in_sizes[i] = std::min(chunk, in_size - i * chunk);
-        }
-
-        size_t max_out_per_chunk = 0;
-        nvcompBatchedLZ4CompressGetMaxOutputChunkSize(
-            chunk, nvcompBatchedLZ4DefaultOpts, &max_out_per_chunk);
-
-        void** d_in_ptrs    = nullptr;
-        size_t* d_in_sizes  = nullptr;
-        void** d_out_ptrs   = nullptr;
-        size_t* d_out_sizes = nullptr;
-        void* d_workspace   = nullptr;
-        size_t workspace_sz = 0;
-
-        cudaMalloc(&d_in_ptrs,   n_chunks * sizeof(void*));
-        cudaMalloc(&d_in_sizes,  n_chunks * sizeof(size_t));
-        cudaMalloc(&d_out_ptrs,  n_chunks * sizeof(void*));
-        cudaMalloc(&d_out_sizes, n_chunks * sizeof(size_t));
-
-        std::vector<void*> h_out_ptrs(n_chunks);
-        for (size_t i = 0; i < n_chunks; ++i)
-            cudaMalloc(&h_out_ptrs[i], max_out_per_chunk);
-
-        cudaMemcpyAsync(d_in_ptrs,  h_in_ptrs.data(),
-                        n_chunks * sizeof(void*),  cudaMemcpyHostToDevice, stream_);
-        cudaMemcpyAsync(d_in_sizes, h_in_sizes.data(),
-                        n_chunks * sizeof(size_t), cudaMemcpyHostToDevice, stream_);
-        cudaMemcpyAsync(d_out_ptrs, h_out_ptrs.data(),
-                        n_chunks * sizeof(void*),  cudaMemcpyHostToDevice, stream_);
-
-        nvcompBatchedLZ4CompressGetWorkspaceSize(
-            n_chunks, chunk, nvcompBatchedLZ4DefaultOpts, &workspace_sz);
-        cudaMalloc(&d_workspace, workspace_sz);
-
-        nvcompStatus_t status = nvcompBatchedLZ4CompressAsync(
-            (const void* const*)d_in_ptrs, d_in_sizes,
-            chunk, n_chunks,
-            d_workspace, workspace_sz,
-            d_out_ptrs, d_out_sizes,
-            nvcompBatchedLZ4DefaultOpts, stream_);
-        cudaStreamSynchronize(stream_);
-
-        bool ok = (status == nvcompSuccess);
-        if (ok) {
-            std::vector<size_t> h_out_sizes(n_chunks);
-            cudaMemcpy(h_out_sizes.data(), d_out_sizes,
-                       n_chunks * sizeof(size_t), cudaMemcpyDeviceToHost);
-
-            size_t total_out = 0;
-            for (size_t s : h_out_sizes) total_out += s;
-
-            result.data.resize(8 + 8 + n_chunks * 8 + total_out);
-            uint8_t* p = result.data.data();
-            memcpy(p, &n_chunks, 8); p += 8;
-            memcpy(p, &in_size,  8); p += 8;
-            for (size_t i = 0; i < n_chunks; ++i) {
-                memcpy(p, &h_out_sizes[i], 8); p += 8;
-            }
-            for (size_t i = 0; i < n_chunks; ++i) {
-                cudaMemcpy(p, h_out_ptrs[i], h_out_sizes[i],
-                           cudaMemcpyDeviceToHost);
-                p += h_out_sizes[i];
-            }
-        }
-
-        for (auto* ptr : h_out_ptrs) cudaFree(ptr);
-        cudaFree(d_in_ptrs);
-        cudaFree(d_in_sizes);
-        cudaFree(d_out_ptrs);
-        cudaFree(d_out_sizes);
-        cudaFree(d_workspace);
-
-        return ok;
-    }
-
-    // ------------------------------------------------------------------
-    // nvCOMP decompression helpers (generic chunked format)
-    // ------------------------------------------------------------------
-    std::vector<uint8_t> nvcomp_decompress_impl(
-        const std::vector<uint8_t>& compressed,
-        size_t /*original_size*/,
-        size_t workspace_sz_per_chunk,
-        std::function<nvcompStatus_t(
-            const void* const*, const size_t*, size_t,
-            void*, size_t,
-            void* const*, const size_t*,
-            size_t, cudaStream_t)> decompress_fn)
-    {
-        if (compressed.size() < 16) return {};
-
-        const uint8_t* p = compressed.data();
-        size_t n_chunks  = 0;
-        size_t orig_size = 0;
-        memcpy(&n_chunks,  p, 8); p += 8;
-        memcpy(&orig_size, p, 8); p += 8;
-
-        if (compressed.size() < 16 + n_chunks * 8) return {};
-
-        std::vector<size_t> chunk_sizes(n_chunks);
-        for (size_t i = 0; i < n_chunks; ++i) {
-            memcpy(&chunk_sizes[i], p, 8); p += 8;
-        }
-
-        // Allocate device buffers
-        std::vector<void*> h_in_ptrs(n_chunks), h_out_ptrs(n_chunks);
-        size_t per_chunk_out = (orig_size + n_chunks - 1) / n_chunks + 512;
-
-        for (size_t i = 0; i < n_chunks; ++i) {
-            cudaMalloc(&h_in_ptrs[i],  chunk_sizes[i]);
-            cudaMalloc(&h_out_ptrs[i], per_chunk_out);
-            cudaMemcpyAsync(h_in_ptrs[i], p, chunk_sizes[i],
-                            cudaMemcpyHostToDevice, stream_);
-            p += chunk_sizes[i];
-        }
-
-        void** d_in_ptrs    = nullptr;
-        size_t* d_in_sizes  = nullptr;
-        void** d_out_ptrs   = nullptr;
-        size_t* d_out_sizes = nullptr;
-        void* d_workspace   = nullptr;
-        size_t workspace_sz = workspace_sz_per_chunk * n_chunks;
-
-        cudaMalloc(&d_in_ptrs,   n_chunks * sizeof(void*));
-        cudaMalloc(&d_in_sizes,  n_chunks * sizeof(size_t));
-        cudaMalloc(&d_out_ptrs,  n_chunks * sizeof(void*));
-        cudaMalloc(&d_out_sizes, n_chunks * sizeof(size_t));
-        cudaMalloc(&d_workspace, workspace_sz);
-
-        cudaMemcpyAsync(d_in_ptrs,  h_in_ptrs.data(),
-                        n_chunks * sizeof(void*),  cudaMemcpyHostToDevice, stream_);
-        cudaMemcpyAsync(d_in_sizes, chunk_sizes.data(),
-                        n_chunks * sizeof(size_t), cudaMemcpyHostToDevice, stream_);
-
+            h_chunk_sizes[i] = static_cast<size_t>(chunk_sizes64[i]);
         std::vector<size_t> h_out_sizes(n_chunks, per_chunk_out);
-        cudaMemcpyAsync(d_out_ptrs,  h_out_ptrs.data(),
-                        n_chunks * sizeof(void*),  cudaMemcpyHostToDevice, stream_);
-        cudaMemcpyAsync(d_out_sizes, h_out_sizes.data(),
-                        n_chunks * sizeof(size_t), cudaMemcpyHostToDevice, stream_);
 
-        // Note: actual decompressed sizes are written to d_out_sizes
-        decompress_fn(
-            (const void* const*)d_in_ptrs, (const size_t*)d_in_sizes,
-            per_chunk_out,
-            d_workspace, workspace_sz,
-            (void* const*)d_out_ptrs, (size_t*)d_out_sizes,
-            n_chunks, stream_);
-        cudaStreamSynchronize(stream_);
+        cudaError_t e;
+        e = cudaMemcpyAsync(d_in_ptrs,  h_in_ptrs.data(),
+                            n_chunks * sizeof(void*), cudaMemcpyHostToDevice, stream_);
+        if (e != cudaSuccess) { free_all(); return {}; }
+        e = cudaMemcpyAsync(d_in_sizes, h_chunk_sizes.data(),
+                            n_chunks * sizeof(size_t), cudaMemcpyHostToDevice, stream_);
+        if (e != cudaSuccess) { free_all(); return {}; }
+        e = cudaMemcpyAsync(d_out_ptrs,  h_out_ptrs.data(),
+                            n_chunks * sizeof(void*), cudaMemcpyHostToDevice, stream_);
+        if (e != cudaSuccess) { free_all(); return {}; }
+        e = cudaMemcpyAsync(d_out_sizes, h_out_sizes.data(),
+                            n_chunks * sizeof(size_t), cudaMemcpyHostToDevice, stream_);
+        if (e != cudaSuccess) { free_all(); return {}; }
 
-        cudaMemcpy(h_out_sizes.data(), d_out_sizes,
-                   n_chunks * sizeof(size_t), cudaMemcpyDeviceToHost);
+        nvcompStatus_t status = nvcompSuccess;
+        switch (algo) {
+            case NvcompAlgo::ZSTD:
+                status = nvcompBatchedZstdDecompressAsync(
+                    (const void* const*)d_in_ptrs, d_in_sizes,
+                    per_chunk_out, nullptr,
+                    d_workspace, ws_sz,
+                    d_out_ptrs, d_out_sizes,
+                    n_chunks, stream_);
+                break;
+            case NvcompAlgo::SNAPPY:
+                status = nvcompBatchedSnappyDecompressAsync(
+                    (const void* const*)d_in_ptrs, d_in_sizes,
+                    per_chunk_out, nullptr,
+                    d_workspace, ws_sz,
+                    d_out_ptrs, d_out_sizes,
+                    n_chunks, stream_);
+                break;
+            case NvcompAlgo::LZ4:
+                status = nvcompBatchedLZ4DecompressAsync(
+                    (const void* const*)d_in_ptrs, d_in_sizes,
+                    per_chunk_out, nullptr,
+                    d_workspace, ws_sz,
+                    d_out_ptrs, d_out_sizes,
+                    n_chunks, stream_);
+                break;
+        }
+        e = cudaStreamSynchronize(stream_);
+
+        if (status != nvcompSuccess || e != cudaSuccess) {
+            spdlog::error("[gpu_compress] nvcomp decompress failed: nvcomp={} cuda={}",
+                          static_cast<int>(status), cudaGetErrorString(e));
+            free_all(); return {};
+        }
+
+        e = cudaMemcpy(h_out_sizes.data(), d_out_sizes,
+                       n_chunks * sizeof(size_t), cudaMemcpyDeviceToHost);
+        if (e != cudaSuccess) { free_all(); return {}; }
 
         std::vector<uint8_t> result;
         result.reserve(orig_size);
@@ -598,67 +869,17 @@ private:
             size_t chunk_decompressed = h_out_sizes[i];
             size_t off = result.size();
             result.resize(off + chunk_decompressed);
-            cudaMemcpy(result.data() + off, h_out_ptrs[i],
-                       chunk_decompressed, cudaMemcpyDeviceToHost);
+            e = cudaMemcpy(result.data() + off, h_out_ptrs[i],
+                           chunk_decompressed, cudaMemcpyDeviceToHost);
+            if (e != cudaSuccess) {
+                spdlog::error("[gpu_compress] D2H chunk[{}] failed: {}", i,
+                              cudaGetErrorString(e));
+                free_all(); return {};
+            }
         }
         result.resize(orig_size);
-
-        for (size_t i = 0; i < n_chunks; ++i) {
-            cudaFree(h_in_ptrs[i]);
-            cudaFree(h_out_ptrs[i]);
-        }
-        cudaFree(d_in_ptrs);
-        cudaFree(d_in_sizes);
-        cudaFree(d_out_ptrs);
-        cudaFree(d_out_sizes);
-        cudaFree(d_workspace);
-
+        free_all();
         return result;
-    }
-
-    std::vector<uint8_t> nvcomp_decompress_zstd(
-        const std::vector<uint8_t>& data, size_t orig)
-    {
-        size_t ws_sz = 0;
-        nvcompBatchedZstdDecompressGetTempSize(1, 64 * 1024, &ws_sz);
-        return nvcomp_decompress_impl(data, orig, ws_sz,
-            [](const void* const* in, const size_t* in_sz, size_t unc_sz,
-               void* ws, size_t ws_sz, void* const* out, size_t* out_sz,
-               size_t n, cudaStream_t s) {
-                return nvcompBatchedZstdDecompressAsync(
-                    in, in_sz, unc_sz, nullptr, ws, ws_sz,
-                    out, out_sz, n, s);
-            });
-    }
-
-    std::vector<uint8_t> nvcomp_decompress_snappy(
-        const std::vector<uint8_t>& data, size_t orig)
-    {
-        size_t ws_sz = 0;
-        nvcompBatchedSnappyDecompressGetTempSize(1, 64 * 1024, &ws_sz);
-        return nvcomp_decompress_impl(data, orig, ws_sz,
-            [](const void* const* in, const size_t* in_sz, size_t unc_sz,
-               void* ws, size_t ws_sz, void* const* out, size_t* out_sz,
-               size_t n, cudaStream_t s) {
-                return nvcompBatchedSnappyDecompressAsync(
-                    in, in_sz, unc_sz, nullptr, ws, ws_sz,
-                    out, out_sz, n, s);
-            });
-    }
-
-    std::vector<uint8_t> nvcomp_decompress_lz4(
-        const std::vector<uint8_t>& data, size_t orig)
-    {
-        size_t ws_sz = 0;
-        nvcompBatchedLZ4DecompressGetTempSize(1, 64 * 1024, &ws_sz);
-        return nvcomp_decompress_impl(data, orig, ws_sz,
-            [](const void* const* in, const size_t* in_sz, size_t unc_sz,
-               void* ws, size_t ws_sz, void* const* out, size_t* out_sz,
-               size_t n, cudaStream_t s) {
-                return nvcompBatchedLZ4DecompressAsync(
-                    in, in_sz, unc_sz, nullptr, ws, ws_sz,
-                    out, out_sz, n, s);
-            });
     }
 };
 
@@ -726,6 +947,16 @@ bool GpuCompressionManager::init_gpu()
             return true;
         }
 #endif
+#ifdef THEMIS_ENABLE_HIP
+        case GpuAccelerationType::HIP:
+            // HIP/ROCm compression library not yet available.
+            // Explicit HIP selection acknowledges the intent; fall back to CPU
+            // rather than silently misrouting through the default case.
+            spdlog::info("[gpu_compress] HIP/ROCm requested; ROCm compression "
+                         "library is not yet available, using CPU fallback");
+            active_accel_ = GpuAccelerationType::CPU_ONLY;
+            return false;
+#endif
         default:
             spdlog::warn("[gpu_compress] Requested backend ({}) not compiled in",
                          accel_type_to_string(requested));
@@ -738,7 +969,12 @@ bool GpuCompressionManager::should_use_gpu(size_t data_size) const
 {
     if (force_cpu_) return false;
     if (!impl_ || !impl_->is_available()) return false;
-    return data_size >= config_.min_size_for_gpu;
+    if (data_size == 0) return false;         // empty input always uses CPU
+    if (config_.chunk_size == 0) return false; // misconfigured chunk size
+    // Use max(1, min_size_for_gpu) to prevent min_size_for_gpu==0 from always
+    // routing to GPU (which would include empty buffers caught above).
+    size_t threshold = std::max(size_t{1}, config_.min_size_for_gpu);
+    return data_size >= threshold;
 }
 
 // ============================================================================
@@ -769,12 +1005,24 @@ GpuCompressionResult GpuCompressionManager::compress(
                            stats_.gpu_compress_ops, ms);
                 return result;
             }
-            // GPU compress returned failure — fall through to CPU
+            // GPU compress returned failure
+            if (!config_.fallback_cpu) {
+                spdlog::error("[gpu_compress] GPU compress failed for {} and "
+                              "fallback_cpu=false; returning error",
+                              algorithm_to_string(algorithm));
+                return result; // result.success == false
+            }
             spdlog::warn("[gpu_compress] GPU compress failed for {}, "
                          "falling back to CPU",
                          algorithm_to_string(algorithm));
             ++stats_.cpu_fallbacks;
         } catch (const std::exception& e) {
+            if (!config_.fallback_cpu) {
+                result.error_message = e.what();
+                spdlog::error("[gpu_compress] GPU compress threw: {}; "
+                              "fallback_cpu=false", e.what());
+                return result;
+            }
             spdlog::warn("[gpu_compress] GPU compress threw: {}; "
                          "falling back to CPU", e.what());
             ++stats_.cpu_fallbacks;
@@ -825,12 +1073,26 @@ std::vector<uint8_t> GpuCompressionManager::decompress(
 
     ++stats_.total_decompress_ops;
 
+    // ----------------------------------------------------------------
+    // Detect format: GPU container (starts with magic) vs native CPU format
+    // ----------------------------------------------------------------
+    const bool is_gpu_fmt = has_gpu_magic(compressed);
+
+    // For GPU-container format, extract the stored original size for the
+    // threshold check so we compare against uncompressed bytes (not the
+    // compressed payload size).
+    size_t effective_size = compressed.size();
+    if (is_gpu_fmt && compressed.size() >= kGpuMagicSize + 16) {
+        effective_size = static_cast<size_t>(
+            read_le64(compressed.data() + kGpuMagicSize + 8)); // orig_size field
+    }
+
     std::vector<uint8_t> result;
 
     // ----------------------------------------------------------------
-    // GPU path
+    // GPU path — only for GPU-container format buffers
     // ----------------------------------------------------------------
-    if (should_use_gpu(compressed.size())) {
+    if (is_gpu_fmt && should_use_gpu(effective_size)) {
         try {
             result = impl_->decompress(compressed, algorithm,
                                        original_size, config_);
@@ -841,11 +1103,21 @@ std::vector<uint8_t> GpuCompressionManager::decompress(
                            stats_.gpu_decompress_ops, ms);
                 return result;
             }
+            if (!config_.fallback_cpu) {
+                spdlog::error("[gpu_compress] GPU decompress returned empty for {} "
+                              "and fallback_cpu=false", algorithm_to_string(algorithm));
+                return result;
+            }
             spdlog::warn("[gpu_compress] GPU decompress returned empty for {}, "
                          "falling back to CPU",
                          algorithm_to_string(algorithm));
             ++stats_.cpu_fallbacks;
         } catch (const std::exception& e) {
+            if (!config_.fallback_cpu) {
+                spdlog::error("[gpu_compress] GPU decompress threw: {}; "
+                              "fallback_cpu=false", e.what());
+                return {};
+            }
             spdlog::warn("[gpu_compress] GPU decompress threw: {}; "
                          "falling back to CPU", e.what());
             ++stats_.cpu_fallbacks;
@@ -853,18 +1125,26 @@ std::vector<uint8_t> GpuCompressionManager::decompress(
     }
 
     // ----------------------------------------------------------------
-    // CPU fallback path
+    // CPU path — branches on format to pick the right decoder
     // ----------------------------------------------------------------
-    switch (algorithm) {
-        case GpuCompressionAlgorithm::ZSTD:
-            result = cpu_decompress_zstd(compressed, original_size);
-            break;
-        case GpuCompressionAlgorithm::SNAPPY:
-            result = cpu_decompress_snappy(compressed, original_size);
-            break;
-        case GpuCompressionAlgorithm::LZ4:
-            result = cpu_decompress_lz4(compressed, original_size);
-            break;
+    if (is_gpu_fmt) {
+        // GPU-container format: parse chunked header and decompress each
+        // chunk with the native CPU library (nvCOMP output is standard-
+        // compatible for all three algorithms).
+        result = cpu_decompress_gpu_container(compressed, algorithm);
+    } else {
+        // Native CPU format (produced by cpu_compress_*)
+        switch (algorithm) {
+            case GpuCompressionAlgorithm::ZSTD:
+                result = cpu_decompress_zstd(compressed, original_size);
+                break;
+            case GpuCompressionAlgorithm::SNAPPY:
+                result = cpu_decompress_snappy(compressed, original_size);
+                break;
+            case GpuCompressionAlgorithm::LZ4:
+                result = cpu_decompress_lz4(compressed, original_size);
+                break;
+        }
     }
 
     double ms = elapsed_ms(t_start);
@@ -882,6 +1162,69 @@ std::vector<GpuCompressionResult> GpuCompressionManager::compress_batch(
     const std::vector<std::vector<uint8_t>>& buffers,
     GpuCompressionAlgorithm algorithm)
 {
+    if (buffers.empty()) return {};
+
+    // ----------------------------------------------------------------
+    // GPU batch path: single nvCOMP dispatch for all eligible buffers
+    // ----------------------------------------------------------------
+    if (impl_ && impl_->is_available() && !force_cpu_) {
+        // Collect indices of buffers large enough for the GPU threshold
+        std::vector<size_t> gpu_indices;
+        for (size_t i = 0; i < buffers.size(); ++i) {
+            if (should_use_gpu(buffers[i].size()))
+                gpu_indices.push_back(i);
+        }
+
+        if (!gpu_indices.empty()) {
+            std::vector<const uint8_t*> ptrs;
+            std::vector<size_t> sizes;
+            ptrs.reserve(gpu_indices.size());
+            sizes.reserve(gpu_indices.size());
+            for (size_t idx : gpu_indices) {
+                ptrs.push_back(buffers[idx].data());
+                sizes.push_back(buffers[idx].size());
+            }
+
+            // One nvCOMP batched call for all GPU-eligible buffers
+            auto gpu_results = impl_->compress_batch(ptrs, sizes,
+                                                     algorithm, config_);
+
+            std::vector<GpuCompressionResult> results(buffers.size());
+            std::vector<bool> filled(buffers.size(), false);
+
+            size_t g = 0;
+            for (size_t idx : gpu_indices) {
+                if (g < gpu_results.size() && gpu_results[g].success) {
+                    results[idx] = std::move(gpu_results[g]);
+                    filled[idx]  = true;
+                    ++stats_.gpu_compress_ops;
+                    stats_.bytes_in  += buffers[idx].size();
+                    stats_.bytes_out += results[idx].data.size();
+                } else if (!config_.fallback_cpu) {
+                    results[idx].algorithm     = algorithm;
+                    results[idx].original_size = buffers[idx].size();
+                    results[idx].error_message = "GPU compress failed (batch)";
+                    filled[idx] = true;
+                } else {
+                    ++stats_.cpu_fallbacks;
+                    // Will be filled by CPU path below
+                }
+                ++g;
+            }
+
+            // CPU path for non-GPU and failed/fallback buffers
+            for (size_t i = 0; i < buffers.size(); ++i) {
+                if (!filled[i])
+                    results[i] = compress(buffers[i], algorithm);
+            }
+            ++stats_.total_compress_ops;
+            return results;
+        }
+    }
+
+    // ----------------------------------------------------------------
+    // CPU-only fallback (sequential)
+    // ----------------------------------------------------------------
     std::vector<GpuCompressionResult> results;
     results.reserve(buffers.size());
     for (const auto& buf : buffers) {
@@ -1077,6 +1420,104 @@ std::vector<uint8_t> GpuCompressionManager::cpu_decompress_lz4(
     }
 
     result.resize(static_cast<size_t>(decompressed));
+    return result;
+}
+
+// ============================================================================
+// CPU-side GPU-container decoder
+//
+// When data was compressed via the CUDA/nvCOMP path and needs to be
+// decompressed on a CPU-only node (or after GPU failure), this helper parses
+// the GPU container format and decompresses each chunk using the corresponding
+// native CPU library.  nvCOMP uses standard-compatible output for all three
+// algorithms (LZ4 block, Snappy stream, Zstd frame), so the native CPU
+// libraries can decompress them without modification.
+// ============================================================================
+
+std::vector<uint8_t> GpuCompressionManager::cpu_decompress_gpu_container(
+    const std::vector<uint8_t>& compressed,
+    GpuCompressionAlgorithm algorithm)
+{
+    uint64_t n_chunks64 = 0, orig_size64 = 0;
+    std::vector<uint64_t> chunk_sizes;
+    const uint8_t* chunk_data = nullptr;
+
+    if (!parse_gpu_container(compressed, n_chunks64, orig_size64,
+                             chunk_sizes, chunk_data)) {
+        spdlog::error("[gpu_compress] cpu_decompress_gpu_container: "
+                      "invalid container magic or header");
+        return {};
+    }
+
+    size_t n_chunks  = static_cast<size_t>(n_chunks64);
+    size_t orig_size = static_cast<size_t>(orig_size64);
+
+    std::vector<uint8_t> result;
+    result.reserve(orig_size);
+
+    for (size_t i = 0; i < n_chunks; ++i) {
+        size_t cs = static_cast<size_t>(chunk_sizes[i]);
+        // Bounds check: ensure chunk_data + cs doesn't exceed compressed buffer
+        const uint8_t* end_of_buf = compressed.data() + compressed.size();
+        if (chunk_data + cs > end_of_buf) {
+            spdlog::error("[gpu_compress] cpu_decompress_gpu_container: "
+                          "chunk[{}] overruns buffer", i);
+            return {};
+        }
+        std::vector<uint8_t> chunk_vec(chunk_data, chunk_data + cs);
+        chunk_data += cs;
+
+        std::vector<uint8_t> decompressed_chunk;
+        switch (algorithm) {
+            case GpuCompressionAlgorithm::ZSTD:
+                decompressed_chunk = utils::zstd_decompress(chunk_vec);
+                break;
+            case GpuCompressionAlgorithm::SNAPPY: {
+                std::string out_str;
+                if (!snappy::Uncompress(
+                        reinterpret_cast<const char*>(chunk_vec.data()),
+                        chunk_vec.size(), &out_str)) {
+                    spdlog::error("[gpu_compress] cpu_decompress_gpu_container: "
+                                  "snappy chunk[{}] failed", i);
+                    return {};
+                }
+                decompressed_chunk.assign(
+                    reinterpret_cast<const uint8_t*>(out_str.data()),
+                    reinterpret_cast<const uint8_t*>(
+                        out_str.data() + out_str.size()));
+                break;
+            }
+            case GpuCompressionAlgorithm::LZ4: {
+                // Estimate output: use remaining original bytes for this chunk
+                size_t used = result.size();
+                size_t remaining = (orig_size > used) ? (orig_size - used) : 0;
+                size_t max_out = std::max(remaining, cs * 4); // generous bound
+                decompressed_chunk.resize(max_out);
+                int r = LZ4_decompress_safe(
+                    reinterpret_cast<const char*>(chunk_vec.data()),
+                    reinterpret_cast<char*>(decompressed_chunk.data()),
+                    static_cast<int>(cs),
+                    static_cast<int>(max_out));
+                if (r < 0) {
+                    spdlog::error("[gpu_compress] cpu_decompress_gpu_container: "
+                                  "lz4 chunk[{}] failed ({})", i, r);
+                    return {};
+                }
+                decompressed_chunk.resize(static_cast<size_t>(r));
+                break;
+            }
+        }
+
+        if (decompressed_chunk.empty()) {
+            spdlog::error("[gpu_compress] cpu_decompress_gpu_container: "
+                          "chunk[{}] decompressed to empty", i);
+            return {};
+        }
+        result.insert(result.end(),
+                      decompressed_chunk.begin(), decompressed_chunk.end());
+    }
+
+    result.resize(orig_size);
     return result;
 }
 
