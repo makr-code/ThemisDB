@@ -17,12 +17,14 @@ namespace storage {
 // AccessTracker
 // ─────────────────────────────────────────────────────────────────────────────
 
-void AccessTracker::recordWrite(const std::string& key, StorageTierLevel tier) {
+void AccessTracker::recordWrite(const std::string& key, StorageTierLevel tier,
+                                uint64_t value_size) {
     std::unique_lock lock(mutex_);
     auto& e = entries_[key];
-    e.written_at  = std::chrono::system_clock::now();
+    e.written_at   = std::chrono::system_clock::now();
     e.last_read_at = e.written_at;
-    e.tier = tier;
+    e.tier         = tier;
+    e.value_size   = value_size;
 }
 
 void AccessTracker::recordRead(const std::string& key) {
@@ -197,7 +199,8 @@ bool TieredStorageManager::put(const std::string& key, const std::string& value)
     // Remove stale copies from lower tiers (in case of re-promotion)
     deleteFromTier(key, StorageTierLevel::WARM);
     deleteFromTier(key, StorageTierLevel::COLD);
-    tracker_.recordWrite(key, StorageTierLevel::HOT);
+    tracker_.recordWrite(key, StorageTierLevel::HOT,
+                         static_cast<uint64_t>(value.size()));
     return true;
 }
 
@@ -300,10 +303,7 @@ uint32_t TieredStorageManager::runMigrationCycle() {
 
         // ── Size-based policy (checked first, overrides tier-based rules) ──
         if (config_.large_blob_bytes > 0 && entry.tier != config_.large_blob_tier) {
-            const std::string src_path = keyFilePath(key, entry.tier);
-            std::error_code ec;
-            auto file_size = fs::file_size(src_path, ec);
-            if (!ec && file_size >= config_.large_blob_bytes) {
+            if (entry.value_size >= config_.large_blob_bytes) {
                 if (migrateKey(key, entry.tier, config_.large_blob_tier)) {
                     stat_migrations_size_based_++;
                     ++migrated;

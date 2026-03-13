@@ -22,6 +22,7 @@ using namespace themis::storage;
 #include "storage/tiered_storage.h"
 
 #include <filesystem>
+#include <fstream>
 #include <thread>
 #include <chrono>
 
@@ -312,8 +313,8 @@ TEST_F(TieredStorageTest, MultipleKeysIsolated) {
 
 TEST_F(TieredStorageTest, SizeBasedMigrationHotToCold) {
     TieredStorageConfig cfg = makeConfig();
-    cfg.hot_to_warm_days   = 0;   // disable age-based policy
-    cfg.warm_to_cold_days  = 0;
+    cfg.hot_to_warm_days      = 999;  // no age-based demotion (only size policy should trigger)
+    cfg.warm_to_cold_days     = 999;
     cfg.hot_zero_access_days  = 0;
     cfg.warm_zero_access_days = 0;
     cfg.large_blob_bytes = 10;   // anything >= 10 bytes goes to cold
@@ -336,34 +337,37 @@ TEST_F(TieredStorageTest, SizeBasedMigrationHotToCold) {
 }
 
 TEST_F(TieredStorageTest, SizeBasedMigrationWarmToCold) {
-    // Get a key into WARM first (using a manager without size policy),
-    // then verify that a second manager with size policy demotes it to COLD.
+    // Arrange: write a file directly into the warm tier and register it in the
+    // tracker as WARM so we can test that the size policy demotes it to COLD.
+    TieredStorageConfig cfg = makeConfig();
+    cfg.hot_to_warm_days      = 999;  // no age-based demotion
+    cfg.warm_to_cold_days     = 999;
+    cfg.hot_zero_access_days  = 0;
+    cfg.warm_zero_access_days = 0;
+    cfg.large_blob_bytes = 10;
+    cfg.large_blob_tier  = StorageTierLevel::COLD;
 
-    // Step 1: place key in WARM using age-based demotion
-    TieredStorageConfig cfg_no_size = makeConfig();
-    cfg_no_size.hot_to_warm_days   = 0;    // immediate hot->warm
-    cfg_no_size.warm_to_cold_days  = 999;  // no warm->cold by age
-    cfg_no_size.large_blob_bytes   = 0;    // size policy off
+    TieredStorageManager mgr(cfg);
 
-    TieredStorageManager mgr_stage(cfg_no_size);
-    mgr_stage.put("blob", "large_value_here");  // 16 bytes
-    mgr_stage.runMigrationCycle();  // hot -> warm
-    ASSERT_EQ(mgr_stage.tierOf("blob"), StorageTierLevel::WARM);
-
-    // Step 2: open the same tier directories with size policy enabled
-    TieredStorageConfig cfg_sized = cfg_no_size;
-    cfg_sized.large_blob_bytes = 10;
-    cfg_sized.large_blob_tier  = StorageTierLevel::COLD;
-
-    TieredStorageManager mgr_sized(cfg_sized);
-    // Re-register the key as WARM in the new manager's tracker
-    mgr_sized.accessTracker().recordWrite("blob", StorageTierLevel::WARM);
+    // Manually create the file in the warm directory (simulates a key that was
+    // previously demoted to WARM by a migration cycle).
+    const std::string blob_value = "large_value_here";  // 16 bytes >= 10
+    const std::string warm_file  = cfg.warm_tier_path + "/blob.dat";
+    {
+        std::ofstream f(warm_file, std::ios::binary);
+        ASSERT_TRUE(f.is_open()) << "Failed to open warm tier file for writing";
+        f << blob_value;
+        ASSERT_TRUE(f.good()) << "Write to warm tier file failed";
+    }
+    // Register it with the tracker as already in WARM, with its byte size.
+    mgr.accessTracker().recordWrite("blob", StorageTierLevel::WARM,
+                                    static_cast<uint64_t>(blob_value.size()));
 
     // Now size policy should demote it to COLD
-    uint32_t n = mgr_sized.runMigrationCycle();
+    uint32_t n = mgr.runMigrationCycle();
     EXPECT_GE(n, 1u);
-    EXPECT_EQ(mgr_sized.tierOf("blob"), StorageTierLevel::COLD);
-    EXPECT_EQ(mgr_sized.get("blob"), "large_value_here");
+    EXPECT_EQ(mgr.tierOf("blob"), StorageTierLevel::COLD);
+    EXPECT_EQ(mgr.get("blob"), blob_value);
 }
 
 TEST_F(TieredStorageTest, SizeBasedMigrationDisabledByDefault) {
@@ -422,7 +426,7 @@ TEST_F(TieredStorageTest, SizeBasedMigrationReadAfterMigrate) {
 TEST_F(TieredStorageTest, SizeBasedMigrationAlreadyAtTarget) {
     // Keys already in the large_blob_tier must not be migrated again
     TieredStorageConfig cfg = makeConfig();
-    cfg.hot_to_warm_days      = 0;   // hot -> warm immediately
+    cfg.hot_to_warm_days      = 999;  // no age-based demotion (only size policy should trigger)
     cfg.warm_to_cold_days     = 999;
     cfg.hot_zero_access_days  = 0;
     cfg.warm_zero_access_days = 0;
