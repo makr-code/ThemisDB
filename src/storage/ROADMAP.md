@@ -37,7 +37,12 @@ v1.x – Production-grade persistent storage layer built on RocksDB with MVCC, W
 - [x] Production-mode safety flag (`THEMIS_PRODUCTION_MODE`) preventing no-op encryption defaults
 
 ## In Progress 🚧
-*(none currently in progress)*
+- [~] NVMe Optimizations (Target: v1.6.0)
+  - Subsystems: `NVMeManager` (new), `RocksDBWrapper` (extended)
+  - Runtime behaviour: on `enable_nvme_optimizations=true`, `configureOptions()` constructs `NVMeManager`, probes sysfs/kernel for io_uring/ZNS/Direct I/O support, and applies capability-checked RocksDB flags + background-thread count recommendation
+  - Error cases: io_uring setup failure → WARN log + disable io_uring; ZNS unavailable → WARN log + disable ZNS; Direct I/O unsupported on filesystem → fall back to buffered I/O
+  - Test requirements: lifecycle (init/shutdown idempotent), capability detection (non-crashing, positive hw_queue_count), Direct I/O flag logic, background thread bounds [2,16], async I/O fallback on real file, ZNS no-ops when disabled, RocksDB put/get with NVMe enabled
+  - Performance target: 30–50% lower p99 read latency vs. buffered I/O on NVMe with io_uring + Direct I/O; 2× throughput via multi-queue parallel submission
 
 ## Planned Features 📋
 
@@ -56,6 +61,14 @@ v1.x – Production-grade persistent storage layer built on RocksDB with MVCC, W
   - Auth: ADC (Application Default Credentials) via `GOOGLE_APPLICATION_CREDENTIALS`; fail-closed if credentials absent
   - Errors: GCS API errors mapped to `StorageError`; retry on transient 5xx/429 with jitter backoff
   - Tests: integration test against GCS emulator (`fake-gcs-server`)
+- [~] NVMe Optimizations via `NVMeManager` (Target: v1.6.0)
+  - Inputs: `NVMeConfig` with device_path, queue_depth, feature flags
+  - Outputs: `NVMeCapabilities` report; adjusted RocksDB Direct I/O flags; background-thread count recommendation; io_uring async I/O submit/poll; ZNS zone reset/finish/wp-query
+  - Affected files: new `src/storage/nvme_manager.cpp`, `include/storage/nvme_manager.h`; `RocksDBWrapper::Config` extended with `enable_nvme_optimizations`, `nvme_*` fields; `configureOptions()` applies NVMe flags
+  - Constraints: all Linux-specific code (#ifdef __linux__); io_uring requires THEMIS_ENABLE_IO_URING compile flag; graceful fallback to pread/pwrite when unavailable
+  - Errors: io_uring setup failure → disable io_uring and log WARN; ZNS unavailable → log WARN and skip; direct I/O unsupported filesystem → fall back to buffered I/O
+  - Tests: `tests/test_nvme_manager.cpp` — 20+ focused unit tests (lifecycle, capabilities, Direct I/O flags, background threads, async I/O fallback, ZNS no-ops, RocksDB integration)
+  - Perf target: 30–50% lower p99 latency vs. buffered I/O on NVMe with io_uring + Direct I/O enabled
 - [ ] Erasure coding redundancy mode in `BlobRedundancyManager` (space-efficient alternative to RAID-1) (Target: v1.7.0)
   - Inputs/outputs: same `BlobRedundancyManager` interface; new `RedundancyMode::ERASURE_CODING` enum value
   - Algorithm: Reed-Solomon(k, m) with configurable k data shards and m parity shards; `k=4, m=2` default (tolerates 2 backend failures with 1.5× space overhead vs 3× for RAID-1)
@@ -125,6 +138,7 @@ v1.x – Production-grade persistent storage layer built on RocksDB with MVCC, W
 ### Phase 5: Tiered Storage & Distributed Transactions (Status: In Progress 🚧)
 - [x] Tiered storage (hot/warm/cold) with age- and access-based migration policies
 - [x] GCS blob backend
+- [~] NVMe Optimizations: `NVMeManager` with io_uring, multi-queue, ZNS, Direct I/O
 - [ ] Erasure coding in `BlobRedundancyManager`
 - [ ] 2PC distributed transactions with Raft coordination
 

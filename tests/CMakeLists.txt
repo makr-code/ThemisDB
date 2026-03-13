@@ -12930,6 +12930,28 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_storage_engine_prod.cpp")
     message(STATUS "  StorageEngine prod: PRODUCTION_MODE safety flag, encryption defaults")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_nvme_manager.cpp")
+    message(STATUS "Adding Storage: NVMeFocusedTests")
+    add_executable(test_nvme_manager_focused test_nvme_manager.cpp)
+    target_include_directories(test_nvme_manager_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_nvme_manager_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_nvme_manager_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME NVMeFocusedTests COMMAND test_nvme_manager_focused)
+    set_tests_properties(NVMeFocusedTests PROPERTIES
+        LABELS "storage;nvme;io_uring;zns;direct-io;focused;unit"
+        TIMEOUT 60
+    )
+    # POSIX-specific tests (::open/::close/pread/pwrite) are guarded in the
+    # source with #ifndef _WIN32 and will SKIP gracefully on Windows.
+    message(STATUS "  NVMe: capability detection, io_uring lifecycle, ZNS no-ops, Direct I/O flags, RocksDB integration")
+endif()
+
 # ============================================================================
 # Network Module Focused Tests
 # ============================================================================
