@@ -28,6 +28,7 @@
  */
 
 #include "sharding/shard_repair_engine.h"
+#include "sharding/shard_resource_manager.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <future>
@@ -112,6 +113,10 @@ void ShardRepairEngine::setPrometheusMetrics(std::shared_ptr<PrometheusMetrics> 
 
 void ShardRepairEngine::setSLOMonitor(std::shared_ptr<SLOMonitor> slo_monitor) {
     slo_monitor_ = std::move(slo_monitor);
+}
+
+void ShardRepairEngine::setResourceManager(std::shared_ptr<ShardResourceManager> resource_manager) {
+    resource_manager_ = std::move(resource_manager);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -344,6 +349,13 @@ void ShardRepairEngine::repairLoop() {
 void ShardRepairEngine::performAntiEntropyScan() {
     spdlog::info("ShardRepairEngine: starting parallel anti-entropy scan");
 
+    // Log the active erasure-coding path so operators can see which backend is in use.
+    if (resource_manager_) {
+        bool gpu_enabled = resource_manager_->isGPUErasureCodingEnabled();
+        spdlog::info("ShardRepairEngine: erasure-coding path = {}",
+                     gpu_enabled ? "GPU (CUDA)" : "CPU/OpenCL");
+    }
+
     auto all_shards = topology_.getAllShards();
     const uint64_t total_shards = all_shards.size();
 
@@ -485,6 +497,13 @@ void ShardRepairEngine::scanShardBand(const std::vector<ShardInfo>& band,
 
         for (const auto& doc_id : doc_ids) {
             if (!running_.load()) break;
+
+            // Enforce the IOPS budget – back-off if the token bucket is empty.
+            if (resource_manager_) {
+                while (!resource_manager_->acquireRepairIOToken() && running_.load()) {
+                    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                }
+            }
 
             ++report.documents_scanned;
             {
@@ -650,6 +669,12 @@ void ShardRepairEngine::executeRepairJob(RepairJob& job) {
 
 bool ShardRepairEngine::repairDocument(const std::string& doc_id,
                                         const std::string& collection) {
+    // Enforce the IOPS budget before executing the repair write.
+    if (resource_manager_) {
+        while (!resource_manager_->acquireRepairIOToken() && running_.load()) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
+    }
     try {
         return strategy_.recoverDocument(doc_id, collection, ring_, topology_,
                                          read_handler_, write_handler_);

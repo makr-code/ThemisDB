@@ -60,6 +60,10 @@
 namespace themis {
 namespace sharding {
 
+// Forward declaration – avoid pulling in the heavy gossip/gRPC headers from
+// shard_resource_manager.h into every translation unit that includes this header.
+class ShardResourceManager;
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Configuration
 // ─────────────────────────────────────────────────────────────────────────────
@@ -209,6 +213,15 @@ public:
      */
     void setSLOMonitor(std::shared_ptr<SLOMonitor> slo_monitor);
 
+    /**
+     * Attach a ShardResourceManager so that the repair engine can enforce the
+     * configured IOPS budget (`acquireRepairIOToken`) and consult the GPU
+     * erasure-coding feature flag (`isGPUErasureCodingEnabled`).  Optional —
+     * if not set, the engine runs without I/O throttling and always uses the
+     * CPU erasure-coding path.
+     */
+    void setResourceManager(std::shared_ptr<ShardResourceManager> resource_manager);
+
     // ── On-demand triggers (API / CLI) ────────────────────────────────────────
 
     /**
@@ -274,6 +287,8 @@ private:
     std::shared_ptr<PrometheusMetrics> prom_metrics_;
     /// Optional SLO monitor for repair-progress tracking.
     std::shared_ptr<SLOMonitor> slo_monitor_;
+    /// Optional resource manager for IOPS throttle and GPU feature-flag queries.
+    std::shared_ptr<ShardResourceManager> resource_manager_;
 
     std::atomic<bool> running_{false};
     std::thread scan_thread_;

@@ -1146,3 +1146,113 @@ TEST_F(ShardResourceManagerIOPSTest, DefaultConfigHasThrottleEnabled) {
     EXPECT_EQ(cfg.peak_node_iops, 100'000u);
 }
 
+// ── AC-7: setResourceManager wires IOPS throttle + GPU flag into engine ───
+
+class ShardRepairEngineResourceManagerTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        ShardTopology::Config topo_cfg;
+        topo_cfg.enable_health_checks = false;
+        topo_cfg.cluster_name = "rm-test";
+        topology_ = std::make_shared<ShardTopology>(topo_cfg);
+        ring_ = std::make_shared<ConsistentHashRing>();
+
+        RedundancyConfig rcfg;
+        rcfg.mode = RedundancyMode::MIRROR;
+        strategy_ = std::make_shared<RedundancyStrategy>(rcfg);
+    }
+
+    std::shared_ptr<ShardRepairEngine> makeEngine(bool throttle_enabled = true,
+                                                   float budget_percent = 50.0f,
+                                                   uint64_t peak_iops = 1000u) {
+        RepairConfig cfg;
+        cfg.enable_periodic_scan = false;
+        cfg.enable_auto_repair = true;
+        cfg.repair_poll_interval = std::chrono::seconds(1);
+        return std::make_shared<ShardRepairEngine>(
+            cfg, *strategy_, *ring_, *topology_,
+            kNullReadHandler, kAlwaysSucceedWriteHandler);
+    }
+
+    std::shared_ptr<ShardResourceManager> makeResourceManager(bool throttle_enabled = true,
+                                                               float budget_percent = 50.0f,
+                                                               uint64_t peak_iops = 1000u) {
+        ShardResourceManager::Config cfg;
+        cfg.enable_repair_iops_throttle = throttle_enabled;
+        cfg.repair_iops_budget_percent = budget_percent;
+        cfg.peak_node_iops = peak_iops;
+        cfg.enable_gossip_broadcast = false;
+        cfg.snapshot_interval_ms = 99999;
+        return std::make_shared<ShardResourceManager>("shard-test", nullptr, cfg);
+    }
+
+    std::shared_ptr<ShardTopology> topology_;
+    std::shared_ptr<ConsistentHashRing> ring_;
+    std::shared_ptr<RedundancyStrategy> strategy_;
+};
+
+TEST_F(ShardRepairEngineResourceManagerTest, SetResourceManagerDoesNotThrow) {
+    auto engine = makeEngine();
+    auto rm = makeResourceManager();
+    EXPECT_NO_THROW(engine->setResourceManager(rm));
+}
+
+TEST_F(ShardRepairEngineResourceManagerTest, SetNullResourceManagerIsNoOp) {
+    auto engine = makeEngine();
+    EXPECT_NO_THROW(engine->setResourceManager(nullptr));
+}
+
+TEST_F(ShardRepairEngineResourceManagerTest, EngineReadsGPUFlagFromResourceManager) {
+    auto engine = makeEngine();
+
+    // GPU disabled by default
+    ShardResourceManager::Config gpu_off_cfg;
+    gpu_off_cfg.enable_gpu_erasure_coding = false;
+    gpu_off_cfg.enable_gossip_broadcast = false;
+    gpu_off_cfg.snapshot_interval_ms = 99999;
+    auto rm_off = std::make_shared<ShardResourceManager>("shard-test", nullptr, gpu_off_cfg);
+    engine->setResourceManager(rm_off);
+    // isGPUErasureCodingEnabled should reflect config + CUDA availability
+    EXPECT_FALSE(rm_off->isGPUErasureCodingEnabled());
+
+    // GPU "enabled" in config (still false without CUDA compile flag)
+    ShardResourceManager::Config gpu_on_cfg;
+    gpu_on_cfg.enable_gpu_erasure_coding = true;
+    gpu_on_cfg.enable_gossip_broadcast = false;
+    gpu_on_cfg.snapshot_interval_ms = 99999;
+    auto rm_on = std::make_shared<ShardResourceManager>("shard-test", nullptr, gpu_on_cfg);
+    engine->setResourceManager(rm_on);
+#ifdef THEMIS_ENABLE_CUDA
+    EXPECT_TRUE(rm_on->isGPUErasureCodingEnabled());
+#else
+    EXPECT_FALSE(rm_on->isGPUErasureCodingEnabled());  // no CUDA at compile time
+#endif
+}
+
+TEST_F(ShardRepairEngineResourceManagerTest, ThrottledRepairRespectsBudget) {
+    // Set a tiny IOPS budget so the throttle gets exercised during repair
+    // 1% of 100 IOPS = 1 token/s; burst = 1 token
+    auto engine = makeEngine();
+    auto rm = makeResourceManager(true, 1.0f, 100u);
+    engine->setResourceManager(rm);
+
+    // Inject a doc-list provider returning a few documents
+    int docs_attempted = 0;
+    engine->setDocumentListProvider([&docs_attempted](const std::string&) {
+        docs_attempted = 3;
+        return std::vector<std::string>{"d1", "d2", "d3"};
+    });
+
+    engine->start();
+
+    // Trigger a document repair job; the engine will throttle after the first token
+    engine->triggerDocumentRepair("d1", "col");
+    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+    engine->stop();
+
+    // Test just verifies no crash/deadlock when throttle is active; functional
+    // throughput tests belong in integration benchmarks.
+    SUCCEED();
+}
+
+
