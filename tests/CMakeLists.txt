@@ -1181,7 +1181,7 @@ target_link_libraries(themis_tests PRIVATE
     RocksDB::rocksdb
     OpenSSL::SSL
     OpenSSL::Crypto
-    CURL::libcurl
+    $<$<BOOL:${CURL_FOUND}>:$<IF:$<TARGET_EXISTS:CURL::libcurl>,CURL::libcurl,${CURL_LIBRARIES}>>
     protobuf::libprotobuf
     Threads::Threads
 )
@@ -7247,6 +7247,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_accurate_token_count_estimation.cpp"
 else()
     message(STATUS "Accurate Token-Count Estimation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_accurate_token_count_estimation.cpp")
 endif()
+
 
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_global_transaction_manager.cpp")
