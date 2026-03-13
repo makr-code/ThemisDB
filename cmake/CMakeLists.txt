@@ -1825,6 +1825,7 @@ set(THEMIS_CORE_SOURCES
     ../src/timeseries/timeseries_metrics.cpp
     ../src/timeseries/tsstore.cpp
     ../src/timeseries/gorilla.cpp
+    ../src/timeseries/gorilla_simd.cpp
     ../src/timeseries/retention.cpp
     ../src/timeseries/continuous_agg.cpp
     ../src/timeseries/aggregate_scheduler.cpp
