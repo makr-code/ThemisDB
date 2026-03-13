@@ -13374,6 +13374,42 @@ else()
     message(STATUS "Dependency Resolution Engine focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_dependency_resolution_engine.cpp")
 endif()
 
+# MultiTenantUpdateScheduling – focused tests for TenantUpdateScheduler (Issue #262 / v1.8.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_tenant_update_scheduling.cpp")
+    message(STATUS "Adding Multi-Tenant Update Scheduling focused tests")
+
+    add_executable(test_multi_tenant_update_scheduling_focused
+        test_multi_tenant_update_scheduling.cpp
+    )
+
+    target_include_directories(test_multi_tenant_update_scheduling_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_multi_tenant_update_scheduling_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_multi_tenant_update_scheduling_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MultiTenantUpdateSchedulingFocusedTests
+        COMMAND test_multi_tenant_update_scheduling_focused)
+
+    set_tests_properties(MultiTenantUpdateSchedulingFocusedTests PROPERTIES
+        LABELS "updates;multi-tenant;maintenance-window;blackout;priority;consent;rollback;focused;unit;v1.8.0"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  MultiTenantUpdateScheduling: maintenance windows, blackout periods, priority tiers, tenant consent, per-tenant rollback")
+else()
+    message(STATUS "Multi-Tenant Update Scheduling focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_multi_tenant_update_scheduling.cpp")
+endif()
+
 # DistributedGateway – focused tests for multi-node API gateway
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_gateway.cpp")
     message(STATUS "Adding Distributed Gateway focused tests")

@@ -373,6 +373,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/updates/blue_green_deployment.cpp
     ../src/updates/coordinated_update_manager.cpp
     ../src/updates/preflight_health_check.cpp
+    ../src/updates/tenant_update_scheduler.cpp
 
     # Storage security
     ../src/storage/security_signature.cpp

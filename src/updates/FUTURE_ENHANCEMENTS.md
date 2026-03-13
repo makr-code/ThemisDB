@@ -450,18 +450,25 @@ if (update_result.success) {
 
 ---
 
-### Multi-Tenant Update Scheduling
+### Multi-Tenant Update Scheduling ✅ Implemented (v1.8.0, Issue #262)
 **Priority:** Low  
-**Target Version:** v1.8.0
+**Target Version:** v1.8.0  
+**Status:** Implemented
 
 Per-tenant update schedules and maintenance windows.
 
 **Features:**
-- Tenant-specific maintenance windows
-- Update blackout periods
-- Priority tiers (critical, normal, low)
-- Tenant consent for updates
-- Rollback per tenant
+- [x] Tenant-specific maintenance windows
+- [x] Update blackout periods
+- [x] Priority tiers (critical, normal, low)
+- [x] Tenant consent for updates
+- [x] Rollback per tenant
+
+**Implementation files:**
+- `include/updates/tenant_update_scheduler.h`
+- `src/updates/tenant_update_scheduler.cpp`
+- Tests: 37 focused tests in `tests/test_multi_tenant_update_scheduling.cpp`
+- CI: `.github/workflows/multi-tenant-update-scheduling-ci.yml`
 
 **Configuration:**
 ```cpp
