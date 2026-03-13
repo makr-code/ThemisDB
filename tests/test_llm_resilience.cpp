@@ -173,6 +173,121 @@ TEST_F(LLMResilienceTest, TimeoutManager_CancelToken_FastOperation_Completes) {
     EXPECT_EQ(result, 42);
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Thread-leak elimination tests (AC: executeWithTimeout uses jthread, no detach)
+// ─────────────────────────────────────────────────────────────────────────────
+
+// After executeWithTimeout() throws TIMEOUT the worker thread must terminate
+// within timeout + 500 ms.  A latch (atomic counter) decremented by the worker
+// on exit is used to detect termination.
+TEST_F(LLMResilienceTest, TimeoutManager_WorkerThreadTerminatesAfterTimeout) {
+    LLMTimeoutManager timeout_mgr;
+    std::atomic<int> exit_counter{0};
+
+    // Worker sleeps for 1.2 s total; timeout fires at 1 s.
+    // The worker will finish ~200 ms after the timeout — well within the
+    // 500 ms grace window asserted below.
+    EXPECT_THROW({
+        timeout_mgr.executeWithTimeout(
+            [&exit_counter]() -> int {
+                std::this_thread::sleep_for(std::chrono::milliseconds(1200));
+                exit_counter.fetch_add(1, std::memory_order_release);
+                return 0;
+            },
+            std::chrono::seconds(1),
+            "thread_leak_test"
+        );
+    }, LLMException);
+
+    // Wait up to 500 ms for the worker to finish.
+    const auto deadline =
+        std::chrono::steady_clock::now() + std::chrono::milliseconds(500);
+    while (exit_counter.load(std::memory_order_acquire) == 0 &&
+           std::chrono::steady_clock::now() < deadline) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+
+    EXPECT_EQ(exit_counter.load(std::memory_order_acquire), 1)
+        << "Worker thread did not terminate within timeout + 500 ms";
+}
+
+// After executeWithCancelToken() throws TIMEOUT, a cooperative worker that
+// polls the cancel token must also terminate within timeout + 500 ms.
+TEST_F(LLMResilienceTest, TimeoutManager_CancelToken_WorkerThreadTerminatesAfterTimeout) {
+    LLMTimeoutManager timeout_mgr;
+    std::atomic<int> exit_counter{0};
+
+    EXPECT_THROW({
+        timeout_mgr.executeWithCancelToken(
+            [&exit_counter](auto cancel_token) -> int {
+                // Poll the cancel token every 20 ms; exits quickly after timeout.
+                while (!cancel_token->load(std::memory_order_acquire)) {
+                    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+                }
+                exit_counter.fetch_add(1, std::memory_order_release);
+                return 0;
+            },
+            std::chrono::seconds(1),
+            "cancel_token_thread_leak_test"
+        );
+    }, LLMException);
+
+    // Worker should exit within ~20 ms of the cancel token being set,
+    // comfortably inside the 500 ms grace window.
+    const auto deadline =
+        std::chrono::steady_clock::now() + std::chrono::milliseconds(500);
+    while (exit_counter.load(std::memory_order_acquire) == 0 &&
+           std::chrono::steady_clock::now() < deadline) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+
+    EXPECT_EQ(exit_counter.load(std::memory_order_acquire), 1)
+        << "Cooperative worker thread did not terminate within timeout + 500 ms";
+}
+
+// Zero leaked threads after N sequential timeout events.
+// A zero-second timeout fires immediately (task is still running); each worker
+// completes within 50 ms.  The test waits for all workers to finish and then
+// asserts the active-worker counter is zero.
+TEST_F(LLMResilienceTest, TimeoutManager_NoThreadLeak_Sequential1000) {
+    LLMTimeoutManager timeout_mgr;
+    std::atomic<int> active_workers{0};
+
+    const int N = 1000;
+    for (int i = 0; i < N; ++i) {
+        active_workers.fetch_add(1, std::memory_order_relaxed);
+        try {
+            timeout_mgr.executeWithTimeout(
+                [&active_workers]() -> int {
+                    // Worker finishes ~50 ms after it starts.
+                    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+                    active_workers.fetch_sub(1, std::memory_order_release);
+                    return 0;
+                },
+                std::chrono::seconds(0),   // fires immediately
+                "no_leak_stress_test"
+            );
+            // Reached only if the task finished before the zero-second timeout
+            // (should not happen with a 50 ms worker, but handle cleanly).
+            active_workers.fetch_sub(1, std::memory_order_release);
+        } catch (const LLMException& e) {
+            EXPECT_EQ(e.getErrorCode(), LLMErrorCode::TIMEOUT);
+        }
+    }
+
+    // Wait up to 5 s for all background workers to finish.
+    const auto deadline =
+        std::chrono::steady_clock::now() + std::chrono::seconds(5);
+    while (active_workers.load(std::memory_order_acquire) > 0 &&
+           std::chrono::steady_clock::now() < deadline) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+
+    const int remaining = active_workers.load(std::memory_order_acquire);
+    EXPECT_EQ(remaining, 0)
+        << "Thread leak detected: " << remaining << " worker(s) still running";
+}
+
 // ============================================================================
 // Retry Policy Tests
 // ============================================================================
