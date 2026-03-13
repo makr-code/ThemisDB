@@ -197,9 +197,10 @@ Tensor QLoRALayer::backward(const Tensor& grad_output) {
     Tensor input_T = cached_input_.transpose();
     Tensor grad_A = B_T.matmul(input_T.matmul(scaled_grad));
     
-    // Gradient w.r.t. B: (scaled_grad @ A.T) @ input.T
+    // Gradient w.r.t. B: input.T @ scaled_grad @ A.T
+    // Shapes: (in_dim,batch) @ (batch,out_dim) @ (out_dim,rank) -> (in_dim,rank)
     Tensor A_T = A_->transpose();
-    Tensor grad_B = (scaled_grad.matmul(A_T)).matmul(input_T);
+    Tensor grad_B = input_T.matmul(scaled_grad).matmul(A_T);
     
     // Store gradients
     A_->grad.reset(new Tensor(std::move(grad_A)));

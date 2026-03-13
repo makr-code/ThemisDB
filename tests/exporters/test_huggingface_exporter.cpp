@@ -59,6 +59,10 @@ protected:
             entity.setField("instruction", "Instruction " + std::to_string(i));
             entity.setField("input",       "Input " + std::to_string(i));
             entity.setField("output",      "Output " + std::to_string(i));
+            // Keep aliases for JSONLLLMExporter default mapping (question/context/answer).
+            entity.setField("question",    "Instruction " + std::to_string(i));
+            entity.setField("context",     "Input " + std::to_string(i));
+            entity.setField("answer",      "Output " + std::to_string(i));
             entity.setField("score",       static_cast<double>(i) * 0.2);
             test_entities_.push_back(entity);
         }
@@ -92,6 +96,7 @@ protected:
 TEST_F(HuggingFaceExporterTest, CreatesDatasetDirectory) {
     HuggingFaceExporterConfig config;
     config.dataset_name = "test_dataset";
+    config.jsonl_config.quality.min_text_length = 0;
     HuggingFaceExporter exporter(config);
 
     ExportOptions options;
@@ -195,6 +200,7 @@ TEST_F(HuggingFaceExporterTest, DefaultSplitIsTrainWhenEmpty) {
 
 TEST_F(HuggingFaceExporterTest, DataFileContainsValidJsonl) {
     HuggingFaceExporterConfig config;
+    config.jsonl_config.quality.min_text_length = 0;
     HuggingFaceExporter exporter(config);
 
     ExportOptions options;
