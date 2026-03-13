@@ -279,7 +279,21 @@ ResolutionResult DependencyResolver::resolve(
                     result.backfilled.push_back(dep.package);
                     needs_update = true;
                     target_ver = minVersionFromConstraint(dep.version_constraint);
-                    if (target_ver.empty()) target_ver = dep.version_constraint;
+                    // When the constraint has no lower bound (e.g. "<=2.0.0", "!=1.0.0")
+                    // or is empty, we cannot derive an install target automatically.
+                    // For an empty constraint: to_version="" signals "any version" and
+                    // the caller is responsible for choosing a concrete version.
+                    // For a non-empty upper-bound-only constraint: fail immediately with
+                    // an actionable error rather than storing an invalid version string.
+                    if (target_ver.empty() && !dep.version_constraint.empty()) {
+                        std::ostringstream oss;
+                        oss << "Cannot auto-resolve target version for " << dep.package
+                            << ": constraint \"" << dep.version_constraint
+                            << "\" has no lower bound.  Specify an explicit >= or == clause.";
+                        result.error_message = oss.str();
+                        result.success = false;
+                        return result;
+                    }
                 }
                 // Optional absent deps are silently skipped.
             } else if (!dep.version_constraint.empty() &&
@@ -287,7 +301,18 @@ ResolutionResult DependencyResolver::resolve(
                 // Installed but version does not satisfy constraint → update
                 needs_update = true;
                 target_ver = minVersionFromConstraint(dep.version_constraint);
-                if (target_ver.empty()) target_ver = dep.version_constraint;
+                // Same guard: upper-bound-only or exclusion-only constraints cannot
+                // be auto-resolved to a valid install target.
+                if (target_ver.empty()) {
+                    std::ostringstream oss;
+                    oss << "Cannot auto-resolve target version for " << dep.package
+                        << ": constraint \"" << dep.version_constraint
+                        << "\" has no lower bound.  Installed version is \"" << cur_ver
+                        << "\".  Specify an explicit >= or == clause.";
+                    result.error_message = oss.str();
+                    result.success = false;
+                    return result;
+                }
             }
 
             if (needs_update && !node_target.count(dep.package)) {
@@ -353,9 +378,15 @@ ResolutionResult DependencyResolver::resolve(
         auto it_ver = it_pkg->second.find(tgt_ver);
         if (it_ver == it_pkg->second.end()) continue;
 
+        // Track edges already added for this pkg to guard against duplicate deps.
+        std::unordered_set<std::string> added_edges;
+
         for (const auto& dep : it_ver->second) {
             // Only create an ordering edge when dep.package is also being updated.
             if (!in_degree.count(dep.package)) continue;
+
+            // Deduplicate: only add each (dep.package → pkg) edge once.
+            if (!added_edges.insert(dep.package).second) continue;
 
             successors[dep.package].push_back(pkg);
             in_degree[pkg]++;

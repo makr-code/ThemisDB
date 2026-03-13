@@ -633,3 +633,72 @@ TEST(DependencyResolutionEngineTest, Resolve_EmptyVersionString_NoRegisteredDeps
     EXPECT_TRUE(result.success);
     EXPECT_TRUE(result.steps.empty());
 }
+
+// ============================================================================
+// Bug-regression tests (found during code audit)
+// ============================================================================
+
+// Bug fix 1: LTE-only constraint violated → must fail with clear error, not
+// produce an UpdateStep with to_version="<=2.0.0" (raw constraint string).
+TEST(DependencyResolutionEngineTest, Bug_LTEOnlyConstraintViolated_FailsWithError) {
+    DependencyResolver resolver;
+    resolver.addDependency("1.0.0", {"lib", "<=2.0.0"});
+
+    // Installed 3.0.0 violates <=2.0.0; no lower bound → cannot auto-resolve
+    VersionMap current = {{"lib", "3.0.0"}};
+    auto result = resolver.resolve("1.0.0", current);
+
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty());
+    EXPECT_NE(std::string::npos,
+              result.error_message.find("no lower bound"))
+        << "Error should explain the constraint has no lower bound";
+    EXPECT_TRUE(result.steps.empty())
+        << "No partial steps should be emitted on failure";
+}
+
+// Bug fix 1 (variant): NEQ-only constraint violated → same behaviour
+TEST(DependencyResolutionEngineTest, Bug_NEQOnlyConstraintViolated_FailsWithError) {
+    DependencyResolver resolver;
+    resolver.addDependency("1.0.0", {"lib", "!=1.0.0"});
+
+    VersionMap current = {{"lib", "1.0.0"}};
+    auto result = resolver.resolve("1.0.0", current);
+
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(std::string::npos, result.error_message.find("no lower bound"));
+}
+
+// Bug fix 1 (variant): LTE-only, package not installed → backfill is impossible
+TEST(DependencyResolutionEngineTest, Bug_LTEOnlyConstraint_PackageAbsent_FailsWithError) {
+    DependencyResolver resolver;
+    resolver.addDependency("1.0.0", {"lib", "<=2.0.0"});
+
+    VersionMap current; // nothing installed
+    auto result = resolver.resolve("1.0.0", current);
+
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(std::string::npos, result.error_message.find("no lower bound"));
+}
+
+// Bug fix 2: Duplicate dep registrations in the DAG phase must not inflate
+// in-degree and break topological sort.
+TEST(DependencyResolutionEngineTest, Bug_DuplicateDepRegistration_CorrectTopoOrder) {
+    // pkg-b depends on pkg-a, registered TWICE (idempotent duplicate)
+    DependencyResolver resolver;
+    resolver.addDependency("1.0.0", {"pkg-a", ">=1.0.0"});
+    resolver.addDependency("1.0.0", {"pkg-b", ">=1.0.0"});
+    resolver.addPackageDependency("pkg-b", "1.0.0", {"pkg-a", ">=1.0.0"});
+    resolver.addPackageDependency("pkg-b", "1.0.0", {"pkg-a", ">=1.0.0"}); // duplicate
+
+    VersionMap current = {{"pkg-a", "0.5.0"}, {"pkg-b", "0.5.0"}};
+    auto result = resolver.resolve("1.0.0", current);
+
+    ASSERT_TRUE(result.success)
+        << "Duplicate dep registrations must not cause resolution failure";
+    ASSERT_EQ(2u, result.steps.size());
+
+    const int posA = stepPos(result.steps, "pkg-a");
+    const int posB = stepPos(result.steps, "pkg-b");
+    EXPECT_LT(posA, posB) << "pkg-a must still appear before pkg-b";
+}
