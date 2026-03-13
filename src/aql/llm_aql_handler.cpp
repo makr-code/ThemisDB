@@ -261,7 +261,6 @@ public:
     // Timeout and resilience components
     LLMTimeoutManager timeout_manager_;
     RetryPolicy retry_policy_;
-    sharding::CircuitBreaker circuit_breaker_;
 
     // Post-generation AQL validation enforcement level
     TranslationValidationMode validation_mode_ = TranslationValidationMode::WARN_ONLY;
