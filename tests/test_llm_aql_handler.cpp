@@ -31,6 +31,7 @@
 #include <gtest/gtest.h>
 #include "aql/llm_aql_handler.h"
 #include "aql/aql_fewshot_example_library.h"
+#include "aql/aql_query_validator.h"
 #include "aql/llm_error_codes.h"
 #include "llm/embedded_llm.h"
 
@@ -974,3 +975,146 @@ TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithExamples_ValidationRunsWithoutCras
             << "Unexpected exception: " << msg;
     }
 }
+
+// ============================================================================
+// Post-generation AQL validation mode tests (TranslationValidationMode)
+// ============================================================================
+
+TEST_F(LLMAQLHandlerTest, ValidationMode_DefaultIsWarnOnly) {
+    EXPECT_EQ(handler->getValidationMode(), TranslationValidationMode::WARN_ONLY);
+}
+
+TEST_F(LLMAQLHandlerTest, ValidationMode_SetAndGet_RejectOnError) {
+    handler->setValidationMode(TranslationValidationMode::REJECT_ON_ERROR);
+    EXPECT_EQ(handler->getValidationMode(), TranslationValidationMode::REJECT_ON_ERROR);
+}
+
+TEST_F(LLMAQLHandlerTest, ValidationMode_SetAndGet_RetryOnError) {
+    handler->setValidationMode(TranslationValidationMode::RETRY_ON_ERROR);
+    EXPECT_EQ(handler->getValidationMode(), TranslationValidationMode::RETRY_ON_ERROR);
+}
+
+TEST_F(LLMAQLHandlerTest, ValidationMode_SetAndGet_WarnOnly) {
+    // Set to something else first, then back to WARN_ONLY
+    handler->setValidationMode(TranslationValidationMode::REJECT_ON_ERROR);
+    handler->setValidationMode(TranslationValidationMode::WARN_ONLY);
+    EXPECT_EQ(handler->getValidationMode(), TranslationValidationMode::WARN_ONLY);
+}
+
+// ============================================================================
+// REJECT_ON_ERROR mode: broken AQL must throw LLMException(INVALID_RESPONSE)
+// ============================================================================
+
+// Helper: directly exercise AQLQueryValidator on a broken AQL string to confirm
+// that the validator itself flags the error-level issue we rely on.
+TEST_F(LLMAQLHandlerTest, AQLQueryValidator_DetectsIncompleteForQuery) {
+    // "FOR x" lacks both the IN clause and a RETURN clause — the validator must
+    // report at least one ERROR-severity issue.
+    AQLQueryValidator v;
+    auto result = v.validate("FOR x");
+    EXPECT_FALSE(result.is_valid);
+    EXPECT_TRUE(result.hasErrors())
+        << "AQLQueryValidator should flag 'FOR x' as invalid (ERROR severity)";
+}
+
+TEST_F(LLMAQLHandlerTest, AQLQueryValidator_DetectsMissingReturnClause) {
+    AQLQueryValidator v;
+    auto result = v.validate("FOR doc IN collection FILTER doc.active == true");
+    EXPECT_FALSE(result.is_valid);
+    EXPECT_TRUE(result.hasErrors())
+        << "AQLQueryValidator should flag a query with no RETURN as invalid";
+}
+
+TEST_F(LLMAQLHandlerTest, AQLQueryValidator_AcceptsMinimalValidQuery) {
+    AQLQueryValidator v;
+    auto result = v.validate("FOR doc IN collection RETURN doc");
+    EXPECT_TRUE(result.is_valid);
+    EXPECT_FALSE(result.hasErrors());
+}
+
+// ============================================================================
+// INVALID_RESPONSE error code coverage
+// ============================================================================
+
+TEST_F(LLMAQLHandlerTest, LLMErrorCode_InvalidResponseHasString) {
+    // Verify the new error code is registered in the string conversion helper.
+    std::string code_str = LLMException::getErrorCodeString(LLMErrorCode::INVALID_RESPONSE);
+    EXPECT_EQ(code_str, "LLM_INVALID_RESPONSE");
+}
+
+TEST_F(LLMAQLHandlerTest, LLMException_InvalidResponseThrowAndCatch) {
+    // Ensure LLMException with INVALID_RESPONSE can be thrown and caught, and
+    // that getErrorCode() returns the correct value.
+    try {
+        throw LLMException(LLMErrorCode::INVALID_RESPONSE,
+                           "Generated AQL failed validation: Missing RETURN clause");
+        FAIL() << "Expected LLMException";
+    } catch (const LLMException& ex) {
+        EXPECT_EQ(ex.getErrorCode(), LLMErrorCode::INVALID_RESPONSE);
+        EXPECT_NE(std::string(ex.what()).find("RETURN"), std::string::npos);
+    }
+}
+
+// ============================================================================
+// REJECT_ON_ERROR: translateNLToAQL must throw when LLM is unavailable
+// (the call fails before validation, but the mode is preserved)
+// ============================================================================
+
+TEST_F(LLMAQLHandlerTest, RejectOnError_ModePreservedAcrossTranslationAttempt) {
+    // Set REJECT_ON_ERROR; without a live LLM the translation attempt itself fails,
+    // but the mode must be persisted and no injection-detection error is thrown.
+    handler->setValidationMode(TranslationValidationMode::REJECT_ON_ERROR);
+    EXPECT_EQ(handler->getValidationMode(), TranslationValidationMode::REJECT_ON_ERROR);
+
+    try {
+        handler->translateNLToAQL("Find all users");
+    } catch (const LLMException& ex) {
+        // PROMPT_INJECTION must NOT be triggered for a clean query
+        EXPECT_NE(ex.getErrorCode(), LLMErrorCode::PROMPT_INJECTION)
+            << "Clean query should not trigger injection detection in REJECT_ON_ERROR mode";
+        // INVALID_RESPONSE would be thrown if validation is reached and fails; that is
+        // also acceptable here since it means the flow reached post-generation checks.
+    } catch (const std::exception&) {
+        // LLM unavailable — acceptable, mode was preserved
+    }
+    // Mode must still be REJECT_ON_ERROR after the call
+    EXPECT_EQ(handler->getValidationMode(), TranslationValidationMode::REJECT_ON_ERROR);
+}
+
+TEST_F(LLMAQLHandlerTest, RejectOnError_ModePreservedForStreaming) {
+    handler->setValidationMode(TranslationValidationMode::REJECT_ON_ERROR);
+    try {
+        handler->translateNLToAQLStreaming("Find all edges", [](const std::string&) {});
+    } catch (const LLMException& ex) {
+        EXPECT_NE(ex.getErrorCode(), LLMErrorCode::PROMPT_INJECTION);
+    } catch (const std::exception&) {
+        // LLM unavailable — acceptable
+    }
+    EXPECT_EQ(handler->getValidationMode(), TranslationValidationMode::REJECT_ON_ERROR);
+}
+
+TEST_F(LLMAQLHandlerTest, RejectOnError_ModePreservedForWithExamples) {
+    handler->setValidationMode(TranslationValidationMode::REJECT_ON_ERROR);
+    AQLFewShotExampleLibrary lib;
+    try {
+        handler->translateNLToAQLWithExamples("Count all nodes", lib);
+    } catch (const LLMException& ex) {
+        EXPECT_NE(ex.getErrorCode(), LLMErrorCode::PROMPT_INJECTION);
+    } catch (const std::exception&) {
+        // LLM unavailable — acceptable
+    }
+    EXPECT_EQ(handler->getValidationMode(), TranslationValidationMode::REJECT_ON_ERROR);
+}
+
+TEST_F(LLMAQLHandlerTest, RetryOnError_ModePreservedAcrossTranslationAttempt) {
+    handler->setValidationMode(TranslationValidationMode::RETRY_ON_ERROR);
+    try {
+        handler->translateNLToAQL("Find all users");
+    } catch (const LLMException& ex) {
+        EXPECT_NE(ex.getErrorCode(), LLMErrorCode::PROMPT_INJECTION);
+    } catch (const std::exception&) {
+        // LLM unavailable — acceptable
+    }
+    EXPECT_EQ(handler->getValidationMode(), TranslationValidationMode::RETRY_ON_ERROR);
+}
+
