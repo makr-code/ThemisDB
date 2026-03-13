@@ -166,6 +166,7 @@ set(THEMIS_BASE_SOURCES
     ../src/core/concerns/i_logger.cpp
     ../src/core/concerns/concerns_context.cpp
     ../src/core/concerns/context_propagation.cpp
+    ../src/core/concerns/lockfree_metrics.cpp
     ../src/core/adapters/otel_tracer.cpp
     ../src/sharding/circuit_breaker.cpp
     
