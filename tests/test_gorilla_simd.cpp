@@ -318,25 +318,26 @@ TEST_F(GorillaSIMDTest, DecodedCountMatchesPointCount) {
 }
 
 TEST_F(GorillaSIMDTest, TruncatedDataHandledGracefully) {
-    // Truncated data must not crash and must decode fewer points than
-    // the full stream. Error flag is set only when truncation falls
-    // mid-point (between the timestamp and value fields).
+    // Data truncated to 1 byte forces an incomplete first-point parse.
+    // The decoder must not crash, must return 0 points (no partial garbage),
+    // and must set the hasError() flag.
     std::vector<std::pair<int64_t, double>> pts;
     int64_t t0 = 1700000000000LL;
     for (int i = 0; i < 20; ++i)
         pts.emplace_back(t0 + i * 1000, static_cast<double>(i));
     auto full_bytes = encode(pts);
-    auto full_out   = decode_scalar(full_bytes);
 
-    // Truncate after the very first data byte to force mid-stream corruption.
+    // Truncate to a single byte — definitely mid-first-point.
     auto truncated = full_bytes;
-    truncated.resize(1);  // definitely mid-stream
+    truncated.resize(1);
 
     GorillaSIMDDecoder dec(truncated);
     std::vector<std::pair<int64_t, double>> out;
-    dec.decodeAll(out);
-    // Must not crash; decoded points must be ≤ total expected
-    EXPECT_LE(out.size(), full_out.size());
+    size_t n = dec.decodeAll(out);
+
+    EXPECT_EQ(n, 0u) << "No points should be emitted when first-point parse failed";
+    EXPECT_TRUE(out.empty()) << "Output vector must remain empty on total failure";
+    EXPECT_TRUE(dec.hasError()) << "Error flag must be set for truncated stream";
 }
 
 TEST_F(GorillaSIMDTest, TruncatedDataMidPointSetsErrorFlag) {

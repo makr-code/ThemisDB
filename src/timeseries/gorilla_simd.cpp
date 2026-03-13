@@ -91,9 +91,7 @@ static GorillaParsed parse_gorilla_chunk(const std::vector<uint8_t>& data) {
     out.first_vbits = br.readBits(64);
 
     // ── Subsequent points ─────────────────────────────────────────────────
-    uint64_t prev_vbits   = out.first_vbits;
-    int      prev_leading = 64;
-    int      prev_trailing = 64;
+    uint64_t prev_vbits = out.first_vbits;
 
     while (true) {
         br.alignToByte();
@@ -119,8 +117,6 @@ static GorillaParsed parse_gorilla_chunk(const std::vector<uint8_t>& data) {
             uint64_t payload = br.readBits(significant);
             int trailing     = 64 - leading - significant;
             xorv = payload << trailing;
-            prev_leading  = leading;
-            prev_trailing = trailing;
             prev_vbits ^= xorv;
         }
         // Only commit this point once we have successfully decoded both
@@ -278,23 +274,6 @@ static void prefix_xor_u64(uint64_t* arr, size_t n, uint64_t seed) {
 }
 
 // ──────────────────────────────────────────────────────────────────────────
-// Scalar fallback path using existing GorillaDecoder
-// ──────────────────────────────────────────────────────────────────────────
-
-static size_t decode_scalar(const std::vector<uint8_t>& data,
-                            std::vector<std::pair<int64_t, double>>& out,
-                            bool& error_out) {
-    GorillaDecoder dec(data);
-    size_t count = 0;
-    while (auto p = dec.next()) {
-        out.push_back(*p);
-        ++count;
-    }
-    error_out = dec.hasError();
-    return count;
-}
-
-// ──────────────────────────────────────────────────────────────────────────
 // GorillaSIMDDecoder implementation
 // ──────────────────────────────────────────────────────────────────────────
 
@@ -315,12 +294,13 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
     out.reserve(out.size() + total);
 
     if (subsequent == 0) {
-        // Only one point was in the stream (or parse failed on the first point).
-        if (!parsed.error || total >= 1) {
+        // Stream contained exactly one valid point, or the first point failed.
+        if (!parsed.error) {
             out.emplace_back(parsed.first_ts, bits_to_dbl_simd(parsed.first_vbits));
             decoded_count_ += 1;
+            return 1;
         }
-        return 1;
+        return 0;
     }
 
     // ── Phase 2a: reconstruct timestamps ─────────────────────────────────
