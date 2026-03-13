@@ -323,9 +323,22 @@ TEST_F(RTreeCpuIntegrationTest, BulkLoad_ReplacesExistingContent) {
     };
     ASSERT_TRUE(mgr_->bulkLoad(kTable, entries));
 
-    // tokyo must no longer be in the index.
+    // tokyo must no longer be in the in-memory index.
     EXPECT_TRUE(mgr_->searchIntersects(kTable, MBR(130.0, 30.0, 145.0, 40.0)).empty());
     // berlin must be present.
+    EXPECT_EQ(mgr_->searchIntersects(kTable, MBR(12.0, 51.0, 15.0, 54.0)).size(), 1u);
+
+    // Simulate a manager restart to verify stale per-PK RocksDB keys were purged.
+    // If bulkLoad did not delete the old per-PK key for "tokyo", ensureRTree would
+    // resurrect it during the lazy rebuild after restart.
+    mgr_.reset();
+    mgr_ = std::make_unique<SpatialIndexManager>(*db_);
+    mgr_->setExactBackend(getCpuExactBackend());
+
+    // After restart + lazy rebuild, tokyo must still be absent.
+    EXPECT_TRUE(mgr_->searchIntersects(kTable, MBR(130.0, 30.0, 145.0, 40.0)).empty())
+        << "Stale per-PK RocksDB key for 'tokyo' was not purged by bulkLoad";
+    // berlin must still be present.
     EXPECT_EQ(mgr_->searchIntersects(kTable, MBR(12.0, 51.0, 15.0, 54.0)).size(), 1u);
 }
 
