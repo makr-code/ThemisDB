@@ -41,17 +41,14 @@ bool CostBasedRateLimiter::allowRequest(const std::string& client_id,
 {
     total_requests_.fetch_add(1, std::memory_order_relaxed);
 
-    // Periodic cleanup of expired windows (amortised per request).
-    {
-        auto now = std::chrono::steady_clock::now();
-        if (now - last_cleanup_ >=
-            std::chrono::seconds(config_.window_seconds)) {
-            cleanupExpired();
-            last_cleanup_ = now;
-        }
-    }
-
     std::lock_guard<std::mutex> lock(clients_mutex_);
+
+    // Periodic cleanup of expired windows (amortised per request, under lock).
+    const auto now = std::chrono::steady_clock::now();
+    if (now - last_cleanup_ >= std::chrono::seconds(config_.window_seconds)) {
+        cleanupExpiredUnlocked();
+        last_cleanup_ = now;
+    }
 
     auto it = clients_.find(client_id);
     if (it == clients_.end()) {
@@ -104,7 +101,12 @@ size_t CostBasedRateLimiter::getActiveClients() const
 void CostBasedRateLimiter::cleanupExpired()
 {
     std::lock_guard<std::mutex> lock(clients_mutex_);
+    cleanupExpiredUnlocked();
+}
 
+void CostBasedRateLimiter::cleanupExpiredUnlocked()
+{
+    // Caller must hold clients_mutex_.
     const auto now      = std::chrono::steady_clock::now();
     const auto lifetime = std::chrono::seconds(config_.window_seconds);
 

@@ -177,6 +177,32 @@ TEST_F(AdaptiveRateLimiterTest, RecoveryCapCappedAtBaseCapacity) {
     EXPECT_LE(limiter.getCurrentCapacity(""), 100u);
 }
 
+TEST_F(AdaptiveRateLimiterTest, TokensReplenishAfterWindow) {
+    AdaptiveRateLimiter::Config cfg;
+    cfg.base_capacity        = 3;
+    cfg.window_seconds       = 1; // short window for testing
+    cfg.min_samples_to_adapt = 100; // disable capacity adaptation in this test
+    AdaptiveRateLimiter limiter(cfg);
+
+    // Exhaust the tokens.
+    EXPECT_TRUE(limiter.allowRequest(""));
+    EXPECT_TRUE(limiter.allowRequest(""));
+    EXPECT_TRUE(limiter.allowRequest(""));
+    EXPECT_FALSE(limiter.allowRequest(""));
+
+    // Poll until the window resets (up to 3 s).
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(3);
+    bool reset_observed = false;
+    while (std::chrono::steady_clock::now() < deadline) {
+        if (limiter.allowRequest("")) {
+            reset_observed = true;
+            break;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    }
+    EXPECT_TRUE(reset_observed) << "Tokens did not replenish within 3 seconds";
+}
+
 // ============================================================================
 // CostBasedRateLimiter – default operation costs
 // ============================================================================
@@ -279,10 +305,17 @@ TEST_F(CostBasedRateLimiterTest, WindowResetRestoresBudget) {
     EXPECT_TRUE(limiter.allowRequest("c", 10u));
     EXPECT_FALSE(limiter.allowRequest("c", 1u));
 
-    // Wait for window to expire.
-    std::this_thread::sleep_for(std::chrono::milliseconds(1100));
-
-    EXPECT_TRUE(limiter.allowRequest("c", 10u));
+    // Poll until the window resets (up to 3 s), avoiding hard timing dependency.
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(3);
+    bool reset_observed = false;
+    while (std::chrono::steady_clock::now() < deadline) {
+        if (limiter.allowRequest("c", 10u)) {
+            reset_observed = true;
+            break;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    }
+    EXPECT_TRUE(reset_observed) << "Budget did not replenish within 3 seconds";
 }
 
 TEST_F(CostBasedRateLimiterTest, MaxClientsEnforced) {

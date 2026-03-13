@@ -14,6 +14,7 @@
 #include "utils/logger.h"
 
 #include <algorithm>
+#include <cmath>
 #include <numeric>
 
 namespace themis {
@@ -73,7 +74,14 @@ bool AdaptiveRateLimiter::allowRequest(const std::string& tenant_id)
 
     auto& state = it->second;
 
-    // Always prune stale samples to refresh available_tokens each window.
+    // Replenish tokens if a full window has elapsed since the last reset.
+    const auto now = std::chrono::steady_clock::now();
+    if (now - state.window_start >= std::chrono::seconds(config_.window_seconds)) {
+        state.window_start    = now;
+        state.available_tokens = state.current_capacity;
+    }
+
+    // Also prune stale health samples and re-evaluate capacity.
     pruneAndAdapt(state);
 
     if (state.available_tokens == 0) {

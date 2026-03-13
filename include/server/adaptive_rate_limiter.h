@@ -18,6 +18,7 @@
 #include <mutex>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 namespace themis {
 namespace server {
@@ -73,7 +74,10 @@ struct BackendHealthSample {
  *   }
  *
  *   // After backend call:
- *   limiter.recordSample({"tenant_a", latency, had_error});
+ *   BackendHealthSample sample;
+ *   sample.latency_ms = latency;
+ *   sample.is_error   = had_error;
+ *   limiter.recordSample("tenant_a", sample);
  * @endcode
  */
 class AdaptiveRateLimiter {
@@ -174,9 +178,13 @@ private:
         /// Available tokens in the current window.
         size_t available_tokens;
 
+        /// Start of the current token-replenishment window.
+        std::chrono::steady_clock::time_point window_start;
+
         explicit TenantState(size_t base_cap)
             : current_capacity(base_cap)
             , available_tokens(base_cap)
+            , window_start(std::chrono::steady_clock::now())
         {}
     };
 

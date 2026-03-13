@@ -75,9 +75,9 @@ inline size_t defaultCostFor(OperationType op) {
  * - LLM_COMPLETION  = 100 units
  *
  * ### Algorithm
- * Each client (identified by @c client_id) has a sliding-window budget.
- * The budget is fully replenished at the start of each window.  A request
- * is rejected when the remaining budget is insufficient to cover the
+ * Each client (identified by @c client_id) has a fixed-window (tumbling-window)
+ * budget.  The budget is fully replenished at the start of each new window.
+ * A request is rejected when the remaining budget is insufficient to cover the
  * operation cost.
  *
  * ### Thread-safety
@@ -202,6 +202,9 @@ private:
 
     /// Return the effective remaining budget without modifying @p budget state.
     size_t computeEffectiveRemaining(const ClientBudget& budget) const;
+
+    /// Internal cleanup helper — caller must hold clients_mutex_.
+    void cleanupExpiredUnlocked();
 
     Config config_;
 
