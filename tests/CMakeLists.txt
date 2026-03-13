@@ -13482,6 +13482,42 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_core.cpp")
     message(STATUS "  ShardingCore: Raft consensus, shard routing, rebalancing")
 endif()
 
+# ── RS Repair Engine Parallelisation focused tests (v1.6.0 Issue #204) ──────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_repair.cpp")
+    message(STATUS "Adding Sharding: RS Repair Engine Parallelisation focused tests")
+
+    add_executable(test_rs_repair_parallelisation_focused
+        test_sharding_repair.cpp
+    )
+
+    target_include_directories(test_rs_repair_parallelisation_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_rs_repair_parallelisation_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_rs_repair_parallelisation_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RSRepairParallelisationFocusedTests
+             COMMAND test_rs_repair_parallelisation_focused)
+
+    set_tests_properties(RSRepairParallelisationFocusedTests PROPERTIES
+        LABELS "sharding;repair;reed-solomon;parallelisation;slo;iops;gpu;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  RSRepairParallelisation: parallel scan bands, SLO progress, IOPS throttle, GPU flag")
+endif()
+
 # Process Modeling Module focused tests
 # Covers: BpmnSerializer, EpkSerializer, VccVpbImporter, LlmProcessDescriptor,
 #         ProcessModelManager, ProcessLinker, ProcessGraphRag
