@@ -142,71 +142,51 @@ for (int i = 0; i < 1000000; i++) {
 
 ---
 
-### Columnar Execution Engine
+<a id="columnar-execution-engine-delivered-v170"></a> <!-- explicit anchor for cross-refs -->
+### Columnar Execution Engine (Delivered v1.7.0)
 **Priority:** High  
-**Target Version:** v1.7.0
+**Target Version:** v1.7.0  
 
-Vectorized columnar execution for analytical queries, inspired by DuckDB and ClickHouse.
+Vectorized columnar execution for analytical queries, inspired by DuckDB and ClickHouse. The query facade (`query::VectorizedExecutionEngine`) converts JSON rows to columnar layout and delegates to the analytics pipeline (`analytics::ColumnarExecutionEngine`) for SelectionVector-based late materialization.
 
-**Features:**
-- Columnar data layout in memory
-- Vectorized operators (1024 tuples/batch)
-- Late materialization
-- Columnar compression (dictionary, RLE, bit-packing)
-- Adaptive row/columnar switching
+> Note: This delivered feature is retained here for traceability; its completion is tracked in `src/query/ROADMAP.md` (Phase 4: "Vectorized execution engine", completed).
 
-**Architecture:**
-```cpp
-class ColumnarExecutionEngine {
-public:
-    struct ColumnBatch {
-        std::vector<std::shared_ptr<Column>> columns;
-        size_t row_count;
-        SelectionVector selection;  // Filtered rows
-    };
-    
-    // Execute query in columnar mode
-    Result<std::vector<ColumnBatch>> executeColumnar(
-        const QueryPlan& plan,
-        const ExecutionContext& ctx);
-    
-    // Operators work on batches
-    ColumnBatch filterBatch(const ColumnBatch& input, 
-                           const Expression& predicate);
-    ColumnBatch projectBatch(const ColumnBatch& input,
-                            const std::vector<Expression>& projections);
-    ColumnBatch aggregateBatch(const ColumnBatch& input,
-                              const AggregateSpec& spec);
-};
+### Scope
+- Provide columnar in-memory layout and vectorized operators (Filter, Project, Aggregate, Sort) with 1,024 tuple batches.
+- Preserve JSON-facing query APIs by converting to/from `ColumnBatch` via `VectorizedExecutionEngine`.
+- Enable columnar compression paths (dictionary, RLE, bit-packing) via `storage::ColumnarFormatManager` for analytical workloads.
+- Allow adaptive row/columnar switching by keeping row-materialized return path while executing operators in columnar mode.
 
-// Example: Vectorized filter
-void filterColumn(const int64_t* input, int64_t threshold,
-                 SelectionVector& output, size_t count) {
-    // SIMD comparison (8 values at once)
-    __m256i thresh_vec = _mm256_set1_epi64x(threshold);
-    for (size_t i = 0; i < count; i += 4) {
-        __m256i vals = _mm256_loadu_si256((__m256i*)(input + i));
-        __m256i cmp = _mm256_cmpgt_epi64(vals, thresh_vec);
-        int mask = _mm256_movemask_pd(_mm256_castsi256_pd(cmp));
-        // Write selected indices
-        if (mask & 1) output.push_back(i);
-        if (mask & 2) output.push_back(i + 1);
-        if (mask & 4) output.push_back(i + 2);
-        if (mask & 8) output.push_back(i + 3);
-    }
-}
-```
+### Design Constraints
+- Default batch size 1,024; configurable via `VectorizedExecutionEngine::Config` / `ColumnarExecutionEngine::Config`.
+- Late materialization via `SelectionVector` to avoid copying until required; projection is zero-copy (shared columns).
+- Deterministic output ordering for Sort; aggregation materializes dense batches.
+- Null handling must match JSON semantics (missing field → null) across conversions.
 
-**Use Cases:**
-- OLAP queries (aggregations, scans)
-- Large table joins
-- GROUP BY with high cardinality
-- Window functions
+### Required Interfaces
+- `query::VectorizedExecutionEngine` (`include/query/vectorized_execution.h`, `src/query/vectorized_execution.cpp`)
+- `analytics::ColumnarExecutionEngine` and operators (`include/analytics/columnar_execution.h`, `src/analytics/columnar_execution.cpp`)
+- `storage::ColumnarFormatManager` for on-disk compressed column segments (`include/storage/columnar_format.h`, `src/storage/columnar_format.cpp`)
 
-**Performance Targets:**
-- 10-50x faster scans
-- 5-20x faster aggregations
-- 3-10x faster joins
+### Implementation Notes
+- `jsonToColumnBatch` infers column types, builds `ColumnBatch`, and preserves field order; `columnBatchToJson` materializes selections back to JSON.
+- Operators use SIMD-friendly contiguous buffers (`Column` per type) and late materialization; selection vectors are intersected for multi-predicate filters.
+- Columnar compression options (dictionary, RLE, bit-packing, frame-of-reference) are available for column segments and validated via dedicated codecs.
+- Adaptive row/column behavior: row-mode callers receive JSON rows while internal pipeline remains columnar; small batches keep overhead bounded.
+
+### Test Strategy
+- Columnar operator coverage: `tests/analytics/test_columnar_execution.cpp` (SelectionVector, Column, operators, pipeline).
+- Query facade coverage: `tests/test_vectorized_execution.cpp` (filter/project/aggregate/sort, stats, limits, mixed types).
+- Compression and columnar format coverage: `tests/test_columnar_format.cpp` (dictionary, RLE, bit-packing, frame-of-reference, manager integration).
+
+### Performance Targets
+- Batching: 1,024 tuples default; configurable for cache fitting.
+- Expected speedups vs row-wise execution: 5–10× for aggregations and 3–5× for scans (aligned with roadmap benchmarks), batch=1,024; higher when compression applies to scan-heavy workloads.
+
+### Security / Reliability
+- Null bitmap maintained per column; selection vectors bounds-checked via `std::vector<uint32_t>` accessors.
+- JSON conversion treats missing fields as null to avoid undefined values; row count preserved through projections.
+- Configurable memory soft limit via `ColumnarExecutionEngine::Config::max_memory_bytes` to avoid unbounded allocations during large batches.
 
 ---
 
