@@ -37,7 +37,12 @@ v1.x – Production-grade persistent storage layer built on RocksDB with MVCC, W
 - [x] Production-mode safety flag (`THEMIS_PRODUCTION_MODE`) preventing no-op encryption defaults
 
 ## In Progress 🚧
-- [~] NVMe Optimizations (Target: v1.6.0) — `nvme_manager.cpp` implemented
+- [~] NVMe Optimizations (Target: v1.6.0)
+  - Subsystems: `NVMeManager` (new), `RocksDBWrapper` (extended)
+  - Runtime behaviour: on `enable_nvme_optimizations=true`, `configureOptions()` constructs `NVMeManager`, probes sysfs/kernel for io_uring/ZNS/Direct I/O support, and applies capability-checked RocksDB flags + background-thread count recommendation
+  - Error cases: io_uring setup failure → WARN log + disable io_uring; ZNS unavailable → WARN log + disable ZNS; Direct I/O unsupported on filesystem → fall back to buffered I/O
+  - Test requirements: lifecycle (init/shutdown idempotent), capability detection (non-crashing, positive hw_queue_count), Direct I/O flag logic, background thread bounds [2,16], async I/O fallback on real file, ZNS no-ops when disabled, RocksDB put/get with NVMe enabled
+  - Performance target: 30–50% lower p99 read latency vs. buffered I/O on NVMe with io_uring + Direct I/O; 2× throughput via multi-queue parallel submission
 
 ## Planned Features 📋
 
