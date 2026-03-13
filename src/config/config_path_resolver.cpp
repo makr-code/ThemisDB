@@ -1619,6 +1619,9 @@ void ConfigPathResolver::initLegacyFallbackCategoryCounters() {
         legacy_fallbacks_by_category_.clear();
         legacy_fallbacks_by_category_.emplace("unknown", 0);
 
+        // Pre-populate all known categories so the label cardinality is fixed
+        // up front. This allows lock-free increments during fallbacks and
+        // keeps scrape-time iteration deterministic without touching PATH_MAPPING.
         for (const auto& entry : PATH_MAPPING) {
             const std::string category = inferCategory(entry.second);
             legacy_fallbacks_by_category_.try_emplace(category, 0);
@@ -1649,6 +1652,16 @@ std::vector<std::pair<std::string, uint64_t>> ConfigPathResolver::legacyFallback
         snapshot.emplace_back(entry.first, entry.second.load(std::memory_order_relaxed));
     }
     return snapshot;
+}
+
+std::vector<std::string> ConfigPathResolver::legacyFallbackCategories() {
+    initLegacyFallbackCategoryCounters();
+    std::vector<std::string> categories;
+    categories.reserve(legacy_fallbacks_by_category_.size());
+    for (const auto& entry : legacy_fallbacks_by_category_) {
+        categories.push_back(entry.first);
+    }
+    return categories;
 }
 
 void ConfigPathResolver::setCachingEnabled(bool enabled) {

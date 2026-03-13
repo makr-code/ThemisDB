@@ -83,26 +83,30 @@ std::string ConfigMetricsExporter::collect() {
 
     const auto per_category = ConfigPathResolver::legacyFallbacksByCategory();
 
+    auto delta_for = [](uint64_t current, uint64_t previous) {
+        return current >= previous ? current - previous : current;
+    };
+
     std::lock_guard<std::mutex> lock(g_registry_mutex);
     if (g_registry) {
         // Update counters with deltas to avoid double-counting
         if (g_metrics.resolution_hits) {
-            const uint64_t delta = hits >= g_prev_snapshot.hits ? hits - g_prev_snapshot.hits : hits;
+            const uint64_t delta = delta_for(hits, g_prev_snapshot.hits);
             g_metrics.resolution_hits->Increment(static_cast<double>(delta));
             g_prev_snapshot.hits = hits;
         }
         if (g_metrics.resolution_misses) {
-            const uint64_t delta = misses >= g_prev_snapshot.misses ? misses - g_prev_snapshot.misses : misses;
+            const uint64_t delta = delta_for(misses, g_prev_snapshot.misses);
             g_metrics.resolution_misses->Increment(static_cast<double>(delta));
             g_prev_snapshot.misses = misses;
         }
         if (g_metrics.legacy_fallbacks) {
-            const uint64_t delta = fallbacks >= g_prev_snapshot.legacy ? fallbacks - g_prev_snapshot.legacy : fallbacks;
+            const uint64_t delta = delta_for(fallbacks, g_prev_snapshot.legacy);
             g_metrics.legacy_fallbacks->Increment(static_cast<double>(delta));
             g_prev_snapshot.legacy = fallbacks;
         }
         if (g_metrics.unmapped_requests) {
-            const uint64_t delta = unmapped >= g_prev_snapshot.unmapped ? unmapped - g_prev_snapshot.unmapped : unmapped;
+            const uint64_t delta = delta_for(unmapped, g_prev_snapshot.unmapped);
             g_metrics.unmapped_requests->Increment(static_cast<double>(delta));
             g_prev_snapshot.unmapped = unmapped;
         }
@@ -121,7 +125,7 @@ std::string ConfigMetricsExporter::collect() {
             const uint64_t prev = (prev_it == g_prev_snapshot.legacy_by_category.end()) ? 0 : prev_it->second;
             auto metric_it = g_metrics.legacy_by_category.find(category);
             if (metric_it != g_metrics.legacy_by_category.end()) {
-                const uint64_t delta = count >= prev ? count - prev : count;
+                const uint64_t delta = delta_for(count, prev);
                 metric_it->second->Increment(static_cast<double>(delta));
             }
             g_prev_snapshot.legacy_by_category[category] = count;
@@ -189,6 +193,9 @@ std::string ConfigMetricsExporter::collect() {
 
 void ConfigMetricsExporter::updateMetricsCollector() {
 #ifdef THEMIS_TEST_BUILD
+    // Focused config tests build only the config module; MetricsCollector and
+    // its dependencies are not linked in that configuration. This stub keeps
+    // the test build lightweight while production builds execute the real sync.
     return;
 #else
     auto& collector = observability::MetricsCollector::getInstance();
@@ -251,7 +258,7 @@ void ConfigMetricsExporter::registerWithRegistry(const std::shared_ptr<prometheu
         .Name("themis_config_legacy_fallbacks_total")
         .Help("Total number of times a legacy config path was used as fallback.")
         .Register(*g_registry);
-    for (const auto& [category, _] : ConfigPathResolver::legacyFallbacksByCategory()) {
+    for (const auto& category : ConfigPathResolver::legacyFallbackCategories()) {
         g_metrics.legacy_by_category[category] = &legacy_family.Add({{"category", category}});
     }
     // Also expose an aggregate series without label for convenience

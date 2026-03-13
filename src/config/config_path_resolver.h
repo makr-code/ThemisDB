@@ -162,6 +162,13 @@ public:
      * and requires no additional locking by callers.
      */
     static std::vector<std::pair<std::string, uint64_t>> legacyFallbacksByCategory();
+
+    /**
+     * Returns the set of category labels used for legacy fallback counters.
+     * Categories are initialized once from PATH_MAPPING to keep the label
+     * cardinality stable for Prometheus exports.
+     */
+    static std::vector<std::string> legacyFallbackCategories();
     
     /**
      * Reset metrics (primarily for testing).
