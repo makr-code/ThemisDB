@@ -81,7 +81,7 @@ The following items were implemented across three production-hardening iteration
 Added explicit mappings for previously unmapped types:
 
 | PostgreSQL type | ThemisDB type |
-|-----------------|---------------|
+| --- | --- |
 | `jsonb` | `json` |
 | `integer[]`, `text[]`, etc. | `array` |
 | `inet`, `cidr`, `macaddr`, `macaddr8` | `string` |
@@ -222,7 +222,7 @@ Added explicit mappings for previously unmapped types:
 
 ---
 
-## Roadmap to Full Production Readiness
+## v1.5 Changes Delivered
 
 ### Changes Delivered (v1.5)
 
@@ -483,7 +483,7 @@ over upsert, merge, and skip workflows via `ImportOptions.conflict_strategy`.
 **Files added / modified:**
 
 | File | Change |
-|------|--------|
+| --- | --- |
 | `include/importers/conflict_resolver.h` | New: `ImportConflictResolver` class declaration |
 | `src/importers/conflict_resolver.cpp` | New: full strategy implementation |
 | `src/importers/postgres_importer.cpp` | Integrated in `parseInsert` and `parseCopy` paths |
@@ -493,7 +493,7 @@ over upsert, merge, and skip workflows via `ImportOptions.conflict_strategy`.
 **Strategy summary:**
 
 | `ConflictStrategy` | Behaviour |
-|--------------------|-----------|
+| --- | --- |
 | `OVERWRITE` *(default)* | Replace existing entity with the incoming one |
 | `SKIP` | Keep existing entity; discard the incoming duplicate |
 | `MERGE` | Field-level merge; incoming fields win unless listed in `protected_fields` |
