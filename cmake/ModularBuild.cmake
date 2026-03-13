@@ -1275,6 +1275,8 @@ set(THEMIS_NETWORK_SOURCES
     ../src/security/query_masking_policy.cpp
     ../src/server/rate_limiter.cpp
     ../src/server/rate_limiter_v2.cpp
+    ../src/server/adaptive_rate_limiter.cpp
+    ../src/server/cost_based_rate_limiter.cpp
     ../src/server/rate_limiting_middleware.cpp
     ../src/server/load_shedder.cpp
     ../src/auth/auth_rate_limiter.cpp

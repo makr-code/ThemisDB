@@ -4214,6 +4214,37 @@ else()
     message(STATUS "RateLimiterV2 focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rate_limiter_v2.cpp")
 endif()
 
+# Rate Limiting Improvements Focused Tests (adaptive + cost-based)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rate_limiting_improvements.cpp")
+    message(STATUS "Adding RateLimitingImprovements focused tests")
+
+    add_executable(test_rate_limiting_improvements_focused
+        test_rate_limiting_improvements.cpp
+    )
+
+    target_link_libraries(test_rate_limiting_improvements_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_rate_limiting_improvements_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RateLimitingImprovementsFocusedTests
+             COMMAND test_rate_limiting_improvements_focused)
+
+    set_tests_properties(RateLimitingImprovementsFocusedTests PROPERTIES
+        LABELS "server;rate-limiter;adaptive;cost-based;unit"
+        TIMEOUT 30
+    )
+
+    message(STATUS "  RateLimitingImprovements: adaptive limiter, cost-based limiter")
+else()
+    message(STATUS "RateLimitingImprovements focused tests not found")
+endif()
+
 # UtilsStandalone Focused Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_utils_standalone.cpp")
     message(STATUS "Adding UtilsStandalone focused tests")
