@@ -112,7 +112,7 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 ### Phase 6: Compressed Replication (Status: Completed ✅ — v1.6.0)
 - [x] `CompressedReplicationStream` class in `include/replication/replication_manager.h` + `src/replication/replication_manager.cpp`
 - [x] Multiple compression algorithms: `NONE`, `LZ4` (fast, moderate ratio), `ZSTD` (best ratio), `SNAPPY` (very fast), `AUTO` (size-based selection)
-- [x] Adaptive compression via `AUTO` mode: uses ZSTD for batches ≥ `min_batch_size`, skips compression for small payloads
+- [x] Adaptive compression via `CompressionConfig::adaptive` flag: `adaptive=true` (default) skips compression below `min_batch_size`; `adaptive=false` always compresses in AUTO mode
 - [x] Configurable compression level (1–9, applies to ZSTD; ignored by LZ4/Snappy)
 - [x] `CompressionStats` for monitoring: `bytes_uncompressed`, `bytes_compressed`, `compression_ratio`, `algorithm_used`
 - [x] `sendBatch()` serialises WAL entries, selects algorithm, compresses, and tracks statistics
@@ -120,11 +120,15 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] `resetStats()` to clear accumulated statistics
 - [x] `ReplicationConfig` integration: `enable_wal_compression`, `wal_compression_algorithm`, `wal_compression_level`, `wal_compression_min_batch_bytes`
 - [x] `ReplicationStream` delegates `sendBatch()` to `CompressedReplicationStream` when `enable_wal_compression` is set
-- [x] 17 unit tests: 10 `CompressedStreamTest` + 7 `ReplicationStreamCompressionTest`
+- [x] 22 unit tests: 15 `CompressedStreamTest` + 7 `ReplicationStreamCompressionTest`
+  - JSON-like data achieves ≥ 5x ratio with ZSTD level 6 (AC: JSON 5-10x)
+  - Already-compressed data yields ≤ 1.2x (AC: ~1x for already compressed)
+  - LZ4 and Snappy round-trip correctness verified
+  - `adaptive=false` forces compression even below `min_batch_size`
 - [x] CI: `.github/workflows/compressed-replication-ci.yml`
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (242+ test cases: 225 previous + 17 CompressedReplicationStream tests)
+- [x] Unit tests coverage > 80% (247+ test cases: 225 previous + 22 CompressedReplicationStream tests)
 - [x] Integration tests (failover, lag detection, PITR restoration, cross-cluster end-to-end)
 - [x] Performance benchmarks (WAL append > 50 000 entries/s, WAL readFrom 1000 < 5 ms, serialize/deserialize < 2 µs) — `benchmarks/bench_replication_throughput.cpp`
 - [x] Focused standalone test targets: `ReplicationHAFocusedTests`, `ReplicationNewFeaturesFocusedTests`, `MultiRegionActiveActiveTests`, `CacheReplicationTests`
