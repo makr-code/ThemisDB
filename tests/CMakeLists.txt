@@ -7141,9 +7141,57 @@ else()
     endif()
 endif()
 
-# ============================================================================
-# Global Transaction Manager Tests
-# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_per_operation_circuit_breakers.cpp")
+    message(STATUS "Adding Per-Operation Circuit Breakers tests (Issue #33)")
+
+    add_executable(test_per_operation_circuit_breakers
+        test_per_operation_circuit_breakers.cpp
+    )
+
+    target_include_directories(test_per_operation_circuit_breakers PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    if(TARGET themis_llm)
+        target_link_libraries(test_per_operation_circuit_breakers PRIVATE
+            ${TEST_LIBS}
+            themis_llm
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            Threads::Threads
+        )
+    else()
+        target_link_libraries(test_per_operation_circuit_breakers PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            Threads::Threads
+        )
+    endif()
+
+    target_compile_definitions(test_per_operation_circuit_breakers PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_LLM_EXPORTS
+    )
+
+    add_test(NAME PerOperationCircuitBreakersFocusedTests COMMAND test_per_operation_circuit_breakers)
+
+    set_tests_properties(PerOperationCircuitBreakersFocusedTests PROPERTIES
+        LABELS "llm;aql;circuit-breaker;resilience;per-operation;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PerOperationCircuitBreakers: per-op isolation, config injection, getCircuitBreakerStates(), LLM STATS output")
+else()
+    message(STATUS "Per-Operation Circuit Breakers tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_per_operation_circuit_breakers.cpp")
+endif()
+
+
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_global_transaction_manager.cpp")
     message(STATUS "Adding Global Transaction Manager tests")

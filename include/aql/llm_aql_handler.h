@@ -31,6 +31,7 @@
 #include "aql/aql_fewshot_example_library.h"
 #include "llm/llm_plugin_interface.h"
 #include "llm/llama_wrapper.h"
+#include "sharding/circuit_breaker.h"
 #include <string>
 #include <cstdint>
 #include <functional>
@@ -112,7 +113,61 @@ private:
  */
 class LLMAQLHandler {
 public:
+    /**
+     * @brief Per-operation-type circuit breaker configuration.
+     *
+     * Each field configures the circuit breaker for a specific operation type.
+     * Default values match the original single-breaker configuration for
+     * backward compatibility.
+     */
+    struct Config {
+        /// Circuit breaker config for LLM INFER / INFER STREAMING operations.
+        sharding::CircuitBreaker::Config infer_circuit_breaker{
+            .failure_threshold = 5,
+            .timeout           = std::chrono::seconds(60),
+            .success_threshold = 2,
+            .failure_window    = std::chrono::seconds(120)
+        };
+
+        /// Circuit breaker config for LLM RAG operations.
+        sharding::CircuitBreaker::Config rag_circuit_breaker{
+            .failure_threshold = 5,
+            .timeout           = std::chrono::seconds(60),
+            .success_threshold = 2,
+            .failure_window    = std::chrono::seconds(120)
+        };
+
+        /// Circuit breaker config for LLM EMBED operations.
+        sharding::CircuitBreaker::Config embed_circuit_breaker{
+            .failure_threshold = 5,
+            .timeout           = std::chrono::seconds(60),
+            .success_threshold = 2,
+            .failure_window    = std::chrono::seconds(120)
+        };
+
+        /// Circuit breaker config for LLM FINETUNE operations.
+        sharding::CircuitBreaker::Config finetune_circuit_breaker{
+            .failure_threshold = 5,
+            .timeout           = std::chrono::seconds(60),
+            .success_threshold = 2,
+            .failure_window    = std::chrono::seconds(120)
+        };
+    };
+
+    /**
+     * @brief Snapshot of circuit breaker states for all operation types.
+     *
+     * Returned by @c getCircuitBreakerStates() for observability.
+     */
+    struct CircuitBreakerStates {
+        std::string infer;    ///< "closed", "open", or "half_open"
+        std::string rag;      ///< "closed", "open", or "half_open"
+        std::string embed;    ///< "closed", "open", or "half_open"
+        std::string finetune; ///< "closed", "open", or "half_open"
+    };
+
     LLMAQLHandler();
+    explicit LLMAQLHandler(const Config& config);
     ~LLMAQLHandler();
 
     // Inference commands
@@ -179,6 +234,14 @@ public:
     std::string executeStats();
     std::string executeCacheStats();
     void executeCacheClear();
+
+    /**
+     * @brief Return the current state of all per-operation circuit breakers.
+     *
+     * Each state string is one of "closed", "open", or "half_open".
+     * Intended for observability dashboards and the @c LLM STATS output.
+     */
+    CircuitBreakerStates getCircuitBreakerStates() const;
 
     // Batch optimization
     struct BatchInferRequest {
