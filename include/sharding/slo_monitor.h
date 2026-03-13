@@ -31,6 +31,7 @@
 #include <mutex>
 #include <atomic>
 #include <memory>
+#include <thread>
 
 namespace themis {
 namespace sharding {
@@ -130,7 +131,23 @@ public:
         double alert_threshold = 0.9;  // Alert when error budget reaches 90%
         static Config defaults() { return {}; }
     };
-    
+
+    /**
+     * Repair progress snapshot reported by ShardRepairEngine.
+     * Allows operators to track time-to-full-repair for large shards.
+     */
+    struct RepairProgress {
+        std::string job_id;
+        uint64_t documents_scanned = 0;
+        uint64_t documents_total = 0;    ///< 0 = unknown total
+        uint64_t documents_repaired = 0;
+        uint64_t documents_failed = 0;
+        double percent_complete = 0.0;   ///< [0, 100]
+        std::chrono::system_clock::time_point started_at;
+        std::chrono::system_clock::time_point updated_at;
+        bool completed = false;
+    };
+
     explicit SLOMonitor(const Config& config = Config::defaults());
     ~SLOMonitor() = default;
     
@@ -141,7 +158,12 @@ public:
     void recordDataLoss(const std::string& shard_id, uint64_t bytes_lost);
     void recordReplicationLag(const std::string& shard_id, double lag_ms);
     void recordLeaderElection(const std::string& shard_id, double duration_s);
-    
+
+    // Repair progress tracking (for time-to-full-repair observability)
+    void recordRepairProgress(const RepairProgress& progress);
+    RepairProgress getRepairProgress(const std::string& job_id) const;
+    std::vector<RepairProgress> getActiveRepairJobs() const;
+
     // SLO compliance checks
     bool isAvailabilitySLOMet(const std::string& shard_id) const;
     bool isLatencySLOMet(const std::string& query_type) const;
@@ -181,6 +203,9 @@ private:
     // Alert state
     mutable std::vector<std::string> active_alerts_;
     
+    // Per-job repair progress registry
+    std::map<std::string, RepairProgress> repair_progress_;
+
     // Helper methods
     std::shared_ptr<SLOWindow> getOrCreateShardWindow(const std::string& shard_id);
     std::shared_ptr<SLOWindow> getOrCreateQueryWindow(const std::string& query_type);

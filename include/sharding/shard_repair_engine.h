@@ -41,11 +41,14 @@
 #include "sharding/consistent_hash.h"
 #include "sharding/shard_topology.h"
 #include "sharding/prometheus_metrics.h"
+#include "sharding/slo_monitor.h"
+#include "utils/thread_pool_manager.h"
 
 #include <atomic>
 #include <chrono>
 #include <condition_variable>
 #include <functional>
+#include <future>
 #include <map>
 #include <memory>
 #include <mutex>
@@ -56,6 +59,10 @@
 
 namespace themis {
 namespace sharding {
+
+// Forward declaration – avoid pulling in the heavy gossip/gRPC headers from
+// shard_resource_manager.h into every translation unit that includes this header.
+class ShardResourceManager;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Configuration
@@ -76,6 +83,10 @@ struct RepairConfig {
     bool enable_periodic_scan = true;
     /// Collection name used when scanning (empty = default).
     std::string default_collection;
+    /// Number of parallel worker threads for the anti-entropy scan.
+    /// Shards are partitioned into scan bands, one per worker.
+    /// Set to 0 to use std::thread::hardware_concurrency() at runtime.
+    uint32_t num_parallel_workers = 8;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -140,6 +151,8 @@ struct RepairMetrics {
     std::chrono::milliseconds avg_repair_time_ms{0};
     std::chrono::system_clock::time_point last_scan_time;
     std::chrono::system_clock::time_point last_repair_time;
+    /// Number of worker threads used in the last parallel scan.
+    uint32_t last_scan_workers = 0;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -193,6 +206,22 @@ public:
      */
     void setPrometheusMetrics(std::shared_ptr<PrometheusMetrics> prom_metrics);
 
+    /**
+     * Attach an SLOMonitor so that scan and repair progress is reported for
+     * operator-visible time-to-full-repair tracking.  Optional — if not set,
+     * progress is only available through getRepairMetrics().
+     */
+    void setSLOMonitor(std::shared_ptr<SLOMonitor> slo_monitor);
+
+    /**
+     * Attach a ShardResourceManager so that the repair engine can enforce the
+     * configured IOPS budget (`acquireRepairIOToken`) and consult the GPU
+     * erasure-coding feature flag (`isGPUErasureCodingEnabled`).  Optional —
+     * if not set, the engine runs without I/O throttling and always uses the
+     * CPU erasure-coding path.
+     */
+    void setResourceManager(std::shared_ptr<ShardResourceManager> resource_manager);
+
     // ── On-demand triggers (API / CLI) ────────────────────────────────────────
 
     /**
@@ -234,6 +263,9 @@ private:
     // ── Internal operations ───────────────────────────────────────────────────
 
     void performAntiEntropyScan();
+    void scanShardBand(const std::vector<ShardInfo>& band,
+                       const std::string& scan_job_id,
+                       uint64_t total_shards);
     void executeRepairJob(RepairJob& job);
     bool repairDocument(const std::string& doc_id, const std::string& collection);
 
@@ -253,6 +285,10 @@ private:
     DocumentListProvider doc_list_provider_;
     /// Optional centralized metrics registry (set via setPrometheusMetrics).
     std::shared_ptr<PrometheusMetrics> prom_metrics_;
+    /// Optional SLO monitor for repair-progress tracking.
+    std::shared_ptr<SLOMonitor> slo_monitor_;
+    /// Optional resource manager for IOPS throttle and GPU feature-flag queries.
+    std::shared_ptr<ShardResourceManager> resource_manager_;
 
     std::atomic<bool> running_{false};
     std::thread scan_thread_;
@@ -274,6 +310,10 @@ private:
 
     // Monotonic counter for job IDs
     mutable std::atomic<uint64_t> job_counter_{0};
+
+    // Scan-progress counters shared across worker threads (atomic)
+    std::atomic<uint64_t> scan_shards_done_{0};
+    std::atomic<uint64_t> scan_shards_total_{0};
 };
 
 }  // namespace sharding

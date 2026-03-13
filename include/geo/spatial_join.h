@@ -26,6 +26,7 @@
 #include "utils/geo/ewkb.h"
 
 #include <cstddef>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -44,6 +45,81 @@ struct SpatialJoinConfig {
     /// Maximum number of result pairs to materialise (default 1 000 000).
     /// A warning is logged when the limit is reached.
     std::size_t max_pairs = 1'000'000;
+};
+
+/**
+ * @brief Lazy iterator for a spatial join operation.
+ *
+ * Yields one (key_a, key_b, distance_m) pair at a time without materialising
+ * the full result set in memory.  The inner collection is indexed once in the
+ * constructor (O(n_inner) build cost); each call to `advance()` performs a
+ * Haversine exact-distance check against R-tree candidates for the current
+ * outer geometry and yields a new pair.
+ *
+ * **Usage:**
+ * @code
+ *   SpatialJoinIterator it(outer, inner, 1000.0);
+ *   while (it.advance()) {
+ *       const SpatialJoinPair& p = it.current();
+ *       // process p ...
+ *   }
+ * @endcode
+ *
+ * **Thread safety:** not thread-safe; external synchronisation required.
+ *
+ * **Memory:** O(n_inner) for the R-tree index + O(candidates) for the current
+ * candidate batch; no full result materialisation.
+ */
+class SpatialJoinIterator {
+public:
+    /**
+     * @brief Construct a lazy spatial-join iterator.
+     *
+     * Builds the R-tree index on @p inner immediately; actual pair
+     * generation is deferred to calls to `advance()`.
+     *
+     * @param outer        Left collection: vector of (key, geometry) pairs.
+     * @param inner        Right collection: vector of (key, geometry) pairs.
+     * @param threshold_m  Maximum distance in metres (must be > 0).
+     * @param config       Optional configuration (e.g. max_pairs limit).
+     */
+    SpatialJoinIterator(
+        const std::vector<std::pair<std::string, GeometryInfo>>& outer,
+        const std::vector<std::pair<std::string, GeometryInfo>>& inner,
+        double threshold_m,
+        const SpatialJoinConfig& config = SpatialJoinConfig{});
+
+    ~SpatialJoinIterator();
+
+    // Non-copyable, movable
+    SpatialJoinIterator(const SpatialJoinIterator&) = delete;
+    SpatialJoinIterator& operator=(const SpatialJoinIterator&) = delete;
+    SpatialJoinIterator(SpatialJoinIterator&&) noexcept;
+    SpatialJoinIterator& operator=(SpatialJoinIterator&&) noexcept;
+
+    /**
+     * @brief Advance the iterator to the next matching pair.
+     *
+     * @return true  if a new pair is available (accessible via `current()`).
+     * @return false if the iteration is exhausted or the max_pairs limit was reached.
+     */
+    bool advance();
+
+    /**
+     * @brief Return the current pair.
+     *
+     * Valid only when the most recent call to `advance()` returned true.
+     */
+    const SpatialJoinPair& current() const;
+
+    /**
+     * @brief Return true once `advance()` has returned false.
+     */
+    bool done() const;
+
+private:
+    struct Impl;
+    std::unique_ptr<Impl> impl_;
 };
 
 /**

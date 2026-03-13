@@ -463,7 +463,7 @@ auto cached = geo_repl.read("product_catalog", ConsistencyLevel::EVENTUAL);
 
 ---
 
-### WAL Archival to Object Storage
+### WAL Archival to Object Storage ✅ IMPLEMENTED — v1.6.0
 **Priority:** Medium  
 **Target Version:** v1.6.0
 

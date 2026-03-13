@@ -49,6 +49,7 @@
 #include <thread>
 #include <vector>
 #include <atomic>
+#include <unordered_map>
 #include <zstd.h>
 
 using namespace themisdb::replication;
@@ -2965,11 +2966,464 @@ TEST(WALArchivalTest, RunArchivalCycleArchivesOldSegments) {
 }
 
 // ============================================================================
-// Raft Leader Lease Read Tests
+// WALArchivalManager Tests (v1.6.0) – Object Storage / Encryption / Lifecycle
 // ============================================================================
 
-// Helper: build a ReplicationConfig with short timings so that tests do not
-// have to wait several seconds for elections.
+// A fixed 32-byte AES-256 key expressed as 64 hex characters.
+// TEST USE ONLY — production keys must be securely generated (e.g. via a KMS)
+// and never hard-coded in source.
+static const char* kTestKeyHex =
+    "0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20";
+
+TEST(WALArchivalTest, EncryptionAtRest_RoundTrip) {
+    const std::string wal_dir = "/tmp/themis_enc_wal";
+    const std::string arc_dir = "/tmp/themis_enc_arc";
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+
+    writeSegmentFile(wal_dir, "seg_000100.wal", "SECRET WAL CONTENT");
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = arc_dir;
+    cfg.compress_before_archive = false;
+    cfg.encrypt_at_rest         = true;
+    cfg.encryption_key_hex      = kTestKeyHex;
+
+    WALArchivalManager mgr(cfg);
+    uint32_t n = mgr.archiveSegments({"seg_000100.wal"});
+    ASSERT_EQ(n, 1u);
+
+    auto list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_TRUE(list[0].encrypted);
+    EXPECT_FALSE(list[0].compressed);
+
+    // Archived file on disk must NOT contain plaintext
+    std::ifstream raw_file(list[0].archive_path, std::ios::binary);
+    ASSERT_TRUE(raw_file.good());
+    std::string disk_content(std::istreambuf_iterator<char>(raw_file), {});
+    EXPECT_EQ(disk_content.find("SECRET"), std::string::npos)
+        << "Encrypted archive must not contain plaintext";
+
+    // Retrieve and decrypt – must recover original content
+    auto data = mgr.retrieveSegment(list[0].segment_id);
+    ASSERT_TRUE(data.has_value());
+    std::string recovered(data->begin(), data->end());
+    EXPECT_EQ(recovered, "SECRET WAL CONTENT");
+
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, EncryptionAtRest_WithCompression_RoundTrip) {
+    const std::string wal_dir = "/tmp/themis_enc_cmp_wal";
+    const std::string arc_dir = "/tmp/themis_enc_cmp_arc";
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+
+    // A larger payload benefits more from compression
+    std::string payload(512, 'A');
+    payload += std::string(512, 'B');
+    writeSegmentFile(wal_dir, "seg_000200.wal", payload);
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = arc_dir;
+    cfg.compress_before_archive = true;
+    cfg.encrypt_at_rest         = true;
+    cfg.encryption_key_hex      = kTestKeyHex;
+
+    WALArchivalManager mgr(cfg);
+    ASSERT_EQ(mgr.archiveSegments({"seg_000200.wal"}), 1u);
+
+    auto list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_TRUE(list[0].encrypted);
+    EXPECT_TRUE(list[0].compressed);
+
+    auto data = mgr.retrieveSegment(list[0].segment_id);
+    ASSERT_TRUE(data.has_value());
+    std::string recovered(data->begin(), data->end());
+    EXPECT_EQ(recovered, payload);
+
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, EncryptionAtRest_InvalidKey_RejectsArchival) {
+    const std::string wal_dir = "/tmp/themis_enc_badkey_wal";
+    const std::string arc_dir = "/tmp/themis_enc_badkey_arc";
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+
+    writeSegmentFile(wal_dir, "seg_000300.wal", "SENSITIVE DATA");
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = arc_dir;
+    cfg.compress_before_archive = false;
+    cfg.encrypt_at_rest         = true;
+    cfg.encryption_key_hex      = "tooshort";  // invalid: not 64 hex chars
+
+    WALArchivalManager mgr(cfg);
+    // With an invalid key, archival is rejected to prevent unencrypted storage
+    uint32_t n = mgr.archiveSegments({"seg_000300.wal"});
+    EXPECT_EQ(n, 0u) << "Archival must be rejected when encryption key is invalid";
+    EXPECT_TRUE(mgr.listArchived().empty());
+
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, StorageTier_DefaultIsStandard) {
+    const std::string wal_dir = "/tmp/themis_tier_wal";
+    const std::string arc_dir = "/tmp/themis_tier_arc";
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+
+    writeSegmentFile(wal_dir, "seg_000400.wal", "TIER TEST DATA");
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = arc_dir;
+    cfg.compress_before_archive = false;
+
+    WALArchivalManager mgr(cfg);
+    ASSERT_EQ(mgr.archiveSegments({"seg_000400.wal"}), 1u);
+
+    auto list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_EQ(list[0].storage_tier, "standard");
+
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, TransitionStorageTiers_DisabledWhenZero) {
+    const std::string wal_dir = "/tmp/themis_lifecycle_dis_wal";
+    const std::string arc_dir = "/tmp/themis_lifecycle_dis_arc";
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+
+    writeSegmentFile(wal_dir, "seg_000500.wal", "LIFECYCLE DATA");
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory                 = wal_dir;
+    cfg.archive_directory             = arc_dir;
+    cfg.compress_before_archive       = false;
+    cfg.transition_to_cold_after_days = 0;  // disabled
+
+    WALArchivalManager mgr(cfg);
+    mgr.archiveSegments({"seg_000500.wal"});
+
+    // With lifecycle disabled, transitionStorageTiers() is a no-op
+    EXPECT_EQ(mgr.transitionStorageTiers(), 0u);
+    EXPECT_EQ(mgr.listArchived()[0].storage_tier, "standard");
+
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, TransitionStorageTiers_MovesToCold) {
+    const std::string arc_dir = "/tmp/themis_lifecycle_cold_arc";
+    std::filesystem::remove_all(arc_dir);
+    std::filesystem::create_directories(arc_dir);
+
+    // Write a fake archive file (content doesn't matter for tier testing)
+    const std::string fake_path = arc_dir + "/seg_00000000000000000600.wal";
+    { std::ofstream f(fake_path); f << "OLD_SEGMENT_DATA"; }
+
+    // Write an index.txt with archived_at 200 days ago and "standard" tier
+    auto old_time = std::chrono::system_clock::now()
+                    - std::chrono::hours(24 * 200);
+    auto old_ts = std::chrono::duration_cast<std::chrono::seconds>(
+        old_time.time_since_epoch()).count();
+    {
+        std::ofstream idx(arc_dir + "/index.txt");
+        idx << "600 0 0 16 0 " << old_ts << " " << fake_path
+            << " standard 0\n";
+    }
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory                 = "/tmp/lifecycle_cold_wal";
+    cfg.archive_directory             = arc_dir;
+    cfg.transition_to_cold_after_days = 90;  // threshold; segment is 200 days old
+
+    WALArchivalManager mgr(cfg);  // loadIndex() reads the old index
+
+    auto list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_EQ(list[0].storage_tier, "standard");
+
+    uint32_t transitioned = mgr.transitionStorageTiers();
+    EXPECT_EQ(transitioned, 1u);
+    list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    // 200 days > 90 days cold threshold but < 270 days glacier threshold
+    EXPECT_EQ(list[0].storage_tier, "cold");
+
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, TransitionStorageTiers_MovesToGlacier) {
+    const std::string arc_dir = "/tmp/themis_lifecycle_glacier_arc";
+    std::filesystem::remove_all(arc_dir);
+    std::filesystem::create_directories(arc_dir);
+
+    const std::string fake_path = arc_dir + "/seg_00000000000000000700.wal";
+    { std::ofstream f(fake_path); f << "VERY_OLD_SEGMENT"; }
+
+    // 400 days ago; threshold is 90 days cold, 270 days glacier -> glacier
+    auto old_time = std::chrono::system_clock::now()
+                    - std::chrono::hours(24 * 400);
+    auto old_ts = std::chrono::duration_cast<std::chrono::seconds>(
+        old_time.time_since_epoch()).count();
+    {
+        std::ofstream idx(arc_dir + "/index.txt");
+        idx << "700 0 0 16 0 " << old_ts << " " << fake_path
+            << " standard 0\n";
+    }
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory                 = "/tmp/lifecycle_glacier_wal";
+    cfg.archive_directory             = arc_dir;
+    cfg.transition_to_cold_after_days = 90;
+
+    WALArchivalManager mgr(cfg);
+
+    EXPECT_EQ(mgr.transitionStorageTiers(), 1u);
+    auto list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_EQ(list[0].storage_tier, "glacier");
+
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, IndexPersistence_TierAndEncryptionFields) {
+    // Verify that storage_tier and encrypted are correctly round-tripped
+    // through saveIndex/loadIndex (by creating a second WALArchivalManager
+    // over the same archive directory).
+    const std::string wal_dir = "/tmp/themis_idx_persist_wal";
+    const std::string arc_dir = "/tmp/themis_idx_persist_arc";
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+
+    writeSegmentFile(wal_dir, "seg_000800.wal", "PERSIST TEST DATA");
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = arc_dir;
+    cfg.compress_before_archive = false;
+    cfg.encrypt_at_rest         = true;
+    cfg.encryption_key_hex      = kTestKeyHex;
+
+    {
+        WALArchivalManager mgr(cfg);
+        ASSERT_EQ(mgr.archiveSegments({"seg_000800.wal"}), 1u);
+        auto list = mgr.listArchived();
+        ASSERT_EQ(list.size(), 1u);
+        EXPECT_TRUE(list[0].encrypted);
+        EXPECT_EQ(list[0].storage_tier, "standard");
+    }  // ~WALArchivalManager saves index
+
+    // Reload from the same archive directory
+    WALArchivalManager mgr2(cfg);
+    auto list = mgr2.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_TRUE(list[0].encrypted);
+    EXPECT_EQ(list[0].storage_tier, "standard");
+
+    // Data must still be retrievable after reload
+    auto data = mgr2.retrieveSegment(list[0].segment_id);
+    ASSERT_TRUE(data.has_value());
+    std::string recovered(data->begin(), data->end());
+    EXPECT_EQ(recovered, "PERSIST TEST DATA");
+
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, EncryptionAtRest_EmptyKey_RejectsArchival) {
+    // encrypt_at_rest=true with an empty key must reject archival, just like an
+    // invalid key – it must not silently store the segment unencrypted.
+    const std::string wal_dir = "/tmp/themis_enc_emptykey_wal";
+    const std::string arc_dir = "/tmp/themis_enc_emptykey_arc";
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+
+    writeSegmentFile(wal_dir, "seg_000900.wal", "SENSITIVE DATA");
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = arc_dir;
+    cfg.compress_before_archive = false;
+    cfg.encrypt_at_rest         = true;
+    cfg.encryption_key_hex      = "";  // empty – must be rejected
+
+    WALArchivalManager mgr(cfg);
+    uint32_t n = mgr.archiveSegments({"seg_000900.wal"});
+    EXPECT_EQ(n, 0u) << "Archival must be rejected when encrypt_at_rest=true and key is empty";
+    EXPECT_TRUE(mgr.listArchived().empty());
+
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+}
+
+// ============================================================================
+// IArchivalBackend injection test – mock backend
+// ============================================================================
+
+namespace {
+
+// Minimal in-memory mock backend for unit testing IArchivalBackend injection.
+struct MockArchivalBackend : public IArchivalBackend {
+    std::unordered_map<std::string, std::vector<uint8_t>> store;
+    std::unordered_map<std::string, std::string> tiers;
+    std::vector<std::string> deleted_keys;
+
+    bool putObject(const std::string& key,
+                   const std::vector<uint8_t>& data) override {
+        store[key] = data;
+        tiers[key] = "standard";
+        return true;
+    }
+
+    std::optional<std::vector<uint8_t>> getObject(
+        const std::string& key) const override {
+        auto it = store.find(key);
+        if (it == store.end()) return std::nullopt;
+        return it->second;
+    }
+
+    bool deleteObject(const std::string& key) override {
+        deleted_keys.push_back(key);
+        store.erase(key);
+        tiers.erase(key);
+        return true;
+    }
+
+    void setStorageTier(const std::string& key,
+                        const std::string& tier) override {
+        tiers[key] = tier;
+    }
+};
+
+}  // namespace
+
+TEST(WALArchivalTest, BackendInjection_ArchiveAndRetrieveViaBackend) {
+    // Verify that when a custom IArchivalBackend is injected, archiveSegments()
+    // routes writes through it and retrieveSegment() reads from it.
+    const std::string wal_dir = "/tmp/themis_backend_wal";
+    std::filesystem::remove_all(wal_dir);
+
+    writeSegmentFile(wal_dir, "seg_001000.wal", "BACKEND ROUTED DATA");
+
+    auto mock = std::make_shared<MockArchivalBackend>();
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = "";  // not used when backend is set
+    cfg.prefix                  = "test-cluster/wal/";
+    cfg.compress_before_archive = false;
+
+    WALArchivalManager mgr(cfg, mock);
+
+    uint32_t n = mgr.archiveSegments({"seg_001000.wal"});
+    ASSERT_EQ(n, 1u);
+
+    // Backend store must contain the segment
+    EXPECT_EQ(mock->store.size(), 1u);
+    auto stored_key = mock->store.begin()->first;
+    EXPECT_EQ(stored_key.find("test-cluster/wal/seg_"), 0u)
+        << "Object key must start with configured prefix, got: " << stored_key;
+
+    // listArchived() shows the segment with the cloud key as archive_path
+    auto list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_EQ(list[0].archive_path, stored_key);
+
+    // retrieveSegment() reads from the backend
+    auto data = mgr.retrieveSegment(list[0].segment_id);
+    ASSERT_TRUE(data.has_value());
+    std::string recovered(data->begin(), data->end());
+    EXPECT_EQ(recovered, "BACKEND ROUTED DATA");
+
+    std::filesystem::remove_all(wal_dir);
+}
+
+TEST(WALArchivalTest, BackendInjection_PurgeDeletesViaBackend) {
+    // purgeExpired() with delete_after_days=0 must call backend->deleteObject().
+    const std::string wal_dir = "/tmp/themis_backend_purge_wal";
+    std::filesystem::remove_all(wal_dir);
+
+    writeSegmentFile(wal_dir, "seg_001100.wal", "OLD DATA");
+
+    auto mock = std::make_shared<MockArchivalBackend>();
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = "";
+    cfg.prefix                  = "prod/";
+    cfg.compress_before_archive = false;
+    cfg.delete_after_days       = 0;  // purge everything immediately
+
+    WALArchivalManager mgr(cfg, mock);
+    ASSERT_EQ(mgr.archiveSegments({"seg_001100.wal"}), 1u);
+    ASSERT_EQ(mock->store.size(), 1u);
+
+    uint32_t purged = mgr.purgeExpired();
+    EXPECT_EQ(purged, 1u);
+    EXPECT_TRUE(mgr.listArchived().empty());
+    // Backend deleteObject() must have been called
+    EXPECT_EQ(mock->deleted_keys.size(), 1u);
+    EXPECT_TRUE(mock->store.empty());
+
+    std::filesystem::remove_all(wal_dir);
+}
+
+TEST(WALArchivalTest, BackendInjection_TransitionTierNotifiesBackend) {
+    // transitionStorageTiers() must call backend->setStorageTier() for aged segments.
+    const std::string arc_dir = "/tmp/themis_backend_tier_arc";
+    std::filesystem::remove_all(arc_dir);
+    std::filesystem::create_directories(arc_dir);
+
+    auto mock = std::make_shared<MockArchivalBackend>();
+    const std::string fake_key = "prod/seg_00000000000000001200.wal";
+    mock->store[fake_key] = {'X', 'X'};
+    mock->tiers[fake_key] = "standard";
+
+    // Build an index.txt with archived_at 400 days ago
+    auto old_time = std::chrono::system_clock::now()
+                    - std::chrono::hours(24 * 400);
+    auto old_ts = std::chrono::duration_cast<std::chrono::seconds>(
+        old_time.time_since_epoch()).count();
+    {
+        std::ofstream idx(arc_dir + "/index.txt");
+        idx << "1200 0 0 2 0 " << old_ts << " " << fake_key
+            << " standard 0\n";
+    }
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory                 = "/tmp/backend_tier_wal";
+    cfg.archive_directory             = arc_dir;  // for index.txt loading
+    cfg.prefix                        = "prod/";
+    cfg.transition_to_cold_after_days = 90;       // 400d > 270d glacier threshold
+
+    WALArchivalManager mgr(cfg, mock);
+
+    uint32_t transitioned = mgr.transitionStorageTiers();
+    EXPECT_EQ(transitioned, 1u);
+
+    auto list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_EQ(list[0].storage_tier, "glacier");
+
+    // Backend must have been notified about the tier change
+    EXPECT_EQ(mock->tiers[fake_key], "glacier");
+
+    std::filesystem::remove_all(arc_dir);
+}
 static ReplicationConfig makeLeaseConfig(const std::string& wal_dir) {
     ReplicationConfig cfg = makeConfig(wal_dir);
     cfg.election_timeout_min_ms   = 80;

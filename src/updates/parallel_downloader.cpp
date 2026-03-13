@@ -26,6 +26,7 @@
 #define LOG_DEBUG(...) SPDLOG_DEBUG(__VA_ARGS__)
 
 #include <algorithm>
+#include <array>
 #include <condition_variable>
 #include <filesystem>
 #include <fstream>

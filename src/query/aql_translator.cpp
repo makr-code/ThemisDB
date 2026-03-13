@@ -281,6 +281,78 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
             }
         }
 
+        // Spatial JOIN rule: detect
+        //   FOR a IN colA FOR b IN colB FILTER GEO_DISTANCE(a.f, b.f) <= threshold
+        // Conditions: exactly 2 FOR clauses, exactly 1 filter, no LET/COLLECT,
+        //             filter is (GEO_DISTANCE(field_a, field_b) <= literal) or (<).
+        if (ast->for_nodes.size() == 2 &&
+            ast->filters.size() == 1 &&
+            ast->let_nodes.empty() &&
+            !ast->collect)
+        {
+            const auto& filter_expr = ast->filters[0]->condition;
+            bool spatial_join_detected = false;
+            TranslationResult::SpatialJoinQuery sjq_candidate;
+
+            if (filter_expr &&
+                filter_expr->getType() == ASTNodeType::BinaryOp)
+            {
+                auto* bin = static_cast<BinaryOpExpr*>(filter_expr.get());
+                if ((bin->op == BinaryOperator::Lte ||
+                     bin->op == BinaryOperator::Lt) &&
+                    bin->left &&
+                    bin->left->getType() == ASTNodeType::FunctionCall &&
+                    bin->right &&
+                    bin->right->getType() == ASTNodeType::Literal)
+                {
+                    auto* fn  = static_cast<FunctionCallExpr*>(bin->left.get());
+                    auto* rhs = static_cast<LiteralExpr*>(bin->right.get());
+                    if (fn->name == "GEO_DISTANCE" &&
+                        fn->arguments.size() == 2 &&
+                        fn->arguments[0]->getType() == ASTNodeType::FieldAccess &&
+                        fn->arguments[1]->getType() == ASTNodeType::FieldAccess &&
+                        (std::holds_alternative<double>(rhs->value) ||
+                         std::holds_alternative<int64_t>(rhs->value)))
+                    {
+                        double threshold_m = std::holds_alternative<double>(rhs->value)
+                            ? std::get<double>(rhs->value)
+                            : static_cast<double>(std::get<int64_t>(rhs->value));
+
+                        if (threshold_m > 0.0) {
+                            const auto* fa0 = static_cast<FieldAccessExpr*>(fn->arguments[0].get());
+                            const auto* fa1 = static_cast<FieldAccessExpr*>(fn->arguments[1].get());
+                            // Each argument must be a simple variable.field access.
+                            if (fa0->object && fa0->object->getType() == ASTNodeType::Variable &&
+                                fa1->object && fa1->object->getType() == ASTNodeType::Variable)
+                            {
+                                const std::string var0 = static_cast<VariableExpr*>(fa0->object.get())->name;
+                                const std::string var1 = static_cast<VariableExpr*>(fa1->object.get())->name;
+                                const std::string& bv0 = ast->for_nodes[0].variable;
+                                const std::string& bv1 = ast->for_nodes[1].variable;
+                                if ((var0 == bv0 && var1 == bv1) ||
+                                    (var0 == bv1 && var1 == bv0))
+                                {
+                                    bool swapped = (var0 == bv1);
+                                    sjq_candidate.outer_collection = ast->for_nodes[0].collection;
+                                    sjq_candidate.inner_collection = ast->for_nodes[1].collection;
+                                    sjq_candidate.outer_var        = bv0;
+                                    sjq_candidate.inner_var        = bv1;
+                                    sjq_candidate.outer_field      = swapped ? fa1->field : fa0->field;
+                                    sjq_candidate.inner_field      = swapped ? fa0->field : fa1->field;
+                                    sjq_candidate.threshold_m      = threshold_m;
+                                    spatial_join_detected = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (spatial_join_detected) {
+                return finalizeResult(TranslationResult::SuccessSpatialJoin(std::move(sjq_candidate)));
+            }
+        }
+
         TranslationResult::JoinQuery jq;
         jq.for_nodes = ast->for_nodes;
         jq.filters = ast->filters;

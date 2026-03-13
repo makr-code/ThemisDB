@@ -244,11 +244,10 @@ std::vector<VersionedDocument> TemporalQueryEngine::queryApplicationTime(
     Timestamp valid_at,
     const std::vector<RowFilter>& filters) {
 
-    // Passing sys_as_of = kMaxTimestamp is the sentinel for "current" system
-    // time: scanBiTemporal(kMaxTimestamp, valid_at) returns rows that are
-    // current at system time (i.e., still open-ended in system_time, meaning
-    // sys_time.end == kMaxTimestamp) and whose valid_time contains valid_at.
-    auto rows = table.scanBiTemporal(kMaxTimestamp, valid_at);
+    // Application-time queries are evaluated at the current system time.
+    // Using kMaxTimestamp as a probe can miss rows when system-time intervals
+    // are represented as half-open [start, end).
+    auto rows = table.scanBiTemporal(now(), valid_at);
 
     if (filters.empty()) {
         return rows;

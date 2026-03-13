@@ -445,13 +445,18 @@ std::optional<Conflict> TemporalConflictDetector::detectConcurrentUpdate(
     const TemporalSnapshot& local,
     const TemporalSnapshot& remote
 ) {
-    // Two updates are concurrent when neither HLC happened-before the other,
-    // i.e., !(local < remote) && !(remote < local), but the snapshots differ.
+    // For conflict detection we treat HLC causality on physical/logical parts.
+    // Node-ID tie-breakers are used for deterministic winner selection, not
+    // for deciding whether two writes are concurrent.
     const auto& l = local.hlc;
     const auto& r = remote.hlc;
 
-    bool local_before_remote = (l < r);
-    bool remote_before_local = (r < l);
+    bool local_before_remote =
+        (l.physical < r.physical) ||
+        (l.physical == r.physical && l.logical < r.logical);
+    bool remote_before_local =
+        (r.physical < l.physical) ||
+        (r.physical == l.physical && r.logical < l.logical);
 
     // Strictly ordered: no concurrent update conflict.
     if (local_before_remote || remote_before_local) {

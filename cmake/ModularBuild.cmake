@@ -166,6 +166,7 @@ set(THEMIS_BASE_SOURCES
     ../src/core/concerns/i_logger.cpp
     ../src/core/concerns/concerns_context.cpp
     ../src/core/concerns/context_propagation.cpp
+    ../src/core/concerns/redis_cache.cpp
     ../src/core/concerns/lockfree_metrics.cpp
     ../src/core/concerns/zero_copy_logger.cpp
     ../src/core/adapters/otel_tracer.cpp
@@ -365,6 +366,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/updates/canary_rollout.cpp
     ../src/updates/delta_update_engine.cpp
     ../src/updates/parallel_downloader.cpp
+    ../src/updates/dependency_resolver.cpp
     ../src/updates/schema_migration_tester.cpp
     ../src/updates/in_place_schema_migrator.cpp
     ../src/updates/notification_webhook.cpp
@@ -1041,6 +1043,8 @@ set(THEMIS_LLM_SOURCES
 
     # LLM-owned AQL support files
     ../src/aql/llm_aql_handler.cpp
+    ../src/aql/aql_query_validator.cpp
+    ../src/aql/aql_query_builder.cpp
     ../src/aql/aql_fewshot_example_library.cpp
     ../src/aql/aql_syntax_highlighter.cpp
     ../src/aql/aql_confidence_scorer.cpp

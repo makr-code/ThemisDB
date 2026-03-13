@@ -423,14 +423,11 @@ SpatialIndexManager::Status SpatialIndexManager::bulkLoad(
     mbr_cache_[table_str].clear();
     rtree_built_.erase(table_str);
 
-    // Purge all existing per-PK spatial keys from RocksDB so that a subsequent
-    // restart (which triggers ensureRTree via a prefix scan of per-PK keys)
-    // does not resurrect entries that are no longer part of the new data set.
-    // This mirrors the prefix-scan-and-delete loop in dropSpatialIndex, but is
-    // scoped to the "pk:" sub-prefix so the config and Morton-bucket keys are
-    // left untouched.
-    const std::string pk_prefix = getSpatialKeyPrefix(table) + "pk:";
-    db_.scanRange(pk_prefix, pk_prefix + "~",
+    // Purge all spatial keys (legacy Morton buckets + per-PK keys) so that
+    // empty bulk-load fully clears query-visible state and restart rebuilds
+    // cannot resurrect stale entries.
+    const std::string spatial_prefix = getSpatialKeyPrefix(table);
+    db_.scanRange(spatial_prefix, spatial_prefix + "~",
         [this](std::string_view key, std::string_view /*value*/) {
             db_.del(key);
             return true;

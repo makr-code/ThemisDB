@@ -31,6 +31,9 @@
 #include "analytics/nlp_text_analyzer.h"
 #include "security/row_level_security.h"
 #include "security/access_control_manager.h"
+#include "geo/spatial_join.h"
+#include "utils/geo/ewkb.h"
+#include "utils/logger.h"
 #include <chrono>
 #include <fmt/format.h>
 
@@ -46,6 +49,50 @@ static themis::analytics::NlpTextAnalyzer& getNlpAnalyzer() {
 static RuntimeReoptimizer& getReoptimizer() {
     static RuntimeReoptimizer instance;
     return instance;
+}
+
+/// Scan @p collection and return (key, GeometryInfo) pairs extracted from
+/// the named @p field.  Documents that lack the field or contain unparseable
+/// geometry are skipped; a debug message is emitted for each skipped document
+/// to aid diagnosis when a spatial join returns fewer results than expected.
+static std::vector<std::pair<std::string, geo::GeometryInfo>>
+collectGeometries(QueryEngine& engine,
+                  const std::string& collection,
+                  const std::string& field)
+{
+    ConjunctiveQuery scan_q;
+    scan_q.table = collection;
+    auto ents = engine.executeAndEntitiesWithFallback(scan_q, false);
+    std::vector<std::pair<std::string, geo::GeometryInfo>> out;
+    if (!ents) return out;
+    out.reserve(ents->size());
+    std::size_t skipped = 0;
+    for (const auto& e : *ents) {
+        try {
+            nlohmann::json doc = nlohmann::json::parse(e.toJson());
+            if (!doc.contains(field)) { ++skipped; continue; }
+            const auto& fv = doc[field];
+            geo::GeometryInfo geom;
+            if (fv.is_string()) {
+                geom = geo::GeometryInfo::parseGeoJSON(fv.get<std::string>());
+            } else if (fv.is_object()) {
+                geom = geo::GeometryInfo::parseGeoJSON(fv.dump());
+            } else {
+                ++skipped;
+                continue;
+            }
+            out.emplace_back(e.getPrimaryKey(), std::move(geom));
+        } catch (...) {
+            ++skipped;
+            // Skip documents with unparseable geometry
+        }
+    }
+    if (skipped > 0) {
+        THEMIS_DEBUG("spatial_join collectGeometries: skipped {} document(s) in "
+                     "collection '{}' with missing/unparseable field '{}'",
+                     skipped, collection, field);
+    }
+    return out;
 }
 
 // GAP-002: Migrated from std::pair<Status, json> to Result<json>
@@ -216,6 +263,32 @@ Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
         return Ok(nlohmann::json({{"type","traversal"},{"results", arr}}));
     }
 
+    // Spatial JOIN query: FOR a IN colA FOR b IN colB FILTER GEO_DISTANCE(a.f, b.f) <= threshold
+    if (tr.spatial_join.has_value()) {
+        const auto& sj = *tr.spatial_join;
+
+        auto outer_geoms = collectGeometries(engine, sj.outer_collection, sj.outer_field);
+        auto inner_geoms = collectGeometries(engine, sj.inner_collection, sj.inner_field);
+
+        geo::SpatialJoinConfig cfg;
+        cfg.max_pairs = sj.max_pairs;
+
+        geo::SpatialJoinIterator it(outer_geoms, inner_geoms, sj.threshold_m, cfg);
+
+        nlohmann::json arr = nlohmann::json::array();
+        while (it.advance()) {
+            const auto& p = it.current();
+            arr.push_back({
+                {sj.outer_var, p.key_a},
+                {sj.inner_var, p.key_b},
+                {"distance_m", p.distance_m}
+            });
+        }
+
+        reopt_guard.finish(arr.size());
+        return Ok(nlohmann::json({{"type", "spatial_join"}, {"results", arr}}));
+    }
+
     // Join query
     if (tr.join.has_value()) {
         auto& j = *tr.join;
@@ -355,6 +428,12 @@ Result<query::QueryPlanNode> buildExplainPlanNode(
     if (tr.join.has_value()) {
         ConjunctiveQuery q;
         q.table = "[join]";
+        return Ok(engine.buildExplainPlan(q));
+    }
+    if (tr.spatial_join.has_value()) {
+        ConjunctiveQuery q;
+        q.table = "[spatial_join] " + tr.spatial_join->outer_collection
+                  + " x " + tr.spatial_join->inner_collection;
         return Ok(engine.buildExplainPlan(q));
     }
 
@@ -519,6 +598,18 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, QueryEng
                                 i + 1, res.error().message()));
             }
             stmtResult = {{"type", "join"}, {"results", *res}};
+        } else if (tr.spatial_join.has_value()) {
+            const auto& sj = *tr.spatial_join;
+            auto outer_g = collectGeometries(engine, sj.outer_collection, sj.outer_field);
+            auto inner_g = collectGeometries(engine, sj.inner_collection, sj.inner_field);
+            geo::SpatialJoinConfig cfg; cfg.max_pairs = sj.max_pairs;
+            geo::SpatialJoinIterator sit(outer_g, inner_g, sj.threshold_m, cfg);
+            nlohmann::json arr = nlohmann::json::array();
+            while (sit.advance()) {
+                const auto& p = sit.current();
+                arr.push_back({{sj.outer_var, p.key_a}, {sj.inner_var, p.key_b}, {"distance_m", p.distance_m}});
+            }
+            stmtResult = {{"type", "spatial_join"}, {"results", arr}};
         } else {
             auto res = engine.executeAndEntitiesWithFallback(tr.query, true);
             if (!res) {
@@ -575,6 +666,8 @@ Result<nlohmann::json> executeAqlWithRLS(
                     if (!tr.join->for_nodes.empty()) {
                         collection = tr.join->for_nodes.front().collection;
                     }
+                } else if (tr.spatial_join.has_value()) {
+                    collection = tr.spatial_join->outer_collection;
                 } else if (tr.disjunctive.has_value()) {
                     collection = tr.disjunctive->table;
                 } else {

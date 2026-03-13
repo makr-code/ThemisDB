@@ -122,9 +122,9 @@ Extend `auto_rebalancer.cpp` and `shard_load_detector.cpp` to automatically spli
 
 ---
 
-### [ ] Reed-Solomon Repair Engine Parallelisation
+### [~] Reed-Solomon Repair Engine Parallelisation
 **Priority:** Medium
-**Target Version:** v0.9.0
+**Target Version:** v1.6.0
 
 Parallelise the anti-entropy scan and Reed-Solomon reconstruction in `shard_repair_engine.cpp` to exploit multi-core hardware. The current implementation is single-threaded; large shards (~100 GB) take hours to fully scan. GPU-accelerated erasure coding via `gpu_erasure_coder.cpp` should be optionally engaged for bulk repair.
 

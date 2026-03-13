@@ -3,7 +3,7 @@
 # Replication Module Roadmap
 
 ## Current Status
-v1.x – Production-grade high-availability infrastructure. Leader-follower replication with Raft-like consensus, multi-master with CRDT conflict resolution, WAL shipping with Zstd compression, CDC, and automatic failover are all implemented.
+v1.x – Production-grade high-availability infrastructure. Leader-follower replication with Raft-like consensus, multi-master with CRDT conflict resolution, WAL shipping with Zstd compression, CDC, and automatic failover are all implemented.  WAL Archival to Object Storage (v1.6.0) adds AES-256-GCM encryption at rest, pluggable cloud backends (S3/GCS/Azure via IArchivalBackend), storage-tier lifecycle management (standard→cold→glacier), and configurable retention policy.
 
 ## Completed ✅
 - [x] ReplicationManager – Raft-like leader election and follower management
@@ -122,9 +122,22 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (238+ test cases: 225 previous + 13 QuorumReadManager tests)
+### Phase 6: WAL Archival to Object Storage (Status: Completed ✅ — v1.6.0)
+- [x] `IArchivalBackend` interface for pluggable cloud backends (S3, GCS, Azure Blob)
+- [x] `WALArchivalManager::ArchivalConfig` extended with cloud fields: `storage_type`, `bucket_name`, `prefix`
+- [x] AES-256-GCM encryption at rest: `encrypt_at_rest` + `encryption_key_hex` (32-byte key as 64 hex chars)
+- [x] Storage tier tracking per archived segment: `ArchivedSegment::storage_tier` ("standard", "cold", "glacier")
+- [x] Lifecycle management: `transitionStorageTiers()` promotes segments through tiers based on `transition_to_cold_after_days`
+- [x] Backward-compatible index format: old 7-field index.txt lines load with `storage_tier="standard"`, `encrypted=false`
+- [x] 8 new focused tests in `tests/test_replication_ha.cpp` (WALArchivalTest suite): encryption round-trip, compress+encrypt, missing-key fallback, default tier, lifecycle disabled, cold transition, glacier transition, index persistence
+- [x] CI workflow: `.github/workflows/wal-archival-object-storage-ci.yml`
+
+## Production Readiness Checklist
+- [x] Unit tests coverage > 80% (233+ test cases: 225 previous + 8 WALArchival object-storage tests)
 - [x] Integration tests (failover, lag detection, PITR restoration, cross-cluster end-to-end)
 - [x] Performance benchmarks (WAL append > 50 000 entries/s, WAL readFrom 1000 < 5 ms, serialize/deserialize < 2 µs) — `benchmarks/bench_replication_throughput.cpp`
 - [x] Focused standalone test targets: `ReplicationHAFocusedTests`, `ReplicationNewFeaturesFocusedTests`, `MultiRegionActiveActiveTests`, `CacheReplicationTests`
+- [x] WAL encryption at rest (AES-256-GCM) via `WALArchivalManager::ArchivalConfig::encrypt_at_rest`
 - [?] Security audit (WAL encryption in transit, CDC stream authentication)
 - [x] Documentation complete (replication-ha-guide.md, REPLICATION_IMPLEMENTATION_STATUS.md)
 - [x] API stability guaranteed (ReplicationConfig stable; new classes are additive)

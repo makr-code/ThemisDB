@@ -55,6 +55,7 @@
 
 #include <gtest/gtest.h>
 #include "security/rbac.h"
+#include "themis/runtime_license_gate.h"
 
 #include <string>
 #include <vector>
@@ -104,10 +105,14 @@ static std::unique_ptr<RBAC> build_test_rbac() {
 class AuthAttackVectorTest : public ::testing::Test {
 protected:
     void SetUp() override {
+        std::string license_error;
+        rbac_feature_available_ =
+            themis::license::RuntimeLicenseGate::instance().isFeatureAllowed("rbac", license_error);
         rbac_ = build_test_rbac();
     }
 
     std::unique_ptr<RBAC> rbac_;
+    bool rbac_feature_available_{false};
 };
 
 // ============================================================================
@@ -115,20 +120,37 @@ protected:
 // ============================================================================
 
 TEST_F(AuthAttackVectorTest, Positive_AdminCanDoEverything) {
-    EXPECT_TRUE(rbac_->checkPermission({"admin"}, "data",   "read"));
-    EXPECT_TRUE(rbac_->checkPermission({"admin"}, "data",   "write"));
-    EXPECT_TRUE(rbac_->checkPermission({"admin"}, "keys",   "rotate"));
-    EXPECT_TRUE(rbac_->checkPermission({"admin"}, "config", "write"));
-    EXPECT_TRUE(rbac_->checkPermission({"admin"}, "audit",  "read"));
+    if (rbac_feature_available_) {
+        EXPECT_TRUE(rbac_->checkPermission({"admin"}, "data",   "read"));
+        EXPECT_TRUE(rbac_->checkPermission({"admin"}, "data",   "write"));
+        EXPECT_TRUE(rbac_->checkPermission({"admin"}, "keys",   "rotate"));
+        EXPECT_TRUE(rbac_->checkPermission({"admin"}, "config", "write"));
+        EXPECT_TRUE(rbac_->checkPermission({"admin"}, "audit",  "read"));
+    } else {
+        EXPECT_FALSE(rbac_->checkPermission({"admin"}, "data",   "read"));
+        EXPECT_FALSE(rbac_->checkPermission({"admin"}, "data",   "write"));
+        EXPECT_FALSE(rbac_->checkPermission({"admin"}, "keys",   "rotate"));
+        EXPECT_FALSE(rbac_->checkPermission({"admin"}, "config", "write"));
+        EXPECT_FALSE(rbac_->checkPermission({"admin"}, "audit",  "read"));
+    }
 }
 
 TEST_F(AuthAttackVectorTest, Positive_ReadonlyCanReadData) {
-    EXPECT_TRUE(rbac_->checkPermission({"readonly"}, "data", "read"));
+    if (rbac_feature_available_) {
+        EXPECT_TRUE(rbac_->checkPermission({"readonly"}, "data", "read"));
+    } else {
+        EXPECT_FALSE(rbac_->checkPermission({"readonly"}, "data", "read"));
+    }
 }
 
 TEST_F(AuthAttackVectorTest, Positive_OperatorCanReadAndWriteData) {
-    EXPECT_TRUE(rbac_->checkPermission({"operator"}, "data", "read"));
-    EXPECT_TRUE(rbac_->checkPermission({"operator"}, "data", "write"));
+    if (rbac_feature_available_) {
+        EXPECT_TRUE(rbac_->checkPermission({"operator"}, "data", "read"));
+        EXPECT_TRUE(rbac_->checkPermission({"operator"}, "data", "write"));
+    } else {
+        EXPECT_FALSE(rbac_->checkPermission({"operator"}, "data", "read"));
+        EXPECT_FALSE(rbac_->checkPermission({"operator"}, "data", "write"));
+    }
 }
 
 // ============================================================================
@@ -221,7 +243,11 @@ TEST_F(AuthAttackVectorTest, Attack_LateralMovement_ReadonlyCannotReadConfig) {
 
 TEST_F(AuthAttackVectorTest, Attack_DeletedRole_AccessRevoked) {
     // First confirm operator has access.
-    ASSERT_TRUE(rbac_->checkPermission({"operator"}, "data", "write"));
+    if (rbac_feature_available_) {
+        ASSERT_TRUE(rbac_->checkPermission({"operator"}, "data", "write"));
+    } else {
+        ASSERT_FALSE(rbac_->checkPermission({"operator"}, "data", "write"));
+    }
 
     // Remove the "operator" role.
     rbac_->removeRole("operator");
@@ -286,8 +312,12 @@ TEST_F(AuthAttackVectorTest, Attack_MultiRole_CombinedRolesNoEscalation) {
  */
 TEST_F(AuthAttackVectorTest, Attack_MultiRole_NonExistentRoleNoEscalation) {
     // "readonly" can read data; adding "ghost_role" must not add write rights.
-    EXPECT_TRUE(rbac_->checkPermission({"readonly", "ghost_role"}, "data", "read"))
-        << "Valid role right must still be granted when combined with unknown role";
+    if (rbac_feature_available_) {
+        EXPECT_TRUE(rbac_->checkPermission({"readonly", "ghost_role"}, "data", "read"))
+            << "Valid role right must still be granted when combined with unknown role";
+    } else {
+        EXPECT_FALSE(rbac_->checkPermission({"readonly", "ghost_role"}, "data", "read"));
+    }
     EXPECT_FALSE(rbac_->checkPermission({"readonly", "ghost_role"}, "data", "write"))
         << "Unknown role must not escalate permissions beyond the valid role";
 }
