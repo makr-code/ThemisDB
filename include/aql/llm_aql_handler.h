@@ -40,7 +40,6 @@
 #include <optional>
 #include <unordered_map>
 #include <vector>
-#include <functional>
 
 namespace themis {
 namespace aql {
