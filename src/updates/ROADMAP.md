@@ -37,6 +37,11 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
   - Tests: 35+ unit tests in `tests/test_preflight_health_check.cpp`
 - [x] Build system audit: all 14 src/updates/*.cpp registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake
 - [x] 8 standalone focused test targets added to tests/CMakeLists.txt (UpdatesProduction, BlueGreen, CanaryRollout, CoordinatedUpdateManager, InPlaceSchemaMigrator, NotificationWebhook, PreflightHealthCheck, SchemaMigrationTester)
+- [x] Parallel file downloads – configurable concurrency, bandwidth throttling, priority queue, resume support (Issue: #128)
+  - Implemented: `include/updates/parallel_downloader.h`, `src/updates/parallel_downloader.cpp`
+  - API: `DownloadTask`, `DownloadResult`, `DownloadBatchStats`, `ParallelDownloader`
+  - Tests: 25 focused tests in `tests/test_parallel_file_downloads.cpp`
+  - CI: `.github/workflows/parallel-file-downloads-ci.yml`
 
 ## In Progress 🚧
 <!-- No items currently in progress -->
@@ -89,12 +94,18 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 - [x] Update bundle signing with hardware-backed keys (HSM)
 - [x] Schema migration testing framework (apply to staging before production)
 
+### Phase 5: Parallel Downloads & Performance (Status: Completed ✅)
+- [x] Parallel file downloads with configurable concurrency (Issue: #128)
+- [x] Bandwidth throttling via token-bucket algorithm
+- [x] Priority queue: critical files (executables) downloaded first
+- [x] Per-file resume support via HTTP Range requests
+
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (DeltaUpdateEngine: 29 tests; InPlaceSchemaMigrator+preview: 31 tests; NotificationWebhook: 40 tests; PreflightHealthChecker: 35 tests; CoordinatedUpdateManager: 25 tests; module total: 160+ tests)
+- [x] Unit tests coverage > 80% (DeltaUpdateEngine: 29 tests; InPlaceSchemaMigrator+preview: 31 tests; NotificationWebhook: 40 tests; PreflightHealthChecker: 35 tests; CoordinatedUpdateManager: 25 tests; ParallelDownloader: 25 tests; module total: 185+ tests)
 - [x] Integration tests (applyDelta end-to-end: generate → apply → hash verify → atomic install; InPlaceSchemaMigrator: apply → version verify → history check)
 - [?] Performance benchmarks (migration duration, downtime measurement)
-- [x] Security audit (path traversal in update bundles fixed; `isSafePath` guard in `applyDelta`; InPlaceSchemaMigrator: metadata-only, no data access, no path operations; PreflightHealthChecker: injectable providers, no privilege escalation)
-- [x] Documentation complete (full API documentation in `delta_update_engine.h`, `in_place_schema_migrator.h`, `notification_webhook.h`, `preflight_health_check.h`)
+- [x] Security audit (path traversal in update bundles fixed; `isSafePath` guard in `applyDelta`; InPlaceSchemaMigrator: metadata-only, no data access, no path operations; PreflightHealthChecker: injectable providers, no privilege escalation; ParallelDownloader: hash verification, corrupt file auto-removal)
+- [x] Documentation complete (full API documentation in `delta_update_engine.h`, `in_place_schema_migrator.h`, `notification_webhook.h`, `preflight_health_check.h`, `parallel_downloader.h`)
 - [x] API stability guaranteed (all new APIs are additive; no existing API changed)
 
 ## Known Issues & Limitations

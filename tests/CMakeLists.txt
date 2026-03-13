@@ -12898,6 +12898,44 @@ else()
     message(STATUS "Schema Migration Tester focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_schema_migration_tester.cpp")
 endif()
 
+# ParallelFileDownloads – focused tests for parallel downloader (Issue #128 / v1.6.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_file_downloads.cpp")
+    message(STATUS "Adding Parallel File Downloads focused tests")
+
+    add_executable(test_parallel_file_downloads_focused
+        test_parallel_file_downloads.cpp
+    )
+
+    target_include_directories(test_parallel_file_downloads_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_parallel_file_downloads_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_parallel_file_downloads_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ParallelFileDownloadsFocusedTests COMMAND test_parallel_file_downloads_focused)
+
+    set_tests_properties(ParallelFileDownloadsFocusedTests PROPERTIES
+        LABELS "updates;parallel-downloads;concurrency;bandwidth;priority;resume;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ParallelFileDownloads: configurable concurrency, bandwidth throttling, priority queue, resume support")
+else()
+    message(STATUS "Parallel File Downloads focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_file_downloads.cpp")
+endif()
+
 # DistributedGateway – focused tests for multi-node API gateway
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_gateway.cpp")
     message(STATUS "Adding Distributed Gateway focused tests")
