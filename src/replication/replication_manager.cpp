@@ -3513,7 +3513,11 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
             }));
     }
 
-    // Collect responses up to `required`, respecting timeout
+    // Collect responses respecting timeout.
+    // When a session_token is provided we must see ALL replica responses
+    // before filtering by required_version – breaking early after `required`
+    // total responses would discard fresh replicas that come after a stale one
+    // and could produce a false quorum-not-met result.
     auto deadline = std::chrono::steady_clock::now() +
                     std::chrono::milliseconds(config_.read_timeout_ms);
 
@@ -3525,7 +3529,10 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
             auto resp = fut.get();
             if (resp.ok) responses.push_back(std::move(resp));
         }
-        if (responses.size() >= required) break;
+        // Without a session token a plain quorum check suffices, so we can
+        // stop as soon as we have enough responses.  With a session token we
+        // need the full picture to correctly count qualifying replicas.
+        if (session_token.empty() && responses.size() >= required) break;
     }
 
     if (responses.size() < required) {

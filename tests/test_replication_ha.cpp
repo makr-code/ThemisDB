@@ -1969,6 +1969,60 @@ TEST(QuorumReadManagerTest, SingleNodeMode_ReturnsSessionToken) {
         << "Session token must be returned even in single-node mode";
 }
 
+// Session consistency: a malformed (non-empty) token is treated as version 0,
+// so all replicas qualify and the read succeeds normally.
+TEST(QuorumReadManagerTest, SessionConsistency_MalformedTokenTreatedAsNoRequirement) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000", 50),
+        makeReplica("r2:9000", 100),
+        makeReplica("r3:9000", 75),
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+
+    // Garbage token: parseSessionToken must return 0 (no version requirement).
+    auto result = qrm.read("col", "doc-1", 0, "not-a-valid-token");
+    EXPECT_TRUE(result.success)
+        << "Malformed session token must not block a read that would otherwise succeed";
+    // The highest version across all three replicas is 100.
+    EXPECT_EQ(result.version, 100u);
+}
+
+// Session consistency: fresh replicas that arrive last in iteration order
+// (stale replica first) must still be counted toward the version quorum.
+// This exercises the fix that prevents early loop exit when session_token != "".
+TEST(QuorumReadManagerTest, SessionConsistency_FreshReplicasLateInIterationOrder) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+
+    // r1 is stale and will be the first future to resolve; r2 and r3 are fresh.
+    // Without the fix the loop would have stopped at {r1, r2}, counted only
+    // one qualifying replica (r2) and returned failure.
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000",  5),   // stale
+        makeReplica("r2:9000", 200),  // fresh
+        makeReplica("r3:9000", 200),  // fresh
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+
+    constexpr uint64_t far_future = 9999999999999ull;
+    std::string token = "seq=200;exp=" + std::to_string(far_future);
+
+    auto result = qrm.read("col", "doc-1", 0, token);
+    EXPECT_TRUE(result.success)
+        << "Two fresh replicas at version 200 satisfy quorum=2 even when a "
+           "stale replica is iterated first";
+    EXPECT_EQ(result.version, 200u);
+    EXPECT_EQ(result.sources.size(), 2u)
+        << "Only the two qualifying replicas must appear in sources";
+}
+
 
 
 // ============================================================================
