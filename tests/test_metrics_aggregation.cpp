@@ -511,3 +511,304 @@ TEST_F(MetricAggregatorTest, ConcurrentRateSamples_ThreadSafe) {
             agg_.calculateRate("concurrent_counter", {{"thread", std::to_string(t)}}));
     }
 }
+
+// ============================================================================
+// aggregateShardMetrics Tests
+// ============================================================================
+
+TEST_F(MetricAggregatorTest, AggregateShardMetrics_ReturnsSnapshotWithTimestamp) {
+    AggregationRule rule;
+    rule.metric_name = "query_latency_ms";
+    rule.type = AggregationType::AVG;
+    agg_.addAggregationRule(rule);
+
+    ShardMetrics shard1;
+    shard1.shard_id = "shard-0";
+    shard1.metrics["query_latency_ms"] = {10.0, 20.0, 30.0};
+
+    auto snap = agg_.aggregateShardMetrics({shard1});
+    EXPECT_FALSE(snap.metrics.empty());
+    EXPECT_EQ("query_latency_ms", snap.metrics[0].metric_name);
+    EXPECT_GT(snap.timestamp.time_since_epoch().count(), 0);
+}
+
+TEST_F(MetricAggregatorTest, AggregateShardMetrics_SumAcrossTwoShards) {
+    AggregationRule rule;
+    rule.metric_name = "requests_total";
+    rule.type = AggregationType::SUM;
+    agg_.addAggregationRule(rule);
+
+    ShardMetrics shard1;
+    shard1.shard_id = "shard-0";
+    shard1.metrics["requests_total"] = {100.0, 200.0};
+
+    ShardMetrics shard2;
+    shard2.shard_id = "shard-1";
+    shard2.metrics["requests_total"] = {50.0, 150.0};
+
+    auto snap = agg_.aggregateShardMetrics({shard1, shard2});
+    ASSERT_EQ(1u, snap.metrics.size());
+    EXPECT_DOUBLE_EQ(500.0, snap.metrics[0].value);  // 100+200+50+150
+    EXPECT_EQ(AggregationType::SUM, snap.metrics[0].type);
+}
+
+TEST_F(MetricAggregatorTest, AggregateShardMetrics_P99AcrossShards) {
+    AggregationRule rule;
+    rule.metric_name = "latency_ms";
+    rule.type = AggregationType::P99;
+    agg_.addAggregationRule(rule);
+
+    ShardMetrics shard1;
+    shard1.shard_id = "s1";
+    std::vector<double> vals;
+    vals.reserve(100);
+    for (int i = 1; i <= 100; ++i) vals.push_back(static_cast<double>(i));
+    shard1.metrics["latency_ms"] = vals;
+
+    auto snap = agg_.aggregateShardMetrics({shard1});
+    ASSERT_EQ(1u, snap.metrics.size());
+    EXPECT_GE(snap.metrics[0].value, 98.0);
+    EXPECT_LE(snap.metrics[0].value, 100.0);
+}
+
+TEST_F(MetricAggregatorTest, AggregateShardMetrics_DropShardIdLabel) {
+    // Shard-id should be droppable via drop_labels so results are merged.
+    AggregationRule rule;
+    rule.metric_name = "cpu_usage";
+    rule.type = AggregationType::AVG;
+    rule.drop_labels = {"shard_id"};
+    agg_.addAggregationRule(rule);
+
+    ShardMetrics shard1;
+    shard1.shard_id = "shard-0";
+    shard1.metrics["cpu_usage"] = {80.0};
+
+    ShardMetrics shard2;
+    shard2.shard_id = "shard-1";
+    shard2.metrics["cpu_usage"] = {60.0};
+
+    auto snap = agg_.aggregateShardMetrics({shard1, shard2});
+    ASSERT_EQ(1u, snap.metrics.size());
+    EXPECT_DOUBLE_EQ(70.0, snap.metrics[0].value);  // avg(80, 60)
+}
+
+TEST_F(MetricAggregatorTest, AggregateShardMetrics_GroupByLabel) {
+    AggregationRule rule;
+    rule.metric_name = "latency_ms";
+    rule.type = AggregationType::AVG;
+    rule.group_by_labels = {"region"};
+    rule.drop_labels = {"shard_id"};
+    agg_.addAggregationRule(rule);
+
+    ShardMetrics shard_us;
+    shard_us.shard_id = "shard-us-0";
+    shard_us.labels = {{"region", "us-east"}};
+    shard_us.metrics["latency_ms"] = {10.0, 20.0};
+
+    ShardMetrics shard_eu;
+    shard_eu.shard_id = "shard-eu-0";
+    shard_eu.labels = {{"region", "eu-west"}};
+    shard_eu.metrics["latency_ms"] = {30.0, 40.0};
+
+    auto snap = agg_.aggregateShardMetrics({shard_us, shard_eu});
+    // Two groups (us-east, eu-west) → two AggregatedMetric entries.
+    ASSERT_EQ(2u, snap.metrics.size());
+
+    // Collect region label values from results.
+    std::vector<std::string> regions;
+    for (const auto& m : snap.metrics) {
+        auto it = m.labels.find("region");
+        ASSERT_NE(it, m.labels.end()) << "Expected 'region' label in result";
+        regions.push_back(it->second);
+    }
+    std::sort(regions.begin(), regions.end());
+    EXPECT_EQ("eu-west", regions[0]);
+    EXPECT_EQ("us-east", regions[1]);
+}
+
+TEST_F(MetricAggregatorTest, AggregateShardMetrics_LabelsPopulatedInResult) {
+    // Verify AggregatedMetric.labels contains the group_by label set.
+    AggregationRule rule;
+    rule.metric_name = "cpu_ms";
+    rule.type = AggregationType::MAX;
+    rule.group_by_labels = {"tenant_id"};
+    rule.drop_labels = {"shard_id"};
+    agg_.addAggregationRule(rule);
+
+    ShardMetrics shard;
+    shard.shard_id = "s0";
+    shard.labels = {{"tenant_id", "acme"}};
+    shard.metrics["cpu_ms"] = {50.0, 80.0};
+
+    auto snap = agg_.aggregateShardMetrics({shard});
+    ASSERT_EQ(1u, snap.metrics.size());
+    EXPECT_EQ("acme", snap.metrics[0].labels.at("tenant_id"));
+}
+
+TEST_F(MetricAggregatorTest, ApplyRules_LabelsPopulatedInResult) {
+    // Verify applyRules() populates AggregatedMetric.labels from group_by_labels.
+    AggregationRule rule;
+    rule.metric_name = "req_ms";
+    rule.type = AggregationType::AVG;
+    rule.group_by_labels = {"dc"};
+    rule.drop_labels = {"host"};
+    agg_.addAggregationRule(rule);
+
+    HistogramSnapshot s1{"req_ms", {{"dc", "us-east"}, {"host", "web-01"}}, {10.0, 30.0}};
+    HistogramSnapshot s2{"req_ms", {{"dc", "eu-west"}, {"host", "web-02"}}, {20.0, 40.0}};
+    agg_.addHistogramSnapshot(s1);
+    agg_.addHistogramSnapshot(s2);
+
+    auto results = agg_.applyRules();
+    ASSERT_EQ(2u, results.size());
+
+    for (const auto& r : results) {
+        EXPECT_FALSE(r.labels.empty()) << "Expected labels to be populated";
+        EXPECT_EQ(1u, r.labels.count("dc"));
+        EXPECT_EQ(0u, r.labels.count("host")) << "drop_labels should exclude 'host'";
+    }
+}
+
+TEST_F(MetricAggregatorTest, AggregateShardMetrics_NoRules_ReturnsEmpty) {
+    ShardMetrics shard1;
+    shard1.shard_id = "shard-0";
+    shard1.metrics["query_latency_ms"] = {10.0, 20.0};
+
+    auto snap = agg_.aggregateShardMetrics({shard1});
+    EXPECT_TRUE(snap.metrics.empty());
+}
+
+TEST_F(MetricAggregatorTest, AggregateShardMetrics_EmptyInput_ReturnsEmpty) {
+    AggregationRule rule;
+    rule.metric_name = "latency_ms";
+    rule.type = AggregationType::AVG;
+    agg_.addAggregationRule(rule);
+
+    auto snap = agg_.aggregateShardMetrics({});
+    EXPECT_TRUE(snap.metrics.empty());
+}
+
+TEST_F(MetricAggregatorTest, AggregateShardMetrics_SkipsRateRules) {
+    // RATE rules cannot be evaluated from a batch snapshot; they must be silently skipped.
+    AggregationRule rate_rule;
+    rate_rule.metric_name = "requests_total";
+    rate_rule.type = AggregationType::RATE;
+    agg_.addAggregationRule(rate_rule);
+
+    ShardMetrics shard1;
+    shard1.shard_id = "shard-0";
+    shard1.metrics["requests_total"] = {100.0, 200.0};
+
+    EXPECT_NO_THROW({
+        auto snap = agg_.aggregateShardMetrics({shard1});
+        EXPECT_TRUE(snap.metrics.empty());
+    });
+}
+
+TEST_F(MetricAggregatorTest, AggregateShardMetrics_DoesNotMutateInternalBuffer) {
+    AggregationRule rule;
+    rule.metric_name = "latency_ms";
+    rule.type = AggregationType::SUM;
+    agg_.addAggregationRule(rule);
+
+    ShardMetrics shard1;
+    shard1.shard_id = "shard-0";
+    shard1.metrics["latency_ms"] = {5.0, 10.0};
+
+    agg_.aggregateShardMetrics({shard1});
+
+    // Internal buffer should still be empty after the stateless call.
+    EXPECT_THROW(agg_.aggregateHistograms("latency_ms", AggregationType::SUM),
+                 std::invalid_argument);
+}
+
+// ============================================================================
+// rollupMetrics Tests
+// ============================================================================
+
+TEST_F(MetricAggregatorTest, RollupMetrics_RemovesOldSnapshots) {
+    using namespace std::chrono_literals;
+
+    // Add an old snapshot with a manually backdated timestamp.
+    HistogramSnapshot old_snap;
+    old_snap.metric_name = "latency_ms";
+    old_snap.values = {10.0, 20.0};
+    old_snap.timestamp = std::chrono::system_clock::now() - std::chrono::hours(2);
+    agg_.addHistogramSnapshot(old_snap);
+
+    // Verify data is accessible before rollup.
+    EXPECT_NO_THROW(agg_.aggregateHistograms("latency_ms", AggregationType::SUM));
+
+    // Rollup with a 60-minute window removes the 2-hour-old snapshot.
+    agg_.rollupMetrics(std::chrono::minutes{60});
+
+    EXPECT_THROW(agg_.aggregateHistograms("latency_ms", AggregationType::SUM),
+                 std::invalid_argument);
+}
+
+TEST_F(MetricAggregatorTest, RollupMetrics_PreservesRecentSnapshots) {
+    // Add a current snapshot.
+    HistogramSnapshot snap;
+    snap.metric_name = "latency_ms";
+    snap.values = {5.0, 15.0};
+    snap.timestamp = std::chrono::system_clock::now();
+    agg_.addHistogramSnapshot(snap);
+
+    // Rollup with a generous window should not remove the recent snapshot.
+    agg_.rollupMetrics(std::chrono::minutes{60});
+
+    EXPECT_NO_THROW({
+        auto result = agg_.aggregateHistograms("latency_ms", AggregationType::SUM);
+        EXPECT_DOUBLE_EQ(20.0, result.value);
+    });
+}
+
+TEST_F(MetricAggregatorTest, RollupMetrics_PrunesRateSamples) {
+    agg_.recordCounterSample("counter", 100);
+    std::this_thread::sleep_for(100ms);
+    agg_.recordCounterSample("counter", 200);
+
+    // Before rollup: rate is non-zero.
+    EXPECT_GT(agg_.calculateRate("counter"), 0.0);
+
+    // Rollup with 0-minute window prunes all rate samples.
+    agg_.rollupMetrics(std::chrono::minutes{0});
+
+    // After pruning: fewer than two samples remain → rate is 0.
+    EXPECT_DOUBLE_EQ(0.0, agg_.calculateRate("counter"));
+}
+
+TEST_F(MetricAggregatorTest, RollupMetrics_PreservesRulesAndLimits) {
+    AggregationRule rule;
+    rule.metric_name = "cpu";
+    rule.type = AggregationType::MAX;
+    agg_.addAggregationRule(rule);
+    agg_.setMetricCardinalityLimit("cpu", 5);
+
+    agg_.rollupMetrics(std::chrono::minutes{60});
+
+    EXPECT_EQ(1u, agg_.getRules().size());
+}
+
+TEST_F(MetricAggregatorTest, RollupMetrics_MixedAgeSnapshots) {
+    // Add one old and one recent snapshot for the same metric.
+    HistogramSnapshot old_snap;
+    old_snap.metric_name = "cpu";
+    old_snap.labels = {{"host", "node-1"}};
+    old_snap.values = {90.0};
+    old_snap.timestamp = std::chrono::system_clock::now() - std::chrono::hours(3);
+    agg_.addHistogramSnapshot(old_snap);
+
+    HistogramSnapshot recent_snap;
+    recent_snap.metric_name = "cpu";
+    recent_snap.labels = {{"host", "node-2"}};
+    recent_snap.values = {50.0};
+    recent_snap.timestamp = std::chrono::system_clock::now();
+    agg_.addHistogramSnapshot(recent_snap);
+
+    // Roll up with 1-hour window: old snapshot drops, recent stays.
+    agg_.rollupMetrics(std::chrono::minutes{60});
+
+    auto result = agg_.aggregateHistograms("cpu", AggregationType::SUM);
+    EXPECT_DOUBLE_EQ(50.0, result.value);
+}
