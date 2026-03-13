@@ -151,9 +151,17 @@ struct OTelConfig {
     ///   - OTLP HTTP:  "http://otel-collector:4318"
     ///   - Jaeger:     "http://jaeger-collector:14268/api/traces"
     ///   - Zipkin:     "http://zipkin:9411/api/v2/spans"
+    ///
+    /// **OTLP only**: the tracer automatically appends "/v1/traces" when the
+    /// endpoint does not already end with that path, so both base URLs
+    /// ("http://otel:4318") and full URLs ("http://otel:4318/v1/traces") are
+    /// accepted.  Jaeger and Zipkin endpoints are used exactly as supplied.
     std::string endpoint = "http://otel-collector:4317";
 
     /// Transport protocol for OTLP: "grpc" (default) or "http".
+    /// This field only affects the OTLP exporter back-end; it is ignored
+    /// when using Jaeger or Zipkin exporters, which always use their own
+    /// fixed HTTP protocol.
     std::string protocol = "grpc";
 
     /// Span sampling rate in [0.0, 1.0].  1.0 = always-on (default).
@@ -343,6 +351,21 @@ public:
 
     /** @brief Return the active configuration. */
     OTelConfig getConfig() const;
+
+    /**
+     * @brief Return the number of spans successfully exported to the OTLP
+     *        backend since the tracer was constructed.
+     *
+     * Returns 0 when no OTLP exporter is configured or when the exporter has
+     * not yet flushed its first batch.
+     */
+    uint64_t otlpExportedSpanCount() const noexcept;
+
+    /**
+     * @brief Return the number of spans dropped by the OTLP queue (due to
+     *        back-pressure) since the tracer was constructed.
+     */
+    uint64_t otlpDroppedSpanCount() const noexcept;
 
     /**
      * @brief Return the list of configured exporter names (e.g. "otlp",

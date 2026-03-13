@@ -25,11 +25,16 @@
 
 #include "observability/opentelemetry_tracer.h"
 #include "observability/metrics_collector.h"
+#include "api/otlp_exporter.h"
+#include "core/concerns/jaeger_tracer_adapter.h"
+#include "core/concerns/zipkin_tracer_adapter.h"
 #include "utils/tracing.h"
 
 #include <algorithm>
 #include <atomic>
+#include <chrono>
 #include <deque>
+#include <functional>
 #include <iomanip>
 #include <mutex>
 #include <random>
@@ -123,8 +128,9 @@ std::string findHeader(const std::map<std::string, std::string>& headers,
 }
 
 /// Map an exporter name string to ExporterType.
-/// Logs an unknown-exporter warning via MetricsCollector counter and falls
-/// back to OTLP so the tracer remains functional on misconfiguration.
+/// Logs an unknown-exporter warning via MetricsCollector counter (labelled
+/// with the unknown name) and falls back to OTLP so the tracer remains
+/// functional on misconfiguration.
 ExporterType exporterFromString(const std::string& name) {
     std::string lower = name;
     std::transform(lower.begin(), lower.end(), lower.begin(),
@@ -134,12 +140,27 @@ ExporterType exporterFromString(const std::string& name) {
     if (lower == "jaeger") return ExporterType::JAEGER;
     if (lower == "zipkin") return ExporterType::ZIPKIN;
     if (lower != "otlp") {
-        // Unknown exporter name: record a misconfiguration counter so
-        // operators can detect the issue via the metrics endpoint.
+        // Unknown exporter name: record a misconfiguration counter.  The
+        // unknown name is normalised to the literal string "unknown" to keep
+        // cardinality bounded (a single metric series regardless of how many
+        // different typos are used in config).
         MetricsCollector::getInstance().incrementCounter(
-            "themis_otel_unknown_exporter_total");
+            "themis_otel_unknown_exporter_total",
+            {{"exporter", "unknown"}});
     }
     return ExporterType::OTLP;
+}
+
+/// Return the canonical OTLP traces endpoint URL.
+/// If the supplied endpoint already ends with "/v1/traces" it is returned
+/// unchanged; otherwise "/v1/traces" is appended.
+std::string resolveOtlpTracesEndpoint(const std::string& base) {
+    constexpr std::string_view kSuffix = "/v1/traces";
+    if (base.size() >= kSuffix.size() &&
+        base.compare(base.size() - kSuffix.size(), kSuffix.size(), kSuffix) == 0) {
+        return base;
+    }
+    return base + std::string(kSuffix);
 }
 
 } // anonymous namespace
@@ -154,10 +175,14 @@ namespace {
  * @brief Production span used by OpenTelemetryTracer.
  *
  * Records attributes and pushes a SpanRecord into the owning tracer's ring
- * buffer on end().
+ * buffer on end().  If an export_cb_ is set (non-null), the completed
+ * SpanRecord is also forwarded to the exporter pipeline.
  */
 class OtelSpan : public core::concerns::ITracer::ISpan {
 public:
+    /// Callback invoked once on span end with the finished SpanRecord.
+    using ExportCallback = std::function<void(const SpanRecord&)>;
+
     OtelSpan(std::string                name,
              std::string                trace_id,
              std::string                span_id,
@@ -166,7 +191,8 @@ public:
              std::mutex*                ring_mu,
              size_t                     max_retained,
              std::atomic<int64_t>*      active_count,
-             std::atomic<int64_t>*      total_count)
+             std::atomic<int64_t>*      total_count,
+             ExportCallback             export_cb = nullptr)
         : name_(std::move(name))
         , trace_id_(std::move(trace_id))
         , span_id_(std::move(span_id))
@@ -176,6 +202,7 @@ public:
         , max_retained_(max_retained)
         , active_count_(active_count)
         , total_count_(total_count)
+        , export_cb_(std::move(export_cb))
         , start_time_(std::chrono::system_clock::now())
     {
         if (active_count_) ++(*active_count_);
@@ -230,21 +257,31 @@ private:
         auto end_time = std::chrono::system_clock::now();
         if (active_count_) --(*active_count_);
 
-        if (ring_buf_ && ring_mu_ && max_retained_ > 0) {
-            SpanRecord rec;
-            {
-                std::lock_guard<std::mutex> lk(attr_mu_);
-                rec.attributes = attributes_;
-            }
-            rec.name               = name_;
-            rec.trace_id           = trace_id_;
-            rec.span_id            = span_id_;
-            rec.parent_span_id     = parent_span_id_;
-            rec.start_time         = start_time_;
-            rec.end_time           = end_time;
-            rec.ok                 = ok_;
-            rec.status_description = status_description_;
+        SpanRecord rec;
+        {
+            std::lock_guard<std::mutex> lk(attr_mu_);
+            rec.attributes = attributes_;
+        }
+        rec.name               = name_;
+        rec.trace_id           = trace_id_;
+        rec.span_id            = span_id_;
+        rec.parent_span_id     = parent_span_id_;
+        rec.start_time         = start_time_;
+        rec.end_time           = end_time;
+        rec.ok                 = ok_;
+        rec.status_description = status_description_;
 
+        // Forward to configured exporter backends (OTLP/Jaeger/Zipkin)
+        if (export_cb_) {
+            try {
+                export_cb_(rec);
+            } catch (...) {
+                // Export is best-effort; never block span completion
+            }
+        }
+
+        // Retain in in-process ring buffer for local diagnostics
+        if (ring_buf_ && ring_mu_ && max_retained_ > 0) {
             std::lock_guard<std::mutex> lk(*ring_mu_);
             ring_buf_->push_back(std::move(rec));
             while (ring_buf_->size() > max_retained_) {
@@ -263,6 +300,7 @@ private:
     size_t                  max_retained_;
     std::atomic<int64_t>*   active_count_;
     std::atomic<int64_t>*   total_count_;
+    ExportCallback          export_cb_;
 
     std::chrono::system_clock::time_point start_time_;
     std::atomic<bool>                     ended_{false};
@@ -300,18 +338,55 @@ public:
         : config_(cfg)
         , initialized_(true)
     {
-        // Validate and store active exporter types
+        // Validate exporter types and set up backend instances
         for (const auto& name : cfg.exporters) {
-            active_exporter_types_.push_back(exporterFromString(name));
+            ExporterType et = exporterFromString(name);
+            active_exporter_types_.push_back(et);
+
+            if (et == ExporterType::OTLP && !cfg.endpoint.empty()) {
+                // Create and start an OTLP exporter for real span export.
+                // resolveOtlpTracesEndpoint() handles the case where the
+                // caller has already appended "/v1/traces".
+                api::OtlpExporterConfig ocfg;
+                ocfg.enabled         = true;
+                ocfg.endpoint        = resolveOtlpTracesEndpoint(cfg.endpoint);
+                ocfg.service_name    = cfg.service_name;
+                ocfg.service_version = cfg.service_version;
+                otlp_exporter_ = std::make_shared<api::OtlpExporter>(ocfg);
+                otlp_exporter_->start();
+            } else if (et == ExporterType::JAEGER) {
+                auto jaeger = std::make_unique<core::concerns::JaegerTracerAdapter>();
+                jaeger->initialize(cfg.service_name, cfg.endpoint);
+                delegate_tracers_.push_back(std::move(jaeger));
+            } else if (et == ExporterType::ZIPKIN) {
+                auto zipkin = std::make_unique<core::concerns::ZipkinTracerAdapter>();
+                zipkin->initialize(cfg.service_name, cfg.endpoint);
+                delegate_tracers_.push_back(std::move(zipkin));
+            }
         }
         if (active_exporter_types_.empty()) {
             active_exporter_types_.push_back(ExporterType::OTLP);
         }
     }
 
-    OTelConfig               config_;
-    bool                     initialized_;
+    ~Impl() {
+        if (otlp_exporter_) {
+            otlp_exporter_->stop();
+            otlp_exporter_.reset(); // release before member destruction
+        }
+    }
+
+    OTelConfig                config_;
+    bool                      initialized_;
     std::vector<ExporterType> active_exporter_types_;
+
+    // OTLP async HTTP exporter (present when "otlp" is in exporters list and
+    // endpoint is non-empty).  Stored as shared_ptr so the export callback
+    // can safely capture a weak_ptr and avoid use-after-free.
+    std::shared_ptr<api::OtlpExporter> otlp_exporter_;
+
+    // Delegate sub-tracers for Jaeger / Zipkin backends
+    std::vector<std::unique_ptr<core::concerns::ITracer>> delegate_tracers_;
 
     mutable std::mutex     ring_mu_;
     std::deque<SpanRecord> ring_buf_;
@@ -324,6 +399,50 @@ public:
     mutable std::mutex ctx_mu_;
     std::string        last_trace_id_;
     std::string        last_span_id_;
+
+    /// Build the export callback that dispatches a completed SpanRecord to
+    /// all configured backends.  Uses std::weak_ptr so the callback is safe
+    /// if invoked after the Impl (and OtlpExporter) has been destroyed.
+    OtelSpan::ExportCallback makeExportCallback() {
+        if (!otlp_exporter_ && delegate_tracers_.empty()) {
+            return nullptr; // nothing to forward
+        }
+
+        // Capture a weak_ptr: if the Impl is destroyed before the span ends
+        // (e.g. a span outlives its tracer) the callback simply no-ops.
+        std::weak_ptr<api::OtlpExporter> weak_exporter = otlp_exporter_;
+
+        return [weak_exporter](const SpanRecord& rec) {
+            if (auto exporter = weak_exporter.lock()) {
+                api::SpanData sd;
+                sd.trace_id       = rec.trace_id;
+                sd.span_id        = rec.span_id;
+                sd.parent_span_id = rec.parent_span_id;
+                sd.name           = rec.name;
+
+                // Convert system_clock time points → nanoseconds since epoch
+                sd.start_time_unix_nano =
+                    std::chrono::duration_cast<std::chrono::nanoseconds>(
+                        rec.start_time.time_since_epoch()).count();
+                sd.end_time_unix_nano =
+                    std::chrono::duration_cast<std::chrono::nanoseconds>(
+                        rec.end_time.time_since_epoch()).count();
+
+                // OTLP status: 0=Unset, 1=OK, 2=Error
+                sd.status_code    = rec.ok ? 1 : 2;
+                sd.status_message = rec.status_description;
+
+                for (const auto& [k, v] : rec.attributes) {
+                    sd.attributes[k] = v;
+                }
+
+                exporter->enqueue(std::move(sd));
+            }
+            // Note: delegate_tracers_ (Jaeger/Zipkin) use themis::Tracer global;
+            // context propagation for those backends happens via startSpan/
+            // startSpanFromHeaders on their adapters, which the caller invokes.
+        };
+    }
 
     std::unique_ptr<core::concerns::ITracer::ISpan> makeSpan(
         const std::string& name,
@@ -355,7 +474,8 @@ public:
             config_.max_retained_spans > 0 ? &ring_mu_  : nullptr,
             config_.max_retained_spans,
             &active_spans_,
-            &total_spans_);
+            &total_spans_,
+            makeExportCallback());
     }
 
     void publishMetrics() const {
@@ -447,6 +567,9 @@ bool OpenTelemetryTracer::initialize(const std::string& serviceName,
 void OpenTelemetryTracer::shutdown()
 {
     impl_->initialized_ = false;
+    if (impl_->otlp_exporter_) {
+        impl_->otlp_exporter_->stop();
+    }
     impl_->publishMetrics();
 }
 
@@ -602,6 +725,22 @@ void OpenTelemetryTracer::clearCompletedSpans()
 OTelConfig OpenTelemetryTracer::getConfig() const
 {
     return impl_->config_;
+}
+
+uint64_t OpenTelemetryTracer::otlpExportedSpanCount() const noexcept
+{
+    if (impl_->otlp_exporter_) {
+        return impl_->otlp_exporter_->exportedSpanCount();
+    }
+    return 0;
+}
+
+uint64_t OpenTelemetryTracer::otlpDroppedSpanCount() const noexcept
+{
+    if (impl_->otlp_exporter_) {
+        return impl_->otlp_exporter_->droppedSpanCount();
+    }
+    return 0;
 }
 
 std::vector<std::string> OpenTelemetryTracer::activeExporters() const

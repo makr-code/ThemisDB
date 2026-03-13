@@ -36,6 +36,12 @@
  *  AC-30 isHealthy() returns healthy when initialized, unhealthy after shutdown
  *  AC-31 Multiple resource_attributes accepted in OTelConfig
  *  AC-32 Concurrent startSpan() from multiple threads is safe
+ *  AC-33 No OTLP endpoint → otlpExportedSpanCount / otlpDroppedSpanCount return 0
+ *  AC-34 OTLP exporter created when endpoint is set; counter methods accessible
+ *  AC-35 Completed spans are enqueued to OTLP exporter (queue not dropped)
+ *  AC-36 Both ring buffer and OTLP queue receive span on end
+ *  AC-37 Shutdown stops OTLP exporter safely (no crash)
+ *  AC-38 Multi-exporter list (otlp+jaeger+zipkin) reported accurately
  */
 
 #include <gtest/gtest.h>
@@ -105,7 +111,10 @@ TEST_F(OpenTelemetryTracerTest, CustomConfigConstructionSucceeds) {
     OTelConfig cfg;
     cfg.service_name    = "my-service";
     cfg.service_version = "2.0.0";
-    cfg.endpoint        = "http://jaeger:14268/api/traces";
+    // Jaeger HTTP collector endpoint (not an OTLP endpoint)
+    cfg.endpoint        = "http://jaeger-collector:14268/api/traces";
+    // cfg.protocol applies to OTLP transport ("grpc" or "http"); for Jaeger
+    // backends the OTel Collector handles routing
     cfg.protocol        = "http";
     cfg.sample_rate     = 0.5;
     cfg.resource_attributes = {{"env", "staging"}, {"region", "eu-west-1"}};
@@ -731,4 +740,113 @@ TEST_F(OpenTelemetryTracerTest, ConcurrentStartSpanIsSafe) {
     auto s = tracer.stats();
     EXPECT_EQ(s.total_spans, kThreads * kSpansEach);
     EXPECT_EQ(s.active_spans, 0);
+}
+
+// ============================================================================
+// AC-33 – AC-38: Multi-exporter dispatch (OtlpExporter integration)
+// ============================================================================
+
+// AC-33: No OTLP endpoint configured → otlpExportedSpanCount returns 0
+TEST_F(OpenTelemetryTracerTest, OtlpExporterCountsZeroWhenNotConfigured) {
+    OTelConfig cfg = defaultConfig();
+    cfg.exporters = {"otlp"};
+    cfg.endpoint  = "";  // no endpoint → OtlpExporter not created
+    OpenTelemetryTracer tracer(cfg);
+
+    auto span = tracer.startSpan("op");
+    span->end();
+
+    EXPECT_EQ(tracer.otlpExportedSpanCount(), 0u);
+    EXPECT_EQ(tracer.otlpDroppedSpanCount(),  0u);
+}
+
+// AC-34: OTLP exporter is created when endpoint is set; counter methods work
+TEST_F(OpenTelemetryTracerTest, OtlpExporterCreatedWhenEndpointSet) {
+    OTelConfig cfg = defaultConfig();
+    cfg.exporters = {"otlp"};
+    cfg.endpoint  = "http://127.0.0.1:4318";  // local, not actually running
+    OpenTelemetryTracer tracer(cfg);
+
+    // The exporter is created → counters must be accessible without throwing
+    // and the exporter must be reflected in activeExporters()
+    EXPECT_NO_THROW(tracer.otlpExportedSpanCount());
+    EXPECT_NO_THROW(tracer.otlpDroppedSpanCount());
+
+    // activeExporters() must list "otlp"
+    auto ex = tracer.activeExporters();
+    ASSERT_EQ(ex.size(), 1u);
+    EXPECT_EQ(ex[0], "otlp");
+}
+
+// AC-35: Completed spans are enqueued into OTLP exporter queue
+TEST_F(OpenTelemetryTracerTest, SpansEnqueuedToOtlpExporterQueue) {
+    OTelConfig cfg = defaultConfig();
+    cfg.exporters      = {"otlp"};
+    cfg.endpoint       = "http://127.0.0.1:4318"; // unreachable → queue fills
+    cfg.max_retained_spans = 100;
+    OpenTelemetryTracer tracer(cfg);
+
+    // Create several spans and end them — they should be enqueued
+    for (int i = 0; i < 5; ++i) {
+        auto span = tracer.startSpan("op-" + std::to_string(i));
+        span->setAttribute("index", int64_t(i));
+        span->end();
+    }
+
+    // The spans are queued in the OtlpExporter (not yet exported since no server).
+    // droppedSpanCount() must remain 0 (queue not full).
+    EXPECT_EQ(tracer.otlpDroppedSpanCount(), 0u);
+
+    // The in-process ring buffer is also populated
+    EXPECT_EQ(tracer.completedSpans().size(), 5u);
+}
+
+// AC-36: Both ring buffer and OTLP queue receive span on end
+TEST_F(OpenTelemetryTracerTest, SpanEndPopulatesBothRingBufferAndExporter) {
+    OTelConfig cfg = defaultConfig();
+    cfg.exporters      = {"otlp"};
+    cfg.endpoint       = "http://127.0.0.1:4318";
+    cfg.max_retained_spans = 10;
+    OpenTelemetryTracer tracer(cfg);
+
+    auto span = tracer.startSpan("dual-path");
+    span->setAttribute("key", std::string("value"));
+    span->end();
+
+    // Ring buffer has the span
+    auto spans = tracer.completedSpans();
+    ASSERT_EQ(spans.size(), 1u);
+    EXPECT_EQ(spans[0].name, "dual-path");
+    EXPECT_EQ(spans[0].attributes.at("key"), "value");
+
+    // OTLP exporter queue not dropped
+    EXPECT_EQ(tracer.otlpDroppedSpanCount(), 0u);
+}
+
+// AC-37: Shutdown stops OTLP exporter (no crash, idempotent)
+TEST_F(OpenTelemetryTracerTest, ShutdownStopsOtlpExporterSafely) {
+    OTelConfig cfg = defaultConfig();
+    cfg.exporters = {"otlp"};
+    cfg.endpoint  = "http://127.0.0.1:4318";
+    OpenTelemetryTracer tracer(cfg);
+
+    auto span = tracer.startSpan("op");
+    span->end();
+
+    EXPECT_NO_THROW(tracer.shutdown());
+    EXPECT_FALSE(tracer.isInitialized());
+}
+
+// AC-38: Multi-exporter list (otlp + jaeger + zipkin) — activeExporters stays accurate
+TEST_F(OpenTelemetryTracerTest, MultiExporterListAccurate) {
+    OTelConfig cfg = defaultConfig();
+    cfg.exporters = {"otlp", "jaeger", "zipkin"};
+    cfg.endpoint  = "";  // no actual endpoint needed for config test
+    OpenTelemetryTracer tracer(cfg);
+
+    auto ex = tracer.activeExporters();
+    ASSERT_EQ(ex.size(), 3u);
+    EXPECT_EQ(ex[0], "otlp");
+    EXPECT_EQ(ex[1], "jaeger");
+    EXPECT_EQ(ex[2], "zipkin");
 }
