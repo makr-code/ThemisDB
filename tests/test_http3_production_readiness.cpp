@@ -139,7 +139,7 @@ TEST_F(Http3ZeroRttTest, SessionTicketLifetimeDefault) {
     EXPECT_EQ(cfg.session_ticket_lifetime_secs, 86400u);
 }
 
-TEST_F(Http3ZeroRttTest, MetricsZeroRttFlagInitialisedFalse) {
+TEST_F(Http3ZeroRttTest, MetricsZeroRttFlagInitializedFalse) {
     Http3ConnectionMetrics m;
     EXPECT_FALSE(m.zero_rtt_used);
 }
