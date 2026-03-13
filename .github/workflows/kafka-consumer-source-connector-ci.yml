@@ -147,3 +147,5 @@ jobs:
           echo "| AC-3 | \`IngestionBuilder::withKafkaSource()\` fluent API | \`BuilderWithKafkaSource\`, \`BuilderWithKafkaSourceDefaultOptions\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| AC-4 | JSON and Avro message formats; \`schema_registry_url\` option | \`IngestJsonMessages\`, \`AvroMagicByteStripped\`, \`SchemaRegistryUrlStoredForAvro\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| AC-5 | Graceful shutdown via \`rd_kafka_consumer_close()\` | \`EmptyBatchTerminates\`, \`MaxMessagesLimit\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| AC-6 | Throughput ≥ 100 000 msgs/sec (1 KB, single partition) | \`ThroughputAtLeast100kMessagesPerSec\` (THEMIS_RUN_PERF_TESTS=1) |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| AC-7 | Connector processing latency < 100 ms (unit); full e2e ≤ 500 ms p99 in integration | \`SingleMessageProcessingLatencyBelow100ms\` |" >> "$GITHUB_STEP_SUMMARY"

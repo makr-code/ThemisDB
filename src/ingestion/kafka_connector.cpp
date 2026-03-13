@@ -227,7 +227,8 @@ private:
 #else
         gmtime_r(&tt, &tm_buf);
 #endif
-        // Buffer is large enough for "YYYY-MM-DDTHH:MM:SSZ" (20 chars) + NUL.
+        // Buffer for "YYYY-MM-DDTHH:MM:SSZ" (20 chars + NUL = 21 bytes).
+        // 32 bytes provides extra headroom for locale-specific variations.
         constexpr std::size_t kTimestampBufSize = 32;
         char buf[kTimestampBufSize] = {};
         std::strftime(buf, kTimestampBufSize, "%Y-%m-%dT%H:%M:%SZ", &tm_buf);
