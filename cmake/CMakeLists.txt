@@ -3090,19 +3090,18 @@ endif()
 target_link_libraries(themis_core
     PUBLIC
         ${THEMIS_ROCKSDB_TARGET}
-        simdjson::simdjson
-        TBB::tbb
+        $<$<TARGET_EXISTS:simdjson::simdjson>:simdjson::simdjson>
+        $<$<TARGET_EXISTS:TBB::tbb>:TBB::tbb>
         ${THEMIS_ARROW_TARGET}
         ${THEMIS_PARQUET_TARGET}
         fmt::fmt
         spdlog::spdlog
-        Boost::system
+        $<$<TARGET_EXISTS:Boost::system>:Boost::system>
         nlohmann_json::nlohmann_json
     $<$<BOOL:${CURL_FOUND}>:CURL::libcurl>
         ${THEMIS_YAML_TARGET}
     OpenSSL::SSL
     OpenSSL::Crypto
-    TBB::tbb
     ZLIB::ZLIB
     $<$<BOOL:${prometheus-cpp_FOUND}>:prometheus-cpp::core>
 )
@@ -4748,6 +4747,10 @@ endif()
 # to avoid duplicate target errors. The benchmarks are included via:
 #   add_subdirectory(benchmarks)
 # ============================================================================
+if(THEMIS_BUILD_BENCHMARKS AND EXISTS "${THEMIS_ROOT_DIR}/benchmarks/CMakeLists.txt")
+    add_subdirectory(${THEMIS_ROOT_DIR}/benchmarks benchmarks)
+    message(STATUS "Benchmarks enabled – including benchmarks/CMakeLists.txt")
+endif()
 if(FALSE)  # Disabled - benchmarks now defined in benchmarks/CMakeLists.txt
 
     add_executable(bench_core_performance
