@@ -5362,6 +5362,12 @@ if(FALSE)  # Disabled - benchmarks now defined in benchmarks/CMakeLists.txt
     )
     target_link_libraries(bench_spatial_index PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
+    # Spatial JOIN Benchmark (AC5: two 100k-point collections, 1km threshold, first 1000 ≤ 500ms)
+    add_executable(bench_spatial_join
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_spatial_join.cpp
+    )
+    target_link_libraries(bench_spatial_join PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
     # Geo CPU vs GPU Throughput Benchmark
     add_executable(bench_geo_cpu_gpu
         ${THEMIS_ROOT_DIR}/benchmarks/bench_geo_cpu_gpu.cpp
