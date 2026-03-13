@@ -405,6 +405,83 @@ std::string SpatialIndexManager::serializeSidecarList(
     return j.dump();
 }
 
+// Bulk-load
+SpatialIndexManager::Status SpatialIndexManager::bulkLoad(
+    std::string_view table,
+    const std::vector<std::pair<std::string, geo::GeoSidecar>>& entries
+) {
+    auto config = getConfig(table);
+    if (!config) {
+        return Status::Error("Spatial index not found for table: " + std::string(table));
+    }
+
+    std::string table_str(table);
+
+    // Invalidate any existing in-memory state; we will rebuild entirely from
+    // the supplied entries so stale R-tree nodes don't leak.
+    rtrees_[table_str].clear();
+    mbr_cache_[table_str].clear();
+    rtree_built_.erase(table_str);
+
+    // Purge all existing per-PK spatial keys from RocksDB so that a subsequent
+    // restart (which triggers ensureRTree via a prefix scan of per-PK keys)
+    // does not resurrect entries that are no longer part of the new data set.
+    // This mirrors the prefix-scan-and-delete loop in dropSpatialIndex, but is
+    // scoped to the "pk:" sub-prefix so the config and Morton-bucket keys are
+    // left untouched.
+    const std::string pk_prefix = getSpatialKeyPrefix(table) + "pk:";
+    db_.scanRange(pk_prefix, pk_prefix + "~",
+        [this](std::string_view key, std::string_view /*value*/) {
+            db_.del(key);
+            return true;
+        });
+
+    auto& cache = mbr_cache_[table_str];
+
+    // Prepare per-PK RocksDB writes and R-tree bulk entries simultaneously.
+    std::vector<std::pair<std::string, geo::GeometryInfo>> rtree_entries;
+    rtree_entries.reserve(entries.size());
+
+    for (const auto& [pk, sidecar] : entries) {
+        // Persist per-PK sidecar key so lazy rebuild after restart can recover
+        // the full collection without requiring another bulk load call.
+        const uint64_t morton = MortonEncoder::encode2D(
+            sidecar.centroid.x, sidecar.centroid.y, config->total_bounds);
+        const std::string pk_key = makeSpatialPerPKKey(table, morton, pk);
+
+        json pk_sidecar;
+        pk_sidecar["mbr"] = {
+            {"minx", sidecar.mbr.minx},
+            {"miny", sidecar.mbr.miny},
+            {"maxx", sidecar.mbr.maxx},
+            {"maxy", sidecar.mbr.maxy}
+        };
+        if (sidecar.z_min != 0.0 || sidecar.z_max != 0.0) {
+            pk_sidecar["z_min"] = sidecar.z_min;
+            pk_sidecar["z_max"] = sidecar.z_max;
+        }
+        const auto dump = pk_sidecar.dump();
+        const std::vector<uint8_t> bytes(dump.begin(), dump.end());
+        db_.put(pk_key, bytes);  // Best effort; query path rebuilds from per-PK scan
+
+        cache[pk] = sidecar.mbr;
+        rtree_entries.emplace_back(pk, mbrToGeometryInfo(sidecar.mbr));
+
+        metrics_.insert_count++;
+    }
+
+    // STR bulk-load the R-tree (3–5× faster than incremental insert).
+    rtrees_[table_str].bulkLoad(rtree_entries);
+    rtree_built_.insert(table_str);
+
+    THEMIS_INFO("SpatialIndexManager::bulkLoad: table='{}', entries={}, "
+                "geo_index_bytes_allocated={}",
+                table_str, entries.size(),
+                rtrees_[table_str].memoryBytes());
+
+    return Status::OK();
+}
+
 // Insert
 SpatialIndexManager::Status SpatialIndexManager::insert(
     std::string_view table,
@@ -931,20 +1008,46 @@ std::vector<SpatialResult> SpatialIndexManager::searchContains(
     std::optional<double> z
 ) const {
     (void)z; // unused parameter
-    // Create small query box around point
+
+    auto config = getConfig(table);
+    if (!config) return {};
+
+    // ── Fast path: use the R-tree's point-containment query directly ─────
+    // GeoRTree::contains(x, y) issues a zero-area bounding-box query and
+    // verifies MBR containment inside the tree, which is more precise than
+    // the tiny-bbox workaround and avoids a redundant filter pass.
+    ensureRTree(table);
+
+    std::string table_str(table);
+    const auto& rtree = rtrees_[table_str];
+
+    if (rtree.size() > 0) {
+        auto candidate_keys = rtree.contains(x, y);
+
+        std::vector<SpatialResult> results;
+        const auto& cache = mbr_cache_[table_str];
+
+        results.reserve(candidate_keys.size());
+        for (const auto& pk : candidate_keys) {
+            SpatialResult result;
+            result.primary_key = pk;
+            auto it = cache.find(pk);
+            if (it != cache.end()) result.mbr = it->second;
+            results.push_back(std::move(result));
+        }
+        return results;
+    }
+
+    // ── Fallback: tiny-bbox approach (legacy Morton-bucket data, no R-tree) ─
     geo::MBR point_bbox(x - 0.0001, y - 0.0001, x + 0.0001, y + 0.0001);
-    
     auto candidates = searchIntersects(table, point_bbox);
-    
-    // Filter: MBR must contain point
+
     std::vector<SpatialResult> results;
-    
     for (const auto& cand : candidates) {
         if (cand.mbr.contains(x, y)) {
             results.push_back(cand);
         }
     }
-    
     return results;
 }
 
