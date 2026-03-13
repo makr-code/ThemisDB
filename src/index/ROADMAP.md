@@ -24,6 +24,13 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 - [x] HNSW incremental re-indexing without full rebuild (Target: Q3 2026) (Issue: #1435)
 
 ## In Progress 🚧
+- [~] GPU memory oversubscription — paging/streaming for datasets > VRAM (Target: v1.7.0)
+  - [x] `GPUMemoryOversubscriptionManager` with LRU eviction, streaming, prefetch (NONE/LRU/MRU/SEQUENTIAL)
+  - [x] `GPUVectorIndex::Config` extended with `enable_oversubscription`, `vram_budget_mb`, `prefetch_strategy`
+  - [x] `GPUVectorIndex::getOversubscriptionStats()` for monitoring
+  - [x] Unified-memory integration via `GPUUnifiedMemoryAllocator` (CUDA/HIP with CPU fallback)
+  - [x] Focused test suite in `tests/index/test_gpu_memory_oversubscription.cpp` (26 tests)
+  - [x] CI workflow `.github/workflows/gpu-memory-oversubscription-ci.yml`
 
 ## Planned Features 📋
 

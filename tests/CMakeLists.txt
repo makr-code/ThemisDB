@@ -147,6 +147,7 @@ if(NOT THEMIS_ENABLE_GPU)
         ".*test_collective_backends\\.cpp$"
         ".*test_gpu_vector_index\\.cpp$"
         ".*test_multi_gpu_vector_index\\.cpp$"
+        ".*test_gpu_memory_oversubscription\\.cpp$"
         ".*test_multi_gpu_training\\.cpp$"
         ".*test_vram_allocator_null_checks\\.cpp$"
         ".*test_gpu_lora_layers\\.cpp$"
@@ -7248,7 +7249,7 @@ else()
 endif()
 
 
-
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_global_transaction_manager.cpp")
     message(STATUS "Adding Global Transaction Manager tests")
 
     add_executable(test_global_transaction_manager
@@ -11947,6 +11948,14 @@ add_index_focused_test(
     DistributedVectorIndexFocusedTests
     "index;distributed;vector;shards;focused;unit"
     "DistributedVectorIndex: vector search across shards, fan-out/merge, partition correctness"
+)
+
+add_index_focused_test(
+    test_gpu_memory_oversubscription_focused
+    index/test_gpu_memory_oversubscription.cpp
+    GPUMemoryOversubscriptionFocusedTests
+    "index;gpu;oversubscription;lru;streaming;prefetch;vram;focused;unit"
+    "GPUMemoryOversubscription: partition management, LRU eviction, streaming, prefetch strategies, multi-GPU config (v1.7.0)"
 )
 
 # ============================================================================
