@@ -31,6 +31,8 @@
 #include "analytics/nlp_text_analyzer.h"
 #include "security/row_level_security.h"
 #include "security/access_control_manager.h"
+#include "geo/spatial_join.h"
+#include "utils/geo/ewkb.h"
 #include <chrono>
 #include <fmt/format.h>
 
@@ -216,6 +218,64 @@ Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
         return Ok(nlohmann::json({{"type","traversal"},{"results", arr}}));
     }
 
+    // Spatial JOIN query: FOR a IN colA FOR b IN colB FILTER GEO_DISTANCE(a.f, b.f) <= threshold
+    if (tr.spatial_join.has_value()) {
+        const auto& sj = *tr.spatial_join;
+
+        // Helper: scan a collection and extract (key, GeometryInfo) pairs.
+        auto collectGeometries = [&](const std::string& collection,
+                                     const std::string& field)
+            -> std::vector<std::pair<std::string, geo::GeometryInfo>>
+        {
+            ConjunctiveQuery scan_q;
+            scan_q.table = collection;
+            auto ents = engine.executeAndEntitiesWithFallback(scan_q, false);
+            std::vector<std::pair<std::string, geo::GeometryInfo>> out;
+            if (!ents) return out;
+            out.reserve(ents->size());
+            for (const auto& e : *ents) {
+                try {
+                    nlohmann::json doc = nlohmann::json::parse(e.toJson());
+                    if (!doc.contains(field)) continue;
+                    const auto& fv = doc[field];
+                    geo::GeometryInfo geom;
+                    if (fv.is_string()) {
+                        geom = geo::GeometryInfo::parseGeoJSON(fv.get<std::string>());
+                    } else if (fv.is_object()) {
+                        geom = geo::GeometryInfo::parseGeoJSON(fv.dump());
+                    } else {
+                        continue;
+                    }
+                    out.emplace_back(e.getPrimaryKey(), std::move(geom));
+                } catch (...) {
+                    // Skip documents with unparseable geometry
+                }
+            }
+            return out;
+        };
+
+        auto outer_geoms = collectGeometries(sj.outer_collection, sj.outer_field);
+        auto inner_geoms = collectGeometries(sj.inner_collection, sj.inner_field);
+
+        geo::SpatialJoinConfig cfg;
+        cfg.max_pairs = sj.max_pairs;
+
+        geo::SpatialJoinIterator it(outer_geoms, inner_geoms, sj.threshold_m, cfg);
+
+        nlohmann::json arr = nlohmann::json::array();
+        while (it.advance()) {
+            const auto& p = it.current();
+            arr.push_back({
+                {sj.outer_var, p.key_a},
+                {sj.inner_var, p.key_b},
+                {"distance_m", p.distance_m}
+            });
+        }
+
+        reopt_guard.finish(arr.size());
+        return Ok(nlohmann::json({{"type", "spatial_join"}, {"results", arr}}));
+    }
+
     // Join query
     if (tr.join.has_value()) {
         auto& j = *tr.join;
@@ -355,6 +415,12 @@ Result<query::QueryPlanNode> buildExplainPlanNode(
     if (tr.join.has_value()) {
         ConjunctiveQuery q;
         q.table = "[join]";
+        return Ok(engine.buildExplainPlan(q));
+    }
+    if (tr.spatial_join.has_value()) {
+        ConjunctiveQuery q;
+        q.table = "[spatial_join] " + tr.spatial_join->outer_collection
+                  + " x " + tr.spatial_join->inner_collection;
         return Ok(engine.buildExplainPlan(q));
     }
 
@@ -519,6 +585,38 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, QueryEng
                                 i + 1, res.error().message()));
             }
             stmtResult = {{"type", "join"}, {"results", *res}};
+        } else if (tr.spatial_join.has_value()) {
+            const auto& sj = *tr.spatial_join;
+            auto collectGeoms = [&](const std::string& collection, const std::string& field) {
+                ConjunctiveQuery sq; sq.table = collection;
+                std::vector<std::pair<std::string, geo::GeometryInfo>> out;
+                auto ents = engine.executeAndEntitiesWithFallback(sq, false);
+                if (!ents) return out;
+                out.reserve(ents->size());
+                for (const auto& e : *ents) {
+                    try {
+                        nlohmann::json doc = nlohmann::json::parse(e.toJson());
+                        if (!doc.contains(field)) continue;
+                        const auto& fv = doc[field];
+                        geo::GeometryInfo geom;
+                        if (fv.is_string()) geom = geo::GeometryInfo::parseGeoJSON(fv.get<std::string>());
+                        else if (fv.is_object()) geom = geo::GeometryInfo::parseGeoJSON(fv.dump());
+                        else continue;
+                        out.emplace_back(e.getPrimaryKey(), std::move(geom));
+                    } catch (...) {}
+                }
+                return out;
+            };
+            auto outer_g = collectGeoms(sj.outer_collection, sj.outer_field);
+            auto inner_g = collectGeoms(sj.inner_collection, sj.inner_field);
+            geo::SpatialJoinConfig cfg; cfg.max_pairs = sj.max_pairs;
+            geo::SpatialJoinIterator sit(outer_g, inner_g, sj.threshold_m, cfg);
+            nlohmann::json arr = nlohmann::json::array();
+            while (sit.advance()) {
+                const auto& p = sit.current();
+                arr.push_back({{sj.outer_var, p.key_a}, {sj.inner_var, p.key_b}, {"distance_m", p.distance_m}});
+            }
+            stmtResult = {{"type", "spatial_join"}, {"results", arr}};
         } else {
             auto res = engine.executeAndEntitiesWithFallback(tr.query, true);
             if (!res) {
@@ -575,6 +673,8 @@ Result<nlohmann::json> executeAqlWithRLS(
                     if (!tr.join->for_nodes.empty()) {
                         collection = tr.join->for_nodes.front().collection;
                     }
+                } else if (tr.spatial_join.has_value()) {
+                    collection = tr.spatial_join->outer_collection;
                 } else if (tr.disjunctive.has_value()) {
                     collection = tr.disjunctive->table;
                 } else {
