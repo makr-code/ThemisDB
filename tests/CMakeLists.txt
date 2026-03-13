@@ -10670,6 +10670,11 @@ function(add_llm_focused_test target_name test_src test_name labels description)
         )
     endif()
 
+    # Boost (Beast/ASIO) is used by server headers included from some LLM tests.
+    if(Boost_FOUND)
+        target_link_libraries(${target_name} PRIVATE Boost::system)
+    endif()
+
     target_compile_definitions(${target_name} PRIVATE
         THEMIS_TEST_BUILD=1
         THEMIS_LLM_EXPORTS

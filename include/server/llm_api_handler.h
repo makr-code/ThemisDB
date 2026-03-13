@@ -46,6 +46,9 @@ class LLMAQLHandler;
 namespace auth {
 class JWTValidator;
 }
+namespace governance {
+class PolicyEngine;
+}
 namespace server {
 class LoRAApiHandler;
 }
@@ -123,6 +126,20 @@ public:
      * @param feedback_store FeedbackStore instance
      */
     void setFeedbackStore(std::shared_ptr<llm::FeedbackStore> feedback_store);
+
+    /**
+     * @brief Attach a PolicyEngine for inference permission checks on the
+     *        OpenAI-compatible @c /v1/chat/completions endpoint.
+     *
+     * When set, @c handleOpenAIChatCompletions() calls
+     * @c PolicyEngine::checkInferencePermission() before processing the request
+     * and returns HTTP 401/403 on denial.  Pass @c nullptr to detach (disables
+     * the policy gate; JWT validation still applies).
+     *
+     * @param policy_engine Pointer to a PolicyEngine instance.  The caller is
+     *                      responsible for the lifetime of the engine.
+     */
+    void setPolicyEngine(governance::PolicyEngine* policy_engine);
     
     /**
      * @brief Handle LLM API request
@@ -243,6 +260,9 @@ private:
     std::unique_ptr<auth::JWTValidator> jwt_validator_;
     std::shared_ptr<LoRAApiHandler> lora_handler_;
     std::shared_ptr<llm::FeedbackStore> feedback_store_;
+    /// Optional governance policy engine for /v1/chat/completions permission checks.
+    /// Raw non-owning pointer; nullptr when not configured.
+    governance::PolicyEngine* policy_engine_ = nullptr;
 };
 
 } // namespace themis::server

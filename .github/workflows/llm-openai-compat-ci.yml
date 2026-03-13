@@ -5,8 +5,9 @@ name: LLM OpenAI-Compat Adapter CI
 # handler, or tests, ensuring that the JSON translation layer does not regress.
 #
 # No GPU hardware required — all tests are pure-logic tests that exercise
-# OpenAICompatAdapter::parseRequest / buildResponse / buildStreamChunk without
-# a running inference engine.
+# OpenAICompatAdapter::parseRequest / buildResponse / buildStreamChunk,
+# PolicyEngine::checkInferencePermission, and LLMApiHandler::setPolicyEngine
+# without a running inference engine.
 
 on:
   pull_request:
@@ -15,9 +16,11 @@ on:
       - 'src/llm/openai_compat_adapter.cpp'
       - 'include/llm/openai_compat_adapter.h'
       - 'src/server/llm_api_handler.cpp'
+      - 'include/server/llm_api_handler.h'
       - 'tests/llm/test_openai_compat_adapter.cpp'
       - 'include/governance/policy_engine.h'
       - 'src/governance/policy_engine.cpp'
+      - 'benchmarks/llm_bench.cpp'
       - '.github/workflows/llm-openai-compat-ci.yml'
   push:
     branches:
@@ -27,9 +30,11 @@ on:
       - 'src/llm/openai_compat_adapter.cpp'
       - 'include/llm/openai_compat_adapter.h'
       - 'src/server/llm_api_handler.cpp'
+      - 'include/server/llm_api_handler.h'
       - 'tests/llm/test_openai_compat_adapter.cpp'
       - 'include/governance/policy_engine.h'
       - 'src/governance/policy_engine.cpp'
+      - 'benchmarks/llm_bench.cpp'
       - '.github/workflows/llm-openai-compat-ci.yml'
   workflow_dispatch:
 
@@ -79,7 +84,7 @@ jobs:
       - name: Run OpenAI-compat adapter tests
         run: |
           cd build
-          ctest --output-on-failure -R "OpenAICompat"
+          ctest --output-on-failure -R "OpenAICompat|LlmOpenAICompatAdapter"
 
       - name: Write job summary
         if: always()
@@ -89,10 +94,10 @@ jobs:
           echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
           echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Build type** | Release (CPU only, CUDA=OFF) |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Test filter** | \`OpenAICompatAdapter\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Test filter** | \`OpenAICompat\` + \`LlmOpenAICompatAdapter\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "Validates \`src/llm/openai_compat_adapter.cpp\` JSON translation layer and \`PolicyEngine::checkInferencePermission()\` API key validation (no GPU hardware required)." >> "$GITHUB_STEP_SUMMARY"
+          echo "Validates \`src/llm/openai_compat_adapter.cpp\` JSON translation layer, \`PolicyEngine::checkInferencePermission()\` API key validation, and \`LLMApiHandler::setPolicyEngine()\` handler wiring (no GPU hardware required)." >> "$GITHUB_STEP_SUMMARY"

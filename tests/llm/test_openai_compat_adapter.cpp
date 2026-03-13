@@ -47,13 +47,18 @@
 
 #include "llm/openai_compat_adapter.h"
 #include "llm/llm_plugin_interface.h"
+#include "llm/llm_plugin_manager.h"
 #include "governance/policy_engine.h"
+#include "server/llm_api_handler.h"
+
+namespace http = boost::beast::http;
 
 using themis::llm::OpenAICompatAdapter;
 using themis::llm::InferenceRequest;
 using themis::llm::InferenceResponse;
 using themis::governance::PolicyEngine;
 using themis::governance::InferencePermissionResult;
+using themis::server::LLMApiHandler;
 using json = nlohmann::json;
 
 // ═══════════════════════════════════════════════════════════
@@ -518,4 +523,122 @@ TEST_F(InferencePermissionTest, DenialReasonIsHumanReadable) {
     ASSERT_FALSE(result.allowed);
     EXPECT_GT(result.denial_reason.size(), 5u)
         << "denial_reason must be a non-trivial human-readable string";
+}
+
+// ═══════════════════════════════════════════════════════════
+// LLMApiHandler::setPolicyEngine / handleOpenAIChatCompletions
+// Server-level integration: verify policy gate is wired correctly.
+// ═══════════════════════════════════════════════════════════
+
+namespace {
+
+/// Helper: build a minimal Boost.Beast HTTP POST request for /v1/chat/completions.
+static http::request<http::string_body> makeChatRequest(
+    const std::string& auth_header = "",
+    const std::string& body_override = "") {
+
+    const std::string body = body_override.empty()
+        ? R"({"model":"test","messages":[{"role":"user","content":"hi"}]})"
+        : body_override;
+
+    http::request<http::string_body> req{http::verb::post, "/v1/chat/completions", 11};
+    req.set(http::field::content_type, "application/json");
+    if (!auth_header.empty()) {
+        req.set(http::field::authorization, auth_header);
+    }
+    req.body() = body;
+    req.prepare_payload();
+    return req;
+}
+
+} // anonymous namespace
+
+class LLMApiHandlerPolicyTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        auto mgr = std::make_shared<themis::llm::LLMPluginManager>();
+        handler_ = std::make_unique<LLMApiHandler>(std::move(mgr), std::nullopt);
+    }
+
+    std::unique_ptr<LLMApiHandler> handler_;
+    PolicyEngine policy_engine_;  // No YAML loaded → open classification
+};
+
+TEST_F(LLMApiHandlerPolicyTest, NoPolicyEngine_RequestPassesThroughWithoutAuthCheck) {
+    // When no PolicyEngine is configured the handler must not return 401/403
+    // due to a missing Authorization header — it should attempt inference
+    // (or fail with a different error, e.g. 500 / bad request from the engine).
+    auto req = makeChatRequest();  // no Authorization header
+    auto res = handler_->handleRequest(req);
+
+    // The status must NOT be 401 or 403 — those indicate the policy gate
+    // incorrectly fired when no policy engine was configured.
+    EXPECT_NE(res.result_int(), 401)
+        << "No PolicyEngine configured; handler must not return 401";
+    EXPECT_NE(res.result_int(), 403)
+        << "No PolicyEngine configured; handler must not return 403";
+}
+
+TEST_F(LLMApiHandlerPolicyTest, WithPolicyEngine_MissingAuthReturns401) {
+    handler_->setPolicyEngine(&policy_engine_);
+
+    auto req = makeChatRequest();  // no Authorization header
+    auto res = handler_->handleRequest(req);
+
+    EXPECT_EQ(res.result_int(), 401)
+        << "PolicyEngine configured; missing auth header must return 401";
+}
+
+TEST_F(LLMApiHandlerPolicyTest, WithPolicyEngine_MalformedAuthReturns401) {
+    handler_->setPolicyEngine(&policy_engine_);
+
+    auto req = makeChatRequest("Basic dXNlcjpwYXNz");  // Basic, not Bearer
+    auto res = handler_->handleRequest(req);
+
+    EXPECT_EQ(res.result_int(), 401)
+        << "PolicyEngine configured; malformed Authorization must return 401";
+}
+
+TEST_F(LLMApiHandlerPolicyTest, WithPolicyEngine_ValidBearerKeyPassesPolicyGate) {
+    // A valid Bearer key should pass the policy gate (open classification).
+    // The request may still fail at the inference layer (no model loaded), but
+    // it must NOT fail at the policy check layer with 401 or 403.
+    handler_->setPolicyEngine(&policy_engine_);
+
+    auto req = makeChatRequest("******");
+    auto res = handler_->handleRequest(req);
+
+    EXPECT_NE(res.result_int(), 401)
+        << "Valid Bearer key must pass policy gate (not 401)";
+    EXPECT_NE(res.result_int(), 403)
+        << "Valid Bearer key with open classification must not get 403";
+}
+
+TEST_F(LLMApiHandlerPolicyTest, WithPolicyEngine_ErrorBodyIsOpenAICompatible) {
+    // The 401 error body must be an OpenAI-compatible error JSON object.
+    handler_->setPolicyEngine(&policy_engine_);
+
+    auto req = makeChatRequest();  // no auth
+    auto res = handler_->handleRequest(req);
+
+    ASSERT_EQ(res.result_int(), 401);
+    ASSERT_EQ(res[http::field::content_type], "application/json");
+
+    json err = json::parse(res.body());
+    ASSERT_TRUE(err.contains("error"))
+        << "401 response body must have an 'error' key (OpenAI wire format)";
+    EXPECT_TRUE(err["error"].contains("message"))
+        << "error object must contain 'message'";
+}
+
+TEST_F(LLMApiHandlerPolicyTest, SetPolicyEngine_NullDetaches) {
+    // Attaching then detaching the PolicyEngine should restore the no-auth behaviour.
+    handler_->setPolicyEngine(&policy_engine_);
+    handler_->setPolicyEngine(nullptr);  // detach
+
+    auto req = makeChatRequest();  // no Authorization header
+    auto res = handler_->handleRequest(req);
+
+    EXPECT_NE(res.result_int(), 401)
+        << "After detaching PolicyEngine, handler must not return 401";
 }
