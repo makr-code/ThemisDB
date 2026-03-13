@@ -49,6 +49,7 @@
 #include <thread>
 #include <vector>
 #include <atomic>
+#include <unordered_map>
 #include <zstd.h>
 
 using namespace themisdb::replication;
@@ -3021,8 +3022,186 @@ TEST(WALArchivalTest, IndexPersistence_TierAndEncryptionFields) {
     std::filesystem::remove_all(arc_dir);
 }
 
-// Helper: build a ReplicationConfig with short timings so that tests do not
-// have to wait several seconds for elections.
+TEST(WALArchivalTest, EncryptionAtRest_EmptyKey_RejectsArchival) {
+    // encrypt_at_rest=true with an empty key must reject archival, just like an
+    // invalid key – it must not silently store the segment unencrypted.
+    const std::string wal_dir = "/tmp/themis_enc_emptykey_wal";
+    const std::string arc_dir = "/tmp/themis_enc_emptykey_arc";
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+
+    writeSegmentFile(wal_dir, "seg_000900.wal", "SENSITIVE DATA");
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = arc_dir;
+    cfg.compress_before_archive = false;
+    cfg.encrypt_at_rest         = true;
+    cfg.encryption_key_hex      = "";  // empty – must be rejected
+
+    WALArchivalManager mgr(cfg);
+    uint32_t n = mgr.archiveSegments({"seg_000900.wal"});
+    EXPECT_EQ(n, 0u) << "Archival must be rejected when encrypt_at_rest=true and key is empty";
+    EXPECT_TRUE(mgr.listArchived().empty());
+
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+}
+
+// ============================================================================
+// IArchivalBackend injection test – mock backend
+// ============================================================================
+
+namespace {
+
+// Minimal in-memory mock backend for unit testing IArchivalBackend injection.
+struct MockArchivalBackend : public IArchivalBackend {
+    std::unordered_map<std::string, std::vector<uint8_t>> store;
+    std::unordered_map<std::string, std::string> tiers;
+    std::vector<std::string> deleted_keys;
+
+    bool putObject(const std::string& key,
+                   const std::vector<uint8_t>& data) override {
+        store[key] = data;
+        tiers[key] = "standard";
+        return true;
+    }
+
+    std::optional<std::vector<uint8_t>> getObject(
+        const std::string& key) const override {
+        auto it = store.find(key);
+        if (it == store.end()) return std::nullopt;
+        return it->second;
+    }
+
+    bool deleteObject(const std::string& key) override {
+        deleted_keys.push_back(key);
+        store.erase(key);
+        tiers.erase(key);
+        return true;
+    }
+
+    void setStorageTier(const std::string& key,
+                        const std::string& tier) override {
+        tiers[key] = tier;
+    }
+};
+
+}  // namespace
+
+TEST(WALArchivalTest, BackendInjection_ArchiveAndRetrieveViaBackend) {
+    // Verify that when a custom IArchivalBackend is injected, archiveSegments()
+    // routes writes through it and retrieveSegment() reads from it.
+    const std::string wal_dir = "/tmp/themis_backend_wal";
+    std::filesystem::remove_all(wal_dir);
+
+    writeSegmentFile(wal_dir, "seg_001000.wal", "BACKEND ROUTED DATA");
+
+    auto mock = std::make_shared<MockArchivalBackend>();
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = "";  // not used when backend is set
+    cfg.prefix                  = "test-cluster/wal/";
+    cfg.compress_before_archive = false;
+
+    WALArchivalManager mgr(cfg, mock);
+
+    uint32_t n = mgr.archiveSegments({"seg_001000.wal"});
+    ASSERT_EQ(n, 1u);
+
+    // Backend store must contain the segment
+    EXPECT_EQ(mock->store.size(), 1u);
+    auto stored_key = mock->store.begin()->first;
+    EXPECT_EQ(stored_key.find("test-cluster/wal/seg_"), 0u)
+        << "Object key must start with configured prefix, got: " << stored_key;
+
+    // listArchived() shows the segment with the cloud key as archive_path
+    auto list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_EQ(list[0].archive_path, stored_key);
+
+    // retrieveSegment() reads from the backend
+    auto data = mgr.retrieveSegment(list[0].segment_id);
+    ASSERT_TRUE(data.has_value());
+    std::string recovered(data->begin(), data->end());
+    EXPECT_EQ(recovered, "BACKEND ROUTED DATA");
+
+    std::filesystem::remove_all(wal_dir);
+}
+
+TEST(WALArchivalTest, BackendInjection_PurgeDeletesViaBackend) {
+    // purgeExpired() with delete_after_days=0 must call backend->deleteObject().
+    const std::string wal_dir = "/tmp/themis_backend_purge_wal";
+    std::filesystem::remove_all(wal_dir);
+
+    writeSegmentFile(wal_dir, "seg_001100.wal", "OLD DATA");
+
+    auto mock = std::make_shared<MockArchivalBackend>();
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = "";
+    cfg.prefix                  = "prod/";
+    cfg.compress_before_archive = false;
+    cfg.delete_after_days       = 0;  // purge everything immediately
+
+    WALArchivalManager mgr(cfg, mock);
+    ASSERT_EQ(mgr.archiveSegments({"seg_001100.wal"}), 1u);
+    ASSERT_EQ(mock->store.size(), 1u);
+
+    uint32_t purged = mgr.purgeExpired();
+    EXPECT_EQ(purged, 1u);
+    EXPECT_TRUE(mgr.listArchived().empty());
+    // Backend deleteObject() must have been called
+    EXPECT_EQ(mock->deleted_keys.size(), 1u);
+    EXPECT_TRUE(mock->store.empty());
+
+    std::filesystem::remove_all(wal_dir);
+}
+
+TEST(WALArchivalTest, BackendInjection_TransitionTierNotifiesBackend) {
+    // transitionStorageTiers() must call backend->setStorageTier() for aged segments.
+    const std::string arc_dir = "/tmp/themis_backend_tier_arc";
+    std::filesystem::remove_all(arc_dir);
+    std::filesystem::create_directories(arc_dir);
+
+    auto mock = std::make_shared<MockArchivalBackend>();
+    const std::string fake_key = "prod/seg_00000000000000001200.wal";
+    mock->store[fake_key] = {'X', 'X'};
+    mock->tiers[fake_key] = "standard";
+
+    // Build an index.txt with archived_at 400 days ago
+    auto old_time = std::chrono::system_clock::now()
+                    - std::chrono::hours(24 * 400);
+    auto old_ts = std::chrono::duration_cast<std::chrono::seconds>(
+        old_time.time_since_epoch()).count();
+    {
+        std::ofstream idx(arc_dir + "/index.txt");
+        idx << "1200 0 0 2 0 " << old_ts << " " << fake_key
+            << " standard 0\n";
+    }
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory                 = "/tmp/backend_tier_wal";
+    cfg.archive_directory             = arc_dir;  // for index.txt loading
+    cfg.prefix                        = "prod/";
+    cfg.transition_to_cold_after_days = 90;       // 400d > 270d glacier threshold
+
+    WALArchivalManager mgr(cfg, mock);
+
+    uint32_t transitioned = mgr.transitionStorageTiers();
+    EXPECT_EQ(transitioned, 1u);
+
+    auto list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_EQ(list[0].storage_tier, "glacier");
+
+    // Backend must have been notified about the tier change
+    EXPECT_EQ(mock->tiers[fake_key], "glacier");
+
+    std::filesystem::remove_all(arc_dir);
+}
 static ReplicationConfig makeLeaseConfig(const std::string& wal_dir) {
     ReplicationConfig cfg = makeConfig(wal_dir);
     cfg.election_timeout_min_ms   = 80;

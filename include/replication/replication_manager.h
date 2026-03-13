@@ -1580,7 +1580,8 @@ public:
         std::string storage_tier   = "standard";
     };
 
-    explicit WALArchivalManager(const ArchivalConfig& config);
+    explicit WALArchivalManager(const ArchivalConfig& config,
+                                std::shared_ptr<IArchivalBackend> backend = nullptr);
 
     // Archive the given WAL segment files (paths relative to wal_directory).
     // Returns number of segments successfully archived.
@@ -1606,9 +1607,13 @@ public:
 
 private:
     ArchivalConfig config_;
+    std::shared_ptr<IArchivalBackend> backend_;  // nullptr = local filesystem
     mutable std::mutex archive_mutex_;
     std::vector<ArchivedSegment> index_;  // in-memory index; persisted via index.txt side-car
 
+    // Returns the archive destination key/path for a segment_id.
+    // When backend_ is set, returns the cloud object key (prefix + filename).
+    // When backend_ is null, returns the local filesystem path.
     std::string archivePath(uint64_t segment_id) const;
     void saveIndex() const;
     void loadIndex();
