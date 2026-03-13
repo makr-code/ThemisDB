@@ -53,6 +53,10 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
   - Files: `observability/metric_aggregator.h`, `observability/metric_aggregator.cpp`
   - Implementation: `MetricAggregator` (rate calculation, histogram aggregation SUM/AVG/MAX/MIN/P50/P95/P99, rule-based aggregation with drop_labels/group_by_labels, per-metric cardinality limits)
   - Tests: `tests/test_metrics_aggregation.cpp` (MetricsAggregationFocusedTests)
+- [x] Real-time metric streaming via WebSocket / SSE (Issue: #82)
+  - Files: `observability/metrics_stream_server.h`, `observability/metrics_stream_server.cpp`
+  - Implementation: `MetricsStreamServer` with `StreamSubscription` (client_id, metric_names, MetricFilter[], update_interval), `MetricUpdate` (name, value, labels, timestamp), `SendFn` callback-based delivery decoupled from transport; `pushMetrics()` fans out to matching subscribers with AND-semantics label filtering, per-subscription rate limiting, and `formatWebSocketMessage()` / `formatSseMessage()` serialisers
+  - Tests: `tests/test_metrics_stream_server.cpp` (MetricsStreamServerFocusedTests) — 30+ tests covering lifecycle, subscription management, name/label filtering, throttling, serialisation, and concurrent push
 - [?] Structured log search API (query logs like data)
 - [?] Real-time query cost estimator dashboard
 
@@ -118,6 +122,8 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
   — `observability/slo_reporter.h/cpp`, tests: `tests/test_slo_reporter.cpp`
 - [x] Prometheus advanced features — rate calculation, histogram aggregation, cardinality management
   — `observability/metric_aggregator.h/cpp`, tests: `tests/test_metrics_aggregation.cpp` (MetricsAggregationFocusedTests)
+- [x] Real-time metric streaming via WebSocket / SSE (v1.6.0, Issue #82)
+  — `observability/metrics_stream_server.h/cpp`, tests: `tests/test_metrics_stream_server.cpp` (MetricsStreamServerFocusedTests)
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% — `test_observability_profilers.cpp` (280 LOC), `test_observability_hardening.cpp`; focused targets: `ObservabilityProfilersFocusedTests`, `ObservabilityHardeningFocusedTests`

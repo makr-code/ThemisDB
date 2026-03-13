@@ -12014,7 +12014,42 @@ else()
     message(STATUS "AlertingEngine focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_alerting_engine.cpp")
 endif()
 
-# ContinuousProfiler tests (Issue #2418)
+# MetricsStreamServer focused tests (v1.6.0 — real-time metric streaming, Issue #82)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_metrics_stream_server.cpp")
+    message(STATUS "Adding Observability: MetricsStreamServer focused tests (v1.6.0 streaming metrics)")
+
+    add_executable(test_metrics_stream_server_focused
+        test_metrics_stream_server.cpp
+    )
+
+    target_include_directories(test_metrics_stream_server_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_metrics_stream_server_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_metrics_stream_server_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MetricsStreamServerFocusedTests COMMAND test_metrics_stream_server_focused)
+
+    set_tests_properties(MetricsStreamServerFocusedTests PROPERTIES
+        LABELS "observability;streaming;websocket;sse;metrics;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  MetricsStreamServer: subscribe/unsubscribe, pushMetrics, label filters, rate-limiting, serialisation, thread-safety")
+else()
+    message(STATUS "MetricsStreamServer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_metrics_stream_server.cpp")
+endif()
+
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_continuous_profiler.cpp")
     message(STATUS "Adding Observability: ContinuousProfiler focused tests (Issue #2418)")
 
