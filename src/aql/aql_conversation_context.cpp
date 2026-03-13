@@ -26,6 +26,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <algorithm>
+#include <mutex>
 #include <spdlog/spdlog.h>
 
 namespace themis {
@@ -37,16 +38,24 @@ namespace aql {
 
 class AQLConversationContext::Impl {
 public:
-    explicit Impl(LLMAQLHandler& handler)
+    explicit Impl(LLMAQLHandler& handler,
+                  AQLConversationContext::Config config,
+                  std::unique_ptr<TokenEstimator> estimator)
         : handler_(handler)
+        , config_(config)
+        , estimator_(estimator ? std::move(estimator)
+                               : std::make_unique<CharDivisionEstimator>())
         , turn_count_(0)
     {}
 
     LLMAQLHandler&                   handler_;
+    AQLConversationContext::Config   config_;
+    std::unique_ptr<TokenEstimator>  estimator_;
     std::string                      schema_context_;
     std::vector<llm::ChatMessage>    history_;
     std::string                      last_query_;
     std::size_t                      turn_count_;
+    mutable std::mutex               history_mutex_;
 
     // Build the system prompt once so every call uses a consistent context
     std::string buildSystemPrompt() const {
@@ -87,20 +96,84 @@ public:
         return out.substr(first, last - first + 1);
     }
 
-    // Common implementation: push a user message, call LLM, store the response
+    // Compute the total estimated token count of the current history.
+    // Caller must hold history_mutex_.
+    std::size_t estimateHistoryTokens() const {
+        std::size_t total = 0;
+        for (const auto& msg : history_) {
+            total += estimator_->estimate(msg.role);
+            total += estimator_->estimate(msg.content);
+        }
+        return total;
+    }
+
+    // Evict oldest user+assistant pairs until both the turn-count and
+    // token-budget constraints are satisfied (or no more pairs remain).
+    // The system message at index 0 is always preserved.
+    // Caller must hold history_mutex_.
+    void evictOldestPairs(std::size_t extra_tokens) {
+        // history_ layout: [system?, user, assistant, user, assistant, ...]
+        // A "pair" is two consecutive messages starting at an odd index.
+        while (!history_.empty()) {
+            bool over_turns = (turn_count_ > 0) &&
+                              (config_.max_turns > 0) &&
+                              (turn_count_ >= config_.max_turns);
+
+            std::size_t current_tokens = estimateHistoryTokens();
+            bool over_tokens = (config_.max_history_tokens > 0) &&
+                               (current_tokens + extra_tokens > config_.max_history_tokens);
+
+            if (!over_turns && !over_tokens) break;
+
+            // Find the first user message (after the optional system message)
+            std::size_t first_user = (history_.front().role == "system") ? 1 : 0;
+            if (first_user + 1 >= history_.size()) break; // nothing left to evict
+
+            // Erase the user + assistant pair
+            history_.erase(history_.begin() + static_cast<std::ptrdiff_t>(first_user),
+                           history_.begin() + static_cast<std::ptrdiff_t>(first_user) + 2);
+            if (turn_count_ > 0) --turn_count_;
+        }
+    }
+
+    // Common implementation: push a user message, call LLM, store the response.
+    // Acquires history_mutex_ internally.
     std::string callLLM(const std::string& user_message) {
+        std::unique_lock<std::mutex> lock(history_mutex_);
+
+        // Evict oldest pairs if we would exceed either budget.
+        std::size_t new_msg_tokens = estimator_->estimate("user") +
+                                     estimator_->estimate(user_message);
+        evictOldestPairs(new_msg_tokens);
+
         history_.emplace_back("user", user_message);
 
-        try {
-            const std::string response = handler_.executeChat(history_);
-            const std::string query    = cleanQuery(response);
+        // Copy history for the LLM call (release lock while calling out).
+        std::vector<llm::ChatMessage> history_snapshot = history_;
+        lock.unlock();
 
-            // Store assistant turn
+        try {
+            std::string response;
+            if (config_.llm_executor) {
+                // Inject pairs as string pairs for the executor callback
+                std::vector<std::pair<std::string, std::string>> pairs;
+                pairs.reserve(history_snapshot.size());
+                for (const auto& m : history_snapshot) {
+                    pairs.emplace_back(m.role, m.content);
+                }
+                response = config_.llm_executor(pairs);
+            } else {
+                response = handler_.executeChat(history_snapshot);
+            }
+            const std::string query = cleanQuery(response);
+
+            lock.lock();
             history_.emplace_back("assistant", response);
             last_query_ = query;
             ++turn_count_;
             return query;
         } catch (const std::exception& e) {
+            lock.lock();
             // Remove the user message we just added so history stays consistent
             history_.pop_back();
             spdlog::warn("AQLConversationContext: LLM call failed: {}", e.what());
@@ -113,8 +186,10 @@ public:
 // Constructor / Destructor
 // ============================================================================
 
-AQLConversationContext::AQLConversationContext(LLMAQLHandler& handler)
-    : impl_(std::make_unique<Impl>(handler)) {}
+AQLConversationContext::AQLConversationContext(LLMAQLHandler& handler,
+                                               Config config,
+                                               std::unique_ptr<TokenEstimator> estimator)
+    : impl_(std::make_unique<Impl>(handler, config, std::move(estimator))) {}
 
 AQLConversationContext::~AQLConversationContext() = default;
 
@@ -126,6 +201,7 @@ AQLConversationContext& AQLConversationContext::operator=(AQLConversationContext
 // ============================================================================
 
 void AQLConversationContext::setSchemaContext(const std::string& schema) {
+    std::lock_guard<std::mutex> lock(impl_->history_mutex_);
     impl_->schema_context_ = schema;
     // If the history already has a system message, update it
     if (!impl_->history_.empty() && impl_->history_.front().role == "system") {
@@ -134,6 +210,7 @@ void AQLConversationContext::setSchemaContext(const std::string& schema) {
 }
 
 const std::string& AQLConversationContext::getSchemaContext() const {
+    std::lock_guard<std::mutex> lock(impl_->history_mutex_);
     return impl_->schema_context_;
 }
 
@@ -148,13 +225,15 @@ std::string AQLConversationContext::start(const std::string& intent) {
         );
     }
 
-    // Reset state for a fresh conversation
-    impl_->history_.clear();
-    impl_->last_query_.clear();
-    impl_->turn_count_ = 0;
-
-    // Always prepend a fresh system prompt
-    impl_->history_.emplace_back("system", impl_->buildSystemPrompt());
+    {
+        std::lock_guard<std::mutex> lock(impl_->history_mutex_);
+        // Reset state for a fresh conversation
+        impl_->history_.clear();
+        impl_->last_query_.clear();
+        impl_->turn_count_ = 0;
+        // Always prepend a fresh system prompt
+        impl_->history_.emplace_back("system", impl_->buildSystemPrompt());
+    }
 
     return impl_->callLLM(intent);
 }
@@ -165,16 +244,22 @@ std::string AQLConversationContext::refine(const std::string& instruction) {
             "AQLConversationContext::refine: instruction must not be empty"
         );
     }
-    if (impl_->turn_count_ == 0) {
-        throw std::logic_error(
-            "AQLConversationContext::refine: call start() before refine()"
-        );
+    {
+        std::lock_guard<std::mutex> lock(impl_->history_mutex_);
+        if (impl_->turn_count_ == 0) {
+            throw std::logic_error(
+                "AQLConversationContext::refine: call start() before refine()"
+            );
+        }
     }
 
     // Compose a user message that includes the current query for context
     std::ostringstream msg;
-    if (!impl_->last_query_.empty()) {
-        msg << "Current query:\n```\n" << impl_->last_query_ << "\n```\n\n";
+    {
+        std::lock_guard<std::mutex> lock(impl_->history_mutex_);
+        if (!impl_->last_query_.empty()) {
+            msg << "Current query:\n```\n" << impl_->last_query_ << "\n```\n\n";
+        }
     }
     msg << "Refinement: " << instruction;
 
@@ -182,6 +267,7 @@ std::string AQLConversationContext::refine(const std::string& instruction) {
 }
 
 void AQLConversationContext::reset() {
+    std::lock_guard<std::mutex> lock(impl_->history_mutex_);
     impl_->history_.clear();
     impl_->last_query_.clear();
     impl_->turn_count_ = 0;
@@ -192,14 +278,22 @@ void AQLConversationContext::reset() {
 // ============================================================================
 
 std::size_t AQLConversationContext::turnCount() const {
+    std::lock_guard<std::mutex> lock(impl_->history_mutex_);
     return impl_->turn_count_;
 }
 
+std::size_t AQLConversationContext::tokenCount() const {
+    std::lock_guard<std::mutex> lock(impl_->history_mutex_);
+    return impl_->estimateHistoryTokens();
+}
+
 const std::string& AQLConversationContext::lastQuery() const {
+    std::lock_guard<std::mutex> lock(impl_->history_mutex_);
     return impl_->last_query_;
 }
 
 std::vector<std::pair<std::string, std::string>> AQLConversationContext::getHistory() const {
+    std::lock_guard<std::mutex> lock(impl_->history_mutex_);
     std::vector<std::pair<std::string, std::string>> out;
     out.reserve(impl_->history_.size());
     for (const auto& msg : impl_->history_) {
