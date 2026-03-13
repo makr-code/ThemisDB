@@ -178,11 +178,11 @@ The AQL module is ThemisDB's query language and LLM-integration layer. It covers
 **Problem (from code):** `aql_conversation_context.cpp` grows `history_` (`std::vector<llm::ChatMessage>`, line 47) indefinitely with each call to `chat()` (lines 92–101). There is no `max_turns` cap, no token-budget check, and no sliding-window eviction. The `turn_count_` (line 49) is tracked but never compared against any limit. For a long interactive session this means the accumulated context eventually exceeds the model's context window length, causing either silent truncation by the backend or an OOM crash inside the inference engine. The `history_` also has no per-session mutex, making it unsafe to call `chat()` from two threads on the same `AQLConversationContext` object.
 
 **Implementation Notes:**
-- `[ ]` Add `std::size_t max_turns = 50` and `std::size_t max_history_tokens = 8192` to `AQLConversationContext::Config` (new struct); enforce in `chat()`: when either limit is reached, evict the oldest user+assistant message pair (preserve the system message)
-- `[ ]` Use the `TokenEstimator` abstraction (Feature 5) to count tokens before each `chat()` call; if adding the new user message would exceed `max_history_tokens`, evict oldest pairs first
-- `[ ]` Add a `std::mutex history_mutex_` to `AQLConversationContext::Impl` and hold it around all reads/writes to `history_` and `turn_count_`
-- `[ ]` Expose `AQLConversationContext::tokenCount() const` so callers can observe current usage
-- `[ ]` Unit-test: create a context with `max_turns=3`, drive 5 turns, assert `turn_count() == 3` and `history_.size() == 7` (system + 3×(user+assistant))
+- `[x]` Add `std::size_t max_turns = 50` and `std::size_t max_history_tokens = 8192` to `AQLConversationContext::Config` (new struct); enforce in `chat()`: when either limit is reached, evict the oldest user+assistant message pair (preserve the system message)
+- `[x]` Use the `TokenEstimator` abstraction (Feature 5) to count tokens before each `chat()` call; if adding the new user message would exceed `max_history_tokens`, evict oldest pairs first
+- `[x]` Add a `std::mutex history_mutex_` to `AQLConversationContext::Impl` and hold it around all reads/writes to `history_` and `turn_count_`
+- `[x]` Expose `AQLConversationContext::tokenCount() const` so callers can observe current usage
+- `[x]` Unit-test: create a context with `max_turns=3`, drive 5 turns, assert `turn_count() == 3` and `history_.size() == 7` (system + 3×(user+assistant))
 
 ---
 

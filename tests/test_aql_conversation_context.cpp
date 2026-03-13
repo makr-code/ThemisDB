@@ -28,6 +28,13 @@
 #include <gtest/gtest.h>
 #include "aql/aql_conversation_context.h"
 #include "aql/llm_aql_handler.h"
+#include "aql/llm_token_estimator.h"
+
+#include <atomic>
+#include <mutex>
+#include <string>
+#include <thread>
+#include <vector>
 
 using namespace themis::aql;
 
@@ -201,4 +208,206 @@ TEST_F(AQLConversationContextTest, HistoryRolesAreValid) {
 TEST_F(AQLConversationContextTest, MoveConstructible) {
     AQLConversationContext moved(std::move(*ctx));
     EXPECT_EQ(moved.turnCount(), 0u);
+}
+
+// ============================================================================
+// Config / Bounded history (max_turns)
+// ============================================================================
+
+// Helper: create a context with a fake LLM that echoes a fixed response,
+// using the injected executor mechanism.
+static AQLConversationContext makeContextWithFakeLLM(
+    LLMAQLHandler& handler,
+    std::size_t max_turns,
+    std::size_t max_history_tokens = 0 /* 0 = disabled */
+) {
+    AQLConversationContext::Config cfg;
+    cfg.max_turns          = max_turns;
+    cfg.max_history_tokens = max_history_tokens;
+    cfg.llm_executor = [](const std::vector<std::pair<std::string, std::string>>&) {
+        return std::string("FOR x IN col RETURN x");
+    };
+    return AQLConversationContext(handler, std::move(cfg));
+}
+
+TEST_F(AQLConversationContextTest, MaxTurns_EvictsOldestPairWhenLimitReached) {
+    // max_turns=3: after 5 turns the context should retain only 3 pairs.
+    auto ctx3 = makeContextWithFakeLLM(*handler, /*max_turns=*/3);
+
+    // Drive 5 turns (1 start + 4 refines)
+    ctx3.start("turn 1");
+    ctx3.refine("turn 2");
+    ctx3.refine("turn 3");
+    ctx3.refine("turn 4");
+    ctx3.refine("turn 5");
+
+    // turn_count() must reflect the retained window size, not the total
+    EXPECT_EQ(ctx3.turnCount(), 3u);
+
+    // history: system + 3×(user+assistant) = 7 messages
+    EXPECT_EQ(ctx3.getHistory().size(), 7u);
+}
+
+TEST_F(AQLConversationContextTest, MaxTurns_SystemMessageAlwaysPreserved) {
+    auto ctx3 = makeContextWithFakeLLM(*handler, /*max_turns=*/2);
+    ctx3.start("intent A");
+    ctx3.refine("refine B");
+    ctx3.refine("refine C");
+
+    const auto hist = ctx3.getHistory();
+    ASSERT_FALSE(hist.empty());
+    EXPECT_EQ(hist.front().first, "system");
+}
+
+TEST_F(AQLConversationContextTest, MaxTurns_TurnCountNeverExceedsLimit) {
+    auto ctx3 = makeContextWithFakeLLM(*handler, /*max_turns=*/3);
+    for (int i = 0; i < 10; ++i) {
+        if (i == 0) ctx3.start("first turn");
+        else        ctx3.refine("refine " + std::to_string(i));
+    }
+    EXPECT_LE(ctx3.turnCount(), 3u);
+}
+
+TEST_F(AQLConversationContextTest, MaxTurns_DefaultConfigFiftyTurns) {
+    // Default max_turns is 50 – verify the default is honoured.
+    AQLConversationContext::Config cfg;
+    cfg.llm_executor = [](const std::vector<std::pair<std::string, std::string>>&) {
+        return std::string("FOR x IN c RETURN x");
+    };
+    AQLConversationContext ctx2(*handler, std::move(cfg));
+
+    ctx2.start("first");
+    for (int i = 0; i < 20; ++i) {
+        ctx2.refine("refine " + std::to_string(i));
+    }
+    // 21 turns, well below the 50-turn limit – nothing should be evicted.
+    EXPECT_EQ(ctx2.turnCount(), 21u);
+}
+
+// ============================================================================
+// Config / Bounded history (max_history_tokens)
+// ============================================================================
+
+TEST_F(AQLConversationContextTest, MaxHistoryTokens_EvictsWhenBudgetExceeded) {
+    // Use a very small token budget to force eviction.
+    // CharDivisionEstimator(4): each message ≈ len/4 tokens.
+    // Keep budget tight: 50 tokens => roughly 200 chars.
+    AQLConversationContext::Config cfg;
+    cfg.max_turns          = 100; // high, so only token budget triggers eviction
+    cfg.max_history_tokens = 50;
+    cfg.llm_executor = [](const std::vector<std::pair<std::string, std::string>>&) {
+        return std::string("FOR x IN c RETURN x"); // ~5 tokens
+    };
+    AQLConversationContext tctx(*handler, std::move(cfg));
+
+    // Drive several turns and verify we never exceed the budget.
+    tctx.start("find all users");
+    for (int i = 0; i < 5; ++i) {
+        tctx.refine("add filter " + std::to_string(i));
+        EXPECT_LE(tctx.tokenCount(), 50u);
+    }
+}
+
+// ============================================================================
+// tokenCount()
+// ============================================================================
+
+TEST_F(AQLConversationContextTest, TokenCount_IsZeroOnFreshContext) {
+    EXPECT_EQ(ctx->tokenCount(), 0u);
+}
+
+TEST_F(AQLConversationContextTest, TokenCount_PositiveAfterStart) {
+    AQLConversationContext::Config cfg;
+    cfg.llm_executor = [](const std::vector<std::pair<std::string, std::string>>&) {
+        return std::string("FOR x IN c RETURN x");
+    };
+    AQLConversationContext tctx(*handler, std::move(cfg));
+    tctx.start("find all users");
+    EXPECT_GT(tctx.tokenCount(), 0u);
+}
+
+TEST_F(AQLConversationContextTest, TokenCount_ResetToZeroAfterReset) {
+    AQLConversationContext::Config cfg;
+    cfg.llm_executor = [](const std::vector<std::pair<std::string, std::string>>&) {
+        return std::string("FOR x IN c RETURN x");
+    };
+    AQLConversationContext tctx(*handler, std::move(cfg));
+    tctx.start("find all users");
+    ASSERT_GT(tctx.tokenCount(), 0u);
+    tctx.reset();
+    EXPECT_EQ(tctx.tokenCount(), 0u);
+}
+
+// ============================================================================
+// CharDivisionEstimator
+// ============================================================================
+
+TEST(CharDivisionEstimatorTest, EmptyStringReturnsZero) {
+    CharDivisionEstimator est;
+    EXPECT_EQ(est.estimate(""), 0u);
+}
+
+TEST(CharDivisionEstimatorTest, DefaultRatioFour) {
+    CharDivisionEstimator est;
+    // "hello" = 5 chars => ceil(5/4) = 2
+    EXPECT_EQ(est.estimate("hello"), 2u);
+}
+
+TEST(CharDivisionEstimatorTest, CustomRatio) {
+    CharDivisionEstimator est(2);
+    // "hello" = 5 chars => ceil(5/2) = 3
+    EXPECT_EQ(est.estimate("hello"), 3u);
+}
+
+TEST(CharDivisionEstimatorTest, ZeroRatioFallsBackToFour) {
+    CharDivisionEstimator est(0);
+    EXPECT_EQ(est.estimate("abcd"), 1u);
+}
+
+// ============================================================================
+// Thread safety (basic smoke test)
+// ============================================================================
+
+TEST_F(AQLConversationContextTest, ConcurrentTurnCountReadIsConsistent) {
+    AQLConversationContext::Config cfg;
+    cfg.max_turns = 5;
+    cfg.llm_executor = [](const std::vector<std::pair<std::string, std::string>>&) {
+        return std::string("FOR x IN c RETURN x");
+    };
+    AQLConversationContext tctx(*handler, std::move(cfg));
+
+    tctx.start("first");
+
+    // Reader threads track the maximum turn count observed.  Using an atomic
+    // avoids the lock + unbounded vector of the previous implementation, and
+    // a yield prevents a tight CPU spin in CI.
+    std::atomic<bool> stop{false};
+    std::atomic<std::size_t> max_observed_turns{0};
+
+    std::vector<std::thread> readers;
+    for (int i = 0; i < 4; ++i) {
+        readers.emplace_back([&tctx, &stop, &max_observed_turns]() {
+            while (!stop.load(std::memory_order_relaxed)) {
+                const std::size_t tc = tctx.turnCount();
+                // CAS-loop to update max_observed_turns
+                std::size_t prev = max_observed_turns.load(std::memory_order_relaxed);
+                while (tc > prev &&
+                       !max_observed_turns.compare_exchange_weak(
+                           prev, tc, std::memory_order_relaxed)) {}
+                (void)tctx.tokenCount();
+                std::this_thread::yield();
+            }
+        });
+    }
+
+    for (int i = 0; i < 8; ++i) {
+        tctx.refine("step " + std::to_string(i));
+    }
+    stop = true;
+    for (auto& t : readers) t.join();
+
+    // All observed turn counts must have been within the window.
+    EXPECT_LE(max_observed_turns.load(), 5u)
+        << "turnCount() exceeded max_turns during concurrent reads";
+    EXPECT_LE(tctx.turnCount(), 5u);
 }
