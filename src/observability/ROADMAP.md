@@ -31,6 +31,9 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 
 ## In Progress 🚧
 - [x] OpenTelemetry SDK direct export (OTLP gRPC/HTTP) (Target: Q2 2026)
+- [x] OpenTelemetry Full Integration (v1.6.0) — `OpenTelemetryTracer` with `OTelConfig`, multi-exporter (OTLP/Jaeger/Zipkin), W3C Baggage for tenant/user context, `recordException()`, `recordMetrics()`
+  - Files: `observability/opentelemetry_tracer.h`, `observability/opentelemetry_tracer.cpp`
+  - Tests: `tests/test_opentelemetry_full_integration.cpp` (32 focused tests)
 
 ## Planned Features 📋
 

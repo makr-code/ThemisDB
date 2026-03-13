@@ -2187,6 +2187,8 @@ set(THEMIS_CORE_SOURCES
     ../src/observability/metric_aggregator.cpp
     # Observability: real-time metric streaming via WebSocket / SSE (v1.6.0, Issue #82)
     ../src/observability/metrics_stream_server.cpp
+    # Observability: OpenTelemetry Full Integration (v1.6.0)
+    ../src/observability/opentelemetry_tracer.cpp
 
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
