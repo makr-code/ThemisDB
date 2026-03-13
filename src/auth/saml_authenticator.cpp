@@ -31,6 +31,7 @@
 
 #include <openssl/evp.h>
 #include <openssl/pem.h>
+#include <openssl/rsa.h>
 #include <openssl/x509.h>
 #include <openssl/bio.h>
 #include <openssl/sha.h>
@@ -599,7 +600,10 @@ std::string SAMLAuthenticator::decryptAssertion(
         THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED,
                          "Assertion decryption failed",
                          "Failed to parse SP private key PEM. "
-                         "Ensure the key is a valid PKCS#8 or PKCS#1 RSA PEM.");
+                         "The loader must return an unencrypted (passphrase-free) PKCS#8 or "
+                         "PKCS#1 RSA PEM.  If the key is passphrase-protected, decrypt it "
+                         "before returning it from sp_private_key_loader (e.g. using "
+                         "openssl rsa -in encrypted.pem -out plain.pem).");
     }
 
     // ----------------------------------------------------------------
@@ -888,7 +892,7 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
                              std::string("Decrypted assertion is not valid XML: ") +
                              dec_parse.description());
         }
-        assertion_node = decrypted_assertion_doc.first_child();
+        assertion_node = decrypted_assertion_doc.document_element();
         if (!assertion_node) {
             THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED,
                              "Assertion decryption failed",

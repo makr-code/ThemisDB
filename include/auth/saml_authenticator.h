@@ -100,14 +100,19 @@ struct SAMLConfig {
 
     // SP private key loader for assertion decryption (EncryptedAssertion support).
     // Called lazily when a SAMLResponse with an EncryptedAssertion element is received.
-    // The callback MUST return a PEM-encoded PKCS#8 or PKCS#1 RSA private key string.
+    // The callback MUST return an *unencrypted* (passphrase-free) PEM-encoded PKCS#8 or
+    // PKCS#1 RSA private key string.  Passphrase-protected PEM keys are not supported
+    // by the decryption path; decrypt the key before returning it from the loader.
     // Return an empty string to signal that the key is unavailable.
     //
     // Security note: NEVER store the private key as a hardcoded string. Load it
     // from a hardware security module (HSM), key management service (KMS), or
     // a secrets manager (e.g. HashiCorp Vault, AWS Secrets Manager).
     // Example (environment variable – minimum acceptable for non-production):
-    //   cfg.sp_private_key_loader = []() { return std::string(std::getenv("SP_PRIVATE_KEY_PEM") ?: ""); };
+    //   cfg.sp_private_key_loader = []() {
+    //       const char* p = std::getenv("SP_PRIVATE_KEY_PEM");
+    //       return p ? std::string(p) : std::string{};
+    //   };
     std::function<std::string()> sp_private_key_loader;
 
     // Attribute mapping (IdP attribute name → local claim name)

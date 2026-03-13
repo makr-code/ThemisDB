@@ -35,6 +35,7 @@
 #include <openssl/evp.h>
 #include <openssl/pem.h>
 #include <openssl/rand.h>
+#include <openssl/rsa.h>
 #include <openssl/bio.h>
 #include <openssl/buffer.h>
 
@@ -874,16 +875,19 @@ static std::string base64EncodeBytes(const std::vector<uint8_t>& data) {
 //   key transport    : RSA-OAEP (SHA-1 / MGF1-SHA1)
 //   assertion_xml    : plaintext Assertion element to encrypt
 //   private_key_pem  : SP private key used to derive the SP public key for encryption
-static std::string buildRealEncryptedAssertionResponseB64(
+//   out_b64          : receives the Base64-encoded SAMLResponse on success
+// Returns void; uses ASSERT_* so the calling TEST is aborted on failure.
+static void buildRealEncryptedAssertionResponseB64(
     const std::string& private_key_pem,
-    const std::string& assertion_xml)
+    const std::string& assertion_xml,
+    std::string& out_b64)
 {
     // Load SP private key and extract public key
     BIO* kbio = BIO_new_mem_buf(private_key_pem.data(),
                                  static_cast<int>(private_key_pem.size()));
     EVP_PKEY* sp_pkey = PEM_read_bio_PrivateKey(kbio, nullptr, nullptr, nullptr);
     BIO_free(kbio);
-    EXPECT_NE(sp_pkey, nullptr) << "Failed to load test SP private key";
+    ASSERT_NE(sp_pkey, nullptr) << "Failed to load test SP private key";
 
     // Generate random AES-256 key and 16-byte IV
     std::vector<uint8_t> aes_key(32), iv(16);
@@ -892,7 +896,8 @@ static std::string buildRealEncryptedAssertionResponseB64(
 
     // Encrypt assertion with AES-256-CBC; CipherValue = IV || ciphertext (XML Enc §5.2)
     EVP_CIPHER_CTX* enc_ctx = EVP_CIPHER_CTX_new();
-    EXPECT_EQ(EVP_EncryptInit_ex(enc_ctx, EVP_aes_256_cbc(), nullptr,
+    ASSERT_NE(enc_ctx, nullptr) << "Failed to allocate AES cipher context";
+    ASSERT_EQ(EVP_EncryptInit_ex(enc_ctx, EVP_aes_256_cbc(), nullptr,
                                   aes_key.data(), iv.data()), 1);
 
     std::vector<uint8_t> ct_buf(assertion_xml.size() + 32);
@@ -911,13 +916,14 @@ static std::string buildRealEncryptedAssertionResponseB64(
     // Encrypt AES key with RSA-OAEP using the SP public key
     EVP_PKEY_CTX* pctx = EVP_PKEY_CTX_new(sp_pkey, nullptr);
     EVP_PKEY_free(sp_pkey);
-    EXPECT_EQ(EVP_PKEY_encrypt_init(pctx), 1);
-    EXPECT_EQ(EVP_PKEY_CTX_set_rsa_padding(pctx, RSA_PKCS1_OAEP_PADDING), 1);
+    ASSERT_NE(pctx, nullptr) << "Failed to create EVP_PKEY_CTX";
+    ASSERT_EQ(EVP_PKEY_encrypt_init(pctx), 1);
+    ASSERT_EQ(EVP_PKEY_CTX_set_rsa_padding(pctx, RSA_PKCS1_OAEP_PADDING), 1);
 
     size_t enc_key_len = 0;
     EVP_PKEY_encrypt(pctx, nullptr, &enc_key_len, aes_key.data(), aes_key.size());
     std::vector<uint8_t> enc_key(enc_key_len);
-    EXPECT_GT(EVP_PKEY_encrypt(pctx, enc_key.data(), &enc_key_len,
+    ASSERT_GT(EVP_PKEY_encrypt(pctx, enc_key.data(), &enc_key_len,
                                 aes_key.data(), aes_key.size()), 0);
     EVP_PKEY_CTX_free(pctx);
     enc_key.resize(enc_key_len);
@@ -953,7 +959,7 @@ static std::string buildRealEncryptedAssertionResponseB64(
         R"(</saml:EncryptedAssertion>)"
         R"(</samlp:Response>)";
 
-    return base64EncodeString(xml);
+    out_b64 = base64EncodeString(xml);
 }
 
 TEST(SAMLAuthenticatorTest, ProcessResponseDecryptsEncryptedAssertion) {
@@ -1002,8 +1008,9 @@ TEST(SAMLAuthenticatorTest, ProcessResponseDecryptsEncryptedAssertion) {
         R"(</saml:AttributeStatement>)"
         R"(</saml:Assertion>)";
 
-    const auto b64 = buildRealEncryptedAssertionResponseB64(
-        TEST_SP_PRIVATE_KEY_PEM, assertion_xml);
+    std::string b64;
+    ASSERT_NO_FATAL_FAILURE(buildRealEncryptedAssertionResponseB64(
+        TEST_SP_PRIVATE_KEY_PEM, assertion_xml, b64));
 
     const SAMLClaims claims = auth.processResponse(b64);
 
@@ -1060,8 +1067,9 @@ EqRd6vemBb1xoeIW4UwgSn0lgQ==
         R"(<saml:Issuer>https://test-idp.example.com/metadata</saml:Issuer>)"
         R"(</saml:Assertion>)";
 
-    const auto b64 = buildRealEncryptedAssertionResponseB64(
-        TEST_SP_PRIVATE_KEY_PEM, assertion_xml);
+    std::string b64;
+    ASSERT_NO_FATAL_FAILURE(buildRealEncryptedAssertionResponseB64(
+        TEST_SP_PRIVATE_KEY_PEM, assertion_xml, b64));
 
     try {
         auth.processResponse(b64);
