@@ -1022,7 +1022,7 @@ private:
  * @endcode
  *
  * The platform token format is "<os>-<arch>" where os ∈ {linux, windows, macos}
- * and arch ∈ {x86_64, aarch64, arm64}.
+ * and arch ∈ {x86_64, arm64, arm, x86}.
  */
 struct PluginBundleManifest {
     std::string name;           ///< Plugin name (e.g., "themis_my_backend")
@@ -1108,9 +1108,22 @@ public:
     void setPublicKey(const std::string& publicKeyPem);
 
     /**
+     * @brief Explicitly allow loading bundles without a signature.
+     *
+     * By default (allow = false) loadBundle() fails when no public key has
+     * been configured, so that unsigned bundles are never silently accepted.
+     * Pass allow = true only in development / testing environments where you
+     * intentionally want to skip signature verification.
+     *
+     * @param allow  If true, unsigned bundles are accepted when no public key
+     *               is set.  If false (default), missing public key is an error.
+     */
+    void setAllowUnsignedBundles(bool allow);
+
+    /**
      * @brief Return the canonical platform token for the current build.
      *
-     * Examples: "linux-x86_64", "linux-aarch64", "windows-x86_64",
+     * Examples: "linux-x86_64", "linux-arm64", "windows-x86_64",
      *           "macos-arm64", "macos-x86_64".
      */
     static std::string currentPlatform();
@@ -1159,6 +1172,7 @@ public:
 
 private:
     std::string publicKeyPem_;
+    bool allowUnsignedBundles_ = false;  ///< Must be explicitly opted in; never true by default.
 
     /// Unpack the ZIP at bundlePath into a new temporary subdirectory.
     /// Returns the path to the temp dir on success or an empty string + error.

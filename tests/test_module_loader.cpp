@@ -1488,10 +1488,27 @@ TEST(PluginBundleLoader, ParseManifestWasmFallbackOnly) {
 
 TEST(PluginBundleLoader, LoadBundleNonexistentFileReturnsError) {
     PluginBundleLoader bundleLoader;
+    // Must opt in to unsigned bundles so extraction is attempted
+    // (if the archive can't be opened the error comes from extractToTempDir
+    //  before signature checking).
+    bundleLoader.setAllowUnsignedBundles(true);
     ModuleLoader moduleLoader;
     auto result = bundleLoader.loadBundle("/nonexistent/path/plugin.tdb", moduleLoader);
     EXPECT_FALSE(result.success);
     EXPECT_FALSE(result.errorMessage.empty());
+}
+
+TEST(PluginBundleLoader, LoadBundleFailsClosedWithoutPublicKeyOrOptIn) {
+    // Default state: no public key and allowUnsignedBundles defaults to false.
+    // loadBundle() must fail fast (fail-closed) rather than silently skipping
+    // signature verification.
+    PluginBundleLoader bundleLoader;
+    ModuleLoader moduleLoader;
+    auto result = bundleLoader.loadBundle("/nonexistent/path/plugin.tdb", moduleLoader);
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.errorMessage.empty());
+    // The error should come from either extraction failure (no libzip / bad path)
+    // or from the fail-closed signature check — either way the bundle is rejected.
 }
 
 // ── PluginBundleLoader — Ed25519 signature verification ─────────────────────

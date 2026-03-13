@@ -39,12 +39,16 @@
 #include <functional>
 #include <map>
 #include <queue>
+#include <random>
 #include <set>
 #include <shared_mutex>
+#include <sstream>
 #include <unordered_map>
 #include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>
-#include <zip.h>
+#ifdef THEMIS_HAVE_LIBZIP
+#  include <zip.h>
+#endif
 #include <openssl/evp.h>
 #include <openssl/pem.h>
 #include <openssl/bio.h>
@@ -1466,13 +1470,57 @@ std::string opensslLastError() {
     return buf;
 }
 
-/// Generate a unique temporary directory path under the system temp root.
+/// RAII guard that removes a directory tree on scope exit unless disarmed.
+struct TempDirGuard {
+    explicit TempDirGuard(std::string path) : path_(std::move(path)) {}
+    ~TempDirGuard() {
+        if (!path_.empty()) {
+            std::error_code ec;
+            std::filesystem::remove_all(path_, ec);
+        }
+    }
+    /// Prevent cleanup (caller takes ownership of the directory).
+    void disarm() { path_.clear(); }
+    std::string path_;
+};
+
+#ifdef THEMIS_HAVE_LIBZIP
+
+/// Generate a unique temporary directory path with a random hex suffix.
 std::string makeTempDirPath() {
     namespace fs = std::filesystem;
     auto base = fs::temp_directory_path() / "themis_bundle";
+
+    // Combine a monotonic timestamp with a random component to guarantee
+    // uniqueness under concurrent calls.
     auto ns = std::chrono::steady_clock::now().time_since_epoch().count();
-    return (base / std::to_string(ns)).string();
+    std::random_device rd;
+    std::uniform_int_distribution<uint32_t> dist;
+    std::ostringstream oss;
+    oss << std::hex << ns << "_" << dist(rd);
+    return (base / oss.str()).string();
 }
+
+/// Reject ZipSlip: verify that resolvedPath is inside tempDir.
+/// Returns true when safe; false when the path escapes the temp dir.
+///
+/// Precondition: resolvedPath was produced by lexically_normal() on
+/// (tempDir / non_empty_name), so resolvedStr.size() > tempStr.size() is
+/// guaranteed for valid in-directory entries, making the separator access safe.
+bool isSafeEntryPath(const std::filesystem::path& tempDir,
+                     const std::filesystem::path& resolvedPath) {
+    auto tempStr     = tempDir.string();
+    auto resolvedStr = resolvedPath.string();
+    // Require the resolved path to be strictly longer (at least one component).
+    if (resolvedStr.size() <= tempStr.size()) return false;
+    // Require the temp dir to be a proper prefix followed by a separator.
+    if (resolvedStr.substr(0, tempStr.size()) != tempStr) return false;
+    // At this point resolvedStr.size() > tempStr.size() ensures safe access.
+    char sep = resolvedStr[tempStr.size()];
+    return sep == '/' || sep == '\\';
+}
+
+#endif // THEMIS_HAVE_LIBZIP
 
 } // anonymous namespace
 
@@ -1489,6 +1537,10 @@ PluginBundleLoader::~PluginBundleLoader() = default;
 
 void PluginBundleLoader::setPublicKey(const std::string& publicKeyPem) {
     publicKeyPem_ = publicKeyPem;
+}
+
+void PluginBundleLoader::setAllowUnsignedBundles(bool allow) {
+    allowUnsignedBundles_ = allow;
 }
 
 // ----------------------------------------------------------------------------
@@ -1648,6 +1700,10 @@ bool PluginBundleLoader::verifyEd25519Signature(const uint8_t* message,
 
 std::string PluginBundleLoader::extractToTempDir(const std::string& bundlePath,
                                                   std::string& error) {
+#ifndef THEMIS_HAVE_LIBZIP
+    error = "PluginBundleLoader requires libzip, which was not found at build time";
+    return {};
+#else
     namespace fs = std::filesystem;
 
     int zipErr = 0;
@@ -1661,24 +1717,67 @@ std::string PluginBundleLoader::extractToTempDir(const std::string& bundlePath,
         return {};
     }
 
+    // Create a unique temporary directory.  create_directories() returns false
+    // both on failure and when the dir already exists, so we must inspect the
+    // error code to distinguish the two cases.
     std::string tempDir = makeTempDirPath();
     std::error_code fsErr;
-    if (!fs::create_directories(tempDir, fsErr)) {
+    fs::create_directories(tempDir, fsErr);
+    if (fsErr && !fs::exists(tempDir)) {
         zip_close(archive);
         error = "Failed to create temp directory '" + tempDir + "': " + fsErr.message();
+        return {};
+    }
+
+    // Canonicalise the temp dir for ZipSlip checking.
+    std::error_code canonErr;
+    fs::path tempDirCanon = fs::canonical(tempDir, canonErr);
+    if (canonErr) {
+        zip_close(archive);
+        error = "Failed to canonicalise temp directory: " + canonErr.message();
         return {};
     }
 
     zip_int64_t entryCount = zip_get_num_entries(archive, 0);
     for (zip_int64_t i = 0; i < entryCount; ++i) {
         const char* entryName = zip_get_name(archive, i, 0);
-        if (!entryName) continue;
+        // Skip null or empty entries without error.
+        if (!entryName || !*entryName) continue;
 
-        fs::path entryPath = fs::path(tempDir) / entryName;
         std::string nameStr(entryName);
 
+        // ── ZipSlip guard ────────────────────────────────────────────────
+        // Reject absolute paths and paths that contain the parent-directory
+        // component ("..") before we construct any filesystem path.
+        if (nameStr[0] == '/' || nameStr[0] == '\\') {
+            zip_close(archive);
+            error = "Bundle contains absolute-path entry '" + nameStr + "' (ZipSlip rejected)";
+            return {};
+        }
+#ifdef _WIN32
+        // Reject Windows rooted drive-letter paths (e.g., "C:\..." or "C:/...").
+        // A path of the form "C:filename" is a relative path on Windows and is
+        // also blocked conservatively: any entry starting with "<letter>:" is
+        // rejected regardless of whether a separator follows.
+        if (nameStr.size() >= 2 && std::isalpha(static_cast<unsigned char>(nameStr[0])) &&
+            nameStr[1] == ':') {
+            zip_close(archive);
+            error = "Bundle contains drive-letter entry '" + nameStr + "' (ZipSlip rejected)";
+            return {};
+        }
+#endif
+        // Normalise the entry path and check it stays inside tempDirCanon.
+        // isSafeEntryPath requires resolvedStr.size() > tempStr.size(), which is
+        // guaranteed here because entryName is non-empty (checked above).
+        fs::path entryPath = (tempDirCanon / nameStr).lexically_normal();
+        if (!isSafeEntryPath(tempDirCanon, entryPath)) {
+            zip_close(archive);
+            error = "Bundle entry '" + nameStr + "' would escape temp dir (ZipSlip rejected)";
+            return {};
+        }
+
         // Directory entries end with '/'
-        if (!nameStr.empty() && nameStr.back() == '/') {
+        if (nameStr.back() == '/') {
             fs::create_directories(entryPath, fsErr);
             continue;
         }
@@ -1719,6 +1818,7 @@ std::string PluginBundleLoader::extractToTempDir(const std::string& bundlePath,
 
     zip_close(archive);
     return tempDir;
+#endif // THEMIS_HAVE_LIBZIP
 }
 
 // ----------------------------------------------------------------------------
@@ -1739,6 +1839,10 @@ PluginBundleLoadResult PluginBundleLoader::loadBundle(const std::string& bundleP
     }
     result.tempDirectory = tempDir;
     spdlog::debug("PluginBundleLoader: extracted '{}' → '{}'", bundlePath, tempDir);
+
+    // RAII guard: remove the temp directory on any failure path.
+    // disarm() is called before the successful return at the end.
+    TempDirGuard tempGuard(tempDir);
 
     // ── Step 2: Parse manifest.json ────────────────────────────────────────
     namespace fs = std::filesystem;
@@ -1792,9 +1896,18 @@ PluginBundleLoadResult PluginBundleLoader::loadBundle(const std::string& bundleP
 
         spdlog::info("PluginBundleLoader: Ed25519 signature of '{}' verified OK",
                      bundlePath);
+    } else if (allowUnsignedBundles_) {
+        // Explicit opt-in: caller has acknowledged unsigned bundles are acceptable.
+        spdlog::warn("PluginBundleLoader: unsigned bundle explicitly allowed for '{}'",
+                     bundlePath);
     } else {
-        spdlog::warn("PluginBundleLoader: no public key set — skipping signature "
-                     "verification for '{}'", bundlePath);
+        // Fail-closed: no public key and no explicit opt-in — refuse to load.
+        result.errorMessage =
+            "Bundle '" + bundlePath + "' cannot be loaded: no public key is configured "
+            "and unsigned bundles are not explicitly allowed (call setAllowUnsignedBundles(true) "
+            "to opt in for development/testing only)";
+        spdlog::error("PluginBundleLoader: {}", result.errorMessage);
+        return result;
     }
 
     // ── Step 4: Select native library or fall back to WASM ────────────────
@@ -1853,6 +1966,9 @@ PluginBundleLoadResult PluginBundleLoader::loadBundle(const std::string& bundleP
                      result.resolvedBinaryPath);
     }
 
+    // Success: disarm the RAII guard so the temp dir is preserved for the
+    // duration of the loaded plugin's lifetime.
+    tempGuard.disarm();
     result.success = true;
     return result;
 }
