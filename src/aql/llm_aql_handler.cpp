@@ -31,6 +31,7 @@
 #include "aql/llm_error_codes.h"
 #include "aql/llm_timeout_manager.h"
 #include "aql/llm_metrics_collector.h"
+#include "aql/llm_token_estimator.h"
 #include "sharding/circuit_breaker.h"
 #include "llm/llm_plugin_manager.h"
 #include "llm/embedded_llm.h"
@@ -250,13 +251,10 @@ public:
     // Default configuration constants
     static constexpr float DEFAULT_SIMILARITY_THRESHOLD = 0.7f;
     
-    // Token estimation constant
-    static constexpr size_t CHARS_PER_TOKEN = 4;
-    
-    // Helper to estimate token count from text
-    static size_t estimateTokenCount(const std::string& text) {
-        return text.length() / CHARS_PER_TOKEN;
-    }
+    // Injected token estimator (defaults to CharDivisionEstimator with ratio=4)
+    std::unique_ptr<TokenEstimator> token_estimator_{
+        std::make_unique<CharDivisionEstimator>(4)
+    };
     
     // Timeout and resilience components
     LLMTimeoutManager timeout_manager_;
@@ -290,6 +288,14 @@ void LLMAQLHandler::setChatExecutor(
     std::function<std::string(const std::vector<llm::ChatMessage>&)> executor
 ) {
     impl_->chat_executor_ = std::move(executor);
+}
+
+void LLMAQLHandler::setTokenEstimator(std::unique_ptr<TokenEstimator> estimator) {
+    if (estimator) {
+        impl_->token_estimator_ = std::move(estimator);
+    } else {
+        impl_->token_estimator_ = std::make_unique<CharDivisionEstimator>(4);
+    }
 }
 
 std::string LLMAQLHandler::executeInfer(
@@ -373,8 +379,8 @@ std::string LLMAQLHandler::executeInfer(
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
         
         // Estimate token counts (rough estimate: 1 token ≈ 4 chars)
-        size_t input_tokens = Impl::estimateTokenCount(prompt);
-        size_t output_tokens = Impl::estimateTokenCount(result);
+        size_t input_tokens = impl_->token_estimator_->estimate(prompt);
+        size_t output_tokens = impl_->token_estimator_->estimate(result);
         
         metrics.recordInference(
             model_id.empty() ? "default" : model_id,
@@ -398,7 +404,7 @@ std::string LLMAQLHandler::executeInfer(
         auto end_time = std::chrono::steady_clock::now();
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
         
-        size_t input_tokens = Impl::estimateTokenCount(prompt);
+        size_t input_tokens = impl_->token_estimator_->estimate(prompt);
         
         metrics.recordInference(
             model_id.empty() ? "default" : model_id,
@@ -426,7 +432,7 @@ std::string LLMAQLHandler::executeInfer(
             model_id.empty() ? "default" : model_id,
             lora_id,
             latency,
-            Impl::estimateTokenCount(prompt),
+            impl_->token_estimator_->estimate(prompt),
             0,
             false,
             "INVALID_OPTIONS"
@@ -446,7 +452,7 @@ std::string LLMAQLHandler::executeInfer(
             model_id.empty() ? "default" : model_id,
             lora_id,
             latency,
-            Impl::estimateTokenCount(prompt),
+            impl_->token_estimator_->estimate(prompt),
             0,
             false,
             "INFERENCE_FAILED"
@@ -515,8 +521,8 @@ std::string LLMAQLHandler::executeInferStreaming(
         auto end_time = std::chrono::steady_clock::now();
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
 
-        size_t input_tokens  = Impl::estimateTokenCount(prompt);
-        size_t output_tokens = Impl::estimateTokenCount(response.text);
+        size_t input_tokens  = impl_->token_estimator_->estimate(prompt);
+        size_t output_tokens = impl_->token_estimator_->estimate(response.text);
 
         metrics.recordInference(
             model_id.empty() ? "default" : model_id,
@@ -543,7 +549,7 @@ std::string LLMAQLHandler::executeInferStreaming(
             model_id.empty() ? "default" : model_id,
             lora_id,
             latency,
-            Impl::estimateTokenCount(prompt),
+            impl_->token_estimator_->estimate(prompt),
             0,
             false,
             LLMException::getErrorCodeString(e.getErrorCode())
@@ -561,7 +567,7 @@ std::string LLMAQLHandler::executeInferStreaming(
             model_id.empty() ? "default" : model_id,
             lora_id,
             latency,
-            Impl::estimateTokenCount(prompt),
+            impl_->token_estimator_->estimate(prompt),
             0,
             false,
             "INFERENCE_FAILED"
@@ -696,8 +702,8 @@ std::string LLMAQLHandler::executeRAG(
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
         
         // Estimate token counts
-        size_t input_tokens = Impl::estimateTokenCount(query);
-        size_t output_tokens = Impl::estimateTokenCount(result);
+        size_t input_tokens = impl_->token_estimator_->estimate(query);
+        size_t output_tokens = impl_->token_estimator_->estimate(result);
         
         metrics.recordRAG(
             collection,
@@ -727,7 +733,7 @@ std::string LLMAQLHandler::executeRAG(
             lora_id,
             latency,
             retrieved_docs,
-            Impl::estimateTokenCount(query),
+            impl_->token_estimator_->estimate(query),
             0,
             false,
             LLMException::getErrorCodeString(e.getErrorCode())
@@ -750,7 +756,7 @@ std::string LLMAQLHandler::executeRAG(
             lora_id,
             latency,
             retrieved_docs,
-            Impl::estimateTokenCount(query),
+            impl_->token_estimator_->estimate(query),
             0,
             false,
             "INVALID_OPTIONS"
@@ -771,7 +777,7 @@ std::string LLMAQLHandler::executeRAG(
             lora_id,
             latency,
             retrieved_docs,
-            Impl::estimateTokenCount(query),
+            impl_->token_estimator_->estimate(query),
             0,
             false,
             "RAG_FAILED"
