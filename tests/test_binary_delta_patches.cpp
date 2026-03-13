@@ -311,6 +311,47 @@ TEST_F(BinaryDeltaPatchesTest, ApplyDelta_WrongBaseHash_FallsBack) {
     EXPECT_EQ(result.files_fallback[0], rel);
 }
 
+TEST_F(BinaryDeltaPatchesTest, ApplyDelta_WrongTargetHash_FallsBack) {
+    // Generate a real patch and apply it, but set target_hash to a wrong value.
+    // The engine must detect the hash mismatch after reconstruction and fall back.
+    auto base   = makeBinaryBlob(512, 0x90);
+    auto target = base; target[5] ^= 0xFF;
+
+    std::string rel   = "bin/bad_target_hash";
+    std::string bp    = install_dir_ + "/" + rel;
+    std::string tptmp = tmp_dir_ + "/bth_target.bin";
+    std::string pp    = download_dir_ + "/" + rel + ".patch";
+
+    writeBytes(bp, base);
+    writeBytes(tptmp, target);
+
+    DeltaUpdateEngine gen(install_dir_, download_dir_);
+    ASSERT_TRUE(gen.generatePatch(bp, tptmp, pp, PatchAlgorithm::ZSTD_DICT));
+
+    DeltaManifest dm;
+    dm.from_version = "1.0.0";
+    dm.to_version   = "1.1.0";
+    FileDelta fd;
+    fd.path        = rel;
+    fd.target_size = static_cast<uint64_t>(target.size()); // correct size to isolate hash check
+    // SHA-256 of the real target starts with something other than 64 x 'b', so
+    // this 64-character string is guaranteed to be a mismatch.
+    fd.target_hash = std::string(64, 'b');
+    dm.deltas      = {fd};
+
+    DeltaUpdateEngine engine(install_dir_, download_dir_);
+    auto result = engine.applyDelta(dm);
+
+    // Engine-level success but file must fall back, not install the patched file
+    EXPECT_TRUE(result.success);
+    EXPECT_TRUE(result.files_patched.empty());
+    ASSERT_EQ(result.files_fallback.size(), 1u);
+    EXPECT_EQ(result.files_fallback[0], rel);
+
+    // Installed base file must remain unchanged
+    EXPECT_EQ(readBytes(bp), base);
+}
+
 TEST_F(BinaryDeltaPatchesTest, ApplyDelta_TargetSizeMismatch_FallsBack) {
     auto base   = makeBinaryBlob(512, 0x99);
     auto target = makeBinaryBlob(256, 0xAA);  // different size

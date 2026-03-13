@@ -3,7 +3,7 @@
 # Updates Module Roadmap
 
 ## Current Status
-v1.x – Production-ready zero-downtime update and migration system. HotReloadEngine, release manifest management, schema migration framework, digital signature verification, automatic backup, rollback, binary delta updates, canary rollout, blue/green deployment, multi-node coordinated updates, notification webhooks, dry-run migration preview, and pre-flight health checks are all implemented. Build system audit complete (March 2026): all 14 source files registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake; 8 standalone focused test targets added.
+v1.x – Production-ready zero-downtime update and migration system. HotReloadEngine, release manifest management, schema migration framework, digital signature verification, automatic backup, rollback, binary delta updates, canary rollout, blue/green deployment, multi-node coordinated updates, notification webhooks, dry-run migration preview, and pre-flight health checks are all implemented. Build system audit complete (March 2026): all 14 source files registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake; 9 standalone focused test targets added.
 
 ## Completed ✅
 - [x] HotReloadEngine – atomic file replacement with fsync and all-or-nothing semantics
@@ -91,7 +91,7 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 - [x] Schema migration testing framework (apply to staging before production)
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (DeltaUpdateEngine: 29 tests in test_updates_production.cpp + 30 tests in test_binary_delta_patches.cpp; InPlaceSchemaMigrator+preview: 31 tests; NotificationWebhook: 40 tests; PreflightHealthChecker: 35 tests; CoordinatedUpdateManager: 25 tests; module total: 190+ tests)
+- [x] Unit tests coverage > 80% (DeltaUpdateEngine: 29 tests in test_updates_production.cpp + 29 tests in test_binary_delta_patches.cpp; InPlaceSchemaMigrator+preview: 31 tests; NotificationWebhook: 40 tests; PreflightHealthChecker: 35 tests; CoordinatedUpdateManager: 25 tests; module total: 190+ tests)
 - [x] Integration tests (applyDelta end-to-end: generate → apply → hash verify → atomic install; InPlaceSchemaMigrator: apply → version verify → history check)
 - [?] Performance benchmarks (migration duration, downtime measurement)
 - [x] Security audit (path traversal in update bundles fixed; `isSafePath` guard in `applyDelta`; InPlaceSchemaMigrator: metadata-only, no data access, no path operations; PreflightHealthChecker: injectable providers, no privilege escalation)
