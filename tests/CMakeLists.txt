@@ -13963,6 +13963,49 @@ else()
 endif()
 
 # ============================================================================
+# BlobRedundancyManager – RocksDB Event Listener Focused Tests (v1.8.0)
+# Covers: createRocksDBListener(), notifySSTFileDeleted(),
+#         RocksDBBlobListener::OnTableFileDeleted(), healthy→unhealthy
+#         location marking, repair-queue notification.
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_raid_redundancy.cpp")
+    message(STATUS "Adding BlobRedundancy EventListener focused tests")
+
+    add_executable(test_blob_redundancy_event_listener_focused
+        test_raid_redundancy.cpp
+    )
+
+    target_include_directories(test_blob_redundancy_event_listener_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_blob_redundancy_event_listener_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_blob_redundancy_event_listener_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME BlobRedundancyEventListenerFocusedTests
+        COMMAND test_blob_redundancy_event_listener_focused
+        --gtest_filter=BlobRedundancyManagerTest.*
+    )
+
+    set_tests_properties(BlobRedundancyEventListenerFocusedTests PROPERTIES
+        LABELS "storage;blob-redundancy;rocksdb-listener;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  BlobRedundancy: createRocksDBListener, notifySSTFileDeleted, OnTableFileDeleted, location health tracking")
+else()
+    message(STATUS "BlobRedundancy EventListener tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_raid_redundancy.cpp")
+endif()
+
+# ============================================================================
 # Custom Test Targets
 # ============================================================================
 add_custom_target(run_tests

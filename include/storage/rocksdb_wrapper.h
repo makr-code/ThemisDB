@@ -54,6 +54,7 @@ namespace rocksdb {
     class Snapshot;
     class DB;
     class ColumnFamilyHandle;
+    class EventListener;
 }
 
 namespace themis {
@@ -247,6 +248,10 @@ public:
     
     /// Check if database is open
     bool isOpen() const;
+
+    /// Register a RocksDB EventListener that will receive compaction/flush/deletion
+    /// events once the database is opened.  Must be called before open().
+    void addEventListener(std::shared_ptr<rocksdb::EventListener> listener);
 
     // ===== CRUD Operations =====
     

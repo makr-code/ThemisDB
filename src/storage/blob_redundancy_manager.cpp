@@ -761,12 +761,43 @@ std::string BlobRedundancyManager::exportPrometheusMetrics() const {
 }
 
 Result<std::shared_ptr<rocksdb::EventListener>> BlobRedundancyManager::createRocksDBListener() {
-    // Return event listener for RocksDB integration
-    // Simplified: return nullptr for now
-    return themis::Err<std::shared_ptr<rocksdb::EventListener>>(
-        themis::errors::ErrorCode::ERR_STORAGE_REDUNDANCY_FAILED,
-        "RocksDB listener not implemented"
-    );
+    auto listener = std::make_shared<RocksDBBlobListener>(*this);
+    return themis::Ok(std::static_pointer_cast<rocksdb::EventListener>(listener));
+}
+
+void BlobRedundancyManager::notifySSTFileDeleted(const std::string& file_path) {
+    std::vector<std::string> affected_blob_ids;
+
+    {
+        std::unique_lock<std::shared_mutex> lock(blobs_mutex_);
+        for (auto& [blob_id, metadata] : blobs_) {
+            bool location_marked = false;
+            for (auto& location : metadata.locations) {
+                if (location.path == file_path && location.is_healthy) {
+                    location.is_healthy = false;
+                    location_marked = true;
+                }
+            }
+            if (location_marked) {
+                affected_blob_ids.push_back(blob_id);
+            }
+        }
+    }
+
+    if (affected_blob_ids.empty()) {
+        return;
+    }
+
+    spdlog::warn("SST file deleted: {} — queuing {} blob(s) for replication",
+                 file_path, affected_blob_ids.size());
+
+    {
+        std::lock_guard<std::mutex> repair_lock(repair_mutex_);
+        for (const auto& blob_id : affected_blob_ids) {
+            repair_queue_.push(blob_id);
+        }
+    }
+    repair_cv_.notify_all();
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1008,11 +1039,9 @@ void RocksDBBlobListener::OnCompactionCompleted(
 void RocksDBBlobListener::OnTableFileDeleted(
     const rocksdb::TableFileDeletionInfo& info
 ) {
-    // SST file deleted
+    // SST file deleted — notify the manager to mark affected blobs and trigger replication
     spdlog::debug("SST file deleted: {}", info.file_path);
-    
-    // Unregister from blob manager
-    // Need to look up by path - simplified for now
+    manager_.notifySSTFileDeleted(info.file_path);
 }
 
 BlobType RocksDBBlobListener::levelToBlobType(int level) {
