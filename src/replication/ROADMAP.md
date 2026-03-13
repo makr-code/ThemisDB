@@ -96,7 +96,7 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Manual conflict resolution: `resolveConflict(document_id, winner_node)` for CUSTOM strategy pending conflicts
 - [x] `BidiConflictRecord`: full audit trail with local/remote/resolved writes, strategy used, timestamp, DDL flag
 - [x] `updateRemoteSequence()` + `applyRemoteWrite()` for simulation/integration without a live network layer
-- [x] 22 unit tests in `tests/test_replication_ha.cpp` (BidirectionalReplicationTest suite):
+- [x] 18 unit tests in `tests/test_replication_ha.cpp` (BidirectionalReplicationTest suite):
   - AC-1: start/stop lifecycle, double-start idempotency, invalid config (same node IDs, empty IDs)
   - AC-1/6: submitWrite advances local sequence; returns 0 when stopped
   - AC-4: origin tracking rejects own change bouncing back; accepts peer changes; updates remote_sequence
@@ -176,7 +176,7 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] CI workflow: `.github/workflows/wal-archival-object-storage-ci.yml`
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (233+ test cases: 225 previous + 8 WALArchival object-storage tests)
+- [x] Unit tests coverage > 80% (265+ test cases: previous + 18 BidirectionalReplicationManager tests)
 - [x] Integration tests (failover, lag detection, PITR restoration, cross-cluster end-to-end)
 - [x] Performance benchmarks (WAL append > 50 000 entries/s, WAL readFrom 1000 < 5 ms, serialize/deserialize < 2 µs) — `benchmarks/bench_replication_throughput.cpp`
 - [x] Focused standalone test targets: `ReplicationHAFocusedTests`, `ReplicationNewFeaturesFocusedTests`, `MultiRegionActiveActiveTests`, `CacheReplicationTests`
