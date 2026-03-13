@@ -1044,6 +1044,7 @@ set(THEMIS_LLM_SOURCES
     ../src/aql/llm_aql_handler.cpp
     ../src/aql/aql_query_validator.cpp
     ../src/aql/aql_query_builder.cpp
+    ../src/aql/aql_schema_provider.cpp
     ../src/aql/aql_fewshot_example_library.cpp
     ../src/aql/aql_syntax_highlighter.cpp
     ../src/aql/aql_confidence_scorer.cpp

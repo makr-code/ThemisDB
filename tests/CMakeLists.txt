@@ -13408,6 +13408,17 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_core.cpp")
     message(STATUS "  ShardingCore: Raft consensus, shard routing, rebalancing")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_consistent_hash_distribution.cpp")
+    message(STATUS "Adding Sharding: ConsistentHashDistribution focused tests")
+    add_executable(test_consistent_hash_distribution_focused test_consistent_hash_distribution.cpp)
+    target_include_directories(test_consistent_hash_distribution_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_consistent_hash_distribution_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_consistent_hash_distribution_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ConsistentHashDistributionFocusedTests COMMAND test_consistent_hash_distribution_focused)
+    set_tests_properties(ConsistentHashDistributionFocusedTests PROPERTIES LABELS "sharding;distribution;hash;focused;unit" TIMEOUT 90)
+    message(STATUS "  ConsistentHashDistribution: strict distribution and migration checks")
+endif()
+
 # Process Modeling Module focused tests
 # Covers: BpmnSerializer, EpkSerializer, VccVpbImporter, LlmProcessDescriptor,
 #         ProcessModelManager, ProcessLinker, ProcessGraphRag

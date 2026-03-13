@@ -510,9 +510,9 @@ TEST_F(MetricsStreamServerTest, FormatWebSocketMessageEscapesSpecialChars) {
 
     // metric_name: double-quote, backslash and newline must be escaped.
     EXPECT_NE(std::string::npos,
-              msg.find(R"("metric_name":"metric\"with\\special\nchars")"));
+              msg.find("\"metric_name\":\"metric\\\"with\\\\special\\nchars\""));
     // Label key and value must be escaped too.
-    EXPECT_NE(std::string::npos, msg.find(R"("key\"1":"val\tue")"));
+    EXPECT_NE(std::string::npos, msg.find("\"key\\\"1\":\"val\\tue\""));
     // The raw special characters must NOT appear unescaped in the output.
     EXPECT_EQ(std::string::npos, msg.find('\n'));
 }
