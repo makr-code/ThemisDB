@@ -154,9 +154,9 @@ In `wasm_plugin_sandbox.cpp` (lines 192–203), parsing of the imports section s
 Universal module packaging format across Linux/macOS/Windows, including platform-independent manifest, auto-detected native library bundling, and resource embedding.
 
 **Implementation Notes:**
-- `[ ]` Define a `PluginBundle` format (zip archive with `manifest.json`, native `.so`/`.dll`/`.dylib`, optional WASM fallback, and Ed25519 signature file).
-- `[ ]` Implement `PluginBundleLoader` in `module_loader.cpp` that unpacks to a temp dir, verifies signature, selects the correct native binary for the current platform, and delegates to the existing `PluginLoader`.
-- `[ ]` Support WASM-only bundles as a portable fallback when no native library for the current platform is present.
+- `[x]` Define a `PluginBundle` format (zip archive with `manifest.json`, native `.so`/`.dll`/`.dylib`, optional WASM fallback, and Ed25519 signature file).
+- `[x]` Implement `PluginBundleLoader` in `module_loader.cpp` that unpacks to a temp dir, verifies signature, selects the correct native binary for the current platform, and delegates to the existing `PluginLoader`.
+- `[x]` Support WASM-only bundles as a portable fallback when no native library for the current platform is present.
 
 ---
 

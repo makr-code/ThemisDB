@@ -1509,11 +1509,22 @@ function(themis_build_modular)
     if(TARGET CURL::libcurl)
         list(APPEND _themis_base_deps CURL::libcurl)
     endif()
+    if(TARGET libzip::zip)
+        list(APPEND _themis_base_deps libzip::zip)
+        list(APPEND _themis_base_compile_defs THEMIS_HAVE_LIBZIP)
+    elseif(TARGET libzip::libzip)
+        list(APPEND _themis_base_deps libzip::libzip)
+        list(APPEND _themis_base_compile_defs THEMIS_HAVE_LIBZIP)
+    endif()
 
     themis_add_module(base
         SOURCES ${THEMIS_BASE_SOURCES}
         DEPENDENCIES ${_themis_base_deps}
     )
+
+    if(_themis_base_compile_defs)
+        target_compile_definitions(themis_base PRIVATE ${_themis_base_compile_defs})
+    endif()
 
     if(THEMIS_ENABLE_TRACING)
         target_link_libraries(themis_base PRIVATE
