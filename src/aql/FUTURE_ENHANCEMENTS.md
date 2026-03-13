@@ -81,14 +81,15 @@ The AQL module is ThemisDB's query language and LLM-integration layer. It covers
 ### 3 · Per-Operation-Type Circuit Breakers
 **Priority:** High
 **Target Version:** v1.6.0
+**Status:** ✅ Implemented (Issue #33)
 
 **Problem (from code):** `llm_aql_handler.cpp:Impl` (lines 216–222 and 247–248) creates a single `sharding::CircuitBreaker` instance shared across `executeInfer()`, `executeInferStreaming()`, `executeRAG()`, and `executeEmbed()`. When `executeInfer` accumulates 5 failures (`failure_threshold = 5`), the breaker trips and `allowRequest()` returns false — this blocks all RAG and EMBED commands as well, even if those operations would succeed. The 60-second `timeout` window is also a single global parameter.
 
 **Implementation Notes:**
-- `[ ]` In `LLMAQLHandler::Impl`, replace the single `circuit_breaker_` member with a map: `std::unordered_map<std::string, sharding::CircuitBreaker> circuit_breakers_` keyed by `"infer"`, `"rag"`, `"embed"`, `"finetune"`
-- `[ ]` Refactor `executeInfer()`, `executeRAG()`, `executeEmbed()` to each look up their own breaker by key
-- `[ ]` Allow per-command `CircuitBreaker::Config` to be injected via a `LLMAQLHandler::Config` struct so failure thresholds and windows are tunable per command type
-- `[ ]` Add a `getCircuitBreakerStates()` method for observability; expose via `LLM STATS` command output
+- `[x]` In `LLMAQLHandler::Impl`, replace the single `circuit_breaker_` member with a map: `std::unordered_map<std::string, sharding::CircuitBreaker> circuit_breakers_` keyed by `"infer"`, `"rag"`, `"embed"`, `"finetune"`
+- `[x]` Refactor `executeInfer()`, `executeRAG()`, `executeEmbed()` to each look up their own breaker by key
+- `[x]` Allow per-command `CircuitBreaker::Config` to be injected via a `LLMAQLHandler::Config` struct so failure thresholds and windows are tunable per command type
+- `[x]` Add a `getCircuitBreakerStates()` method for observability; expose via `LLM STATS` command output
 - `[x]` Circuit breaker state is already recorded in metrics via `metrics.recordCircuitBreakerState("infer", "open")` — preserve and extend to all command types
 
 ---
