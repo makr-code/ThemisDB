@@ -37,7 +37,7 @@ This document covers planned enhancements to ThemisDB's legal-domain model train
 
 ---
 
-
+### [x] Multi-Modality Legal Document Parser
 **Priority:** High
 **Target Version:** v0.9.0
 
