@@ -197,9 +197,12 @@ migrator.migrate();  // Background process, versioned migrations
 
 ### Write-Optimized Merge (WOM) Tree
 **Priority:** Low  
-**Target Version:** v1.8.0
+**Target Version:** v1.8.0  
+**Status:** ✅ Implemented (v1.8.0)
 
 Alternative to LSM-tree for write-heavy workloads.
+
+**Implementation:** `src/storage/wom_tree.cpp` / `include/storage/wom_tree.h`
 
 **Advantages:**
 - Lower write amplification (2-5x vs 10-30x for LSM)
