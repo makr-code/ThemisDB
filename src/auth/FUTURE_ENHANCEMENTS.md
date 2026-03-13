@@ -302,15 +302,16 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 ### 15. SAML Assertion Encryption Support
 
 **Priority:** Low  
-**Target Version:** v1.4.0
+**Target Version:** v1.4.0  
+**Status:** ✅ Implemented (v1.4.0)
 
-`saml_authenticator.cpp` validates signed SAML assertions but currently returns `{}` (empty) in the `extractAttributes()` path (lines 428, 443) when the assertion is encrypted. Encrypted SAML assertions (`<EncryptedAssertion>`) are the default in high-security SAML deployments.
+Encrypted SAML assertions (`<EncryptedAssertion>`) are now supported. The implementation uses OpenSSL (AES-128-CBC / AES-256-CBC with RSA-OAEP or RSA-PKCS1-v1.5 key transport) and the pugixml parser that is already a codebase dependency, avoiding the need for a separate xmlsec library.
 
 **Implementation Notes:**
-- `[ ]` Implement `decryptAssertion(xmlDocPtr doc, const std::string& sp_private_key_pem)` using `xmlSecOpenSSLInit()` and `xmlSecEncCtxDecrypt()` in `saml_authenticator.cpp`
-- `[ ]` Load SP private key from HSM/key-store, not from plain-text PEM config field
-- `[ ]` After decryption, pass the plaintext assertion through the existing signature verification path (`saml_authenticator.cpp:326-407`)
-- `[ ]` Return `{}` with an explicit error code (not silently) when decryption fails — current silent empty return hides misconfiguration
+- `[x]` Implement `decryptAssertion(const pugi::xml_node& encrypted_assertion_node)` using OpenSSL EVP APIs (RSA-OAEP + AES-CBC) in `saml_authenticator.cpp`
+- `[x]` Load SP private key via `SAMLConfig::sp_private_key_loader` callback (not a plain-text PEM config field) — callers supply a closure that loads the key from their HSM, KMS, or secrets manager
+- `[x]` After decryption, the plaintext assertion XML is re-parsed with pugixml and passed through the existing signature verification path in `processResponseImpl()`
+- `[x]` All decryption failures throw `AuthErrorCode::SAML_DECRYPTION_FAILED` with an explicit diagnostic message — no silent empty return
 
 ---
 

@@ -29,6 +29,15 @@
 #include "auth/auth_error.h"
 #include <chrono>
 #include <string>
+#include <vector>
+
+// OpenSSL headers needed by encrypted-assertion test helpers
+#include <openssl/evp.h>
+#include <openssl/pem.h>
+#include <openssl/rand.h>
+#include <openssl/rsa.h>
+#include <openssl/bio.h>
+#include <openssl/buffer.h>
 
 using namespace themis::auth;
 
@@ -757,23 +766,24 @@ static std::string buildEncryptedAssertionResponseB64() {
     return base64EncodeString(xml);
 }
 
-TEST(SAMLAuthenticatorTest, ProcessResponseRejectsEncryptedAssertion) {
-    // Even with signatures disabled, a response containing EncryptedAssertion
-    // should throw AUTH_NOT_IMPLEMENTED since decryption is not supported.
+TEST(SAMLAuthenticatorTest, ProcessResponseRejectsEncryptedAssertionWithoutKeyLoader) {
+    // With no sp_private_key_loader configured, an EncryptedAssertion must
+    // fail explicitly with SAML_DECRYPTION_FAILED (not silently or with AUTH_NOT_IMPLEMENTED).
     SAMLAuthenticator auth(makeTestConfig());
 
     auto b64 = buildEncryptedAssertionResponseB64();
     try {
         auth.processResponse(b64);
-        FAIL() << "Expected AuthException for EncryptedAssertion";
+        FAIL() << "Expected AuthException for EncryptedAssertion without key loader";
     } catch (const AuthException& e) {
-        EXPECT_EQ(e.error().code(), AuthErrorCode::AUTH_NOT_IMPLEMENTED);
+        EXPECT_EQ(e.error().code(), AuthErrorCode::SAML_DECRYPTION_FAILED);
     }
 }
 
 TEST(SAMLAuthenticatorTest, ProcessResponseRejectsRequireEncryptedAssertionWithPlainAssertion) {
     // When require_encrypted_assertion=true, a plain (unencrypted) Assertion
-    // must be rejected with AUTH_NOT_IMPLEMENTED.
+    // must be rejected with SAML_INVALID_RESPONSE (policy enforcement, not a
+    // "not implemented" error).
     auto cfg = makeTestConfig();
     cfg.require_encrypted_assertion = true;
     SAMLAuthenticator auth(cfg);
@@ -794,6 +804,277 @@ TEST(SAMLAuthenticatorTest, ProcessResponseRejectsRequireEncryptedAssertionWithP
         auth.processResponse(b64);
         FAIL() << "Expected AuthException when require_encrypted_assertion=true with plain Assertion";
     } catch (const AuthException& e) {
-        EXPECT_EQ(e.error().code(), AuthErrorCode::AUTH_NOT_IMPLEMENTED);
+        EXPECT_EQ(e.error().code(), AuthErrorCode::SAML_INVALID_RESPONSE);
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Test SP key material (RSA 2048-bit, for assertion decryption tests only)
+//
+// SECURITY NOTICE: This is a disposable, test-only key that was generated
+// solely for automated unit tests.  It must NEVER appear in production code,
+// configuration files, or any deployed environment.
+//
+// In production deployments, provide the SP private key through the
+// SAMLConfig::sp_private_key_loader callback, which should load the key
+// from a hardware security module (HSM), key management service (KMS), or
+// a secrets manager (e.g. HashiCorp Vault, AWS Secrets Manager, Azure Key Vault).
+// Example:
+//   cfg.sp_private_key_loader = []() {
+//       return SecretsManager::getSecret("saml/sp-private-key");
+//   };
+// ---------------------------------------------------------------------------
+static const char* TEST_SP_PRIVATE_KEY_PEM = R"(
+-----BEGIN PRIVATE KEY-----
+MIIEuwIBADANBgkqhkiG9w0BAQEFAASCBKUwggShAgEAAoIBAQCyArOwSummQcdj
+MwUnNf60EOzjrKn1slJZ977nuu538GKHSImk80d2kL6R6+WxHnm4zTW8aiB3/sEB
+OMszRH+EQNt0gpozyWEEQfJ6rRHnuXHOUE5lDVIAYctghCfUX1r0LoHby5LPap/X
+ViyoWORlq4YgcSr+6yHISiyfkTdTMCHb1Kn8yAaS5V7HnSCfcYHy7e31iqqEPE78
+gityTuVquwntCuIQ4dOEYIWFxagc1rMTdq2KPBgvmFu949stVp/474YaJ4ZNn5VN
+Idb9OGaASg55NmRxEOslQxIzwaUJFCitetfkScrzvMPXl7ukugdL4ADiBFJBccHz
+6F5sJUIHAgMBAAECgf9WiyEf9v0D15SiVxgC5IwrTefdtSf//QD44/ATzRzAlYCM
+k8tD8IzN3PO1/eZy05lGZs0buZCtFN828++H6Z4VS+kXCraydr9RoVvL0oAdFPfw
+uKQpaTzDkFHt1bTqAXIPbIzw7KWup9k1nNctAZR/O/iXL6jyvMCcKZsSIEyeJEdP
+dm0bNdJt0Cbb+rgSe29ayceAvnSC6vwmokrFGok6NuS0NZnGIE8Lr34n8lKARvkg
+/ZP4TMloglvD5KPTG9b4hd/r35JZDS1Yfi9t+E7AjUGjiEwxmHB2Qvn6ORg31QBz
+SUsFzzDgaBmqK6o/i4ywhb6d1wuSktmO+H9TihECgYEA4m76I2EVXOoo4cTHogon
+1fVGY6oBYFkm7GuMzeqWNgKTPy0LT70mgdWACh6mXhN9ZGNPXFMBb8/gDeo84qyY
+RLAeHxLKAVNbRlrqImZ+QJoLJRLnYdL1Bz9ZfCQ2CfcNAgV+iRZARV15mxhkgCca
+SpCBWaR/mi1O7I6RdlrldaUCgYEAyUEVm+fCKFgpajlO7Oonj4fL0EMujskCzTkj
+mpA+EXSJAdH7dtTEpGUoeOF4zqdI/A2T/AQ3hOZjqVisJlWXfe3i91xfgvDB9nmz
+IeuHveM2WakJhi/kKRSR0lNT7B7+oSuqPqnpHztSjdxjcbCc/R6VdCpv5ZapFa2K
+XxIfgTsCgYBIrGmn9T7QBW99lpSkEzJZ31DqJ+QtMi/l7VbRuBrh1s2/lwtsWj8D
+qKxhkxi+VO8Hyz/rV9C8PDGjBazo65Ara4MfYf5nkoNW/1LqG48l2Mr+6SROJ1Dx
+NInZ6B1X8WzBW1YTVYrnOGsRNjD7WJF9oQeC5+L0btpH3jIdlGrU6QKBgQCmuC8B
+h311VIuCftUeOF/rbDBwZ6cjC+wxPFt9SG7SoPp6sowhheMc2NwtP4OHlldEzq7A
+AHJJu13mRRnfa9pirPXvuus4mt/joi++MtKxgI9euUS1j+jwCyU92l/UZFzGAVk4
+LiN8BvW9pUwQO6HhojtnD1zBEg0iczAE0AufTwKBgGmTCvH3pktF07W4DRm4fOgy
+5hz2hO4Xs9r1i5KnNXyv6SgDin1uVUHfN534LFVysrNhcBjQET2jkhfKLU7HfnAX
+25PfIUtE1fgtnOJrugn+QG5VyFTTn3zOuOr+QNApGX6S+Tf99fqe04EUHxBiGreR
+sjBQfkZpAI5dcCIInmug
+-----END PRIVATE KEY-----
+)";
+
+// Base64-encode raw bytes using OpenSSL BIO (no line breaks)
+static std::string base64EncodeBytes(const std::vector<uint8_t>& data) {
+    BIO* b64 = BIO_new(BIO_f_base64());
+    BIO* mem = BIO_new(BIO_s_mem());
+    BIO_push(b64, mem);
+    BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
+    BIO_write(b64, data.data(), static_cast<int>(data.size()));
+    BIO_flush(b64);
+    BUF_MEM* bptr{};
+    BIO_get_mem_ptr(mem, &bptr);
+    std::string result(bptr->data, bptr->length);
+    BIO_free_all(b64);
+    return result;
+}
+
+// Build a properly-encrypted SAMLResponse:
+//   data encryption  : AES-256-CBC with a random key (IV prepended per XML Enc §5.2)
+//   key transport    : RSA-OAEP (SHA-1 / MGF1-SHA1)
+//   assertion_xml    : plaintext Assertion element to encrypt
+//   private_key_pem  : SP private key used to derive the SP public key for encryption
+//   out_b64          : receives the Base64-encoded SAMLResponse on success
+// Returns void; uses ASSERT_* so the calling TEST is aborted on failure.
+static void buildRealEncryptedAssertionResponseB64(
+    const std::string& private_key_pem,
+    const std::string& assertion_xml,
+    std::string& out_b64)
+{
+    // Load SP private key and extract public key
+    BIO* kbio = BIO_new_mem_buf(private_key_pem.data(),
+                                 static_cast<int>(private_key_pem.size()));
+    EVP_PKEY* sp_pkey = PEM_read_bio_PrivateKey(kbio, nullptr, nullptr, nullptr);
+    BIO_free(kbio);
+    ASSERT_NE(sp_pkey, nullptr) << "Failed to load test SP private key";
+
+    // Generate random AES-256 key and 16-byte IV
+    std::vector<uint8_t> aes_key(32), iv(16);
+    RAND_bytes(aes_key.data(), 32);
+    RAND_bytes(iv.data(), 16);
+
+    // Encrypt assertion with AES-256-CBC; CipherValue = IV || ciphertext (XML Enc §5.2)
+    EVP_CIPHER_CTX* enc_ctx = EVP_CIPHER_CTX_new();
+    ASSERT_NE(enc_ctx, nullptr) << "Failed to allocate AES cipher context";
+    ASSERT_EQ(EVP_EncryptInit_ex(enc_ctx, EVP_aes_256_cbc(), nullptr,
+                                  aes_key.data(), iv.data()), 1);
+
+    std::vector<uint8_t> ct_buf(assertion_xml.size() + 32);
+    int enc_len1 = 0, enc_len2 = 0;
+    EVP_EncryptUpdate(enc_ctx, ct_buf.data(), &enc_len1,
+                      reinterpret_cast<const uint8_t*>(assertion_xml.data()),
+                      static_cast<int>(assertion_xml.size()));
+    EVP_EncryptFinal_ex(enc_ctx, ct_buf.data() + enc_len1, &enc_len2);
+    EVP_CIPHER_CTX_free(enc_ctx);
+
+    // Assemble: IV || ciphertext
+    std::vector<uint8_t> enc_data;
+    enc_data.insert(enc_data.end(), iv.begin(), iv.end());
+    enc_data.insert(enc_data.end(), ct_buf.begin(), ct_buf.begin() + enc_len1 + enc_len2);
+
+    // Encrypt AES key with RSA-OAEP using the SP public key
+    EVP_PKEY_CTX* pctx = EVP_PKEY_CTX_new(sp_pkey, nullptr);
+    EVP_PKEY_free(sp_pkey);
+    ASSERT_NE(pctx, nullptr) << "Failed to create EVP_PKEY_CTX";
+    ASSERT_EQ(EVP_PKEY_encrypt_init(pctx), 1);
+    ASSERT_EQ(EVP_PKEY_CTX_set_rsa_padding(pctx, RSA_PKCS1_OAEP_PADDING), 1);
+
+    size_t enc_key_len = 0;
+    EVP_PKEY_encrypt(pctx, nullptr, &enc_key_len, aes_key.data(), aes_key.size());
+    std::vector<uint8_t> enc_key(enc_key_len);
+    ASSERT_GT(EVP_PKEY_encrypt(pctx, enc_key.data(), &enc_key_len,
+                                aes_key.data(), aes_key.size()), 0);
+    EVP_PKEY_CTX_free(pctx);
+    enc_key.resize(enc_key_len);
+
+    const std::string enc_key_b64  = base64EncodeBytes(enc_key);
+    const std::string enc_data_b64 = base64EncodeBytes(enc_data);
+
+    // Build SAMLResponse with EncryptedAssertion
+    const std::string xml =
+        R"(<samlp:Response xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol")"
+        R"( xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion")"
+        R"( ID="_enc_resp_real01" Version="2.0" IssueInstant="2026-01-01T12:00:00Z")"
+        R"( Destination="https://myapp.example.com/saml/acs">)"
+        R"(<saml:Issuer>https://test-idp.example.com/metadata</saml:Issuer>)"
+        R"(<samlp:Status><samlp:StatusCode)"
+        R"( Value="urn:oasis:names:tc:SAML:2.0:status:Success"/></samlp:Status>)"
+        R"(<saml:EncryptedAssertion>)"
+        R"(<xenc:EncryptedData xmlns:xenc="http://www.w3.org/2001/04/xmlenc#")"
+        R"( Type="http://www.w3.org/2001/04/xmlenc#Element">)"
+        R"(<xenc:EncryptionMethod)"
+        R"( Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc"/>)"
+        R"(<ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">)"
+        R"(<xenc:EncryptedKey>)"
+        R"(<xenc:EncryptionMethod)"
+        R"( Algorithm="http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p"/>)"
+        R"(<xenc:CipherData><xenc:CipherValue>)" + enc_key_b64 +
+        R"(</xenc:CipherValue></xenc:CipherData>)"
+        R"(</xenc:EncryptedKey>)"
+        R"(</ds:KeyInfo>)"
+        R"(<xenc:CipherData><xenc:CipherValue>)" + enc_data_b64 +
+        R"(</xenc:CipherValue></xenc:CipherData>)"
+        R"(</xenc:EncryptedData>)"
+        R"(</saml:EncryptedAssertion>)"
+        R"(</samlp:Response>)";
+
+    out_b64 = base64EncodeString(xml);
+}
+
+TEST(SAMLAuthenticatorTest, ProcessResponseDecryptsEncryptedAssertion) {
+    // Configure SP with a private key loader (loaded from test key material –
+    // in production this would come from an HSM or KMS).
+    auto cfg = makeTestConfig();
+    cfg.sp_private_key_loader = []() { return std::string(TEST_SP_PRIVATE_KEY_PEM); };
+    SAMLAuthenticator auth(cfg);
+
+    // Fix clock to 2026-01-01T12:00:00Z so the assertion conditions are valid.
+    const auto fixed_now = std::chrono::system_clock::from_time_t(1767268800); // 2026-01-01T12:00:00Z
+    auth.setClockForTesting([fixed_now]() { return fixed_now; });
+
+    // Build a plain assertion XML to be encrypted (no signature needed since
+    // require_signed_assertion=false in test config).
+    const std::string assertion_xml =
+        R"(<saml:Assertion xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion")"
+        R"( ID="_enc_assert_001" Version="2.0" IssueInstant="2026-01-01T12:00:00Z">)"
+        R"(<saml:Issuer>https://test-idp.example.com/metadata</saml:Issuer>)"
+        R"(<saml:Subject>)"
+        R"(<saml:NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress">)"
+        R"(encrypted-user@example.com</saml:NameID>)"
+        R"(<saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">)"
+        R"(<saml:SubjectConfirmationData)"
+        R"( NotOnOrAfter="2026-01-01T12:10:00Z")"
+        R"( Recipient="https://myapp.example.com/saml/acs"/>)"
+        R"(</saml:SubjectConfirmation>)"
+        R"(</saml:Subject>)"
+        R"(<saml:Conditions NotBefore="2026-01-01T11:55:00Z")"
+        R"( NotOnOrAfter="2026-01-01T12:10:00Z">)"
+        R"(<saml:AudienceRestriction>)"
+        R"(<saml:Audience>https://myapp.example.com/saml/metadata</saml:Audience>)"
+        R"(</saml:AudienceRestriction>)"
+        R"(</saml:Conditions>)"
+        R"(<saml:AuthnStatement AuthnInstant="2026-01-01T12:00:00Z" SessionIndex="enc-sess001">)"
+        R"(<saml:AuthnContext>)"
+        R"(<saml:AuthnContextClassRef>)"
+        R"(urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport)"
+        R"(</saml:AuthnContextClassRef>)"
+        R"(</saml:AuthnContext>)"
+        R"(</saml:AuthnStatement>)"
+        R"(<saml:AttributeStatement>)"
+        R"(<saml:Attribute Name="email">)"
+        R"(<saml:AttributeValue>encrypted-user@example.com</saml:AttributeValue>)"
+        R"(</saml:Attribute>)"
+        R"(</saml:AttributeStatement>)"
+        R"(</saml:Assertion>)";
+
+    std::string b64;
+    ASSERT_NO_FATAL_FAILURE(buildRealEncryptedAssertionResponseB64(
+        TEST_SP_PRIVATE_KEY_PEM, assertion_xml, b64));
+
+    const SAMLClaims claims = auth.processResponse(b64);
+
+    EXPECT_EQ(claims.subject_name_id, "encrypted-user@example.com");
+    EXPECT_EQ(claims.email,           "encrypted-user@example.com");
+    EXPECT_EQ(claims.issuer,          "https://test-idp.example.com/metadata");
+    EXPECT_EQ(claims.assertion_id,    "_enc_assert_001");
+    EXPECT_EQ(claims.session_index,   "enc-sess001");
+}
+
+TEST(SAMLAuthenticatorTest, ProcessResponseDecryptionFailsWithWrongKey) {
+    // A response with EncryptedAssertion but a mismatched SP private key
+    // must fail with SAML_DECRYPTION_FAILED, not silently.
+    auto cfg = makeTestConfig();
+
+    // Provide a different (freshly generated) key – it won't match the one used
+    // to encrypt the assertion, so RSA-OAEP decryption must fail.
+    const char* wrong_key_pem = R"(
+-----BEGIN PRIVATE KEY-----
+MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDYl6DByIHBZ0q8
+FC6tAfaLgiKOHX6VIxYKeQip7/Va/sWLi+gjPYly/tyNBhKrSiZ3kzEd8UmcGbA0
+J9IRx5KFre8DlIbQRtJuxoIbOIYhQANVJ9WZJYclQjGWhBIGWzdKggpWZ12dg5PJ
+dibVnAVT4D1pAlm0RftLLorEbOfHKHEzecMjolYsZvOj8WkkGIw/VgBgXYszspii
+hjK3D72mXa0DzfTY5Qn8vgOz2HHMjCA6JezmXEjlEeRihKuoyvUqz3AeP4pol9A1
+9gu8nVeVDB7LW8DCSsx5eR6MVmfYtcXgSJtxA9v3xrC6t+76Ov+sGJQD7zQruUP1
+zConnALbAgMBAAECggEAD3p6iw60sykaDqnUkhmXUG364TQbZTYOL65pn5dd7eRS
+IsBbVRVjOrwa79sUv3f7msUCmBSzwXuWe4uy+AFOp83/zD4zijPdevwltSNLdpnY
+AyBnI9wqNc/uskZ68UhYgbMcYQNfDdAm4hlW+iH9wXo/eT8pQPhVVpCbayErSTCp
+hAffJY1apit/qnSE13EX0Nq7BajTVp8QULScnuAt5g53Vg0OCXerWqvfgROzwjqF
+BIzMPwAR0klfpYKn4wjqqdpu+ffT/r+sMmscTBG2vYJVFJKHOmi/xVNxCQ+FDeqE
+pw5hK2eW4WFqzWe7bRB1Z/JPqKofGnwRUwwSTuPWMQKBgQD0ttpjkD+91fMOAY0C
+vM5Itifobnf5sOh8wVJlxgApsEMGKXP2DliDpB+wY8pRH8qSSNAqQ4aOFDYT475g
+RWy7c9YsW0hA04qz9YXxrd4GHtf7s0XhkKuZh116XLJPYzOFjlfuGlDP3SMmtPPz
+YToStFbu5A/TfgBvmPZkXWVwEQKBgQDilMLWhR5sTsrQurus/72HEjXHrshaTqYz
+ZWbHzeXpfccOIcxP0sqS2DyxcJ8KS5wuT7At1de8DbY9RmBU+HbBxqfiot0pdx2e
+4lLtzO+l5jKvB2GBPJwZ00uj8KRxzePXx2AW0R+kHXcCM8KSJHKQu/lPeUDuWfk6
+vAf1WJ8wKwKBgQCIGKmcdbz9dt+WCobB3v9asPPA8K8Izrp9p4aL03KDvOOJqcQ0
+NAZGMCDvmJAMTgH7GUOsPaG3osXwidh28iVmmyWhxaKJaxzYuNOldWzlOoIkGa/j
+ovHMkNwMEUGZpTIiNOfyI/CNqg7CmCCUWp5RiLpQYcXreUgEyK0/ZDHmAQKBgQCT
+emJrQNAxjQOD4tc/XmJdZWPt6fzskt6o+2pvyLvKQ5zpvOQAXOKPvAGdOQG7sMUi
+e6nf252FAKPKtGEFTYf2zrf90yYC1E5KWWPC9q5RnEkHFdXIScwNHzPPrFVM4cdY
+bqRDlbBzoN4SZ+BQQTr0q/U1XmX9/kAzk6nWbu2GawKBgQDlIPRWoPvBc+cC5XtU
+Eu6imuWL1FeA7Xv6hzSV4C/+InOgddejGebmIPSn/gg6DMpsuxzLU+TzwXgXJksv
+7GGJKqEroy5Q06e+3sc6yd260fDM8K/JIflRlT+H6AJKwA31keXmV+EBH7Uq1kFZ
+EqRd6vemBb1xoeIW4UwgSn0lgQ==
+-----END PRIVATE KEY-----
+)";
+    cfg.sp_private_key_loader = [wrong_key_pem]() { return std::string(wrong_key_pem); };
+    SAMLAuthenticator auth(cfg);
+
+    const std::string assertion_xml =
+        R"(<saml:Assertion xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion")"
+        R"( ID="_enc_assert_wrongkey" Version="2.0" IssueInstant="2026-01-01T12:00:00Z">)"
+        R"(<saml:Issuer>https://test-idp.example.com/metadata</saml:Issuer>)"
+        R"(</saml:Assertion>)";
+
+    std::string b64;
+    ASSERT_NO_FATAL_FAILURE(buildRealEncryptedAssertionResponseB64(
+        TEST_SP_PRIVATE_KEY_PEM, assertion_xml, b64));
+
+    try {
+        auth.processResponse(b64);
+        FAIL() << "Expected SAML_DECRYPTION_FAILED for wrong SP key";
+    } catch (const AuthException& e) {
+        EXPECT_EQ(e.error().code(), AuthErrorCode::SAML_DECRYPTION_FAILED);
     }
 }

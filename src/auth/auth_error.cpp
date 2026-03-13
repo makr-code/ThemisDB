@@ -583,6 +583,19 @@ void registerAuthErrors() {
         {},
         {"password", "policy", "validation"}
     });
+
+    // SAML assertion decryption errors
+    registry.registerError({
+        toErrorCode(AuthErrorCode::SAML_DECRYPTION_FAILED),
+        "Authentication",
+        "Error",
+        "Assertion decryption failed",
+        "The EncryptedAssertion could not be decrypted with the configured SP private key",
+        "Verify that SAMLConfig::sp_private_key_loader returns the correct unencrypted SP "
+        "private key and that the IdP is encrypting assertions with the matching SP certificate",
+        {},
+        {"saml", "encryption", "assertion", "decryption"}
+    });
 }
 
 } // namespace auth

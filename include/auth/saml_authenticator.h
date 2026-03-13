@@ -35,6 +35,9 @@
 #include <mutex>
 #include <functional>
 
+// Forward-declare pugi::xml_node to avoid a full pugixml include in the public header.
+namespace pugi { class xml_node; }
+
 namespace themis {
 namespace utils { class AuditLogger; }
 namespace auth {
@@ -60,11 +63,11 @@ namespace auth {
  *    namespace prefixes or whitespace normalization may fail verification when
  *    interoperating with strict IdPs. Production deployments requiring strict
  *    C14N compliance should integrate a C14N library (e.g., libxml2 c14n support).
- *  - Encrypted assertions (EncryptedAssertion element) are not yet supported.
- *    When an EncryptedAssertion is present in the SAMLResponse, processResponse()
- *    throws AUTH_NOT_IMPLEMENTED. Implementing decryption requires SP private-key
- *    configuration and an XML encryption library.  Setting require_encrypted_assertion
- *    to true will also throw AUTH_NOT_IMPLEMENTED, preventing accidental silent bypass.
+ *  - Encrypted assertions (EncryptedAssertion element) are supported when
+ *    SAMLConfig::sp_private_key_loader is provided.  AES-128-CBC and AES-256-CBC
+ *    data encryption with RSA-OAEP or RSA-PKCS1-v1.5 key transport are supported.
+ *    When sp_private_key_loader is not configured and an EncryptedAssertion is
+ *    received, SAML_DECRYPTION_FAILED is thrown with a clear diagnostic message.
  *  - The in-process replay cache does not survive process restarts; high-availability
  *    deployments should use a shared TTL store (e.g., Redis).
  *
@@ -92,8 +95,25 @@ struct SAMLConfig {
     std::chrono::seconds clock_skew{60};          ///< Allowed clock skew for NotBefore/NotOnOrAfter
     bool require_signed_response{true};            ///< Whether SAMLResponse element must be signed
     bool require_signed_assertion{true};           ///< Whether Assertion element must be signed
-    bool require_encrypted_assertion{false};       ///< When true, throws AUTH_NOT_IMPLEMENTED (XML assertion decryption is not yet supported; this flag is reserved for future SP private-key decryption support)
+    bool require_encrypted_assertion{false};       ///< When true, plain (unencrypted) Assertions are rejected with SAML_INVALID_RESPONSE. Use together with sp_private_key_loader to enforce encrypted-only assertion delivery.
     size_t max_replay_cache_size{100000};          ///< Maximum number of assertion IDs to keep in the in-memory replay cache
+
+    // SP private key loader for assertion decryption (EncryptedAssertion support).
+    // Called lazily when a SAMLResponse with an EncryptedAssertion element is received.
+    // The callback MUST return an *unencrypted* (passphrase-free) PEM-encoded PKCS#8 or
+    // PKCS#1 RSA private key string.  Passphrase-protected PEM keys are not supported
+    // by the decryption path; decrypt the key before returning it from the loader.
+    // Return an empty string to signal that the key is unavailable.
+    //
+    // Security note: NEVER store the private key as a hardcoded string. Load it
+    // from a hardware security module (HSM), key management service (KMS), or
+    // a secrets manager (e.g. HashiCorp Vault, AWS Secrets Manager).
+    // Example (environment variable – minimum acceptable for non-production):
+    //   cfg.sp_private_key_loader = []() {
+    //       const char* p = std::getenv("SP_PRIVATE_KEY_PEM");
+    //       return p ? std::string(p) : std::string{};
+    //   };
+    std::function<std::string()> sp_private_key_loader;
 
     // Attribute mapping (IdP attribute name → local claim name)
     std::string attr_email{"email"};               ///< Attribute name carrying the user's email
@@ -299,6 +319,15 @@ private:
     /// Internal implementation of processResponse (called by the public method)
     SAMLClaims processResponseImpl(const std::string& saml_response_b64,
                                    const std::string& in_response_to) const;
+
+    /// Decrypt an EncryptedAssertion element using the SP private key loaded via
+    /// SAMLConfig::sp_private_key_loader.  Supports AES-128-CBC and AES-256-CBC
+    /// data encryption with RSA-OAEP (default) or RSA-PKCS1-v1.5 key transport.
+    ///
+    /// @param encrypted_assertion_node  The <EncryptedAssertion> pugixml node
+    /// @return Decrypted assertion XML as a UTF-8 string
+    /// @throws AuthException (SAML_DECRYPTION_FAILED) on any failure
+    std::string decryptAssertion(const pugi::xml_node& encrypted_assertion_node) const;
 };
 
 } // namespace auth
