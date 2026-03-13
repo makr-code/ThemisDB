@@ -91,9 +91,11 @@ public:
      * @note Uses `std::jthread` internally.  When a timeout occurs,
      *       `request_stop()` is signalled on the worker and ownership of the
      *       thread is transferred to a thin background cleanup thread that joins
-     *       it once it finishes — **no `detach()` is performed**.  This
+     *       it once it finishes — **the worker thread is never detached**.  This
      *       eliminates the thread-leak that occurred when the previous
-     *       implementation called `worker.detach()` on timeout.
+     *       implementation called `worker.detach()` on timeout.  (The cleanup
+     *       wrapper thread itself is detached, but it holds no captured references
+     *       other than the jthread handle and exits as soon as the join completes.)
      *       For cooperative early exit (so the function can abort at its next
      *       check-point) use @ref executeWithCancelToken() instead.
      */
