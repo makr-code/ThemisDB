@@ -345,8 +345,132 @@ std::vector<AggregatedMetric> MetricAggregator::applyRules() const {
 }
 
 // ============================================================================
-// Cardinality management
+// Cross-shard aggregation and rollup
 // ============================================================================
+
+MetricSnapshot MetricAggregator::aggregateShardMetrics(
+    const std::vector<ShardMetrics>& shard_metrics) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    // Build a transient snapshot map from the supplied shard data.
+    // Key: series key (metric_name + label fingerprint), value: list of snapshots.
+    std::map<std::string, std::vector<HistogramSnapshot>> transient_snapshots;
+
+    for (const auto& shard : shard_metrics) {
+        // Merge shard-level labels with the per-metric labels.
+        // The shard_id is always injected so rules can drop it via drop_labels.
+        std::map<std::string, std::string> base_labels = shard.labels;
+        base_labels["shard_id"] = shard.shard_id;
+
+        for (const auto& [metric_name, values] : shard.metrics) {
+            HistogramSnapshot snap;
+            snap.metric_name = metric_name;
+            snap.labels = base_labels;
+            snap.values = values;
+            snap.timestamp = shard.timestamp;
+
+            std::string key = makeSeriesKey(metric_name, snap.labels);
+            transient_snapshots[key].push_back(std::move(snap));
+        }
+    }
+
+    // Apply registered rules against the transient data.
+    std::vector<AggregatedMetric> results;
+
+    for (const auto& [metric_name, rule] : rules_) {
+        if (rule.type == AggregationType::RATE) {
+            // RATE rules require time-series counter samples which are not
+            // available in a one-shot ShardMetrics batch; skip silently.
+            // Use addAggregationRule(RATE) with recordCounterSample() + applyRules()
+            // for rate-based aggregation on buffered data.
+            continue;
+        }
+
+        std::map<std::string, std::vector<double>> grouped;  // group_key → values
+
+        for (const auto& [key, snapshots] : transient_snapshots) {
+            for (const auto& snap : snapshots) {
+                if (snap.metric_name != metric_name) continue;
+
+                auto effective_labels =
+                    applyDropLabels(snap.labels, rule.drop_labels);
+
+                std::map<std::string, std::string> group_labels;
+                for (const auto& gl : rule.group_by_labels) {
+                    auto it = effective_labels.find(gl);
+                    if (it != effective_labels.end()) {
+                        group_labels[gl] = it->second;
+                    }
+                }
+
+                std::string gk = makeLabelFingerprint(group_labels);
+                for (double v : snap.values) {
+                    grouped[gk].push_back(v);
+                }
+            }
+        }
+
+        if (grouped.empty()) continue;
+
+        for (auto& [gk, vals] : grouped) {
+            AggregatedMetric r;
+            r.metric_name = metric_name;
+            r.type = rule.type;
+            r.value = reduce(std::move(vals), rule.type);
+            r.timestamp = std::chrono::system_clock::now();
+            results.push_back(std::move(r));
+        }
+    }
+
+    MetricSnapshot snapshot;
+    snapshot.metrics = std::move(results);
+    snapshot.timestamp = std::chrono::system_clock::now();
+    return snapshot;
+}
+
+// ============================================================================
+// Rollup / cardinality reduction
+// ============================================================================
+
+void MetricAggregator::rollupMetrics(std::chrono::minutes window) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto now = std::chrono::system_clock::now();
+    auto cutoff = now - window;
+
+    // Remove histogram snapshots older than the window.
+    for (auto& [key, snapshots] : snapshots_) {
+        snapshots.erase(
+            std::remove_if(snapshots.begin(), snapshots.end(),
+                           [&cutoff](const HistogramSnapshot& s) {
+                               return s.timestamp < cutoff;
+                           }),
+            snapshots.end());
+    }
+
+    // Remove empty series entries to keep the map tidy.
+    for (auto it = snapshots_.begin(); it != snapshots_.end();) {
+        if (it->second.empty()) {
+            it = snapshots_.erase(it);
+        } else {
+            ++it;
+        }
+    }
+
+    // Also prune rate samples using the same window (converted to seconds).
+    auto steady_now = std::chrono::steady_clock::now();
+    auto steady_cutoff =
+        steady_now - std::chrono::duration_cast<std::chrono::seconds>(window);
+    for (auto& [key, deque] : rate_samples_) {
+        // Keep at least one sample even if it's older than the cutoff so that
+        // the next call to recordCounterSample() can compute a valid delta.
+        while (deque.size() > 1 && deque.front().timestamp < steady_cutoff) {
+            deque.pop_front();
+        }
+    }
+}
+
+
 
 void MetricAggregator::setMetricCardinalityLimit(const std::string& metric_name,
                                                   size_t limit) {
