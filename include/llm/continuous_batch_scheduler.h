@@ -257,7 +257,9 @@ private:
     std::chrono::system_clock::time_point last_schedule_time_;
     
     // Internal helpers
-    bool canAddToBatch(const ScheduledRequest* request, size_t current_batch_tokens) const;
+    bool canAddToBatch(const ScheduledRequest* request,
+                      size_t current_batch_tokens,
+                      size_t reserved_blocks) const;
     void allocateKVCacheBlocks(ScheduledRequest* request);
     void freeKVCacheBlocks(ScheduledRequest* request);
     void updateStats();
