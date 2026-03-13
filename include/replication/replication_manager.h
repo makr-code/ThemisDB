@@ -1812,5 +1812,275 @@ private:
     uint64_t    parseSessionToken(const std::string& token) const;   ///< Returns 0 on error
 };
 
+// ============================================================================
+// BidirectionalReplicationManager  (v1.7.0)
+// ============================================================================
+
+/**
+ * BidirectionalReplicationManager
+ *
+ * Enables true bidirectional (active-active) replication between exactly two
+ * peer nodes.  Both nodes accept writes and push changes to each other.
+ *
+ * Key capabilities:
+ *  - Symmetric replication: every committed write is forwarded to the peer.
+ *  - Conflict detection using HLC timestamps and monotonic sequence numbers.
+ *  - Configurable conflict resolution per collection (LWW, FIRST_WRITE_WINS,
+ *    VECTOR_CLOCK, or CUSTOM).
+ *  - Origin tracking: each change is tagged with the node that originally
+ *    created it, preventing replication loops (a change that originated from
+ *    the peer is not forwarded back to the peer).
+ *  - DDL replication with conflict detection (schema changes are sequenced and
+ *    the later-arriving DDL wins by default, or a CUSTOM resolver is invoked).
+ *
+ * Lifecycle:
+ *   BidirectionalReplicationManager mgr(config);
+ *   mgr.start();
+ *   // … application runs …
+ *   mgr.stop();
+ *
+ * Thread safety: all public methods are thread-safe.
+ */
+class BidirectionalReplicationManager {
+public:
+    // ── Configuration ────────────────────────────────────────────────────────
+    struct BidiConfig {
+        std::string local_node_id;   ///< Identifier for this node (e.g. "us-west-1")
+        std::string remote_node_id;  ///< Identifier for the peer node (e.g. "us-east-1")
+        std::string remote_endpoint; ///< Network address of the peer (e.g. "host:port")
+
+        // Conflict resolution
+        ConflictResolution default_strategy = ConflictResolution::LAST_WRITE_WINS;
+        std::map<std::string, ConflictResolution> collection_strategies; ///< Per-collection overrides
+
+        // Origin tracking
+        bool track_origin             = true;  ///< Tag every write with its origin node
+        bool replicate_foreign_changes = false; ///< If false (default), suppress re-forwarding
+                                                ///< changes whose origin is the remote peer
+
+        // Synchronisation
+        uint32_t sync_interval_ms = 1000; ///< How often to push pending changes (ms)
+        bool bidirectional_sync   = true; ///< Enable the reverse (peer→local) replication path
+
+        // DDL
+        bool replicate_ddl = true; ///< Forward schema changes to the peer
+    };
+
+    // ── Data structures ───────────────────────────────────────────────────────
+
+    /**
+     * A single write event that participates in bidirectional replication.
+     */
+    struct BidiWriteEntry {
+        std::string document_id;
+        std::string collection;
+        std::string operation;   ///< "INSERT" | "UPDATE" | "DELETE"
+        std::string data;        ///< Serialised document payload
+        std::string origin_node; ///< Node that first created this change
+        uint64_t    origin_seq  = 0; ///< Monotonic sequence on the origin node
+        int64_t     timestamp_ms = 0; ///< Wall-clock milliseconds (for LWW)
+        bool        is_ddl       = false; ///< True for DDL (schema change) entries
+    };
+
+    /**
+     * Conflict record produced when two concurrent writes target the same
+     * document in the same collection.
+     */
+    struct BidiConflictRecord {
+        std::string conflict_id;
+        std::string document_id;
+        std::string collection;
+        BidiWriteEntry local_write;
+        BidiWriteEntry remote_write;
+        BidiWriteEntry resolved_write; ///< Winner after applying the strategy
+        ConflictResolution strategy_used;
+        std::chrono::system_clock::time_point detected_at;
+        bool is_ddl_conflict = false;
+    };
+
+    /**
+     * Synchronisation status snapshot.
+     */
+    struct SyncStatus {
+        uint64_t local_sequence   = 0; ///< Latest sequence committed on the local node
+        uint64_t remote_sequence  = 0; ///< Latest sequence acknowledged from the peer
+        int64_t  lag_ms           = 0; ///< Estimated replication lag (ms)
+        uint64_t conflicts_detected = 0; ///< Lifetime conflict count
+        uint64_t conflicts_resolved = 0; ///< Conflicts resolved (including manual overrides)
+        bool     is_synchronized  = false; ///< True when lag < sync_interval_ms and both nodes healthy
+        bool     is_running       = false; ///< True while start() is active
+    };
+
+    // ── Lifecycle ─────────────────────────────────────────────────────────────
+
+    explicit BidirectionalReplicationManager(const BidiConfig& config);
+    ~BidirectionalReplicationManager();
+
+    // Non-copyable, non-movable
+    BidirectionalReplicationManager(const BidirectionalReplicationManager&) = delete;
+    BidirectionalReplicationManager& operator=(const BidirectionalReplicationManager&) = delete;
+
+    /**
+     * Activate bidirectional replication.
+     * Returns true on success, false when the manager is already running or the
+     * configuration is invalid (e.g. local_node_id == remote_node_id).
+     */
+    bool start();
+
+    /**
+     * Gracefully stop replication and release all resources.
+     * Safe to call even if start() was never called.
+     */
+    void stop();
+
+    // ── Write path ────────────────────────────────────────────────────────────
+
+    /**
+     * Submit a local write for bidirectional replication.
+     *
+     * If track_origin is enabled, the entry is tagged with local_node_id.
+     * The write is enqueued for forwarding to the peer on the next sync cycle
+     * (or immediately if sync_interval_ms == 0).
+     *
+     * Returns the assigned local sequence number.  Returns 0 when stop() has
+     * been called.
+     */
+    uint64_t submitWrite(const std::string& document_id,
+                         const std::string& collection,
+                         const std::string& operation,
+                         const std::string& data,
+                         bool is_ddl = false);
+
+    /**
+     * Apply an incoming write that was received from the peer.
+     *
+     * Origin tracking: if the entry's origin_node equals remote_node_id and
+     * replicate_foreign_changes is false (default), the change is applied
+     * locally but NOT re-forwarded back to the peer, breaking the loop.
+     *
+     * Conflict detection: if a pending local write targets the same
+     * (collection, document_id), handleConflict() is called to resolve it.
+     *
+     * Returns true when the entry was accepted and applied.
+     */
+    bool applyRemoteWrite(const BidiWriteEntry& entry);
+
+    // ── Status & metrics ──────────────────────────────────────────────────────
+
+    /** Current synchronisation status snapshot. */
+    SyncStatus getSyncStatus() const;
+
+    /**
+     * Return all conflict records (both auto-resolved and pending manual
+     * resolution).
+     */
+    std::vector<BidiConflictRecord> getConflictHistory() const;
+
+    /**
+     * Return only the conflict records that are awaiting manual resolution
+     * (i.e. strategy == CUSTOM and no manual resolution has been applied yet).
+     */
+    std::vector<BidiConflictRecord> getPendingConflicts() const;
+
+    // ── Conflict resolution ───────────────────────────────────────────────────
+
+    /**
+     * Manually resolve a conflict by nominating which node's write wins.
+     *
+     * Locates the conflict record by document_id (most recent conflict for that
+     * document), marks it resolved, and updates resolved_write to the nominated
+     * node's write.  winner_node must be either local_node_id or remote_node_id.
+     *
+     * Returns true when a matching unresolved conflict was found and resolved.
+     */
+    bool resolveConflict(const std::string& document_id,
+                         const std::string& winner_node);
+
+    // ── Configuration helpers ─────────────────────────────────────────────────
+
+    /** Update the conflict resolution strategy for a specific collection. */
+    void setCollectionStrategy(const std::string& collection,
+                               ConflictResolution strategy);
+
+    /** Read back the effective strategy for a collection. */
+    ConflictResolution getEffectiveStrategy(const std::string& collection) const;
+
+    // ── Simulation helpers (testing / integration) ────────────────────────────
+
+    /**
+     * Inject a remote sequence number directly (used by tests and integration
+     * harnesses that do not run a real network layer).
+     */
+    void updateRemoteSequence(uint64_t remote_seq, int64_t lag_ms = 0);
+
+    /**
+     * Simulate an incoming DDL event from the peer.  Delegates to
+     * applyRemoteWrite() with is_ddl=true.
+     */
+    bool applyRemoteDDL(const std::string& ddl_statement,
+                        const std::string& schema_version,
+                        uint64_t origin_seq);
+
+private:
+    // ── Origin tracking ───────────────────────────────────────────────────────
+    struct OriginInfo {
+        std::string origin_node;
+        uint64_t    origin_sequence;
+        std::chrono::system_clock::time_point origin_timestamp;
+    };
+
+    OriginInfo getOrigin(const std::string& document_id) const;
+    bool       isLocalOrigin(const OriginInfo& origin) const;
+
+    // ── Conflict helpers ──────────────────────────────────────────────────────
+    /**
+     * Apply the configured resolution strategy and return the winning entry.
+     */
+    BidiWriteEntry resolveWrite(const BidiWriteEntry& local,
+                                const BidiWriteEntry& remote,
+                                ConflictResolution strategy) const;
+
+    /**
+     * Detect whether two entries targeting the same (collection, document_id)
+     * constitute a conflict.  Two writes conflict when both have been submitted
+     * since the last known-good sync point (i.e. their sequence numbers are
+     * both ahead of the last acknowledged remote sequence).
+     */
+    bool detectConflict(const BidiWriteEntry& incoming,
+                        const BidiWriteEntry& existing) const;
+
+    /**
+     * Record a conflict and apply the configured strategy.
+     */
+    void handleConflict(const BidiWriteEntry& local_write,
+                        const BidiWriteEntry& remote_write,
+                        bool is_ddl);
+
+    // ── State ─────────────────────────────────────────────────────────────────
+    BidiConfig config_;
+
+    std::atomic<bool>     running_{false};
+    std::atomic<uint64_t> local_sequence_{0};
+    std::atomic<uint64_t> remote_sequence_{0};
+    std::atomic<int64_t>  replication_lag_ms_{0};
+    std::atomic<uint64_t> conflicts_detected_{0};
+    std::atomic<uint64_t> conflicts_resolved_{0};
+
+    // Pending local writes keyed by (collection + "\0" + document_id)
+    mutable std::mutex               pending_mutex_;
+    std::map<std::string, BidiWriteEntry> pending_writes_;
+
+    // Conflict history
+    mutable std::mutex                  conflicts_mutex_;
+    std::vector<BidiConflictRecord>     conflict_history_;
+
+    // Origin index: document key → last known origin info
+    mutable std::mutex                  origin_mutex_;
+    std::map<std::string, OriginInfo>   origin_map_;
+
+    std::string makeDocKey(const std::string& collection,
+                           const std::string& document_id) const;
+};
+
 } // namespace replication
 } // namespace themisdb

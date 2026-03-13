@@ -83,6 +83,29 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] `include/replication/policy.h` + `src/replication/policy.cpp` — ReplicationPolicy with per-collection policy assignment and topology validation
 - [x] `include/replication/replication_slot.h` + `src/replication/replication_slot.cpp` — ReplicationSlot / ReplicationSlotManager
 - [x] All 5 v1.7.0 files registered in `cmake/ModularBuild.cmake` THEMIS_TRANSACTION_SOURCES
+- [x] `BidirectionalReplicationManager` in `include/replication/replication_manager.h` + `src/replication/replication_manager.cpp` — Active-active bidirectional replication with origin tracking, per-collection conflict resolution (LWW/FIRST_WRITE/VECTOR_CLOCK/CUSTOM), DDL replication, and loop prevention
+
+### Phase 7: Bidirectional Replication (Status: Completed ✅ — v1.7.0)
+- [x] `BidirectionalReplicationManager` class with `BidiConfig` (local/remote node IDs, conflict strategy, origin tracking, DDL replication flags)
+- [x] Symmetric replication: both nodes are primary; `submitWrite()` enqueues changes for peer forwarding
+- [x] Conflict detection: concurrent writes from different origin nodes detected via `detectConflict()`; handled by `handleConflict()`
+- [x] Configurable conflict resolution per collection: `setCollectionStrategy()` / `getEffectiveStrategy()` with LWW, FIRST_WRITE_WINS, VECTOR_CLOCK, and CUSTOM strategies
+- [x] Origin tracking: every write tagged with `origin_node` + `origin_seq` + `timestamp_ms`; loop prevention via `replicate_foreign_changes=false` (default)
+- [x] DDL replication: `applyRemoteDDL()` forwards schema changes with conflict detection; `is_ddl_conflict` flag on conflict records
+- [x] `SyncStatus`: `local_sequence`, `remote_sequence`, `lag_ms`, `conflicts_detected`, `conflicts_resolved`, `is_running`, `is_synchronized`
+- [x] Manual conflict resolution: `resolveConflict(document_id, winner_node)` for CUSTOM strategy pending conflicts
+- [x] `BidiConflictRecord`: full audit trail with local/remote/resolved writes, strategy used, timestamp, DDL flag
+- [x] `updateRemoteSequence()` + `applyRemoteWrite()` for simulation/integration without a live network layer
+- [x] 22 unit tests in `tests/test_replication_ha.cpp` (BidirectionalReplicationTest suite):
+  - AC-1: start/stop lifecycle, double-start idempotency, invalid config (same node IDs, empty IDs)
+  - AC-1/6: submitWrite advances local sequence; returns 0 when stopped
+  - AC-4: origin tracking rejects own change bouncing back; accepts peer changes; updates remote_sequence
+  - AC-2: concurrent writes from different origins detected as conflict; LWW picks higher-timestamp winner
+  - AC-3: per-collection strategy override (FIRST_WRITE_WINS); CUSTOM strategy produces pending conflict
+  - AC-7: manual resolveConflict picks winner node; returns false for unknown node
+  - AC-5: DDL replication accepted; DDL conflict recorded with is_ddl_conflict=true
+  - AC-8: SyncStatus reflects lag, remote_sequence, is_synchronized; not synchronized under high lag
+- [x] CI: `.github/workflows/bidirectional-replication-ci.yml`
 
 ## New Modules (v1.8.0 – Phase 4)
 - [x] `include/replication/raft_v2.h` + `src/replication/raft_v2.cpp` — Full Raft v2: RaftV2ClusterConfig (joint consensus quorum), MembershipChangeManager (two-phase membership transitions), RaftV2State

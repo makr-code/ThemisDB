@@ -5505,3 +5505,384 @@ std::string MultiRegionActiveActiveManager::exportPrometheusMetrics() const {
 
 } // namespace replication
 } // namespace themisdb
+
+// ============================================================================
+// BidirectionalReplicationManager Implementation  (v1.7.0)
+// ============================================================================
+
+namespace themisdb {
+namespace replication {
+
+namespace {
+
+// Generate a short unique ID using timestamp + counter.
+std::string generateBidiId(const std::string& prefix) {
+    static std::atomic<uint64_t> counter{0};
+    auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    return prefix + "-" + std::to_string(now_ms) + "-"
+           + std::to_string(counter.fetch_add(1));
+}
+
+} // anonymous namespace
+
+// ── Constructor / Destructor ─────────────────────────────────────────────────
+
+BidirectionalReplicationManager::BidirectionalReplicationManager(
+    const BidiConfig& config)
+    : config_(config)
+{}
+
+BidirectionalReplicationManager::~BidirectionalReplicationManager() {
+    stop();
+}
+
+// ── Lifecycle ────────────────────────────────────────────────────────────────
+
+bool BidirectionalReplicationManager::start() {
+    if (config_.local_node_id.empty() || config_.remote_node_id.empty()) {
+        return false;
+    }
+    if (config_.local_node_id == config_.remote_node_id) {
+        return false;
+    }
+    bool expected = false;
+    return running_.compare_exchange_strong(expected, true);
+}
+
+void BidirectionalReplicationManager::stop() {
+    running_.store(false);
+}
+
+// ── Write path ───────────────────────────────────────────────────────────────
+
+uint64_t BidirectionalReplicationManager::submitWrite(
+    const std::string& document_id,
+    const std::string& collection,
+    const std::string& operation,
+    const std::string& data,
+    bool is_ddl)
+{
+    if (!running_.load()) {
+        return 0;
+    }
+
+    uint64_t seq = local_sequence_.fetch_add(1) + 1;
+
+    BidiWriteEntry entry;
+    entry.document_id  = document_id;
+    entry.collection   = collection;
+    entry.operation    = operation;
+    entry.data         = data;
+    entry.is_ddl       = is_ddl;
+    entry.origin_seq   = seq;
+    entry.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+
+    if (config_.track_origin) {
+        entry.origin_node = config_.local_node_id;
+    }
+
+    const std::string key = makeDocKey(collection, document_id);
+
+    // Update origin map
+    if (config_.track_origin) {
+        std::lock_guard<std::mutex> lk(origin_mutex_);
+        origin_map_[key] = { config_.local_node_id, seq,
+                             std::chrono::system_clock::now() };
+    }
+
+    // Enqueue as a pending local write
+    {
+        std::lock_guard<std::mutex> lk(pending_mutex_);
+        pending_writes_[key] = entry;
+    }
+
+    return seq;
+}
+
+bool BidirectionalReplicationManager::applyRemoteWrite(const BidiWriteEntry& entry) {
+    if (entry.document_id.empty() || entry.collection.empty()) {
+        return false;
+    }
+
+    // Origin-tracking loop prevention: if the change originated locally, do not
+    // re-apply it (it was already in pending_writes_).
+    if (config_.track_origin && !config_.replicate_foreign_changes) {
+        if (entry.origin_node == config_.local_node_id) {
+            // This is our own write bouncing back; discard it.
+            return false;
+        }
+    }
+
+    const std::string key = makeDocKey(entry.collection, entry.document_id);
+
+    // Conflict detection: check whether we have a pending local write for the
+    // same document.
+    {
+        std::lock_guard<std::mutex> lk(pending_mutex_);
+        auto it = pending_writes_.find(key);
+        if (it != pending_writes_.end()) {
+            if (detectConflict(entry, it->second)) {
+                handleConflict(it->second, entry, entry.is_ddl);
+                // Remove the pending write; the resolved winner is tracked in
+                // the conflict history.
+                pending_writes_.erase(it);
+            } else {
+                // The remote write is causally after our pending write (or
+                // vice-versa); accept it and retire the pending write.
+                pending_writes_.erase(it);
+            }
+        }
+    }
+
+    // Update the remote sequence watermark.
+    if (entry.origin_seq > 0) {
+        uint64_t cur = remote_sequence_.load();
+        while (entry.origin_seq > cur) {
+            if (remote_sequence_.compare_exchange_weak(cur, entry.origin_seq)) {
+                break;
+            }
+        }
+    }
+
+    // Update origin map to reflect the latest known origin for this document.
+    if (config_.track_origin) {
+        std::lock_guard<std::mutex> lk(origin_mutex_);
+        auto& oi = origin_map_[key];
+        if (entry.origin_seq >= oi.origin_sequence) {
+            oi = { entry.origin_node, entry.origin_seq,
+                   std::chrono::system_clock::now() };
+        }
+    }
+
+    return true;
+}
+
+// ── Status & metrics ─────────────────────────────────────────────────────────
+
+BidirectionalReplicationManager::SyncStatus
+BidirectionalReplicationManager::getSyncStatus() const {
+    SyncStatus s;
+    s.local_sequence    = local_sequence_.load();
+    s.remote_sequence   = remote_sequence_.load();
+    s.lag_ms            = replication_lag_ms_.load();
+    s.conflicts_detected = conflicts_detected_.load();
+    s.conflicts_resolved = conflicts_resolved_.load();
+    s.is_running        = running_.load();
+
+    // "Synchronized" when running, no outstanding pending writes, and lag is
+    // within one sync interval.
+    {
+        std::lock_guard<std::mutex> lk(pending_mutex_);
+        const bool no_pending = pending_writes_.empty();
+        s.is_synchronized = s.is_running && no_pending
+                            && s.lag_ms < static_cast<int64_t>(config_.sync_interval_ms);
+    }
+
+    return s;
+}
+
+std::vector<BidirectionalReplicationManager::BidiConflictRecord>
+BidirectionalReplicationManager::getConflictHistory() const {
+    std::lock_guard<std::mutex> lk(conflicts_mutex_);
+    return conflict_history_;
+}
+
+std::vector<BidirectionalReplicationManager::BidiConflictRecord>
+BidirectionalReplicationManager::getPendingConflicts() const {
+    std::lock_guard<std::mutex> lk(conflicts_mutex_);
+    std::vector<BidiConflictRecord> result;
+    for (const auto& rec : conflict_history_) {
+        if (rec.strategy_used == ConflictResolution::CUSTOM
+            && rec.resolved_write.data.empty()) {
+            result.push_back(rec);
+        }
+    }
+    return result;
+}
+
+// ── Conflict resolution ───────────────────────────────────────────────────────
+
+bool BidirectionalReplicationManager::resolveConflict(
+    const std::string& document_id,
+    const std::string& winner_node)
+{
+    if (winner_node != config_.local_node_id
+        && winner_node != config_.remote_node_id) {
+        return false;
+    }
+
+    std::lock_guard<std::mutex> lk(conflicts_mutex_);
+    // Walk in reverse to find the most-recent conflict for this document.
+    for (auto it = conflict_history_.rbegin(); it != conflict_history_.rend(); ++it) {
+        if (it->document_id == document_id && it->resolved_write.data.empty()) {
+            it->resolved_write = (winner_node == config_.local_node_id)
+                                 ? it->local_write
+                                 : it->remote_write;
+            conflicts_resolved_.fetch_add(1);
+            return true;
+        }
+    }
+    return false;
+}
+
+// ── Configuration helpers ─────────────────────────────────────────────────────
+
+void BidirectionalReplicationManager::setCollectionStrategy(
+    const std::string& collection,
+    ConflictResolution strategy)
+{
+    config_.collection_strategies[collection] = strategy;
+}
+
+ConflictResolution BidirectionalReplicationManager::getEffectiveStrategy(
+    const std::string& collection) const
+{
+    auto it = config_.collection_strategies.find(collection);
+    return (it != config_.collection_strategies.end())
+           ? it->second
+           : config_.default_strategy;
+}
+
+// ── Simulation helpers ────────────────────────────────────────────────────────
+
+void BidirectionalReplicationManager::updateRemoteSequence(
+    uint64_t remote_seq, int64_t lag_ms)
+{
+    uint64_t cur = remote_sequence_.load();
+    while (remote_seq > cur) {
+        if (remote_sequence_.compare_exchange_weak(cur, remote_seq)) {
+            break;
+        }
+    }
+    replication_lag_ms_.store(lag_ms);
+}
+
+bool BidirectionalReplicationManager::applyRemoteDDL(
+    const std::string& ddl_statement,
+    const std::string& schema_version,
+    uint64_t origin_seq)
+{
+    BidiWriteEntry entry;
+    entry.document_id  = "__ddl__" + schema_version;
+    entry.collection   = "__schema__";
+    entry.operation    = "DDL";
+    entry.data         = ddl_statement;
+    entry.origin_node  = config_.remote_node_id;
+    entry.origin_seq   = origin_seq;
+    entry.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    entry.is_ddl       = true;
+
+    return applyRemoteWrite(entry);
+}
+
+// ── Private helpers ───────────────────────────────────────────────────────────
+
+std::string BidirectionalReplicationManager::makeDocKey(
+    const std::string& collection,
+    const std::string& document_id) const
+{
+    return collection + '\0' + document_id;
+}
+
+BidirectionalReplicationManager::OriginInfo
+BidirectionalReplicationManager::getOrigin(const std::string& document_id) const
+{
+    // document_id here is expected to be the raw doc id (not the compound key).
+    // Callers that need to look up by collection+doc should use the origin_map_
+    // directly with makeDocKey.
+    std::lock_guard<std::mutex> lk(origin_mutex_);
+    for (const auto& kv : origin_map_) {
+        // The key is "collection\0doc_id"; strip the collection prefix.
+        const auto sep = kv.first.find('\0');
+        if (sep != std::string::npos && kv.first.substr(sep + 1) == document_id) {
+            return kv.second;
+        }
+    }
+    return { config_.local_node_id, 0, std::chrono::system_clock::now() };
+}
+
+bool BidirectionalReplicationManager::isLocalOrigin(const OriginInfo& origin) const {
+    return origin.origin_node == config_.local_node_id;
+}
+
+BidirectionalReplicationManager::BidiWriteEntry
+BidirectionalReplicationManager::resolveWrite(
+    const BidiWriteEntry& local,
+    const BidiWriteEntry& remote,
+    ConflictResolution strategy) const
+{
+    switch (strategy) {
+    case ConflictResolution::FIRST_WRITE_WINS:
+        // Whichever has the smaller timestamp wins; ties go to the local write.
+        return (remote.timestamp_ms < local.timestamp_ms) ? remote : local;
+
+    case ConflictResolution::LAST_WRITE_WINS:
+        // Whichever has the larger timestamp wins; ties go to the remote write
+        // (consistent with the existing LWWConflictResolver convention).
+        return (local.timestamp_ms > remote.timestamp_ms) ? local : remote;
+
+    case ConflictResolution::VECTOR_CLOCK:
+        // Without a real vector-clock on each entry, fall back to LWW.
+        return (local.timestamp_ms > remote.timestamp_ms) ? local : remote;
+
+    case ConflictResolution::CUSTOM:
+        // Return an empty placeholder; the application must call resolveConflict().
+        return {};
+
+    default:
+        return (local.timestamp_ms > remote.timestamp_ms) ? local : remote;
+    }
+}
+
+bool BidirectionalReplicationManager::detectConflict(
+    const BidiWriteEntry& incoming,
+    const BidiWriteEntry& existing) const
+{
+    // Two writes to the same (collection, document_id) from different origins
+    // are always considered concurrent — a true conflict.
+    if (incoming.origin_node == existing.origin_node) {
+        // Same origin: the later sequence supersedes the earlier one.
+        return false;
+    }
+    return true;
+}
+
+void BidirectionalReplicationManager::handleConflict(
+    const BidiWriteEntry& local_write,
+    const BidiWriteEntry& remote_write,
+    bool is_ddl)
+{
+    conflicts_detected_.fetch_add(1);
+
+    const ConflictResolution strategy =
+        getEffectiveStrategy(local_write.collection);
+
+    BidiWriteEntry winner = resolveWrite(local_write, remote_write, strategy);
+
+    BidiConflictRecord rec;
+    rec.conflict_id    = generateBidiId("bidi-conflict");
+    rec.document_id    = local_write.document_id;
+    rec.collection     = local_write.collection;
+    rec.local_write    = local_write;
+    rec.remote_write   = remote_write;
+    rec.resolved_write = winner;
+    rec.strategy_used  = strategy;
+    rec.detected_at    = std::chrono::system_clock::now();
+    rec.is_ddl_conflict = is_ddl;
+
+    {
+        std::lock_guard<std::mutex> lk(conflicts_mutex_);
+        conflict_history_.push_back(std::move(rec));
+    }
+
+    // Only count as resolved if we actually picked a winner (not CUSTOM).
+    if (strategy != ConflictResolution::CUSTOM) {
+        conflicts_resolved_.fetch_add(1);
+    }
+}
+
+} // namespace replication
+} // namespace themisdb

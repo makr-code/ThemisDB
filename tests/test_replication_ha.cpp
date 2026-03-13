@@ -4693,3 +4693,385 @@ TEST_F(WitnessNodeTest, WitnessNotSelectedAsLeaderCandidate) {
 
     mgr.shutdown();
 }
+
+// ============================================================================
+// BidirectionalReplicationTest  (v1.7.0)
+// ============================================================================
+// Covers all acceptance criteria from the Bidirectional Replication roadmap
+// item:
+//   AC-1  Symmetric replication (both nodes are primary)
+//   AC-2  Conflict detection using timestamps and sequence numbers
+//   AC-3  Configurable conflict resolution per table/collection
+//   AC-4  Origin tracking to prevent replication loops
+//   AC-5  DDL replication with conflict detection
+//   AC-6  Active-active high-availability semantics
+//   AC-7  Manual conflict resolution API
+//   AC-8  SyncStatus reflects running, sequence numbers, and lag
+// ============================================================================
+
+static BidirectionalReplicationManager::BidiConfig makeBidiConfig(
+    const std::string& local  = "node-west",
+    const std::string& remote = "node-east")
+{
+    BidirectionalReplicationManager::BidiConfig cfg;
+    cfg.local_node_id   = local;
+    cfg.remote_node_id  = remote;
+    cfg.remote_endpoint = "10.0.0.2:7000";
+    cfg.sync_interval_ms = 100;
+    cfg.track_origin     = true;
+    cfg.replicate_foreign_changes = false;
+    cfg.bidirectional_sync = true;
+    return cfg;
+}
+
+// ── AC-1: Both nodes can be primary (start / stop lifecycle) ─────────────────
+
+TEST(BidirectionalReplicationTest, StartSucceedsWithValidConfig) {
+    BidirectionalReplicationManager mgr(makeBidiConfig());
+    EXPECT_TRUE(mgr.start());
+    EXPECT_TRUE(mgr.getSyncStatus().is_running);
+    mgr.stop();
+    EXPECT_FALSE(mgr.getSyncStatus().is_running);
+}
+
+TEST(BidirectionalReplicationTest, StartFailsWhenLocalEqualsRemote) {
+    auto cfg = makeBidiConfig("same-node", "same-node");
+    BidirectionalReplicationManager mgr(cfg);
+    EXPECT_FALSE(mgr.start());
+}
+
+TEST(BidirectionalReplicationTest, StartFailsWhenNodeIdEmpty) {
+    BidirectionalReplicationManager::BidiConfig cfg;
+    cfg.local_node_id  = "";
+    cfg.remote_node_id = "node-east";
+    BidirectionalReplicationManager mgr(cfg);
+    EXPECT_FALSE(mgr.start());
+}
+
+TEST(BidirectionalReplicationTest, DoubleStartIsIdempotent) {
+    BidirectionalReplicationManager mgr(makeBidiConfig());
+    EXPECT_TRUE(mgr.start());
+    // Second start while already running must return false.
+    EXPECT_FALSE(mgr.start());
+    mgr.stop();
+}
+
+// ── AC-1 / AC-6: submitWrite advances local sequence ─────────────────────────
+
+TEST(BidirectionalReplicationTest, SubmitWriteAdvancesLocalSequence) {
+    BidirectionalReplicationManager mgr(makeBidiConfig());
+    mgr.start();
+
+    uint64_t seq1 = mgr.submitWrite("doc1", "orders", "INSERT", R"({"id":1})");
+    uint64_t seq2 = mgr.submitWrite("doc2", "orders", "INSERT", R"({"id":2})");
+
+    EXPECT_EQ(seq1, 1u);
+    EXPECT_EQ(seq2, 2u);
+    EXPECT_EQ(mgr.getSyncStatus().local_sequence, 2u);
+
+    mgr.stop();
+}
+
+TEST(BidirectionalReplicationTest, SubmitWriteReturnsZeroWhenStopped) {
+    BidirectionalReplicationManager mgr(makeBidiConfig());
+    // Do not call start().
+    uint64_t seq = mgr.submitWrite("doc1", "orders", "INSERT", "{}");
+    EXPECT_EQ(seq, 0u);
+}
+
+// ── AC-4: Origin tracking prevents replication loops ─────────────────────────
+
+TEST(BidirectionalReplicationTest, OriginTrackingRejectsOwnChangeBouncing) {
+    auto cfg = makeBidiConfig();
+    cfg.replicate_foreign_changes = false;
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    // Simulate a write that came from the LOCAL node being echoed back.
+    BidirectionalReplicationManager::BidiWriteEntry entry;
+    entry.document_id  = "doc1";
+    entry.collection   = "orders";
+    entry.operation    = "UPDATE";
+    entry.data         = R"({"v":2})";
+    entry.origin_node  = "node-west";  // same as local_node_id
+    entry.origin_seq   = 1;
+    entry.timestamp_ms = 1000;
+
+    // applyRemoteWrite must reject this because it originated locally.
+    EXPECT_FALSE(mgr.applyRemoteWrite(entry));
+
+    mgr.stop();
+}
+
+TEST(BidirectionalReplicationTest, OriginTrackingAcceptsPeerChanges) {
+    auto cfg = makeBidiConfig();
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    BidirectionalReplicationManager::BidiWriteEntry entry;
+    entry.document_id  = "doc2";
+    entry.collection   = "orders";
+    entry.operation    = "INSERT";
+    entry.data         = R"({"v":1})";
+    entry.origin_node  = "node-east";  // remote_node_id
+    entry.origin_seq   = 5;
+    entry.timestamp_ms = 2000;
+
+    EXPECT_TRUE(mgr.applyRemoteWrite(entry));
+    EXPECT_EQ(mgr.getSyncStatus().remote_sequence, 5u);
+
+    mgr.stop();
+}
+
+// ── AC-2: Conflict detection ──────────────────────────────────────────────────
+
+TEST(BidirectionalReplicationTest, ConcurrentWritesDetectedAsConflict) {
+    auto cfg = makeBidiConfig();
+    cfg.default_strategy = ConflictResolution::LAST_WRITE_WINS;
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    // Local write for "doc5" in "users" collection.
+    mgr.submitWrite("doc5", "users", "UPDATE", R"({"name":"Alice","ts":100})");
+
+    // Now inject a conflicting remote write for the same document.
+    BidirectionalReplicationManager::BidiWriteEntry remote;
+    remote.document_id  = "doc5";
+    remote.collection   = "users";
+    remote.operation    = "UPDATE";
+    remote.data         = R"({"name":"Bob","ts":200})";
+    remote.origin_node  = "node-east";
+    remote.origin_seq   = 10;
+    remote.timestamp_ms = 200;  // remote is newer → should win under LWW
+
+    mgr.applyRemoteWrite(remote);
+
+    auto history = mgr.getConflictHistory();
+    ASSERT_EQ(history.size(), 1u);
+    EXPECT_EQ(history[0].document_id, "doc5");
+    EXPECT_EQ(history[0].collection, "users");
+    EXPECT_EQ(history[0].strategy_used, ConflictResolution::LAST_WRITE_WINS);
+    // The remote (higher ts=200) should be the winner.
+    EXPECT_EQ(history[0].resolved_write.data, R"({"name":"Bob","ts":200})");
+    EXPECT_EQ(mgr.getSyncStatus().conflicts_detected, 1u);
+    EXPECT_EQ(mgr.getSyncStatus().conflicts_resolved, 1u);
+
+    mgr.stop();
+}
+
+// ── AC-3: Configurable conflict resolution per collection ─────────────────────
+
+TEST(BidirectionalReplicationTest, CollectionStrategyOverridesDefault) {
+    auto cfg = makeBidiConfig();
+    cfg.default_strategy = ConflictResolution::LAST_WRITE_WINS;
+    BidirectionalReplicationManager mgr(cfg);
+
+    // Override the strategy for "critical" collection.
+    mgr.setCollectionStrategy("critical", ConflictResolution::FIRST_WRITE_WINS);
+
+    EXPECT_EQ(mgr.getEffectiveStrategy("orders"),   ConflictResolution::LAST_WRITE_WINS);
+    EXPECT_EQ(mgr.getEffectiveStrategy("critical"), ConflictResolution::FIRST_WRITE_WINS);
+
+    mgr.start();
+
+    mgr.submitWrite("rec1", "critical", "INSERT", R"({"v":"first"})");
+    // The local write timestamp is set to the current wall clock by submitWrite.
+    // The remote write has a later timestamp (900ms epoch) but since FIRST_WRITE_WINS
+    // is configured, the local write (earlier timestamp) should win.
+
+    BidirectionalReplicationManager::BidiWriteEntry remote;
+    remote.document_id  = "rec1";
+    remote.collection   = "critical";
+    remote.operation    = "INSERT";
+    remote.data         = R"({"v":"second"})";
+    remote.origin_node  = "node-east";
+    remote.origin_seq   = 2;
+    remote.timestamp_ms = 900;  // later timestamp
+
+    mgr.applyRemoteWrite(remote);
+
+    auto history = mgr.getConflictHistory();
+    ASSERT_GE(history.size(), 1u);
+    auto& rec = history.back();
+    EXPECT_EQ(rec.strategy_used, ConflictResolution::FIRST_WRITE_WINS);
+
+    mgr.stop();
+}
+
+// ── AC-3: CUSTOM strategy defers to manual resolution ────────────────────────
+
+TEST(BidirectionalReplicationTest, CustomStrategyProducesPendingConflict) {
+    auto cfg = makeBidiConfig();
+    cfg.default_strategy = ConflictResolution::CUSTOM;
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    mgr.submitWrite("docC", "finance", "UPDATE", R"({"amount":100})");
+
+    BidirectionalReplicationManager::BidiWriteEntry remote;
+    remote.document_id  = "docC";
+    remote.collection   = "finance";
+    remote.operation    = "UPDATE";
+    remote.data         = R"({"amount":200})";
+    remote.origin_node  = "node-east";
+    remote.origin_seq   = 7;
+    remote.timestamp_ms = 5000;
+
+    mgr.applyRemoteWrite(remote);
+
+    auto pending = mgr.getPendingConflicts();
+    ASSERT_EQ(pending.size(), 1u);
+    EXPECT_EQ(pending[0].document_id, "docC");
+
+    mgr.stop();
+}
+
+// ── AC-7: Manual conflict resolution ─────────────────────────────────────────
+
+TEST(BidirectionalReplicationTest, ManualResolveConflictPicksWinner) {
+    auto cfg = makeBidiConfig();
+    cfg.default_strategy = ConflictResolution::CUSTOM;
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    mgr.submitWrite("docM", "audit", "UPDATE", R"({"val":"local"})");
+
+    BidirectionalReplicationManager::BidiWriteEntry remote;
+    remote.document_id  = "docM";
+    remote.collection   = "audit";
+    remote.operation    = "UPDATE";
+    remote.data         = R"({"val":"remote"})";
+    remote.origin_node  = "node-east";
+    remote.origin_seq   = 11;
+    remote.timestamp_ms = 8000;
+
+    mgr.applyRemoteWrite(remote);
+
+    // Manually nominate the remote node as winner.
+    bool resolved = mgr.resolveConflict("docM", "node-east");
+    EXPECT_TRUE(resolved);
+
+    auto history = mgr.getConflictHistory();
+    ASSERT_GE(history.size(), 1u);
+    EXPECT_EQ(history.back().resolved_write.data, R"({"val":"remote"})");
+    EXPECT_EQ(mgr.getSyncStatus().conflicts_resolved, 1u);
+
+    mgr.stop();
+}
+
+TEST(BidirectionalReplicationTest, ManualResolveReturnsFalseForUnknownNode) {
+    auto cfg = makeBidiConfig();
+    cfg.default_strategy = ConflictResolution::CUSTOM;
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    mgr.submitWrite("docX", "misc", "UPDATE", R"({})");
+
+    BidirectionalReplicationManager::BidiWriteEntry remote;
+    remote.document_id  = "docX";
+    remote.collection   = "misc";
+    remote.operation    = "UPDATE";
+    remote.data         = R"({"x":1})";
+    remote.origin_node  = "node-east";
+    remote.origin_seq   = 3;
+    remote.timestamp_ms = 100;
+
+    mgr.applyRemoteWrite(remote);
+
+    // "unknown-node" is neither local nor remote → must return false.
+    EXPECT_FALSE(mgr.resolveConflict("docX", "unknown-node"));
+
+    mgr.stop();
+}
+
+// ── AC-5: DDL replication with conflict detection ─────────────────────────────
+
+TEST(BidirectionalReplicationTest, DDLReplicationAcceptedAndTracked) {
+    auto cfg = makeBidiConfig();
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    bool ok = mgr.applyRemoteDDL(
+        "ALTER TABLE orders ADD COLUMN notes TEXT",
+        "v42",
+        100);
+    EXPECT_TRUE(ok);
+    EXPECT_EQ(mgr.getSyncStatus().remote_sequence, 100u);
+
+    mgr.stop();
+}
+
+TEST(BidirectionalReplicationTest, DDLConflictIsRecordedAsDDLConflict) {
+    auto cfg = makeBidiConfig();
+    cfg.default_strategy = ConflictResolution::LAST_WRITE_WINS;
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    // Simulate a local DDL write.
+    mgr.submitWrite("__ddl__v10", "__schema__", "DDL",
+                    "ALTER TABLE t ADD COLUMN a INT", /*is_ddl=*/true);
+
+    // Remote DDL for the same schema version → conflict.
+    BidirectionalReplicationManager::BidiWriteEntry remote_ddl;
+    remote_ddl.document_id  = "__ddl__v10";
+    remote_ddl.collection   = "__schema__";
+    remote_ddl.operation    = "DDL";
+    remote_ddl.data         = "ALTER TABLE t ADD COLUMN b TEXT";
+    remote_ddl.origin_node  = "node-east";
+    remote_ddl.origin_seq   = 20;
+    remote_ddl.timestamp_ms = 9999;
+    remote_ddl.is_ddl       = true;
+
+    mgr.applyRemoteWrite(remote_ddl);
+
+    auto history = mgr.getConflictHistory();
+    ASSERT_GE(history.size(), 1u);
+    EXPECT_TRUE(history.back().is_ddl_conflict);
+
+    mgr.stop();
+}
+
+// ── AC-8: SyncStatus reflects lag and synchronisation state ──────────────────
+
+TEST(BidirectionalReplicationTest, SyncStatusReflectsLagFromUpdateRemoteSequence) {
+    BidirectionalReplicationManager mgr(makeBidiConfig());
+    mgr.start();
+
+    mgr.updateRemoteSequence(50, 300);
+
+    auto s = mgr.getSyncStatus();
+    EXPECT_EQ(s.remote_sequence, 50u);
+    EXPECT_EQ(s.lag_ms, 300);
+
+    mgr.stop();
+}
+
+TEST(BidirectionalReplicationTest, SyncStatusIsSynchronizedWhenNoPendingAndLowLag) {
+    auto cfg = makeBidiConfig();
+    cfg.sync_interval_ms = 1000;
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    // No pending writes, lag within interval.
+    mgr.updateRemoteSequence(0, 50);
+
+    auto s = mgr.getSyncStatus();
+    EXPECT_TRUE(s.is_synchronized);
+    EXPECT_TRUE(s.is_running);
+
+    mgr.stop();
+}
+
+TEST(BidirectionalReplicationTest, SyncStatusNotSynchronizedWhenHighLag) {
+    auto cfg = makeBidiConfig();
+    cfg.sync_interval_ms = 100;
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    mgr.updateRemoteSequence(0, 5000);  // lag > sync_interval_ms
+
+    auto s = mgr.getSyncStatus();
+    EXPECT_FALSE(s.is_synchronized);
+
+    mgr.stop();
+}
