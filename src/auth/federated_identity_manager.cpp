@@ -29,7 +29,9 @@
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
 
+#include <sstream>
 #include <stdexcept>
+#include <unordered_set>
 
 namespace themis {
 namespace auth {
@@ -296,37 +298,47 @@ void FederatedIdentityManager::setHttpPostForTesting(
 // ---------------------------------------------------------------------------
 
 // static
-std::string FederatedIdentityManager::urlEncode(const std::string& value) {
-    CURL* curl = curl_easy_init();
-    if (!curl) {
-        throw std::runtime_error("Failed to initialize libcurl handle for URL encoding");
-    }
-
-    char* encoded = curl_easy_escape(curl, value.c_str(),
-                                     static_cast<int>(value.size()));
-    std::string result;
-    if (encoded) {
-        result = encoded;
-        curl_free(encoded);
-    } else {
-        curl_easy_cleanup(curl);
-        throw std::runtime_error("curl_easy_escape failed to URL-encode value");
-    }
-    curl_easy_cleanup(curl);
-    return result;
-}
-
-// static
 std::string FederatedIdentityManager::buildFormBody(
     const std::vector<std::pair<std::string, std::string>>& params)
 {
+    // Create a single CURL handle and reuse it for all escape operations,
+    // avoiding repeated curl_easy_init/cleanup overhead per parameter.
+    CURL* curl = curl_easy_init();
+    if (!curl) {
+        throw std::runtime_error(
+            "Failed to initialize libcurl handle for form encoding");
+    }
+
     std::string body;
     for (size_t i = 0; i < params.size(); ++i) {
         if (i > 0) body += '&';
-        body += urlEncode(params[i].first);
+
+        char* enc_key = curl_easy_escape(
+            curl, params[i].first.c_str(),
+            static_cast<int>(params[i].first.size()));
+        if (!enc_key) {
+            curl_easy_cleanup(curl);
+            throw std::runtime_error(
+                "curl_easy_escape failed to URL-encode form key");
+        }
+        body += enc_key;
+        curl_free(enc_key);
+
         body += '=';
-        body += urlEncode(params[i].second);
+
+        char* enc_val = curl_easy_escape(
+            curl, params[i].second.c_str(),
+            static_cast<int>(params[i].second.size()));
+        if (!enc_val) {
+            curl_easy_cleanup(curl);
+            throw std::runtime_error(
+                "curl_easy_escape failed to URL-encode form value");
+        }
+        body += enc_val;
+        curl_free(enc_val);
     }
+
+    curl_easy_cleanup(curl);
     return body;
 }
 
@@ -400,6 +412,10 @@ std::string FederatedIdentityManager::httpPost(const std::string& url,
 
     curl_slist_free_all(headers);
     curl_multi_remove_handle(multi, curl);
+
+    long http_code = 0;
+    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+
     curl_multi_cleanup(multi);
     curl_easy_cleanup(curl);
 
@@ -410,6 +426,10 @@ std::string FederatedIdentityManager::httpPost(const std::string& url,
     if (easy_rc != CURLE_OK) {
         throw std::runtime_error(
             std::string("libcurl error: ") + curl_easy_strerror(easy_rc));
+    }
+    if (http_code < 200 || http_code >= 300) {
+        throw std::runtime_error(
+            "HTTP " + std::to_string(http_code) + " from " + url);
     }
 
     return response_body;
@@ -425,11 +445,20 @@ TokenExchangeResult FederatedIdentityManager::exchangeToken(
     const std::string& requested_token_type,
     const std::vector<std::string>& target_scopes)
 {
-    // Step 1: peek at the issuer claim to find the responsible realm
-    const std::string raw_iss = extractIssuer(subject_token);
+    // Step 1: strip any "Bearer " prefix so only the raw JWT is forwarded to
+    // the IdP's token endpoint (RFC 8693 §2.1 expects the token value, not
+    // an Authorization header value).
+    std::string raw_subject_token = subject_token;
+    if (raw_subject_token.starts_with("Bearer ") ||
+        raw_subject_token.starts_with("bearer ")) {
+        raw_subject_token = raw_subject_token.substr(7);
+    }
+
+    // Step 2: peek at the issuer claim to find the responsible realm
+    const std::string raw_iss = extractIssuer(raw_subject_token);
     const std::string iss     = normalize(raw_iss);
 
-    // Step 2: locate the matching realm
+    // Step 3: locate the matching realm
     std::shared_ptr<OIDCProvider> provider;
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -446,14 +475,14 @@ TokenExchangeResult FederatedIdentityManager::exchangeToken(
         provider = it->second;
     }
 
-    // Step 3: validate the subject token through the realm's JWTValidator
+    // Step 4: validate the subject token through the realm's JWTValidator
     // pipeline to ensure the caller presents a valid credential before we
     // forward it to the IdP.
     spdlog::debug("FederatedIdentityManager::exchangeToken: "
                   "validating subject token for realm '{}'", iss);
-    provider->validateToken(subject_token);
+    provider->validateToken(raw_subject_token);
 
-    // Step 4: obtain the token_endpoint from the realm's discovery document
+    // Step 5: obtain the token_endpoint from the realm's discovery document
     const std::string token_endpoint =
         provider->discoveryDocument().token_endpoint;
 
@@ -465,12 +494,22 @@ TokenExchangeResult FederatedIdentityManager::exchangeToken(
         ));
     }
 
-    // Step 5: build the RFC 8693 token-exchange POST body
+    // Reject non-HTTPS endpoints to prevent accidental secret leakage over
+    // cleartext connections (RFC 8693 §2.1 mandates TLS for the token endpoint).
+    if (token_endpoint.compare(0, 8, "https://") != 0) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_CONFIG_INVALID,
+            "Token exchange requires a secure connection",
+            "token_endpoint '" + token_endpoint + "' must use HTTPS"
+        ));
+    }
+
+    // Step 6: build the RFC 8693 token-exchange POST body
     // (grant_type + subject_token + subject_token_type + requested_token_type
     //  + client_id + optional client_secret + optional scope)
     std::vector<std::pair<std::string, std::string>> params = {
         {"grant_type",           "urn:ietf:params:oauth:grant-type:token-exchange"},
-        {"subject_token",        subject_token},
+        {"subject_token",        raw_subject_token},
         {"subject_token_type",   subject_token_type},
         {"requested_token_type", requested_token_type},
         {"client_id",            provider->clientId()},
@@ -492,7 +531,7 @@ TokenExchangeResult FederatedIdentityManager::exchangeToken(
 
     const std::string form_body = buildFormBody(params);
 
-    // Step 6: POST the token-exchange request to the IdP
+    // Step 7: POST the token-exchange request to the IdP
     spdlog::debug("FederatedIdentityManager::exchangeToken: "
                   "posting to token_endpoint '{}'", token_endpoint);
 
@@ -509,7 +548,7 @@ TokenExchangeResult FederatedIdentityManager::exchangeToken(
         ));
     }
 
-    // Step 7: parse the IdP response
+    // Step 8: parse the IdP response
     nlohmann::json j;
     try {
         j = nlohmann::json::parse(response_body);
@@ -553,10 +592,40 @@ TokenExchangeResult FederatedIdentityManager::exchangeToken(
     result.scope              = j.value("scope", "");
     result.realm              = iss;
 
-    // Step 8: validate the exchanged token through the JWTValidator pipeline
+    // Step 9: validate the exchanged token through the JWTValidator pipeline
     spdlog::debug("FederatedIdentityManager::exchangeToken: "
                   "validating exchanged token for realm '{}'", iss);
     result.claims = provider->validateToken(result.access_token);
+
+    // Step 10: verify that the IdP granted all minimum-required scopes.
+    // The scope field is OPTIONAL in the response (RFC 8693 §2.2.1); when
+    // present it lists the scopes actually granted, which may be a subset of
+    // what was requested.  If it is absent the IdP implicitly confirms that
+    // all requested scopes were granted, so we only enforce when it is present.
+    if (!target_scopes.empty() && !result.scope.empty()) {
+        // Parse the space-separated scope string into a set for O(1) lookup
+        std::unordered_set<std::string> granted;
+        {
+            std::istringstream ss(result.scope);
+            std::string tok;
+            while (ss >> tok) {
+                granted.insert(tok);
+            }
+        }
+        for (const auto& required : target_scopes) {
+            if (granted.find(required) == granted.end()) {
+                spdlog::warn("FederatedIdentityManager::exchangeToken: "
+                             "required scope '{}' not in granted scope '{}' for realm '{}'",
+                             required, result.scope, iss);
+                throw AuthException(AuthError(
+                    AuthErrorCode::AUTH_INSUFFICIENT_PERMISSIONS,
+                    "Exchanged token is missing a required scope",
+                    "Required scope '" + required +
+                        "' was not granted; returned scope: '" + result.scope + "'"
+                ));
+            }
+        }
+    }
 
     spdlog::info("FederatedIdentityManager::exchangeToken: "
                  "token exchange successful for realm '{}', subject='{}'",

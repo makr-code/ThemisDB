@@ -206,9 +206,15 @@ public:
      *         validated JWTClaims.
      * @throws AuthException(JWT_ISSUER_MISMATCH) if @p subject_token's issuer
      *         does not match any registered realm.
+     * @throws AuthException(AUTH_CONFIG_INVALID) if the realm's
+     *         @c token_endpoint is absent or not HTTPS.
      * @throws AuthException(AUTH_INTERNAL_ERROR) on HTTP or JSON parse failure.
-     * @throws AuthException on any validation failure of either the subject or
-     *         the exchanged token.
+     * @throws AuthException(AUTH_INVALID_CREDENTIALS) if the IdP returns an
+     *         OAuth error response.
+     * @throws AuthException(AUTH_INSUFFICIENT_PERMISSIONS) if the IdP grants
+     *         fewer scopes than requested via @p target_scopes.
+     * @throws std::runtime_error if the subject token or the returned token
+     *         fail JWTValidator signature/expiry/audience validation.
      */
     TokenExchangeResult exchangeToken(
         const std::string& subject_token,
@@ -263,10 +269,6 @@ private:
     /// Peek at the JWT payload and extract the "iss" claim without
     /// performing any cryptographic verification.
     static std::string extractIssuer(const std::string& token);
-
-    /// URL-encode a single string value for use in an
-    /// application/x-www-form-urlencoded body.
-    static std::string urlEncode(const std::string& value);
 
     /// Build an application/x-www-form-urlencoded request body from a list
     /// of key–value pairs.
