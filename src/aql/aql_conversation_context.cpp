@@ -55,7 +55,8 @@ public:
     std::vector<llm::ChatMessage>    history_;
     std::string                      last_query_;
     std::size_t                      turn_count_;
-    mutable std::mutex               history_mutex_;
+    mutable std::mutex               history_mutex_; // guards history_, turn_count_, last_query_
+    std::mutex                       call_mutex_;    // serializes LLM round-trips and reset/start
 
     // Build the system prompt once so every call uses a consistent context
     std::string buildSystemPrompt() const {
@@ -136,26 +137,24 @@ public:
         }
     }
 
-    // Common implementation: push a user message, call LLM, store the response.
-    // Acquires history_mutex_ internally.
-    std::string callLLM(const std::string& user_message) {
-        std::unique_lock<std::mutex> lock(history_mutex_);
-
-        // Evict oldest pairs if we would exceed either budget.
-        std::size_t new_msg_tokens = estimator_->estimate("user") +
-                                     estimator_->estimate(user_message);
-        evictOldestPairs(new_msg_tokens);
-
-        history_.emplace_back("user", user_message);
-
-        // Copy history for the LLM call (release lock while calling out).
-        std::vector<llm::ChatMessage> history_snapshot = history_;
-        lock.unlock();
+    // Common implementation for one LLM round-trip.
+    // Caller MUST hold call_mutex_.  Acquires/releases history_mutex_ internally
+    // only for brief state reads and writes; the LLM call itself runs lock-free.
+    std::string callLLMImpl(const std::string& user_message) {
+        // Evict oldest pairs if needed, push the new user message, and snapshot.
+        std::vector<llm::ChatMessage> history_snapshot;
+        {
+            std::lock_guard<std::mutex> lock(history_mutex_);
+            const std::size_t new_msg_tokens = estimator_->estimate("user") +
+                                               estimator_->estimate(user_message);
+            evictOldestPairs(new_msg_tokens);
+            history_.emplace_back("user", user_message);
+            history_snapshot = history_;
+        }
 
         try {
             std::string response;
             if (config_.llm_executor) {
-                // Inject pairs as string pairs for the executor callback
                 std::vector<std::pair<std::string, std::string>> pairs;
                 pairs.reserve(history_snapshot.size());
                 for (const auto& m : history_snapshot) {
@@ -167,18 +166,32 @@ public:
             }
             const std::string query = cleanQuery(response);
 
-            lock.lock();
-            history_.emplace_back("assistant", response);
-            last_query_ = query;
-            ++turn_count_;
+            {
+                std::lock_guard<std::mutex> lock(history_mutex_);
+                history_.emplace_back("assistant", response);
+                last_query_ = query;
+                ++turn_count_;
+            }
             return query;
         } catch (const std::exception& e) {
-            lock.lock();
-            // Remove the user message we just added so history stays consistent
-            history_.pop_back();
+            // Roll back the user message we pushed.  Since call_mutex_ is held,
+            // no other thread could have appended to history_ since we pushed it;
+            // the check guards against an empty history_ resulting from reset().
+            {
+                std::lock_guard<std::mutex> lock(history_mutex_);
+                if (!history_.empty() && history_.back().role == "user") {
+                    history_.pop_back();
+                }
+            }
             spdlog::warn("AQLConversationContext: LLM call failed: {}", e.what());
             return "";
         }
+    }
+
+    // External entry point: acquires call_mutex_ then delegates.
+    std::string callLLM(const std::string& user_message) {
+        std::lock_guard<std::mutex> call_lock(call_mutex_);
+        return callLLMImpl(user_message);
     }
 };
 
@@ -209,7 +222,7 @@ void AQLConversationContext::setSchemaContext(const std::string& schema) {
     }
 }
 
-const std::string& AQLConversationContext::getSchemaContext() const {
+std::string AQLConversationContext::getSchemaContext() const {
     std::lock_guard<std::mutex> lock(impl_->history_mutex_);
     return impl_->schema_context_;
 }
@@ -225,17 +238,18 @@ std::string AQLConversationContext::start(const std::string& intent) {
         );
     }
 
+    // Hold call_mutex_ for the entire operation so that a concurrent refine()
+    // or reset() waits until this start() — including the LLM call — finishes.
+    std::lock_guard<std::mutex> call_lock(impl_->call_mutex_);
     {
         std::lock_guard<std::mutex> lock(impl_->history_mutex_);
-        // Reset state for a fresh conversation
         impl_->history_.clear();
         impl_->last_query_.clear();
         impl_->turn_count_ = 0;
-        // Always prepend a fresh system prompt
         impl_->history_.emplace_back("system", impl_->buildSystemPrompt());
     }
 
-    return impl_->callLLM(intent);
+    return impl_->callLLMImpl(intent);
 }
 
 std::string AQLConversationContext::refine(const std::string& instruction) {
@@ -267,6 +281,10 @@ std::string AQLConversationContext::refine(const std::string& instruction) {
 }
 
 void AQLConversationContext::reset() {
+    // Acquire call_mutex_ so that any in-flight LLM call finishes before the
+    // history is cleared; otherwise a finishing callLLMImpl could append to an
+    // already-reset history.
+    std::lock_guard<std::mutex> call_lock(impl_->call_mutex_);
     std::lock_guard<std::mutex> lock(impl_->history_mutex_);
     impl_->history_.clear();
     impl_->last_query_.clear();
@@ -287,7 +305,7 @@ std::size_t AQLConversationContext::tokenCount() const {
     return impl_->estimateHistoryTokens();
 }
 
-const std::string& AQLConversationContext::lastQuery() const {
+std::string AQLConversationContext::lastQuery() const {
     std::lock_guard<std::mutex> lock(impl_->history_mutex_);
     return impl_->last_query_;
 }

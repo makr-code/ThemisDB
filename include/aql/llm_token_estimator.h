@@ -15,7 +15,6 @@
 
 #include <cstddef>
 #include <string>
-#include <memory>
 
 namespace themis {
 namespace aql {

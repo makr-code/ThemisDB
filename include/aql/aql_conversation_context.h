@@ -84,13 +84,18 @@ public:
     struct Config {
         /** Maximum number of user/assistant turn pairs to keep in history.
          *  When this limit is reached, the oldest pair is evicted before
-         *  adding a new user message.  Must be ≥ 1; defaults to 50. */
+         *  adding a new user message.  Set to 0 to disable turn-count
+         *  eviction.  Defaults to 50. */
         std::size_t max_turns = 50;
 
         /** Maximum total estimated tokens in the conversation history
          *  (including the system message).  Oldest user+assistant pairs are
          *  evicted until the new message fits within this budget.
-         *  Set to 0 to disable token-budget enforcement.  Defaults to 8192. */
+         *  Set to 0 to disable token-budget enforcement.  Defaults to 8192.
+         *
+         *  @note This is a best-effort limit.  If the system prompt alone
+         *  exceeds the budget, it is preserved and no further eviction is
+         *  possible; the configured limit will be exceeded in that case. */
         std::size_t max_history_tokens = 8192;
 
         /**
@@ -143,7 +148,7 @@ public:
     void setSchemaContext(const std::string& schema);
 
     /** @brief Return the current schema context string. */
-    const std::string& getSchemaContext() const;
+    std::string getSchemaContext() const;
 
     // =========================================================================
     // Conversation
@@ -189,7 +194,7 @@ public:
     std::size_t tokenCount() const;
 
     /** @brief Return the last AQL query generated, or empty string if none. */
-    const std::string& lastQuery() const;
+    std::string lastQuery() const;
 
     /**
      * @brief Full conversation history as role/content message pairs.

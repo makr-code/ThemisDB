@@ -31,6 +31,7 @@
 #include "aql/llm_token_estimator.h"
 
 #include <atomic>
+#include <mutex>
 #include <string>
 #include <thread>
 #include <vector>
@@ -377,22 +378,24 @@ TEST_F(AQLConversationContextTest, ConcurrentTurnCountReadIsConsistent) {
 
     tctx.start("first");
 
-    // Spawn reader threads that sample turnCount() and tokenCount() concurrently
-    // with writer (main) thread calling refine().  Capture sampled values to
-    // assert they are bounded after all threads have finished.
+    // Reader threads track the maximum turn count observed.  Using an atomic
+    // avoids the lock + unbounded vector of the previous implementation, and
+    // a yield prevents a tight CPU spin in CI.
     std::atomic<bool> stop{false};
-    std::vector<std::size_t> sampled_turns;
-    std::mutex sample_mutex;
+    std::atomic<std::size_t> max_observed_turns{0};
 
     std::vector<std::thread> readers;
     for (int i = 0; i < 4; ++i) {
-        readers.emplace_back([&tctx, &stop, &sampled_turns, &sample_mutex]() {
-            while (!stop.load()) {
-                std::size_t tc = tctx.turnCount();
-                std::size_t tk = tctx.tokenCount();
-                (void)tk; // silence unused warning
-                std::lock_guard<std::mutex> lk(sample_mutex);
-                sampled_turns.push_back(tc);
+        readers.emplace_back([&tctx, &stop, &max_observed_turns]() {
+            while (!stop.load(std::memory_order_relaxed)) {
+                const std::size_t tc = tctx.turnCount();
+                // CAS-loop to update max_observed_turns
+                std::size_t prev = max_observed_turns.load(std::memory_order_relaxed);
+                while (tc > prev &&
+                       !max_observed_turns.compare_exchange_weak(
+                           prev, tc, std::memory_order_relaxed)) {}
+                (void)tctx.tokenCount();
+                std::this_thread::yield();
             }
         });
     }
@@ -403,9 +406,8 @@ TEST_F(AQLConversationContextTest, ConcurrentTurnCountReadIsConsistent) {
     stop = true;
     for (auto& t : readers) t.join();
 
-    // All sampled turn counts must be within [0, max_turns].
-    for (std::size_t tc : sampled_turns) {
-        EXPECT_LE(tc, 5u) << "turnCount() exceeded max_turns during concurrent reads";
-    }
+    // All observed turn counts must have been within the window.
+    EXPECT_LE(max_observed_turns.load(), 5u)
+        << "turnCount() exceeded max_turns during concurrent reads";
     EXPECT_LE(tctx.turnCount(), 5u);
 }
