@@ -1451,7 +1451,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/blob_backend_azure.cpp
     ../src/storage/blob_backend_webdav.cpp
     ../src/storage/blob_backend_gcs.cpp
-    
+    # nvme_manager.cpp is registered via cmake/StorageEnhancements.cmake
 
     ../src/metadata/schema_manager.cpp
     ../src/metadata/statistics_collector.cpp
@@ -1661,6 +1661,8 @@ set(THEMIS_CORE_SOURCES
     # LLM integration (server/API/grpc) is added conditionally below
     ../src/server/rate_limiter.cpp
     ../src/server/rate_limiter_v2.cpp
+    ../src/server/adaptive_rate_limiter.cpp
+    ../src/server/cost_based_rate_limiter.cpp
     ../src/server/rate_limiting_middleware.cpp
     ../src/server/load_shedder.cpp
     ../src/server/api_version.cpp
@@ -1695,6 +1697,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:../src/server/http2_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_datagram.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_production_config.cpp>
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/server/websocket_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_MQTT}>:../src/server/mqtt_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:../src/server/postgres_session.cpp>
@@ -1823,6 +1826,7 @@ set(THEMIS_CORE_SOURCES
     ../src/timeseries/timeseries_metrics.cpp
     ../src/timeseries/tsstore.cpp
     ../src/timeseries/gorilla.cpp
+    ../src/timeseries/gorilla_simd.cpp
     ../src/timeseries/retention.cpp
     ../src/timeseries/continuous_agg.cpp
     ../src/timeseries/aggregate_scheduler.cpp
@@ -1846,6 +1850,9 @@ set(THEMIS_CORE_SOURCES
     ../src/core/concerns/context_propagation.cpp
     ../src/core/adapters/otel_tracer.cpp
     ../src/core/concerns/prometheus_metrics.cpp
+    ../src/core/concerns/lockfree_metrics.cpp
+    ../src/core/concerns/redis_cache.cpp
+    ../src/core/concerns/zero_copy_logger.cpp
     ../src/utils/zstd_codec.cpp
     ../src/utils/pki_client.cpp
     ../src/utils/input_validator.cpp
@@ -1889,6 +1896,7 @@ set(THEMIS_CORE_SOURCES
     ../src/updates/update_state_machine.cpp
     ../src/updates/canary_rollout.cpp
     ../src/updates/delta_update_engine.cpp
+    ../src/updates/parallel_downloader.cpp
     ../src/updates/schema_migration_tester.cpp
     ../src/updates/in_place_schema_migrator.cpp
     ../src/updates/update_history_logger.cpp
@@ -2182,6 +2190,12 @@ set(THEMIS_CORE_SOURCES
     ../src/observability/alerting_engine.cpp
     # Observability: Prometheus advanced — rate calculation, histogram aggregation, cardinality
     ../src/observability/metric_aggregator.cpp
+    # Observability: real-time metric streaming via WebSocket / SSE (v1.6.0, Issue #82)
+    ../src/observability/metrics_stream_server.cpp
+    # Observability: custom metric types — summary, exponential histogram, cardinality, TWA, rate (v1.6.0)
+    ../src/observability/advanced_metrics.cpp
+    # Observability: OpenTelemetry Full Integration (v1.6.0)
+    ../src/observability/opentelemetry_tracer.cpp
 
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>

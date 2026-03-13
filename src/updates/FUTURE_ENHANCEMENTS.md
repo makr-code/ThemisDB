@@ -112,18 +112,19 @@ if (result.wait()) {
 
 ---
 
-### Binary Delta Patches
+### Binary Delta Patches ✅ IMPLEMENTED (v1.6.0)
 **Priority:** High  
-**Target Version:** v1.6.0
+**Target Version:** v1.6.0  
+**Status:** ✅ Released — `include/updates/delta_update_engine.h`, `src/updates/delta_update_engine.cpp`
 
 Reduce download size by applying binary diffs instead of full file replacement.
 
 **Features:**
-- Binary diff generation (bsdiff/xdelta3)
-- Patch verification with checksums
-- Fallback to full download if patch fails
-- Automatic patch generation in CI/CD
-- Compression-friendly delta encoding
+- ✅ Binary diff generation (bsdiff/xdelta3 — fallback to ZSTD_DICT; VCDIFF pure-C++ implementation)
+- ✅ Patch verification with checksums (SHA-256 base_hash / target_hash in FileDelta)
+- ✅ Fallback to full download if patch fails (per-file fallback in `DeltaApplyResult::files_fallback`)
+- ✅ Automatic patch generation in CI/CD (`generatePatch()` API; `.github/workflows/binary-delta-patches-ci.yml`)
+- ✅ Compression-friendly delta encoding (ZSTD_DICT dictionary compression + VCDIFF RFC 3284)
 
 **Algorithms:**
 ```cpp
@@ -498,32 +499,39 @@ if (scheduler.canUpdateNow("tenant-123")) {
 
 ## Performance Optimizations
 
-### Parallel File Downloads
+### Parallel File Downloads ✅ Implemented (v1.6.0, Issue #128)
 **Priority:** High  
-**Target Version:** v1.6.0
+**Target Version:** v1.6.0  
+**Status:** Implemented
 
 Download multiple files concurrently to reduce update time.
 
 **Features:**
-- Configurable concurrency level
-- Bandwidth throttling
-- Priority queue for critical files
-- Resume support per file
+- [x] Configurable concurrency level (`setConcurrency(n)`)
+- [x] Bandwidth throttling (`setBandwidthLimit(bps)` – token-bucket)
+- [x] Priority queue for critical files (`DownloadTask::priority`)
+- [x] Resume support per file (`DownloadTask::enable_resume` + HTTP Range)
 
-**Implementation:**
+**Implementation files:**
+- `include/updates/parallel_downloader.h`
+- `src/updates/parallel_downloader.cpp`
+- Tests: 29 focused tests in `tests/test_parallel_file_downloads.cpp`
+- CI: `.github/workflows/parallel-file-downloads-ci.yml`
+
+**Usage:**
 ```cpp
 ParallelDownloader downloader;
-downloader.setConcurrency(4);           // 4 parallel downloads
-downloader.setBandwidthLimit(100_MB);   // 100 MB/s total
+downloader.setConcurrency(4);                         // 4 parallel downloads
+downloader.setBandwidthLimit(100ULL * 1024 * 1024);   // 100 MB/s total
 
 // Download manifest files
 std::vector<DownloadTask> tasks;
 for (const auto& file : manifest.files) {
     tasks.push_back({
-        .url = file.download_url,
-        .dest = config.download_directory + "/" + file.path,
+        .url           = file.download_url,
+        .dest          = config.download_directory + "/" + file.path,
         .expected_hash = file.sha256_hash,
-        .priority = file.type == "executable" ? 10 : 1
+        .priority      = file.type == "executable" ? 10 : 1
     });
 }
 

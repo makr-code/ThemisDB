@@ -65,21 +65,29 @@ context->reloadMetricsConfig(new_config);
 
 ### Distributed Cache Integration
 **Priority:** High  
-**Target Version:** v1.6.0
+**Target Version:** v1.6.0  
+**Status:** ✅ Implemented
 
 Full Redis/Memcached adapter for distributed caching across cluster nodes.
 
 **Features:**
-- Cluster-wide cache invalidation
-- Consistent hashing for distributed keys
-- TTL support
-- Pub/sub for cache invalidation messages
+- Cluster-wide cache invalidation (via Redis pub/sub PUBLISH on DEL/clear)
+- Consistent hashing (FNV-1a hash ring with virtual nodes) for key routing
+- TTL support via Redis PSETEX (millisecond precision)
+- Pub/sub for cache invalidation messages (background subscriber thread)
+- Graceful degradation when Redis is unavailable (no exceptions, returns nullopt/false)
+
+**Implementation:**  
+`include/core/concerns/redis_cache.h` and `src/core/concerns/redis_cache.cpp`.  
+`RedisCache` implements `ICache` and is injectable via `ConcernsContext::createCustom()`.  
+Selectable via `Config::cacheAdapter = "redis"` + `Config::cacheRedisUrl`.  
+Tests: `tests/test_distributed_cache_integration.cpp` → `DistributedCacheIntegrationFocusedTests`.
 
 **API:**
 ```cpp
 auto redis_cache = RedisCache::create("redis://cluster:6379");
 auto context = ConcernsContext::createCustom(
-    logger, tracer, metrics, redis_cache
+    logger, tracer, metrics, std::move(redis_cache)
 );
 ```
 
@@ -165,7 +173,8 @@ context->registerConcern<ICustomConcern>(my_custom_concern);
 
 ### Zero-Copy Logging
 **Priority:** High  
-**Target Version:** v1.6.0
+**Target Version:** v1.6.0  
+**Status:** ✅ Implemented
 
 Reduce memory allocations in logging hot paths.
 
@@ -174,18 +183,39 @@ Reduce memory allocations in logging hot paths.
 
 **Expected Improvement:** 30-50% reduction in logging overhead
 
+**Implementation:**
+- `ZeroCopyLogger` in `include/core/concerns/zero_copy_logger.h` and
+  `src/core/concerns/zero_copy_logger.cpp`
+- `string_view` hot-path API: `logSV`, `traceSV`, `debugSV`, `infoSV`,
+  `warnSV`, `errorSV`, `criticalSV`, `logStructuredSV`
+- Pre-allocated `thread_local std::string` format buffer — reserved once per
+  thread, `clear()`-ed on each call so no heap allocation on the hot path
+- Early level-check (`shouldLog`) to skip all formatting work for filtered
+  levels
+- Full `ILogger` compatibility: `const std::string&` overrides delegate to
+  `string_view` hot path (no additional copy)
+- `json_mode_` is `std::atomic<bool>` — safe concurrent `setJsonMode()` while logging
+- PII redaction on field values (allocation-free key scan)
+
+See `tests/test_zero_copy_logging.cpp` for 41 focused unit tests.
+
 ---
 
 ### Lock-Free Metrics
 **Priority:** High  
-**Target Version:** v1.6.0
+**Target Version:** v1.6.0  
+**Status:** ✅ Implemented
 
 Replace mutex-based counters with atomic operations.
 
 **Implementation:**
-- `std::atomic` for counters
-- Lock-free ring buffer for histograms
-- Thread-local aggregation with periodic flush
+- `std::atomic<int64_t>` for counters – lock-free `fetch_add` on hot path
+- `std::atomic<double>` for gauges – lock-free `store`/`fetch_add`/`fetch_sub`
+- Lock-free SPSC ring buffer per thread for histogram observations
+- Background flush thread drains thread-local ring buffers every 100 ms
+
+See `include/core/concerns/lockfree_metrics.h` and
+`src/core/concerns/lockfree_metrics.cpp`.
 
 **Expected Improvement:** 80% reduction in metric update latency
 

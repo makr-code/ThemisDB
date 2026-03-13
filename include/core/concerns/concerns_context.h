@@ -97,8 +97,14 @@ public:
         // Cache config
         size_t cacheMaxSize = 10000;
         uint64_t cacheDefaultTTL = 0; // 0 = no TTL
-        /// Which cache adapter to use: "inmemory" (default) or "noop".
+        /// Which cache adapter to use: "inmemory" (default), "redis", or "noop".
+        /// Set to "redis" and provide cacheRedisUrl to use the Redis-backed
+        /// distributed cache with consistent hashing and pub/sub invalidation.
         std::string cacheAdapter = "inmemory";
+        /// Redis URL used when cacheAdapter == "redis".
+        /// Format: redis://[:<password>@]host:port[,host2:port2,...]
+        /// Example: redis://cache-cluster:6379
+        std::string cacheRedisUrl;
 
         // Circuit breaker config
         /// Which circuit breaker adapter to use: "default" or "noop".

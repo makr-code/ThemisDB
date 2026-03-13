@@ -28,9 +28,18 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
   - Implementation: `INotificationChannel`, `LogNotificationChannel`, `WebhookNotificationChannel`, `SlackNotificationChannel`, `AlertingEngine` (owns `AlertRuleManager`, dispatches to channels, optional Prometheus Alertmanager backend)
   - Predefined default rules: CPU, memory, query latency P99, error rate, disk space, query queue depth, cache miss rate, write amplification
   - Tests: `tests/test_alerting_engine.cpp`
+- [x] Custom Metric Types — extended metric primitives beyond counters, gauges, histograms (Issue: #80)
+  - Files: `observability/advanced_metrics.h`, `observability/advanced_metrics.cpp`
+  - Implementation: `AdvancedMetrics` — Summary (sliding-window quantiles), ExponentialHistogram (scale-locked, zero_count), Cardinality (exact hash-set), TimeWeightedAverage (∫value×dt), Rate (double samples, window-pruned); all methods thread-safe
+  - Tests: `tests/test_custom_metric_types.cpp` (AdvancedMetricsTest, 32 tests)
 
 ## In Progress 🚧
 - [x] OpenTelemetry SDK direct export (OTLP gRPC/HTTP) (Target: Q2 2026)
+- [x] OpenTelemetry Full Integration (v1.6.0) — `OpenTelemetryTracer` with `OTelConfig`, multi-exporter dispatch (OTLP/Jaeger/Zipkin), W3C Baggage for tenant/user context, `recordException()`, `recordMetrics()`
+  - Files: `observability/opentelemetry_tracer.h`, `observability/opentelemetry_tracer.cpp`
+  - OTLP: async `OtlpExporter` started when endpoint is set; `SpanRecord` → `SpanData` conversion on span end
+  - Jaeger/Zipkin: `JaegerTracerAdapter`/`ZipkinTracerAdapter` delegate sub-tracers registered per configured exporter
+  - Tests: `tests/test_opentelemetry_full_integration.cpp` (44 focused tests covering AC-1 through AC-38)
 
 ## Planned Features 📋
 
@@ -53,6 +62,14 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
   - Files: `observability/metric_aggregator.h`, `observability/metric_aggregator.cpp`
   - Implementation: `MetricAggregator` (rate calculation, histogram aggregation SUM/AVG/MAX/MIN/P50/P95/P99, rule-based aggregation with drop_labels/group_by_labels, per-metric cardinality limits)
   - Tests: `tests/test_metrics_aggregation.cpp` (MetricsAggregationFocusedTests)
+- [x] Metric Aggregation Pipeline — cross-shard pre-aggregation and cardinality rollup (Issue: #81)
+  - Files: `observability/metric_aggregator.h`, `observability/metric_aggregator.cpp`
+  - Implementation: `ShardMetrics` (shard_id, per-metric value vectors, shard-level labels), `MetricSnapshot` (aggregated results + timestamp), `MetricAggregator::aggregateShardMetrics()` (stateless cross-shard aggregation applying registered rules), `MetricAggregator::rollupMetrics()` (time-window based snapshot pruning for cardinality reduction)
+  - Tests: `tests/test_metrics_aggregation.cpp` (AggregateShardMetrics_* and RollupMetrics_* test cases)
+- [x] Real-time metric streaming via WebSocket / SSE (Issue: #82)
+  - Files: `observability/metrics_stream_server.h`, `observability/metrics_stream_server.cpp`
+  - Implementation: `MetricsStreamServer` with `StreamSubscription` (client_id, metric_names, MetricFilter[], update_interval), `MetricUpdate` (name, value, labels, timestamp), `SendFn` callback-based delivery decoupled from transport; `pushMetrics()` fans out to matching subscribers with AND-semantics label filtering, per-subscription rate limiting, and `formatWebSocketMessage()` / `formatSseMessage()` serialisers
+  - Tests: `tests/test_metrics_stream_server.cpp` (MetricsStreamServerFocusedTests) — 30+ tests covering lifecycle, subscription management, name/label filtering, throttling, serialisation, and concurrent push
 - [?] Structured log search API (query logs like data)
 - [?] Real-time query cost estimator dashboard
 
@@ -118,6 +135,10 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
   — `observability/slo_reporter.h/cpp`, tests: `tests/test_slo_reporter.cpp`
 - [x] Prometheus advanced features — rate calculation, histogram aggregation, cardinality management
   — `observability/metric_aggregator.h/cpp`, tests: `tests/test_metrics_aggregation.cpp` (MetricsAggregationFocusedTests)
+- [x] Real-time metric streaming via WebSocket / SSE (v1.6.0, Issue #82)
+  — `observability/metrics_stream_server.h/cpp`, tests: `tests/test_metrics_stream_server.cpp` (MetricsStreamServerFocusedTests)
+- [x] Custom Metric Types — Summary, ExponentialHistogram, Cardinality, TimeWeightedAverage, Rate (v1.6.0, Issue #80)
+  — `observability/advanced_metrics.h/cpp`, tests: `tests/test_custom_metric_types.cpp` (AdvancedMetricsTest, 32 tests)
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% — `test_observability_profilers.cpp` (280 LOC), `test_observability_hardening.cpp`; focused targets: `ObservabilityProfilersFocusedTests`, `ObservabilityHardeningFocusedTests`

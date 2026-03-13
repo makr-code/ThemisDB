@@ -30,6 +30,7 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [x] LLM inference metrics collection (`src/aql/llm_metrics_collector.cpp`)
 - [x] Generic `AQLTokenStream` iterator API for all LLM inference calls (`include/aql/aql_token_stream.h`) (Phase 4)
 - [x] ReActAgent multi-step reasoning framework with tool calling (`src/aql/aql_agent.cpp`) (Phase 4)
+- [x] Runtime-configurable confidence scoring weights (`AQLConfidenceScorer::Config`, `calibrate()`, word-boundary keyword matching) (Target: v1.6.0) (Issue: #144)
 
 ## In Progress 🚧
 *(no items currently in progress)*

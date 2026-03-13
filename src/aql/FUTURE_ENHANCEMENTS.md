@@ -50,11 +50,11 @@ The AQL module is ThemisDB's query language and LLM-integration layer. It covers
 **Problem (from code):** `llm_aql_handler.cpp:translateNLToAQL()` (lines 1038–1059) validates the LLM-generated query using `AQLSyntaxHighlighter::annotateErrors()` which **only logs warnings** — it never rejects or sanitises the output. `AQLQueryValidator::validate()` (which can produce `ValidationResult` with severity-based `issues`) is never invoked on LLM-generated queries. The same pattern is repeated in `translateNLToAQLStreaming()` (line 1141) and `translateNLToAQLWithExamples()` (line 1389). A structurally invalid query silently reaches the caller and may be executed against the database.
 
 **Implementation Notes:**
-- `[ ]` In `llm_aql_handler.cpp:translateNLToAQL()`, after the markdown-fence stripping and `trim()` step, call `AQLQueryValidator::validate(aql_query)` and inspect `ValidationResult::issues`; if any issue has severity `ERROR`, throw `LLMException(LLMErrorCode::INVALID_RESPONSE, ...)` with the first error message instead of silently returning the malformed query
-- `[ ]` Apply the same fix to `translateNLToAQLStreaming()` (line 1141) and `translateNLToAQLWithExamples()` (line 1389) — both currently use `annotateErrors()` as the sole post-processing check
-- `[ ]` Add a retry path: if validation fails and `retry_policy_` has remaining retries, re-invoke the LLM with an augmented prompt that includes the error annotation as feedback ("Your previous attempt produced this error: …")
-- `[ ]` Expose a `TranslationValidationMode` enum (`WARN_ONLY`, `REJECT_ON_ERROR`, `RETRY_ON_ERROR`) on `LLMAQLHandler` so callers can choose enforcement level
-- `[ ]` Unit-test: craft an NL query that reliably causes the mock LLM to return broken AQL (`FOR x`) and assert that `translateNLToAQL` throws instead of returning it
+- `[x]` In `llm_aql_handler.cpp:translateNLToAQL()`, after the markdown-fence stripping and `trim()` step, call `AQLQueryValidator::validate(aql_query)` and inspect `ValidationResult::issues`; if any issue has severity `ERROR`, throw `LLMException(LLMErrorCode::INVALID_RESPONSE, ...)` with the first error message instead of silently returning the malformed query
+- `[x]` Apply the same fix to `translateNLToAQLStreaming()` (line 1141) and `translateNLToAQLWithExamples()` (line 1389) — both currently use `annotateErrors()` as the sole post-processing check
+- `[x]` Add a retry path: if validation fails and `retry_policy_` has remaining retries, re-invoke the LLM with an augmented prompt that includes the error annotation as feedback ("Your previous attempt produced this error: …")
+- `[x]` Expose a `TranslationValidationMode` enum (`WARN_ONLY`, `REJECT_ON_ERROR`, `RETRY_ON_ERROR`) on `LLMAQLHandler` so callers can choose enforcement level
+- `[x]` Unit-test: craft an NL query that reliably causes the mock LLM to return broken AQL (`FOR x`) and assert that `translateNLToAQL` throws instead of returning it
 
 **Performance Targets:**
 - Validation overhead ≤ 1 ms per generated query (the validator is string-based with no I/O)
@@ -64,14 +64,16 @@ The AQL module is ThemisDB's query language and LLM-integration layer. It covers
 ### 2 · Eliminate Thread Leak in `LLMTimeoutManager::executeWithTimeout()`
 **Priority:** High
 **Target Version:** v1.6.0
+**Status:** ✅ Implemented (Issue #32)
 
 **Problem (from code):** `include/aql/llm_timeout_manager.h:executeWithTimeout()` (line ~90) calls `worker.detach()` when the timeout fires. The comment on that line explicitly acknowledges: *"the worker thread is detached and may continue executing"*. A detached thread holds all resources it has captured by reference or value and cannot be joined. Under sustained load a burst of LLM timeouts will accumulate many detached threads, each one consuming a stack (~8 MB default on Linux) and holding a reference to the plugin manager. The `executeWithCancelToken()` variant sets the cancel token before detaching but still has the same thread-leak problem if the worker ignores the token.
 
 **Implementation Notes:**
-- `[ ]` Replace the `std::thread` + `std::packaged_task` approach in `executeWithTimeout()` with `std::jthread` (C++20) and a `std::stop_token`; `jthread::request_stop()` signals the token and the destructor joins automatically — no detach needed
-- `[ ]` Where C++20 is unavailable, use an `std::atomic<bool>` shutdown flag combined with a `std::future::wait_for()` loop that joins on expiry rather than detaching
-- `[ ]` Add a test asserting that after `executeWithTimeout()` throws `TIMEOUT`, the associated worker thread has terminated within `timeout + 500 ms` (use a latch decremented by the worker on exit)
-- `[ ]` Document in the `TimeoutConfig` struct that `infer_timeout{300}`, `rag_timeout{600}`, `embed_timeout{60}`, and `model_load_timeout{900}` are soft defaults and show how to override them via `LLMTimeoutManager::setConfig()`
+- `[x]` Replace the `std::thread` + `std::packaged_task` approach in `executeWithTimeout()` with `std::jthread` (C++20) and a `std::stop_token`; `jthread::request_stop()` signals the token and the destructor joins automatically — no detach needed
+- `[x]` On timeout: call `request_stop()` and transfer jthread ownership to a thin background cleanup thread that joins the worker when it finishes — eliminates the thread leak without blocking the calling thread
+- `[x]` Same fix applied to `executeWithCancelToken()`: cancel token is set first, then the jthread is handed to the cleanup thread
+- `[x]` Add a test asserting that after `executeWithTimeout()` throws `TIMEOUT`, the associated worker thread has terminated within `timeout + 500 ms` (use a latch decremented by the worker on exit)
+- `[x]` Document in the `TimeoutConfig` struct that `infer_timeout{300}`, `rag_timeout{600}`, `embed_timeout{60}`, and `model_load_timeout{900}` are soft defaults and show how to override them via `LLMTimeoutManager::setConfig()`
 
 **Performance Targets:**
 - Zero leaked threads after 1 000 sequential timeout events in the test suite
@@ -81,14 +83,15 @@ The AQL module is ThemisDB's query language and LLM-integration layer. It covers
 ### 3 · Per-Operation-Type Circuit Breakers
 **Priority:** High
 **Target Version:** v1.6.0
+**Status:** ✅ Implemented (Issue #33)
 
 **Problem (from code):** `llm_aql_handler.cpp:Impl` (lines 216–222 and 247–248) creates a single `sharding::CircuitBreaker` instance shared across `executeInfer()`, `executeInferStreaming()`, `executeRAG()`, and `executeEmbed()`. When `executeInfer` accumulates 5 failures (`failure_threshold = 5`), the breaker trips and `allowRequest()` returns false — this blocks all RAG and EMBED commands as well, even if those operations would succeed. The 60-second `timeout` window is also a single global parameter.
 
 **Implementation Notes:**
-- `[ ]` In `LLMAQLHandler::Impl`, replace the single `circuit_breaker_` member with a map: `std::unordered_map<std::string, sharding::CircuitBreaker> circuit_breakers_` keyed by `"infer"`, `"rag"`, `"embed"`, `"finetune"`
-- `[ ]` Refactor `executeInfer()`, `executeRAG()`, `executeEmbed()` to each look up their own breaker by key
-- `[ ]` Allow per-command `CircuitBreaker::Config` to be injected via a `LLMAQLHandler::Config` struct so failure thresholds and windows are tunable per command type
-- `[ ]` Add a `getCircuitBreakerStates()` method for observability; expose via `LLM STATS` command output
+- `[x]` In `LLMAQLHandler::Impl`, replace the single `circuit_breaker_` member with a map: `std::unordered_map<std::string, sharding::CircuitBreaker> circuit_breakers_` keyed by `"infer"`, `"rag"`, `"embed"`, `"finetune"`
+- `[x]` Refactor `executeInfer()`, `executeRAG()`, `executeEmbed()` to each look up their own breaker by key
+- `[x]` Allow per-command `CircuitBreaker::Config` to be injected via a `LLMAQLHandler::Config` struct so failure thresholds and windows are tunable per command type
+- `[x]` Add a `getCircuitBreakerStates()` method for observability; expose via `LLM STATS` command output
 - `[x]` Circuit breaker state is already recorded in metrics via `metrics.recordCircuitBreakerState("infer", "open")` — preserve and extend to all command types
 
 ---
@@ -96,15 +99,16 @@ The AQL module is ThemisDB's query language and LLM-integration layer. It covers
 ### 4 · Runtime-Configurable Confidence Scoring Weights
 **Priority:** Medium
 **Target Version:** v1.6.0
+**Status:** ✅ Implemented (Issue #144)
 
 **Problem (from code):** `aql_confidence_scorer.cpp` (lines 58–61) hard-codes the final scoring formula as `structural_score * 0.50f + completeness_score * 0.30f + schema_match_score * 0.20f`. The keyword-bonus table (lines 100–111) is also a hard-coded `std::vector<std::pair<std::string, float>>` with values like `{"filter", 0.20f}`, `{"sort ", 0.15f}`. The `0.5f` neutral return value for missing schema (line 129 and 134) and the `0.1f` floor for zero collection matches (line 145) are also untunable. Field names that appear in confidence scoring (like keyword `"upsert"` on line 111) use substring matching which can accidentally match sub-tokens.
 
 **Implementation Notes:**
-- `[ ]` Introduce an `AQLConfidenceScorer::Config` struct with fields: `float structural_weight`, `float completeness_weight`, `float schema_match_weight`, keyword `std::unordered_map<std::string, float> keyword_bonuses`, `float no_schema_neutral`, `float zero_match_floor`; default values match current hard-coded constants for backward compatibility
-- `[ ]` Inject `Config` via constructor; `AQLConfidenceScorer()` (the default ctor) keeps existing behaviour
-- `[ ]` Fix substring keyword matching (e.g. `"insert"` inside `"upsert"`) by checking word boundaries with `\b` regex or a tokenised lookup
-- `[ ]` Add a `calibrate(const std::vector<std::pair<std::string,float>>& labelled_pairs)` method that fits the three top-level weights via least-squares regression on (query, ground-truth-confidence) pairs
-- `[ ]` Unit-test: verify that calling `score()` on an empty query returns 0.0 and on a complete `FOR x IN c FILTER x.a == 1 RETURN x` returns > 0.7
+- `[x]` Introduce an `AQLConfidenceScorer::Config` struct with fields: `float structural_weight`, `float completeness_weight`, `float schema_match_weight`, keyword `std::unordered_map<std::string, float> keyword_bonuses`, `float no_schema_neutral`, `float zero_match_floor`; default values match current hard-coded constants for backward compatibility
+- `[x]` Inject `Config` via constructor; `AQLConfidenceScorer()` (the default ctor) keeps existing behaviour
+- `[x]` Fix substring keyword matching (e.g. `"insert"` inside `"upsert"`) by checking word boundaries with `\b` regex or a tokenised lookup — implemented via `containsKeyword()` static helper using manual word-boundary checks (no regex dependency)
+- `[x]` Add a `calibrate(const std::vector<std::pair<std::string,float>>& labelled_pairs)` method that fits the three top-level weights via least-squares regression on (query, ground-truth-confidence) pairs — implemented via OLS normal equations + Cramer's rule (3×3, no external deps)
+- `[x]` Unit-test: verify that calling `score()` on an empty query returns 0.0 and on a complete `FOR x IN c FILTER x.a == 1 RETURN x` returns > 0.7
 
 ---
 
@@ -178,11 +182,11 @@ The AQL module is ThemisDB's query language and LLM-integration layer. It covers
 **Problem (from code):** `aql_conversation_context.cpp` grows `history_` (`std::vector<llm::ChatMessage>`, line 47) indefinitely with each call to `chat()` (lines 92–101). There is no `max_turns` cap, no token-budget check, and no sliding-window eviction. The `turn_count_` (line 49) is tracked but never compared against any limit. For a long interactive session this means the accumulated context eventually exceeds the model's context window length, causing either silent truncation by the backend or an OOM crash inside the inference engine. The `history_` also has no per-session mutex, making it unsafe to call `chat()` from two threads on the same `AQLConversationContext` object.
 
 **Implementation Notes:**
-- `[ ]` Add `std::size_t max_turns = 50` and `std::size_t max_history_tokens = 8192` to `AQLConversationContext::Config` (new struct); enforce in `chat()`: when either limit is reached, evict the oldest user+assistant message pair (preserve the system message)
-- `[ ]` Use the `TokenEstimator` abstraction (Feature 5) to count tokens before each `chat()` call; if adding the new user message would exceed `max_history_tokens`, evict oldest pairs first
-- `[ ]` Add a `std::mutex history_mutex_` to `AQLConversationContext::Impl` and hold it around all reads/writes to `history_` and `turn_count_`
-- `[ ]` Expose `AQLConversationContext::tokenCount() const` so callers can observe current usage
-- `[ ]` Unit-test: create a context with `max_turns=3`, drive 5 turns, assert `turn_count() == 3` and `history_.size() == 7` (system + 3×(user+assistant))
+- `[x]` Add `std::size_t max_turns = 50` and `std::size_t max_history_tokens = 8192` to `AQLConversationContext::Config` (new struct); enforce in `chat()`: when either limit is reached, evict the oldest user+assistant message pair (preserve the system message)
+- `[x]` Use the `TokenEstimator` abstraction (Feature 5) to count tokens before each `chat()` call; if adding the new user message would exceed `max_history_tokens`, evict oldest pairs first
+- `[x]` Add a `std::mutex history_mutex_` to `AQLConversationContext::Impl` and hold it around all reads/writes to `history_` and `turn_count_`
+- `[x]` Expose `AQLConversationContext::tokenCount() const` so callers can observe current usage
+- `[x]` Unit-test: create a context with `max_turns=3`, drive 5 turns, assert `turn_count() == 3` and `history_.size() == 7` (system + 3×(user+assistant))
 
 ---
 

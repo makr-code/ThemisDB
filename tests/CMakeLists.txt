@@ -238,6 +238,7 @@ if(NOT THEMIS_ENABLE_HTTP3)
     list(APPEND TEST_EXCLUDE_PATTERNS
         ".*test_http3_protocol\\.cpp$"
         ".*test_quic_transport\\.cpp$"
+        ".*test_http3_production_readiness\\.cpp$"
     )
 endif()
 
@@ -4214,6 +4215,37 @@ else()
     message(STATUS "RateLimiterV2 focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rate_limiter_v2.cpp")
 endif()
 
+# Rate Limiting Improvements Focused Tests (adaptive + cost-based)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rate_limiting_improvements.cpp")
+    message(STATUS "Adding RateLimitingImprovements focused tests")
+
+    add_executable(test_rate_limiting_improvements_focused
+        test_rate_limiting_improvements.cpp
+    )
+
+    target_link_libraries(test_rate_limiting_improvements_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_rate_limiting_improvements_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RateLimitingImprovementsFocusedTests
+             COMMAND test_rate_limiting_improvements_focused)
+
+    set_tests_properties(RateLimitingImprovementsFocusedTests PROPERTIES
+        LABELS "server;rate-limiter;adaptive;cost-based;unit"
+        TIMEOUT 30
+    )
+
+    message(STATUS "  RateLimitingImprovements: adaptive limiter, cost-based limiter")
+else()
+    message(STATUS "RateLimitingImprovements focused tests not found")
+endif()
+
 # UtilsStandalone Focused Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_utils_standalone.cpp")
     message(STATUS "Adding UtilsStandalone focused tests")
@@ -7109,9 +7141,57 @@ else()
     endif()
 endif()
 
-# ============================================================================
-# Global Transaction Manager Tests
-# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_per_operation_circuit_breakers.cpp")
+    message(STATUS "Adding Per-Operation Circuit Breakers tests (Issue #33)")
+
+    add_executable(test_per_operation_circuit_breakers
+        test_per_operation_circuit_breakers.cpp
+    )
+
+    target_include_directories(test_per_operation_circuit_breakers PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    if(TARGET themis_llm)
+        target_link_libraries(test_per_operation_circuit_breakers PRIVATE
+            ${TEST_LIBS}
+            themis_llm
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            Threads::Threads
+        )
+    else()
+        target_link_libraries(test_per_operation_circuit_breakers PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            Threads::Threads
+        )
+    endif()
+
+    target_compile_definitions(test_per_operation_circuit_breakers PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_LLM_EXPORTS
+    )
+
+    add_test(NAME PerOperationCircuitBreakersFocusedTests COMMAND test_per_operation_circuit_breakers)
+
+    set_tests_properties(PerOperationCircuitBreakersFocusedTests PROPERTIES
+        LABELS "llm;aql;circuit-breaker;resilience;per-operation;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PerOperationCircuitBreakers: per-op isolation, config injection, getCircuitBreakerStates(), LLM STATS output")
+else()
+    message(STATUS "Per-Operation Circuit Breakers tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_per_operation_circuit_breakers.cpp")
+endif()
+
+
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_global_transaction_manager.cpp")
     message(STATUS "Adding Global Transaction Manager tests")
@@ -9347,6 +9427,87 @@ else()
 endif()
 
 # ============================================================================
+# Core Module – Lock-Free Metrics Focused Tests (Issue #66)
+# Validates all three acceptance criteria:
+#   AC-1  std::atomic counters
+#   AC-2  Lock-free per-thread ring buffer for histograms
+#   AC-3  Thread-local aggregation with periodic background flush
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lockfree_metrics.cpp")
+    message(STATUS "Adding LockFree Metrics focused tests (core module, Issue #66)")
+
+    add_executable(test_lockfree_metrics_focused
+        test_lockfree_metrics.cpp
+    )
+
+    target_include_directories(test_lockfree_metrics_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_lockfree_metrics_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_lockfree_metrics_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME LockFreeMetricsFocusedTests COMMAND test_lockfree_metrics_focused)
+
+    set_tests_properties(LockFreeMetricsFocusedTests PROPERTIES
+        LABELS "core;metrics;lock-free;atomic;ring-buffer;thread-local;v1.6.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  LockFreeMetrics: atomic counters, SPSC ring buffer, thread-local aggregation, periodic flush")
+else()
+    message(STATUS "LockFree Metrics focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lockfree_metrics.cpp")
+endif()
+
+# ============================================================================
+# Zero-Copy Logging focused tests (core module, Issue #65, v1.6.0)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_zero_copy_logging.cpp")
+    message(STATUS "Adding Zero-Copy Logging focused tests (core module, Issue #65)")
+
+    add_executable(test_zero_copy_logging_focused
+        test_zero_copy_logging.cpp
+    )
+
+    target_include_directories(test_zero_copy_logging_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_zero_copy_logging_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_zero_copy_logging_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ZeroCopyLoggingFocusedTests COMMAND test_zero_copy_logging_focused)
+
+    set_tests_properties(ZeroCopyLoggingFocusedTests PROPERTIES
+        LABELS "core;logging;zero-copy;string-view;thread-local;buffer;v1.6.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ZeroCopyLogger: string_view hot-path, pre-allocated thread-local buffer, early level-check, PII redaction")
+else()
+    message(STATUS "Zero-Copy Logging focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_zero_copy_logging.cpp")
+endif()
+
+# ============================================================================
 # Security Sub-directory Focused Test Targets
 # These provide dedicated standalone binaries for security module tests in
 # tests/security/ and tests/security/attack-vectors/, enabling fast focused
@@ -11404,6 +11565,44 @@ if(THEMIS_ENABLE_HTTP3)
     endif()
 endif()
 
+# --- HTTP/3 Production Readiness ---
+if(THEMIS_ENABLE_HTTP3)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http3_production_readiness.cpp")
+        message(STATUS "Adding HTTP/3 focused test: test_http3_production_readiness_focused")
+
+        add_executable(test_http3_production_readiness_focused
+            test_http3_production_readiness.cpp
+        )
+
+        target_include_directories(test_http3_production_readiness_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/../include
+            ${CMAKE_SOURCE_DIR}/../src
+        )
+
+        target_link_libraries(test_http3_production_readiness_focused PRIVATE
+            GTest::gtest_main
+            GTest::gtest
+            themis_core
+        )
+
+        target_compile_definitions(test_http3_production_readiness_focused PRIVATE
+            THEMIS_ENABLE_HTTP3=1
+        )
+
+        add_test(NAME Http3ProductionReadinessFocusedTests
+                 COMMAND test_http3_production_readiness_focused)
+
+        set_tests_properties(Http3ProductionReadinessFocusedTests PROPERTIES
+            LABELS "server;http3;quic;production;fallback;congestion;migration;focused;unit"
+            TIMEOUT 60
+        )
+
+        message(STATUS "  HTTP/3 Production Readiness: congestion control, connection migration, 0-RTT, fallback, metrics")
+    else()
+        message(STATUS "HTTP/3 production readiness focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/test_http3_production_readiness.cpp")
+    endif()
+endif()
+
 # --- gRPC Transport ---
 if(THEMIS_ENABLE_GRPC)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_transport.cpp")
@@ -11941,7 +12140,42 @@ else()
     message(STATUS "AlertingEngine focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_alerting_engine.cpp")
 endif()
 
-# ContinuousProfiler tests (Issue #2418)
+# MetricsStreamServer focused tests (v1.6.0 — real-time metric streaming, Issue #82)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_metrics_stream_server.cpp")
+    message(STATUS "Adding Observability: MetricsStreamServer focused tests (v1.6.0 streaming metrics)")
+
+    add_executable(test_metrics_stream_server_focused
+        test_metrics_stream_server.cpp
+    )
+
+    target_include_directories(test_metrics_stream_server_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_metrics_stream_server_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_metrics_stream_server_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MetricsStreamServerFocusedTests COMMAND test_metrics_stream_server_focused)
+
+    set_tests_properties(MetricsStreamServerFocusedTests PROPERTIES
+        LABELS "observability;streaming;websocket;sse;metrics;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  MetricsStreamServer: subscribe/unsubscribe, pushMetrics, label filters, rate-limiting, serialisation, thread-safety")
+else()
+    message(STATUS "MetricsStreamServer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_metrics_stream_server.cpp")
+endif()
+
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_continuous_profiler.cpp")
     message(STATUS "Adding Observability: ContinuousProfiler focused tests (Issue #2418)")
 
@@ -12449,6 +12683,42 @@ else()
     message(STATUS "Canary Rollout focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_canary_rollout.cpp")
 endif()
 
+# BinaryDeltaPatches – focused tests for DeltaUpdateEngine (v1.6.0, Issue #126)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_binary_delta_patches.cpp" AND NOT TARGET test_binary_delta_patches_focused)
+    message(STATUS "Adding Binary Delta Patches focused tests (Issue #126)")
+
+    add_executable(test_binary_delta_patches_focused
+        test_binary_delta_patches.cpp
+    )
+
+    target_include_directories(test_binary_delta_patches_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_binary_delta_patches_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_binary_delta_patches_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME BinaryDeltaPatchesFocusedTests COMMAND test_binary_delta_patches_focused)
+
+    set_tests_properties(BinaryDeltaPatchesFocusedTests PROPERTIES
+        LABELS "updates;delta;binary-diff;patches;zstd;vcdiff;checksums;fallback;focused;unit;integration"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  BinaryDeltaPatches: diff generation (ZSTD_DICT/VCDIFF), checksum verification, fallback, CI/CD patch API, path traversal security")
+else()
+    message(STATUS "Binary Delta Patches focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_binary_delta_patches.cpp")
+endif()
+
 # VoiceAssistant focused tests – covers VoiceBiometricAuthenticator, WakeWordDetector,
 # VoiceBatchProcessor, VoiceMacroManager, and full VoiceAssistant pipeline.
 # Requires THEMIS_ENABLE_LLM because voice_assistant.h includes llm/llama_wrapper.h.
@@ -12790,6 +13060,44 @@ else()
     message(STATUS "Schema Migration Tester focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_schema_migration_tester.cpp")
 endif()
 
+# ParallelFileDownloads – focused tests for parallel downloader (Issue #128 / v1.6.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_file_downloads.cpp")
+    message(STATUS "Adding Parallel File Downloads focused tests")
+
+    add_executable(test_parallel_file_downloads_focused
+        test_parallel_file_downloads.cpp
+    )
+
+    target_include_directories(test_parallel_file_downloads_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_parallel_file_downloads_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_parallel_file_downloads_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ParallelFileDownloadsFocusedTests COMMAND test_parallel_file_downloads_focused)
+
+    set_tests_properties(ParallelFileDownloadsFocusedTests PROPERTIES
+        LABELS "updates;parallel-downloads;concurrency;bandwidth;priority;resume;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ParallelFileDownloads: configurable concurrency, bandwidth throttling, priority queue, resume support")
+else()
+    message(STATUS "Parallel File Downloads focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_file_downloads.cpp")
+endif()
+
 # DistributedGateway – focused tests for multi-node API gateway
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_gateway.cpp")
     message(STATUS "Adding Distributed Gateway focused tests")
@@ -12928,6 +13236,28 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_storage_engine_prod.cpp")
     add_test(NAME StorageEngineProdFocusedTests COMMAND test_storage_engine_prod_focused)
     set_tests_properties(StorageEngineProdFocusedTests PROPERTIES LABELS "storage;engine;production;focused;unit" TIMEOUT 60)
     message(STATUS "  StorageEngine prod: PRODUCTION_MODE safety flag, encryption defaults")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_nvme_manager.cpp")
+    message(STATUS "Adding Storage: NVMeFocusedTests")
+    add_executable(test_nvme_manager_focused test_nvme_manager.cpp)
+    target_include_directories(test_nvme_manager_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_nvme_manager_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_nvme_manager_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME NVMeFocusedTests COMMAND test_nvme_manager_focused)
+    set_tests_properties(NVMeFocusedTests PROPERTIES
+        LABELS "storage;nvme;io_uring;zns;direct-io;focused;unit"
+        TIMEOUT 60
+    )
+    # POSIX-specific tests (::open/::close/pread/pwrite) are guarded in the
+    # source with #ifndef _WIN32 and will SKIP gracefully on Windows.
+    message(STATUS "  NVMe: capability detection, io_uring lifecycle, ZNS no-ops, Direct I/O flags, RocksDB integration")
 endif()
 
 # ============================================================================
@@ -13231,6 +13561,53 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_bi_temporal.cpp")
     message(STATUS "  BiTemporalTable: insert/update/delete, bi-temporal queries, gap detection, uniqueness constraints, temporal foreign keys")
 else()
     message(STATUS "BiTemporalTable tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_bi_temporal.cpp")
+endif()
+
+# ============================================================================
+# Core Module – Distributed Cache Integration Focused Tests (Issue #64)
+# Validates all seven acceptance criteria:
+#   AC-1  Cluster-wide cache invalidation
+#   AC-2  Consistent hashing for distributed keys
+#   AC-3  TTL support
+#   AC-4  Pub/sub for cache invalidation messages
+#   AC-5  Query result caching across nodes
+#   AC-6  Session state management
+#   AC-7  Distributed rate limiting state
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cache_integration.cpp")
+    message(STATUS "Adding Distributed Cache Integration focused tests (core module, Issue #64)")
+
+    add_executable(test_distributed_cache_integration_focused
+        test_distributed_cache_integration.cpp
+    )
+
+    target_include_directories(test_distributed_cache_integration_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_distributed_cache_integration_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_distributed_cache_integration_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DistributedCacheIntegrationFocusedTests
+        COMMAND test_distributed_cache_integration_focused)
+
+    set_tests_properties(DistributedCacheIntegrationFocusedTests PROPERTIES
+        LABELS "core;cache;redis;distributed;consistent-hashing;pubsub;ttl;v1.6.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  RedisCache: URL parsing, consistent hashing, TTL, pub/sub invalidation, graceful degradation, statistics, ConcernsContext integration")
+else()
+    message(STATUS "Distributed Cache Integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cache_integration.cpp")
 endif()
 
 # ============================================================================

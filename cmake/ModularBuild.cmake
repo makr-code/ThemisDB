@@ -166,6 +166,8 @@ set(THEMIS_BASE_SOURCES
     ../src/core/concerns/i_logger.cpp
     ../src/core/concerns/concerns_context.cpp
     ../src/core/concerns/context_propagation.cpp
+    ../src/core/concerns/lockfree_metrics.cpp
+    ../src/core/concerns/zero_copy_logger.cpp
     ../src/core/adapters/otel_tracer.cpp
     ../src/sharding/circuit_breaker.cpp
     
@@ -269,6 +271,8 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/raft_mvcc_bridge.cpp
     # Tiered storage (hot/warm/cold) with age- and access-based migration
     ../src/storage/tiered_storage.cpp
+    # NVMe optimizations (io_uring, multi-queue, ZNS, Direct I/O) – v1.6.0
+    ../src/storage/nvme_manager.cpp
     # Storage engine abstraction (DI-based)
     ../src/storage/storage_engine.cpp
     # Compression strategies (pluggable per-column-family)
@@ -360,6 +364,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/updates/update_state_machine.cpp
     ../src/updates/canary_rollout.cpp
     ../src/updates/delta_update_engine.cpp
+    ../src/updates/parallel_downloader.cpp
     ../src/updates/schema_migration_tester.cpp
     ../src/updates/in_place_schema_migrator.cpp
     ../src/updates/notification_webhook.cpp
@@ -1160,6 +1165,7 @@ set(THEMIS_TIMESERIES_SOURCES
     ../src/timeseries/timeseries.cpp
     ../src/timeseries/tsstore.cpp
     ../src/timeseries/gorilla.cpp
+    ../src/timeseries/gorilla_simd.cpp
     ../src/timeseries/retention.cpp
     ../src/timeseries/continuous_agg.cpp
     ../src/timeseries/aggregate_scheduler.cpp
@@ -1275,6 +1281,8 @@ set(THEMIS_NETWORK_SOURCES
     ../src/security/query_masking_policy.cpp
     ../src/server/rate_limiter.cpp
     ../src/server/rate_limiter_v2.cpp
+    ../src/server/adaptive_rate_limiter.cpp
+    ../src/server/cost_based_rate_limiter.cpp
     ../src/server/rate_limiting_middleware.cpp
     ../src/server/load_shedder.cpp
     ../src/auth/auth_rate_limiter.cpp
@@ -1299,6 +1307,7 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:../src/server/http2_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_datagram.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_production_config.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/cdn_cache_middleware.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/import_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/import_wizard_builder.cpp>
@@ -1389,6 +1398,12 @@ set(THEMIS_NETWORK_SOURCES
     ../src/observability/alerting_engine.cpp
     # Observability: Prometheus advanced — rate calculation, histogram aggregation, cardinality
     ../src/observability/metric_aggregator.cpp
+    # Observability: real-time metric streaming via WebSocket / SSE (v1.6.0, Issue #82)
+    ../src/observability/metrics_stream_server.cpp
+    # Observability: custom metric types — summary, exponential histogram, cardinality, TWA, rate (v1.6.0)
+    ../src/observability/advanced_metrics.cpp
+    # Observability: OpenTelemetry Full Integration (v1.6.0)
+    ../src/observability/opentelemetry_tracer.cpp
 )
 
 set(THEMIS_GEO_SOURCES

@@ -3349,8 +3349,9 @@ void ParallelReplicationWorker::submit(const WALEntry& entry) {
     auto done_flag = std::make_shared<std::atomic<bool>>(false);
 
     WorkItem item;
-    item.entry = entry;
-    item.ready = done_flag;
+    item.entry       = entry;
+    item.ready       = done_flag;
+    item.submit_time = std::chrono::steady_clock::now();
 
     if (config_.use_dependency_tracking) {
         std::lock_guard<std::mutex> dep_lock(dep_mutex_);
@@ -3391,41 +3392,75 @@ void ParallelReplicationWorker::sync() {
 
 ParallelReplicationWorker::Stats ParallelReplicationWorker::getStats() const {
     Stats s;
-    s.entries_applied      = stats_entries_applied_.load();
+    s.entries_applied       = stats_entries_applied_.load();
     s.dependencies_detected = stats_deps_detected_.load();
-    s.parallel_batches     = stats_batches_.load();
-    uint64_t batches       = s.parallel_batches;
-    s.parallelism_factor   = (batches > 0)
-        ? static_cast<double>(s.entries_applied) / static_cast<double>(batches)
+    s.parallel_batches      = stats_batches_.load();
+    uint64_t applied        = s.entries_applied;
+    s.average_latency_us    = (applied > 0)
+        ? stats_total_latency_us_.load() / applied
+        : 0u;
+    uint64_t batches        = s.parallel_batches;
+    s.parallelism_factor    = (batches > 0)
+        ? static_cast<double>(applied) / static_cast<double>(batches)
         : 0.0;
     return s;
 }
 
 void ParallelReplicationWorker::workerLoop() {
     while (running_.load()) {
-        WorkItem item;
+        // Collect a batch of work items (or a single item when group_transactions
+        // is disabled). When group_transactions=true we drain all currently
+        // available entries in one go to reduce per-entry scheduling overhead.
+        std::vector<WorkItem> batch;
         {
             std::unique_lock<std::mutex> lock(queue_mutex_);
             queue_cv_.wait_for(lock, std::chrono::milliseconds(5),
                 [this] { return !running_.load() || !work_queue_.empty(); });
             if (work_queue_.empty()) continue;
-            item = std::move(work_queue_.front());
-            work_queue_.pop();
-        }
 
-        // Wait for all dependencies to complete
-        for (const auto& dep : item.deps) {
-            while (!dep->load()) {
-                std::this_thread::yield();
+            if (config_.group_transactions) {
+                // Drain all currently available entries into the batch
+                while (!work_queue_.empty()) {
+                    batch.push_back(std::move(work_queue_.front()));
+                    work_queue_.pop();
+                }
+            } else {
+                batch.push_back(std::move(work_queue_.front()));
+                work_queue_.pop();
             }
         }
 
-        // Apply the entry (in production: write to local storage / state machine)
-        // Here we simply mark it done and update stats.
-        item.ready->store(true);
-        stats_entries_applied_.fetch_add(1);
-        stats_batches_.fetch_add(1);
-        in_flight_count_.fetch_sub(1);
+        for (auto& item : batch) {
+            // Wait for all dependencies to complete
+            for (const auto& dep : item.deps) {
+                while (!dep->load()) {
+                    std::this_thread::yield();
+                }
+            }
+
+            // Compute true submit-to-apply latency per entry (captured after deps resolve)
+            auto apply_time  = std::chrono::steady_clock::now();
+            auto latency_us  = static_cast<uint64_t>(
+                std::chrono::duration_cast<std::chrono::microseconds>(
+                    apply_time - item.submit_time).count());
+            stats_total_latency_us_.fetch_add(latency_us);
+
+            // Apply the entry (in production: write to local storage / state machine)
+            // Here we simply mark it done and update stats.
+            item.ready->store(true);
+            stats_entries_applied_.fetch_add(1);
+            // in_flight_count_ has a 1:1 relationship with submit() calls: each
+            // submit() increments by 1, so each applied item decrements by 1.
+            // This ensures sync() observes zero only when every submitted entry
+            // has been fully applied, even across concurrent workers.
+            in_flight_count_.fetch_sub(1);
+        }
+
+        // Count only iterations that actually processed work to keep
+        // parallel_batches and parallelism_factor accurate.
+        if (!batch.empty()) {
+            stats_batches_.fetch_add(1);
+        }
     }
 }
 

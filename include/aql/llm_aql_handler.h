@@ -31,6 +31,7 @@
 #include "aql/aql_fewshot_example_library.h"
 #include "llm/llm_plugin_interface.h"
 #include "llm/llama_wrapper.h"
+#include "sharding/circuit_breaker.h"
 #include <string>
 #include <cstdint>
 #include <functional>
@@ -54,6 +55,19 @@ namespace aql {
  * Current version: 1.0 → encoded as 100 (major * 100 + minor).
  */
 inline constexpr uint32_t LLM_AQL_HANDLER_API_VERSION = 100; // v1.0
+
+/**
+ * @brief Controls how post-generation AQL validation errors are handled
+ *        in translateNLToAQL(), translateNLToAQLStreaming(), and
+ *        translateNLToAQLWithExamples().
+ *
+ * Default is WARN_ONLY for backward compatibility.
+ */
+enum class TranslationValidationMode {
+    WARN_ONLY,       ///< Log validation errors as warnings; return the query as-is (default)
+    REJECT_ON_ERROR, ///< Throw LLMException(INVALID_RESPONSE) when any ERROR-severity issue is found
+    RETRY_ON_ERROR,  ///< Re-invoke the LLM with error feedback; throw after all retries exhausted
+};
 
 /**
  * @brief Represents a single turn in a multi-turn AQL conversation
@@ -112,7 +126,63 @@ private:
  */
 class LLMAQLHandler {
 public:
+    /**
+     * @brief Per-operation-type circuit breaker configuration.
+     *
+     * Each field configures the circuit breaker for a specific operation type.
+     * Default values match the original single-breaker configuration for
+     * backward compatibility.
+     */
+    struct Config {
+        /// Circuit breaker config for LLM INFER / INFER STREAMING operations.
+        sharding::CircuitBreaker::Config infer_circuit_breaker{
+            .failure_threshold = 5,
+            .timeout           = std::chrono::seconds(60),
+            .success_threshold = 2,
+            .failure_window    = std::chrono::seconds(120)
+        };
+
+        /// Circuit breaker config for LLM RAG operations.
+        sharding::CircuitBreaker::Config rag_circuit_breaker{
+            .failure_threshold = 5,
+            .timeout           = std::chrono::seconds(60),
+            .success_threshold = 2,
+            .failure_window    = std::chrono::seconds(120)
+        };
+
+        /// Circuit breaker config for LLM EMBED operations.
+        sharding::CircuitBreaker::Config embed_circuit_breaker{
+            .failure_threshold = 5,
+            .timeout           = std::chrono::seconds(60),
+            .success_threshold = 2,
+            .failure_window    = std::chrono::seconds(120)
+        };
+
+        /// Circuit breaker config for LLM FINETUNE operations.
+        sharding::CircuitBreaker::Config finetune_circuit_breaker{
+            .failure_threshold = 5,
+            .timeout           = std::chrono::seconds(60),
+            .success_threshold = 2,
+            .failure_window    = std::chrono::seconds(120)
+        };
+    };
+
+    /**
+     * @brief Snapshot of circuit breaker states for all operation types.
+     *
+     * Returned by @c getCircuitBreakerStates() for observability.
+     * Each string is one of "CLOSED", "OPEN", or "HALF_OPEN" as produced
+     * by @c sharding::CircuitBreaker::stateToString().
+     */
+    struct CircuitBreakerStates {
+        std::string infer;    ///< "CLOSED", "OPEN", or "HALF_OPEN"
+        std::string rag;      ///< "CLOSED", "OPEN", or "HALF_OPEN"
+        std::string embed;    ///< "CLOSED", "OPEN", or "HALF_OPEN"
+        std::string finetune; ///< "CLOSED", "OPEN", or "HALF_OPEN"
+    };
+
     LLMAQLHandler();
+    explicit LLMAQLHandler(const Config& config);
     ~LLMAQLHandler();
 
     // Inference commands
@@ -180,6 +250,15 @@ public:
     std::string executeCacheStats();
     void executeCacheClear();
 
+    /**
+     * @brief Return the current state of all per-operation circuit breakers.
+     *
+     * Each state string is one of "CLOSED", "OPEN", or "HALF_OPEN" as produced
+     * by @c sharding::CircuitBreaker::stateToString().
+     * Intended for observability dashboards and the @c LLM STATS output.
+     */
+    CircuitBreakerStates getCircuitBreakerStates() const;
+
     // Batch optimization
     struct BatchInferRequest {
         std::string prompt;
@@ -212,6 +291,8 @@ public:
      * @return Generated AQL query as string
      * @throws LLMException(PROMPT_INJECTION) if either input contains injection patterns
      * @throws LLMException(PROMPT_TOO_LONG)  if either input exceeds its size limit
+     * @throws LLMException(INVALID_RESPONSE) if validation mode is REJECT_ON_ERROR or
+     *         RETRY_ON_ERROR and the generated query has ERROR-severity structural issues
      * @throws std::runtime_error if translation fails
      */
     std::string translateNLToAQL(
@@ -438,6 +519,53 @@ public:
         const std::string& aql_query,
         const std::string& original_intent  = "",
         const std::string& schema_context   = ""
+    );
+
+    // =========================================================================
+    // Post-generation validation mode
+    // =========================================================================
+
+    /**
+     * @brief Set the enforcement level for post-generation AQL structural validation.
+     *
+     * Controls how translateNLToAQL(), translateNLToAQLStreaming(), and
+     * translateNLToAQLWithExamples() react when AQLQueryValidator finds
+     * ERROR-severity issues in the generated query:
+     *  - WARN_ONLY        (default) — log a warning and return the query as-is
+     *  - REJECT_ON_ERROR  — throw LLMException(INVALID_RESPONSE) immediately
+     *  - RETRY_ON_ERROR   — re-invoke the LLM with error feedback; throw after
+     *                       all retries are exhausted
+     *
+     * @param mode  The desired validation enforcement level.
+     */
+    void setValidationMode(TranslationValidationMode mode);
+
+    /**
+     * @brief Return the current post-generation AQL validation enforcement level.
+     */
+    TranslationValidationMode getValidationMode() const;
+
+    // =========================================================================
+    // Test / dependency injection
+    // =========================================================================
+
+    /**
+     * @brief Override the LLM chat backend used by translateNLToAQL() and
+     *        related methods.
+     *
+     * When set, @p executor is called instead of
+     * @c EmbeddedLLMManager::instance().get().chat() every time the handler
+     * needs a chat completion.  Pass @c nullptr to restore the default
+     * live-LLM path.
+     *
+     * **Intended for unit tests only.**  Production code must not inject a
+     * custom executor.
+     *
+     * @param executor  Callable with signature
+     *                  @c std::string(const std::vector<llm::ChatMessage>&).
+     */
+    void setChatExecutor(
+        std::function<std::string(const std::vector<llm::ChatMessage>&)> executor
     );
 
 private:

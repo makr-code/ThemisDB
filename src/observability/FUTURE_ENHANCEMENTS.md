@@ -234,7 +234,8 @@ spec:
 
 ### Custom Metric Types
 **Priority:** High  
-**Target Version:** v1.6.0
+**Target Version:** v1.6.0  
+**Status:** ✅ Implemented (v1.6.0) — `include/observability/advanced_metrics.h` + `src/observability/advanced_metrics.cpp`
 
 Extended metric types beyond counters, gauges, and histograms.
 
@@ -243,28 +244,40 @@ Extended metric types beyond counters, gauges, and histograms.
 class AdvancedMetrics {
 public:
     // Summary (like histogram but with quantiles)
-    void recordSummary(const std::string& name, double value,
-                      const std::vector<double>& quantiles = {0.5, 0.9, 0.95, 0.99});
-    
+    // Quantiles are specified at query time, not at record time.
+    void recordSummary(const std::string& name, double value);
+    SummaryResult getSummary(const std::string& name,
+                             const std::vector<double>& quantiles = {0.5, 0.9, 0.95, 0.99}) const;
+
     // Exponential histogram (efficient for wide value ranges)
     void recordExponentialHistogram(const std::string& name, double value,
                                    double scale = 2.0);
-    
+    ExponentialHistogramResult getExponentialHistogram(const std::string& name) const;
+
     // Cardinality metrics
     void recordCardinality(const std::string& name, const std::string& value);
-    
+    size_t getCardinalityEstimate(const std::string& name) const;
+
     // Time-weighted average
     void recordTimeWeightedAverage(const std::string& name, double value,
                                    std::chrono::seconds window);
-    
+    double getTimeWeightedAverage(const std::string& name) const;
+
     // Rate metrics (automatically computed)
     void recordRate(const std::string& name, double value,
                    std::chrono::seconds interval);
+    double getRate(const std::string& name) const;
 };
 
 // Example: Track unique tenant access patterns
 metrics.recordCardinality("active_tenants", tenant_id);
 metrics.recordTimeWeightedAverage("tenant_qps", qps, std::chrono::minutes(5));
+double avg_qps = metrics.getTimeWeightedAverage("tenant_qps");
+
+// Example: P99 latency summary
+metrics.recordSummary("query_latency_ms", latency_ms);
+auto summary = metrics.getSummary("query_latency_ms", {0.5, 0.99});
+double p99 = summary.quantile_values.at(0.99);
 ```
 
 ---
@@ -338,7 +351,8 @@ metrics.recordLatency("query_latency_ms", latency_ms, {
 
 ### Metric Aggregation Pipeline
 **Priority:** High  
-**Target Version:** v1.6.0
+**Target Version:** v1.6.0  
+**Status:** ✅ Implemented
 
 Pre-aggregate metrics across shards for efficient querying.
 
@@ -374,6 +388,11 @@ rule.drop_labels = {"shard_id", "instance_id"};  // Drop high-cardinality labels
 
 aggregator.addAggregationRule(rule);
 ```
+
+**Files:**
+- `include/observability/metric_aggregator.h` — `ShardMetrics`, `MetricSnapshot` structs; `aggregateShardMetrics()`, `rollupMetrics()` declarations
+- `src/observability/metric_aggregator.cpp` — stateless cross-shard aggregation and window-based rollup
+- `tests/test_metrics_aggregation.cpp` — `AggregateShardMetrics_*` and `RollupMetrics_*` test cases
 
 ---
 

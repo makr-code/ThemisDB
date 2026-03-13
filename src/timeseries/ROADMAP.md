@@ -53,7 +53,7 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
 - [x] Out-of-order write support with configurable late-arrival window (Target: Q3 2026)
 
 ### Phase 3: SIMD, Encryption & Export (Status: Planned 📋)
-- [?] SIMD Gorilla decoder (AVX2) for accelerated bulk decompression
+- [x] SIMD Gorilla decoder (AVX2/NEON) for accelerated bulk decompression — `GorillaSIMDDecoder` in `gorilla_simd.{h,cpp}` (Issue #117) (Target: v1.6.0)
 - [?] Chunk-level encryption at rest with per-series key derivation
 - [?] Parquet export bridge for analytical pipeline integration
 - [ ] Columnar storage layout for analytical scan queries

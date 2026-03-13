@@ -840,14 +840,16 @@ private:
 class ParallelReplicationWorker {
 public:
     struct ParallelConfig {
-        uint32_t worker_threads   = 4;
-        uint32_t queue_size       = 10000;
+        uint32_t worker_threads      = 4;
+        uint32_t queue_size          = 10000;
         bool use_dependency_tracking = true;
+        bool group_transactions      = true;  // Drain multiple entries per worker iteration
     };
 
     struct Stats {
         uint64_t entries_applied;
         uint64_t dependencies_detected;
+        uint64_t average_latency_us;  // Average submit-to-apply latency in microseconds
         uint64_t parallel_batches;
         double   parallelism_factor;  // average concurrent entries per batch
     };
@@ -876,6 +878,7 @@ private:
         WALEntry entry;
         std::shared_ptr<std::atomic<bool>> ready;  // Set to true when this entry is done
         std::vector<std::shared_ptr<std::atomic<bool>>> deps;
+        std::chrono::steady_clock::time_point submit_time;
     };
 
     std::queue<WorkItem> work_queue_;
@@ -893,6 +896,7 @@ private:
     std::atomic<uint64_t> stats_entries_applied_{0};
     std::atomic<uint64_t> stats_deps_detected_{0};
     std::atomic<uint64_t> stats_batches_{0};
+    std::atomic<uint64_t> stats_total_latency_us_{0};  // Sum of per-entry latencies
 
     void workerLoop();
 };
