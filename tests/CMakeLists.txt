@@ -13336,6 +13336,46 @@ else()
     message(STATUS "Distributed Gateway focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_gateway.cpp")
 endif()
 
+# APIGatewayEnhancements – focused tests for RequestCoalescingManager and SmartRouter
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_api_gateway_enhancements.cpp")
+    message(STATUS "Adding API Gateway Enhancements focused tests")
+
+    add_executable(test_api_gateway_enhancements_focused
+        test_api_gateway_enhancements.cpp
+        ${THEMIS_ROOT_DIR}/src/server/request_coalescing.cpp
+        ${THEMIS_ROOT_DIR}/src/server/smart_routing.cpp
+    )
+
+    target_include_directories(test_api_gateway_enhancements_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_api_gateway_enhancements_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_api_gateway_enhancements_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_ENABLE_HTTP_SERVER=1
+    )
+
+    add_test(NAME APIGatewayEnhancementsFocusedTests COMMAND test_api_gateway_enhancements_focused)
+
+    set_tests_properties(APIGatewayEnhancementsFocusedTests PROPERTIES
+        LABELS "server;gateway;coalescing;smart-routing;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  APIGatewayEnhancements: RequestCoalescingManager (dedup in-flight requests), SmartRouter (cache prediction, tail-latency avoidance, least-loaded)")
+else()
+    message(STATUS "API Gateway Enhancements focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_api_gateway_enhancements.cpp")
+endif()
+
 # DatabaseMaintenanceOrchestrator – focused tests for CRUD, jobs, and health
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_database_maintenance_orchestrator.cpp")
     message(STATUS "Adding Database Maintenance Orchestrator focused tests")
