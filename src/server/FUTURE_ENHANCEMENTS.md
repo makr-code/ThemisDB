@@ -296,16 +296,22 @@ WebAuthn/FIDO2 support for passwordless login.
 
 ### Rate Limiting Improvements
 
-#### Distributed Rate Limiting
+#### Distributed Rate Limiting ✅ Implemented (v1.6.0)
 **Priority:** High  
-**Target Version:** v1.6.0
+**Target Version:** v1.6.0  
+**Status:** ✅ Implemented — `src/server/rate_limiter_v2.cpp`, `include/server/rate_limiter_v2.h`
 
-Cluster-wide rate limiting with Redis backend.
+Cluster-wide rate limiting with Redis backend. `TokenBucketRateLimiter` supports
+`Backend::LOCAL` (default, in-process) and `Backend::REDIS` (shared across all gateway
+nodes). Redis operations use an atomic Lua script (EVALSHA) with local fallback on error.
 
-**Current:** Per-node rate limiting (can be bypassed with multiple nodes)  
-**Target:** Shared rate limit state across all gateway nodes
+**Implemented features:**
+- `Backend::REDIS` shares one token bucket per client-key across all nodes
+- Lua atomic EVALSHA script — no MULTI/EXEC race conditions
+- Transparent fallback to local bucket if Redis is unreachable
+- `PerClientRateLimiter::Config` exposes `backend` + `redis_url` / `redis_password` fields
+- Tests in `tests/test_rate_limiter_v2.cpp`
 
-**Implementation:**
 ```cpp
 RateLimiterV2::Config config;
 config.backend = RateLimiterV2::Backend::REDIS;
@@ -319,19 +325,23 @@ RateLimiterV2 limiter(config);
 
 ---
 
-#### Adaptive Rate Limiting
+#### Adaptive Rate Limiting ✅ Implemented (v1.7.0)
 **Priority:** Medium  
-**Target Version:** v1.7.0
+**Target Version:** v1.7.0  
+**Status:** ✅ Implemented — `src/server/adaptive_rate_limiter.cpp`, `include/server/adaptive_rate_limiter.h`
 
-Automatically adjust rate limits based on backend health.
+Automatically adjusts per-tenant rate limits based on live backend health using a
+sliding observation window (p99 latency + error rate calculations) combined with a
+per-tenant fixed-window token budget that replenishes every `window_seconds`.
 
-**Logic:**
-- Monitor backend latency and error rates
-- Reduce rate limits when backends struggle
-- Increase rate limits during low load
-- Per-tenant adaptive limits
+**Implemented features:**
+- p99 latency > `high_latency_threshold_ms` (default 500 ms) → reduce to 50 % of base
+- Error rate > `high_error_rate` (default 5 %) → reduce to 20 % of base
+- p99 < `low_latency_threshold_ms` AND error rate < `low_error_rate` → step up by `recovery_step` (default 10 %), capped at base
+- Per-tenant independent capacity (`allowRequest("tenant_id")`)
+- Token replenishment each `window_seconds` (fixed window)
+- Thread-safe; 10 unit tests in `tests/test_rate_limiting_improvements.cpp`
 
-**Example:**
 ```
 Normal operation: 1000 req/min
 Backend p99 > 500ms: Reduce to 500 req/min
@@ -341,13 +351,22 @@ Backend recovered: Gradually increase back to 1000 req/min
 
 ---
 
-#### Cost-Based Rate Limiting
+#### Cost-Based Rate Limiting ✅ Implemented (v1.7.0)
 **Priority:** Medium  
-**Target Version:** v1.7.0
+**Target Version:** v1.7.0  
+**Status:** ✅ Implemented — `src/server/cost_based_rate_limiter.cpp`, `include/server/cost_based_rate_limiter.h`
 
-Rate limit by resource cost rather than request count.
+Rate-limits by resource cost rather than raw request count.  Each client gets a
+fixed-window (tumbling-window) budget; each operation type deducts a pre-defined
+cost unit.  Prevents expensive operations from monopolizing shared resources.
 
-**Concept:**
+**Implemented features:**
+- `SIMPLE_GET = 1`, `COMPLEX_QUERY = 10`, `VECTOR_SEARCH = 20`, `LLM_COMPLETION = 100`
+- Custom cost override via `allowRequest(client_id, cost)`
+- Per-client independent budgets; `max_clients` cap with automatic eviction
+- Thread-safe; 14 unit tests in `tests/test_rate_limiting_improvements.cpp`
+
+**Default operation costs:**
 - Simple GET = 1 unit
 - Complex query = 10 units
 - Vector search = 20 units
