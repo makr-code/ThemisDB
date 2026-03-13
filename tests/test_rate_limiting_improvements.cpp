@@ -140,9 +140,9 @@ TEST_F(AdaptiveRateLimiterTest, LowLatencyIncreasesCapacity) {
         BackendHealthSample s;
         s.latency_ms = std::chrono::milliseconds{50};
         s.is_error   = true;
-        limiter.recordSample("t", s);
+        limiter.recordSample("tenant", s);
     }
-    const size_t degraded_cap = limiter.getCurrentCapacity("t");
+    const size_t degraded_cap = limiter.getCurrentCapacity("tenant");
     EXPECT_LT(degraded_cap, 1000u);
 
     // Now inject 10 healthy samples (low latency, no errors) to trigger recovery.
@@ -150,11 +150,11 @@ TEST_F(AdaptiveRateLimiterTest, LowLatencyIncreasesCapacity) {
         BackendHealthSample s;
         s.latency_ms = std::chrono::milliseconds{20};
         s.is_error   = false;
-        limiter.recordSample("t", s);
+        limiter.recordSample("tenant", s);
     }
 
     // Capacity should have recovered at least one step above degraded level.
-    EXPECT_GT(limiter.getCurrentCapacity("t"), degraded_cap);
+    EXPECT_GT(limiter.getCurrentCapacity("tenant"), degraded_cap);
 }
 
 TEST_F(AdaptiveRateLimiterTest, RecoveryCapCappedAtBaseCapacity) {
@@ -331,19 +331,19 @@ TEST_F(CostBasedRateLimiterTest, MixedOperationsConsumeCorrectBudget) {
     // Budget = 200; verify that mixing ops deducts correctly.
     CostBasedRateLimiter limiter(makeCfg(200));
 
-    EXPECT_TRUE(limiter.allowRequest("t", OperationType::LLM_COMPLETION)); // 100
-    EXPECT_EQ(limiter.getRemainingBudget("t"), 100u);
+    EXPECT_TRUE(limiter.allowRequest("tenant", OperationType::LLM_COMPLETION)); // 100
+    EXPECT_EQ(limiter.getRemainingBudget("tenant"), 100u);
 
-    EXPECT_TRUE(limiter.allowRequest("t", OperationType::VECTOR_SEARCH));  // 20
-    EXPECT_EQ(limiter.getRemainingBudget("t"), 80u);
+    EXPECT_TRUE(limiter.allowRequest("tenant", OperationType::VECTOR_SEARCH));  // 20
+    EXPECT_EQ(limiter.getRemainingBudget("tenant"), 80u);
 
-    EXPECT_TRUE(limiter.allowRequest("t", OperationType::COMPLEX_QUERY));  // 10
-    EXPECT_EQ(limiter.getRemainingBudget("t"), 70u);
+    EXPECT_TRUE(limiter.allowRequest("tenant", OperationType::COMPLEX_QUERY));  // 10
+    EXPECT_EQ(limiter.getRemainingBudget("tenant"), 70u);
 
     // 70 simple GETs should be allowed (1 unit each).
     for (int i = 0; i < 70; ++i) {
-        EXPECT_TRUE(limiter.allowRequest("t", OperationType::SIMPLE_GET));
+        EXPECT_TRUE(limiter.allowRequest("tenant", OperationType::SIMPLE_GET));
     }
-    EXPECT_EQ(limiter.getRemainingBudget("t"), 0u);
-    EXPECT_FALSE(limiter.allowRequest("t", OperationType::SIMPLE_GET));
+    EXPECT_EQ(limiter.getRemainingBudget("tenant"), 0u);
+    EXPECT_FALSE(limiter.allowRequest("tenant", OperationType::SIMPLE_GET));
 }
