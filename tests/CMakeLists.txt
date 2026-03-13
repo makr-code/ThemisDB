@@ -11170,7 +11170,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_statistics_collector.cpp")
         LABELS "metadata;statistics;histograms;cardinality;selectivity;unit"
         TIMEOUT 120
     )
-    message(STATUS "  StatisticsCollector: equi-height histograms, cardinality estimation, index stats, auto-refresh")
+    message(STATUS "  StatisticsCollector: equi-height histograms, cardinality estimation, index stats, auto-refresh, metrics hook")
 endif()
 
 # Metadata – StatisticsCollector auto-refresh focused tests

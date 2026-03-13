@@ -617,3 +617,97 @@ TEST_F(StatisticsCollectorTest, RangeSelectivityPartial) {
     EXPECT_NEAR(sel, 0.5, 0.15)
         << "Half-range selectivity should be ~50%; got " << sel;
 }
+
+// ============================================================================
+// Metrics hook callbacks
+// ============================================================================
+
+/// Test double that records every callback invocation.
+struct RecordingHook : public StatisticsCollector::IMetricsHook {
+    std::atomic<int> collect_ok{0};
+    std::atomic<int> collect_fail{0};
+    std::atomic<int> cache_hit{0};
+    std::atomic<int> cache_miss{0};
+    std::atomic<int> error_count{0};
+
+    void onCollect(std::string_view, double, size_t, bool success) override {
+        if (success) ++collect_ok; else ++collect_fail;
+    }
+    void onCacheHit(std::string_view) override  { ++cache_hit;    }
+    void onCacheMiss(std::string_view) override { ++cache_miss;   }
+    void onError(std::string_view, int) override { ++error_count; }
+};
+
+TEST_F(StatisticsCollectorTest, MetricsHook_OnCollect_CalledAfterCollectStats) {
+    insertRow("mh_collect", "r1", {{"x", int64_t(1)}});
+
+    StatisticsCollector sc(*db_);
+    RecordingHook hook;
+    sc.setMetricsHook(&hook);
+
+    auto result = sc.collectStats("mh_collect");
+    ASSERT_TRUE(result.ok);
+
+    EXPECT_EQ(hook.collect_ok.load(),   1);
+    EXPECT_EQ(hook.collect_fail.load(), 0);
+
+    sc.setMetricsHook(nullptr);
+}
+
+TEST_F(StatisticsCollectorTest, MetricsHook_OnError_CalledForEmptyTableName) {
+    StatisticsCollector sc(*db_);
+    RecordingHook hook;
+    sc.setMetricsHook(&hook);
+
+    auto result = sc.collectStats("");
+    EXPECT_FALSE(result.ok);
+    EXPECT_EQ(result.error, StatsErrorCode::TABLE_NOT_FOUND);
+    EXPECT_GE(hook.error_count.load(), 1);
+
+    sc.setMetricsHook(nullptr);
+}
+
+TEST_F(StatisticsCollectorTest, MetricsHook_OnCacheHit_CalledOnSecondGetStats) {
+    insertRow("mh_hit", "r1", {{"y", int64_t(42)}});
+
+    StatisticsCollector sc(*db_);
+    ASSERT_TRUE(sc.collectStats("mh_hit").ok);
+
+    RecordingHook hook;
+    sc.setMetricsHook(&hook);
+
+    // First call: in-memory cache is already populated → cache hit
+    auto r1 = sc.getStats("mh_hit");
+    ASSERT_TRUE(r1.ok);
+    EXPECT_EQ(hook.cache_hit.load(), 1);
+    EXPECT_EQ(hook.cache_miss.load(), 0);
+
+    // Second call: still a cache hit
+    auto r2 = sc.getStats("mh_hit");
+    ASSERT_TRUE(r2.ok);
+    EXPECT_EQ(hook.cache_hit.load(), 2);
+
+    sc.setMetricsHook(nullptr);
+}
+
+TEST_F(StatisticsCollectorTest, MetricsHook_OnCacheMiss_CalledWhenCacheEmpty) {
+    insertRow("mh_miss", "r1", {{"z", int64_t(7)}});
+
+    {
+        // Persist stats with one collector instance
+        StatisticsCollector sc(*db_);
+        ASSERT_TRUE(sc.collectStats("mh_miss").ok);
+    }
+
+    // New collector instance: in-memory cache is empty → cache miss, loads from RocksDB
+    StatisticsCollector sc2(*db_);
+    RecordingHook hook;
+    sc2.setMetricsHook(&hook);
+
+    auto r = sc2.getStats("mh_miss");
+    ASSERT_TRUE(r.ok);
+    EXPECT_EQ(hook.cache_miss.load(), 1);
+    EXPECT_EQ(hook.cache_hit.load(),  0);
+
+    sc2.setMetricsHook(nullptr);
+}
