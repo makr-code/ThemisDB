@@ -64,14 +64,16 @@ The AQL module is ThemisDB's query language and LLM-integration layer. It covers
 ### 2 · Eliminate Thread Leak in `LLMTimeoutManager::executeWithTimeout()`
 **Priority:** High
 **Target Version:** v1.6.0
+**Status:** ✅ Implemented (Issue #32)
 
 **Problem (from code):** `include/aql/llm_timeout_manager.h:executeWithTimeout()` (line ~90) calls `worker.detach()` when the timeout fires. The comment on that line explicitly acknowledges: *"the worker thread is detached and may continue executing"*. A detached thread holds all resources it has captured by reference or value and cannot be joined. Under sustained load a burst of LLM timeouts will accumulate many detached threads, each one consuming a stack (~8 MB default on Linux) and holding a reference to the plugin manager. The `executeWithCancelToken()` variant sets the cancel token before detaching but still has the same thread-leak problem if the worker ignores the token.
 
 **Implementation Notes:**
-- `[ ]` Replace the `std::thread` + `std::packaged_task` approach in `executeWithTimeout()` with `std::jthread` (C++20) and a `std::stop_token`; `jthread::request_stop()` signals the token and the destructor joins automatically — no detach needed
-- `[ ]` Where C++20 is unavailable, use an `std::atomic<bool>` shutdown flag combined with a `std::future::wait_for()` loop that joins on expiry rather than detaching
-- `[ ]` Add a test asserting that after `executeWithTimeout()` throws `TIMEOUT`, the associated worker thread has terminated within `timeout + 500 ms` (use a latch decremented by the worker on exit)
-- `[ ]` Document in the `TimeoutConfig` struct that `infer_timeout{300}`, `rag_timeout{600}`, `embed_timeout{60}`, and `model_load_timeout{900}` are soft defaults and show how to override them via `LLMTimeoutManager::setConfig()`
+- `[x]` Replace the `std::thread` + `std::packaged_task` approach in `executeWithTimeout()` with `std::jthread` (C++20) and a `std::stop_token`; `jthread::request_stop()` signals the token and the destructor joins automatically — no detach needed
+- `[x]` On timeout: call `request_stop()` and transfer jthread ownership to a thin background cleanup thread that joins the worker when it finishes — eliminates the thread leak without blocking the calling thread
+- `[x]` Same fix applied to `executeWithCancelToken()`: cancel token is set first, then the jthread is handed to the cleanup thread
+- `[x]` Add a test asserting that after `executeWithTimeout()` throws `TIMEOUT`, the associated worker thread has terminated within `timeout + 500 ms` (use a latch decremented by the worker on exit)
+- `[x]` Document in the `TimeoutConfig` struct that `infer_timeout{300}`, `rag_timeout{600}`, `embed_timeout{60}`, and `model_load_timeout{900}` are soft defaults and show how to override them via `LLMTimeoutManager::setConfig()`
 
 **Performance Targets:**
 - Zero leaked threads after 1 000 sequential timeout events in the test suite
