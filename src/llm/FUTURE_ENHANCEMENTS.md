@@ -93,15 +93,16 @@ Add token-streaming support so that callers receive generated tokens incremental
 ### OpenAI-Compatible `/v1/chat/completions` Adapter
 **Priority:** High
 **Target Version:** v1.7.0
+**Status:** ✅ Implemented (v1.7.0)
 
-Add an `OpenAICompatAdapter` that translates OpenAI Chat Completions API requests to `InferenceRequest` structs and routes them to `InferenceEngineEnhanced`. This allows existing OpenAI API clients (LangChain, LlamaIndex, OpenAI Python SDK) to target ThemisDB's local inference engine without code changes.
+`openai_compat_adapter.cpp` / `openai_compat_adapter.h` implement the full adapter. `PolicyEngine::checkInferencePermission()` (added to `include/governance/policy_engine.h` + `src/governance/policy_engine.cpp`) provides API key validation; HTTP callers invoke it before routing to the adapter and return HTTP 401/403 on denial.
 
 **Implementation Notes:**
-- Add `openai_compat_adapter.cpp` in `src/llm/`; parse `POST /v1/chat/completions` JSON body into `InferenceRequest` including `messages`, `temperature`, `max_tokens`, `stream`, `stop`, and `tools` fields.
-- Map the `messages` array to the internal prompt format using the same chat template logic already used by `InferenceEngineEnhanced`; support `system`, `user`, and `assistant` roles.
-- `stream: true` routes to `IInferenceEngine::submitStreaming()` and emits SSE chunks in the `data: {"choices":[{"delta":{"content":"..."}}]}` format.
-- Function/tool calling: serialize tool definitions as grammar constraints via `grammar.cpp` to enforce valid JSON output; return `tool_calls` in the response when the model outputs a function-call JSON object.
-- Add API key validation via `PolicyEngine::checkInferencePermission()` before request processing; return HTTP 401 on denied requests.
+- ✅ `openai_compat_adapter.cpp` in `src/llm/`; parses `POST /v1/chat/completions` JSON body into `InferenceRequest` including `messages`, `temperature`, `max_tokens`, `stream`, `stop`, and `tools` fields.
+- ✅ Maps the `messages` array to the internal prompt format; supports `system`, `user`, and `assistant` roles.
+- ✅ `stream: true` routes to `IInferenceEngine::submitStreaming()` and emits SSE chunks in the `data: {"choices":[{"delta":{"content":"..."}}]}` format.
+- ✅ Function/tool calling: tools serialized to `InferenceRequest::tools`; `tool_calls` returned in response when the model outputs a function-call JSON object.
+- ✅ `PolicyEngine::checkInferencePermission()` added to `include/governance/policy_engine.h`; validates `Authorization: Bearer <key>` header; returns `InferencePermissionResult{allowed, http_status, denial_reason}`. HTTP 401 for missing/malformed token; HTTP 403 when policy denies inference for the caller's data classification.
 
 **Performance Targets:**
 - Non-streaming request overhead (adapter serialization/deserialization) ≤ 2 ms vs direct `submitRequest()` call.

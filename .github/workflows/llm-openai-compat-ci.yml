@@ -16,6 +16,8 @@ on:
       - 'include/llm/openai_compat_adapter.h'
       - 'src/server/llm_api_handler.cpp'
       - 'tests/llm/test_openai_compat_adapter.cpp'
+      - 'include/governance/policy_engine.h'
+      - 'src/governance/policy_engine.cpp'
       - '.github/workflows/llm-openai-compat-ci.yml'
   push:
     branches:
@@ -26,6 +28,8 @@ on:
       - 'include/llm/openai_compat_adapter.h'
       - 'src/server/llm_api_handler.cpp'
       - 'tests/llm/test_openai_compat_adapter.cpp'
+      - 'include/governance/policy_engine.h'
+      - 'src/governance/policy_engine.cpp'
       - '.github/workflows/llm-openai-compat-ci.yml'
   workflow_dispatch:
 
@@ -91,4 +95,4 @@ jobs:
           echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "Validates \`src/llm/openai_compat_adapter.cpp\` JSON translation layer (no GPU hardware required)." >> "$GITHUB_STEP_SUMMARY"
+          echo "Validates \`src/llm/openai_compat_adapter.cpp\` JSON translation layer and \`PolicyEngine::checkInferencePermission()\` API key validation (no GPU hardware required)." >> "$GITHUB_STEP_SUMMARY"
