@@ -139,6 +139,11 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
   — `observability/metrics_stream_server.h/cpp`, tests: `tests/test_metrics_stream_server.cpp` (MetricsStreamServerFocusedTests)
 - [x] Custom Metric Types — Summary, ExponentialHistogram, Cardinality, TimeWeightedAverage, Rate (v1.6.0, Issue #80)
   — `observability/advanced_metrics.h/cpp`, tests: `tests/test_custom_metric_types.cpp` (AdvancedMetricsTest, 32 tests)
+- [x] Root Cause Analysis — automated root cause identification for performance issues (v1.7.0, Issue #84)
+  — `observability/root_cause_analyzer.h/cpp`, tests: `tests/test_root_cause_analyzer.cpp` (RootCauseAnalyzerFocusedTests, 34 tests)
+  — Types: `TimeSeries`, `SystemSnapshot`, `CorrelatedMetric`, `CausalEdge`, `CausalGraph`, `RootCauseReport`, `RootCauseAnalyzerConfig`
+  — API: `analyzeIssue()` (before/after `SystemSnapshot` delta analysis + heuristic rules), `findCorrelations()` (Pearson correlation against registered time series), `buildCausalGraph()` (Granger-inspired lag-1 causal inference)
+  — CI: `.github/workflows/root-cause-analyzer-ci.yml`
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% — `test_observability_profilers.cpp` (280 LOC), `test_observability_hardening.cpp`; focused targets: `ObservabilityProfilersFocusedTests`, `ObservabilityHardeningFocusedTests`

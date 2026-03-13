@@ -12453,6 +12453,46 @@ else()
     message(STATUS "LogAggregator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_log_aggregator.cpp")
 endif()
 
+# RootCauseAnalyzer focused tests (v1.7.0 — automated root cause identification, Issue #84)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_root_cause_analyzer.cpp")
+    message(STATUS "Adding Observability: RootCauseAnalyzer focused tests (v1.7.0, Issue #84)")
+
+    add_executable(test_root_cause_analyzer_focused
+        test_root_cause_analyzer.cpp
+        ${THEMIS_ROOT_DIR}/src/observability/root_cause_analyzer.cpp
+        ${THEMIS_ROOT_DIR}/src/observability/performance_analyzer.cpp
+        ${THEMIS_ROOT_DIR}/src/observability/query_profiler.cpp
+        ${THEMIS_ROOT_DIR}/src/observability/storage_profiler.cpp
+    )
+
+    target_include_directories(test_root_cause_analyzer_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_root_cause_analyzer_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_root_cause_analyzer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RootCauseAnalyzerFocusedTests COMMAND test_root_cause_analyzer_focused)
+
+    set_tests_properties(RootCauseAnalyzerFocusedTests PROPERTIES
+        LABELS "observability;root-cause-analysis;performance;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  RootCauseAnalyzer: analyzeIssue, findCorrelations, buildCausalGraph, TimeSeries, SystemSnapshot, CausalGraph, RootCauseReport")
+else()
+    message(STATUS "RootCauseAnalyzer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_root_cause_analyzer.cpp")
+endif()
+
 # ============================================================================
 # Training Module Focused Tests
 # Standalone targets that link only the training sources they exercise,
