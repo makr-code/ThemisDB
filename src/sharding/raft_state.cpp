@@ -335,5 +335,23 @@ bool RaftState::hasQuorum() const {
     return votes >= getQuorumSize();
 }
 
+void RaftState::setSnapshotMeta(uint64_t index, uint64_t term) {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    snapshot_index_ = index;
+    snapshot_term_  = term;
+    // Keep the log's snapshot meta in sync so hasEntry() works after compaction
+    log_.setSnapshotMeta(index, term);
+}
+
+uint64_t RaftState::getSnapshotIndex() const {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    return snapshot_index_;
+}
+
+uint64_t RaftState::getSnapshotTerm() const {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    return snapshot_term_;
+}
+
 }  // namespace sharding
 }  // namespace themisdb

@@ -25,6 +25,7 @@
 
 #include "sharding/paxos_snapshot.h"
 #include "sharding/paxos_consensus.h"
+#include "utils/zstd_codec.h"
 #include <spdlog/spdlog.h>
 #include <filesystem>
 #include <fstream>
@@ -114,14 +115,47 @@ bool PaxosSnapshot::verifyChecksum() const {
     return calculated == checksum;
 }
 
+std::vector<uint8_t> PaxosSnapshot::compress(int level) const {
+    const std::string json_str = toJSON().dump();
+    return themis::utils::zstd_compress(
+        reinterpret_cast<const uint8_t*>(json_str.data()), json_str.size(), level);
+}
+
+/* static */ std::optional<PaxosSnapshot> PaxosSnapshot::decompress(
+        const std::vector<uint8_t>& compressed) {
+    if (compressed.empty()) {
+        return std::nullopt;
+    }
+    auto decompressed = themis::utils::zstd_decompress(compressed);
+    if (decompressed.empty()) {
+        spdlog::error("PaxosSnapshot::decompress: ZSTD decompression failed");
+        return std::nullopt;
+    }
+    try {
+        const std::string json_str(decompressed.begin(), decompressed.end());
+        auto json = nlohmann::json::parse(json_str);
+        PaxosSnapshot snap = PaxosSnapshot::fromJSON(json);
+        if (!snap.verifyChecksum()) {
+            spdlog::error("PaxosSnapshot::decompress: checksum mismatch after decompression");
+            return std::nullopt;
+        }
+        return snap;
+    } catch (const std::exception& e) {
+        spdlog::error("PaxosSnapshot::decompress: parse error: {}", e.what());
+        return std::nullopt;
+    }
+}
+
 // ============================================================================
 // PaxosSnapshotManager Implementation
 // ============================================================================
 
 PaxosSnapshotManager::PaxosSnapshotManager(const std::string& snapshot_directory,
-                                           size_t max_snapshots)
+                                           size_t max_snapshots,
+                                           int compression_level)
     : snapshot_directory_(snapshot_directory)
-    , max_snapshots_(max_snapshots) {
+    , max_snapshots_(max_snapshots)
+    , compression_level_(compression_level) {
     
     // Create snapshot directory if it doesn't exist
     try {
@@ -196,21 +230,41 @@ std::optional<uint64_t> PaxosSnapshotManager::createSnapshot(
         // Calculate checksum
         snapshot.checksum = snapshot.calculateChecksum();
         
-        // Write to file
+        // Compress and write to file
         std::string filepath = getSnapshotPath(snapshot.snapshot_id);
-        std::ofstream file(filepath);
+
+        auto compressed = snapshot.compress(compression_level_);
+        const bool compression_succeeded = !compressed.empty();
+        const double ratio = compression_succeeded
+            ? static_cast<double>(snapshot.toJSON().dump().size()) /
+              std::max<size_t>(1, compressed.size())
+            : 1.0;
+
+        std::ofstream file(filepath, std::ios::binary | std::ios::trunc);
         if (!file.is_open()) {
             spdlog::error("Failed to open snapshot file for writing: {}", filepath);
             return std::nullopt;
         }
-        
-        nlohmann::json json = snapshot.toJSON();
-        file << json.dump(2);
+
+        if (compression_succeeded) {
+            // Binary format: "PAXZ" magic + compressed bytes
+            const char magic[4] = {'P', 'A', 'X', 'Z'};
+            file.write(magic, 4);
+            file.write(reinterpret_cast<const char*>(compressed.data()),
+                       static_cast<std::streamsize>(compressed.size()));
+        } else {
+            // Fallback: plain JSON text
+            nlohmann::json json = snapshot.toJSON();
+            const std::string text = json.dump(2);
+            file.write(text.data(), static_cast<std::streamsize>(text.size()));
+        }
         file.close();
         
-        spdlog::info("Created Paxos snapshot: id={}, slot={}, instances={}, log_entries={}",
+        spdlog::info("Created Paxos snapshot: id={} slot={} instances={} log_entries={} "
+                     "compressed={} ratio={:.2f}x",
                     snapshot.snapshot_id, last_committed_slot,
-                    instances.size(), committed_log.size());
+                    instances.size(), committed_log.size(),
+                    compression_succeeded, ratio);
         
         // Cleanup old snapshots
         cleanupOldSnapshots(max_snapshots_);
@@ -240,25 +294,55 @@ std::optional<PaxosSnapshot> PaxosSnapshotManager::loadSnapshot(uint64_t snapsho
     try {
         std::string filepath = getSnapshotPath(snapshot_id);
         
-        std::ifstream file(filepath);
+        std::ifstream file(filepath, std::ios::binary);
         if (!file.is_open()) {
             spdlog::warn("Snapshot file not found: {}", filepath);
             return std::nullopt;
         }
-        
-        nlohmann::json json;
-        file >> json;
-        file.close();
-        
-        PaxosSnapshot snapshot = PaxosSnapshot::fromJSON(json);
-        
-        // Verify checksum
-        if (!snapshot.verifyChecksum()) {
-            spdlog::error("Snapshot checksum verification failed: id={}", snapshot_id);
-            return std::nullopt;
+
+        // Detect format: binary ZSTD ("PAXZ" magic) or legacy plain JSON
+        char magic[4] = {0, 0, 0, 0};
+        file.read(magic, 4);
+        const bool is_compressed = (magic[0] == 'P' && magic[1] == 'A' &&
+                                    magic[2] == 'X' && magic[3] == 'Z');
+
+        PaxosSnapshot snapshot;
+
+        if (is_compressed) {
+            // Read remaining bytes as compressed data
+            const std::streampos data_start = file.tellg();
+            file.seekg(0, std::ios::end);
+            const size_t data_size =
+                static_cast<size_t>(file.tellg() - data_start);
+            file.seekg(data_start);
+
+            std::vector<uint8_t> compressed(data_size);
+            file.read(reinterpret_cast<char*>(compressed.data()),
+                      static_cast<std::streamsize>(data_size));
+            file.close();
+
+            auto opt = PaxosSnapshot::decompress(compressed);
+            if (!opt) {
+                spdlog::error("Failed to decompress Paxos snapshot: id={}", snapshot_id);
+                return std::nullopt;
+            }
+            snapshot = std::move(*opt);
+        } else {
+            // Legacy plain-JSON format – rewind and parse as text
+            file.seekg(0);
+            nlohmann::json json;
+            file >> json;
+            file.close();
+            snapshot = PaxosSnapshot::fromJSON(json);
+
+            // Verify checksum
+            if (!snapshot.verifyChecksum()) {
+                spdlog::error("Snapshot checksum verification failed: id={}", snapshot_id);
+                return std::nullopt;
+            }
         }
         
-        spdlog::info("Loaded Paxos snapshot: id={}, slot={}, instances={}, log_entries={}",
+        spdlog::info("Loaded Paxos snapshot: id={} slot={} instances={} log_entries={}",
                     snapshot.snapshot_id, snapshot.last_committed_slot,
                     snapshot.instances.size(), snapshot.committed_log.size());
         
