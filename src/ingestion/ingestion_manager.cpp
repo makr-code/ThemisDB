@@ -597,6 +597,19 @@ public:
                 case SourceType::KAFKA: {
                     auto kafka_connector = std::make_unique<KafkaConnector>();
                     kafka_connector->setRetryConfig(retry_config_);
+                    // Inject the shared checkpoint store so that Kafka consumer-group
+                    // offsets are committed only AFTER the ThemisDB checkpoint is
+                    // written.  This preserves at-least-once delivery semantics.
+                    if (incremental_mode_) {
+                        std::shared_ptr<CheckpointStore> cs;
+                        {
+                            std::lock_guard<std::mutex> lock(mutex_);
+                            cs = checkpoint_store_shared_;
+                        }
+                        if (cs) {
+                            kafka_connector->setCheckpointStore(cs);
+                        }
+                    }
                     if (!kafka_connector->initialize(config)) {
                         stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
                                        IngestionErrorSeverity::ERROR,
