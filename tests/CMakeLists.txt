@@ -13544,6 +13544,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_wom_tree.cpp")
 endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_storage_engine_di.cpp")
+    message(STATUS "Adding Storage: StorageEngineDI focused tests")
     add_executable(test_storage_engine_di_focused test_storage_engine_di.cpp)
     target_include_directories(test_storage_engine_di_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_storage_engine_di_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
