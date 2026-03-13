@@ -25,6 +25,7 @@
 - [x] Jaeger tracing backend adapter — `JaegerTracerAdapter` with `uber-trace-id` propagation and W3C `traceparent` fallback; circuit-breaker guarded; selectable via `tracerAdapter="jaeger"` in `ConcernsContext::Config` (Issue: #1413)
 - [x] Zipkin tracing backend adapter — `ZipkinTracerAdapter` with B3 single/multi-header and W3C `traceparent` propagation; injects all three header formats on outbound; circuit-breaker guarded; selectable via `tracerAdapter="zipkin"` (Issue: #1413)
 - [x] Distributed context propagation (W3C TraceContext standard) — `W3CTraceContextPropagator` extracts `traceparent`/`tracestate` headers into `IContext` (populates `kTraceId`, `kSpanId`) and injects them for outbound calls; `kSpanId` added to `context_keys`; `SimpleContext::toTraceContext()` now includes span_id (Issue: #1414)
+- [x] Zero-Copy Logging — `ZeroCopyLogger` in `include/core/concerns/zero_copy_logger.h` + `src/core/concerns/zero_copy_logger.cpp`; `string_view` hot-path API (`logSV`/`infoSV`/…/`logStructuredSV`); pre-allocated thread-local format buffer; early `shouldLog()` level-check; PII redaction; 40 focused tests in `tests/test_zero_copy_logging.cpp` (Issue: #65)
 
 ## In Progress 🚧
 *(none currently in progress)*
@@ -66,6 +67,7 @@
 - [x] Secrets interface for credential injection into components
 - [x] Dynamic log level adjustment at runtime (Issue: #1412)
 - [x] Audit event interface for compliance logging (Issue: #1418)
+- [x] Zero-Copy Logging — `ZeroCopyLogger` with `string_view` hot-path API and pre-allocated thread-local buffer (Issue: #65)
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (Issue: #1419) — test_concerns_context.cpp (146 tests), test_fuzz_core.cpp; standalone targets ConcernsContextFocusedTests + FuzzCoreFocusedTests added
