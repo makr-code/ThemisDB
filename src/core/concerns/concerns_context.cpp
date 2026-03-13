@@ -196,9 +196,9 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
     }
 
     return std::shared_ptr<ConcernsContext>(new ConcernsContext(
-        std::move(logger),
-        std::move(tracer),
-        std::move(metrics),
+        std::shared_ptr<ILogger>(std::move(logger)),
+        std::shared_ptr<ITracer>(std::move(tracer)),
+        std::shared_ptr<IMetrics>(std::move(metrics)),
         std::move(cache),
         std::move(circuit_breaker),
         std::make_unique<NoOpSecrets>(),
@@ -218,9 +218,9 @@ std::shared_ptr<ConcernsContext> ConcernsContext::createCustom(
         circuit_breaker = std::make_unique<NoOpCircuitBreaker>();
     }
     return std::shared_ptr<ConcernsContext>(new ConcernsContext(
-        std::move(logger),
-        std::move(tracer),
-        std::move(metrics),
+        std::shared_ptr<ILogger>(std::move(logger)),
+        std::shared_ptr<ITracer>(std::move(tracer)),
+        std::shared_ptr<IMetrics>(std::move(metrics)),
         std::move(cache),
         std::move(circuit_breaker),
         std::make_unique<NoOpSecrets>(),
@@ -244,9 +244,9 @@ std::shared_ptr<ConcernsContext> ConcernsContext::createCustom(
         featureFlags = std::make_unique<NoOpFeatureFlags>();
     }
     return std::shared_ptr<ConcernsContext>(new ConcernsContext(
-        std::move(logger),
-        std::move(tracer),
-        std::move(metrics),
+        std::shared_ptr<ILogger>(std::move(logger)),
+        std::shared_ptr<ITracer>(std::move(tracer)),
+        std::shared_ptr<IMetrics>(std::move(metrics)),
         std::move(cache),
         std::make_unique<NoOpCircuitBreaker>(),
         std::move(secrets),
@@ -266,9 +266,9 @@ std::shared_ptr<ConcernsContext> ConcernsContext::createCustom(
         featureFlags = std::make_unique<NoOpFeatureFlags>();
     }
     return std::shared_ptr<ConcernsContext>(new ConcernsContext(
-        std::move(logger),
-        std::move(tracer),
-        std::move(metrics),
+        std::shared_ptr<ILogger>(std::move(logger)),
+        std::shared_ptr<ITracer>(std::move(tracer)),
+        std::shared_ptr<IMetrics>(std::move(metrics)),
         std::move(cache),
         std::make_unique<NoOpCircuitBreaker>(),
         std::make_unique<NoOpSecrets>(),
@@ -296,9 +296,9 @@ std::shared_ptr<ConcernsContext> ConcernsContext::createCustom(
         auditLog = std::make_unique<NoOpAuditLog>();
     }
     return std::shared_ptr<ConcernsContext>(new ConcernsContext(
-        std::move(logger),
-        std::move(tracer),
-        std::move(metrics),
+        std::shared_ptr<ILogger>(std::move(logger)),
+        std::shared_ptr<ITracer>(std::move(tracer)),
+        std::shared_ptr<IMetrics>(std::move(metrics)),
         std::move(cache),
         std::make_unique<NoOpCircuitBreaker>(),
         std::move(secrets),
@@ -318,9 +318,9 @@ std::shared_ptr<ConcernsContext> ConcernsContext::createNoOp() {
     }
     
     return std::shared_ptr<ConcernsContext>(new ConcernsContext(
-        std::make_unique<NoOpLogger>(),
-        std::make_unique<NoOpTracer>(),
-        std::make_unique<NoOpMetrics>(),
+        std::make_shared<NoOpLogger>(),
+        std::make_shared<NoOpTracer>(),
+        std::make_shared<NoOpMetrics>(),
         std::make_unique<NoOpCache>(),
         std::make_unique<NoOpCircuitBreaker>(),
         std::make_unique<NoOpSecrets>(),
@@ -336,6 +336,173 @@ void ConcernsContext::logWithTrace(ILogger::Level level,
     ctx.trace_id   = themis::Tracer::getCurrentTraceId();
     ctx.span_id    = themis::Tracer::getCurrentSpanId();
     logger_->logWithContext(level, message, ctx, fields);
+}
+
+// =============================================================================
+// Dynamic Adapter Reconfiguration (v1.6.0 — Issue #63)
+// =============================================================================
+
+void ConcernsContext::replaceLogger(std::unique_ptr<ILogger> new_logger) {
+    if (!new_logger) {
+        throw std::invalid_argument("replaceLogger: new_logger must not be null");
+    }
+    std::lock_guard<std::mutex> lock(replace_mutex_);
+    // Graceful: flush pending buffered records before retiring the old adapter.
+    logger_->flush();
+    logger_->shutdown();
+    logger_ = std::shared_ptr<ILogger>(std::move(new_logger));
+}
+
+void ConcernsContext::replaceTracer(std::unique_ptr<ITracer> new_tracer) {
+    if (!new_tracer) {
+        throw std::invalid_argument("replaceTracer: new_tracer must not be null");
+    }
+    std::lock_guard<std::mutex> lock(replace_mutex_);
+    // Graceful: flush pending spans before retiring the old tracer.
+    tracer_->flush();
+    tracer_->shutdown();
+    tracer_ = std::shared_ptr<ITracer>(std::move(new_tracer));
+}
+
+void ConcernsContext::replaceMetrics(std::unique_ptr<IMetrics> new_metrics) {
+    if (!new_metrics) {
+        throw std::invalid_argument("replaceMetrics: new_metrics must not be null");
+    }
+    std::lock_guard<std::mutex> lock(replace_mutex_);
+    // Graceful: flush pending metric observations before retiring the old adapter.
+    metrics_->flush();
+    metrics_->shutdown();
+    metrics_ = std::shared_ptr<IMetrics>(std::move(new_metrics));
+}
+
+void ConcernsContext::reloadMetricsConfig(const Config& new_config) {
+    // Validate the metrics-related fields before touching the live adapter.
+    auto adapter_validation = core::ConfigValidator::validateAdapterConfig(
+        "spdlog",                    // logger – not being changed
+        "",                          // tracer – not being changed
+        new_config.metricsAdapter,
+        "inmemory",                  // cache – not being changed
+        "default",
+        "inmemory",
+        "noop");
+    if (!adapter_validation.valid) {
+        throw std::runtime_error(
+            "reloadMetricsConfig: invalid configuration:\n" +
+            adapter_validation.formatErrors());
+    }
+
+    // Resolve effective metrics adapter.
+    std::string effective_metrics = new_config.metricsAdapter;
+    if (effective_metrics.empty()) {
+        effective_metrics = new_config.metricsEnabled ? "prometheus" : "noop";
+    }
+
+    std::unique_ptr<IMetrics> new_metrics;
+    if (effective_metrics == "prometheus") {
+        if (new_config.maxMetricCardinality > 0) {
+            observability::MetricsCollector::getInstance().setCardinalityLimit(
+                new_config.maxMetricCardinality);
+        }
+        new_metrics = std::make_unique<PrometheusMetricsAdapter>();
+    } else {
+        new_metrics = std::make_unique<NoOpMetrics>();
+    }
+
+    replaceMetrics(std::move(new_metrics));
+}
+
+void ConcernsContext::reloadConfig(const Config& new_config) {
+    // Validate the full configuration before touching any live adapter.
+    auto log_validation = core::ConfigValidator::validateLogConfig(
+        new_config.logLevel, new_config.logPattern);
+    if (!log_validation.valid) {
+        throw std::runtime_error(
+            "reloadConfig: invalid logging configuration:\n" +
+            log_validation.formatErrors());
+    }
+
+    auto trace_validation = core::ConfigValidator::validateTracingConfig(
+        new_config.tracingEnabled,
+        new_config.tracingEndpoint,
+        new_config.tracingServiceName);
+    if (!trace_validation.valid) {
+        throw std::runtime_error(
+            "reloadConfig: invalid tracing configuration:\n" +
+            trace_validation.formatErrors());
+    }
+
+    auto adapter_validation = core::ConfigValidator::validateAdapterConfig(
+        new_config.loggerAdapter,
+        new_config.tracerAdapter,
+        new_config.metricsAdapter,
+        new_config.cacheAdapter,
+        new_config.circuitBreakerAdapter,
+        new_config.featureFlagsAdapter,
+        new_config.auditAdapter);
+    if (!adapter_validation.valid) {
+        throw std::runtime_error(
+            "reloadConfig: invalid adapter configuration:\n" +
+            adapter_validation.formatErrors());
+    }
+
+    // --- Build new logger ---
+    auto logLevel = ILogger::levelFromString(new_config.logLevel);
+    utils::Logger::init(new_config.logFile,
+        static_cast<utils::Logger::Level>(static_cast<int>(logLevel)));
+    std::unique_ptr<ILogger> new_logger;
+    if (new_config.loggerAdapter == "noop") {
+        new_logger = std::make_unique<NoOpLogger>();
+    } else {
+        auto spdlogger = std::make_unique<SpdlogLoggerAdapter>(
+            nullptr, new_config.jsonLogging);
+        if (!new_config.jsonLogging) {
+            spdlogger->setPattern(new_config.logPattern);
+        }
+        new_logger = std::move(spdlogger);
+    }
+
+    // --- Build new tracer ---
+    std::string effective_tracer = new_config.tracerAdapter;
+    if (effective_tracer.empty()) {
+        effective_tracer = new_config.tracingEnabled ? "otel" : "noop";
+    }
+    std::unique_ptr<ITracer> new_tracer;
+    if (effective_tracer == "otel") {
+        auto t = std::make_unique<OpenTelemetryTracerAdapter>();
+        t->initialize(new_config.tracingServiceName, new_config.tracingEndpoint);
+        new_tracer = std::move(t);
+    } else if (effective_tracer == "jaeger") {
+        auto t = std::make_unique<JaegerTracerAdapter>();
+        t->initialize(new_config.tracingServiceName, new_config.tracingEndpoint);
+        new_tracer = std::move(t);
+    } else if (effective_tracer == "zipkin") {
+        auto t = std::make_unique<ZipkinTracerAdapter>();
+        t->initialize(new_config.tracingServiceName, new_config.tracingEndpoint);
+        new_tracer = std::move(t);
+    } else {
+        new_tracer = std::make_unique<NoOpTracer>();
+    }
+
+    // --- Build new metrics ---
+    std::string effective_metrics = new_config.metricsAdapter;
+    if (effective_metrics.empty()) {
+        effective_metrics = new_config.metricsEnabled ? "prometheus" : "noop";
+    }
+    std::unique_ptr<IMetrics> new_metrics;
+    if (effective_metrics == "prometheus") {
+        if (new_config.maxMetricCardinality > 0) {
+            observability::MetricsCollector::getInstance().setCardinalityLimit(
+                new_config.maxMetricCardinality);
+        }
+        new_metrics = std::make_unique<PrometheusMetricsAdapter>();
+    } else {
+        new_metrics = std::make_unique<NoOpMetrics>();
+    }
+
+    // --- Atomically replace all three adapters ---
+    replaceLogger(std::move(new_logger));
+    replaceTracer(std::move(new_tracer));
+    replaceMetrics(std::move(new_metrics));
 }
 
 } // namespace concerns

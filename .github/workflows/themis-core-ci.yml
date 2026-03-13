@@ -40,6 +40,7 @@ on:
       - 'tests/test_fuzz_core.cpp'
       - 'tests/performance/test_wire_perf_benchmark.cpp'
       - 'tests/test_concerns_context.cpp'
+      - 'tests/test_dynamic_adapter_reconfiguration.cpp'
       - 'tests/test_context_propagation.cpp'
       - 'tests/test_plugin_health_monitor.cpp'
       - 'src/plugins/plugin_health_monitor.cpp'
@@ -98,6 +99,7 @@ on:
       - 'tests/test_fuzz_core.cpp'
       - 'tests/performance/test_wire_perf_benchmark.cpp'
       - 'tests/test_concerns_context.cpp'
+      - 'tests/test_dynamic_adapter_reconfiguration.cpp'
       - 'tests/test_context_propagation.cpp'
       - 'tests/test_plugin_health_monitor.cpp'
       - 'src/plugins/plugin_health_monitor.cpp'
@@ -296,7 +298,7 @@ jobs:
           set -o pipefail
           cd build
           ./tests/themis_tests \
-            --gtest_filter="ConcernsContextTest*:InMemoryFeatureFlagsTest*:NoOpFeatureFlagsTest*:NoOpCircuitBreakerTest*:MetricLabelsTest*:IContextTest*:IAsyncLoggerTest*:IAsyncCacheTest*:ContextPropagationTest*:ContextScopeTest*" \
+            --gtest_filter="ConcernsContextTest*:InMemoryFeatureFlagsTest*:NoOpFeatureFlagsTest*:NoOpCircuitBreakerTest*:MetricLabelsTest*:IContextTest*:IAsyncLoggerTest*:IAsyncCacheTest*:ContextPropagationTest*:ContextScopeTest*:DynamicAdapterReconfigurationTest*" \
             --gtest_output="xml:concerns_results.xml" \
             2>&1 | tee concerns_output.txt
 
@@ -411,6 +413,7 @@ jobs:
           CORE_FILTER="${CORE_FILTER}:FuzzAbiChecker*:FuzzBufferPool*:FuzzCompressionAdvisor*"
           CORE_FILTER="${CORE_FILTER}:WirePerfBenchmark*"
           CORE_FILTER="${CORE_FILTER}:ConcernsContextTest*:InMemoryFeatureFlagsTest*"
+          CORE_FILTER="${CORE_FILTER}:DynamicAdapterReconfigurationTest*"
           CORE_FILTER="${CORE_FILTER}:NoOpFeatureFlagsTest*:NoOpCircuitBreakerTest*"
           CORE_FILTER="${CORE_FILTER}:MetricLabelsTest*:IContextTest*:IAsyncLoggerTest*"
           CORE_FILTER="${CORE_FILTER}:IAsyncCacheTest*:ContextPropagationTest*:ContextScopeTest*"

@@ -37,6 +37,7 @@
 // lifecycle.h (ProbeResult, HealthStatus) is already transitively included
 // via each of the four interface headers above; no direct include needed.
 #include <memory>
+#include <mutex>
 #include <string>
 #include <unordered_map>
 
@@ -213,6 +214,104 @@ public:
     const IFeatureFlags& featureFlags() const { return *featureFlags_; }
     const IAuditLog& auditLog() const { return *auditLog_; }
 
+    /**
+     * @brief Return a shared_ptr to the active logger for concurrent/long-lived use.
+     *
+     * Unlike `logger()`, the returned shared_ptr keeps the adapter alive even
+     * after a concurrent `replaceLogger()` call, making it safe to use across
+     * potential replace points.
+     */
+    std::shared_ptr<ILogger> loggerHandle() const {
+        std::lock_guard<std::mutex> lock(replace_mutex_);
+        return logger_;
+    }
+
+    /**
+     * @brief Return a shared_ptr to the active tracer for concurrent/long-lived use.
+     */
+    std::shared_ptr<ITracer> tracerHandle() const {
+        std::lock_guard<std::mutex> lock(replace_mutex_);
+        return tracer_;
+    }
+
+    /**
+     * @brief Return a shared_ptr to the active metrics adapter for concurrent/long-lived use.
+     */
+    std::shared_ptr<IMetrics> metricsHandle() const {
+        std::lock_guard<std::mutex> lock(replace_mutex_);
+        return metrics_;
+    }
+
+    // -------------------------------------------------------------------------
+    // Dynamic Adapter Reconfiguration (v1.6.0 — Issue #63)
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Replace the logger adapter at runtime without restarting.
+     *
+     * Thread-safe: serialized by an internal mutex so concurrent replace
+     * calls do not corrupt state.  Graceful: the old adapter is flushed
+     * before it is replaced, so no buffered log records are lost.
+     * The old adapter is shut down after the swap.
+     *
+     * Config validation is the caller's responsibility; pass a fully
+     * constructed, already-initialized adapter.
+     *
+     * @param new_logger  New logger adapter.  Must not be null.
+     * @throws std::invalid_argument if @p new_logger is null.
+     */
+    void replaceLogger(std::unique_ptr<ILogger> new_logger);
+
+    /**
+     * @brief Replace the tracer adapter at runtime without restarting.
+     *
+     * Flushes and shuts down the current tracer before installing the new
+     * one.  Any spans started after this call use the new backend.
+     *
+     * @param new_tracer  New tracer adapter.  Must not be null.
+     * @throws std::invalid_argument if @p new_tracer is null.
+     */
+    void replaceTracer(std::unique_ptr<ITracer> new_tracer);
+
+    /**
+     * @brief Replace the metrics adapter at runtime without restarting.
+     *
+     * Flushes and shuts down the current metrics adapter before installing
+     * the replacement.  Metric counters/gauges/histograms accumulated in the
+     * old adapter are flushed to its sink first.
+     *
+     * @param new_metrics  New metrics adapter.  Must not be null.
+     * @throws std::invalid_argument if @p new_metrics is null.
+     */
+    void replaceMetrics(std::unique_ptr<IMetrics> new_metrics);
+
+    /**
+     * @brief Reload the metrics configuration at runtime.
+     *
+     * Validates @p new_config before making any changes.  On success,
+     * constructs a new metrics adapter according to the configuration and
+     * hot-swaps it via `replaceMetrics()`.
+     *
+     * @param new_config  New configuration (only metrics fields are used).
+     * @throws std::runtime_error if the configuration fails validation or if
+     *         the requested metrics adapter is unknown.
+     */
+    void reloadMetricsConfig(const Config& new_config);
+
+    /**
+     * @brief Reload all reconfigurable adapters from a new configuration.
+     *
+     * Validates @p new_config in full before touching any live adapter.
+     * On success, replaces the logger, tracer, and metrics adapters
+     * atomically (each adapter is individually flushed and replaced in
+     * order: logger → tracer → metrics).
+     *
+     * @param new_config  New configuration.
+     * @throws std::runtime_error if validation fails; no adapter is replaced
+     *         in that case.
+     */
+    void reloadConfig(const Config& new_config);
+
     // Convenience methods for common operations
     void logInfo(const std::string& message) { logger_->info(message); }
     void logError(const std::string& message) { logger_->error(message); }
@@ -388,9 +487,9 @@ public:
 
 private:
     ConcernsContext(
-        std::unique_ptr<ILogger> logger,
-        std::unique_ptr<ITracer> tracer,
-        std::unique_ptr<IMetrics> metrics,
+        std::shared_ptr<ILogger> logger,
+        std::shared_ptr<ITracer> tracer,
+        std::shared_ptr<IMetrics> metrics,
         std::unique_ptr<ICache> cache,
         std::unique_ptr<ICircuitBreaker> circuit_breaker,
         std::unique_ptr<ISecrets> secrets,
@@ -405,9 +504,16 @@ private:
         featureFlags_(std::move(featureFlags)),
         auditLog_(std::move(auditLog)) {}
 
-    std::unique_ptr<ILogger> logger_;
-    std::unique_ptr<ITracer> tracer_;
-    std::unique_ptr<IMetrics> metrics_;
+    /// Serialises concurrent replaceLogger / replaceTracer / replaceMetrics /
+    /// reloadConfig calls.  Not held during normal accessor use.
+    mutable std::mutex replace_mutex_;
+
+    // Logger, tracer, and metrics are stored as shared_ptr so that callers
+    // holding a handle (via loggerHandle() etc.) keep the adapter alive even
+    // after a replace call.
+    std::shared_ptr<ILogger> logger_;
+    std::shared_ptr<ITracer> tracer_;
+    std::shared_ptr<IMetrics> metrics_;
     std::unique_ptr<ICache> cache_;
     std::unique_ptr<ISecrets> secrets_;
     std::unique_ptr<ICircuitBreaker> circuit_breaker_;

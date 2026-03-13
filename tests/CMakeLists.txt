@@ -9338,7 +9338,48 @@ else()
 endif()
 
 # ============================================================================
-# Core Module – Fuzz / Robustness Tests (Issue #1419)
+# Core Module – Dynamic Adapter Reconfiguration Focused Tests (Issue #63, v1.6.0)
+# Validates runtime hot-swap of logger / tracer / metrics adapters with
+# thread-safety, graceful in-flight handling, and config validation.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_dynamic_adapter_reconfiguration.cpp")
+    message(STATUS "Adding Dynamic Adapter Reconfiguration focused tests (core module, Issue #63)")
+
+    add_executable(test_dynamic_adapter_reconfiguration_focused
+        test_dynamic_adapter_reconfiguration.cpp
+    )
+
+    target_include_directories(test_dynamic_adapter_reconfiguration_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_dynamic_adapter_reconfiguration_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_dynamic_adapter_reconfiguration_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DynamicAdapterReconfigurationFocusedTests
+        COMMAND test_dynamic_adapter_reconfiguration_focused)
+
+    set_tests_properties(DynamicAdapterReconfigurationFocusedTests PROPERTIES
+        LABELS "core;di;concerns;dynamic-adapter;hot-swap;thread-safety;v1.6.0;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  DynamicAdapterReconfigurationFocused: replaceLogger/Tracer/Metrics, reloadConfig, reloadMetricsConfig, thread-safe swap, graceful in-flight, config validation")
+else()
+    message(STATUS "Dynamic Adapter Reconfiguration focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_dynamic_adapter_reconfiguration.cpp")
+endif()
+
+
 # Exercises wire-protocol frame parser, CompressionAdvisor, PayloadBufferPool,
 # WireProtocolMetrics, AbiChecker, LicenseData, and BuildInfo with adversarial
 # and boundary-value inputs.
