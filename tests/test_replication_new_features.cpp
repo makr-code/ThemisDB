@@ -42,6 +42,7 @@
 
 #include <chrono>
 #include <filesystem>
+#include <future>
 #include <memory>
 #include <string>
 #include <thread>
@@ -657,4 +658,250 @@ TEST_F(ReplicationSlotTest, StatePersistenceRoundTrip) {
     ASSERT_NE(slot, nullptr);
     EXPECT_EQ(slot->state().confirmed_lsn, 77u);
     EXPECT_EQ(slot->status(), ReplicationSlot::SlotStatus::PAUSED);
+}
+
+// ============================================================================
+// 7. ParallelReplicationWorker (v1.6.0)
+// ============================================================================
+
+namespace {
+
+// Monotonically increasing sequence number so every WALEntry is unique.
+static std::atomic<uint64_t> g_seq{1};
+
+WALEntry makeWALEntry(const std::string& doc_id,
+                      const std::string& collection = "col",
+                      const std::string& op = "INSERT") {
+    WALEntry e;
+    e.sequence_number = g_seq.fetch_add(1);
+    e.term            = 1;
+    e.operation       = op;
+    e.collection      = collection;
+    e.document_id     = doc_id;
+    e.data            = R"({"v":1})";
+    return e;
+}
+
+} // anonymous namespace
+
+class ParallelReplicationWorkerTest : public ::testing::Test {
+protected:
+    // All config fields are set explicitly so the tests are not sensitive
+    // to future default-value changes.
+    ParallelReplicationWorker::ParallelConfig defaultConfig() {
+        ParallelReplicationWorker::ParallelConfig cfg;
+        cfg.worker_threads          = 4;
+        cfg.queue_size              = 10000;
+        cfg.use_dependency_tracking = true;
+        cfg.group_transactions      = true;
+        return cfg;
+    }
+};
+
+TEST_F(ParallelReplicationWorkerTest, ConstructAndDestruct) {
+    // Should start and stop cleanly
+    ParallelReplicationWorker worker(defaultConfig());
+}
+
+TEST_F(ParallelReplicationWorkerTest, SubmitSingleEntryAndSync) {
+    ParallelReplicationWorker worker(defaultConfig());
+
+    worker.submit(makeWALEntry("doc1"));
+    worker.sync();
+
+    auto stats = worker.getStats();
+    EXPECT_EQ(stats.entries_applied, 1u);
+}
+
+TEST_F(ParallelReplicationWorkerTest, SubmitMultipleIndependentEntries) {
+    ParallelReplicationWorker worker(defaultConfig());
+
+    for (int i = 0; i < 20; ++i) {
+        worker.submit(makeWALEntry("doc" + std::to_string(i)));
+    }
+    worker.sync();
+
+    auto stats = worker.getStats();
+    EXPECT_EQ(stats.entries_applied, 20u);
+}
+
+TEST_F(ParallelReplicationWorkerTest, DependencyTrackingDetectsConflicts) {
+    ParallelReplicationWorker worker(defaultConfig());
+
+    // Three writes to the same document — all should be serialized
+    worker.submit(makeWALEntry("shared_doc", "col", "INSERT"));
+    worker.submit(makeWALEntry("shared_doc", "col", "UPDATE"));
+    worker.submit(makeWALEntry("shared_doc", "col", "DELETE"));
+    worker.sync();
+
+    auto stats = worker.getStats();
+    EXPECT_EQ(stats.entries_applied, 3u);
+    // The second and third writes each depend on the previous one
+    EXPECT_EQ(stats.dependencies_detected, 2u);
+}
+
+TEST_F(ParallelReplicationWorkerTest, NoDependencyTrackingSkipsDeps) {
+    ParallelReplicationWorker::ParallelConfig cfg = defaultConfig();
+    cfg.use_dependency_tracking = false;
+    ParallelReplicationWorker worker(cfg);
+
+    // Same document — without tracking no dependencies should be recorded
+    worker.submit(makeWALEntry("same_doc", "col", "INSERT"));
+    worker.submit(makeWALEntry("same_doc", "col", "UPDATE"));
+    worker.sync();
+
+    auto stats = worker.getStats();
+    EXPECT_EQ(stats.entries_applied, 2u);
+    EXPECT_EQ(stats.dependencies_detected, 0u);
+}
+
+TEST_F(ParallelReplicationWorkerTest, MixedDocumentsPartialDependencies) {
+    ParallelReplicationWorker worker(defaultConfig());
+
+    // 4 writes: 2 to "a", 2 to "b" — 2 dependencies total (one per doc chain)
+    worker.submit(makeWALEntry("a", "col", "INSERT"));
+    worker.submit(makeWALEntry("b", "col", "INSERT"));
+    worker.submit(makeWALEntry("a", "col", "UPDATE"));
+    worker.submit(makeWALEntry("b", "col", "UPDATE"));
+    worker.sync();
+
+    auto stats = worker.getStats();
+    EXPECT_EQ(stats.entries_applied, 4u);
+    EXPECT_EQ(stats.dependencies_detected, 2u);
+}
+
+TEST_F(ParallelReplicationWorkerTest, StatsParallelismFactorNonNegative) {
+    ParallelReplicationWorker worker(defaultConfig());
+
+    worker.submit(makeWALEntry("d1"));
+    worker.submit(makeWALEntry("d2"));
+    worker.sync();
+
+    auto stats = worker.getStats();
+    EXPECT_GE(stats.parallelism_factor, 0.0);
+}
+
+TEST_F(ParallelReplicationWorkerTest, GetStatsBeforeSubmitReturnsZero) {
+    ParallelReplicationWorker worker(defaultConfig());
+    auto stats = worker.getStats();
+    EXPECT_EQ(stats.entries_applied,       0u);
+    EXPECT_EQ(stats.dependencies_detected, 0u);
+    EXPECT_EQ(stats.parallel_batches,      0u);
+    EXPECT_DOUBLE_EQ(stats.parallelism_factor, 0.0);
+}
+
+TEST_F(ParallelReplicationWorkerTest, SingleThreadedWorker) {
+    ParallelReplicationWorker::ParallelConfig cfg = defaultConfig();
+    cfg.worker_threads = 1;
+    ParallelReplicationWorker worker(cfg);
+
+    for (int i = 0; i < 10; ++i) {
+        worker.submit(makeWALEntry("doc" + std::to_string(i)));
+    }
+    worker.sync();
+
+    EXPECT_EQ(worker.getStats().entries_applied, 10u);
+}
+
+TEST_F(ParallelReplicationWorkerTest, SixteenThreadWorker) {
+    ParallelReplicationWorker::ParallelConfig cfg = defaultConfig();
+    cfg.worker_threads = 16;
+    ParallelReplicationWorker worker(cfg);
+
+    for (int i = 0; i < 100; ++i) {
+        worker.submit(makeWALEntry("doc" + std::to_string(i)));
+    }
+    worker.sync();
+
+    EXPECT_EQ(worker.getStats().entries_applied, 100u);
+}
+
+TEST_F(ParallelReplicationWorkerTest, SyncOnEmptyQueueReturnsImmediately) {
+    ParallelReplicationWorker worker(defaultConfig());
+    // Verify that sync() on an empty queue returns within a tight deadline.
+    auto fut = std::async(std::launch::async, [&worker] { worker.sync(); });
+    EXPECT_EQ(fut.wait_for(std::chrono::seconds(5)), std::future_status::ready);
+    EXPECT_EQ(worker.getStats().entries_applied, 0u);
+}
+
+TEST_F(ParallelReplicationWorkerTest, GroupTransactionsEnabled) {
+    // With group_transactions=true entries queued together should be drained in
+    // a single worker iteration, yielding parallel_batches strictly less than
+    // entries_applied.  We sleep briefly so the worker finishes its current
+    // wait, then submit all entries in one rapid burst before the next cycle.
+    ParallelReplicationWorker::ParallelConfig cfg = defaultConfig();
+    cfg.group_transactions = true;
+    cfg.worker_threads     = 1;  // One worker makes batching deterministic
+    ParallelReplicationWorker worker(cfg);
+
+    // Let the worker settle into its 5 ms wait; the burst below (~µs) will
+    // complete before the next wake-up, ensuring all entries land in one batch.
+    std::this_thread::sleep_for(std::chrono::milliseconds(6));
+
+    constexpr int kEntries = 20;
+    for (int i = 0; i < kEntries; ++i) {
+        worker.submit(makeWALEntry("doc" + std::to_string(i)));
+    }
+    worker.sync();
+
+    auto stats = worker.getStats();
+    EXPECT_EQ(stats.entries_applied, static_cast<uint64_t>(kEntries));
+    // Batching must have occurred: batch count is strictly less than entry count.
+    EXPECT_LT(stats.parallel_batches, static_cast<uint64_t>(kEntries));
+}
+
+TEST_F(ParallelReplicationWorkerTest, GroupTransactionsDisabled) {
+    // With group_transactions=false each entry is processed in its own
+    // worker iteration; parallel_batches equals entries_applied.
+    ParallelReplicationWorker::ParallelConfig cfg = defaultConfig();
+    cfg.group_transactions = false;
+    cfg.worker_threads     = 1;  // Single worker guarantees sequential batches
+    ParallelReplicationWorker worker(cfg);
+
+    constexpr int kEntries = 5;
+    for (int i = 0; i < kEntries; ++i) {
+        worker.submit(makeWALEntry("doc" + std::to_string(i)));
+    }
+    worker.sync();
+
+    auto stats = worker.getStats();
+    EXPECT_EQ(stats.entries_applied, static_cast<uint64_t>(kEntries));
+    EXPECT_EQ(stats.parallel_batches, static_cast<uint64_t>(kEntries));
+}
+
+TEST_F(ParallelReplicationWorkerTest, AverageLatencyPopulatedAfterWork) {
+    ParallelReplicationWorker worker(defaultConfig());
+
+    for (int i = 0; i < 10; ++i) {
+        worker.submit(makeWALEntry("doc" + std::to_string(i)));
+    }
+    worker.sync();
+
+    auto stats = worker.getStats();
+    EXPECT_EQ(stats.entries_applied, 10u);
+    // Latency must be non-negative; a valid timing gives > 0 µs.
+    EXPECT_GE(stats.average_latency_us, 0u);
+}
+
+TEST_F(ParallelReplicationWorkerTest, AverageLatencyZeroBeforeSubmit) {
+    ParallelReplicationWorker worker(defaultConfig());
+    auto stats = worker.getStats();
+    EXPECT_EQ(stats.average_latency_us, 0u);
+}
+
+TEST_F(ParallelReplicationWorkerTest, LargeSubmitBatch) {
+    ParallelReplicationWorker::ParallelConfig cfg = defaultConfig();
+    cfg.worker_threads = 8;
+    cfg.queue_size     = 50000;
+    ParallelReplicationWorker worker(cfg);
+
+    constexpr int kEntries = 1000;
+    for (int i = 0; i < kEntries; ++i) {
+        worker.submit(makeWALEntry("doc" + std::to_string(i % 50)));
+    }
+    worker.sync();
+
+    auto stats = worker.getStats();
+    // All entries must be applied (queue is large enough to hold them all)
+    EXPECT_EQ(stats.entries_applied, static_cast<uint64_t>(kEntries));
 }

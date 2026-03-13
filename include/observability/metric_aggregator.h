@@ -91,6 +91,38 @@ struct AggregatedMetric {
 };
 
 /**
+ * @brief Metric observations sourced from a single shard.
+ *
+ * Each `ShardMetrics` bundles all named metric readings collected from one
+ * database shard into a single transfer object suitable for cross-shard
+ * aggregation via `MetricAggregator::aggregateShardMetrics()`.
+ */
+struct ShardMetrics {
+    /// Logical shard identifier (e.g. "shard-0", "replica-us-east-1").
+    std::string shard_id;
+    /// Per-metric raw observation vectors.  Key is the metric name.
+    std::map<std::string, std::vector<double>> metrics;
+    /// Shard-level labels applied to every metric in this snapshot.
+    std::map<std::string, std::string> labels;
+    /// When this snapshot was captured (defaults to now).
+    std::chrono::system_clock::time_point timestamp{std::chrono::system_clock::now()};
+};
+
+/**
+ * @brief Result of a cross-shard metric aggregation pass.
+ *
+ * Produced by `MetricAggregator::aggregateShardMetrics()`.  Contains one
+ * `AggregatedMetric` entry for each rule/group combination that matched the
+ * supplied shard data.
+ */
+struct MetricSnapshot {
+    /// Aggregated metric values, one per matching rule × group combination.
+    std::vector<AggregatedMetric> metrics;
+    /// Wall-clock time at which the snapshot was produced.
+    std::chrono::system_clock::time_point timestamp{std::chrono::system_clock::now()};
+};
+
+/**
  * @brief Prometheus-style advanced metrics aggregation.
  *
  * Provides three key capabilities for the observability module:
@@ -217,6 +249,35 @@ public:
      * @return Vector of aggregated results, one per applicable rule.
      */
     std::vector<AggregatedMetric> applyRules() const;
+
+    /**
+     * @brief Aggregate metrics from multiple shards into a single snapshot.
+     *
+     * Converts each `ShardMetrics` into histogram snapshots (tagging them
+     * with the source `shard_id`), then applies all registered rules to
+     * produce a unified `MetricSnapshot`.  This call does **not** mutate the
+     * internal snapshot buffer; the supplied shard data is processed
+     * transiently and the result is returned directly.
+     *
+     * @param shard_metrics One `ShardMetrics` per shard.
+     * @return `MetricSnapshot` containing one `AggregatedMetric` per
+     *         applicable rule × group combination.
+     */
+    MetricSnapshot aggregateShardMetrics(
+        const std::vector<ShardMetrics>& shard_metrics) const;
+
+    /**
+     * @brief Prune buffered histogram snapshots older than @p window.
+     *
+     * Reduces cardinality by discarding stale shard observations.  Rate
+     * samples are also pruned with the same window (converted from minutes to
+     * seconds).  Known-series tracking for cardinality limits is NOT reset so
+     * that new insertions continue to be validated against the same limits.
+     *
+     * @param window Retention window.  Snapshots whose timestamp falls before
+     *               `now - window` are discarded.
+     */
+    void rollupMetrics(std::chrono::minutes window);
 
     // =========================================================================
     // Cardinality management

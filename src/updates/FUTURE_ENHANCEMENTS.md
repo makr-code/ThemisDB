@@ -112,18 +112,19 @@ if (result.wait()) {
 
 ---
 
-### Binary Delta Patches
+### Binary Delta Patches ✅ IMPLEMENTED (v1.6.0)
 **Priority:** High  
-**Target Version:** v1.6.0
+**Target Version:** v1.6.0  
+**Status:** ✅ Released — `include/updates/delta_update_engine.h`, `src/updates/delta_update_engine.cpp`
 
 Reduce download size by applying binary diffs instead of full file replacement.
 
 **Features:**
-- Binary diff generation (bsdiff/xdelta3)
-- Patch verification with checksums
-- Fallback to full download if patch fails
-- Automatic patch generation in CI/CD
-- Compression-friendly delta encoding
+- ✅ Binary diff generation (bsdiff/xdelta3 — fallback to ZSTD_DICT; VCDIFF pure-C++ implementation)
+- ✅ Patch verification with checksums (SHA-256 base_hash / target_hash in FileDelta)
+- ✅ Fallback to full download if patch fails (per-file fallback in `DeltaApplyResult::files_fallback`)
+- ✅ Automatic patch generation in CI/CD (`generatePatch()` API; `.github/workflows/binary-delta-patches-ci.yml`)
+- ✅ Compression-friendly delta encoding (ZSTD_DICT dictionary compression + VCDIFF RFC 3284)
 
 **Algorithms:**
 ```cpp

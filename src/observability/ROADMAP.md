@@ -53,6 +53,10 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
   - Files: `observability/metric_aggregator.h`, `observability/metric_aggregator.cpp`
   - Implementation: `MetricAggregator` (rate calculation, histogram aggregation SUM/AVG/MAX/MIN/P50/P95/P99, rule-based aggregation with drop_labels/group_by_labels, per-metric cardinality limits)
   - Tests: `tests/test_metrics_aggregation.cpp` (MetricsAggregationFocusedTests)
+- [x] Metric Aggregation Pipeline — cross-shard pre-aggregation and cardinality rollup (Issue: #81)
+  - Files: `observability/metric_aggregator.h`, `observability/metric_aggregator.cpp`
+  - Implementation: `ShardMetrics` (shard_id, per-metric value vectors, shard-level labels), `MetricSnapshot` (aggregated results + timestamp), `MetricAggregator::aggregateShardMetrics()` (stateless cross-shard aggregation applying registered rules), `MetricAggregator::rollupMetrics()` (time-window based snapshot pruning for cardinality reduction)
+  - Tests: `tests/test_metrics_aggregation.cpp` (AggregateShardMetrics_* and RollupMetrics_* test cases)
 - [x] Real-time metric streaming via WebSocket / SSE (Issue: #82)
   - Files: `observability/metrics_stream_server.h`, `observability/metrics_stream_server.cpp`
   - Implementation: `MetricsStreamServer` with `StreamSubscription` (client_id, metric_names, MetricFilter[], update_interval), `MetricUpdate` (name, value, labels, timestamp), `SendFn` callback-based delivery decoupled from transport; `pushMetrics()` fans out to matching subscribers with AND-semantics label filtering, per-subscription rate limiting, and `formatWebSocketMessage()` / `formatSseMessage()` serialisers
