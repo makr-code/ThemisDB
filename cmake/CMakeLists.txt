@@ -1897,6 +1897,7 @@ set(THEMIS_CORE_SOURCES
     ../src/updates/canary_rollout.cpp
     ../src/updates/delta_update_engine.cpp
     ../src/updates/parallel_downloader.cpp
+    ../src/updates/dependency_resolver.cpp
     ../src/updates/schema_migration_tester.cpp
     ../src/updates/in_place_schema_migrator.cpp
     ../src/updates/update_history_logger.cpp

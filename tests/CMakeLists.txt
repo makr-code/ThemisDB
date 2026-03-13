@@ -13098,6 +13098,42 @@ else()
     message(STATUS "Parallel File Downloads focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_file_downloads.cpp")
 endif()
 
+# DependencyResolutionEngine – focused tests for update dependency resolver (Issue #216 / v1.6.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_dependency_resolution_engine.cpp")
+    message(STATUS "Adding Dependency Resolution Engine focused tests")
+
+    add_executable(test_dependency_resolution_engine_focused
+        test_dependency_resolution_engine.cpp
+    )
+
+    target_include_directories(test_dependency_resolution_engine_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_dependency_resolution_engine_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_dependency_resolution_engine_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DependencyResolutionEngineFocusedTests
+        COMMAND test_dependency_resolution_engine_focused)
+
+    set_tests_properties(DependencyResolutionEngineFocusedTests PROPERTIES
+        LABELS "updates;dependency-resolution;topological-sort;cycle-detection;version-constraints;conflict-resolution;backfill;focused;unit;v1.6.0"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  DependencyResolutionEngine: dependency graph, topological sort, cycle detection, version constraints, conflict resolution, backfill")
+else()
+    message(STATUS "Dependency Resolution Engine focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_dependency_resolution_engine.cpp")
+endif()
+
 # DistributedGateway – focused tests for multi-node API gateway
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_gateway.cpp")
     message(STATUS "Adding Distributed Gateway focused tests")

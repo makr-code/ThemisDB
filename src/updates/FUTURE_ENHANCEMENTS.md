@@ -318,19 +318,20 @@ canary.onRollback([](const std::string& reason) {
 
 ---
 
-### Dependency Resolution Engine
+### Dependency Resolution Engine ✅ IMPLEMENTED (v1.6.0)
 **Priority:** Medium  
-**Target Version:** v1.6.0
+**Target Version:** v1.6.0  
+**Status:** ✅ Released — `include/updates/dependency_resolver.h`, `src/updates/dependency_resolver.cpp`
 
 Automatic resolution of update dependencies with topological sorting.
 
 **Features:**
-- Dependency graph construction
-- Topological sort for correct order
-- Cycle detection
-- Minimum version constraints
-- Conflict resolution
-- Automatic backfill of missing dependencies
+- ✅ Dependency graph construction
+- ✅ Topological sort for correct order
+- ✅ Cycle detection
+- ✅ Minimum version constraints
+- ✅ Conflict resolution
+- ✅ Automatic backfill of missing dependencies
 
 **Dependency Format:**
 ```cpp
