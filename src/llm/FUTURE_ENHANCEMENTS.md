@@ -71,24 +71,47 @@ This means LoRA adapter signature validation silently succeeds without verifying
 
 ---
 
+## Streaming Token Output (SSE / Chunked Response)
+**Priority:** High  
+**Target Version:** v1.7.0  
+**Status:** ✅ Implemented (v1.7.0)
 
-**Priority:** High
-**Target Version:** v1.7.0
+### Scope
+- Deliver OpenAI-style streaming for LLM responses via SSE framing and HTTP chunked responses.
+- Expose token-level callbacks through `InferenceRequest::stream_callback` for both engines while keeping engines output-format agnostic.
+- Provide reusable formatting helpers in `llm::StreamingHandler` for SSE events, `[DONE]` sentinel, and chunked-transfer frames.
 
-Add token-streaming support so that callers receive generated tokens incrementally rather than waiting for the full response. This is required by interactive chat applications and the planned OpenAI-compatible API passthrough adapter. Both `AsyncInferenceEngine` and `InferenceEngineEnhanced` must support streaming via a new `submitStreaming()` method.
+### Design Constraints
+- SSE payloads must be valid JSON per RFC 8259 with control-character escaping; framing must end with `\n\n`.
+- Terminal events must emit the canonical `data: [DONE]\n\n` sentinel; chunked responses must end with the zero-length chunk `0\r\n\r\n`.
+- Streaming callbacks run on worker threads and must respect cancellation/deadlines before emitting tokens.
+- Deduplication caching must be skipped for streaming requests to avoid serving partial cached content.
 
-**Implementation Notes:**
-- Add `IInferenceEngine::submitStreaming(InferenceRequest, TokenCallback)` to the engine interface; `TokenCallback` is `std::function<void(std::string_view token, bool is_final)>`.
-- In `async_inference_engine.cpp`, invoke the callback from the worker thread after each llama.cpp token decode step; the callback must be thread-safe (called from the worker, consumed by the HTTP layer).
-- In `inference_engine_enhanced.cpp`, integrate streaming with `continuous_batch_scheduler.cpp`; each batch step flushes decoded tokens for all in-flight requests to their respective callbacks.
-- Return an `InferenceHandle` from `submitStreaming()` so callers can still call `cancel()` to abort mid-stream; on cancellation, the token callback receives a final call with `is_final=true` and an empty token.
-- SSE framing (`data: {token}\n\n`) is applied at the HTTP layer, not inside the engine; the engine emits raw token strings.
+### Required Interfaces
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `InferenceRequest::stream_callback` | `AsyncInferenceEngine`, `InferenceEngineEnhanced`, HTTP SSE writers | Raw token callback invoked from worker thread; wrapped with cancel/deadline checks in `async_inference_engine.cpp`. |
+| `llm::StreamingHandler::{formatSseEvent, formatDoneEvent, formatChunkedData, makeStreamCallback}` | HTTP layer (SSE endpoints, OpenAI compat adapter) | Provides stateless framing helpers and atomic token indexing for single-producer streams. |
 
-**Performance Targets:**
+### Implementation Notes
+- [x] `InferenceRequest` carries `stream_callback`; `AsyncInferenceEngine::processRequest()` wraps it with cancellation and deadline guards before invoking the active plugin (Target: v1.7.0).
+- [x] Streaming requests bypass the dedup cache while still applying prompt-policy checks and metadata propagation (Target: v1.7.0).
+- [x] `StreamingHandler` formats tokens into SSE events and chunked frames and offers `makeStreamCallback()` for thread-safe token indexing (Target: v1.7.0).
+- [x] Terminal SSE markers produced via `formatDoneEvent()`; chunked responses terminate with an empty chunk for HTTP/1.1 compatibility (Target: v1.7.0).
+
+### Test Strategy
+- `tests/llm/test_streaming_handler.cpp` validates SSE formatting, JSON escaping, chunked frames, and callback index sequencing.
+- Streaming paths in engines are covered by existing async-engine request processing tests (queueing, cancellation, deadline) with `stream_callback` set; no SSE framing occurs inside the engine.
+- OpenAI-compatible adapter streaming paths rely on the same SSE helpers and will fail existing streaming fixture tests if regressions are introduced.
+
+### Performance Targets
 - Time-to-first-token (TTFT) ≤ 200 ms p99 for prompt lengths ≤ 512 tokens on a single A10G GPU.
 - Streaming overhead (vs non-streaming) ≤ 2 % of total tokens/sec throughput.
 
----
+### Security / Reliability
+- Streamed tokens are JSON-escaped to prevent response-body injection in SSE consumers.
+- Cancellation/deadline guards prevent runaway streaming after client disconnects; terminal markers ensure well-formed SSE and chunked sequences.
+- Prompt-policy enforcement still runs before streaming; blocked prompts return policy errors without invoking callbacks.
 
 ### OpenAI-Compatible `/v1/chat/completions` Adapter
 **Priority:** High
