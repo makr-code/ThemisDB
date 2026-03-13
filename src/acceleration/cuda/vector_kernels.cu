@@ -15,6 +15,9 @@
 #include <cmath>
 #include <memory>
 
+#include "cosine_config.cuh"
+#include "topk_shared.cuh"
+
 namespace themis {
 namespace acceleration {
 namespace cuda {
@@ -65,13 +68,16 @@ __global__ void computeL2DistanceKernel(
 // Compile-time guard: require SM 7.0+ for vector kernels (Tensor Core availability).
 #if defined(__CUDA_ARCH__) && (__CUDA_ARCH__ < 700)
 #  if (__CUDA_ARCH__ >= 600)
-#    warning "Building ThemisDB CUDA vector kernels for sm_60; Tensor Core optimisations disabled and performance may degrade."
+#    warning "Building ThemisDB CUDA vector kernels for sm_6x; Tensor Core optimizations disabled and performance may degrade."
 #  else
 #    error "ThemisDB CUDA vector kernels require sm_70 or newer."
 #  endif
 #endif
 
 namespace {
+
+constexpr size_t kSharedBytes = cuda_cosine::CosineSharedBytes<float>();
+static_assert(kSharedBytes <= 64 * 1024, "CUDA cosine kernel shared memory exceeds 64KB sm_70+ limit");
 
 template <int TILE, int VECS_PER_BLOCK, int QUERIES_PER_BLOCK>
 __global__ void fusedCosineDistanceKernel(
@@ -83,7 +89,7 @@ __global__ void fusedCosineDistanceKernel(
     int dim)
 {
     constexpr int kWarp = 32;
-    static_assert(TILE == kWarp, "TILE must equal warp size for warp reduction");
+    static_assert(TILE == kWarp, "TILE must equal 32 (warp size) for CUB warp reduction");
 
     const int linearY = threadIdx.y;
     const int vLocal = linearY / QUERIES_PER_BLOCK;   // which vector in this block
@@ -140,33 +146,6 @@ __global__ void fusedCosineDistanceKernel(
         const float cosineSim = dot * rsqrtf(denomQ) * rsqrtf(denomV);
         distances[static_cast<size_t>(qIdx) * numVectors + vIdx] = 1.0f - cosineSim;
     }
-}
-
-__global__ void fillMonotonicIndices(int* indices, int numVectors, int numQueries) {
-    const int tid = blockIdx.x * blockDim.x + threadIdx.x;
-    const size_t total = static_cast<size_t>(numVectors) * static_cast<size_t>(numQueries);
-    if (static_cast<size_t>(tid) >= total) return;
-    indices[tid] = tid % numVectors;
-}
-
-template <typename IndexT>
-__global__ void scatterTopKFromSorted(
-    const float* __restrict__ sortedDistances,
-    const IndexT* __restrict__ sortedIndices,
-    int numVectors,
-    int k,
-    int topKStride,
-    float* __restrict__ topkDistances,
-    IndexT* __restrict__ topkIndices,
-    int numQueries)
-{
-    const int q = blockIdx.x;
-    const int i = threadIdx.x;
-    if (q >= numQueries || i >= k) return;
-    const size_t inOffset  = static_cast<size_t>(q) * numVectors + i;
-    const size_t outOffset = static_cast<size_t>(q) * topKStride + i;
-    topkDistances[outOffset] = sortedDistances[inOffset];
-    topkIndices[outOffset]   = sortedIndices[inOffset];
 }
 
 } // anonymous namespace
@@ -298,16 +277,13 @@ void launchCosineDistanceKernel(
     int dim,
     cudaStream_t stream
 ) {
-    constexpr int kTile = 32;
-    constexpr int kVecsPerBlock = 4;
-    constexpr int kQueriesPerBlock = 2;
-    dim3 blockDim(kTile, kVecsPerBlock * kQueriesPerBlock);
+    dim3 blockDim(cuda_cosine::kTileSize, cuda_cosine::kVecsPerBlock * cuda_cosine::kQueriesPerBlock);
     dim3 gridDim(
-        (numVectors + kVecsPerBlock - 1) / kVecsPerBlock,
-        (numQueries + kQueriesPerBlock - 1) / kQueriesPerBlock
+        (numVectors + cuda_cosine::kVecsPerBlock - 1) / cuda_cosine::kVecsPerBlock,
+        (numQueries + cuda_cosine::kQueriesPerBlock - 1) / cuda_cosine::kQueriesPerBlock
     );
     
-    fusedCosineDistanceKernel<kTile, kVecsPerBlock, kQueriesPerBlock><<<gridDim, blockDim, 0, stream>>>(
+    fusedCosineDistanceKernel<cuda_cosine::kTileSize, cuda_cosine::kVecsPerBlock, cuda_cosine::kQueriesPerBlock><<<gridDim, blockDim, 0, stream>>>(
         d_queries, d_vectors, d_distances,
         numQueries, numVectors, dim
     );
@@ -350,78 +326,20 @@ void launchTopKKernel(
     cudaStream_t stream
 ) {
     if (k <= 0 || numQueries <= 0 || numVectors <= 0) return;
-    const int cappedK = k > numVectors ? numVectors : k;
-
-    if (cappedK <= 1024) {
-        const size_t total = static_cast<size_t>(numQueries) * static_cast<size_t>(numVectors);
-
-        // Build index and offset buffers
-        thrust::device_vector<int> indices(total);
-        thrust::sequence(thrust::cuda::par.on(stream), indices.begin(), indices.end(), 0, 1);
-
-        thrust::device_vector<int> offsets(static_cast<size_t>(numQueries) + 1);
-        thrust::sequence(thrust::cuda::par.on(stream), offsets.begin(), offsets.end(), 0, numVectors);
-
-        thrust::device_vector<float> sortedDistances(total);
-        thrust::device_vector<int>   sortedIndices(total);
-
-        size_t tempBytes = 0;
-        cub::DeviceSegmentedRadixSort::SortPairs(
-            nullptr, tempBytes,
-            d_distances, thrust::raw_pointer_cast(sortedDistances.data()),
-            thrust::raw_pointer_cast(indices.data()), thrust::raw_pointer_cast(sortedIndices.data()),
-            static_cast<int>(total), numQueries,
-            thrust::raw_pointer_cast(offsets.data()),
-            thrust::raw_pointer_cast(offsets.data()) + 1,
-            stream);
-
-        thrust::device_vector<uint8_t> tempBuffer(tempBytes);
-        cub::DeviceSegmentedRadixSort::SortPairs(
-            thrust::raw_pointer_cast(tempBuffer.data()), tempBytes,
-            d_distances, thrust::raw_pointer_cast(sortedDistances.data()),
-            thrust::raw_pointer_cast(indices.data()), thrust::raw_pointer_cast(sortedIndices.data()),
-            static_cast<int>(total), numQueries,
-            thrust::raw_pointer_cast(offsets.data()),
-            thrust::raw_pointer_cast(offsets.data()) + 1,
-            stream);
-
-        const int threads = (cappedK < 256) ? cappedK : 256;
-        scatterTopKFromSorted<<<numQueries, threads, 0, stream>>>(
-            thrust::raw_pointer_cast(sortedDistances.data()),
-            thrust::raw_pointer_cast(sortedIndices.data()),
-            numVectors, cappedK, k,
-            d_topkDistances,
-            d_topkIndices,
-            numQueries);
-    } else {
-        // Fallback: thrust::partial_sort for larger k
-        thrust::device_vector<int> workingIdx(numVectors);
-        thrust::device_vector<float> workingDist(numVectors);
-
-        for (int q = 0; q < numQueries; ++q) {
-            thrust::sequence(thrust::cuda::par.on(stream), workingIdx.begin(), workingIdx.end(), 0, 1);
-            thrust::copy_n(thrust::cuda::par.on(stream),
-                           d_distances + static_cast<size_t>(q) * numVectors,
-                           numVectors,
-                           workingDist.begin());
-
-            auto zipBegin = thrust::make_zip_iterator(thrust::make_tuple(workingDist.begin(), workingIdx.begin()));
-            auto zipEnd   = thrust::make_zip_iterator(thrust::make_tuple(workingDist.end(),   workingIdx.end()));
-            thrust::partial_sort(thrust::cuda::par.on(stream), zipBegin, zipBegin + cappedK, zipEnd,
-                [] __device__ (const auto& a, const auto& b) {
-                    return thrust::get<0>(a) < thrust::get<0>(b);
-                });
-
-            thrust::copy_n(thrust::cuda::par.on(stream), workingDist.begin(), cappedK,
-                           d_topkDistances + static_cast<size_t>(q) * k);
-            thrust::copy_n(thrust::cuda::par.on(stream), workingIdx.begin(), cappedK,
-                           d_topkIndices + static_cast<size_t>(q) * k);
-        }
-    }
+    cuda_topk::segmentedTopK(
+        d_distances,
+        d_topkIndices,
+        d_topkDistances,
+        numQueries,
+        numVectors,
+        k,
+        stream);
 }
 
 /**
- * Launch Inner Product distance computation kernel
+ * Launch Inner Product distance computation kernel (alias).
+ * Note: Returns negative dot product (smaller = more similar), same implementation
+ * as launchInnerProductKernel; kept for interface compatibility.
  */
 void launchInnerProductDistanceKernel(
     const float* d_queries,
@@ -438,7 +356,7 @@ void launchInnerProductDistanceKernel(
         (numQueries + blockDim.y - 1) / blockDim.y
     );
 
-    computeInnerProductDistanceKernel<<<gridDim, blockDim, 0, stream>>>(
+    computeInnerProductKernel<<<gridDim, blockDim, 0, stream>>>(
         d_queries, d_vectors, d_distances,
         numQueries, numVectors, dim
     );

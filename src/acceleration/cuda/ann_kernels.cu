@@ -26,6 +26,8 @@
 #include <cmath>
 #include <cstdint>
 #include "acceleration/kernel_invocation.h"
+#include "cosine_config.cuh"
+#include "topk_shared.cuh"
 
 namespace themis {
 namespace acceleration {
@@ -79,7 +81,7 @@ __global__ void annComputeL2DistanceKernel(
     distances[qIdx * numVectors + vIdx] = sum;
 }
 
-// Compile-time guard: require SM 7.0+ for performance-sensitive kernels.
+// Compile-time guard: require SM 7.0+; sm_6x emits a warning, <6.0 errors out.
 #if defined(__CUDA_ARCH__) && (__CUDA_ARCH__ < 700)
 #  if (__CUDA_ARCH__ >= 600)
 #    warning "Building ThemisDB ANN CUDA kernels for sm_60; expect reduced performance."
@@ -87,6 +89,11 @@ __global__ void annComputeL2DistanceKernel(
 #    error "ThemisDB ANN CUDA kernels require sm_70 or newer."
 #  endif
 #endif
+
+namespace {
+
+constexpr size_t kSharedBytes = cuda_cosine::CosineSharedBytes<float>();
+static_assert(kSharedBytes <= 64 * 1024, "CUDA ANN cosine kernel shared memory exceeds 64KB sm_70+ limit");
 
 template <int TILE, int VECS_PER_BLOCK, int QUERIES_PER_BLOCK>
 __global__ void annComputeCosineDistanceKernel(
@@ -194,32 +201,7 @@ __global__ void annComputeInnerProductKernel(
 // Top-K selection kernel
 // =============================================================================
 
-__global__ void fillSequential(uint32_t* indices, int numVectors, int numQueries) {
-    const int tid = blockIdx.x * blockDim.x + threadIdx.x;
-    const size_t total = static_cast<size_t>(numVectors) * static_cast<size_t>(numQueries);
-    if (static_cast<size_t>(tid) >= total) return;
-    indices[tid] = static_cast<uint32_t>(tid % numVectors);
-}
-
-template <typename IndexT>
-__global__ void annScatterTopK(
-    const float* __restrict__ sortedDistances,
-    const IndexT* __restrict__ sortedIndices,
-    int numVectors,
-    int topK,
-    int topKStride,
-    float* __restrict__ topkDistances,
-    IndexT* __restrict__ topkIndices,
-    int numQueries)
-{
-    const int q = blockIdx.x;
-    const int i = threadIdx.x;
-    if (q >= numQueries || i >= topK) return;
-    const size_t inOffset  = static_cast<size_t>(q) * numVectors + i;
-    const size_t outOffset = static_cast<size_t>(q) * topKStride + i;
-    topkDistances[outOffset] = sortedDistances[inOffset];
-    topkIndices[outOffset]   = sortedIndices[inOffset];
-}
+} // anonymous namespace
 
 // =============================================================================
 // Kernel launchers — conform to ANNDistanceFn / ANNTopKFn in kernel_invocation.h
@@ -275,18 +257,15 @@ int cuda_launchCosineDistanceKernel(
 ) {
     if (numQueries <= 0 || numVectors <= 0 || dim <= 0) return 0;
 
-    constexpr int kTile = 32;
-    constexpr int kVecsPerBlock = 4;
-    constexpr int kQueriesPerBlock = 2;
-    const dim3 blockDim(kTile, kVecsPerBlock * kQueriesPerBlock);
+    const dim3 blockDim(cuda_cosine::kTileSize, cuda_cosine::kVecsPerBlock * cuda_cosine::kQueriesPerBlock);
     const dim3 gridDim(
-        (static_cast<unsigned>(numVectors) + kVecsPerBlock - 1u) / kVecsPerBlock,
-        (static_cast<unsigned>(numQueries) + kQueriesPerBlock - 1u) / kQueriesPerBlock
+        (static_cast<unsigned>(numVectors) + cuda_cosine::kVecsPerBlock - 1u) / cuda_cosine::kVecsPerBlock,
+        (static_cast<unsigned>(numQueries) + cuda_cosine::kQueriesPerBlock - 1u) / cuda_cosine::kQueriesPerBlock
     );
 
     const cudaStream_t stream = static_cast<cudaStream_t>(opaque_stream);
 
-    annComputeCosineDistanceKernel<kTile, kVecsPerBlock, kQueriesPerBlock><<<gridDim, blockDim, 0, stream>>>(
+    annComputeCosineDistanceKernel<cuda_cosine::kTileSize, cuda_cosine::kVecsPerBlock, cuda_cosine::kQueriesPerBlock><<<gridDim, blockDim, 0, stream>>>(
         d_queries, d_vectors, d_distances, numQueries, numVectors, dim);
 
     return static_cast<int>(cudaGetLastError());
@@ -339,73 +318,16 @@ int cuda_launchTopKKernel(
     void*        opaque_stream
 ) {
     if (numQueries <= 0 || numVectors <= 0 || topK <= 0) return 0;
-    const int cappedK = topK > numVectors ? numVectors : topK;
-
     const cudaStream_t stream = static_cast<cudaStream_t>(opaque_stream);
 
-    if (cappedK <= 1024) {
-        const size_t total = static_cast<size_t>(numQueries) * static_cast<size_t>(numVectors);
-        thrust::device_vector<uint32_t> indices(total);
-        thrust::sequence(thrust::cuda::par.on(stream), indices.begin(), indices.end(), 0u, 1u);
-
-        thrust::device_vector<int> offsets(static_cast<size_t>(numQueries) + 1);
-        thrust::sequence(thrust::cuda::par.on(stream), offsets.begin(), offsets.end(), 0, numVectors);
-
-        thrust::device_vector<float> sortedDistances(total);
-        thrust::device_vector<uint32_t> sortedIndices(total);
-
-        size_t tempBytes = 0;
-        cub::DeviceSegmentedRadixSort::SortPairs(
-            nullptr, tempBytes,
-            d_distances, thrust::raw_pointer_cast(sortedDistances.data()),
-            thrust::raw_pointer_cast(indices.data()), thrust::raw_pointer_cast(sortedIndices.data()),
-            static_cast<int>(total), numQueries,
-            thrust::raw_pointer_cast(offsets.data()),
-            thrust::raw_pointer_cast(offsets.data()) + 1,
-            stream);
-
-        thrust::device_vector<uint8_t> tempBuffer(tempBytes);
-        cub::DeviceSegmentedRadixSort::SortPairs(
-            thrust::raw_pointer_cast(tempBuffer.data()), tempBytes,
-            d_distances, thrust::raw_pointer_cast(sortedDistances.data()),
-            thrust::raw_pointer_cast(indices.data()), thrust::raw_pointer_cast(sortedIndices.data()),
-            static_cast<int>(total), numQueries,
-            thrust::raw_pointer_cast(offsets.data()),
-            thrust::raw_pointer_cast(offsets.data()) + 1,
-            stream);
-
-        const int threads = (cappedK < 256) ? cappedK : 256;
-        annScatterTopK<<<numQueries, threads, 0, stream>>>(
-            thrust::raw_pointer_cast(sortedDistances.data()),
-            thrust::raw_pointer_cast(sortedIndices.data()),
-            numVectors, cappedK, topK,
-            d_topk_dists,
-            d_topk_indices,
-            numQueries);
-    } else {
-        thrust::device_vector<uint32_t> workingIdx(numVectors);
-        thrust::device_vector<float> workingDist(numVectors);
-
-        for (int q = 0; q < numQueries; ++q) {
-            thrust::sequence(thrust::cuda::par.on(stream), workingIdx.begin(), workingIdx.end(), 0u, 1u);
-            thrust::copy_n(thrust::cuda::par.on(stream),
-                           d_distances + static_cast<size_t>(q) * numVectors,
-                           numVectors,
-                           workingDist.begin());
-
-            auto zipBegin = thrust::make_zip_iterator(thrust::make_tuple(workingDist.begin(), workingIdx.begin()));
-            auto zipEnd   = thrust::make_zip_iterator(thrust::make_tuple(workingDist.end(),   workingIdx.end()));
-            thrust::partial_sort(thrust::cuda::par.on(stream), zipBegin, zipBegin + cappedK, zipEnd,
-                [] __device__ (const auto& a, const auto& b) {
-                    return thrust::get<0>(a) < thrust::get<0>(b);
-                });
-
-            thrust::copy_n(thrust::cuda::par.on(stream), workingDist.begin(), cappedK,
-                           d_topk_dists + static_cast<size_t>(q) * topK);
-            thrust::copy_n(thrust::cuda::par.on(stream), workingIdx.begin(), cappedK,
-                           d_topk_indices + static_cast<size_t>(q) * topK);
-        }
-    }
+    cuda_topk::segmentedTopK(
+        d_distances,
+        d_topk_indices,
+        d_topk_dists,
+        numQueries,
+        numVectors,
+        topK,
+        stream);
 
     return static_cast<int>(cudaGetLastError());
 }
