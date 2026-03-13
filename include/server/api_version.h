@@ -78,6 +78,38 @@ struct APIDeprecationInfo {
 };
 
 /**
+ * @brief Represents a client-declared API version range (e.g., "1.0-2.0")
+ *
+ * Used with the Accept-API-Version request header to indicate the range of
+ * API versions the client can accept.
+ */
+struct APIVersionRange {
+    APIVersion min_version;  ///< Inclusive minimum version
+    APIVersion max_version;  ///< Inclusive maximum version
+
+    /**
+     * @brief Parse a version range string (e.g., "1.0-2.0", "1.2.0-1.4.0")
+     * @return Parsed range or std::nullopt if the string is not a valid range
+     */
+    static std::optional<APIVersionRange> parse(const std::string& range_str);
+
+    /**
+     * @brief Check whether @p version falls within this range (inclusive)
+     */
+    bool contains(const APIVersion& version) const;
+};
+
+/**
+ * @brief Information about a breaking change between two API versions
+ */
+struct BreakingChangeInfo {
+    APIVersion introduced_in;       ///< First version that contains the breaking change
+    std::string endpoint;           ///< Affected endpoint path (empty = all endpoints)
+    std::string description;        ///< Human-readable description
+    std::string migration_guide_url;///< Link to migration documentation
+};
+
+/**
  * @brief API Version Manager - Handles version negotiation and compatibility
  */
 class APIVersionManager {
@@ -132,7 +164,43 @@ public:
      * @brief Get all supported versions
      */
     std::vector<APIVersion> getSupportedVersions() const;
-    
+
+    /**
+     * @brief Resolve the best matching API version within a client-declared range.
+     *
+     * Selects the highest supported version that falls within [@p range.min_version,
+     * @p range.max_version].  Falls back to the current version when no supported
+     * version fits in the range.
+     *
+     * @param range  Client-declared acceptable version range.
+     * @return Best matching supported version, or the current version as fallback.
+     */
+    APIVersion resolveVersionRange(const APIVersionRange& range) const;
+
+    /**
+     * @brief Check whether upgrading from @p from to @p to introduces a breaking change.
+     *
+     * Returns the first registered BreakingChangeInfo whose introduced_in version is
+     * in the half-open interval ( @p from, @p to ] and whose endpoint matches (or is
+     * the catch-all empty endpoint), or std::nullopt when no breaking change is found.
+     *
+     * @param from      The version the client currently uses.
+     * @param to        The target (server) version.
+     * @param endpoint  Specific endpoint path to check (empty = global).
+     */
+    std::optional<BreakingChangeInfo> isBreakingChange(
+        const APIVersion& from,
+        const APIVersion& to,
+        const std::string& endpoint = ""
+    ) const;
+
+    /**
+     * @brief Register a breaking change between API versions.
+     *
+     * @param info  Breaking change metadata (endpoint, version, description).
+     */
+    void registerBreakingChange(const BreakingChangeInfo& info);
+
 private:
     APIVersion current_version_;
     APIVersion minimum_version_;
@@ -140,6 +208,9 @@ private:
     
     // Map of endpoint to deprecation info
     std::unordered_map<std::string, APIDeprecationInfo> deprecations_;
+
+    // List of registered breaking changes (per endpoint or global)
+    std::vector<BreakingChangeInfo> breaking_changes_;
     
     // 24-month deprecation policy in seconds (approximation: 730 days)
     // Note: Uses 730 days as approximation of 24 months for consistency
@@ -151,7 +222,9 @@ private:
  */
 namespace APIHeaders {
     constexpr const char* ACCEPT_VERSION = "Accept-Version";
-    constexpr const char* API_VERSION = "API-Version";  // Response header
+    constexpr const char* API_VERSION = "API-Version";             ///< Request & response version header
+    constexpr const char* ACCEPT_API_VERSION = "Accept-API-Version"; ///< Client version range header
+    constexpr const char* API_DEPRECATED = "API-Deprecated";       ///< Deprecation notice response header
     constexpr const char* DEPRECATION_WARNING = "Deprecation";
     constexpr const char* SUNSET = "Sunset";  // RFC 8594 - Sunset header
     constexpr const char* LINK = "Link";  // Link to migration guide
