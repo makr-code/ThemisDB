@@ -10706,6 +10706,11 @@ function(add_llm_focused_test target_name test_src test_name labels description)
             OpenSSL::Crypto
             Threads::Threads
         )
+        # Also link themis_core when available so LLM tests can use cross-module
+        # types such as PolicyEngine (governance) without separate link steps.
+        if(TARGET themis_core)
+            target_link_libraries(${target_name} PRIVATE themis_core)
+        endif()
     else()
         target_link_libraries(${target_name} PRIVATE
             ${TEST_LIBS}
@@ -10716,6 +10721,11 @@ function(add_llm_focused_test target_name test_src test_name labels description)
             OpenSSL::Crypto
             Threads::Threads
         )
+    endif()
+
+    # Boost (Beast/ASIO) is used by server headers included from some LLM tests.
+    if(Boost_FOUND)
+        target_link_libraries(${target_name} PRIVATE Boost::system)
     endif()
 
     target_compile_definitions(${target_name} PRIVATE

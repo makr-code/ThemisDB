@@ -118,6 +118,26 @@ struct QueryPermissionResult {
     FieldMaskingPolicy masking_policy;
 };
 
+/// Result returned by PolicyEngine::checkInferencePermission().
+/// Communicates whether a caller may submit an LLM inference request and,
+/// on denial, why the request was rejected so that the HTTP layer can return
+/// a properly structured error response (HTTP 401 or 403).
+struct InferencePermissionResult {
+    /// Whether the inference request is permitted.
+    bool allowed = false;
+
+    /// When @c allowed is false, the HTTP status code to return to the client.
+    /// 401 = missing or invalid API key; 403 = valid identity, but denied by
+    /// policy (e.g. data-classification restriction, rate-limit exceeded).
+    int http_status = 401;
+
+    /// Human-readable denial reason forwarded in the OpenAI-style error body.
+    std::string denial_reason;
+
+    /// Standard policy decision so callers can inspect classification flags.
+    PolicyDecision decision;
+};
+
 /// @brief Policy engine for data governance, classification, and field-level masking.
 class PolicyEngine {
   public:
@@ -227,6 +247,30 @@ class PolicyEngine {
      */
     QueryPermissionResult checkQueryPermission(const std::unordered_map<std::string, std::string> &headers,
                                                const std::string &route) const;
+
+    /**
+     * @brief Validate that the caller is authorised to submit an LLM inference
+     *        request to the @c /v1/chat/completions endpoint.
+     *
+     * Extracts the caller identity from the @c Authorization header
+     * (`Bearer <api-key>`), evaluates the standard governance policy for the
+     * @c /v1/chat/completions route, and returns an @c InferencePermissionResult
+     * that the HTTP layer can act on:
+     *   - @c allowed=true  → proceed with inference
+     *   - @c allowed=false → return HTTP @c http_status with the @c denial_reason
+     *
+     * The method never throws; governance errors are reflected in the result's
+     * @c denial_reason field so the caller can propagate a structured OpenAI-style
+     * error body.
+     *
+     * @param headers  HTTP request headers.  The @c Authorization header must
+     *                 contain a `Bearer <api-key>` value for the identity to be
+     *                 extracted; missing or malformed tokens result in HTTP 401.
+     * @return @c InferencePermissionResult with the access decision and,
+     *         on denial, an HTTP status code and a human-readable reason.
+     */
+    InferencePermissionResult checkInferencePermission(
+        const std::unordered_map<std::string, std::string>& headers) const;
 
     /// @return A snapshot of the currently loaded FieldMaskingPolicy.
     FieldMaskingPolicy getMaskingPolicy() const;
