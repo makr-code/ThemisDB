@@ -376,7 +376,7 @@ TEST(SpatialJoinIterator, MaxPairsLimit_StopsEarly) {
     cfg.max_pairs = 3;
     SpatialJoinIterator it(outer, inner, 10'000.0, cfg);
 
-    int count = 0;
+    std::size_t count = 0;
     while (it.advance()) ++count;
     EXPECT_LE(count, 3u);
     EXPECT_TRUE(it.done());
