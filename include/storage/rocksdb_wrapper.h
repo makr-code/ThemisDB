@@ -35,6 +35,7 @@
 #include <condition_variable>
 #include <string>
 #include "utils/expected.h"
+#include "storage/nvme_manager.h"
 
 // RocksDB forward declarations
 // Note: rocksdb/iterator.h is included for full Iterator definition needed by std::unique_ptr
@@ -154,6 +155,23 @@ public:
         // I/O
         bool use_direct_reads = false;
         bool use_direct_io_for_flush_and_compaction = false;
+
+        // v1.6.0 NVMe Optimizations
+        // Enable NVMe-specific I/O features via NVMeManager.  When enabled,
+        // RocksDBWrapper constructs an NVMeManager, calls initialize(), and
+        // applies its recommended Direct I/O flags and background-thread counts.
+        // All sub-features (io_uring, ZNS, multi-queue) are gated by their
+        // individual fields inside nvme_config.
+        bool enable_nvme_optimizations = false;
+        // Block-device path forwarded to NVMeManager for capability detection
+        // (e.g. "/dev/nvme0n1").  Leave empty to skip sysfs probing.
+        std::string nvme_device_path;
+        // io_uring queue depth (entries per ring); ignored when enable_nvme_optimizations=false.
+        uint32_t nvme_io_uring_queue_depth = 128;
+        // Enable io_uring Linux async I/O (requires THEMIS_ENABLE_IO_URING and Linux ≥ 5.1).
+        bool nvme_enable_io_uring = false;
+        // Enable ZNS zone-namespace placement (requires a ZNS NVMe device).
+        bool nvme_enable_zns = false;
 
         // v1.3.0 Phase 2: Async I/O with Prefetching (Enhanced v1.5.0)
         // Async I/O improves scan performance by 2-5x through prefetching
@@ -632,6 +650,8 @@ private:
     mutable std::mutex db_lifecycle_mutex_;
     // Active operations counter for safe close (race condition fix #3)
     mutable std::atomic<int> active_operations_{0};
+    // NVMe optimizations manager (null when enable_nvme_optimizations=false)
+    std::unique_ptr<storage::NVMeManager> nvme_manager_;
     
     #ifdef THEMIS_DEBUG_THREADING
     // Track if object is being moved (debug only)

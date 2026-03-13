@@ -330,8 +330,40 @@ void RocksDBWrapper::configureOptions() {
     }
 
     // Direct I/O (can reduce OS cache thrashing when RocksDB cache is large)
-    options_->use_direct_reads = config_.use_direct_reads;
-    options_->use_direct_io_for_flush_and_compaction = config_.use_direct_io_for_flush_and_compaction;
+    // v1.6.0: When NVMe optimizations are enabled, let NVMeManager override these
+    // flags based on runtime device capability detection.
+    if (config_.enable_nvme_optimizations) {
+        // Build NVMeManager with the requested NVMe settings
+        storage::NVMeConfig nvme_cfg;
+        nvme_cfg.device_path                        = config_.nvme_device_path;
+        nvme_cfg.enable_io_uring                    = config_.nvme_enable_io_uring;
+        nvme_cfg.io_uring_queue_depth               = config_.nvme_io_uring_queue_depth;
+        nvme_cfg.enable_zns                         = config_.nvme_enable_zns;
+        nvme_cfg.use_direct_reads                   = config_.use_direct_reads;
+        nvme_cfg.use_direct_io_for_flush_and_compaction =
+            config_.use_direct_io_for_flush_and_compaction;
+
+        nvme_manager_ = std::make_unique<storage::NVMeManager>(nvme_cfg);
+        nvme_manager_->initialize();
+
+        // Apply capability-checked Direct I/O flags
+        auto [direct_reads, direct_flush] = nvme_manager_->recommendedDirectIOFlags();
+        options_->use_direct_reads                      = direct_reads;
+        options_->use_direct_io_for_flush_and_compaction = direct_flush;
+
+        // Apply multi-queue background thread recommendation
+        uint32_t recommended_threads = nvme_manager_->recommendedBackgroundThreads();
+        if (config_.max_background_jobs < static_cast<int>(recommended_threads)) {
+            options_->max_background_jobs = static_cast<int>(recommended_threads);
+        }
+        THEMIS_INFO("NVMe optimizations active: direct_reads={} direct_flush={} "
+                    "bg_threads={}",
+                    direct_reads, direct_flush, options_->max_background_jobs);
+    } else {
+        options_->use_direct_reads = config_.use_direct_reads;
+        options_->use_direct_io_for_flush_and_compaction =
+            config_.use_direct_io_for_flush_and_compaction;
+    }
     
     // MVCC Transaction Configuration
     txn_db_options_->transaction_lock_timeout = 1000; // 1 second timeout

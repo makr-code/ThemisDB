@@ -269,6 +269,8 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/raft_mvcc_bridge.cpp
     # Tiered storage (hot/warm/cold) with age- and access-based migration
     ../src/storage/tiered_storage.cpp
+    # NVMe optimizations (io_uring, multi-queue, ZNS, Direct I/O) – v1.6.0
+    ../src/storage/nvme_manager.cpp
     # Storage engine abstraction (DI-based)
     ../src/storage/storage_engine.cpp
     # Compression strategies (pluggable per-column-family)
