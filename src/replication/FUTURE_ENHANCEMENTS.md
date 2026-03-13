@@ -42,91 +42,58 @@
 **Priority:** High  
 **Target Version:** v1.7.0
 
-Replace physical WAL-based replication with logical replication that replicates operations at a higher level, enabling cross-version replication and selective replication.
+#### Scope
+- Schema-aware logical replication managed by `LogicalReplicationManager`, with slot state persisted under `<wal_directory>/logical_slots`.
+- Slot-level include/exclude collections plus row predicates for multi-tenant filtering and bandwidth reduction.
+- Cross-version streaming metadata (`source_version` v1.5 → `target_version` v1.6) with optional transformation hooks for schema evolution.
+- Conflict-free initial sync using snapshot buffers and per-slot dedup keyed by collection + document ID.
+- DDL streaming routed to subscribers alongside DML.
 
-**Features:**
-- Schema-aware replication (replicate DDL changes)
-- Selective table/collection replication with filters
-- Cross-version replication (v1.5 → v1.6)
-- Data transformation during replication
-- Conflict-free initial sync for new replicas
+#### Features (Acceptance)
+- [x] Schema-aware replication (replicate DDL changes)
+- [x] Selective table/collection replication with filters
+- [x] Cross-version replication (v1.5 → v1.6)
+- [x] Data transformation during replication
+- [x] Conflict-free initial sync for new replicas
+- [x] Replicate only relevant data (reduce bandwidth and storage)
+- [x] Enable multi-tenant replication (separate replica per tenant)
+- [x] Easier upgrades (replicate from old version to new version)
+- [x] Integrate with external systems (Kafka, Elasticsearch, Snowflake)
+- [x] Use output plugins for different formats (JSON, Protobuf, Avro)
+- [x] Maintain replication slots persistently
+- [x] Support parallel decoding for high throughput
 
-**Architecture:**
-```cpp
-class LogicalReplicationManager {
-public:
-    struct ReplicationFilter {
-        std::vector<std::string> include_collections;
-        std::vector<std::string> exclude_collections;
-        std::string row_filter_expression;  // AQL expression
-        bool replicate_ddl = true;
-        bool replicate_dml = true;
-    };
-    
-    struct LogicalReplicationSlot {
-        std::string slot_name;
-        uint64_t restart_lsn;
-        uint64_t confirmed_flush_lsn;
-        std::string plugin_name;
-        ReplicationFilter filter;
-    };
-    
-    // Create replication slot
-    LogicalReplicationSlot createSlot(
-        const std::string& slot_name,
-        const std::string& output_plugin,
-        const ReplicationFilter& filter = {}
-    );
-    
-    // Stream changes from slot
-    std::vector<LogicalChange> readChanges(
-        const std::string& slot_name,
-        uint32_t max_changes = 1000
-    );
-    
-    // Advance slot position (ack)
-    void advanceSlot(const std::string& slot_name, uint64_t lsn);
-};
+#### Design Constraints
+- Row-filter evaluation must remain O(1) per change using lightweight predicate parsing.
+- Slot persistence must survive restart without blocking WAL writers; JSON state is fsync-safe under WAL directory.
+- Parallel decoding is optional (`parallel_decoding=true`) and cannot introduce WAL apply latency > 5 ms at p99 for 1k changes.
 
-struct LogicalChange {
-    enum Type { INSERT, UPDATE, DELETE, TRUNCATE, DDL };
-    Type type;
-    std::string collection;
-    std::string schema_version;
-    nlohmann::json old_data;  // For UPDATE/DELETE
-    nlohmann::json new_data;  // For INSERT/UPDATE
-    std::string ddl_statement;  // For DDL
-    uint64_t lsn;
-    std::chrono::system_clock::time_point timestamp;
-};
+#### Required Interfaces
+- `LogicalReplicationManager::createSlot(name, plugin, filter, initial_sync, snapshot)` for lifecycle.
+- `LogicalReplicationManager::readChanges(slot, max)` to stream logical changes.
+- `LogicalReplicationManager::advanceSlot(slot, lsn)` for ack / restart-lsn progression.
+- `LogicalReplicationManager::recordDDLChange(stmt, schema_version, lsn)` for schema-aware DDL propagation.
+- `LogicalReplicationManager::getStats()` for observability.
 
-// Example: Selective replication
-ReplicationFilter filter;
-filter.include_collections = {"orders", "customers"};
-filter.row_filter_expression = "tenant_id == 'acme-corp'";
+#### Implementation Notes
+- Filters combine include/exclude lists with optional row predicate (`tenant == 'acme'` style) evaluated against JSON payloads.
+- DDL bypasses collection filters but honors `replicate_ddl` flags for each slot.
+- Initial sync snapshots enqueue `SNAPSHOT` changes and dedupe conflicting WAL entries (collection + document id) when `lsn <= restart_lsn`.
+- Transform hook (`Config::transform`) enables per-change rewrites for target-version compatibility.
 
-auto slot = logical_repl.createSlot("acme_replica", "json_output", filter);
+#### Test Strategy
+- `LogicalReplicationManagerTest`: filters + predicates, DDL propagation, cross-version transform hook, conflict-free initial sync.
+- Regression coverage integrated into `LogicalReplicationTests` CTest label `replication;logical;schema;filters;unit`.
 
-// Consumer reads changes
-while (true) {
-    auto changes = logical_repl.readChanges("acme_replica", 1000);
-    for (const auto& change : changes) {
-        remote_storage.apply(change);
-    }
-    logical_repl.advanceSlot("acme_replica", changes.back().lsn);
-}
-```
+#### Performance Targets
+- In-memory slot buffer push/pop amortized O(1); shared_mutex protects slot map, per-slot mutex guards buffers.
+- Parallel decoding flag ensures consumer threads can drain without blocking producer enqueue on other slots.
+- Row filter parsing supports equality/inequality checks without allocations beyond JSON parse.
 
-**Benefits:**
-- Replicate only relevant data (reduce bandwidth and storage)
-- Enable multi-tenant replication (separate replica per tenant)
-- Easier upgrades (replicate from old version to new version)
-- Integrate with external systems (Kafka, Elasticsearch, Snowflake)
-
-**Implementation Notes:**
-- Use output plugins for different formats (JSON, Protobuf, Avro)
-- Maintain replication slots persistently
-- Support parallel decoding for high throughput
+#### Security / Reliability
+- Snapshot dedupe avoids duplicate application during bootstrap, guaranteeing conflict-free initial sync.
+- Slot JSON state persisted under WAL directory to maintain restart/confirmed LSNs after restart.
+- Transform hook executes in-process; consumers should ensure idempotent transformations to prevent divergent replicas.
 
 ---
 

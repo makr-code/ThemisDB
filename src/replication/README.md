@@ -11,6 +11,7 @@ The Replication module provides ThemisDB's high-availability and data durability
 - **Raft Consensus**: Leader election and log replication based on Raft protocol for strong consistency
 - **WAL Shipping**: Write-Ahead Log based replication for guaranteed durability and point-in-time recovery
 - **Change Data Capture (CDC)**: Capture and stream database changes for event-driven architectures and ETL pipelines
+- **Logical Replication**: Schema-aware logical slots with include/exclude filters, row predicates, DDL streaming, and cross-version data transformation
 - **Conflict Resolution**: Multiple strategies including Last-Write-Wins, CRDT-based merging, and custom resolvers
 - **Automatic Failover**: Health monitoring with automatic leader promotion on failure detection
 - **Replication Lag Monitoring**: Real-time tracking and alerting for replication lag thresholds
@@ -173,6 +174,37 @@ struct ReplicationConfig {
     // Initial cluster members
     std::vector<std::string> seed_nodes;
 };
+```
+
+### LogicalReplicationManager
+**Location:** `logical_replication.cpp`, `../include/replication/logical_replication.h`
+
+Provides schema-aware logical replication independent of physical WAL shipping. LogicalReplicationManager listens to WAL events via `IReplicationListener`, evaluates per-slot filters (include/exclude collections, row predicates), streams DDL changes, and supports cross-version replication with data transformations and conflict-free initial sync snapshots.
+
+**Usage Example:**
+```cpp
+auto wal = std::make_shared<WALManager>(config);
+LogicalReplicationManager::Config lcfg;
+lcfg.target_version = "v1.6";
+lcfg.transform = [](LogicalChange& change) {
+    if (change.new_data.is_object()) {
+        change.new_data["tenant"] = "acme";
+    }
+};
+auto logical = std::make_shared<LogicalReplicationManager>(wal, lcfg);
+replication_manager.addListener(logical);
+
+LogicalReplicationManager::ReplicationFilter filter;
+filter.include_collections = {"orders", "customers"};
+filter.row_filter_expression = "tenant == 'acme'";
+auto slot = logical->createSlot("acme_replica", "json_output", filter);
+
+// Consume logical changes
+auto changes = logical->readChanges("acme_replica", 100);
+for (const auto& change : changes) {
+    applyToSubscriber(change);
+}
+logical->advanceSlot("acme_replica", changes.back().lsn);
 ```
 
 **Replication Roles:**

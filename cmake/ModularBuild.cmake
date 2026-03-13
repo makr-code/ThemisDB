@@ -760,6 +760,7 @@ set(THEMIS_TRANSACTION_SOURCES
     ../src/replication/replication_slot.cpp
     ../src/replication/raft_v2.cpp
     ../src/replication/schema_cdc.cpp
+    ../src/replication/logical_replication.cpp
     
 )
 
@@ -1937,4 +1938,3 @@ function(themis_build_modular)
     
     set(THEMIS_ALL_MODULES ${THEMIS_ALL_MODULES} PARENT_SCOPE)
 endfunction()
-
