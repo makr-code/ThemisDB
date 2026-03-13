@@ -26,6 +26,7 @@
 #pragma once
 
 #include "index/vector_index.h"
+#include "index/gpu_memory_oversubscription.h"
 #include "acceleration/compute_backend.h"
 #include <memory>
 #include <vector>
@@ -93,6 +94,14 @@ public:
         // Memory optimization
         bool useMixedPrecision = false; // Enable FP16/TF32 (GPU backends)
         
+        // GPU Memory Oversubscription (v1.7.0)
+        // When enabled, vectors are partitioned and streamed from host RAM into
+        // VRAM as needed.  Allows indexes larger than available GPU VRAM.
+        bool enable_oversubscription = false;          // Enable paging/streaming
+        size_t vram_budget_mb = 0;                     // VRAM cap in MB (0 = no limit)
+        PrefetchStrategy prefetch_strategy = PrefetchStrategy::LRU; // Eviction/prefetch policy
+        size_t oversubscription_partition_vectors = 65536; // Vectors per partition chunk
+        
         // Fallback
         bool allowCPUFallback = true;  // Fall back to CPU if GPU unavailable
     };
@@ -110,6 +119,13 @@ public:
         double avgQueryTimeMs = 0.0;
         double throughputQPS = 0.0;
         bool isGPUActive = false;
+        // Oversubscription statistics (populated when enable_oversubscription = true).
+        bool oversubscriptionActive = false;
+        size_t oversubHotPartitions  = 0;  ///< Partitions currently in VRAM.
+        size_t oversubColdPartitions = 0;  ///< Partitions in host RAM only.
+        size_t oversubEvictions      = 0;  ///< Total LRU evictions.
+        size_t oversubLoads          = 0;  ///< Total partition loads into VRAM.
+        double oversubPrefetchHitRate = 0.0; ///< Prefetch hit rate [0,1].
     };
     
     // Constructor
@@ -147,6 +163,11 @@ public:
     // Backend control
     bool switchBackend(Backend backend);
     std::vector<Backend> getAvailableBackends() const;
+
+    // Oversubscription control (v1.7.0)
+    // Returns the oversubscription stats; the returned Stats::oversubscriptionActive
+    // field is false when oversubscription is disabled.
+    GPUMemoryOversubscriptionManager::Stats getOversubscriptionStats() const;
     
     // Backend availability:
     // - CPU: Always available (fallback)

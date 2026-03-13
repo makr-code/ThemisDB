@@ -78,6 +78,18 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
   - Behavior: SP-initiated SSO redirect; validates SAML assertions (signature, audience, NotBefore/NotOnOrAfter); maps attributes to ThemisDB user model; Single Logout (SLO) via `POST /api/v1/auth/saml/slo`; SP metadata via `GET /api/v1/auth/saml/metadata`
   - Errors: invalid assertion signature → 401; expired assertion → 401 with clock-skew hint; missing required attribute → 403
   - Tests: 27 unit tests in `tests/test_saml_auth_provider.cpp` (login redirect, ACS success/failure, SLO, metadata, replay detection, custom token factory)
+- [x] Request Coalescing — merge duplicate in-flight GET requests to the same resource (Target: v1.7.0)
+  - Files: `src/server/request_coalescing.cpp` + `include/server/request_coalescing.h`
+  - Behavior: `RequestCoalescingManager::handle()` deduplicates concurrent GET/HEAD requests by resource key; one backend call serves all waiters; POST/non-safe methods bypass coalescing; capacity fallback when `max_waiters_per_key` exceeded; waiter timeout falls back to direct backend call
+  - Errors: originator exception propagated via shared_future; waiters fall back to direct call on timeout
+  - Tests: part of `tests/test_api_gateway_enhancements.cpp` → `APIGatewayEnhancementsFocusedTests`
+  - Perf: reduces backend calls for concurrent duplicate requests; especially effective for expensive read queries
+- [x] Smart Routing — latency-aware, cache-predicting backend selection (Target: v1.8.0)
+  - Files: `src/server/smart_routing.cpp` + `include/server/smart_routing.h`
+  - Behavior: `SmartRouter` maintains rolling p99/avg latency window per backend; cache-hit prediction selects backend with highest per-key hit count; tail-latency avoidance excludes backends with p99 > threshold; least-loaded tie-breaks by active-connection count + avg latency
+  - Errors: `getBackendStats()` throws `std::out_of_range` for unknown backend; decrement below zero guarded (no underflow)
+  - Tests: part of `tests/test_api_gateway_enhancements.cpp` → `APIGatewayEnhancementsFocusedTests`
+  - Perf: targets 20-40% latency reduction vs round-robin on skewed workloads
 
 ## Implementation Phases
 

@@ -128,6 +128,7 @@ Key PRs and features included in v1.7.0:
 | [#3472–#3484](https://github.com/makr-code/ThemisDB/pull/3484) | docs (all modules) | Full 44-module documentation audit and sync |
 | [#3480](https://github.com/makr-code/ThemisDB/pull/3480) | ci | Documentation validation CI workflow |
 | [#3485](https://github.com/makr-code/ThemisDB/pull/3485) | rag / research | RAG scientific foundations (40 IEEE citations) |
+| [#84](https://github.com/makr-code/ThemisDB/issues/84) | observability | Root Cause Analyzer — `RootCauseAnalyzer` with `analyzeIssue`, `findCorrelations`, `buildCausalGraph` |
 
 **Breaking change:** `themis` module initialisation code migrated from `src/utils/` / `src/base/` to `src/themis/`.
 

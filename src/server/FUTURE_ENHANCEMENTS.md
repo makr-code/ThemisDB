@@ -160,18 +160,21 @@ Move HTTP/3 from experimental to production-ready.
 
 ### API Gateway Enhancements
 
-#### Distributed API Gateway
+#### Distributed API Gateway ✅ Implemented (v1.7.0)
 **Priority:** High  
-**Target Version:** v1.7.0
+**Target Version:** v1.7.0  
+**Status:** ✅ Implemented — `src/server/distributed_gateway.cpp`, `include/server/distributed_gateway.h`
 
 Deploy API Gateway in distributed mode with Raft consensus.
 
-**Features:**
-- Multi-node gateway cluster
-- Raft-based configuration sync
-- Automatic failover
-- Session affinity for WebSocket/SSE
-- Distributed rate limiting
+**Implemented Features:**
+- ✅ Multi-node gateway cluster (`DistributedGateway`, `GatewayNode`)
+- ✅ Raft-based configuration sync (`ClusterGatewayConfig` replicated via `RaftConsensus`)
+- ✅ Automatic failover (leader election ≤ 500 ms via `leader_failover_timeout`)
+- ✅ Session affinity for WebSocket/SSE (`ConsistentHashRing` with FNV-1a hashing)
+- ✅ Distributed rate limiting (`ClusterGatewayConfig::rate_limits` + `global_rate_limit_rps`)
+- ✅ Quorum-loss resilience (last-known config served; CRITICAL alert emitted)
+- ✅ Split-brain safety (config writes refused when not leader)
 
 **Architecture:**
 ```
@@ -180,42 +183,83 @@ Client → Load Balancer → [Gateway Node 1]
                        → [Gateway Node 3]
 ```
 
+**Tests:** 39 unit tests in `tests/test_distributed_gateway.cpp` → `DistributedGatewayFocusedTests`
+
 ---
 
-#### Smart Routing
+#### Smart Routing ✅ Implemented (v1.8.0)
 **Priority:** Medium  
-**Target Version:** v1.8.0
+**Target Version:** v1.8.0  
+**Status:** ✅ Implemented — `src/server/smart_routing.cpp`, `include/server/smart_routing.h`
 
-ML-based routing decisions for optimal performance.
+ML-inspired routing decisions for optimal performance.
 
-**Approach:**
-- Learn query patterns and latencies
-- Predict which shard has cached data
-- Route to least-loaded backend
-- Avoid backends with high tail latency
+**Implemented Features:**
+- ✅ Learn query patterns and latencies (`SmartRouter::recordLatency()`, rolling p99/avg window)
+- ✅ Predict which shard has cached data (`SmartRouter::predictCachedBackend()` via per-backend key hit counts)
+- ✅ Route to least-loaded backend (`SmartRouter::routeLeastLoaded()`, tie-break by avg latency)
+- ✅ Avoid backends with high tail latency (p99 > `tail_latency_threshold_ms` filtered out when alternatives exist)
 
 **Expected Improvement:** 20-40% latency reduction via smart routing
 
+**API:**
+```cpp
+SmartRouter::Config cfg;
+cfg.tail_latency_threshold_ms   = 500.0;
+cfg.min_cache_prediction_hits   = 3;
+cfg.enable_cache_prediction     = true;
+
+SmartRouter router(cfg);
+router.addBackend({"shard-0", "10.0.0.1", 8080});
+router.addBackend({"shard-1", "10.0.0.2", 8080});
+
+// After each request:
+router.recordLatency("shard-0", 12.5);
+router.recordCacheHit("shard-0", "entity:42");
+
+// Route a request:
+auto backend = router.route("entity:42"); // → "shard-0" (cache predicted)
+```
+
 ---
 
-#### Request Coalescing
+#### Request Coalescing ✅ Implemented (v1.7.0)
 **Priority:** Medium  
-**Target Version:** v1.7.0
+**Target Version:** v1.7.0  
+**Status:** ✅ Implemented — `src/server/request_coalescing.cpp`, `include/server/request_coalescing.h`
 
-Merge duplicate in-flight requests to same resource.
+Merges duplicate in-flight GET/HEAD requests to the same resource.
 
 **Scenario:**
 ```
-Time 0ms:  Client A requests GET /api/v1/entities/123
-Time 2ms:  Client B requests GET /api/v1/entities/123
+Time 0ms:  Client A requests GET /api/v1/entities/123  (backend call starts)
+Time 2ms:  Client B requests GET /api/v1/entities/123  (coalesced – waits for A)
 Time 5ms:  Backend returns response
 Time 5ms:  Both clients receive same response
 ```
 
-**Benefits:**
-- Reduce backend load
-- Lower latency for duplicate requests
-- Especially effective for expensive queries
+**Implemented Features:**
+- ✅ Reduce backend load (one backend call serves N concurrent duplicate requests)
+- ✅ Lower latency for duplicate requests (waiters share the in-flight future)
+- ✅ Especially effective for expensive queries (configurable `waiter_timeout`)
+- ✅ Non-safe methods (POST, PUT, DELETE) bypass coalescing transparently
+- ✅ Capacity fallback when `max_waiters_per_key` is reached
+- ✅ Stats: `total_requests`, `coalesced_requests`, `backend_calls`, `coalescingRatio()`
+
+**API:**
+```cpp
+RequestCoalescingManager::Config cfg;
+cfg.max_waiters_per_key = 100;
+cfg.waiter_timeout      = std::chrono::milliseconds{5000};
+
+RequestCoalescingManager coalescer(cfg);
+
+auto resp = coalescer.handle(req, [&](const auto& r) {
+    return backend.execute(r);   // called at most once per concurrent key
+});
+```
+
+**Tests:** Part of `tests/test_api_gateway_enhancements.cpp` → `APIGatewayEnhancementsFocusedTests`
 
 ---
 
