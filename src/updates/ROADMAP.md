@@ -35,8 +35,8 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
   - Injectable providers for full testability (no real filesystem/sysinfo required)
   - Completes in ≤ 2 s; disk check enforces ≥ 2× bundle size of free space
   - Tests: 35+ unit tests in `tests/test_preflight_health_check.cpp`
-- [x] Build system audit: all 14 src/updates/*.cpp registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake
-- [x] 8 standalone focused test targets added to tests/CMakeLists.txt (UpdatesProduction, BlueGreen, CanaryRollout, CoordinatedUpdateManager, InPlaceSchemaMigrator, NotificationWebhook, PreflightHealthCheck, SchemaMigrationTester)
+- [x] Build system audit: all 14 src/updates/*.cpp registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake; standalone focused test targets exist for the 9 most independently testable modules
+- [x] 9 standalone focused test targets added to tests/CMakeLists.txt (UpdatesProduction, BlueGreen, CanaryRollout, CoordinatedUpdateManager, InPlaceSchemaMigrator, NotificationWebhook, PreflightHealthCheck, SchemaMigrationTester, ParallelFileDownloads)
 - [x] Parallel file downloads – configurable concurrency, bandwidth throttling, priority queue, resume support (Issue: #128)
   - Implemented: `include/updates/parallel_downloader.h`, `src/updates/parallel_downloader.cpp`
   - API: `DownloadTask`, `DownloadResult`, `DownloadBatchStats`, `ParallelDownloader`
@@ -101,7 +101,7 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 - [x] Per-file resume support via HTTP Range requests
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (DeltaUpdateEngine: 29 tests; InPlaceSchemaMigrator+preview: 31 tests; NotificationWebhook: 40 tests; PreflightHealthChecker: 35 tests; CoordinatedUpdateManager: 25 tests; ParallelDownloader: 25 tests; module total: 185+ tests)
+- [x] Unit tests coverage > 80% (DeltaUpdateEngine: 29 tests; InPlaceSchemaMigrator+preview: 31 tests; NotificationWebhook: 40 tests; PreflightHealthChecker: 35 tests; CoordinatedUpdateManager: 25 tests; ParallelDownloader: 25 tests; module total: 185 tests)
 - [x] Integration tests (applyDelta end-to-end: generate → apply → hash verify → atomic install; InPlaceSchemaMigrator: apply → version verify → history check)
 - [?] Performance benchmarks (migration duration, downtime measurement)
 - [x] Security audit (path traversal in update bundles fixed; `isSafePath` guard in `applyDelta`; InPlaceSchemaMigrator: metadata-only, no data access, no path operations; PreflightHealthChecker: injectable providers, no privilege escalation; ParallelDownloader: hash verification, corrupt file auto-removal)
