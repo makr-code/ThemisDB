@@ -249,7 +249,7 @@ public:
     std::string bindAddress() const;
 
     /** Returns the configured port (0 if @c start() was not called). */
-    uint16_t port() const noexcept;
+    uint16_t port() const;
 
     // -------------------------------------------------------------------------
     // Subscription management
@@ -276,8 +276,8 @@ public:
     size_t subscriptionCount() const;
 
     /**
-     * @brief Return a copy of the subscription for @p client_id, or
-     *        std::nullopt (represented as a bool-false optional) if absent.
+     * @brief Returns true if a subscription exists for @p client_id,
+     *        false otherwise.
      */
     bool hasSubscription(const std::string& client_id) const;
 
@@ -356,7 +356,7 @@ private:
     static bool matchesFilters(const StreamSubscription& sub,
                                const MetricUpdate& update) noexcept;
 
-    /// Serialise labels map to a compact JSON object string (no allocations).
+    /// Serialise labels map to a compact JSON object string.
     static std::string labelsToJson(
         const std::map<std::string, std::string>& labels);
 

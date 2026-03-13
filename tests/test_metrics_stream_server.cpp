@@ -442,7 +442,10 @@ TEST_F(MetricsStreamServerTest, ThrottleAllowsDeliveryAfterInterval) {
     srv_.pushMetrics(upd);
     EXPECT_EQ(1, count);
 
-    std::this_thread::sleep_for(60ms);
+    // Use a generous sleep to avoid CI timing flakiness: interval is 50 ms,
+    // sleep for 5× that to ensure steady_clock advances past the threshold
+    // on any scheduler.
+    std::this_thread::sleep_for(250ms);
     srv_.pushMetrics(upd);
     EXPECT_EQ(2, count);
 }
@@ -495,6 +498,23 @@ TEST_F(MetricsStreamServerTest, FormatWebSocketMessageEmptyLabels) {
 
     const std::string msg = MetricsStreamServer::formatWebSocketMessage(upd);
     EXPECT_NE(std::string::npos, msg.find(R"("labels":{})"));
+}
+
+TEST_F(MetricsStreamServerTest, FormatWebSocketMessageEscapesSpecialChars) {
+    MetricUpdate upd;
+    upd.metric_name = "metric\"with\\special\nchars";
+    upd.value = 1.0;
+    upd.labels = {{"key\"1", "val\tue"}};
+
+    const std::string msg = MetricsStreamServer::formatWebSocketMessage(upd);
+
+    // metric_name: double-quote, backslash and newline must be escaped.
+    EXPECT_NE(std::string::npos,
+              msg.find(R"("metric_name":"metric\"with\\special\nchars")"));
+    // Label key and value must be escaped too.
+    EXPECT_NE(std::string::npos, msg.find(R"("key\"1":"val\tue")"));
+    // The raw special characters must NOT appear unescaped in the output.
+    EXPECT_EQ(std::string::npos, msg.find('\n'));
 }
 
 TEST_F(MetricsStreamServerTest, FormatSseMessageHasDataPrefix) {
@@ -603,15 +623,14 @@ TEST_F(MetricsStreamServerTest, ConcurrentSubscribeAndPush) {
     base_sub.client_id = "base";
     srv_.subscribe(base_sub);
 
-    std::atomic<bool> stop{false};
-
-    // Producer thread.
+    // Producer thread: bounded to avoid pegging the CPU on CI.
     std::thread producer([&] {
         MetricUpdate upd;
         upd.metric_name = "throughput";
         upd.value = 1.0;
-        while (!stop.load(std::memory_order_relaxed)) {
+        for (int i = 0; i < 200; ++i) {
             srv_.pushMetrics(upd);
+            std::this_thread::yield();
         }
     });
 
@@ -626,9 +645,8 @@ TEST_F(MetricsStreamServerTest, ConcurrentSubscribeAndPush) {
     });
 
     churn.join();
-    stop.store(true, std::memory_order_relaxed);
     producer.join();
 
     // Should not have crashed or deadlocked.
-    EXPECT_GE(srv_.getStats().total_updates_pushed, 1u);
+    EXPECT_EQ(200u, srv_.getStats().total_updates_pushed);
 }

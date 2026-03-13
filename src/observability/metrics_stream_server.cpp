@@ -19,6 +19,7 @@
 #include "observability/metrics_stream_server.h"
 
 #include <chrono>
+#include <cstdio>
 #include <sstream>
 #include <stdexcept>
 #include <utility>
@@ -73,7 +74,7 @@ std::string MetricsStreamServer::bindAddress() const {
     return bind_address_;
 }
 
-uint16_t MetricsStreamServer::port() const noexcept {
+uint16_t MetricsStreamServer::port() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return port_;
 }
@@ -128,9 +129,14 @@ void MetricsStreamServer::pushMetrics(const MetricUpdate& update) {
     // Collect eligible client IDs while holding the lock, then release the
     // lock before invoking callbacks to avoid both iterator invalidation and
     // potential deadlocks if a callback calls back into the server.
+    // Also copy send_fn_ under the mutex to avoid a data race with
+    // setDeliveryCallback() running concurrently.
     std::vector<std::string> to_deliver;
+    SendFn send_fn_copy;
     {
         std::lock_guard<std::mutex> lock(mutex_);
+
+        send_fn_copy = send_fn_;
 
         for (auto& [client_id, state] : subscriptions_) {
             const StreamSubscription& sub = state.subscription;
@@ -165,9 +171,9 @@ void MetricsStreamServer::pushMetrics(const MetricUpdate& update) {
     } // lock released here
 
     // Invoke callbacks without holding the mutex.
-    if (send_fn_) {
+    if (send_fn_copy) {
         for (const auto& cid : to_deliver) {
-            send_fn_(cid, payload);
+            send_fn_copy(cid, payload);
         }
     }
 }
@@ -175,6 +181,36 @@ void MetricsStreamServer::pushMetrics(const MetricUpdate& update) {
 // ---------------------------------------------------------------------------
 // Serialisation helpers
 // ---------------------------------------------------------------------------
+
+// Escape a string for use as a JSON string value (handles \, ", and control
+// characters).  This avoids introducing a heavy JSON library dependency for
+// the small set of string fields we serialise here.
+static std::string jsonEscapeString(const std::string& s) {
+    std::string out;
+    out.reserve(s.size() + 4);
+    for (unsigned char c : s) {
+        switch (c) {
+            case '"':  out += "\\\""; break;
+            case '\\': out += "\\\\"; break;
+            case '\b': out += "\\b";  break;
+            case '\f': out += "\\f";  break;
+            case '\n': out += "\\n";  break;
+            case '\r': out += "\\r";  break;
+            case '\t': out += "\\t";  break;
+            default:
+                if (c < 0x20) {
+                    // Encode other control characters as \uXXXX.
+                    char buf[7];
+                    std::snprintf(buf, sizeof(buf), "\\u%04x",
+                                  static_cast<unsigned>(c));
+                    out += buf;
+                } else {
+                    out += static_cast<char>(c);
+                }
+        }
+    }
+    return out;
+}
 
 // static
 std::string MetricsStreamServer::labelsToJson(
@@ -185,7 +221,7 @@ std::string MetricsStreamServer::labelsToJson(
     bool first = true;
     for (const auto& [k, v] : labels) {
         if (!first) oss << ',';
-        oss << '"' << k << "\":\"" << v << '"';
+        oss << '"' << jsonEscapeString(k) << "\":\"" << jsonEscapeString(v) << '"';
         first = false;
     }
     oss << '}';
@@ -200,7 +236,8 @@ std::string MetricsStreamServer::formatWebSocketMessage(const MetricUpdate& upda
                               .count();
 
     std::ostringstream oss;
-    oss << R"({"type":"metric_update","metric_name":")" << update.metric_name
+    oss << R"({"type":"metric_update","metric_name":")"
+        << jsonEscapeString(update.metric_name)
         << R"(","value":)" << update.value
         << R"(,"labels":)" << labelsToJson(update.labels)
         << R"(,"timestamp_ms":)" << ts_ms
