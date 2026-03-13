@@ -17,12 +17,14 @@ namespace storage {
 // AccessTracker
 // ─────────────────────────────────────────────────────────────────────────────
 
-void AccessTracker::recordWrite(const std::string& key, StorageTierLevel tier) {
+void AccessTracker::recordWrite(const std::string& key, StorageTierLevel tier,
+                                uint64_t value_size) {
     std::unique_lock lock(mutex_);
     auto& e = entries_[key];
-    e.written_at  = std::chrono::system_clock::now();
+    e.written_at   = std::chrono::system_clock::now();
     e.last_read_at = e.written_at;
-    e.tier = tier;
+    e.tier         = tier;
+    e.value_size   = value_size;
 }
 
 void AccessTracker::recordRead(const std::string& key) {
@@ -197,7 +199,8 @@ bool TieredStorageManager::put(const std::string& key, const std::string& value)
     // Remove stale copies from lower tiers (in case of re-promotion)
     deleteFromTier(key, StorageTierLevel::WARM);
     deleteFromTier(key, StorageTierLevel::COLD);
-    tracker_.recordWrite(key, StorageTierLevel::HOT);
+    tracker_.recordWrite(key, StorageTierLevel::HOT,
+                         static_cast<uint64_t>(value.size()));
     return true;
 }
 
@@ -298,6 +301,17 @@ uint32_t TieredStorageManager::runMigrationCycle() {
     for (auto& [key, entry] : entries) {
         if (limit > 0 && migrated >= limit) break;
 
+        // ── Size-based policy (checked first, overrides tier-based rules) ──
+        if (config_.large_blob_bytes > 0 && entry.tier != config_.large_blob_tier) {
+            if (entry.value_size >= config_.large_blob_bytes) {
+                if (migrateKey(key, entry.tier, config_.large_blob_tier)) {
+                    stat_migrations_size_based_++;
+                    ++migrated;
+                }
+                continue;  // skip further policy checks for this key
+            }
+        }
+
         if (entry.tier == StorageTierLevel::HOT) {
             bool demote = false;
 
@@ -394,6 +408,7 @@ TieredStorageManager::Stats TieredStorageManager::stats() const {
     Stats s;
     s.migrations_hot_to_warm = stat_migrations_hot_to_warm_.load();
     s.migrations_warm_to_cold = stat_migrations_warm_to_cold_.load();
+    s.migrations_size_based = stat_migrations_size_based_.load();
     s.migration_errors = stat_migration_errors_.load();
 
     auto entries = tracker_.snapshot();

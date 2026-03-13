@@ -61,6 +61,14 @@ struct TieredStorageConfig {
     /// Maximum keys migrated per worker cycle (0 = unlimited)
     uint32_t max_migrations_per_cycle = 500;
 
+    // ── Size-based migration policy ────────────────────────────────────────
+    /// Migrate any key whose stored value meets or exceeds this size (bytes) to
+    /// `large_blob_tier`, regardless of age or access frequency.
+    /// Set to 0 to disable size-based migration (default).
+    uint64_t large_blob_bytes = 0;
+    /// Destination tier for oversized blobs (default: COLD).
+    StorageTierLevel large_blob_tier = StorageTierLevel::COLD;
+
     // ── Safety ─────────────────────────────────────────────────────────────
     /// Abort a migration and retry if foreground I/O on the destination tier
     /// exceeds this ratio of free space (0.0–1.0).  Default 95%.
@@ -83,11 +91,13 @@ public:
         std::chrono::system_clock::time_point written_at;
         std::chrono::system_clock::time_point last_read_at;
         StorageTierLevel tier{StorageTierLevel::HOT};
+        uint64_t value_size{0};  ///< Byte length of the stored value (set on put)
     };
 
     /// Record a write (creates or resets the entry).
     void recordWrite(const std::string& key,
-                     StorageTierLevel   tier = StorageTierLevel::HOT);
+                     StorageTierLevel   tier      = StorageTierLevel::HOT,
+                     uint64_t           value_size = 0);
 
     /// Record a read access.
     void recordRead(const std::string& key);
@@ -177,6 +187,7 @@ public:
         uint64_t cold_keys{0};
         uint64_t migrations_hot_to_warm{0};
         uint64_t migrations_warm_to_cold{0};
+        uint64_t migrations_size_based{0};
         uint64_t migration_errors{0};
     };
 
@@ -201,6 +212,7 @@ private:
     // Stats counters
     std::atomic<uint64_t> stat_migrations_hot_to_warm_{0};
     std::atomic<uint64_t> stat_migrations_warm_to_cold_{0};
+    std::atomic<uint64_t> stat_migrations_size_based_{0};
     std::atomic<uint64_t> stat_migration_errors_{0};
 
     // Background worker
