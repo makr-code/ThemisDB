@@ -32,6 +32,7 @@
 #include <filesystem>
 #include <optional>
 #include <atomic>
+#include <mutex>
 #include <chrono>
 #include "config/config_audit_log.h"
 #include <csignal>
@@ -151,6 +152,16 @@ public:
      * Get current metrics.
      */
     static const Metrics& metrics() { return metrics_; }
+
+    /**
+     * Get legacy fallback counts broken down by config category.
+     *
+     * Categories are inferred from the canonical new path via inferCategory()
+     * when a legacy fallback occurs. Counts are stored in per-category atomic
+     * counters; the returned vector is a snapshot of (category, count) pairs
+     * and requires no additional locking by callers.
+     */
+    static std::vector<std::pair<std::string, uint64_t>> legacyFallbacksByCategory();
     
     /**
      * Reset metrics (primarily for testing).
@@ -367,6 +378,11 @@ private:
 
     // Active cache configuration (set once at startup from env vars or defaults)
     static CacheConfig cache_config_;
+
+    // Per-category legacy fallback counters (initialized once, then atomically incremented)
+    static std::map<std::string, std::atomic<uint64_t>> legacy_fallbacks_by_category_;
+    static std::once_flag category_init_flag_;
+    static void initLegacyFallbackCategoryCounters();
     
     // Helper to normalize path separators
     static std::string normalizePath(const std::string& path);

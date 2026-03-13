@@ -24,7 +24,12 @@
 
 #pragma once
 
+#include <memory>
 #include <string>
+
+namespace prometheus {
+class Registry;
+}
 
 namespace themis {
 namespace config {
@@ -41,16 +46,11 @@ namespace config {
  * Exported metric names:
  *   themis_config_resolution_hits_total      - counter
  *   themis_config_resolution_misses_total    - counter
- *   themis_config_legacy_fallbacks_total     - counter
- *   themis_config_new_path_hits_total        - counter
+ *   themis_config_legacy_fallbacks_total{category} - counter (per-category breakdown)
  *   themis_config_unmapped_requests_total    - counter
- *   themis_config_cache_hits_total           - counter
- *   themis_config_cache_misses_total         - counter
  *   themis_config_cache_hit_ratio            - gauge (derived)
- *   themis_config_cache_size                 - gauge
  *   themis_config_cache_capacity             - gauge (info)
  *   themis_config_cache_ttl_seconds          - gauge (info)
- *   themis_config_legacy_fallbacks_by_category_total{category} - counter (per-category breakdown)
  */
 class ConfigMetricsExporter {
 public:
@@ -77,6 +77,13 @@ public:
      * the atomic counters maintained by ConfigPathResolver.
      */
     static void updateMetricsCollector();
+
+    /**
+     * Register Prometheus metric families for config path resolution in the
+     * provided registry. Should be invoked during server startup so scrape
+     * handlers can serialize the registry without additional setup.
+     */
+    static void registerWithRegistry(const std::shared_ptr<prometheus::Registry>& registry);
 };
 
 } // namespace config

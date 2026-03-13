@@ -8049,7 +8049,16 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_path_resolver.cpp")
         spdlog::spdlog
         nlohmann_json::nlohmann_json
         Threads::Threads
+        yaml-cpp
+        OpenSSL::SSL
+        OpenSSL::Crypto
     )
+    if(TARGET prometheus-cpp::core)
+        target_link_libraries(test_config_path_resolver_focused PRIVATE prometheus-cpp::core)
+    endif()
+    if(TARGET prometheus-cpp::pull)
+        target_link_libraries(test_config_path_resolver_focused PRIVATE prometheus-cpp::pull)
+    endif()
 
     target_compile_definitions(test_config_path_resolver_focused PRIVATE
         THEMIS_TEST_BUILD=1
@@ -8086,7 +8095,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_schema_validator.cpp")
         nlohmann_json::nlohmann_json
         yaml-cpp::yaml-cpp
         Threads::Threads
+        OpenSSL::SSL
+        OpenSSL::Crypto
     )
+    if(TARGET prometheus-cpp::core)
+        target_link_libraries(test_config_schema_validator_focused PRIVATE prometheus-cpp::core)
+    endif()
+    if(TARGET prometheus-cpp::pull)
+        target_link_libraries(test_config_schema_validator_focused PRIVATE prometheus-cpp::pull)
+    endif()
 
     target_compile_definitions(test_config_schema_validator_focused PRIVATE
         THEMIS_TEST_BUILD=1
@@ -8195,7 +8212,16 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_metrics_scrape.cpp")
         spdlog::spdlog
         nlohmann_json::nlohmann_json
         Threads::Threads
+        yaml-cpp
+        OpenSSL::SSL
+        OpenSSL::Crypto
     )
+    if(TARGET prometheus-cpp::core)
+        target_link_libraries(test_config_metrics_scrape_focused PRIVATE prometheus-cpp::core)
+    endif()
+    if(TARGET prometheus-cpp::pull)
+        target_link_libraries(test_config_metrics_scrape_focused PRIVATE prometheus-cpp::pull)
+    endif()
 
     target_compile_definitions(test_config_metrics_scrape_focused PRIVATE
         THEMIS_TEST_BUILD=1

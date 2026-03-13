@@ -319,6 +319,8 @@ LRUCacheWithTTL<std::string, std::string> ConfigPathResolver::cache_(
 std::atomic<bool> ConfigPathResolver::caching_enabled_{true};
 ConfigPathResolver::DeprecationAggregator ConfigPathResolver::aggregator_;
 std::atomic<bool> ConfigPathResolver::aggregation_enabled_{false};
+std::map<std::string, std::atomic<uint64_t>> ConfigPathResolver::legacy_fallbacks_by_category_;
+std::once_flag ConfigPathResolver::category_init_flag_;
 std::atomic<ConfigEnvironment> ConfigPathResolver::current_env_{
     ConfigPathResolver::envFromEnvironmentVariable()};
 volatile sig_atomic_t ConfigPathResolver::sighup_pending_ = 0;
@@ -1413,6 +1415,14 @@ std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& leg
                 }
 
                 metrics_.legacy_fallbacks++;
+                initLegacyFallbackCategoryCounters();
+                const std::string category = inferCategory(new_path.empty() ? normalized : new_path);
+                auto it = legacy_fallbacks_by_category_.find(category);
+                if (it != legacy_fallbacks_by_category_.end()) {
+                    it->second.fetch_add(1, std::memory_order_relaxed);
+                } else {
+                    legacy_fallbacks_by_category_["unknown"].fetch_add(1, std::memory_order_relaxed);
+                }
                 checkFallbackRateThreshold();
             } else {
                 metrics_.unmapped_requests++;
@@ -1604,6 +1614,18 @@ void ConfigPathResolver::validatePath(const std::string& path) {
     }
 }
 
+void ConfigPathResolver::initLegacyFallbackCategoryCounters() {
+    std::call_once(category_init_flag_, []() {
+        legacy_fallbacks_by_category_.clear();
+        legacy_fallbacks_by_category_.emplace("unknown", 0);
+
+        for (const auto& entry : PATH_MAPPING) {
+            const std::string category = inferCategory(entry.second);
+            legacy_fallbacks_by_category_.try_emplace(category, 0);
+        }
+    });
+}
+
 void ConfigPathResolver::resetMetrics() {
     metrics_.resolution_hits = 0;
     metrics_.resolution_misses = 0;
@@ -1614,6 +1636,19 @@ void ConfigPathResolver::resetMetrics() {
     metrics_.cache_misses = 0;
     last_threshold_warn_count_ = 0;
     aggregator_.reset();
+    for (auto& entry : legacy_fallbacks_by_category_) {
+        entry.second.store(0, std::memory_order_relaxed);
+    }
+}
+
+std::vector<std::pair<std::string, uint64_t>> ConfigPathResolver::legacyFallbacksByCategory() {
+    initLegacyFallbackCategoryCounters();
+    std::vector<std::pair<std::string, uint64_t>> snapshot;
+    snapshot.reserve(legacy_fallbacks_by_category_.size());
+    for (const auto& entry : legacy_fallbacks_by_category_) {
+        snapshot.emplace_back(entry.first, entry.second.load(std::memory_order_relaxed));
+    }
+    return snapshot;
 }
 
 void ConfigPathResolver::setCachingEnabled(bool enabled) {

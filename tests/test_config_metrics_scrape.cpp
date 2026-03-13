@@ -135,18 +135,10 @@ TEST_F(ConfigMetricsScrapeTest, OutputContainsAllRequiredMetricNames) {
         << "Missing metric: themis_config_resolution_misses_total";
     EXPECT_TRUE(contains(text, "themis_config_legacy_fallbacks_total"))
         << "Missing metric: themis_config_legacy_fallbacks_total";
-    EXPECT_TRUE(contains(text, "themis_config_new_path_hits_total"))
-        << "Missing metric: themis_config_new_path_hits_total";
     EXPECT_TRUE(contains(text, "themis_config_unmapped_requests_total"))
         << "Missing metric: themis_config_unmapped_requests_total";
-    EXPECT_TRUE(contains(text, "themis_config_cache_hits_total"))
-        << "Missing metric: themis_config_cache_hits_total";
-    EXPECT_TRUE(contains(text, "themis_config_cache_misses_total"))
-        << "Missing metric: themis_config_cache_misses_total";
     EXPECT_TRUE(contains(text, "themis_config_cache_hit_ratio"))
         << "Missing metric: themis_config_cache_hit_ratio";
-    EXPECT_TRUE(contains(text, "themis_config_cache_size"))
-        << "Missing metric: themis_config_cache_size";
     EXPECT_TRUE(contains(text, "themis_config_cache_capacity"))
         << "Missing metric: themis_config_cache_capacity";
     EXPECT_TRUE(contains(text, "themis_config_cache_ttl_seconds"))
@@ -161,8 +153,8 @@ TEST_F(ConfigMetricsScrapeTest, OutputContainsHelpAndTypeAnnotations) {
     EXPECT_TRUE(contains(text, "# TYPE themis_config_resolution_hits_total counter"));
     EXPECT_TRUE(contains(text, "# HELP themis_config_cache_hit_ratio"));
     EXPECT_TRUE(contains(text, "# TYPE themis_config_cache_hit_ratio gauge"));
-    EXPECT_TRUE(contains(text, "# HELP themis_config_cache_size"));
-    EXPECT_TRUE(contains(text, "# TYPE themis_config_cache_size gauge"));
+    EXPECT_TRUE(contains(text, "# HELP themis_config_cache_capacity"));
+    EXPECT_TRUE(contains(text, "# TYPE themis_config_cache_capacity gauge"));
 }
 
 TEST_F(ConfigMetricsScrapeTest, OutputEndsWithNewline) {
@@ -182,9 +174,8 @@ TEST_F(ConfigMetricsScrapeTest, ZeroCountersOnFreshReset) {
     // After reset all counters must be 0
     EXPECT_TRUE(contains(text, "themis_config_resolution_hits_total 0"));
     EXPECT_TRUE(contains(text, "themis_config_resolution_misses_total 0"));
-    EXPECT_TRUE(contains(text, "themis_config_legacy_fallbacks_total 0"));
-    EXPECT_TRUE(contains(text, "themis_config_cache_hits_total 0"));
-    EXPECT_TRUE(contains(text, "themis_config_cache_misses_total 0"));
+    EXPECT_TRUE(contains(text, "themis_config_legacy_fallbacks_total{category="));
+    EXPECT_TRUE(contains(text, "themis_config_unmapped_requests_total 0"));
 }
 
 TEST_F(ConfigMetricsScrapeTest, CacheHitRatioIsZeroWhenNoLookups) {
