@@ -238,6 +238,7 @@ if(NOT THEMIS_ENABLE_HTTP3)
     list(APPEND TEST_EXCLUDE_PATTERNS
         ".*test_http3_protocol\\.cpp$"
         ".*test_quic_transport\\.cpp$"
+        ".*test_http3_production_readiness\\.cpp$"
     )
 endif()
 
@@ -11474,6 +11475,44 @@ if(THEMIS_ENABLE_HTTP3)
         message(STATUS "  QuicTransport: config defaults, port validation, stats initialisation, protocol constants, isRunning state")
     else()
         message(STATUS "Network focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/test_quic_transport.cpp")
+    endif()
+endif()
+
+# --- HTTP/3 Production Readiness ---
+if(THEMIS_ENABLE_HTTP3)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http3_production_readiness.cpp")
+        message(STATUS "Adding HTTP/3 focused test: test_http3_production_readiness_focused")
+
+        add_executable(test_http3_production_readiness_focused
+            test_http3_production_readiness.cpp
+        )
+
+        target_include_directories(test_http3_production_readiness_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/../include
+            ${CMAKE_SOURCE_DIR}/../src
+        )
+
+        target_link_libraries(test_http3_production_readiness_focused PRIVATE
+            GTest::gtest_main
+            GTest::gtest
+            themis_core
+        )
+
+        target_compile_definitions(test_http3_production_readiness_focused PRIVATE
+            THEMIS_ENABLE_HTTP3=1
+        )
+
+        add_test(NAME Http3ProductionReadinessFocusedTests
+                 COMMAND test_http3_production_readiness_focused)
+
+        set_tests_properties(Http3ProductionReadinessFocusedTests PROPERTIES
+            LABELS "server;http3;quic;production;fallback;congestion;migration;focused;unit"
+            TIMEOUT 60
+        )
+
+        message(STATUS "  HTTP/3 Production Readiness: congestion control, connection migration, 0-RTT, fallback, metrics")
+    else()
+        message(STATUS "HTTP/3 production readiness focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/test_http3_production_readiness.cpp")
     endif()
 endif()
 

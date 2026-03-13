@@ -36,6 +36,7 @@
 #include <functional>
 #include <unordered_map>
 #include "server/http3_datagram.h"
+#include "server/http3_production_config.h"
 
 namespace themis {
 namespace server {
@@ -59,7 +60,8 @@ public:
         const udp::endpoint& remote_endpoint,
         HttpServer* server,
         SSL_CTX* ssl_ctx,
-        uint32_t max_idle_timeout_ms
+        uint32_t max_idle_timeout_ms,
+        const Http3ProductionConfig& prod_cfg = Http3ProductionConfig{}
     );
     
     ~Http3Session();
@@ -85,6 +87,22 @@ public:
      * @brief Check if session is active
      */
     bool isActive() const;
+
+    /**
+     * @brief Notify the session that the client has migrated to a new path.
+     *
+     * Called by Http3Handler when a packet from an already-tracked connection
+     * ID arrives from a different address.  Increments migration_count and
+     * updates the remote endpoint so subsequent sends reach the new address.
+     */
+    void onPathMigration(const udp::endpoint& new_remote);
+
+    /**
+     * @brief Return a snapshot of the per-connection performance metrics.
+     */
+    Http3ConnectionMetrics::Snapshot getMetricsSnapshot() const {
+        return metrics_.snapshot();
+    }
 
     /**
      * @brief Send an HTTP/3 datagram on the given context (Quarter Stream ID).
@@ -188,6 +206,10 @@ private:
     bool handshake_complete_;
 
     Http3DatagramDispatcher datagram_dispatcher_;
+
+    // Production-readiness additions
+    Http3ProductionConfig prod_cfg_;
+    Http3ConnectionMetrics metrics_;
 };
 
 /**
@@ -203,7 +225,8 @@ public:
         uint16_t port,
         HttpServer* server,
         SSL_CTX* ssl_ctx,
-        uint32_t max_idle_timeout_ms = 30000
+        uint32_t max_idle_timeout_ms = 30000,
+        const Http3ProductionConfig& prod_cfg = Http3ProductionConfig{}
     );
 
     ~Http3Handler();
@@ -224,10 +247,32 @@ public:
     static SSL_CTX* createSslContext(const std::string& cert_path,
                                      const std::string& key_path);
 
+    /**
+     * @brief Access the fallback manager to check / record QUIC health.
+     */
+    Http3FallbackManager& fallbackManager() { return fallback_manager_; }
+    const Http3FallbackManager& fallbackManager() const { return fallback_manager_; }
+
 private:
     void doAccept();
     void onReceive(boost::system::error_code ec, std::size_t bytes_transferred);
     void cleanupInactiveSessions();
+
+    /**
+     * @brief Extract the QUIC destination-connection-ID from a raw UDP payload.
+     *
+     * Parses the first bytes of a QUIC long-header packet to retrieve the
+     * Destination Connection ID (DCID) that ngtcp2 assigned during the
+     * Initial handshake.  The DCID is returned as a lowercase hex string so
+     * it can be used as a map key in @c cid_to_session_key_.
+     *
+     * @param data  Pointer to the UDP datagram payload.
+     * @param len   Length of the datagram in bytes.
+     * @return      Hex-encoded DCID string, or an empty string when parsing
+     *              fails (packet too short, short-header format, or DCID
+     *              length out of range).
+     */
+    static std::string extractConnectionId(const uint8_t* data, size_t len);
     
     net::io_context& ioc_;
     udp::socket socket_;
@@ -236,10 +281,18 @@ private:
     SSL_CTX* ssl_ctx_;
     
     std::array<uint8_t, 65536> recv_buffer_;
+
+    // Primary session map: remote IP:port → session
     std::unordered_map<std::string, std::shared_ptr<Http3Session>> sessions_;
+
+    // Secondary index: hex connection-id string → session key (IP:port)
+    // Enables routing after connection migration.
+    std::unordered_map<std::string, std::string> cid_to_session_key_;
     
     uint32_t max_idle_timeout_ms_;
     net::steady_timer cleanup_timer_;
+    Http3ProductionConfig prod_cfg_;
+    Http3FallbackManager fallback_manager_;
 };
 
 } // namespace server
