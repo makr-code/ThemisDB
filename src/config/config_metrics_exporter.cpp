@@ -64,6 +64,14 @@ struct CounterSnapshot {
 };
 
 CounterSnapshot g_prev_snapshot;
+
+uint64_t counterDelta(uint64_t current, uint64_t previous) {
+    if (current >= previous) {
+        return current - previous;
+    }
+    // Counter reset detected; treat the current value as the new baseline.
+    return current;
+}
 } // namespace
 
 std::string ConfigMetricsExporter::collect() {
@@ -83,34 +91,26 @@ std::string ConfigMetricsExporter::collect() {
 
     const auto per_category = ConfigPathResolver::legacyFallbacksByCategory();
 
-    auto delta_for = [](uint64_t current, uint64_t previous) {
-        if (current >= previous) {
-            return current - previous;
-        }
-        // Counter reset detected; avoid re-adding the current value.
-        return static_cast<uint64_t>(0);
-    };
-
     std::lock_guard<std::mutex> lock(g_registry_mutex);
     if (g_registry) {
         // Update counters with deltas to avoid double-counting
         if (g_metrics.resolution_hits) {
-            const uint64_t delta = delta_for(hits, g_prev_snapshot.hits);
+            const uint64_t delta = counterDelta(hits, g_prev_snapshot.hits);
             g_metrics.resolution_hits->Increment(static_cast<double>(delta));
             g_prev_snapshot.hits = hits;
         }
         if (g_metrics.resolution_misses) {
-            const uint64_t delta = delta_for(misses, g_prev_snapshot.misses);
+            const uint64_t delta = counterDelta(misses, g_prev_snapshot.misses);
             g_metrics.resolution_misses->Increment(static_cast<double>(delta));
             g_prev_snapshot.misses = misses;
         }
         if (g_metrics.legacy_fallbacks) {
-            const uint64_t delta = delta_for(fallbacks, g_prev_snapshot.legacy);
+            const uint64_t delta = counterDelta(fallbacks, g_prev_snapshot.legacy);
             g_metrics.legacy_fallbacks->Increment(static_cast<double>(delta));
             g_prev_snapshot.legacy = fallbacks;
         }
         if (g_metrics.unmapped_requests) {
-            const uint64_t delta = delta_for(unmapped, g_prev_snapshot.unmapped);
+            const uint64_t delta = counterDelta(unmapped, g_prev_snapshot.unmapped);
             g_metrics.unmapped_requests->Increment(static_cast<double>(delta));
             g_prev_snapshot.unmapped = unmapped;
         }
@@ -129,7 +129,7 @@ std::string ConfigMetricsExporter::collect() {
             const uint64_t prev = (prev_it == g_prev_snapshot.legacy_by_category.end()) ? 0 : prev_it->second;
             auto metric_it = g_metrics.legacy_by_category.find(category);
             if (metric_it != g_metrics.legacy_by_category.end()) {
-                const uint64_t delta = delta_for(count, prev);
+                const uint64_t delta = counterDelta(count, prev);
                 metric_it->second->Increment(static_cast<double>(delta));
             }
             g_prev_snapshot.legacy_by_category[category] = count;
@@ -197,11 +197,11 @@ std::string ConfigMetricsExporter::collect() {
 
 void ConfigMetricsExporter::updateMetricsCollector() {
 #ifdef THEMIS_TEST_BUILD
-    // Focused config tests build only the config module; MetricsCollector and
-    // its dependencies are not linked in that configuration. This stub keeps
-    // the test build lightweight while production builds execute the real sync.
-    // Callers in test builds should not expect this function to mutate any
-    // global metrics state.
+    // When built with THEMIS_TEST_BUILD (used by focused/unit test binaries),
+    // the MetricsCollector and its dependencies are typically not linked. This
+    // stub keeps those test builds lightweight while production builds execute
+    // the real synchronization. Callers in test builds should not expect this
+    // function to mutate any global metrics state.
     return;
 #else
     auto& collector = observability::MetricsCollector::getInstance();

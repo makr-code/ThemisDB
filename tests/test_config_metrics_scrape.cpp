@@ -177,6 +177,7 @@ TEST_F(ConfigMetricsScrapeTest, ZeroCountersOnFreshReset) {
     EXPECT_TRUE(contains(text, "themis_config_resolution_hits_total 0"));
     EXPECT_TRUE(contains(text, "themis_config_resolution_misses_total 0"));
     EXPECT_TRUE(contains(text, "themis_config_legacy_fallbacks_total{category="));
+    EXPECT_TRUE(contains(text, "themis_config_legacy_fallbacks_total{category=\"unknown\"} 0"));
     EXPECT_TRUE(contains(text, "themis_config_unmapped_requests_total 0"));
 }
 
