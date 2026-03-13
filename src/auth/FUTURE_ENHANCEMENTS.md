@@ -290,10 +290,12 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 `zero_trust_auth_verifier.cpp` currently performs synchronous policy evaluation. For long-lived connections (WebSocket, gRPC streaming, DB connection pool), the zero-trust posture of a session must be re-evaluated periodically without dropping the connection.
 
 **Implementation Notes:**
-- `[ ]` Add `std::chrono::seconds re_evaluation_interval{300}` to `ZeroTrustConfig` in `include/auth/zero_trust_auth_verifier.h`
-- `[ ]` Implement background re-evaluation loop: per-session timer fires every `re_evaluation_interval`; if policy check fails, signal the session manager to revoke the session via `session_manager.cpp:terminateSession()`
-- `[ ]` Re-evaluation must not block the data-plane thread; dispatch to `AuthWorkerThreadPool` (see Feature 2)
-- `[ ]` Emit audit event `zero_trust/re_evaluation_failed` via `auth_audit_logger.cpp` when continuous check revokes an active session
+- `[x]` Add `std::chrono::seconds re_evaluation_interval{300}` to `ZeroTrustConfig` in `include/auth/zero_trust_auth_verifier.h`
+- `[x]` Implement background re-evaluation loop: per-session timer fires every `re_evaluation_interval`; if policy check fails, signal the session manager to revoke the session via `session_manager.cpp:terminateSession()`
+- `[x]` Re-evaluation must not block the data-plane thread; dispatch to `AuthWorkerThreadPool` (see Feature 2)
+- `[x]` Emit audit event `zero_trust/re_evaluation_failed` via `auth_audit_logger.cpp` when continuous check revokes an active session
+
+**Status:** `[x]` Implemented in v1.4.0
 
 ---
 

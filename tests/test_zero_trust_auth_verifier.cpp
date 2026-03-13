@@ -23,7 +23,12 @@
 
 #include <gtest/gtest.h>
 #include "auth/zero_trust_auth_verifier.h"
+#include "auth/session_manager.h"
 #include "security/zero_trust_policy_enforcer.h"
+
+#include <atomic>
+#include <chrono>
+#include <thread>
 
 using namespace themis::auth;
 using namespace themis::security;
@@ -238,4 +243,149 @@ TEST(ZeroTrustAuthVerifierTest, EachCallIsIndependent_NoSessionCache) {
     // Second call: same request, now denied (continuous verification)
     auto d2 = verifier.verify(req);
     EXPECT_FALSE(d2.allowed);
+}
+
+// ============================================================================
+// Config: re_evaluation_interval
+// ============================================================================
+
+TEST(ZeroTrustAuthVerifierTest, DefaultReEvaluationInterval) {
+    ZeroTrustAuthVerifier::Config cfg;
+    EXPECT_EQ(cfg.re_evaluation_interval, std::chrono::milliseconds(300000));
+}
+
+TEST(ZeroTrustAuthVerifierTest, CustomReEvaluationInterval) {
+    ZeroTrustAuthVerifier::Config cfg;
+    cfg.re_evaluation_interval = std::chrono::milliseconds(60000);
+    EXPECT_EQ(cfg.re_evaluation_interval, std::chrono::milliseconds(60000));
+}
+
+// ============================================================================
+// Background session monitoring
+// ============================================================================
+
+TEST(ZeroTrustAuthVerifierTest, MonitoredSessionCountZeroByDefault) {
+    ZeroTrustAuthVerifier verifier;
+    EXPECT_EQ(verifier.monitoredSessionCount(), 0u);
+}
+
+TEST(ZeroTrustAuthVerifierTest, StartMonitoringIncreasesCount) {
+    ZeroTrustAuthVerifier verifier;
+    SessionManager sm;
+    const auto sid = sm.createSession("alice");
+
+    ZeroTrustAuthVerifier::MonitoredSession ms;
+    ms.session_id = sid;
+    ms.user_id    = "alice";
+    ms.token      = "valid-token";
+    ms.client_ip  = "10.0.0.1";
+    ms.resource   = "data";
+    ms.action     = "read";
+
+    verifier.startSessionMonitoring(ms, &sm);
+    EXPECT_EQ(verifier.monitoredSessionCount(), 1u);
+
+    verifier.stopSessionMonitoring(sid);
+    EXPECT_EQ(verifier.monitoredSessionCount(), 0u);
+}
+
+TEST(ZeroTrustAuthVerifierTest, StopMonitoringOnUnknownIdIsNoOp) {
+    ZeroTrustAuthVerifier verifier;
+    // Must not throw or crash
+    EXPECT_NO_THROW(verifier.stopSessionMonitoring("nonexistent-session"));
+    EXPECT_EQ(verifier.monitoredSessionCount(), 0u);
+}
+
+TEST(ZeroTrustAuthVerifierTest, MultipleSessionsCanBeMonitored) {
+    ZeroTrustAuthVerifier verifier;
+    SessionManager sm;
+
+    for (int i = 0; i < 3; ++i) {
+        auto sid = sm.createSession("user" + std::to_string(i));
+        ZeroTrustAuthVerifier::MonitoredSession ms;
+        ms.session_id = sid;
+        ms.user_id    = "user" + std::to_string(i);
+        ms.token      = "tok";
+        ms.client_ip  = "10.0.0.1";
+        ms.resource   = "data";
+        ms.action     = "read";
+        verifier.startSessionMonitoring(ms, &sm);
+    }
+    EXPECT_EQ(verifier.monitoredSessionCount(), 3u);
+}
+
+TEST(ZeroTrustAuthVerifierTest, FailedReEvaluationTerminatesSession) {
+    // Token starts valid; we flip it to invalid so re-evaluation fails.
+    std::atomic<bool> token_ok{true};
+    auto cb = [&token_ok](const std::string&, const std::string&) -> bool {
+        return token_ok.load();
+    };
+
+    // Use a very short re-evaluation interval so the test does not wait 300 s.
+    ZeroTrustAuthVerifier::Config cfg;
+    cfg.re_evaluation_interval = std::chrono::milliseconds(50);
+
+    ZeroTrustAuthVerifier verifier(cfg, cb);
+
+    SessionManager sm;
+    const auto sid = sm.createSession("alice");
+    EXPECT_EQ(sm.listSessions("alice").size(), 1u);
+
+    ZeroTrustAuthVerifier::MonitoredSession ms;
+    ms.session_id = sid;
+    ms.user_id    = "alice";
+    ms.token      = "my-token";
+    ms.client_ip  = "10.0.0.1";
+    ms.resource   = "data";
+    ms.action     = "read";
+
+    // Register monitoring BEFORE invalidating the token so we get a clean start.
+    verifier.startSessionMonitoring(ms, &sm);
+
+    // Invalidate the token — next re-evaluation should revoke the session.
+    token_ok.store(false);
+
+    // Wait for the background worker to revoke the session (up to 2 s).
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
+    while (std::chrono::steady_clock::now() < deadline) {
+        if (sm.listSessions("alice").empty()) break;
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    }
+
+    EXPECT_TRUE(sm.listSessions("alice").empty())
+        << "Expected session to be terminated by background re-evaluation";
+    EXPECT_EQ(verifier.monitoredSessionCount(), 0u)
+        << "Expected session removed from monitoring after revocation";
+}
+
+TEST(ZeroTrustAuthVerifierTest, PassingReEvaluationKeepsSession) {
+    // Token remains valid — session must NOT be terminated.
+    auto cb = [](const std::string&, const std::string&) -> bool { return true; };
+
+    ZeroTrustAuthVerifier::Config cfg;
+    cfg.re_evaluation_interval = std::chrono::milliseconds(50);
+
+    ZeroTrustAuthVerifier verifier(cfg, cb);
+
+    SessionManager sm;
+    const auto sid = sm.createSession("bob");
+
+    ZeroTrustAuthVerifier::MonitoredSession ms;
+    ms.session_id = sid;
+    ms.user_id    = "bob";
+    ms.token      = "good-token";
+    ms.client_ip  = "10.0.0.1";
+    ms.resource   = "data";
+    ms.action     = "read";
+
+    verifier.startSessionMonitoring(ms, &sm);
+
+    // Let a few re-evaluation cycles run.
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+
+    // Session should still be alive.
+    EXPECT_EQ(sm.listSessions("bob").size(), 1u)
+        << "Session should remain active while re-evaluation passes";
+
+    verifier.stopSessionMonitoring(sid);
 }

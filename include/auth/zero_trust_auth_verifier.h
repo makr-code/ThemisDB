@@ -27,12 +27,22 @@
 #include <optional>
 #include <memory>
 #include <functional>
+#include <atomic>
+#include <chrono>
+#include <condition_variable>
+#include <cstdint>
+#include <mutex>
+#include <thread>
+#include <unordered_map>
 
 #include "security/zero_trust_policy_enforcer.h"
 
 namespace themis {
 namespace utils { class AuditLogger; }
 namespace auth {
+
+class AuthWorkerThreadPool; ///< Forward-declared to reduce header coupling.
+class SessionManager;
 
 /**
  * @brief Auth-layer bridge for zero-trust continuous verification.
@@ -107,6 +117,14 @@ public:
         /// (0.1 deducted by the underlying trust score computation).
         /// This flag documents the expectation; the penalty is always applied.
         bool device_id_expected = false;
+
+        /// Interval between periodic background re-evaluations of long-lived
+        /// sessions (WebSocket, gRPC streaming, DB connection pool).
+        /// Re-evaluation runs on AuthWorkerThreadPool so it never blocks the
+        /// data-plane thread.  Defaults to 300 000 ms (5 minutes).
+        /// Use millisecond granularity so tests and short intervals are supported
+        /// without narrowing conversions.
+        std::chrono::milliseconds re_evaluation_interval{std::chrono::seconds(300)};
     };
 
     /**
@@ -122,6 +140,24 @@ public:
         std::string client_ip;                ///< Source IPv4 address
         std::string resource;                 ///< Resource being accessed
         std::string action;                   ///< Action (read / write / delete …)
+        std::optional<std::string> device_id; ///< Optional device identifier
+    };
+
+    /**
+     * @brief Identity snapshot used for background re-evaluation of a live session.
+     *
+     * Register a session via startSessionMonitoring() to have its zero-trust
+     * posture periodically re-checked on a background worker thread.  If the
+     * check fails, the session is automatically revoked via the supplied
+     * SessionManager and an audit event is emitted.
+     */
+    struct MonitoredSession {
+        std::string session_id;               ///< Session identifier (passed to terminateSession)
+        std::string user_id;                  ///< Claimed identity
+        std::string token;                    ///< Bearer token / API key
+        std::string client_ip;                ///< Source IP at session creation
+        std::string resource;                 ///< Primary resource (informational)
+        std::string action;                   ///< Primary action (informational)
         std::optional<std::string> device_id; ///< Optional device identifier
     };
 
@@ -155,7 +191,10 @@ public:
         const Config& config = Config(),
         TokenVerifier token_verifier = nullptr);
 
-    ~ZeroTrustAuthVerifier() = default;
+    /**
+     * @brief Destructor — stops the background re-evaluation loop if running.
+     */
+    ~ZeroTrustAuthVerifier();
 
     // ========================================================================
     // Dependency injection
@@ -212,6 +251,46 @@ public:
     Decision verify(const Request& req);
 
     // ========================================================================
+    // Background session monitoring (async policy re-evaluation)
+    // ========================================================================
+
+    /**
+     * @brief Register a long-lived session for periodic background re-evaluation.
+     *
+     * Starts an internal background worker thread (if not already running) and
+     * adds the session to the re-evaluation schedule.  Every
+     * Config::re_evaluation_interval seconds the session's zero-trust posture is
+     * re-checked on a worker thread from AuthWorkerThreadPool — never on the
+     * data-plane thread.
+     *
+     * If the re-evaluation fails the session is revoked via
+     * session_manager->terminateSession() and an audit event
+     * "zero_trust/re_evaluation_failed" is emitted.
+     *
+     * @param session        Snapshot of the session credentials to monitor.
+     * @param session_manager Non-owning pointer to the session manager that owns
+     *                       the session.  Must remain valid until the session is
+     *                       stopped or the verifier is destroyed.
+     */
+    void startSessionMonitoring(const MonitoredSession& session,
+                                SessionManager* session_manager);
+
+    /**
+     * @brief Unregister a session from background re-evaluation.
+     *
+     * No-op if the session is not currently monitored.  Safe to call from any
+     * thread, including from within a re-evaluation callback.
+     *
+     * @param session_id Session identifier passed to startSessionMonitoring().
+     */
+    void stopSessionMonitoring(const std::string& session_id);
+
+    /**
+     * @brief Number of sessions currently registered for background monitoring.
+     */
+    size_t monitoredSessionCount() const;
+
+    // ========================================================================
     // Metrics (read-only view of the underlying enforcer's counters)
     // ========================================================================
 
@@ -223,6 +302,35 @@ private:
     Config config_;
     security::ZeroTrustPolicyEnforcer enforcer_;
     utils::AuditLogger* audit_logger_ = nullptr; ///< Non-owning; may be nullptr.
+
+    // ========================================================================
+    // Background re-evaluation state
+    // ========================================================================
+
+    /// Internal representation of a monitored session.
+    struct MonitorEntry {
+        MonitoredSession session;
+        SessionManager*  session_manager;                          ///< Non-owning
+        std::chrono::steady_clock::time_point next_eval;           ///< Deadline for next check (steady_clock)
+    };
+
+    mutable std::mutex                                  monitor_mutex_;
+    std::condition_variable                             monitor_cv_;
+    std::unordered_map<std::string, MonitorEntry>       monitored_sessions_; ///< session_id → entry
+    std::unique_ptr<AuthWorkerThreadPool>               worker_pool_;
+    std::thread                                         monitor_thread_;
+    std::atomic<bool>                                   monitor_stop_{false};
+    /// Incremented whenever the session schedule changes (new session added).
+    /// The monitor loop predicate checks this to wake early on schedule updates.
+    std::atomic<uint64_t>                               schedule_generation_{0};
+
+    /// Background loop: wakes periodically and dispatches overdue sessions
+    /// to the worker thread pool for policy re-evaluation.
+    void monitorLoop();
+
+    /// Executed on a worker thread: re-evaluates one session and terminates
+    /// it (+ emits audit event) if the policy check fails.
+    void reEvaluateSession(const MonitorEntry& entry);
 };
 
 } // namespace auth
