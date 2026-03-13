@@ -140,7 +140,9 @@ TEST_F(DeadlockPredictorTest, RecommendTimeoutIsClamped) {
 
     // Record very long hold times to push the recommended timeout high.
     for (int i = 0; i < 20; ++i) {
-        predictor_.recordTransaction(i, {"heavy:key"}, 60'000'000us); // 60 s
+        predictor_.recordTransaction(i, {"heavy:key"},
+            std::chrono::duration_cast<std::chrono::microseconds>(
+                std::chrono::seconds(60)));
     }
     auto timeout = predictor_.recommendTimeout({"heavy:key"});
     EXPECT_LE(timeout, cfg.max_recommended_timeout);

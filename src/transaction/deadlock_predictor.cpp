@@ -276,7 +276,7 @@ void DeadlockPredictor::reset() {
 
 // static
 std::string DeadlockPredictor::makePairKey(const std::string& a, const std::string& b) {
-    // Use NUL byte as separator so keys containing ':' are unambiguous.
+    // Use NUL byte (ASCII 0) as separator so keys containing ':' are unambiguous.
     if (a <= b) {
         return a + '\x00' + b;
     }
