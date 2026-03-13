@@ -211,20 +211,35 @@ std::size_t AQLConversationSession::size() const {
 
 class LLMAQLHandler::Impl {
 public:
-    Impl() 
+    explicit Impl(const LLMAQLHandler::Config& cfg)
         : timeout_manager_()
         , retry_policy_()
-        , circuit_breaker_(sharding::CircuitBreaker::Config{
-            .failure_threshold = 5,
-            .timeout = std::chrono::seconds(60),
-            .success_threshold = 2,
-            .failure_window = std::chrono::seconds(120)
-        })
     {
+        circuit_breakers_.emplace(std::piecewise_construct,
+            std::forward_as_tuple("infer"),
+            std::forward_as_tuple(cfg.infer_circuit_breaker));
+        circuit_breakers_.emplace(std::piecewise_construct,
+            std::forward_as_tuple("rag"),
+            std::forward_as_tuple(cfg.rag_circuit_breaker));
+        circuit_breakers_.emplace(std::piecewise_construct,
+            std::forward_as_tuple("embed"),
+            std::forward_as_tuple(cfg.embed_circuit_breaker));
+        circuit_breakers_.emplace(std::piecewise_construct,
+            std::forward_as_tuple("finetune"),
+            std::forward_as_tuple(cfg.finetune_circuit_breaker));
+
         // Initialize metrics collector
         LLMMetricsCollector::instance().initialize();
     }
-    
+
+    sharding::CircuitBreaker& getBreaker(const std::string& key) {
+        return circuit_breakers_.at(key);
+    }
+
+    const sharding::CircuitBreaker& getBreaker(const std::string& key) const {
+        return circuit_breakers_.at(key);
+    }
+
     llm::LLMPluginManager& getPluginManager() {
         return llm::LLMPluginManager::instance();
     }
@@ -253,10 +268,14 @@ public:
 
     // Optional chat executor override (for unit tests)
     std::function<std::string(const std::vector<llm::ChatMessage>&)> chat_executor_;
+    std::unordered_map<std::string, sharding::CircuitBreaker> circuit_breakers_;
 };
 
 LLMAQLHandler::LLMAQLHandler() 
-    : impl_(std::make_unique<Impl>()) {}
+    : impl_(std::make_unique<Impl>(Config{})) {}
+
+LLMAQLHandler::LLMAQLHandler(const Config& config)
+    : impl_(std::make_unique<Impl>(config)) {}
 
 LLMAQLHandler::~LLMAQLHandler() = default;
 
@@ -290,7 +309,7 @@ std::string LLMAQLHandler::executeInfer(
         LLMValidator::validateId(lora_id, true);
         
         // Check circuit breaker
-        if (!impl_->circuit_breaker_.allowRequest()) {
+        if (!impl_->getBreaker("infer").allowRequest()) {
             metrics.recordCircuitBreakerState("infer", "open");
             throw LLMException(LLMErrorCode::INFERENCE_FAILED,
                 "Circuit breaker is open - LLM service temporarily unavailable");
@@ -349,7 +368,7 @@ std::string LLMAQLHandler::executeInfer(
         });
         
         // Record success
-        impl_->circuit_breaker_.recordSuccess();
+        impl_->getBreaker("infer").recordSuccess();
         
         auto end_time = std::chrono::steady_clock::now();
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
@@ -375,7 +394,7 @@ std::string LLMAQLHandler::executeInfer(
         
     } catch (const LLMException& e) {
         // Record failure
-        impl_->circuit_breaker_.recordFailure();
+        impl_->getBreaker("infer").recordFailure();
         
         auto end_time = std::chrono::steady_clock::now();
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
@@ -399,7 +418,7 @@ std::string LLMAQLHandler::executeInfer(
         throw;
     } catch (const std::invalid_argument& e) {
         // Record failure
-        impl_->circuit_breaker_.recordFailure();
+        impl_->getBreaker("infer").recordFailure();
         
         auto end_time = std::chrono::steady_clock::now();
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
@@ -419,7 +438,7 @@ std::string LLMAQLHandler::executeInfer(
             std::string("Invalid option value: ") + e.what());
     } catch (const std::exception& e) {
         // Record failure
-        impl_->circuit_breaker_.recordFailure();
+        impl_->getBreaker("infer").recordFailure();
         
         auto end_time = std::chrono::steady_clock::now();
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
@@ -457,7 +476,8 @@ std::string LLMAQLHandler::executeInferStreaming(
         LLMValidator::validateId(lora_id, true);
 
         // Check circuit breaker
-        if (!impl_->circuit_breaker_.allowRequest()) {
+        if (!impl_->getBreaker("infer").allowRequest()) {
+            metrics.recordCircuitBreakerState("infer", "open");
             throw LLMException(LLMErrorCode::INFERENCE_FAILED,
                 "Circuit breaker is open - LLM service temporarily unavailable");
         }
@@ -491,7 +511,7 @@ std::string LLMAQLHandler::executeInferStreaming(
         auto& plugin_mgr = impl_->getPluginManager();
         auto response = plugin_mgr.generate(request);
 
-        impl_->circuit_breaker_.recordSuccess();
+        impl_->getBreaker("infer").recordSuccess();
 
         auto end_time = std::chrono::steady_clock::now();
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
@@ -515,7 +535,7 @@ std::string LLMAQLHandler::executeInferStreaming(
         return response.text;
 
     } catch (const LLMException& e) {
-        impl_->circuit_breaker_.recordFailure();
+        impl_->getBreaker("infer").recordFailure();
 
         auto end_time = std::chrono::steady_clock::now();
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
@@ -533,7 +553,7 @@ std::string LLMAQLHandler::executeInferStreaming(
         spdlog::error("LLM INFER STREAMING failed: model={}, error={}", model_id, e.what());
         throw;
     } catch (const std::exception& e) {
-        impl_->circuit_breaker_.recordFailure();
+        impl_->getBreaker("infer").recordFailure();
 
         auto end_time = std::chrono::steady_clock::now();
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
@@ -572,7 +592,7 @@ std::string LLMAQLHandler::executeRAG(
         LLMValidator::validateId(lora_id, true);
         
         // Check circuit breaker
-        if (!impl_->circuit_breaker_.allowRequest()) {
+        if (!impl_->getBreaker("rag").allowRequest()) {
             metrics.recordCircuitBreakerState("rag", "open");
             throw LLMException(LLMErrorCode::RAG_FAILED,
                 "Circuit breaker is open - LLM service temporarily unavailable");
@@ -671,7 +691,7 @@ std::string LLMAQLHandler::executeRAG(
         });
         
         // Record success
-        impl_->circuit_breaker_.recordSuccess();
+        impl_->getBreaker("rag").recordSuccess();
         
         auto end_time = std::chrono::steady_clock::now();
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
@@ -698,7 +718,7 @@ std::string LLMAQLHandler::executeRAG(
         
     } catch (const LLMException& e) {
         // Record failure
-        impl_->circuit_breaker_.recordFailure();
+        impl_->getBreaker("rag").recordFailure();
         
         auto end_time = std::chrono::steady_clock::now();
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
@@ -721,7 +741,7 @@ std::string LLMAQLHandler::executeRAG(
         throw;
     } catch (const std::invalid_argument& e) {
         // Record failure
-        impl_->circuit_breaker_.recordFailure();
+        impl_->getBreaker("rag").recordFailure();
         
         auto end_time = std::chrono::steady_clock::now();
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
@@ -742,7 +762,7 @@ std::string LLMAQLHandler::executeRAG(
             std::string("Invalid option value: ") + e.what());
     } catch (const std::exception& e) {
         // Record failure
-        impl_->circuit_breaker_.recordFailure();
+        impl_->getBreaker("rag").recordFailure();
         
         auto end_time = std::chrono::steady_clock::now();
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
@@ -768,7 +788,16 @@ std::vector<float> LLMAQLHandler::executeEmbed(
     const std::string& text,
     const std::string& model_id
 ) {
+    auto& metrics = LLMMetricsCollector::instance();
+
     try {
+        // Check circuit breaker
+        if (!impl_->getBreaker("embed").allowRequest()) {
+            metrics.recordCircuitBreakerState("embed", "open");
+            throw LLMException(LLMErrorCode::INFERENCE_FAILED,
+                "Circuit breaker is open - LLM embed service temporarily unavailable");
+        }
+
         auto& plugin_mgr = impl_->getPluginManager();
         
         // If model_id is specified, use plugin manager for model-specific embedding
@@ -784,9 +813,17 @@ std::vector<float> LLMAQLHandler::executeEmbed(
         
         // Use simplified EmbeddedLLM API for default embedding
         auto embedding = THEMIS_LLM_EMBED(text);
+
+        impl_->getBreaker("embed").recordSuccess();
         return embedding;
-        
+
+    } catch (const LLMException& e) {
+        impl_->getBreaker("embed").recordFailure();
+        throw std::runtime_error(
+            std::string("LLM EMBED failed: ") + e.what()
+        );
     } catch (const std::exception& e) {
+        impl_->getBreaker("embed").recordFailure();
         throw std::runtime_error(
             std::string("LLM EMBED failed: ") + e.what()
         );
@@ -895,6 +932,13 @@ std::string LLMAQLHandler::executeStats() {
         oss << "  Total requests: " << stats.total_requests << "\n";
         oss << "  Average latency: " << stats.average_latency_ms << " ms\n";
         oss << "  Throughput: " << stats.throughput << " req/s\n";
+
+        auto cb_states = getCircuitBreakerStates();
+        oss << "  Circuit breakers:\n";
+        oss << "    infer:    " << cb_states.infer    << "\n";
+        oss << "    rag:      " << cb_states.rag      << "\n";
+        oss << "    embed:    " << cb_states.embed    << "\n";
+        oss << "    finetune: " << cb_states.finetune << "\n";
         
         return oss.str();
     } catch (const std::exception& e) {
@@ -902,6 +946,15 @@ std::string LLMAQLHandler::executeStats() {
             std::string("LLM STATS failed: ") + e.what()
         );
     }
+}
+
+LLMAQLHandler::CircuitBreakerStates LLMAQLHandler::getCircuitBreakerStates() const {
+    CircuitBreakerStates states;
+    states.infer    = sharding::CircuitBreaker::stateToString(impl_->getBreaker("infer").getState());
+    states.rag      = sharding::CircuitBreaker::stateToString(impl_->getBreaker("rag").getState());
+    states.embed    = sharding::CircuitBreaker::stateToString(impl_->getBreaker("embed").getState());
+    states.finetune = sharding::CircuitBreaker::stateToString(impl_->getBreaker("finetune").getState());
+    return states;
 }
 
 std::string LLMAQLHandler::executeCacheStats() {

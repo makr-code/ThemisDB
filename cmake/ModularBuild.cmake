@@ -167,6 +167,7 @@ set(THEMIS_BASE_SOURCES
     ../src/core/concerns/concerns_context.cpp
     ../src/core/concerns/context_propagation.cpp
     ../src/core/concerns/lockfree_metrics.cpp
+    ../src/core/concerns/zero_copy_logger.cpp
     ../src/core/adapters/otel_tracer.cpp
     ../src/sharding/circuit_breaker.cpp
     
@@ -363,6 +364,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/updates/update_state_machine.cpp
     ../src/updates/canary_rollout.cpp
     ../src/updates/delta_update_engine.cpp
+    ../src/updates/parallel_downloader.cpp
     ../src/updates/schema_migration_tester.cpp
     ../src/updates/in_place_schema_migrator.cpp
     ../src/updates/notification_webhook.cpp
