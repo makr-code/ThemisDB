@@ -235,14 +235,22 @@ Immutable append-only log with cryptographic hashing for audit trails.
 
 ### GPU-Accelerated Compression
 **Priority:** High  
-**Target Version:** v1.6.0
+**Target Version:** v1.6.0  
+**Status:** ✅ Implemented
 
 Use CUDA/ROCm for parallel compression/decompression.
 
 **Target Algorithms:**
-- Zstd (NVIDIA nvCOMP library)
-- Snappy (GPU-accelerated variant)
-- LZ4 (parallel decompress)
+- ✅ Zstd (NVIDIA nvCOMP library) — `GpuCompressionAlgorithm::ZSTD` / `CompressionMethod::GPU_ZSTD`
+- ✅ Snappy (GPU-accelerated variant) — `GpuCompressionAlgorithm::SNAPPY` / `CompressionMethod::GPU_SNAPPY`
+- ✅ LZ4 (parallel decompress) — `GpuCompressionAlgorithm::LZ4` / `CompressionMethod::GPU_LZ4`
+
+**Implementation:** `src/storage/gpu_compression.cpp` / `include/storage/gpu_compression.h`
+
+GPU paths are enabled via `THEMIS_ENABLE_CUDA` (nvCOMP) or `THEMIS_ENABLE_HIP` (ROCm)
+compile-time flags.  All algorithms transparently fall back to CPU implementations
+(zstd_codec, libsnappy, liblz4) when no GPU is present, ensuring zero-dependency
+operation in environments without CUDA/HIP toolchains.
 
 **Expected Improvement:** 5-10x compression throughput
 

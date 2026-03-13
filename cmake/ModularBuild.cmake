@@ -274,6 +274,7 @@ set(THEMIS_STORAGE_SOURCES
     # Compression strategies (pluggable per-column-family)
     ../src/storage/compressed_storage.cpp
     ../src/storage/compression_strategy.cpp
+    ../src/storage/gpu_compression.cpp
     # Index maintenance moved to THEMIS_SECURITY_SOURCES (depends on vector index internals)
     # Blob storage backends
     ../src/storage/blob_backend_filesystem.cpp
