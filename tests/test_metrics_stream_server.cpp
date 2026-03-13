@@ -628,7 +628,8 @@ TEST_F(MetricsStreamServerTest, ConcurrentSubscribeAndPush) {
         MetricUpdate upd;
         upd.metric_name = "throughput";
         upd.value = 1.0;
-        for (int i = 0; i < 200; ++i) {
+        constexpr int kProducerPushes = 200;
+        for (int push = 0; push < kProducerPushes; ++push) {
             srv_.pushMetrics(upd);
             std::this_thread::yield();
         }

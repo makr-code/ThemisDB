@@ -187,7 +187,7 @@ void MetricsStreamServer::pushMetrics(const MetricUpdate& update) {
 // the small set of string fields we serialise here.
 static std::string jsonEscapeString(const std::string& s) {
     std::string out;
-    out.reserve(s.size() + 4);
+    out.reserve(s.size() * 2 + 4);
     for (unsigned char c : s) {
         switch (c) {
             case '"':  out += "\\\""; break;
