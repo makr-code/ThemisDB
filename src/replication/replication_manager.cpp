@@ -38,6 +38,7 @@
 #include "utils/logger.h"
 #include <openssl/sha.h>
 #include <openssl/evp.h>
+#include <openssl/rand.h>
 #include <fstream>
 #include <filesystem>
 #include <random>
@@ -4610,9 +4611,14 @@ std::string WALArchivalManager::archivePath(uint64_t segment_id) const {
 
 /* static */ std::vector<uint8_t> WALArchivalManager::hexToBytes(
     const std::string& hex) {
+    // Validate: must be non-empty, even-length, and contain only hex digits
+    if (hex.empty() || hex.size() % 2 != 0) return {};
+    for (char c : hex) {
+        if (!std::isxdigit(static_cast<unsigned char>(c))) return {};
+    }
     std::vector<uint8_t> bytes;
     bytes.reserve(hex.size() / 2);
-    for (size_t i = 0; i + 1 < hex.size(); i += 2) {
+    for (size_t i = 0; i < hex.size(); i += 2) {
         unsigned int val = 0;
         std::istringstream{hex.substr(i, 2)} >> std::hex >> val;
         bytes.push_back(static_cast<uint8_t>(val));
@@ -4623,13 +4629,11 @@ std::string WALArchivalManager::archivePath(uint64_t segment_id) const {
 /* static */ std::vector<uint8_t> WALArchivalManager::encryptAesGcm(
     const std::vector<uint8_t>& data,
     const std::vector<uint8_t>& key) {
-    // Generate a random 12-byte IV using the C++ PRNG
+    // Generate a cryptographically secure random 12-byte IV via OpenSSL RAND_bytes
     std::vector<uint8_t> iv(12);
-    {
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_int_distribution<unsigned int> dist(0, 255);
-        for (auto& b : iv) b = static_cast<uint8_t>(dist(gen));
+    if (RAND_bytes(iv.data(), static_cast<int>(iv.size())) != 1) {
+        THEMIS_ERROR("WALArchival: RAND_bytes failed; cannot generate encryption IV");
+        return {};  // return empty to signal failure; caller must not store this
     }
 
     std::vector<uint8_t> ciphertext(data.size());
@@ -4637,7 +4641,10 @@ std::string WALArchivalManager::archivePath(uint64_t segment_id) const {
     int len = 0, ct_len = 0;
 
     EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
-    if (!ctx) return data;  // fallback: return plaintext
+    if (!ctx) {
+        THEMIS_ERROR("WALArchival: EVP_CIPHER_CTX_new failed");
+        return {};  // return empty to signal failure
+    }
 
     EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr);
     EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr);
@@ -4811,14 +4818,22 @@ uint32_t WALArchivalManager::archiveSegments(
         bool segment_encrypted = false;
         if (config_.encrypt_at_rest && !config_.encryption_key_hex.empty()) {
             std::vector<uint8_t> key = hexToBytes(config_.encryption_key_hex);
-            if (key.size() == 32) {
-                payload          = encryptAesGcm(payload, key);
-                segment_encrypted = true;
-            } else {
-                THEMIS_WARN("WALArchival: encrypt_at_rest enabled but encryption_key_hex "
-                            "is not 64 hex chars (32 bytes); skipping encryption for {}",
-                            seg_path);
+            if (key.size() != 32) {
+                THEMIS_ERROR("WALArchival: encrypt_at_rest enabled but encryption_key_hex "
+                             "is not a valid 64-hex-char (32-byte) AES-256 key; "
+                             "refusing to archive {} without encryption",
+                             seg_path);
+                continue;  // reject: do not store segment unencrypted
             }
+            auto encrypted_payload = encryptAesGcm(payload, key);
+            if (encrypted_payload.empty()) {
+                THEMIS_ERROR("WALArchival: AES-GCM encryption failed for {}; "
+                             "segment not archived",
+                             seg_path);
+                continue;  // reject: do not store segment unencrypted
+            }
+            payload           = std::move(encrypted_payload);
+            segment_encrypted = true;
         }
 
         std::string dest = archivePath(segment_id);

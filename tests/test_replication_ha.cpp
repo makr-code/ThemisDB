@@ -2747,6 +2747,8 @@ TEST(WALArchivalTest, RunArchivalCycleArchivesOldSegments) {
 // ============================================================================
 
 // A fixed 32-byte AES-256 key expressed as 64 hex characters.
+// TEST USE ONLY — production keys must be securely generated (e.g. via a KMS)
+// and never hard-coded in source.
 static const char* kTestKeyHex =
     "0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20";
 
@@ -2826,33 +2828,26 @@ TEST(WALArchivalTest, EncryptionAtRest_WithCompression_RoundTrip) {
     std::filesystem::remove_all(arc_dir);
 }
 
-TEST(WALArchivalTest, EncryptionAtRest_MissingKey_SkipsEncryption) {
-    const std::string wal_dir = "/tmp/themis_enc_nokey_wal";
-    const std::string arc_dir = "/tmp/themis_enc_nokey_arc";
+TEST(WALArchivalTest, EncryptionAtRest_InvalidKey_RejectsArchival) {
+    const std::string wal_dir = "/tmp/themis_enc_badkey_wal";
+    const std::string arc_dir = "/tmp/themis_enc_badkey_arc";
     std::filesystem::remove_all(wal_dir);
     std::filesystem::remove_all(arc_dir);
 
-    writeSegmentFile(wal_dir, "seg_000300.wal", "PLAINTEXT DATA");
+    writeSegmentFile(wal_dir, "seg_000300.wal", "SENSITIVE DATA");
 
     WALArchivalManager::ArchivalConfig cfg;
     cfg.wal_directory           = wal_dir;
     cfg.archive_directory       = arc_dir;
     cfg.compress_before_archive = false;
     cfg.encrypt_at_rest         = true;
-    cfg.encryption_key_hex      = "";  // no key provided -> encryption skipped
+    cfg.encryption_key_hex      = "tooshort";  // invalid: not 64 hex chars
 
     WALArchivalManager mgr(cfg);
-    ASSERT_EQ(mgr.archiveSegments({"seg_000300.wal"}), 1u);
-
-    auto list = mgr.listArchived();
-    ASSERT_EQ(list.size(), 1u);
-    // Without a valid key, the segment is stored unencrypted
-    EXPECT_FALSE(list[0].encrypted);
-
-    auto data = mgr.retrieveSegment(list[0].segment_id);
-    ASSERT_TRUE(data.has_value());
-    std::string recovered(data->begin(), data->end());
-    EXPECT_EQ(recovered, "PLAINTEXT DATA");
+    // With an invalid key, archival is rejected to prevent unencrypted storage
+    uint32_t n = mgr.archiveSegments({"seg_000300.wal"});
+    EXPECT_EQ(n, 0u) << "Archival must be rejected when encryption key is invalid";
+    EXPECT_TRUE(mgr.listArchived().empty());
 
     std::filesystem::remove_all(wal_dir);
     std::filesystem::remove_all(arc_dir);
