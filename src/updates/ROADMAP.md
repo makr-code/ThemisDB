@@ -46,7 +46,7 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 - [x] Dependency resolution engine – topological sort, cycle detection, version constraints, conflict resolution, backfill (Issue: #216)
   - Implemented: `include/updates/dependency_resolver.h`, `src/updates/dependency_resolver.cpp`
   - API: `Dependency`, `UpdateStep`, `DependencyConflict`, `ResolutionResult`, `DependencyResolver`
-  - Tests: 29 focused tests in `tests/test_dependency_resolution_engine.cpp`
+  - Tests: 45 focused tests in `tests/test_dependency_resolution_engine.cpp`
   - CI: `.github/workflows/dependency-resolution-engine-ci.yml`
 
 ## In Progress 🚧
@@ -108,7 +108,7 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 - [x] Dependency resolution engine: topological sort, cycle detection, version constraints, conflict resolution, backfill (Issue: #216)
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (DeltaUpdateEngine: 29 tests; InPlaceSchemaMigrator+preview: 31 tests; NotificationWebhook: 40 tests; PreflightHealthChecker: 35 tests; CoordinatedUpdateManager: 25 tests; ParallelDownloader: 29 tests; DependencyResolver: 29 tests; module total: 218 tests)
+- [x] Unit tests coverage > 80% (DeltaUpdateEngine: 29 tests; InPlaceSchemaMigrator+preview: 31 tests; NotificationWebhook: 40 tests; PreflightHealthChecker: 35 tests; CoordinatedUpdateManager: 25 tests; ParallelDownloader: 29 tests; DependencyResolver: 45 tests; module total: 234 tests)
 - [x] Integration tests (applyDelta end-to-end: generate → apply → hash verify → atomic install; InPlaceSchemaMigrator: apply → version verify → history check)
 - [?] Performance benchmarks (migration duration, downtime measurement)
 - [x] Security audit (path traversal in update bundles fixed; `isSafePath` guard in `applyDelta`; InPlaceSchemaMigrator: metadata-only, no data access, no path operations; PreflightHealthChecker: injectable providers, no privilege escalation; ParallelDownloader: hash verification, corrupt file auto-removal)

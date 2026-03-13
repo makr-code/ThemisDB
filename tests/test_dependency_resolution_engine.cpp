@@ -598,3 +598,38 @@ TEST(DependencyResolutionEngineTest, Resolve_UsageExampleFromIssue) {
     EXPECT_EQ("1.3.0", s_query->from_version);
     EXPECT_EQ("1.4.5", s_query->to_version);
 }
+
+// ============================================================================
+// Edge cases: malformed / unusual version strings
+// ============================================================================
+
+TEST(DependencyResolutionEngineTest, SatisfiesConstraint_MalformedConstraint_FailsClosed) {
+    // Tokens without a recognised operator should fail closed (return false).
+    EXPECT_FALSE(DependencyResolver::satisfiesConstraint("1.0.0", "1.4.0")); // no operator
+}
+
+TEST(DependencyResolutionEngineTest, SatisfiesConstraint_EmptyVersion_WithConstraint) {
+    // An empty installed version cannot satisfy a constraint that has a lower bound.
+    EXPECT_FALSE(DependencyResolver::satisfiesConstraint("", ">=1.0.0"));
+    // But an empty version trivially satisfies an empty constraint.
+    EXPECT_TRUE(DependencyResolver::satisfiesConstraint("", ""));
+}
+
+TEST(DependencyResolutionEngineTest, MinVersion_MalformedToken_ReturnsEmpty) {
+    // A constraint with no recognisable lower-bound operator yields "".
+    EXPECT_EQ("", DependencyResolver::minVersionFromConstraint("badtoken"));
+    EXPECT_EQ("", DependencyResolver::minVersionFromConstraint("!=1.0.0"));
+}
+
+TEST(DependencyResolutionEngineTest, Resolve_EmptyVersionString_NoRegisteredDeps) {
+    // Resolving for a version that has no registered deps should succeed cleanly.
+    DependencyResolver resolver;
+    resolver.addDependency("1.0.0", {"lib", ">=1.0.0"});
+
+    // Requesting a version with no deps registered (2.0.0)
+    VersionMap current = {{"lib", "1.5.0"}};
+    auto result = resolver.resolve("2.0.0", current);
+
+    EXPECT_TRUE(result.success);
+    EXPECT_TRUE(result.steps.empty());
+}
