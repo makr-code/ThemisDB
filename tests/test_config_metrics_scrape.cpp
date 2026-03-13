@@ -135,6 +135,8 @@ TEST_F(ConfigMetricsScrapeTest, OutputContainsAllRequiredMetricNames) {
         << "Missing metric: themis_config_resolution_misses_total";
     EXPECT_TRUE(contains(text, "themis_config_legacy_fallbacks_total"))
         << "Missing metric: themis_config_legacy_fallbacks_total";
+    EXPECT_TRUE(contains(text, "themis_config_legacy_fallbacks_total{category=\"unknown\""))
+        << "Missing category label on legacy fallback metric";
     EXPECT_TRUE(contains(text, "themis_config_unmapped_requests_total"))
         << "Missing metric: themis_config_unmapped_requests_total";
     EXPECT_TRUE(contains(text, "themis_config_cache_hit_ratio"))

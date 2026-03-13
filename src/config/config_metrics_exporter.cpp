@@ -84,7 +84,11 @@ std::string ConfigMetricsExporter::collect() {
     const auto per_category = ConfigPathResolver::legacyFallbacksByCategory();
 
     auto delta_for = [](uint64_t current, uint64_t previous) {
-        return current >= previous ? current - previous : current;
+        if (current >= previous) {
+            return current - previous;
+        }
+        // Counter reset detected; avoid re-adding the current value.
+        return static_cast<uint64_t>(0);
     };
 
     std::lock_guard<std::mutex> lock(g_registry_mutex);
@@ -196,6 +200,8 @@ void ConfigMetricsExporter::updateMetricsCollector() {
     // Focused config tests build only the config module; MetricsCollector and
     // its dependencies are not linked in that configuration. This stub keeps
     // the test build lightweight while production builds execute the real sync.
+    // Callers in test builds should not expect this function to mutate any
+    // global metrics state.
     return;
 #else
     auto& collector = observability::MetricsCollector::getInstance();
