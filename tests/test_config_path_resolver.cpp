@@ -544,20 +544,61 @@ TEST_F(ConfigPathResolverTest, SetAggregationEnabledStartsAndStopsThread) {
 }
 
 TEST_F(ConfigPathResolverTest, AggregationEnabledSuppressesPerCallWarnings) {
-    // Enable aggregation
+    // Verify that when aggregation is enabled, the legacy fallback branch
+    // completes without crash/deadlock and suppresses per-call warnings.
+    // We need a mapped legacy path whose new location does NOT exist so the
+    // resolver actually takes the legacy-fallback branch.
+    ConfigPathResolver::resetMetrics();
+    ConfigPathResolver::clearCache();
     ConfigPathResolver::setAggregationEnabled(true, 3600);
 
-    // Create a legacy-path file so that the fallback branch is exercised.
-    // (Aggregator should record usage; no per-call spdlog::warn should fire.)
-    auto temp_file = test_dir_ / "config" / "agg_warn_test.yaml";
-    createTestFile(temp_file);
+    std::filesystem::create_directories(test_dir_ / "config");
+    createTestFile(test_dir_ / "config" / "pii_patterns.yaml");
+    // Deliberately do NOT create config/security/pii_patterns.yaml so that
+    // the resolver falls back to the legacy path.
 
-    // tryResolve with an absolute path that exists; no mapping → no legacy branch
-    auto result = ConfigPathResolver::tryResolve(temp_file.string());
-    // No assertion on result – we only verify no crash/deadlock
+    auto prev_cwd = std::filesystem::current_path();
+    std::filesystem::current_path(test_dir_);
+    auto result = ConfigPathResolver::tryResolve("config/pii_patterns.yaml");
+    std::filesystem::current_path(prev_cwd);
+
+    // Resolution should succeed via legacy fallback
+    EXPECT_TRUE(result.has_value());
+    EXPECT_EQ(result.value(), "config/pii_patterns.yaml");
 
     ConfigPathResolver::setAggregationEnabled(false);
-    SUCCEED();
+}
+
+TEST_F(ConfigPathResolverTest, AggregationEnabledTracksUsageWhileSuppressingWarnings) {
+    // When aggregation is enabled, usage is still tracked in the aggregator
+    // even though per-call spdlog::warn messages are suppressed.
+    ConfigPathResolver::resetMetrics();
+    ConfigPathResolver::clearCache();
+    ConfigPathResolver::setAggregationEnabled(true, 3600);
+
+    std::filesystem::create_directories(test_dir_ / "config");
+    createTestFile(test_dir_ / "config" / "pii_patterns.yaml");
+    // Deliberately do NOT create config/security/pii_patterns.yaml
+
+    auto prev_cwd = std::filesystem::current_path();
+    std::filesystem::current_path(test_dir_);
+
+    // Trigger the legacy fallback branch twice
+    ConfigPathResolver::tryResolve("config/pii_patterns.yaml");
+    ConfigPathResolver::clearCache();
+    ConfigPathResolver::tryResolve("config/pii_patterns.yaml");
+
+    std::filesystem::current_path(prev_cwd);
+
+    // Even with aggregation enabled (warnings suppressed), the aggregator
+    // must still have recorded the usage for report generation.
+    auto report = ConfigPathResolver::deprecationReport();
+    ASSERT_GE(report.size(), 1u) << "Usage must be tracked even when aggregation is enabled";
+    EXPECT_EQ(report[0].legacy_path, "config/pii_patterns.yaml");
+    EXPECT_GE(report[0].usage_count, 2u)
+        << "Both invocations must be counted even when per-call warnings are suppressed";
+
+    ConfigPathResolver::setAggregationEnabled(false);
 }
 
 TEST_F(ConfigPathResolverTest, DeprecationReportSortedByUsageCountDescending) {
