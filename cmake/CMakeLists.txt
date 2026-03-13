@@ -1851,6 +1851,7 @@ set(THEMIS_CORE_SOURCES
     ../src/core/adapters/otel_tracer.cpp
     ../src/core/concerns/prometheus_metrics.cpp
     ../src/core/concerns/lockfree_metrics.cpp
+    ../src/core/concerns/redis_cache.cpp
     ../src/utils/zstd_codec.cpp
     ../src/utils/pki_client.cpp
     ../src/utils/input_validator.cpp

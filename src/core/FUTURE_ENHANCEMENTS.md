@@ -65,21 +65,29 @@ context->reloadMetricsConfig(new_config);
 
 ### Distributed Cache Integration
 **Priority:** High  
-**Target Version:** v1.6.0
+**Target Version:** v1.6.0  
+**Status:** ✅ Implemented
 
 Full Redis/Memcached adapter for distributed caching across cluster nodes.
 
 **Features:**
-- Cluster-wide cache invalidation
-- Consistent hashing for distributed keys
-- TTL support
-- Pub/sub for cache invalidation messages
+- Cluster-wide cache invalidation (via Redis pub/sub PUBLISH on DEL/clear)
+- Consistent hashing (FNV-1a hash ring with virtual nodes) for key routing
+- TTL support via Redis PSETEX (millisecond precision)
+- Pub/sub for cache invalidation messages (background subscriber thread)
+- Graceful degradation when Redis is unavailable (no exceptions, returns nullopt/false)
+
+**Implementation:**  
+`include/core/concerns/redis_cache.h` and `src/core/concerns/redis_cache.cpp`.  
+`RedisCache` implements `ICache` and is injectable via `ConcernsContext::createCustom()`.  
+Selectable via `Config::cacheAdapter = "redis"` + `Config::cacheRedisUrl`.  
+Tests: `tests/test_distributed_cache_integration.cpp` → `DistributedCacheIntegrationFocusedTests`.
 
 **API:**
 ```cpp
 auto redis_cache = RedisCache::create("redis://cluster:6379");
 auto context = ConcernsContext::createCustom(
-    logger, tracer, metrics, redis_cache
+    logger, tracer, metrics, std::move(redis_cache)
 );
 ```
 

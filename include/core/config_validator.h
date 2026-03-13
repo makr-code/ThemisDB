@@ -225,7 +225,7 @@ public:
         const std::vector<std::string> valid_logger_adapters          = {"spdlog", "noop"};
         const std::vector<std::string> valid_tracer_adapters          = {"otel", "jaeger", "zipkin", "noop", ""};
         const std::vector<std::string> valid_metrics_adapters         = {"prometheus", "noop", ""};
-        const std::vector<std::string> valid_cache_adapters           = {"inmemory", "noop"};
+        const std::vector<std::string> valid_cache_adapters           = {"inmemory", "noop", "redis"};
         const std::vector<std::string> valid_circuit_breaker_adapters = {"default", "noop"};
         const std::vector<std::string> valid_feature_flags_adapters   = {"inmemory", "noop"};
         const std::vector<std::string> valid_audit_adapters           = {"inmemory", "noop"};
