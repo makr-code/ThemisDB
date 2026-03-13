@@ -159,7 +159,8 @@ public:
     /**
      * @brief Limit aggregate download throughput.
      *
-     * Implemented as a token-bucket replenished every 100 ms.
+     * Implemented as a token-bucket checked on every byte-consumption call and
+     * refilled whenever at least 10 ms have elapsed since the last refill.
      *
      * @param bytes_per_second 0 = unlimited (default)
      */

@@ -515,7 +515,7 @@ Download multiple files concurrently to reduce update time.
 **Implementation files:**
 - `include/updates/parallel_downloader.h`
 - `src/updates/parallel_downloader.cpp`
-- Tests: 25 focused tests in `tests/test_parallel_file_downloads.cpp`
+- Tests: 29 focused tests in `tests/test_parallel_file_downloads.cpp`
 - CI: `.github/workflows/parallel-file-downloads-ci.yml`
 
 **Usage:**

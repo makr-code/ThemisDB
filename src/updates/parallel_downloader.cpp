@@ -29,7 +29,6 @@
 #include <condition_variable>
 #include <filesystem>
 #include <fstream>
-#include <future>
 #include <iomanip>
 #include <mutex>
 #include <queue>
@@ -126,18 +125,29 @@ void ParallelDownloader::refillTokens(uint64_t /*bytes_needed*/) const {
                             std::chrono::steady_clock::now().time_since_epoch())
                             .count();
 
-    const int64_t last = last_refill_ms_.load(std::memory_order_relaxed);
+    int64_t last = last_refill_ms_.load(std::memory_order_acquire);
     const int64_t elapsed_ms = now_ms - last;
 
     if (elapsed_ms >= 10) {  // refill every 10 ms
+        // Only one thread should update last_refill_ms_ per interval.
+        // compare_exchange_strong atomically checks and updates `last`.
+        // If the CAS fails, another thread already handled this interval.
+        if (!last_refill_ms_.compare_exchange_strong(
+                last, now_ms,
+                std::memory_order_release, std::memory_order_relaxed)) {
+            return;
+        }
         const uint64_t new_tokens =
             (bandwidth_limit_bps_ * static_cast<uint64_t>(elapsed_ms)) / 1000ULL;
         // Cap at 2× the per-100ms slice to avoid burst accumulation
         const uint64_t max_tokens = bandwidth_limit_bps_ / 5;
         uint64_t current = token_bucket_.load(std::memory_order_relaxed);
-        uint64_t refilled = std::min(current + new_tokens, max_tokens);
-        token_bucket_.store(refilled, std::memory_order_relaxed);
-        last_refill_ms_.store(now_ms, std::memory_order_relaxed);
+        uint64_t refilled;
+        do {
+            refilled = std::min(current + new_tokens, max_tokens);
+        } while (!token_bucket_.compare_exchange_weak(
+                     current, refilled,
+                     std::memory_order_relaxed, std::memory_order_relaxed));
     }
 }
 
@@ -149,8 +159,14 @@ void ParallelDownloader::consumeBandwidth(uint64_t bytes) const {
 
         uint64_t avail = token_bucket_.load(std::memory_order_relaxed);
         if (avail >= bytes) {
-            token_bucket_.fetch_sub(bytes, std::memory_order_relaxed);
-            return;
+            // Atomically subtract only if the bucket still has enough tokens.
+            if (token_bucket_.compare_exchange_weak(
+                    avail, avail - bytes,
+                    std::memory_order_relaxed, std::memory_order_relaxed)) {
+                return;
+            }
+            // CAS failed – another thread consumed tokens concurrently; retry.
+            continue;
         }
 
         // Not enough tokens — sleep for approximately the time needed to
