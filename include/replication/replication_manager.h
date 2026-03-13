@@ -1902,13 +1902,14 @@ public:
      * Synchronisation status snapshot.
      */
     struct SyncStatus {
-        uint64_t local_sequence   = 0; ///< Latest sequence committed on the local node
-        uint64_t remote_sequence  = 0; ///< Latest sequence acknowledged from the peer
-        int64_t  lag_ms           = 0; ///< Estimated replication lag (ms)
+        uint64_t local_sequence     = 0; ///< Latest sequence committed on the local node
+        uint64_t remote_sequence    = 0; ///< Latest sequence acknowledged from the peer
+        int64_t  lag_ms             = 0; ///< Estimated replication lag (ms)
         uint64_t conflicts_detected = 0; ///< Lifetime conflict count
         uint64_t conflicts_resolved = 0; ///< Conflicts resolved (including manual overrides)
-        bool     is_synchronized  = false; ///< True when lag < sync_interval_ms and both nodes healthy
-        bool     is_running       = false; ///< True while start() is active
+        uint64_t conflicts_last_hour = 0; ///< Conflicts detected in the last 60 minutes (rolling)
+        bool     is_synchronized    = false; ///< True when lag < sync_interval_ms and both nodes healthy
+        bool     is_running         = false; ///< True while start() is active
     };
 
     // ── Lifecycle ─────────────────────────────────────────────────────────────
@@ -2073,6 +2074,7 @@ private:
     // Conflict history
     mutable std::mutex                  conflicts_mutex_;
     std::vector<BidiConflictRecord>     conflict_history_;
+    std::deque<std::chrono::system_clock::time_point> conflict_timestamps_; ///< For conflicts_last_hour
 
     // Origin index: document key → last known origin info
     mutable std::mutex                  origin_mutex_;

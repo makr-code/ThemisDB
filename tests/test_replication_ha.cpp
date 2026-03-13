@@ -5075,3 +5075,88 @@ TEST(BidirectionalReplicationTest, SyncStatusNotSynchronizedWhenHighLag) {
 
     mgr.stop();
 }
+
+// ── Config flag: bidirectional_sync = false blocks inbound writes ─────────────
+
+TEST(BidirectionalReplicationTest, BidirectionalSyncFalseBlocksIncomingWrites) {
+    auto cfg = makeBidiConfig();
+    cfg.bidirectional_sync = false;
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    BidirectionalReplicationManager::BidiWriteEntry remote;
+    remote.document_id  = "docA";
+    remote.collection   = "orders";
+    remote.operation    = "INSERT";
+    remote.data         = R"({"x":1})";
+    remote.origin_node  = "node-east";
+    remote.origin_seq   = 1;
+    remote.timestamp_ms = 1000;
+
+    // bidirectional_sync = false → incoming remote write must be rejected.
+    EXPECT_FALSE(mgr.applyRemoteWrite(remote));
+
+    // No conflict detected and remote_sequence unchanged.
+    auto s = mgr.getSyncStatus();
+    EXPECT_EQ(s.conflicts_detected, 0u);
+    EXPECT_EQ(s.remote_sequence, 0u);
+
+    mgr.stop();
+}
+
+// ── Config flag: replicate_ddl = false suppresses DDL ────────────────────────
+
+TEST(BidirectionalReplicationTest, ReplicateDDLFalseBlocksDDLApply) {
+    auto cfg = makeBidiConfig();
+    cfg.replicate_ddl = false;
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    // With replicate_ddl=false, applyRemoteDDL() must return false.
+    bool ok = mgr.applyRemoteDDL(
+        "ALTER TABLE t ADD COLUMN x INT",
+        "v99",
+        50);
+    EXPECT_FALSE(ok);
+
+    // Remote sequence must not advance, no conflict recorded.
+    auto s = mgr.getSyncStatus();
+    EXPECT_EQ(s.remote_sequence, 0u);
+    EXPECT_EQ(s.conflicts_detected, 0u);
+
+    mgr.stop();
+}
+
+// ── conflicts_last_hour rolling window ────────────────────────────────────────
+
+TEST(BidirectionalReplicationTest, ConflictsLastHourCountedInSyncStatus) {
+    auto cfg = makeBidiConfig();
+    cfg.default_strategy = ConflictResolution::LAST_WRITE_WINS;
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    // Generate two conflicts by submitting a local write then injecting
+    // a conflicting remote write for the same document twice.
+    for (int i = 0; i < 2; ++i) {
+        const std::string doc = "doc-lh-" + std::to_string(i);
+        mgr.submitWrite(doc, "metrics", "UPDATE", R"({"v":1})");
+
+        BidirectionalReplicationManager::BidiWriteEntry remote;
+        remote.document_id  = doc;
+        remote.collection   = "metrics";
+        remote.operation    = "UPDATE";
+        remote.data         = R"({"v":2})";
+        remote.origin_node  = "node-east";
+        remote.origin_seq   = static_cast<uint64_t>(i + 1);
+        remote.timestamp_ms = 9000 + i;  // always newer → remote wins under LWW
+
+        mgr.applyRemoteWrite(remote);
+    }
+
+    auto s = mgr.getSyncStatus();
+    EXPECT_EQ(s.conflicts_detected, 2u);
+    // Both conflicts just happened → they fall within the last hour.
+    EXPECT_EQ(s.conflicts_last_hour, 2u);
+
+    mgr.stop();
+}

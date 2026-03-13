@@ -92,11 +92,13 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Configurable conflict resolution per collection: `setCollectionStrategy()` / `getEffectiveStrategy()` with LWW, FIRST_WRITE_WINS, VECTOR_CLOCK, and CUSTOM strategies
 - [x] Origin tracking: every write tagged with `origin_node` + `origin_seq` + `timestamp_ms`; loop prevention via `replicate_foreign_changes=false` (default)
 - [x] DDL replication: `applyRemoteDDL()` forwards schema changes with conflict detection; `is_ddl_conflict` flag on conflict records
-- [x] `SyncStatus`: `local_sequence`, `remote_sequence`, `lag_ms`, `conflicts_detected`, `conflicts_resolved`, `is_running`, `is_synchronized`
+- [x] `SyncStatus`: `local_sequence`, `remote_sequence`, `lag_ms`, `conflicts_detected`, `conflicts_resolved`, `conflicts_last_hour` (rolling 60-min window), `is_running`, `is_synchronized`
+- [x] `bidirectional_sync = false` flag honoured: `applyRemoteWrite()` returns false when disabled
+- [x] `replicate_ddl = false` flag honoured: `applyRemoteDDL()` returns false when disabled
 - [x] Manual conflict resolution: `resolveConflict(document_id, winner_node)` for CUSTOM strategy pending conflicts
 - [x] `BidiConflictRecord`: full audit trail with local/remote/resolved writes, strategy used, timestamp, DDL flag
 - [x] `updateRemoteSequence()` + `applyRemoteWrite()` for simulation/integration without a live network layer
-- [x] 18 unit tests in `tests/test_replication_ha.cpp` (BidirectionalReplicationTest suite):
+- [x] 21 unit tests in `tests/test_replication_ha.cpp` (BidirectionalReplicationTest suite):
   - AC-1: start/stop lifecycle, double-start idempotency, invalid config (same node IDs, empty IDs)
   - AC-1/6: submitWrite advances local sequence; returns 0 when stopped
   - AC-4: origin tracking rejects own change bouncing back; accepts peer changes; updates remote_sequence
@@ -105,6 +107,9 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
   - AC-7: manual resolveConflict picks winner node; returns false for unknown node
   - AC-5: DDL replication accepted; DDL conflict recorded with is_ddl_conflict=true
   - AC-8: SyncStatus reflects lag, remote_sequence, is_synchronized; not synchronized under high lag
+  - Audit-1: `bidirectional_sync=false` blocks incoming remote writes
+  - Audit-2: `replicate_ddl=false` blocks DDL apply
+  - Audit-3: `conflicts_last_hour` rolling window correctly counted in SyncStatus
 - [x] CI: `.github/workflows/bidirectional-replication-ci.yml`
 
 ## New Modules (v1.8.0 – Phase 4)
@@ -176,7 +181,7 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] CI workflow: `.github/workflows/wal-archival-object-storage-ci.yml`
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (265+ test cases: previous + 18 BidirectionalReplicationManager tests)
+- [x] Unit tests coverage > 80% (268+ test cases: previous + 21 BidirectionalReplicationManager tests)
 - [x] Integration tests (failover, lag detection, PITR restoration, cross-cluster end-to-end)
 - [x] Performance benchmarks (WAL append > 50 000 entries/s, WAL readFrom 1000 < 5 ms, serialize/deserialize < 2 µs) — `benchmarks/bench_replication_throughput.cpp`
 - [x] Focused standalone test targets: `ReplicationHAFocusedTests`, `ReplicationNewFeaturesFocusedTests`, `MultiRegionActiveActiveTests`, `CacheReplicationTests`

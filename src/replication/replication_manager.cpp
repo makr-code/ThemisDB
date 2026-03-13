@@ -5606,6 +5606,11 @@ bool BidirectionalReplicationManager::applyRemoteWrite(const BidiWriteEntry& ent
         return false;
     }
 
+    // Respect the bidirectional_sync flag: if disabled, reject all inbound writes.
+    if (!config_.bidirectional_sync) {
+        return false;
+    }
+
     // Origin-tracking loop prevention: if the change originated locally, do not
     // re-apply it (it was already in pending_writes_).
     if (config_.track_origin && !config_.replicate_foreign_changes) {
@@ -5670,6 +5675,16 @@ BidirectionalReplicationManager::getSyncStatus() const {
     s.conflicts_detected = conflicts_detected_.load();
     s.conflicts_resolved = conflicts_resolved_.load();
     s.is_running        = running_.load();
+
+    // Compute conflicts_last_hour: count entries within the last 60 minutes.
+    {
+        std::lock_guard<std::mutex> lk(conflicts_mutex_);
+        const auto cutoff = std::chrono::system_clock::now()
+                            - std::chrono::hours(1);
+        s.conflicts_last_hour = static_cast<uint64_t>(
+            std::count_if(conflict_timestamps_.begin(), conflict_timestamps_.end(),
+                          [&cutoff](const auto& ts) { return ts >= cutoff; }));
+    }
 
     // "Synchronized" when running, no outstanding pending writes, and lag is
     // within one sync interval.
@@ -5764,6 +5779,11 @@ bool BidirectionalReplicationManager::applyRemoteDDL(
     const std::string& schema_version,
     uint64_t origin_seq)
 {
+    // Respect the replicate_ddl flag: if disabled, ignore incoming DDL events.
+    if (!config_.replicate_ddl) {
+        return false;
+    }
+
     BidiWriteEntry entry;
     entry.document_id  = "__ddl__" + schema_version;
     entry.collection   = "__schema__";
@@ -5876,6 +5896,14 @@ void BidirectionalReplicationManager::handleConflict(
     {
         std::lock_guard<std::mutex> lk(conflicts_mutex_);
         conflict_history_.push_back(std::move(rec));
+        // Record timestamp for conflicts_last_hour sliding window.
+        conflict_timestamps_.push_back(std::chrono::system_clock::now());
+        // Prune entries older than 1 hour to keep memory bounded.
+        const auto cutoff = std::chrono::system_clock::now() - std::chrono::hours(1);
+        while (!conflict_timestamps_.empty()
+               && conflict_timestamps_.front() < cutoff) {
+            conflict_timestamps_.pop_front();
+        }
     }
 
     // Only count as resolved if we actually picked a winner (not CUSTOM).
