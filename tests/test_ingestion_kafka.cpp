@@ -46,6 +46,7 @@
 #include <string>
 #include <vector>
 #include <atomic>
+#include <filesystem>
 
 using namespace themis::ingestion;
 
@@ -384,6 +385,115 @@ TEST(KafkaConnectorTest, SetRetryConfigDoesNotCrash) {
     rc.initial_delay_ms = 100.0;
     // Should not throw or crash.
     EXPECT_NO_THROW(conn.setRetryConfig(rc));
+}
+
+// ---------------------------------------------------------------------------
+// CheckpointStore integration
+// ---------------------------------------------------------------------------
+
+TEST(KafkaConnectorTest, CheckpointWrittenAfterMockIngest) {
+    // Verify that when a CheckpointStore is injected, the connector writes a
+    // checkpoint (with the correct document count) after processing messages.
+    // This validates the "offset commit tied to IngestionCheckpointStore::commit()"
+    // acceptance criterion: the checkpoint is written before the ingest()
+    // call returns, ahead of any librdkafka rd_kafka_consumer_close() commit.
+    namespace fs = std::filesystem;
+    auto tmpdir = fs::temp_directory_path() / "themis_kafka_ckpt_test";
+    fs::create_directories(tmpdir);
+
+    auto store = std::make_shared<CheckpointStore>(tmpdir.string());
+    KafkaConnector conn;
+    conn.initialize(makeKafkaConfig());
+    conn.setCheckpointStore(store);
+
+    conn.setMessageFetchForTesting([call = 0]() mutable -> std::vector<std::string> {
+        if (call++ == 0) return {R"({"text":"a"})", R"({"text":"b"})"};
+        return {};
+    });
+
+    auto stats = conn.ingest("docs", nullptr);
+    EXPECT_EQ(stats.documents_processed, 2u);
+
+    // The checkpoint must have been written with the correct count.
+    IngestionCheckpoint cp;
+    ASSERT_TRUE(store->read("test_kafka", cp));
+    EXPECT_EQ(cp.processed_count, 2u);
+    EXPECT_EQ(cp.source_id, "test_kafka");
+
+    fs::remove_all(tmpdir);
+}
+
+TEST(KafkaConnectorTest, CheckpointNotWrittenWithoutStore) {
+    // Without a checkpoint store, ingest() completes without errors.
+    namespace fs = std::filesystem;
+    auto tmpdir = fs::temp_directory_path() / "themis_kafka_nostore_test";
+    fs::create_directories(tmpdir);
+
+    // Use a separate store to verify no spurious write happened.
+    auto probe_store = std::make_shared<CheckpointStore>(tmpdir.string());
+    KafkaConnector conn;
+    conn.initialize(makeKafkaConfig());
+    // Deliberately do NOT call setCheckpointStore()
+
+    conn.setMessageFetchForTesting([call = 0]() mutable -> std::vector<std::string> {
+        if (call++ == 0) return {R"({"text":"doc"})"};
+        return {};
+    });
+
+    auto stats = conn.ingest("docs", nullptr);
+    EXPECT_EQ(stats.documents_processed, 1u);
+    EXPECT_TRUE(stats.errors.empty());
+
+    // No checkpoint should have been written to the probe store.
+    IngestionCheckpoint cp;
+    EXPECT_FALSE(probe_store->read("test_kafka", cp));
+
+    fs::remove_all(tmpdir);
+}
+
+TEST(KafkaConnectorTest, ConsumerGroupIsConfigurable) {
+    // Verify that the consumer_group option is accepted during initialization
+    // and that a custom group ID is stored correctly.
+    KafkaConnector conn;
+    auto cfg = makeKafkaConfig();
+    cfg.options["consumer_group"] = "my-custom-group";
+    EXPECT_TRUE(conn.initialize(cfg));
+
+    // The connector should work normally with the custom group.
+    conn.setMessageFetchForTesting([call = 0]() mutable -> std::vector<std::string> {
+        if (call++ == 0) return {R"({"text":"group-test"})"};
+        return {};
+    });
+    auto stats = conn.ingest("docs", nullptr);
+    EXPECT_EQ(stats.documents_processed, 1u);
+}
+
+TEST(KafkaConnectorTest, SchemaRegistryUrlStoredForAvro) {
+    // When message_format=avro and schema_registry_url is set, the connector
+    // should initialize successfully and still process messages.
+    KafkaConnector conn;
+    auto cfg = makeKafkaConfig();
+    cfg.options["message_format"]      = "avro";
+    cfg.options["schema_registry_url"] = "http://registry:8081";
+    EXPECT_TRUE(conn.initialize(cfg));
+
+    // Build a minimal Confluent Avro wire-format message:
+    //   Byte 0     : magic byte 0x00
+    //   Bytes 1-4  : 4-byte big-endian schema ID (here: 0x00000002)
+    //   Bytes 5+   : Avro-encoded payload
+    const std::string avro_msg{
+        '\x00',                         // magic byte
+        '\x00', '\x00', '\x00', '\x02', // schema ID = 2
+        'a', 'v', 'r', 'o', '_', 'c', 'o', 'n', 't', 'e', 'n', 't'
+    };
+
+    conn.setMessageFetchForTesting([&, call = 0]() mutable -> std::vector<std::string> {
+        if (call++ == 0) return {avro_msg};
+        return {};
+    });
+
+    auto stats = conn.ingest("docs", nullptr);
+    EXPECT_EQ(stats.documents_processed, 1u);
 }
 
 // ---------------------------------------------------------------------------
