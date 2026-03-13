@@ -54,6 +54,13 @@ namespace core {
 namespace concerns {
 
 // ---------------------------------------------------------------------------
+// Module-level constants
+// ---------------------------------------------------------------------------
+
+static constexpr const char* kDefaultRedisHost = "127.0.0.1";
+static constexpr uint16_t    kDefaultRedisPort  = 6379;
+
+// ---------------------------------------------------------------------------
 // Internal helpers
 // ---------------------------------------------------------------------------
 
@@ -153,8 +160,8 @@ RedisCache::RedisCache(const RedisCacheConfig& config)
     for (const auto& addr : config_.nodes) {
         auto nc = std::make_unique<NodeConn>();
         auto [h, p] = splitHostPort(addr);
-        nc->host = h.empty() ? "127.0.0.1" : h;
-        nc->port = (p == 0) ? 6379 : p;
+        nc->host = h.empty() ? kDefaultRedisHost : h;
+        nc->port = (p == 0) ? kDefaultRedisPort : p;
         nodes_.push_back(std::move(nc));
     }
 
@@ -230,8 +237,12 @@ size_t RedisCache::hashRingSize() const {
 RedisCache::SocketFd RedisCache::tcpConnect(const std::string& host,
                                              uint16_t port) const {
 #if defined(_WIN32)
-    WSADATA wsa{};
-    WSAStartup(MAKEWORD(2, 2), &wsa);
+    // Initialise Winsock exactly once per process.
+    static std::once_flag wsa_init_flag;
+    std::call_once(wsa_init_flag, [] {
+        WSADATA wsa{};
+        WSAStartup(MAKEWORD(2, 2), &wsa);
+    });
 #endif
 
     struct addrinfo hints{}, *res = nullptr;
