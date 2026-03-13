@@ -82,7 +82,10 @@ void SmartRouter::recordLatency(const std::string& backend_id,
         state.latency_window.pop_front();
     }
     state.total_requests++;
-    state.stats_dirty = true;
+    // Compute eagerly while the unique_lock is still held so that
+    // readers under shared_lock always see consistent cached values
+    // without needing to write to them (avoids data race).
+    refreshStats(state);
 }
 
 void SmartRouter::recordCacheHit(const std::string& backend_id,
@@ -165,7 +168,6 @@ std::optional<BackendEndpoint> SmartRouter::route(
     std::vector<const BackendState*> candidates;
     candidates.reserve(backends_.size());
     for (const auto& [id, state] : backends_) {
-        refreshStats(const_cast<BackendState&>(state));
         candidates.push_back(&state);
     }
 
@@ -231,8 +233,6 @@ std::optional<BackendEndpoint> SmartRouter::routeLeastLoaded() const {
 
     const BackendState* chosen = nullptr;
     for (const auto& [id, state] : backends_) {
-        refreshStats(const_cast<BackendState&>(state));
-
         // Skip high-tail backends if alternatives exist.
         if (has_acceptable && !state.latency_window.empty() &&
             state.cached_p99_latency > config_.tail_latency_threshold_ms) {
@@ -286,8 +286,6 @@ std::vector<SmartRouter::BackendStats> SmartRouter::getAllStats() const {
     result.reserve(backends_.size());
 
     for (const auto& [id, state] : backends_) {
-        refreshStats(const_cast<BackendState&>(state));
-
         BackendStats bs;
         bs.backend_id        = id;
         bs.avg_latency_ms    = state.cached_avg_latency;
@@ -311,9 +309,9 @@ SmartRouter::BackendStats SmartRouter::getBackendStats(
         throw std::out_of_range("SmartRouter: unknown backend '" + backend_id + "'");
     }
 
-    refreshStats(const_cast<BackendState&>(it->second));
+    // Stats are computed eagerly in recordLatency() under unique_lock,
+    // so cached_avg_latency / cached_p99_latency are always up-to-date.
     const auto& state = it->second;
-
     BackendStats bs;
     bs.backend_id        = backend_id;
     bs.avg_latency_ms    = state.cached_avg_latency;
@@ -352,10 +350,8 @@ double SmartRouter::computeP99(const std::deque<double>& window) {
 
 /* static */
 void SmartRouter::refreshStats(BackendState& state) noexcept {
-    if (!state.stats_dirty) return;
     state.cached_avg_latency = computeAvg(state.latency_window);
     state.cached_p99_latency = computeP99(state.latency_window);
-    state.stats_dirty = false;
 }
 
 bool SmartRouter::isHighTail(const BackendState& state,

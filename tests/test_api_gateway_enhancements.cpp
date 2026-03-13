@@ -727,3 +727,112 @@ TEST(SmartRoutingTest, RouteLeastLoadedWhenCachePredictionDisabled) {
     EXPECT_EQ(result->backend_id, "shard-1")
         << "When cache prediction is disabled, least-loaded must be used";
 }
+
+// ============================================================================
+// RequestCoalescingManager – HEAD method is coalesced like GET
+// ============================================================================
+
+TEST(RequestCoalescingTest, HeadRequestIsCoalesced) {
+    // HEAD is safe and idempotent – it must be eligible for coalescing.
+    RequestCoalescingManager::Config cfg;
+    cfg.waiter_timeout = std::chrono::milliseconds{500};
+    RequestCoalescingManager mgr(cfg);
+    mgr.resetStats();
+
+    std::atomic<int> backend_call_count{0};
+    const int kClients = 4;
+    std::atomic<int> ready{0};
+    std::atomic<bool> go{false};
+
+    auto handler = [&](const http::request<http::string_body>&) {
+        backend_call_count.fetch_add(1, std::memory_order_relaxed);
+        std::this_thread::sleep_for(std::chrono::milliseconds{40});
+        http::response<http::string_body> resp{http::status::ok, 11};
+        resp.set(http::field::content_type, "application/json");
+        resp.prepare_payload();
+        return resp;
+    };
+
+    std::vector<std::thread> threads;
+    std::vector<http::response<http::string_body>> responses(kClients);
+
+    for (int i = 0; i < kClients; ++i) {
+        threads.emplace_back([&, i] {
+            auto req = makeReq(http::verb::head, "/api/v1/entities/head-resource");
+            ready.fetch_add(1, std::memory_order_relaxed);
+            while (!go.load(std::memory_order_acquire)) std::this_thread::yield();
+            responses[i] = mgr.handle(req, handler);
+        });
+    }
+
+    while (ready.load() < kClients) std::this_thread::yield();
+    go.store(true, std::memory_order_release);
+
+    for (auto& t : threads) t.join();
+
+    for (int i = 0; i < kClients; ++i) {
+        EXPECT_EQ(responses[i].result(), http::status::ok)
+            << "Client " << i << " must receive a valid response";
+    }
+    EXPECT_LT(backend_call_count.load(), kClients)
+        << "HEAD requests must be coalesced (fewer backend calls than clients)";
+
+    auto stats = mgr.getStats();
+    EXPECT_GT(stats.coalesced_requests, 0ULL)
+        << "coalesced_requests must be non-zero for HEAD";
+}
+
+// ============================================================================
+// RequestCoalescingManager – backend exception falls back in waiters
+// ============================================================================
+
+TEST(RequestCoalescingTest, OriginatorExceptionTriggersWaiterFallback) {
+    // When the originator's backend call throws, waiters must fall back to
+    // their own direct backend call rather than propagating the exception.
+    RequestCoalescingManager::Config cfg;
+    cfg.waiter_timeout = std::chrono::milliseconds{500};
+    RequestCoalescingManager mgr(cfg);
+    mgr.resetStats();
+
+    std::atomic<int> call_count{0};
+
+    // Slow handler: the first call (originator) throws; subsequent calls succeed.
+    auto handler = [&](const http::request<http::string_body>& r) {
+        int n = call_count.fetch_add(1, std::memory_order_relaxed);
+        if (n == 0) {
+            // Originator throws after a short delay (allows a waiter to register).
+            std::this_thread::sleep_for(std::chrono::milliseconds{30});
+            throw std::runtime_error("backend unavailable");
+        }
+        return echoHandler()(r);
+    };
+
+    auto req = makeReq(http::verb::get, "/api/v1/entities/throw-test");
+
+    // Launch originator in background.
+    std::promise<void> slot_ready;
+    std::thread originator([&] {
+        try {
+            slot_ready.set_value();
+            mgr.handle(req, handler);
+        } catch (...) {
+            // originator exception is re-thrown to the caller – that's OK.
+        }
+    });
+
+    slot_ready.get_future().wait_for(std::chrono::milliseconds{200});
+    std::this_thread::sleep_for(std::chrono::milliseconds{5});
+
+    // Waiter: the originator will fail; the waiter must recover via fallback.
+    http::response<http::string_body> waiter_resp;
+    EXPECT_NO_THROW(waiter_resp = mgr.handle(req, handler))
+        << "Waiter must not propagate originator exception";
+
+    originator.join();
+
+    // The waiter fell back to its own backend call (which succeeds).
+    EXPECT_EQ(waiter_resp.result(), http::status::ok)
+        << "Waiter fallback must return a valid response";
+    EXPECT_GE(call_count.load(), 2)
+        << "Both originator and waiter fallback must have reached the backend";
+}

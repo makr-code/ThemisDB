@@ -274,10 +274,10 @@ private:
         // key → number of cache hits on this backend
         std::unordered_map<std::string, uint32_t> key_hit_counts;
 
-        // Computed lazily when the window changes
-        mutable double cached_avg_latency{0.0};
-        mutable double cached_p99_latency{0.0};
-        mutable bool   stats_dirty{true};
+        // Cached statistics – updated eagerly in recordLatency() while the
+        // unique_lock is held.  Safe to read under shared_lock.
+        double cached_avg_latency{0.0};
+        double cached_p99_latency{0.0};
     };
 
     // -----------------------------------------------------------------------
@@ -302,8 +302,8 @@ private:
                     bool has_other_candidates) const noexcept;
 
     /**
-     * @brief Rebuild cached avg/p99 for a state entry if dirty.
-     *        Must be called while holding at least a shared lock.
+     * @brief Recompute cached avg/p99 from the current latency window.
+     *        MUST be called while holding a unique_lock on mutex_.
      */
     static void refreshStats(BackendState& state) noexcept;
 
