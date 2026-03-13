@@ -494,6 +494,28 @@ std::optional<std::string> RedisCache::sendCommand(
     return reply;
 }
 
+std::optional<std::string> RedisCache::sendCommandLocked(
+        NodeConn& nc,
+        const std::vector<std::string>& args) const noexcept {
+    // PRECONDITION: caller holds nc.mutex.
+    if (!ensureConnected(nc)) return std::nullopt;
+
+    std::string cmd = buildRespCommand(args);
+    if (!sendAll(nc.fd, cmd)) {
+        nc.ok = false;
+        closeSocket(nc.fd);
+        return std::nullopt;
+    }
+
+    std::string reply;
+    if (!readReply(nc.fd, reply)) {
+        nc.ok = false;
+        closeSocket(nc.fd);
+        return std::nullopt;
+    }
+    return reply;
+}
+
 // ---------------------------------------------------------------------------
 // Serialisation
 // ---------------------------------------------------------------------------
@@ -632,7 +654,17 @@ void RedisCache::invalidatePattern(std::string_view pattern) {
                 std::string k;
                 readReply(nc->fd, k);
                 if (!k.empty()) {
-                    sendCommand(*nc, {"DEL", k});
+                    // Use sendCommandLocked because nc->mutex is already held.
+                    // DEL is best-effort: if it fails the connection is marked
+                    // dead and the next sendCommandLocked/sendCommand call will
+                    // attempt reconnection.  The invalidation PUBLISH (below) is
+                    // still sent so that other nodes can act on the notification.
+                    auto del_reply = sendCommandLocked(*nc, {"DEL", k});
+                    if (!del_reply) {
+                        // Connection lost mid-scan; stop processing this node's
+                        // cursor and let the reconnect loop re-establish.
+                        break;
+                    }
                 }
             }
         } while (cursor != "0");

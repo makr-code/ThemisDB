@@ -236,6 +236,26 @@ TEST_F(RedisCacheTest, PubSub_InvalidatePatternDisconnectedNeverThrows) {
     EXPECT_NO_THROW(cache_->invalidatePattern("session:*"));
 }
 
+/// invalidatePattern() completes without deadlock even when called multiple
+/// times in rapid succession (regression for sendCommandLocked fix).
+TEST_F(RedisCacheTest, PubSub_InvalidatePatternNoDeadlock) {
+    // Five consecutive calls must all return without hanging.
+    for (int i = 0; i < 5; ++i) {
+        EXPECT_NO_THROW(cache_->invalidatePattern("user:*"));
+        EXPECT_NO_THROW(cache_->invalidatePattern("ratelimit:*"));
+    }
+}
+
+/// After invalidatePattern() the cache must still be usable (no broken state).
+TEST_F(RedisCacheTest, PubSub_InvalidatePatternCacheStillFunctionalAfter) {
+    cache_->invalidatePattern("session:*");
+    // Cache must still respond to get() correctly (graceful-degradation miss).
+    auto result = cache_->get("session:user:1");
+    EXPECT_FALSE(result.has_value());
+    // And the miss counter must be valid (not corrupted).
+    EXPECT_GE(cache_->missCount(), 1u);
+}
+
 // =============================================================================
 // AC-1  Cluster-wide cache invalidation
 // =============================================================================

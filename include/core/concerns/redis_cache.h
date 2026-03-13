@@ -307,6 +307,11 @@ private:
     std::optional<std::string> sendCommand(NodeConn& nc,
                                            const std::vector<std::string>& args) const noexcept;
 
+    /// Same as sendCommand() but MUST be called with nc.mutex already held.
+    /// Used inside invalidatePattern() which holds the lock while iterating.
+    std::optional<std::string> sendCommandLocked(NodeConn& nc,
+                                                 const std::vector<std::string>& args) const noexcept;
+
     /// Read a full RESP reply from fd and return the payload string.
     static bool readReply(SocketFd fd, std::string& out) noexcept;
 
