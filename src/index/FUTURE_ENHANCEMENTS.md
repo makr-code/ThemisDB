@@ -172,16 +172,23 @@ auto results = vim.search("embeddings", query_vector, 10);
 
 ### GPU Memory Oversubscription
 **Priority:** High  
-**Target Version:** v1.6.0
+**Target Version:** v1.7.0  
+**Status:** ✅ Delivered (v1.7.0)
 
 Support datasets larger than GPU VRAM via paging and streaming.
 
 **Features:**
-- **Unified Memory**: CUDA Unified Memory for automatic paging
-- **Streaming**: Load index chunks from host RAM as needed
-- **LRU Eviction**: Keep hot partitions in VRAM, evict cold
-- **Prefetching**: Predict next access patterns, prefetch to GPU
-- **Multi-GPU**: Distribute index across multiple GPUs
+- **Unified Memory**: CUDA Unified Memory for automatic paging — ✅ via `GPUUnifiedMemoryAllocator` (CPU fallback on non-GPU builds)
+- **Streaming**: Load index chunks from host RAM as needed — ✅ `GPUMemoryOversubscriptionManager::accessPartition()`
+- **LRU Eviction**: Keep hot partitions in VRAM, evict cold — ✅ LRU doubly-linked list in `Impl`
+- **Prefetching**: Predict next access patterns, prefetch to GPU — ✅ `PrefetchStrategy` (NONE/LRU/MRU/SEQUENTIAL)
+- **Multi-GPU**: Distribute index across multiple GPUs — ✅ `MultiGPUVectorIndex` distributes partitions; oversubscription config available per-GPU
+
+**Implementation:**
+- `include/index/gpu_memory_oversubscription.h` — `PrefetchStrategy` enum + `GPUMemoryOversubscriptionManager` class
+- `src/index/gpu_memory_oversubscription.cpp` — full LRU/streaming/prefetch implementation
+- `include/index/gpu_vector_index.h` — `Config::enable_oversubscription`, `vram_budget_mb`, `prefetch_strategy`, `oversubscription_partition_vectors`
+- `src/index/gpu_vector_index.cpp` — wires oversubscription manager into `initialize`/`addVector`/`search`/`getStatistics`
 
 **Configuration:**
 ```cpp
@@ -199,6 +206,9 @@ auto gpu_index = std::make_unique<GPUVectorIndex>(config);
 - Hot data: Full GPU speed (200K queries/sec)
 - Cold data: CPU speed with PCIe overhead (10K queries/sec)
 - Prefetch hit rate: 80-90% (workload-dependent)
+
+**Tests:** `tests/index/test_gpu_memory_oversubscription.cpp` — 26 focused tests  
+**CI:** `.github/workflows/gpu-memory-oversubscription-ci.yml`
 
 ---
 
