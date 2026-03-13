@@ -33,6 +33,7 @@
 #include "security/access_control_manager.h"
 #include "geo/spatial_join.h"
 #include "utils/geo/ewkb.h"
+#include "utils/logger.h"
 #include <chrono>
 #include <fmt/format.h>
 
@@ -52,7 +53,8 @@ static RuntimeReoptimizer& getReoptimizer() {
 
 /// Scan @p collection and return (key, GeometryInfo) pairs extracted from
 /// the named @p field.  Documents that lack the field or contain unparseable
-/// geometry are silently skipped.
+/// geometry are skipped; a debug message is emitted for each skipped document
+/// to aid diagnosis when a spatial join returns fewer results than expected.
 static std::vector<std::pair<std::string, geo::GeometryInfo>>
 collectGeometries(QueryEngine& engine,
                   const std::string& collection,
@@ -64,10 +66,11 @@ collectGeometries(QueryEngine& engine,
     std::vector<std::pair<std::string, geo::GeometryInfo>> out;
     if (!ents) return out;
     out.reserve(ents->size());
+    std::size_t skipped = 0;
     for (const auto& e : *ents) {
         try {
             nlohmann::json doc = nlohmann::json::parse(e.toJson());
-            if (!doc.contains(field)) continue;
+            if (!doc.contains(field)) { ++skipped; continue; }
             const auto& fv = doc[field];
             geo::GeometryInfo geom;
             if (fv.is_string()) {
@@ -75,12 +78,19 @@ collectGeometries(QueryEngine& engine,
             } else if (fv.is_object()) {
                 geom = geo::GeometryInfo::parseGeoJSON(fv.dump());
             } else {
+                ++skipped;
                 continue;
             }
             out.emplace_back(e.getPrimaryKey(), std::move(geom));
         } catch (...) {
+            ++skipped;
             // Skip documents with unparseable geometry
         }
+    }
+    if (skipped > 0) {
+        THEMIS_DEBUG("spatial_join collectGeometries: skipped {} document(s) in "
+                     "collection '{}' with missing/unparseable field '{}'",
+                     skipped, collection, field);
     }
     return out;
 }
