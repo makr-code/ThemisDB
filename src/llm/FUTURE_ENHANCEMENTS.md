@@ -74,7 +74,7 @@ This means LoRA adapter signature validation silently succeeds without verifying
 ## Streaming Token Output (SSE / Chunked Response)
 **Priority:** High  
 **Target Version:** v1.7.0  
-**Status:** ✅ Implemented (v1.7.0)
+**Status:** [x] Implemented (v1.7.0)
 
 ### Scope
 - Deliver OpenAI-style streaming for LLM responses via SSE framing and HTTP chunked responses.
@@ -93,16 +93,30 @@ This means LoRA adapter signature validation silently succeeds without verifying
 | `InferenceRequest::stream_callback` | `AsyncInferenceEngine`, `InferenceEngineEnhanced`, HTTP SSE writers | Raw token callback invoked from worker thread; wrapped with cancel/deadline checks in `async_inference_engine.cpp`. |
 | `llm::StreamingHandler::{formatSseEvent, formatDoneEvent, formatChunkedData, makeStreamCallback}` | HTTP layer (SSE endpoints, OpenAI compat adapter) | Provides stateless framing helpers and atomic token indexing for single-producer streams. |
 
-### Implementation Notes
-- [x] `InferenceRequest` carries `stream_callback`; `AsyncInferenceEngine::processRequest()` wraps it with cancellation and deadline guards before invoking the active plugin (Target: v1.7.0).
-- [x] Streaming requests bypass the dedup cache while still applying prompt-policy checks and metadata propagation (Target: v1.7.0).
-- [x] `StreamingHandler` formats tokens into SSE events and chunked frames and offers `makeStreamCallback()` for thread-safe token indexing (Target: v1.7.0).
-- [x] Terminal SSE markers produced via `formatDoneEvent()`; chunked responses terminate with an empty chunk for HTTP/1.1 compatibility (Target: v1.7.0).
+### Implementation Phases
+- **Phase 1 — Design / API Contract**
+  - [x] Expose `InferenceRequest::stream_callback` for raw token delivery while keeping engines output-format agnostic (Target: v1.7.0).
+  - [x] Define SSE/chunked framing surface via `StreamingHandler` instead of embedding framing inside engines (Target: v1.7.0).
+- **Phase 2 — Core Implementation**
+  - [x] Wrap `stream_callback` in `AsyncInferenceEngine::processRequest()` to honor cancellation/deadlines before emitting tokens (Target: v1.7.0).
+  - [x] Provide `StreamingHandler::{formatSseEvent, formatChunkedData, makeStreamCallback}` for stateless framing and token indexing (Target: v1.7.0).
+- **Phase 3 — Error Handling & Edge Cases**
+  - [x] Drop token emission when cancellation/deadlines trigger and ensure terminal `[DONE]`/zero-length chunk markers are still well-formed (Target: v1.7.0).
+  - [x] JSON-escape control characters in SSE payloads to prevent malformed event streams (Target: v1.7.0).
+- **Phase 4 — Tests**
+  - [x] `tests/llm/test_streaming_handler.cpp` validates SSE framing, JSON escaping, chunked frames, and callback index sequencing (Target: v1.7.0).
+  - [x] `tests/test_llm_timeout_cancellation.cpp` exercises streaming cancellation/deadline paths on mock plugins (Target: v1.7.0).
+- **Phase 5 — Performance / Hardening**
+  - [x] Skip deduplication cache for streaming requests to avoid TTFT regression and stale partial responses (Target: v1.7.0).
+  - [x] Pre-reserve SSE payload buffers and reuse atomic counters to minimize per-token allocation overhead (Target: v1.7.0).
+- **Phase 6 — Documentation & Acceptance**
+  - [x] Document SSE/chunked streaming behavior and roadmap status here; align ROADMAP anchor `streaming-token-output-sse--chunked-response` (Target: v1.7.0).
+  - [x] Ensure OpenAI-compatible adapter and HTTP SSE surfaces consume `StreamingHandler` helpers for consistent wire format (Target: v1.7.0).
 
 ### Test Strategy
-- `tests/llm/test_streaming_handler.cpp` validates SSE formatting, JSON escaping, chunked frames, and callback index sequencing.
-- Streaming paths in engines are covered by existing async-engine request processing tests (queueing, cancellation, deadline) with `stream_callback` set; no SSE framing occurs inside the engine.
-- OpenAI-compatible adapter streaming paths rely on the same SSE helpers and will fail existing streaming fixture tests if regressions are introduced.
+- [x] `tests/llm/test_streaming_handler.cpp` validates SSE formatting, JSON escaping, chunked frames, and callback index sequencing.
+- [x] `tests/test_llm_timeout_cancellation.cpp` covers streaming callbacks under cancellation/deadline pressure in async engine paths.
+- [x] OpenAI-compatible adapter streaming paths rely on the same SSE helpers; streaming fixture tests exercise the shared framing surface.
 
 ### Performance Targets
 - Time-to-first-token (TTFT) ≤ 200 ms p99 for prompt lengths ≤ 512 tokens on a single A10G GPU.
