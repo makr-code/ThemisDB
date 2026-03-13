@@ -9347,6 +9347,48 @@ else()
 endif()
 
 # ============================================================================
+# Core Module – Lock-Free Metrics Focused Tests (Issue #66)
+# Validates all three acceptance criteria:
+#   AC-1  std::atomic counters
+#   AC-2  Lock-free per-thread ring buffer for histograms
+#   AC-3  Thread-local aggregation with periodic background flush
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lockfree_metrics.cpp")
+    message(STATUS "Adding LockFree Metrics focused tests (core module, Issue #66)")
+
+    add_executable(test_lockfree_metrics_focused
+        test_lockfree_metrics.cpp
+    )
+
+    target_include_directories(test_lockfree_metrics_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_lockfree_metrics_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_lockfree_metrics_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME LockFreeMetricsFocusedTests COMMAND test_lockfree_metrics_focused)
+
+    set_tests_properties(LockFreeMetricsFocusedTests PROPERTIES
+        LABELS "core;metrics;lock-free;atomic;ring-buffer;thread-local;v1.6.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  LockFreeMetrics: atomic counters, SPSC ring buffer, thread-local aggregation, periodic flush")
+else()
+    message(STATUS "LockFree Metrics focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lockfree_metrics.cpp")
+endif()
+
+# ============================================================================
 # Security Sub-directory Focused Test Targets
 # These provide dedicated standalone binaries for security module tests in
 # tests/security/ and tests/security/attack-vectors/, enabling fast focused

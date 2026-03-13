@@ -178,14 +178,19 @@ Reduce memory allocations in logging hot paths.
 
 ### Lock-Free Metrics
 **Priority:** High  
-**Target Version:** v1.6.0
+**Target Version:** v1.6.0  
+**Status:** ✅ Implemented
 
 Replace mutex-based counters with atomic operations.
 
 **Implementation:**
-- `std::atomic` for counters
-- Lock-free ring buffer for histograms
-- Thread-local aggregation with periodic flush
+- `std::atomic<int64_t>` for counters – lock-free `fetch_add` on hot path
+- `std::atomic<double>` for gauges – lock-free `store`/`fetch_add`/`fetch_sub`
+- Lock-free SPSC ring buffer per thread for histogram observations
+- Background flush thread drains thread-local ring buffers every 100 ms
+
+See `include/core/concerns/lockfree_metrics.h` and
+`src/core/concerns/lockfree_metrics.cpp`.
 
 **Expected Improvement:** 80% reduction in metric update latency
 

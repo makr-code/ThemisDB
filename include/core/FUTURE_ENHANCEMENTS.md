@@ -496,17 +496,17 @@ Explore compile-time dependency injection:
 ---
 
 ### Lock-Free Interface Implementations
-**Focus:** Wait-free concurrent data structures
+**Focus:** Wait-free concurrent data structures  
+**Status:** ✅ Implemented for Metrics (v1.6.0)
 
-Investigate lock-free implementations for:
-- Metrics counters (atomic operations only)
+Lock-free implementations delivered:
+- **Metrics counters**: `std::atomic<int64_t>` (see `LockFreeMetrics`)
+- **Histogram buffers**: per-thread SPSC lock-free ring buffers
+- **Thread-local aggregation**: background flush thread, 100 ms interval
+
+Still under investigation:
 - Cache updates (compare-and-swap)
 - Log buffers (SPSC/MPSC queues)
-
-**Research Questions:**
-- What's the performance gain vs complexity?
-- How to handle contention?
-- Can we guarantee progress?
 
 ---
 
