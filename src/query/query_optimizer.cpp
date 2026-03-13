@@ -63,6 +63,18 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQue
 	plan.orderedPredicates.reserve(q.predicates.size());
 	plan.details.reserve(q.predicates.size());
 
+	// Pre-load table statistics once so we pay the TableStats copy cost at most
+	// once per call rather than once per predicate.  The copy is acceptable
+	// because getStats() returns from an in-memory cache (no RocksDB scan).
+	StatsResult<TableStats> stats_result_buf;
+	const TableStats* table_stats_ptr = nullptr;
+	if (stats_collector_) {
+		stats_result_buf = stats_collector_->getStats(q.table);
+		if (stats_result_buf.ok) {
+			table_stats_ptr = &stats_result_buf.value;
+		}
+	}
+
 	// Schätzung je Prädikat
 	for (const auto& p : q.predicates) {
 		bool capped = false;
@@ -70,16 +82,13 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQue
 
 		// If the secondary index has no data for this predicate, fall back to
 		// StatisticsCollector cardinality so the ordering remains meaningful.
-		if (cnt == 0 && !capped && stats_collector_) {
-			auto stats_result = stats_collector_->getStats(q.table);
-			if (stats_result.ok) {
-				auto it = stats_result.value.column_stats.find(p.column);
-				if (it != stats_result.value.column_stats.end() &&
-				    stats_result.value.row_count > 0) {
-					cnt = static_cast<size_t>(
-					    it->second.selectivity *
-					    static_cast<double>(stats_result.value.row_count));
-				}
+		if (cnt == 0 && !capped && table_stats_ptr) {
+			auto it = table_stats_ptr->column_stats.find(p.column);
+			if (it != table_stats_ptr->column_stats.end() &&
+			    table_stats_ptr->row_count > 0) {
+				cnt = static_cast<size_t>(
+				    it->second.selectivity *
+				    static_cast<double>(table_stats_ptr->row_count));
 			}
 		}
 
@@ -104,9 +113,10 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQue
 	if (metrics_collector_) {
 		metrics_collector_->addCounter("query.optimizer.plan_selected", 1);
 		metrics_collector_->addCounter("query.optimizer.rewrite_count", 1);
-		// Report the estimated cost as the minimum estimated count across predicates.
+		// Use the most selective predicate (lowest estimated count = idx[0] after
+		// ascending sort) as the dominant cost proxy for this plan.
 		double cost_estimate = plan.details.empty() ? 0.0
-		    : static_cast<double>(plan.details.front().estimatedCount);
+		    : static_cast<double>(plan.details[idx[0]].estimatedCount);
 		metrics_collector_->observeHistogram("query.optimizer.cost_estimate", cost_estimate);
 	}
 
@@ -610,13 +620,14 @@ double QueryOptimizer::DistributedQueryCostModel::calculatePredicateSelectivity(
     }
     
     // Attempt to load statistics once for the table.
-    const themis::TableStats* table_stats_ptr = nullptr;
-    themis::TableStats table_stats_buf;
+    // Use the same pattern as chooseOrderForAndQuery: cache result in a local
+    // buffer and hold a raw pointer to it for the duration of this function.
+    StatsResult<TableStats> stats_result_buf;
+    const TableStats* table_stats_ptr = nullptr;
     if (stats_collector_) {
-        auto stats_result = stats_collector_->getStats(table);
-        if (stats_result.ok) {
-            table_stats_buf = std::move(stats_result.value);
-            table_stats_ptr = &table_stats_buf;
+        stats_result_buf = stats_collector_->getStats(table);
+        if (stats_result_buf.ok) {
+            table_stats_ptr = &stats_result_buf.value;
         }
     }
 
@@ -633,7 +644,10 @@ double QueryOptimizer::DistributedQueryCostModel::calculatePredicateSelectivity(
                 const auto& cs = it->second;
                 // Prefer histogram-based selectivity; fall back to column-level selectivity.
                 if (cs.histogram.has_value() && !cs.histogram->empty()) {
-                    // Equality predicate: selectivity = 1 / distinct_count (from histogram)
+                    // Equality predicate selectivity = 1 / distinct_count.
+                    // When distinct_count == 0 (statistics not yet updated after table
+                    // truncation or before first collection), cs.selectivity holds the
+                    // pre-computed column-level estimate and is a safe fallback.
                     pred_selectivity = cs.distinct_count > 0
                         ? 1.0 / static_cast<double>(cs.distinct_count)
                         : cs.selectivity;
