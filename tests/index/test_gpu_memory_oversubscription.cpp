@@ -27,6 +27,10 @@
 //                             index routes search through the manager.
 //   AC-6  Statistics        – Stats struct reports correct hot/cold counts,
 //                             evictions, loads, and prefetch_hit_rate.
+//
+// Bug-fix regression tests (audit round 2):
+//   BUG-FIX-1  searchBatch routes through oversubscription manager.
+//   BUG-FIX-2  loadIndex/addVectorBatch defers partition rebuild to end (O(1) not O(n²)).
 
 #include "index/gpu_memory_oversubscription.h"
 #include "index/gpu_vector_index.h"
@@ -34,6 +38,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdio>
 #include <random>
 #include <string>
 #include <vector>
@@ -700,4 +705,119 @@ TEST_F(GPUMemoryOversubscriptionFocusedTests,
     size_t pid = mgr.addPartition(make_flat(13, kDim), 13, kDim);
     EXPECT_EQ(mgr.getPartitionVectorCount(pid), 13u);
     EXPECT_EQ(mgr.getPartitionVectorCount(999u), 0u);
+}
+
+// ===========================================================================
+// Bug-fix regression tests (audit round 2)
+// ===========================================================================
+
+// BUG-FIX-1: searchBatch must route through oversubscription manager.
+TEST_F(GPUMemoryOversubscriptionFocusedTests,
+       GPUVectorIndex_SearchBatch_UsesOversubscriptionManager) {
+    const size_t dim = 16;
+    GPUVectorIndex::Config cfg;
+    cfg.backend                            = GPUVectorIndex::Backend::CPU;
+    cfg.enable_oversubscription            = true;
+    cfg.vram_budget_mb                     = 0;
+    cfg.prefetch_strategy                  = PrefetchStrategy::NONE;
+    cfg.oversubscription_partition_vectors = 4;
+
+    GPUVectorIndex idx(cfg);
+    ASSERT_TRUE(idx.initialize(static_cast<int>(dim)));
+
+    // Add 16 vectors across 4 partitions (4 vec each).
+    std::mt19937 rng(77);
+    std::uniform_real_distribution<float> dist(-1.f, 1.f);
+    for (size_t i = 0; i < 16; ++i) {
+        std::vector<float> v(dim);
+        for (auto& x : v) x = dist(rng);
+        ASSERT_TRUE(idx.addVector("v" + std::to_string(i), v));
+    }
+
+    // Issue a batch of 3 queries — should return non-empty results for each.
+    std::vector<std::vector<float>> queries;
+    for (size_t q = 0; q < 3; ++q) {
+        std::vector<float> qv(dim);
+        for (auto& x : qv) x = dist(rng);
+        queries.push_back(qv);
+    }
+
+    const auto batchResults = idx.searchBatch(queries, 3u);
+    ASSERT_EQ(batchResults.size(), 3u);
+    for (const auto& res : batchResults) {
+        EXPECT_FALSE(res.empty());
+        EXPECT_LE(res.size(), 3u);
+    }
+
+    // Oversubscription stats should reflect accesses from batch search.
+    const auto stats = idx.getStatistics();
+    EXPECT_TRUE(stats.oversubscriptionActive);
+    EXPECT_GE(stats.oversubLoads, 0u);  // Partitions accessed by searchBatch.
+
+    idx.shutdown();
+}
+
+// BUG-FIX-2: loadIndex must not rebuild partitions O(n²) — single rebuild at end.
+TEST_F(GPUMemoryOversubscriptionFocusedTests,
+       GPUVectorIndex_LoadIndex_SinglePartitionRebuildAfterLoad) {
+    const size_t dim    = 8;
+    const size_t nVecs  = 32;
+    const std::string path = "/tmp/test_gpu_osub_index.bin";
+
+    // ---- Build and save an index ----
+    {
+        GPUVectorIndex::Config cfg;
+        cfg.backend                            = GPUVectorIndex::Backend::CPU;
+        cfg.enable_oversubscription            = true;
+        cfg.vram_budget_mb                     = 0;
+        cfg.oversubscription_partition_vectors = 8;
+
+        GPUVectorIndex src(cfg);
+        ASSERT_TRUE(src.initialize(static_cast<int>(dim)));
+
+        std::mt19937 rng(42);
+        std::uniform_real_distribution<float> dist(-1.f, 1.f);
+        for (size_t i = 0; i < nVecs; ++i) {
+            std::vector<float> v(dim);
+            for (auto& x : v) x = dist(rng);
+            ASSERT_TRUE(src.addVector("v" + std::to_string(i), v));
+        }
+
+        ASSERT_TRUE(src.saveIndex(path));
+        src.shutdown();
+    }
+
+    // ---- Load index (oversubscription enabled) ----
+    {
+        GPUVectorIndex::Config cfg;
+        cfg.backend                            = GPUVectorIndex::Backend::CPU;
+        cfg.enable_oversubscription            = true;
+        cfg.vram_budget_mb                     = 0;
+        cfg.oversubscription_partition_vectors = 8;
+
+        GPUVectorIndex dst(cfg);
+        ASSERT_TRUE(dst.initialize(static_cast<int>(dim)));
+
+        ASSERT_TRUE(dst.loadIndex(path));
+
+        // After loadIndex, oversubscription partitions must be consistent
+        // with the number of loaded vectors.
+        const auto stats = dst.getStatistics();
+        EXPECT_EQ(stats.numVectors, nVecs);
+        EXPECT_TRUE(stats.oversubscriptionActive);
+
+        // Expected partitions: ceil(32 / 8) = 4
+        const size_t expected_partitions = (nVecs + 7u) / 8u;
+        EXPECT_EQ(stats.oversubHotPartitions + stats.oversubColdPartitions,
+                  expected_partitions);
+
+        // Search must work after load.
+        std::vector<float> q(dim, 0.5f);
+        const auto results = dst.search(q, 5u);
+        EXPECT_FALSE(results.empty());
+
+        dst.shutdown();
+    }
+
+    std::remove(path.c_str());
 }

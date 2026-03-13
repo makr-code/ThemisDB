@@ -114,10 +114,15 @@ public:
     // Active when config.enable_oversubscription == true.
     std::unique_ptr<GPUMemoryOversubscriptionManager> oversubManager;
 
+    // When true, rebuildOversubPartitions() is a no-op.  Used by loadIndex()
+    // to defer the (expensive) full partition rebuild until after all vectors
+    // are loaded, avoiding O(n²) behaviour.
+    bool oversubBulkLoading_ = false;
+
     // Rebuild the oversubscription manager partitions from the current vectorData.
     // Called after every vector mutation when oversubscription is enabled.
     void rebuildOversubPartitions() {
-        if (!oversubManager || vectorData.empty()) return;
+        if (!oversubManager || vectorData.empty() || oversubBulkLoading_) return;
 
         // Remove all existing partitions.
         for (size_t pid : oversubManager->getAllPartitionIds()) {
@@ -1018,11 +1023,19 @@ bool GPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
     if (ids.size() != vectors.size()) {
         return false;
     }
-    
+
+    // Suppress per-vector partition rebuilds during bulk ingestion; a single
+    // rebuild at the end is far cheaper than one rebuild per vector (O(n²)).
+    pImpl->oversubBulkLoading_ = true;
     for (size_t i = 0; i < ids.size(); ++i) {
-        if (!addVector(ids[i], vectors[i])) {
+        if (!pImpl->addVector(ids[i], vectors[i])) {
+            pImpl->oversubBulkLoading_ = false;
             return false;
         }
+    }
+    pImpl->oversubBulkLoading_ = false;
+    if (pImpl->oversubManager && !pImpl->vectorData.empty()) {
+        pImpl->rebuildOversubPartitions();
     }
     return true;
 }
@@ -1050,6 +1063,17 @@ std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBat
     
     if (!pImpl->initialized) {
         return {};
+    }
+
+    // Route through oversubscription manager when active: each query is served
+    // through searchOversubscribed() which handles LRU eviction and prefetching.
+    if (pImpl->oversubManager && !pImpl->vectorData.empty()) {
+        std::vector<std::vector<SearchResult>> results;
+        results.reserve(queries.size());
+        for (const auto& query : queries) {
+            results.push_back(pImpl->searchOversubscribed(query, k));
+        }
+        return results;
     }
     
     // Upload GPU data if dirty
@@ -1293,14 +1317,20 @@ bool GPUVectorIndex::loadIndex(const std::string& path) {
     pImpl->vectorIds.reserve(numVectors);
     pImpl->vectorData.reserve(numVectors);
 
+    // Suppress per-vector partition rebuilds; we do a single rebuild after
+    // the entire set of vectors is loaded (avoids O(n²) partition churn).
+    pImpl->oversubBulkLoading_ = true;
+
     for (size_t i = 0; i < numVectors; ++i) {
         size_t idLen = 0;
         ifs.read(reinterpret_cast<char*>(&idLen), sizeof(idLen));
         if (!ifs) {
+            pImpl->oversubBulkLoading_ = false;
             std::cerr << "GPUVectorIndex: loadIndex read error at vector " << i << " (ID length)\n";
             return false;
         }
         if (idLen > (1u << 20u)) { // Sanity cap at 1 MiB per ID
+            pImpl->oversubBulkLoading_ = false;
             std::cerr << "GPUVectorIndex: loadIndex rejected oversized ID (" << idLen
                       << " bytes) at vector " << i << "\n";
             return false;
@@ -1314,15 +1344,27 @@ bool GPUVectorIndex::loadIndex(const std::string& path) {
                  static_cast<std::streamsize>(dim) * static_cast<std::streamsize>(sizeof(float)));
 
         if (!ifs) {
+            pImpl->oversubBulkLoading_ = false;
             return false;
         }
 
-        // Use addVector() to respect VRAM budget tracking
+        // Use addVector() to respect VRAM budget tracking.
+        // oversubBulkLoading_ is set to suppress the per-vector partition
+        // rebuild; we do a single rebuild once all vectors are loaded.
         if (!pImpl->addVector(id, vec)) {
+            pImpl->oversubBulkLoading_ = false;
             std::cerr << "GPUVectorIndex: loadIndex aborted at vector " << i
                       << " (VRAM budget exceeded)\n";
             return false;
         }
+    }
+
+    // Single partition rebuild after bulk load.
+    if (pImpl->oversubManager) {
+        pImpl->oversubBulkLoading_ = false;
+        pImpl->rebuildOversubPartitions();
+    } else {
+        pImpl->oversubBulkLoading_ = false;
     }
 
 #ifdef THEMIS_ENABLE_VULKAN
