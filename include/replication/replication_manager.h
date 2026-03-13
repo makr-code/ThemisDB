@@ -1498,10 +1498,41 @@ private:
 // ============================================================================
 
 /**
+ * IArchivalBackend
+ *
+ * Pluggable backend interface for WAL segment storage.  The default
+ * LocalArchivalBackend writes to the local filesystem; cloud backends
+ * (S3, GCS, Azure Blob) implement this interface for object-storage targets.
+ */
+class IArchivalBackend {
+public:
+    virtual ~IArchivalBackend() = default;
+
+    // Write a segment payload to the backend.  Returns true on success.
+    virtual bool putObject(const std::string& key,
+                           const std::vector<uint8_t>& data) = 0;
+
+    // Read a segment payload from the backend.  Returns nullopt on failure.
+    virtual std::optional<std::vector<uint8_t>> getObject(
+        const std::string& key) const = 0;
+
+    // Remove an object from the backend.
+    virtual bool deleteObject(const std::string& key) = 0;
+
+    // Transition an object to a colder storage tier (e.g. "cold", "glacier").
+    // A no-op on backends that do not support tiering.
+    virtual void setStorageTier(const std::string& key,
+                                const std::string& tier) = 0;
+};
+
+/**
  * WALArchivalManager
  *
- * Archives completed WAL segments to a local (or cloud-pluggable) directory
- * with optional compression.  Provides retrieval for point-in-time recovery.
+ * Archives completed WAL segments to a local (or cloud-pluggable) destination
+ * with optional compression and AES-256-GCM encryption at rest.
+ * Provides retrieval for point-in-time recovery (PITR) and lifecycle
+ * management that transitions segments across storage tiers (standard → cold →
+ * glacier) based on configurable age thresholds.
  *
  * Cloud backends (S3, GCS, Azure) are pluggable via the `IArchivalBackend`
  * interface; the default backend writes to the local filesystem.
@@ -1509,22 +1540,44 @@ private:
 class WALArchivalManager {
 public:
     struct ArchivalConfig {
-        std::string wal_directory;          // Source WAL directory
-        std::string archive_directory;      // Local archive destination
-        uint32_t    archive_after_segments  = 100; // segments to accumulate before archiving
-        uint32_t    local_retention_segments= 10;  // segments to keep locally after archive
-        bool        compress_before_archive = true;
-        uint32_t    delete_after_days       = 365; // purge archived segments older than N days
+        // Source WAL directory
+        std::string wal_directory;
+        // Local archive destination (used by the default filesystem backend)
+        std::string archive_directory;
+
+        // Cloud object-storage target (ignored when storage_type == "local")
+        std::string storage_type           = "local"; // "local", "s3", "gcs", "azure"
+        std::string bucket_name;                      // Cloud bucket / container
+        std::string prefix;                           // Object-key prefix (e.g. "cluster-1/wal/")
+
+        // Archival policy
+        uint32_t    archive_after_segments   = 100; // segments to accumulate before archiving
+        uint32_t    local_retention_segments = 10;  // segments to keep locally after archive
+        bool        compress_before_archive  = true;
+        uint32_t    delete_after_days        = 365; // purge archived segments older than N days
+
+        // Encryption at rest (AES-256-GCM)
+        bool        encrypt_at_rest    = false;
+        // 64-character hex string encoding a 32-byte AES-256 key.
+        // Required when encrypt_at_rest == true.
+        std::string encryption_key_hex;
+
+        // Lifecycle management: transition segments to colder tiers.
+        // 0 = lifecycle management disabled.
+        uint32_t    transition_to_cold_after_days = 90;
     };
 
     struct ArchivedSegment {
-        uint64_t    segment_id;
-        uint64_t    start_sequence;
-        uint64_t    end_sequence;
-        uint64_t    size_bytes;
-        bool        compressed;
+        uint64_t    segment_id     = 0;
+        uint64_t    start_sequence = 0;
+        uint64_t    end_sequence   = 0;
+        uint64_t    size_bytes     = 0;
+        bool        compressed     = false;
+        bool        encrypted      = false;
         std::chrono::system_clock::time_point archived_at;
         std::string archive_path;
+        // Storage tier for lifecycle management: "standard", "cold", "glacier"
+        std::string storage_tier   = "standard";
     };
 
     explicit WALArchivalManager(const ArchivalConfig& config);
@@ -1533,7 +1586,8 @@ public:
     // Returns number of segments successfully archived.
     uint32_t archiveSegments(const std::vector<std::string>& segment_paths);
 
-    // Retrieve an archived segment by ID; returns raw bytes (possibly compressed).
+    // Retrieve an archived segment by ID; returns the original raw bytes
+    // (decrypted and decompressed as required).
     std::optional<std::vector<uint8_t>> retrieveSegment(uint64_t segment_id) const;
 
     // List all archived segments (sorted by segment_id ascending).
@@ -1542,18 +1596,30 @@ public:
     // Purge archived segments older than delete_after_days.
     uint32_t purgeExpired();
 
+    // Apply lifecycle transitions: promote segments to colder storage tiers
+    // based on their age relative to transition_to_cold_after_days.
+    // Returns the number of segments whose tier was updated.
+    uint32_t transitionStorageTiers();
+
     // Background archival: scan wal_directory, archive old segments, return count.
     uint32_t runArchivalCycle();
 
 private:
     ArchivalConfig config_;
     mutable std::mutex archive_mutex_;
-    std::vector<ArchivedSegment> index_;  // in-memory index; persisted via text-format index.txt side-car
+    std::vector<ArchivedSegment> index_;  // in-memory index; persisted via index.txt side-car
 
     std::string archivePath(uint64_t segment_id) const;
     void saveIndex() const;
     void loadIndex();
     static std::vector<uint8_t> compressData(const std::vector<uint8_t>& data);
+    // AES-256-GCM encryption helpers. Format: IV(12) || Tag(16) || Ciphertext.
+    static std::vector<uint8_t> encryptAesGcm(const std::vector<uint8_t>& data,
+                                               const std::vector<uint8_t>& key);
+    static std::optional<std::vector<uint8_t>> decryptAesGcm(
+        const std::vector<uint8_t>& data,
+        const std::vector<uint8_t>& key);
+    static std::vector<uint8_t> hexToBytes(const std::string& hex);
 };
 
 // ============================================================================
