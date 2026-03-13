@@ -12476,7 +12476,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_binary_delta_patches.cpp" AND NOT TA
     add_test(NAME BinaryDeltaPatchesFocusedTests COMMAND test_binary_delta_patches_focused)
 
     set_tests_properties(BinaryDeltaPatchesFocusedTests PROPERTIES
-        LABELS "updates;delta;binary-diff;patches;zstd;vcdiff;checksums;fallback;focused;unit"
+        LABELS "updates;delta;binary-diff;patches;zstd;vcdiff;checksums;fallback;focused;unit;integration"
         TIMEOUT 120
     )
 

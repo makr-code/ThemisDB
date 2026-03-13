@@ -101,6 +101,9 @@ protected:
     }
 
     /// Returns a pseudo-binary blob of the given size using a simple LCG.
+    /// The multiplier (37) and offset (7) produce a full-period sequence for
+    /// uint8_t that creates a deterministic, reproducible binary pattern across
+    /// all test runs without requiring a seeded PRNG dependency.
     static std::vector<uint8_t> makeBinaryBlob(size_t size, uint8_t seed = 0x42) {
         std::vector<uint8_t> data(size);
         uint8_t v = seed;
@@ -292,7 +295,10 @@ TEST_F(BinaryDeltaPatchesTest, ApplyDelta_WrongBaseHash_FallsBack) {
     dm.to_version   = "1.1.0";
     FileDelta fd;
     fd.path      = rel;
-    fd.base_hash = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"; // wrong
+    // Any valid-looking hex string that doesn't match the SHA-256 of 'base' above.
+    // SHA-256 of a 128-byte all-0x88 blob starts with a non-'a' prefix, so
+    // 64 x 'a' is guaranteed to be wrong.
+    fd.base_hash = std::string(64, 'a');
     dm.deltas    = {fd};
 
     DeltaUpdateEngine engine(install_dir_, download_dir_);
@@ -769,11 +775,15 @@ TEST_F(BinaryDeltaPatchesTest, ProgressCallback_PercentagesMonotonicallyNonDecre
     engine.applyDelta(dm);
 
     ASSERT_FALSE(pcts.empty());
+    // All percentages must be in [0, 100]
     for (int p : pcts) { EXPECT_GE(p, 0); EXPECT_LE(p, 100); }
-    // Must be non-decreasing
+    // Must be non-decreasing — report a single failure with context if violated
+    bool monotonic = true;
     for (size_t i = 1; i < pcts.size(); ++i) {
-        EXPECT_GE(pcts[i], pcts[i - 1]);
+        if (pcts[i] < pcts[i - 1]) { monotonic = false; break; }
     }
+    EXPECT_TRUE(monotonic)
+        << "Progress percentages are not monotonically non-decreasing";
 }
 
 TEST_F(BinaryDeltaPatchesTest, ProgressCallback_Ends100_OnSuccess) {

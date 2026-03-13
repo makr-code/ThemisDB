@@ -53,6 +53,8 @@ jobs:
     if: needs.ci-scope-classifier.outputs.has_code_changes == 'true'
     name: Binary delta patches tests (${{ matrix.os }} / ${{ matrix.compiler }})
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
 
     strategy:
       fail-fast: false
@@ -145,6 +147,8 @@ jobs:
     if: needs.ci-scope-classifier.outputs.has_code_changes == 'true'
     name: Delta patch generation (CI/CD pipeline validation)
     runs-on: ubuntu-24.04
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout repository
