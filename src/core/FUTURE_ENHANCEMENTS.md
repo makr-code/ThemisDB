@@ -186,9 +186,10 @@ Reduce memory allocations in logging hot paths.
   levels
 - Full `ILogger` compatibility: `const std::string&` overrides delegate to
   `string_view` hot path (no additional copy)
+- `json_mode_` is `std::atomic<bool>` — safe concurrent `setJsonMode()` while logging
 - PII redaction on field values (allocation-free key scan)
 
-See `tests/test_zero_copy_logging.cpp` for 30+ focused unit tests.
+See `tests/test_zero_copy_logging.cpp` for 41 focused unit tests.
 
 ---
 

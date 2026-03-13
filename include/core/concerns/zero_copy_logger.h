@@ -15,6 +15,7 @@
 #include "core/concerns/i_logger.h"
 #include "utils/logger.h"
 #include <spdlog/spdlog.h>
+#include <atomic>
 #include <memory>
 #include <string_view>
 #include <cstddef>
@@ -196,16 +197,21 @@ public:
     // Accessors
     // =========================================================================
 
-    /** Enable or disable JSON-mode structured logging at runtime. */
-    void setJsonMode(bool enabled) noexcept { json_mode_ = enabled; }
-    bool jsonMode() const noexcept { return json_mode_; }
+    /** Enable or disable JSON-mode structured logging at runtime.
+     *
+     *  Thread-safe: `setJsonMode` may be called concurrently with logging
+     *  methods.  The `std::atomic<bool>` ensures a consistent view across
+     *  threads.
+     */
+    void setJsonMode(bool enabled) noexcept { json_mode_.store(enabled, std::memory_order_relaxed); }
+    bool jsonMode() const noexcept { return json_mode_.load(std::memory_order_relaxed); }
 
     /** Initial reservation of the thread-local format buffer (bytes). */
     std::size_t bufferCapacity() const noexcept { return buffer_capacity_; }
 
 private:
     std::shared_ptr<spdlog::logger> logger_;
-    bool json_mode_;
+    std::atomic<bool> json_mode_;
     std::size_t buffer_capacity_;
 
     static spdlog::level::level_enum toSpdlogLevel(Level level) noexcept;

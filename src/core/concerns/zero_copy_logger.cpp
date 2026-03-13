@@ -99,7 +99,7 @@ void ZeroCopyLogger::logStructuredSV(
     std::string& buf = formatBuffer();
     buf.clear();
 
-    if (json_mode_) {
+    if (json_mode_.load(std::memory_order_relaxed)) {
         buildJsonInto(buf, level, message, fields);
     } else {
         buildPlainStructuredInto(buf, message, fields);
@@ -121,8 +121,7 @@ void ZeroCopyLogger::logStructured(Level level,
     std::string& buf = formatBuffer();
     buf.clear();
 
-    if (json_mode_) {
-        // Convert Fields map to initializer_list-style pairs via manual build
+    if (json_mode_.load(std::memory_order_relaxed)) {
         // to avoid a second allocation. We write directly into buf.
         auto now = std::chrono::system_clock::now();
         auto ms  = std::chrono::duration_cast<std::chrono::milliseconds>(

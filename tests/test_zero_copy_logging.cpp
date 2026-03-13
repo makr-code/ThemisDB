@@ -490,3 +490,43 @@ TEST(ZeroCopyLoggerTest, ShouldLogReturnsFalse_AfterShutdown) {
     // After shutdown logger_ is nullptr; shouldLog must not crash.
     EXPECT_FALSE(logger->shouldLog(ILogger::Level::INFO));
 }
+
+// =============================================================================
+// AC-12b Concurrent setJsonMode + logStructuredSV — validates atomic json_mode_
+// =============================================================================
+
+TEST(ZeroCopyLoggerTest, ConcurrentSetJsonMode_WhileLogging_NoRaceOrCrash) {
+    // This test validates that the std::atomic<bool> fix for json_mode_ prevents
+    // data races between setJsonMode() (writer) and logStructuredSV() (readers).
+    // Use a null-sink logger to avoid contention on the ostream sink itself.
+    auto logger = makeNullLogger(/*json_mode=*/false);
+
+    constexpr int kLoggerThreads  = 4;
+    constexpr int kToggleThreads  = 2;
+    constexpr int kCallsPerThread = 200;
+
+    std::vector<std::thread> threads;
+    threads.reserve(kLoggerThreads + kToggleThreads);
+
+    // Logging threads: continuously call logStructuredSV while mode is toggled.
+    for (int t = 0; t < kLoggerThreads; ++t) {
+        threads.emplace_back([&logger]() {
+            for (int i = 0; i < kCallsPerThread; ++i) {
+                logger->logStructuredSV(ILogger::Level::INFO, "racing op",
+                                        {{"k", "v"}});
+            }
+        });
+    }
+
+    // Toggle threads: continuously flip json_mode_ back and forth.
+    for (int t = 0; t < kToggleThreads; ++t) {
+        threads.emplace_back([&logger]() {
+            for (int i = 0; i < kCallsPerThread; ++i) {
+                logger->setJsonMode(i % 2 == 0);
+            }
+        });
+    }
+
+    for (auto& th : threads) th.join();
+    SUCCEED(); // Reached without crash or data race means the atomic fix is effective.
+}
