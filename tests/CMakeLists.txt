@@ -13564,6 +13564,53 @@ else()
 endif()
 
 # ============================================================================
+# Core Module – Distributed Cache Integration Focused Tests (Issue #64)
+# Validates all seven acceptance criteria:
+#   AC-1  Cluster-wide cache invalidation
+#   AC-2  Consistent hashing for distributed keys
+#   AC-3  TTL support
+#   AC-4  Pub/sub for cache invalidation messages
+#   AC-5  Query result caching across nodes
+#   AC-6  Session state management
+#   AC-7  Distributed rate limiting state
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cache_integration.cpp")
+    message(STATUS "Adding Distributed Cache Integration focused tests (core module, Issue #64)")
+
+    add_executable(test_distributed_cache_integration_focused
+        test_distributed_cache_integration.cpp
+    )
+
+    target_include_directories(test_distributed_cache_integration_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_distributed_cache_integration_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_distributed_cache_integration_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DistributedCacheIntegrationFocusedTests
+        COMMAND test_distributed_cache_integration_focused)
+
+    set_tests_properties(DistributedCacheIntegrationFocusedTests PROPERTIES
+        LABELS "core;cache;redis;distributed;consistent-hashing;pubsub;ttl;v1.6.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  RedisCache: URL parsing, consistent hashing, TTL, pub/sub invalidation, graceful degradation, statistics, ConcernsContext integration")
+else()
+    message(STATUS "Distributed Cache Integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cache_integration.cpp")
+endif()
+
+# ============================================================================
 # Custom Test Targets
 # ============================================================================
 add_custom_target(run_tests

@@ -34,6 +34,7 @@
 
 ### Short-term (Next 3-6 months)
 - [x] Dynamic log level adjustment at runtime (Issue: #1412)
+- [x] Distributed Cache Integration — Redis-backed ICache with consistent hashing, TTL, and pub/sub invalidation (Issue: #64, Target: v1.6.0)
 
 ### Long-term (6-12 months)
 - [I] Secrets interface for credential injection into components (Issue: #1417)
@@ -76,6 +77,7 @@
 - [x] Security audit (no credential storage in context)
 - [x] Documentation complete
 - [x] API stability guaranteed for ConcernsContext and core interfaces
+- [x] Distributed cache adapter (RedisCache) — cluster-wide invalidation, consistent hashing, TTL, pub/sub (Issue: #64)
 
 ## Known Issues & Limitations
 - Context propagation across async/thread boundaries is supported via `startSpanFromHeaders` / `injectContext`; caller is responsible for passing headers across async boundaries

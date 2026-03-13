@@ -31,6 +31,7 @@
 #include "core/concerns/zipkin_tracer_adapter.h"
 #include "core/concerns/prometheus_metrics_adapter.h"
 #include "core/concerns/inmemory_cache_impl.h"
+#include "core/concerns/redis_cache.h"
 #include "core/concerns/noop_implementations.h"
 #include "core/production_mode.h"
 #include "core/config_validator.h"
@@ -155,6 +156,8 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
     std::unique_ptr<ICache> cache;
     if (config.cacheAdapter == "noop") {
         cache = std::make_unique<NoOpCache>();
+    } else if (config.cacheAdapter == "redis" && !config.cacheRedisUrl.empty()) {
+        cache = RedisCache::create(config.cacheRedisUrl);
     } else {
         // "inmemory" — only reachable after validation passes
         cache = std::make_unique<InMemoryCacheImpl>(
