@@ -161,6 +161,33 @@ void TimeSeriesMetrics::recordContinuousAggregateRefresh(const std::string& metr
     total_continuous_agg_points_generated_.fetch_add(points_processed, std::memory_order_relaxed);
 }
 
+void TimeSeriesMetrics::recordAggRefreshLatency(const std::string& agg_id, double latency_ms) {
+    total_continuous_agg_refreshes_.fetch_add(1, std::memory_order_relaxed);
+    std::lock_guard<std::mutex> lock(agg_metrics_mutex_);
+    auto& stats = agg_refresh_stats_[agg_id];
+    stats.total_latency_ms += latency_ms;
+    stats.latency_count++;
+}
+
+void TimeSeriesMetrics::recordAggRefreshLag(const std::string& agg_id, double lag_ms) {
+    std::lock_guard<std::mutex> lock(agg_metrics_mutex_);
+    agg_refresh_stats_[agg_id].last_lag_ms = lag_ms;
+}
+
+double TimeSeriesMetrics::getAggRefreshLatency(const std::string& agg_id) const {
+    std::lock_guard<std::mutex> lock(agg_metrics_mutex_);
+    auto it = agg_refresh_stats_.find(agg_id);
+    if (it == agg_refresh_stats_.end() || it->second.latency_count == 0) return -1.0;
+    return it->second.total_latency_ms / static_cast<double>(it->second.latency_count);
+}
+
+double TimeSeriesMetrics::getAggRefreshLag(const std::string& agg_id) const {
+    std::lock_guard<std::mutex> lock(agg_metrics_mutex_);
+    auto it = agg_refresh_stats_.find(agg_id);
+    if (it == agg_refresh_stats_.end()) return -1.0;
+    return it->second.last_lag_ms;
+}
+
 std::string TimeSeriesMetrics::exportPrometheus() const {
     std::ostringstream oss;
     
@@ -249,7 +276,29 @@ std::string TimeSeriesMetrics::exportPrometheus() const {
     oss << formatPrometheusMetric("themis_timeseries_continuous_agg_points_generated_total", "counter",
                                   "Total number of aggregate points generated",
                                   total_continuous_agg_points_generated_.load());
-    
+
+    // Per-aggregate refresh latency and lag metrics (labeled by agg_id)
+    {
+        std::lock_guard<std::mutex> lock(agg_metrics_mutex_);
+        for (const auto& [agg_id, stats] : agg_refresh_stats_) {
+            if (stats.latency_count > 0) {
+                double avg_lat = stats.total_latency_ms / static_cast<double>(stats.latency_count);
+                oss << "# HELP themis_cagg_refresh_latency_ms_avg"
+                       " Average incremental refresh latency per aggregate\n"
+                       "# TYPE themis_cagg_refresh_latency_ms_avg gauge\n"
+                    << "themis_cagg_refresh_latency_ms_avg{agg_id=\"" << agg_id << "\"} "
+                    << avg_lat << "\n";
+            }
+            if (stats.last_lag_ms >= 0.0) {
+                oss << "# HELP themis_cagg_refresh_lag_ms"
+                       " Lag between aggregate watermark and wall-clock now\n"
+                       "# TYPE themis_cagg_refresh_lag_ms gauge\n"
+                    << "themis_cagg_refresh_lag_ms{agg_id=\"" << agg_id << "\"} "
+                    << stats.last_lag_ms << "\n";
+            }
+        }
+    }
+
     // Latency metrics
     oss << formatPrometheusMetric("themis_timeseries_write_latency_ms_avg", "gauge",
                                   "Average write operation latency in milliseconds",
@@ -385,6 +434,11 @@ void TimeSeriesMetrics::reset() {
     {
         std::lock_guard<std::mutex> lock(per_metric_mutex_);
         per_metric_stats_.clear();
+    }
+
+    {
+        std::lock_guard<std::mutex> lock(agg_metrics_mutex_);
+        agg_refresh_stats_.clear();
     }
 }
 

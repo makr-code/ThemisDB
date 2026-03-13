@@ -41,6 +41,7 @@ AggregateScheduler::AggregateScheduler(TSStore* store, const Config& config)
     }
     
     agg_manager_ = std::make_unique<ContinuousAggregateManager>(store_);
+    wm_store_ = std::make_unique<ContinuousAggWatermarkStore>(store_);
 }
 
 AggregateScheduler::~AggregateScheduler() {
@@ -107,6 +108,10 @@ void AggregateScheduler::unregisterAggregate(const std::string& id) {
     auto it = aggregates_.find(id);
     if (it != aggregates_.end()) {
         THEMIS_INFO("Unregistered continuous aggregate: {}", id);
+        // Clean up persisted watermark
+        if (wm_store_) {
+            wm_store_->deleteWatermark(id);
+        }
         aggregates_.erase(it);
     }
 }
@@ -196,6 +201,11 @@ std::vector<AggregateScheduler::ScheduledAggregate> AggregateScheduler::listAggr
     return result;
 }
 
+void AggregateScheduler::setMetrics(std::shared_ptr<TimeSeriesMetrics> metrics) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    metrics_ = std::move(metrics);
+}
+
 // ===== Scheduler Loop =====
 
 void AggregateScheduler::schedulerLoop() {
@@ -249,14 +259,29 @@ void AggregateScheduler::refreshAggregate(ScheduledAggregate& agg) {
         int64_t current_time_ms = getCurrentTimeMs();
         int64_t window_ms = agg.config.window.size.count();
         
-        // Refresh the most recent complete window
+        // Align window end to the last complete window boundary
         int64_t window_end = (current_time_ms / window_ms) * window_ms;
-        int64_t window_start = window_end - window_ms;
-        
-        span.setAttribute("window_start_ms", window_start);
+
         span.setAttribute("window_end_ms", window_end);
-        
-        agg_manager_->refresh(agg.config, window_start, window_end);
+
+        if (agg.use_incremental_refresh && wm_store_) {
+            // Incremental path: read watermark, scan [watermark, window_end), advance watermark
+            int64_t watermark_before = wm_store_->getWatermark(agg.id);
+            span.setAttribute("watermark_ms", watermark_before);
+
+            agg_manager_->refreshIncremental(agg.config, agg.id, window_end, *wm_store_);
+
+            // Emit lag metric (how far behind the watermark is vs. now)
+            double lag_ms = static_cast<double>(current_time_ms - window_end);
+            if (metrics_) {
+                metrics_->recordAggRefreshLag(agg.id, lag_ms < 0.0 ? 0.0 : lag_ms);
+            }
+        } else {
+            // Full-scan fallback path (original behaviour)
+            int64_t window_start = window_end - window_ms;
+            span.setAttribute("window_start_ms", window_start);
+            agg_manager_->refresh(agg.config, window_start, window_end);
+        }
         
         agg.last_refresh_ms = current_time_ms;
         agg.total_refreshes++;
@@ -270,9 +295,14 @@ void AggregateScheduler::refreshAggregate(ScheduledAggregate& agg) {
                                    / agg.total_refreshes;
         
         span.setAttribute("refresh_time_ms", elapsed_ms);
+
+        // Emit per-aggregate latency metric
+        if (metrics_) {
+            metrics_->recordAggRefreshLatency(agg.id, elapsed_ms);
+        }
         
-        THEMIS_DEBUG("Refreshed aggregate {} (metric={}, window=[{}, {}], time={:.2f}ms)",
-                     agg.id, agg.config.metric, window_start, window_end, elapsed_ms);
+        THEMIS_DEBUG("Refreshed aggregate {} (metric={}, window_end={}, time={:.2f}ms)",
+                     agg.id, agg.config.metric, window_end, elapsed_ms);
         
     } catch (const std::exception& e) {
         agg.failed_refreshes++;
