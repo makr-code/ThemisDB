@@ -133,6 +133,16 @@ ShardResourceManager::ShardResourceManager(
     // Initialize local snapshot
     local_snapshot_.timestamp = std::chrono::system_clock::now();
     local_snapshot_.health_score = 100.0f;
+
+    // Initialise repair I/O token-bucket rate limiter.
+    // Rate  = peak_node_iops * (repair_iops_budget_percent / 100)
+    // Burst = same value (1-second burst window)
+    if (config_.enable_repair_iops_throttle && config_.peak_node_iops > 0) {
+        double rate = static_cast<double>(config_.peak_node_iops) *
+                      (config_.repair_iops_budget_percent / 100.0f);
+        rate = std::max(rate, 1.0);  // floor at 1 token/s
+        repair_io_limiter_ = std::make_unique<themis::utils::RateLimiter>(rate, rate);
+    }
 }
 
 ShardResourceManager::ShardResourceManager(
@@ -241,6 +251,24 @@ void ShardResourceManager::throttleIfNeeded() {
         std::unique_lock lock(local_mutex_);
         local_snapshot_.health_score = std::min(local_snapshot_.health_score, 20.0f);
     }
+}
+
+bool ShardResourceManager::acquireRepairIOToken(double io_ops) {
+    if (!config_.enable_repair_iops_throttle || !repair_io_limiter_) {
+        return true;
+    }
+    return repair_io_limiter_->try_acquire(io_ops);
+}
+
+bool ShardResourceManager::isGPUErasureCodingEnabled() const {
+    if (!config_.enable_gpu_erasure_coding) {
+        return false;
+    }
+#ifdef THEMIS_ENABLE_CUDA
+    return true;
+#else
+    return false;
+#endif
 }
 
 // ============================================================================
