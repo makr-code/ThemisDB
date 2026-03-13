@@ -38,6 +38,10 @@
 // callers that want to use it must include the full header.
 namespace themis { namespace performance { namespace phase3 { class PerQueryCostModel; } } }
 
+// Forward-declare StatisticsCollector and MetricsCollector to avoid hard dependencies.
+namespace themis { class StatisticsCollector; }
+namespace themis { namespace observability { class MetricsCollector; } }
+
 namespace themis {
 
 class SecondaryIndexManager;
@@ -60,7 +64,12 @@ public:
         std::map<std::string, std::string> nlp_hints;   // Semantic optimization hints
     };
 
-    QueryOptimizer(SecondaryIndexManager& secIdx);
+    /// @param secIdx          Secondary index manager (required).
+    /// @param stats_collector Optional statistics collector for cardinality/histogram estimates.
+    /// @param metrics_collector Optional metrics collector for Prometheus instrumentation.
+    QueryOptimizer(SecondaryIndexManager& secIdx,
+                   StatisticsCollector* stats_collector = nullptr,
+                   observability::MetricsCollector* metrics_collector = nullptr);
 
     // Schätzt Selektivitäten der Gleichheitsprädikate und liefert eine Ordnung (kleinste zuerst)
     Plan chooseOrderForAndQuery(const ConjunctiveQuery& q, size_t maxProbePerPred = 1000) const;
@@ -248,6 +257,10 @@ private:
     SecondaryIndexManager& secIdx_;
     bool adaptive_enabled_ = false;
 
+    // Injected collectors (non-owning pointers; callers manage lifetime)
+    StatisticsCollector* stats_collector_ = nullptr;
+    observability::MetricsCollector* metrics_collector_ = nullptr;
+
     // Per-query cost model (Phase 3, Issue #2419)
     mutable std::shared_ptr<performance::phase3::PerQueryCostModel> per_query_cost_model_;
 
@@ -258,6 +271,11 @@ private:
     
     class DistributedQueryCostModel {
     public:
+        explicit DistributedQueryCostModel(
+            StatisticsCollector* stats = nullptr,
+            observability::MetricsCollector* metrics = nullptr)
+            : stats_collector_(stats), metrics_collector_(metrics) {}
+
         struct ShardInfo {
             std::string shard_id;
             size_t estimated_rows = 0;
@@ -296,6 +314,11 @@ private:
         double calculatePredicateSelectivity(
             const std::vector<PredicateEq>& predicates,
             const std::string& table) const;
+
+    private:
+        // Non-owning pointers injected at construction time
+        StatisticsCollector* stats_collector_ = nullptr;
+        observability::MetricsCollector* metrics_collector_ = nullptr;
     };
     
     class MultiIndexOptimizer {

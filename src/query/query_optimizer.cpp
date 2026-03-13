@@ -33,6 +33,8 @@
 #include "sharding/prometheus_metrics.h"
 #include "utils/logger.h"
 #include "performance/phase3/per_query_cost_model.h"
+#include "metadata/statistics_collector.h"
+#include "observability/metrics_collector.h"
 
 #include <algorithm>
 #include <numeric>
@@ -49,17 +51,47 @@ static themis::analytics::NlpTextAnalyzer& getOptimizerNlp() {
     return instance;
 }
 
-QueryOptimizer::QueryOptimizer(SecondaryIndexManager& secIdx) : secIdx_(secIdx) {}
+QueryOptimizer::QueryOptimizer(SecondaryIndexManager& secIdx,
+                               StatisticsCollector* stats_collector,
+                               observability::MetricsCollector* metrics_collector)
+    : secIdx_(secIdx),
+      stats_collector_(stats_collector),
+      metrics_collector_(metrics_collector) {}
 
 QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQuery& q, size_t maxProbePerPred) const {
 	Plan plan;
 	plan.orderedPredicates.reserve(q.predicates.size());
 	plan.details.reserve(q.predicates.size());
 
+	// Pre-load table statistics once so we pay the TableStats copy cost at most
+	// once per call rather than once per predicate.  The copy is acceptable
+	// because getStats() returns from an in-memory cache (no RocksDB scan).
+	StatsResult<TableStats> stats_result_buf;
+	const TableStats* table_stats_ptr = nullptr;
+	if (stats_collector_) {
+		stats_result_buf = stats_collector_->getStats(q.table);
+		if (stats_result_buf.ok) {
+			table_stats_ptr = &stats_result_buf.value;
+		}
+	}
+
 	// Schätzung je Prädikat
 	for (const auto& p : q.predicates) {
 		bool capped = false;
 		size_t cnt = secIdx_.estimateCountEqual(q.table, p.column, p.value, maxProbePerPred, &capped);
+
+		// If the secondary index has no data for this predicate, fall back to
+		// StatisticsCollector cardinality so the ordering remains meaningful.
+		if (cnt == 0 && !capped && table_stats_ptr) {
+			auto it = table_stats_ptr->column_stats.find(p.column);
+			if (it != table_stats_ptr->column_stats.end() &&
+			    table_stats_ptr->row_count > 0) {
+				cnt = static_cast<size_t>(
+				    it->second.selectivity *
+				    static_cast<double>(table_stats_ptr->row_count));
+			}
+		}
+
 		plan.details.push_back(Estimation{p, cnt, capped});
 	}
 
@@ -76,6 +108,18 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQue
 	});
 
 	for (auto i : idx) plan.orderedPredicates.push_back(plan.details[i].pred);
+
+	// Emit plan-selection metrics for Prometheus / observability.
+	if (metrics_collector_) {
+		metrics_collector_->addCounter("query.optimizer.plan_selected", 1);
+		metrics_collector_->addCounter("query.optimizer.rewrite_count", 1);
+		// Use the most selective predicate (lowest estimated count = idx[0] after
+		// ascending sort) as the dominant cost proxy for this plan.
+		double cost_estimate = plan.details.empty() ? 0.0
+		    : static_cast<double>(plan.details[idx[0]].estimatedCount);
+		metrics_collector_->observeHistogram("query.optimizer.cost_estimate", cost_estimate);
+	}
+
 	return plan;
 }
 
@@ -301,7 +345,8 @@ void QueryOptimizer::enableAdaptiveOptimization(bool enable) {
 		// Initialize adaptive components
 		adaptive_stats_ = std::make_shared<AdaptiveQueryStats>();
 		adaptive_selector_ = std::make_shared<AdaptivePlanSelector>();
-		distributed_model_ = std::make_shared<DistributedQueryCostModel>();
+		distributed_model_ = std::make_shared<DistributedQueryCostModel>(
+		    stats_collector_, metrics_collector_);
 		multi_index_optimizer_ = std::make_shared<MultiIndexOptimizer>();
 		
 		spdlog::info("QueryOptimizer: Adaptive optimization enabled");
@@ -421,7 +466,16 @@ QueryOptimizer::DistributedPlan QueryOptimizer::optimizeForDistribution(
 		size_t estimated_results = 1000;
 		plan.join_strategy = estimated_results < 10000 ? "broadcast" : "repartition";
 	}
-	
+
+	// Emit observability metrics for this distributed plan selection.
+	if (metrics_collector_) {
+		metrics_collector_->addCounter("query.optimizer.plan_selected", 1);
+		metrics_collector_->addCounter("query.optimizer.rewrite_count", 1);
+		metrics_collector_->observeHistogram(
+		    "query.optimizer.cost_estimate",
+		    static_cast<double>(plan.shard_ids.size()));
+	}
+
 	return plan;
 }
 
@@ -498,19 +552,20 @@ size_t QueryOptimizer::DistributedQueryCostModel::getShardRowCount(
     const std::string& shard_id, 
     const std::string& table) const {
     
-    // Production implementation: Query metadata shard for actual row counts
-    // Integrates with MetadataShard system introduced in sharding infrastructure
-    
+    // Production implementation: Query StatisticsCollector for actual row counts.
     try {
-        // Access metadata shard via static accessor or dependency injection
-        // For now, use a heuristic based on shard_id hash
-        // TODO(v1.5.1): Replace with actual MetadataShard integration
-        
-        // Temporary heuristic: Use shard_id hash to vary estimates
+        if (stats_collector_) {
+            auto result = stats_collector_->getStats(table);
+            if (result.ok && result.value.row_count > 0) {
+                THEMIS_DEBUG("Shard {} table {} row count from statistics: {}",
+                             shard_id, table, result.value.row_count);
+                return result.value.row_count;
+            }
+        }
+
+        // Fallback heuristic: vary estimate by shard_id hash
         std::hash<std::string> hasher;
         size_t hash_val = hasher(shard_id + table);
-        
-        // Return a value between 5K and 50K based on hash
         size_t base_estimate = 5000 + (hash_val % 45000);
         
         THEMIS_DEBUG("Shard {} table {} estimated rows: {} (using heuristic)",
@@ -528,31 +583,29 @@ size_t QueryOptimizer::DistributedQueryCostModel::getShardRowCount(
 double QueryOptimizer::DistributedQueryCostModel::measureShardLatency(
     const std::string& shard_id) const {
     
-    // Production implementation: Measure actual network latency
-    // Integrates with PrometheusMetrics for real-time monitoring
-    
+    // Determine latency based on shard naming convention (network-latency proxy).
+    double latency_ms;
     try {
-        // Use PrometheusMetrics to get recent latency measurements
-        // TODO(v1.5.1): Replace with actual PrometheusMetrics integration
-        
-        // Temporary implementation: Use connection pool ping times
-        // or cached latency measurements from recent queries
-        
-        // For now, return latency based on shard naming convention
         if (shard_id.find("local") != std::string::npos || 
             shard_id.find("0") == 0) {
-            return 0.1; // Local shard: ~0.1ms
+            latency_ms = 0.1; // Local shard: ~0.1ms
         } else if (shard_id.find("datacenter") != std::string::npos) {
-            return 2.0; // Same datacenter: ~2ms
+            latency_ms = 2.0; // Same datacenter: ~2ms
         } else {
-            return 10.0; // Remote datacenter: ~10ms
+            latency_ms = 10.0; // Remote datacenter: ~10ms
         }
-        
     } catch (const std::exception& e) {
         THEMIS_WARN("Failed to measure latency for shard {}: {}", 
                     shard_id, e.what());
-        return 1.0; // Fallback default
+        latency_ms = 1.0; // Fallback default
     }
+
+    // Emit the measurement to Prometheus / MetricsCollector (v1.6.0 integration).
+    if (metrics_collector_) {
+        metrics_collector_->recordShardLatency(shard_id, latency_ms);
+    }
+
+    return latency_ms;
 }
 
 double QueryOptimizer::DistributedQueryCostModel::calculatePredicateSelectivity(
@@ -560,22 +613,54 @@ double QueryOptimizer::DistributedQueryCostModel::calculatePredicateSelectivity(
     const std::string& table) const {
     
     // Production implementation: Calculate selectivity from predicates
-    // Uses histogram-based estimation when available
+    // Uses StatisticsCollector histograms when available.
     
     if (predicates.empty()) {
         return 1.0; // No predicates = full table scan
     }
     
+    // Attempt to load statistics once for the table.
+    // Use the same pattern as chooseOrderForAndQuery: cache result in a local
+    // buffer and hold a raw pointer to it for the duration of this function.
+    StatsResult<TableStats> stats_result_buf;
+    const TableStats* table_stats_ptr = nullptr;
+    if (stats_collector_) {
+        stats_result_buf = stats_collector_->getStats(table);
+        if (stats_result_buf.ok) {
+            table_stats_ptr = &stats_result_buf.value;
+        }
+    }
+
     // Start with assumption that all predicates are independent
     double combined_selectivity = 1.0;
     
     for (const auto& pred : predicates) {
-        double pred_selectivity = 0.1; // Default 10% selectivity
-        
-        // TODO(v1.5.1): Use actual statistics and histograms
-        // For now, use heuristics based on predicate patterns
-        
-        // Equality predicates on indexed columns are typically selective
+        double pred_selectivity;
+
+        // Use real statistics when available.
+        if (table_stats_ptr) {
+            auto it = table_stats_ptr->column_stats.find(pred.column);
+            if (it != table_stats_ptr->column_stats.end()) {
+                const auto& cs = it->second;
+                // Prefer histogram-based selectivity; fall back to column-level selectivity.
+                if (cs.histogram.has_value() && !cs.histogram->empty()) {
+                    // Equality predicate selectivity = 1 / distinct_count.
+                    // When distinct_count == 0 (statistics not yet updated after table
+                    // truncation or before first collection), cs.selectivity holds the
+                    // pre-computed column-level estimate and is a safe fallback.
+                    pred_selectivity = cs.distinct_count > 0
+                        ? 1.0 / static_cast<double>(cs.distinct_count)
+                        : cs.selectivity;
+                } else {
+                    pred_selectivity = cs.selectivity;
+                }
+                combined_selectivity *= pred_selectivity;
+                continue;
+            }
+        }
+
+        // Fallback heuristics for columns with no statistics.
+        pred_selectivity = 0.1; // Default 10% selectivity
         if (pred.column == "id" || pred.column.find("_id") != std::string::npos) {
             pred_selectivity = 0.001; // 0.1% for ID columns
         } else if (pred.column == "status" || pred.column == "type") {

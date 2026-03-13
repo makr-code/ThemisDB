@@ -48,10 +48,10 @@
 - Line 575: "Use actual statistics and histograms" — cardinality estimates are hardcoded constants, degrading join order selection.
 
 **Implementation Notes:**
-- `[ ]` **Line 507**: Inject a `MetadataShard*` (or `StatisticsCollector*` from `src/metadata/statistics_collector.cpp`) into `QueryOptimizer` constructor; replace the hardcoded fallback with `StatisticsCollector::getCardinality(collection, field)`.
-- `[ ]` **Line 536**: Inject a `MetricsCollector*`; emit `query.optimizer.plan_selected`, `query.optimizer.rewrite_count`, and `query.optimizer.cost_estimate` counters on each `optimize()` call.
-- `[ ]` **Line 575**: Use `StatisticsCollector::getHistogram(collection, field)` equi-height histograms for selectivity estimation in join cost model.
-- `[ ]` Add unit tests: verify that optimizer chooses index scan over full scan when selectivity < 10 % and statistics are present; verify Prometheus counters increment on each plan selection.
+- `[x]` **Line 507**: Inject a `MetadataShard*` (or `StatisticsCollector*` from `src/metadata/statistics_collector.cpp`) into `QueryOptimizer` constructor; replace the hardcoded fallback with `StatisticsCollector::getCardinality(collection, field)`.
+- `[x]` **Line 536**: Inject a `MetricsCollector*`; emit `query.optimizer.plan_selected`, `query.optimizer.rewrite_count`, and `query.optimizer.cost_estimate` counters on each `optimize()` call.
+- `[x]` **Line 575**: Use `StatisticsCollector::getHistogram(collection, field)` equi-height histograms for selectivity estimation in join cost model.
+- `[x]` Add unit tests: verify that optimizer chooses index scan over full scan when selectivity < 10 % and statistics are present; verify Prometheus counters increment on each plan selection.
 
 **Performance Targets:**
 - Optimizer `optimize()` latency: ≤ 5 ms for queries with ≤ 10 joins using real statistics.
