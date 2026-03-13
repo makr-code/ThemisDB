@@ -413,7 +413,7 @@ void ShardRepairEngine::performAntiEntropyScan() {
 
         bool submitted = pool_mgr.submitTask(
             themis::utils::ThreadPoolManager::PoolType::CPU,
-            [this, band = bands[w], &scan_job_id, total_shards, promise]() {
+            [this, band = bands[w], scan_job_id, total_shards, promise]() {
                 try {
                     scanShardBand(band, scan_job_id, total_shards);
                 } catch (const std::exception& e) {

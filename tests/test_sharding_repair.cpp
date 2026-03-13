@@ -839,24 +839,55 @@ TEST(ParallelRepairScanTest, RepairMetricsTracksLastScanWorkers) {
     auto strategy = std::make_shared<RedundancyStrategy>(rcfg);
 
     RepairConfig repair_cfg;
-    repair_cfg.enable_periodic_scan = false;
+    // Enable periodic scan with a very short interval so it fires quickly
+    repair_cfg.enable_periodic_scan = true;
+    repair_cfg.scan_interval = std::chrono::seconds(1);
     repair_cfg.enable_auto_repair = false;
     repair_cfg.num_parallel_workers = 2;
 
     ShardRepairEngine engine(repair_cfg, *strategy, *ring, *topo,
                              kNullReadHandler, kAlwaysSucceedWriteHandler);
-
-    // Trigger a full scan (manual) - no documents, just topology
     engine.start();
-    engine.triggerFullScan();
-    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+
+    // Wait for at least one periodic scan to complete
+    std::this_thread::sleep_for(std::chrono::milliseconds(1500));
     engine.stop();
 
     auto metrics = engine.getRepairMetrics();
-    EXPECT_GE(metrics.total_scans, 0u);  // scan may happen async
+    EXPECT_GE(metrics.total_scans, 1u);
+    EXPECT_GE(metrics.last_scan_workers, 1u);
+    EXPECT_LE(metrics.last_scan_workers, 2u);
 }
 
 // ── AC-2: Parallel scan actually completes with multiple workers ──────────
+
+TEST(ParallelRepairScanTest, ScanWithZeroWorkersUsesHardwareConcurrency) {
+    // Setting num_parallel_workers = 0 should fall back to hardware_concurrency
+    std::shared_ptr<ShardTopology> topo;
+    std::shared_ptr<ConsistentHashRing> ring;
+    buildTopologyAndRing(4, topo, ring);
+
+    RedundancyConfig rcfg;
+    rcfg.mode = RedundancyMode::MIRROR;
+    auto strategy = std::make_shared<RedundancyStrategy>(rcfg);
+
+    RepairConfig repair_cfg;
+    repair_cfg.enable_periodic_scan = true;
+    repair_cfg.scan_interval = std::chrono::seconds(1);
+    repair_cfg.enable_auto_repair = false;
+    repair_cfg.num_parallel_workers = 0;  // trigger hardware_concurrency() fallback
+
+    ShardRepairEngine engine(repair_cfg, *strategy, *ring, *topo,
+                             kNullReadHandler, kAlwaysSucceedWriteHandler);
+    engine.start();
+    // Wait for at least one periodic scan to complete
+    std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+    engine.stop();
+
+    auto metrics = engine.getRepairMetrics();
+    // Scan must have run with at least 1 worker (hardware_concurrency >= 1)
+    EXPECT_GE(metrics.last_scan_workers, 1u);
+}
 
 TEST(ParallelRepairScanTest, ScanWith4WorkersCompletes) {
     std::shared_ptr<ShardTopology> topo;
@@ -873,7 +904,9 @@ TEST(ParallelRepairScanTest, ScanWith4WorkersCompletes) {
     };
 
     RepairConfig repair_cfg;
-    repair_cfg.enable_periodic_scan = false;
+    // Use periodic scan so performAntiEntropyScan() is called (it populates shard_health_)
+    repair_cfg.enable_periodic_scan = true;
+    repair_cfg.scan_interval = std::chrono::seconds(1);
     repair_cfg.enable_auto_repair = false;
     repair_cfg.num_parallel_workers = 4;
 
@@ -882,8 +915,8 @@ TEST(ParallelRepairScanTest, ScanWith4WorkersCompletes) {
     engine.setDocumentListProvider(doc_list_provider);
     engine.start();
 
-    std::string job_id = engine.triggerFullScan();
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    // Wait for at least one periodic scan to complete
+    std::this_thread::sleep_for(std::chrono::milliseconds(1500));
     engine.stop();
 
     // Scan should have populated shard health reports
