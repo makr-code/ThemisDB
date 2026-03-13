@@ -109,8 +109,22 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Stats: `entries_applied`, `dependencies_detected`, `average_latency_us`, `parallel_batches`, `parallelism_factor`
 - [x] 16 unit tests covering: single entry, multi-entry, dependency tracking, no-tracking, mixed docs, stats, single/sixteen threads, large batches, group_transactions (enabled/disabled), average_latency_us (populated/zero)
 
+### Phase 6: Compressed Replication (Status: Completed ✅ — v1.6.0)
+- [x] `CompressedReplicationStream` class in `include/replication/replication_manager.h` + `src/replication/replication_manager.cpp`
+- [x] Multiple compression algorithms: `NONE`, `LZ4` (fast, moderate ratio), `ZSTD` (best ratio), `SNAPPY` (very fast), `AUTO` (size-based selection)
+- [x] Adaptive compression via `AUTO` mode: uses ZSTD for batches ≥ `min_batch_size`, skips compression for small payloads
+- [x] Configurable compression level (1–9, applies to ZSTD; ignored by LZ4/Snappy)
+- [x] `CompressionStats` for monitoring: `bytes_uncompressed`, `bytes_compressed`, `compression_ratio`, `algorithm_used`
+- [x] `sendBatch()` serialises WAL entries, selects algorithm, compresses, and tracks statistics
+- [x] `decompress()` for received network buffers (LZ4/ZSTD/Snappy/NONE round-trip verified)
+- [x] `resetStats()` to clear accumulated statistics
+- [x] `ReplicationConfig` integration: `enable_wal_compression`, `wal_compression_algorithm`, `wal_compression_level`, `wal_compression_min_batch_bytes`
+- [x] `ReplicationStream` delegates `sendBatch()` to `CompressedReplicationStream` when `enable_wal_compression` is set
+- [x] 17 unit tests: 10 `CompressedStreamTest` + 7 `ReplicationStreamCompressionTest`
+- [x] CI: `.github/workflows/compressed-replication-ci.yml`
+
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (225+ test cases: 209 previous + 16 ParallelReplicationWorker tests)
+- [x] Unit tests coverage > 80% (242+ test cases: 225 previous + 17 CompressedReplicationStream tests)
 - [x] Integration tests (failover, lag detection, PITR restoration, cross-cluster end-to-end)
 - [x] Performance benchmarks (WAL append > 50 000 entries/s, WAL readFrom 1000 < 5 ms, serialize/deserialize < 2 µs) — `benchmarks/bench_replication_throughput.cpp`
 - [x] Focused standalone test targets: `ReplicationHAFocusedTests`, `ReplicationNewFeaturesFocusedTests`, `MultiRegionActiveActiveTests`, `CacheReplicationTests`
