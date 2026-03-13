@@ -9,6 +9,48 @@ endif()
 
 message(STATUS "Configuring ThemisDB benchmark suite")
 
+# ============================================================================
+# Standalone Benchmarks (no Google Benchmark required – custom main())
+# These benchmarks use synthetic data and have no external dependencies beyond
+# the packages already required for the importer build.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_importer_throughput.cpp")
+    message(STATUS "Adding Importer Throughput benchmarks (standalone, no live broker)")
+
+    add_executable(bench_importer_throughput
+        bench_importer_throughput.cpp
+    )
+
+    target_include_directories(bench_importer_throughput PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_importer_throughput PRIVATE
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_importer_throughput PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_importer_throughput PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_importer_throughput
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Importer Throughput: PostgreSQL COPY/INSERT, SQLite, MongoDB NDJSON, Kafka mock-import (AC-8/AC-9)")
+endif()
+
 # Find Google Benchmark
 find_package(benchmark QUIET CONFIG)
 if(NOT benchmark_FOUND)

@@ -1500,6 +1500,7 @@ set(THEMIS_CORE_SOURCES
     ../src/index/distributed_vector_index.cpp
     ../src/index/tiered_index_manager.cpp
     ../src/index/vector_auto_buffer.cpp
+    ../src/index/gpu_memory_oversubscription.cpp
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/gpu_vector_index.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/multi_gpu_vector_index.cpp>
     $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/index/gpu_vector_index_vulkan.cpp>
@@ -1897,6 +1898,7 @@ set(THEMIS_CORE_SOURCES
     ../src/updates/canary_rollout.cpp
     ../src/updates/delta_update_engine.cpp
     ../src/updates/parallel_downloader.cpp
+    ../src/updates/dependency_resolver.cpp
     ../src/updates/schema_migration_tester.cpp
     ../src/updates/in_place_schema_migrator.cpp
     ../src/updates/update_history_logger.cpp
@@ -3088,19 +3090,18 @@ endif()
 target_link_libraries(themis_core
     PUBLIC
         ${THEMIS_ROCKSDB_TARGET}
-        simdjson::simdjson
-        TBB::tbb
+        $<$<TARGET_EXISTS:simdjson::simdjson>:simdjson::simdjson>
+        $<$<TARGET_EXISTS:TBB::tbb>:TBB::tbb>
         ${THEMIS_ARROW_TARGET}
         ${THEMIS_PARQUET_TARGET}
         fmt::fmt
         spdlog::spdlog
-        Boost::system
+        $<$<TARGET_EXISTS:Boost::system>:Boost::system>
         nlohmann_json::nlohmann_json
     $<$<BOOL:${CURL_FOUND}>:CURL::libcurl>
         ${THEMIS_YAML_TARGET}
     OpenSSL::SSL
     OpenSSL::Crypto
-    TBB::tbb
     ZLIB::ZLIB
     $<$<BOOL:${prometheus-cpp_FOUND}>:prometheus-cpp::core>
 )
@@ -4746,6 +4747,10 @@ endif()
 # to avoid duplicate target errors. The benchmarks are included via:
 #   add_subdirectory(benchmarks)
 # ============================================================================
+if(THEMIS_BUILD_BENCHMARKS AND EXISTS "${THEMIS_ROOT_DIR}/benchmarks/CMakeLists.txt")
+    add_subdirectory(${THEMIS_ROOT_DIR}/benchmarks benchmarks)
+    message(STATUS "Benchmarks enabled – including benchmarks/CMakeLists.txt")
+endif()
 if(FALSE)  # Disabled - benchmarks now defined in benchmarks/CMakeLists.txt
 
     add_executable(bench_core_performance
@@ -5361,6 +5366,12 @@ if(FALSE)  # Disabled - benchmarks now defined in benchmarks/CMakeLists.txt
         ${THEMIS_ROOT_DIR}/benchmarks/bench_spatial_index.cpp
     )
     target_link_libraries(bench_spatial_index PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Spatial JOIN Benchmark (AC5: two 100k-point collections, 1km threshold, first 1000 ≤ 500ms)
+    add_executable(bench_spatial_join
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_spatial_join.cpp
+    )
+    target_link_libraries(bench_spatial_join PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # Geo CPU vs GPU Throughput Benchmark
     add_executable(bench_geo_cpu_gpu

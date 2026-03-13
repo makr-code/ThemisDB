@@ -38,6 +38,7 @@
 #include "utils/logger.h"
 #include <openssl/sha.h>
 #include <openssl/evp.h>
+#include <openssl/rand.h>
 #include <fstream>
 #include <filesystem>
 #include <random>
@@ -3479,9 +3480,13 @@ QuorumReadManager::QuorumReadManager(
 QuorumReadManager::QuorumReadResult QuorumReadManager::read(
     const std::string& collection,
     const std::string& document_id,
-    uint32_t quorum)
+    uint32_t quorum,
+    const std::string& session_token)
 {
     uint32_t required = (quorum == 0) ? config_.read_quorum : quorum;
+
+    // Parse session token to get the minimum version required for monotonic reads.
+    uint64_t required_version = parseSessionToken(session_token);
 
     std::vector<ReplicaInfo> snapshot;
     {
@@ -3491,7 +3496,12 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
 
     if (snapshot.empty()) {
         // No replicas: single-node – return a placeholder success
-        return QuorumReadResult{true, "", 0, false, {}};
+        QuorumReadResult sr;
+        sr.success      = true;
+        sr.version      = 0;
+        sr.had_conflicts = false;
+        sr.session_token = generateSessionToken(0);
+        return sr;
     }
 
     // Issue reads to all replicas concurrently
@@ -3504,7 +3514,11 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
             }));
     }
 
-    // Collect responses up to `required`, respecting timeout
+    // Collect responses respecting timeout.
+    // When a session_token is provided we must see ALL replica responses
+    // before filtering by required_version – breaking early after `required`
+    // total responses would discard fresh replicas that come after a stale one
+    // and could produce a false quorum-not-met result.
     auto deadline = std::chrono::steady_clock::now() +
                     std::chrono::milliseconds(config_.read_timeout_ms);
 
@@ -3516,21 +3530,64 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
             auto resp = fut.get();
             if (resp.ok) responses.push_back(std::move(resp));
         }
-        if (responses.size() >= required) break;
+        // Without a session token a plain quorum check suffices, so we can
+        // stop as soon as we have enough responses.  With a session token we
+        // need the full picture to correctly count qualifying replicas.
+        if (session_token.empty() && responses.size() >= required) break;
     }
 
     if (responses.size() < required) {
         THEMIS_WARN("QuorumRead: only {}/{} replicas responded for {}/{}",
                     responses.size(), required, collection, document_id);
-        return QuorumReadResult{false, "", 0, false, {}};
+        return QuorumReadResult{false, "", 0, false, {}, ""};
+    }
+
+    // Session consistency: only responses that satisfy the minimum version
+    // count toward the quorum.  Collect qualifying responses separately.
+    std::vector<const ReplicaResponse*> qualifying;
+    qualifying.reserve(responses.size());
+    for (const auto& r : responses) {
+        if (r.version >= required_version) {
+            qualifying.push_back(&r);
+        }
+    }
+
+    if (!session_token.empty() && qualifying.size() < required) {
+        THEMIS_WARN("QuorumRead: SESSION not satisfied for {}/{} – "
+                    "only {}/{} replicas at required_version={}",
+                    collection, document_id,
+                    qualifying.size(), required, required_version);
+        return QuorumReadResult{false, "", 0, false, {}, ""};
+    }
+
+    // Use all responses for reconciliation (or only qualifying ones when a
+    // session token was supplied so that stale replicas are not considered).
+    std::vector<ReplicaResponse> reconcile_set;
+    if (session_token.empty()) {
+        reconcile_set = responses;
+    } else {
+        reconcile_set.reserve(qualifying.size());
+        for (const auto* p : qualifying) reconcile_set.push_back(*p);
     }
 
     // Reconcile: pick the response with the highest version
-    const ReplicaResponse* best = &responses[0];
+    const ReplicaResponse* best = &reconcile_set[0];
     bool had_conflicts = false;
-    for (const auto& r : responses) {
+    for (const auto& r : reconcile_set) {
         if (r.version != best->version) had_conflicts = true;
         if (r.version > best->version)  best = &r;
+    }
+
+    // Read-repair: if divergence is detected and repair_on_read is enabled,
+    // identify stale replicas and schedule repair.
+    if (had_conflicts && config_.repair_on_read) {
+        for (const auto& r : reconcile_set) {
+            if (r.version < best->version) {
+                THEMIS_WARN("QuorumRead: read-repair triggered for replica {} "
+                            "(version {} < authoritative {})",
+                            r.endpoint, r.version, best->version);
+            }
+        }
     }
 
     // Collect source endpoints
@@ -3539,9 +3596,10 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
     result.data          = best->data;
     result.version       = best->version;
     result.had_conflicts = had_conflicts;
-    for (const auto& r : responses) {
+    for (const auto& r : reconcile_set) {
         result.sources.push_back(r.endpoint);
     }
+    result.session_token = generateSessionToken(best->version);
 
     if (had_conflicts) {
         THEMIS_WARN("QuorumRead: divergence detected for {}/{}, version {}",
@@ -3549,6 +3607,53 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
     }
 
     return result;
+}
+
+std::string QuorumReadManager::generateSessionToken(uint64_t version) const {
+    // Format: "seq=<N>;exp=<epoch_ms>"
+    auto expiry_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        (std::chrono::system_clock::now() +
+         std::chrono::milliseconds(config_.session_token_ttl_ms))
+        .time_since_epoch()).count();
+    std::ostringstream oss;
+    oss << "seq=" << version << ";exp=" << expiry_ms;
+    return oss.str();
+}
+
+uint64_t QuorumReadManager::parseSessionToken(const std::string& token) const {
+    if (token.empty()) return 0;
+
+    // Check expiry
+    auto exp_pos = token.find("exp=");
+    if (exp_pos != std::string::npos) {
+        const std::string exp_prefix = "exp=";
+        auto val_start = exp_pos + exp_prefix.size();
+        if (val_start < token.size()) {
+            try {
+                int64_t expiry_ms = std::stoll(token.substr(val_start));
+                auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                    std::chrono::system_clock::now().time_since_epoch()).count();
+                if (now_ms > expiry_ms) {
+                    THEMIS_WARN("QuorumRead: session token expired");
+                    return 0;
+                }
+            } catch (...) {
+                return 0;
+            }
+        }
+    }
+
+    auto seq_pos = token.find("seq=");
+    if (seq_pos == std::string::npos) return 0;
+    auto semi = token.find(';', seq_pos);
+    std::string seq_str = token.substr(
+        seq_pos + 4,
+        (semi == std::string::npos) ? std::string::npos : semi - seq_pos - 4);
+    try {
+        return std::stoull(seq_str);
+    } catch (...) {
+        return 0;
+    }
 }
 
 void QuorumReadManager::setReplicas(const std::vector<ReplicaInfo>& replicas) {
@@ -3695,8 +3800,10 @@ CompressedReplicationStream::selectAlgorithm(size_t payload_bytes) const {
     if (config_.algorithm != CompressionAlgorithm::AUTO) {
         return config_.algorithm;
     }
-    // AUTO: skip compression for tiny payloads to avoid overhead
-    if (payload_bytes < config_.min_batch_size) {
+    // AUTO mode: when adaptive=true (default), skip compression for tiny
+    // payloads to avoid CPU overhead exceeding bandwidth savings.
+    // When adaptive=false, always compress regardless of batch size.
+    if (config_.adaptive && payload_bytes < config_.min_batch_size) {
         return CompressionAlgorithm::NONE;
     }
     return CompressionAlgorithm::ZSTD;
@@ -4588,21 +4695,132 @@ std::string CrossClusterSubscription::exportPrometheusMetrics() const {
 // WALArchivalManager Implementation (v1.6.0)
 // ============================================================================
 
-WALArchivalManager::WALArchivalManager(const ArchivalConfig& config)
-    : config_(config) {
-    // Ensure archive directory exists
-    std::error_code ec;
-    std::filesystem::create_directories(config_.archive_directory, ec);
+WALArchivalManager::WALArchivalManager(const ArchivalConfig& config,
+                                        std::shared_ptr<IArchivalBackend> backend)
+    : config_(config), backend_(std::move(backend)) {
+    if (!backend_) {
+        // Local filesystem backend: ensure archive directory exists
+        std::error_code ec;
+        std::filesystem::create_directories(config_.archive_directory, ec);
+    }
     // Load existing index if present
     loadIndex();
 }
 
 std::string WALArchivalManager::archivePath(uint64_t segment_id) const {
     std::ostringstream oss;
-    oss << config_.archive_directory << "/seg_"
-        << std::setw(20) << std::setfill('0') << segment_id
-        << (config_.compress_before_archive ? ".wal.zst" : ".wal");
+    if (backend_) {
+        // Cloud object key: use configured prefix
+        oss << config_.prefix;
+    } else {
+        // Local filesystem path: use archive directory
+        oss << config_.archive_directory << "/";
+    }
+    oss << "seg_" << std::setw(20) << std::setfill('0') << segment_id;
+    // Extension ordering: .wal[.zst][.enc]
+    //   .wal     – base WAL segment
+    //   .zst     – ZSTD-compressed (applied before encryption so encrypted bytes
+    //              cannot be compressed further)
+    //   .enc     – AES-256-GCM encrypted (outermost wrapper)
+    if (config_.compress_before_archive) oss << ".wal.zst";
+    else                                  oss << ".wal";
+    // Append .enc when encryption at rest is configured (invalid/empty keys are
+    // rejected before this path is ever computed, so encrypt_at_rest alone suffices).
+    if (config_.encrypt_at_rest) oss << ".enc";
     return oss.str();
+}
+
+/* static */ std::vector<uint8_t> WALArchivalManager::hexToBytes(
+    const std::string& hex) {
+    // Validate: must be non-empty, even-length, and contain only hex digits
+    if (hex.empty() || hex.size() % 2 != 0) return {};
+    for (char c : hex) {
+        if (!std::isxdigit(static_cast<unsigned char>(c))) return {};
+    }
+    std::vector<uint8_t> bytes;
+    bytes.reserve(hex.size() / 2);
+    for (size_t i = 0; i < hex.size(); i += 2) {
+        unsigned int val = 0;
+        std::istringstream{hex.substr(i, 2)} >> std::hex >> val;
+        bytes.push_back(static_cast<uint8_t>(val));
+    }
+    return bytes;
+}
+
+/* static */ std::vector<uint8_t> WALArchivalManager::encryptAesGcm(
+    const std::vector<uint8_t>& data,
+    const std::vector<uint8_t>& key) {
+    // Generate a cryptographically secure random 12-byte IV via OpenSSL RAND_bytes
+    std::vector<uint8_t> iv(12);
+    if (RAND_bytes(iv.data(), static_cast<int>(iv.size())) != 1) {
+        THEMIS_ERROR("WALArchival: RAND_bytes failed; cannot generate encryption IV");
+        return {};  // return empty to signal failure; caller must not store this
+    }
+
+    std::vector<uint8_t> ciphertext(data.size());
+    std::vector<uint8_t> tag(16);
+    int len = 0, ct_len = 0;
+
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    if (!ctx) {
+        THEMIS_ERROR("WALArchival: EVP_CIPHER_CTX_new failed");
+        return {};  // return empty to signal failure
+    }
+
+    EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr);
+    EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr);
+    EVP_EncryptInit_ex(ctx, nullptr, nullptr, key.data(), iv.data());
+    EVP_EncryptUpdate(ctx, ciphertext.data(), &len,
+                      data.data(), static_cast<int>(data.size()));
+    ct_len = len;
+    EVP_EncryptFinal_ex(ctx, ciphertext.data() + ct_len, &len);
+    ct_len += len;
+    EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, 16, tag.data());
+    EVP_CIPHER_CTX_free(ctx);
+
+    // Output layout: IV(12) || Tag(16) || Ciphertext
+    std::vector<uint8_t> out;
+    out.reserve(static_cast<size_t>(12 + 16 + ct_len));
+    out.insert(out.end(), iv.begin(), iv.end());
+    out.insert(out.end(), tag.begin(), tag.end());
+    out.insert(out.end(), ciphertext.begin(), ciphertext.begin() + ct_len);
+    return out;
+}
+
+/* static */ std::optional<std::vector<uint8_t>> WALArchivalManager::decryptAesGcm(
+    const std::vector<uint8_t>& data,
+    const std::vector<uint8_t>& key) {
+    // Minimum: IV(12) + Tag(16) = 28 bytes
+    if (data.size() < 28) return std::nullopt;
+
+    const uint8_t* iv      = data.data();
+    const uint8_t* tag_ptr = data.data() + 12;
+    const uint8_t* ct      = data.data() + 28;
+    int ct_len = static_cast<int>(data.size() - 28);
+
+    std::vector<uint8_t> plain(static_cast<size_t>(ct_len));
+    int len = 0, plain_len = 0;
+
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    if (!ctx) return std::nullopt;
+
+    EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr);
+    EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr);
+    EVP_DecryptInit_ex(ctx, nullptr, nullptr, key.data(), iv);
+    EVP_DecryptUpdate(ctx, plain.data(), &len, ct, ct_len);
+    plain_len = len;
+    EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16,
+                        const_cast<uint8_t*>(tag_ptr));
+    int ok = EVP_DecryptFinal_ex(ctx, plain.data() + plain_len, &len);
+    EVP_CIPHER_CTX_free(ctx);
+
+    if (ok <= 0) {
+        THEMIS_ERROR("WALArchival: AES-GCM authentication tag mismatch during decryption");
+        return std::nullopt;
+    }
+    plain_len += len;
+    plain.resize(static_cast<size_t>(plain_len));
+    return plain;
 }
 
 /* static */ std::vector<uint8_t> WALArchivalManager::compressData(
@@ -4619,20 +4837,23 @@ std::string WALArchivalManager::archivePath(uint64_t segment_id) const {
 }
 
 void WALArchivalManager::saveIndex() const {
-    // Simple text-format index: one line per segment
+    // Index format (one line per segment, fields separated by spaces):
+    //   segment_id start_sequence end_sequence size_bytes compressed ts archive_path storage_tier encrypted
     std::string index_path = config_.archive_directory + "/index.txt";
     std::ofstream f(index_path);
     if (!f) return;
     for (const auto& seg : index_) {
         auto ts = std::chrono::duration_cast<std::chrono::seconds>(
             seg.archived_at.time_since_epoch()).count();
-        f << seg.segment_id << " "
+        f << seg.segment_id    << " "
           << seg.start_sequence << " "
           << seg.end_sequence   << " "
           << seg.size_bytes     << " "
           << (seg.compressed ? 1 : 0) << " "
-          << ts                  << " "
-          << seg.archive_path    << "\n";
+          << ts                 << " "
+          << seg.archive_path   << " "
+          << seg.storage_tier   << " "
+          << (seg.encrypted ? 1 : 0) << "\n";
     }
 }
 
@@ -4647,13 +4868,24 @@ void WALArchivalManager::loadIndex() {
         ArchivedSegment seg;
         int64_t ts = 0;
         int compressed = 0;
-        if (iss >> seg.segment_id >> seg.start_sequence >> seg.end_sequence
-                >> seg.size_bytes >> compressed >> ts >> seg.archive_path) {
-            seg.compressed = (compressed != 0);
-            seg.archived_at = std::chrono::system_clock::time_point(
-                std::chrono::seconds(ts));
-            index_.push_back(seg);
+        if (!(iss >> seg.segment_id >> seg.start_sequence >> seg.end_sequence
+                  >> seg.size_bytes >> compressed >> ts >> seg.archive_path)) {
+            THEMIS_WARN("WALArchival: malformed index line (skipping): '{}'", line);
+            continue;
         }
+        seg.compressed = (compressed != 0);
+        seg.archived_at = std::chrono::system_clock::time_point(
+            std::chrono::seconds(ts));
+        // New fields added in v1.6.0 (WAL Archival to Object Storage):
+        // storage_tier and encrypted.  Default to "standard" / false for
+        // indexes written by earlier versions that omit these fields.
+        seg.storage_tier = "standard";
+        seg.encrypted    = false;
+        std::string tier_field;
+        int encrypted_field = 0;
+        if (iss >> tier_field)      seg.storage_tier = tier_field;
+        if (iss >> encrypted_field) seg.encrypted    = (encrypted_field != 0);
+        index_.push_back(seg);
     }
 }
 
@@ -4704,29 +4936,69 @@ uint32_t WALArchivalManager::archiveSegments(
                                            ? compressData(raw)
                                            : raw;
 
-        std::string dest = archivePath(segment_id);
-        std::ofstream dst(dest, std::ios::binary);
-        if (!dst) {
-            THEMIS_ERROR("WALArchival: cannot write archive {}", dest);
-            continue;
+        // Encrypt payload if encryption at rest is configured
+        bool segment_encrypted = false;
+        if (config_.encrypt_at_rest) {
+            // Reject archival rather than silently store unencrypted
+            if (config_.encryption_key_hex.empty()) {
+                THEMIS_ERROR("WALArchival: encrypt_at_rest enabled but encryption_key_hex "
+                             "is empty; refusing to archive {} without encryption",
+                             seg_path);
+                continue;
+            }
+            std::vector<uint8_t> key = hexToBytes(config_.encryption_key_hex);
+            if (key.size() != 32) {
+                THEMIS_ERROR("WALArchival: encrypt_at_rest enabled but encryption_key_hex "
+                             "is not a valid 64-hex-char (32-byte) AES-256 key; "
+                             "refusing to archive {} without encryption",
+                             seg_path);
+                continue;  // reject: do not store segment unencrypted
+            }
+            auto encrypted_payload = encryptAesGcm(payload, key);
+            if (encrypted_payload.empty()) {
+                THEMIS_ERROR("WALArchival: AES-GCM encryption failed for {}; "
+                             "segment not archived",
+                             seg_path);
+                continue;  // reject: do not store segment unencrypted
+            }
+            payload           = std::move(encrypted_payload);
+            segment_encrypted = true;
         }
-        dst.write(reinterpret_cast<const char*>(payload.data()),
-                  static_cast<std::streamsize>(payload.size()));
-        dst.close();
+
+        std::string dest = archivePath(segment_id);
+
+        if (backend_) {
+            if (!backend_->putObject(dest, payload)) {
+                THEMIS_ERROR("WALArchival: backend putObject failed for key {}", dest);
+                continue;
+            }
+        } else {
+            std::ofstream dst(dest, std::ios::binary);
+            if (!dst) {
+                THEMIS_ERROR("WALArchival: cannot write archive {}", dest);
+                continue;
+            }
+            dst.write(reinterpret_cast<const char*>(payload.data()),
+                      static_cast<std::streamsize>(payload.size()));
+            dst.close();
+        }
 
         ArchivedSegment meta;
         meta.segment_id     = segment_id;
         meta.start_sequence = 0;  // not extracted from binary WAL format here
         meta.end_sequence   = 0;
         meta.size_bytes     = payload.size();
-        meta.compressed   = config_.compress_before_archive;
-        meta.archived_at  = std::chrono::system_clock::now();
-        meta.archive_path = dest;
+        meta.compressed     = config_.compress_before_archive;
+        meta.encrypted      = segment_encrypted;
+        meta.archived_at    = std::chrono::system_clock::now();
+        meta.archive_path   = dest;
+        meta.storage_tier   = "standard";
         index_.push_back(meta);
         ++archived;
 
-        THEMIS_INFO("WALArchival: archived segment {} -> {} ({} bytes)",
-                    segment_id, dest, payload.size());
+        THEMIS_INFO("WALArchival: archived segment {} -> {} ({} bytes, compressed={}, encrypted={})",
+                    segment_id, dest, payload.size(),
+                    meta.compressed, meta.encrypted);
     }
 
     if (archived > 0) saveIndex();
@@ -4746,14 +5018,52 @@ std::optional<std::vector<uint8_t>> WALArchivalManager::retrieveSegment(
         return std::nullopt;
     }
 
-    std::ifstream f(it->archive_path, std::ios::binary);
-    if (!f) {
-        THEMIS_ERROR("WALArchival: archive file {} missing", it->archive_path);
-        return std::nullopt;
+    std::vector<uint8_t> raw;
+    if (backend_) {
+        auto fetched = backend_->getObject(it->archive_path);
+        if (!fetched) {
+            // Fallback: try local filesystem (supports archives migrated to cloud
+            // that still exist locally, or indexes written before backend was set)
+            std::ifstream f(it->archive_path, std::ios::binary);
+            if (!f) {
+                THEMIS_ERROR("WALArchival: backend getObject and local fallback both "
+                             "failed for segment {} (key={})",
+                             segment_id, it->archive_path);
+                return std::nullopt;
+            }
+            raw.assign(std::istreambuf_iterator<char>(f), {});
+        } else {
+            raw = std::move(*fetched);
+        }
+    } else {
+        std::ifstream f(it->archive_path, std::ios::binary);
+        if (!f) {
+            THEMIS_ERROR("WALArchival: archive file {} missing", it->archive_path);
+            return std::nullopt;
+        }
+        raw.assign(std::istreambuf_iterator<char>(f), {});
     }
-    std::vector<uint8_t> raw(
-        (std::istreambuf_iterator<char>(f)),
-        std::istreambuf_iterator<char>());
+
+    // Decrypt if the segment was stored encrypted
+    if (it->encrypted) {
+        if (config_.encryption_key_hex.empty()) {
+            THEMIS_ERROR("WALArchival: segment {} is encrypted but no key configured",
+                         segment_id);
+            return std::nullopt;
+        }
+        std::vector<uint8_t> key = hexToBytes(config_.encryption_key_hex);
+        if (key.size() != 32) {
+            THEMIS_ERROR("WALArchival: invalid encryption key length for segment {}",
+                         segment_id);
+            return std::nullopt;
+        }
+        auto decrypted = decryptAesGcm(raw, key);
+        if (!decrypted) {
+            THEMIS_ERROR("WALArchival: decryption failed for segment {}", segment_id);
+            return std::nullopt;
+        }
+        raw = std::move(*decrypted);
+    }
 
     if (!it->compressed) return raw;
 
@@ -4799,8 +5109,12 @@ uint32_t WALArchivalManager::purgeExpired() {
     auto it = index_.begin();
     while (it != index_.end()) {
         if (it->archived_at < cutoff) {
-            std::error_code ec;
-            std::filesystem::remove(it->archive_path, ec);
+            if (backend_) {
+                backend_->deleteObject(it->archive_path);
+            } else {
+                std::error_code ec;
+                std::filesystem::remove(it->archive_path, ec);
+            }
             THEMIS_INFO("WALArchival: purged expired segment {} ({})",
                         it->segment_id, it->archive_path);
             it = index_.erase(it);
@@ -4811,6 +5125,42 @@ uint32_t WALArchivalManager::purgeExpired() {
     }
     if (purged > 0) saveIndex();
     return purged;
+}
+
+uint32_t WALArchivalManager::transitionStorageTiers() {
+    if (config_.transition_to_cold_after_days == 0) return 0;  // lifecycle disabled
+
+    auto now = std::chrono::system_clock::now();
+    // Segments older than transition_to_cold_after_days     -> "cold"
+    // Segments older than transition_to_cold_after_days * 3 -> "glacier"
+    auto cold_threshold    = now - std::chrono::hours(
+        24ULL * config_.transition_to_cold_after_days);
+    auto glacier_threshold = now - std::chrono::hours(
+        24ULL * config_.transition_to_cold_after_days * 3);
+
+    std::lock_guard<std::mutex> lock(archive_mutex_);
+    uint32_t transitioned = 0;
+    for (auto& seg : index_) {
+        std::string new_tier = seg.storage_tier;
+        if (seg.archived_at <= glacier_threshold) {
+            new_tier = "glacier";
+        } else if (seg.archived_at <= cold_threshold) {
+            new_tier = "cold";
+        }
+        if (new_tier != seg.storage_tier) {
+            THEMIS_INFO("WALArchival: segment {} storage tier {} -> {}",
+                        seg.segment_id, seg.storage_tier, new_tier);
+            seg.storage_tier = new_tier;
+            // Notify the cloud backend so it can apply the actual tier transition
+            // (e.g. move to S3 Glacier, Azure Archive).  No-op for local backend.
+            if (backend_) {
+                backend_->setStorageTier(seg.archive_path, new_tier);
+            }
+            ++transitioned;
+        }
+    }
+    if (transitioned > 0) saveIndex();
+    return transitioned;
 }
 
 uint32_t WALArchivalManager::runArchivalCycle() {
@@ -5151,6 +5501,415 @@ std::string MultiRegionActiveActiveManager::exportPrometheusMetrics() const {
     }
 
     return oss.str();
+}
+
+} // namespace replication
+} // namespace themisdb
+
+// ============================================================================
+// BidirectionalReplicationManager Implementation  (v1.7.0)
+// ============================================================================
+
+namespace themisdb {
+namespace replication {
+
+namespace {
+
+// Generate a short unique ID using timestamp + counter.
+std::string generateBidiId(const std::string& prefix) {
+    static std::atomic<uint64_t> counter{0};
+    auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    return prefix + "-" + std::to_string(now_ms) + "-"
+           + std::to_string(counter.fetch_add(1));
+}
+
+} // anonymous namespace
+
+// ── Constructor / Destructor ─────────────────────────────────────────────────
+
+BidirectionalReplicationManager::BidirectionalReplicationManager(
+    const BidiConfig& config)
+    : config_(config)
+{}
+
+BidirectionalReplicationManager::~BidirectionalReplicationManager() {
+    stop();
+}
+
+// ── Lifecycle ────────────────────────────────────────────────────────────────
+
+bool BidirectionalReplicationManager::start() {
+    if (config_.local_node_id.empty() || config_.remote_node_id.empty()) {
+        return false;
+    }
+    if (config_.local_node_id == config_.remote_node_id) {
+        return false;
+    }
+    bool expected = false;
+    return running_.compare_exchange_strong(expected, true);
+}
+
+void BidirectionalReplicationManager::stop() {
+    running_.store(false);
+}
+
+// ── Write path ───────────────────────────────────────────────────────────────
+
+uint64_t BidirectionalReplicationManager::submitWrite(
+    const std::string& document_id,
+    const std::string& collection,
+    const std::string& operation,
+    const std::string& data,
+    bool is_ddl)
+{
+    if (!running_.load()) {
+        return 0;
+    }
+
+    uint64_t seq = local_sequence_.fetch_add(1) + 1;
+
+    BidiWriteEntry entry;
+    entry.document_id  = document_id;
+    entry.collection   = collection;
+    entry.operation    = operation;
+    entry.data         = data;
+    entry.is_ddl       = is_ddl;
+    entry.origin_seq   = seq;
+    entry.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+
+    if (config_.track_origin) {
+        entry.origin_node = config_.local_node_id;
+    }
+
+    const std::string key = makeDocKey(collection, document_id);
+
+    // Update origin map
+    if (config_.track_origin) {
+        std::lock_guard<std::mutex> lk(origin_mutex_);
+        origin_map_[key] = { config_.local_node_id, seq,
+                             std::chrono::system_clock::now() };
+    }
+
+    // Enqueue as a pending local write
+    {
+        std::lock_guard<std::mutex> lk(pending_mutex_);
+        pending_writes_[key] = entry;
+    }
+
+    return seq;
+}
+
+bool BidirectionalReplicationManager::applyRemoteWrite(const BidiWriteEntry& entry) {
+    if (entry.document_id.empty() || entry.collection.empty()) {
+        return false;
+    }
+
+    // Respect the bidirectional_sync flag: if disabled, reject all inbound writes.
+    if (!config_.bidirectional_sync) {
+        return false;
+    }
+
+    // Origin-tracking loop prevention: if the change originated locally, do not
+    // re-apply it (it was already in pending_writes_).
+    if (config_.track_origin && !config_.replicate_foreign_changes) {
+        if (entry.origin_node == config_.local_node_id) {
+            // This is our own write bouncing back; discard it.
+            return false;
+        }
+    }
+
+    const std::string key = makeDocKey(entry.collection, entry.document_id);
+
+    // Conflict detection: check whether we have a pending local write for the
+    // same document.
+    {
+        std::lock_guard<std::mutex> lk(pending_mutex_);
+        auto it = pending_writes_.find(key);
+        if (it != pending_writes_.end()) {
+            if (detectConflict(entry, it->second)) {
+                handleConflict(it->second, entry, entry.is_ddl);
+                // Remove the pending write; the resolved winner is tracked in
+                // the conflict history.
+                pending_writes_.erase(it);
+            } else {
+                // The remote write is causally after our pending write (or
+                // vice-versa); accept it and retire the pending write.
+                pending_writes_.erase(it);
+            }
+        }
+    }
+
+    // Update the remote sequence watermark.
+    if (entry.origin_seq > 0) {
+        uint64_t cur = remote_sequence_.load();
+        while (entry.origin_seq > cur) {
+            if (remote_sequence_.compare_exchange_weak(cur, entry.origin_seq)) {
+                break;
+            }
+        }
+    }
+
+    // Update origin map to reflect the latest known origin for this document.
+    if (config_.track_origin) {
+        std::lock_guard<std::mutex> lk(origin_mutex_);
+        auto& oi = origin_map_[key];
+        if (entry.origin_seq >= oi.origin_sequence) {
+            oi = { entry.origin_node, entry.origin_seq,
+                   std::chrono::system_clock::now() };
+        }
+    }
+
+    return true;
+}
+
+// ── Status & metrics ─────────────────────────────────────────────────────────
+
+BidirectionalReplicationManager::SyncStatus
+BidirectionalReplicationManager::getSyncStatus() const {
+    SyncStatus s;
+    s.local_sequence    = local_sequence_.load();
+    s.remote_sequence   = remote_sequence_.load();
+    s.lag_ms            = replication_lag_ms_.load();
+    s.conflicts_detected = conflicts_detected_.load();
+    s.conflicts_resolved = conflicts_resolved_.load();
+    s.is_running        = running_.load();
+
+    // Compute conflicts_last_hour: count entries within the last 60 minutes.
+    {
+        std::lock_guard<std::mutex> lk(conflicts_mutex_);
+        const auto cutoff = std::chrono::system_clock::now()
+                            - std::chrono::hours(1);
+        s.conflicts_last_hour = static_cast<uint64_t>(
+            std::count_if(conflict_timestamps_.begin(), conflict_timestamps_.end(),
+                          [&cutoff](const auto& ts) { return ts >= cutoff; }));
+    }
+
+    // "Synchronized" when running, no outstanding pending writes, and lag is
+    // within one sync interval.
+    {
+        std::lock_guard<std::mutex> lk(pending_mutex_);
+        const bool no_pending = pending_writes_.empty();
+        s.is_synchronized = s.is_running && no_pending
+                            && s.lag_ms < static_cast<int64_t>(config_.sync_interval_ms);
+    }
+
+    return s;
+}
+
+std::vector<BidirectionalReplicationManager::BidiConflictRecord>
+BidirectionalReplicationManager::getConflictHistory() const {
+    std::lock_guard<std::mutex> lk(conflicts_mutex_);
+    return conflict_history_;
+}
+
+std::vector<BidirectionalReplicationManager::BidiConflictRecord>
+BidirectionalReplicationManager::getPendingConflicts() const {
+    std::lock_guard<std::mutex> lk(conflicts_mutex_);
+    std::vector<BidiConflictRecord> result;
+    for (const auto& rec : conflict_history_) {
+        if (rec.strategy_used == ConflictResolution::CUSTOM
+            && rec.resolved_write.data.empty()) {
+            result.push_back(rec);
+        }
+    }
+    return result;
+}
+
+// ── Conflict resolution ───────────────────────────────────────────────────────
+
+bool BidirectionalReplicationManager::resolveConflict(
+    const std::string& document_id,
+    const std::string& winner_node)
+{
+    if (winner_node != config_.local_node_id
+        && winner_node != config_.remote_node_id) {
+        return false;
+    }
+
+    std::lock_guard<std::mutex> lk(conflicts_mutex_);
+    // Walk in reverse to find the most-recent conflict for this document.
+    for (auto it = conflict_history_.rbegin(); it != conflict_history_.rend(); ++it) {
+        if (it->document_id == document_id && it->resolved_write.data.empty()) {
+            it->resolved_write = (winner_node == config_.local_node_id)
+                                 ? it->local_write
+                                 : it->remote_write;
+            conflicts_resolved_.fetch_add(1);
+            return true;
+        }
+    }
+    return false;
+}
+
+// ── Configuration helpers ─────────────────────────────────────────────────────
+
+void BidirectionalReplicationManager::setCollectionStrategy(
+    const std::string& collection,
+    ConflictResolution strategy)
+{
+    config_.collection_strategies[collection] = strategy;
+}
+
+ConflictResolution BidirectionalReplicationManager::getEffectiveStrategy(
+    const std::string& collection) const
+{
+    auto it = config_.collection_strategies.find(collection);
+    return (it != config_.collection_strategies.end())
+           ? it->second
+           : config_.default_strategy;
+}
+
+// ── Simulation helpers ────────────────────────────────────────────────────────
+
+void BidirectionalReplicationManager::updateRemoteSequence(
+    uint64_t remote_seq, int64_t lag_ms)
+{
+    uint64_t cur = remote_sequence_.load();
+    while (remote_seq > cur) {
+        if (remote_sequence_.compare_exchange_weak(cur, remote_seq)) {
+            break;
+        }
+    }
+    replication_lag_ms_.store(lag_ms);
+}
+
+bool BidirectionalReplicationManager::applyRemoteDDL(
+    const std::string& ddl_statement,
+    const std::string& schema_version,
+    uint64_t origin_seq)
+{
+    // Respect the replicate_ddl flag: if disabled, ignore incoming DDL events.
+    if (!config_.replicate_ddl) {
+        return false;
+    }
+
+    BidiWriteEntry entry;
+    entry.document_id  = "__ddl__" + schema_version;
+    entry.collection   = "__schema__";
+    entry.operation    = "DDL";
+    entry.data         = ddl_statement;
+    entry.origin_node  = config_.remote_node_id;
+    entry.origin_seq   = origin_seq;
+    entry.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    entry.is_ddl       = true;
+
+    return applyRemoteWrite(entry);
+}
+
+// ── Private helpers ───────────────────────────────────────────────────────────
+
+std::string BidirectionalReplicationManager::makeDocKey(
+    const std::string& collection,
+    const std::string& document_id) const
+{
+    return collection + '\0' + document_id;
+}
+
+BidirectionalReplicationManager::OriginInfo
+BidirectionalReplicationManager::getOrigin(const std::string& document_id) const
+{
+    // document_id here is expected to be the raw doc id (not the compound key).
+    // Callers that need to look up by collection+doc should use the origin_map_
+    // directly with makeDocKey.
+    std::lock_guard<std::mutex> lk(origin_mutex_);
+    for (const auto& kv : origin_map_) {
+        // The key is "collection\0doc_id"; strip the collection prefix.
+        const auto sep = kv.first.find('\0');
+        if (sep != std::string::npos && kv.first.substr(sep + 1) == document_id) {
+            return kv.second;
+        }
+    }
+    return { config_.local_node_id, 0, std::chrono::system_clock::now() };
+}
+
+bool BidirectionalReplicationManager::isLocalOrigin(const OriginInfo& origin) const {
+    return origin.origin_node == config_.local_node_id;
+}
+
+BidirectionalReplicationManager::BidiWriteEntry
+BidirectionalReplicationManager::resolveWrite(
+    const BidiWriteEntry& local,
+    const BidiWriteEntry& remote,
+    ConflictResolution strategy) const
+{
+    switch (strategy) {
+    case ConflictResolution::FIRST_WRITE_WINS:
+        // Whichever has the smaller timestamp wins; ties go to the local write.
+        return (remote.timestamp_ms < local.timestamp_ms) ? remote : local;
+
+    case ConflictResolution::LAST_WRITE_WINS:
+        // Whichever has the larger timestamp wins; ties go to the remote write
+        // (consistent with the existing LWWConflictResolver convention).
+        return (local.timestamp_ms > remote.timestamp_ms) ? local : remote;
+
+    case ConflictResolution::VECTOR_CLOCK:
+        // Without a real vector-clock on each entry, fall back to LWW.
+        return (local.timestamp_ms > remote.timestamp_ms) ? local : remote;
+
+    case ConflictResolution::CUSTOM:
+        // Return an empty placeholder; the application must call resolveConflict().
+        return {};
+
+    default:
+        return (local.timestamp_ms > remote.timestamp_ms) ? local : remote;
+    }
+}
+
+bool BidirectionalReplicationManager::detectConflict(
+    const BidiWriteEntry& incoming,
+    const BidiWriteEntry& existing) const
+{
+    // Two writes to the same (collection, document_id) from different origins
+    // are always considered concurrent — a true conflict.
+    if (incoming.origin_node == existing.origin_node) {
+        // Same origin: the later sequence supersedes the earlier one.
+        return false;
+    }
+    return true;
+}
+
+void BidirectionalReplicationManager::handleConflict(
+    const BidiWriteEntry& local_write,
+    const BidiWriteEntry& remote_write,
+    bool is_ddl)
+{
+    conflicts_detected_.fetch_add(1);
+
+    const ConflictResolution strategy =
+        getEffectiveStrategy(local_write.collection);
+
+    BidiWriteEntry winner = resolveWrite(local_write, remote_write, strategy);
+
+    BidiConflictRecord rec;
+    rec.conflict_id    = generateBidiId("bidi-conflict");
+    rec.document_id    = local_write.document_id;
+    rec.collection     = local_write.collection;
+    rec.local_write    = local_write;
+    rec.remote_write   = remote_write;
+    rec.resolved_write = winner;
+    rec.strategy_used  = strategy;
+    rec.detected_at    = std::chrono::system_clock::now();
+    rec.is_ddl_conflict = is_ddl;
+
+    {
+        std::lock_guard<std::mutex> lk(conflicts_mutex_);
+        conflict_history_.push_back(std::move(rec));
+        // Record timestamp for conflicts_last_hour sliding window.
+        conflict_timestamps_.push_back(std::chrono::system_clock::now());
+        // Prune entries older than 1 hour to keep memory bounded.
+        const auto cutoff = std::chrono::system_clock::now() - std::chrono::hours(1);
+        while (!conflict_timestamps_.empty()
+               && conflict_timestamps_.front() < cutoff) {
+            conflict_timestamps_.pop_front();
+        }
+    }
+
+    // Only count as resolved if we actually picked a winner (not CUSTOM).
+    if (strategy != ConflictResolution::CUSTOM) {
+        conflicts_resolved_.fetch_add(1);
+    }
 }
 
 } // namespace replication

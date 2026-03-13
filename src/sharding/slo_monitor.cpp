@@ -438,6 +438,33 @@ void SLOMonitor::updateTargets(const SLOTarget& targets) {
     config_.targets = targets;
 }
 
+void SLOMonitor::recordRepairProgress(const RepairProgress& progress) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    repair_progress_[progress.job_id] = progress;
+}
+
+SLOMonitor::RepairProgress SLOMonitor::getRepairProgress(const std::string& job_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto it = repair_progress_.find(job_id);
+    if (it == repair_progress_.end()) {
+        RepairProgress not_found;
+        not_found.job_id = job_id;
+        return not_found;
+    }
+    return it->second;
+}
+
+std::vector<SLOMonitor::RepairProgress> SLOMonitor::getActiveRepairJobs() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<RepairProgress> active;
+    for (const auto& [id, prog] : repair_progress_) {
+        if (!prog.completed) {
+            active.push_back(prog);
+        }
+    }
+    return active;
+}
+
 std::shared_ptr<SLOWindow> SLOMonitor::getOrCreateShardWindow(const std::string& shard_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     

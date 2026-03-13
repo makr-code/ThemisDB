@@ -37,9 +37,9 @@ The Acceleration module (`src/acceleration/`) provides hardware-accelerated comp
 
 **Implementation Notes:**
 - `[~]` `.cu` kernel files (`cuda/ann_kernels.cu`, `cuda/vector_kernels.cu`) are implemented; HNSW graph traversal wiring into `CUDAVectorBackend` is still pending.
-- `[ ]` Cosine distance: fuse L2-norm and dot-product into a single tiled kernel to avoid a second pass over device memory (IO-aware pattern per FlashAttention \[3\]).
-- `[ ]` Top-k (k ≤ 1024): use CUB `DeviceSegmentedSort` \[6\]; for k > 1024 fall back to `thrust::partial_sort`.
-- `[ ]` Add `CUDA_ARCH` compile-time guard: require sm_70+ (Tensor Core availability); emit warning for sm_60.
+- `[x]` Cosine distance: fuse L2-norm and dot-product into a single tiled kernel to avoid a second pass over device memory (IO-aware pattern per FlashAttention \[3\]).
+- `[x]` Top-k (k ≤ 1024): use CUB `DeviceSegmentedSort` \[6\]; for k > 1024 fall back to `thrust::partial_sort`.
+- `[x]` Add `CUDA_ARCH` compile-time guard: require sm_70+ (Tensor Core availability); emit warning for sm_60.
 
 **Performance Targets:**
 - 1M × 128-dim float32 L2 search in < 8 ms on RTX 3090 (single GPU).

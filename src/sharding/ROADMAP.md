@@ -32,7 +32,7 @@
 - [ ] End-to-end cross-shard query routing layer (Target: Q3 2026)
 - [ ] gRPC transport with mTLS for all inter-shard RPC channels (Target: Q3 2026)
 - [ ] Adaptive rebalancer driven by per-shard access-pattern telemetry (Target: Q4 2026)
-- [ ] Reed-Solomon repair parallelisation across repair workers (Target: Q4 2026)
+- [~] Reed-Solomon repair parallelisation across repair workers (v1.6.0, parallel scan bands via ThreadPoolManager, IOPS throttle, GPU flag, SLO progress — in progress)
 - [ ] Raft snapshot compaction to bound log growth (Target: Q4 2026)
 - [ ] Chaos-engineering test suite (shard partition, node failure injection) (Target: Q4 2026)
 
@@ -71,7 +71,7 @@ Sharding is a database architecture pattern that involves breaking a database in
 ### Phase 4: Hardening & Adaptive Rebalancing (Status: Planned 📋)
 - [?] gRPC transport with mTLS for all inter-shard RPC channels
 - [?] Adaptive rebalancer driven by per-shard access-pattern telemetry
-- [?] Reed-Solomon repair parallelisation across repair workers
+- [~] Reed-Solomon repair parallelisation across repair workers (v1.6.0 — parallel scan bands, IOPS throttle, GPU flag)
 - [?] Raft snapshot compaction to bound log growth
 - [?] Chaos-engineering test suite (shard partition, node failure injection)
 

@@ -25,6 +25,7 @@
  */
 
 #include "index/gpu_vector_index.h"
+#include "index/gpu_memory_oversubscription.h"
 #include "acceleration/compute_backend.h"
 #include "acceleration/cuda_backend.h"
 #include "themis/gpu/memory_manager.h"
@@ -109,12 +110,125 @@ public:
     std::string vramBudgetTag;         // Unique tenant tag for GPUMemoryManager
     uint64_t vramAllocatedBytes = 0;   // Bytes currently tracked against the budget
 
+    // GPU Memory Oversubscription (v1.7.0)
+    // Active when config.enable_oversubscription == true.
+    std::unique_ptr<GPUMemoryOversubscriptionManager> oversubManager;
+
+    // When true, rebuildOversubPartitions() is a no-op.  Used by loadIndex()
+    // to defer the (expensive) full partition rebuild until after all vectors
+    // are loaded, avoiding O(n²) behaviour.
+    bool oversubBulkLoading_ = false;
+
+    // Rebuild the oversubscription manager partitions from the current vectorData.
+    // Called after every vector mutation when oversubscription is enabled.
+    void rebuildOversubPartitions() {
+        if (!oversubManager || vectorData.empty() || oversubBulkLoading_) return;
+
+        // Remove all existing partitions.
+        for (size_t pid : oversubManager->getAllPartitionIds()) {
+            oversubManager->removePartition(pid);
+        }
+
+        const size_t dim   = static_cast<size_t>(dimension);
+        const size_t psize = (config.oversubscription_partition_vectors > 0)
+                                 ? config.oversubscription_partition_vectors
+                                 : static_cast<size_t>(65536);
+        const size_t total = vectorData.size();
+
+        for (size_t start = 0; start < total; start += psize) {
+            const size_t end = std::min(start + psize, total);
+            const size_t n   = end - start;
+
+            std::vector<float> flat;
+            flat.reserve(n * dim);
+            for (size_t i = start; i < end; ++i) {
+                flat.insert(flat.end(), vectorData[i].begin(), vectorData[i].end());
+            }
+            const std::string tag = "vecs[" + std::to_string(start) + "," +
+                                    std::to_string(end) + ")";
+            oversubManager->addPartition(flat, n, dim, tag);
+        }
+    }
+
+    // Search all oversubscription partitions and return merged top-k results.
+    std::vector<SearchResult> searchOversubscribed(const std::vector<float>& query, size_t k) {
+        if (!oversubManager || vectorData.empty() ||
+            query.size() != static_cast<size_t>(dimension)) {
+            return {};
+        }
+
+        auto startTime = std::chrono::steady_clock::now();
+
+        const size_t dim   = static_cast<size_t>(dimension);
+        const size_t psize = (config.oversubscription_partition_vectors > 0)
+                                 ? config.oversubscription_partition_vectors
+                                 : static_cast<size_t>(65536);
+
+        // Accumulate candidates from each partition.
+        std::vector<std::pair<float, size_t>> candidates;
+        candidates.reserve(std::min(k * 4, vectorData.size()));
+
+        const auto partIds = oversubManager->getAllPartitionIds();
+        size_t globalOffset = 0;
+
+        for (size_t pid : partIds) {
+            // Ensure this partition is VRAM-resident (triggers LRU eviction if needed).
+            oversubManager->accessPartition(pid);
+
+            const std::vector<float>* data = oversubManager->getPartitionData(pid);
+            if (!data || data->empty()) {
+                globalOffset += psize;
+                continue;
+            }
+
+            const size_t numVecs = oversubManager->getPartitionVectorCount(pid);
+            // Brute-force distance computation on the partition data.
+            for (size_t vi = 0; vi < numVecs; ++vi) {
+                const float* vecPtr = data->data() + vi * dim;
+                float dist = computeDistance(query.data(), vecPtr, static_cast<int>(dim));
+                candidates.emplace_back(dist, globalOffset + vi);
+            }
+            globalOffset += numVecs;
+        }
+
+        // Select top-k from all candidates.
+        const size_t topK = std::min(k, candidates.size());
+        std::partial_sort(candidates.begin(), candidates.begin() + topK,
+                          candidates.end(),
+                          [](const auto& a, const auto& b) {
+                              return a.first < b.first;
+                          });
+
+        std::vector<SearchResult> results;
+        results.reserve(topK);
+        for (size_t i = 0; i < topK; ++i) {
+            const size_t idx = candidates[i].second;
+            if (idx < vectorIds.size()) {
+                results.push_back({vectorIds[idx], candidates[i].first});
+            }
+        }
+
+        auto endTime = std::chrono::steady_clock::now();
+        updateQueryStats(startTime, endTime);
+
+        return results;
+    }
+
     // Returns the raw memory footprint of one vector in bytes
     uint64_t bytesPerVector() const {
         return static_cast<uint64_t>(dimension) * sizeof(float);
     }
 
     Impl(const Config& cfg) : config(cfg) {}
+
+    static std::string prefetchStrategyToString(PrefetchStrategy s) {
+        switch (s) {
+        case PrefetchStrategy::LRU:        return "LRU";
+        case PrefetchStrategy::MRU:        return "MRU";
+        case PrefetchStrategy::SEQUENTIAL: return "SEQUENTIAL";
+        default:                           return "NONE";
+        }
+    }
     
     ~Impl() {
         shutdown();
@@ -210,6 +324,27 @@ public:
                 vramBudgetTag, budgetBytes);
         }
 
+        // Initialise the GPU memory oversubscription manager when requested.
+        if (config.enable_oversubscription) {
+            GPUMemoryOversubscriptionManager::Config osmCfg;
+            osmCfg.enable_oversubscription = true;
+            osmCfg.vram_budget_mb          = config.vram_budget_mb;
+            osmCfg.prefetch_strategy       = config.prefetch_strategy;
+            osmCfg.partition_vectors       = config.oversubscription_partition_vectors > 0
+                                                 ? config.oversubscription_partition_vectors
+                                                 : static_cast<size_t>(65536);
+            osmCfg.use_unified_memory      = true;
+            oversubManager = std::make_unique<GPUMemoryOversubscriptionManager>(osmCfg);
+            std::cout << "GPUVectorIndex: GPU memory oversubscription enabled"
+                      << " (VRAM budget: "
+                      << (config.vram_budget_mb > 0
+                              ? std::to_string(config.vram_budget_mb) + " MB"
+                              : "unlimited")
+                      << ", prefetch: "
+                      << prefetchStrategyToString(config.prefetch_strategy)
+                      << ")\n";
+        }
+
         return true;
     }
     
@@ -244,6 +379,9 @@ public:
             mgr.RemoveTenantQuota(vramBudgetTag);
             vramBudgetTag.clear();
         }
+
+        // Destroy the oversubscription manager (evicts all hot partitions).
+        oversubManager.reset();
 
         initialized = false;
     }
@@ -360,6 +498,11 @@ public:
             gpuDataDirty = true;
         }
         #endif
+
+        // Rebuild oversubscription partitions when the manager is active.
+        if (oversubManager) {
+            rebuildOversubPartitions();
+        }
         
         return true;
     }
@@ -415,6 +558,11 @@ public:
             gpuDataDirty = true;
         }
         #endif
+
+        // Rebuild oversubscription partitions when the manager is active.
+        if (oversubManager) {
+            rebuildOversubPartitions();
+        }
         
         return true;
     }
@@ -422,6 +570,12 @@ public:
     std::vector<SearchResult> search(const std::vector<float>& query, size_t k) {
         if (!initialized) {
             return {};
+        }
+
+        // Use oversubscription-aware search path when the manager is active.
+        // This handles LRU eviction, streaming, and prefetching automatically.
+        if (oversubManager && !vectorData.empty()) {
+            return searchOversubscribed(query, k);
         }
         
         // Upload GPU data if dirty
@@ -869,11 +1023,19 @@ bool GPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
     if (ids.size() != vectors.size()) {
         return false;
     }
-    
+
+    // Suppress per-vector partition rebuilds during bulk ingestion; a single
+    // rebuild at the end is far cheaper than one rebuild per vector (O(n²)).
+    pImpl->oversubBulkLoading_ = true;
     for (size_t i = 0; i < ids.size(); ++i) {
-        if (!addVector(ids[i], vectors[i])) {
+        if (!pImpl->addVector(ids[i], vectors[i])) {
+            pImpl->oversubBulkLoading_ = false;
             return false;
         }
+    }
+    pImpl->oversubBulkLoading_ = false;
+    if (pImpl->oversubManager && !pImpl->vectorData.empty()) {
+        pImpl->rebuildOversubPartitions();
     }
     return true;
 }
@@ -901,6 +1063,17 @@ std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBat
     
     if (!pImpl->initialized) {
         return {};
+    }
+
+    // Route through oversubscription manager when active: each query is served
+    // through searchOversubscribed() which handles LRU eviction and prefetching.
+    if (pImpl->oversubManager && !pImpl->vectorData.empty()) {
+        std::vector<std::vector<SearchResult>> results;
+        results.reserve(queries.size());
+        for (const auto& query : queries) {
+            results.push_back(pImpl->searchOversubscribed(query, k));
+        }
+        return results;
     }
     
     // Upload GPU data if dirty
@@ -1144,14 +1317,20 @@ bool GPUVectorIndex::loadIndex(const std::string& path) {
     pImpl->vectorIds.reserve(numVectors);
     pImpl->vectorData.reserve(numVectors);
 
+    // Suppress per-vector partition rebuilds; we do a single rebuild after
+    // the entire set of vectors is loaded (avoids O(n²) partition churn).
+    pImpl->oversubBulkLoading_ = true;
+
     for (size_t i = 0; i < numVectors; ++i) {
         size_t idLen = 0;
         ifs.read(reinterpret_cast<char*>(&idLen), sizeof(idLen));
         if (!ifs) {
+            pImpl->oversubBulkLoading_ = false;
             std::cerr << "GPUVectorIndex: loadIndex read error at vector " << i << " (ID length)\n";
             return false;
         }
         if (idLen > (1u << 20u)) { // Sanity cap at 1 MiB per ID
+            pImpl->oversubBulkLoading_ = false;
             std::cerr << "GPUVectorIndex: loadIndex rejected oversized ID (" << idLen
                       << " bytes) at vector " << i << "\n";
             return false;
@@ -1165,15 +1344,27 @@ bool GPUVectorIndex::loadIndex(const std::string& path) {
                  static_cast<std::streamsize>(dim) * static_cast<std::streamsize>(sizeof(float)));
 
         if (!ifs) {
+            pImpl->oversubBulkLoading_ = false;
             return false;
         }
 
-        // Use addVector() to respect VRAM budget tracking
+        // Use addVector() to respect VRAM budget tracking.
+        // oversubBulkLoading_ is set to suppress the per-vector partition
+        // rebuild; we do a single rebuild once all vectors are loaded.
         if (!pImpl->addVector(id, vec)) {
+            pImpl->oversubBulkLoading_ = false;
             std::cerr << "GPUVectorIndex: loadIndex aborted at vector " << i
                       << " (VRAM budget exceeded)\n";
             return false;
         }
+    }
+
+    // Single partition rebuild after bulk load.
+    if (pImpl->oversubManager) {
+        pImpl->oversubBulkLoading_ = false;
+        pImpl->rebuildOversubPartitions();
+    } else {
+        pImpl->oversubBulkLoading_ = false;
     }
 
 #ifdef THEMIS_ENABLE_VULKAN
@@ -1215,8 +1406,29 @@ GPUVectorIndex::Statistics GPUVectorIndex::getStatistics() const {
     if (!pImpl->vramBudgetTag.empty()) {
         stats.vramUsageBytes = pImpl->vramAllocatedBytes;
     }
+
+    // Merge oversubscription statistics when the manager is active.
+    if (pImpl->oversubManager) {
+        const auto osmStats = pImpl->oversubManager->getStats();
+        stats.oversubscriptionActive  = true;
+        stats.oversubHotPartitions    = osmStats.hot_partitions;
+        stats.oversubColdPartitions   = osmStats.cold_partitions;
+        stats.oversubEvictions        = osmStats.evictions;
+        stats.oversubLoads            = osmStats.loads;
+        stats.oversubPrefetchHitRate  = osmStats.prefetch_hit_rate;
+        // Reflect the VRAM used by the oversubscription manager.
+        stats.vramUsageBytes          = osmStats.vram_used_bytes;
+    }
     
     return stats;
+}
+
+GPUMemoryOversubscriptionManager::Stats
+GPUVectorIndex::getOversubscriptionStats() const {
+    if (pImpl->oversubManager) {
+        return pImpl->oversubManager->getStats();
+    }
+    return GPUMemoryOversubscriptionManager::Stats{};
 }
 
 bool GPUVectorIndex::switchBackend(Backend backend) {

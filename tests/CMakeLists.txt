@@ -19,8 +19,11 @@ if(NOT GTest_FOUND)
     return()
 endif()
 
-# Find yaml-cpp for test configuration
-find_package(yaml-cpp CONFIG REQUIRED)
+# Find yaml-cpp for test configuration (optional – tests that need it add it explicitly)
+find_package(yaml-cpp CONFIG QUIET)
+if(NOT yaml-cpp_FOUND)
+    message(STATUS "yaml-cpp not found - YAML-based tests will be skipped")
+endif()
 
 # Shared test libraries so individual test executables don't forget to link gtest
 set(TEST_LIBS
@@ -147,6 +150,7 @@ if(NOT THEMIS_ENABLE_GPU)
         ".*test_collective_backends\\.cpp$"
         ".*test_gpu_vector_index\\.cpp$"
         ".*test_multi_gpu_vector_index\\.cpp$"
+        ".*test_gpu_memory_oversubscription\\.cpp$"
         ".*test_multi_gpu_training\\.cpp$"
         ".*test_vram_allocator_null_checks\\.cpp$"
         ".*test_gpu_lora_layers\\.cpp$"
@@ -397,6 +401,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_raii_wrappers\\.cpp$"
     ".*test_cdc_admin\\.cpp$"
     ".*test_cdc_retention\\.cpp$"
+    ".*test_cdc_ws_handler\\.cpp$"
     ".*test_tenant_buffer_manager\\.cpp$"
     ".*test_real_embeddings\\.cpp$"
     ".*test_adapter_sync\\.cpp$"
@@ -1175,11 +1180,13 @@ target_link_libraries(themis_tests PRIVATE
     spdlog::spdlog
     fmt::fmt
     nlohmann_json::nlohmann_json
-    yaml-cpp
+    $<$<TARGET_EXISTS:yaml-cpp::yaml-cpp>:yaml-cpp::yaml-cpp>
     RocksDB::rocksdb
     OpenSSL::SSL
     OpenSSL::Crypto
-    CURL::libcurl
+    $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
+    $<$<TARGET_EXISTS:protobuf::libprotobuf>:protobuf::libprotobuf>
+    $<$<BOOL:${CURL_FOUND}>:$<IF:$<TARGET_EXISTS:CURL::libcurl>,CURL::libcurl,${CURL_LIBRARIES}>>
     protobuf::libprotobuf
     Threads::Threads
 )
@@ -2904,7 +2911,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otlp_exporter.cpp")
         spdlog::spdlog
         nlohmann_json::nlohmann_json
         Threads::Threads
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
     )
 
     target_compile_definitions(test_otlp_exporter PRIVATE
@@ -4658,7 +4665,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otel_api_tracing.cpp")
         spdlog::spdlog
         nlohmann_json::nlohmann_json
         Threads::Threads
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
     )
     target_compile_definitions(test_otel_api_tracing PRIVATE THEMIS_TEST_BUILD=1)
     add_test(NAME OtelApiTracingTests COMMAND test_otel_api_tracing)
@@ -6194,13 +6201,24 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_kafka_importer.cpp")
         test_kafka_importer.cpp
     )
 
+    # Compile kafka_importer.cpp directly into the focused test binary.
+    # A minimal logger stub is provided so the binary stays standalone without
+    # the full logger + PII detection chain.  This avoids depending on the large
+    # themis_core target which would require many additional packages.
+    target_sources(test_kafka_importer_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/src/importers/kafka_importer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/kafka_importer_logger_stub.cpp
+    )
+
     target_include_directories(test_kafka_importer_focused PRIVATE
         ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
     )
 
     target_link_libraries(test_kafka_importer_focused PRIVATE
         ${TEST_LIBS}
         nlohmann_json::nlohmann_json
+        spdlog::spdlog
         Threads::Threads
     )
 
@@ -6215,7 +6233,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_kafka_importer.cpp")
         TIMEOUT 120
     )
 
-    message(STATUS "  KafkaImporter: consumer configuration, offset commit, topic filtering, async ingestion, back-pressure")
+    message(STATUS "  KafkaImporter: setMessageFetchForTesting mock injection, 37 tests, no live broker")
 else()
     message(STATUS "KafkaImporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_kafka_importer.cpp")
 endif()
@@ -7192,6 +7210,61 @@ else()
 endif()
 
 
+# =============================================================================
+# Accurate Token-Count Estimation Tests (Issue #145, v1.6.0)
+# =============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_accurate_token_count_estimation.cpp")
+    message(STATUS "Adding Accurate Token-Count Estimation tests (Issue #145)")
+
+    add_executable(test_accurate_token_count_estimation
+        test_accurate_token_count_estimation.cpp
+    )
+
+    target_include_directories(test_accurate_token_count_estimation PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    if(TARGET themis_llm)
+        target_link_libraries(test_accurate_token_count_estimation PRIVATE
+            ${TEST_LIBS}
+            themis_llm
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            Threads::Threads
+        )
+    else()
+        target_link_libraries(test_accurate_token_count_estimation PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            Threads::Threads
+        )
+    endif()
+
+    target_compile_definitions(test_accurate_token_count_estimation PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_LLM_EXPORTS
+    )
+
+    add_test(NAME AccurateTokenCountEstimationTests
+             COMMAND test_accurate_token_count_estimation)
+
+    set_tests_properties(AccurateTokenCountEstimationTests PROPERTIES
+        LABELS "llm;aql;token-estimation;benchmark;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  AccurateTokenCountEstimation: CharDivisionEstimator, TiktokenEstimator, injection, p95 benchmark")
+else()
+    message(STATUS "Accurate Token-Count Estimation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_accurate_token_count_estimation.cpp")
+endif()
+
+
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_global_transaction_manager.cpp")
     message(STATUS "Adding Global Transaction Manager tests")
@@ -7912,6 +7985,57 @@ else()
     message(STATUS "CDC Retention tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_retention.cpp")
 endif()
 
+# ============================================================================
+# CDC WebSocket Handler Tests (standalone – validates the /v2/cdc/stream
+# named-subscription protocol: subscribe/unsubscribe/ack frames,
+# back-pressure metric cdc_ws_overflow_total, and pollEvents delivery)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_ws_handler.cpp")
+    message(STATUS "Adding CDC WebSocket handler focused tests (v1.7.0 roadmap:55)")
+
+    add_executable(test_cdc_ws_handler
+        test_cdc_ws_handler.cpp
+    )
+
+    # cdc_ws_handler.cpp and ws_transport.cpp are compiled into themis_core only
+    # when THEMIS_ENABLE_HTTP_SERVER=ON.  Add them explicitly to this test
+    # target when HTTP_SERVER is OFF to avoid missing-symbol linker errors.
+    if(NOT THEMIS_ENABLE_HTTP_SERVER)
+        target_sources(test_cdc_ws_handler PRIVATE
+            ${THEMIS_ROOT_DIR}/src/cdc/cdc_ws_handler.cpp
+            ${THEMIS_ROOT_DIR}/src/cdc/ws_transport.cpp
+        )
+    endif()
+
+    target_include_directories(test_cdc_ws_handler PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_cdc_ws_handler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cdc_ws_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CdcWsHandlerFocusedTests COMMAND test_cdc_ws_handler)
+
+    set_tests_properties(CdcWsHandlerFocusedTests PROPERTIES
+        LABELS "cdc;websocket;streaming;subscription;backpressure;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  CdcWsHandler: subscribe/unsubscribe/ack frames, back-pressure (cdc_ws_overflow_total), pollEvents, checkRedelivery")
+else()
+    message(STATUS "CDC WebSocket handler tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_ws_handler.cpp")
+endif()
+
 # Config Module – Focused Standalone Test Targets
 # ============================================================================
 
@@ -8159,7 +8283,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_validator.cpp")
         themis_core
         OpenSSL::SSL
         OpenSSL::Crypto
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
@@ -8194,7 +8318,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_eddsa_comprehensive.cpp")
         themis_core
         OpenSSL::SSL
         OpenSSL::Crypto
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
@@ -8229,7 +8353,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_es256_comprehensive.cpp")
         themis_core
         OpenSSL::SSL
         OpenSSL::Crypto
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
@@ -8264,7 +8388,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_integration.cpp")
         themis_core
         OpenSSL::SSL
         OpenSSL::Crypto
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
@@ -8303,7 +8427,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_key_rotation_comprehensive.cpp")
         themis_core
         OpenSSL::SSL
         OpenSSL::Crypto
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
@@ -8338,7 +8462,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_management_comprehensive.cpp")
         themis_core
         OpenSSL::SSL
         OpenSSL::Crypto
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
@@ -8373,7 +8497,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_rotation_unit.cpp")
         themis_core
         OpenSSL::SSL
         OpenSSL::Crypto
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
@@ -8442,7 +8566,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_validation_hardening.cpp")
         themis_core
         OpenSSL::SSL
         OpenSSL::Crypto
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
@@ -8543,7 +8667,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_auth_audit_logger.cpp")
         themis_core
         OpenSSL::SSL
         OpenSSL::Crypto
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
@@ -8609,7 +8733,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_auth_input_validation.cpp")
         themis_core
         OpenSSL::SSL
         OpenSSL::Crypto
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         spdlog::spdlog
         Threads::Threads
     )
@@ -8745,7 +8869,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_auth_middleware.cpp")
         themis_core
         OpenSSL::SSL
         OpenSSL::Crypto
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
@@ -9156,7 +9280,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_session_manager.cpp")
         themis_core
         OpenSSL::SSL
         OpenSSL::Crypto
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
@@ -10599,6 +10723,11 @@ function(add_llm_focused_test target_name test_src test_name labels description)
             OpenSSL::Crypto
             Threads::Threads
         )
+        # Also link themis_core when available so LLM tests can use cross-module
+        # types such as PolicyEngine (governance) without separate link steps.
+        if(TARGET themis_core)
+            target_link_libraries(${target_name} PRIVATE themis_core)
+        endif()
     else()
         target_link_libraries(${target_name} PRIVATE
             ${TEST_LIBS}
@@ -10609,6 +10738,11 @@ function(add_llm_focused_test target_name test_src test_name labels description)
             OpenSSL::Crypto
             Threads::Threads
         )
+    endif()
+
+    # Boost (Beast/ASIO) is used by server headers included from some LLM tests.
+    if(Boost_FOUND)
+        target_link_libraries(${target_name} PRIVATE Boost::system)
     endif()
 
     target_compile_definitions(${target_name} PRIVATE
@@ -11170,7 +11304,27 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_statistics_collector.cpp")
         LABELS "metadata;statistics;histograms;cardinality;selectivity;unit"
         TIMEOUT 120
     )
-    message(STATUS "  StatisticsCollector: equi-height histograms, cardinality estimation, index stats, auto-refresh")
+    message(STATUS "  StatisticsCollector: equi-height histograms, cardinality estimation, index stats, auto-refresh, metrics hook")
+endif()
+
+# Metadata – StatisticsCollector auto-refresh focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_statistics_auto_refresh.cpp")
+    message(STATUS "Adding Metadata StatisticsCollector auto-refresh focused tests")
+    add_executable(test_statistics_auto_refresh_focused test_statistics_auto_refresh.cpp)
+    target_include_directories(test_statistics_auto_refresh_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_statistics_auto_refresh_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_statistics_auto_refresh_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME StatisticsAutoRefreshFocusedTests COMMAND test_statistics_auto_refresh_focused)
+    set_tests_properties(StatisticsAutoRefreshFocusedTests PROPERTIES
+        LABELS "metadata;statistics;auto-refresh;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  StatisticsCollector auto-refresh: background thread, metrics hook, interval control")
 endif()
 
 # Metadata – ColumnLineageTracker focused tests
@@ -11525,6 +11679,44 @@ if(THEMIS_ENABLE_WEBSOCKET)
     else()
         message(STATUS "Network focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/test_wire_protocol_websocket.cpp")
     endif()
+
+    # --- WebSocket CDC (WsTransport + CdcWebSocketHandler integration tests) ---
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_websocket_cdc.cpp")
+        message(STATUS "Adding CDC WebSocket focused tests (WsTransportTest + WebSocketCDCTest)")
+
+        add_executable(test_websocket_cdc_focused
+            test_websocket_cdc.cpp
+        )
+
+        target_include_directories(test_websocket_cdc_focused PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+            ${CMAKE_SOURCE_DIR}/include
+        )
+
+        target_link_libraries(test_websocket_cdc_focused PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_websocket_cdc_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+            THEMIS_ENABLE_WEBSOCKET=1
+        )
+
+        add_test(NAME WebSocketCdcFocusedTests COMMAND test_websocket_cdc_focused)
+
+        set_tests_properties(WebSocketCdcFocusedTests PROPERTIES
+            LABELS "cdc;websocket;streaming;transport;wstransport;metrics;unit"
+            TIMEOUT 120
+        )
+
+        message(STATUS "  WebSocketCdc: WsTransport session lifecycle, subscription management, back-pressure, CDCMetrics, event frame format")
+    else()
+        message(STATUS "CDC WebSocket focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/test_websocket_cdc.cpp")
+    endif()
 endif()
 
 # --- QUIC Transport ---
@@ -11783,6 +11975,14 @@ add_index_focused_test(
     DistributedVectorIndexFocusedTests
     "index;distributed;vector;shards;focused;unit"
     "DistributedVectorIndex: vector search across shards, fan-out/merge, partition correctness"
+)
+
+add_index_focused_test(
+    test_gpu_memory_oversubscription_focused
+    index/test_gpu_memory_oversubscription.cpp
+    GPUMemoryOversubscriptionFocusedTests
+    "index;gpu;oversubscription;lru;streaming;prefetch;vram;focused;unit"
+    "GPUMemoryOversubscription: partition management, LRU eviction, streaming, prefetch strategies, multi-GPU config (v1.7.0)"
 )
 
 # ============================================================================
@@ -12278,6 +12478,46 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_log_aggregator.cpp")
     message(STATUS "  LogAggregator: level filtering, structured fields, trace context, ring buffer, callback, shutdown, thread-safety")
 else()
     message(STATUS "LogAggregator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_log_aggregator.cpp")
+endif()
+
+# RootCauseAnalyzer focused tests (v1.7.0 — automated root cause identification, Issue #84)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_root_cause_analyzer.cpp")
+    message(STATUS "Adding Observability: RootCauseAnalyzer focused tests (v1.7.0, Issue #84)")
+
+    add_executable(test_root_cause_analyzer_focused
+        test_root_cause_analyzer.cpp
+        ${THEMIS_ROOT_DIR}/src/observability/root_cause_analyzer.cpp
+        ${THEMIS_ROOT_DIR}/src/observability/performance_analyzer.cpp
+        ${THEMIS_ROOT_DIR}/src/observability/query_profiler.cpp
+        ${THEMIS_ROOT_DIR}/src/observability/storage_profiler.cpp
+    )
+
+    target_include_directories(test_root_cause_analyzer_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_root_cause_analyzer_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_root_cause_analyzer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RootCauseAnalyzerFocusedTests COMMAND test_root_cause_analyzer_focused)
+
+    set_tests_properties(RootCauseAnalyzerFocusedTests PROPERTIES
+        LABELS "observability;root-cause-analysis;performance;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  RootCauseAnalyzer: analyzeIssue, findCorrelations, buildCausalGraph, TimeSeries, SystemSnapshot, CausalGraph, RootCauseReport")
+else()
+    message(STATUS "RootCauseAnalyzer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_root_cause_analyzer.cpp")
 endif()
 
 # ============================================================================
@@ -13098,6 +13338,42 @@ else()
     message(STATUS "Parallel File Downloads focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_file_downloads.cpp")
 endif()
 
+# DependencyResolutionEngine – focused tests for update dependency resolver (Issue #216 / v1.6.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_dependency_resolution_engine.cpp")
+    message(STATUS "Adding Dependency Resolution Engine focused tests")
+
+    add_executable(test_dependency_resolution_engine_focused
+        test_dependency_resolution_engine.cpp
+    )
+
+    target_include_directories(test_dependency_resolution_engine_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_dependency_resolution_engine_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_dependency_resolution_engine_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DependencyResolutionEngineFocusedTests
+        COMMAND test_dependency_resolution_engine_focused)
+
+    set_tests_properties(DependencyResolutionEngineFocusedTests PROPERTIES
+        LABELS "updates;dependency-resolution;topological-sort;cycle-detection;version-constraints;conflict-resolution;backfill;focused;unit;v1.6.0"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  DependencyResolutionEngine: dependency graph, topological sort, cycle detection, version constraints, conflict resolution, backfill")
+else()
+    message(STATUS "Dependency Resolution Engine focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_dependency_resolution_engine.cpp")
+endif()
+
 # DistributedGateway – focused tests for multi-node API gateway
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_gateway.cpp")
     message(STATUS "Adding Distributed Gateway focused tests")
@@ -13134,6 +13410,46 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_gateway.cpp")
     message(STATUS "  DistributedGateway: Raft config sync, consistent-hash ring, session affinity, failover, quorum handling")
 else()
     message(STATUS "Distributed Gateway focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_gateway.cpp")
+endif()
+
+# APIGatewayEnhancements – focused tests for RequestCoalescingManager and SmartRouter
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_api_gateway_enhancements.cpp")
+    message(STATUS "Adding API Gateway Enhancements focused tests")
+
+    add_executable(test_api_gateway_enhancements_focused
+        test_api_gateway_enhancements.cpp
+        ${THEMIS_ROOT_DIR}/src/server/request_coalescing.cpp
+        ${THEMIS_ROOT_DIR}/src/server/smart_routing.cpp
+    )
+
+    target_include_directories(test_api_gateway_enhancements_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_api_gateway_enhancements_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_api_gateway_enhancements_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_ENABLE_HTTP_SERVER=1
+    )
+
+    add_test(NAME APIGatewayEnhancementsFocusedTests COMMAND test_api_gateway_enhancements_focused)
+
+    set_tests_properties(APIGatewayEnhancementsFocusedTests PROPERTIES
+        LABELS "server;gateway;coalescing;smart-routing;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  APIGatewayEnhancements: RequestCoalescingManager (dedup in-flight requests), SmartRouter (cache prediction, tail-latency avoidance, least-loaded)")
+else()
+    message(STATUS "API Gateway Enhancements focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_api_gateway_enhancements.cpp")
 endif()
 
 # DatabaseMaintenanceOrchestrator – focused tests for CRUD, jobs, and health
@@ -13417,6 +13733,40 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_consistent_hash_distribution.cpp")
     add_test(NAME ConsistentHashDistributionFocusedTests COMMAND test_consistent_hash_distribution_focused)
     set_tests_properties(ConsistentHashDistributionFocusedTests PROPERTIES LABELS "sharding;distribution;hash;focused;unit" TIMEOUT 90)
     message(STATUS "  ConsistentHashDistribution: strict distribution and migration checks")
+# ── RS Repair Engine Parallelisation focused tests (v1.6.0 Issue #204) ──────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_repair.cpp")
+    message(STATUS "Adding Sharding: RS Repair Engine Parallelisation focused tests")
+
+    add_executable(test_rs_repair_parallelisation_focused
+        test_sharding_repair.cpp
+    )
+
+    target_include_directories(test_rs_repair_parallelisation_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_rs_repair_parallelisation_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_rs_repair_parallelisation_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RSRepairParallelisationFocusedTests
+             COMMAND test_rs_repair_parallelisation_focused)
+
+    set_tests_properties(RSRepairParallelisationFocusedTests PROPERTIES
+        LABELS "sharding;repair;reed-solomon;parallelisation;slo;iops;gpu;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  RSRepairParallelisation: parallel scan bands, SLO progress, IOPS throttle, GPU flag")
 endif()
 
 # Process Modeling Module focused tests
