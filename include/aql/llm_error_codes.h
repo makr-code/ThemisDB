@@ -62,6 +62,7 @@ enum class LLMErrorCode {
     RAG_FAILED = 4002,
     EMBEDDING_FAILED = 4003,
     TIMEOUT = 4004,
+    INVALID_RESPONSE = 4005,   ///< LLM-generated output failed post-generation validation
     
     // Resource errors (5xxx)
     OUT_OF_MEMORY = 5001,
@@ -124,6 +125,7 @@ public:
             case LLMErrorCode::RAG_FAILED: return "LLM_RAG_FAILED";
             case LLMErrorCode::EMBEDDING_FAILED: return "LLM_EMBEDDING_FAILED";
             case LLMErrorCode::TIMEOUT: return "LLM_TIMEOUT";
+            case LLMErrorCode::INVALID_RESPONSE: return "LLM_INVALID_RESPONSE";
             case LLMErrorCode::OUT_OF_MEMORY: return "LLM_OUT_OF_MEMORY";
             case LLMErrorCode::CACHE_FULL: return "LLM_CACHE_FULL";
             case LLMErrorCode::INTERNAL_ERROR: return "LLM_INTERNAL_ERROR";
@@ -180,6 +182,8 @@ private:
                 return "Embedding generation failed";
             case LLMErrorCode::TIMEOUT:
                 return "Operation timed out";
+            case LLMErrorCode::INVALID_RESPONSE:
+                return "LLM generated an invalid or structurally broken response";
             case LLMErrorCode::OUT_OF_MEMORY:
                 return "Insufficient memory for operation";
             case LLMErrorCode::CACHE_FULL:

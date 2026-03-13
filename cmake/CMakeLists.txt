@@ -1852,6 +1852,7 @@ set(THEMIS_CORE_SOURCES
     ../src/core/concerns/prometheus_metrics.cpp
     ../src/core/concerns/lockfree_metrics.cpp
     ../src/core/concerns/redis_cache.cpp
+    ../src/core/concerns/zero_copy_logger.cpp
     ../src/utils/zstd_codec.cpp
     ../src/utils/pki_client.cpp
     ../src/utils/input_validator.cpp
@@ -1895,6 +1896,7 @@ set(THEMIS_CORE_SOURCES
     ../src/updates/update_state_machine.cpp
     ../src/updates/canary_rollout.cpp
     ../src/updates/delta_update_engine.cpp
+    ../src/updates/parallel_downloader.cpp
     ../src/updates/schema_migration_tester.cpp
     ../src/updates/in_place_schema_migrator.cpp
     ../src/updates/update_history_logger.cpp

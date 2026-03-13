@@ -27,6 +27,7 @@
 #include "aql/llm_aql_handler.h"
 #include "aql/aql_confidence_scorer.h"
 #include "aql/aql_fewshot_example_library.h"
+#include "aql/aql_query_validator.h"
 #include "aql/llm_error_codes.h"
 #include "aql/llm_timeout_manager.h"
 #include "aql/llm_metrics_collector.h"
@@ -210,20 +211,35 @@ std::size_t AQLConversationSession::size() const {
 
 class LLMAQLHandler::Impl {
 public:
-    Impl() 
+    explicit Impl(const LLMAQLHandler::Config& cfg)
         : timeout_manager_()
         , retry_policy_()
-        , circuit_breaker_(sharding::CircuitBreaker::Config{
-            .failure_threshold = 5,
-            .timeout = std::chrono::seconds(60),
-            .success_threshold = 2,
-            .failure_window = std::chrono::seconds(120)
-        })
     {
+        circuit_breakers_.emplace(std::piecewise_construct,
+            std::forward_as_tuple("infer"),
+            std::forward_as_tuple(cfg.infer_circuit_breaker));
+        circuit_breakers_.emplace(std::piecewise_construct,
+            std::forward_as_tuple("rag"),
+            std::forward_as_tuple(cfg.rag_circuit_breaker));
+        circuit_breakers_.emplace(std::piecewise_construct,
+            std::forward_as_tuple("embed"),
+            std::forward_as_tuple(cfg.embed_circuit_breaker));
+        circuit_breakers_.emplace(std::piecewise_construct,
+            std::forward_as_tuple("finetune"),
+            std::forward_as_tuple(cfg.finetune_circuit_breaker));
+
         // Initialize metrics collector
         LLMMetricsCollector::instance().initialize();
     }
-    
+
+    sharding::CircuitBreaker& getBreaker(const std::string& key) {
+        return circuit_breakers_.at(key);
+    }
+
+    const sharding::CircuitBreaker& getBreaker(const std::string& key) const {
+        return circuit_breakers_.at(key);
+    }
+
     llm::LLMPluginManager& getPluginManager() {
         return llm::LLMPluginManager::instance();
     }
@@ -246,12 +262,36 @@ public:
     LLMTimeoutManager timeout_manager_;
     RetryPolicy retry_policy_;
     sharding::CircuitBreaker circuit_breaker_;
+
+    // Post-generation AQL validation enforcement level
+    TranslationValidationMode validation_mode_ = TranslationValidationMode::WARN_ONLY;
+
+    // Optional chat executor override (for unit tests)
+    std::function<std::string(const std::vector<llm::ChatMessage>&)> chat_executor_;
+    std::unordered_map<std::string, sharding::CircuitBreaker> circuit_breakers_;
 };
 
 LLMAQLHandler::LLMAQLHandler() 
-    : impl_(std::make_unique<Impl>()) {}
+    : impl_(std::make_unique<Impl>(Config{})) {}
+
+LLMAQLHandler::LLMAQLHandler(const Config& config)
+    : impl_(std::make_unique<Impl>(config)) {}
 
 LLMAQLHandler::~LLMAQLHandler() = default;
+
+void LLMAQLHandler::setValidationMode(TranslationValidationMode mode) {
+    impl_->validation_mode_ = mode;
+}
+
+TranslationValidationMode LLMAQLHandler::getValidationMode() const {
+    return impl_->validation_mode_;
+}
+
+void LLMAQLHandler::setChatExecutor(
+    std::function<std::string(const std::vector<llm::ChatMessage>&)> executor
+) {
+    impl_->chat_executor_ = std::move(executor);
+}
 
 std::string LLMAQLHandler::executeInfer(
     const std::string& prompt,
@@ -269,7 +309,7 @@ std::string LLMAQLHandler::executeInfer(
         LLMValidator::validateId(lora_id, true);
         
         // Check circuit breaker
-        if (!impl_->circuit_breaker_.allowRequest()) {
+        if (!impl_->getBreaker("infer").allowRequest()) {
             metrics.recordCircuitBreakerState("infer", "open");
             throw LLMException(LLMErrorCode::INFERENCE_FAILED,
                 "Circuit breaker is open - LLM service temporarily unavailable");
@@ -328,7 +368,7 @@ std::string LLMAQLHandler::executeInfer(
         });
         
         // Record success
-        impl_->circuit_breaker_.recordSuccess();
+        impl_->getBreaker("infer").recordSuccess();
         
         auto end_time = std::chrono::steady_clock::now();
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
@@ -354,7 +394,7 @@ std::string LLMAQLHandler::executeInfer(
         
     } catch (const LLMException& e) {
         // Record failure
-        impl_->circuit_breaker_.recordFailure();
+        impl_->getBreaker("infer").recordFailure();
         
         auto end_time = std::chrono::steady_clock::now();
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
@@ -378,7 +418,7 @@ std::string LLMAQLHandler::executeInfer(
         throw;
     } catch (const std::invalid_argument& e) {
         // Record failure
-        impl_->circuit_breaker_.recordFailure();
+        impl_->getBreaker("infer").recordFailure();
         
         auto end_time = std::chrono::steady_clock::now();
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
@@ -398,7 +438,7 @@ std::string LLMAQLHandler::executeInfer(
             std::string("Invalid option value: ") + e.what());
     } catch (const std::exception& e) {
         // Record failure
-        impl_->circuit_breaker_.recordFailure();
+        impl_->getBreaker("infer").recordFailure();
         
         auto end_time = std::chrono::steady_clock::now();
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
@@ -436,7 +476,8 @@ std::string LLMAQLHandler::executeInferStreaming(
         LLMValidator::validateId(lora_id, true);
 
         // Check circuit breaker
-        if (!impl_->circuit_breaker_.allowRequest()) {
+        if (!impl_->getBreaker("infer").allowRequest()) {
+            metrics.recordCircuitBreakerState("infer", "open");
             throw LLMException(LLMErrorCode::INFERENCE_FAILED,
                 "Circuit breaker is open - LLM service temporarily unavailable");
         }
@@ -470,7 +511,7 @@ std::string LLMAQLHandler::executeInferStreaming(
         auto& plugin_mgr = impl_->getPluginManager();
         auto response = plugin_mgr.generate(request);
 
-        impl_->circuit_breaker_.recordSuccess();
+        impl_->getBreaker("infer").recordSuccess();
 
         auto end_time = std::chrono::steady_clock::now();
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
@@ -494,7 +535,7 @@ std::string LLMAQLHandler::executeInferStreaming(
         return response.text;
 
     } catch (const LLMException& e) {
-        impl_->circuit_breaker_.recordFailure();
+        impl_->getBreaker("infer").recordFailure();
 
         auto end_time = std::chrono::steady_clock::now();
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
@@ -512,7 +553,7 @@ std::string LLMAQLHandler::executeInferStreaming(
         spdlog::error("LLM INFER STREAMING failed: model={}, error={}", model_id, e.what());
         throw;
     } catch (const std::exception& e) {
-        impl_->circuit_breaker_.recordFailure();
+        impl_->getBreaker("infer").recordFailure();
 
         auto end_time = std::chrono::steady_clock::now();
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
@@ -551,7 +592,7 @@ std::string LLMAQLHandler::executeRAG(
         LLMValidator::validateId(lora_id, true);
         
         // Check circuit breaker
-        if (!impl_->circuit_breaker_.allowRequest()) {
+        if (!impl_->getBreaker("rag").allowRequest()) {
             metrics.recordCircuitBreakerState("rag", "open");
             throw LLMException(LLMErrorCode::RAG_FAILED,
                 "Circuit breaker is open - LLM service temporarily unavailable");
@@ -650,7 +691,7 @@ std::string LLMAQLHandler::executeRAG(
         });
         
         // Record success
-        impl_->circuit_breaker_.recordSuccess();
+        impl_->getBreaker("rag").recordSuccess();
         
         auto end_time = std::chrono::steady_clock::now();
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
@@ -677,7 +718,7 @@ std::string LLMAQLHandler::executeRAG(
         
     } catch (const LLMException& e) {
         // Record failure
-        impl_->circuit_breaker_.recordFailure();
+        impl_->getBreaker("rag").recordFailure();
         
         auto end_time = std::chrono::steady_clock::now();
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
@@ -700,7 +741,7 @@ std::string LLMAQLHandler::executeRAG(
         throw;
     } catch (const std::invalid_argument& e) {
         // Record failure
-        impl_->circuit_breaker_.recordFailure();
+        impl_->getBreaker("rag").recordFailure();
         
         auto end_time = std::chrono::steady_clock::now();
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
@@ -721,7 +762,7 @@ std::string LLMAQLHandler::executeRAG(
             std::string("Invalid option value: ") + e.what());
     } catch (const std::exception& e) {
         // Record failure
-        impl_->circuit_breaker_.recordFailure();
+        impl_->getBreaker("rag").recordFailure();
         
         auto end_time = std::chrono::steady_clock::now();
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
@@ -747,7 +788,16 @@ std::vector<float> LLMAQLHandler::executeEmbed(
     const std::string& text,
     const std::string& model_id
 ) {
+    auto& metrics = LLMMetricsCollector::instance();
+
     try {
+        // Check circuit breaker
+        if (!impl_->getBreaker("embed").allowRequest()) {
+            metrics.recordCircuitBreakerState("embed", "open");
+            throw LLMException(LLMErrorCode::INFERENCE_FAILED,
+                "Circuit breaker is open - LLM embed service temporarily unavailable");
+        }
+
         auto& plugin_mgr = impl_->getPluginManager();
         
         // If model_id is specified, use plugin manager for model-specific embedding
@@ -763,9 +813,17 @@ std::vector<float> LLMAQLHandler::executeEmbed(
         
         // Use simplified EmbeddedLLM API for default embedding
         auto embedding = THEMIS_LLM_EMBED(text);
+
+        impl_->getBreaker("embed").recordSuccess();
         return embedding;
-        
+
+    } catch (const LLMException& e) {
+        impl_->getBreaker("embed").recordFailure();
+        throw std::runtime_error(
+            std::string("LLM EMBED failed: ") + e.what()
+        );
     } catch (const std::exception& e) {
+        impl_->getBreaker("embed").recordFailure();
         throw std::runtime_error(
             std::string("LLM EMBED failed: ") + e.what()
         );
@@ -874,6 +932,13 @@ std::string LLMAQLHandler::executeStats() {
         oss << "  Total requests: " << stats.total_requests << "\n";
         oss << "  Average latency: " << stats.average_latency_ms << " ms\n";
         oss << "  Throughput: " << stats.throughput << " req/s\n";
+
+        auto cb_states = getCircuitBreakerStates();
+        oss << "  Circuit breakers:\n";
+        oss << "    infer:    " << cb_states.infer    << "\n";
+        oss << "    rag:      " << cb_states.rag      << "\n";
+        oss << "    embed:    " << cb_states.embed    << "\n";
+        oss << "    finetune: " << cb_states.finetune << "\n";
         
         return oss.str();
     } catch (const std::exception& e) {
@@ -881,6 +946,15 @@ std::string LLMAQLHandler::executeStats() {
             std::string("LLM STATS failed: ") + e.what()
         );
     }
+}
+
+LLMAQLHandler::CircuitBreakerStates LLMAQLHandler::getCircuitBreakerStates() const {
+    CircuitBreakerStates states;
+    states.infer    = sharding::CircuitBreaker::stateToString(impl_->getBreaker("infer").getState());
+    states.rag      = sharding::CircuitBreaker::stateToString(impl_->getBreaker("rag").getState());
+    states.embed    = sharding::CircuitBreaker::stateToString(impl_->getBreaker("embed").getState());
+    states.finetune = sharding::CircuitBreaker::stateToString(impl_->getBreaker("finetune").getState());
+    return states;
 }
 
 std::string LLMAQLHandler::executeCacheStats() {
@@ -969,98 +1043,143 @@ std::string LLMAQLHandler::translateNLToAQL(
     sanitizePromptInput(schema_context, "schema_context",
                         ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH);
 
-    try {
-        // Build system prompt for AQL translation
-        std::ostringstream system_prompt;
-        system_prompt << "You are an expert in AQL (Application Query Language) for ThemisDB.\n";
-        system_prompt << "ThemisDB AQL is based on ArangoDB's AQL but extended with additional features.\n\n";
-        
-        // Add schema context if provided
-        if (!schema_context.empty()) {
-            system_prompt << "Database schema:\n" << schema_context << "\n\n";
-        } else {
-            // Default schema description
-            system_prompt << "ThemisDB is a distributed graph database with AQL support.\n";
-            system_prompt << "Common collections: documents, nodes, edges, users, etc.\n";
-            system_prompt << "Graph structures use edges to connect nodes.\n\n";
-        }
-        
-        system_prompt << "Your task: Convert natural language queries to valid AQL.\n";
-        system_prompt << "Requirements:\n";
-        system_prompt << "- Return ONLY the AQL query, no explanations or markdown\n";
-        system_prompt << "- Use proper AQL syntax (FOR, FILTER, SORT, LIMIT, RETURN)\n";
-        system_prompt << "- Handle graph traversals with proper edge syntax if needed\n";
-        system_prompt << "- Optimize for performance\n\n";
-        
-        // Build user prompt
-        std::ostringstream user_prompt;
-        user_prompt << "Natural language query: " << nl_query << "\n\n";
-        user_prompt << "Generate the corresponding AQL query:";
-        
-        // Create chat messages for better context
-        std::vector<llm::ChatMessage> messages;
-        messages.emplace_back("system", system_prompt.str());
-        messages.emplace_back("user", user_prompt.str());
-        
-        // Use chat interface for better results
-        auto response = executeChat(messages);
-        
-        // Clean up response - remove markdown code blocks if present
-        std::string aql_query = response;
-        
-        // Remove ```aql or ``` markers
-        size_t start_marker = aql_query.find("```");
-        if (start_marker != std::string::npos) {
-            // Find the actual start of the query (after ```aql or ```)
-            size_t query_start = aql_query.find('\n', start_marker);
-            if (query_start != std::string::npos) {
-                query_start++;
-                // Find end marker
-                size_t end_marker = aql_query.find("```", query_start);
-                if (end_marker != std::string::npos) {
-                    aql_query = aql_query.substr(query_start, end_marker - query_start);
+    const TranslationValidationMode mode = impl_->validation_mode_;
+    const size_t max_attempts = (mode == TranslationValidationMode::RETRY_ON_ERROR)
+                                ? RetryPolicy::Config::defaults().max_retries + 1
+                                : 1;
+    std::string validation_feedback;
+
+    for (size_t attempt = 0; attempt < max_attempts; ++attempt) {
+        try {
+            // Build system prompt for AQL translation
+            std::ostringstream system_prompt;
+            system_prompt << "You are an expert in AQL (Application Query Language) for ThemisDB.\n";
+            system_prompt << "ThemisDB AQL is based on ArangoDB's AQL but extended with additional features.\n\n";
+
+            // Add schema context if provided
+            if (!schema_context.empty()) {
+                system_prompt << "Database schema:\n" << schema_context << "\n\n";
+            } else {
+                // Default schema description
+                system_prompt << "ThemisDB is a distributed graph database with AQL support.\n";
+                system_prompt << "Common collections: documents, nodes, edges, users, etc.\n";
+                system_prompt << "Graph structures use edges to connect nodes.\n\n";
+            }
+
+            system_prompt << "Your task: Convert natural language queries to valid AQL.\n";
+            system_prompt << "Requirements:\n";
+            system_prompt << "- Return ONLY the AQL query, no explanations or markdown\n";
+            system_prompt << "- Use proper AQL syntax (FOR, FILTER, SORT, LIMIT, RETURN)\n";
+            system_prompt << "- Handle graph traversals with proper edge syntax if needed\n";
+            system_prompt << "- Optimize for performance\n\n";
+
+            // On retry, append previous validation error as feedback
+            if (attempt > 0 && !validation_feedback.empty()) {
+                system_prompt << "Your previous attempt produced this AQL validation error:\n"
+                              << validation_feedback << "\n"
+                              << "Please fix the issue and generate a valid AQL query.\n\n";
+            }
+
+            // Build user prompt
+            std::ostringstream user_prompt;
+            user_prompt << "Natural language query: " << nl_query << "\n\n";
+            user_prompt << "Generate the corresponding AQL query:";
+
+            // Create chat messages for better context
+            std::vector<llm::ChatMessage> messages;
+            messages.emplace_back("system", system_prompt.str());
+            messages.emplace_back("user", user_prompt.str());
+
+            // Use chat interface for better results
+            auto response = executeChat(messages);
+
+            // Clean up response - remove markdown code blocks if present
+            std::string aql_query = response;
+
+            // Remove ```aql or ``` markers
+            size_t start_marker = aql_query.find("```");
+            if (start_marker != std::string::npos) {
+                // Find the actual start of the query (after ```aql or ```)
+                size_t query_start = aql_query.find('\n', start_marker);
+                if (query_start != std::string::npos) {
+                    query_start++;
+                    // Find end marker
+                    size_t end_marker = aql_query.find("```", query_start);
+                    if (end_marker != std::string::npos) {
+                        aql_query = aql_query.substr(query_start, end_marker - query_start);
+                    }
                 }
             }
-        }
-        
-        // Trim whitespace
-        auto trim = [](std::string& s) {
-            s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
-                return !std::isspace(ch);
-            }));
-            s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
-                return !std::isspace(ch);
-            }).base(), s.end());
-        };
-        trim(aql_query);
-        
-        // Validate generated AQL and log any structural issues
-        AQLSyntaxHighlighter validator(/*use_ansi=*/false);
-        auto annotations = validator.annotateErrors(aql_query);
-        if (!annotations.empty()) {
-            // Truncate the query preview to avoid overly long log entries
-            constexpr std::size_t MAX_PREVIEW = 100;
-            std::string query_preview = nl_query.size() > MAX_PREVIEW
-                ? nl_query.substr(0, MAX_PREVIEW) + "..."
-                : nl_query;
-            
-            std::ostringstream warn_msg;
-            warn_msg << "NL-to-AQL translation produced " << annotations.size()
-                     << " potential syntax issue(s) for query \"" << query_preview << "\":";
-            for (const auto& ann : annotations) {
-                warn_msg << "\n  Line " << ann.line << ", Col " << ann.column
-                         << ": " << ann.message;
+
+            // Trim whitespace
+            auto trim = [](std::string& s) {
+                s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+                    return !std::isspace(ch);
+                }));
+                s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+                    return !std::isspace(ch);
+                }).base(), s.end());
+            };
+            trim(aql_query);
+
+            // Post-generation structural validation via AQLQueryValidator
+            AQLQueryValidator aql_validator;
+            auto vresult = aql_validator.validate(aql_query);
+            if (vresult.hasErrors()) {
+                // Locate the first ERROR-severity issue for the feedback message.
+                auto err_it = std::find_if(vresult.issues.begin(), vresult.issues.end(),
+                    [](const ValidationIssue& i) {
+                        return i.severity == ValidationIssue::Severity::ERROR;
+                    });
+                validation_feedback = (err_it != vresult.issues.end())
+                    ? err_it->message : "unknown validation error";
+                if (mode == TranslationValidationMode::REJECT_ON_ERROR ||
+                    attempt + 1 >= max_attempts) {
+                    throw LLMException(LLMErrorCode::INVALID_RESPONSE,
+                        "Generated AQL failed validation: " + validation_feedback);
+                }
+                // RETRY_ON_ERROR: log warning and retry with feedback
+                spdlog::warn("NL-to-AQL validation error (attempt {}/{}): {}",
+                             attempt + 1, max_attempts, validation_feedback);
+                continue;
             }
-            spdlog::warn("{}", warn_msg.str());
+
+            // Validate generated AQL and log any structural issues from syntax highlighter
+            AQLSyntaxHighlighter validator(/*use_ansi=*/false);
+            auto annotations = validator.annotateErrors(aql_query);
+            if (!annotations.empty()) {
+                // Truncate the query preview to avoid overly long log entries
+                constexpr std::size_t MAX_PREVIEW = 100;
+                std::string query_preview = nl_query.size() > MAX_PREVIEW
+                    ? nl_query.substr(0, MAX_PREVIEW) + "..."
+                    : nl_query;
+
+                std::ostringstream warn_msg;
+                warn_msg << "NL-to-AQL translation produced " << annotations.size()
+                         << " potential syntax issue(s) for query \"" << query_preview << "\":";
+                for (const auto& ann : annotations) {
+                    warn_msg << "\n  Line " << ann.line << ", Col " << ann.column
+                             << ": " << ann.message;
+                }
+                spdlog::warn("{}", warn_msg.str());
+            }
+
+            return aql_query;
+
+        } catch (const LLMException&) {
+            // Re-throw LLMException (PROMPT_INJECTION, PROMPT_TOO_LONG, INVALID_RESPONSE, …)
+            // unchanged so callers can distinguish them from generic errors.
+            throw;
+        } catch (const std::exception& e) {
+            throw std::runtime_error(
+                std::string("NL to AQL translation failed: ") + e.what()
+            );
         }
-        
-        return aql_query;
-        
-    } catch (const std::exception& e) {
-        throw std::runtime_error(
-            std::string("NL to AQL translation failed: ") + e.what()
-        );
     }
+
+    // Reached only when max_attempts > 1 and all retries produced validation errors.
+    throw LLMException(LLMErrorCode::INVALID_RESPONSE,
+        "Generated AQL failed validation after all retries: " + validation_feedback);
 }
 
 std::string LLMAQLHandler::translateNLToAQLStreaming(
@@ -1075,90 +1194,140 @@ std::string LLMAQLHandler::translateNLToAQLStreaming(
         sanitizePromptInput(schema_context, "schema_context",
                             ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH);
 
-        // Build the same prompt used by translateNLToAQL
-        std::ostringstream system_prompt;
-        system_prompt << "You are an expert in AQL (Application Query Language) for ThemisDB.\n";
-        system_prompt << "ThemisDB AQL is based on ArangoDB's AQL but extended with additional features.\n\n";
+        const TranslationValidationMode mode = impl_->validation_mode_;
+        const size_t max_attempts = (mode == TranslationValidationMode::RETRY_ON_ERROR)
+                                    ? RetryPolicy::Config::defaults().max_retries + 1
+                                    : 1;
+        std::string validation_feedback;
 
-        if (!schema_context.empty()) {
-            system_prompt << "Database schema:\n" << schema_context << "\n\n";
-        } else {
-            system_prompt << "ThemisDB is a distributed graph database with AQL support.\n";
-            system_prompt << "Common collections: documents, nodes, edges, users, etc.\n";
-            system_prompt << "Graph structures use edges to connect nodes.\n\n";
-        }
+        for (size_t attempt = 0; attempt < max_attempts; ++attempt) {
+            // Build the same prompt used by translateNLToAQL
+            std::ostringstream system_prompt;
+            system_prompt << "You are an expert in AQL (Application Query Language) for ThemisDB.\n";
+            system_prompt << "ThemisDB AQL is based on ArangoDB's AQL but extended with additional features.\n\n";
 
-        system_prompt << "Your task: Convert natural language queries to valid AQL.\n";
-        system_prompt << "Requirements:\n";
-        system_prompt << "- Return ONLY the AQL query, no explanations or markdown\n";
-        system_prompt << "- Use proper AQL syntax (FOR, FILTER, SORT, LIMIT, RETURN)\n";
-        system_prompt << "- Handle graph traversals with proper edge syntax if needed\n";
-        system_prompt << "- Optimize for performance\n\n";
+            if (!schema_context.empty()) {
+                system_prompt << "Database schema:\n" << schema_context << "\n\n";
+            } else {
+                system_prompt << "ThemisDB is a distributed graph database with AQL support.\n";
+                system_prompt << "Common collections: documents, nodes, edges, users, etc.\n";
+                system_prompt << "Graph structures use edges to connect nodes.\n\n";
+            }
 
-        std::ostringstream user_prompt;
-        user_prompt << "Natural language query: " << nl_query << "\n\n";
-        user_prompt << "Generate the corresponding AQL query:";
+            system_prompt << "Your task: Convert natural language queries to valid AQL.\n";
+            system_prompt << "Requirements:\n";
+            system_prompt << "- Return ONLY the AQL query, no explanations or markdown\n";
+            system_prompt << "- Use proper AQL syntax (FOR, FILTER, SORT, LIMIT, RETURN)\n";
+            system_prompt << "- Handle graph traversals with proper edge syntax if needed\n";
+            system_prompt << "- Optimize for performance\n\n";
 
-        // Combine into a single prompt for streaming
-        std::string full_prompt = system_prompt.str() + user_prompt.str();
+            // On retry, append previous validation error as feedback
+            if (attempt > 0 && !validation_feedback.empty()) {
+                system_prompt << "Your previous attempt produced this AQL validation error:\n"
+                              << validation_feedback << "\n"
+                              << "Please fix the issue and generate a valid AQL query.\n\n";
+            }
 
-        // Stream via executeInferStreaming; collect tokens so we can post-process
-        std::string raw_response;
-        auto collecting_callback = [&raw_response, &token_callback](const std::string& token) {
-            raw_response += token;
-            token_callback(token);
-        };
+            std::ostringstream user_prompt;
+            user_prompt << "Natural language query: " << nl_query << "\n\n";
+            user_prompt << "Generate the corresponding AQL query:";
 
-        executeInferStreaming(full_prompt, collecting_callback);
+            // Combine into a single prompt for streaming
+            std::string full_prompt = system_prompt.str() + user_prompt.str();
 
-        // Post-process: strip markdown fences and trim (same as translateNLToAQL)
-        std::string aql_query = raw_response;
+            // Stream via executeInferStreaming; collect tokens so we can post-process.
+            // Tokens are forwarded to the caller on all attempts (including retries).
+            // When a chat executor override is set (for testing), use it instead.
+            std::string raw_response;
+            if (impl_->chat_executor_) {
+                // Test/mock path: build messages and use the injected executor.
+                std::vector<llm::ChatMessage> messages;
+                messages.emplace_back("system", system_prompt.str());
+                messages.emplace_back("user", user_prompt.str());
+                raw_response = impl_->chat_executor_(messages);
+                token_callback(raw_response);
+            } else {
+                auto collecting_callback = [&raw_response, &token_callback](const std::string& token) {
+                    raw_response += token;
+                    token_callback(token);
+                };
+                executeInferStreaming(full_prompt, collecting_callback);
+            }
 
-        size_t start_marker = aql_query.find("```");
-        if (start_marker != std::string::npos) {
-            size_t query_start = aql_query.find('\n', start_marker);
-            if (query_start != std::string::npos) {
-                query_start++;
-                size_t end_marker = aql_query.find("```", query_start);
-                if (end_marker != std::string::npos) {
-                    aql_query = aql_query.substr(query_start, end_marker - query_start);
+            // Post-process: strip markdown fences and trim (same as translateNLToAQL)
+            std::string aql_query = raw_response;
+
+            size_t start_marker = aql_query.find("```");
+            if (start_marker != std::string::npos) {
+                size_t query_start = aql_query.find('\n', start_marker);
+                if (query_start != std::string::npos) {
+                    query_start++;
+                    size_t end_marker = aql_query.find("```", query_start);
+                    if (end_marker != std::string::npos) {
+                        aql_query = aql_query.substr(query_start, end_marker - query_start);
+                    }
                 }
             }
-        }
 
-        auto trim = [](std::string& s) {
-            s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
-                return !std::isspace(ch);
-            }));
-            s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
-                return !std::isspace(ch);
-            }).base(), s.end());
-        };
-        trim(aql_query);
+            auto trim = [](std::string& s) {
+                s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+                    return !std::isspace(ch);
+                }));
+                s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+                    return !std::isspace(ch);
+                }).base(), s.end());
+            };
+            trim(aql_query);
 
-        // Validate and log any structural issues
-        AQLSyntaxHighlighter validator(/*use_ansi=*/false);
-        auto annotations = validator.annotateErrors(aql_query);
-        if (!annotations.empty()) {
-            constexpr std::size_t MAX_PREVIEW = 100;
-            std::string query_preview = nl_query.size() > MAX_PREVIEW
-                ? nl_query.substr(0, MAX_PREVIEW) + "..."
-                : nl_query;
-            std::ostringstream warn_msg;
-            warn_msg << "translateNLToAQLStreaming produced " << annotations.size()
-                     << " potential syntax issue(s) for query \"" << query_preview << "\":";
-            for (const auto& ann : annotations) {
-                warn_msg << "\n  Line " << ann.line << ", Col " << ann.column
-                         << ": " << ann.message;
+            // Post-generation structural validation via AQLQueryValidator
+            AQLQueryValidator aql_validator;
+            auto vresult = aql_validator.validate(aql_query);
+            if (vresult.hasErrors()) {
+                auto err_it = std::find_if(vresult.issues.begin(), vresult.issues.end(),
+                    [](const ValidationIssue& i) {
+                        return i.severity == ValidationIssue::Severity::ERROR;
+                    });
+                validation_feedback = (err_it != vresult.issues.end())
+                    ? err_it->message : "unknown validation error";
+                if (mode == TranslationValidationMode::REJECT_ON_ERROR ||
+                    attempt + 1 >= max_attempts) {
+                    throw LLMException(LLMErrorCode::INVALID_RESPONSE,
+                        "Generated AQL failed validation: " + validation_feedback);
+                }
+                // RETRY_ON_ERROR: log warning and retry with feedback
+                spdlog::warn("Streaming NL-to-AQL validation error (attempt {}/{}): {}",
+                             attempt + 1, max_attempts, validation_feedback);
+                continue;
             }
-            spdlog::warn("{}", warn_msg.str());
+
+            // Validate and log any structural issues from syntax highlighter
+            AQLSyntaxHighlighter validator(/*use_ansi=*/false);
+            auto annotations = validator.annotateErrors(aql_query);
+            if (!annotations.empty()) {
+                constexpr std::size_t MAX_PREVIEW = 100;
+                std::string query_preview = nl_query.size() > MAX_PREVIEW
+                    ? nl_query.substr(0, MAX_PREVIEW) + "..."
+                    : nl_query;
+                std::ostringstream warn_msg;
+                warn_msg << "translateNLToAQLStreaming produced " << annotations.size()
+                         << " potential syntax issue(s) for query \"" << query_preview << "\":";
+                for (const auto& ann : annotations) {
+                    warn_msg << "\n  Line " << ann.line << ", Col " << ann.column
+                             << ": " << ann.message;
+                }
+                spdlog::warn("{}", warn_msg.str());
+            }
+
+            return aql_query;
         }
 
-        return aql_query;
+        // Reached only when max_attempts > 1 and all retries produced validation errors.
+        throw LLMException(LLMErrorCode::INVALID_RESPONSE,
+            "Generated AQL failed validation after all retries: " + validation_feedback);
 
     } catch (const LLMException&) {
-        // Re-throw LLMException (e.g. PROMPT_INJECTION, PROMPT_TOO_LONG) unchanged so
-        // callers can distinguish security-related failures from generic errors.
+        // Re-throw LLMException (e.g. PROMPT_INJECTION, PROMPT_TOO_LONG, INVALID_RESPONSE)
+        // unchanged so callers can distinguish security-related failures from generic errors.
         throw;
     } catch (const std::exception& e) {
         throw std::runtime_error(
@@ -1195,6 +1364,11 @@ std::string LLMAQLHandler::executeChat(
     const std::unordered_map<std::string, std::string>& options
 ) {
     try {
+        // If a test/mock executor has been injected, use it instead of the live LLM.
+        if (impl_->chat_executor_) {
+            return impl_->chat_executor_(messages);
+        }
+
         // Use EmbeddedLLM chat interface
         auto& llm = llm::EmbeddedLLMManager::instance().get();
         
@@ -1317,104 +1491,149 @@ std::string LLMAQLHandler::translateNLToAQLWithExamples(
     sanitizePromptInput(schema_context, "schema_context",
                         ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH);
 
-    try {
-        // Build system prompt
-        std::ostringstream system_prompt;
-        system_prompt << "You are an expert in AQL (Application Query Language) for ThemisDB.\n";
-        system_prompt << "ThemisDB AQL is based on ArangoDB's AQL but extended with additional features.\n\n";
+    const TranslationValidationMode mode = impl_->validation_mode_;
+    const size_t max_attempts = (mode == TranslationValidationMode::RETRY_ON_ERROR)
+                                ? RetryPolicy::Config::defaults().max_retries + 1
+                                : 1;
+    std::string validation_feedback;
 
-        if (!schema_context.empty()) {
-            system_prompt << "Database schema:\n" << schema_context << "\n\n";
-        } else {
-            system_prompt << "ThemisDB is a distributed graph database with AQL support.\n";
-            system_prompt << "Common collections: documents, nodes, edges, users, etc.\n";
-            system_prompt << "Graph structures use edges to connect nodes.\n\n";
-        }
+    for (size_t attempt = 0; attempt < max_attempts; ++attempt) {
+        try {
+            // Build system prompt
+            std::ostringstream system_prompt;
+            system_prompt << "You are an expert in AQL (Application Query Language) for ThemisDB.\n";
+            system_prompt << "ThemisDB AQL is based on ArangoDB's AQL but extended with additional features.\n\n";
 
-        system_prompt << "Your task: Convert natural language queries to valid AQL.\n";
-        system_prompt << "Requirements:\n";
-        system_prompt << "- Return ONLY the AQL query, no explanations or markdown\n";
-        system_prompt << "- Use proper AQL syntax (FOR, FILTER, SORT, LIMIT, RETURN)\n";
-        system_prompt << "- Handle graph traversals with proper edge syntax if needed\n";
-        system_prompt << "- Optimize for performance\n\n";
-
-        // Inject few-shot examples from the library
-        std::size_t injected_count = 0;
-        if (max_examples > 0) {
-            auto examples = library.findRelevant(nl_query, max_examples);
-            if (!examples.empty()) {
-                injected_count = examples.size();
-                system_prompt << AQLFewShotExampleLibrary::formatForPrompt(examples);
+            if (!schema_context.empty()) {
+                system_prompt << "Database schema:\n" << schema_context << "\n\n";
+            } else {
+                system_prompt << "ThemisDB is a distributed graph database with AQL support.\n";
+                system_prompt << "Common collections: documents, nodes, edges, users, etc.\n";
+                system_prompt << "Graph structures use edges to connect nodes.\n\n";
             }
-        }
 
-        // Build user prompt
-        std::ostringstream user_prompt;
-        user_prompt << "Natural language query: " << nl_query << "\n\n";
-        user_prompt << "Generate the corresponding AQL query:";
+            system_prompt << "Your task: Convert natural language queries to valid AQL.\n";
+            system_prompt << "Requirements:\n";
+            system_prompt << "- Return ONLY the AQL query, no explanations or markdown\n";
+            system_prompt << "- Use proper AQL syntax (FOR, FILTER, SORT, LIMIT, RETURN)\n";
+            system_prompt << "- Handle graph traversals with proper edge syntax if needed\n";
+            system_prompt << "- Optimize for performance\n\n";
 
-        std::vector<llm::ChatMessage> messages;
-        messages.emplace_back("system", system_prompt.str());
-        messages.emplace_back("user", user_prompt.str());
-
-        auto response = executeChat(messages);
-
-        // Strip markdown fences
-        std::string aql_query = response;
-        size_t start_marker = aql_query.find("```");
-        if (start_marker != std::string::npos) {
-            size_t query_start = aql_query.find('\n', start_marker);
-            if (query_start != std::string::npos) {
-                query_start++;
-                size_t end_marker = aql_query.find("```", query_start);
-                if (end_marker != std::string::npos) {
-                    aql_query = aql_query.substr(query_start, end_marker - query_start);
+            // Inject few-shot examples from the library (only on first attempt to keep
+            // the retry prompt focused on the error feedback)
+            std::size_t injected_count = 0;
+            if (attempt == 0 && max_examples > 0) {
+                auto examples = library.findRelevant(nl_query, max_examples);
+                if (!examples.empty()) {
+                    injected_count = examples.size();
+                    system_prompt << AQLFewShotExampleLibrary::formatForPrompt(examples);
                 }
             }
-        }
 
-        // Trim whitespace
-        auto trim = [](std::string& s) {
-            s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
-                return !std::isspace(ch);
-            }));
-            s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
-                return !std::isspace(ch);
-            }).base(), s.end());
-        };
-        trim(aql_query);
-
-        // Validate and log any structural issues
-        AQLSyntaxHighlighter validator(/*use_ansi=*/false);
-        auto annotations = validator.annotateErrors(aql_query);
-        if (!annotations.empty()) {
-            constexpr std::size_t MAX_PREVIEW = 100;
-            std::string query_preview = nl_query.size() > MAX_PREVIEW
-                ? nl_query.substr(0, MAX_PREVIEW) + "..."
-                : nl_query;
-            std::ostringstream warn_msg;
-            warn_msg << "translateNLToAQLWithExamples produced "
-                     << annotations.size()
-                     << " potential syntax issue(s) for query \""
-                     << query_preview << "\":";
-            for (const auto& ann : annotations) {
-                warn_msg << "\n  Line " << ann.line << ", Col " << ann.column
-                         << ": " << ann.message;
+            // On retry, append previous validation error as feedback
+            if (attempt > 0 && !validation_feedback.empty()) {
+                system_prompt << "Your previous attempt produced this AQL validation error:\n"
+                              << validation_feedback << "\n"
+                              << "Please fix the issue and generate a valid AQL query.\n\n";
             }
-            spdlog::warn("{}", warn_msg.str());
+
+            // Build user prompt
+            std::ostringstream user_prompt;
+            user_prompt << "Natural language query: " << nl_query << "\n\n";
+            user_prompt << "Generate the corresponding AQL query:";
+
+            std::vector<llm::ChatMessage> messages;
+            messages.emplace_back("system", system_prompt.str());
+            messages.emplace_back("user", user_prompt.str());
+
+            auto response = executeChat(messages);
+
+            // Strip markdown fences
+            std::string aql_query = response;
+            size_t start_marker = aql_query.find("```");
+            if (start_marker != std::string::npos) {
+                size_t query_start = aql_query.find('\n', start_marker);
+                if (query_start != std::string::npos) {
+                    query_start++;
+                    size_t end_marker = aql_query.find("```", query_start);
+                    if (end_marker != std::string::npos) {
+                        aql_query = aql_query.substr(query_start, end_marker - query_start);
+                    }
+                }
+            }
+
+            // Trim whitespace
+            auto trim = [](std::string& s) {
+                s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+                    return !std::isspace(ch);
+                }));
+                s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+                    return !std::isspace(ch);
+                }).base(), s.end());
+            };
+            trim(aql_query);
+
+            // Post-generation structural validation via AQLQueryValidator
+            AQLQueryValidator aql_validator;
+            auto vresult = aql_validator.validate(aql_query);
+            if (vresult.hasErrors()) {
+                auto err_it = std::find_if(vresult.issues.begin(), vresult.issues.end(),
+                    [](const ValidationIssue& i) {
+                        return i.severity == ValidationIssue::Severity::ERROR;
+                    });
+                validation_feedback = (err_it != vresult.issues.end())
+                    ? err_it->message : "unknown validation error";
+                if (mode == TranslationValidationMode::REJECT_ON_ERROR ||
+                    attempt + 1 >= max_attempts) {
+                    throw LLMException(LLMErrorCode::INVALID_RESPONSE,
+                        "Generated AQL failed validation: " + validation_feedback);
+                }
+                // RETRY_ON_ERROR: log warning and retry with feedback
+                spdlog::warn("WithExamples NL-to-AQL validation error (attempt {}/{}): {}",
+                             attempt + 1, max_attempts, validation_feedback);
+                continue;
+            }
+
+            // Validate and log any structural issues from syntax highlighter
+            AQLSyntaxHighlighter validator(/*use_ansi=*/false);
+            auto annotations = validator.annotateErrors(aql_query);
+            if (!annotations.empty()) {
+                constexpr std::size_t MAX_PREVIEW = 100;
+                std::string query_preview = nl_query.size() > MAX_PREVIEW
+                    ? nl_query.substr(0, MAX_PREVIEW) + "..."
+                    : nl_query;
+                std::ostringstream warn_msg;
+                warn_msg << "translateNLToAQLWithExamples produced "
+                         << annotations.size()
+                         << " potential syntax issue(s) for query \""
+                         << query_preview << "\":";
+                for (const auto& ann : annotations) {
+                    warn_msg << "\n  Line " << ann.line << ", Col " << ann.column
+                             << ": " << ann.message;
+                }
+                spdlog::warn("{}", warn_msg.str());
+            }
+
+            spdlog::debug("translateNLToAQLWithExamples: injected {} examples for query \"{}\"",
+                          injected_count,
+                          nl_query.size() > 60 ? nl_query.substr(0, 60) + "..." : nl_query);
+
+            return aql_query;
+
+        } catch (const LLMException&) {
+            // Re-throw LLMException (PROMPT_INJECTION, PROMPT_TOO_LONG, INVALID_RESPONSE, …)
+            // unchanged so callers can distinguish them from generic errors.
+            throw;
+        } catch (const std::exception& e) {
+            throw std::runtime_error(
+                std::string("NL to AQL translation with examples failed: ") + e.what()
+            );
         }
-
-        spdlog::debug("translateNLToAQLWithExamples: injected {} examples for query \"{}\"",
-                      injected_count,
-                      nl_query.size() > 60 ? nl_query.substr(0, 60) + "..." : nl_query);
-
-        return aql_query;
-
-    } catch (const std::exception& e) {
-        throw std::runtime_error(
-            std::string("NL to AQL translation with examples failed: ") + e.what()
-        );
     }
+
+    // Reached only when max_attempts > 1 and all retries produced validation errors.
+    throw LLMException(LLMErrorCode::INVALID_RESPONSE,
+        "Generated AQL failed validation after all retries: " + validation_feedback);
 }
 
 LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(

@@ -173,7 +173,8 @@ context->registerConcern<ICustomConcern>(my_custom_concern);
 
 ### Zero-Copy Logging
 **Priority:** High  
-**Target Version:** v1.6.0
+**Target Version:** v1.6.0  
+**Status:** ✅ Implemented
 
 Reduce memory allocations in logging hot paths.
 
@@ -181,6 +182,22 @@ Reduce memory allocations in logging hot paths.
 **Target:** Pre-allocated buffers and string_view usage
 
 **Expected Improvement:** 30-50% reduction in logging overhead
+
+**Implementation:**
+- `ZeroCopyLogger` in `include/core/concerns/zero_copy_logger.h` and
+  `src/core/concerns/zero_copy_logger.cpp`
+- `string_view` hot-path API: `logSV`, `traceSV`, `debugSV`, `infoSV`,
+  `warnSV`, `errorSV`, `criticalSV`, `logStructuredSV`
+- Pre-allocated `thread_local std::string` format buffer — reserved once per
+  thread, `clear()`-ed on each call so no heap allocation on the hot path
+- Early level-check (`shouldLog`) to skip all formatting work for filtered
+  levels
+- Full `ILogger` compatibility: `const std::string&` overrides delegate to
+  `string_view` hot path (no additional copy)
+- `json_mode_` is `std::atomic<bool>` — safe concurrent `setJsonMode()` while logging
+- PII redaction on field values (allocation-free key scan)
+
+See `tests/test_zero_copy_logging.cpp` for 41 focused unit tests.
 
 ---
 

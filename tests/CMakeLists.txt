@@ -7141,9 +7141,57 @@ else()
     endif()
 endif()
 
-# ============================================================================
-# Global Transaction Manager Tests
-# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_per_operation_circuit_breakers.cpp")
+    message(STATUS "Adding Per-Operation Circuit Breakers tests (Issue #33)")
+
+    add_executable(test_per_operation_circuit_breakers
+        test_per_operation_circuit_breakers.cpp
+    )
+
+    target_include_directories(test_per_operation_circuit_breakers PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    if(TARGET themis_llm)
+        target_link_libraries(test_per_operation_circuit_breakers PRIVATE
+            ${TEST_LIBS}
+            themis_llm
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            Threads::Threads
+        )
+    else()
+        target_link_libraries(test_per_operation_circuit_breakers PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            Threads::Threads
+        )
+    endif()
+
+    target_compile_definitions(test_per_operation_circuit_breakers PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_LLM_EXPORTS
+    )
+
+    add_test(NAME PerOperationCircuitBreakersFocusedTests COMMAND test_per_operation_circuit_breakers)
+
+    set_tests_properties(PerOperationCircuitBreakersFocusedTests PROPERTIES
+        LABELS "llm;aql;circuit-breaker;resilience;per-operation;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PerOperationCircuitBreakers: per-op isolation, config injection, getCircuitBreakerStates(), LLM STATS output")
+else()
+    message(STATUS "Per-Operation Circuit Breakers tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_per_operation_circuit_breakers.cpp")
+endif()
+
+
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_global_transaction_manager.cpp")
     message(STATUS "Adding Global Transaction Manager tests")
@@ -9418,6 +9466,45 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lockfree_metrics.cpp")
     message(STATUS "  LockFreeMetrics: atomic counters, SPSC ring buffer, thread-local aggregation, periodic flush")
 else()
     message(STATUS "LockFree Metrics focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lockfree_metrics.cpp")
+endif()
+
+# ============================================================================
+# Zero-Copy Logging focused tests (core module, Issue #65, v1.6.0)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_zero_copy_logging.cpp")
+    message(STATUS "Adding Zero-Copy Logging focused tests (core module, Issue #65)")
+
+    add_executable(test_zero_copy_logging_focused
+        test_zero_copy_logging.cpp
+    )
+
+    target_include_directories(test_zero_copy_logging_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_zero_copy_logging_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_zero_copy_logging_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ZeroCopyLoggingFocusedTests COMMAND test_zero_copy_logging_focused)
+
+    set_tests_properties(ZeroCopyLoggingFocusedTests PROPERTIES
+        LABELS "core;logging;zero-copy;string-view;thread-local;buffer;v1.6.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ZeroCopyLogger: string_view hot-path, pre-allocated thread-local buffer, early level-check, PII redaction")
+else()
+    message(STATUS "Zero-Copy Logging focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_zero_copy_logging.cpp")
 endif()
 
 # ============================================================================
@@ -12971,6 +13058,44 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_migration_tester.cpp")
     message(STATUS "  SchemaMigrationTester: apply to staging before production, rollback on failure, version compatibility checks")
 else()
     message(STATUS "Schema Migration Tester focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_schema_migration_tester.cpp")
+endif()
+
+# ParallelFileDownloads – focused tests for parallel downloader (Issue #128 / v1.6.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_file_downloads.cpp")
+    message(STATUS "Adding Parallel File Downloads focused tests")
+
+    add_executable(test_parallel_file_downloads_focused
+        test_parallel_file_downloads.cpp
+    )
+
+    target_include_directories(test_parallel_file_downloads_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_parallel_file_downloads_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_parallel_file_downloads_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ParallelFileDownloadsFocusedTests COMMAND test_parallel_file_downloads_focused)
+
+    set_tests_properties(ParallelFileDownloadsFocusedTests PROPERTIES
+        LABELS "updates;parallel-downloads;concurrency;bandwidth;priority;resume;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ParallelFileDownloads: configurable concurrency, bandwidth throttling, priority queue, resume support")
+else()
+    message(STATUS "Parallel File Downloads focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_file_downloads.cpp")
 endif()
 
 # DistributedGateway – focused tests for multi-node API gateway

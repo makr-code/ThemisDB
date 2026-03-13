@@ -50,11 +50,11 @@ The AQL module is ThemisDB's query language and LLM-integration layer. It covers
 **Problem (from code):** `llm_aql_handler.cpp:translateNLToAQL()` (lines 1038–1059) validates the LLM-generated query using `AQLSyntaxHighlighter::annotateErrors()` which **only logs warnings** — it never rejects or sanitises the output. `AQLQueryValidator::validate()` (which can produce `ValidationResult` with severity-based `issues`) is never invoked on LLM-generated queries. The same pattern is repeated in `translateNLToAQLStreaming()` (line 1141) and `translateNLToAQLWithExamples()` (line 1389). A structurally invalid query silently reaches the caller and may be executed against the database.
 
 **Implementation Notes:**
-- `[ ]` In `llm_aql_handler.cpp:translateNLToAQL()`, after the markdown-fence stripping and `trim()` step, call `AQLQueryValidator::validate(aql_query)` and inspect `ValidationResult::issues`; if any issue has severity `ERROR`, throw `LLMException(LLMErrorCode::INVALID_RESPONSE, ...)` with the first error message instead of silently returning the malformed query
-- `[ ]` Apply the same fix to `translateNLToAQLStreaming()` (line 1141) and `translateNLToAQLWithExamples()` (line 1389) — both currently use `annotateErrors()` as the sole post-processing check
-- `[ ]` Add a retry path: if validation fails and `retry_policy_` has remaining retries, re-invoke the LLM with an augmented prompt that includes the error annotation as feedback ("Your previous attempt produced this error: …")
-- `[ ]` Expose a `TranslationValidationMode` enum (`WARN_ONLY`, `REJECT_ON_ERROR`, `RETRY_ON_ERROR`) on `LLMAQLHandler` so callers can choose enforcement level
-- `[ ]` Unit-test: craft an NL query that reliably causes the mock LLM to return broken AQL (`FOR x`) and assert that `translateNLToAQL` throws instead of returning it
+- `[x]` In `llm_aql_handler.cpp:translateNLToAQL()`, after the markdown-fence stripping and `trim()` step, call `AQLQueryValidator::validate(aql_query)` and inspect `ValidationResult::issues`; if any issue has severity `ERROR`, throw `LLMException(LLMErrorCode::INVALID_RESPONSE, ...)` with the first error message instead of silently returning the malformed query
+- `[x]` Apply the same fix to `translateNLToAQLStreaming()` (line 1141) and `translateNLToAQLWithExamples()` (line 1389) — both currently use `annotateErrors()` as the sole post-processing check
+- `[x]` Add a retry path: if validation fails and `retry_policy_` has remaining retries, re-invoke the LLM with an augmented prompt that includes the error annotation as feedback ("Your previous attempt produced this error: …")
+- `[x]` Expose a `TranslationValidationMode` enum (`WARN_ONLY`, `REJECT_ON_ERROR`, `RETRY_ON_ERROR`) on `LLMAQLHandler` so callers can choose enforcement level
+- `[x]` Unit-test: craft an NL query that reliably causes the mock LLM to return broken AQL (`FOR x`) and assert that `translateNLToAQL` throws instead of returning it
 
 **Performance Targets:**
 - Validation overhead ≤ 1 ms per generated query (the validator is string-based with no I/O)
@@ -81,14 +81,15 @@ The AQL module is ThemisDB's query language and LLM-integration layer. It covers
 ### 3 · Per-Operation-Type Circuit Breakers
 **Priority:** High
 **Target Version:** v1.6.0
+**Status:** ✅ Implemented (Issue #33)
 
 **Problem (from code):** `llm_aql_handler.cpp:Impl` (lines 216–222 and 247–248) creates a single `sharding::CircuitBreaker` instance shared across `executeInfer()`, `executeInferStreaming()`, `executeRAG()`, and `executeEmbed()`. When `executeInfer` accumulates 5 failures (`failure_threshold = 5`), the breaker trips and `allowRequest()` returns false — this blocks all RAG and EMBED commands as well, even if those operations would succeed. The 60-second `timeout` window is also a single global parameter.
 
 **Implementation Notes:**
-- `[ ]` In `LLMAQLHandler::Impl`, replace the single `circuit_breaker_` member with a map: `std::unordered_map<std::string, sharding::CircuitBreaker> circuit_breakers_` keyed by `"infer"`, `"rag"`, `"embed"`, `"finetune"`
-- `[ ]` Refactor `executeInfer()`, `executeRAG()`, `executeEmbed()` to each look up their own breaker by key
-- `[ ]` Allow per-command `CircuitBreaker::Config` to be injected via a `LLMAQLHandler::Config` struct so failure thresholds and windows are tunable per command type
-- `[ ]` Add a `getCircuitBreakerStates()` method for observability; expose via `LLM STATS` command output
+- `[x]` In `LLMAQLHandler::Impl`, replace the single `circuit_breaker_` member with a map: `std::unordered_map<std::string, sharding::CircuitBreaker> circuit_breakers_` keyed by `"infer"`, `"rag"`, `"embed"`, `"finetune"`
+- `[x]` Refactor `executeInfer()`, `executeRAG()`, `executeEmbed()` to each look up their own breaker by key
+- `[x]` Allow per-command `CircuitBreaker::Config` to be injected via a `LLMAQLHandler::Config` struct so failure thresholds and windows are tunable per command type
+- `[x]` Add a `getCircuitBreakerStates()` method for observability; expose via `LLM STATS` command output
 - `[x]` Circuit breaker state is already recorded in metrics via `metrics.recordCircuitBreakerState("infer", "open")` — preserve and extend to all command types
 
 ---
