@@ -278,6 +278,38 @@ public:
      */
     std::shared_ptr<TimeSeriesMetrics> getMetrics() const { return metrics_; }
 
+    // ==================== System Metadata ====================
+
+    /**
+     * @brief Write a system metadata key-value pair (WAL-durable).
+     *
+     * Used internally for persisting small pieces of bookkeeping data
+     * (e.g., continuous-aggregate watermarks) in the same RocksDB instance
+     * without mixing them with time-series payload keys.
+     *
+     * Keys are stored under the "sys:" prefix and must not begin with
+     * that prefix when passed here (it is added automatically).
+     *
+     * @param key    Logical key (e.g., "wm:cagg:my_aggregate")
+     * @param value  Value string to store
+     * @return Result<void> on success, error on failure
+     */
+    Result<void> putSystemMeta(const std::string& key, const std::string& value);
+
+    /**
+     * @brief Read a system metadata entry.
+     * @param key  Logical key (same as used in putSystemMeta)
+     * @return Result containing the value string, or std::nullopt if not found
+     */
+    Result<std::optional<std::string>> getSystemMeta(const std::string& key) const;
+
+    /**
+     * @brief Delete a system metadata entry.
+     * @param key  Logical key to remove
+     * @return Result<void> on success, error on failure
+     */
+    Result<void> deleteSystemMeta(const std::string& key);
+
 private:
     rocksdb::TransactionDB* db_;
     rocksdb::ColumnFamilyHandle* cf_;
@@ -295,6 +327,7 @@ private:
     
     static constexpr const char* KEY_PREFIX = "ts:";
     static constexpr const char* GORILLA_CHUNK_PREFIX = "tsc:";
+    static constexpr const char* SYS_META_PREFIX = "sys:";
     
     // Key format: "ts:{metric}:{entity}:{timestamp_ms}"
     std::string makeKey(const std::string& metric, 

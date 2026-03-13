@@ -168,6 +168,28 @@ public:
     void recordContinuousAggregateRefresh(const std::string& metric_name, int64_t window_ms, 
                                           double latency_ms, size_t points_processed);
 
+    /**
+     * @brief Record incremental aggregate refresh latency tagged with aggregate ID.
+     *
+     * This complements recordContinuousAggregateRefresh() with per-aggregate
+     * granularity so operators can distinguish slow aggregates.
+     *
+     * @param agg_id     Unique aggregate identifier (e.g., "cpu:s1:60000ms")
+     * @param latency_ms Refresh duration in milliseconds
+     */
+    void recordAggRefreshLatency(const std::string& agg_id, double latency_ms);
+
+    /**
+     * @brief Record the lag between the aggregate watermark and wall-clock now.
+     *
+     * Lag = now_ms – watermark_ms. A growing lag indicates that the scheduler
+     * is falling behind ingestion rate.
+     *
+     * @param agg_id  Unique aggregate identifier
+     * @param lag_ms  Lag in milliseconds (0 if fully caught up)
+     */
+    void recordAggRefreshLag(const std::string& agg_id, double lag_ms);
+
     // ==================== Metric Export ====================
     
     /**
@@ -203,6 +225,18 @@ public:
     double getAverageWriteLatency() const;
     double getAverageQueryLatency() const;
     double getAverageCompressionRatio() const;
+
+    /**
+     * @brief Get average refresh latency for a specific aggregate (for testing).
+     * @return Average latency in ms, or -1 if no data recorded for @p agg_id.
+     */
+    double getAggRefreshLatency(const std::string& agg_id) const;
+
+    /**
+     * @brief Get last recorded lag for a specific aggregate (for testing).
+     * @return Last lag in ms, or -1 if no data recorded for @p agg_id.
+     */
+    double getAggRefreshLag(const std::string& agg_id) const;
 
 private:
     Config config_;
@@ -258,6 +292,15 @@ private:
         double total_query_latency_ms = 0.0;
     };
     std::map<std::string, PerMetricStats> per_metric_stats_;
+
+    // Per-aggregate refresh metrics (latency and lag tagged by agg_id)
+    mutable std::mutex agg_metrics_mutex_;
+    struct AggRefreshStats {
+        double total_latency_ms{0.0};
+        uint64_t latency_count{0};
+        double last_lag_ms{-1.0};
+    };
+    std::map<std::string, AggRefreshStats> agg_refresh_stats_;
     
     // Helper methods
     void recordLatency(double& total_latency, uint64_t& count, double latency_ms);

@@ -153,12 +153,80 @@ private:
     ShardQueryFn shard_query_;
 };
 
+// ============================================================
+// Watermark Store for Continuous Aggregates
+// ============================================================
+
+/**
+ * @brief Persistent watermark store for continuous aggregates.
+ *
+ * Each aggregate has an associated watermark — the upper boundary of the
+ * time range that has already been aggregated. This store persists watermarks
+ * in the TSStore's underlying RocksDB instance under the "wm:cagg:" key
+ * prefix so they survive node restarts (WAL-durable).
+ *
+ * Thread safety: individual get/set operations are individually atomic via
+ * RocksDB's single-key Put/Get, but callers must serialize concurrent
+ * refreshes for the same aggregate_id.
+ */
+class ContinuousAggWatermarkStore {
+public:
+    explicit ContinuousAggWatermarkStore(TSStore* store) : store_(store) {}
+
+    /**
+     * @brief Read the current watermark for @p agg_id.
+     * @return Milliseconds-since-epoch of the last successfully processed
+     *         upper boundary, or 0 if no watermark has been set yet.
+     */
+    int64_t getWatermark(const std::string& agg_id) const;
+
+    /**
+     * @brief Persist the watermark to @p watermark_ms for @p agg_id.
+     *
+     * This write goes through RocksDB's WAL, so it survives node restarts.
+     */
+    void setWatermark(const std::string& agg_id, int64_t watermark_ms);
+
+    /**
+     * @brief Remove the watermark entry (e.g., when an aggregate is deleted).
+     */
+    void deleteWatermark(const std::string& agg_id);
+
+private:
+    TSStore* store_;
+    static constexpr const char* WM_KEY_PREFIX = "wm:cagg:";
+};
+
 class ContinuousAggregateManager {
 public:
     explicit ContinuousAggregateManager(TSStore* store) : store_(store) {}
+
     // Compute aggregates for [from,to] and store as derived metric
     // Derived metric name: metric + "__agg_" + window_ms
     void refresh(const AggConfig& cfg, int64_t from_ms, int64_t to_ms);
+
+    /**
+     * @brief Incremental refresh using watermark pushdown.
+     *
+     * Reads the current watermark for @p agg_id from @p wm_store, scans
+     * only the range [watermark, to_ms) in TSStore (skipping already-processed
+     * data), writes the aggregate points, and advances the watermark
+     * atomically to @p to_ms after a successful write.
+     *
+     * If no watermark exists yet the full range [0, to_ms) is processed,
+     * which provides a correct initial catch-up.
+     *
+     * @param cfg      Aggregate configuration (metric, entity, window).
+     * @param agg_id   Unique aggregate identifier used as the watermark key.
+     * @param to_ms    Upper bound of the refresh window (ms since epoch).
+     * @param wm_store Watermark store for reading/writing the per-aggregate
+     *                 watermark.
+     * @return Number of aggregate windows written.
+     */
+    size_t refreshIncremental(const AggConfig& cfg,
+                               const std::string& agg_id,
+                               int64_t to_ms,
+                               ContinuousAggWatermarkStore& wm_store);
 
     /**
      * Refresh all levels of a rollup hierarchy.
