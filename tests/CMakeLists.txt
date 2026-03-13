@@ -7192,8 +7192,62 @@ else()
 endif()
 
 
+# =============================================================================
+# Accurate Token-Count Estimation Tests (Issue #145, v1.6.0)
+# =============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_accurate_token_count_estimation.cpp")
+    message(STATUS "Adding Accurate Token-Count Estimation tests (Issue #145)")
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_global_transaction_manager.cpp")
+    add_executable(test_accurate_token_count_estimation
+        test_accurate_token_count_estimation.cpp
+    )
+
+    target_include_directories(test_accurate_token_count_estimation PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    if(TARGET themis_llm)
+        target_link_libraries(test_accurate_token_count_estimation PRIVATE
+            ${TEST_LIBS}
+            themis_llm
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            Threads::Threads
+        )
+    else()
+        target_link_libraries(test_accurate_token_count_estimation PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            Threads::Threads
+        )
+    endif()
+
+    target_compile_definitions(test_accurate_token_count_estimation PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_LLM_EXPORTS
+    )
+
+    add_test(NAME AccurateTokenCountEstimationTests
+             COMMAND test_accurate_token_count_estimation)
+
+    set_tests_properties(AccurateTokenCountEstimationTests PROPERTIES
+        LABELS "llm;aql;token-estimation;benchmark;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  AccurateTokenCountEstimation: CharDivisionEstimator, TiktokenEstimator, injection, p95 benchmark")
+else()
+    message(STATUS "Accurate Token-Count Estimation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_accurate_token_count_estimation.cpp")
+endif()
+
+
+
     message(STATUS "Adding Global Transaction Manager tests")
 
     add_executable(test_global_transaction_manager

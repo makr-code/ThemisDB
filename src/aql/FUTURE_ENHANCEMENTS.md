@@ -119,10 +119,10 @@ The AQL module is ThemisDB's query language and LLM-integration layer. It covers
 **Problem (from code):** `llm_aql_handler.cpp:Impl` (line 238) defines `static constexpr size_t CHARS_PER_TOKEN = 4` and uses `text.length() / CHARS_PER_TOKEN` (line 242) as the sole token-count estimator for prompt budget checks. This approximation is derived from English-language ASCII text and BPE tokenizers; it is materially wrong for multilingual content, code, and especially for few-shot schema context blocks that are dominated by JSON/AQL keywords (which tokenize more compactly). An underestimate causes context-window overflow inside the model; an overestimate wastes capacity, truncating schema context unnecessarily.
 
 **Implementation Notes:**
-- `[ ]` Introduce a `TokenEstimator` abstraction in `include/aql/llm_token_estimator.h` with `virtual size_t estimate(const std::string& text) const`; provide two implementations: `CharDivisionEstimator` (current behaviour, ratio configurable) and `TiktokenEstimator` (wraps the `tiktoken-cpp` or llama.cpp tokenizer)
-- `[ ]` Inject `TokenEstimator` into `LLMAQLHandler::Impl`; default to `CharDivisionEstimator` with `ratio=4` for no breaking change
-- `[ ]` Replace all three call-sites of `estimateTokenCount()` in `llm_aql_handler.cpp` (lines 336, 492, 658) with the injected estimator
-- `[ ]` Add a benchmark comparing estimator accuracy against the actual llama.cpp tokenizer on the built-in few-shot corpus from `aql_fewshot_example_library.cpp`; accuracy target: ≤ 10 % error at the 95th percentile
+- `[x]` Introduce a `TokenEstimator` abstraction in `include/aql/llm_token_estimator.h` with `virtual size_t estimate(const std::string& text) const`; provide two implementations: `CharDivisionEstimator` (current behaviour, ratio configurable) and `TiktokenEstimator` (wraps the `tiktoken-cpp` or llama.cpp tokenizer)
+- `[x]` Inject `TokenEstimator` into `LLMAQLHandler::Impl`; default to `CharDivisionEstimator` with `ratio=4` for no breaking change
+- `[x]` Replace all three call-sites of `estimateTokenCount()` in `llm_aql_handler.cpp` (lines 336, 492, 658) with the injected estimator
+- `[x]` Add a benchmark comparing estimator accuracy against the actual llama.cpp tokenizer on the built-in few-shot corpus from `aql_fewshot_example_library.cpp`; accuracy target: ≤ 10 % error at the 95th percentile
 
 ---
 

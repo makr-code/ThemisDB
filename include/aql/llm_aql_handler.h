@@ -29,6 +29,7 @@
 #include "aql/aql_syntax_highlighter.h"
 #include "aql/aql_confidence_scorer.h"
 #include "aql/aql_fewshot_example_library.h"
+#include "aql/llm_token_estimator.h"
 #include "llm/llm_plugin_interface.h"
 #include "llm/llama_wrapper.h"
 #include "sharding/circuit_breaker.h"
@@ -567,6 +568,21 @@ public:
     void setChatExecutor(
         std::function<std::string(const std::vector<llm::ChatMessage>&)> executor
     );
+
+    /**
+     * @brief Inject a custom token estimator for all token-budget checks.
+     *
+     * Replaces the default `CharDivisionEstimator` (ratio = 4) with the
+     * provided implementation.  The handler takes ownership of the estimator.
+     * Pass @c nullptr to restore the default `CharDivisionEstimator`.
+     *
+     * Typical production use: supply a `TiktokenEstimator` wrapping the
+     * llama.cpp tokenizer for accurate BPE token counts.
+     *
+     * @param estimator  Polymorphic token estimator; if null the default
+     *                   `CharDivisionEstimator{4}` is reinstated.
+     */
+    void setTokenEstimator(std::unique_ptr<TokenEstimator> estimator);
 
 private:
     class Impl;

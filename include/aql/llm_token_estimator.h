@@ -14,6 +14,7 @@
 #pragma once
 
 #include <cstddef>
+#include <functional>
 #include <string>
 
 namespace themis {
@@ -64,6 +65,57 @@ public:
 
 private:
     std::size_t chars_per_token_;
+};
+
+/**
+ * @brief Token estimator backed by an external tokenizer function.
+ *
+ * Wraps any callable that maps a string to a token count.  Intended for use
+ * with the llama.cpp tokenizer (or any BPE-compatible tokenizer such as
+ * tiktoken-cpp) where the caller provides an encode function via a
+ * `std::function` callback.
+ *
+ * Example usage with the llama.cpp-backed `LlamaTokenizer`:
+ * @code
+ * auto llama_tok = std::make_shared<themis::llm::lora::LlamaTokenizer>(model_path);
+ * auto estimator = std::make_unique<TiktokenEstimator>(
+ *     [llama_tok](const std::string& text) -> std::size_t {
+ *         return llama_tok->encode(text, false).size();   // add_bos=false
+ *     });
+ * handler.setTokenEstimator(std::move(estimator));
+ * @endcode
+ *
+ * If the provided function is null the estimator falls back to
+ * `CharDivisionEstimator` with ratio 4, preserving backward compatibility.
+ */
+class TiktokenEstimator : public TokenEstimator {
+public:
+    /// Signature: takes a UTF-8 string, returns the token count.
+    using TokenizeFunc = std::function<std::size_t(const std::string&)>;
+
+    /**
+     * @brief Construct with an external tokenize function.
+     * @param tokenize_fn  Callable returning the number of tokens for the
+     *                     input string.  Must be thread-safe if estimate() is
+     *                     called concurrently.  If null, falls back to
+     *                     CharDivisionEstimator with ratio=4.
+     */
+    explicit TiktokenEstimator(TokenizeFunc tokenize_fn)
+        : tokenize_fn_(std::move(tokenize_fn))
+        , fallback_(4)
+    {}
+
+    std::size_t estimate(const std::string& text) const override {
+        if (text.empty()) return 0;
+        if (tokenize_fn_) {
+            return tokenize_fn_(text);
+        }
+        return fallback_.estimate(text);
+    }
+
+private:
+    TokenizeFunc          tokenize_fn_;
+    CharDivisionEstimator fallback_;
 };
 
 } // namespace aql
