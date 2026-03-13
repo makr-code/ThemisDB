@@ -317,14 +317,15 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 ### 16. Federated Identity Manager: Token Exchange (RFC 8693)
 
 **Priority:** Low  
-**Target Version:** v1.4.0
+**Target Version:** v1.4.0  
+**Status:** ✅ Implemented (v1.4.0)
 
-`federated_identity_manager.cpp:187` returns `false` in the token exchange path. RFC 8693 (OAuth 2.0 Token Exchange) is required for service-to-service impersonation and delegation in federated scenarios.
+`FederatedIdentityManager::exchangeToken()` implements RFC 8693 (OAuth 2.0 Token Exchange) for service-to-service impersonation and delegation in federated scenarios.
 
 **Implementation Notes:**
-- `[ ]` Implement `exchangeToken(subject_token, subject_token_type, requested_token_type)` in `federated_identity_manager.cpp` calling the IdP's `token_endpoint` with `grant_type=urn:ietf:params:oauth:grant-type:token-exchange`
-- `[ ]` Validate the returned token through the existing `JWTValidator` pipeline
-- `[ ]` Scope the exchanged token to the minimum required permissions for the target service
+- `[x]` Implement `exchangeToken(subject_token, subject_token_type, requested_token_type)` in `federated_identity_manager.cpp` calling the IdP's `token_endpoint` with `grant_type=urn:ietf:params:oauth:grant-type:token-exchange`
+- `[x]` Validate the returned token through the existing `JWTValidator` pipeline
+- `[x]` Scope the exchanged token to the minimum required permissions for the target service
 
 ---
 
