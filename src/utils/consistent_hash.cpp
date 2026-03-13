@@ -29,6 +29,15 @@
 namespace themis {
 namespace utils {
 
+static uint64_t mix64(uint64_t x) {
+    x ^= x >> 33;
+    x *= 0xff51afd7ed558ccdULL;
+    x ^= x >> 33;
+    x *= 0xc4ceb9fe1a85ec53ULL;
+    x ^= x >> 33;
+    return x;
+}
+
 // ---------------------------------------------------------------------------
 // FNV-1a 64-bit
 // ---------------------------------------------------------------------------
@@ -41,7 +50,7 @@ uint64_t ConsistentHashRing::fnv1a64(const std::string& s) {
         h ^= static_cast<uint64_t>(c);
         h *= prime;
     }
-    return h;
+    return mix64(h);
 }
 
 uint64_t ConsistentHashRing::virtualKey(const std::string& node, size_t idx) {

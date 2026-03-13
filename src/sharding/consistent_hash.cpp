@@ -26,14 +26,16 @@
 #include <cmath>
 #include <set>
 
-#ifdef __has_include
-  #if __has_include(<xxhash.h>)
-    #include <xxhash.h>
-    #define HAS_XXHASH
-  #endif
-#endif
-
 namespace themis::sharding {
+
+static uint64_t mix64(uint64_t x) {
+        x ^= x >> 33;
+        x *= 0xff51afd7ed558ccdULL;
+        x ^= x >> 33;
+        x *= 0xc4ceb9fe1a85ec53ULL;
+        x ^= x >> 33;
+        return x;
+}
 
 void ConsistentHashRing::addShard(const std::string& shard_id, size_t virtual_nodes) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -212,12 +214,14 @@ double ConsistentHashRing::getBalanceFactor() const {
 }
 
 uint64_t ConsistentHashRing::hash(const std::string& key) const {
-#ifdef HAS_XXHASH
-    return XXH64(key.data(), key.size(), 0);
-#else
-    std::hash<std::string> hasher;
-    return hasher(key);
-#endif
+    constexpr uint64_t kFNVOffsetBasis = 14695981039346656037ULL;
+    constexpr uint64_t kFNVPrime = 1099511628211ULL;
+    uint64_t h = kFNVOffsetBasis;
+    for (unsigned char c : key) {
+        h ^= static_cast<uint64_t>(c);
+        h *= kFNVPrime;
+    }
+    return mix64(h);
 }
 
 } // namespace themis::sharding

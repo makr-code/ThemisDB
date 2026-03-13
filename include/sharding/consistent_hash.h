@@ -194,10 +194,7 @@ public:
         if (ring_.getShardCount() == 0) {
             return std::nullopt;
         }
-        // Use same hashing strategy as ring (cannot access private hash, replicate std::hash path)
-        std::hash<std::string> hasher;
-        uint64_t h = hasher(key);
-        std::string shard = ring_.getShardForHash(h);
+        std::string shard = ring_.getNode(key).value_or(std::string{});
         if (shard.empty()) {
             return std::nullopt;
         }
