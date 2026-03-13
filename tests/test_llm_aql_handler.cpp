@@ -1118,3 +1118,156 @@ TEST_F(LLMAQLHandlerTest, RetryOnError_ModePreservedAcrossTranslationAttempt) {
     EXPECT_EQ(handler->getValidationMode(), TranslationValidationMode::RETRY_ON_ERROR);
 }
 
+// ============================================================================
+// AC#5: Mock-LLM integration tests
+//
+// These tests inject a chat executor that returns broken AQL ("FOR x") and
+// verify that translateNLToAQL / translateNLToAQLStreaming /
+// translateNLToAQLWithExamples throw LLMException(INVALID_RESPONSE) when
+// the validation mode is REJECT_ON_ERROR.
+// ============================================================================
+
+// Mock executor that always returns the fixed string it was constructed with.
+static std::function<std::string(const std::vector<llm::ChatMessage>&)>
+makeMockExecutor(const std::string& fixed_response) {
+    return [fixed_response](const std::vector<llm::ChatMessage>&) {
+        return fixed_response;
+    };
+}
+
+TEST_F(LLMAQLHandlerTest, MockLLM_RejectOnError_BrokenAQL_TranslateNLToAQL_Throws) {
+    // Inject a mock that returns the structurally invalid query "FOR x"
+    // (no IN clause, no RETURN) — AQLQueryValidator must flag this as ERROR.
+    handler->setChatExecutor(makeMockExecutor("FOR x"));
+    handler->setValidationMode(TranslationValidationMode::REJECT_ON_ERROR);
+
+    try {
+        handler->translateNLToAQL("Find all users");
+        FAIL() << "Expected LLMException(INVALID_RESPONSE) but no exception was thrown";
+    } catch (const LLMException& ex) {
+        EXPECT_EQ(ex.getErrorCode(), LLMErrorCode::INVALID_RESPONSE)
+            << "translateNLToAQL must throw INVALID_RESPONSE for broken AQL in REJECT_ON_ERROR mode";
+        EXPECT_FALSE(std::string(ex.what()).empty())
+            << "Exception message must not be empty";
+    }
+}
+
+TEST_F(LLMAQLHandlerTest, MockLLM_RejectOnError_BrokenAQL_Streaming_Throws) {
+    handler->setChatExecutor(makeMockExecutor("FOR x"));
+    handler->setValidationMode(TranslationValidationMode::REJECT_ON_ERROR);
+
+    try {
+        handler->translateNLToAQLStreaming("Find all edges", [](const std::string&) {});
+        FAIL() << "Expected LLMException(INVALID_RESPONSE) but no exception was thrown";
+    } catch (const LLMException& ex) {
+        EXPECT_EQ(ex.getErrorCode(), LLMErrorCode::INVALID_RESPONSE)
+            << "translateNLToAQLStreaming must throw INVALID_RESPONSE for broken AQL";
+    }
+}
+
+TEST_F(LLMAQLHandlerTest, MockLLM_RejectOnError_BrokenAQL_WithExamples_Throws) {
+    handler->setChatExecutor(makeMockExecutor("FOR x"));
+    handler->setValidationMode(TranslationValidationMode::REJECT_ON_ERROR);
+    AQLFewShotExampleLibrary lib;
+
+    try {
+        handler->translateNLToAQLWithExamples("Count all nodes", lib);
+        FAIL() << "Expected LLMException(INVALID_RESPONSE) but no exception was thrown";
+    } catch (const LLMException& ex) {
+        EXPECT_EQ(ex.getErrorCode(), LLMErrorCode::INVALID_RESPONSE)
+            << "translateNLToAQLWithExamples must throw INVALID_RESPONSE for broken AQL";
+    }
+}
+
+TEST_F(LLMAQLHandlerTest, MockLLM_WarnOnly_BrokenAQL_DoesNotThrow) {
+    // In WARN_ONLY mode (default), broken AQL must be returned as-is without throwing.
+    handler->setChatExecutor(makeMockExecutor("FOR x"));
+    handler->setValidationMode(TranslationValidationMode::WARN_ONLY);
+
+    std::string result;
+    EXPECT_NO_THROW({
+        result = handler->translateNLToAQL("Find all users");
+    });
+    EXPECT_EQ(result, "FOR x");
+}
+
+TEST_F(LLMAQLHandlerTest, MockLLM_RejectOnError_ValidAQL_DoesNotThrow) {
+    // In REJECT_ON_ERROR mode, a structurally valid query must NOT throw.
+    handler->setChatExecutor(makeMockExecutor("FOR doc IN collection RETURN doc"));
+    handler->setValidationMode(TranslationValidationMode::REJECT_ON_ERROR);
+
+    std::string result;
+    EXPECT_NO_THROW({
+        result = handler->translateNLToAQL("Find all documents");
+    });
+    EXPECT_EQ(result, "FOR doc IN collection RETURN doc");
+}
+
+TEST_F(LLMAQLHandlerTest, MockLLM_RetryOnError_BrokenAQL_ExhaustsRetries_Throws) {
+    // In RETRY_ON_ERROR mode, after all retries the handler must throw INVALID_RESPONSE.
+    int call_count = 0;
+    handler->setChatExecutor([&call_count](const std::vector<llm::ChatMessage>&) -> std::string {
+        ++call_count;
+        return "FOR x";  // Always return broken AQL
+    });
+    handler->setValidationMode(TranslationValidationMode::RETRY_ON_ERROR);
+
+    try {
+        handler->translateNLToAQL("Find all users");
+        FAIL() << "Expected LLMException(INVALID_RESPONSE) after retries exhausted";
+    } catch (const LLMException& ex) {
+        EXPECT_EQ(ex.getErrorCode(), LLMErrorCode::INVALID_RESPONSE)
+            << "Must throw INVALID_RESPONSE after all retries produce broken AQL";
+        // Ensure the LLM was called more than once (retries happened)
+        EXPECT_GT(call_count, 1) << "Expected at least one retry attempt";
+    }
+}
+
+TEST_F(LLMAQLHandlerTest, MockLLM_RetryOnError_SucceedsOnSecondAttempt) {
+    // In RETRY_ON_ERROR mode, if the second attempt returns valid AQL, it must succeed.
+    int call_count = 0;
+    handler->setChatExecutor([&call_count](const std::vector<llm::ChatMessage>&) -> std::string {
+        ++call_count;
+        if (call_count == 1) return "FOR x";  // First attempt: broken
+        return "FOR doc IN collection RETURN doc";  // Second attempt: valid
+    });
+    handler->setValidationMode(TranslationValidationMode::RETRY_ON_ERROR);
+
+    std::string result;
+    EXPECT_NO_THROW({
+        result = handler->translateNLToAQL("Find all documents");
+    });
+    EXPECT_EQ(result, "FOR doc IN collection RETURN doc");
+    EXPECT_GE(call_count, 2) << "Expected at least 2 LLM calls (1 failure + 1 success)";
+}
+
+TEST_F(LLMAQLHandlerTest, MockLLM_RetryOnError_FeedbackInjectedInPrompt) {
+    // Verify the retry prompt includes the error from the first failed attempt.
+    std::vector<std::string> received_system_prompts;
+    int call_count = 0;
+    handler->setChatExecutor(
+        [&call_count, &received_system_prompts](const std::vector<llm::ChatMessage>& msgs)
+            -> std::string
+        {
+            ++call_count;
+            // Capture the system message content from each call
+            for (const auto& msg : msgs) {
+                if (msg.role == "system") {
+                    received_system_prompts.push_back(msg.content);
+                }
+            }
+            if (call_count == 1) return "FOR x";
+            return "FOR doc IN collection RETURN doc";
+        }
+    );
+    handler->setValidationMode(TranslationValidationMode::RETRY_ON_ERROR);
+
+    EXPECT_NO_THROW(handler->translateNLToAQL("Find all documents"));
+
+    ASSERT_GE(static_cast<int>(received_system_prompts.size()), 2)
+        << "Expected at least 2 system prompts (initial + retry)";
+    // The retry system prompt must contain the error feedback
+    EXPECT_NE(received_system_prompts[1].find("validation error"), std::string::npos)
+        << "Retry prompt must include error feedback from failed validation";
+}
+

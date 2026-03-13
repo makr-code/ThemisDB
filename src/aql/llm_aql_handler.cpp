@@ -250,6 +250,9 @@ public:
 
     // Post-generation AQL validation enforcement level
     TranslationValidationMode validation_mode_ = TranslationValidationMode::WARN_ONLY;
+
+    // Optional chat executor override (for unit tests)
+    std::function<std::string(const std::vector<llm::ChatMessage>&)> chat_executor_;
 };
 
 LLMAQLHandler::LLMAQLHandler() 
@@ -263,6 +266,12 @@ void LLMAQLHandler::setValidationMode(TranslationValidationMode mode) {
 
 TranslationValidationMode LLMAQLHandler::getValidationMode() const {
     return impl_->validation_mode_;
+}
+
+void LLMAQLHandler::setChatExecutor(
+    std::function<std::string(const std::vector<llm::ChatMessage>&)> executor
+) {
+    impl_->chat_executor_ = std::move(executor);
 }
 
 std::string LLMAQLHandler::executeInfer(
@@ -1175,13 +1184,22 @@ std::string LLMAQLHandler::translateNLToAQLStreaming(
 
             // Stream via executeInferStreaming; collect tokens so we can post-process.
             // Tokens are forwarded to the caller on all attempts (including retries).
+            // When a chat executor override is set (for testing), use it instead.
             std::string raw_response;
-            auto collecting_callback = [&raw_response, &token_callback](const std::string& token) {
-                raw_response += token;
-                token_callback(token);
-            };
-
-            executeInferStreaming(full_prompt, collecting_callback);
+            if (impl_->chat_executor_) {
+                // Test/mock path: build messages and use the injected executor.
+                std::vector<llm::ChatMessage> messages;
+                messages.emplace_back("system", system_prompt.str());
+                messages.emplace_back("user", user_prompt.str());
+                raw_response = impl_->chat_executor_(messages);
+                token_callback(raw_response);
+            } else {
+                auto collecting_callback = [&raw_response, &token_callback](const std::string& token) {
+                    raw_response += token;
+                    token_callback(token);
+                };
+                executeInferStreaming(full_prompt, collecting_callback);
+            }
 
             // Post-process: strip markdown fences and trim (same as translateNLToAQL)
             std::string aql_query = raw_response;
@@ -1293,6 +1311,11 @@ std::string LLMAQLHandler::executeChat(
     const std::unordered_map<std::string, std::string>& options
 ) {
     try {
+        // If a test/mock executor has been injected, use it instead of the live LLM.
+        if (impl_->chat_executor_) {
+            return impl_->chat_executor_(messages);
+        }
+
         // Use EmbeddedLLM chat interface
         auto& llm = llm::EmbeddedLLMManager::instance().get();
         

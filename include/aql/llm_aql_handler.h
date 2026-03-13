@@ -479,6 +479,29 @@ public:
      */
     TranslationValidationMode getValidationMode() const;
 
+    // =========================================================================
+    // Test / dependency injection
+    // =========================================================================
+
+    /**
+     * @brief Override the LLM chat backend used by translateNLToAQL() and
+     *        related methods.
+     *
+     * When set, @p executor is called instead of
+     * @c EmbeddedLLMManager::instance().get().chat() every time the handler
+     * needs a chat completion.  Pass @c nullptr to restore the default
+     * live-LLM path.
+     *
+     * **Intended for unit tests only.**  Production code must not inject a
+     * custom executor.
+     *
+     * @param executor  Callable with signature
+     *                  @c std::string(const std::vector<llm::ChatMessage>&).
+     */
+    void setChatExecutor(
+        std::function<std::string(const std::vector<llm::ChatMessage>&)> executor
+    );
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;
