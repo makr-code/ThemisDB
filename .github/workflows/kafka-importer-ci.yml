@@ -73,7 +73,10 @@ jobs:
         with:
           cc:             ${{ matrix.cc }}
           cxx:            ${{ matrix.cxx }}
-          extra-packages: nlohmann-json3-dev librocksdb-dev
+          extra-packages: >-
+            nlohmann-json3-dev librocksdb-dev libssl-dev
+            libsimdjson-dev libtbb-dev libboost-system-dev
+            libyaml-cpp-dev libcurl4-openssl-dev
 
       - name: Configure (Kafka importer focused tests)
         env:

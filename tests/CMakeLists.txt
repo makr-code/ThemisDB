@@ -19,8 +19,11 @@ if(NOT GTest_FOUND)
     return()
 endif()
 
-# Find yaml-cpp for test configuration
-find_package(yaml-cpp CONFIG REQUIRED)
+# Find yaml-cpp for test configuration (optional – tests that need it add it explicitly)
+find_package(yaml-cpp CONFIG QUIET)
+if(NOT yaml-cpp_FOUND)
+    message(STATUS "yaml-cpp not found - YAML-based tests will be skipped")
+endif()
 
 # Shared test libraries so individual test executables don't forget to link gtest
 set(TEST_LIBS
@@ -1175,12 +1178,12 @@ target_link_libraries(themis_tests PRIVATE
     spdlog::spdlog
     fmt::fmt
     nlohmann_json::nlohmann_json
-    yaml-cpp
+    $<$<TARGET_EXISTS:yaml-cpp::yaml-cpp>:yaml-cpp::yaml-cpp>
     RocksDB::rocksdb
     OpenSSL::SSL
     OpenSSL::Crypto
-    CURL::libcurl
-    protobuf::libprotobuf
+    $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
+    $<$<TARGET_EXISTS:protobuf::libprotobuf>:protobuf::libprotobuf>
     Threads::Threads
 )
 
@@ -2904,7 +2907,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otlp_exporter.cpp")
         spdlog::spdlog
         nlohmann_json::nlohmann_json
         Threads::Threads
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
     )
 
     target_compile_definitions(test_otlp_exporter PRIVATE
@@ -4658,7 +4661,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otel_api_tracing.cpp")
         spdlog::spdlog
         nlohmann_json::nlohmann_json
         Threads::Threads
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
     )
     target_compile_definitions(test_otel_api_tracing PRIVATE THEMIS_TEST_BUILD=1)
     add_test(NAME OtelApiTracingTests COMMAND test_otel_api_tracing)
@@ -6194,13 +6197,24 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_kafka_importer.cpp")
         test_kafka_importer.cpp
     )
 
+    # Compile kafka_importer.cpp directly into the focused test binary.
+    # A minimal logger stub is provided so the binary stays standalone without
+    # the full logger + PII detection chain.  This avoids depending on the large
+    # themis_core target which would require many additional packages.
+    target_sources(test_kafka_importer_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/src/importers/kafka_importer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/kafka_importer_logger_stub.cpp
+    )
+
     target_include_directories(test_kafka_importer_focused PRIVATE
         ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
     )
 
     target_link_libraries(test_kafka_importer_focused PRIVATE
         ${TEST_LIBS}
         nlohmann_json::nlohmann_json
+        spdlog::spdlog
         Threads::Threads
     )
 
@@ -6215,7 +6229,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_kafka_importer.cpp")
         TIMEOUT 120
     )
 
-    message(STATUS "  KafkaImporter: consumer configuration, offset commit, topic filtering, async ingestion, back-pressure")
+    message(STATUS "  KafkaImporter: setMessageFetchForTesting mock injection, 37 tests, no live broker")
 else()
     message(STATUS "KafkaImporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_kafka_importer.cpp")
 endif()
@@ -7247,7 +7261,7 @@ else()
 endif()
 
 
-
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_global_transaction_manager.cpp")
     message(STATUS "Adding Global Transaction Manager tests")
 
     add_executable(test_global_transaction_manager
@@ -8213,7 +8227,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_validator.cpp")
         themis_core
         OpenSSL::SSL
         OpenSSL::Crypto
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
@@ -8248,7 +8262,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_eddsa_comprehensive.cpp")
         themis_core
         OpenSSL::SSL
         OpenSSL::Crypto
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
@@ -8283,7 +8297,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_es256_comprehensive.cpp")
         themis_core
         OpenSSL::SSL
         OpenSSL::Crypto
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
@@ -8318,7 +8332,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_integration.cpp")
         themis_core
         OpenSSL::SSL
         OpenSSL::Crypto
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
@@ -8357,7 +8371,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_key_rotation_comprehensive.cpp")
         themis_core
         OpenSSL::SSL
         OpenSSL::Crypto
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
@@ -8392,7 +8406,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_management_comprehensive.cpp")
         themis_core
         OpenSSL::SSL
         OpenSSL::Crypto
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
@@ -8427,7 +8441,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_rotation_unit.cpp")
         themis_core
         OpenSSL::SSL
         OpenSSL::Crypto
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
@@ -8496,7 +8510,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_validation_hardening.cpp")
         themis_core
         OpenSSL::SSL
         OpenSSL::Crypto
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
@@ -8597,7 +8611,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_auth_audit_logger.cpp")
         themis_core
         OpenSSL::SSL
         OpenSSL::Crypto
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
@@ -8663,7 +8677,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_auth_input_validation.cpp")
         themis_core
         OpenSSL::SSL
         OpenSSL::Crypto
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         spdlog::spdlog
         Threads::Threads
     )
@@ -8799,7 +8813,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_auth_middleware.cpp")
         themis_core
         OpenSSL::SSL
         OpenSSL::Crypto
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
@@ -9210,7 +9224,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_session_manager.cpp")
         themis_core
         OpenSSL::SSL
         OpenSSL::Crypto
-        CURL::libcurl
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
