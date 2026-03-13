@@ -2182,6 +2182,8 @@ set(THEMIS_CORE_SOURCES
     ../src/observability/alerting_engine.cpp
     # Observability: Prometheus advanced — rate calculation, histogram aggregation, cardinality
     ../src/observability/metric_aggregator.cpp
+    # Observability: real-time metric streaming via WebSocket / SSE (v1.6.0, Issue #82)
+    ../src/observability/metrics_stream_server.cpp
 
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
