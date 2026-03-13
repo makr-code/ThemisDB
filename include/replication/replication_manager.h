@@ -915,9 +915,10 @@ private:
 class QuorumReadManager {
 public:
     struct QuorumReadConfig {
-        uint32_t read_quorum      = 2;
-        uint32_t read_timeout_ms  = 1000;
-        bool     repair_on_read   = true;
+        uint32_t read_quorum          = 2;
+        uint32_t read_timeout_ms      = 1000;
+        bool     repair_on_read       = true;
+        uint32_t session_token_ttl_ms = 30000;  ///< TTL for session tokens (ms)
     };
 
     struct QuorumReadResult {
@@ -926,6 +927,7 @@ public:
         uint64_t    version;
         bool        had_conflicts;
         std::vector<std::string> sources;  // replica endpoints that responded
+        std::string session_token;         ///< Opaque token for session consistency
     };
 
     explicit QuorumReadManager(
@@ -936,7 +938,8 @@ public:
     QuorumReadResult read(
         const std::string& collection,
         const std::string& document_id,
-        uint32_t quorum = 0  // 0 = use config default
+        uint32_t quorum = 0,                    // 0 = use config default
+        const std::string& session_token = ""   // opaque token for session consistency
     );
 
     // Update the replica list (called when topology changes)
@@ -960,6 +963,12 @@ private:
         const std::string& collection,
         const std::string& document_id
     ) const;
+
+    /// Generate an opaque session token encoding @p version and an expiry timestamp.
+    std::string generateSessionToken(uint64_t version) const;
+
+    /// Parse @p token and return the embedded version (0 on error or expiry).
+    uint64_t parseSessionToken(const std::string& token) const;
 };
 
 // ============================================================================

@@ -109,8 +109,19 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Stats: `entries_applied`, `dependencies_detected`, `average_latency_us`, `parallel_batches`, `parallelism_factor`
 - [x] 16 unit tests covering: single entry, multi-entry, dependency tracking, no-tracking, mixed docs, stats, single/sixteen threads, large batches, group_transactions (enabled/disabled), average_latency_us (populated/zero)
 
+### Phase 6: Quorum-Based Reads (Status: Completed ✅ — v1.6.0)
+- [x] `QuorumReadManager` class in `include/replication/replication_manager.h` + `src/replication/replication_manager.cpp`
+- [x] Concurrent per-replica reads with configurable `read_quorum` (default 2) and `read_timeout_ms`
+- [x] Automatic conflict resolution: highest-version response wins; `had_conflicts` flag set on divergence
+- [x] `repair_on_read`: stale replicas logged for background repair when divergence is detected
+- [x] Session consistency: `session_token` returned from every successful read, accepted on next read to enforce monotonic (read-your-writes) guarantees
+- [x] Session tokens encode embedded version + expiry timestamp; expired tokens degrade gracefully to no-session reads
+- [x] `setReplicas()` for dynamic topology updates (thread-safe via `shared_mutex`)
+- [x] Config: `read_quorum`, `read_timeout_ms`, `repair_on_read`, `session_token_ttl_ms`
+- [x] 13 unit tests: basic quorum, highest-version selection, conflict detection, no-healthy-replicas failure, single-node mode, topology update, session token returned, monotonic reads, stale quorum failure, partial version satisfaction, session quorum satisfied by fresh replicas, repair-on-read conflict flagging, single-node session token
+
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (225+ test cases: 209 previous + 16 ParallelReplicationWorker tests)
+- [x] Unit tests coverage > 80% (238+ test cases: 225 previous + 13 QuorumReadManager tests)
 - [x] Integration tests (failover, lag detection, PITR restoration, cross-cluster end-to-end)
 - [x] Performance benchmarks (WAL append > 50 000 entries/s, WAL readFrom 1000 < 5 ms, serialize/deserialize < 2 µs) — `benchmarks/bench_replication_throughput.cpp`
 - [x] Focused standalone test targets: `ReplicationHAFocusedTests`, `ReplicationNewFeaturesFocusedTests`, `MultiRegionActiveActiveTests`, `CacheReplicationTests`
