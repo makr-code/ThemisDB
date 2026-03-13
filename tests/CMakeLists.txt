@@ -7192,8 +7192,62 @@ else()
 endif()
 
 
+# =============================================================================
+# Accurate Token-Count Estimation Tests (Issue #145, v1.6.0)
+# =============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_accurate_token_count_estimation.cpp")
+    message(STATUS "Adding Accurate Token-Count Estimation tests (Issue #145)")
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_global_transaction_manager.cpp")
+    add_executable(test_accurate_token_count_estimation
+        test_accurate_token_count_estimation.cpp
+    )
+
+    target_include_directories(test_accurate_token_count_estimation PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    if(TARGET themis_llm)
+        target_link_libraries(test_accurate_token_count_estimation PRIVATE
+            ${TEST_LIBS}
+            themis_llm
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            Threads::Threads
+        )
+    else()
+        target_link_libraries(test_accurate_token_count_estimation PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            Threads::Threads
+        )
+    endif()
+
+    target_compile_definitions(test_accurate_token_count_estimation PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_LLM_EXPORTS
+    )
+
+    add_test(NAME AccurateTokenCountEstimationTests
+             COMMAND test_accurate_token_count_estimation)
+
+    set_tests_properties(AccurateTokenCountEstimationTests PROPERTIES
+        LABELS "llm;aql;token-estimation;benchmark;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  AccurateTokenCountEstimation: CharDivisionEstimator, TiktokenEstimator, injection, p95 benchmark")
+else()
+    message(STATUS "Accurate Token-Count Estimation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_accurate_token_count_estimation.cpp")
+endif()
+
+
+
     message(STATUS "Adding Global Transaction Manager tests")
 
     add_executable(test_global_transaction_manager
@@ -11170,7 +11224,27 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_statistics_collector.cpp")
         LABELS "metadata;statistics;histograms;cardinality;selectivity;unit"
         TIMEOUT 120
     )
-    message(STATUS "  StatisticsCollector: equi-height histograms, cardinality estimation, index stats, auto-refresh")
+    message(STATUS "  StatisticsCollector: equi-height histograms, cardinality estimation, index stats, auto-refresh, metrics hook")
+endif()
+
+# Metadata – StatisticsCollector auto-refresh focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_statistics_auto_refresh.cpp")
+    message(STATUS "Adding Metadata StatisticsCollector auto-refresh focused tests")
+    add_executable(test_statistics_auto_refresh_focused test_statistics_auto_refresh.cpp)
+    target_include_directories(test_statistics_auto_refresh_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_statistics_auto_refresh_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_statistics_auto_refresh_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME StatisticsAutoRefreshFocusedTests COMMAND test_statistics_auto_refresh_focused)
+    set_tests_properties(StatisticsAutoRefreshFocusedTests PROPERTIES
+        LABELS "metadata;statistics;auto-refresh;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  StatisticsCollector auto-refresh: background thread, metrics hook, interval control")
 endif()
 
 # Metadata – ColumnLineageTracker focused tests
@@ -13098,6 +13172,42 @@ else()
     message(STATUS "Parallel File Downloads focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_file_downloads.cpp")
 endif()
 
+# DependencyResolutionEngine – focused tests for update dependency resolver (Issue #216 / v1.6.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_dependency_resolution_engine.cpp")
+    message(STATUS "Adding Dependency Resolution Engine focused tests")
+
+    add_executable(test_dependency_resolution_engine_focused
+        test_dependency_resolution_engine.cpp
+    )
+
+    target_include_directories(test_dependency_resolution_engine_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_dependency_resolution_engine_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_dependency_resolution_engine_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DependencyResolutionEngineFocusedTests
+        COMMAND test_dependency_resolution_engine_focused)
+
+    set_tests_properties(DependencyResolutionEngineFocusedTests PROPERTIES
+        LABELS "updates;dependency-resolution;topological-sort;cycle-detection;version-constraints;conflict-resolution;backfill;focused;unit;v1.6.0"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  DependencyResolutionEngine: dependency graph, topological sort, cycle detection, version constraints, conflict resolution, backfill")
+else()
+    message(STATUS "Dependency Resolution Engine focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_dependency_resolution_engine.cpp")
+endif()
+
 # DistributedGateway – focused tests for multi-node API gateway
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_gateway.cpp")
     message(STATUS "Adding Distributed Gateway focused tests")
@@ -13406,6 +13516,42 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_core.cpp")
     add_test(NAME ShardingCoreFocusedTests COMMAND test_sharding_core_focused)
     set_tests_properties(ShardingCoreFocusedTests PROPERTIES LABELS "sharding;core;raft;consensus;focused;unit" TIMEOUT 90)
     message(STATUS "  ShardingCore: Raft consensus, shard routing, rebalancing")
+endif()
+
+# ── RS Repair Engine Parallelisation focused tests (v1.6.0 Issue #204) ──────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_repair.cpp")
+    message(STATUS "Adding Sharding: RS Repair Engine Parallelisation focused tests")
+
+    add_executable(test_rs_repair_parallelisation_focused
+        test_sharding_repair.cpp
+    )
+
+    target_include_directories(test_rs_repair_parallelisation_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_rs_repair_parallelisation_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_rs_repair_parallelisation_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RSRepairParallelisationFocusedTests
+             COMMAND test_rs_repair_parallelisation_focused)
+
+    set_tests_properties(RSRepairParallelisationFocusedTests PROPERTIES
+        LABELS "sharding;repair;reed-solomon;parallelisation;slo;iops;gpu;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  RSRepairParallelisation: parallel scan bands, SLO progress, IOPS throttle, GPU flag")
 endif()
 
 # Process Modeling Module focused tests

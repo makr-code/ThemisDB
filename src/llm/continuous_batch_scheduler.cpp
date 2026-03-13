@@ -217,11 +217,12 @@ ContinuousBatchScheduler::scheduleNextBatch() {
     
     std::vector<ScheduledRequest*> batch;
     size_t total_tokens = 0;
+    size_t reserved_blocks_in_batch = 0;
     
     // First, continue active decode requests
     for (auto& req : active_requests_) {
         if (req->state == RequestState::DECODE) {
-            if (canAddToBatch(req.get(), total_tokens)) {
+            if (canAddToBatch(req.get(), total_tokens, reserved_blocks_in_batch)) {
                 batch.push_back(req.get());
                 total_tokens++;  // Each decode request adds 1 token
             }
@@ -244,9 +245,10 @@ ContinuousBatchScheduler::scheduleNextBatch() {
             ? std::min(req->total_prompt_tokens, config_.prefill_chunk_size)
             : req->total_prompt_tokens;
         
-        if (canAddToBatch(req.get(), total_tokens + prefill_tokens)) {
+        if (canAddToBatch(req.get(), total_tokens + prefill_tokens, reserved_blocks_in_batch)) {
             batch.push_back(req.get());
             total_tokens += prefill_tokens;
+            reserved_blocks_in_batch += req->allocated_blocks.size();
             active_requests_.push_back(req);
         } else {
             // Put back in queue
@@ -415,7 +417,8 @@ ContinuousBatchScheduler::Stats ContinuousBatchScheduler::getStats() const {
 
 bool ContinuousBatchScheduler::canAddToBatch(
     const ScheduledRequest* request,
-    size_t current_batch_tokens
+    size_t current_batch_tokens,
+    size_t reserved_blocks
 ) const {
     // Check batch size limit
     // Note: batch already includes current requests
@@ -431,12 +434,19 @@ bool ContinuousBatchScheduler::canAddToBatch(
     
     // Check KV cache availability
     if (kv_cache_) {
-        // Calculate blocks needed for this request
-        size_t total_tokens = request->total_prompt_tokens + request->inference_request.max_tokens;
-        size_t blocks_needed = (total_tokens + config_.block_size_tokens - 1) / config_.block_size_tokens;
+        // Decode requests already have KV allocations and need no additional blocks.
+        if (request->state == RequestState::DECODE) {
+            return true;
+        }
+
+        size_t blocks_needed = request->allocated_blocks.size();
+        if (blocks_needed == 0) {
+            size_t total_tokens = request->total_prompt_tokens + request->inference_request.max_tokens;
+            blocks_needed = (total_tokens + config_.block_size_tokens - 1) / config_.block_size_tokens;
+        }
         
         auto stats = kv_cache_->getStats();
-        if (stats.blocks_free < blocks_needed) {
+        if (stats.blocks_free < reserved_blocks + blocks_needed) {
             return false;
         }
     }
@@ -446,6 +456,12 @@ bool ContinuousBatchScheduler::canAddToBatch(
 
 void ContinuousBatchScheduler::allocateKVCacheBlocks(ScheduledRequest* request) {
     if (!kv_cache_) {
+        return;
+    }
+
+    // Avoid duplicate placeholder/allocation growth for queued requests that
+    // are considered in multiple scheduling cycles.
+    if (!request->allocated_blocks.empty()) {
         return;
     }
     

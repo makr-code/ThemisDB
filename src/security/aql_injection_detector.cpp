@@ -25,6 +25,7 @@
 #include <algorithm>
 #include <cctype>
 #include <unordered_set>
+#include <regex>
 #include <fmt/format.h>
 
 namespace themis {
@@ -157,10 +158,36 @@ AQLInjectionDetector::validateParameter(const std::string& param) {
     
     // Validate parameter doesn't contain comment markers
     if (param.find("--") != std::string::npos ||
+        param.find("#") != std::string::npos ||
         param.find("/*") != std::string::npos ||
         param.find("*/") != std::string::npos) {
         result.is_safe = false;
         result.error_message = "Parameter contains comment markers";
+        return result;
+    }
+
+    // Reject classic boolean-blind bypass payloads like "OR 1==1" / "OR true"
+    static const std::regex kBooleanBypass(
+        R"(\bOR\b\s*(?:1\s*={1,2}\s*1|TRUE\b))",
+        std::regex::icase);
+    if (std::regex_search(param, kBooleanBypass)) {
+        result.is_safe = false;
+        result.error_message = "Parameter contains boolean bypass pattern";
+        return result;
+    }
+
+    // Reject UNION-style payloads (including AQL-style "UNION FOR ...")
+    static const std::regex kUnionPattern(R"(\bUNION\b)", std::regex::icase);
+    if (std::regex_search(param, kUnionPattern)) {
+        result.is_safe = false;
+        result.error_message = "Parameter contains UNION pattern";
+        return result;
+    }
+
+    // Reject stacked-query attempts early in parameter values.
+    if (param.find(';') != std::string::npos) {
+        result.is_safe = false;
+        result.error_message = "Parameter contains stacked-query separator";
         return result;
     }
     
@@ -255,7 +282,7 @@ bool AQLInjectionDetector::containsSQLKeywords(const std::string& str) {
     static const std::vector<std::string> keywords = {
         "DROP", "DELETE", "UPDATE", "INSERT", "REPLACE",
         "EXEC", "EXECUTE", "SYSTEM", "SHELL", "WAITFOR",
-        "BENCHMARK", "LOAD_FILE", "INTO OUTFILE", "UNION SELECT"
+        "BENCHMARK", "LOAD_FILE", "INTO OUTFILE", "UNION SELECT", "UNION"
     };
     
     std::string upper_str = str;

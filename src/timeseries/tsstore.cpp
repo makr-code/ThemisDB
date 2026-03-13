@@ -999,7 +999,7 @@ Result<void> TSStore::putSystemMeta(const std::string& key, const std::string& v
         s = db_->Put(write_opts, full_key, value);
     }
     if (!s.ok()) {
-        return ErrVoid(errors::ErrorCode::ERR_STORAGE_WRITE_FAILED,
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
                          fmt::format("putSystemMeta failed for key '{}': {}", key, s.ToString()));
     }
     return OkVoid();
@@ -1019,7 +1019,7 @@ Result<std::optional<std::string>> TSStore::getSystemMeta(const std::string& key
         return Ok(std::optional<std::string>{std::nullopt});
     }
     if (!s.ok()) {
-        return Err<std::optional<std::string>>(errors::ErrorCode::ERR_QUERY_FAILED,
+        return Err<std::optional<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
                          fmt::format("getSystemMeta failed for key '{}': {}", key, s.ToString()));
     }
     return Ok(std::optional<std::string>{value});
@@ -1035,7 +1035,7 @@ Result<void> TSStore::deleteSystemMeta(const std::string& key) {
         s = db_->Delete(write_opts, full_key);
     }
     if (!s.ok() && !s.IsNotFound()) {
-        return ErrVoid(errors::ErrorCode::ERR_STORAGE_WRITE_FAILED,
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
                          fmt::format("deleteSystemMeta failed for key '{}': {}", key, s.ToString()));
     }
     return OkVoid();

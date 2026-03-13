@@ -183,6 +183,18 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeShort
     plan.estimated_nodes_explored = static_cast<size_t>(
         std::pow(statistics_.avg_branching_factor, estimated_depth));
     plan.estimated_time_ms = plan.estimated_cost * 0.1; // Convert cost to time estimate
+
+    // Keep explain-plan estimates meaningful even when early startup statistics
+    // are sparse (e.g. tests that only insert edges without explicit vertices).
+    if (plan.estimated_cost <= 0.0) {
+        plan.estimated_cost = 1.0;
+    }
+    if (plan.estimated_time_ms <= 0.0) {
+        plan.estimated_time_ms = 0.1;
+    }
+    if (plan.estimated_nodes_explored == 0) {
+        plan.estimated_nodes_explored = 1;
+    }
     
     // Determine if parallel execution is beneficial; caller can also force it on
     plan.enable_parallel = constraints.enable_parallel ||

@@ -28,8 +28,10 @@
  */
 
 #include "sharding/shard_repair_engine.h"
+#include "sharding/shard_resource_manager.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
+#include <future>
 #include <sstream>
 #include <iomanip>
 
@@ -107,6 +109,14 @@ void ShardRepairEngine::setDocumentListProvider(DocumentListProvider provider) {
 
 void ShardRepairEngine::setPrometheusMetrics(std::shared_ptr<PrometheusMetrics> prom_metrics) {
     prom_metrics_ = std::move(prom_metrics);
+}
+
+void ShardRepairEngine::setSLOMonitor(std::shared_ptr<SLOMonitor> slo_monitor) {
+    slo_monitor_ = std::move(slo_monitor);
+}
+
+void ShardRepairEngine::setResourceManager(std::shared_ptr<ShardResourceManager> resource_manager) {
+    resource_manager_ = std::move(resource_manager);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -337,9 +347,17 @@ void ShardRepairEngine::repairLoop() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 void ShardRepairEngine::performAntiEntropyScan() {
-    spdlog::info("ShardRepairEngine: starting anti-entropy scan");
+    spdlog::info("ShardRepairEngine: starting parallel anti-entropy scan");
+
+    // Log the active erasure-coding path so operators can see which backend is in use.
+    if (resource_manager_) {
+        bool gpu_enabled = resource_manager_->isGPUErasureCodingEnabled();
+        spdlog::info("ShardRepairEngine: erasure-coding path = {}",
+                     gpu_enabled ? "GPU (CUDA)" : "CPU/OpenCL");
+    }
 
     auto all_shards = topology_.getAllShards();
+    const uint64_t total_shards = all_shards.size();
 
     {
         std::lock_guard<std::mutex> lock(metrics_mutex_);
@@ -352,7 +370,112 @@ void ShardRepairEngine::performAntiEntropyScan() {
         prom_metrics_->recordRepairScan();
     }
 
-    for (const auto& shard_info : all_shards) {
+    if (total_shards == 0) {
+        spdlog::info("ShardRepairEngine: no shards to scan");
+        return;
+    }
+
+    // Determine number of parallel workers (0 → use hardware_concurrency)
+    uint32_t num_workers = config_.num_parallel_workers;
+    if (num_workers == 0) {
+        num_workers = std::max(1u, std::thread::hardware_concurrency());
+    }
+    num_workers = std::min(num_workers, static_cast<uint32_t>(total_shards));
+
+    {
+        std::lock_guard<std::mutex> lock(metrics_mutex_);
+        metrics_.last_scan_workers = num_workers;
+    }
+
+    // Generate a synthetic job-id for SLO progress tracking
+    const std::string scan_job_id = "scan-" + generateJobId();
+
+    // Reset per-scan progress counters
+    scan_shards_done_.store(0, std::memory_order_relaxed);
+    scan_shards_total_.store(total_shards, std::memory_order_relaxed);
+
+    if (slo_monitor_) {
+        SLOMonitor::RepairProgress prog;
+        prog.job_id = scan_job_id;
+        prog.documents_total = total_shards;
+        prog.percent_complete = 0.0;
+        prog.started_at = std::chrono::system_clock::now();
+        prog.updated_at = prog.started_at;
+        slo_monitor_->recordRepairProgress(prog);
+    }
+
+    // Partition shards into bands – one per worker thread
+    std::vector<std::vector<ShardInfo>> bands(num_workers);
+    for (size_t i = 0; i < all_shards.size(); ++i) {
+        bands[i % num_workers].push_back(all_shards[i]);
+    }
+
+    // Launch one task per band using std::future for wait-semantics
+    std::vector<std::future<void>> band_futures;
+    band_futures.reserve(num_workers);
+
+    auto& pool_mgr = themis::utils::getThreadPoolManager();
+
+    for (uint32_t w = 0; w < num_workers; ++w) {
+        if (!running_.load()) break;
+        if (bands[w].empty()) continue;
+
+        auto promise = std::make_shared<std::promise<void>>();
+        band_futures.push_back(promise->get_future());
+
+        bool submitted = pool_mgr.submitTask(
+            themis::utils::ThreadPoolManager::PoolType::CPU,
+            [this, band = bands[w], scan_job_id, total_shards, promise]() {
+                try {
+                    scanShardBand(band, scan_job_id, total_shards);
+                } catch (const std::exception& e) {
+                    spdlog::error("ShardRepairEngine: scan band exception: {}", e.what());
+                }
+                promise->set_value();
+            },
+            "repair-scan-band-" + std::to_string(w),
+            themis::utils::Task::Priority::NORMAL
+        );
+
+        if (!submitted) {
+            // Pool rejected the task – run inline and fulfill the promise directly
+            spdlog::warn("ShardRepairEngine: thread pool rejected scan task for band {}, running inline", w);
+            try {
+                scanShardBand(bands[w], scan_job_id, total_shards);
+            } catch (const std::exception& e) {
+                spdlog::error("ShardRepairEngine: inline scan band exception: {}", e.what());
+            }
+            promise->set_value();
+        }
+    }
+
+    // Wait for all bands to complete
+    for (auto& f : band_futures) {
+        if (f.valid()) {
+            f.wait();
+        }
+    }
+
+    // Mark scan as complete in SLO monitor
+    if (slo_monitor_) {
+        SLOMonitor::RepairProgress prog;
+        prog.job_id = scan_job_id;
+        prog.documents_scanned = total_shards;
+        prog.documents_total = total_shards;
+        prog.percent_complete = 100.0;
+        prog.updated_at = std::chrono::system_clock::now();
+        prog.completed = true;
+        slo_monitor_->recordRepairProgress(prog);
+    }
+
+    spdlog::info("ShardRepairEngine: parallel anti-entropy scan complete ({} shards, {} workers)",
+                 total_shards, num_workers);
+}
+
+void ShardRepairEngine::scanShardBand(const std::vector<ShardInfo>& band,
+                                       const std::string& scan_job_id,
+                                       uint64_t total_shards) {
+    for (const auto& shard_info : band) {
         if (!running_.load()) break;
 
         const std::string& shard_id = shard_info.shard_id;
@@ -374,6 +497,13 @@ void ShardRepairEngine::performAntiEntropyScan() {
 
         for (const auto& doc_id : doc_ids) {
             if (!running_.load()) break;
+
+            // Enforce the IOPS budget – back-off if the token bucket is empty.
+            if (resource_manager_) {
+                while (!resource_manager_->acquireRepairIOToken() && running_.load()) {
+                    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                }
+            }
 
             ++report.documents_scanned;
             {
@@ -426,13 +556,24 @@ void ShardRepairEngine::performAntiEntropyScan() {
             prom_metrics_->recordRepairShardStatus(shard_id, status_str);
         }
 
+        // Update SLO progress after each shard
+        uint64_t done = scan_shards_done_.fetch_add(1, std::memory_order_relaxed) + 1;
+        if (slo_monitor_ && total_shards > 0) {
+            SLOMonitor::RepairProgress prog;
+            prog.job_id = scan_job_id;
+            prog.documents_scanned = done;
+            prog.documents_total = total_shards;
+            prog.percent_complete = static_cast<double>(done) /
+                                    static_cast<double>(total_shards) * 100.0;
+            prog.updated_at = std::chrono::system_clock::now();
+            slo_monitor_->recordRepairProgress(prog);
+        }
+
         spdlog::debug("ShardRepairEngine: shard {} – scanned={} healthy={} degraded={} "
                       "unrecoverable={}",
                       shard_id, report.documents_scanned, report.documents_healthy,
                       report.documents_degraded, report.documents_unrecoverable);
     }
-
-    spdlog::info("ShardRepairEngine: anti-entropy scan complete ({} shards)", all_shards.size());
 }
 
 void ShardRepairEngine::executeRepairJob(RepairJob& job) {
@@ -528,6 +669,12 @@ void ShardRepairEngine::executeRepairJob(RepairJob& job) {
 
 bool ShardRepairEngine::repairDocument(const std::string& doc_id,
                                         const std::string& collection) {
+    // Enforce the IOPS budget before executing the repair write.
+    if (resource_manager_) {
+        while (!resource_manager_->acquireRepairIOToken() && running_.load()) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
+    }
     try {
         return strategy_.recoverDocument(doc_id, collection, ring_, topology_,
                                          read_handler_, write_handler_);

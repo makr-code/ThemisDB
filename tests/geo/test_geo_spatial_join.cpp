@@ -28,6 +28,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -285,4 +286,140 @@ TEST(SpatialJoin, NonPointGeometry_UsesCentroid) {
     EXPECT_EQ(result.size(), 1u);
     EXPECT_TRUE(hasPair(result, "poly_berlin", "pt_near"));
     EXPECT_FALSE(hasPair(result, "poly_berlin", "pt_distant"));
+}
+
+// ---------------------------------------------------------------------------
+// SpatialJoinIterator unit tests
+// ---------------------------------------------------------------------------
+
+TEST(SpatialJoinIterator, EmptyOuter_IteratorDoneImmediately) {
+    std::vector<std::pair<std::string, GeometryInfo>> outer;
+    std::vector<std::pair<std::string, GeometryInfo>> inner{
+        {"b1", makePoint(13.4, 52.5)}
+    };
+    SpatialJoinIterator it(outer, inner, 1000.0);
+    EXPECT_FALSE(it.advance());
+    EXPECT_TRUE(it.done());
+}
+
+TEST(SpatialJoinIterator, EmptyInner_IteratorDoneImmediately) {
+    std::vector<std::pair<std::string, GeometryInfo>> outer{
+        {"a1", makePoint(13.4, 52.5)}
+    };
+    std::vector<std::pair<std::string, GeometryInfo>> inner;
+    SpatialJoinIterator it(outer, inner, 1000.0);
+    EXPECT_FALSE(it.advance());
+    EXPECT_TRUE(it.done());
+}
+
+TEST(SpatialJoinIterator, ZeroThreshold_IteratorDoneImmediately) {
+    std::vector<std::pair<std::string, GeometryInfo>> outer{
+        {"a1", makePoint(13.4, 52.5)}
+    };
+    std::vector<std::pair<std::string, GeometryInfo>> inner{
+        {"b1", makePoint(13.4, 52.5)}
+    };
+    SpatialJoinIterator it(outer, inner, 0.0);
+    EXPECT_FALSE(it.advance());
+    EXPECT_TRUE(it.done());
+}
+
+TEST(SpatialJoinIterator, IdenticalPoints_YieldsOnePair) {
+    std::vector<std::pair<std::string, GeometryInfo>> outer{
+        {"a1", makePoint(13.4050, 52.5200)}
+    };
+    std::vector<std::pair<std::string, GeometryInfo>> inner{
+        {"b1", makePoint(13.4050, 52.5200)}
+    };
+    SpatialJoinIterator it(outer, inner, 1.0); // 1 m threshold
+    ASSERT_TRUE(it.advance());
+    EXPECT_EQ(it.current().key_a, "a1");
+    EXPECT_EQ(it.current().key_b, "b1");
+    EXPECT_NEAR(it.current().distance_m, 0.0, 1e-3);
+    EXPECT_FALSE(it.advance()); // No more pairs
+    EXPECT_TRUE(it.done());
+}
+
+TEST(SpatialJoinIterator, TwoPairsYieldedInOrder) {
+    std::vector<std::pair<std::string, GeometryInfo>> outer{
+        {"a1", makePoint(0.0, 0.0)},
+        {"a2", makePoint(10.0, 10.0)}
+    };
+    std::vector<std::pair<std::string, GeometryInfo>> inner{
+        {"b1", makePoint(0.001, 0.0)},   // ~111 m from a1
+        {"b2", makePoint(10.001, 10.0)}  // ~111 m from a2
+    };
+    SpatialJoinIterator it(outer, inner, 500.0);
+
+    int count = 0;
+    bool saw_a1_b1 = false;
+    bool saw_a2_b2 = false;
+    while (it.advance()) {
+        ++count;
+        const auto& p = it.current();
+        if (p.key_a == "a1" && p.key_b == "b1") saw_a1_b1 = true;
+        if (p.key_a == "a2" && p.key_b == "b2") saw_a2_b2 = true;
+    }
+    EXPECT_EQ(count, 2);
+    EXPECT_TRUE(saw_a1_b1);
+    EXPECT_TRUE(saw_a2_b2);
+    EXPECT_TRUE(it.done());
+}
+
+TEST(SpatialJoinIterator, MaxPairsLimit_StopsEarly) {
+    std::vector<std::pair<std::string, GeometryInfo>> outer, inner;
+    for (int i = 0; i < 10; ++i) {
+        outer.push_back({"a" + std::to_string(i), makePoint(static_cast<double>(i) * 0.001, 0.0)});
+        inner.push_back({"b" + std::to_string(i), makePoint(static_cast<double>(i) * 0.001, 0.0)});
+    }
+    SpatialJoinConfig cfg;
+    cfg.max_pairs = 3;
+    SpatialJoinIterator it(outer, inner, 10'000.0, cfg);
+
+    std::size_t count = 0;
+    while (it.advance()) ++count;
+    EXPECT_LE(count, 3u);
+    EXPECT_TRUE(it.done());
+}
+
+TEST(SpatialJoinIterator, AllResultsWithinThreshold) {
+    std::vector<std::pair<std::string, GeometryInfo>> outer, inner;
+    for (int i = 0; i < 15; ++i) {
+        outer.push_back({"a" + std::to_string(i),
+                         makePoint(static_cast<double>(i) * 0.1, 0.0)});
+        inner.push_back({"b" + std::to_string(i),
+                         makePoint(static_cast<double>(i) * 0.1, 0.0)});
+    }
+    const double threshold = 50'000.0; // 50 km
+    SpatialJoinIterator it(outer, inner, threshold);
+    while (it.advance()) {
+        EXPECT_LE(it.current().distance_m, threshold + 1e-6)
+            << "Pair (" << it.current().key_a << ", " << it.current().key_b
+            << ") distance " << it.current().distance_m << " m exceeds threshold";
+    }
+}
+
+TEST(SpatialJoinIterator, MatchesMaterializedSpatialJoin) {
+    // The lazy iterator must produce the same pairs as the batch spatialJoin().
+    std::vector<std::pair<std::string, GeometryInfo>> outer{
+        {"a1", makePoint(13.4050, 52.5200)}, // Berlin
+        {"a2", makePoint(0.0, 0.0)}
+    };
+    std::vector<std::pair<std::string, GeometryInfo>> inner{
+        {"b1", makePoint(13.4050 + 0.0009, 52.5200)}, // ~63 m
+        {"b2", makePoint(13.4050,           52.5245)}, // ~500 m
+        {"b3", makePoint(2.3522,            48.8566)}, // Paris (far)
+        {"b4", makePoint(0.001, 0.0)}                  // ~111 m from a2
+    };
+    const double threshold = 1000.0;
+
+    auto batch = spatialJoin(outer, inner, threshold);
+    std::set<std::pair<std::string,std::string>> batch_set;
+    for (const auto& p : batch) batch_set.emplace(p.key_a, p.key_b);
+
+    SpatialJoinIterator it(outer, inner, threshold);
+    std::set<std::pair<std::string,std::string>> iter_set;
+    while (it.advance()) iter_set.emplace(it.current().key_a, it.current().key_b);
+
+    EXPECT_EQ(batch_set, iter_set);
 }

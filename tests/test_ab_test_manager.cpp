@@ -293,7 +293,9 @@ TEST_F(ABTestManagerTest, EvaluateNotSignificantForSmallDifference) {
 }
 
 TEST_F(ABTestManagerTest, EvaluateSignificantForLargeDifference) {
-    startTest("t1");
+    auto cfg = makeConfig("t1");
+    cfg.thompson_stop_threshold = 0.0; // keep test active so all samples are recorded
+    ASSERT_TRUE(mgr.startTest(cfg, loader));
     // Control 20%, treatment 80% — large difference.
     for (int i = 0; i < 100; ++i) {
         mgr.recordOutcome("t1", false, (i < 20));

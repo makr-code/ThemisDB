@@ -946,11 +946,65 @@ static std::shared_ptr<themis::utils::AuditLogger> makeAuditLogger(const std::st
     return std::make_shared<themis::utils::AuditLogger>(enc, pki, cfg);
 }
 
-static std::string readAuditLog(const std::string& path) {
+static std::string decodeBase64ForAuditTest(const std::string& input) {
+    static const std::string chars =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    std::vector<int> table(256, -1);
+    for (size_t i = 0; i < chars.size(); ++i) {
+        table[static_cast<unsigned char>(chars[i])] = static_cast<int>(i);
+    }
+
+    std::string out;
+    int val = 0;
+    int bits = -8;
+    for (unsigned char c : input) {
+        if (c == '=') {
+            break;
+        }
+        int d = table[c];
+        if (d < 0) {
+            continue;
+        }
+        val = (val << 6) + d;
+        bits += 6;
+        if (bits >= 0) {
+            out.push_back(static_cast<char>((val >> bits) & 0xFF));
+            bits -= 8;
+        }
+    }
+    return out;
+}
+
+static std::vector<json> readDecodedAuditPayloads(const std::string& path) {
+    std::vector<json> payloads;
     std::ifstream f(path);
-    std::ostringstream ss;
-    ss << f.rdbuf();
-    return ss.str();
+    std::string line;
+    while (std::getline(f, line)) {
+        if (line.empty()) {
+            continue;
+        }
+        try {
+            const auto record = json::parse(line);
+            if (!record.contains("payload") || !record["payload"].is_object()) {
+                continue;
+            }
+            const auto& payload = record["payload"];
+            if (payload.value("type", std::string{}) != "plaintext") {
+                continue;
+            }
+            if (payload.contains("data") && payload["data"].is_object()) {
+                payloads.push_back(payload["data"]);
+                continue;
+            }
+            if (payload.contains("data_b64") && payload["data_b64"].is_string()) {
+                payloads.push_back(json::parse(
+                    decodeBase64ForAuditTest(payload["data_b64"].get<std::string>())));
+            }
+        } catch (...) {
+            // Ignore malformed/undecodable entries in tests.
+        }
+    }
+    return payloads;
 }
 
 class ExportPolicyEnforcementTest : public ::testing::Test {
@@ -1083,12 +1137,20 @@ TEST_F(ExportPolicyEnforcementTest, PolicyEngineDenies_AuditLogReceivesExportDen
 
     logger->flush();
 
-    const std::string log_content = readAuditLog(audit_path);
-    EXPECT_NE(log_content.find("EXPORT_DENIED"), std::string::npos)
+    const auto payloads = readDecodedAuditPayloads(audit_path);
+    bool found_denied = false;
+    bool found_user = false;
+    bool found_collection = false;
+    for (const auto& p : payloads) {
+        found_denied = found_denied || p.value("event_type", std::string{}) == "EXPORT_DENIED";
+        found_user = found_user || p.value("user_id", std::string{}) == "eve";
+        found_collection = found_collection || p.value("resource", std::string{}) == "secret_col";
+    }
+    EXPECT_TRUE(found_denied)
         << "Audit log must contain EXPORT_DENIED event on policy denial";
-    EXPECT_NE(log_content.find("eve"), std::string::npos)
+    EXPECT_TRUE(found_user)
         << "Audit log must contain the requester identity";
-    EXPECT_NE(log_content.find("secret_col"), std::string::npos)
+    EXPECT_TRUE(found_collection)
         << "Audit log must contain the collection name";
 }
 
@@ -1116,10 +1178,16 @@ TEST_F(ExportPolicyEnforcementTest, PolicyEnginePermits_AuditLogReceivesBulkExpo
 
     logger->flush();
 
-    const std::string log_content = readAuditLog(audit_path);
-    EXPECT_NE(log_content.find("BULK_EXPORT"), std::string::npos)
+    const auto payloads = readDecodedAuditPayloads(audit_path);
+    bool found_bulk = false;
+    bool found_user = false;
+    for (const auto& p : payloads) {
+        found_bulk = found_bulk || p.value("event_type", std::string{}) == "BULK_EXPORT";
+        found_user = found_user || p.value("user_id", std::string{}) == "carol";
+    }
+    EXPECT_TRUE(found_bulk)
         << "Audit log must contain BULK_EXPORT event on permitted export";
-    EXPECT_NE(log_content.find("carol"), std::string::npos)
+    EXPECT_TRUE(found_user)
         << "Audit log must contain the requester identity";
 }
 
@@ -1242,23 +1310,14 @@ TEST_F(ExportPolicyEnforcementTest, PolicyEngineDenies_AuditEventHasMediumSeveri
 
     logger->flush();
 
-    // Parse the audit log and verify the EXPORT_DENIED event has severity MEDIUM
-    std::ifstream f(audit_path);
+    // Parse decoded audit payloads and verify EXPORT_DENIED has severity MEDIUM.
+    const auto payloads = readDecodedAuditPayloads(audit_path);
     bool found_medium_export_denied = false;
-    std::string line;
-    while (std::getline(f, line)) {
-        if (line.empty()) continue;
-        try {
-            auto j = json::parse(line);
-            // The audit log entry may be nested under a "payload" key
-            const auto& payload = j.contains("payload") ? j["payload"] : j;
-            if (payload.value("event_type", std::string{}) == "EXPORT_DENIED") {
-                EXPECT_EQ(payload.value("severity", std::string{}), "MEDIUM")
-                    << "EXPORT_DENIED audit event must have severity MEDIUM";
-                found_medium_export_denied = true;
-            }
-        } catch (...) {
-            // skip unparseable lines (e.g. encrypted entries)
+    for (const auto& payload : payloads) {
+        if (payload.value("event_type", std::string{}) == "EXPORT_DENIED") {
+            EXPECT_EQ(payload.value("severity", std::string{}), "MEDIUM")
+                << "EXPORT_DENIED audit event must have severity MEDIUM";
+            found_medium_export_denied = true;
         }
     }
     EXPECT_TRUE(found_medium_export_denied)

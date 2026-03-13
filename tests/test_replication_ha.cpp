@@ -49,6 +49,7 @@
 #include <thread>
 #include <vector>
 #include <atomic>
+#include <unordered_map>
 #include <zstd.h>
 #include <lz4.h>
 #include <snappy.h>
@@ -1805,6 +1806,228 @@ TEST(QuorumReadManagerTest, SetReplicasUpdatesTopology) {
     EXPECT_TRUE(result.success);
 }
 
+// Session consistency: a successful read always returns a non-empty session token.
+TEST(QuorumReadManagerTest, SessionToken_ReturnedOnSuccessfulRead) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000", 100),
+        makeReplica("r2:9000", 100),
+        makeReplica("r3:9000", 100),
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+    auto result = qrm.read("col", "doc-1");
+
+    EXPECT_TRUE(result.success);
+    EXPECT_FALSE(result.session_token.empty())
+        << "A session token must be returned on every successful quorum read";
+    // Token must contain the expected key–value pairs.
+    EXPECT_NE(result.session_token.find("seq="), std::string::npos)
+        << "Session token must contain 'seq=' field";
+    EXPECT_NE(result.session_token.find("exp="), std::string::npos)
+        << "Session token must contain 'exp=' expiry field";
+}
+
+// Session consistency: using the token from a previous read in a subsequent read
+// must succeed when replicas are at the same or higher version.
+TEST(QuorumReadManagerTest, SessionConsistency_TokenFromReadUsedInNextRead) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000", 100),
+        makeReplica("r2:9000", 100),
+        makeReplica("r3:9000", 100),
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+
+    // First read – obtain a session token embedding version 100.
+    auto first = qrm.read("col", "doc-1");
+    ASSERT_TRUE(first.success);
+    EXPECT_FALSE(first.session_token.empty());
+
+    // Second read using the session token – replicas are still at version 100,
+    // so the read must succeed with monotonic guarantees.
+    auto second = qrm.read("col", "doc-1", 0, first.session_token);
+    EXPECT_TRUE(second.success)
+        << "Session read must succeed when replicas satisfy the required version";
+    EXPECT_GE(second.version, first.version)
+        << "Monotonic read: version must not decrease across reads in the same session";
+}
+
+// Session consistency: when the session token requires a version higher than
+// what any replica can provide, the read must fail.
+TEST(QuorumReadManagerTest, SessionConsistency_FailsWhenReplicasBelowRequiredVersion) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+
+    // All replicas are at version 10 – far below any realistic session requirement.
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000", 10),
+        makeReplica("r2:9000", 10),
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+
+    // Craft a token that demands version 9999 (above what replicas have).
+    // Format: "seq=<N>;exp=<far-future-epoch-ms>"
+    constexpr uint64_t far_future_exp =
+        9999999999999ull;  // well beyond any real current timestamp
+    std::string high_version_token = "seq=9999;exp=" + std::to_string(far_future_exp);
+
+    auto result = qrm.read("col", "doc-1", 0, high_version_token);
+    EXPECT_FALSE(result.success)
+        << "Session read must fail when no quorum of replicas satisfies the required version";
+}
+
+// Session consistency: at least one but fewer than quorum replicas satisfy the
+// version requirement – must fail.
+TEST(QuorumReadManagerTest, SessionConsistency_PartialVersionSatisfactionFails) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+
+    // r1 is stale; r2 and r3 are up-to-date.
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000", 10),   // stale
+        makeReplica("r2:9000", 100),  // fresh
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+
+    // Token requires version 100; only r2 qualifies (1 < quorum=2).
+    constexpr uint64_t far_future_exp = 9999999999999ull;
+    std::string token = "seq=100;exp=" + std::to_string(far_future_exp);
+
+    auto result = qrm.read("col", "doc-1", 0, token);
+    EXPECT_FALSE(result.success)
+        << "One qualifying replica is below quorum=2; session read must fail";
+}
+
+// Session consistency: a majority of replicas satisfy the version requirement.
+TEST(QuorumReadManagerTest, SessionConsistency_QuorumSatisfiedByFreshReplicas) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000", 10),   // stale – must not count toward quorum
+        makeReplica("r2:9000", 100),  // fresh
+        makeReplica("r3:9000", 100),  // fresh
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+
+    // Token requires version 100; r2 and r3 satisfy it (2 == quorum).
+    constexpr uint64_t far_future_exp = 9999999999999ull;
+    std::string token = "seq=100;exp=" + std::to_string(far_future_exp);
+
+    auto result = qrm.read("col", "doc-1", 0, token);
+    EXPECT_TRUE(result.success)
+        << "Two qualifying replicas at version 100 satisfy quorum=2";
+    EXPECT_EQ(result.version, 100u);
+    EXPECT_EQ(result.sources.size(), 2u)
+        << "Only the qualifying replicas should appear in sources";
+}
+
+// repair_on_read: diverging replicas are flagged; had_conflicts is set.
+TEST(QuorumReadManagerTest, RepairOnRead_ConflictsDetectedAndFlagged) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+    cfg.repair_on_read  = true;
+
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000", 50),   // stale replica
+        makeReplica("r2:9000", 100),  // authoritative replica
+        makeReplica("r3:9000", 100),
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+    auto result = qrm.read("col", "doc-1");
+
+    EXPECT_TRUE(result.success);
+    EXPECT_TRUE(result.had_conflicts)
+        << "Diverging versions must be flagged so repair-on-read can proceed";
+    EXPECT_EQ(result.version, 100u)
+        << "Authoritative (highest) version must win the reconciliation";
+}
+
+// Single-node mode: session token is still returned.
+TEST(QuorumReadManagerTest, SingleNodeMode_ReturnsSessionToken) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 1;
+    cfg.read_timeout_ms = 200;
+
+    QuorumReadManager qrm(cfg, {});  // no replicas = single-node mode
+    auto result = qrm.read("col", "doc-1");
+    EXPECT_TRUE(result.success);
+    EXPECT_FALSE(result.session_token.empty())
+        << "Session token must be returned even in single-node mode";
+}
+
+// Session consistency: a malformed (non-empty) token is treated as version 0,
+// so all replicas qualify and the read succeeds normally.
+TEST(QuorumReadManagerTest, SessionConsistency_MalformedTokenTreatedAsNoRequirement) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000", 50),
+        makeReplica("r2:9000", 100),
+        makeReplica("r3:9000", 75),
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+
+    // Garbage token: parseSessionToken must return 0 (no version requirement).
+    auto result = qrm.read("col", "doc-1", 0, "not-a-valid-token");
+    EXPECT_TRUE(result.success)
+        << "Malformed session token must not block a read that would otherwise succeed";
+    // The highest version across all three replicas is 100.
+    EXPECT_EQ(result.version, 100u);
+}
+
+// Session consistency: fresh replicas that arrive last in iteration order
+// (stale replica first) must still be counted toward the version quorum.
+// This exercises the fix that prevents early loop exit when session_token != "".
+TEST(QuorumReadManagerTest, SessionConsistency_FreshReplicasLateInIterationOrder) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+
+    // r1 is stale and will be the first future to resolve; r2 and r3 are fresh.
+    // Without the fix the loop would have stopped at {r1, r2}, counted only
+    // one qualifying replica (r2) and returned failure.
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000",  5),   // stale
+        makeReplica("r2:9000", 200),  // fresh
+        makeReplica("r3:9000", 200),  // fresh
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+
+    constexpr uint64_t far_future = 9999999999999ull;
+    std::string token = "seq=200;exp=" + std::to_string(far_future);
+
+    auto result = qrm.read("col", "doc-1", 0, token);
+    EXPECT_TRUE(result.success)
+        << "Two fresh replicas at version 200 satisfy quorum=2 even when a "
+           "stale replica is iterated first";
+    EXPECT_EQ(result.version, 200u);
+    EXPECT_EQ(result.sources.size(), 2u)
+        << "Only the two qualifying replicas must appear in sources";
+}
+
+
+
 // ============================================================================
 // 17. PersistentReplicationState
 // ============================================================================
@@ -2881,11 +3104,464 @@ TEST(WALArchivalTest, RunArchivalCycleArchivesOldSegments) {
 }
 
 // ============================================================================
-// Raft Leader Lease Read Tests
+// WALArchivalManager Tests (v1.6.0) – Object Storage / Encryption / Lifecycle
 // ============================================================================
 
-// Helper: build a ReplicationConfig with short timings so that tests do not
-// have to wait several seconds for elections.
+// A fixed 32-byte AES-256 key expressed as 64 hex characters.
+// TEST USE ONLY — production keys must be securely generated (e.g. via a KMS)
+// and never hard-coded in source.
+static const char* kTestKeyHex =
+    "0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20";
+
+TEST(WALArchivalTest, EncryptionAtRest_RoundTrip) {
+    const std::string wal_dir = "/tmp/themis_enc_wal";
+    const std::string arc_dir = "/tmp/themis_enc_arc";
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+
+    writeSegmentFile(wal_dir, "seg_000100.wal", "SECRET WAL CONTENT");
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = arc_dir;
+    cfg.compress_before_archive = false;
+    cfg.encrypt_at_rest         = true;
+    cfg.encryption_key_hex      = kTestKeyHex;
+
+    WALArchivalManager mgr(cfg);
+    uint32_t n = mgr.archiveSegments({"seg_000100.wal"});
+    ASSERT_EQ(n, 1u);
+
+    auto list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_TRUE(list[0].encrypted);
+    EXPECT_FALSE(list[0].compressed);
+
+    // Archived file on disk must NOT contain plaintext
+    std::ifstream raw_file(list[0].archive_path, std::ios::binary);
+    ASSERT_TRUE(raw_file.good());
+    std::string disk_content(std::istreambuf_iterator<char>(raw_file), {});
+    EXPECT_EQ(disk_content.find("SECRET"), std::string::npos)
+        << "Encrypted archive must not contain plaintext";
+
+    // Retrieve and decrypt – must recover original content
+    auto data = mgr.retrieveSegment(list[0].segment_id);
+    ASSERT_TRUE(data.has_value());
+    std::string recovered(data->begin(), data->end());
+    EXPECT_EQ(recovered, "SECRET WAL CONTENT");
+
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, EncryptionAtRest_WithCompression_RoundTrip) {
+    const std::string wal_dir = "/tmp/themis_enc_cmp_wal";
+    const std::string arc_dir = "/tmp/themis_enc_cmp_arc";
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+
+    // A larger payload benefits more from compression
+    std::string payload(512, 'A');
+    payload += std::string(512, 'B');
+    writeSegmentFile(wal_dir, "seg_000200.wal", payload);
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = arc_dir;
+    cfg.compress_before_archive = true;
+    cfg.encrypt_at_rest         = true;
+    cfg.encryption_key_hex      = kTestKeyHex;
+
+    WALArchivalManager mgr(cfg);
+    ASSERT_EQ(mgr.archiveSegments({"seg_000200.wal"}), 1u);
+
+    auto list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_TRUE(list[0].encrypted);
+    EXPECT_TRUE(list[0].compressed);
+
+    auto data = mgr.retrieveSegment(list[0].segment_id);
+    ASSERT_TRUE(data.has_value());
+    std::string recovered(data->begin(), data->end());
+    EXPECT_EQ(recovered, payload);
+
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, EncryptionAtRest_InvalidKey_RejectsArchival) {
+    const std::string wal_dir = "/tmp/themis_enc_badkey_wal";
+    const std::string arc_dir = "/tmp/themis_enc_badkey_arc";
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+
+    writeSegmentFile(wal_dir, "seg_000300.wal", "SENSITIVE DATA");
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = arc_dir;
+    cfg.compress_before_archive = false;
+    cfg.encrypt_at_rest         = true;
+    cfg.encryption_key_hex      = "tooshort";  // invalid: not 64 hex chars
+
+    WALArchivalManager mgr(cfg);
+    // With an invalid key, archival is rejected to prevent unencrypted storage
+    uint32_t n = mgr.archiveSegments({"seg_000300.wal"});
+    EXPECT_EQ(n, 0u) << "Archival must be rejected when encryption key is invalid";
+    EXPECT_TRUE(mgr.listArchived().empty());
+
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, StorageTier_DefaultIsStandard) {
+    const std::string wal_dir = "/tmp/themis_tier_wal";
+    const std::string arc_dir = "/tmp/themis_tier_arc";
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+
+    writeSegmentFile(wal_dir, "seg_000400.wal", "TIER TEST DATA");
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = arc_dir;
+    cfg.compress_before_archive = false;
+
+    WALArchivalManager mgr(cfg);
+    ASSERT_EQ(mgr.archiveSegments({"seg_000400.wal"}), 1u);
+
+    auto list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_EQ(list[0].storage_tier, "standard");
+
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, TransitionStorageTiers_DisabledWhenZero) {
+    const std::string wal_dir = "/tmp/themis_lifecycle_dis_wal";
+    const std::string arc_dir = "/tmp/themis_lifecycle_dis_arc";
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+
+    writeSegmentFile(wal_dir, "seg_000500.wal", "LIFECYCLE DATA");
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory                 = wal_dir;
+    cfg.archive_directory             = arc_dir;
+    cfg.compress_before_archive       = false;
+    cfg.transition_to_cold_after_days = 0;  // disabled
+
+    WALArchivalManager mgr(cfg);
+    mgr.archiveSegments({"seg_000500.wal"});
+
+    // With lifecycle disabled, transitionStorageTiers() is a no-op
+    EXPECT_EQ(mgr.transitionStorageTiers(), 0u);
+    EXPECT_EQ(mgr.listArchived()[0].storage_tier, "standard");
+
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, TransitionStorageTiers_MovesToCold) {
+    const std::string arc_dir = "/tmp/themis_lifecycle_cold_arc";
+    std::filesystem::remove_all(arc_dir);
+    std::filesystem::create_directories(arc_dir);
+
+    // Write a fake archive file (content doesn't matter for tier testing)
+    const std::string fake_path = arc_dir + "/seg_00000000000000000600.wal";
+    { std::ofstream f(fake_path); f << "OLD_SEGMENT_DATA"; }
+
+    // Write an index.txt with archived_at 200 days ago and "standard" tier
+    auto old_time = std::chrono::system_clock::now()
+                    - std::chrono::hours(24 * 200);
+    auto old_ts = std::chrono::duration_cast<std::chrono::seconds>(
+        old_time.time_since_epoch()).count();
+    {
+        std::ofstream idx(arc_dir + "/index.txt");
+        idx << "600 0 0 16 0 " << old_ts << " " << fake_path
+            << " standard 0\n";
+    }
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory                 = "/tmp/lifecycle_cold_wal";
+    cfg.archive_directory             = arc_dir;
+    cfg.transition_to_cold_after_days = 90;  // threshold; segment is 200 days old
+
+    WALArchivalManager mgr(cfg);  // loadIndex() reads the old index
+
+    auto list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_EQ(list[0].storage_tier, "standard");
+
+    uint32_t transitioned = mgr.transitionStorageTiers();
+    EXPECT_EQ(transitioned, 1u);
+    list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    // 200 days > 90 days cold threshold but < 270 days glacier threshold
+    EXPECT_EQ(list[0].storage_tier, "cold");
+
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, TransitionStorageTiers_MovesToGlacier) {
+    const std::string arc_dir = "/tmp/themis_lifecycle_glacier_arc";
+    std::filesystem::remove_all(arc_dir);
+    std::filesystem::create_directories(arc_dir);
+
+    const std::string fake_path = arc_dir + "/seg_00000000000000000700.wal";
+    { std::ofstream f(fake_path); f << "VERY_OLD_SEGMENT"; }
+
+    // 400 days ago; threshold is 90 days cold, 270 days glacier -> glacier
+    auto old_time = std::chrono::system_clock::now()
+                    - std::chrono::hours(24 * 400);
+    auto old_ts = std::chrono::duration_cast<std::chrono::seconds>(
+        old_time.time_since_epoch()).count();
+    {
+        std::ofstream idx(arc_dir + "/index.txt");
+        idx << "700 0 0 16 0 " << old_ts << " " << fake_path
+            << " standard 0\n";
+    }
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory                 = "/tmp/lifecycle_glacier_wal";
+    cfg.archive_directory             = arc_dir;
+    cfg.transition_to_cold_after_days = 90;
+
+    WALArchivalManager mgr(cfg);
+
+    EXPECT_EQ(mgr.transitionStorageTiers(), 1u);
+    auto list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_EQ(list[0].storage_tier, "glacier");
+
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, IndexPersistence_TierAndEncryptionFields) {
+    // Verify that storage_tier and encrypted are correctly round-tripped
+    // through saveIndex/loadIndex (by creating a second WALArchivalManager
+    // over the same archive directory).
+    const std::string wal_dir = "/tmp/themis_idx_persist_wal";
+    const std::string arc_dir = "/tmp/themis_idx_persist_arc";
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+
+    writeSegmentFile(wal_dir, "seg_000800.wal", "PERSIST TEST DATA");
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = arc_dir;
+    cfg.compress_before_archive = false;
+    cfg.encrypt_at_rest         = true;
+    cfg.encryption_key_hex      = kTestKeyHex;
+
+    {
+        WALArchivalManager mgr(cfg);
+        ASSERT_EQ(mgr.archiveSegments({"seg_000800.wal"}), 1u);
+        auto list = mgr.listArchived();
+        ASSERT_EQ(list.size(), 1u);
+        EXPECT_TRUE(list[0].encrypted);
+        EXPECT_EQ(list[0].storage_tier, "standard");
+    }  // ~WALArchivalManager saves index
+
+    // Reload from the same archive directory
+    WALArchivalManager mgr2(cfg);
+    auto list = mgr2.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_TRUE(list[0].encrypted);
+    EXPECT_EQ(list[0].storage_tier, "standard");
+
+    // Data must still be retrievable after reload
+    auto data = mgr2.retrieveSegment(list[0].segment_id);
+    ASSERT_TRUE(data.has_value());
+    std::string recovered(data->begin(), data->end());
+    EXPECT_EQ(recovered, "PERSIST TEST DATA");
+
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, EncryptionAtRest_EmptyKey_RejectsArchival) {
+    // encrypt_at_rest=true with an empty key must reject archival, just like an
+    // invalid key – it must not silently store the segment unencrypted.
+    const std::string wal_dir = "/tmp/themis_enc_emptykey_wal";
+    const std::string arc_dir = "/tmp/themis_enc_emptykey_arc";
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+
+    writeSegmentFile(wal_dir, "seg_000900.wal", "SENSITIVE DATA");
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = arc_dir;
+    cfg.compress_before_archive = false;
+    cfg.encrypt_at_rest         = true;
+    cfg.encryption_key_hex      = "";  // empty – must be rejected
+
+    WALArchivalManager mgr(cfg);
+    uint32_t n = mgr.archiveSegments({"seg_000900.wal"});
+    EXPECT_EQ(n, 0u) << "Archival must be rejected when encrypt_at_rest=true and key is empty";
+    EXPECT_TRUE(mgr.listArchived().empty());
+
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+}
+
+// ============================================================================
+// IArchivalBackend injection test – mock backend
+// ============================================================================
+
+namespace {
+
+// Minimal in-memory mock backend for unit testing IArchivalBackend injection.
+struct MockArchivalBackend : public IArchivalBackend {
+    std::unordered_map<std::string, std::vector<uint8_t>> store;
+    std::unordered_map<std::string, std::string> tiers;
+    std::vector<std::string> deleted_keys;
+
+    bool putObject(const std::string& key,
+                   const std::vector<uint8_t>& data) override {
+        store[key] = data;
+        tiers[key] = "standard";
+        return true;
+    }
+
+    std::optional<std::vector<uint8_t>> getObject(
+        const std::string& key) const override {
+        auto it = store.find(key);
+        if (it == store.end()) return std::nullopt;
+        return it->second;
+    }
+
+    bool deleteObject(const std::string& key) override {
+        deleted_keys.push_back(key);
+        store.erase(key);
+        tiers.erase(key);
+        return true;
+    }
+
+    void setStorageTier(const std::string& key,
+                        const std::string& tier) override {
+        tiers[key] = tier;
+    }
+};
+
+}  // namespace
+
+TEST(WALArchivalTest, BackendInjection_ArchiveAndRetrieveViaBackend) {
+    // Verify that when a custom IArchivalBackend is injected, archiveSegments()
+    // routes writes through it and retrieveSegment() reads from it.
+    const std::string wal_dir = "/tmp/themis_backend_wal";
+    std::filesystem::remove_all(wal_dir);
+
+    writeSegmentFile(wal_dir, "seg_001000.wal", "BACKEND ROUTED DATA");
+
+    auto mock = std::make_shared<MockArchivalBackend>();
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = "";  // not used when backend is set
+    cfg.prefix                  = "test-cluster/wal/";
+    cfg.compress_before_archive = false;
+
+    WALArchivalManager mgr(cfg, mock);
+
+    uint32_t n = mgr.archiveSegments({"seg_001000.wal"});
+    ASSERT_EQ(n, 1u);
+
+    // Backend store must contain the segment
+    EXPECT_EQ(mock->store.size(), 1u);
+    auto stored_key = mock->store.begin()->first;
+    EXPECT_EQ(stored_key.find("test-cluster/wal/seg_"), 0u)
+        << "Object key must start with configured prefix, got: " << stored_key;
+
+    // listArchived() shows the segment with the cloud key as archive_path
+    auto list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_EQ(list[0].archive_path, stored_key);
+
+    // retrieveSegment() reads from the backend
+    auto data = mgr.retrieveSegment(list[0].segment_id);
+    ASSERT_TRUE(data.has_value());
+    std::string recovered(data->begin(), data->end());
+    EXPECT_EQ(recovered, "BACKEND ROUTED DATA");
+
+    std::filesystem::remove_all(wal_dir);
+}
+
+TEST(WALArchivalTest, BackendInjection_PurgeDeletesViaBackend) {
+    // purgeExpired() with delete_after_days=0 must call backend->deleteObject().
+    const std::string wal_dir = "/tmp/themis_backend_purge_wal";
+    std::filesystem::remove_all(wal_dir);
+
+    writeSegmentFile(wal_dir, "seg_001100.wal", "OLD DATA");
+
+    auto mock = std::make_shared<MockArchivalBackend>();
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = "";
+    cfg.prefix                  = "prod/";
+    cfg.compress_before_archive = false;
+    cfg.delete_after_days       = 0;  // purge everything immediately
+
+    WALArchivalManager mgr(cfg, mock);
+    ASSERT_EQ(mgr.archiveSegments({"seg_001100.wal"}), 1u);
+    ASSERT_EQ(mock->store.size(), 1u);
+
+    uint32_t purged = mgr.purgeExpired();
+    EXPECT_EQ(purged, 1u);
+    EXPECT_TRUE(mgr.listArchived().empty());
+    // Backend deleteObject() must have been called
+    EXPECT_EQ(mock->deleted_keys.size(), 1u);
+    EXPECT_TRUE(mock->store.empty());
+
+    std::filesystem::remove_all(wal_dir);
+}
+
+TEST(WALArchivalTest, BackendInjection_TransitionTierNotifiesBackend) {
+    // transitionStorageTiers() must call backend->setStorageTier() for aged segments.
+    const std::string arc_dir = "/tmp/themis_backend_tier_arc";
+    std::filesystem::remove_all(arc_dir);
+    std::filesystem::create_directories(arc_dir);
+
+    auto mock = std::make_shared<MockArchivalBackend>();
+    const std::string fake_key = "prod/seg_00000000000000001200.wal";
+    mock->store[fake_key] = {'X', 'X'};
+    mock->tiers[fake_key] = "standard";
+
+    // Build an index.txt with archived_at 400 days ago
+    auto old_time = std::chrono::system_clock::now()
+                    - std::chrono::hours(24 * 400);
+    auto old_ts = std::chrono::duration_cast<std::chrono::seconds>(
+        old_time.time_since_epoch()).count();
+    {
+        std::ofstream idx(arc_dir + "/index.txt");
+        idx << "1200 0 0 2 0 " << old_ts << " " << fake_key
+            << " standard 0\n";
+    }
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory                 = "/tmp/backend_tier_wal";
+    cfg.archive_directory             = arc_dir;  // for index.txt loading
+    cfg.prefix                        = "prod/";
+    cfg.transition_to_cold_after_days = 90;       // 400d > 270d glacier threshold
+
+    WALArchivalManager mgr(cfg, mock);
+
+    uint32_t transitioned = mgr.transitionStorageTiers();
+    EXPECT_EQ(transitioned, 1u);
+
+    auto list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_EQ(list[0].storage_tier, "glacier");
+
+    // Backend must have been notified about the tier change
+    EXPECT_EQ(mock->tiers[fake_key], "glacier");
+
+    std::filesystem::remove_all(arc_dir);
+}
 static ReplicationConfig makeLeaseConfig(const std::string& wal_dir) {
     ReplicationConfig cfg = makeConfig(wal_dir);
     cfg.election_timeout_min_ms   = 80;

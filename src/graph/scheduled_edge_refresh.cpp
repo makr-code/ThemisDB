@@ -26,6 +26,7 @@
 #include <cmath>
 #include <chrono>
 #include <numeric>
+#include <limits>
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <unordered_set>
@@ -495,6 +496,38 @@ RefreshStats ScheduledGraphEdgeRefreshEngine::runRefreshCycle() {
 std::vector<BaseEntity> ScheduledGraphEdgeRefreshEngine::collectEdges() const {
     std::vector<BaseEntity> edges;
 
+    // Prefer direct edge-range scan because tests and lightweight setups may
+    // insert edges without explicit node entities.
+    auto [range_status, edge_infos] = graph_mgr_.getEdgesInTimeRange(
+        std::numeric_limits<int64_t>::min(),
+        std::numeric_limits<int64_t>::max(),
+        false);
+    if (range_status.ok) {
+        edges.reserve(edge_infos.size());
+        for (const auto& info : edge_infos) {
+            BaseEntity e(info.edgeId);
+            e.setField("id", info.edgeId);
+            e.setField("_from", info.fromPk);
+            e.setField("_to", info.toPk);
+
+            if (auto ts = graph_mgr_.getEdgeField(info.edgeId, "_created_at"); ts) {
+                try {
+                    e.setField("_created_at", static_cast<int64_t>(std::stoll(*ts)));
+                } catch (...) {
+                    // Unparseable timestamp – leave absent.
+                }
+            }
+            if (auto w = graph_mgr_.getEdgeField(info.edgeId, "_weight"); w) {
+                e.setField("_weight", *w);
+            }
+            edges.push_back(std::move(e));
+        }
+
+        if (!edges.empty()) {
+            return edges;
+        }
+    }
+
     // Obtain all vertices and collect their out-adjacency edge IDs.
     // Each directed edge appears exactly once in one source vertex's out-adjacency.
     auto vertices = graph_mgr_.getAllVertices();
@@ -572,6 +605,17 @@ ScheduledGraphEdgeRefreshEngine::discoverCandidateEdges(
 
     // Collect all vertices with available embeddings.
     auto vertices = graph_mgr_.getAllVertices();
+    if (vertices.empty()) {
+        std::unordered_set<std::string> dedup;
+        dedup.reserve(existing_edges.size() * 2);
+        for (const auto& e : existing_edges) {
+            auto from = e.getFieldAsString("_from");
+            auto to = e.getFieldAsString("_to");
+            if (from && !from->empty()) dedup.insert(*from);
+            if (to && !to->empty()) dedup.insert(*to);
+        }
+        vertices.assign(dedup.begin(), dedup.end());
+    }
 
     // For each vertex, find top-k most similar other vertices (excluding self),
     // add as candidate edges if they do not already exist.

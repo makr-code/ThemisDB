@@ -23,7 +23,9 @@
 #pragma once
 
 #include "sharding/gossip_config_manager.h"
+#include "utils/rate_limiter.h"
 #include <atomic>
+#include <memory>
 #include <shared_mutex>
 #include <map>
 #include <chrono>
@@ -76,6 +78,20 @@ public:
         bool enable_gossip_broadcast = true;
         uint32_t peer_cache_ttl_ms = 30000;        // 30s
         bool enable_adaptive_health_score = true;
+
+        // ── Repair I/O throttle (token-bucket) ─────────────────────────────
+        /// Enable the IOPS token-bucket rate limiter for repair I/O.
+        bool enable_repair_iops_throttle = true;
+        /// Maximum percentage of node peak IOPS that repair may consume (0–100).
+        float repair_iops_budget_percent = 10.0f;
+        /// Estimated peak IOPS of the local node (used to derive the token rate).
+        uint64_t peak_node_iops = 100'000;
+
+        // ── GPU erasure coding feature flag ────────────────────────────────
+        /// Enable GPU-accelerated erasure coding for bulk repair.
+        /// When false (or when no CUDA device is detected at runtime) the
+        /// engine falls back to the CPU/OpenCL path.
+        bool enable_gpu_erasure_coding = false;
     };
     
     struct QuerySpec {
@@ -108,7 +124,30 @@ public:
     bool canAcceptQuery(const QuerySpec& spec) const;
     void updateQueryMetrics(uint32_t active, uint32_t pending, float avg_latency_ms);
     void throttleIfNeeded();
-    
+
+    // Repair I/O throttle
+    /**
+     * @brief Attempt to acquire @p io_ops repair I/O tokens without blocking.
+     *
+     * Returns true when the token-bucket had sufficient capacity (tokens
+     * consumed).  Returns false when the repair IOPS budget is exhausted;
+     * the caller should back-off before retrying.
+     *
+     * When the throttle is disabled (`config_.enable_repair_iops_throttle ==
+     * false`) this always returns true.
+     */
+    bool acquireRepairIOToken(double io_ops = 1.0);
+
+    // GPU erasure coding feature flag
+    /**
+     * @brief Returns true when GPU erasure coding is both enabled in the
+     *        config AND a CUDA device is available at runtime.
+     *
+     * When this returns false the caller should use the CPU/OpenCL path
+     * (`gpu_erasure_coder_opencl.cpp`).
+     */
+    bool isGPUErasureCodingEnabled() const;
+
     // Gossip integration
     void broadcastResourceUpdate();
     void receiveResourceUpdate(const std::string& shard_id, 
@@ -131,6 +170,9 @@ private:
     std::atomic<bool> running_{false};
     std::thread monitoring_thread_;
     
+    // Repair I/O token-bucket rate limiter
+    std::unique_ptr<themis::utils::RateLimiter> repair_io_limiter_;
+
     // Local resource cache
     mutable ResourceSnapshot local_snapshot_;
     mutable std::shared_mutex local_mutex_;

@@ -382,6 +382,8 @@ public:
      * Typically called once during initialisation before any concurrent access.
      */
     void setBackend(std::shared_ptr<IRateLimiterBackend> backend);
+
+    /**
      * @brief Attach a metrics collector for credential-stuffing instrumentation.
      *
      * When set, every credential-stuffing detection event calls

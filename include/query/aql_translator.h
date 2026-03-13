@@ -103,6 +103,19 @@ public:
         };
         std::optional<JoinQuery> join;
         
+        // Spatial JOIN query: FOR a IN colA FOR b IN colB FILTER GEO_DISTANCE(a.f, b.f) <= threshold
+        struct SpatialJoinQuery {
+            std::string outer_collection; ///< Collection name for the outer (left) loop.
+            std::string inner_collection; ///< Collection name for the inner (right) loop.
+            std::string outer_var;        ///< Variable name bound by the outer FOR clause.
+            std::string inner_var;        ///< Variable name bound by the inner FOR clause.
+            std::string outer_field;      ///< Geometry field on the outer variable (e.g. "loc").
+            std::string inner_field;      ///< Geometry field on the inner variable (e.g. "loc").
+            double threshold_m = 0.0;     ///< Distance threshold in metres.
+            std::size_t max_pairs = 1'000'000; ///< Maximum result pairs (default 1 M).
+        };
+        std::optional<SpatialJoinQuery> spatial_join;
+
         // Disjunctive Query (OR support)
         std::optional<DisjunctiveQuery> disjunctive;
 
@@ -137,6 +150,13 @@ public:
             TranslationResult r;
             r.success = true;
             r.join = std::move(j);
+            return r;
+        }
+
+        static TranslationResult SuccessSpatialJoin(SpatialJoinQuery sj) {
+            TranslationResult r;
+            r.success = true;
+            r.spatial_join = std::move(sj);
             return r;
         }
         

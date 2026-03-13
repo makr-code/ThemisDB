@@ -28,6 +28,7 @@
 #include <filesystem>
 #include <fstream>
 #include <map>
+#include <nlohmann/json.hpp>
 #include <sstream>
 #include <cstdlib>
 
@@ -35,6 +36,7 @@ namespace fs = std::filesystem;
 using namespace themis::exporters;
 using themis::governance::ModelGovernancePolicy;
 using themis::governance::PolicyEngine;
+using json = nlohmann::json;
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -73,6 +75,77 @@ makeTestAuditLogger() {
     cfg.enable_hash_chain = false;
     auto logger = std::make_shared<themis::utils::AuditLogger>(nullptr, nullptr, cfg);
     return {logger, log_path};
+}
+
+static std::string decodeBase64ForTest(const std::string& input) {
+    static const std::string chars =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    std::vector<int> table(256, -1);
+    for (size_t i = 0; i < chars.size(); ++i) {
+        table[static_cast<unsigned char>(chars[i])] = static_cast<int>(i);
+    }
+
+    std::string out;
+    int val = 0;
+    int bits = -8;
+    for (unsigned char c : input) {
+        if (c == '=') {
+            break;
+        }
+        int d = table[c];
+        if (d < 0) {
+            continue;
+        }
+        val = (val << 6) + d;
+        bits += 6;
+        if (bits >= 0) {
+            out.push_back(static_cast<char>((val >> bits) & 0xFF));
+            bits -= 8;
+        }
+    }
+    return out;
+}
+
+static std::string readDecodedAuditPayloadText(const std::string& log_path) {
+    std::ifstream f(log_path);
+    if (!f.is_open()) {
+        return {};
+    }
+
+    std::ostringstream combined;
+    std::string line;
+    while (std::getline(f, line)) {
+        if (line.empty()) {
+            continue;
+        }
+        try {
+            const auto record = json::parse(line);
+            if (!record.contains("payload") || !record["payload"].is_object()) {
+                combined << line << '\n';
+                continue;
+            }
+
+            const auto& payload = record["payload"];
+            if (payload.value("type", std::string{}) != "plaintext") {
+                combined << line << '\n';
+                continue;
+            }
+
+            if (payload.contains("data") && payload["data"].is_object()) {
+                combined << payload["data"].dump() << '\n';
+                continue;
+            }
+            if (payload.contains("data_b64") && payload["data_b64"].is_string()) {
+                combined << decodeBase64ForTest(payload["data_b64"].get<std::string>()) << '\n';
+                continue;
+            }
+            combined << line << '\n';
+        } catch (...) {
+            combined << line << '\n';
+        }
+    }
+
+    return combined.str();
 }
 
 /// RAII helper that saves/restores the HF_TOKEN environment variable so tests
@@ -371,10 +444,8 @@ TEST(HuggingFaceHubClientTest, AuditLogWrittenOnPolicyDenial) {
 
     // Flush and check the log file for audit entries.
     audit_logger->flush();
-    std::ifstream f(log_path);
-    ASSERT_TRUE(f.good()) << "Audit log file not found: " << log_path;
-    std::string content((std::istreambuf_iterator<char>(f)),
-                         std::istreambuf_iterator<char>());
+    ASSERT_TRUE(fs::exists(log_path)) << "Audit log file not found: " << log_path;
+    std::string content = readDecodedAuditPayloadText(log_path);
     EXPECT_FALSE(content.empty()) << "Audit log file is empty";
     EXPECT_NE(content.find("hub_upload"), std::string::npos)
         << "Expected 'hub_upload' event in audit log";
@@ -382,8 +453,6 @@ TEST(HuggingFaceHubClientTest, AuditLogWrittenOnPolicyDenial) {
         << "Expected 'denied' outcome in audit log";
     EXPECT_NE(content.find("secret-org/restricted-data"), std::string::npos)
         << "Expected repo_id in audit log";
-
-    fs::remove(log_path);
 }
 
 TEST(HuggingFaceHubClientTest, AuditLogWrittenOnNoTokenError) {
@@ -401,17 +470,13 @@ TEST(HuggingFaceHubClientTest, AuditLogWrittenOnNoTokenError) {
     EXPECT_FALSE(result.success);
 
     audit_logger->flush();
-    std::ifstream f(log_path);
-    ASSERT_TRUE(f.good()) << "Audit log file not found: " << log_path;
-    std::string content((std::istreambuf_iterator<char>(f)),
-                         std::istreambuf_iterator<char>());
+    ASSERT_TRUE(fs::exists(log_path)) << "Audit log file not found: " << log_path;
+    std::string content = readDecodedAuditPayloadText(log_path);
     EXPECT_FALSE(content.empty()) << "Audit log file is empty";
     EXPECT_NE(content.find("hub_upload"), std::string::npos)
         << "Expected 'hub_upload' event in audit log";
     EXPECT_NE(content.find("error"), std::string::npos)
         << "Expected 'error' outcome in audit log";
-
-    fs::remove(log_path);
 }
 
 TEST(HuggingFaceHubClientTest, AuditLogNullptrIsBackwardCompatible) {
@@ -574,15 +639,11 @@ TEST(HuggingFaceHubClientTest, UploadShardsAuditLogWrittenOnPolicyDenial) {
     EXPECT_FALSE(result.success);
 
     audit_logger->flush();
-    std::ifstream f(log_path);
-    ASSERT_TRUE(f.good()) << "Audit log not found: " << log_path;
-    std::string content_str((std::istreambuf_iterator<char>(f)),
-                             std::istreambuf_iterator<char>());
+    ASSERT_TRUE(fs::exists(log_path)) << "Audit log not found: " << log_path;
+    std::string content_str = readDecodedAuditPayloadText(log_path);
     EXPECT_NE(content_str.find("hub_upload"), std::string::npos);
     EXPECT_NE(content_str.find("denied"),     std::string::npos);
     EXPECT_NE(content_str.find("secret-org/restricted"), std::string::npos);
-
-    fs::remove(log_path);
 }
 
 TEST(HuggingFaceHubClientTest, UploadShardsAuditLogWrittenOnNoToken) {
@@ -604,15 +665,11 @@ TEST(HuggingFaceHubClientTest, UploadShardsAuditLogWrittenOnNoToken) {
     EXPECT_FALSE(result.success);
 
     audit_logger->flush();
-    std::ifstream f(log_path);
-    ASSERT_TRUE(f.good()) << "Audit log not found: " << log_path;
-    std::string content_str((std::istreambuf_iterator<char>(f)),
-                            std::istreambuf_iterator<char>());
+    ASSERT_TRUE(fs::exists(log_path)) << "Audit log not found: " << log_path;
+    std::string content_str = readDecodedAuditPayloadText(log_path);
     EXPECT_NE(content_str.find("hub_upload"), std::string::npos);
-    EXPECT_NE(content_str.find("failed"), std::string::npos);
-    EXPECT_NE(content_str.find("missing_token"), std::string::npos);
-
-    fs::remove(log_path);
+    EXPECT_NE(content_str.find("error"), std::string::npos);
+    EXPECT_NE(content_str.find("HF_TOKEN"), std::string::npos);
 }
 
 // ── hf_token_kek_id / KEK token resolution ───────────────────────────────────
@@ -771,14 +828,10 @@ TEST(HuggingFaceHubClientTest, KekTokenResolution_AuditLogWrittenOnKekError) {
     EXPECT_FALSE(result.success);
 
     audit_logger->flush();
-    std::ifstream f(log_path);
-    ASSERT_TRUE(f.good()) << "Audit log not found: " << log_path;
-    std::string content_str((std::istreambuf_iterator<char>(f)),
-                             std::istreambuf_iterator<char>());
+    ASSERT_TRUE(fs::exists(log_path)) << "Audit log not found: " << log_path;
+    std::string content_str = readDecodedAuditPayloadText(log_path);
     EXPECT_NE(content_str.find("hub_upload"), std::string::npos);
     EXPECT_NE(content_str.find("error"),      std::string::npos);
-
-    fs::remove(log_path);
 }
 
 // ── MemoryShardSpec construction ──────────────────────────────────────────────
