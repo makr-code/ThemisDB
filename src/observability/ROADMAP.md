@@ -28,6 +28,10 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
   - Implementation: `INotificationChannel`, `LogNotificationChannel`, `WebhookNotificationChannel`, `SlackNotificationChannel`, `AlertingEngine` (owns `AlertRuleManager`, dispatches to channels, optional Prometheus Alertmanager backend)
   - Predefined default rules: CPU, memory, query latency P99, error rate, disk space, query queue depth, cache miss rate, write amplification
   - Tests: `tests/test_alerting_engine.cpp`
+- [x] Custom Metric Types — extended metric primitives beyond counters, gauges, histograms (Issue: #80)
+  - Files: `observability/advanced_metrics.h`, `observability/advanced_metrics.cpp`
+  - Implementation: `AdvancedMetrics` — Summary (sliding-window quantiles), ExponentialHistogram (scale-locked, zero_count), Cardinality (exact hash-set), TimeWeightedAverage (∫value×dt), Rate (double samples, window-pruned); all methods thread-safe
+  - Tests: `tests/test_custom_metric_types.cpp` (AdvancedMetricsTest, 32 tests)
 
 ## In Progress 🚧
 - [x] OpenTelemetry SDK direct export (OTLP gRPC/HTTP) (Target: Q2 2026)
@@ -124,6 +128,8 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
   — `observability/metric_aggregator.h/cpp`, tests: `tests/test_metrics_aggregation.cpp` (MetricsAggregationFocusedTests)
 - [x] Real-time metric streaming via WebSocket / SSE (v1.6.0, Issue #82)
   — `observability/metrics_stream_server.h/cpp`, tests: `tests/test_metrics_stream_server.cpp` (MetricsStreamServerFocusedTests)
+- [x] Custom Metric Types — Summary, ExponentialHistogram, Cardinality, TimeWeightedAverage, Rate (v1.6.0, Issue #80)
+  — `observability/advanced_metrics.h/cpp`, tests: `tests/test_custom_metric_types.cpp` (AdvancedMetricsTest, 32 tests)
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% — `test_observability_profilers.cpp` (280 LOC), `test_observability_hardening.cpp`; focused targets: `ObservabilityProfilersFocusedTests`, `ObservabilityHardeningFocusedTests`
