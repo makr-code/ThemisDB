@@ -9421,6 +9421,45 @@ else()
 endif()
 
 # ============================================================================
+# Zero-Copy Logging focused tests (core module, Issue #65, v1.6.0)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_zero_copy_logging.cpp")
+    message(STATUS "Adding Zero-Copy Logging focused tests (core module, Issue #65)")
+
+    add_executable(test_zero_copy_logging_focused
+        test_zero_copy_logging.cpp
+    )
+
+    target_include_directories(test_zero_copy_logging_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_zero_copy_logging_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_zero_copy_logging_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ZeroCopyLoggingFocusedTests COMMAND test_zero_copy_logging_focused)
+
+    set_tests_properties(ZeroCopyLoggingFocusedTests PROPERTIES
+        LABELS "core;logging;zero-copy;string-view;thread-local;buffer;v1.6.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ZeroCopyLogger: string_view hot-path, pre-allocated thread-local buffer, early level-check, PII redaction")
+else()
+    message(STATUS "Zero-Copy Logging focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_zero_copy_logging.cpp")
+endif()
+
+# ============================================================================
 # Security Sub-directory Focused Test Targets
 # These provide dedicated standalone binaries for security module tests in
 # tests/security/ and tests/security/attack-vectors/, enabling fast focused
