@@ -783,3 +783,94 @@ TEST_F(ContinuousAggFixture, TSStore_SystemMetaDoesNotLeakIntoTSKeys) {
     ASSERT_TRUE(r.has_value());
     EXPECT_TRUE(r->empty());
 }
+
+// ===================================================================
+// Audit fix tests
+// ===================================================================
+
+// Fix 1: catchUpMissedWindows must NOT run for incremental-refresh aggregates
+// (would cause duplicate aggregate points since refreshIncremental already covers all missed windows)
+TEST_F(ContinuousAggFixture, IncrementalRefresh_NoDuplicateFromCatchUp) {
+    // Insert one window of data
+    insertPoints("dup_test", "e_dup", 6, 1.0, 1.0, 10000);
+
+    AggregateScheduler scheduler(store.get());
+
+    AggConfig cfg;
+    cfg.metric      = "dup_test";
+    cfg.entity      = std::string("e_dup");
+    cfg.window.size = std::chrono::minutes(1);
+
+    // Register with incremental refresh enabled (default)
+    AggregateScheduler::ScheduledAggregate sa;
+    sa.id                     = "dup_agg";
+    sa.config                 = cfg;
+    sa.refresh_interval       = std::chrono::minutes(5);
+    sa.use_incremental_refresh = true;
+    scheduler.registerAggregate(sa);
+
+    // Manually call backfill_range (simulates what catchUpMissedWindows does)
+    // followed by a refreshNow – both together must not create two aggregate points
+    int64_t win_start = base_ms;
+    int64_t win_end   = base_ms + 60000;
+
+    // First: backfill (does NOT advance watermark)
+    EXPECT_NO_THROW(scheduler.backfill_range("dup_agg", win_start, win_end));
+
+    // Query – exactly 1 window expected
+    auto out = ContinuousAggregateManager::derivedMetricName("dup_test", std::chrono::minutes(1));
+    auto pts_after_backfill = queryMetric(out, "e_dup", win_start, win_end + 1);
+    EXPECT_EQ(pts_after_backfill.size(), 1u);
+}
+
+// Fix 2: Prometheus export must emit # HELP / # TYPE only once per metric family
+TEST(TimeSeriesMetricsAggTest, ExportPrometheus_HelpTypeAppearsOncePerFamily) {
+    TimeSeriesMetrics m;
+    // Record stats for two different aggregates
+    m.recordAggRefreshLatency("agg_A", 10.0);
+    m.recordAggRefreshLag("agg_A", 100.0);
+    m.recordAggRefreshLatency("agg_B", 20.0);
+    m.recordAggRefreshLag("agg_B", 200.0);
+
+    auto prom = m.exportPrometheus();
+
+    // Count occurrences of the HELP line for each family
+    size_t latency_help_count = 0;
+    size_t lag_help_count = 0;
+    const std::string latency_help_str = "# HELP themis_cagg_refresh_latency_ms_avg";
+    const std::string lag_help_str = "# HELP themis_cagg_refresh_lag_ms";
+    size_t pos = 0;
+    while ((pos = prom.find(latency_help_str, pos)) != std::string::npos) {
+        latency_help_count++;
+        pos += latency_help_str.size();
+    }
+    pos = 0;
+    while ((pos = prom.find(lag_help_str, pos)) != std::string::npos) {
+        lag_help_count++;
+        pos += lag_help_str.size();
+    }
+
+    EXPECT_EQ(latency_help_count, 1u) << "HELP line for latency must appear exactly once";
+    EXPECT_EQ(lag_help_count, 1u)     << "HELP line for lag must appear exactly once";
+
+    // Both aggregates must still appear as labeled time series
+    EXPECT_NE(prom.find("agg_A"), std::string::npos);
+    EXPECT_NE(prom.find("agg_B"), std::string::npos);
+}
+
+// Fix 3: JSON export must include per-aggregate refresh stats
+TEST(TimeSeriesMetricsAggTest, ExportJson_ContainsPerAggregateStats) {
+    TimeSeriesMetrics m;
+    m.recordAggRefreshLatency("json_agg:svc:60000ms", 33.0);
+    m.recordAggRefreshLag("json_agg:svc:60000ms", 250.0);
+
+    auto json_str = m.exportJson();
+    EXPECT_NE(json_str.find("per_aggregate"), std::string::npos)
+        << "exportJson should include per_aggregate section";
+    EXPECT_NE(json_str.find("json_agg:svc:60000ms"), std::string::npos)
+        << "exportJson should include the aggregate ID";
+    EXPECT_NE(json_str.find("avg_refresh_latency_ms"), std::string::npos)
+        << "exportJson should include avg_refresh_latency_ms";
+    EXPECT_NE(json_str.find("last_lag_ms"), std::string::npos)
+        << "exportJson should include last_lag_ms";
+}

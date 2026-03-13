@@ -280,20 +280,28 @@ std::string TimeSeriesMetrics::exportPrometheus() const {
     // Per-aggregate refresh latency and lag metrics (labeled by agg_id)
     {
         std::lock_guard<std::mutex> lock(agg_metrics_mutex_);
+        bool latency_header_emitted = false;
+        bool lag_header_emitted = false;
         for (const auto& [agg_id, stats] : agg_refresh_stats_) {
             if (stats.latency_count > 0) {
+                if (!latency_header_emitted) {
+                    oss << "# HELP themis_cagg_refresh_latency_ms_avg"
+                           " Average incremental refresh latency per aggregate\n"
+                           "# TYPE themis_cagg_refresh_latency_ms_avg gauge\n";
+                    latency_header_emitted = true;
+                }
                 double avg_lat = stats.total_latency_ms / static_cast<double>(stats.latency_count);
-                oss << "# HELP themis_cagg_refresh_latency_ms_avg"
-                       " Average incremental refresh latency per aggregate\n"
-                       "# TYPE themis_cagg_refresh_latency_ms_avg gauge\n"
-                    << "themis_cagg_refresh_latency_ms_avg{agg_id=\"" << agg_id << "\"} "
+                oss << "themis_cagg_refresh_latency_ms_avg{agg_id=\"" << agg_id << "\"} "
                     << avg_lat << "\n";
             }
             if (stats.last_lag_ms >= 0.0) {
-                oss << "# HELP themis_cagg_refresh_lag_ms"
-                       " Lag between aggregate watermark and wall-clock now\n"
-                       "# TYPE themis_cagg_refresh_lag_ms gauge\n"
-                    << "themis_cagg_refresh_lag_ms{agg_id=\"" << agg_id << "\"} "
+                if (!lag_header_emitted) {
+                    oss << "# HELP themis_cagg_refresh_lag_ms"
+                           " Lag between aggregate watermark and wall-clock now\n"
+                           "# TYPE themis_cagg_refresh_lag_ms gauge\n";
+                    lag_header_emitted = true;
+                }
+                oss << "themis_cagg_refresh_lag_ms{agg_id=\"" << agg_id << "\"} "
                     << stats.last_lag_ms << "\n";
             }
         }
@@ -371,6 +379,24 @@ std::string TimeSeriesMetrics::exportJson() const {
     // Continuous aggregate metrics
     j["continuous_aggregates"]["refreshes_total"] = total_continuous_agg_refreshes_.load();
     j["continuous_aggregates"]["points_generated_total"] = total_continuous_agg_points_generated_.load();
+
+    // Per-aggregate refresh latency and lag (incremental path)
+    {
+        std::lock_guard<std::mutex> lock(agg_metrics_mutex_);
+        if (!agg_refresh_stats_.empty()) {
+            nlohmann::json per_agg;
+            for (const auto& [agg_id, stats] : agg_refresh_stats_) {
+                nlohmann::json entry;
+                entry["avg_refresh_latency_ms"] = stats.latency_count > 0
+                    ? stats.total_latency_ms / static_cast<double>(stats.latency_count)
+                    : 0.0;
+                entry["refresh_count"] = stats.latency_count;
+                entry["last_lag_ms"] = stats.last_lag_ms;
+                per_agg[agg_id] = entry;
+            }
+            j["continuous_aggregates"]["per_aggregate"] = per_agg;
+        }
+    }
     
     // Per-metric statistics
     if (config_.enable_per_metric_stats) {

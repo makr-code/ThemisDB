@@ -227,8 +227,12 @@ void AggregateScheduler::schedulerLoop() {
                 }
                 
                 if (needsRefresh(agg, current_time_ms)) {
-                    // Catch up missed windows if configured
-                    if (config_.catch_up_missed_windows && agg.last_refresh_ms > 0) {
+                    // Catch up missed windows if configured.
+                    // Skip for incremental refresh: refreshIncremental() already
+                    // processes all missed windows since the last watermark, so calling
+                    // catchUpMissedWindows() first would cause duplicate aggregate points.
+                    if (config_.catch_up_missed_windows && agg.last_refresh_ms > 0
+                            && !agg.use_incremental_refresh) {
                         catchUpMissedWindows(agg, current_time_ms);
                     }
                     
