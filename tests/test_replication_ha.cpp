@@ -51,6 +51,8 @@
 #include <atomic>
 #include <unordered_map>
 #include <zstd.h>
+#include <lz4.h>
+#include <snappy.h>
 
 using namespace themisdb::replication;
 
@@ -2296,6 +2298,142 @@ TEST(CompressedStreamTest, DefaultConstructorWorks) {
 TEST(CompressedStreamTest, EmptyBatchReturnsTrue) {
     CompressedReplicationStream stream("localhost:9001");
     EXPECT_TRUE(stream.sendBatch({}));
+}
+
+// AC: "JSON documents: 5-10x with Zstd"
+TEST(CompressedStreamTest, ZstdAchievesHighRatioOnJsonLikeData) {
+    CompressedReplicationStream::CompressionConfig cfg;
+    cfg.algorithm         = CompressedReplicationStream::CompressionAlgorithm::ZSTD;
+    cfg.compression_level = 6;
+    cfg.min_batch_size    = 0;
+    CompressedReplicationStream stream("localhost:9001", cfg);
+
+    // Simulate a batch of JSON-like documents (highly repetitive structure).
+    // 20 entries each with a ~200-byte JSON payload → ~4 KB total before framing.
+    std::string json_template =
+        R"({"id":"doc00000","collection":"users","op":"INSERT",)"
+        R"("data":{"name":"Alice Smith","email":"alice@example.com","role":"admin","active":true}})";
+    std::vector<WALEntry> entries;
+    for (int i = 0; i < 20; ++i) {
+        WALEntry e;
+        e.sequence_number = static_cast<uint64_t>(i + 1);
+        e.collection      = "users";
+        e.document_id     = "doc" + std::to_string(10000 + i);
+        e.operation       = "INSERT";
+        e.data            = json_template;
+        entries.push_back(e);
+    }
+    EXPECT_TRUE(stream.sendBatch(entries));
+
+    auto stats = stream.getStats();
+    // JSON documents should compress >= 5x with ZSTD level 6 (AC requirement).
+    EXPECT_GE(stats.compression_ratio, 5.0)
+        << "ZSTD level 6 on JSON-like data must achieve >= 5x ratio (AC: JSON 5-10x)";
+    EXPECT_EQ(stats.algorithm_used, "ZSTD");
+}
+
+// AC: "Already compressed data: ~1x (minimal benefit)"
+TEST(CompressedStreamTest, AlreadyCompressedDataHasMinimalBenefit) {
+    // Create already-compressed content by ZSTD-compressing a payload first,
+    // then feed that compressed blob as WALEntry data through the stream again.
+    std::string original(8192, '\0');
+    for (size_t i = 0; i < original.size(); ++i) {
+        // Pseudo-random bytes via a simple LCG (Knuth multiplicative + additive
+        // constants) to simulate already-compressed / high-entropy binary data.
+        original[i] = static_cast<char>((i * 6364136223846793005ULL + 1442695040888963407ULL) & 0xFF);
+    }
+    // Pre-compress once to get a "compressed blob".
+    size_t bound = ZSTD_compressBound(original.size());
+    std::vector<char> pre_compressed(bound);
+    size_t csz = ZSTD_compress(pre_compressed.data(), bound,
+                                original.data(), original.size(), 3);
+    ASSERT_FALSE(ZSTD_isError(csz));
+    pre_compressed.resize(csz);
+
+    // Now send that pre-compressed blob through the stream; ZSTD on already-
+    // compressed data should achieve minimal additional compression (~1x).
+    CompressedReplicationStream::CompressionConfig cfg;
+    cfg.algorithm         = CompressedReplicationStream::CompressionAlgorithm::ZSTD;
+    cfg.compression_level = 3;
+    cfg.min_batch_size    = 0;
+    CompressedReplicationStream stream("localhost:9001", cfg);
+
+    WALEntry e;
+    e.sequence_number = 1;
+    e.collection      = "c";
+    e.document_id     = "d";
+    e.operation       = "INSERT";
+    e.data            = std::string(pre_compressed.begin(), pre_compressed.end());
+    EXPECT_TRUE(stream.sendBatch({e}));
+
+    auto stats = stream.getStats();
+    // Already-compressed data must not expand significantly (ratio should stay <= 1.2x).
+    EXPECT_LT(stats.compression_ratio, 1.2)
+        << "ZSTD on already-compressed data must yield ~1x (AC: already compressed ~1x)";
+}
+
+// AC: LZ4 round-trip correctness
+TEST(CompressedStreamTest, LZ4RoundTrip) {
+    std::string payload = "ThemisDB LZ4 round-trip test! " + std::string(300, 'Y');
+    std::vector<uint8_t> raw(payload.begin(), payload.end());
+
+    // Compress with LZ4 directly via public C API.
+    int bound = LZ4_compressBound(static_cast<int>(raw.size()));
+    std::vector<uint8_t> compressed(static_cast<size_t>(bound));
+    int csz = LZ4_compress_default(
+        reinterpret_cast<const char*>(raw.data()),
+        reinterpret_cast<char*>(compressed.data()),
+        static_cast<int>(raw.size()), bound);
+    ASSERT_GT(csz, 0);
+    compressed.resize(static_cast<size_t>(csz));
+
+    // Decompress via CompressedReplicationStream::decompress() and verify.
+    CompressedReplicationStream stream("localhost:9001");
+    auto decompressed = stream.decompress(
+        compressed, CompressedReplicationStream::CompressionAlgorithm::LZ4);
+    ASSERT_EQ(decompressed.size(), raw.size());
+    EXPECT_EQ(std::string(decompressed.begin(), decompressed.end()), payload)
+        << "LZ4 round-trip must recover original data";
+}
+
+// AC: Snappy round-trip correctness
+TEST(CompressedStreamTest, SnappyRoundTrip) {
+    std::string payload = "ThemisDB Snappy round-trip! " + std::string(300, 'S');
+    std::vector<uint8_t> raw(payload.begin(), payload.end());
+
+    // Compress with Snappy directly.
+    std::string snappy_out;
+    snappy::Compress(reinterpret_cast<const char*>(raw.data()), raw.size(), &snappy_out);
+    std::vector<uint8_t> compressed(snappy_out.begin(), snappy_out.end());
+
+    // Decompress via CompressedReplicationStream::decompress() and verify.
+    CompressedReplicationStream stream("localhost:9001");
+    auto decompressed = stream.decompress(
+        compressed, CompressedReplicationStream::CompressionAlgorithm::SNAPPY);
+    ASSERT_EQ(decompressed.size(), raw.size());
+    EXPECT_EQ(std::string(decompressed.begin(), decompressed.end()), payload)
+        << "Snappy round-trip must recover original data";
+}
+
+// AC: "Adaptive compression based on data characteristics" — adaptive=false
+// must bypass the min_batch_size threshold and always compress (AUTO mode).
+TEST(CompressedStreamTest, AdaptiveFalseAlwaysCompressesInAutoMode) {
+    CompressedReplicationStream::CompressionConfig cfg;
+    cfg.algorithm      = CompressedReplicationStream::CompressionAlgorithm::AUTO;
+    cfg.min_batch_size = 1024 * 1024;  // Very large threshold
+    cfg.adaptive       = false;         // Disable adaptive skip
+    CompressedReplicationStream stream("localhost:9001", cfg);
+
+    // Tiny but compressible payload — should still be compressed because adaptive=false.
+    WALEntry e;
+    e.sequence_number = 1; e.collection = "c"; e.document_id = "d";
+    e.operation = "INSERT"; e.data = std::string(64, 'A');
+    EXPECT_TRUE(stream.sendBatch({e}));
+
+    auto stats = stream.getStats();
+    // Must use ZSTD (not NONE) even though payload < min_batch_size.
+    EXPECT_EQ(stats.algorithm_used, "ZSTD")
+        << "AUTO with adaptive=false must compress regardless of batch size";
 }
 
 // ============================================================================

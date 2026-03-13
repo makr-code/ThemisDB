@@ -3800,8 +3800,10 @@ CompressedReplicationStream::selectAlgorithm(size_t payload_bytes) const {
     if (config_.algorithm != CompressionAlgorithm::AUTO) {
         return config_.algorithm;
     }
-    // AUTO: skip compression for tiny payloads to avoid overhead
-    if (payload_bytes < config_.min_batch_size) {
+    // AUTO mode: when adaptive=true (default), skip compression for tiny
+    // payloads to avoid CPU overhead exceeding bandwidth savings.
+    // When adaptive=false, always compress regardless of batch size.
+    if (config_.adaptive && payload_bytes < config_.min_batch_size) {
         return CompressionAlgorithm::NONE;
     }
     return CompressionAlgorithm::ZSTD;

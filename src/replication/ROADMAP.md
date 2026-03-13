@@ -109,6 +109,26 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Stats: `entries_applied`, `dependencies_detected`, `average_latency_us`, `parallel_batches`, `parallelism_factor`
 - [x] 16 unit tests covering: single entry, multi-entry, dependency tracking, no-tracking, mixed docs, stats, single/sixteen threads, large batches, group_transactions (enabled/disabled), average_latency_us (populated/zero)
 
+### Phase 6: Compressed Replication (Status: Completed ✅ — v1.6.0)
+- [x] `CompressedReplicationStream` class in `include/replication/replication_manager.h` + `src/replication/replication_manager.cpp`
+- [x] Multiple compression algorithms: `NONE`, `LZ4` (fast, moderate ratio), `ZSTD` (best ratio), `SNAPPY` (very fast), `AUTO` (size-based selection)
+- [x] Adaptive compression via `CompressionConfig::adaptive` flag: `adaptive=true` (default) skips compression below `min_batch_size`; `adaptive=false` always compresses in AUTO mode
+- [x] Configurable compression level (1–9, applies to ZSTD; ignored by LZ4/Snappy)
+- [x] `CompressionStats` for monitoring: `bytes_uncompressed`, `bytes_compressed`, `compression_ratio`, `algorithm_used`
+- [x] `sendBatch()` serialises WAL entries, selects algorithm, compresses, and tracks statistics
+- [x] `decompress()` for received network buffers (LZ4/ZSTD/Snappy/NONE round-trip verified)
+- [x] `resetStats()` to clear accumulated statistics
+- [x] `ReplicationConfig` integration: `enable_wal_compression`, `wal_compression_algorithm`, `wal_compression_level`, `wal_compression_min_batch_bytes`
+- [x] `ReplicationStream` delegates `sendBatch()` to `CompressedReplicationStream` when `enable_wal_compression` is set
+- [x] 22 unit tests: 15 `CompressedStreamTest` + 7 `ReplicationStreamCompressionTest`
+  - JSON-like data achieves ≥ 5x ratio with ZSTD level 6 (AC: JSON 5-10x)
+  - Already-compressed data yields ≤ 1.2x (AC: ~1x for already compressed)
+  - LZ4 and Snappy round-trip correctness verified
+  - `adaptive=false` forces compression even below `min_batch_size`
+- [x] CI: `.github/workflows/compressed-replication-ci.yml`
+
+## Production Readiness Checklist
+- [x] Unit tests coverage > 80% (247+ test cases: 225 previous + 22 CompressedReplicationStream tests)
 ### Phase 6: Quorum-Based Reads (Status: Completed ✅ — v1.6.0)
 - [x] `QuorumReadManager` class in `include/replication/replication_manager.h` + `src/replication/replication_manager.cpp`
 - [x] Concurrent per-replica reads with configurable `read_quorum` (default 2) and `read_timeout_ms`

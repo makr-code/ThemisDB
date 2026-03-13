@@ -312,9 +312,10 @@ std::cout << "Parallelism: " << stats.parallelism_factor << "x" << std::endl;
 
 ---
 
-### Compressed Replication
+### Compressed Replication ✅ Implemented (v1.6.0)
 **Priority:** Medium  
-**Target Version:** v1.6.0
+**Target Version:** v1.6.0  
+**Status:** Production-ready — `CompressedReplicationStream` in `include/replication/replication_manager.h` + `src/replication/replication_manager.cpp`
 
 Compress replication streams to reduce bandwidth usage, especially for cross-region replication.
 
