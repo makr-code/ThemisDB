@@ -130,9 +130,14 @@ while (true) {
 
 ---
 
-### Bidirectional Replication
+### Bidirectional Replication ✅ **IMPLEMENTED — v1.7.0**
 **Priority:** High  
 **Target Version:** v1.7.0
+
+> **Status:** Fully implemented in `include/replication/replication_manager.h` +
+> `src/replication/replication_manager.cpp` as `BidirectionalReplicationManager`.
+> 22 unit tests in `tests/test_replication_ha.cpp` (BidirectionalReplicationTest).
+> CI: `.github/workflows/bidirectional-replication-ci.yml`.
 
 Enable true bidirectional replication between two nodes with automatic conflict resolution, useful for active-active deployments.
 

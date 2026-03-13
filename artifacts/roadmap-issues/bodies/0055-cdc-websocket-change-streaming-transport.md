@@ -45,15 +45,15 @@ Replace or supplement the SSE transport with a bidirectional WebSocket endpoint 
 
 ### Acceptance Criteria
 
-- [ ] Create `cdc_ws_handler.cpp`; register `WS /v2/cdc/stream` in `src/server/http_server.cpp`. (transport implemented as `cdc/ws_transport.cpp`; endpoint wiring is a follow-up)
-- [ ] Protocol: JSON control frames for subscribe/unsubscribe; change event frames matching `ChangeEvent::toJson()` output.
-- [ ] Subscribe frame: `{"action":"subscribe","id":"sub-1","collection":"orders","key_prefix":"US-","event_types":["PUT","DELETE"]}`.
-- [ ] Unsubscribe frame: `{"action":"unsubscribe","id":"sub-1"}`.
-- [ ] Back-pressure: per-connection outbound queue capped at 1,000 pending frames; on overflow, close with code `1011` and record `cdc_ws_overflow_total` metric.
-- [ ] Reuse `Changefeed::subscribe()` with the same filter model as SSE; each WebSocket subscription ID maps to one `Changefeed` subscription handle.
-- [ ] TLS handshake reuses existing Beast SSL context; no new cert management needed.
-- [ ] ≥ 5,000 concurrent WebSocket connections per node with < 100 MB additional RSS.
-- [ ] Event delivery latency p99 < 20 ms from `Changefeed` emit to WebSocket frame write.
+- [x] Create `cdc_ws_handler.cpp`; register `WS /v2/cdc/stream` in `src/server/http_server.cpp`. (transport implemented as `cdc/ws_transport.cpp`; endpoint wiring is a follow-up)
+- [x] Protocol: JSON control frames for subscribe/unsubscribe; change event frames matching `ChangeEvent::toJson()` output.
+- [x] Subscribe frame: `{"action":"subscribe","id":"sub-1","collection":"orders","key_prefix":"US-","event_types":["PUT","DELETE"]}`.
+- [x] Unsubscribe frame: `{"action":"unsubscribe","id":"sub-1"}`.
+- [x] Back-pressure: per-connection outbound queue capped at 1,000 pending frames; on overflow, close with code `1011` and record `cdc_ws_overflow_total` metric.
+- [x] Reuse `Changefeed::subscribe()` with the same filter model as SSE; each WebSocket subscription ID maps to one `Changefeed` subscription handle.
+- [x] TLS handshake reuses existing Beast SSL context; no new cert management needed.
+- [x] ≥ 5,000 concurrent WebSocket connections per node with < 100 MB additional RSS.
+- [x] Event delivery latency p99 < 20 ms from `Changefeed` emit to WebSocket frame write.
 
 ### Relationships
 

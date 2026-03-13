@@ -25,6 +25,7 @@
 #include "server/llm_api_handler.h"
 #include "server/lora_api_handler.h"
 #include "auth/jwt_validator.h"
+#include "governance/policy_engine.h"
 #include "llm/llm_plugin_manager.h"
 #include "llm/llm_plugin_interface.h"
 #include "llm/async_inference_engine.h"
@@ -91,6 +92,10 @@ void LLMApiHandler::setFeedbackStore(std::shared_ptr<llm::FeedbackStore> feedbac
     feedback_store_ = std::move(feedback_store);
 }
 
+void LLMApiHandler::setPolicyEngine(governance::PolicyEngine* policy_engine) {
+    policy_engine_ = policy_engine;
+}
+
 http::response<http::string_body> LLMApiHandler::handleRequest(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleRequest");
@@ -102,8 +107,18 @@ http::response<http::string_body> LLMApiHandler::handleRequest(
         (target.starts_with("/api/v1/llm/models") && req.method() != http::verb::get))) {
         return lora_handler_->handleRequest(req);
     }
-    
-    // Validate Bearer Token (JWT) authentication
+
+    // OpenAI-compatible endpoints use API key auth via PolicyEngine, not JWT.
+    // Route them BEFORE the JWT gate so that OpenAI SDK clients (which send a
+    // plain API key, not a signed JWT) are not rejected by validateBearerToken().
+    auto method = req.method();
+    if (target == "/v1/chat/completions" && method == http::verb::post) {
+        return handleOpenAIChatCompletions(req);
+    } else if (target == "/v1/models" && method == http::verb::get) {
+        return handleOpenAIListModels(req);
+    }
+
+    // Validate Bearer Token (JWT) authentication for all other LLM API endpoints
     if (!validateBearerToken(req)) {
         return createErrorResponse(
             http::status::unauthorized,
@@ -111,8 +126,6 @@ http::response<http::string_body> LLMApiHandler::handleRequest(
             "Valid Bearer Token required. Include 'Authorization: Bearer <token>' header."
         );
     }
-    
-    auto method = req.method();
     
     // Route to appropriate handler based on path and method
     if (target == "/api/v1/llm/inference" && method == http::verb::post) {
@@ -163,10 +176,6 @@ http::response<http::string_body> LLMApiHandler::handleRequest(
         return handleGetFeedback(req);
     } else if (target == "/api/v1/llm/aql/explain/stream" && method == http::verb::post) {
         return handleStreamExplainAql(req);
-    } else if (target == "/v1/chat/completions" && method == http::verb::post) {
-        return handleOpenAIChatCompletions(req);
-    } else if (target == "/v1/models" && method == http::verb::get) {
-        return handleOpenAIListModels(req);
     }
     
     return createErrorResponse(
@@ -1538,6 +1547,30 @@ http::response<http::string_body> LLMApiHandler::handleOpenAIChatCompletions(
         auto err = llm::OpenAICompatAdapter::buildError(
             "Invalid JSON body", "invalid_request_error");
         return createJsonResponse(err, http::status::bad_request);
+    }
+
+    // ── API key / governance check ──────────────────────────────────────────
+    // When a PolicyEngine is configured, validate the caller's identity and
+    // data-classification policy before any inference work is started.
+    // Returns HTTP 401 for missing/malformed tokens, HTTP 403 for denied policy.
+    if (policy_engine_) {
+        // Collect headers from the Boost.Beast request into the flat map
+        // expected by PolicyEngine::checkInferencePermission().
+        std::unordered_map<std::string, std::string> header_map;
+        for (const auto& field : req) {
+            header_map[std::string(field.name_string())] =
+                std::string(field.value());
+        }
+        auto perm = policy_engine_->checkInferencePermission(header_map);
+        if (!perm.allowed) {
+            auto err = llm::OpenAICompatAdapter::buildError(
+                perm.denial_reason, "invalid_request_error",
+                perm.http_status == 401 ? "invalid_api_key" : "policy_denied");
+            return createJsonResponse(
+                err,
+                perm.http_status == 401 ? http::status::unauthorized
+                                        : http::status::forbidden);
+        }
     }
 
     // Determine whether the client wants streaming output

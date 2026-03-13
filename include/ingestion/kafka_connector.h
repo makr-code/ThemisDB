@@ -140,6 +140,26 @@ public:
     void setRetryConfig(const RetryConfig& config);
 
     /**
+     * @brief Inject a checkpoint store so that ThemisDB checkpoints and
+     *        Kafka consumer-group offsets are committed in the correct order.
+     *
+     * When set, `ingest()` writes the ThemisDB checkpoint via the store
+     * **before** calling `rd_kafka_consumer_close()` (which commits Kafka
+     * offsets).  This guarantees at-least-once delivery semantics:
+     *
+     * 1. ThemisDB checkpoint written → database knows documents were processed.
+     * 2. Kafka offsets committed      → broker will not re-deliver messages.
+     *
+     * If the process crashes between steps 1 and 2, Kafka re-delivers the
+     * messages and ThemisDB deduplicates them via the checkpoint.  The
+     * `IngestionManager` automatically injects the shared store whenever
+     * incremental mode is active.
+     *
+     * @param store  Shared checkpoint store; pass nullptr to disable.
+     */
+    void setCheckpointStore(std::shared_ptr<CheckpointStore> store);
+
+    /**
      * @brief Function type for injecting mock Kafka messages in unit tests.
      *
      * Each call to the function should return a batch of raw message payloads

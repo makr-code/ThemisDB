@@ -634,5 +634,70 @@ QueryPermissionResult PolicyEngine::checkQueryPermission(const std::unordered_ma
     return result;
 }
 
+InferencePermissionResult PolicyEngine::checkInferencePermission(
+    const std::unordered_map<std::string, std::string>& headers) const {
+
+    InferencePermissionResult result;
+
+    // ── Step 1: extract the API key from the Authorization header ──────────
+    // Accept "Bearer <key>" format (standard OpenAI SDK convention).
+    static const std::string k_route = "/v1/chat/completions";
+    static const std::string k_auth_header = "Authorization";
+    static const std::string k_bearer_prefix = "Bearer ";
+
+    auto auth_it = headers.find(k_auth_header);
+    if (auth_it == headers.end() || auth_it->second.empty()) {
+        result.allowed       = false;
+        result.http_status   = 401;
+        result.denial_reason = "Missing Authorization header; provide a Bearer API key";
+        return result;
+    }
+
+    const std::string& auth_value = auth_it->second;
+    if (auth_value.size() < k_bearer_prefix.size() ||
+        auth_value.substr(0, k_bearer_prefix.size()) != k_bearer_prefix) {
+        result.allowed       = false;
+        result.http_status   = 401;
+        result.denial_reason = "Invalid Authorization header format; expected 'Bearer <api-key>'";
+        return result;
+    }
+
+    const std::string api_key = auth_value.substr(k_bearer_prefix.size());
+    if (api_key.empty()) {
+        result.allowed       = false;
+        result.http_status   = 401;
+        result.denial_reason = "Empty API key in Authorization header";
+        return result;
+    }
+
+    // ── Step 2: evaluate the governance policy for this request ────────────
+    // Propagate the extracted identity via X-Api-Key so evaluate() can apply
+    // classification and CCPA rules that depend on the caller identity.
+    std::unordered_map<std::string, std::string> eval_headers = headers;
+    eval_headers["X-Api-Key"] = api_key;
+
+    try {
+        result.decision = evaluate(eval_headers, k_route);
+    } catch (const std::exception& ex) {
+        result.allowed       = false;
+        result.http_status   = 403;
+        result.denial_reason = std::string("Policy evaluation error: ") + ex.what();
+        return result;
+    }
+
+    // ── Step 3: map the policy decision to an allow/deny outcome ──────────
+    // LLM inference is blocked when the classification is strict ("geheim" /
+    // "streng-geheim") or when ANN/inference is explicitly disabled by policy.
+    if (!result.decision.ann_allowed) {
+        result.allowed       = false;
+        result.http_status   = 403;
+        result.denial_reason = "Inference is not permitted for the current data classification";
+        return result;
+    }
+
+    result.allowed = true;
+    return result;
+}
+
 } // namespace governance
 } // namespace themis

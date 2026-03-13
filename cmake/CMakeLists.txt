@@ -1500,6 +1500,7 @@ set(THEMIS_CORE_SOURCES
     ../src/index/distributed_vector_index.cpp
     ../src/index/tiered_index_manager.cpp
     ../src/index/vector_auto_buffer.cpp
+    ../src/index/gpu_memory_oversubscription.cpp
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/gpu_vector_index.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/multi_gpu_vector_index.cpp>
     $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/index/gpu_vector_index_vulkan.cpp>

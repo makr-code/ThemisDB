@@ -150,6 +150,7 @@ if(NOT THEMIS_ENABLE_GPU)
         ".*test_collective_backends\\.cpp$"
         ".*test_gpu_vector_index\\.cpp$"
         ".*test_multi_gpu_vector_index\\.cpp$"
+        ".*test_gpu_memory_oversubscription\\.cpp$"
         ".*test_multi_gpu_training\\.cpp$"
         ".*test_vram_allocator_null_checks\\.cpp$"
         ".*test_gpu_lora_layers\\.cpp$"
@@ -400,6 +401,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_raii_wrappers\\.cpp$"
     ".*test_cdc_admin\\.cpp$"
     ".*test_cdc_retention\\.cpp$"
+    ".*test_cdc_ws_handler\\.cpp$"
     ".*test_tenant_buffer_manager\\.cpp$"
     ".*test_real_embeddings\\.cpp$"
     ".*test_adapter_sync\\.cpp$"
@@ -1184,6 +1186,8 @@ target_link_libraries(themis_tests PRIVATE
     OpenSSL::Crypto
     $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
     $<$<TARGET_EXISTS:protobuf::libprotobuf>:protobuf::libprotobuf>
+    $<$<BOOL:${CURL_FOUND}>:$<IF:$<TARGET_EXISTS:CURL::libcurl>,CURL::libcurl,${CURL_LIBRARIES}>>
+    protobuf::libprotobuf
     Threads::Threads
 )
 
@@ -7261,6 +7265,7 @@ else()
 endif()
 
 
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_global_transaction_manager.cpp")
     message(STATUS "Adding Global Transaction Manager tests")
 
@@ -7978,6 +7983,57 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_retention.cpp")
     message(STATUS "  CDCRetention: runtime policy updates, background thread lifecycle, TTL/size/count enforcement, RetentionStatus")
 else()
     message(STATUS "CDC Retention tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_retention.cpp")
+endif()
+
+# ============================================================================
+# CDC WebSocket Handler Tests (standalone – validates the /v2/cdc/stream
+# named-subscription protocol: subscribe/unsubscribe/ack frames,
+# back-pressure metric cdc_ws_overflow_total, and pollEvents delivery)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_ws_handler.cpp")
+    message(STATUS "Adding CDC WebSocket handler focused tests (v1.7.0 roadmap:55)")
+
+    add_executable(test_cdc_ws_handler
+        test_cdc_ws_handler.cpp
+    )
+
+    # cdc_ws_handler.cpp and ws_transport.cpp are compiled into themis_core only
+    # when THEMIS_ENABLE_HTTP_SERVER=ON.  Add them explicitly to this test
+    # target when HTTP_SERVER is OFF to avoid missing-symbol linker errors.
+    if(NOT THEMIS_ENABLE_HTTP_SERVER)
+        target_sources(test_cdc_ws_handler PRIVATE
+            ${THEMIS_ROOT_DIR}/src/cdc/cdc_ws_handler.cpp
+            ${THEMIS_ROOT_DIR}/src/cdc/ws_transport.cpp
+        )
+    endif()
+
+    target_include_directories(test_cdc_ws_handler PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_cdc_ws_handler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cdc_ws_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CdcWsHandlerFocusedTests COMMAND test_cdc_ws_handler)
+
+    set_tests_properties(CdcWsHandlerFocusedTests PROPERTIES
+        LABELS "cdc;websocket;streaming;subscription;backpressure;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  CdcWsHandler: subscribe/unsubscribe/ack frames, back-pressure (cdc_ws_overflow_total), pollEvents, checkRedelivery")
+else()
+    message(STATUS "CDC WebSocket handler tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_ws_handler.cpp")
 endif()
 
 # Config Module – Focused Standalone Test Targets
@@ -10667,6 +10723,11 @@ function(add_llm_focused_test target_name test_src test_name labels description)
             OpenSSL::Crypto
             Threads::Threads
         )
+        # Also link themis_core when available so LLM tests can use cross-module
+        # types such as PolicyEngine (governance) without separate link steps.
+        if(TARGET themis_core)
+            target_link_libraries(${target_name} PRIVATE themis_core)
+        endif()
     else()
         target_link_libraries(${target_name} PRIVATE
             ${TEST_LIBS}
@@ -10677,6 +10738,11 @@ function(add_llm_focused_test target_name test_src test_name labels description)
             OpenSSL::Crypto
             Threads::Threads
         )
+    endif()
+
+    # Boost (Beast/ASIO) is used by server headers included from some LLM tests.
+    if(Boost_FOUND)
+        target_link_libraries(${target_name} PRIVATE Boost::system)
     endif()
 
     target_compile_definitions(${target_name} PRIVATE
@@ -11613,6 +11679,44 @@ if(THEMIS_ENABLE_WEBSOCKET)
     else()
         message(STATUS "Network focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/test_wire_protocol_websocket.cpp")
     endif()
+
+    # --- WebSocket CDC (WsTransport + CdcWebSocketHandler integration tests) ---
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_websocket_cdc.cpp")
+        message(STATUS "Adding CDC WebSocket focused tests (WsTransportTest + WebSocketCDCTest)")
+
+        add_executable(test_websocket_cdc_focused
+            test_websocket_cdc.cpp
+        )
+
+        target_include_directories(test_websocket_cdc_focused PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+            ${CMAKE_SOURCE_DIR}/include
+        )
+
+        target_link_libraries(test_websocket_cdc_focused PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_websocket_cdc_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+            THEMIS_ENABLE_WEBSOCKET=1
+        )
+
+        add_test(NAME WebSocketCdcFocusedTests COMMAND test_websocket_cdc_focused)
+
+        set_tests_properties(WebSocketCdcFocusedTests PROPERTIES
+            LABELS "cdc;websocket;streaming;transport;wstransport;metrics;unit"
+            TIMEOUT 120
+        )
+
+        message(STATUS "  WebSocketCdc: WsTransport session lifecycle, subscription management, back-pressure, CDCMetrics, event frame format")
+    else()
+        message(STATUS "CDC WebSocket focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/test_websocket_cdc.cpp")
+    endif()
 endif()
 
 # --- QUIC Transport ---
@@ -11871,6 +11975,14 @@ add_index_focused_test(
     DistributedVectorIndexFocusedTests
     "index;distributed;vector;shards;focused;unit"
     "DistributedVectorIndex: vector search across shards, fan-out/merge, partition correctness"
+)
+
+add_index_focused_test(
+    test_gpu_memory_oversubscription_focused
+    index/test_gpu_memory_oversubscription.cpp
+    GPUMemoryOversubscriptionFocusedTests
+    "index;gpu;oversubscription;lru;streaming;prefetch;vram;focused;unit"
+    "GPUMemoryOversubscription: partition management, LRU eviction, streaming, prefetch strategies, multi-GPU config (v1.7.0)"
 )
 
 # ============================================================================
@@ -12366,6 +12478,46 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_log_aggregator.cpp")
     message(STATUS "  LogAggregator: level filtering, structured fields, trace context, ring buffer, callback, shutdown, thread-safety")
 else()
     message(STATUS "LogAggregator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_log_aggregator.cpp")
+endif()
+
+# RootCauseAnalyzer focused tests (v1.7.0 — automated root cause identification, Issue #84)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_root_cause_analyzer.cpp")
+    message(STATUS "Adding Observability: RootCauseAnalyzer focused tests (v1.7.0, Issue #84)")
+
+    add_executable(test_root_cause_analyzer_focused
+        test_root_cause_analyzer.cpp
+        ${THEMIS_ROOT_DIR}/src/observability/root_cause_analyzer.cpp
+        ${THEMIS_ROOT_DIR}/src/observability/performance_analyzer.cpp
+        ${THEMIS_ROOT_DIR}/src/observability/query_profiler.cpp
+        ${THEMIS_ROOT_DIR}/src/observability/storage_profiler.cpp
+    )
+
+    target_include_directories(test_root_cause_analyzer_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_root_cause_analyzer_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_root_cause_analyzer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RootCauseAnalyzerFocusedTests COMMAND test_root_cause_analyzer_focused)
+
+    set_tests_properties(RootCauseAnalyzerFocusedTests PROPERTIES
+        LABELS "observability;root-cause-analysis;performance;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  RootCauseAnalyzer: analyzeIssue, findCorrelations, buildCausalGraph, TimeSeries, SystemSnapshot, CausalGraph, RootCauseReport")
+else()
+    message(STATUS "RootCauseAnalyzer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_root_cause_analyzer.cpp")
 endif()
 
 # ============================================================================
@@ -13258,6 +13410,46 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_gateway.cpp")
     message(STATUS "  DistributedGateway: Raft config sync, consistent-hash ring, session affinity, failover, quorum handling")
 else()
     message(STATUS "Distributed Gateway focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_gateway.cpp")
+endif()
+
+# APIGatewayEnhancements – focused tests for RequestCoalescingManager and SmartRouter
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_api_gateway_enhancements.cpp")
+    message(STATUS "Adding API Gateway Enhancements focused tests")
+
+    add_executable(test_api_gateway_enhancements_focused
+        test_api_gateway_enhancements.cpp
+        ${THEMIS_ROOT_DIR}/src/server/request_coalescing.cpp
+        ${THEMIS_ROOT_DIR}/src/server/smart_routing.cpp
+    )
+
+    target_include_directories(test_api_gateway_enhancements_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_api_gateway_enhancements_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_api_gateway_enhancements_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_ENABLE_HTTP_SERVER=1
+    )
+
+    add_test(NAME APIGatewayEnhancementsFocusedTests COMMAND test_api_gateway_enhancements_focused)
+
+    set_tests_properties(APIGatewayEnhancementsFocusedTests PROPERTIES
+        LABELS "server;gateway;coalescing;smart-routing;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  APIGatewayEnhancements: RequestCoalescingManager (dedup in-flight requests), SmartRouter (cache prediction, tail-latency avoidance, least-loaded)")
+else()
+    message(STATUS "API Gateway Enhancements focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_api_gateway_enhancements.cpp")
 endif()
 
 # DatabaseMaintenanceOrchestrator – focused tests for CRUD, jobs, and health
