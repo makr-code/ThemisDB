@@ -11170,7 +11170,27 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_statistics_collector.cpp")
         LABELS "metadata;statistics;histograms;cardinality;selectivity;unit"
         TIMEOUT 120
     )
-    message(STATUS "  StatisticsCollector: equi-height histograms, cardinality estimation, index stats, auto-refresh")
+    message(STATUS "  StatisticsCollector: equi-height histograms, cardinality estimation, index stats, auto-refresh, metrics hook")
+endif()
+
+# Metadata – StatisticsCollector auto-refresh focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_statistics_auto_refresh.cpp")
+    message(STATUS "Adding Metadata StatisticsCollector auto-refresh focused tests")
+    add_executable(test_statistics_auto_refresh_focused test_statistics_auto_refresh.cpp)
+    target_include_directories(test_statistics_auto_refresh_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_statistics_auto_refresh_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_statistics_auto_refresh_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME StatisticsAutoRefreshFocusedTests COMMAND test_statistics_auto_refresh_focused)
+    set_tests_properties(StatisticsAutoRefreshFocusedTests PROPERTIES
+        LABELS "metadata;statistics;auto-refresh;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  StatisticsCollector auto-refresh: background thread, metrics hook, interval control")
 endif()
 
 # Metadata – ColumnLineageTracker focused tests
