@@ -297,13 +297,16 @@ struct RaftSnapshotChunk {
  */
 class RaftSnapshotManager {
 public:
+    /// Default chunk size for snapshot transfer (4 MB).
+    static constexpr size_t kDefaultChunkSizeBytes = 4 * 1024 * 1024;
+
     struct Config {
         std::string snapshot_directory = "./snapshots/raft";
         /// Compact the log once its estimated size exceeds this threshold
         size_t compaction_threshold_bytes = 512ULL * 1024 * 1024;  // 512 MB
         int compression_level = 3;      ///< ZSTD compression level
         size_t max_snapshots = 5;       ///< Maximum on-disk snapshots to retain
-        size_t chunk_size_bytes = 4 * 1024 * 1024;  ///< 4 MB per transfer chunk
+        size_t chunk_size_bytes = kDefaultChunkSizeBytes;  ///< Per-chunk transfer size
     };
 
     explicit RaftSnapshotManager(const Config& config);

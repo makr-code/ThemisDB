@@ -87,6 +87,8 @@ TEST(RaftStateSnapshot, HasEntryAfterSnapshotMeta) {
     for (uint64_t i = 1; i <= 5; ++i) {
         log.append(LogEntry{2, i, "cmd", 0});
     }
+    // Commit all entries before compacting
+    log.setCommitIndex(5);
     log.compactUpTo(3, 2);
     state.setSnapshotMeta(3, 2);
 

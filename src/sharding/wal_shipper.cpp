@@ -520,14 +520,40 @@ WALShipperConfig::CompressionType WALShipper::selectCompressionType(
 // ============================================================================
 
 // Compute SHA-256 of a buffer and return a lowercase hex string.
+// Handles the empty-buffer case safely to avoid passing a potentially-null
+// pointer into SHA256 when chunk.data is empty.
 static std::string chunkSha256(const uint8_t* data, size_t size) {
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(data, size, hash);
+    if (size == 0) {
+        static const uint8_t kEmpty[1] = {0};
+        SHA256(kEmpty, 0, hash);
+    } else {
+        SHA256(data, size, hash);
+    }
     std::ostringstream oss;
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
     }
     return oss.str();
+}
+
+// Base64-encode a binary buffer.  Using inline base64 avoids an external
+// dependency; it can trivially be swapped for a library call if needed.
+static std::string base64Encode(const std::vector<uint8_t>& data) {
+    static constexpr char kB64Chars[] =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    std::string out;
+    out.reserve(((data.size() + 2) / 3) * 4);
+    for (size_t i = 0; i < data.size(); i += 3) {
+        const uint8_t b0 = data[i];
+        const uint8_t b1 = (i + 1 < data.size()) ? data[i + 1] : 0u;
+        const uint8_t b2 = (i + 2 < data.size()) ? data[i + 2] : 0u;
+        out += kB64Chars[(b0 >> 2) & 0x3F];
+        out += kB64Chars[((b0 & 0x03) << 4) | ((b1 >> 4) & 0x0F)];
+        out += (i + 1 < data.size()) ? kB64Chars[((b1 & 0x0F) << 2) | ((b2 >> 6) & 0x03)] : '=';
+        out += (i + 2 < data.size()) ? kB64Chars[b2 & 0x3F] : '=';
+    }
+    return out;
 }
 
 /* static */ bool WALShipper::verifyChunkChecksum(const SnapshotChunk& chunk) {
@@ -583,14 +609,12 @@ SnapshotTransferResult WALShipper::sendSnapshot(const std::string& replica_id,
 
             // Serialize the chunk fields to JSON and POST to the replica's
             // snapshot chunk endpoint, mirroring the existing shipBatch pattern.
+            // Binary data is base64-encoded to avoid the 2× size penalty of
+            // hex encoding while remaining JSON-compatible.
             bool sent = false;
             if (mtls_client_ && mtls_client_->isReady()) {
-                // Encode binary data as hex to stay JSON-compatible
-                std::ostringstream data_hex;
-                for (uint8_t b : chunk.data) {
-                    data_hex << std::hex << std::setw(2) << std::setfill('0')
-                             << static_cast<int>(b);
-                }
+                // Base64-encode the chunk payload to avoid the 2× overhead of
+                // hex encoding, while staying within JSON string constraints.
                 nlohmann::json body = {
                     {"snapshot_index", chunk.snapshot_index},
                     {"snapshot_term",  chunk.snapshot_term},
@@ -598,18 +622,26 @@ SnapshotTransferResult WALShipper::sendSnapshot(const std::string& replica_id,
                     {"total_chunks",   chunk.total_chunks},
                     {"last_chunk",     chunk.last_chunk},
                     {"checksum",       chunk.checksum},
-                    {"data_hex",       data_hex.str()}
+                    {"data_b64",       base64Encode(chunk.data)}
                 };
                 auto resp = mtls_client_->post(endpoint,
                                                "/api/v1/snapshot/chunk",
                                                body);
                 sent = resp.success;
             } else {
-                // No mTLS client configured – treat as success in
-                // unit-test / non-TLS environments.
-                spdlog::debug("WALShipper: no mTLS client; simulating chunk send "
+                // No configured/ready mTLS client: fail in production.
+                // In test builds (THEMIS_TEST_BUILD), simulate success so that
+                // unit tests that don't wire up a real transport still work.
+#if defined(THEMIS_TEST_BUILD)
+                spdlog::debug("WALShipper: THEMIS_TEST_BUILD – simulating chunk send "
                               "chunk_index={}", chunk.chunk_index);
                 sent = true;
+#else
+                spdlog::error("WALShipper: mTLS client not configured or not ready; "
+                              "refusing to send snapshot chunk {} to {}",
+                              chunk.chunk_index, replica_id);
+                sent = false;
+#endif
             }
 
             if (sent) {

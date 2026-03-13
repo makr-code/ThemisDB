@@ -11,6 +11,12 @@
 #include "sharding/raft_log.h"
 #include <filesystem>
 #include <cstdlib>
+#ifdef _WIN32
+#  include <process.h>
+#  define getpid _getpid
+#else
+#  include <unistd.h>
+#endif
 
 using namespace themisdb::sharding;
 
@@ -44,6 +50,8 @@ TEST(RaftLog, HasEntry_SnapshotBoundary) {
     for (uint64_t i = 1; i <= 10; ++i) {
         log.append(LogEntry{1, i, "cmd", 0});
     }
+    // Must commit first so compactUpTo is allowed to proceed
+    log.setCommitIndex(10);
     log.compactUpTo(5, 1);
     // Entry 5 was removed from the map but is remembered as the snapshot anchor
     EXPECT_TRUE(log.hasEntry(5, 1));
@@ -80,8 +88,37 @@ TEST(RaftLog, CompactUpTo) {
     // Snapshot meta preserved
     EXPECT_EQ(log.getSnapshotIndex(), 10u);
     EXPECT_EQ(log.getSnapshotTerm(), 1u);
-    // Commit index must be at least the snapshot index
-    EXPECT_GE(log.getCommitIndex(), 10u);
+    // Commit index must NOT be changed by compaction
+    EXPECT_EQ(log.getCommitIndex(), 20u);
+}
+
+TEST(RaftLog, CompactUpTo_RefusesToCompactUncommitted) {
+    RaftLog log;
+    for (uint64_t i = 1; i <= 5; ++i) {
+        log.append(LogEntry{1, i, "x", 0});
+    }
+    log.setCommitIndex(3);
+    // Attempting to compact past commit_index should be a no-op
+    log.compactUpTo(5, 1);
+    // Entries should still be present (compaction was rejected)
+    EXPECT_TRUE(log.getEntry(5).has_value());
+    EXPECT_EQ(log.getSnapshotIndex(), 0u);
+}
+
+TEST(RaftLog, CompactUpTo_ExactlyAtCommitIndex) {
+    RaftLog log;
+    for (uint64_t i = 1; i <= 10; ++i) {
+        log.append(LogEntry{1, i, "x", 0});
+    }
+    // Compaction exactly at commit_index is allowed (boundary condition)
+    log.setCommitIndex(10);
+    log.compactUpTo(10, 1);
+    EXPECT_EQ(log.getSnapshotIndex(), 10u);
+    EXPECT_EQ(log.getSnapshotTerm(), 1u);
+    // commit_index must remain unchanged
+    EXPECT_EQ(log.getCommitIndex(), 10u);
+    // All log entries discarded
+    EXPECT_FALSE(log.getEntry(10).has_value());
 }
 
 // ============================================================================
@@ -180,14 +217,14 @@ TEST_F(RaftSnapshotManagerTest, ChunkedAccess) {
 }
 
 TEST_F(RaftSnapshotManagerTest, OldSnapshotCleanup) {
-    RaftLog log;
-    log.append(LogEntry{1, 1, "x", 0});
-    log.setCommitIndex(1);
-
     const std::vector<uint8_t> state(8, 0x01);
-    // Create 5 snapshots (manager keeps max 3)
+    // Create 5 snapshots (manager keeps max 3).
+    // Each iteration uses a fresh log so that the commit/snapshot preconditions
+    // are satisfied independently.
     for (uint64_t idx = 1; idx <= 5; ++idx) {
-        // Re-use the same log for simplicity
+        RaftLog log;
+        log.append(LogEntry{1, idx, "x", 0});
+        log.setCommitIndex(idx);
         mgr_->createAndInstall(log, idx, 1, state);
     }
 

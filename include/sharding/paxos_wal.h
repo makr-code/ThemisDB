@@ -209,16 +209,21 @@ public:
     bool shouldCreateSnapshot(size_t operations_since_last) const;
 
     /**
-     * @brief Compact (truncate) the WAL up to and including the given LSN.
+     * @brief Compact (truncate) the WAL at the next segment boundary before `up_to_lsn`.
      *
-     * Called after a Paxos snapshot has been successfully persisted.  All WAL
-     * entries at or below `up_to_lsn` are no longer needed for recovery and
-     * can be discarded, preventing unbounded WAL growth.
+     * Called after a Paxos snapshot has been successfully persisted.  WAL
+     * entries are discarded on a segment-granularity basis: all segments whose
+     * segment number is strictly less than `up_to_lsn.segment` are deleted by
+     * `WALManager::truncate()`.  The oldest retained data is therefore the
+     * beginning of the segment that contains `up_to_lsn`, not necessarily the
+     * exact record at `up_to_lsn`.  Callers should pass the LSN of the last
+     * committed entry in the snapshot so that recovery can always start from a
+     * valid segment boundary.
      *
-     * The operation is logged as a SNAPSHOT marker entry so that a reader
-     * replaying the WAL from an older checkpoint can detect the boundary.
+     * The operation first writes a SNAPSHOT marker WAL entry so that a reader
+     * replaying from an older checkpoint can detect the compaction boundary.
      *
-     * @param up_to_lsn  LSN of the last entry covered by the snapshot
+     * @param up_to_lsn  LSN whose preceding segments will be discarded
      * @param node_id    Node performing the compaction (used in the marker)
      * @return true on success
      */

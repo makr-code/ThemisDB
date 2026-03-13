@@ -149,6 +149,16 @@ size_t RaftLog::estimatedSizeBytes() const {
 
 void RaftLog::compactUpTo(uint64_t snapshot_index, uint64_t snapshot_term) {
     std::lock_guard<std::mutex> lock(mutex_);
+
+    // Safety: never compact past committed entries.  The caller must ensure
+    // that snapshot_index <= commit_index before invoking this method.
+    if (snapshot_index > commit_index_) {
+        spdlog::error("RaftLog::compactUpTo: snapshot_index ({}) > commit_index ({}) – "
+                      "refusing to compact uncommitted entries",
+                      snapshot_index, commit_index_);
+        return;
+    }
+
     // Erase all entries at or below snapshot_index
     auto it = log_.upper_bound(snapshot_index);
     log_.erase(log_.begin(), it);
@@ -156,11 +166,9 @@ void RaftLog::compactUpTo(uint64_t snapshot_index, uint64_t snapshot_term) {
     // Record snapshot anchor so hasEntry() and prevLogIndex checks still work
     snapshot_index_ = snapshot_index;
     snapshot_term_  = snapshot_term;
-
-    // Commit index cannot go below the snapshot
-    if (commit_index_ < snapshot_index) {
-        commit_index_ = snapshot_index;
-    }
+    // commit_index_ is deliberately NOT advanced here: the caller already
+    // verified snapshot_index <= commit_index, so commit_index_ is already
+    // correct and we must not move it forward.
 }
 
 void RaftLog::setSnapshotMeta(uint64_t index, uint64_t term) {
@@ -194,9 +202,17 @@ void RaftLog::clear() {
 namespace {
 
 /// Compute SHA-256 of the given buffer and return a lowercase hex string.
+/// Handles the empty-buffer case (size == 0) safely without dereferencing
+/// a potentially null pointer returned by std::vector::data().
 std::string sha256Hex(const uint8_t* data, size_t size) {
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(data, size, hash);
+    if (size == 0) {
+        // SHA-256 of empty input is well-defined; use a static 0-length buffer.
+        static const uint8_t kEmpty[1] = {0};
+        SHA256(kEmpty, 0, hash);
+    } else {
+        SHA256(data, size, hash);
+    }
     std::ostringstream oss;
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
@@ -208,6 +224,11 @@ std::string sha256Hex(const uint8_t* data, size_t size) {
 
 RaftSnapshotManager::RaftSnapshotManager(const Config& config)
     : config_(config) {
+    if (config_.chunk_size_bytes == 0) {
+        spdlog::warn("RaftSnapshotManager: chunk_size_bytes=0 is invalid; "
+                     "clamping to default 4 MB");
+        config_.chunk_size_bytes = kDefaultChunkSizeBytes;
+    }
     std::filesystem::create_directories(config_.snapshot_directory);
 }
 
@@ -234,6 +255,30 @@ bool RaftSnapshotManager::createAndInstall(RaftLog& log,
         // 1. Validate preconditions
         if (snapshot_index == 0) {
             spdlog::error("RaftSnapshotManager: snapshot_index must be > 0");
+            return false;
+        }
+        // Compaction must only cover committed entries; refuse if the caller
+        // attempts to snapshot beyond what has been committed.
+        if (snapshot_index > log.getCommitIndex()) {
+            spdlog::error("RaftSnapshotManager: snapshot_index ({}) > commit_index ({}) – "
+                          "refusing to snapshot uncommitted entries",
+                          snapshot_index, log.getCommitIndex());
+            return false;
+        }
+        // The snapshot_term must match the term of the entry at snapshot_index
+        // (or the existing snapshot anchor if the entry was already compacted).
+        if (auto entry = log.getEntry(snapshot_index)) {
+            if (entry->term != snapshot_term) {
+                spdlog::error("RaftSnapshotManager: snapshot_term ({}) does not match "
+                              "log[{}].term ({}) – Raft safety violation",
+                              snapshot_term, snapshot_index, entry->term);
+                return false;
+            }
+        } else if (log.getSnapshotIndex() == snapshot_index &&
+                   log.getSnapshotTerm() != snapshot_term) {
+            spdlog::error("RaftSnapshotManager: snapshot_term ({}) does not match "
+                          "existing snapshot anchor term ({}) for index {}",
+                          snapshot_term, log.getSnapshotTerm(), snapshot_index);
             return false;
         }
         if (state_data.empty()) {
@@ -318,32 +363,81 @@ std::optional<RaftSnapshot> RaftSnapshotManager::loadSnapshot(uint64_t snapshot_
     }
 
     try {
+        // Minimum valid file: 4×8B (index/term/uncompressed_size/timestamp) + 4B (checksum_len)
+        constexpr size_t kMinHeaderBytes = 4 * sizeof(uint64_t) + sizeof(uint32_t);
+        // Maximum checksum length we will accept (SHA-256 hex is exactly 64 chars)
+        constexpr uint32_t kExpectedChecksumLen = 64;
+
+        const size_t file_size = std::filesystem::file_size(path);
+        if (file_size < kMinHeaderBytes) {
+            spdlog::error("RaftSnapshotManager: snapshot file too small ({} bytes): {}",
+                          file_size, path);
+            return std::nullopt;
+        }
+
         std::ifstream file(path, std::ios::binary);
         if (!file.is_open()) {
             spdlog::error("RaftSnapshotManager: cannot open {} for reading", path);
             return std::nullopt;
         }
 
-        auto read64 = [&]() -> uint64_t {
+        // Helper lambdas that check stream state after every read
+        auto read64 = [&](const char* field) -> std::optional<uint64_t> {
             uint64_t v = 0;
             file.read(reinterpret_cast<char*>(&v), sizeof(v));
+            if (!file.good() || file.gcount() != static_cast<std::streamsize>(sizeof(v))) {
+                spdlog::error("RaftSnapshotManager: failed to read {} from {}", field, path);
+                return std::nullopt;
+            }
             return v;
         };
-        auto read32 = [&]() -> uint32_t {
+        auto read32 = [&](const char* field) -> std::optional<uint32_t> {
             uint32_t v = 0;
             file.read(reinterpret_cast<char*>(&v), sizeof(v));
+            if (!file.good() || file.gcount() != static_cast<std::streamsize>(sizeof(v))) {
+                spdlog::error("RaftSnapshotManager: failed to read {} from {}", field, path);
+                return std::nullopt;
+            }
             return v;
         };
 
         RaftSnapshot snap;
-        snap.snapshot_index    = read64();
-        snap.snapshot_term     = read64();
-        snap.uncompressed_size = read64();
-        snap.timestamp         = read64();
 
-        const uint32_t checksum_len = read32();
+        auto idx = read64("snapshot_index");  if (!idx) return std::nullopt;
+        snap.snapshot_index = *idx;
+
+        auto term = read64("snapshot_term");  if (!term) return std::nullopt;
+        snap.snapshot_term = *term;
+
+        auto usize = read64("uncompressed_size"); if (!usize) return std::nullopt;
+        snap.uncompressed_size = *usize;
+
+        auto ts = read64("timestamp");  if (!ts) return std::nullopt;
+        snap.timestamp = *ts;
+
+        auto clen = read32("checksum_len"); if (!clen) return std::nullopt;
+        const uint32_t checksum_len = *clen;
+
+        // Enforce expected checksum length to prevent large allocations from
+        // a corrupt or malicious file.
+        if (checksum_len != kExpectedChecksumLen) {
+            spdlog::error("RaftSnapshotManager: unexpected checksum_len {} (expected {}) in {}",
+                          checksum_len, kExpectedChecksumLen, path);
+            return std::nullopt;
+        }
+        // Verify the file contains enough bytes for the checksum + any data
+        const size_t bytes_consumed_so_far = kMinHeaderBytes;
+        if (file_size < bytes_consumed_so_far + checksum_len) {
+            spdlog::error("RaftSnapshotManager: file too small for checksum in {}", path);
+            return std::nullopt;
+        }
+
         snap.checksum.resize(checksum_len);
         file.read(snap.checksum.data(), static_cast<std::streamsize>(checksum_len));
+        if (!file.good() || file.gcount() != static_cast<std::streamsize>(checksum_len)) {
+            spdlog::error("RaftSnapshotManager: failed to read checksum from {}", path);
+            return std::nullopt;
+        }
 
         // Read remaining bytes as compressed data
         const std::streampos data_start = file.tellg();
@@ -356,6 +450,10 @@ std::optional<RaftSnapshot> RaftSnapshotManager::loadSnapshot(uint64_t snapshot_
         if (data_size > 0) {
             file.read(reinterpret_cast<char*>(snap.data.data()),
                       static_cast<std::streamsize>(data_size));
+            if (file.gcount() != static_cast<std::streamsize>(data_size)) {
+                spdlog::error("RaftSnapshotManager: truncated data read from {}", path);
+                return std::nullopt;
+            }
         }
         file.close();
 
@@ -365,6 +463,13 @@ std::optional<RaftSnapshot> RaftSnapshotManager::loadSnapshot(uint64_t snapshot_
             if (decompressed.empty() && snap.uncompressed_size > 0) {
                 spdlog::error("RaftSnapshotManager: decompression failed for snapshot {}",
                               snapshot_index);
+                return std::nullopt;
+            }
+            // Verify decompressed size matches the stored metadata
+            if (decompressed.size() != snap.uncompressed_size) {
+                spdlog::error("RaftSnapshotManager: decompressed size mismatch for snapshot {}: "
+                              "expected {} got {}",
+                              snapshot_index, snap.uncompressed_size, decompressed.size());
                 return std::nullopt;
             }
             const std::string actual_checksum =
