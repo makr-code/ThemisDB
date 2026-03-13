@@ -23,6 +23,7 @@
 
 #include "auth/zero_trust_auth_verifier.h"
 #include "auth/auth_audit_logger.h"
+#include "auth/auth_worker_thread_pool.h"
 #include "auth/session_manager.h"
 #include "utils/logger.h"
 
@@ -147,12 +148,12 @@ void ZeroTrustAuthVerifier::startSessionMonitoring(
     const MonitoredSession& session,
     SessionManager* session_manager)
 {
-    // Lazily create the worker pool and background monitor thread on the first
-    // registered session — avoids thread overhead for callers that only use
-    // the synchronous verify() path.
+    bool needs_spawn = false;
+
     {
         std::lock_guard<std::mutex> lock(monitor_mutex_);
 
+        // Lazily create the worker pool on the first registered session.
         if (!worker_pool_) {
             worker_pool_ = std::make_unique<AuthWorkerThreadPool>();
         }
@@ -160,28 +161,59 @@ void ZeroTrustAuthVerifier::startSessionMonitoring(
         MonitorEntry entry;
         entry.session         = session;
         entry.session_manager = session_manager;
-        entry.next_eval       = std::chrono::system_clock::now()
+        entry.next_eval       = std::chrono::steady_clock::now()
                                 + config_.re_evaluation_interval;
         monitored_sessions_[session.session_id] = std::move(entry);
+
+        // Increment the generation counter so the sleeping monitor loop can
+        // detect the schedule change and re-compute its next wake deadline.
+        ++schedule_generation_;
+
+        // Determine whether a (re-)spawn is needed.  Hold the mutex throughout so
+        // concurrent callers cannot double-spawn.
+        //   thread_exited      — the thread ran but stopped because sessions
+        //                        became empty (monitor_stop_ was set by
+        //                        stopSessionMonitoring when the map drained).
+        //   thread_never_started — initial state: default-constructed thread.
+        const bool thread_exited        = monitor_stop_.load();
+        const bool thread_never_started = !monitor_thread_.joinable();
+        if (thread_exited || thread_never_started) {
+            monitor_stop_.store(false);
+            needs_spawn = true;
+        }
     }
 
-    // Start the background loop (idempotent: only spawns once).
-    if (!monitor_thread_.joinable()) {
-        monitor_stop_.store(false);
+    if (needs_spawn) {
+        // Join the previous thread if it finished but was never joined.
+        if (monitor_thread_.joinable()) {
+            monitor_thread_.join();
+        }
         monitor_thread_ = std::thread(&ZeroTrustAuthVerifier::monitorLoop, this);
+    } else {
+        // Wake a sleeping loop so it can re-compute the earliest deadline.
+        monitor_cv_.notify_one();
     }
 
-    // Wake the loop in case it's sleeping past the new session's deadline.
-    monitor_cv_.notify_one();
-
-    THEMIS_DEBUG("ZeroTrustAuth: monitoring session '{}' for user '{}' (interval={}s)",
+    THEMIS_DEBUG("ZeroTrustAuth: monitoring session '{}' for user '{}' (interval={}ms)",
                  session.session_id, session.user_id,
                  config_.re_evaluation_interval.count());
 }
 
 void ZeroTrustAuthVerifier::stopSessionMonitoring(const std::string& session_id) {
-    std::lock_guard<std::mutex> lock(monitor_mutex_);
-    monitored_sessions_.erase(session_id);
+    {
+        std::lock_guard<std::mutex> lock(monitor_mutex_);
+        monitored_sessions_.erase(session_id);
+
+        // When all sessions are removed, stop the background thread and pool
+        // to avoid holding idle threads indefinitely.
+        if (monitored_sessions_.empty()) {
+            monitor_stop_.store(true);
+        }
+    }
+
+    if (monitor_stop_.load()) {
+        monitor_cv_.notify_all();
+    }
 }
 
 size_t ZeroTrustAuthVerifier::monitoredSessionCount() const {
@@ -200,8 +232,13 @@ void ZeroTrustAuthVerifier::monitorLoop() {
         {
             std::unique_lock<std::mutex> lock(monitor_mutex_);
 
+            // Exit immediately if explicitly stopped or nothing to monitor.
+            if (monitor_stop_.load() || monitored_sessions_.empty()) {
+                return;
+            }
+
             // Find the earliest deadline across all registered sessions.
-            auto now       = std::chrono::system_clock::now();
+            auto now       = std::chrono::steady_clock::now();
             auto next_wake = now + config_.re_evaluation_interval;
 
             for (const auto& [id, entry] : monitored_sessions_) {
@@ -210,23 +247,38 @@ void ZeroTrustAuthVerifier::monitorLoop() {
                 }
             }
 
-            // Sleep until the next deadline fires, a new session is added, or
-            // we're asked to stop.  wait_until returns true only when the
-            // predicate (stop requested) becomes true before the deadline.
-            bool stop_requested = monitor_cv_.wait_until(
-                lock, next_wake,
-                [this] { return monitor_stop_.load(); });
+            // Snapshot the generation before sleeping so the predicate can
+            // detect when a new session is added (which bumps the generation)
+            // and re-compute the earliest deadline without sleeping until the
+            // old `next_wake`.
+            const auto gen = schedule_generation_.load();
 
-            if (stop_requested) {
+            // Sleep until the deadline, a stop is requested, the session map
+            // becomes empty, or a new session is registered.
+            monitor_cv_.wait_until(
+                lock, next_wake,
+                [this, gen] {
+                    return monitor_stop_.load()
+                        || monitored_sessions_.empty()
+                        || schedule_generation_.load() != gen;
+                });
+
+            if (monitor_stop_.load() || monitored_sessions_.empty()) {
                 return;
             }
 
+            // If the generation changed (new session added), loop back to
+            // re-compute the earliest wake deadline before dispatching.
+            if (schedule_generation_.load() != gen) {
+                continue;
+            }
+
             // Collect sessions whose deadline has now passed.
-            now = std::chrono::system_clock::now();
+            now = std::chrono::steady_clock::now();
             for (auto& [id, entry] : monitored_sessions_) {
                 if (entry.next_eval <= now) {
                     to_eval.push_back(entry);
-                    // Advance the deadline so we don't re-queue until the
+                    // Advance the deadline so we do not re-queue until the
                     // next full interval has elapsed.
                     entry.next_eval = now + config_.re_evaluation_interval;
                 }
@@ -255,6 +307,16 @@ void ZeroTrustAuthVerifier::monitorLoop() {
 // ---------------------------------------------------------------------------
 
 void ZeroTrustAuthVerifier::reEvaluateSession(const MonitorEntry& entry) {
+    // Guard against stale work items: verify the session is still registered
+    // before taking any action (it may have been stopped after being queued).
+    {
+        std::lock_guard<std::mutex> lock(monitor_mutex_);
+        if (monitored_sessions_.find(entry.session.session_id) ==
+                monitored_sessions_.end()) {
+            return; // Session was already stopped; nothing to do.
+        }
+    }
+
     Request req;
     req.request_id = "re_eval_" + entry.session.session_id;
     req.user_id    = entry.session.user_id;

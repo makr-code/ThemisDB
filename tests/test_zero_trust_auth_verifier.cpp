@@ -251,13 +251,13 @@ TEST(ZeroTrustAuthVerifierTest, EachCallIsIndependent_NoSessionCache) {
 
 TEST(ZeroTrustAuthVerifierTest, DefaultReEvaluationInterval) {
     ZeroTrustAuthVerifier::Config cfg;
-    EXPECT_EQ(cfg.re_evaluation_interval, std::chrono::seconds(300));
+    EXPECT_EQ(cfg.re_evaluation_interval, std::chrono::milliseconds(300000));
 }
 
 TEST(ZeroTrustAuthVerifierTest, CustomReEvaluationInterval) {
     ZeroTrustAuthVerifier::Config cfg;
-    cfg.re_evaluation_interval = std::chrono::seconds(60);
-    EXPECT_EQ(cfg.re_evaluation_interval, std::chrono::seconds(60));
+    cfg.re_evaluation_interval = std::chrono::milliseconds(60000);
+    EXPECT_EQ(cfg.re_evaluation_interval, std::chrono::milliseconds(60000));
 }
 
 // ============================================================================

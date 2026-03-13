@@ -30,17 +30,18 @@
 #include <atomic>
 #include <chrono>
 #include <condition_variable>
+#include <cstdint>
 #include <mutex>
 #include <thread>
 #include <unordered_map>
 
 #include "security/zero_trust_policy_enforcer.h"
-#include "auth/auth_worker_thread_pool.h"
 
 namespace themis {
 namespace utils { class AuditLogger; }
 namespace auth {
 
+class AuthWorkerThreadPool; ///< Forward-declared to reduce header coupling.
 class SessionManager;
 
 /**
@@ -120,8 +121,10 @@ public:
         /// Interval between periodic background re-evaluations of long-lived
         /// sessions (WebSocket, gRPC streaming, DB connection pool).
         /// Re-evaluation runs on AuthWorkerThreadPool so it never blocks the
-        /// data-plane thread.  Defaults to 300 seconds (5 minutes).
-        std::chrono::seconds re_evaluation_interval{300};
+        /// data-plane thread.  Defaults to 300 000 ms (5 minutes).
+        /// Use millisecond granularity so tests and short intervals are supported
+        /// without narrowing conversions.
+        std::chrono::milliseconds re_evaluation_interval{std::chrono::seconds(300)};
     };
 
     /**
@@ -307,8 +310,8 @@ private:
     /// Internal representation of a monitored session.
     struct MonitorEntry {
         MonitoredSession session;
-        SessionManager*  session_manager;                         ///< Non-owning
-        std::chrono::system_clock::time_point next_eval;          ///< Deadline for next check
+        SessionManager*  session_manager;                          ///< Non-owning
+        std::chrono::steady_clock::time_point next_eval;           ///< Deadline for next check (steady_clock)
     };
 
     mutable std::mutex                                  monitor_mutex_;
@@ -317,6 +320,9 @@ private:
     std::unique_ptr<AuthWorkerThreadPool>               worker_pool_;
     std::thread                                         monitor_thread_;
     std::atomic<bool>                                   monitor_stop_{false};
+    /// Incremented whenever the session schedule changes (new session added).
+    /// The monitor loop predicate checks this to wake early on schedule updates.
+    std::atomic<uint64_t>                               schedule_generation_{0};
 
     /// Background loop: wakes periodically and dispatches overdue sessions
     /// to the worker thread pool for policy re-evaluation.
