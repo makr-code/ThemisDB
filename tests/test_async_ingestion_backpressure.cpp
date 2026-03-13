@@ -418,10 +418,12 @@ TEST_F(AsyncIngestionBackpressureTest, StopGraceful_DrainsPendingFutures) {
 // ============================================================================
 
 TEST_F(AsyncIngestionBackpressureTest, Statistics_BackpressureMetricsCountedOnOverload) {
-    // Use max_queue_depth=1 with a gating handler so we can deterministically
-    // fill the queue to max_queue_depth=1 and trigger back-pressure for job3,
-    // without relying on scheduling timing.
-    auto worker = makeWorker(/*max_queue_depth=*/1, /*threads=*/1);
+    // Use max_queue_depth=2 with a gating handler so we can deterministically
+    // reach capacity under queue+inflight accounting:
+    //   - job1 is in flight (1)
+    //   - job2 is queued (1)
+    // => total load 2 == max_queue_depth, so job3 triggers back-pressure.
+    auto worker = makeWorker(/*max_queue_depth=*/2, /*threads=*/1);
 
     // Gate that blocks the worker in the handler until we release it.
     // This ensures job1 is actively being processed (already dequeued) and
@@ -466,30 +468,31 @@ TEST_F(AsyncIngestionBackpressureTest, Statistics_BackpressureMetricsCountedOnOv
             << "Worker should have started processing job1 within 5 s";
     }
     // Now: job1 is IN FLIGHT (gate blocking worker), queue is EMPTY.
-    // Submit job2 — queue=0 < 1=max_queue_depth → no back-pressure event yet.
+    // Submit job2 — total load becomes 2 (1 inflight + 1 queued), still accepted
+    // because the waiter checks before push and load was 1 < max_queue_depth=2.
     auto id2 = worker->submitStream(s2, "file2.txt");
     EXPECT_FALSE(id2.empty());
 
-    // Now queue holds job2 (size=1 == max_queue_depth).
+    // Now queue holds job2 while job1 remains inflight: total load is at capacity.
     // Submit job3 from a thread — this MUST trigger exactly one back-pressure event.
     std::istringstream s3("data3");
-    std::atomic<bool> submitted3{false};
-    std::atomic<bool> submitter3_done{false};
-    auto submitter3 = std::thread([&] {
+    auto submitter3 = std::async(std::launch::async, [&]() -> bool {
         try {
             auto id3 = worker->submitStream(s3, "file3.txt");
-            (void)id3;
-            submitted3.store(true);
+            return !id3.empty();
         } catch (const std::exception&) {
             // Possible if worker shuts down while waiting
+            return false;
         }
-        submitter3_done.store(true);
     });
 
     // Give the submitter thread time to reach and enter the back-pressure wait
     std::this_thread::sleep_for(30ms);
 
-    // While gate is closed the queue stays at depth 1; submitter3 must be blocked
+    // While gate is closed the total load stays at capacity; submitter3 must be blocked
+    EXPECT_EQ(submitter3.wait_for(0ms), std::future_status::timeout)
+        << "job3 submitter should still be blocked under back-pressure";
+
     {
         auto stats = worker->getStatistics();
         EXPECT_GE(stats["backpressure"]["events_total"].get<uint64_t>(), 1u)
@@ -505,7 +508,9 @@ TEST_F(AsyncIngestionBackpressureTest, Statistics_BackpressureMetricsCountedOnOv
     }
     gate_cv.notify_all();
 
-    submitter3.join();
+    ASSERT_EQ(submitter3.wait_for(5s), std::future_status::ready)
+        << "job3 submitter should unblock after worker capacity is released";
+    (void)submitter3.get();
 
     worker->stop(true);
 }

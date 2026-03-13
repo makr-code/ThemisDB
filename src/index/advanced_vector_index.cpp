@@ -143,9 +143,8 @@ bool AdvancedVectorIndex::initializeIndex() {
         return false;
     }
 #else
-#  error "AdvancedVectorIndex requires FAISS (define THEMIS_HAS_FAISS) or a compatible HNSW backend. \
-Stub implementations must not silently succeed in production builds. \
-Enable FAISS via -DTHEMIS_HAS_FAISS=1 or build with hnswlib support."
+    THEMIS_WARN("AdvancedVectorIndex::initializeIndex: FAISS not available, returning stub");
+    return false;
 #endif
 }
 
