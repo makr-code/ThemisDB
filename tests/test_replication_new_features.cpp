@@ -42,6 +42,7 @@
 
 #include <chrono>
 #include <filesystem>
+#include <future>
 #include <memory>
 #include <string>
 #include <thread>
@@ -665,11 +666,14 @@ TEST_F(ReplicationSlotTest, StatePersistenceRoundTrip) {
 
 namespace {
 
+// Monotonically increasing sequence number so every WALEntry is unique.
+static std::atomic<uint64_t> g_seq{1};
+
 WALEntry makeWALEntry(const std::string& doc_id,
                       const std::string& collection = "col",
                       const std::string& op = "INSERT") {
     WALEntry e;
-    e.sequence_number = 0;
+    e.sequence_number = g_seq.fetch_add(1);
     e.term            = 1;
     e.operation       = op;
     e.collection      = collection;
@@ -682,6 +686,8 @@ WALEntry makeWALEntry(const std::string& doc_id,
 
 class ParallelReplicationWorkerTest : public ::testing::Test {
 protected:
+    // All three config fields are set explicitly so the tests are not sensitive
+    // to future default-value changes.
     ParallelReplicationWorker::ParallelConfig defaultConfig() {
         ParallelReplicationWorker::ParallelConfig cfg;
         cfg.worker_threads          = 4;
@@ -796,7 +802,7 @@ TEST_F(ParallelReplicationWorkerTest, SingleThreadedWorker) {
     EXPECT_EQ(worker.getStats().entries_applied, 10u);
 }
 
-TEST_F(ParallelReplicationWorkerTest, MaxThreadedWorker) {
+TEST_F(ParallelReplicationWorkerTest, SixteenThreadWorker) {
     ParallelReplicationWorker::ParallelConfig cfg = defaultConfig();
     cfg.worker_threads = 16;
     ParallelReplicationWorker worker(cfg);
@@ -811,8 +817,9 @@ TEST_F(ParallelReplicationWorkerTest, MaxThreadedWorker) {
 
 TEST_F(ParallelReplicationWorkerTest, SyncOnEmptyQueueReturnsImmediately) {
     ParallelReplicationWorker worker(defaultConfig());
-    // sync() on an empty queue should return without blocking
-    worker.sync();
+    // Verify that sync() on an empty queue returns within a tight deadline.
+    auto fut = std::async(std::launch::async, [&worker] { worker.sync(); });
+    EXPECT_EQ(fut.wait_for(std::chrono::seconds(5)), std::future_status::ready);
     EXPECT_EQ(worker.getStats().entries_applied, 0u);
 }
 
