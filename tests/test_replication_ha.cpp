@@ -1804,6 +1804,228 @@ TEST(QuorumReadManagerTest, SetReplicasUpdatesTopology) {
     EXPECT_TRUE(result.success);
 }
 
+// Session consistency: a successful read always returns a non-empty session token.
+TEST(QuorumReadManagerTest, SessionToken_ReturnedOnSuccessfulRead) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000", 100),
+        makeReplica("r2:9000", 100),
+        makeReplica("r3:9000", 100),
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+    auto result = qrm.read("col", "doc-1");
+
+    EXPECT_TRUE(result.success);
+    EXPECT_FALSE(result.session_token.empty())
+        << "A session token must be returned on every successful quorum read";
+    // Token must contain the expected key–value pairs.
+    EXPECT_NE(result.session_token.find("seq="), std::string::npos)
+        << "Session token must contain 'seq=' field";
+    EXPECT_NE(result.session_token.find("exp="), std::string::npos)
+        << "Session token must contain 'exp=' expiry field";
+}
+
+// Session consistency: using the token from a previous read in a subsequent read
+// must succeed when replicas are at the same or higher version.
+TEST(QuorumReadManagerTest, SessionConsistency_TokenFromReadUsedInNextRead) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000", 100),
+        makeReplica("r2:9000", 100),
+        makeReplica("r3:9000", 100),
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+
+    // First read – obtain a session token embedding version 100.
+    auto first = qrm.read("col", "doc-1");
+    ASSERT_TRUE(first.success);
+    EXPECT_FALSE(first.session_token.empty());
+
+    // Second read using the session token – replicas are still at version 100,
+    // so the read must succeed with monotonic guarantees.
+    auto second = qrm.read("col", "doc-1", 0, first.session_token);
+    EXPECT_TRUE(second.success)
+        << "Session read must succeed when replicas satisfy the required version";
+    EXPECT_GE(second.version, first.version)
+        << "Monotonic read: version must not decrease across reads in the same session";
+}
+
+// Session consistency: when the session token requires a version higher than
+// what any replica can provide, the read must fail.
+TEST(QuorumReadManagerTest, SessionConsistency_FailsWhenReplicasBelowRequiredVersion) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+
+    // All replicas are at version 10 – far below any realistic session requirement.
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000", 10),
+        makeReplica("r2:9000", 10),
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+
+    // Craft a token that demands version 9999 (above what replicas have).
+    // Format: "seq=<N>;exp=<far-future-epoch-ms>"
+    constexpr uint64_t far_future_exp =
+        9999999999999ull;  // well beyond any real current timestamp
+    std::string high_version_token = "seq=9999;exp=" + std::to_string(far_future_exp);
+
+    auto result = qrm.read("col", "doc-1", 0, high_version_token);
+    EXPECT_FALSE(result.success)
+        << "Session read must fail when no quorum of replicas satisfies the required version";
+}
+
+// Session consistency: at least one but fewer than quorum replicas satisfy the
+// version requirement – must fail.
+TEST(QuorumReadManagerTest, SessionConsistency_PartialVersionSatisfactionFails) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+
+    // r1 is stale; r2 and r3 are up-to-date.
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000", 10),   // stale
+        makeReplica("r2:9000", 100),  // fresh
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+
+    // Token requires version 100; only r2 qualifies (1 < quorum=2).
+    constexpr uint64_t far_future_exp = 9999999999999ull;
+    std::string token = "seq=100;exp=" + std::to_string(far_future_exp);
+
+    auto result = qrm.read("col", "doc-1", 0, token);
+    EXPECT_FALSE(result.success)
+        << "One qualifying replica is below quorum=2; session read must fail";
+}
+
+// Session consistency: a majority of replicas satisfy the version requirement.
+TEST(QuorumReadManagerTest, SessionConsistency_QuorumSatisfiedByFreshReplicas) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000", 10),   // stale – must not count toward quorum
+        makeReplica("r2:9000", 100),  // fresh
+        makeReplica("r3:9000", 100),  // fresh
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+
+    // Token requires version 100; r2 and r3 satisfy it (2 == quorum).
+    constexpr uint64_t far_future_exp = 9999999999999ull;
+    std::string token = "seq=100;exp=" + std::to_string(far_future_exp);
+
+    auto result = qrm.read("col", "doc-1", 0, token);
+    EXPECT_TRUE(result.success)
+        << "Two qualifying replicas at version 100 satisfy quorum=2";
+    EXPECT_EQ(result.version, 100u);
+    EXPECT_EQ(result.sources.size(), 2u)
+        << "Only the qualifying replicas should appear in sources";
+}
+
+// repair_on_read: diverging replicas are flagged; had_conflicts is set.
+TEST(QuorumReadManagerTest, RepairOnRead_ConflictsDetectedAndFlagged) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+    cfg.repair_on_read  = true;
+
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000", 50),   // stale replica
+        makeReplica("r2:9000", 100),  // authoritative replica
+        makeReplica("r3:9000", 100),
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+    auto result = qrm.read("col", "doc-1");
+
+    EXPECT_TRUE(result.success);
+    EXPECT_TRUE(result.had_conflicts)
+        << "Diverging versions must be flagged so repair-on-read can proceed";
+    EXPECT_EQ(result.version, 100u)
+        << "Authoritative (highest) version must win the reconciliation";
+}
+
+// Single-node mode: session token is still returned.
+TEST(QuorumReadManagerTest, SingleNodeMode_ReturnsSessionToken) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 1;
+    cfg.read_timeout_ms = 200;
+
+    QuorumReadManager qrm(cfg, {});  // no replicas = single-node mode
+    auto result = qrm.read("col", "doc-1");
+    EXPECT_TRUE(result.success);
+    EXPECT_FALSE(result.session_token.empty())
+        << "Session token must be returned even in single-node mode";
+}
+
+// Session consistency: a malformed (non-empty) token is treated as version 0,
+// so all replicas qualify and the read succeeds normally.
+TEST(QuorumReadManagerTest, SessionConsistency_MalformedTokenTreatedAsNoRequirement) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000", 50),
+        makeReplica("r2:9000", 100),
+        makeReplica("r3:9000", 75),
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+
+    // Garbage token: parseSessionToken must return 0 (no version requirement).
+    auto result = qrm.read("col", "doc-1", 0, "not-a-valid-token");
+    EXPECT_TRUE(result.success)
+        << "Malformed session token must not block a read that would otherwise succeed";
+    // The highest version across all three replicas is 100.
+    EXPECT_EQ(result.version, 100u);
+}
+
+// Session consistency: fresh replicas that arrive last in iteration order
+// (stale replica first) must still be counted toward the version quorum.
+// This exercises the fix that prevents early loop exit when session_token != "".
+TEST(QuorumReadManagerTest, SessionConsistency_FreshReplicasLateInIterationOrder) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+
+    // r1 is stale and will be the first future to resolve; r2 and r3 are fresh.
+    // Without the fix the loop would have stopped at {r1, r2}, counted only
+    // one qualifying replica (r2) and returned failure.
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000",  5),   // stale
+        makeReplica("r2:9000", 200),  // fresh
+        makeReplica("r3:9000", 200),  // fresh
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+
+    constexpr uint64_t far_future = 9999999999999ull;
+    std::string token = "seq=200;exp=" + std::to_string(far_future);
+
+    auto result = qrm.read("col", "doc-1", 0, token);
+    EXPECT_TRUE(result.success)
+        << "Two fresh replicas at version 200 satisfy quorum=2 even when a "
+           "stale replica is iterated first";
+    EXPECT_EQ(result.version, 200u);
+    EXPECT_EQ(result.sources.size(), 2u)
+        << "Only the two qualifying replicas must appear in sources";
+}
+
+
+
 // ============================================================================
 // 17. PersistentReplicationState
 // ============================================================================

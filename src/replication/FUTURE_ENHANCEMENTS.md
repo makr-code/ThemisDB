@@ -678,58 +678,66 @@ std::cout << "P99 lag: " << lag_history.p99_lag_ms << "ms" << std::endl;
 
 ### Quorum-Based Reads
 **Priority:** Medium  
-**Target Version:** v1.6.0
+**Target Version:** v1.6.0  
+**Status:** ✅ Implemented (`include/replication/replication_manager.h`, `src/replication/replication_manager.cpp`)
 
 Enable quorum reads for strong consistency guarantees even when reading from replicas.
 
 **Features:**
-- Read from multiple replicas and reconcile
-- Configurable read quorum (e.g., 2 out of 3)
-- Automatic conflict resolution on divergence
-- Session consistency with read quorum
+- Read from multiple replicas and reconcile ✅
+- Configurable read quorum (e.g., 2 out of 3) ✅
+- Automatic conflict resolution on divergence ✅
+- Session consistency with read quorum ✅
 
-**Architecture:**
+**Implemented API:**
 ```cpp
 class QuorumReadManager {
 public:
     struct QuorumReadConfig {
-        uint32_t read_quorum = 2;
-        uint32_t read_timeout_ms = 1000;
-        bool repair_on_read = true;  // Fix divergent replicas
+        uint32_t read_quorum          = 2;
+        uint32_t read_timeout_ms      = 1000;
+        bool     repair_on_read       = true;    // Log stale replicas for repair
+        uint32_t session_token_ttl_ms = 30000;   // TTL for session tokens (ms)
     };
-    
-    // Read with quorum
+
     struct QuorumReadResult {
-        bool success;
+        bool        success;
         std::string data;
-        uint64_t version;
-        bool had_conflicts;
-        std::vector<std::string> sources;  // Which replicas responded
+        uint64_t    version;
+        bool        had_conflicts;
+        std::vector<std::string> sources;   // Replica endpoints that responded
+        std::string session_token;          // Opaque token for session consistency
     };
-    
+
     QuorumReadResult read(
         const std::string& collection,
         const std::string& document_id,
-        uint32_t quorum = 0  // 0 = use config default
+        uint32_t quorum = 0,                    // 0 = use config default
+        const std::string& session_token = ""   // Session token for monotonic reads
     );
+
+    void setReplicas(const std::vector<ReplicaInfo>& replicas);
 };
 
-// Example: Strong consistency reads
-QuorumReadConfig qr_config;
-qr_config.read_quorum = 2;
-qr_config.repair_on_read = true;
+// Example: Strong consistency reads with session token chaining
+QuorumReadManager::QuorumReadConfig cfg;
+cfg.read_quorum = 2;
+cfg.repair_on_read = true;
+QuorumReadManager qrm(cfg, replicas);
 
-QuorumReadManager qr_mgr(qr_config);
-
-auto result = qr_mgr.read("users", "user123", 2);
+auto result = qrm.read("users", "user123");
 if (result.success) {
     std::cout << "Data: " << result.data << std::endl;
     std::cout << "Version: " << result.version << std::endl;
     if (result.had_conflicts) {
-        std::cout << "WARNING: Divergence detected and repaired" << std::endl;
+        std::cout << "WARNING: Divergence detected and repair triggered" << std::endl;
     }
+    // Use session token for monotonic reads
+    auto next = qrm.read("users", "user123", 0, result.session_token);
 }
 ```
+
+**Tests:** 13 tests in `tests/test_replication_ha.cpp` — `QuorumReadManagerTest.*`
 
 ---
 

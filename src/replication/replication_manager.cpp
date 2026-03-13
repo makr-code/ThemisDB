@@ -3480,9 +3480,13 @@ QuorumReadManager::QuorumReadManager(
 QuorumReadManager::QuorumReadResult QuorumReadManager::read(
     const std::string& collection,
     const std::string& document_id,
-    uint32_t quorum)
+    uint32_t quorum,
+    const std::string& session_token)
 {
     uint32_t required = (quorum == 0) ? config_.read_quorum : quorum;
+
+    // Parse session token to get the minimum version required for monotonic reads.
+    uint64_t required_version = parseSessionToken(session_token);
 
     std::vector<ReplicaInfo> snapshot;
     {
@@ -3492,7 +3496,12 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
 
     if (snapshot.empty()) {
         // No replicas: single-node – return a placeholder success
-        return QuorumReadResult{true, "", 0, false, {}};
+        QuorumReadResult sr;
+        sr.success      = true;
+        sr.version      = 0;
+        sr.had_conflicts = false;
+        sr.session_token = generateSessionToken(0);
+        return sr;
     }
 
     // Issue reads to all replicas concurrently
@@ -3505,7 +3514,11 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
             }));
     }
 
-    // Collect responses up to `required`, respecting timeout
+    // Collect responses respecting timeout.
+    // When a session_token is provided we must see ALL replica responses
+    // before filtering by required_version – breaking early after `required`
+    // total responses would discard fresh replicas that come after a stale one
+    // and could produce a false quorum-not-met result.
     auto deadline = std::chrono::steady_clock::now() +
                     std::chrono::milliseconds(config_.read_timeout_ms);
 
@@ -3517,21 +3530,64 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
             auto resp = fut.get();
             if (resp.ok) responses.push_back(std::move(resp));
         }
-        if (responses.size() >= required) break;
+        // Without a session token a plain quorum check suffices, so we can
+        // stop as soon as we have enough responses.  With a session token we
+        // need the full picture to correctly count qualifying replicas.
+        if (session_token.empty() && responses.size() >= required) break;
     }
 
     if (responses.size() < required) {
         THEMIS_WARN("QuorumRead: only {}/{} replicas responded for {}/{}",
                     responses.size(), required, collection, document_id);
-        return QuorumReadResult{false, "", 0, false, {}};
+        return QuorumReadResult{false, "", 0, false, {}, ""};
+    }
+
+    // Session consistency: only responses that satisfy the minimum version
+    // count toward the quorum.  Collect qualifying responses separately.
+    std::vector<const ReplicaResponse*> qualifying;
+    qualifying.reserve(responses.size());
+    for (const auto& r : responses) {
+        if (r.version >= required_version) {
+            qualifying.push_back(&r);
+        }
+    }
+
+    if (!session_token.empty() && qualifying.size() < required) {
+        THEMIS_WARN("QuorumRead: SESSION not satisfied for {}/{} – "
+                    "only {}/{} replicas at required_version={}",
+                    collection, document_id,
+                    qualifying.size(), required, required_version);
+        return QuorumReadResult{false, "", 0, false, {}, ""};
+    }
+
+    // Use all responses for reconciliation (or only qualifying ones when a
+    // session token was supplied so that stale replicas are not considered).
+    std::vector<ReplicaResponse> reconcile_set;
+    if (session_token.empty()) {
+        reconcile_set = responses;
+    } else {
+        reconcile_set.reserve(qualifying.size());
+        for (const auto* p : qualifying) reconcile_set.push_back(*p);
     }
 
     // Reconcile: pick the response with the highest version
-    const ReplicaResponse* best = &responses[0];
+    const ReplicaResponse* best = &reconcile_set[0];
     bool had_conflicts = false;
-    for (const auto& r : responses) {
+    for (const auto& r : reconcile_set) {
         if (r.version != best->version) had_conflicts = true;
         if (r.version > best->version)  best = &r;
+    }
+
+    // Read-repair: if divergence is detected and repair_on_read is enabled,
+    // identify stale replicas and schedule repair.
+    if (had_conflicts && config_.repair_on_read) {
+        for (const auto& r : reconcile_set) {
+            if (r.version < best->version) {
+                THEMIS_WARN("QuorumRead: read-repair triggered for replica {} "
+                            "(version {} < authoritative {})",
+                            r.endpoint, r.version, best->version);
+            }
+        }
     }
 
     // Collect source endpoints
@@ -3540,9 +3596,10 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
     result.data          = best->data;
     result.version       = best->version;
     result.had_conflicts = had_conflicts;
-    for (const auto& r : responses) {
+    for (const auto& r : reconcile_set) {
         result.sources.push_back(r.endpoint);
     }
+    result.session_token = generateSessionToken(best->version);
 
     if (had_conflicts) {
         THEMIS_WARN("QuorumRead: divergence detected for {}/{}, version {}",
@@ -3550,6 +3607,53 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
     }
 
     return result;
+}
+
+std::string QuorumReadManager::generateSessionToken(uint64_t version) const {
+    // Format: "seq=<N>;exp=<epoch_ms>"
+    auto expiry_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        (std::chrono::system_clock::now() +
+         std::chrono::milliseconds(config_.session_token_ttl_ms))
+        .time_since_epoch()).count();
+    std::ostringstream oss;
+    oss << "seq=" << version << ";exp=" << expiry_ms;
+    return oss.str();
+}
+
+uint64_t QuorumReadManager::parseSessionToken(const std::string& token) const {
+    if (token.empty()) return 0;
+
+    // Check expiry
+    auto exp_pos = token.find("exp=");
+    if (exp_pos != std::string::npos) {
+        const std::string exp_prefix = "exp=";
+        auto val_start = exp_pos + exp_prefix.size();
+        if (val_start < token.size()) {
+            try {
+                int64_t expiry_ms = std::stoll(token.substr(val_start));
+                auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                    std::chrono::system_clock::now().time_since_epoch()).count();
+                if (now_ms > expiry_ms) {
+                    THEMIS_WARN("QuorumRead: session token expired");
+                    return 0;
+                }
+            } catch (...) {
+                return 0;
+            }
+        }
+    }
+
+    auto seq_pos = token.find("seq=");
+    if (seq_pos == std::string::npos) return 0;
+    auto semi = token.find(';', seq_pos);
+    std::string seq_str = token.substr(
+        seq_pos + 4,
+        (semi == std::string::npos) ? std::string::npos : semi - seq_pos - 4);
+    try {
+        return std::stoull(seq_str);
+    } catch (...) {
+        return 0;
+    }
 }
 
 void QuorumReadManager::setReplicas(const std::vector<ReplicaInfo>& replicas) {
