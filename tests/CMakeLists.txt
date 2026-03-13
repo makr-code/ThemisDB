@@ -3934,6 +3934,45 @@ else()
     message(STATUS "Transaction Manager focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_manager.cpp")
 endif()
 
+# Adaptive Deadlock Prevention Focused Tests (v1.9.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_deadlock_prevention.cpp")
+    message(STATUS "Adding Adaptive Deadlock Prevention focused tests")
+
+    add_executable(test_adaptive_deadlock_prevention_focused
+        test_adaptive_deadlock_prevention.cpp
+        ${CMAKE_SOURCE_DIR}/src/transaction/deadlock_predictor.cpp
+    )
+
+    target_include_directories(test_adaptive_deadlock_prevention_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_adaptive_deadlock_prevention_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_adaptive_deadlock_prevention_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AdaptiveDeadlockPreventionFocusedTests
+        COMMAND test_adaptive_deadlock_prevention_focused)
+
+    set_tests_properties(AdaptiveDeadlockPreventionFocusedTests PROPERTIES
+        LABELS "transaction;deadlock;adaptive;predictor;ml;v1.9.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  AdaptiveDeadlockPrevention: DeadlockPredictor (record/predict/recommend/timeout), TransactionManager integration")
+else()
+    message(STATUS "Adaptive Deadlock Prevention tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_deadlock_prevention.cpp")
+endif()
+
 # Transaction Isolation Levels Focused Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_isolation_levels.cpp")
     message(STATUS "Adding Transaction Isolation Levels focused tests")

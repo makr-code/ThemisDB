@@ -44,6 +44,7 @@
 #include "transaction/lock_manager.h"
 #include "transaction/isolation_level.h"
 #include "transaction/crash_recovery_manager.h"
+#include "transaction/deadlock_predictor.h"
 
 namespace themis {
 
@@ -835,6 +836,63 @@ public:
      */
     DeadlockMetrics getDeadlockMetrics() const;
 
+    // ── Adaptive Deadlock Prevention (v1.9.0) ────────────────────────────────
+
+    /**
+     * @brief Attach an external DeadlockPredictor for adaptive prevention.
+     *
+     * When set, the TransactionManager will:
+     *  - Call DeadlockPredictor::recordTransaction() each time a transaction
+     *    commits or rolls back (so the predictor learns from history).
+     *  - Call DeadlockPredictor::recordDeadlock() each time a deadlock cycle
+     *    is resolved (so the predictor reinforces the cycle's key patterns).
+     *
+     * Ownership is *not* transferred; the caller must ensure the predictor
+     * outlives this TransactionManager.
+     *
+     * Pass nullptr to detach a previously set predictor.
+     */
+    void setDeadlockPredictor(DeadlockPredictor* predictor);
+
+    /**
+     * @brief Return the currently attached DeadlockPredictor, or nullptr.
+     */
+    DeadlockPredictor* getDeadlockPredictor() const;
+
+    /**
+     * @brief Estimate the probability that acquiring @p proposed_locks will
+     *        lead to a deadlock given the currently active transactions.
+     *
+     * Delegates to the attached DeadlockPredictor.  Returns 0.0 when no
+     * predictor is attached or insufficient history exists.
+     *
+     * @param proposed_locks  Keys the caller intends to lock next.
+     */
+    double predictDeadlockProbability(
+        const std::vector<std::string>& proposed_locks) const;
+
+    /**
+     * @brief Return the recommended lock-acquisition order for @p keys.
+     *
+     * Delegates to the attached DeadlockPredictor.  Returns @p keys sorted
+     * lexicographically when no predictor is attached.
+     *
+     * @param keys  Keys that need to be locked.
+     */
+    std::vector<std::string> recommendLockOrder(
+        const std::vector<std::string>& keys) const;
+
+    /**
+     * @brief Return the recommended transaction timeout for @p keys.
+     *
+     * Delegates to the attached DeadlockPredictor.  Returns 1 000 ms (the
+     * default deadlock timeout) when no predictor is attached.
+     *
+     * @param keys  Keys that the transaction will lock.
+     */
+    std::chrono::milliseconds recommendTimeout(
+        const std::vector<std::string>& keys) const;
+
     /// Access the shared LockManager for external lock operations.
     LockManager& getLockManager() { return lock_manager_; }
     const LockManager& getLockManager() const { return lock_manager_; }
@@ -1122,6 +1180,8 @@ private:
     ConflictManager* conflict_mgr_{nullptr};
     /// Optional SnapshotManager for resolving named tags in time-travel queries.
     transaction::SnapshotManager* snapshot_mgr_{nullptr};
+    /// Optional non-owning pointer to the adaptive deadlock predictor (v1.9.0).
+    DeadlockPredictor* deadlock_predictor_{nullptr};
 };
 
 } // namespace themis
