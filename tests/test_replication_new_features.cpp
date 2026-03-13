@@ -658,3 +658,177 @@ TEST_F(ReplicationSlotTest, StatePersistenceRoundTrip) {
     EXPECT_EQ(slot->state().confirmed_lsn, 77u);
     EXPECT_EQ(slot->status(), ReplicationSlot::SlotStatus::PAUSED);
 }
+
+// ============================================================================
+// 7. ParallelReplicationWorker (v1.6.0)
+// ============================================================================
+
+namespace {
+
+WALEntry makeWALEntry(const std::string& doc_id,
+                      const std::string& collection = "col",
+                      const std::string& op = "INSERT") {
+    WALEntry e;
+    e.sequence_number = 0;
+    e.term            = 1;
+    e.operation       = op;
+    e.collection      = collection;
+    e.document_id     = doc_id;
+    e.data            = R"({"v":1})";
+    return e;
+}
+
+} // anonymous namespace
+
+class ParallelReplicationWorkerTest : public ::testing::Test {
+protected:
+    ParallelReplicationWorker::ParallelConfig defaultConfig() {
+        ParallelReplicationWorker::ParallelConfig cfg;
+        cfg.worker_threads          = 4;
+        cfg.queue_size              = 10000;
+        cfg.use_dependency_tracking = true;
+        return cfg;
+    }
+};
+
+TEST_F(ParallelReplicationWorkerTest, ConstructAndDestruct) {
+    // Should start and stop cleanly
+    ParallelReplicationWorker worker(defaultConfig());
+}
+
+TEST_F(ParallelReplicationWorkerTest, SubmitSingleEntryAndSync) {
+    ParallelReplicationWorker worker(defaultConfig());
+
+    worker.submit(makeWALEntry("doc1"));
+    worker.sync();
+
+    auto stats = worker.getStats();
+    EXPECT_EQ(stats.entries_applied, 1u);
+}
+
+TEST_F(ParallelReplicationWorkerTest, SubmitMultipleIndependentEntries) {
+    ParallelReplicationWorker worker(defaultConfig());
+
+    for (int i = 0; i < 20; ++i) {
+        worker.submit(makeWALEntry("doc" + std::to_string(i)));
+    }
+    worker.sync();
+
+    auto stats = worker.getStats();
+    EXPECT_EQ(stats.entries_applied, 20u);
+}
+
+TEST_F(ParallelReplicationWorkerTest, DependencyTrackingDetectsConflicts) {
+    ParallelReplicationWorker worker(defaultConfig());
+
+    // Three writes to the same document — all should be serialized
+    worker.submit(makeWALEntry("shared_doc", "col", "INSERT"));
+    worker.submit(makeWALEntry("shared_doc", "col", "UPDATE"));
+    worker.submit(makeWALEntry("shared_doc", "col", "DELETE"));
+    worker.sync();
+
+    auto stats = worker.getStats();
+    EXPECT_EQ(stats.entries_applied, 3u);
+    // The second and third writes each depend on the previous one
+    EXPECT_EQ(stats.dependencies_detected, 2u);
+}
+
+TEST_F(ParallelReplicationWorkerTest, NoDependencyTrackingSkipsDeps) {
+    ParallelReplicationWorker::ParallelConfig cfg = defaultConfig();
+    cfg.use_dependency_tracking = false;
+    ParallelReplicationWorker worker(cfg);
+
+    // Same document — without tracking no dependencies should be recorded
+    worker.submit(makeWALEntry("same_doc", "col", "INSERT"));
+    worker.submit(makeWALEntry("same_doc", "col", "UPDATE"));
+    worker.sync();
+
+    auto stats = worker.getStats();
+    EXPECT_EQ(stats.entries_applied, 2u);
+    EXPECT_EQ(stats.dependencies_detected, 0u);
+}
+
+TEST_F(ParallelReplicationWorkerTest, MixedDocumentsPartialDependencies) {
+    ParallelReplicationWorker worker(defaultConfig());
+
+    // 4 writes: 2 to "a", 2 to "b" — 2 dependencies total (one per doc chain)
+    worker.submit(makeWALEntry("a", "col", "INSERT"));
+    worker.submit(makeWALEntry("b", "col", "INSERT"));
+    worker.submit(makeWALEntry("a", "col", "UPDATE"));
+    worker.submit(makeWALEntry("b", "col", "UPDATE"));
+    worker.sync();
+
+    auto stats = worker.getStats();
+    EXPECT_EQ(stats.entries_applied, 4u);
+    EXPECT_EQ(stats.dependencies_detected, 2u);
+}
+
+TEST_F(ParallelReplicationWorkerTest, StatsParallelismFactorNonNegative) {
+    ParallelReplicationWorker worker(defaultConfig());
+
+    worker.submit(makeWALEntry("d1"));
+    worker.submit(makeWALEntry("d2"));
+    worker.sync();
+
+    auto stats = worker.getStats();
+    EXPECT_GE(stats.parallelism_factor, 0.0);
+}
+
+TEST_F(ParallelReplicationWorkerTest, GetStatsBeforeSubmitReturnsZero) {
+    ParallelReplicationWorker worker(defaultConfig());
+    auto stats = worker.getStats();
+    EXPECT_EQ(stats.entries_applied,       0u);
+    EXPECT_EQ(stats.dependencies_detected, 0u);
+    EXPECT_EQ(stats.parallel_batches,      0u);
+    EXPECT_DOUBLE_EQ(stats.parallelism_factor, 0.0);
+}
+
+TEST_F(ParallelReplicationWorkerTest, SingleThreadedWorker) {
+    ParallelReplicationWorker::ParallelConfig cfg = defaultConfig();
+    cfg.worker_threads = 1;
+    ParallelReplicationWorker worker(cfg);
+
+    for (int i = 0; i < 10; ++i) {
+        worker.submit(makeWALEntry("doc" + std::to_string(i)));
+    }
+    worker.sync();
+
+    EXPECT_EQ(worker.getStats().entries_applied, 10u);
+}
+
+TEST_F(ParallelReplicationWorkerTest, MaxThreadedWorker) {
+    ParallelReplicationWorker::ParallelConfig cfg = defaultConfig();
+    cfg.worker_threads = 16;
+    ParallelReplicationWorker worker(cfg);
+
+    for (int i = 0; i < 100; ++i) {
+        worker.submit(makeWALEntry("doc" + std::to_string(i)));
+    }
+    worker.sync();
+
+    EXPECT_EQ(worker.getStats().entries_applied, 100u);
+}
+
+TEST_F(ParallelReplicationWorkerTest, SyncOnEmptyQueueReturnsImmediately) {
+    ParallelReplicationWorker worker(defaultConfig());
+    // sync() on an empty queue should return without blocking
+    worker.sync();
+    EXPECT_EQ(worker.getStats().entries_applied, 0u);
+}
+
+TEST_F(ParallelReplicationWorkerTest, LargeSubmitBatch) {
+    ParallelReplicationWorker::ParallelConfig cfg = defaultConfig();
+    cfg.worker_threads = 8;
+    cfg.queue_size     = 50000;
+    ParallelReplicationWorker worker(cfg);
+
+    constexpr int kEntries = 1000;
+    for (int i = 0; i < kEntries; ++i) {
+        worker.submit(makeWALEntry("doc" + std::to_string(i % 50)));
+    }
+    worker.sync();
+
+    auto stats = worker.getStats();
+    // All entries must be applied (queue is large enough to hold them all)
+    EXPECT_EQ(stats.entries_applied, static_cast<uint64_t>(kEntries));
+}
