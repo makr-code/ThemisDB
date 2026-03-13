@@ -19,6 +19,14 @@
 #include <filesystem>
 #include <fstream>
 #include <cstring>
+#include <string>
+#include <thread>
+
+// Platform-specific headers for POSIX I/O tests
+#ifndef _WIN32
+#  include <fcntl.h>
+#  include <unistd.h>
+#endif
 
 namespace fs = std::filesystem;
 using namespace themis::storage;
@@ -225,6 +233,7 @@ TEST_F(NVMeIoUringTest, SubmitWriteFallbackOnInvalidFd) {
 }
 
 TEST_F(NVMeIoUringTest, SubmitReadFallbackOnRealFile) {
+#ifndef _WIN32
     // Write a small temp file and verify the synchronous fallback reads it back
     fs::path tmp = fs::temp_directory_path() / "themis_nvme_test_read.bin";
     {
@@ -254,6 +263,9 @@ TEST_F(NVMeIoUringTest, SubmitReadFallbackOnRealFile) {
 
     EXPECT_TRUE(ok);
     EXPECT_STREQ(buf, "hello nvme");
+#else
+    GTEST_SKIP() << "POSIX open/read not available on Windows";
+#endif
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -311,8 +323,10 @@ protected:
     fs::path db_path_;
 
     void SetUp() override {
-        db_path_ = fs::temp_directory_path() /
-                   ("themis_nvme_rocksdb_" + std::to_string(::getpid()));
+        // Use std::hash for a portable process-unique suffix
+        std::string suffix = std::to_string(
+            std::hash<std::thread::id>{}(std::this_thread::get_id()));
+        db_path_ = fs::temp_directory_path() / ("themis_nvme_rocksdb_" + suffix);
         fs::create_directories(db_path_);
     }
 

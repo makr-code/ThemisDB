@@ -1450,7 +1450,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/blob_backend_azure.cpp
     ../src/storage/blob_backend_webdav.cpp
     ../src/storage/blob_backend_gcs.cpp
-    ../src/storage/nvme_manager.cpp
+    # nvme_manager.cpp is registered via cmake/StorageEnhancements.cmake
 
     ../src/metadata/schema_manager.cpp
     ../src/metadata/statistics_collector.cpp

@@ -160,8 +160,8 @@ public:
         // Enable NVMe-specific I/O features via NVMeManager.  When enabled,
         // RocksDBWrapper constructs an NVMeManager, calls initialize(), and
         // applies its recommended Direct I/O flags and background-thread counts.
-        // All sub-features (io_uring, ZNS, multi-queue) are gated by their
-        // individual fields inside nvme_config.
+        // All sub-features (io_uring, ZNS, multi-queue) are controlled via the
+        // nvme_enable_* and nvme_* fields below.
         bool enable_nvme_optimizations = false;
         // Block-device path forwarded to NVMeManager for capability detection
         // (e.g. "/dev/nvme0n1").  Leave empty to skip sysfs probing.

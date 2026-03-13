@@ -12947,6 +12947,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_nvme_manager.cpp")
         LABELS "storage;nvme;io_uring;zns;direct-io;focused;unit"
         TIMEOUT 60
     )
+    # POSIX-specific tests (::open/::close/pread/pwrite) are guarded in the
+    # source with #ifndef _WIN32 and will SKIP gracefully on Windows.
     message(STATUS "  NVMe: capability detection, io_uring lifecycle, ZNS no-ops, Direct I/O flags, RocksDB integration")
 endif()
 

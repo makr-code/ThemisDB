@@ -2,9 +2,12 @@
 #include "utils/logger.h"
 
 #include <algorithm>
+#include <cctype>
 #include <cerrno>
+#include <cstdio>
 #include <cstring>
 #include <fstream>
+#include <mutex>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -178,89 +181,95 @@ void NVMeManager::shutdown() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 NVMeCapabilities NVMeManager::detectCapabilities() const {
-    if (capabilities_detected_) {
-        return capabilities_;
-    }
-
-    NVMeCapabilities caps;
+    std::call_once(capabilities_once_, [this]() {
+        NVMeCapabilities caps;
 
 #ifdef __linux__
-    // ── Kernel version ────────────────────────────────────────────────────
-    struct utsname uts {};
-    if (::uname(&uts) == 0) {
-        unsigned major = 0, minor = 0;
-        if (std::sscanf(uts.release, "%u.%u", &major, &minor) == 2) {
-            caps.kernel_major = major;
-            caps.kernel_minor = minor;
-        }
-    }
-
-    // ── io_uring: requires Linux ≥ 5.1 ───────────────────────────────────
-    caps.io_uring_available = probeIoUringKernel();
-
-    // ── Direct I/O: attempt O_DIRECT on the data directory ───────────────
-    // Use the device_path if set, otherwise test against /dev/null behaviour
-    {
-        const std::string test_path = config_.device_path.empty()
-                                      ? "/tmp"
-                                      : config_.device_path;
-        int fd = ::open(test_path.c_str(), O_RDONLY | O_DIRECT);
-        if (fd >= 0) {
-            caps.direct_io_available = true;
-            ::close(fd);
-        } else {
-            // EINVAL on tmpfs / some filesystems means O_DIRECT unsupported
-            caps.direct_io_available = (errno != EINVAL);
-        }
-    }
-
-    // ── Hardware queue count ──────────────────────────────────────────────
-    caps.hw_queue_count = readHwQueueCount();
-
-    // ── ZNS: check /sys/block/<dev>/queue/zoned ───────────────────────────
-    if (!config_.device_path.empty()) {
-        // Extract base device name (e.g. "nvme0n1" from "/dev/nvme0n1")
-        std::string dev_name = config_.device_path;
-        auto pos = dev_name.rfind('/');
-        if (pos != std::string::npos) {
-            dev_name = dev_name.substr(pos + 1);
-        }
-        std::string zoned_path = "/sys/block/" + dev_name + "/queue/zoned";
-        std::ifstream zoned_file(zoned_path);
-        if (zoned_file.is_open()) {
-            std::string zoned_val;
-            zoned_file >> zoned_val;
-            caps.zns_available = (zoned_val == "host-managed" ||
-                                   zoned_val == "host-aware");
-        }
-
-        // Model string from /sys/block/<dev>/device/model
-        std::string model_path = "/sys/block/" + dev_name + "/device/model";
-        std::ifstream model_file(model_path);
-        if (model_file.is_open()) {
-            std::getline(model_file, caps.device_model);
-            // Trim trailing whitespace
-            while (!caps.device_model.empty() &&
-                   std::isspace(static_cast<unsigned char>(caps.device_model.back()))) {
-                caps.device_model.pop_back();
+        // ── Kernel version ────────────────────────────────────────────────
+        struct utsname uts {};
+        if (::uname(&uts) == 0) {
+            unsigned major = 0, minor = 0;
+            if (std::sscanf(uts.release, "%u.%u", &major, &minor) == 2) {
+                caps.kernel_major = major;
+                caps.kernel_minor = minor;
             }
         }
-    }
+
+        // ── io_uring: requires Linux ≥ 5.1 ───────────────────────────────
+        caps.io_uring_available = probeIoUringKernel();
+
+        // ── Direct I/O: probe using a temporary regular file ─────────────
+        // Opening a directory or block device with O_DIRECT can give
+        // misleading results (EISDIR, EACCES, ENOENT).  Use a short-lived
+        // temp file in /tmp for a reliable O_DIRECT availability check.
+        {
+            char probe_path[] = "/tmp/themis_nvme_directio_XXXXXX";
+            int tmp_fd = ::mkstemp(probe_path);
+            if (tmp_fd >= 0) {
+                ::close(tmp_fd);
+                // Re-open the same file with O_DIRECT to test filesystem support.
+                // Do NOT unlink before this open — the file must exist for O_DIRECT.
+                int dfd = ::open(probe_path, O_WRONLY | O_DIRECT, 0600);
+                if (dfd >= 0) {
+                    caps.direct_io_available = true;
+                    ::close(dfd);
+                } else {
+                    // EINVAL → O_DIRECT not supported on this filesystem
+                    caps.direct_io_available = false;
+                }
+                ::unlink(probe_path);  // Always clean up, after the O_DIRECT test
+            } else {
+                caps.direct_io_available = false;
+            }
+        }
+
+        // ── Hardware queue count ──────────────────────────────────────────────
+        caps.hw_queue_count = readHwQueueCount();
+        // ── ZNS: check /sys/block/<dev>/queue/zoned ───────────────────────────
+        if (!config_.device_path.empty()) {
+            // Extract base device name (e.g. "nvme0n1" from "/dev/nvme0n1")
+            std::string dev_name = config_.device_path;
+            auto pos = dev_name.rfind('/');
+            if (pos != std::string::npos) {
+                dev_name = dev_name.substr(pos + 1);
+            }
+            std::string zoned_path = "/sys/block/" + dev_name + "/queue/zoned";
+            std::ifstream zoned_file(zoned_path);
+            if (zoned_file.is_open()) {
+                std::string zoned_val;
+                zoned_file >> zoned_val;
+                caps.zns_available = (zoned_val == "host-managed" ||
+                                       zoned_val == "host-aware");
+            }
+
+            // Model string from /sys/block/<dev>/device/model
+            std::string model_path = "/sys/block/" + dev_name + "/device/model";
+            std::ifstream model_file(model_path);
+            if (model_file.is_open()) {
+                std::getline(model_file, caps.device_model);
+                // Trim trailing whitespace
+                while (!caps.device_model.empty() &&
+                       std::isspace(static_cast<unsigned char>(caps.device_model.back()))) {
+                    caps.device_model.pop_back();
+                }
+            }
+        }
 #else
-    // Non-Linux: all capabilities unavailable
-    (void)config_;
+        // Non-Linux: all capabilities unavailable
+        (void)config_;
 #endif  // __linux__
 
-    THEMIS_INFO("NVMeManager: capabilities: io_uring={} zns={} direct_io={} hw_queues={} "
-                "kernel={}.{}{}",
-                caps.io_uring_available, caps.zns_available,
-                caps.direct_io_available, caps.hw_queue_count,
-                caps.kernel_major, caps.kernel_minor,
-                caps.device_model.empty() ? "" : " model=" + caps.device_model);
+        THEMIS_INFO("NVMeManager: capabilities: io_uring={} zns={} direct_io={} hw_queues={} "
+                    "kernel={}.{}{}",
+                    caps.io_uring_available, caps.zns_available,
+                    caps.direct_io_available, caps.hw_queue_count,
+                    caps.kernel_major, caps.kernel_minor,
+                    caps.device_model.empty() ? "" : " model=" + caps.device_model);
 
-    capabilities_         = caps;
-    capabilities_detected_ = true;
-    return caps;
+        capabilities_ = caps;
+    });
+
+    return capabilities_;
 }
 
 bool NVMeManager::isIoUringActive() const noexcept {
@@ -275,7 +284,9 @@ bool NVMeManager::isIoUringActive() const noexcept {
 }
 
 uint32_t NVMeManager::detectedQueueCount() const noexcept {
-    return capabilities_detected_ ? capabilities_.hw_queue_count : 1u;
+    // Returns hw_queue_count from capabilities_ (initialized via
+    // std::call_once in detectCapabilities(); defaults to 1 until called).
+    return capabilities_.hw_queue_count;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -316,7 +327,7 @@ bool NVMeManager::submitRead(const NVMeIORequest& req) {
         return false;
     }
 #ifdef __linux__
-    ssize_t n = ::pread(req.fd, req.buf, req.len, req.offset);
+    ssize_t n = ::pread(req.fd, req.buf, req.len, static_cast<off_t>(req.offset));
     return n >= 0;
 #else
     return false;
@@ -355,7 +366,7 @@ bool NVMeManager::submitWrite(const NVMeIORequest& req) {
         return false;
     }
 #ifdef __linux__
-    ssize_t n = ::pwrite(req.fd, req.buf, req.len, req.offset);
+    ssize_t n = ::pwrite(req.fd, req.buf, req.len, static_cast<off_t>(req.offset));
     return n >= 0;
 #else
     return false;
@@ -374,8 +385,9 @@ int NVMeManager::pollCompletions(std::vector<NVMeIOResult>& results,
             int ret = themis_io_uring_enter(ring->ring_fd, 0, min_complete,
                                             IORING_ENTER_GETEVENTS, nullptr);
             if (ret < 0) {
+                const int saved_errno = errno;
                 THEMIS_ERROR("NVMeManager::pollCompletions: io_uring_enter failed: {}",
-                             std::strerror(-ret));
+                             std::strerror(saved_errno));
                 return -1;
             }
         }
@@ -408,6 +420,7 @@ bool NVMeManager::resetZone(uint64_t zone_offset) {
     if (!config_.enable_zns || config_.device_path.empty()) {
         return false;
     }
+    std::lock_guard<std::mutex> lock(zone_mutex_);
 #ifdef __linux__
     int fd = ::open(config_.device_path.c_str(), O_RDWR);
     if (fd < 0) {
@@ -436,6 +449,7 @@ bool NVMeManager::finishZone(uint64_t zone_offset) {
     if (!config_.enable_zns || config_.device_path.empty()) {
         return false;
     }
+    std::lock_guard<std::mutex> lock(zone_mutex_);
 #ifdef __linux__
     int fd = ::open(config_.device_path.c_str(), O_RDWR);
     if (fd < 0) {
@@ -463,6 +477,7 @@ uint64_t NVMeManager::getZoneWritePointer(uint64_t zone_offset) const {
     if (!config_.enable_zns || config_.device_path.empty()) {
         return UINT64_MAX;
     }
+    std::lock_guard<std::mutex> lock(zone_mutex_);
 #ifdef __linux__
     constexpr uint64_t SECTOR_SIZE = 512;
     int fd = ::open(config_.device_path.c_str(), O_RDONLY);

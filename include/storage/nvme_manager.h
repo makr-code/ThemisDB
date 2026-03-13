@@ -1,8 +1,10 @@
 #pragma once
 
 #include <atomic>
+#include <cstddef>
 #include <cstdint>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -105,7 +107,7 @@ struct NVMeIORequest {
     int     fd          = -1;       ///< File descriptor of the target file
     void*   buf         = nullptr;  ///< I/O buffer (must be aligned for Direct I/O)
     size_t  len         = 0;        ///< Transfer length in bytes
-    off_t   offset      = 0;        ///< File offset
+    int64_t offset      = 0;        ///< File offset (use int64_t for cross-platform portability)
     bool    is_write    = false;    ///< true = write, false = read
     int64_t user_data   = 0;        ///< Caller-defined tag returned on completion
 };
@@ -132,10 +134,11 @@ struct NVMeIOResult {
  *  - Helper to build the recommended RocksDB Direct I/O flags for the device.
  *
  * @thread_safety
- *  - detectCapabilities() is safe to call from any thread.
+ *  - detectCapabilities() is safe to call concurrently from any thread;
+ *    results are computed at most once and cached via std::call_once.
  *  - submitRead / submitWrite / pollCompletions operate on a shared io_uring
  *    ring; calls must be externally serialised (single thread or mutex).
- *  - Zone management functions are thread-safe (uses an internal mutex).
+ *  - Zone management functions are serialised via an internal mutex.
  */
 class NVMeManager {
 public:
@@ -151,7 +154,10 @@ public:
 
     /**
      * @brief Initialise the manager and set up the io_uring ring if enabled.
-     * @return true on success; false if io_uring is requested but unavailable.
+     *
+     * Always returns true.  If io_uring or ZNS are requested but unavailable,
+     * those features are silently disabled (with a WARN log) and the manager
+     * continues operating in degraded mode.
      */
     bool initialize();
 
@@ -268,7 +274,8 @@ private:
     std::unique_ptr<IoUringState> ring_;
 
     mutable NVMeCapabilities capabilities_;
-    mutable bool             capabilities_detected_ = false;
+    mutable std::once_flag   capabilities_once_;  ///< Guards one-time detection
+    mutable std::mutex       zone_mutex_;          ///< Serialises zone management calls
 
     std::atomic<bool> initialized_{false};
 
