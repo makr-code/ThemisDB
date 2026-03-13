@@ -34,14 +34,18 @@
 
 #include <array>
 #include <chrono>
+#include <condition_variable>
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
 #include <future>
+#include <memory>
 #include <mutex>
+#include <queue>
 #include <sstream>
 #include <stdexcept>
 #include <thread>
+#include <vector>
 
 namespace themis {
 namespace modules {
@@ -54,6 +58,97 @@ constexpr int kMaxAllowedRetries = 10;
 
 // Maximum bit-shift used in the backoff formula (500 ms × 2^5 = 16 000 ms).
 constexpr int kMaxBackoffShift = 5;
+
+// Lightweight one-shot scheduler to offload sleep without spawning a new
+// thread per back-off. A single worker thread sleeps until the earliest task
+// is due and then fulfils the associated promise. Thread-safe singleton via
+// instance(); all schedule() calls are serialized with a mutex and processed
+// on the background jthread. Lifecycle is process-wide; the jthread is
+// joined on destruction (at process shutdown).
+class BackoffScheduler {
+public:
+    using Clock = std::chrono::steady_clock;
+
+    static BackoffScheduler& instance() {
+        static BackoffScheduler scheduler;
+        return scheduler;
+    }
+
+    std::future<void> schedule(std::chrono::milliseconds delay) {
+        auto promise = std::make_shared<std::promise<void>>();
+        auto future  = promise->get_future();
+
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            tasks_.push(Task{Clock::now() + delay, std::move(promise)});
+        }
+
+        cv_.notify_one();
+        return future;
+    }
+
+private:
+    struct Task {
+        Clock::time_point when;
+        std::shared_ptr<std::promise<void>> promise;
+    };
+
+    struct TaskCompare {
+        bool operator()(const Task& lhs, const Task& rhs) const {
+            return lhs.when > rhs.when;
+        }
+    };
+
+    BackoffScheduler()
+        : worker_([this](std::stop_token st) { run(st); }) {}
+
+    ~BackoffScheduler() {
+        worker_.request_stop();
+        cv_.notify_all();
+    }
+
+    void run(std::stop_token stop_token) {
+        std::unique_lock<std::mutex> lock(mutex_);
+        while (!stop_token.stop_requested()) {
+            if (tasks_.empty()) {
+                cv_.wait(lock, stop_token, [&] { return !tasks_.empty(); });
+                continue;
+            }
+
+            auto next_when = tasks_.top().when;
+            if (cv_.wait_until(lock, next_when, stop_token, [&] {
+                    return tasks_.top().when != next_when;
+                })) {
+                continue;  // woken up due to new task; re-evaluate
+            }
+
+            if (tasks_.empty()) {
+                continue;
+            }
+
+            // Time to execute the next task
+            Task task = tasks_.top();
+            tasks_.pop();
+            lock.unlock();
+            task.promise->set_value();
+            lock.lock();
+        }
+
+        // Cancel remaining tasks on shutdown
+        while (!tasks_.empty()) {
+            Task task = tasks_.top();
+            tasks_.pop();
+            lock.unlock();
+            task.promise->set_value();
+            lock.lock();
+        }
+    }
+
+    std::mutex mutex_;
+    std::condition_variable cv_;
+    std::priority_queue<Task, std::vector<Task>, TaskCompare> tasks_;
+    std::jthread worker_;
+};
 
 // Return a CURL timeout (≥ 1 ms) capped to the remaining total budget.
 // `config_timeout` is the per-request timeout from RegistryConfig.
@@ -295,17 +390,7 @@ ModuleVerificationResult RemoteRegistryClient::downloadAndLoad(
         return;
     }
 
-    // Offload the sleep to a detached helper thread so the calling thread is
-    // not put to sleep; it simply waits on the future to resume after the
-    // back-off interval.
-    auto promise = std::make_shared<std::promise<void>>();
-    auto future  = promise->get_future();
-
-    std::thread([promise, ms]() mutable {
-        std::this_thread::sleep_for(std::chrono::milliseconds(ms));
-        promise->set_value();
-    }).detach();
-
+    auto future = BackoffScheduler::instance().schedule(std::chrono::milliseconds(ms));
     future.wait();
 }
 
