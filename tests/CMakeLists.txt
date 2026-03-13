@@ -12449,6 +12449,42 @@ else()
     message(STATUS "Canary Rollout focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_canary_rollout.cpp")
 endif()
 
+# BinaryDeltaPatches – focused tests for DeltaUpdateEngine (v1.6.0, Issue #126)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_binary_delta_patches.cpp" AND NOT TARGET test_binary_delta_patches_focused)
+    message(STATUS "Adding Binary Delta Patches focused tests (Issue #126)")
+
+    add_executable(test_binary_delta_patches_focused
+        test_binary_delta_patches.cpp
+    )
+
+    target_include_directories(test_binary_delta_patches_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_binary_delta_patches_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_binary_delta_patches_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME BinaryDeltaPatchesFocusedTests COMMAND test_binary_delta_patches_focused)
+
+    set_tests_properties(BinaryDeltaPatchesFocusedTests PROPERTIES
+        LABELS "updates;delta;binary-diff;patches;zstd;vcdiff;checksums;fallback;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  BinaryDeltaPatches: diff generation (ZSTD_DICT/VCDIFF), checksum verification, fallback, CI/CD patch API, path traversal security")
+else()
+    message(STATUS "Binary Delta Patches focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_binary_delta_patches.cpp")
+endif()
+
 # VoiceAssistant focused tests – covers VoiceBiometricAuthenticator, WakeWordDetector,
 # VoiceBatchProcessor, VoiceMacroManager, and full VoiceAssistant pipeline.
 # Requires THEMIS_ENABLE_LLM because voice_assistant.h includes llm/llama_wrapper.h.
