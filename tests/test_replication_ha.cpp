@@ -2115,7 +2115,8 @@ TEST(CompressedStreamTest, AlreadyCompressedDataHasMinimalBenefit) {
     // then feed that compressed blob as WALEntry data through the stream again.
     std::string original(8192, '\0');
     for (size_t i = 0; i < original.size(); ++i) {
-        // Pseudo-random bytes to simulate already-compressed / binary data.
+        // Pseudo-random bytes via a simple LCG (Knuth multiplicative + additive
+        // constants) to simulate already-compressed / high-entropy binary data.
         original[i] = static_cast<char>((i * 6364136223846793005ULL + 1442695040888963407ULL) & 0xFF);
     }
     // Pre-compress once to get a "compressed blob".
