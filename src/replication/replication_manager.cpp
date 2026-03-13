@@ -38,6 +38,7 @@
 #include "utils/logger.h"
 #include <openssl/sha.h>
 #include <openssl/evp.h>
+#include <openssl/rand.h>
 #include <fstream>
 #include <filesystem>
 #include <random>
@@ -4588,21 +4589,132 @@ std::string CrossClusterSubscription::exportPrometheusMetrics() const {
 // WALArchivalManager Implementation (v1.6.0)
 // ============================================================================
 
-WALArchivalManager::WALArchivalManager(const ArchivalConfig& config)
-    : config_(config) {
-    // Ensure archive directory exists
-    std::error_code ec;
-    std::filesystem::create_directories(config_.archive_directory, ec);
+WALArchivalManager::WALArchivalManager(const ArchivalConfig& config,
+                                        std::shared_ptr<IArchivalBackend> backend)
+    : config_(config), backend_(std::move(backend)) {
+    if (!backend_) {
+        // Local filesystem backend: ensure archive directory exists
+        std::error_code ec;
+        std::filesystem::create_directories(config_.archive_directory, ec);
+    }
     // Load existing index if present
     loadIndex();
 }
 
 std::string WALArchivalManager::archivePath(uint64_t segment_id) const {
     std::ostringstream oss;
-    oss << config_.archive_directory << "/seg_"
-        << std::setw(20) << std::setfill('0') << segment_id
-        << (config_.compress_before_archive ? ".wal.zst" : ".wal");
+    if (backend_) {
+        // Cloud object key: use configured prefix
+        oss << config_.prefix;
+    } else {
+        // Local filesystem path: use archive directory
+        oss << config_.archive_directory << "/";
+    }
+    oss << "seg_" << std::setw(20) << std::setfill('0') << segment_id;
+    // Extension ordering: .wal[.zst][.enc]
+    //   .wal     – base WAL segment
+    //   .zst     – ZSTD-compressed (applied before encryption so encrypted bytes
+    //              cannot be compressed further)
+    //   .enc     – AES-256-GCM encrypted (outermost wrapper)
+    if (config_.compress_before_archive) oss << ".wal.zst";
+    else                                  oss << ".wal";
+    // Append .enc when encryption at rest is configured (invalid/empty keys are
+    // rejected before this path is ever computed, so encrypt_at_rest alone suffices).
+    if (config_.encrypt_at_rest) oss << ".enc";
     return oss.str();
+}
+
+/* static */ std::vector<uint8_t> WALArchivalManager::hexToBytes(
+    const std::string& hex) {
+    // Validate: must be non-empty, even-length, and contain only hex digits
+    if (hex.empty() || hex.size() % 2 != 0) return {};
+    for (char c : hex) {
+        if (!std::isxdigit(static_cast<unsigned char>(c))) return {};
+    }
+    std::vector<uint8_t> bytes;
+    bytes.reserve(hex.size() / 2);
+    for (size_t i = 0; i < hex.size(); i += 2) {
+        unsigned int val = 0;
+        std::istringstream{hex.substr(i, 2)} >> std::hex >> val;
+        bytes.push_back(static_cast<uint8_t>(val));
+    }
+    return bytes;
+}
+
+/* static */ std::vector<uint8_t> WALArchivalManager::encryptAesGcm(
+    const std::vector<uint8_t>& data,
+    const std::vector<uint8_t>& key) {
+    // Generate a cryptographically secure random 12-byte IV via OpenSSL RAND_bytes
+    std::vector<uint8_t> iv(12);
+    if (RAND_bytes(iv.data(), static_cast<int>(iv.size())) != 1) {
+        THEMIS_ERROR("WALArchival: RAND_bytes failed; cannot generate encryption IV");
+        return {};  // return empty to signal failure; caller must not store this
+    }
+
+    std::vector<uint8_t> ciphertext(data.size());
+    std::vector<uint8_t> tag(16);
+    int len = 0, ct_len = 0;
+
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    if (!ctx) {
+        THEMIS_ERROR("WALArchival: EVP_CIPHER_CTX_new failed");
+        return {};  // return empty to signal failure
+    }
+
+    EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr);
+    EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr);
+    EVP_EncryptInit_ex(ctx, nullptr, nullptr, key.data(), iv.data());
+    EVP_EncryptUpdate(ctx, ciphertext.data(), &len,
+                      data.data(), static_cast<int>(data.size()));
+    ct_len = len;
+    EVP_EncryptFinal_ex(ctx, ciphertext.data() + ct_len, &len);
+    ct_len += len;
+    EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, 16, tag.data());
+    EVP_CIPHER_CTX_free(ctx);
+
+    // Output layout: IV(12) || Tag(16) || Ciphertext
+    std::vector<uint8_t> out;
+    out.reserve(static_cast<size_t>(12 + 16 + ct_len));
+    out.insert(out.end(), iv.begin(), iv.end());
+    out.insert(out.end(), tag.begin(), tag.end());
+    out.insert(out.end(), ciphertext.begin(), ciphertext.begin() + ct_len);
+    return out;
+}
+
+/* static */ std::optional<std::vector<uint8_t>> WALArchivalManager::decryptAesGcm(
+    const std::vector<uint8_t>& data,
+    const std::vector<uint8_t>& key) {
+    // Minimum: IV(12) + Tag(16) = 28 bytes
+    if (data.size() < 28) return std::nullopt;
+
+    const uint8_t* iv      = data.data();
+    const uint8_t* tag_ptr = data.data() + 12;
+    const uint8_t* ct      = data.data() + 28;
+    int ct_len = static_cast<int>(data.size() - 28);
+
+    std::vector<uint8_t> plain(static_cast<size_t>(ct_len));
+    int len = 0, plain_len = 0;
+
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    if (!ctx) return std::nullopt;
+
+    EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr);
+    EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr);
+    EVP_DecryptInit_ex(ctx, nullptr, nullptr, key.data(), iv);
+    EVP_DecryptUpdate(ctx, plain.data(), &len, ct, ct_len);
+    plain_len = len;
+    EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16,
+                        const_cast<uint8_t*>(tag_ptr));
+    int ok = EVP_DecryptFinal_ex(ctx, plain.data() + plain_len, &len);
+    EVP_CIPHER_CTX_free(ctx);
+
+    if (ok <= 0) {
+        THEMIS_ERROR("WALArchival: AES-GCM authentication tag mismatch during decryption");
+        return std::nullopt;
+    }
+    plain_len += len;
+    plain.resize(static_cast<size_t>(plain_len));
+    return plain;
 }
 
 /* static */ std::vector<uint8_t> WALArchivalManager::compressData(
@@ -4619,20 +4731,23 @@ std::string WALArchivalManager::archivePath(uint64_t segment_id) const {
 }
 
 void WALArchivalManager::saveIndex() const {
-    // Simple text-format index: one line per segment
+    // Index format (one line per segment, fields separated by spaces):
+    //   segment_id start_sequence end_sequence size_bytes compressed ts archive_path storage_tier encrypted
     std::string index_path = config_.archive_directory + "/index.txt";
     std::ofstream f(index_path);
     if (!f) return;
     for (const auto& seg : index_) {
         auto ts = std::chrono::duration_cast<std::chrono::seconds>(
             seg.archived_at.time_since_epoch()).count();
-        f << seg.segment_id << " "
+        f << seg.segment_id    << " "
           << seg.start_sequence << " "
           << seg.end_sequence   << " "
           << seg.size_bytes     << " "
           << (seg.compressed ? 1 : 0) << " "
-          << ts                  << " "
-          << seg.archive_path    << "\n";
+          << ts                 << " "
+          << seg.archive_path   << " "
+          << seg.storage_tier   << " "
+          << (seg.encrypted ? 1 : 0) << "\n";
     }
 }
 
@@ -4647,13 +4762,24 @@ void WALArchivalManager::loadIndex() {
         ArchivedSegment seg;
         int64_t ts = 0;
         int compressed = 0;
-        if (iss >> seg.segment_id >> seg.start_sequence >> seg.end_sequence
-                >> seg.size_bytes >> compressed >> ts >> seg.archive_path) {
-            seg.compressed = (compressed != 0);
-            seg.archived_at = std::chrono::system_clock::time_point(
-                std::chrono::seconds(ts));
-            index_.push_back(seg);
+        if (!(iss >> seg.segment_id >> seg.start_sequence >> seg.end_sequence
+                  >> seg.size_bytes >> compressed >> ts >> seg.archive_path)) {
+            THEMIS_WARN("WALArchival: malformed index line (skipping): '{}'", line);
+            continue;
         }
+        seg.compressed = (compressed != 0);
+        seg.archived_at = std::chrono::system_clock::time_point(
+            std::chrono::seconds(ts));
+        // New fields added in v1.6.0 (WAL Archival to Object Storage):
+        // storage_tier and encrypted.  Default to "standard" / false for
+        // indexes written by earlier versions that omit these fields.
+        seg.storage_tier = "standard";
+        seg.encrypted    = false;
+        std::string tier_field;
+        int encrypted_field = 0;
+        if (iss >> tier_field)      seg.storage_tier = tier_field;
+        if (iss >> encrypted_field) seg.encrypted    = (encrypted_field != 0);
+        index_.push_back(seg);
     }
 }
 
@@ -4704,29 +4830,69 @@ uint32_t WALArchivalManager::archiveSegments(
                                            ? compressData(raw)
                                            : raw;
 
-        std::string dest = archivePath(segment_id);
-        std::ofstream dst(dest, std::ios::binary);
-        if (!dst) {
-            THEMIS_ERROR("WALArchival: cannot write archive {}", dest);
-            continue;
+        // Encrypt payload if encryption at rest is configured
+        bool segment_encrypted = false;
+        if (config_.encrypt_at_rest) {
+            // Reject archival rather than silently store unencrypted
+            if (config_.encryption_key_hex.empty()) {
+                THEMIS_ERROR("WALArchival: encrypt_at_rest enabled but encryption_key_hex "
+                             "is empty; refusing to archive {} without encryption",
+                             seg_path);
+                continue;
+            }
+            std::vector<uint8_t> key = hexToBytes(config_.encryption_key_hex);
+            if (key.size() != 32) {
+                THEMIS_ERROR("WALArchival: encrypt_at_rest enabled but encryption_key_hex "
+                             "is not a valid 64-hex-char (32-byte) AES-256 key; "
+                             "refusing to archive {} without encryption",
+                             seg_path);
+                continue;  // reject: do not store segment unencrypted
+            }
+            auto encrypted_payload = encryptAesGcm(payload, key);
+            if (encrypted_payload.empty()) {
+                THEMIS_ERROR("WALArchival: AES-GCM encryption failed for {}; "
+                             "segment not archived",
+                             seg_path);
+                continue;  // reject: do not store segment unencrypted
+            }
+            payload           = std::move(encrypted_payload);
+            segment_encrypted = true;
         }
-        dst.write(reinterpret_cast<const char*>(payload.data()),
-                  static_cast<std::streamsize>(payload.size()));
-        dst.close();
+
+        std::string dest = archivePath(segment_id);
+
+        if (backend_) {
+            if (!backend_->putObject(dest, payload)) {
+                THEMIS_ERROR("WALArchival: backend putObject failed for key {}", dest);
+                continue;
+            }
+        } else {
+            std::ofstream dst(dest, std::ios::binary);
+            if (!dst) {
+                THEMIS_ERROR("WALArchival: cannot write archive {}", dest);
+                continue;
+            }
+            dst.write(reinterpret_cast<const char*>(payload.data()),
+                      static_cast<std::streamsize>(payload.size()));
+            dst.close();
+        }
 
         ArchivedSegment meta;
         meta.segment_id     = segment_id;
         meta.start_sequence = 0;  // not extracted from binary WAL format here
         meta.end_sequence   = 0;
         meta.size_bytes     = payload.size();
-        meta.compressed   = config_.compress_before_archive;
-        meta.archived_at  = std::chrono::system_clock::now();
-        meta.archive_path = dest;
+        meta.compressed     = config_.compress_before_archive;
+        meta.encrypted      = segment_encrypted;
+        meta.archived_at    = std::chrono::system_clock::now();
+        meta.archive_path   = dest;
+        meta.storage_tier   = "standard";
         index_.push_back(meta);
         ++archived;
 
-        THEMIS_INFO("WALArchival: archived segment {} -> {} ({} bytes)",
-                    segment_id, dest, payload.size());
+        THEMIS_INFO("WALArchival: archived segment {} -> {} ({} bytes, compressed={}, encrypted={})",
+                    segment_id, dest, payload.size(),
+                    meta.compressed, meta.encrypted);
     }
 
     if (archived > 0) saveIndex();
@@ -4746,14 +4912,52 @@ std::optional<std::vector<uint8_t>> WALArchivalManager::retrieveSegment(
         return std::nullopt;
     }
 
-    std::ifstream f(it->archive_path, std::ios::binary);
-    if (!f) {
-        THEMIS_ERROR("WALArchival: archive file {} missing", it->archive_path);
-        return std::nullopt;
+    std::vector<uint8_t> raw;
+    if (backend_) {
+        auto fetched = backend_->getObject(it->archive_path);
+        if (!fetched) {
+            // Fallback: try local filesystem (supports archives migrated to cloud
+            // that still exist locally, or indexes written before backend was set)
+            std::ifstream f(it->archive_path, std::ios::binary);
+            if (!f) {
+                THEMIS_ERROR("WALArchival: backend getObject and local fallback both "
+                             "failed for segment {} (key={})",
+                             segment_id, it->archive_path);
+                return std::nullopt;
+            }
+            raw.assign(std::istreambuf_iterator<char>(f), {});
+        } else {
+            raw = std::move(*fetched);
+        }
+    } else {
+        std::ifstream f(it->archive_path, std::ios::binary);
+        if (!f) {
+            THEMIS_ERROR("WALArchival: archive file {} missing", it->archive_path);
+            return std::nullopt;
+        }
+        raw.assign(std::istreambuf_iterator<char>(f), {});
     }
-    std::vector<uint8_t> raw(
-        (std::istreambuf_iterator<char>(f)),
-        std::istreambuf_iterator<char>());
+
+    // Decrypt if the segment was stored encrypted
+    if (it->encrypted) {
+        if (config_.encryption_key_hex.empty()) {
+            THEMIS_ERROR("WALArchival: segment {} is encrypted but no key configured",
+                         segment_id);
+            return std::nullopt;
+        }
+        std::vector<uint8_t> key = hexToBytes(config_.encryption_key_hex);
+        if (key.size() != 32) {
+            THEMIS_ERROR("WALArchival: invalid encryption key length for segment {}",
+                         segment_id);
+            return std::nullopt;
+        }
+        auto decrypted = decryptAesGcm(raw, key);
+        if (!decrypted) {
+            THEMIS_ERROR("WALArchival: decryption failed for segment {}", segment_id);
+            return std::nullopt;
+        }
+        raw = std::move(*decrypted);
+    }
 
     if (!it->compressed) return raw;
 
@@ -4799,8 +5003,12 @@ uint32_t WALArchivalManager::purgeExpired() {
     auto it = index_.begin();
     while (it != index_.end()) {
         if (it->archived_at < cutoff) {
-            std::error_code ec;
-            std::filesystem::remove(it->archive_path, ec);
+            if (backend_) {
+                backend_->deleteObject(it->archive_path);
+            } else {
+                std::error_code ec;
+                std::filesystem::remove(it->archive_path, ec);
+            }
             THEMIS_INFO("WALArchival: purged expired segment {} ({})",
                         it->segment_id, it->archive_path);
             it = index_.erase(it);
@@ -4811,6 +5019,42 @@ uint32_t WALArchivalManager::purgeExpired() {
     }
     if (purged > 0) saveIndex();
     return purged;
+}
+
+uint32_t WALArchivalManager::transitionStorageTiers() {
+    if (config_.transition_to_cold_after_days == 0) return 0;  // lifecycle disabled
+
+    auto now = std::chrono::system_clock::now();
+    // Segments older than transition_to_cold_after_days     -> "cold"
+    // Segments older than transition_to_cold_after_days * 3 -> "glacier"
+    auto cold_threshold    = now - std::chrono::hours(
+        24ULL * config_.transition_to_cold_after_days);
+    auto glacier_threshold = now - std::chrono::hours(
+        24ULL * config_.transition_to_cold_after_days * 3);
+
+    std::lock_guard<std::mutex> lock(archive_mutex_);
+    uint32_t transitioned = 0;
+    for (auto& seg : index_) {
+        std::string new_tier = seg.storage_tier;
+        if (seg.archived_at <= glacier_threshold) {
+            new_tier = "glacier";
+        } else if (seg.archived_at <= cold_threshold) {
+            new_tier = "cold";
+        }
+        if (new_tier != seg.storage_tier) {
+            THEMIS_INFO("WALArchival: segment {} storage tier {} -> {}",
+                        seg.segment_id, seg.storage_tier, new_tier);
+            seg.storage_tier = new_tier;
+            // Notify the cloud backend so it can apply the actual tier transition
+            // (e.g. move to S3 Glacier, Azure Archive).  No-op for local backend.
+            if (backend_) {
+                backend_->setStorageTier(seg.archive_path, new_tier);
+            }
+            ++transitioned;
+        }
+    }
+    if (transitioned > 0) saveIndex();
+    return transitioned;
 }
 
 uint32_t WALArchivalManager::runArchivalCycle() {
