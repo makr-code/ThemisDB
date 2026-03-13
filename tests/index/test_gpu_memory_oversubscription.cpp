@@ -11,7 +11,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-// Focused tests for GPUMemoryOversubscriptionManager (v1.7.0 — Issue #...)
+// Focused tests for GPUMemoryOversubscriptionManager (v1.7.0 — Issue #72)
 //
 // Acceptance criteria covered:
 //   AC-1  Unified Memory    – manager uses GPUUnifiedMemoryAllocator; CPU-only

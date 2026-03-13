@@ -215,6 +215,15 @@ public:
     }
 
     Impl(const Config& cfg) : config(cfg) {}
+
+    static std::string prefetchStrategyToString(PrefetchStrategy s) {
+        switch (s) {
+        case PrefetchStrategy::LRU:        return "LRU";
+        case PrefetchStrategy::MRU:        return "MRU";
+        case PrefetchStrategy::SEQUENTIAL: return "SEQUENTIAL";
+        default:                           return "NONE";
+        }
+    }
     
     ~Impl() {
         shutdown();
@@ -327,14 +336,7 @@ public:
                               ? std::to_string(config.vram_budget_mb) + " MB"
                               : "unlimited")
                       << ", prefetch: "
-                      << [](PrefetchStrategy s) -> std::string {
-                             switch (s) {
-                             case PrefetchStrategy::LRU:        return "LRU";
-                             case PrefetchStrategy::MRU:        return "MRU";
-                             case PrefetchStrategy::SEQUENTIAL: return "SEQUENTIAL";
-                             default:                           return "NONE";
-                             }
-                         }(config.prefetch_strategy)
+                      << prefetchStrategyToString(config.prefetch_strategy)
                       << ")\n";
         }
 
