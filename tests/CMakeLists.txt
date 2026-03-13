@@ -397,6 +397,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_raii_wrappers\\.cpp$"
     ".*test_cdc_admin\\.cpp$"
     ".*test_cdc_retention\\.cpp$"
+    ".*test_cdc_ws_handler\\.cpp$"
     ".*test_tenant_buffer_manager\\.cpp$"
     ".*test_real_embeddings\\.cpp$"
     ".*test_adapter_sync\\.cpp$"
@@ -7964,6 +7965,57 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_retention.cpp")
     message(STATUS "  CDCRetention: runtime policy updates, background thread lifecycle, TTL/size/count enforcement, RetentionStatus")
 else()
     message(STATUS "CDC Retention tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_retention.cpp")
+endif()
+
+# ============================================================================
+# CDC WebSocket Handler Tests (standalone – validates the /v2/cdc/stream
+# named-subscription protocol: subscribe/unsubscribe/ack frames,
+# back-pressure metric cdc_ws_overflow_total, and pollEvents delivery)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_ws_handler.cpp")
+    message(STATUS "Adding CDC WebSocket handler focused tests (v1.7.0 roadmap:55)")
+
+    add_executable(test_cdc_ws_handler
+        test_cdc_ws_handler.cpp
+    )
+
+    # cdc_ws_handler.cpp and ws_transport.cpp are compiled into themis_core only
+    # when THEMIS_ENABLE_HTTP_SERVER=ON.  Add them explicitly when HTTP_SERVER
+    # is OFF to avoid missing-symbol linker errors.
+    if(NOT THEMIS_ENABLE_HTTP_SERVER)
+        target_sources(test_cdc_ws_handler PRIVATE
+            ${THEMIS_ROOT_DIR}/src/cdc/cdc_ws_handler.cpp
+            ${THEMIS_ROOT_DIR}/src/cdc/ws_transport.cpp
+        )
+    endif()
+
+    target_include_directories(test_cdc_ws_handler PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_cdc_ws_handler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cdc_ws_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CdcWsHandlerFocusedTests COMMAND test_cdc_ws_handler)
+
+    set_tests_properties(CdcWsHandlerFocusedTests PROPERTIES
+        LABELS "cdc;websocket;streaming;subscription;backpressure;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  CdcWsHandler: subscribe/unsubscribe/ack frames, back-pressure (cdc_ws_overflow_total), pollEvents, checkRedelivery")
+else()
+    message(STATUS "CDC WebSocket handler tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_ws_handler.cpp")
 endif()
 
 # Config Module – Focused Standalone Test Targets
