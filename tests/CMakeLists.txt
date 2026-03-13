@@ -7981,8 +7981,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_ws_handler.cpp")
     )
 
     # cdc_ws_handler.cpp and ws_transport.cpp are compiled into themis_core only
-    # when THEMIS_ENABLE_HTTP_SERVER=ON.  Add them explicitly when HTTP_SERVER
-    # is OFF to avoid missing-symbol linker errors.
+    # when THEMIS_ENABLE_HTTP_SERVER=ON.  Add them explicitly to this test
+    # target when HTTP_SERVER is OFF to avoid missing-symbol linker errors.
     if(NOT THEMIS_ENABLE_HTTP_SERVER)
         target_sources(test_cdc_ws_handler PRIVATE
             ${THEMIS_ROOT_DIR}/src/cdc/cdc_ws_handler.cpp
@@ -11650,6 +11650,44 @@ if(THEMIS_ENABLE_WEBSOCKET)
         message(STATUS "  WireProtocolWebSocket: protocol detection, upgrade handshake, connection accounting, text-frame dispatch")
     else()
         message(STATUS "Network focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/test_wire_protocol_websocket.cpp")
+    endif()
+
+    # --- WebSocket CDC (WsTransport + CdcWebSocketHandler integration tests) ---
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_websocket_cdc.cpp")
+        message(STATUS "Adding CDC WebSocket focused tests (WsTransportTest + WebSocketCDCTest)")
+
+        add_executable(test_websocket_cdc_focused
+            test_websocket_cdc.cpp
+        )
+
+        target_include_directories(test_websocket_cdc_focused PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+            ${CMAKE_SOURCE_DIR}/include
+        )
+
+        target_link_libraries(test_websocket_cdc_focused PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_websocket_cdc_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+            THEMIS_ENABLE_WEBSOCKET=1
+        )
+
+        add_test(NAME WebSocketCdcFocusedTests COMMAND test_websocket_cdc_focused)
+
+        set_tests_properties(WebSocketCdcFocusedTests PROPERTIES
+            LABELS "cdc;websocket;streaming;transport;wstransport;metrics;unit"
+            TIMEOUT 120
+        )
+
+        message(STATUS "  WebSocketCdc: WsTransport session lifecycle, subscription management, back-pressure, CDCMetrics, event frame format")
+    else()
+        message(STATUS "CDC WebSocket focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/test_websocket_cdc.cpp")
     endif()
 endif()
 

@@ -16,6 +16,7 @@ on:
       - 'src/server/websocket_session.cpp'
       - 'include/server/websocket_session.h'
       - 'tests/test_cdc_ws_handler.cpp'
+      - 'tests/test_websocket_cdc.cpp'
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
@@ -30,6 +31,7 @@ on:
       - 'src/server/websocket_session.cpp'
       - 'include/server/websocket_session.h'
       - 'tests/test_cdc_ws_handler.cpp'
+      - 'tests/test_websocket_cdc.cpp'
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
@@ -112,13 +114,22 @@ jobs:
                 --timeout 120 \
                 2>&1 | tee cdc_ws_handler_results.txt
 
+      - name: Run WebSocketCdcFocusedTests
+        run: |
+          set -o pipefail
+          cd build
+          ctest -R WebSocketCdcFocusedTests \
+                --output-on-failure \
+                --timeout 120 \
+                2>&1 | tee websocket_cdc_results.txt
+
       # ── Broader AC validation via unified binary ───────────────────────────
       - name: Run CdcWsHandlerTest suite via unified binary
         run: |
           set -o pipefail
           cd build
           ./tests/themis_tests \
-            --gtest_filter="CdcWsHandlerTest*:CdcWsOverflowTest*" \
+            --gtest_filter="CdcWsHandlerTest*:CdcWsOverflowTest*:WsTransportTest*:WebSocketCDCTest*" \
             --gtest_output="xml:cdc_ws_handler_gtest.xml" \
             2>&1 | tee cdc_ws_handler_gtest_output.txt
 
@@ -129,6 +140,7 @@ jobs:
           name: cdc-websocket-streaming-results-${{ matrix.os }}-${{ matrix.compiler }}
           path: |
             build/cdc_ws_handler_results.txt
+            build/websocket_cdc_results.txt
             build/cdc_ws_handler_gtest.xml
             build/cdc_ws_handler_gtest_output.txt
           retention-days: 30
