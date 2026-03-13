@@ -158,8 +158,8 @@ public:
      *
      * Categories are inferred from the canonical new path via inferCategory()
      * when a legacy fallback occurs. Counts are stored in per-category atomic
-     * counters; the returned vector is a snapshot of (category, count) pairs
-     * and requires no additional locking by callers.
+     * counters; the returned vector is a snapshot of (category, count) pairs.
+     * No external locking is required once initialization has completed.
      */
     static std::vector<std::pair<std::string, uint64_t>> legacyFallbacksByCategory();
 

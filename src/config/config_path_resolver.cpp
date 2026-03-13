@@ -1415,7 +1415,6 @@ std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& leg
                 }
 
                 metrics_.legacy_fallbacks++;
-                initLegacyFallbackCategoryCounters();
                 const std::string category_path = new_path.empty() ? normalized : new_path;
                 const std::string category = inferCategory(category_path);
                 auto it = legacy_fallbacks_by_category_.find(category);

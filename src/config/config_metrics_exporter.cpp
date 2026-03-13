@@ -43,6 +43,7 @@ struct RegisteredMetrics {
     prometheus::Counter* resolution_misses{nullptr};
     prometheus::Counter* legacy_fallbacks{nullptr};
     prometheus::Counter* unmapped_requests{nullptr};
+    prometheus::Family<prometheus::Counter>* legacy_family{nullptr};
     prometheus::Gauge* cache_hit_ratio{nullptr};
     prometheus::Gauge* cache_capacity{nullptr};
     prometheus::Gauge* cache_ttl_seconds{nullptr};
@@ -65,12 +66,16 @@ struct CounterSnapshot {
 
 CounterSnapshot g_prev_snapshot;
 
-uint64_t counterDelta(uint64_t current, uint64_t previous) {
+uint64_t counterDelta(uint64_t current, uint64_t& previous) {
     if (current >= previous) {
-        return current - previous;
+        const auto delta = current - previous;
+        previous = current;
+        return delta;
     }
-    // Counter reset detected; treat the current value as the new baseline.
-    return current;
+    // Counter reset detected; treat current as the new baseline without
+    // emitting a delta to avoid double-counting.
+    previous = current;
+    return 0;
 }
 } // namespace
 
@@ -97,22 +102,18 @@ std::string ConfigMetricsExporter::collect() {
         if (g_metrics.resolution_hits) {
             const uint64_t delta = counterDelta(hits, g_prev_snapshot.hits);
             g_metrics.resolution_hits->Increment(static_cast<double>(delta));
-            g_prev_snapshot.hits = hits;
         }
         if (g_metrics.resolution_misses) {
             const uint64_t delta = counterDelta(misses, g_prev_snapshot.misses);
             g_metrics.resolution_misses->Increment(static_cast<double>(delta));
-            g_prev_snapshot.misses = misses;
         }
         if (g_metrics.legacy_fallbacks) {
             const uint64_t delta = counterDelta(fallbacks, g_prev_snapshot.legacy);
             g_metrics.legacy_fallbacks->Increment(static_cast<double>(delta));
-            g_prev_snapshot.legacy = fallbacks;
         }
         if (g_metrics.unmapped_requests) {
             const uint64_t delta = counterDelta(unmapped, g_prev_snapshot.unmapped);
             g_metrics.unmapped_requests->Increment(static_cast<double>(delta));
-            g_prev_snapshot.unmapped = unmapped;
         }
         if (g_metrics.cache_hit_ratio) {
             g_metrics.cache_hit_ratio->Set(cache_hit_ratio);
@@ -128,8 +129,14 @@ std::string ConfigMetricsExporter::collect() {
             auto prev_it = g_prev_snapshot.legacy_by_category.find(category);
             const uint64_t prev = (prev_it == g_prev_snapshot.legacy_by_category.end()) ? 0 : prev_it->second;
             auto metric_it = g_metrics.legacy_by_category.find(category);
+            if (metric_it == g_metrics.legacy_by_category.end() && g_metrics.legacy_family) {
+                metric_it = g_metrics.legacy_by_category.emplace(
+                    category, &g_metrics.legacy_family->Add({{"category", category}})
+                ).first;
+            }
             if (metric_it != g_metrics.legacy_by_category.end()) {
-                const uint64_t delta = counterDelta(count, prev);
+                uint64_t prev_copy = prev;
+                const uint64_t delta = counterDelta(count, prev_copy);
                 metric_it->second->Increment(static_cast<double>(delta));
             }
             g_prev_snapshot.legacy_by_category[category] = count;
@@ -264,6 +271,7 @@ void ConfigMetricsExporter::registerWithRegistry(const std::shared_ptr<prometheu
         .Name("themis_config_legacy_fallbacks_total")
         .Help("Total number of times a legacy config path was used as fallback.")
         .Register(*g_registry);
+    g_metrics.legacy_family = &legacy_family;
     for (const auto& category : ConfigPathResolver::legacyFallbackCategories()) {
         g_metrics.legacy_by_category[category] = &legacy_family.Add({{"category", category}});
     }
