@@ -2475,6 +2475,53 @@ else()
     message(STATUS "Replication HA focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_replication_ha.cpp")
 endif()
 
+# ============================================================================
+# Multi-Tier Replication Focused Tests (v1.8.0)
+# Covers all five acceptance criteria:
+#   AC-1  Tier 1: Strong consistency, high durability (3+ replicas, sync, <10ms)
+#   AC-2  Tier 2: Eventual consistency, moderate durability (2 replicas, semi-sync)
+#   AC-3  Tier 3: Best-effort, low durability (1 replica, async)
+#   AC-4  Per-collection tier assignment
+#   AC-5  Automatic tier promotion/demotion based on access patterns
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_replication_ha.cpp")
+    message(STATUS "Adding Multi-Tier Replication focused tests (v1.8.0)")
+
+    add_executable(test_multi_tier_replication_focused
+        test_replication_ha.cpp
+        ${CMAKE_SOURCE_DIR}/src/replication/multi_tier_replication.cpp
+    )
+
+    target_include_directories(test_multi_tier_replication_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_multi_tier_replication_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_multi_tier_replication_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MultiTierReplicationFocusedTests
+             COMMAND test_multi_tier_replication_focused
+                     --gtest_filter=MultiTierReplicationTest*)
+
+    set_tests_properties(MultiTierReplicationFocusedTests PROPERTIES
+        LABELS "replication;multi-tier;auto-tiering;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  MultiTierReplication: tier assignment, default configs, per-collection override, auto-tiering promotion/demotion, statistics")
+else()
+    message(STATUS "Multi-Tier Replication tests not found (test_replication_ha.cpp missing)")
+endif()
+
 # Replication New Features Focused Tests (v1.7.0 modules)
 # Covers: ReplicationObserver, ThreeWayMergeResolver, FieldLevelMergeResolver,
 # ReplicationEventStream, ReplicationPolicy, ReplicationSlot/Manager.

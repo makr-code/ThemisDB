@@ -760,6 +760,7 @@ set(THEMIS_TRANSACTION_SOURCES
     ../src/replication/replication_slot.cpp
     ../src/replication/raft_v2.cpp
     ../src/replication/schema_cdc.cpp
+    ../src/replication/multi_tier_replication.cpp
     
 )
 
