@@ -15,6 +15,7 @@
 #include "server/cost_based_rate_limiter.h"
 
 #include <chrono>
+#include <limits>
 #include <thread>
 
 using namespace themis::server;
@@ -181,7 +182,9 @@ TEST_F(AdaptiveRateLimiterTest, TokensReplenishAfterWindow) {
     AdaptiveRateLimiter::Config cfg;
     cfg.base_capacity        = 3;
     cfg.window_seconds       = 1; // short window for testing
-    cfg.min_samples_to_adapt = 100; // disable capacity adaptation in this test
+    // Set well above any number of samples this test will inject so
+    // capacity-adaptation logic stays dormant.
+    cfg.min_samples_to_adapt = std::numeric_limits<size_t>::max();
     AdaptiveRateLimiter limiter(cfg);
 
     // Exhaust the tokens.

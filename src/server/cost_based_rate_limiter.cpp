@@ -44,6 +44,10 @@ bool CostBasedRateLimiter::allowRequest(const std::string& client_id,
     std::lock_guard<std::mutex> lock(clients_mutex_);
 
     // Periodic cleanup of expired windows (amortised per request, under lock).
+    // We check last_cleanup_ under the same lock used for the client-bucket
+    // operations below, so no separate atomic is needed: the mutex itself
+    // prevents data races on last_cleanup_ and, because cleanup only fires at
+    // most once per window_seconds, the extra lock overhead is negligible.
     const auto now = std::chrono::steady_clock::now();
     if (now - last_cleanup_ >= std::chrono::seconds(config_.window_seconds)) {
         cleanupExpiredUnlocked();
