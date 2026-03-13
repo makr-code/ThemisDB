@@ -234,7 +234,8 @@ spec:
 
 ### Custom Metric Types
 **Priority:** High  
-**Target Version:** v1.6.0
+**Target Version:** v1.6.0  
+**Status:** ✅ Implemented (v1.6.0) — `include/observability/advanced_metrics.h` + `src/observability/advanced_metrics.cpp`
 
 Extended metric types beyond counters, gauges, and histograms.
 

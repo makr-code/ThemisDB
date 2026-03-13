@@ -1396,6 +1396,8 @@ set(THEMIS_NETWORK_SOURCES
     ../src/observability/metric_aggregator.cpp
     # Observability: real-time metric streaming via WebSocket / SSE (v1.6.0, Issue #82)
     ../src/observability/metrics_stream_server.cpp
+    # Observability: custom metric types — summary, exponential histogram, cardinality, TWA, rate (v1.6.0)
+    ../src/observability/advanced_metrics.cpp
 )
 
 set(THEMIS_GEO_SOURCES
