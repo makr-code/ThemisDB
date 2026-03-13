@@ -906,13 +906,17 @@ void APIGateway::addDeprecationHeaders(
                  "\"; removal-version=\"" + deprecation->removed_in.toString() + "\"");
 
     // Add API-Deprecated header (issue-specified format: "v1.0 (remove YYYY-MM-DD)")
+    // Use major.minor format (no patch) to match the documented "v1.0" style.
     auto removal_time_t = std::chrono::system_clock::to_time_t(deprecation->removal_date);
     std::tm removal_tm_api;
     portable_gmtime_r_impl(&removal_time_t, &removal_tm_api);
     char api_deprecated_buf[64];
     std::strftime(api_deprecated_buf, sizeof(api_deprecated_buf), "%Y-%m-%d", &removal_tm_api);
+    std::string deprecated_version_str = "v" +
+        std::to_string(deprecation->deprecated_in.major) + "." +
+        std::to_string(deprecation->deprecated_in.minor);
     response.set(APIHeaders::API_DEPRECATED,
-                 deprecation->deprecated_in.toString() + " (remove " +
+                 deprecated_version_str + " (remove " +
                  std::string(api_deprecated_buf) + ")");
     
     // Add Sunset header (RFC 8594) with removal date

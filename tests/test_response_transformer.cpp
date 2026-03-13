@@ -5,6 +5,7 @@
  */
 
 #include <gtest/gtest.h>
+#include <algorithm>
 #include "server/response_transformer.h"
 
 using namespace themis::server;

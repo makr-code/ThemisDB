@@ -257,8 +257,18 @@ std::optional<APIVersionRange> APIVersionRange::parse(const std::string& range_s
         return std::nullopt;
     }
 
-    std::string min_str = range_str.substr(0, dash_pos);
-    std::string max_str = range_str.substr(dash_pos + 1);
+    // Trim leading/trailing whitespace from each token so that header values
+    // like "1.0 - 2.0" (with spaces around the dash) parse correctly.
+    auto trim = [](const std::string& s) {
+        const char* ws = " \t\r\n";
+        auto start = s.find_first_not_of(ws);
+        if (start == std::string::npos) return std::string{};
+        auto end = s.find_last_not_of(ws);
+        return s.substr(start, end - start + 1);
+    };
+
+    std::string min_str = trim(range_str.substr(0, dash_pos));
+    std::string max_str = trim(range_str.substr(dash_pos + 1));
 
     auto min_v = APIVersion::parse(min_str);
     auto max_v = APIVersion::parse(max_str);

@@ -557,6 +557,21 @@ TEST(APIVersionRangeTest, ParseInvalidRange_MinGreaterThanMax) {
     EXPECT_FALSE(APIVersionRange::parse("2.0-1.0").has_value());
 }
 
+TEST(APIVersionRangeTest, ParseRangeWithSpacesAroundDash) {
+    // HTTP clients sometimes include spaces: "1.0 - 2.0"
+    auto range = APIVersionRange::parse("1.0 - 2.0");
+    ASSERT_TRUE(range.has_value());
+    EXPECT_EQ(range->min_version, (APIVersion{1, 0, 0}));
+    EXPECT_EQ(range->max_version, (APIVersion{2, 0, 0}));
+}
+
+TEST(APIVersionRangeTest, ParseRangeWithLeadingTrailingWhitespace) {
+    auto range = APIVersionRange::parse("  1.2  -  1.4  ");
+    ASSERT_TRUE(range.has_value());
+    EXPECT_EQ(range->min_version, (APIVersion{1, 2, 0}));
+    EXPECT_EQ(range->max_version, (APIVersion{1, 4, 0}));
+}
+
 TEST(APIVersionRangeTest, Contains) {
     APIVersionRange range{APIVersion{1, 0, 0}, APIVersion{2, 0, 0}};
     EXPECT_TRUE(range.contains(APIVersion{1, 0, 0}));

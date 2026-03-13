@@ -63,11 +63,14 @@ public:
     /**
      * @brief Register a version-specific serializer/transform function.
      *
-     * The version key may be a plain major version string ("v1", "v2") or a
-     * full semver string ("v1.4.0").  When looking up a transform, the manager
-     * first tries the exact semver key, then falls back to the major-only key.
+     * The version key may be a plain major version string ("v1", "v2"), a
+     * major.minor string ("v1.4"), or a full semver string ("v1.4.0").
+     * When looking up a transform, the manager tries keys in order:
+     *  1. Exact semver key (e.g. "v1.4.0")
+     *  2. Major.minor key (e.g. "v1.4")
+     *  3. Major-only key (e.g. "v1")
      *
-     * @param version_key  Version string, e.g. "v1" or "v1.4.0".
+     * @param version_key  Version string, e.g. "v1", "v1.4", or "v1.4.0".
      * @param fn           Transform function applied to the native payload.
      */
     void registerVersion(const std::string& version_key, TransformFn fn);
