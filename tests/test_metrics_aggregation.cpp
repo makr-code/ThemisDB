@@ -612,7 +612,61 @@ TEST_F(MetricAggregatorTest, AggregateShardMetrics_GroupByLabel) {
 
     auto snap = agg_.aggregateShardMetrics({shard_us, shard_eu});
     // Two groups (us-east, eu-west) → two AggregatedMetric entries.
-    EXPECT_EQ(2u, snap.metrics.size());
+    ASSERT_EQ(2u, snap.metrics.size());
+
+    // Collect region label values from results.
+    std::vector<std::string> regions;
+    for (const auto& m : snap.metrics) {
+        auto it = m.labels.find("region");
+        ASSERT_NE(it, m.labels.end()) << "Expected 'region' label in result";
+        regions.push_back(it->second);
+    }
+    std::sort(regions.begin(), regions.end());
+    EXPECT_EQ("eu-west", regions[0]);
+    EXPECT_EQ("us-east", regions[1]);
+}
+
+TEST_F(MetricAggregatorTest, AggregateShardMetrics_LabelsPopulatedInResult) {
+    // Verify AggregatedMetric.labels contains the group_by label set.
+    AggregationRule rule;
+    rule.metric_name = "cpu_ms";
+    rule.type = AggregationType::MAX;
+    rule.group_by_labels = {"tenant_id"};
+    rule.drop_labels = {"shard_id"};
+    agg_.addAggregationRule(rule);
+
+    ShardMetrics shard;
+    shard.shard_id = "s0";
+    shard.labels = {{"tenant_id", "acme"}};
+    shard.metrics["cpu_ms"] = {50.0, 80.0};
+
+    auto snap = agg_.aggregateShardMetrics({shard});
+    ASSERT_EQ(1u, snap.metrics.size());
+    EXPECT_EQ("acme", snap.metrics[0].labels.at("tenant_id"));
+}
+
+TEST_F(MetricAggregatorTest, ApplyRules_LabelsPopulatedInResult) {
+    // Verify applyRules() populates AggregatedMetric.labels from group_by_labels.
+    AggregationRule rule;
+    rule.metric_name = "req_ms";
+    rule.type = AggregationType::AVG;
+    rule.group_by_labels = {"dc"};
+    rule.drop_labels = {"host"};
+    agg_.addAggregationRule(rule);
+
+    HistogramSnapshot s1{"req_ms", {{"dc", "us-east"}, {"host", "web-01"}}, {10.0, 30.0}};
+    HistogramSnapshot s2{"req_ms", {{"dc", "eu-west"}, {"host", "web-02"}}, {20.0, 40.0}};
+    agg_.addHistogramSnapshot(s1);
+    agg_.addHistogramSnapshot(s2);
+
+    auto results = agg_.applyRules();
+    ASSERT_EQ(2u, results.size());
+
+    for (const auto& r : results) {
+        EXPECT_FALSE(r.labels.empty()) << "Expected labels to be populated";
+        EXPECT_EQ(1u, r.labels.count("dc"));
+        EXPECT_EQ(0u, r.labels.count("host")) << "drop_labels should exclude 'host'";
+    }
 }
 
 TEST_F(MetricAggregatorTest, AggregateShardMetrics_NoRules_ReturnsEmpty) {

@@ -303,7 +303,8 @@ std::vector<AggregatedMetric> MetricAggregator::applyRules() const {
         }
 
         // Collect observations for this metric, respecting drop_labels.
-        std::map<std::string, std::vector<double>> grouped;  // group_key → values
+        std::map<std::string, std::vector<double>> grouped;               // group_key → values
+        std::map<std::string, std::map<std::string, std::string>> glabels; // group_key → labels
 
         for (const auto& [key, snapshots] : snapshots_) {
             for (const auto& snap : snapshots) {
@@ -323,6 +324,7 @@ std::vector<AggregatedMetric> MetricAggregator::applyRules() const {
                 }
 
                 std::string gk = makeLabelFingerprint(group_labels);
+                glabels[gk] = group_labels;
                 for (double v : snap.values) {
                     grouped[gk].push_back(v);
                 }
@@ -335,6 +337,7 @@ std::vector<AggregatedMetric> MetricAggregator::applyRules() const {
             AggregatedMetric r;
             r.metric_name = metric_name;
             r.type = rule.type;
+            r.labels = glabels[gk];
             r.value = reduce(std::move(vals), rule.type);
             r.timestamp = std::chrono::system_clock::now();
             results.push_back(std::move(r));
@@ -386,7 +389,8 @@ MetricSnapshot MetricAggregator::aggregateShardMetrics(
             continue;
         }
 
-        std::map<std::string, std::vector<double>> grouped;  // group_key → values
+        std::map<std::string, std::vector<double>> grouped;               // group_key → values
+        std::map<std::string, std::map<std::string, std::string>> glabels; // group_key → labels
 
         for (const auto& [key, snapshots] : transient_snapshots) {
             for (const auto& snap : snapshots) {
@@ -404,6 +408,7 @@ MetricSnapshot MetricAggregator::aggregateShardMetrics(
                 }
 
                 std::string gk = makeLabelFingerprint(group_labels);
+                glabels[gk] = group_labels;
                 for (double v : snap.values) {
                     grouped[gk].push_back(v);
                 }
@@ -416,6 +421,7 @@ MetricSnapshot MetricAggregator::aggregateShardMetrics(
             AggregatedMetric r;
             r.metric_name = metric_name;
             r.type = rule.type;
+            r.labels = glabels[gk];
             r.value = reduce(std::move(vals), rule.type);
             r.timestamp = std::chrono::system_clock::now();
             results.push_back(std::move(r));
@@ -470,7 +476,9 @@ void MetricAggregator::rollupMetrics(std::chrono::minutes window) {
     }
 }
 
-
+// ============================================================================
+// Cardinality management
+// ============================================================================
 
 void MetricAggregator::setMetricCardinalityLimit(const std::string& metric_name,
                                                   size_t limit) {
