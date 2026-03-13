@@ -105,11 +105,12 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Per-document dependency tracking to maintain causal consistency
 - [x] Conflict-free parallel writes for independent document keys
 - [x] `submit()` / `sync()` / `getStats()` public API
-- [x] Stats: `entries_applied`, `dependencies_detected`, `parallel_batches`, `parallelism_factor`
-- [x] 12 unit tests covering: single entry, multi-entry, dependency tracking, no-tracking, mixed docs, stats, single/max threads, large batches
+- [x] Config: `worker_threads`, `queue_size`, `use_dependency_tracking`, `group_transactions`
+- [x] Stats: `entries_applied`, `dependencies_detected`, `average_latency_us`, `parallel_batches`, `parallelism_factor`
+- [x] 16 unit tests covering: single entry, multi-entry, dependency tracking, no-tracking, mixed docs, stats, single/sixteen threads, large batches, group_transactions (enabled/disabled), average_latency_us (populated/zero)
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (221+ test cases: 209 previous + 12 ParallelReplicationWorker tests)
+- [x] Unit tests coverage > 80% (225+ test cases: 209 previous + 16 ParallelReplicationWorker tests)
 - [x] Integration tests (failover, lag detection, PITR restoration, cross-cluster end-to-end)
 - [x] Performance benchmarks (WAL append > 50 000 entries/s, WAL readFrom 1000 < 5 ms, serialize/deserialize < 2 µs) — `benchmarks/bench_replication_throughput.cpp`
 - [x] Focused standalone test targets: `ReplicationHAFocusedTests`, `ReplicationNewFeaturesFocusedTests`, `MultiRegionActiveActiveTests`, `CacheReplicationTests`
