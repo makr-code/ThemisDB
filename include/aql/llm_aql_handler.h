@@ -158,12 +158,14 @@ public:
      * @brief Snapshot of circuit breaker states for all operation types.
      *
      * Returned by @c getCircuitBreakerStates() for observability.
+     * Each string is one of "CLOSED", "OPEN", or "HALF_OPEN" as produced
+     * by @c sharding::CircuitBreaker::stateToString().
      */
     struct CircuitBreakerStates {
-        std::string infer;    ///< "closed", "open", or "half_open"
-        std::string rag;      ///< "closed", "open", or "half_open"
-        std::string embed;    ///< "closed", "open", or "half_open"
-        std::string finetune; ///< "closed", "open", or "half_open"
+        std::string infer;    ///< "CLOSED", "OPEN", or "HALF_OPEN"
+        std::string rag;      ///< "CLOSED", "OPEN", or "HALF_OPEN"
+        std::string embed;    ///< "CLOSED", "OPEN", or "HALF_OPEN"
+        std::string finetune; ///< "CLOSED", "OPEN", or "HALF_OPEN"
     };
 
     LLMAQLHandler();
@@ -238,7 +240,8 @@ public:
     /**
      * @brief Return the current state of all per-operation circuit breakers.
      *
-     * Each state string is one of "closed", "open", or "half_open".
+     * Each state string is one of "CLOSED", "OPEN", or "HALF_OPEN" as produced
+     * by @c sharding::CircuitBreaker::stateToString().
      * Intended for observability dashboards and the @c LLM STATS output.
      */
     CircuitBreakerStates getCircuitBreakerStates() const;

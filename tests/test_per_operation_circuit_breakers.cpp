@@ -20,28 +20,6 @@ using namespace themis::aql;
 using namespace themis::sharding;
 
 // ============================================================================
-// Helper: build a Config with a very low threshold so we can trip it quickly
-// ============================================================================
-
-static LLMAQLHandler::Config makeSensitiveInferConfig(size_t threshold = 1) {
-    LLMAQLHandler::Config cfg;
-    cfg.infer_circuit_breaker.failure_threshold = threshold;
-    cfg.infer_circuit_breaker.timeout           = std::chrono::milliseconds(50);
-    cfg.infer_circuit_breaker.success_threshold = 1;
-    cfg.infer_circuit_breaker.failure_window    = std::chrono::seconds(30);
-    return cfg;
-}
-
-static LLMAQLHandler::Config makeSensitiveRagConfig(size_t threshold = 1) {
-    LLMAQLHandler::Config cfg;
-    cfg.rag_circuit_breaker.failure_threshold = threshold;
-    cfg.rag_circuit_breaker.timeout           = std::chrono::milliseconds(50);
-    cfg.rag_circuit_breaker.success_threshold = 1;
-    cfg.rag_circuit_breaker.failure_window    = std::chrono::seconds(30);
-    return cfg;
-}
-
-// ============================================================================
 // Test fixture
 // ============================================================================
 
