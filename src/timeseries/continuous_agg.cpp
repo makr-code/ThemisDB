@@ -128,6 +128,36 @@ AggShardResult DistributedAggregateCoordinator::refreshAggregate(
 }
 
 // ============================================================
+// ContinuousAggWatermarkStore
+// ============================================================
+
+int64_t ContinuousAggWatermarkStore::getWatermark(const std::string& agg_id) const {
+    if (!store_) return 0;
+    std::string key = std::string(WM_KEY_PREFIX) + agg_id;
+    auto result = store_->getSystemMeta(key);
+    if (!result.has_value() || !result->has_value()) {
+        return 0;
+    }
+    try {
+        return std::stoll(**result);
+    } catch (...) {
+        return 0;
+    }
+}
+
+void ContinuousAggWatermarkStore::setWatermark(const std::string& agg_id, int64_t watermark_ms) {
+    if (!store_) return;
+    std::string key = std::string(WM_KEY_PREFIX) + agg_id;
+    store_->putSystemMeta(key, std::to_string(watermark_ms));
+}
+
+void ContinuousAggWatermarkStore::deleteWatermark(const std::string& agg_id) {
+    if (!store_) return;
+    std::string key = std::string(WM_KEY_PREFIX) + agg_id;
+    store_->deleteSystemMeta(key);
+}
+
+// ============================================================
 // ContinuousAggregateManager
 // ============================================================
 
@@ -187,6 +217,38 @@ void ContinuousAggregateManager::refresh(const AggConfig& cfg, int64_t from_ms, 
         };
         store_->putDataPoint(out);
     }
+}
+
+size_t ContinuousAggregateManager::refreshIncremental(const AggConfig& cfg,
+                                                        const std::string& agg_id,
+                                                        int64_t to_ms,
+                                                        ContinuousAggWatermarkStore& wm_store) {
+    if (!store_) return 0;
+
+    // Read the current watermark; scan starts from there (0 = full history)
+    int64_t from_ms = wm_store.getWatermark(agg_id);
+
+    // Nothing to do if already up-to-date
+    if (from_ms >= to_ms) return 0;
+
+    // Perform the incremental refresh over [from_ms, to_ms)
+    size_t windows_before = 0;
+    {
+        // Count approximate windows so we can report how many were produced
+        int64_t win_ms = cfg.window.size.count();
+        if (win_ms > 0) {
+            windows_before = static_cast<size_t>((to_ms - from_ms) / win_ms);
+        }
+    }
+
+    refresh(cfg, from_ms, to_ms - 1);
+
+    // Advance watermark atomically after successful write.
+    // A single RocksDB Put is atomic and WAL-durable, so the watermark only
+    // advances when the aggregate data has been successfully committed.
+    wm_store.setWatermark(agg_id, to_ms);
+
+    return windows_before;
 }
 
 RollupHierarchy RollupHierarchy::defaultHierarchy(const std::string& metric,

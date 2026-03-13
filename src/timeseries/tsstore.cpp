@@ -985,4 +985,60 @@ void TSStore::clear() {
     }
 }
 
+// ============================================================
+// System Metadata (WAL-durable key-value store for bookkeeping)
+// ============================================================
+
+Result<void> TSStore::putSystemMeta(const std::string& key, const std::string& value) {
+    std::string full_key = std::string(SYS_META_PREFIX) + key;
+    rocksdb::WriteOptions write_opts;
+    rocksdb::Status s;
+    if (cf_) {
+        s = db_->Put(write_opts, cf_, full_key, value);
+    } else {
+        s = db_->Put(write_opts, full_key, value);
+    }
+    if (!s.ok()) {
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_WRITE_FAILED,
+                         fmt::format("putSystemMeta failed for key '{}': {}", key, s.ToString()));
+    }
+    return OkVoid();
+}
+
+Result<std::optional<std::string>> TSStore::getSystemMeta(const std::string& key) const {
+    std::string full_key = std::string(SYS_META_PREFIX) + key;
+    std::string value;
+    rocksdb::ReadOptions read_opts;
+    rocksdb::Status s;
+    if (cf_) {
+        s = db_->Get(read_opts, cf_, full_key, &value);
+    } else {
+        s = db_->Get(read_opts, full_key, &value);
+    }
+    if (s.IsNotFound()) {
+        return Ok(std::optional<std::string>{std::nullopt});
+    }
+    if (!s.ok()) {
+        return Err<std::optional<std::string>>(errors::ErrorCode::ERR_QUERY_FAILED,
+                         fmt::format("getSystemMeta failed for key '{}': {}", key, s.ToString()));
+    }
+    return Ok(std::optional<std::string>{value});
+}
+
+Result<void> TSStore::deleteSystemMeta(const std::string& key) {
+    std::string full_key = std::string(SYS_META_PREFIX) + key;
+    rocksdb::WriteOptions write_opts;
+    rocksdb::Status s;
+    if (cf_) {
+        s = db_->Delete(write_opts, cf_, full_key);
+    } else {
+        s = db_->Delete(write_opts, full_key);
+    }
+    if (!s.ok() && !s.IsNotFound()) {
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_WRITE_FAILED,
+                         fmt::format("deleteSystemMeta failed for key '{}': {}", key, s.ToString()));
+    }
+    return OkVoid();
+}
+
 } // namespace themis

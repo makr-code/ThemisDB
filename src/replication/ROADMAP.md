@@ -28,6 +28,7 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Automated lag-based read traffic shifting (Issue: #2251)
 - [x] Cross-cluster logical replication (publish/subscribe model) (Issue: #2440)
 - [x] Kubernetes operator for automated topology management (Issue: #2257)
+- [x] Parallel replication — multi-threaded WAL application on followers with dependency tracking (v1.6.0)
 
 ## In Progress 🚧
 *(none currently in progress)*
@@ -98,8 +99,18 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] All `src/replication/*.cpp` files verified registered in `cmake/CMakeLists.txt`
 - [x] 3 focused standalone test targets added in `tests/CMakeLists.txt`: ReplicationHA, ReplicationNewFeatures, ReplicationTopologyApiHandler
 
+### Phase 5: Parallel Replication (Status: Completed ✅ — v1.6.0)
+- [x] `ParallelReplicationWorker` class in `include/replication/replication_manager.h` + `src/replication/replication_manager.cpp`
+- [x] Multi-threaded WAL application on followers (configurable 1–64 worker threads)
+- [x] Per-document dependency tracking to maintain causal consistency
+- [x] Conflict-free parallel writes for independent document keys
+- [x] `submit()` / `sync()` / `getStats()` public API
+- [x] Config: `worker_threads`, `queue_size`, `use_dependency_tracking`, `group_transactions`
+- [x] Stats: `entries_applied`, `dependencies_detected`, `average_latency_us`, `parallel_batches`, `parallelism_factor`
+- [x] 16 unit tests covering: single entry, multi-entry, dependency tracking, no-tracking, mixed docs, stats, single/sixteen threads, large batches, group_transactions (enabled/disabled), average_latency_us (populated/zero)
+
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (209+ test cases: 177 original + 30 v1.7.0 feature tests + 2 commit-index tests + 15 Raft v2 tests + 30 CRDT types tests)
+- [x] Unit tests coverage > 80% (225+ test cases: 209 previous + 16 ParallelReplicationWorker tests)
 - [x] Integration tests (failover, lag detection, PITR restoration, cross-cluster end-to-end)
 - [x] Performance benchmarks (WAL append > 50 000 entries/s, WAL readFrom 1000 < 5 ms, serialize/deserialize < 2 µs) — `benchmarks/bench_replication_throughput.cpp`
 - [x] Focused standalone test targets: `ReplicationHAFocusedTests`, `ReplicationNewFeaturesFocusedTests`, `MultiRegionActiveActiveTests`, `CacheReplicationTests`

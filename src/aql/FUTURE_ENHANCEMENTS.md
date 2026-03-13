@@ -96,15 +96,16 @@ The AQL module is ThemisDB's query language and LLM-integration layer. It covers
 ### 4 · Runtime-Configurable Confidence Scoring Weights
 **Priority:** Medium
 **Target Version:** v1.6.0
+**Status:** ✅ Implemented (Issue #144)
 
 **Problem (from code):** `aql_confidence_scorer.cpp` (lines 58–61) hard-codes the final scoring formula as `structural_score * 0.50f + completeness_score * 0.30f + schema_match_score * 0.20f`. The keyword-bonus table (lines 100–111) is also a hard-coded `std::vector<std::pair<std::string, float>>` with values like `{"filter", 0.20f}`, `{"sort ", 0.15f}`. The `0.5f` neutral return value for missing schema (line 129 and 134) and the `0.1f` floor for zero collection matches (line 145) are also untunable. Field names that appear in confidence scoring (like keyword `"upsert"` on line 111) use substring matching which can accidentally match sub-tokens.
 
 **Implementation Notes:**
-- `[ ]` Introduce an `AQLConfidenceScorer::Config` struct with fields: `float structural_weight`, `float completeness_weight`, `float schema_match_weight`, keyword `std::unordered_map<std::string, float> keyword_bonuses`, `float no_schema_neutral`, `float zero_match_floor`; default values match current hard-coded constants for backward compatibility
-- `[ ]` Inject `Config` via constructor; `AQLConfidenceScorer()` (the default ctor) keeps existing behaviour
-- `[ ]` Fix substring keyword matching (e.g. `"insert"` inside `"upsert"`) by checking word boundaries with `\b` regex or a tokenised lookup
-- `[ ]` Add a `calibrate(const std::vector<std::pair<std::string,float>>& labelled_pairs)` method that fits the three top-level weights via least-squares regression on (query, ground-truth-confidence) pairs
-- `[ ]` Unit-test: verify that calling `score()` on an empty query returns 0.0 and on a complete `FOR x IN c FILTER x.a == 1 RETURN x` returns > 0.7
+- `[x]` Introduce an `AQLConfidenceScorer::Config` struct with fields: `float structural_weight`, `float completeness_weight`, `float schema_match_weight`, keyword `std::unordered_map<std::string, float> keyword_bonuses`, `float no_schema_neutral`, `float zero_match_floor`; default values match current hard-coded constants for backward compatibility
+- `[x]` Inject `Config` via constructor; `AQLConfidenceScorer()` (the default ctor) keeps existing behaviour
+- `[x]` Fix substring keyword matching (e.g. `"insert"` inside `"upsert"`) by checking word boundaries with `\b` regex or a tokenised lookup — implemented via `containsKeyword()` static helper using manual word-boundary checks (no regex dependency)
+- `[x]` Add a `calibrate(const std::vector<std::pair<std::string,float>>& labelled_pairs)` method that fits the three top-level weights via least-squares regression on (query, ground-truth-confidence) pairs — implemented via OLS normal equations + Cramer's rule (3×3, no external deps)
+- `[x]` Unit-test: verify that calling `score()` on an empty query returns 0.0 and on a complete `FOR x IN c FILTER x.a == 1 RETURN x` returns > 0.7
 
 ---
 

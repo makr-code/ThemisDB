@@ -40,16 +40,19 @@ This document covers planned enhancements to ThemisDB's time series storage subs
 ---
 
 
+### [x] Vectorised Gorilla Chunk Decoder with SIMD
 **Priority:** High
-**Target Version:** v0.9.0
+**Target Version:** v0.9.0 (delivered v1.6.0)
 
 Rewrite the `gorilla.cpp` decode path to use SIMD intrinsics (AVX2 on x86-64, NEON on ARM) for delta-of-delta reconstruction, dramatically increasing scan throughput for range queries over long time windows.
 
 **Implementation Notes:**
-- Add `gorilla_simd.cpp` alongside `gorilla.cpp` with AVX2 and NEON implementations selected via CMake feature detection; `gorilla.cpp` dispatches at runtime via CPUID check.
-- `utils/simd_distance.cpp` already contains AVX2 helper patterns; reuse the lane-shuffle utilities for bit-unpacking the Gorilla XOR stream.
-- `query_optimizer.cpp` should hint the expected decode width (float32 vs. float64) to the decoder to allow width-specific vectorisation paths.
-- Benchmark with the existing `benchmarks/` harness; compare against the scalar baseline from `gorilla.cpp`.
+- Added `gorilla_simd.cpp` and `include/timeseries/gorilla_simd.h` alongside `gorilla.cpp` with AVX2 and NEON implementations selected via runtime CPUID check (`gorilla_simd_has_avx2()` / `gorilla_simd_has_neon()`).
+- Two-phase decode: Phase 1 (scalar) parses the bit-stream into flat `dods[]` / `xorvals[]` staging arrays; Phase 2 (SIMD) applies two in-place prefix-sum passes (dod→Δt→ts) and one prefix-XOR pass (vbits reconstruction).
+- AVX2 in-register Kogge-Stone prefix scan processes 4 × int64_t per iteration via `_mm256_permute4x64_epi64` + `_mm256_blend_epi32` + `_mm256_permute2x128_si256`.
+- NEON path processes 2 × int64_t (or uint64_t) per iteration using `vextq_s64` / `vextq_u64`.
+- Scalar fallback delegates to `GorillaDecoder` unchanged.
+- 29 focused tests in `tests/test_gorilla_simd.cpp` (GorillaSIMDTest suite) cover correctness, edge cases, NaN/inf, SIMD tail handling, and runtime dispatch.
 
 **Performance Targets:**
 - Gorilla decode throughput: >2 GB/s of decoded data per core (up from ~400 MB/s scalar).

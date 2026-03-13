@@ -3,7 +3,7 @@
 # Updates Module Roadmap
 
 ## Current Status
-v1.x – Production-ready zero-downtime update and migration system. HotReloadEngine, release manifest management, schema migration framework, digital signature verification, automatic backup, rollback, binary delta updates, canary rollout, blue/green deployment, multi-node coordinated updates, notification webhooks, dry-run migration preview, and pre-flight health checks are all implemented. Build system audit complete (March 2026): all 14 source files registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake; 8 standalone focused test targets added.
+v1.x – Production-ready zero-downtime update and migration system. HotReloadEngine, release manifest management, schema migration framework, digital signature verification, automatic backup, rollback, binary delta updates, canary rollout, blue/green deployment, multi-node coordinated updates, notification webhooks, dry-run migration preview, and pre-flight health checks are all implemented. Build system audit complete (March 2026): all 14 source files registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake; 9 standalone focused test targets added.
 
 ## Completed ✅
 - [x] HotReloadEngine – atomic file replacement with fsync and all-or-nothing semantics
@@ -36,7 +36,8 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
   - Completes in ≤ 2 s; disk check enforces ≥ 2× bundle size of free space
   - Tests: 35+ unit tests in `tests/test_preflight_health_check.cpp`
 - [x] Build system audit: all 14 src/updates/*.cpp registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake
-- [x] 8 standalone focused test targets added to tests/CMakeLists.txt (UpdatesProduction, BlueGreen, CanaryRollout, CoordinatedUpdateManager, InPlaceSchemaMigrator, NotificationWebhook, PreflightHealthCheck, SchemaMigrationTester)
+- [x] 9 standalone focused test targets added to tests/CMakeLists.txt (UpdatesProduction, BlueGreen, CanaryRollout, BinaryDeltaPatches, CoordinatedUpdateManager, InPlaceSchemaMigrator, NotificationWebhook, PreflightHealthCheck, SchemaMigrationTester)
+- [x] CI/CD workflow for automatic patch generation: .github/workflows/binary-delta-patches-ci.yml
 
 ## In Progress 🚧
 <!-- No items currently in progress -->
@@ -90,12 +91,13 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 - [x] Schema migration testing framework (apply to staging before production)
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (DeltaUpdateEngine: 29 tests; InPlaceSchemaMigrator+preview: 31 tests; NotificationWebhook: 40 tests; PreflightHealthChecker: 35 tests; CoordinatedUpdateManager: 25 tests; module total: 160+ tests)
+- [x] Unit tests coverage > 80% (DeltaUpdateEngine: 29 tests in test_updates_production.cpp + 29 tests in test_binary_delta_patches.cpp; InPlaceSchemaMigrator+preview: 31 tests; NotificationWebhook: 40 tests; PreflightHealthChecker: 35 tests; CoordinatedUpdateManager: 25 tests; module total: 190+ tests)
 - [x] Integration tests (applyDelta end-to-end: generate → apply → hash verify → atomic install; InPlaceSchemaMigrator: apply → version verify → history check)
 - [?] Performance benchmarks (migration duration, downtime measurement)
 - [x] Security audit (path traversal in update bundles fixed; `isSafePath` guard in `applyDelta`; InPlaceSchemaMigrator: metadata-only, no data access, no path operations; PreflightHealthChecker: injectable providers, no privilege escalation)
 - [x] Documentation complete (full API documentation in `delta_update_engine.h`, `in_place_schema_migrator.h`, `notification_webhook.h`, `preflight_health_check.h`)
 - [x] API stability guaranteed (all new APIs are additive; no existing API changed)
+- [x] Automatic patch generation in CI/CD (.github/workflows/binary-delta-patches-ci.yml validates the generatePatch() API and CI/CD generation use-cases)
 
 ## Known Issues & Limitations
 - HotReloadEngine is single-threaded; concurrent updates are not allowed.

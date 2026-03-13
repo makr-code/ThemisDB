@@ -351,7 +351,8 @@ metrics.recordLatency("query_latency_ms", latency_ms, {
 
 ### Metric Aggregation Pipeline
 **Priority:** High  
-**Target Version:** v1.6.0
+**Target Version:** v1.6.0  
+**Status:** ✅ Implemented
 
 Pre-aggregate metrics across shards for efficient querying.
 
@@ -387,6 +388,11 @@ rule.drop_labels = {"shard_id", "instance_id"};  // Drop high-cardinality labels
 
 aggregator.addAggregationRule(rule);
 ```
+
+**Files:**
+- `include/observability/metric_aggregator.h` — `ShardMetrics`, `MetricSnapshot` structs; `aggregateShardMetrics()`, `rollupMetrics()` declarations
+- `src/observability/metric_aggregator.cpp` — stateless cross-shard aggregation and window-based rollup
+- `tests/test_metrics_aggregation.cpp` — `AggregateShardMetrics_*` and `RollupMetrics_*` test cases
 
 ---
 
