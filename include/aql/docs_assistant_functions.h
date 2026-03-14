@@ -73,6 +73,7 @@ namespace llm {
 
 #pragma once
 
+#include "aql/classify_bridge.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -218,20 +219,43 @@ public:
      */
     json getPerformanceMetrics() const;
 
-private:
-    class Impl;
-    std::unique_ptr<Impl> impl_;
-    
+    /**
+     * @brief Inject a classifier for native NLP intent detection.
+     *
+     * When a non-null @p classifier is provided, detectIntentWithNativeNLP()
+     * delegates to it instead of returning "unknown".  Pass nullptr (or omit
+     * the call) to revert to the no-op NullClassifyFn behaviour.
+     *
+     * Ownership is NOT transferred; the caller must keep the object alive for
+     * the lifetime of this DocsAssistantFunctions instance.
+     *
+     * Typical usage:
+     * @code
+     * static AQLFunctionClassifyBridge bridge;
+     * getDocsAssistantFunctions().setClassifier(&bridge);
+     * @endcode
+     */
+    void setClassifier(IClassifyFn* classifier);
+
+protected:
     /**
      * @brief Detect user intent using native NLP (primary method)
      * @param query User query
      * @return Intent: "configuration", "troubleshooting", "search", "general", or "unknown"
-     * 
-     * Uses ThemisDB's native CLASSIFY() function for zero-shot classification.
-     * Currently returns "unknown" as placeholder - will be integrated at AQL parser level.
+     *
+     * Delegates to the IClassifyFn set via setClassifier() when non-null.
+     * Returns "unknown" (triggering LLM fallback) when no classifier has been
+     * injected.
      */
     std::string detectIntentWithNativeNLP(const std::string& query);
-    
+
+private:
+    class Impl;
+    std::unique_ptr<Impl> impl_;
+
+    /// Injected classifier; null means native NLP is not available (NullClassifyFn semantics).
+    IClassifyFn* classifier_ = nullptr;
+
     /**
      * @brief Detect user intent using LLM (secondary method)
      * @param query User query

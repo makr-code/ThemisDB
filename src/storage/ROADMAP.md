@@ -78,13 +78,17 @@ v1.x – Production-grade persistent storage layer built on RocksDB with MVCC, W
   - Compat: existing RAID-1 blobs are not migrated automatically; migration tool planned as separate CLI
 
 ### Long-term (6-12 months)
-- [ ] Distributed transactions across shards via two-phase commit (2PC) with Raft coordination (Target: v1.7.0)
-  - Inputs: multi-shard `TransactionManager` operations spanning separate RocksDB instances
+- [~] Distributed transactions across shards via two-phase commit (2PC) with Raft coordination (Target: v1.7.0)
+  - **Implemented (v1.7.0):** `DistributedTransactionManager` + `IDistributedShardParticipant` + `DistributedTransaction`
+    - Storage-layer 2PC coordinator (Phase 1 PREPARE / Phase 2 COMMIT|ABORT)
+    - `ManagerSharedState` shared ownership: transactions safely outlive their manager
+    - `shared_ptr` participant references: no use-after-free on concurrent `unregisterShard()`
+  - Inputs: multi-shard operations spanning separate RocksDB instances
   - Outputs: atomic commit or rollback across all participant shards
-  - Affected files: new `distributed_transaction_manager.cpp`; coordinate via existing `RaftMVCCBridge`
-  - Protocol: 2PC with Raft-logged prepare/commit records; coordinator writes prepare to its own WAL before sending to participants
+  - Affected files: `distributed_transaction_manager.h/.cpp`; coordinate via existing `RaftMVCCBridge`
+  - **Pending:** Raft WAL logging for coordinator crash-recovery (coordinator writes PREPARE to Raft log before sending to participants; participants re-read log on coordinator restart)
   - Errors: coordinator crash during prepare → participants abort on timeout; coordinator crash after commit → participants re-read Raft log to resolve
-  - Tests: chaos test (kill coordinator after prepare, verify all participants converge); correctness test for cross-shard atomicity
+  - Tests: 27 unit tests in `tests/test_distributed_transactions.cpp`; Raft crash-recovery tests are future work
   - Perf: 2PC round-trip adds ≤ 2× single-shard latency on same-datacenter nodes
 - [ ] Vectorized execution support in `ColumnarFormat` (SIMD batch processing) (Target: v2.0.0)
   - Inputs: columnar scan batches of up to 8,192 rows
@@ -140,7 +144,17 @@ v1.x – Production-grade persistent storage layer built on RocksDB with MVCC, W
 - [x] GCS blob backend
 - [~] NVMe Optimizations: `NVMeManager` with io_uring, multi-queue, ZNS, Direct I/O
 - [ ] Erasure coding in `BlobRedundancyManager`
-- [ ] 2PC distributed transactions with Raft coordination
+- [~] 2PC distributed transactions with Raft coordination
+  - Storage-layer 2PC implemented (DistributedTransactionManager, v1.7.0)
+  - Pending: Raft WAL logging for coordinator crash-recovery
+
+### Phase 6: Write-Optimized Storage (Status: Completed ✅ — v1.8.0)
+- [x] `WomTree` – Write-Optimized Merge (WOM) Tree: Bε-tree alternative to LSM for write-heavy workloads
+  - Write amplification 2–5× (vs. 10–30× for LSM)
+  - Lazy buffer propagation — reduced compaction overhead
+  - Configurable fanout, leaf capacity, buffer size
+  - Full put/get/remove/scan/compact API with thread safety
+  - Write-amplification and read-hit-ratio metrics in Stats
 
 ### Phase 5.5: Build System Audit (Status: Completed ✅ — March 2026)
 - [x] All `src/storage/*.cpp` files verified registered in cmake build system (main `CMakeLists.txt` + `StorageEnhancements.cmake` + `BlobStorage.cmake`)

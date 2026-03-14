@@ -112,6 +112,93 @@ if (result.wait()) {
 
 ---
 
+
+## Distributed Cluster Updates ✅ IMPLEMENTED (v1.7.0)
+<!-- anchor: distributed-cluster-updates -->
+**Priority:** High  
+**Target Version:** v1.7.0  
+**Status:** ✅ Released — `include/updates/cluster_update_manager.h`, `src/updates/cluster_update_manager.cpp`
+
+Coordinate updates across all nodes in a ThemisDB cluster with Raft consensus.
+
+**Features:**
+- ✅ Rolling (sequential) updates — non-leaders first, leader(s) last
+- ✅ Automatic health checks after each node update (`NodeHealthCheckFunc` callback)
+- ✅ Injected rollback via `NodeRollbackFunc` callback when `rollback_on_failure=true`
+- ✅ Version skew protection — leader node is always updated last
+- ✅ Transport-agnostic design via `NodeUpdateFunc` / `NodeHealthCheckFunc` / `NodeRollbackFunc` callbacks
+- ✅ Incremental `ClusterUpdateProgress` callbacks for monitoring
+- ✅ Cancellation support via `cancelUpdate()`
+
+**API:**
+```cpp
+ClusterUpdateManager::Config cfg;
+cfg.nodes = {
+    { "node-a", "host-a:6543", false, "1.6.0" },
+    { "node-b", "host-b:6543", false, "1.6.0" },
+    { "node-c", "host-c:6543", true,  "1.6.0" },  // Raft leader — updated last
+};
+cfg.default_options.rollback_on_failure  = true;
+cfg.default_options.health_check_timeout = std::chrono::seconds{30};
+
+ClusterUpdateManager cluster_updates(cfg);
+
+// Inject per-node update logic (e.g. gRPC RPC call).
+cluster_updates.setNodeUpdateFunc(
+    [](const ClusterNode& node, const std::string& version,
+       const ClusterUpdateOptions& opts) {
+        return my_rpc.updateNode(node.node_id, version);
+    });
+
+// Optional: inject per-node health check.
+cluster_updates.setNodeHealthCheckFunc(
+    [](const ClusterNode& node, std::chrono::seconds timeout) {
+        return my_rpc.healthCheck(node.node_id, timeout);
+    });
+
+// Optional: inject per-node rollback (called when rollback_on_failure=true).
+cluster_updates.setNodeRollbackFunc(
+    [](const ClusterNode& node, const std::string& applied_version) {
+        return my_rpc.rollbackNode(node.node_id, applied_version);
+    });
+
+// Monitor progress.
+cluster_updates.setProgressCallback([](const ClusterUpdateProgress& p) {
+    std::cout << "Updated: " << p.nodes_updated << "/" << p.total_nodes << "\n";
+    std::cout << "Current node: " << p.current_node << "\n";
+    std::cout << "Status: " << p.status << "\n";
+});
+
+// Initiate cluster-wide update.
+ClusterUpdateResult result = cluster_updates.updateCluster("1.7.0");
+if (result.success) {
+    LOG_INFO("Cluster updated successfully");
+} else {
+    LOG_ERROR("Cluster update failed: {}", result.error_message);
+}
+```
+
+**Rolling Update Procedure:**
+```
+1. Sort nodes: non-leader nodes first, leader(s) last
+2. For each node in order:
+   a. Mark DRAINING  — emit progress
+   b. Invoke NodeUpdateFunc (→ APPLYING)
+   c. Record applied_version; invoke NodeHealthCheckFunc (→ HEALTH_CHECK)
+   d. On pass: REJOINING → COMPLETED
+   e. On fail (rollback_on_failure=true):
+      - Invoke NodeRollbackFunc(node, applied_version)
+      - Mark ROLLED_BACK; abort remaining nodes
+3. Emit final ClusterUpdateProgress
+```
+
+**Use Cases:**
+- Zero-downtime cluster upgrades
+- Coordinated schema migrations
+- Automatic failover during updates
+
+---
+
 ### Binary Delta Patches ✅ IMPLEMENTED (v1.6.0)
 **Priority:** High  
 **Target Version:** v1.6.0  
@@ -183,19 +270,20 @@ if (delta) {
 
 ---
 
-### Automatic Schema Migration Framework
+### Automatic Schema Migration Framework ✅ IMPLEMENTED (v1.7.0)
 **Priority:** High  
-**Target Version:** v1.7.0
+**Target Version:** v1.7.0  
+**Status:** ✅ Released — `include/updates/schema_migration.h`, `src/updates/schema_migration.cpp`
 
 Automated schema migration with online DDL (zero-downtime schema changes).
 
 **Features:**
-- Schema versioning and tracking
-- Online DDL (background schema changes)
-- Automatic backfill for new columns
-- Index rebuilding without downtime
-- Dual-write during migration
-- Rollback capability for schema changes
+- ✅ Schema versioning and tracking
+- ✅ Online DDL (background schema changes)
+- ✅ Automatic backfill for new columns
+- ✅ Index rebuilding without downtime
+- ✅ Dual-write during migration
+- ✅ Rollback capability for schema changes
 
 **Migration DSL:**
 ```cpp
@@ -265,9 +353,10 @@ if (!migration_result.success) {
 
 ---
 
-### Canary Deployments
+### Canary Deployments ✅ IMPLEMENTED (v1.7.0)
 **Priority:** Medium  
-**Target Version:** v1.7.0
+**Target Version:** v1.7.0  
+**Status:** ✅ Released — `include/updates/canary_rollout.h`, `src/updates/canary_rollout.cpp`
 
 Gradual rollout of updates with automatic rollback on errors.
 
@@ -291,14 +380,14 @@ canary.setStages({
 
 // Set monitoring thresholds
 canary.setErrorRateThreshold(0.05);  // 5% error rate
-canary.setLatencyThreshold(500ms);    // 500ms p99 latency
+canary.setLatencyThreshold(std::chrono::milliseconds(500));  // 500ms p99 latency
 
 // Start canary deployment
 auto result = canary.deploy();
 
 // Monitor progress
-canary.onStageComplete([](const CanaryStage& stage) {
-    LOG_INFO("Stage {} complete: {}% of nodes updated", 
+canary.onStageComplete([](const CanaryDeploymentStage& stage) {
+    LOG_INFO("Stage {} complete: {}% of nodes updated",
              stage.stage_number, stage.percentage);
 });
 

@@ -27,6 +27,7 @@
 #include <gtest/gtest.h>
 #include "server/cache_admin_api_handler.h"
 #include "cache/adaptive_query_cache.h"
+#include "cache/distributed_cache_coordinator.h"
 #include <boost/beast/http.hpp>
 #include <nlohmann/json.hpp>
 #include <filesystem>
@@ -625,6 +626,44 @@ TEST_F(CacheAdminApiHandlerTest, HealthReturns503WhenCacheIsNull) {
     auto req = makeRequest(http::verb::get, "/v1/admin/cache/health");
     EXPECT_EQ(handler_no_cache->handleHealth(req).result(),
               http::status::service_unavailable);
+}
+
+TEST_F(CacheAdminApiHandlerTest, HealthContainsCoordinatorField) {
+    // When no coordinator is registered the health response must still contain
+    // a "coordinator" key (with enabled: false).
+    auto req = makeRequest(http::verb::get, "/v1/admin/cache/health");
+    auto res = handler_->handleHealth(req);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    json body = json::parse(res.body());
+
+    ASSERT_TRUE(body.contains("coordinator"))
+        << "health response must include 'coordinator' key";
+    EXPECT_FALSE(body["coordinator"]["enabled"].get<bool>());
+}
+
+TEST_F(CacheAdminApiHandlerTest, HealthCoordinatorConnectedFalseWhenOffline) {
+    // Register an offline coordinator and verify the health field reflects the
+    // disconnected state.
+    themis::cache::RedisCacheCoordinatorConfig cfg;
+    cfg.host               = "127.0.0.1";
+    cfg.port               = 16399;   // Nothing listening
+    cfg.connect_timeout_ms = 100;
+    cfg.reconnect_interval_ms = 5000;
+
+    auto coord = std::make_shared<themis::cache::RedisCacheCoordinator>(cfg);
+    cache_->setCoordinator(coord);
+
+    auto req = makeRequest(http::verb::get, "/v1/admin/cache/health");
+    auto res = handler_->handleHealth(req);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    json body = json::parse(res.body());
+
+    ASSERT_TRUE(body.contains("coordinator"));
+    EXPECT_TRUE(body["coordinator"]["enabled"].get<bool>());
+    EXPECT_FALSE(body["coordinator"]["connected"].get<bool>());
+    EXPECT_TRUE(body["coordinator"].contains("name"));
 }
 
 // ---------------------------------------------------------------------------
