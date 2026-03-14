@@ -71,7 +71,7 @@ BackoffDispatcherState& dispatcherState() {
 
 void waitOrThrow(std::future<void>&& future, const char* source) {
     if (!future.valid()) {
-        throw std::runtime_error(std::string("Internal error: ")
+        throw std::runtime_error(std::string("RemoteRegistryClient::internal error: ")
                                  + source
                                  + " returned invalid future (dispatcher implementation bug)");
     }
@@ -721,6 +721,7 @@ bool RemoteRegistryClient::httpGetBinary(const std::string& url,
 std::future<std::string> RemoteRegistryClient::httpGetAsync(const std::string& url) {
     // Caller must ensure this instance outlives the returned future.
     // url is copied to decouple the async worker from the caller's lifetime.
+    // WARNING: destroying the client before the future completes is undefined (see header docs).
     return std::async(std::launch::async, [this, url]() { return httpGet(url); });
 }
 
@@ -728,6 +729,7 @@ std::future<bool> RemoteRegistryClient::httpGetBinaryAsync(const std::string& ur
                                                            const std::string& out_path) {
     // Caller must ensure this instance outlives the returned future.
     // url/out_path are copied to decouple the async worker from the caller's lifetime.
+    // WARNING: destroying the client before the future completes is undefined (see header docs).
     return std::async(std::launch::async,
                       [this, url, out_path]() { return httpGetBinary(url, out_path); });
 }
