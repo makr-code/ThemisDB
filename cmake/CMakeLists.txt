@@ -1441,6 +1441,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/transaction_retry_manager.cpp
     ../src/storage/compaction_manager.cpp
     ../src/storage/merge_operators.cpp
+    ../src/storage/wom_tree.cpp
     ../src/storage/compressed_storage.cpp
     ../src/storage/compression_strategy.cpp
     ../src/storage/gpu_compression.cpp

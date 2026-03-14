@@ -148,6 +148,14 @@ v1.x – Production-grade persistent storage layer built on RocksDB with MVCC, W
   - Storage-layer 2PC implemented (DistributedTransactionManager, v1.7.0)
   - Pending: Raft WAL logging for coordinator crash-recovery
 
+### Phase 6: Write-Optimized Storage (Status: Completed ✅ — v1.8.0)
+- [x] `WomTree` – Write-Optimized Merge (WOM) Tree: Bε-tree alternative to LSM for write-heavy workloads
+  - Write amplification 2–5× (vs. 10–30× for LSM)
+  - Lazy buffer propagation — reduced compaction overhead
+  - Configurable fanout, leaf capacity, buffer size
+  - Full put/get/remove/scan/compact API with thread safety
+  - Write-amplification and read-hit-ratio metrics in Stats
+
 ### Phase 5.5: Build System Audit (Status: Completed ✅ — March 2026)
 - [x] All `src/storage/*.cpp` files verified registered in cmake build system (main `CMakeLists.txt` + `StorageEnhancements.cmake` + `BlobStorage.cmake`)
 - [x] 21 focused standalone test targets added in `tests/CMakeLists.txt`: StorageEngineDI, StorageEngineProd, StorageAuditLogger, StorageFuzz, StorageLatencyBench, BlobStorage, BlobTransferCheckpoint, CompressionStrategy, TieredStorage, WalStorage, WalManager, WalArchiving, WalBackupManager, WalChaos, WalManifestCorruption, WalReplication, WalReplicationIntegration, WalGrpcApply, MvccStore, MvccHistory, MvccWalIntegration
