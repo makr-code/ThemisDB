@@ -545,13 +545,9 @@ std::optional<LoadForecast> ShardLoadDetector::forecastLoad(
 
     const double future_x = static_cast<double>(n - 1) + steps_ahead;
 
-    auto clamp = [](double v, double lo, double hi) {
-        return v < lo ? lo : (v > hi ? hi : v);
-    };
-
-    forecast.predicted_cpu_percent     = clamp(cpu_slope * future_x + cpu_intercept, 0.0, 100.0);
-    forecast.predicted_storage_percent = clamp(storage_slope * future_x + storage_intercept, 0.0, 100.0);
-    forecast.predicted_composite_load  = clamp(comp_slope * future_x + comp_intercept, 0.0, 100.0);
+    forecast.predicted_cpu_percent     = std::clamp(cpu_slope * future_x + cpu_intercept, 0.0, 100.0);
+    forecast.predicted_storage_percent = std::clamp(storage_slope * future_x + storage_intercept, 0.0, 100.0);
+    forecast.predicted_composite_load  = std::clamp(comp_slope * future_x + comp_intercept, 0.0, 100.0);
 
     // Residual standard deviation as a proxy for confidence interval
     double residual_sum = 0.0;

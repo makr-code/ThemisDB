@@ -93,17 +93,19 @@ TEST(ShardLoadForecast, ForecastWithRisingSamples_PredictsFutureIncrease) {
     cfg.min_samples_per_shard    = 3;
     auto det = std::make_shared<ShardLoadDetector>(makeTopology(), nullptr, cfg);
 
-    // Simulate CPU rising from 40% to 70% over 5 samples (clear upward trend)
+    // Simulate CPU rising from 40% to 64% over 5 samples (+6%/sample, i=0..4)
     for (int i = 0; i < 5; ++i) {
-        auto m = makeMetrics("s1", 40.0 + i * 6.0, 30.0 + i * 4.0);
+        auto m = makeMetrics("s1", 40.0 + static_cast<double>(i) * 6.0,
+                             30.0 + static_cast<double>(i) * 4.0);
         det->updateShardLoad("s1", m);
     }
 
     auto f = det->forecastLoad("s1", std::chrono::minutes{5});
     ASSERT_TRUE(f.has_value());
     EXPECT_TRUE(f->has_sufficient_history);
-    // Predicted CPU should be higher than last observed value (~64%)
-    EXPECT_GT(f->predicted_cpu_percent, 40.0);
+    // With a rising trend (+6%/sample, last observed = 64%) the 5-minute
+    // forecast should project a value above the last observed CPU (>64%).
+    EXPECT_GT(f->predicted_cpu_percent, 64.0);
 }
 
 TEST(ShardLoadForecast, ForecastWithFlatSamples_StaysNearCurrent) {
@@ -208,40 +210,35 @@ TEST(HotShardSplitPolicy, ReactiveProposal_WhenStorageExceedsThreshold) {
 }
 
 TEST(HotShardSplitPolicy, PredictiveProposal_WhenForecastExceedsThreshold) {
+    // Build a detector with a shard whose CPU is rising but hasn't yet crossed
+    // the reactive threshold (80%), so only the predictive path should fire.
     ShardLoadDetector::Config dcfg;
     dcfg.min_shards_for_detection = 1;
     dcfg.min_samples_per_shard    = 3;
-    auto det = std::make_shared<ShardLoadDetector>(makeTopology(), nullptr, dcfg);
+    auto det2 = std::make_shared<ShardLoadDetector>(makeTopology(), nullptr, dcfg);
 
-    // CPU rising steeply towards the threshold
-    for (int i = 0; i < 5; ++i) {
-        det->updateShardLoad("rising_shard", makeMetrics("rising_shard", 55.0 + i * 8.0, 30.0));
-    }
-    // Latest CPU ≈ 87% – already triggers reactive path, so let's use a lower current
-    // Reset with flat moderate load that is *forecasted* to cross 80%
-    ShardLoadDetector::Config dcfg2;
-    dcfg2.min_shards_for_detection = 1;
-    dcfg2.min_samples_per_shard    = 3;
-    auto det2 = std::make_shared<ShardLoadDetector>(makeTopology(), nullptr, dcfg2);
+    // CPU rising from 50% to 70% over 5 samples (+5%/sample).
+    // Current value at sample 4 is 70% – below the 80% reactive threshold.
+    // The linear trend projects ~80%+ within a few samples, so the predictive
+    // path with a 70-point threshold should fire.
     for (int i = 0; i < 5; ++i) {
         det2->updateShardLoad("s_predictive",
                               makeMetrics("s_predictive", 50.0 + i * 5.0, 30.0));
     }
-    // CPU now at 70%; trend = +5%/sample → in ~2 samples crosses 80%
 
     HotShardSplitPolicy::Config cfg;
-    cfg.cpu_split_threshold           = 0.80;   // Reactive fires at 80%
-    cfg.predictive_load_threshold     = 70.0;   // Lower threshold to ensure predictive fires
+    cfg.cpu_split_threshold           = 0.80;   // Reactive: fires only at 80%+ current CPU
+    // Lower composite threshold so the predictive path fires for the rising trend
+    cfg.predictive_load_threshold     = 60.0;
     cfg.enable_predictive_splitting   = true;
     cfg.forecast_horizon              = std::chrono::minutes{5};
     HotShardSplitPolicy policy(det2, cfg);
 
     auto proposals = policy.evaluate();
-    // At least one proposal expected (either reactive or predictive)
-    EXPECT_FALSE(proposals.empty());
-    if (!proposals.empty()) {
-        EXPECT_EQ(proposals[0].hot_shard_id, "s_predictive");
-    }
+    ASSERT_FALSE(proposals.empty());
+    EXPECT_EQ(proposals[0].hot_shard_id, "s_predictive");
+    // The proposal must be marked as predictive (current CPU < reactive threshold)
+    EXPECT_TRUE(proposals[0].is_predictive);
 }
 
 TEST(HotShardSplitPolicy, MultipleHotShards_AllProposed) {

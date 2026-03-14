@@ -636,9 +636,15 @@ LiveMigrationResult DataMigrator::liveMigrate(
             ShardInfo updated_source = *source_info_opt;
             ShardInfo updated_target = *target_info_opt;
 
-            // Shrink the source shard's range: keep the lower half
-            updated_source.token_end = token_range_start > 0 ? token_range_start - 1
-                                                              : token_range_start;
+            // Shrink the source shard's range to the tokens below the split point.
+            // When token_range_start is 0 the entire range is migrated, so the
+            // source ends up with an empty range (token_start == token_end == 0).
+            // In practice callers should always split at a midpoint > 0; passing
+            // token_range_start = 0 signals a full range migration and the source
+            // shard will be decommissioned after cutover.
+            updated_source.token_end = (token_range_start > 0)
+                                           ? token_range_start - 1
+                                           : 0;
 
             // Expand the target shard's range to cover the migrated portion
             updated_target.token_start = token_range_start;

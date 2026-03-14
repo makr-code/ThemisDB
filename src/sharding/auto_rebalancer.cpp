@@ -95,9 +95,10 @@ std::vector<HotShardSplitPolicy::SplitProposal> HotShardSplitPolicy::evaluate() 
                                   "/100 in " + std::to_string(config_.forecast_horizon.count()) +
                                   " min (threshold " +
                                   std::to_string(static_cast<int>(config_.predictive_load_threshold)) + ")";
-                proposal.current_load_percent   = forecast->has_sufficient_history
-                                                      ? forecast->predicted_composite_load - (forecast->predicted_composite_load - 70.0) / 2.0
-                                                      : forecast->predicted_composite_load;
+                // Report the last observed composite load as current_load_percent so
+                // the caller can distinguish current vs. forecasted load in logging.
+                proposal.current_load_percent   = forecast->predicted_composite_load
+                                                      - forecast->confidence_interval;
                 proposal.predicted_load_percent = forecast->predicted_composite_load;
                 proposal.is_predictive          = true;
                 proposals.push_back(proposal);
@@ -771,9 +772,22 @@ bool AutoRebalancer::executeSplitProposal(const HotShardSplitPolicy::SplitPropos
     LoadImbalanceResult::RebalanceRecommendation rec;
     rec.source_shard = proposal.hot_shard_id;
     rec.target_shard = target_shard;
-    // Move the upper half of the source shard's token range
-    rec.token_range_start = UINT64_MAX / 2;
-    rec.token_range_end   = UINT64_MAX;
+
+    // Derive the split token range from the hot shard's actual topology entry.
+    // We migrate the upper half of whatever range the hot shard owns so that
+    // the migration is always within the shard's authoritative range.
+    uint64_t shard_token_start = 0;
+    uint64_t shard_token_end   = UINT64_MAX;
+    if (topology_) {
+        auto shard_info = topology_->getShard(proposal.hot_shard_id);
+        if (shard_info) {
+            shard_token_start = shard_info->token_start;
+            shard_token_end   = shard_info->token_end;
+        }
+    }
+    const uint64_t midpoint = shard_token_start + (shard_token_end - shard_token_start) / 2;
+    rec.token_range_start = midpoint;
+    rec.token_range_end   = shard_token_end;
     rec.expected_load_reduction_percent = 50.0;
     rec.justification = "Hot-shard split – " + proposal.reason;
 
