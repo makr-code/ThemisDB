@@ -318,9 +318,34 @@ void TransactionManager::resolveDeadlock(const std::vector<TransactionId>& cycle
     info.detected_at = std::chrono::system_clock::now();
     info.victim_id = victim_id;
     info.policy_used = policy;
-    
+
+    // Adaptive Deadlock Prevention: collect cycle keys BEFORE erasing the
+    // victim's entries from held_locks_ / waiting_for_ so that all participants'
+    // keys (including the victim's) are captured in the training data.
+    std::vector<std::string> cycle_keys;
     {
         std::lock_guard<std::mutex> lock(lock_tracking_mutex_);
+
+        // Collect for predictor (deduplicate via temporary set).
+        if (deadlock_predictor_.load(std::memory_order_acquire)) {
+            std::unordered_set<std::string> seen;
+            for (const auto& txn_id : cycle) {
+                for (const auto& [key, linfo] : held_locks_) {
+                    if (linfo.holder == txn_id && seen.insert(key).second) {
+                        cycle_keys.push_back(key);
+                    }
+                }
+                auto wit = waiting_for_.find(txn_id);
+                if (wit != waiting_for_.end()) {
+                    for (const auto& wkey : wit->second) {
+                        if (seen.insert(wkey).second) {
+                            cycle_keys.push_back(wkey);
+                        }
+                    }
+                }
+            }
+        }
+
         recent_deadlocks_.push_back(info);
         
         // Keep only last 100 deadlocks (use pop_front for efficiency with deque)
@@ -345,26 +370,9 @@ void TransactionManager::resolveDeadlock(const std::vector<TransactionId>& cycle
 
     // Adaptive Deadlock Prevention: notify the predictor about this deadlock so
     // it can increase the conflict weight for the keys involved in the cycle.
-    if (deadlock_predictor_) {
-        std::vector<std::string> cycle_keys;
-        {
-            std::lock_guard<std::mutex> lk(lock_tracking_mutex_);
-            for (const auto& txn_id : cycle) {
-                for (const auto& [key, info] : held_locks_) {
-                    if (info.holder == txn_id) {
-                        cycle_keys.push_back(key);
-                    }
-                }
-                auto wit = waiting_for_.find(txn_id);
-                if (wit != waiting_for_.end()) {
-                    for (const auto& wkey : wit->second) {
-                        cycle_keys.push_back(wkey);
-                    }
-                }
-            }
-        }
-        if (!cycle_keys.empty()) {
-            deadlock_predictor_->recordDeadlock(cycle_keys);
+    if (!cycle_keys.empty()) {
+        if (DeadlockPredictor* dp = deadlock_predictor_.load(std::memory_order_acquire)) {
+            dp->recordDeadlock(cycle_keys);
         }
     }
 }
@@ -498,7 +506,7 @@ TransactionManager::Status TransactionManager::commitTransaction(TransactionId i
 
     // Adaptive Deadlock Prevention: feed the predictor with this transaction's
     // lock history so future probability estimates improve over time.
-    if (deadlock_predictor_) {
+    if (DeadlockPredictor* dp = deadlock_predictor_.load(std::memory_order_acquire)) {
         std::vector<std::string> keys;
         {
             std::lock_guard<std::mutex> lk(lock_tracking_mutex_);
@@ -508,7 +516,7 @@ TransactionManager::Status TransactionManager::commitTransaction(TransactionId i
         }
         auto duration_us = std::chrono::duration_cast<std::chrono::microseconds>(
             std::chrono::milliseconds(txn->getDurationMs()));
-        deadlock_predictor_->recordTransaction(id, keys, duration_us);
+        dp->recordTransaction(id, keys, duration_us);
     }
 
     return status;
@@ -542,7 +550,7 @@ bool TransactionManager::rollbackTransaction(TransactionId id) {
     moveToCompleted(id);
 
     // Adaptive Deadlock Prevention: record rolled-back transaction's pattern.
-    if (deadlock_predictor_) {
+    if (DeadlockPredictor* dp = deadlock_predictor_.load(std::memory_order_acquire)) {
         std::vector<std::string> keys;
         {
             std::lock_guard<std::mutex> lk(lock_tracking_mutex_);
@@ -552,7 +560,7 @@ bool TransactionManager::rollbackTransaction(TransactionId id) {
         }
         auto duration_us = std::chrono::duration_cast<std::chrono::microseconds>(
             std::chrono::milliseconds(txn->getDurationMs()));
-        deadlock_predictor_->recordTransaction(id, keys, duration_us);
+        dp->recordTransaction(id, keys, duration_us);
     }
 
     return true;
@@ -1990,20 +1998,19 @@ TransactionManager::listEntityVersions(
 // ── Adaptive Deadlock Prevention (v1.9.0) ────────────────────────────────────
 
 void TransactionManager::setDeadlockPredictor(DeadlockPredictor* predictor) {
-    // Stored as a non-owning pointer; no synchronisation needed beyond a plain
-    // atomic store because the pointer itself is read on the hot path only after
-    // it has been fully initialised by the caller.
-    deadlock_predictor_ = predictor;
+    // Release store so that any writes made to *predictor before this call are
+    // visible to threads that subsequently load the pointer with acquire order.
+    deadlock_predictor_.store(predictor, std::memory_order_release);
 }
 
 DeadlockPredictor* TransactionManager::getDeadlockPredictor() const {
-    return deadlock_predictor_;
+    return deadlock_predictor_.load(std::memory_order_acquire);
 }
 
 double TransactionManager::predictDeadlockProbability(
         const std::vector<std::string>& proposed_locks) const
 {
-    DeadlockPredictor* p = deadlock_predictor_;
+    DeadlockPredictor* p = deadlock_predictor_.load(std::memory_order_acquire);
     if (!p || proposed_locks.empty()) {
         return 0.0;
     }
@@ -2022,7 +2029,7 @@ double TransactionManager::predictDeadlockProbability(
 std::vector<std::string> TransactionManager::recommendLockOrder(
         const std::vector<std::string>& keys) const
 {
-    DeadlockPredictor* p = deadlock_predictor_;
+    DeadlockPredictor* p = deadlock_predictor_.load(std::memory_order_acquire);
     if (!p) {
         // Fall back to lexicographic order for determinism.
         std::vector<std::string> sorted = keys;
@@ -2035,7 +2042,7 @@ std::vector<std::string> TransactionManager::recommendLockOrder(
 std::chrono::milliseconds TransactionManager::recommendTimeout(
         const std::vector<std::string>& keys) const
 {
-    DeadlockPredictor* p = deadlock_predictor_;
+    DeadlockPredictor* p = deadlock_predictor_.load(std::memory_order_acquire);
     if (!p) {
         return std::chrono::milliseconds(
             deadlock_timeout_ms_.load(std::memory_order_relaxed));

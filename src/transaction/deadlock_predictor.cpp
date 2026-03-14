@@ -75,10 +75,19 @@ void DeadlockPredictor::recordTransaction(
     }
 
     // Increment co-occurrence counts for every pair in this transaction.
+    // These base co-occurrence weights allow the predictor to build a conflict
+    // map even before any deadlock is observed.  Deadlock events then apply an
+    // additional multiplier (deadlock_weight_multiplier) so that pairs confirmed
+    // to deadlock receive substantially higher scores.
     for (size_t i = 0; i < locks_acquired.size(); ++i) {
         for (size_t j = i + 1; j < locks_acquired.size(); ++j) {
             const std::string pk = makePairKey(locks_acquired[i], locks_acquired[j]);
-            pair_conflicts_[pk] += 1.0;
+            double new_val = (pair_conflicts_[pk] += 1.0);
+
+            // Track running maximum so normalisation is always up-to-date.
+            if (new_val > max_conflict_score_) {
+                max_conflict_score_ = new_val;
+            }
 
             // Evict when the map is too large (remove the entry with the lowest
             // count to keep the most significant conflict pairs).
@@ -107,7 +116,33 @@ void DeadlockPredictor::recordDeadlock(const std::vector<std::string>& keys) {
     for (size_t i = 0; i < keys.size(); ++i) {
         for (size_t j = i + 1; j < keys.size(); ++j) {
             const std::string pk = makePairKey(keys[i], keys[j]);
-            pair_conflicts_[pk] += config_.deadlock_weight_multiplier;
+            double new_val = (pair_conflicts_[pk] += config_.deadlock_weight_multiplier);
+
+            // Track running maximum so normalisation is always up-to-date.
+            if (new_val > max_conflict_score_) {
+                max_conflict_score_ = new_val;
+            }
+
+            // Apply the same eviction policy as recordTransaction() to keep the
+            // map bounded and prevent unbounded memory growth.
+            if (pair_conflicts_.size() > config_.max_conflict_pairs) {
+                auto it_min = std::min_element(
+                    pair_conflicts_.begin(), pair_conflicts_.end(),
+                    [](const auto& a, const auto& b) {
+                        return a.second < b.second;
+                    });
+                // Re-check max after eviction in case the evicted entry was the max.
+                if (it_min->second >= max_conflict_score_) {
+                    pair_conflicts_.erase(it_min);
+                    // Recompute max after removing a high-weight entry.
+                    max_conflict_score_ = 0.0;
+                    for (const auto& [_, v] : pair_conflicts_) {
+                        if (v > max_conflict_score_) max_conflict_score_ = v;
+                    }
+                } else {
+                    pair_conflicts_.erase(it_min);
+                }
+            }
         }
     }
 
@@ -124,16 +159,6 @@ void DeadlockPredictor::recordDeadlock(const std::vector<std::string>& keys) {
         if (all_present) {
             p.was_deadlocked = true;
         }
-    }
-
-    // Recompute the running maximum conflict score so normalisation stays
-    // meaningful.
-    double new_max = 0.0;
-    for (const auto& [_, v] : pair_conflicts_) {
-        if (v > new_max) new_max = v;
-    }
-    if (new_max > max_conflict_score_) {
-        max_conflict_score_ = new_max;
     }
 }
 
@@ -186,7 +211,7 @@ std::vector<std::string> DeadlockPredictor::recommendLockOrder(
         danger[key] = 0.0;
     }
     for (const auto& [pair_key, weight] : pair_conflicts_) {
-        // pair_key is "a:b" — split at the first colon that separates them.
+        // pair_key is encoded as "a\x00b" (NUL-byte separator) – split on '\x00'.
         auto sep = pair_key.find('\x00');
         if (sep == std::string::npos) continue;
 
@@ -309,6 +334,10 @@ std::chrono::microseconds DeadlockPredictor::percentile(
     std::sort(values.begin(), values.end());
     // Clamp p to [0, 100].
     p = std::max(0, std::min(100, p));
+    // p == 0 → return the minimum (first element after sort).
+    if (p == 0) {
+        return values.front();
+    }
     size_t idx = static_cast<size_t>(
         std::ceil(static_cast<double>(p) / 100.0 *
                   static_cast<double>(values.size())) - 1);

@@ -3940,7 +3940,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_deadlock_prevention.cpp")
 
     add_executable(test_adaptive_deadlock_prevention_focused
         test_adaptive_deadlock_prevention.cpp
-        ${CMAKE_SOURCE_DIR}/src/transaction/deadlock_predictor.cpp
     )
 
     target_include_directories(test_adaptive_deadlock_prevention_focused PRIVATE

@@ -1544,6 +1544,7 @@ set(THEMIS_CORE_SOURCES
     ../src/transaction/lock_manager.cpp
     ../src/transaction/crash_recovery_manager.cpp
     ../src/transaction/global_transaction_manager.cpp
+    ../src/transaction/deadlock_predictor.cpp
     
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp

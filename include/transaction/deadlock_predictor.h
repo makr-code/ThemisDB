@@ -15,8 +15,10 @@ namespace themis {
 ///
 /// DeadlockPredictor learns from historical transaction and deadlock events to:
 ///   - Score the probability that a proposed set of locks will deadlock.
-///   - Recommend a safe lock-acquisition order (topological sort of the observed
-///     wait-graph, breaking ties by ascending key to be deterministic).
+///   - Recommend a safe lock-acquisition order: keys are sorted by ascending
+///     aggregate conflict weight (danger score) with lexicographic tie-breaking.
+///     Keys with higher danger scores—i.e. those that have co-occurred in
+///     contentious or deadlocked transactions more often—are acquired last.
 ///   - Suggest an adaptive transaction timeout calibrated to the observed hold
 ///     time of the keys being requested.
 ///
@@ -27,9 +29,12 @@ namespace themis {
 ///    (keys, hold_time) pair.  Patterns that appear in deadlock cycles are given
 ///    a higher *conflict weight*.
 ///
-/// 2. **Pair-conflict matrix** – whenever two keys appear in the same deadlock
-///    cycle, the cell (keyA, keyB) is incremented.  The deadlock probability for
-///    a proposed lock set is then derived from the normalised sum of pair-conflict
+/// 2. **Pair-conflict matrix** – whenever two keys co-occur in the same
+///    transaction, the cell (keyA, keyB) is incremented by 1 (co-occurrence
+///    heuristic).  When a deadlock cycle is recorded via `recordDeadlock()`,
+///    those same pairs are further incremented by `Config::deadlock_weight_multiplier`
+///    to reinforce high-risk combinations.  The deadlock probability for a
+///    proposed lock set is then derived from the normalised sum of pair-conflict
 ///    weights over all pairs in the set.
 ///
 /// ### Thread safety
@@ -62,10 +67,6 @@ public:
         /// Minimum number of recorded events before predictions are made.
         /// Returns 0.0 probability until this threshold is reached.
         size_t min_samples_for_prediction{5};
-
-        /// Probability threshold above which recommendLockOrder() is triggered
-        /// automatically when called from a hot path.
-        double high_risk_threshold{0.7};
 
         /// Weight multiplier applied to conflict counts that involved an actual
         /// deadlock (vs. merely observed co-occurrence).
@@ -124,10 +125,13 @@ public:
         const std::vector<std::string>& proposed_locks,
         const std::set<TransactionId>&  active_transactions) const;
 
-    /// Return the recommended key acquisition order for @p keys based on the
-    /// historical wait-graph.  Keys that have been observed as "waiters" (i.e.
-    /// transactions that waited for them were eventually aborted) are placed
-    /// later; otherwise the order is lexicographic for determinism.
+    /// Return the recommended key acquisition order for @p keys.
+    ///
+    /// Keys are sorted by ascending aggregate conflict weight (danger score):
+    /// a key's danger score is the sum of all pair-conflict weights it shares
+    /// with other keys in the input set.  Keys with lower danger scores are
+    /// placed first (safer to acquire earlier).  Ties are broken lexicographically
+    /// for determinism.
     ///
     /// If no historical data is available the keys are returned in lexicographic
     /// order.
@@ -178,8 +182,10 @@ private:
     /// Circular buffer of recorded lock patterns.
     std::deque<LockPattern> patterns_;
 
-    /// (keyA:keyB) -> conflict count.  Higher means the pair has been observed
-    /// co-occurring in contentious situations.
+    /// NUL-separated pair key → conflict weight.
+    /// Incremented by 1 for every co-occurring pair in `recordTransaction()`;
+    /// incremented by `Config::deadlock_weight_multiplier` for pairs confirmed
+    /// to deadlock via `recordDeadlock()`.
     std::unordered_map<std::string, double> pair_conflicts_;
 
     /// Per-key: aggregate hold times for timeout estimation.

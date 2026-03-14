@@ -101,7 +101,7 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] `DeadlockPredictor` – ML-inspired deadlock probability scoring (Target: v1.9.0)
   — implemented in `include/transaction/deadlock_predictor.h`, `src/transaction/deadlock_predictor.cpp`
 - [x] Historical deadlock pattern analysis via pair-conflict weight matrix
-- [x] Lock acquire order recommendation (topological danger-score sort)
+- [x] Lock acquire order recommendation (danger-score sort with lexicographic tie-break)
 - [x] Dynamic timeout adjustment based on observed per-key hold-time percentiles
 - [x] Deadlock probability scoring with active-transaction contention scaling
 - [x] `TransactionManager` integration: `setDeadlockPredictor`, `predictDeadlockProbability`,

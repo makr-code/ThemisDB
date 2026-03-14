@@ -74,6 +74,20 @@ TEST_F(DeadlockPredictorTest, PredictReturnsProbabilityAfterSufficientSamples) {
     EXPECT_LE(prob, 1.0);
 }
 
+TEST_F(DeadlockPredictorTest, PredictProbabilityNonZeroFromCoOccurrenceAlone) {
+    // Co-occurrence weights from recordTransaction() now update max_conflict_score_,
+    // so a non-zero probability should be returned without calling recordDeadlock().
+    DeadlockPredictor::Config cfg;
+    cfg.min_samples_for_prediction = 1;
+    predictor_.setConfig(cfg);
+
+    predictor_.recordTransaction(1, {"x", "y"}, 100us);
+
+    double prob = predictor_.predictDeadlockProbability({"x", "y"}, {});
+    EXPECT_GT(prob, 0.0);
+    EXPECT_LE(prob, 1.0);
+}
+
 TEST_F(DeadlockPredictorTest, PredictProbabilityClampedToOne) {
     DeadlockPredictor::Config cfg;
     cfg.min_samples_for_prediction = 1;
@@ -187,13 +201,13 @@ TEST_F(DeadlockPredictorTest, SetAndGetConfig) {
     DeadlockPredictor::Config cfg;
     cfg.max_patterns              = 500;
     cfg.min_samples_for_prediction = 10;
-    cfg.high_risk_threshold       = 0.9;
+    cfg.deadlock_weight_multiplier = 5.0;
     predictor_.setConfig(cfg);
 
     auto got = predictor_.getConfig();
     EXPECT_EQ(got.max_patterns, 500u);
     EXPECT_EQ(got.min_samples_for_prediction, 10u);
-    EXPECT_DOUBLE_EQ(got.high_risk_threshold, 0.9);
+    EXPECT_DOUBLE_EQ(got.deadlock_weight_multiplier, 5.0);
 }
 
 TEST_F(DeadlockPredictorTest, ActiveTransactionsInflateProbability) {
@@ -323,29 +337,31 @@ TEST_F(AdaptiveDeadlockIntegrationTest, RecommendTimeoutWithoutPredictorUsesDead
 
 TEST_F(AdaptiveDeadlockIntegrationTest, RecommendTimeoutDelegatesToPredictor) {
     txn_mgr_->setDeadlockPredictor(&predictor_);
-    // No history → falls back to predictor's min_recommended_timeout.
+    // No history → predictor falls back to its min_recommended_timeout.
+    auto cfg = predictor_.getConfig();
     auto timeout = txn_mgr_->recommendTimeout({"k1"});
-    EXPECT_GE(timeout.count(), 0);
+    EXPECT_EQ(timeout, cfg.min_recommended_timeout);
 }
 
 TEST_F(AdaptiveDeadlockIntegrationTest, CommitRecordsTransactionInPredictor) {
     txn_mgr_->setDeadlockPredictor(&predictor_);
 
+    // A transaction with no held locks contributes nothing to the predictor.
+    // After commit the count must still be 0 (no keys → recordTransaction skips).
     auto txn_id = txn_mgr_->beginTransaction();
     txn_mgr_->commitTransaction(txn_id);
 
-    // The predictor may or may not record (depends on held keys), but it must
-    // not crash.  A transaction without any held locks contributes nothing.
-    EXPECT_GE(predictor_.recordedTransactionCount(), 0u);
+    EXPECT_EQ(predictor_.recordedTransactionCount(), 0u);
 }
 
 TEST_F(AdaptiveDeadlockIntegrationTest, RollbackRecordsTransactionInPredictor) {
     txn_mgr_->setDeadlockPredictor(&predictor_);
 
+    // Same: no held locks → recordTransaction skips → count stays 0.
     auto txn_id = txn_mgr_->beginTransaction();
     txn_mgr_->rollbackTransaction(txn_id);
 
-    EXPECT_GE(predictor_.recordedTransactionCount(), 0u);
+    EXPECT_EQ(predictor_.recordedTransactionCount(), 0u);
 }
 
 TEST_F(AdaptiveDeadlockIntegrationTest, MultipleTransactionsDoNotCrashWithPredictor) {

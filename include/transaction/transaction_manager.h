@@ -885,8 +885,9 @@ public:
     /**
      * @brief Return the recommended transaction timeout for @p keys.
      *
-     * Delegates to the attached DeadlockPredictor.  Returns 1 000 ms (the
-     * default deadlock timeout) when no predictor is attached.
+     * Delegates to the attached DeadlockPredictor.  Returns the current
+     * deadlock-detection timeout (as configured by setDeadlockTimeout()) when
+     * no predictor is attached.
      *
      * @param keys  Keys that the transaction will lock.
      */
@@ -1181,7 +1182,9 @@ private:
     /// Optional SnapshotManager for resolving named tags in time-travel queries.
     transaction::SnapshotManager* snapshot_mgr_{nullptr};
     /// Optional non-owning pointer to the adaptive deadlock predictor (v1.9.0).
-    DeadlockPredictor* deadlock_predictor_{nullptr};
+    /// Stored atomically so setDeadlockPredictor() can be called concurrently
+    /// with predict/recommend helpers without introducing a data race.
+    std::atomic<DeadlockPredictor*> deadlock_predictor_{nullptr};
 };
 
 } // namespace themis
