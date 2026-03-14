@@ -1605,6 +1605,25 @@ nlohmann::json AdaptiveQueryCache::getHealthStatus() const {
     // Embed circuit breaker details
     health["circuit_breaker"] = getCircuitBreakerStatus();
 
+    // Replication coordinator connection status
+    {
+        std::lock_guard<std::mutex> lk(coordinator_mutex_);
+        if (coordinator_) {
+            bool coord_connected = coordinator_->isConnected();
+            health["coordinator"] = {
+                {"enabled",   true},
+                {"connected", coord_connected},
+                {"name",      coordinator_->name()}
+            };
+            if (!coord_connected) {
+                health["warnings"].push_back(
+                    "Cache coordinator disconnected: " + coordinator_->name());
+            }
+        } else {
+            health["coordinator"] = {{"enabled", false}};
+        }
+    }
+
     // Phase 4: Write-through mode status
     health["write_through"] = {
         {"enabled", config_.enable_write_through},
