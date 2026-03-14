@@ -178,7 +178,10 @@ bool ClusterUpdateManager::updateSingleNode(const ClusterNode&          node,
                 rollback_fn = node_rollback_fn_;
             }
             if (rollback_fn) {
-                // applied_version is empty here (update failed before completing)
+                // The update failed before applied_version could be set
+                // (NodeUpdateFunc returned false before HEALTH_CHECK
+                // transition).  Pass an empty string to indicate no version
+                // was successfully installed on this node.
                 rollback_fn(node, "");
             }
             {

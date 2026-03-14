@@ -83,9 +83,11 @@ struct ClusterNodeStatus {
     /// Non-empty on failure.
     std::string error_message;
 
-    /// Version string that was applied to this node.  Non-empty when
-    /// state == COMPLETED.  Can be passed to a NodeRollbackFunc to identify
-    /// the version that needs to be undone.
+    /// Version string that was applied to this node.  Set when the node
+    /// transitions to HEALTH_CHECK state (immediately after the
+    /// NodeUpdateFunc succeeds) and remains populated through COMPLETED or
+    /// ROLLED_BACK.  Empty while the node is in PENDING, DRAINING, or
+    /// APPLYING state, or if the NodeUpdateFunc itself failed.
     std::string applied_version;
 
     /// true when this status entry describes the coordinator node.
