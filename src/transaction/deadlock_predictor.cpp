@@ -131,16 +131,15 @@ void DeadlockPredictor::recordDeadlock(const std::vector<std::string>& keys) {
                     [](const auto& a, const auto& b) {
                         return a.second < b.second;
                     });
-                // Re-check max after eviction in case the evicted entry was the max.
-                if (it_min->second >= max_conflict_score_) {
-                    pair_conflicts_.erase(it_min);
-                    // Recompute max after removing a high-weight entry.
+                // If we are evicting the entry whose value equals max_conflict_score_,
+                // we need to recompute the max from the remaining entries.
+                double evicted_val = it_min->second;
+                pair_conflicts_.erase(it_min);
+                if (evicted_val >= max_conflict_score_) {
                     max_conflict_score_ = 0.0;
                     for (const auto& [_, v] : pair_conflicts_) {
                         if (v > max_conflict_score_) max_conflict_score_ = v;
                     }
-                } else {
-                    pair_conflicts_.erase(it_min);
                 }
             }
         }
