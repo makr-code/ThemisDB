@@ -420,7 +420,7 @@ ModuleVerificationResult RemoteRegistryClient::downloadAndLoad(
         // Use the injected dispatcher (e.g., TaskScheduler) to schedule the delay.
         try {
             auto future = dispatcher(delay);
-            waitOrThrow(std::move(future), "backoff dispatcher");
+            waitOrThrow(std::move(future), "backoff dispatcher for retry delay");
         } catch (const std::exception& ex) {
             spdlog::error("RemoteRegistryClient::asyncBackoffSleep: dispatcher error: {}",
                           ex.what());
@@ -436,7 +436,7 @@ ModuleVerificationResult RemoteRegistryClient::downloadAndLoad(
     // Default: shared worker thread handles the delay to avoid spawning one
     // thread per backoff when no dispatcher is injected.
     auto future = BackoffScheduler::instance().schedule(delay);
-    waitOrThrow(std::move(future), "backoff scheduler");
+    waitOrThrow(std::move(future), "internal backoff scheduler for retry delay");
 }
 
 std::string RemoteRegistryClient::buildAuthorizationHeader() const {
@@ -723,7 +723,22 @@ std::future<std::string> RemoteRegistryClient::httpGetAsync(const std::string& u
     // Caller must ensure this instance outlives the returned future.
     // url is copied to decouple the async worker from the caller's lifetime.
     // WARNING: destroying the client before the future completes is undefined (see header docs).
-    return std::async(std::launch::async, [this, url]() { return httpGet(url); });
+    std::weak_ptr<RemoteRegistryClient> weak_self;
+    try {
+        weak_self = shared_from_this();
+    } catch (const std::bad_weak_ptr&) {
+        throw std::runtime_error(
+            "httpGetAsync requires RemoteRegistryClient to be managed by std::shared_ptr");
+    }
+
+    return std::async(std::launch::async, [weak_self, url]() {
+        auto self = weak_self.lock();
+        if (!self) {
+            throw std::runtime_error(
+                "RemoteRegistryClient destroyed before httpGetAsync completed");
+        }
+        return self->httpGet(url);
+    });
 }
 
 std::future<bool> RemoteRegistryClient::httpGetBinaryAsync(const std::string& url,
@@ -731,8 +746,22 @@ std::future<bool> RemoteRegistryClient::httpGetBinaryAsync(const std::string& ur
     // Caller must ensure this instance outlives the returned future.
     // url/out_path are copied to decouple the async worker from the caller's lifetime.
     // WARNING: destroying the client before the future completes is undefined (see header docs).
-    return std::async(std::launch::async,
-                      [this, url, out_path]() { return httpGetBinary(url, out_path); });
+    std::weak_ptr<RemoteRegistryClient> weak_self;
+    try {
+        weak_self = shared_from_this();
+    } catch (const std::bad_weak_ptr&) {
+        throw std::runtime_error(
+            "httpGetBinaryAsync requires RemoteRegistryClient to be managed by std::shared_ptr");
+    }
+
+    return std::async(std::launch::async, [weak_self, url, out_path]() {
+        auto self = weak_self.lock();
+        if (!self) {
+            throw std::runtime_error(
+                "RemoteRegistryClient destroyed before httpGetBinaryAsync completed");
+        }
+        return self->httpGetBinary(url, out_path);
+    });
 }
 
 /*static*/ void RemoteRegistryClient::setBackoffDispatcher(

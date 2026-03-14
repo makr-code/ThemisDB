@@ -40,6 +40,7 @@
 #include <chrono>
 #include <filesystem>
 #include <fstream>
+#include <memory>
 #include <string>
 
 using namespace themis::modules;
@@ -474,8 +475,9 @@ TEST(RemoteRegistryClient, CustomBackoffDispatcherIsUsed) {
         total_delay_ms.fetch_add(static_cast<int>(delay.count()), std::memory_order_relaxed);
         auto promise = std::make_shared<std::promise<void>>();
         auto fut     = promise->get_future();
-        // Promise is fulfilled synchronously; no asynchronous work relies on its lifetime.
-        promise->set_value();  // no actual sleep to keep the test fast
+        // In this test the promise is fulfilled synchronously to keep execution fast;
+        // real dispatchers would satisfy it after the scheduled delay.
+        promise->set_value();
         return fut;
     };
 
@@ -508,9 +510,9 @@ TEST(RemoteRegistryClient, HttpGetAsyncReleasesCaller) {
     cfg.max_total_retry_time_ms = 5;
     cfg.verify_ssl              = false;
 
-    RemoteRegistryClient client(cfg);
+    auto client = std::make_shared<RemoteRegistryClient>(cfg);
 
-    auto fut = client.httpGetAsync(cfg.registry_url + "/plugins");
+    auto fut = client->httpGetAsync(cfg.registry_url + "/plugins");
 
     // Future should be valid and we should be able to wait for completion.
     EXPECT_TRUE(fut.valid());

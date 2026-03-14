@@ -36,6 +36,7 @@
 #include <chrono>
 #include <functional>
 #include <future>
+#include <memory>
 #include <mutex>
 #include <optional>
 #include <string>
@@ -197,7 +198,7 @@ struct RequestStats {
  *   }
  * @endcode
  */
-class RemoteRegistryClient {
+class RemoteRegistryClient : public std::enable_shared_from_this<RemoteRegistryClient> {
 public:
     explicit RemoteRegistryClient(const RegistryConfig& config);
     ~RemoteRegistryClient();
@@ -282,6 +283,8 @@ public:
      * completes. Accessing the future after destroying the client results in
      * undefined behavior. Discarding the future is allowed, but the underlying
      * work still runs and the client must remain alive until it completes.
+     * The client **must** be owned by std::shared_ptr; otherwise a
+     * std::bad_weak_ptr error is raised.
      */
     std::future<std::string> httpGetAsync(const std::string& url);
 
@@ -294,7 +297,8 @@ public:
      * alive until the future completes. Accessing the future after destroying
      * the client results in undefined behavior. Discarding the future is
      * allowed, but the underlying work still runs and the client must remain
-     * alive until it completes.
+     * alive until it completes. The client **must** be owned by std::shared_ptr;
+     * otherwise a std::bad_weak_ptr error is raised.
      */
     std::future<bool> httpGetBinaryAsync(const std::string& url,
                                          const std::string& out_path);
