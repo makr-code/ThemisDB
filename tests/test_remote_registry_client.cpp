@@ -497,7 +497,6 @@ TEST(RemoteRegistryClient, CustomBackoffDispatcherIsUsed) {
     const auto stats = client.lastRequestStats();
     EXPECT_GE(stats.attempts, 1);
     EXPECT_FALSE(stats.last_error.empty());
-
 }
 
 TEST(RemoteRegistryClient, HttpGetAsyncReleasesCaller) {

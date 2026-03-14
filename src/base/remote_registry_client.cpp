@@ -410,6 +410,11 @@ ModuleVerificationResult RemoteRegistryClient::downloadAndLoad(
         // Use the injected dispatcher (e.g., TaskScheduler) to schedule the delay.
         try {
             auto future = dispatcher(delay);
+            if (!future.valid()) {
+                spdlog::error("RemoteRegistryClient::asyncBackoffSleep: dispatcher "
+                              "returned invalid future");
+                throw std::runtime_error("backoff dispatcher returned invalid future");
+            }
             future.wait();
         } catch (const std::exception& ex) {
             spdlog::error("RemoteRegistryClient::asyncBackoffSleep: dispatcher error: {}",
@@ -426,6 +431,9 @@ ModuleVerificationResult RemoteRegistryClient::downloadAndLoad(
     // Default: shared worker thread handles the delay to avoid spawning one
     // thread per backoff when no dispatcher is injected.
     auto future = BackoffScheduler::instance().schedule(delay);
+    if (!future.valid()) {
+        throw std::runtime_error("backoff scheduler returned invalid future");
+    }
     future.wait();
 }
 
@@ -710,11 +718,13 @@ bool RemoteRegistryClient::httpGetBinary(const std::string& url,
 }
 
 std::future<std::string> RemoteRegistryClient::httpGetAsync(const std::string& url) {
+    // Caller must ensure this instance outlives the returned future.
     return std::async(std::launch::async, [this, url]() { return httpGet(url); });
 }
 
 std::future<bool> RemoteRegistryClient::httpGetBinaryAsync(const std::string& url,
                                                            const std::string& out_path) {
+    // Caller must ensure this instance outlives the returned future.
     return std::async(std::launch::async,
                       [this, url, out_path]() { return httpGetBinary(url, out_path); });
 }
