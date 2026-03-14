@@ -169,12 +169,15 @@ size_t TsEncryptedKeyRotation::runOnce()
                 enc_store_->decryptChunk(series_id, encrypted_data, chunk_range);
 
             // Re-encrypt with the current key.
-            std::vector<uint8_t> new_encrypted =
+            // encryptChunk() fetches the key in a single call and returns the
+            // key_id it actually used, eliminating any race between key snapshot
+            // and encryption that could make chunk_meta["key_id"] inconsistent.
+            auto enc_result =
                 enc_store_->encryptChunk(series_id, plaintext, chunk_range);
 
-            // Update the JSON envelope using the fresh current key_id.
-            chunk_meta["key_id"] = current_key_id;
-            chunk_meta["data"]   = nlohmann::json::binary(new_encrypted);
+            // Update the JSON envelope with the key_id from the fresh encryption.
+            chunk_meta["key_id"] = enc_result.key_id;
+            chunk_meta["data"]   = nlohmann::json::binary(enc_result.blob);
 
             std::string new_value = chunk_meta.dump();
 

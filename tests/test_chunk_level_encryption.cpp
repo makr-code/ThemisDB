@@ -110,17 +110,18 @@ protected:
 TEST_F(EncryptedChunkStoreTest, RoundTripIdentity) {
     auto store = makeStore();
     std::vector<uint8_t> plaintext = {0x01, 0x02, 0x03, 0x04, 0x05};
-    auto blob      = store->encryptChunk("metric:entity", plaintext, "[0,100]");
-    auto recovered = store->decryptChunk("metric:entity", blob, "[0,100]");
+    auto enc       = store->encryptChunk("metric:entity", plaintext, "[0,100]");
+    auto recovered = store->decryptChunk("metric:entity", enc.blob, "[0,100]");
     EXPECT_EQ(plaintext, recovered);
+    EXPECT_EQ(enc.key_id, ks.key_id);
 }
 
 // AC-1: empty plaintext round-trips
 TEST_F(EncryptedChunkStoreTest, RoundTripEmpty) {
     auto store = makeStore();
     std::vector<uint8_t> empty;
-    auto blob      = store->encryptChunk("m:e", empty, "");
-    auto recovered = store->decryptChunk("m:e", blob, "");
+    auto enc       = store->encryptChunk("m:e", empty, "");
+    auto recovered = store->decryptChunk("m:e", enc.blob, "");
     EXPECT_EQ(empty, recovered);
 }
 
@@ -129,8 +130,8 @@ TEST_F(EncryptedChunkStoreTest, RoundTripLarge) {
     auto store = makeStore();
     std::vector<uint8_t> big(65536);
     for (size_t i = 0; i < big.size(); ++i) big[i] = static_cast<uint8_t>(i & 0xFF);
-    auto blob      = store->encryptChunk("cpu:host1", big, "[0,86400000]");
-    auto recovered = store->decryptChunk("cpu:host1", blob, "[0,86400000]");
+    auto enc       = store->encryptChunk("cpu:host1", big, "[0,86400000]");
+    auto recovered = store->decryptChunk("cpu:host1", enc.blob, "[0,86400000]");
     EXPECT_EQ(big, recovered);
 }
 
@@ -138,9 +139,10 @@ TEST_F(EncryptedChunkStoreTest, RoundTripLarge) {
 TEST_F(EncryptedChunkStoreTest, WrongKeyFailsAuth) {
     auto store = makeStore();
     std::vector<uint8_t> plaintext = {0xDE, 0xAD, 0xBE, 0xEF};
-    auto blob = store->encryptChunk("m:e", plaintext, "");
+    auto enc = store->encryptChunk("m:e", plaintext, "");
 
     // Flip one byte in the ciphertext region (past key_id prefix + IV)
+    auto& blob = enc.blob;
     if (blob.size() > 30) blob[30] ^= 0xFF;
 
     EXPECT_THROW(store->decryptChunk("m:e", blob, ""), std::runtime_error);
@@ -150,7 +152,8 @@ TEST_F(EncryptedChunkStoreTest, WrongKeyFailsAuth) {
 TEST_F(EncryptedChunkStoreTest, UnknownKeyIdFails) {
     auto store = makeStore();
     std::vector<uint8_t> plaintext = {0x01, 0x02};
-    auto blob = store->encryptChunk("m:e", plaintext, "");
+    auto enc = store->encryptChunk("m:e", plaintext, "");
+    const auto& orig_blob = enc.blob;
 
     // Overwrite the key_id prefix with an unknown key_id.
     std::string bad_kid = "unknown-key";
@@ -161,12 +164,13 @@ TEST_F(EncryptedChunkStoreTest, UnknownKeyIdFails) {
     bad_blob.push_back(static_cast<uint8_t>(bad_kid.size()));
     bad_blob.insert(bad_blob.end(), bad_kid.begin(), bad_kid.end());
     // Append remainder after the original key_id.
-    uint32_t orig_kid_len = (static_cast<uint32_t>(blob[0]) << 24) |
-                            (static_cast<uint32_t>(blob[1]) << 16) |
-                            (static_cast<uint32_t>(blob[2]) <<  8) |
-                             static_cast<uint32_t>(blob[3]);
+    uint32_t orig_kid_len = (static_cast<uint32_t>(orig_blob[0]) << 24) |
+                            (static_cast<uint32_t>(orig_blob[1]) << 16) |
+                            (static_cast<uint32_t>(orig_blob[2]) <<  8) |
+                             static_cast<uint32_t>(orig_blob[3]);
     size_t rest = 4 + orig_kid_len;
-    bad_blob.insert(bad_blob.end(), blob.begin() + static_cast<ptrdiff_t>(rest), blob.end());
+    bad_blob.insert(bad_blob.end(),
+                    orig_blob.begin() + static_cast<ptrdiff_t>(rest), orig_blob.end());
 
     EXPECT_THROW(store->decryptChunk("m:e", bad_blob, ""), std::runtime_error);
 }
@@ -182,18 +186,18 @@ TEST_F(EncryptedChunkStoreTest, TruncatedBlobFails) {
 TEST_F(EncryptedChunkStoreTest, DifferentSeriesProduceDifferentCiphertext) {
     auto store = makeStore();
     std::vector<uint8_t> plaintext(100, 0xAA);
-    auto blob1 = store->encryptChunk("cpu:host1", plaintext, "");
-    auto blob2 = store->encryptChunk("mem:host1", plaintext, "");
-    EXPECT_NE(blob1, blob2);
+    auto enc1 = store->encryptChunk("cpu:host1", plaintext, "");
+    auto enc2 = store->encryptChunk("mem:host1", plaintext, "");
+    EXPECT_NE(enc1.blob, enc2.blob);
 }
 
 // Repeated encryption of the same plaintext differs (random IV each time)
 TEST_F(EncryptedChunkStoreTest, RandomIVEachEncrypt) {
     auto store = makeStore();
     std::vector<uint8_t> plaintext = {1, 2, 3, 4, 5};
-    auto blob1 = store->encryptChunk("m:e", plaintext, "");
-    auto blob2 = store->encryptChunk("m:e", plaintext, "");
-    EXPECT_NE(blob1, blob2); // random IV → different ciphertext
+    auto enc1 = store->encryptChunk("m:e", plaintext, "");
+    auto enc2 = store->encryptChunk("m:e", plaintext, "");
+    EXPECT_NE(enc1.blob, enc2.blob); // random IV → different ciphertext
 }
 
 // AC-6: isAuditEnabled() reflects logger attachment
@@ -218,8 +222,8 @@ TEST_F(EncryptedChunkStoreTest, AuditLogWritten) {
         auto store  = makeStore(logger.get());
 
         std::vector<uint8_t> pt = {1, 2, 3};
-        auto blob = store->encryptChunk("metric:entity", pt, "[0,1000]");
-        store->decryptChunk("metric:entity", blob, "[0,1000]");
+        auto enc = store->encryptChunk("metric:entity", pt, "[0,1000]");
+        store->decryptChunk("metric:entity", enc.blob, "[0,1000]");
         logger->flush();
     }
     // The log file must exist and be non-empty.
@@ -356,6 +360,27 @@ TEST_F(TSStoreEncryptionTest, GetEncryptedChunkStore) {
 TEST_F(TSStoreEncryptionTest, DetachEncryption) {
     store->setEncryptedChunkStore(nullptr);
     EXPECT_EQ(store->getEncryptedChunkStore(), nullptr);
+}
+
+// Encrypted chunks queried without an EncryptedChunkStore must return an error,
+// not silently omit data (AC-3 safety: no partial results allowed).
+TEST_F(TSStoreEncryptionTest, EncryptedChunkWithNoEncStoreReturnsError) {
+    // Write data with encryption attached.
+    auto pts = makePoints("cpu", "box2", 5, 1.0);
+    ASSERT_TRUE(store->putDataPoints(pts).has_value());
+
+    // Detach the enc_store — simulating an operator mistake or misconfiguration.
+    store->setEncryptedChunkStore(nullptr);
+
+    TSStore::QueryOptions qo;
+    qo.metric            = "cpu";
+    qo.entity            = "box2";
+    qo.from_timestamp_ms = BASE;
+    qo.to_timestamp_ms   = BASE + 100000LL;
+
+    auto res = store->query(qo);
+    EXPECT_FALSE(res.has_value())
+        << "Expected an error when querying encrypted chunks without EncryptedChunkStore";
 }
 
 // AC-10: Non-encrypted chunks readable without EncryptedChunkStore

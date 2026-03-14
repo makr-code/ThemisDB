@@ -343,13 +343,14 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
                                             group_points.front().entity;
                     std::string chunk_range = "[" + std::to_string(timestamps.front()) +
                                               "," + std::to_string(timestamps.back()) + "]";
-                    std::vector<uint8_t> encrypted =
+                    // encryptChunk() returns {key_id, blob} from a single current_key_fn_()
+                    // call, guaranteeing that chunk_meta["key_id"] always matches the key_id
+                    // embedded in the blob header even if the master key rotates mid-write.
+                    auto enc_result =
                         enc_chunk_store_->encryptChunk(series_id, compressed, chunk_range);
                     chunk_meta["encryption"] = "aes-256-gcm";
-                    // Persist the key_id embedded in the blob header so that
-                    // TsEncryptedKeyRotation can detect stale chunks without decrypting.
-                    chunk_meta["key_id"]     = enc_chunk_store_->getCurrentKeyId();
-                    chunk_meta["data"]       = nlohmann::json::binary(encrypted);
+                    chunk_meta["key_id"]     = enc_result.key_id;
+                    chunk_meta["data"]       = nlohmann::json::binary(enc_result.blob);
                 } else {
                     chunk_meta["data"] = nlohmann::json::binary(compressed);
                 }
@@ -573,9 +574,12 @@ TSStore::query(const QueryOptions& options) const {
                 auto raw_data = chunk_meta["data"].get<std::vector<uint8_t>>();
                 if (chunk_meta.value("encryption", "") == "aes-256-gcm") {
                     if (!enc_chunk_store_) {
-                        THEMIS_WARN("Encrypted chunk at {} but no EncryptedChunkStore attached — skipping", key);
-                        it->Next();
-                        continue;
+                        // We cannot return partial results — the query must fail so
+                        // callers are not silently handed incomplete data.
+                        return Err<std::vector<DataPoint>>(
+                            errors::ErrorCode::ERR_CRYPTO_DECRYPTION_FAILED,
+                            "Encrypted chunk at " + key +
+                            " cannot be decrypted: no EncryptedChunkStore attached");
                     }
                     size_t pos4 = key.find(':', pos3 + 1);
                     std::string chunk_range;

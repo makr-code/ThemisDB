@@ -68,12 +68,14 @@ EncryptedChunkStore::deriveDEK(const std::vector<uint8_t>& master_key,
 // encryptChunk
 // ─────────────────────────────────────────────────────────────────────────────
 
-std::vector<uint8_t>
+EncryptedChunkStore::EncryptResult
 EncryptedChunkStore::encryptChunk(const std::string&          series_id,
                                    const std::vector<uint8_t>& plaintext,
                                    const std::string&          chunk_range)
 {
-    // 1. Fetch the current master key.
+    // 1. Fetch the current master key in a single atomic call.
+    //    key_id and master_key come from the same invocation so they are
+    //    always consistent — no separate getCurrentKeyId() call needed.
     auto [key_id, master_key] = current_key_fn_();
     if (master_key.empty()) {
         throw std::runtime_error("EncryptedChunkStore: current_key_fn returned empty key");
@@ -141,7 +143,7 @@ EncryptedChunkStore::encryptChunk(const std::string&          series_id,
     // 6. Audit the key access.
     auditKeyAccess("encrypt", series_id, key_id, chunk_range);
 
-    return blob;
+    return EncryptResult{std::move(key_id), std::move(blob)};
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -192,7 +194,7 @@ EncryptedChunkStore::decryptChunk(const std::string&          series_id,
     }
     size_t ct_len = remaining - TAG_LEN;
 
-    const uint8_t* ct  = p;
+    const uint8_t* ct      = p;
     const uint8_t* tag_ptr = p + ct_len;
 
     // 5. AES-256-GCM decrypt.
@@ -229,8 +231,10 @@ EncryptedChunkStore::decryptChunk(const std::string&          series_id,
 
         int final_len = 0;
         if (EVP_DecryptFinal_ex(ctx, plaintext.data() + len, &final_len) != 1) {
-            EVP_CIPHER_CTX_free(ctx);
-            throw std::runtime_error("EncryptedChunkStore: authentication tag mismatch — chunk is corrupted or tampered");
+            // Do NOT free ctx here — the catch block below handles cleanup.
+            // Freeing here and then rethrowing into catch would double-free.
+            throw std::runtime_error(
+                "EncryptedChunkStore: authentication tag mismatch — chunk is corrupted or tampered");
         }
     } catch (...) {
         EVP_CIPHER_CTX_free(ctx);
@@ -253,18 +257,28 @@ void EncryptedChunkStore::auditKeyAccess(const std::string& operation,
                                           const std::string& key_id,
                                           const std::string& chunk_range)
 {
-    if (!audit_logger_) return;
+    // Snapshot the mutable state under a shared lock so reads are consistent
+    // with concurrent setAuditLogger() / setAccessorIdentity() calls.
+    utils::AuditLogger* logger;
+    std::string         accessor;
+    {
+        std::shared_lock<std::shared_mutex> lk(rw_mu_);
+        logger   = audit_logger_;
+        accessor = accessor_identity_;
+    }
 
-    audit_logger_->logSecurityEvent(
+    if (!logger) return;
+
+    logger->logSecurityEvent(
         utils::SecurityEventType::KEY_ACCESS,
-        accessor_identity_,
+        accessor,
         "tsstore:chunk:" + series_id,
         {
             {"operation",   operation},
             {"key_id",      key_id},
             {"series_id",   series_id},
             {"chunk_range", chunk_range},
-            {"accessor",    accessor_identity_}
+            {"accessor",    accessor}
         });
 }
 
