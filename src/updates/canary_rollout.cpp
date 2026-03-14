@@ -644,7 +644,12 @@ CanaryMetricsSnapshot CanaryDeployment::getMetricsSnapshot() const {
 
     if (rollout_) {
         auto s = rollout_->status();
-        snap.error_rate = s.observed_error_rate;
+        snap.error_rate    = s.observed_error_rate;
+        snap.error_count   = static_cast<size_t>(
+            static_cast<double>(s.sample_count) * s.observed_error_rate + 0.5);
+        snap.success_count = s.sample_count > snap.error_count
+                             ? s.sample_count - snap.error_count
+                             : 0;
     }
 
     if (latency_threshold_us_.count() > 0 && snap.latency.sample_count > 0) {

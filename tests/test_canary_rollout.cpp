@@ -1228,3 +1228,37 @@ TEST(CanaryDeploymentSnapshotTest, LatencyThresholdFlag_ClearWhenNotExceeded) {
 
     EXPECT_FALSE(d.getMetricsSnapshot().latency_threshold_exceeded);
 }
+
+// ---------------------------------------------------------------------------
+// CanaryMetricsSnapshot: error_count and success_count population
+// ---------------------------------------------------------------------------
+
+TEST(CanaryDeploymentSnapshotTest, ErrorCountAndSuccessCount_PopulatedFromRolloutStatus) {
+    auto engine = makeStubEngine();
+    auto d = makeDeployment(engine);
+    d.deploy();
+
+    // 18 successes + 2 errors = 10% error rate
+    for (int i = 0; i < 18; ++i) d.reportSuccess();
+    for (int i = 0; i < 2;  ++i) d.reportError();
+
+    auto snap = d.getMetricsSnapshot();
+    EXPECT_GT(snap.error_rate, 0.0) << "error_rate must be non-zero";
+    // error_count + success_count must sum to total sample count
+    EXPECT_EQ(snap.error_count + snap.success_count, 20u)
+        << "error_count + success_count must equal total sample count";
+    EXPECT_EQ(snap.error_count, 2u) << "2 errors expected";
+    EXPECT_EQ(snap.success_count, 18u) << "18 successes expected";
+    EXPECT_NEAR(snap.error_rate, 0.10, 0.01);
+}
+
+TEST(CanaryDeploymentSnapshotTest, ErrorCountAndSuccessCount_ZeroBeforeAnyReports) {
+    auto engine = makeStubEngine();
+    auto d = makeDeployment(engine);
+    d.deploy();
+
+    auto snap = d.getMetricsSnapshot();
+    EXPECT_EQ(snap.error_count,   0u);
+    EXPECT_EQ(snap.success_count, 0u);
+    EXPECT_DOUBLE_EQ(snap.error_rate, 0.0);
+}

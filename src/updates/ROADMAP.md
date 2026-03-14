@@ -3,7 +3,7 @@
 # Updates Module Roadmap
 
 ## Current Status
-v1.x – Production-ready zero-downtime update and migration system. HotReloadEngine, release manifest management, schema migration framework, digital signature verification, automatic backup, rollback, binary delta updates, canary rollout, blue/green deployment, multi-node coordinated updates, notification webhooks, dry-run migration preview, pre-flight health checks, parallel file downloads, and dependency resolution engine are all implemented. Build system audit complete (March 2026): all 16 source files registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake; 10 standalone focused test targets added.
+v1.7.0 – Production-ready zero-downtime update and migration system. HotReloadEngine, release manifest management, schema migration framework, digital signature verification, automatic backup, rollback, binary delta updates, canary rollout, CanaryDeployment (progressive rollout with latency/metric monitoring, A/B testing, auto-rollback), blue/green deployment, multi-node coordinated updates, notification webhooks, dry-run migration preview, pre-flight health checks, parallel file downloads, and dependency resolution engine are all implemented. Build system audit complete (March 2026): all 16 source files registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake; 10 standalone focused test targets added.
 
 ## Completed ✅
 - [x] HotReloadEngine – atomic file replacement with fsync and all-or-nothing semantics
@@ -21,6 +21,12 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 - [x] Update scheduling and notification system
 - [x] Delta (binary diff) updates to reduce download size (PR: #2488)
 - [x] Canary rollout mode (update a fraction of nodes first) (PR: #2587)
+- [x] Canary Deployments – full `CanaryDeployment` builder API with latency/memory/CPU/disk I/O metrics, A/B testing, traffic splitting, auto-rollback on p99 breach (Issue: #4046)
+  - Implemented: `CanaryDeployment` class in `include/updates/canary_rollout.h`, `src/updates/canary_rollout.cpp`
+  - API: `setVersion`, `setStages`, `setErrorRateThreshold`, `setLatencyThreshold`, `deploy`, `onStageComplete`, `onRollback`, `reportLatency`, `reportMemoryUsage`, `reportCpuUsage`, `reportDiskIO`, `recordCustomMetric`, `enableABTesting`, `isCanaryRequest`, `isControlRequest`, `isNodeInCanaryGroup`, `getMetricsSnapshot`
+  - Metrics: `LatencyStats` (p50/p95/p99), `CanaryMetricsSnapshot` (all telemetry), `ABTestConfig`
+  - Tests: 50 focused tests added to `tests/test_canary_rollout.cpp` (84 total)
+  - CI: `.github/workflows/canary-deployments-ci.yml`
 - [x] In-place schema migration without data copy for additive changes (Issue: #2480)
 - [x] Schema migration testing framework (apply to staging before production) (Issue: #2487)
 - [x] Migration dry-run with detailed change preview (Issue: #2481)
