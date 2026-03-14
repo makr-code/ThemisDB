@@ -78,7 +78,7 @@ v1.x – Production-grade persistent storage layer built on RocksDB with MVCC, W
   - Compat: existing RAID-1 blobs are not migrated automatically; migration tool planned as separate CLI
 
 ### Long-term (6-12 months)
-- [ ] Distributed transactions across shards via two-phase commit (2PC) with Raft coordination (Target: v1.7.0)
+- [~] Distributed transactions across shards via two-phase commit (2PC) with Raft coordination (Target: v1.7.0)
   - Inputs: multi-shard `TransactionManager` operations spanning separate RocksDB instances
   - Outputs: atomic commit or rollback across all participant shards
   - Affected files: new `distributed_transaction_manager.cpp`; coordinate via existing `RaftMVCCBridge`
@@ -140,7 +140,7 @@ v1.x – Production-grade persistent storage layer built on RocksDB with MVCC, W
 - [x] GCS blob backend
 - [~] NVMe Optimizations: `NVMeManager` with io_uring, multi-queue, ZNS, Direct I/O
 - [ ] Erasure coding in `BlobRedundancyManager`
-- [ ] 2PC distributed transactions with Raft coordination
+- [~] 2PC distributed transactions with Raft coordination
 
 ### Phase 5.5: Build System Audit (Status: Completed ✅ — March 2026)
 - [x] All `src/storage/*.cpp` files verified registered in cmake build system (main `CMakeLists.txt` + `StorageEnhancements.cmake` + `BlobStorage.cmake`)

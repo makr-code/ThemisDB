@@ -272,6 +272,8 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/raft_mvcc_bridge.cpp
     # Tiered storage (hot/warm/cold) with age- and access-based migration
     ../src/storage/tiered_storage.cpp
+    # Distributed transactions (2PC across multiple shards) – v1.7.0
+    ../src/storage/distributed_transaction_manager.cpp
     # NVMe optimizations (io_uring, multi-queue, ZNS, Direct I/O) – v1.6.0
     ../src/storage/nvme_manager.cpp
     # Storage engine abstraction (DI-based)
