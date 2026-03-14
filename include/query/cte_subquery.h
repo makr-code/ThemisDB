@@ -251,6 +251,23 @@ public:
     
 private:
     /**
+     * @brief Evaluates a correlated subquery, returning all matching rows as a JSON array.
+     *
+     * Used when the subquery AST references outer variables. Binds the outer row into
+     * the evaluation context so the subquery is executed once with those bindings.
+     *
+     * @param query     Subquery to execute
+     * @param queryEngine  Query engine
+     * @param outerRow  Outer row whose fields are injected as parent-context bindings
+     * @return JSON array of all result rows, or an error
+     */
+    Result<nlohmann::json> evaluateArraySubquery(
+        const std::shared_ptr<query::Query>& query,
+        ::themis::QueryEngine& queryEngine,
+        const nlohmann::json& outerRow
+    );
+
+    /**
      * @brief Bindet Outer Variables in Subquery Context
      * @param query Subquery
      * @param outerRow Outer Row
