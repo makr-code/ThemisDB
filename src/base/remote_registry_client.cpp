@@ -44,7 +44,6 @@
 #include <queue>
 #include <sstream>
 #include <stdexcept>
-#include <string>
 #include <thread>
 #include <vector>
 
@@ -721,12 +720,14 @@ bool RemoteRegistryClient::httpGetBinary(const std::string& url,
 
 std::future<std::string> RemoteRegistryClient::httpGetAsync(const std::string& url) {
     // Caller must ensure this instance outlives the returned future.
+    // url is copied to decouple the async worker from the caller's lifetime.
     return std::async(std::launch::async, [this, url]() { return httpGet(url); });
 }
 
 std::future<bool> RemoteRegistryClient::httpGetBinaryAsync(const std::string& url,
                                                            const std::string& out_path) {
     // Caller must ensure this instance outlives the returned future.
+    // url/out_path are copied to decouple the async worker from the caller's lifetime.
     return std::async(std::launch::async,
                       [this, url, out_path]() { return httpGetBinary(url, out_path); });
 }
