@@ -153,7 +153,13 @@ void checkCollectAfterSort(const std::string& upper_query, ValidationResult& res
 
 // Warn about missing RETURN when query is expected to be complete
 void checkMissingReturn(const std::string& upper_query, ValidationResult& result) {
-    if (!containsKeyword(upper_query, "RETURN")) {
+    // DML statements (INSERT, UPDATE, REMOVE, REPLACE, UPSERT) replace RETURN
+    bool has_dml = containsKeyword(upper_query, "INSERT")
+        || containsKeyword(upper_query, "UPDATE")
+        || containsKeyword(upper_query, "REMOVE")
+        || containsKeyword(upper_query, "REPLACE")
+        || containsKeyword(upper_query, "UPSERT");
+    if (!has_dml && !containsKeyword(upper_query, "RETURN")) {
         result.issues.push_back({
             ValidationIssue::Severity::ERROR,
             "Query is missing a RETURN clause",
@@ -165,7 +171,11 @@ void checkMissingReturn(const std::string& upper_query, ValidationResult& result
 
 // Warn about missing FOR when query is expected to be complete
 void checkMissingFor(const std::string& upper_query, ValidationResult& result) {
-    if (!containsKeyword(upper_query, "FOR")) {
+    // Standalone DML (INSERT without a FOR loop) does not require FOR
+    bool is_standalone_dml = !containsKeyword(upper_query, "FOR")
+        && (containsKeyword(upper_query, "INSERT")
+            || containsKeyword(upper_query, "UPSERT"));
+    if (!is_standalone_dml && !containsKeyword(upper_query, "FOR")) {
         result.issues.push_back({
             ValidationIssue::Severity::ERROR,
             "Query is missing a FOR clause",
@@ -206,6 +216,28 @@ void checkMissingLimit(const std::string& upper_query, ValidationResult& result)
     }
 }
 
+// Check that graph traversal depth range is valid (min <= max)
+void checkTraversalDepthOrder(const std::string& query, ValidationResult& result) {
+    // Match patterns like "IN 3..1 OUTBOUND" or "IN 5..2 ANY"
+    static const std::regex depth_re(R"(\bIN\s+(\d+)\.\.(\d+)\s+(?:OUTBOUND|INBOUND|ANY)\b)",
+                                     std::regex::icase);
+    std::sregex_iterator it(query.begin(), query.end(), depth_re);
+    std::sregex_iterator end;
+    for (; it != end; ++it) {
+        int min_d = std::stoi((*it)[1].str());
+        int max_d = std::stoi((*it)[2].str());
+        if (min_d > max_d) {
+            result.is_valid = false;
+            result.issues.push_back({
+                ValidationIssue::Severity::ERROR,
+                "Graph traversal min_depth (" + std::to_string(min_d) +
+                    ") is greater than max_depth (" + std::to_string(max_d) + ")",
+                "FOR"
+            });
+        }
+    }
+}
+
 } // anonymous namespace
 
 // ============================================================================
@@ -232,6 +264,7 @@ ValidationResult AQLQueryValidator::validate(const std::string& query) const {
     checkCollectAfterSort(query, result);
     checkAssignmentInFilter(query, result);
     checkMissingLimit(query, result);
+    checkTraversalDepthOrder(query, result);
 
     return result;
 }
@@ -262,6 +295,7 @@ ValidationResult AQLQueryValidator::validate(const AQLQueryBuilder& builder) con
         checkLimitZero(partial, result);
         checkCollectAfterSort(partial, result);
         checkAssignmentInFilter(partial, result);
+        checkTraversalDepthOrder(partial, result);
     }
 
     // If the builder claims to be complete, also enforce FOR + RETURN
