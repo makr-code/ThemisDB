@@ -16,6 +16,7 @@ on:
       - 'include/sharding/redundancy_strategy.h'
       - 'tests/test_erasure_coding_backend.cpp'
       - 'cmake/CMakeLists.txt'
+      - 'tests/CMakeLists.txt'
       - '.github/workflows/erasure-coding-blob-storage-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
@@ -28,6 +29,7 @@ on:
       - 'include/sharding/redundancy_strategy.h'
       - 'tests/test_erasure_coding_backend.cpp'
       - 'cmake/CMakeLists.txt'
+      - 'tests/CMakeLists.txt'
       - '.github/workflows/erasure-coding-blob-storage-ci.yml'
   workflow_dispatch:
 
@@ -60,6 +62,8 @@ jobs:
     if: needs.ci-scope-classifier.outputs.has_code_changes == 'true'
     name: Erasure Coding tests (${{ matrix.os }} / ${{ matrix.compiler }})
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+
     permissions:
       contents: read
 
@@ -84,39 +88,30 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          submodules: recursive
+          fetch-depth: 0
 
       - name: Set up C++ build environment
         uses: ./.github/actions/setup-cpp-build
         with:
           cc:             ${{ matrix.cc }}
           cxx:            ${{ matrix.cxx }}
-          extra-packages: nlohmann-json3-dev libssl-dev libzstd-dev
+          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev librocksdb-dev libfmt-dev libtbb-dev libspdlog-dev nlohmann-json3-dev
 
-      - name: Configure (erasure coding focused test target)
-        env:
-          CC:  ${{ matrix.cc }}
-          CXX: ${{ matrix.cxx }}
-        run: |
-          cmake -B build -G Ninja \
-            -DCMAKE_BUILD_TYPE=Debug \
-            -DCMAKE_C_COMPILER=${{ matrix.cc }} \
-            -DCMAKE_CXX_COMPILER=${{ matrix.cxx }} \
-            -DTHEMIS_ENABLE_LLM=OFF \
-            -DTHEMIS_ENABLE_GPU=OFF \
-            -DTHEMIS_ENABLE_CUDA=OFF
-
-      - name: Build erasure coding test binary
-        run: cmake --build build --target test_erasure_coding_backend -- -j$(nproc)
+      - name: Configure and build
+        uses: ./.github/actions/configure-themis
+        with:
+          cc:           ${{ matrix.cc }}
+          cxx:          ${{ matrix.cxx }}
+          build-target: test_erasure_coding_backend_focused
 
       - name: Run ErasureCodingFocusedTests
         run: |
+          set -o pipefail
           cd build
-          ctest --test-dir . \
-            --tests-regex "ErasureCodingFocusedTests|ErasureCodingBlobManagerTest" \
-            --output-on-failure \
-            --timeout 120 \
-            2>&1 | tee erasure_coding_test_output.txt
+          ctest -R ErasureCodingFocusedTests \
+                --output-on-failure \
+                --timeout 120 \
+                2>&1 | tee erasure_coding_test_output.txt
 
       - name: Upload test results
         if: always()

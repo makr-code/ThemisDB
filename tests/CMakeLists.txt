@@ -13576,6 +13576,41 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_nvme_manager.cpp")
     message(STATUS "  NVMe: capability detection, io_uring lifecycle, ZNS no-ops, Direct I/O flags, RocksDB integration")
 endif()
 
+# ErasureCodingBackend – focused tests for Reed-Solomon blob erasure coding (Issue #207 / v1.7.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_erasure_coding_backend.cpp" AND NOT TARGET test_erasure_coding_backend_focused)
+    message(STATUS "Adding Storage: ErasureCodingBackend focused tests (Issue #207)")
+
+    add_executable(test_erasure_coding_backend_focused
+        test_erasure_coding_backend.cpp
+    )
+
+    target_include_directories(test_erasure_coding_backend_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_erasure_coding_backend_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_erasure_coding_backend_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ErasureCodingFocusedTests
+        COMMAND test_erasure_coding_backend_focused)
+
+    set_tests_properties(ErasureCodingFocusedTests PROPERTIES
+        LABELS "storage;erasure-coding;reed-solomon;blob;fault-tolerance;focused;unit;v1.7.0"
+        TIMEOUT 90
+    )
+
+    message(STATUS "  ErasureCodingBackend: RS(10,4)/RS(6,3)/RS(4,2) encode/decode, multi-shard fault tolerance, BlobRedundancyManager PARITY mode integration")
+endif()
+
 # ============================================================================
 # Network Module Focused Tests
 # ============================================================================
