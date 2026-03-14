@@ -20,6 +20,8 @@
 #include "replication/logical_replication.h"
 
 #include <filesystem>
+#include <random>
+#include <sstream>
 
 using namespace themisdb::replication;
 
@@ -41,7 +43,12 @@ ReplicationConfig makeConfig(const std::string& wal_dir) {
 struct TempDir {
     TempDir() {
         auto base = std::filesystem::temp_directory_path();
-        path = (base / std::filesystem::unique_path("themis_logical_repl-%%%%-%%%%")).string();
+        std::random_device rd;
+        std::mt19937_64 gen(rd());
+        std::uniform_int_distribution<uint64_t> dist;
+        std::ostringstream oss;
+        oss << "themis_logical_repl-" << std::hex << dist(gen);
+        path = (base / oss.str()).string();
         std::filesystem::remove_all(path);
         std::filesystem::create_directories(path);
     }

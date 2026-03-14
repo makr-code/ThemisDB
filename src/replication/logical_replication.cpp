@@ -23,6 +23,7 @@
 #include <fstream>
 #include <utility>
 #include <stdexcept>
+#include "utils/logger.h"
 #include <fcntl.h>
 #include <unistd.h>
 
@@ -44,6 +45,9 @@ std::string trimCopy(const std::string& s) {
 LogicalReplicationManager::LogicalReplicationManager(std::shared_ptr<WALManager> wal, Config config)
     : wal_(std::move(wal))
     , config_(std::move(config)) {
+    if (config_.wal_directory.empty()) {
+        THEMIS_WARN("LogicalReplicationManager persistence disabled: wal_directory not configured");
+    }
     loadPersistedSlots();
 }
 
@@ -266,6 +270,7 @@ LogicalChange LogicalReplicationManager::makeLogicalChange(const WALEntry& entry
     change.schema_version = config_.target_version;
     change.source_version = config_.source_version;
     change.target_version = config_.target_version;
+    // Use WAL assigned sequence when available; fall back to current WAL position for notifications
     change.lsn = entry.sequence_number != 0 ? entry.sequence_number : (wal_ ? wal_->getCurrentSequence() : 0);
     change.timestamp = entry.timestamp.time_since_epoch().count() == 0
                            ? std::chrono::system_clock::now()
@@ -331,7 +336,8 @@ bool LogicalReplicationManager::evaluateRowFilter(const std::string& expression,
         pos = ne_pos;
         equality = false;
     } else {
-        return false;  // Fail closed on unsupported expressions
+        // Fail closed on unsupported expressions to avoid accidental broad replication
+        return false;
     }
 
     std::string field = trimCopy(expression.substr(0, pos));
@@ -402,7 +408,10 @@ void LogicalReplicationManager::loadPersistedSlots() {
     for (fs::directory_iterator it(dir, fs::directory_options::skip_permission_denied, ec);
          !ec && it != fs::directory_iterator(); ++it) {
         const auto& entry = *it;
-        if (!entry.is_regular_file(ec) || entry.path().extension() != ".json") continue;
+        std::error_code type_ec;
+        if (!entry.is_regular_file(type_ec)) continue;
+        if (type_ec) continue;
+        if (entry.path().extension() != ".json") continue;
 
         std::ifstream in(entry.path());
         if (!in.is_open()) continue;
@@ -474,7 +483,7 @@ void LogicalReplicationManager::persistSlot(const SlotRuntime& slot) const {
 
     const auto tmp_path = base / (slot.meta.slot_name + ".json.tmp");
     const std::string payload = j.dump(2);
-    int fd = ::open(tmp_path.c_str(), O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC, 0644);
+    int fd = ::open(tmp_path.c_str(), O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC, 0600);
     if (fd < 0) {
         return;
     }
@@ -483,10 +492,16 @@ void LogicalReplicationManager::persistSlot(const SlotRuntime& slot) const {
     if (written < 0 || static_cast<size_t>(written) != payload.size()) {
         ::close(fd);
         fs::remove(tmp_path, ec);
+        THEMIS_WARN("Failed to persist logical slot {}, partial/failed write", slot.meta.slot_name);
         return;
     }
 
-    ::fsync(fd);
+    if (::fsync(fd) != 0) {
+        ::close(fd);
+        fs::remove(tmp_path, ec);
+        THEMIS_WARN("Failed to fsync logical slot {}", slot.meta.slot_name);
+        return;
+    }
     ::close(fd);
 
     fs::rename(tmp_path, state_path, ec);
