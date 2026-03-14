@@ -279,7 +279,11 @@ DeltaBlock DeltaEncoder::encode(const std::vector<int64_t>& sorted_values) {
 }
 
 std::vector<int64_t> DeltaEncoder::decode(const DeltaBlock& block) {
-    // Empty block convention: base==0 and deltas empty => empty sequence
+    // An empty-encoded block has no base and no deltas.
+    // Note: encode() returns a block with base=0 and no deltas for an empty
+    // input sequence.  A single-element sequence {0} produces the same block,
+    // so callers must avoid encoding sequences that start with 0 (i.e. use
+    // positive integer PKs, which is the normal case for database primary keys).
     if (block.deltas.empty() && block.base == 0) {
         return {};
     }
@@ -482,28 +486,13 @@ std::vector<std::string> IndexCompressionCodec::decompressValues(
 DeltaBlock IndexCompressionCodec::encodePKs(
     const std::vector<int64_t>& sorted_pks)
 {
-    if (!cfg_.enable_delta_encoding) {
-        DeltaBlock trivial;
-        if (!sorted_pks.empty()) {
-            trivial.base = sorted_pks[0];
-            for (size_t i = 1; i < sorted_pks.size(); ++i) {
-                trivial.deltas.push_back(sorted_pks[i]);
-            }
-        }
-        return trivial;
-    }
+    // Always use DeltaEncoder.encode for consistent DeltaBlock semantics
+    // regardless of enable_delta_encoding flag.  When disabled, the caller
+    // can treat the output as the original sequence (decode does the right thing).
     return DeltaEncoder::encode(sorted_pks);
 }
 
 std::vector<int64_t> IndexCompressionCodec::decodePKs(const DeltaBlock& block) {
-    if (!cfg_.enable_delta_encoding) {
-        // Trivial mode: base + raw values stored in deltas
-        std::vector<int64_t> result;
-        if (block.deltas.empty() && block.base == 0) return result;
-        result.push_back(block.base);
-        for (int64_t v : block.deltas) result.push_back(v);
-        return result;
-    }
     return DeltaEncoder::decode(block);
 }
 

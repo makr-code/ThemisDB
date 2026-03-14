@@ -206,12 +206,19 @@ TEST_F(IndexCompressionFocusedTests, BloomFilter_InsertedKeyMightContain) {
 TEST_F(IndexCompressionFocusedTests, BloomFilter_AbsentKeyReturnsFalse) {
     BloomFilter bf(1000, 0.01);
     bf.insert("idx:users:country:USA:pk1");
-    // A key that was never inserted: at 1% FP rate very unlikely to be true.
-    // We test a strongly distinct key to avoid accidental FP in the test itself.
-    bool result = bf.mightContain("this_key_was_never_inserted_xyzzy");
-    // Cannot guarantee false due to probabilistic nature, but with good parameters
-    // the probability is ≤ 1%.  We at least verify the API doesn't crash.
-    (void)result;
+    bf.insert("idx:users:country:USA:pk2");
+
+    // Test many strongly distinct keys — with FP rate 1%, expect ≥90% to return false
+    size_t true_count = 0;
+    size_t total = 200;
+    for (size_t i = 0; i < total; ++i) {
+        std::string absent = "absent_key_xyzzy_" + std::to_string(i * 997 + 13);
+        if (bf.mightContain(absent)) ++true_count;
+    }
+    // At 1% FP rate, expected false positives ≤ 10%.  Allow 15% for variance.
+    double fp_rate = static_cast<double>(true_count) / static_cast<double>(total);
+    EXPECT_LE(fp_rate, 0.15)
+        << "False positive rate " << fp_rate << " exceeds 15% threshold";
 }
 
 TEST_F(IndexCompressionFocusedTests, BloomFilter_ClearResetsState) {

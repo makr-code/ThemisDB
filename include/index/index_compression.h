@@ -238,11 +238,11 @@ public:
 class IndexCompressionCodec {
 public:
     struct Config {
-        bool enable_prefix_compression = true;  ///< Prefix-compression on key batches
-        bool enable_delta_encoding     = true;  ///< Delta-encoding for integer suffixes
-        bool enable_rle                = true;  ///< RLE for repeated values
-        bool enable_dict_encoding      = true;  ///< Dictionary encoding for field values
-        bool enable_bloom_filter       = true;  ///< Bloom filter to skip absent lookups
+        bool enable_prefix_compression = false; ///< Prefix-compression on key batches
+        bool enable_delta_encoding     = false; ///< Delta-encoding for integer suffixes
+        bool enable_rle                = false; ///< RLE for repeated values
+        bool enable_dict_encoding      = false; ///< Dictionary encoding for field values
+        bool enable_bloom_filter       = false; ///< Bloom filter to skip absent lookups
 
         CompressionAlgorithm algorithm       = CompressionAlgorithm::NONE;
         int                  compression_level = 3; ///< Algorithm-specific level

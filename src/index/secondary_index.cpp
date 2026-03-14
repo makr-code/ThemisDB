@@ -92,14 +92,8 @@ std::string SecondaryIndexManager::makeFulltextDocLenPrefix(std::string_view tab
 }
 
 SecondaryIndexManager::SecondaryIndexManager(RocksDBWrapper& db) : db_(db) {
-	// Default codec with all features disabled until a Config is provided
-	index::IndexCompressionCodec::Config codec_cfg;
-	codec_cfg.enable_prefix_compression = false;
-	codec_cfg.enable_delta_encoding     = false;
-	codec_cfg.enable_rle                = false;
-	codec_cfg.enable_dict_encoding      = false;
-	codec_cfg.enable_bloom_filter       = false;
-	compression_codec_ = std::make_unique<index::IndexCompressionCodec>(codec_cfg);
+	// Default codec — all compression features disabled (opt-in via Config constructor)
+	compression_codec_ = std::make_unique<index::IndexCompressionCodec>();
 }
 
 SecondaryIndexManager::SecondaryIndexManager(RocksDBWrapper& db, const Config& config)
@@ -114,12 +108,6 @@ SecondaryIndexManager::SecondaryIndexManager(RocksDBWrapper& db, const Config& c
 		codec_cfg.enable_bloom_filter       = config.enable_bloom_filter;
 		codec_cfg.algorithm                 = config.compression_algorithm;
 		codec_cfg.compression_level         = config.compression_level;
-	} else {
-		codec_cfg.enable_prefix_compression = false;
-		codec_cfg.enable_delta_encoding     = false;
-		codec_cfg.enable_rle                = false;
-		codec_cfg.enable_dict_encoding      = false;
-		codec_cfg.enable_bloom_filter       = false;
 	}
 	compression_codec_ = std::make_unique<index::IndexCompressionCodec>(codec_cfg);
 }
