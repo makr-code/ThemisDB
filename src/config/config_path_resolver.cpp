@@ -201,106 +201,64 @@ private:
 
 namespace {
 
-/// Read THEMIS_CONFIG_CACHE_SIZE; return default 1000 when absent or out of range [10, 100000].
-size_t initCacheSize() {
+/// Read THEMIS_CONFIG_CACHE_SIZE from the environment.
+/// Valid range: [10, 100000]. Falls back to kDefaultCacheSize and prints a
+/// warning to stderr when the variable is absent, unparseable, or out of
+/// range.  Uses fprintf(stderr) rather than spdlog because this function is
+/// called during static initialization before spdlog may be configured.
+size_t readCacheSizeFromEnv() noexcept {
     const char* env = std::getenv("THEMIS_CONFIG_CACHE_SIZE");
-    if (env) {
+    if (env && *env != '\0') {
         char* end = nullptr;
-        long val = std::strtol(env, &end, 10);
+        const long val = std::strtol(env, &end, 10);
         if (end != env && *end == '\0') {
             if (val >= 10 && val <= 100000) {
                 return static_cast<size_t>(val);
             }
             // Valid integer but out of range – warn and fall through to default.
             fprintf(stderr,
-                    "[THEMIS CONFIG] THEMIS_CONFIG_CACHE_SIZE=%ld is out of range [10, 100000]; "
-                    "using default %zu\n",
+                    "[ThemisDB][config] THEMIS_CONFIG_CACHE_SIZE=%ld is out of range "
+                    "[10, 100000]; using default %zu.\n",
                     val, ConfigPathResolver::kDefaultCacheSize);
+        } else {
+            fprintf(stderr,
+                    "[ThemisDB][config] THEMIS_CONFIG_CACHE_SIZE=%s is not a valid "
+                    "integer; using default %zu.\n",
+                    env, ConfigPathResolver::kDefaultCacheSize);
         }
     }
     return ConfigPathResolver::kDefaultCacheSize;
 }
 
-/// Read THEMIS_CONFIG_CACHE_TTL (seconds); return default 300 when absent or out of range [1, 86400].
-int initCacheTtl() {
+/// Read THEMIS_CONFIG_CACHE_TTL from the environment.
+/// Valid range: [1, 86400] seconds. Falls back to kDefaultCacheTtlSeconds and
+/// prints a warning to stderr when the variable is absent, unparseable, or out
+/// of range.
+int readCacheTtlFromEnv() noexcept {
     const char* env = std::getenv("THEMIS_CONFIG_CACHE_TTL");
-    if (env) {
+    if (env && *env != '\0') {
         char* end = nullptr;
-        long val = std::strtol(env, &end, 10);
+        const long val = std::strtol(env, &end, 10);
         if (end != env && *end == '\0') {
             if (val >= 1 && val <= 86400) {
                 return static_cast<int>(val);
             }
             // Valid integer but out of range – warn and fall through to default.
             fprintf(stderr,
-                    "[THEMIS CONFIG] THEMIS_CONFIG_CACHE_TTL=%ld is out of range [1, 86400]; "
-                    "using default %d\n",
+                    "[ThemisDB][config] THEMIS_CONFIG_CACHE_TTL=%ld is out of range "
+                    "[1, 86400]; using default %d.\n",
                     val, ConfigPathResolver::kDefaultCacheTtlSeconds);
+        } else {
+            fprintf(stderr,
+                    "[ThemisDB][config] THEMIS_CONFIG_CACHE_TTL=%s is not a valid "
+                    "integer; using default %d.\n",
+                    env, ConfigPathResolver::kDefaultCacheTtlSeconds);
         }
     }
     return ConfigPathResolver::kDefaultCacheTtlSeconds;
 }
 
 } // anonymous namespace
-/// Read THEMIS_CONFIG_CACHE_SIZE from the environment.
-/// Valid range: [10, 100000]. Falls back to 1000 and prints a warning to
-/// stderr when the variable is absent, unparseable, or out of range.
-/// Uses fprintf(stderr) rather than spdlog because this function is called
-/// during static initialization before spdlog may be configured.
-size_t readCacheSizeFromEnv() noexcept {
-    constexpr size_t kDefault = 1000;
-    constexpr long   kMin     = 10;
-    constexpr long   kMax     = 100000;
-
-    const char* env = std::getenv("THEMIS_CONFIG_CACHE_SIZE");
-    if (env && *env != '\0') {
-        try {
-            const long val = std::stol(env);
-            if (val >= kMin && val <= kMax) {
-                return static_cast<size_t>(val);
-            }
-            fprintf(stderr,
-                    "[ThemisDB][config] THEMIS_CONFIG_CACHE_SIZE=%s is out of range "
-                    "[%ld, %ld]; using default %zu.\n",
-                    env, kMin, kMax, kDefault);
-        } catch (const std::exception&) {
-            fprintf(stderr,
-                    "[ThemisDB][config] THEMIS_CONFIG_CACHE_SIZE=%s is not a valid "
-                    "integer; using default %zu.\n",
-                    env, kDefault);
-        }
-    }
-    return kDefault;
-}
-
-/// Read THEMIS_CONFIG_CACHE_TTL from the environment.
-/// Valid range: [1, 86400] seconds. Falls back to 300 and prints a warning to
-/// stderr when the variable is absent, unparseable, or out of range.
-int readCacheTtlFromEnv() noexcept {
-    constexpr int kDefault = 300;
-    constexpr int kMin     = 1;
-    constexpr int kMax     = 86400;
-
-    const char* env = std::getenv("THEMIS_CONFIG_CACHE_TTL");
-    if (env && *env != '\0') {
-        try {
-            const int val = std::stoi(env);
-            if (val >= kMin && val <= kMax) {
-                return val;
-            }
-            fprintf(stderr,
-                    "[ThemisDB][config] THEMIS_CONFIG_CACHE_TTL=%s is out of range "
-                    "[%d, %d]; using default %d.\n",
-                    env, kMin, kMax, kDefault);
-        } catch (const std::exception&) {
-            fprintf(stderr,
-                    "[ThemisDB][config] THEMIS_CONFIG_CACHE_TTL=%s is not a valid "
-                    "integer; using default %d.\n",
-                    env, kDefault);
-        }
-    }
-    return kDefault;
-}
 
 // ═══════════════════════════════════════════════════════════
 // Static Members Initialization
