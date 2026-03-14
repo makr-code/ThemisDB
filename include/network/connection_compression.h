@@ -272,6 +272,13 @@ private:
     ZSTD_CDict* cdict_ = nullptr; ///< Compression dictionary context
     ZSTD_DDict* ddict_ = nullptr; ///< Decompression dictionary context
 
+    /// Cached compression context – reused across compress() calls to avoid
+    /// per-call allocation overhead (reset via ZSTD_CCtx_reset).
+    ZSTD_CCtx*  cctx_  = nullptr;
+
+    /// Cached decompression context – reused across decompress() calls.
+    ZSTD_DCtx*  dctx_  = nullptr;
+
     void freeDicts() noexcept;
 };
 

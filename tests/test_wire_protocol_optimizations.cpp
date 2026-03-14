@@ -28,6 +28,7 @@
 #include "network/wire_protocol_batch.h"
 #include "network/connection_compression.h"
 
+#include <arpa/inet.h>
 #include <array>
 #include <cstring>
 #include <fcntl.h>
@@ -78,8 +79,8 @@ TEST(ZeroCopyFrameBuilder, HeaderOnlyFrame) {
     // First 4 bytes == WIRE_MAGIC (network byte order).
     uint32_t magic = 0;
     std::memcpy(&magic, buf.data(), 4);
-    // Compare in host byte order by reversing.
-    const uint32_t magic_he = __builtin_bswap32(magic);
+    // Convert from network (big-endian) to host byte order.
+    const uint32_t magic_he = ntohl(magic);
     EXPECT_EQ(magic_he, ZeroCopyFrameBuilder::WIRE_MAGIC);
 
     ::close(wr);
@@ -104,7 +105,7 @@ TEST(ZeroCopyFrameBuilder, FrameWithPayload) {
     // Verify payload_size field in header (bytes 8-11, big-endian).
     uint32_t psize_be = 0;
     std::memcpy(&psize_be, buf.data() + 8, 4);
-    const uint32_t psize = __builtin_bswap32(psize_be);
+    const uint32_t psize = ntohl(psize_be);
     EXPECT_EQ(psize, static_cast<uint32_t>(payload.size()));
 
     // Verify payload content.

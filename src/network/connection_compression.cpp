@@ -31,11 +31,15 @@ namespace network {
 static constexpr size_t DICT_PREFIX_SIZE = 8;
 
 ZstdDictionaryCompressor::ZstdDictionaryCompressor(const Config& cfg)
-    : cfg_(cfg)
+    : cfg_(cfg),
+      cctx_(ZSTD_createCCtx()),
+      dctx_(ZSTD_createDCtx())
 {}
 
 ZstdDictionaryCompressor::~ZstdDictionaryCompressor() {
     freeDicts();
+    if (cctx_) { ZSTD_freeCCtx(cctx_); cctx_ = nullptr; }
+    if (dctx_) { ZSTD_freeDCtx(dctx_); dctx_ = nullptr; }
 }
 
 void ZstdDictionaryCompressor::freeDicts() noexcept {
@@ -49,11 +53,15 @@ ZstdDictionaryCompressor::ZstdDictionaryCompressor(
       dict_bytes_(std::move(other.dict_bytes_)),
       dict_id_(other.dict_id_),
       cdict_(other.cdict_),
-      ddict_(other.ddict_)
+      ddict_(other.ddict_),
+      cctx_(other.cctx_),
+      dctx_(other.dctx_)
 {
     other.dict_id_ = 0;
     other.cdict_   = nullptr;
     other.ddict_   = nullptr;
+    other.cctx_    = nullptr;
+    other.dctx_    = nullptr;
 }
 
 ZstdDictionaryCompressor& ZstdDictionaryCompressor::operator=(
@@ -61,14 +69,20 @@ ZstdDictionaryCompressor& ZstdDictionaryCompressor::operator=(
 {
     if (this != &other) {
         freeDicts();
+        if (cctx_) { ZSTD_freeCCtx(cctx_); cctx_ = nullptr; }
+        if (dctx_) { ZSTD_freeDCtx(dctx_); dctx_ = nullptr; }
         cfg_        = other.cfg_;
         dict_bytes_ = std::move(other.dict_bytes_);
         dict_id_    = other.dict_id_;
         cdict_      = other.cdict_;
         ddict_      = other.ddict_;
+        cctx_       = other.cctx_;
+        dctx_       = other.dctx_;
         other.dict_id_ = 0;
         other.cdict_   = nullptr;
         other.ddict_   = nullptr;
+        other.cctx_    = nullptr;
+        other.dctx_    = nullptr;
     }
     return *this;
 }
@@ -150,14 +164,16 @@ std::vector<uint8_t> ZstdDictionaryCompressor::compress(
     size_t compressed = 0;
 
     if (cdict_) {
-        ZSTD_CCtx* cctx = ZSTD_createCCtx();
-        if (!cctx) return {};
+        // cctx_ is created in the constructor; null only if allocation failed
+        // (out-of-memory at construction time). Return empty to signal failure.
+        if (!cctx_) return {};
+        // Reset the cached context to initial state and compress with dict.
+        ZSTD_CCtx_reset(cctx_, ZSTD_reset_session_only);
         compressed = ZSTD_compress_usingCDict(
-            cctx,
+            cctx_,
             out.data() + DICT_PREFIX_SIZE, bound,
             data.data(), data.size(),
             cdict_);
-        ZSTD_freeCCtx(cctx);
     } else {
         // Fall back to plain Zstd if no dictionary.
         compressed = ZSTD_compress(
@@ -168,8 +184,8 @@ std::vector<uint8_t> ZstdDictionaryCompressor::compress(
 
     if (ZSTD_isError(compressed)) return {};
 
-    // Skip if the compressed form is not smaller.
-    if (compressed >= data.size()) return {};
+    // Skip if the total output (prefix + compressed data) is not smaller than input.
+    if (DICT_PREFIX_SIZE + compressed >= data.size()) return {};
 
     out.resize(DICT_PREFIX_SIZE + compressed);
     return out;
@@ -191,14 +207,15 @@ std::vector<uint8_t> ZstdDictionaryCompressor::decompress(
     size_t result = 0;
 
     if (ddict_ && dict_id_in != 0) {
-        ZSTD_DCtx* dctx = ZSTD_createDCtx();
-        if (!dctx) return {};
+        // dctx_ is created in the constructor; null only if allocation failed.
+        if (!dctx_) return {};
+        // Reset the cached context before reuse.
+        ZSTD_DCtx_reset(dctx_, ZSTD_reset_session_only);
         result = ZSTD_decompress_usingDDict(
-            dctx,
+            dctx_,
             out.data(), out.size(),
             data.data() + DICT_PREFIX_SIZE, data.size() - DICT_PREFIX_SIZE,
             ddict_);
-        ZSTD_freeDCtx(dctx);
     } else {
         // Fall back to plain Zstd (dict_id == 0 means no dictionary was used).
         result = ZSTD_decompress(
