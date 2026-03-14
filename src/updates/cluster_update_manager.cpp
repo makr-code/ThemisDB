@@ -137,7 +137,7 @@ bool ClusterUpdateManager::updateSingleNode(const ClusterNode&          node,
         return false;
     }
 
-    // ---- DOWNLOADING / APPLYING (delegated to NodeUpdateFunc) ----
+    // ---- APPLYING (download + install, delegated to NodeUpdateFunc) ----
     {
         std::lock_guard<std::mutex> lock(mutex_);
         int idx = findNodeIndex(node.node_id);
@@ -172,9 +172,20 @@ bool ClusterUpdateManager::updateSingleNode(const ClusterNode&          node,
         }
 
         if (should_rollback) {
-            std::lock_guard<std::mutex> lock(mutex_);
-            int idx = findNodeIndex(node.node_id);
-            if (idx >= 0) node_statuses_[idx].state = ClusterNodeState::ROLLED_BACK;
+            NodeRollbackFunc rollback_fn;
+            {
+                std::lock_guard<std::mutex> lock(mutex_);
+                rollback_fn = node_rollback_fn_;
+            }
+            if (rollback_fn) {
+                // applied_version is empty here (update failed before completing)
+                rollback_fn(node, "");
+            }
+            {
+                std::lock_guard<std::mutex> lock(mutex_);
+                int idx = findNodeIndex(node.node_id);
+                if (idx >= 0) node_statuses_[idx].state = ClusterNodeState::ROLLED_BACK;
+            }
             LOG_WARN("ClusterUpdateManager: rolled back node={}", node.node_id);
         }
 
@@ -183,10 +194,15 @@ bool ClusterUpdateManager::updateSingleNode(const ClusterNode&          node,
     }
 
     // ---- HEALTH CHECK ----
+    // Record applied_version now (before health check) so that the
+    // NodeRollbackFunc can reference it if the health check fails.
     {
         std::lock_guard<std::mutex> lock(mutex_);
         int idx = findNodeIndex(node.node_id);
-        if (idx >= 0) node_statuses_[idx].state = ClusterNodeState::HEALTH_CHECK;
+        if (idx >= 0) {
+            node_statuses_[idx].state           = ClusterNodeState::HEALTH_CHECK;
+            node_statuses_[idx].applied_version = version;
+        }
     }
     emitProgress(node.node_id, "Health check on node " + node.node_id);
 
@@ -217,9 +233,22 @@ bool ClusterUpdateManager::updateSingleNode(const ClusterNode&          node,
         }
 
         if (should_rollback) {
-            std::lock_guard<std::mutex> lock(mutex_);
-            int idx = findNodeIndex(node.node_id);
-            if (idx >= 0) node_statuses_[idx].state = ClusterNodeState::ROLLED_BACK;
+            NodeRollbackFunc rollback_fn;
+            std::string applied_ver;
+            {
+                std::lock_guard<std::mutex> lock(mutex_);
+                rollback_fn = node_rollback_fn_;
+                int idx = findNodeIndex(node.node_id);
+                if (idx >= 0) applied_ver = node_statuses_[idx].applied_version;
+            }
+            if (rollback_fn) {
+                rollback_fn(node, applied_ver);
+            }
+            {
+                std::lock_guard<std::mutex> lock(mutex_);
+                int idx = findNodeIndex(node.node_id);
+                if (idx >= 0) node_statuses_[idx].state = ClusterNodeState::ROLLED_BACK;
+            }
             LOG_WARN("ClusterUpdateManager: rolled back node={} after health check failure",
                      node.node_id);
         }
@@ -241,8 +270,8 @@ bool ClusterUpdateManager::updateSingleNode(const ClusterNode&          node,
         std::lock_guard<std::mutex> lock(mutex_);
         int idx = findNodeIndex(node.node_id);
         if (idx >= 0) {
-            node_statuses_[idx].state     = ClusterNodeState::COMPLETED;
-            node_statuses_[idx].rollback_id = version;
+            node_statuses_[idx].state = ClusterNodeState::COMPLETED;
+            // applied_version was set when transitioning to HEALTH_CHECK.
         }
     }
 
@@ -268,15 +297,14 @@ ClusterUpdateResult ClusterUpdateManager::updateCluster(
     {
         std::lock_guard<std::mutex> lock(mutex_);
         for (auto& s : node_statuses_) {
-            s.state         = ClusterNodeState::PENDING;
+            s.state           = ClusterNodeState::PENDING;
             s.error_message.clear();
-            s.rollback_id.clear();
+            s.applied_version.clear();
         }
     }
 
-    LOG_INFO("ClusterUpdateManager: starting cluster update to version={}, "
-             "rolling={}, max_unavailable={}",
-             version, opts.rolling, opts.max_unavailable);
+    LOG_INFO("ClusterUpdateManager: starting cluster update to version={}",
+             version);
 
     emitProgress("", "Starting cluster update to " + version);
 
@@ -387,6 +415,11 @@ void ClusterUpdateManager::setNodeUpdateFunc(NodeUpdateFunc fn) {
 void ClusterUpdateManager::setNodeHealthCheckFunc(NodeHealthCheckFunc fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     node_health_check_fn_ = std::move(fn);
+}
+
+void ClusterUpdateManager::setNodeRollbackFunc(NodeRollbackFunc fn) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    node_rollback_fn_ = std::move(fn);
 }
 
 void ClusterUpdateManager::setProgressCallback(ProgressCallback fn) {

@@ -19,13 +19,9 @@
 
 #pragma once
 
-#include "updates/hot_reload_engine.h"
-
 #include <atomic>
 #include <chrono>
 #include <functional>
-#include <future>
-#include <memory>
 #include <mutex>
 #include <string>
 #include <vector>
@@ -43,8 +39,7 @@ namespace updates {
 enum class ClusterNodeState {
     PENDING,       ///< Not yet started.
     DRAINING,      ///< Draining active connections before update.
-    DOWNLOADING,   ///< Downloading and verifying the update package.
-    APPLYING,      ///< Applying the update on the node.
+    APPLYING,      ///< Applying the update on the node (download + install).
     HEALTH_CHECK,  ///< Running post-update health check.
     REJOINING,     ///< Node is rejoining the cluster after update.
     COMPLETED,     ///< Update successfully applied and node is healthy.
@@ -88,8 +83,10 @@ struct ClusterNodeStatus {
     /// Non-empty on failure.
     std::string error_message;
 
-    /// Rollback ID returned by HotReloadEngine (set on COMPLETED / ROLLED_BACK).
-    std::string rollback_id;
+    /// Version string that was applied to this node.  Non-empty when
+    /// state == COMPLETED.  Can be passed to a NodeRollbackFunc to identify
+    /// the version that needs to be undone.
+    std::string applied_version;
 
     /// true when this status entry describes the coordinator node.
     bool is_leader = false;
@@ -123,24 +120,13 @@ struct ClusterUpdateProgress {
  * @brief Options controlling how a cluster-wide update is executed.
  */
 struct ClusterUpdateOptions {
-    /// When true, nodes are updated one at a time (rolling update).
-    /// When false, all non-leader nodes are updated concurrently.
-    bool rolling = true;
-
-    /// Maximum number of nodes that may be simultaneously unavailable
-    /// (downloading / applying) during a rolling update.
-    size_t max_unavailable = 1;
-
     /// Timeout for the per-node health check after the update is applied.
     std::chrono::seconds health_check_timeout{30};
 
-    /// When true, automatically rollback a node if its post-update health
-    /// check fails.
+    /// When true, invoke the NodeRollbackFunc (if registered) on a node
+    /// that fails to update or fails its post-update health check, and abort
+    /// updating any subsequent nodes.
     bool rollback_on_failure = true;
-
-    /// When false, nodes may be updated concurrently (subject to
-    /// max_unavailable).  When true, nodes are always updated sequentially.
-    bool sequential_updates = true;
 };
 
 /**
@@ -171,24 +157,25 @@ struct ClusterUpdateResult {
 // ---------------------------------------------------------------------------
 
 /**
- * @brief Orchestrates a rolling (or parallel) update across all nodes of a
- *        ThemisDB cluster.
+ * @brief Orchestrates a rolling update across all nodes of a ThemisDB cluster.
  *
- * The manager is transport-agnostic: actual per-node update execution is
- * injected via a @ref NodeUpdateFunc callback.  This keeps the class
- * independently testable and decouples it from any particular cluster
- * transport (gRPC, Raft RPC, …).
+ * The manager is transport-agnostic: actual per-node update execution,
+ * health checks, and rollbacks are injected as callbacks.  This keeps
+ * the class independently testable and decoupled from any particular
+ * cluster transport (gRPC, Raft RPC, …).
  *
- * Rolling update procedure
- * ------------------------
- *  1. Validate that all nodes can be reached (optional pre-flight check).
- *  2. For each non-leader node (in ascending sequence):
- *     a. Mark as DRAINING  — emit progress.
- *     b. Invoke NodeUpdateFunc → marks DOWNLOADING, APPLYING.
- *     c. Run health check    → on pass: REJOINING → COMPLETED.
- *                             on fail (rollback_on_failure): ROLLED_BACK.
- *  3. Repeat for the leader node.
- *  4. Emit final ClusterUpdateProgress.
+ * Update procedure (always sequential / rolling)
+ * -----------------------------------------------
+ *  1. For each non-leader node (in the order supplied), then for each
+ *     leader node:
+ *     a. Mark DRAINING  — emit progress.
+ *     b. Invoke NodeUpdateFunc (→ APPLYING).
+ *     c. Invoke NodeHealthCheckFunc (→ HEALTH_CHECK).
+ *     d. On pass: REJOINING → COMPLETED.
+ *     e. On fail (rollback_on_failure=true):
+ *        - Invoke NodeRollbackFunc (if registered).
+ *        - Mark ROLLED_BACK; abort update of remaining nodes.
+ *  2. Emit final progress snapshot.
  *
  * Usage example
  * -------------
@@ -207,6 +194,12 @@ struct ClusterUpdateResult {
  *                             const ClusterUpdateOptions& opts)
  *   {
  *       return my_rpc_client.updateNode(node.node_id, version);
+ *   });
+ *
+ *   mgr.setNodeRollbackFunc([](const ClusterNode& node,
+ *                               const std::string& applied_version)
+ *   {
+ *       return my_rpc_client.rollbackNode(node.node_id, applied_version);
  *   });
  *
  *   mgr.setProgressCallback([](const ClusterUpdateProgress& p) {
@@ -250,6 +243,22 @@ public:
     using NodeHealthCheckFunc =
         std::function<bool(const ClusterNode&              node,
                            std::chrono::seconds             timeout)>;
+
+    /**
+     * @brief Injected callback that rolls back an update on a single node.
+     *
+     * Invoked by updateCluster() when a node fails its update or post-update
+     * health check and @c rollback_on_failure is true.
+     *
+     * @param node             Node to roll back.
+     * @param applied_version  The version string that was applied (from
+     *                         ClusterNodeStatus::applied_version), which can
+     *                         be used to identify what to undo.
+     * @return true if the rollback succeeded.
+     */
+    using NodeRollbackFunc =
+        std::function<bool(const ClusterNode& node,
+                           const std::string& applied_version)>;
 
     /**
      * @brief Progress callback invoked after each significant state change.
@@ -360,6 +369,15 @@ public:
     void setNodeHealthCheckFunc(NodeHealthCheckFunc fn);
 
     /**
+     * @brief Register the callback that performs per-node rollbacks.
+     *
+     * Called when a node's update or health check fails and
+     * @c rollback_on_failure is true.  When not set, the node is marked
+     * ROLLED_BACK in state but no remote action is taken.
+     */
+    void setNodeRollbackFunc(NodeRollbackFunc fn);
+
+    /**
      * @brief Register a progress callback.
      */
     void setProgressCallback(ProgressCallback fn);
@@ -390,6 +408,7 @@ private:
 
     NodeUpdateFunc      node_update_fn_;
     NodeHealthCheckFunc node_health_check_fn_;
+    NodeRollbackFunc    node_rollback_fn_;
     ProgressCallback    progress_cb_;
 };
 

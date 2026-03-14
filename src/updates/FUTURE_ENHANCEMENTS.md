@@ -122,11 +122,11 @@ if (result.wait()) {
 Coordinate updates across all nodes in a ThemisDB cluster with Raft consensus.
 
 **Features:**
-- ✅ Rolling updates (update one node at a time, non-leaders before leader)
-- ✅ Automatic health checks before/after updates (`NodeHealthCheckFunc` callback)
-- ✅ Abort on failure with automatic rollback (`rollback_on_failure` option)
+- ✅ Rolling (sequential) updates — non-leaders first, leader(s) last
+- ✅ Automatic health checks after each node update (`NodeHealthCheckFunc` callback)
+- ✅ Injected rollback via `NodeRollbackFunc` callback when `rollback_on_failure=true`
 - ✅ Version skew protection — leader node is always updated last
-- ✅ Transport-agnostic design via injected `NodeUpdateFunc` and `NodeHealthCheckFunc` callbacks
+- ✅ Transport-agnostic design via `NodeUpdateFunc` / `NodeHealthCheckFunc` / `NodeRollbackFunc` callbacks
 - ✅ Incremental `ClusterUpdateProgress` callbacks for monitoring
 - ✅ Cancellation support via `cancelUpdate()`
 
@@ -138,7 +138,6 @@ cfg.nodes = {
     { "node-b", "host-b:6543", false, "1.6.0" },
     { "node-c", "host-c:6543", true,  "1.6.0" },  // Raft leader — updated last
 };
-cfg.default_options.rolling              = true;
 cfg.default_options.rollback_on_failure  = true;
 cfg.default_options.health_check_timeout = std::chrono::seconds{30};
 
@@ -155,6 +154,12 @@ cluster_updates.setNodeUpdateFunc(
 cluster_updates.setNodeHealthCheckFunc(
     [](const ClusterNode& node, std::chrono::seconds timeout) {
         return my_rpc.healthCheck(node.node_id, timeout);
+    });
+
+// Optional: inject per-node rollback (called when rollback_on_failure=true).
+cluster_updates.setNodeRollbackFunc(
+    [](const ClusterNode& node, const std::string& applied_version) {
+        return my_rpc.rollbackNode(node.node_id, applied_version);
     });
 
 // Monitor progress.
@@ -178,10 +183,12 @@ if (result.success) {
 1. Sort nodes: non-leader nodes first, leader(s) last
 2. For each node in order:
    a. Mark DRAINING  — emit progress
-   b. Invoke NodeUpdateFunc (DOWNLOADING → APPLYING)
-   c. Invoke NodeHealthCheckFunc (HEALTH_CHECK)
+   b. Invoke NodeUpdateFunc (→ APPLYING)
+   c. Record applied_version; invoke NodeHealthCheckFunc (→ HEALTH_CHECK)
    d. On pass: REJOINING → COMPLETED
-   e. On fail (rollback_on_failure=true): ROLLED_BACK; abort if follower
+   e. On fail (rollback_on_failure=true):
+      - Invoke NodeRollbackFunc(node, applied_version)
+      - Mark ROLLED_BACK; abort remaining nodes
 3. Emit final ClusterUpdateProgress
 ```
 

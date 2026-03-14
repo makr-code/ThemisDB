@@ -46,6 +46,7 @@
 
 #include "updates/cluster_update_manager.h"
 
+#include <algorithm>
 #include <atomic>
 #include <memory>
 #include <stdexcept>
@@ -66,7 +67,6 @@ static ClusterUpdateManager::Config make3NodeConfig() {
         { "node-b", "host-b:6543", false, "1.6.0" },
         { "node-c", "host-c:6543", true,  "1.6.0" },
     };
-    cfg.default_options.rolling              = true;
     cfg.default_options.rollback_on_failure  = false;
     cfg.default_options.health_check_timeout = std::chrono::seconds{5};
     return cfg;
@@ -157,9 +157,9 @@ TEST_F(DistributedClusterAccessors, InitialStatuses_AllPending) {
     }
 }
 
-TEST_F(DistributedClusterAccessors, InitialStatuses_RollbackIdEmpty) {
+TEST_F(DistributedClusterAccessors, InitialStatuses_AppliedVersionEmpty) {
     for (const auto& s : mgr_.nodeStatuses()) {
-        EXPECT_TRUE(s.rollback_id.empty());
+        EXPECT_TRUE(s.applied_version.empty());
     }
 }
 
@@ -250,11 +250,12 @@ TEST_F(DistributedClusterRollingSuccess, UpdateCluster_NonLeadersBeforeLeader) {
     EXPECT_LT(b_pos, leader_pos);
 }
 
-TEST_F(DistributedClusterRollingSuccess, UpdateCluster_RollbackIdSet) {
+TEST_F(DistributedClusterRollingSuccess, UpdateCluster_AppliedVersionSet) {
     mgr_.updateCluster("1.7.0");
     for (const auto& s : mgr_.nodeStatuses()) {
-        EXPECT_FALSE(s.rollback_id.empty())
-            << "Node " << s.node_id << " missing rollback_id";
+        EXPECT_FALSE(s.applied_version.empty())
+            << "Node " << s.node_id << " missing applied_version";
+        EXPECT_EQ(s.applied_version, "1.7.0");
     }
 }
 
@@ -400,6 +401,52 @@ TEST_F(DistributedClusterHealthCheck, HealthCheckFails_WithRollback_NodeRolledBa
         }
     }
     EXPECT_TRUE(any_rolled_back);
+}
+
+TEST_F(DistributedClusterHealthCheck, HealthCheckFails_RollbackFunc_IsCalled) {
+    ClusterUpdateOptions opts = make3NodeConfig().default_options;
+    opts.rollback_on_failure  = true;
+
+    std::atomic<int> rollback_calls{0};
+    std::string captured_version;
+
+    mgr_.setNodeUpdateFunc(alwaysOkUpdate());
+    mgr_.setNodeHealthCheckFunc(alwaysUnhealthy());
+    mgr_.setNodeRollbackFunc(
+        [&](const ClusterNode&, const std::string& ver) {
+            ++rollback_calls;
+            captured_version = ver;
+            return true;
+        });
+
+    mgr_.updateCluster("1.7.0", opts);
+
+    // Rollback function must have been called for the failed node(s).
+    EXPECT_GT(rollback_calls.load(), 0);
+    // The applied_version passed to the callback should be "1.7.0"
+    // (set before the health check).
+    EXPECT_EQ(captured_version, "1.7.0");
+}
+
+TEST_F(DistributedClusterHealthCheck, UpdateFails_RollbackFunc_IsCalled) {
+    ClusterUpdateOptions opts = make3NodeConfig().default_options;
+    opts.rollback_on_failure  = true;
+
+    std::atomic<int> rollback_calls{0};
+
+    mgr_.setNodeUpdateFunc(alwaysFailUpdate());
+    mgr_.setNodeHealthCheckFunc(alwaysHealthy());
+    mgr_.setNodeRollbackFunc(
+        [&](const ClusterNode&, const std::string&) {
+            ++rollback_calls;
+            return true;
+        });
+
+    mgr_.updateCluster("1.7.0", opts);
+
+    // NodeRollbackFunc is called even when the update itself fails (before
+    // the health check), so the caller can undo partial changes.
+    EXPECT_GT(rollback_calls.load(), 0);
 }
 
 TEST_F(DistributedClusterHealthCheck, HealthCheckSucceeds_NodeCompleted) {
@@ -611,7 +658,6 @@ TEST_F(DistributedClusterOptionsOverride, PerCallOptions_Respected) {
 
     // Override: rollback_on_failure = true
     ClusterUpdateOptions opts;
-    opts.rolling              = true;
     opts.rollback_on_failure  = true;
     opts.health_check_timeout = std::chrono::seconds{10};
 
