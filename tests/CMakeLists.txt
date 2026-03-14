@@ -2591,6 +2591,37 @@ else()
 endif()
 
 # ============================================================================
+# Logical Replication Tests (v1.7.0 – schema-aware, filters, initial sync)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_logical_replication.cpp")
+    message(STATUS "Adding Logical Replication tests")
+
+    add_executable(test_logical_replication
+        test_logical_replication.cpp
+    )
+
+    target_link_libraries(test_logical_replication PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_logical_replication PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME LogicalReplicationTests COMMAND test_logical_replication)
+
+    set_tests_properties(LogicalReplicationTests PROPERTIES
+        LABELS "replication;logical;schema;filters;unit"
+        TIMEOUT 60
+    )
+else()
+    message(STATUS "Logical Replication tests not found")
+endif()
+
+# ============================================================================
 # Replication Topology API Handler Tests (web UI / REST endpoint)
 # ============================================================================
 
