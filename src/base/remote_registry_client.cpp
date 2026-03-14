@@ -44,6 +44,7 @@
 #include <queue>
 #include <sstream>
 #include <stdexcept>
+#include <string>
 #include <thread>
 #include <vector>
 
@@ -67,6 +68,13 @@ struct BackoffDispatcherState {
 BackoffDispatcherState& dispatcherState() {
     static BackoffDispatcherState state;
     return state;
+}
+
+void waitOrThrow(std::future<void>&& future, const char* source) {
+    if (!future.valid()) {
+        throw std::runtime_error(std::string(source) + " returned invalid future");
+    }
+    future.wait();
 }
 
 // Optional externally provided dispatcher for delayed execution (e.g., TaskScheduler).
@@ -410,12 +418,7 @@ ModuleVerificationResult RemoteRegistryClient::downloadAndLoad(
         // Use the injected dispatcher (e.g., TaskScheduler) to schedule the delay.
         try {
             auto future = dispatcher(delay);
-            if (!future.valid()) {
-                spdlog::error("RemoteRegistryClient::asyncBackoffSleep: dispatcher "
-                              "returned invalid future");
-                throw std::runtime_error("backoff dispatcher returned invalid future");
-            }
-            future.wait();
+            waitOrThrow(std::move(future), "backoff dispatcher");
         } catch (const std::exception& ex) {
             spdlog::error("RemoteRegistryClient::asyncBackoffSleep: dispatcher error: {}",
                           ex.what());
@@ -431,10 +434,7 @@ ModuleVerificationResult RemoteRegistryClient::downloadAndLoad(
     // Default: shared worker thread handles the delay to avoid spawning one
     // thread per backoff when no dispatcher is injected.
     auto future = BackoffScheduler::instance().schedule(delay);
-    if (!future.valid()) {
-        throw std::runtime_error("backoff scheduler returned invalid future");
-    }
-    future.wait();
+    waitOrThrow(std::move(future), "backoff scheduler");
 }
 
 std::string RemoteRegistryClient::buildAuthorizationHeader() const {

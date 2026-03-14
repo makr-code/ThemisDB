@@ -474,6 +474,7 @@ TEST(RemoteRegistryClient, CustomBackoffDispatcherIsUsed) {
         total_delay_ms.fetch_add(static_cast<int>(delay.count()), std::memory_order_relaxed);
         auto p   = std::make_shared<std::promise<void>>();
         auto fut = p->get_future();
+        // Promise is fulfilled synchronously; no asynchronous work relies on its lifetime.
         p->set_value();  // no actual sleep to keep the test fast
         return fut;
     };
