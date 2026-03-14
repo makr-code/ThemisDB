@@ -403,8 +403,8 @@ TEST_F(AdaptiveCompactionFocusedTests, Integration_FullWorkflow) {
     CompactionManager mgr(db_, mgr_cfg);
 
     // Simulate read/write traffic
-    for (int i = 0; i < 50; ++i) sched.recordWrite();
-    for (int i = 0; i < 200; ++i) sched.recordRead();
+    for (int n = 0; n < 50; ++n) sched.recordWrite();
+    for (int n = 0; n < 200; ++n) sched.recordRead();
 
     // At WA = 0 (unknown), low load → should not trigger (WA < desired threshold)
     EXPECT_FALSE(sched.shouldTriggerCompaction(0.0));

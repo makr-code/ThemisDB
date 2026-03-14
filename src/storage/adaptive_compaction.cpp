@@ -119,8 +119,6 @@ void AdaptiveCompactionScheduler::collectSample() {
             samples_.pop_front();
         }
     }
-
-    trigger_adjustments_.fetch_add(1, std::memory_order_relaxed);
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -232,7 +230,7 @@ AdaptiveCompactionScheduler::computeAdaptedConfig() const {
     double min_s = static_cast<double>(config_.min_gc_interval.count());
     double max_s = static_cast<double>(config_.max_gc_interval.count());
     cfg.bg_gc_interval =
-        std::chrono::seconds(static_cast<long>(min_s + pressure * (max_s - min_s)));
+        std::chrono::seconds(static_cast<std::chrono::seconds::rep>(min_s + pressure * (max_s - min_s)));
 
     // Full compaction is only enabled during low-load windows.
     cfg.enable_full_compaction = (pressure < 0.2);

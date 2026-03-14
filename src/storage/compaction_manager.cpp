@@ -153,7 +153,10 @@ void CompactionManager::setConfig(const Config& config) {
     if (was_running) {
         stopBackgroundGC();
     }
-    config_ = config;
+    {
+        std::lock_guard<std::mutex> lock(bg_mutex_);
+        config_ = config;
+    }
     if (was_running) {
         startBackgroundGC();
     }
