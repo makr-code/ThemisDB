@@ -145,9 +145,14 @@ public:
     {
         // Collect all keys stored under "table_name:" prefix.
         // In a real engine this would be a range scan; here we rely on the
-        // storage implementation exposing keys via a known naming convention.
-        // For the default IMigrationStorage contract (put/get/remove), keys
-        // are scanned via a pre-collected snapshot passed at construction.
+        // storage implementation exposing keys via listKeys().
+        if (known_keys_.empty() && storage != nullptr) {
+            if (!storage->listKeys(known_keys_)) {
+                LOG_WARN("SchemaMigration: listKeys() unsupported or failed; "
+                         "iterator for table '{}' will yield no records",
+                         table_name);
+            }
+        }
         const std::string prefix = table_name + ":";
         return std::make_unique<PrefixIterator>(storage, prefix, known_keys_);
     }
@@ -174,6 +179,7 @@ struct SchemaMigration::Impl {
     std::vector<Operation> operations_;
     OnlineDDLPhase     phase_             = OnlineDDLPhase::IDLE;
     IMigrationStorage* active_storage_    = nullptr;
+    bool               committed_         = false;  ///< true after a successful apply().
 
     // Undo log: records of (table, key, old_value) for rollback.
     struct UndoEntry {
@@ -196,7 +202,14 @@ struct SchemaMigration::Impl {
 
     MigrationResult run(IMigrationStorage& storage)
     {
-        active_storage_ = &storage;
+        // Reset per-apply state so successive apply() calls start clean.
+        active_storage_    = &storage;
+        committed_         = false;
+        phase_             = OnlineDDLPhase::IDLE;
+        undo_log_.clear();
+        backfilled_columns_.clear();
+        indexes_built_online_.clear();
+
         MigrationResult result;
         result.version = version_;
 
@@ -254,6 +267,21 @@ struct SchemaMigration::Impl {
         LOG_INFO("SchemaMigration [{}]: phase CLEANUP", version_);
         undo_log_.clear();  // Migration committed; undo log no longer needed.
 
+        // Persist the migration version so the applied version is durable.
+        std::string prev_ver;
+        if (storage.get("__schema__:version", prev_ver)) {
+            LOG_INFO("SchemaMigration [{}]: upgrading schema version marker: {} → {}",
+                     version_, prev_ver, version_);
+        }
+        if (!storage.put("__schema__:version", version_)) {
+            LOG_WARN("SchemaMigration [{}]: could not persist schema version marker",
+                     version_);
+        }
+
+        // Mark as committed so rollback() is a no-op from here on.
+        committed_      = true;
+        active_storage_ = nullptr;
+
         // Build result
         result.success             = true;
         result.phase_reached       = phase_;
@@ -274,9 +302,12 @@ struct SchemaMigration::Impl {
         RollbackResult rb;
         rb.rolled_back_from = phase_;
 
-        if (active_storage_ == nullptr || phase_ == OnlineDDLPhase::IDLE) {
+        if (committed_ || active_storage_ == nullptr || phase_ == OnlineDDLPhase::IDLE) {
+            // Either migration succeeded (committed) or no apply() has run yet.
             rb.success = true;
-            phase_ = OnlineDDLPhase::IDLE;
+            if (!committed_) {
+                phase_ = OnlineDDLPhase::IDLE;
+            }
             return rb;
         }
 
@@ -383,9 +414,15 @@ struct SchemaMigration::Impl {
         }
 
         // Record undo entries for both old and new keys.
-        undo_log_.push_back({op.table, new_meta_key, "", false});
+        // Capture the existing values so rollback can restore the prior state.
+        std::string existing_new_meta;
+        bool had_new_meta = storage.get(new_meta_key, existing_new_meta);
+        std::string existing_rename;
+        bool had_rename = storage.get(rename_key, existing_rename);
+
+        undo_log_.push_back({op.table, new_meta_key, existing_new_meta, had_new_meta});
         undo_log_.push_back({op.table, old_meta_key, meta_value, had_old});
-        undo_log_.push_back({op.table, rename_key, "", false});
+        undo_log_.push_back({op.table, rename_key, existing_rename, had_rename});
 
         // Write the new-name metadata.
         if (!storage.put(new_meta_key, meta_value)) {
@@ -394,7 +431,11 @@ struct SchemaMigration::Impl {
             return false;
         }
         // Remove old-name metadata.
-        storage.remove(old_meta_key);
+        if (!storage.remove(old_meta_key)) {
+            LOG_ERROR("SchemaMigration [{}]: failed to remove old column metadata '{}.{}'",
+                      version_, op.table, op.old_name);
+            return false;
+        }
 
         // Write a rename-marker so dual-write logic can translate writes.
         if (!storage.put(rename_key, op.new_name)) {
@@ -481,7 +522,10 @@ struct SchemaMigration::Impl {
         // Record undo (restore column as "not dropped").
         std::string existing;
         bool had_value = storage.get(meta_key, existing);
-        undo_log_.push_back({op.table, drop_key, "", false});
+        // Capture any pre-existing drop marker so rollback can restore it.
+        std::string existing_drop;
+        bool had_drop = storage.get(drop_key, existing_drop);
+        undo_log_.push_back({op.table, drop_key, existing_drop, had_drop});
         undo_log_.push_back({op.table, meta_key, existing, had_value});
 
         // Mark column as dropped (hidden).  The grace period controls when
@@ -499,7 +543,11 @@ struct SchemaMigration::Impl {
         }
 
         // Remove column metadata immediately (column is hidden).
-        storage.remove(meta_key);
+        if (!storage.remove(meta_key)) {
+            LOG_ERROR("SchemaMigration [{}]: failed to remove column metadata for '{}.{}'",
+                      version_, op.table, op.column);
+            return false;
+        }
 
         LOG_INFO("SchemaMigration [{}]: dropColumn '{}.{}' (grace_period={} hours)",
                  version_, op.table, op.column,
@@ -511,6 +559,14 @@ struct SchemaMigration::Impl {
     bool applyOp(IMigrationStorage& storage, const CustomOp& op)
     {
         ConcreteMigrationContext ctx(version_, &storage);
+        // Pre-populate the key snapshot so createIterator() yields real records.
+        std::vector<std::string> keys;
+        if (!storage.listKeys(keys)) {
+            LOG_WARN("SchemaMigration [{}]: listKeys() unsupported or failed; "
+                     "custom migration callback will see an empty iterator",
+                     version_);
+        }
+        ctx.setKnownKeys(std::move(keys));
         bool ok = op.fn(ctx);
         if (!ok) {
             LOG_ERROR("SchemaMigration [{}]: custom migration callback returned false",

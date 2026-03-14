@@ -84,6 +84,15 @@ public:
         return true;
     }
 
+    bool listKeys(std::vector<std::string>& out) override
+    {
+        out.reserve(out.size() + store.size());
+        for (const auto& kv : store) {
+            out.push_back(kv.first);
+        }
+        return true;
+    }
+
     bool has(const std::string& key) const
     {
         return store.count(key) > 0;
@@ -402,7 +411,7 @@ TEST(AutomaticSchemaMigrationFocusedTests, CustomMigration_CallbackInvoked)
     bool callback_invoked = false;
 
     SchemaMigration m("1.5.0");
-    m.addCustomMigration([&callback_invoked](MigrationContext& ctx) {
+    m.addCustomMigration([&callback_invoked](MigrationContext& /*ctx*/) {
         callback_invoked = true;
         return true;
     });
@@ -432,7 +441,7 @@ TEST(AutomaticSchemaMigrationFocusedTests, CustomMigration_FalseReturnFails)
     InMemoryStorage storage;
 
     SchemaMigration m("1.5.0");
-    m.addCustomMigration([](MigrationContext& ctx) { return false; });
+    m.addCustomMigration([](MigrationContext& /*ctx*/) { return false; });
     auto result = m.apply(storage);
 
     EXPECT_FALSE(result.success);

@@ -166,6 +166,24 @@ public:
      * @return true on success (including when the key did not exist).
      */
     virtual bool remove(const std::string& key) = 0;
+
+    /**
+     * @brief Enumerate all stored keys into @p out.
+     *
+     * This optional operation supports custom migration callbacks that need to
+     * scan records via MigrationContext::createIterator().  Implementations
+     * that do not support key enumeration may leave @p out unchanged and return
+     * false; in that case, iterators over those implementations will yield no
+     * records.
+     *
+     * @param out  Destination vector; keys are appended (not replaced).
+     * @return true if enumeration succeeded and @p out is complete.
+     */
+    virtual bool listKeys(std::vector<std::string>& out)
+    {
+        (void)out;
+        return false;
+    }
 };
 
 /**
@@ -298,7 +316,9 @@ public:
     /**
      * @brief Create a migration for a specific database version.
      * @param version  Semantic version string identifying this migration
-     *                 (e.g. "1.5.0").  Used for schema version tracking.
+     *                 (e.g. "1.5.0").  Written to storage under the key
+     *                 `__schema__:version` on successful apply(), making
+     *                 the last applied version durable.
      */
     explicit SchemaMigration(const std::string& version);
 
@@ -414,8 +434,20 @@ public:
     /**
      * @brief Manually roll back a failed (or in-progress) migration.
      *
-     * Safe to call even if `apply()` has not been invoked; returns success
-     * immediately in that case.
+     * Replays the undo log from the most recent `apply()` call in reverse
+     * order, restoring any keys that were modified or removed.
+     *
+     * **Lifetime requirement:** This method uses the `IMigrationStorage`
+     * reference that was passed to the most recent `apply()` call.  The
+     * storage object **must still be alive** when `rollback()` is invoked.
+     * If the storage may have been destroyed by the time a manual rollback
+     * is needed, keep a reference to it and call `apply()` only while it is
+     * guaranteed to outlive any subsequent `rollback()` call.
+     *
+     * **No-op cases:** Returns success immediately if:
+     *  - `apply()` has not yet been called (no undo log to replay), or
+     *  - `apply()` completed successfully (migration was committed and the
+     *    undo log was cleared).
      *
      * @return RollbackResult describing the rollback outcome.
      */
