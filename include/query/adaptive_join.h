@@ -226,13 +226,13 @@ public:
      * @brief Determine which algorithm would be selected for the given inputs.
      *
      * Useful for testing and query-plan inspection without executing the join.
+     * The memory budget is taken from @p stats.memory_budget_bytes.
      */
     [[nodiscard]] JoinAlgorithm selectAlgorithm(size_t left_rows,
                                                  size_t right_rows,
                                                  bool left_sorted,
                                                  bool right_sorted,
                                                  bool has_index,
-                                                 size_t memory_budget,
                                                  const RuntimeStats& stats) const noexcept;
 
     /**

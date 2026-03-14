@@ -114,7 +114,6 @@ JoinAlgorithm AdaptiveJoinExecutor::selectAlgorithm(
         bool   left_sorted,
         bool   right_sorted,
         bool   has_index,
-        size_t memory_budget,
         const RuntimeStats& stats) const noexcept {
 
     // --- AC-3: Nested Loop — left side < nested_loop_threshold rows ----------
@@ -139,11 +138,11 @@ JoinAlgorithm AdaptiveJoinExecutor::selectAlgorithm(
 
     // --- AC-5: Grace Hash — build side would exceed memory budget ------------
     {
-        // Estimate memory required to hold the smaller side's hash table.
-        const size_t smaller_rows = std::min(left_rows, right_rows);
-        const size_t estimated_memory = smaller_rows * stats.bytes_per_row;
+        // Estimate memory required to hold the smaller (build) side's hash table.
+        const size_t build_rows = std::min(left_rows, right_rows);
+        const size_t estimated_memory = build_rows * stats.bytes_per_row;
         const double threshold = stats.grace_hash_threshold *
-                                 static_cast<double>(memory_budget);
+                                 static_cast<double>(stats.memory_budget_bytes);
         if (static_cast<double>(estimated_memory) > threshold) {
             spdlog::debug("AdaptiveJoin: GRACE_HASH_JOIN selected "
                           "(est_mem={} bytes > threshold={:.0f})",
@@ -187,7 +186,6 @@ JoinResult AdaptiveJoinExecutor::executeJoin(const JoinSpec& spec,
         left.rowCount(), right.rowCount(),
         left.is_sorted, right.is_sorted,
         right.has_index,
-        stats.memory_budget_bytes,
         stats);
 
     const double cost = estimateJoinCost(algo, left.rowCount(), right.rowCount(),
@@ -254,33 +252,38 @@ JoinResult AdaptiveJoinExecutor::executeHashJoin(const JoinSpec& spec,
     JoinResult result;
     result.algorithm_used = JoinAlgorithm::HASH_JOIN;
 
-    // Build phase: hash table on the right (or smaller) side.
-    // For simplicity we always build on the right side here; the cost model
-    // already assumes the smaller side is used.
-    std::unordered_map<std::string, std::vector<const RowValue*>> hash_table;
-    hash_table.reserve(right.rowCount());
+    // Build phase: hash table on the smaller side for memory efficiency.
+    const bool build_on_right = (right.rowCount() <= left.rowCount());
+    const Table&       build_side = build_on_right ? right : left;
+    const Table&       probe_side = build_on_right ? left  : right;
+    const std::string& build_key  = build_on_right ? spec.right_key : spec.left_key;
+    const std::string& probe_key  = build_on_right ? spec.left_key  : spec.right_key;
 
-    for (const auto& row : right.rows) {
-        auto it = row.find(spec.right_key);
+    std::unordered_map<std::string, std::vector<const RowValue*>> hash_table;
+    hash_table.reserve(build_side.rowCount());
+
+    for (const auto& row : build_side.rows) {
+        auto it = row.find(build_key);
         if (it != row.end()) {
             hash_table[it->second].push_back(&row);
         }
     }
 
-    // Probe phase: for each left row, look up matching right rows.
-    for (const auto& left_row : left.rows) {
-        auto key_it = left_row.find(spec.left_key);
-        if (key_it == left_row.end()) {
+    // Probe phase: for each probe row, look up matching build rows.
+    for (const auto& probe_row : probe_side.rows) {
+        auto key_it = probe_row.find(probe_key);
+        if (key_it == probe_row.end()) {
             continue;
         }
         auto bucket_it = hash_table.find(key_it->second);
         if (bucket_it == hash_table.end()) {
             continue;
         }
-        for (const RowValue* right_row : bucket_it->second) {
-            RowValue merged = mergeRows(left_row, *right_row);
-            if (!spec.filter || spec.filter(left_row, *right_row)) {
-                result.rows.push_back(std::move(merged));
+        for (const RowValue* build_row : bucket_it->second) {
+            const RowValue& left_row  = build_on_right ? probe_row : *build_row;
+            const RowValue& right_row = build_on_right ? *build_row : probe_row;
+            if (!spec.filter || spec.filter(left_row, right_row)) {
+                result.rows.push_back(mergeRows(left_row, right_row));
             }
         }
     }
@@ -514,12 +517,9 @@ JoinResult AdaptiveJoinExecutor::executeGraceHashJoin(const JoinSpec& spec,
 JoinResult AdaptiveJoinExecutor::executeBroadcastJoin(const JoinSpec& spec,
                                                        const Table&    left,
                                                        const Table&    right) const {
-    JoinResult result;
-    result.algorithm_used = JoinAlgorithm::BROADCAST_JOIN;
-
     // Broadcast the smaller table and hash-join locally (simulated).
-    // We always broadcast right here; in a real distributed engine the
-    // coordinator would send the broadcast table to each worker.
+    // In a real distributed engine the coordinator would send the broadcast
+    // table to each worker.  The caller (executeJoin) sets algorithm_used.
     return executeHashJoin(spec, left, right);
 }
 
@@ -530,10 +530,8 @@ JoinResult AdaptiveJoinExecutor::executeBroadcastJoin(const JoinSpec& spec,
 JoinResult AdaptiveJoinExecutor::executeShuffleJoin(const JoinSpec& spec,
                                                      const Table&    left,
                                                      const Table&    right) const {
-    JoinResult result;
-    result.algorithm_used = JoinAlgorithm::SHUFFLE_JOIN;
-
     // Simulate shuffle by repartitioning then hash-joining locally.
+    // The caller (executeJoin) sets algorithm_used.
     return executeHashJoin(spec, left, right);
 }
 

@@ -174,7 +174,6 @@ TEST(AdaptiveJoinStrategiesTest, AC1_SelectAlgo_LargeInputs_HashJoin) {
         50'000, 100'000,
         /*left_sorted*/false, /*right_sorted*/false,
         /*has_index*/false,
-        stats.memory_budget_bytes,
         stats);
 
     EXPECT_EQ(algo, JoinAlgorithm::HASH_JOIN);
@@ -198,17 +197,12 @@ TEST(AdaptiveJoinStrategiesTest, AC1_ExecuteJoin_LargeInputs_HashJoinUsed) {
 TEST(AdaptiveJoinStrategiesTest, AC1_HashJoin_CorrectRows) {
     AdaptiveJoinExecutor exec;
 
-    Table left  = makeTable("L", 3);
-    Table right = makeTable("R", 3);
-    // left.rows: id=0,1,2   right.rows: id=0,1,2  → 3 matches
-    left.rows.back()["id"] = "99";  // id=2 → id=99 (no match)
-
-    JoinSpec spec = makeSpec();
-    RuntimeStats stats = defaultStats();
-
-    // Force hash join: use 2000 rows so nested-loop threshold (1000) is not triggered
+    // Force hash join: use 2000 rows so nested-loop threshold (1000) is not triggered.
+    // Ids 0..1999 on both sides → 2000 exact matches.
     Table big_left  = makeTable("L", 2000);
     Table big_right = makeTable("R", 2000);
+    JoinSpec spec = makeSpec();
+    RuntimeStats stats = defaultStats();
 
     JoinResult result = exec.executeJoin(spec, big_left, big_right, stats);
 
@@ -228,7 +222,6 @@ TEST(AdaptiveJoinStrategiesTest, AC2_SelectAlgo_BothSorted_MergeJoin) {
         5000, 5000,
         /*left_sorted*/true, /*right_sorted*/true,
         /*has_index*/false,
-        stats.memory_budget_bytes,
         stats);
 
     EXPECT_EQ(algo, JoinAlgorithm::MERGE_JOIN);
@@ -242,7 +235,6 @@ TEST(AdaptiveJoinStrategiesTest, AC2_SelectAlgo_OnlyLeftSorted_NotMergeJoin) {
         5000, 5000,
         /*left_sorted*/true, /*right_sorted*/false,
         /*has_index*/false,
-        stats.memory_budget_bytes,
         stats);
 
     EXPECT_NE(algo, JoinAlgorithm::MERGE_JOIN);
@@ -264,7 +256,11 @@ TEST(AdaptiveJoinStrategiesTest, AC2_ExecuteJoin_BothSorted_MergeJoinUsed) {
 }
 
 TEST(AdaptiveJoinStrategiesTest, AC2_MergeJoin_CorrectResultForDisjointKeys) {
-    AdaptiveJoinExecutor exec;
+    // Use a config with nested_loop_threshold=0 so merge join is reachable
+    // even for small tables (both sides are sorted).
+    AdaptiveJoinConfig cfg;
+    cfg.nested_loop_threshold = 0;
+    AdaptiveJoinExecutor exec(cfg);
 
     Table left;
     left.is_sorted = true;
@@ -281,15 +277,13 @@ TEST(AdaptiveJoinStrategiesTest, AC2_MergeJoin_CorrectResultForDisjointKeys) {
     };
 
     JoinSpec spec = makeSpec();
-
-    // Force merge join path: use sizes > 1000 but both sorted
-    Table big_left  = makeTable("L", 2000, true);
-    Table big_right = makeTable("R", 2000, true);
     RuntimeStats stats = defaultStats();
 
-    JoinResult result = exec.executeJoin(spec, big_left, big_right, stats);
+    JoinResult result = exec.executeJoin(spec, left, right, stats);
+
     EXPECT_EQ(result.algorithm_used, JoinAlgorithm::MERGE_JOIN);
-    // No disjoint keys in big tables (0..1999 match), just confirm algo
+    // Keys {1,3} and {2,4} are disjoint → no matches
+    EXPECT_EQ(result.rowCount(), 0u);
 }
 
 // ============================================================================
@@ -303,7 +297,6 @@ TEST(AdaptiveJoinStrategiesTest, AC3_SelectAlgo_SmallLeft_NestedLoop) {
     JoinAlgorithm algo = exec.selectAlgorithm(
         500, 100'000,
         false, false, false,
-        stats.memory_budget_bytes,
         stats);
 
     EXPECT_EQ(algo, JoinAlgorithm::NESTED_LOOP_JOIN);
@@ -317,7 +310,6 @@ TEST(AdaptiveJoinStrategiesTest, AC3_SelectAlgo_ExactThreshold_NotNestedLoop) {
     JoinAlgorithm algo = exec.selectAlgorithm(
         1000, 10'000,
         false, false, false,
-        stats.memory_budget_bytes,
         stats);
 
     EXPECT_NE(algo, JoinAlgorithm::NESTED_LOOP_JOIN);
@@ -347,13 +339,11 @@ TEST(AdaptiveJoinStrategiesTest, AC3_NestedLoop_CustomThreshold) {
     RuntimeStats stats = defaultStats();
 
     // 49 rows < 50 threshold → NESTED_LOOP
-    EXPECT_EQ(exec.selectAlgorithm(49, 1000, false, false, false,
-                                   stats.memory_budget_bytes, stats),
+    EXPECT_EQ(exec.selectAlgorithm(49, 1000, false, false, false, stats),
               JoinAlgorithm::NESTED_LOOP_JOIN);
 
     // 50 rows == threshold → NOT nested loop
-    EXPECT_NE(exec.selectAlgorithm(50, 1000, false, false, false,
-                                   stats.memory_budget_bytes, stats),
+    EXPECT_NE(exec.selectAlgorithm(50, 1000, false, false, false, stats),
               JoinAlgorithm::NESTED_LOOP_JOIN);
 }
 
@@ -369,7 +359,6 @@ TEST(AdaptiveJoinStrategiesTest, AC4_SelectAlgo_IndexAndSmallLeft_IndexNestedLoo
         5000, 100'000,
         false, false,
         /*has_index*/true,
-        stats.memory_budget_bytes,
         stats);
 
     EXPECT_EQ(algo, JoinAlgorithm::INDEX_NESTED_LOOP);
@@ -383,7 +372,6 @@ TEST(AdaptiveJoinStrategiesTest, AC4_SelectAlgo_NoIndex_NotIndexNestedLoop) {
         5000, 100'000,
         false, false,
         /*has_index*/false,
-        stats.memory_budget_bytes,
         stats);
 
     EXPECT_NE(algo, JoinAlgorithm::INDEX_NESTED_LOOP);
@@ -398,21 +386,18 @@ TEST(AdaptiveJoinStrategiesTest, AC4_SelectAlgo_IndexButLargeLeft_NotIndexNested
         10'000, 100'000,
         false, false,
         /*has_index*/true,
-        stats.memory_budget_bytes,
         stats);
 
     EXPECT_NE(algo, JoinAlgorithm::INDEX_NESTED_LOOP);
 }
 
 TEST(AdaptiveJoinStrategiesTest, AC4_ExecuteJoin_IndexAndSmallLeft_IndexNestedLoopUsed) {
-    AdaptiveJoinExecutor exec;
-
-    Table left  = makeTable("L", 500);                          // < 1000 → would be NL
+    Table left  = makeTable("L", 500);                           // < 1000 → would be NL
     Table right = makeTable("R", 50'000, false, /*has_index*/true);
 
     // Force past nested-loop threshold by raising it
     AdaptiveJoinConfig cfg;
-    cfg.nested_loop_threshold       = 100;   // left=500 > 100 → skip NL
+    cfg.nested_loop_threshold       = 100;    // left=500 > 100 → skip NL
     cfg.index_nested_loop_threshold = 10'000; // left=500 < 10000 + has_index → INDEX_NL
     AdaptiveJoinExecutor exec2(cfg);
 
@@ -441,7 +426,6 @@ TEST(AdaptiveJoinStrategiesTest, AC5_SelectAlgo_MemoryExceeded_GraceHash) {
     JoinAlgorithm algo = exec.selectAlgorithm(
         10'000, 10,          // smaller = 10
         false, false, false,
-        stats.memory_budget_bytes,
         stats);
 
     EXPECT_EQ(algo, JoinAlgorithm::GRACE_HASH_JOIN);
@@ -498,7 +482,6 @@ TEST(AdaptiveJoinStrategiesTest, Distributed_SmallRight_BroadcastJoin) {
     JoinAlgorithm algo = exec.selectAlgorithm(
         100'000, 100,
         false, false, false,
-        stats.memory_budget_bytes,
         stats);
 
     EXPECT_EQ(algo, JoinAlgorithm::BROADCAST_JOIN);
@@ -513,7 +496,6 @@ TEST(AdaptiveJoinStrategiesTest, Distributed_BothLarge_ShuffleJoin) {
     JoinAlgorithm algo = exec.selectAlgorithm(
         1'000'000, 500'000,
         false, false, false,
-        stats.memory_budget_bytes,
         stats);
 
     EXPECT_EQ(algo, JoinAlgorithm::SHUFFLE_JOIN);
@@ -633,23 +615,26 @@ TEST(AdaptiveJoinStrategiesTest, EdgeCase_ThrowsOnEmptyRightKey) {
 }
 
 TEST(AdaptiveJoinStrategiesTest, EdgeCase_MultiRowCrossProductInBucket) {
-    // Both sides have multiple rows with the same key → cross product
-    AdaptiveJoinExecutor exec;
+    // Both sides have multiple rows with the same key → cross product.
+    // Use a custom config that raises nested_loop_threshold so hash join is
+    // still selected for 50-row tables, keeping the test fast.
+    AdaptiveJoinConfig cfg;
+    cfg.nested_loop_threshold = 0;  // force through to hash join path
+    AdaptiveJoinExecutor exec(cfg);
 
-    // Use sizes > 1000 to force hash join, but small enough to be fast
-    Table big_left  = makeTable("L", 1100);
-    Table big_right = makeTable("R", 1100);
-    // Override all rows to have the same key
-    for (auto& r : big_left.rows)  r["id"] = "999";
-    for (auto& r : big_right.rows) r["id"] = "999";
+    Table left  = makeTable("L", 50);
+    Table right = makeTable("R", 50);
+    // Override all rows to share the same key → full cross product
+    for (auto& r : left.rows)  r["id"] = "42";
+    for (auto& r : right.rows) r["id"] = "42";
 
     JoinSpec spec = makeSpec();
     RuntimeStats stats = defaultStats();
 
-    JoinResult result = exec.executeJoin(spec, big_left, big_right, stats);
+    JoinResult result = exec.executeJoin(spec, left, right, stats);
     EXPECT_EQ(result.algorithm_used, JoinAlgorithm::HASH_JOIN);
-    // 1100 × 1100 cross product on same key
-    EXPECT_EQ(result.rowCount(), 1100u * 1100u);
+    // 50 × 50 cross product on the same key
+    EXPECT_EQ(result.rowCount(), 50u * 50u);
 }
 
 // ============================================================================
