@@ -461,6 +461,11 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     # target below (PluginCapabilityNegotiationTests) to allow running the
     # capability-negotiation tests in isolation.
     ".*test_plugin_capability_negotiation\\.cpp$"
+    # Runtime Device Capability Negotiation focused tests — built as dedicated
+    # standalone targets below so they can run in isolation without pulling in
+    # the full themis_tests link graph.
+    ".*test_device_manager\\.cpp$"
+    ".*test_backend_registry_startup\\.cpp$"
 )
 foreach(pattern IN LISTS TEST_EXCLUDE_PATTERNS)
     list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX "${pattern}")
@@ -13969,6 +13974,91 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cache_integration.cpp")
     message(STATUS "  RedisCache: URL parsing, consistent hashing, TTL, pub/sub invalidation, graceful degradation, statistics, ConcernsContext integration")
 else()
     message(STATUS "Distributed Cache Integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cache_integration.cpp")
+endif()
+
+# ============================================================================
+# Runtime Device Capability Negotiation – focused tests (Issue #37, v1.7.0)
+#
+# Validates all acceptance criteria:
+#   AC-1  DeviceManager::probeDevices() returns a non-empty list with CPU fallback
+#   AC-2  Cache is returned within TTL; refresh() forces a fresh probe
+#   AC-3  getBestDevice() selects healthy device with highest free VRAM
+#   AC-4  hasGPU() / bestBackendType() are consistent with getBestDevice()
+#   AC-5  logDeviceInfo() emits structured output without crashing
+#   AC-6  BackendRegistry::deviceInfo() returns a non-empty snapshot after initializeRuntime()
+#   AC-7  initializeRuntime() performs capability-driven backend selection
+#   AC-8  getSelectedVectorBackend() / getSelectedGraphBackend() / getSelectedGeoBackend()
+#         return non-null CPU backends on headless CI
+#   AC-9  Custom (impossible) requirements yield nullptr for the relevant category
+#   AC-10 A second initializeRuntime() call refreshes the cached selection
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_device_manager.cpp")
+    message(STATUS "Adding DeviceManager focused tests (acceleration, Issue #37, v1.7.0)")
+
+    add_executable(test_device_manager_focused
+        test_device_manager.cpp
+    )
+
+    target_include_directories(test_device_manager_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_device_manager_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_device_manager_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DeviceManagerFocusedTests COMMAND test_device_manager_focused)
+
+    set_tests_properties(DeviceManagerFocusedTests PROPERTIES
+        LABELS "acceleration;device-manager;capability-negotiation;v1.7.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  DeviceManager: probeDevices, cache TTL, refresh, getBestDevice, hasGPU, bestBackendType, logDeviceInfo, BackendRegistry::deviceInfo")
+else()
+    message(STATUS "DeviceManager focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_device_manager.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_backend_registry_startup.cpp")
+    message(STATUS "Adding BackendRegistry startup focused tests (acceleration, Issue #37, v1.7.0)")
+
+    add_executable(test_backend_registry_startup_focused
+        test_backend_registry_startup.cpp
+    )
+
+    target_include_directories(test_backend_registry_startup_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_backend_registry_startup_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_backend_registry_startup_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME BackendRegistryStartupFocusedTests COMMAND test_backend_registry_startup_focused)
+
+    set_tests_properties(BackendRegistryStartupFocusedTests PROPERTIES
+        LABELS "acceleration;backend-registry;capability-negotiation;v1.7.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  BackendRegistry: initializeRuntime, default requirements, capability-driven selection, re-initialization, consistency with selectXBackendFor")
+else()
+    message(STATUS "BackendRegistry startup focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_backend_registry_startup.cpp")
 endif()
 
 # ============================================================================
