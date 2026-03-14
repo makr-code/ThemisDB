@@ -74,24 +74,24 @@ This means LoRA adapter signature validation silently succeeds without verifying
 ### Streaming Token Output (SSE / Chunked Response)
 **Priority:** High  
 **Target Version:** v1.7.0  
-### Scope
+#### Scope
 - Deliver OpenAI-style streaming for LLM responses via SSE framing and HTTP chunked responses.
 - Expose token-level callbacks through `InferenceRequest::stream_callback` for both engines while keeping engines output-format agnostic.
 - Provide reusable formatting helpers in `llm::StreamingHandler` for SSE events, `[DONE]` sentinel, and chunked-transfer frames.
 
-### Design Constraints
+#### Design Constraints
 - SSE payloads must be valid JSON per RFC 8259 with control-character escaping; framing must end with `\n\n`.
-- Terminal events must emit the canonical `data: [DONE]\n\n` sentinel; chunked responses must end with the zero-length chunk `0\r\n\r\n`.
+- On normal completion, emit the canonical `data: [DONE]\n\n` sentinel; chunked responses end with the zero-length chunk `0\r\n\r\n`. When transport is interrupted or cancellation triggers mid-stream, producers may be unable to emit the terminal marker, and sinks must tolerate its absence.
 - Streaming callbacks run on worker threads and must respect cancellation/deadlines before emitting tokens.
 - Deduplication caching must be skipped for streaming requests to avoid serving partial cached content.
 
-### Required Interfaces
+#### Required Interfaces
 | Interface | Consumer | Notes |
 |-----------|----------|-------|
 | `InferenceRequest::stream_callback` | `AsyncInferenceEngine`, `InferenceEngineEnhanced`, HTTP SSE writers | Serial invocation on the producing worker thread; sink must be thread-safe when sharing state. |
 | `llm::StreamingHandler::{formatSseEvent, formatDoneEvent, formatChunkedData, makeStreamCallback}` | HTTP layer (SSE endpoints, OpenAI compat adapter) | Static, reentrant helpers; atomic index for single-producer streams. |
 
-### Implementation Phases
+#### Implementation Phases
 - **Phase 1 — Design / API Contract**
   - [x] Expose `InferenceRequest::stream_callback` (`include/llm/llm_plugin_interface.h`) as `std::function<void(const std::string&)>`, invoked serially on the worker thread; sinks must be thread-safe when sharing state and must handle abrupt stop (no further callbacks, possibly without a terminal marker) without throwing.
   - [x] Define SSE/chunked framing surface via `StreamingHandler` (JSON escaping, `[DONE]` sentinel, zero-length terminal chunk) to keep engines output-format agnostic.
@@ -99,7 +99,7 @@ This means LoRA adapter signature validation silently succeeds without verifying
   - [x] Wrap `stream_callback` in `AsyncInferenceEngine::processRequest()` (see `async_inference_engine.cpp`) using the shared `cancel_token` and deadline guard before forwarding tokens; partial sequences are dropped once the guard trips.
   - [x] Provide `StreamingHandler::{formatSseEvent, formatChunkedData, makeStreamCallback}` in `src/llm/streaming_handler.cpp`; `makeStreamCallback()` returns an atomic-indexed lambda for single-producer streams, verified to keep indices monotonic and to tolerate empty token strings without emitting invalid SSE frames.
 - **Phase 3 — Error Handling & Edge Cases**
-  - [x] Drop token emission when cancellation/deadlines trigger and ensure terminal `[DONE]`/zero-length chunk markers are still well-formed.
+  - [x] Drop token emission when cancellation/deadlines trigger; on graceful completion ensure terminal `[DONE]`/zero-length chunk markers remain well-formed, and treat marker emission as best-effort when the transport is aborted.
   - [x] JSON-escape control characters in SSE payloads to prevent malformed event streams.
 - **Phase 4 — Tests**
   - [I] `tests/llm/test_streaming_handler.cpp` validates SSE framing, JSON escaping, chunked frames, and callback index sequencing (Blocked: themis_tests build currently fails in unrelated `llm_deployment_plugin.cpp` incomplete type error).
@@ -111,18 +111,18 @@ This means LoRA adapter signature validation silently succeeds without verifying
   - [x] Document SSE/chunked streaming behavior and roadmap status here; align ROADMAP anchor `streaming-token-output-sse--chunked-response`.
   - [x] Ensure OpenAI-compatible adapter and HTTP SSE surfaces consume `StreamingHandler` helpers for consistent wire format.
 
-### Test Strategy
+#### Test Strategy
 - [I] `tests/llm/test_streaming_handler.cpp` exists and exercises SSE formatting, JSON escaping, chunked frames, and callback index sequencing (execution blocked by current themis_tests build failure in `llm_deployment_plugin.cpp`).
 - [I] `tests/test_llm_timeout_cancellation.cpp` exists and covers streaming callbacks under cancellation/deadline pressure (execution blocked by same build failure).
 - [x] OpenAI-compatible adapter streaming paths rely on the same SSE helpers; streaming fixture tests exercise the shared framing surface.
 
-### Performance Targets
+#### Performance Targets
 - Time-to-first-token (TTFT) ≤ 200 ms p99 for prompt lengths ≤ 512 tokens on a single A10G GPU.
 - Streaming overhead (vs non-streaming) ≤ 2 % of total tokens/sec throughput.
 
-### Security / Reliability
+#### Security / Reliability
 - Streamed tokens are JSON-escaped to prevent response-body injection in SSE consumers.
-- Cancellation/deadline guards prevent runaway streaming after client disconnects; terminal markers ensure well-formed SSE and chunked sequences.
+- Cancellation/deadline guards prevent runaway streaming after client disconnects; terminal markers are emitted on graceful completion and treated as best-effort when transports abort mid-stream.
 - Prompt-policy enforcement still runs before streaming; blocked prompts return policy errors without invoking callbacks.
 
 ### OpenAI-Compatible `/v1/chat/completions` Adapter
