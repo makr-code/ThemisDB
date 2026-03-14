@@ -26,6 +26,22 @@
 
 namespace sharding {
 
+namespace {
+
+/// Returns true when @p txn is in an orphanable state as configured by @p cfg.
+bool isOrphanableState(
+    const themisdb::sharding::CrossShardTransaction& txn,
+    const OrphanDetector::Config& cfg)
+{
+    using S = themisdb::sharding::TransactionState;
+    return (cfg.check_preparing  && txn.state == S::PREPARING)  ||
+           (cfg.check_prepared   && txn.state == S::PREPARED)    ||
+           (cfg.check_committing && txn.state == S::COMMITTING)  ||
+           (cfg.check_aborting   && txn.state == S::ABORTING);
+}
+
+} // anonymous namespace
+
 OrphanDetector::OrphanDetector(const Config& config)
     : config_(config) {
 }
@@ -53,13 +69,7 @@ std::vector<std::string> OrphanDetector::detectOrphans(
             continue;
         }
 
-        const bool orphanable =
-            (config_.check_preparing  && txn.state == themisdb::sharding::TransactionState::PREPARING)  ||
-            (config_.check_prepared   && txn.state == themisdb::sharding::TransactionState::PREPARED)    ||
-            (config_.check_committing && txn.state == themisdb::sharding::TransactionState::COMMITTING)  ||
-            (config_.check_aborting   && txn.state == themisdb::sharding::TransactionState::ABORTING);
-
-        if (orphanable) {
+        if (isOrphanableState(txn, config_)) {
             spdlog::info("OrphanDetector: Transaction {} is orphaned (age {}s, state {})",
                          txn.transaction_id,
                          std::chrono::duration_cast<std::chrono::seconds>(age).count(),
@@ -91,11 +101,7 @@ bool OrphanDetector::isOrphaned(
         return false;
     }
 
-    return
-        (config_.check_preparing  && txn.state == themisdb::sharding::TransactionState::PREPARING)  ||
-        (config_.check_prepared   && txn.state == themisdb::sharding::TransactionState::PREPARED)    ||
-        (config_.check_committing && txn.state == themisdb::sharding::TransactionState::COMMITTING)  ||
-        (config_.check_aborting   && txn.state == themisdb::sharding::TransactionState::ABORTING);
+    return isOrphanableState(txn, config_);
 }
 
 size_t OrphanDetector::cleanPercolatorLocks(

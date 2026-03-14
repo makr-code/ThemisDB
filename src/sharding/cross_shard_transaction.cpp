@@ -992,9 +992,9 @@ bool CrossShardTransactionCoordinator::executePercolator(CrossShardTransaction& 
     perc_cfg.max_retries          = config_.percolator_max_retries;
     perc_cfg.stale_lock_threshold = std::chrono::seconds(30);
 
-    PercolatorCoordinator perc_coord(perc_cfg, truetime_,
-        /* wal */ nullptr /* transaction_wal_ is owned by the coordinator; the
-                           * PercolatorCoordinator instance is transient per txn */);
+    // Pass nullptr as WAL: transaction_wal_ is owned by this coordinator;
+    // the PercolatorCoordinator instance is transient (one per txn).
+    PercolatorCoordinator perc_coord(perc_cfg, truetime_, nullptr);
 
     auto result = perc_coord.execute(
         txn,

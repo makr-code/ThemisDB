@@ -127,8 +127,11 @@ jobs:
         run: |
           set -o pipefail
           cd build
+          # TrueTimePercolatorTest* and PercolatorCoordinatorTest* are the new Percolator
+          # test groups.  CalvinProtocolTest* and CrossShardCoordinatorTest* are pre-existing
+          # tests that reside in the same test file; they are included to catch regressions.
           ./tests/test_percolator_coordinator_focused \
-            --gtest_filter="TrueTimePercolatorTest*:PercolatorCoordinatorTest*:CalvinProtocolTest*" \
+            --gtest_filter="TrueTimePercolatorTest*:PercolatorCoordinatorTest*:CalvinProtocolTest*:CrossShardCoordinatorTest*" \
             --gtest_output="xml:percolator_coordinator_gtest.xml" \
             2>&1 | tee percolator_coordinator_gtest_output.txt
 
