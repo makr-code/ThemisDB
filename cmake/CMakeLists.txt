@@ -1440,6 +1440,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/wal_storage.cpp
     ../src/storage/transaction_retry_manager.cpp
     ../src/storage/compaction_manager.cpp
+    ../src/storage/adaptive_compaction.cpp
     ../src/storage/merge_operators.cpp
     ../src/storage/compressed_storage.cpp
     ../src/storage/compression_strategy.cpp

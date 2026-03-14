@@ -145,6 +145,26 @@ void CompactionManager::backgroundLoop() {
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
+// Dynamic configuration
+// ──────────────────────────────────────────────────────────────────────────────
+
+void CompactionManager::setConfig(const Config& config) {
+    bool was_running = isBackgroundGCRunning();
+    if (was_running) {
+        stopBackgroundGC();
+    }
+    config_ = config;
+    if (was_running) {
+        startBackgroundGC();
+    }
+}
+
+CompactionManager::Config CompactionManager::getConfig() const {
+    std::lock_guard<std::mutex> lock(bg_mutex_);
+    return config_;
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
 // Metrics
 // ──────────────────────────────────────────────────────────────────────────────
 

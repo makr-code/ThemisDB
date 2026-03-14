@@ -182,6 +182,22 @@ public:
     /** Return true if the background GC thread is currently running. */
     bool isBackgroundGCRunning() const;
 
+    // ── Dynamic configuration ─────────────────────────────────────────────
+
+    /**
+     * @brief Replace the current configuration.
+     *
+     * If the background GC thread is running, it is stopped, the new config
+     * is applied, and the thread is restarted so the new @c bg_gc_interval
+     * takes effect immediately.
+     *
+     * @param config  New configuration to apply.
+     */
+    void setConfig(const Config& config);
+
+    /** Return the active configuration. */
+    Config getConfig() const;
+
     // ── Metrics ───────────────────────────────────────────────────────────
 
     /** Return a snapshot of current compaction statistics. */

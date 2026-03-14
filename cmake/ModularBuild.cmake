@@ -260,6 +260,8 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/transaction_retry_manager.cpp
     # Compaction and GC management
     ../src/storage/compaction_manager.cpp
+    # Adaptive compaction scheduler – ML-based scheduling (v1.7.0, Issue #209)
+    ../src/storage/adaptive_compaction.cpp
     # RocksDB merge operators (counter/last-write-wins/append merge semantics)
     ../src/storage/merge_operators.cpp
     # Storage Audit Logger
