@@ -7,8 +7,8 @@
  * Covers all five acceptance criteria:
  *   AC-1  Hash Join: default for large equi-joins
  *   AC-2  Merge Join: both inputs sorted on join key
- *   AC-3  Nested Loop: left side < 1 000 rows
- *   AC-4  Index Nested Loop: right has index, left < 10 000 rows
+ *   AC-3  Nested Loop: left side < 1,000 rows
+ *   AC-4  Index Nested Loop: right has index, left < 10,000 rows
  *   AC-5  Grace Hash: memory budget exceeded
  *
  * Additional coverage:
@@ -293,7 +293,7 @@ TEST(AdaptiveJoinStrategiesTest, AC2_MergeJoin_CorrectResultForDisjointKeys) {
 }
 
 // ============================================================================
-// AC-3: Nested Loop – left side < 1 000 rows
+// AC-3: Nested Loop – left side < 1,000 rows
 // ============================================================================
 
 TEST(AdaptiveJoinStrategiesTest, AC3_SelectAlgo_SmallLeft_NestedLoop) {
@@ -358,7 +358,7 @@ TEST(AdaptiveJoinStrategiesTest, AC3_NestedLoop_CustomThreshold) {
 }
 
 // ============================================================================
-// AC-4: Index Nested Loop – right has index AND left < 10 000 rows
+// AC-4: Index Nested Loop – right has index AND left < 10,000 rows
 // ============================================================================
 
 TEST(AdaptiveJoinStrategiesTest, AC4_SelectAlgo_IndexAndSmallLeft_IndexNestedLoop) {
@@ -393,7 +393,7 @@ TEST(AdaptiveJoinStrategiesTest, AC4_SelectAlgo_IndexButLargeLeft_NotIndexNested
     AdaptiveJoinExecutor exec;
     RuntimeStats stats = defaultStats();
 
-    // left >= index_nested_loop_threshold (10 000)
+    // left >= index_nested_loop_threshold (10,000)
     JoinAlgorithm algo = exec.selectAlgorithm(
         10'000, 100'000,
         false, false,
@@ -494,7 +494,7 @@ TEST(AdaptiveJoinStrategiesTest, Distributed_SmallRight_BroadcastJoin) {
     RuntimeStats stats = defaultStats();
     stats.is_distributed = true;
 
-    // smaller side = 100 <= broadcast_threshold (10 000)
+    // smaller side = 100 <= broadcast_threshold (10,000)
     JoinAlgorithm algo = exec.selectAlgorithm(
         100'000, 100,
         false, false, false,

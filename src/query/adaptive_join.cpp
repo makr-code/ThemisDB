@@ -124,7 +124,7 @@ JoinAlgorithm AdaptiveJoinExecutor::selectAlgorithm(
         return JoinAlgorithm::NESTED_LOOP_JOIN;
     }
 
-    // --- AC-4: Index Nested Loop — right has index AND left < 10 000 rows ----
+    // --- AC-4: Index Nested Loop — right has index AND left < 10,000 rows ----
     if (has_index && left_rows < config_.index_nested_loop_threshold) {
         spdlog::debug("AdaptiveJoin: INDEX_NESTED_LOOP selected (has_index, left_rows={})",
                       left_rows);

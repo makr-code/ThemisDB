@@ -41,8 +41,8 @@ namespace themis {
 enum class JoinAlgorithm {
     HASH_JOIN,         ///< Build hash table on smaller side; default for large equi-joins
     MERGE_JOIN,        ///< Sorted inputs, O(n+m) merge; chosen when both sides are sorted
-    NESTED_LOOP_JOIN,  ///< Quadratic; chosen when left side < 1 000 rows
-    INDEX_NESTED_LOOP, ///< Right side has index, left side < 10 000 rows
+    NESTED_LOOP_JOIN,  ///< Quadratic; chosen when left side < 1,000 rows
+    INDEX_NESTED_LOOP, ///< Right side has index, left side < 10,000 rows
     BROADCAST_JOIN,    ///< Distributed: broadcast small table to all nodes
     SHUFFLE_JOIN,      ///< Distributed: repartition both sides on join key
     GRACE_HASH_JOIN    ///< Partitioned hash join (out-of-core); when memory budget exceeded
