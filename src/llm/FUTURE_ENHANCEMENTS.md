@@ -101,7 +101,7 @@ This means LoRA adapter signature validation silently succeeds without verifying
   - [x] Provide `StreamingHandler::{formatSseEvent, formatChunkedData, makeStreamCallback}` in `src/llm/streaming_handler.cpp`; `makeStreamCallback()` returns an atomic-indexed lambda for single-producer streams, verified to keep indices monotonic and to tolerate empty token strings without emitting invalid SSE frames.
 - **Phase 3 — Error Handling & Edge Cases**
   - [x] Drop token emission when cancellation/deadlines trigger. On graceful completion producers still emit well-formed terminal `[DONE]`/zero-length chunk markers.
-  - [~] Ensure consumers tolerate missing markers when the transport aborts mid-stream (e.g., client disconnect, network failure, or server-side cancellation during write); verification is blocked until the LLM test suite builds.
+  - [?] Ensure consumers tolerate missing markers when the transport aborts mid-stream (e.g., client disconnect, network failure, or server-side cancellation during write); verification is blocked until the LLM test suite builds.
   - [x] JSON-escape control characters in SSE payloads to prevent malformed event streams.
 - **Phase 4 — Tests**
   - [I] `tests/llm/test_streaming_handler.cpp` validates SSE framing, JSON escaping, chunked frames, and callback index sequencing (Blocked: themis_tests build currently fails in unrelated `llm_deployment_plugin.cpp` incomplete type error).
