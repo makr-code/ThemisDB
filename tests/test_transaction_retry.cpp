@@ -112,6 +112,23 @@ TEST(TransactionRetryManager, ThrowsAfterMaxAttempts) {
     EXPECT_EQ(mgr.getStatistics().failed_operations.load(), 1u);
 }
 
+TEST(TransactionRetryManager, RetryAttemptsNotOvercountedWhenExhausted) {
+    // max_attempts = 2 → one initial try + one retry
+    TransactionRetryManager mgr(fastConfig(2));
+
+    std::atomic<int> calls{0};
+    EXPECT_THROW({
+        mgr.executeWithRetry([&]() -> int {
+            ++calls;
+            throw std::runtime_error("timeout occurred");
+        }, "timeout_op");
+    }, std::runtime_error);
+
+    EXPECT_EQ(calls.load(), 2);
+    auto stats = mgr.getStatistics();
+    EXPECT_EQ(stats.total_retry_attempts.load(), 1u);
+}
+
 // ── Error classification ──────────────────────────────────────────────────────
 
 TEST(TransactionRetryManager, ClassifyRetryableErrors) {
