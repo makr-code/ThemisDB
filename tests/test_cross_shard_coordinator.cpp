@@ -38,6 +38,7 @@
 #include "sharding/transaction_snapshot.h"
 #include "sharding/truetime.h"
 #include "sharding/orphan_detector.h"
+#include <atomic>
 #include <memory>
 #include <thread>
 #include <chrono>

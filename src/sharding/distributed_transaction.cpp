@@ -871,11 +871,10 @@ bool DistributedTransactionCoordinator::percolatorCommit(DistributedTransaction&
                  tt_interval.latest.count());
 
     // Step 2: Commit-wait.
-    // We must not reveal commit_ts to readers until we are certain that
-    // TT.now().earliest > commit_ts + max_uncertainty.  TrueTime::waitUntil(t)
-    // guarantees that after it returns, TT.now().earliest >= t.
-    const auto wait_deadline = txn.commit_time + truetime_->getUncertainty();
-    truetime_->waitUntil(wait_deadline);
+    // commit_time was drawn from now_with_uncertainty().latest which already
+    // incorporates the uncertainty bound; waiting until commit_time is
+    // sufficient to guarantee TT.now().earliest > commit_time.
+    truetime_->waitUntil(txn.commit_time);
 
     // Step 3: Send COMMIT to all participants.
     txn.state = TransactionState::COMMITTING;
@@ -886,14 +885,17 @@ bool DistributedTransactionCoordinator::percolatorCommit(DistributedTransaction&
     std::vector<std::string> error_details;
 
     for (auto& participant : txn.participants) {
-        threads.emplace_back([this, &participant, &txn, &all_committed,
+        // Capture a stable pointer rather than the loop variable reference,
+        // which would be reused across iterations and cause data races.
+        TransactionParticipant* p_ptr = &participant;
+        threads.emplace_back([this, p_ptr, &txn, &all_committed,
                               &error_mutex, &error_details]() {
-            if (!sendCommit(participant, txn.transaction_id, txn.commit_time)) {
+            if (!sendCommit(*p_ptr, txn.transaction_id, txn.commit_time)) {
                 all_committed.store(false, std::memory_order_relaxed);
                 std::lock_guard<std::mutex> lk(error_mutex);
-                error_details.push_back("Shard " + participant.shard_id +
+                error_details.push_back("Shard " + p_ptr->shard_id +
                                         " failed Percolator commit: " +
-                                        participant.error_msg);
+                                        p_ptr->error_msg);
             }
         });
     }

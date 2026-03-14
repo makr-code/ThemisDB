@@ -992,9 +992,9 @@ bool CrossShardTransactionCoordinator::executePercolator(CrossShardTransaction& 
     perc_cfg.max_retries          = config_.percolator_max_retries;
     perc_cfg.stale_lock_threshold = std::chrono::seconds(30);
 
-    // Pass nullptr as WAL: transaction_wal_ is owned by this coordinator;
-    // the PercolatorCoordinator instance is transient (one per txn).
-    PercolatorCoordinator perc_coord(perc_cfg, truetime_, nullptr);
+    // Pass transaction_wal_.get() so PercolatorCoordinator can log PREPARE/COMMIT
+    // records using the coordinator's own WAL without taking ownership.
+    PercolatorCoordinator perc_coord(perc_cfg, truetime_, transaction_wal_.get());
 
     auto result = perc_coord.execute(
         txn,
@@ -1015,7 +1015,7 @@ bool CrossShardTransactionCoordinator::executePercolator(CrossShardTransaction& 
             if (result) {
                 operations_since_snapshot_ += static_cast<uint64_t>(txn.participants.size());
             } else {
-                transaction_wal_->logAbort(txn.transaction_id, {{"reason", "percolator_failed"}});
+                transaction_wal_->logAbort(txn.transaction_id, "percolator_failed");
                 operations_since_snapshot_++;
             }
         } catch (const std::exception& e) {
@@ -2477,11 +2477,11 @@ namespace sharding {
 PercolatorCoordinator::PercolatorCoordinator(
     const Config& config,
     std::shared_ptr<themis::sharding::TrueTime> truetime,
-    std::unique_ptr<TransactionWAL> wal
+    TransactionWAL* wal
 )
     : config_(config)
     , truetime_(std::move(truetime))
-    , wal_(std::move(wal))
+    , wal_(wal)
 {
 }
 
@@ -2504,11 +2504,11 @@ void PercolatorCoordinator::commitWait(int64_t commit_ts_ns) const {
         return; // No TrueTime → no commit-wait required.
     }
 
-    // Percolator commit-wait: we must not reveal the commit timestamp to readers
-    // until TT.now().earliest > commit_ts + max_uncertainty.
-    // TrueTime::waitUntil(t) guarantees: after return, TT.now().earliest >= t.
-    auto deadline = std::chrono::nanoseconds(commit_ts_ns) + truetime_->getUncertainty();
-    truetime_->waitUntil(deadline);
+    // Percolator commit-wait: wait until commit_ts is definitely in the past.
+    // commit_ts_ns was drawn from now_with_uncertainty().latest, which already
+    // incorporates the uncertainty bound.  Calling waitUntil(commit_ts) is
+    // therefore sufficient to guarantee TT.now().earliest > commit_ts.
+    truetime_->waitUntil(std::chrono::nanoseconds(commit_ts_ns));
 }
 
 bool PercolatorCoordinator::execute(
@@ -2526,6 +2526,34 @@ bool PercolatorCoordinator::execute(
         return false;
     }
 
+    // Base retry delay and maximum shift for exponential backoff.
+    // Backoff = BASE_RETRY_DELAY_MS * 2^(attempt-1), capped at lock_timeout.
+    static constexpr uint32_t BASE_RETRY_DELAY_MS  = 10;
+    static constexpr uint32_t MAX_BACKOFF_SHIFT     = 20; // caps at ~10 s before lock_timeout clip
+
+    // Helper: acquire a lock on one shard with retry/backoff honoring
+    // config_.max_retries and config_.lock_timeout.
+    auto acquire_lock = [&](const std::string& shard_id) -> bool {
+        for (uint32_t attempt = 0; attempt <= config_.max_retries; ++attempt) {
+            if (attempt > 0) {
+                // Exponential backoff capped at lock_timeout.
+                // Guard the left-shift against overflow by capping the exponent.
+                const uint32_t shift = std::min(attempt - 1u, MAX_BACKOFF_SHIFT);
+                auto delay = std::min(
+                    config_.lock_timeout,
+                    std::chrono::milliseconds(BASE_RETRY_DELAY_MS) * (1u << shift)
+                );
+                spdlog::debug("[Percolator] Retry {} for lock on shard {} (delay {}ms)",
+                              attempt, shard_id, delay.count());
+                std::this_thread::sleep_for(delay);
+            }
+            if (prepare_fn(shard_id, txn.transaction_id)) {
+                return true;
+            }
+        }
+        return false;
+    };
+
     // ------------------------------------------------------------------
     // Phase 1 – PreWrite: acquire locks (secondary shards first, primary last).
     // ------------------------------------------------------------------
@@ -2542,10 +2570,11 @@ bool PercolatorCoordinator::execute(
         spdlog::debug("[Percolator] Acquiring lock on secondary shard {} for txn {}",
                       shard_id, txn.transaction_id);
 
-        bool locked = prepare_fn(shard_id, txn.transaction_id);
+        bool locked = acquire_lock(shard_id);
         if (!locked) {
-            spdlog::error("[Percolator] Lock acquisition failed on shard {} for txn {}",
-                          shard_id, txn.transaction_id);
+            spdlog::error("[Percolator] Lock acquisition failed on shard {} for txn {} "
+                          "after {} retries",
+                          shard_id, txn.transaction_id, config_.max_retries);
             for (const auto& ls : locked_shards) {
                 abort_fn(ls, txn.transaction_id);
             }
@@ -2560,10 +2589,10 @@ bool PercolatorCoordinator::execute(
     spdlog::debug("[Percolator] Acquiring lock on primary shard {} for txn {}",
                   primary_shard_id, txn.transaction_id);
 
-    bool primary_locked = prepare_fn(primary_shard_id, txn.transaction_id);
+    bool primary_locked = acquire_lock(primary_shard_id);
     if (!primary_locked) {
-        spdlog::error("[Percolator] Primary shard lock failed for txn {}",
-                      txn.transaction_id);
+        spdlog::error("[Percolator] Primary shard lock failed for txn {} after {} retries",
+                      txn.transaction_id, config_.max_retries);
         for (const auto& ls : locked_shards) {
             abort_fn(ls, txn.transaction_id);
         }
@@ -2640,19 +2669,20 @@ bool PercolatorCoordinator::execute(
             continue;
         }
 
-        if (wal_) {
-            try {
-                wal_->logCommitted(txn.transaction_id, shard_id);
-            } catch (const std::exception& e) {
-                spdlog::warn("[Percolator] WAL logCommitted failed for shard {}: {}",
-                             shard_id, e.what());
-            }
-        }
-
         bool committed = commit_fn(shard_id, txn.transaction_id);
         participant.committed = committed;
 
-        if (!committed) {
+        if (committed) {
+            // Log COMMITTED only after the RPC succeeds to preserve WAL integrity.
+            if (wal_) {
+                try {
+                    wal_->logCommitted(txn.transaction_id, shard_id);
+                } catch (const std::exception& e) {
+                    spdlog::warn("[Percolator] WAL logCommitted failed for shard {}: {}",
+                                 shard_id, e.what());
+                }
+            }
+        } else {
             spdlog::warn("[Percolator] Secondary shard {} commit failed for txn {} "
                          "(will be cleaned up by background worker)",
                          shard_id, txn.transaction_id);
@@ -2699,7 +2729,7 @@ size_t PercolatorCoordinator::cleanStaleLocks(
         // Log the abort to WAL before issuing it.
         if (wal_) {
             try {
-                wal_->logAbort(txn_id, {{"reason", "stale_lock_cleanup"}});
+                wal_->logAbort(txn_id, "stale_lock_cleanup");
             } catch (const std::exception& e) {
                 spdlog::warn("[Percolator] WAL logAbort failed for {}: {}", txn_id, e.what());
             }

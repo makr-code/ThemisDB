@@ -552,13 +552,13 @@ public:
      * @param config     Runtime parameters.
      * @param truetime   TrueTime clock used for commit-timestamp generation
      *                   and commit-wait (may be nullptr; falls back to wall clock).
-     * @param wal        Optional WAL for coordinator-state durability.  Ownership
-     *                   is transferred.
+     * @param wal        Optional non-owning pointer to a WAL for coordinator-state
+     *                   durability.  The WAL must outlive this object.
      */
     explicit PercolatorCoordinator(
         const Config& config,
         std::shared_ptr<themis::sharding::TrueTime> truetime = nullptr,
-        std::unique_ptr<TransactionWAL> wal = nullptr
+        TransactionWAL* wal = nullptr
     );
 
     ~PercolatorCoordinator() = default;
@@ -611,7 +611,7 @@ public:
 private:
     Config config_;
     std::shared_ptr<themis::sharding::TrueTime> truetime_;
-    std::unique_ptr<TransactionWAL> wal_;
+    TransactionWAL* wal_;  ///< Non-owning pointer; lifetime managed by caller.
 
     /// Compute a commit timestamp using TrueTime if available, else wall clock.
     int64_t computeCommitTimestamp() const;
