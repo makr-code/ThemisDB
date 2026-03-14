@@ -22,14 +22,16 @@
 
 #include <gtest/gtest.h>
 #include "storage/distributed_transaction_manager.h"
+#include <algorithm>
 #include <atomic>
-#include <mutex>
-#include <thread>
 #include <chrono>
-#include <string>
-#include <vector>
+#include <iostream>
 #include <map>
+#include <mutex>
 #include <optional>
+#include <string>
+#include <thread>
+#include <vector>
 
 using namespace themis::storage;
 
@@ -339,9 +341,16 @@ TEST_F(DistributedTransactionTest, GetReadsFromCorrectShard) {
 }
 
 TEST_F(DistributedTransactionTest, GetMissingKeyReturnsNullopt) {
+    // A registered shard with no data for the key must return nullopt.
     auto tx = mgr->beginDistributedTransaction();
     auto val = tx->get("shard1:noSuchKey");
     EXPECT_FALSE(val.has_value());
+}
+
+TEST_F(DistributedTransactionTest, GetUnknownShardThrows) {
+    // get() on an unregistered shard must throw, consistent with put()/del().
+    auto tx = mgr->beginDistributedTransaction();
+    EXPECT_THROW(tx->get("unregisteredShard:key"), std::invalid_argument);
 }
 
 // ============================================================================

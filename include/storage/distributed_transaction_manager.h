@@ -28,14 +28,12 @@
 
 #include <atomic>
 #include <chrono>
-#include <functional>
 #include <map>
 #include <memory>
 #include <mutex>
 #include <optional>
 #include <string>
 #include <string_view>
-#include <unordered_map>
 #include <vector>
 
 namespace themis {
@@ -80,7 +78,7 @@ public:
      * @return true → vote COMMIT; false → vote ABORT.
      */
     virtual bool prepare(
-        const std::string&                    txn_id,
+        const std::string&                       txn_id,
         const std::vector<DistributedOperation>& ops
     ) = 0;
 
@@ -104,7 +102,7 @@ public:
      * @brief Optional point-in-time read of a single key.
      *
      * Used by DistributedTransaction::get() for cross-shard reads.
-     * The default implementation returns std::nullopt (shard does not support reads).
+     * The default implementation returns std::nullopt (key not found).
      */
     virtual std::optional<std::string> get(const std::string& /*key*/) {
         return std::nullopt;
@@ -130,19 +128,42 @@ enum class DistributedTxnState {
 
 /** @brief Configuration for DistributedTransactionManager. */
 struct DistributedTxnConfig {
-    /// Timeout for each participant's prepare() call (milliseconds).
-    uint32_t prepare_timeout_ms = 5000;
-    /// Timeout for each participant's commit()/abort() call (milliseconds).
-    uint32_t commit_timeout_ms  = 5000;
     /// Key separator used to extract shard_id from "shard_id:key" notation.
     char shard_key_separator = ':';
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Forward declarations
+// ManagerSharedState — shared ownership between manager and live transactions
 // ─────────────────────────────────────────────────────────────────────────────
 
-class DistributedTransactionManager;
+/**
+ * @brief Internal state co-owned by DistributedTransactionManager and all
+ *        active DistributedTransaction handles via std::shared_ptr.
+ *
+ * This ensures that a transaction can safely call rollback() in its destructor
+ * even if the owning DistributedTransactionManager has already been destroyed.
+ *
+ * Participants are stored as std::shared_ptr with a no-op deleter, so the
+ * caller retains ownership while still allowing safe reference-copying under
+ * the lock to prevent use-after-free when a concurrent unregisterShard() races
+ * with an in-flight prepare/commit/abort call.
+ */
+struct ManagerSharedState {
+    mutable std::mutex shards_mutex;
+    /// Best-effort statistics counters (all relaxed — approximate counts only).
+    std::atomic<uint64_t> total_transactions{0};
+    std::atomic<uint64_t> committed{0};
+    std::atomic<uint64_t> aborted{0};
+    std::atomic<uint64_t> active{0};
+
+    std::atomic<uint64_t> txn_counter{0};
+
+    /// Participants are stored as shared_ptr with a no-op deleter: the caller
+    /// retains ownership of the underlying object, but copying the shared_ptr
+    /// under the shards_mutex gives in-flight operations a stable reference
+    /// that outlives a concurrent unregisterShard() call.
+    std::map<std::string, std::shared_ptr<IDistributedShardParticipant>> shards;
+};
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DistributedTransaction — user-facing transaction handle
@@ -162,7 +183,7 @@ class DistributedTransaction {
 public:
     ~DistributedTransaction();
 
-    // Disable copy and move (holds raw pointers to manager state)
+    // Non-copyable, non-moveable
     DistributedTransaction(const DistributedTransaction&)            = delete;
     DistributedTransaction& operator=(const DistributedTransaction&) = delete;
     DistributedTransaction(DistributedTransaction&&)                 = delete;
@@ -184,6 +205,7 @@ public:
      *
      * @param key  "shard_id:logical_key".
      * @throws std::invalid_argument if the transaction is not ACTIVE.
+     * @throws std::invalid_argument if the shard_id is not registered.
      */
     void del(std::string_view key);
 
@@ -194,7 +216,8 @@ public:
      * The read is NOT part of the write-set and will not be validated at commit.
      *
      * @param key  "shard_id:logical_key".
-     * @return Value bytes, or std::nullopt if not found.
+     * @return Value bytes, or std::nullopt if the key is not found in the shard.
+     * @throws std::invalid_argument if the shard_id is not registered.
      */
     std::optional<std::string> get(std::string_view key);
 
@@ -222,51 +245,54 @@ public:
     /** @return Unique transaction identifier. */
     const std::string& id() const { return txn_id_; }
 
-    /** @return Shards that have operations in this transaction. */
+    /** @return Shards that have operations buffered in this transaction. */
     std::vector<std::string> participatingShards() const;
 
     /** @return Number of buffered write operations. */
     size_t operationCount() const;
 
-    // ── Construction (use DistributedTransactionManager::beginDistributedTransaction()) ──
+    // ── Construction tag (use DistributedTransactionManager only) ─────────────
 
     /**
-     * @brief Internal constructor — use DistributedTransactionManager instead.
+     * @brief Tag type that gates direct construction to the manager.
      *
-     * A tag type (PrivateTag) ensures that callers outside of the manager
-     * cannot accidentally construct a bare DistributedTransaction.
+     * Callers outside DistributedTransactionManager cannot construct
+     * DistributedTransaction directly because they cannot create PrivateTag.
      */
     struct PrivateTag { explicit PrivateTag() = default; };
 
     DistributedTransaction(
         PrivateTag,
-        std::string                                                      txn_id,
-        char                                                             separator,
-        std::map<std::string, IDistributedShardParticipant*>*            shards,
-        std::mutex*                                                      shards_mutex,
-        DistributedTransactionManager*                                   manager
+        std::string                         txn_id,
+        char                                separator,
+        std::shared_ptr<ManagerSharedState> state
     );
-
-    friend class DistributedTransactionManager;
 
 private:
 
     /// Parse "shard_id:logical_key" → (shard_id, logical_key)
     std::pair<std::string, std::string> parseKey(std::string_view composite) const;
 
-    std::string                                          txn_id_;
-    char                                                 separator_;
-    std::map<std::string, IDistributedShardParticipant*>* shards_;   ///< Non-owning
-    std::mutex*                                           shards_mutex_;
-    DistributedTransactionManager*                        manager_;  ///< Non-owning, for stats callbacks
+    /// Look up participant under lock and return a reference-counted copy.
+    /// Throws std::invalid_argument if the shard is not registered.
+    std::shared_ptr<IDistributedShardParticipant>
+    requireParticipant(const std::string& shard_id) const;
 
-    DistributedTxnState                                  state_ = DistributedTxnState::ACTIVE;
+    std::string txn_id_;
+    char        separator_;
 
-    /// Per-shard buffered operations (populated by put/del)
+    /// Shared ownership of coordinator state; safe to access after manager destruction.
+    std::shared_ptr<ManagerSharedState> mgr_state_;
+
+    DistributedTxnState state_ = DistributedTxnState::ACTIVE;
+
+    /// Per-shard buffered operations (populated by put/del).
     std::map<std::string, std::vector<DistributedOperation>> pending_ops_;
 
-    /// Shards that have received and acknowledged PREPARE (used for abort on partial prepare)
-    std::vector<std::string> prepared_shards_;
+    /// Shard references from Phase-1 PREPARE; stored as shared_ptr to outlive
+    /// any concurrent unregisterShard() call during Phase-2 COMMIT/ABORT.
+    std::vector<std::pair<std::string, std::shared_ptr<IDistributedShardParticipant>>>
+        prepared_shards_;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -281,6 +307,11 @@ private:
  *
  * This class is thread-safe; individual DistributedTransaction handles are
  * single-threaded.
+ *
+ * @note Participants are stored as raw pointers (wrapped internally with a
+ *       no-op deleter shared_ptr).  Callers must ensure that any registered
+ *       participant object is not destroyed before it is either unregistered
+ *       or the manager itself is destroyed.
  */
 class DistributedTransactionManager {
 public:
@@ -290,7 +321,7 @@ public:
         IDistributedShardParticipant* participant = nullptr;
     };
 
-    /** @brief Runtime statistics. */
+    /** @brief Best-effort runtime statistics (approximate, not serialized). */
     struct Statistics {
         uint64_t total_transactions = 0;
         uint64_t committed          = 0;
@@ -308,19 +339,24 @@ public:
 
     ~DistributedTransactionManager() = default;
 
-    // Disable copy; allow move
+    // Non-copyable, non-moveable (shared state is referenced by active transactions)
     DistributedTransactionManager(const DistributedTransactionManager&)            = delete;
     DistributedTransactionManager& operator=(const DistributedTransactionManager&) = delete;
+    DistributedTransactionManager(DistributedTransactionManager&&)                 = delete;
+    DistributedTransactionManager& operator=(DistributedTransactionManager&&)      = delete;
 
     // ── Shard management ──────────────────────────────────────────────────────
 
     /**
      * @brief Register a shard participant.
      *
-     * The participant must remain valid for the lifetime of this manager (or
-     * until it is explicitly unregistered).
+     * The participant is stored internally as a reference — the caller retains
+     * ownership.  The caller must ensure the participant object remains valid
+     * until it is either explicitly unregistered or this manager is destroyed.
      *
-     * @param shard_id    Logical shard identifier (prefix used in "shard_id:key").
+     * Safe to call concurrently with other shard management operations.
+     *
+     * @param shard_id    Logical shard identifier (prefix in "shard_id:key").
      * @param participant Non-null pointer to the shard's 2PC proxy.
      * @throws std::invalid_argument if shard_id is empty or participant is null.
      */
@@ -331,6 +367,12 @@ public:
 
     /**
      * @brief Unregister a shard.
+     *
+     * Safe to call concurrently.  After this call returns, no new transactions
+     * will route operations to the shard.  In-flight transactions that already
+     * hold a reference to the participant will complete their current call
+     * safely before releasing the reference.
+     *
      * @return true if the shard was found and removed.
      */
     bool unregisterShard(const std::string& shard_id);
@@ -346,36 +388,28 @@ public:
     /**
      * @brief Begin a new distributed transaction.
      *
-     * Operations (put/del/get) are then issued on the returned handle.
-     *
      * @return A non-null shared_ptr to the new DistributedTransaction.
      */
     std::shared_ptr<DistributedTransaction> beginDistributedTransaction();
 
     // ── Statistics ────────────────────────────────────────────────────────────
 
-    /** @return Snapshot of coordinator statistics. */
+    /**
+     * @return Approximate snapshot of coordinator statistics.
+     *
+     * Counters are updated with relaxed ordering and may not reflect the very
+     * latest completed transactions on all cores.  Suitable for monitoring;
+     * not suitable for synchronization.
+     */
     Statistics statistics() const;
 
 private:
-    friend class DistributedTransaction;
-
-    DistributedTxnConfig                                config_;
-    mutable std::mutex                                  shards_mutex_;
-    std::map<std::string, IDistributedShardParticipant*> shards_;
-
-    std::atomic<uint64_t>       total_transactions_{0};
-    std::atomic<uint64_t>       committed_{0};
-    std::atomic<uint64_t>       aborted_{0};
-    std::atomic<uint64_t>       active_{0};
-
-    std::atomic<uint64_t>       txn_counter_{0};
-
-    void notifyCommitted();
-    void notifyAborted();
+    DistributedTxnConfig                config_;
+    std::shared_ptr<ManagerSharedState> state_;
 
     std::string generateTransactionId();
 };
 
 } // namespace storage
 } // namespace themis
+
