@@ -7375,6 +7375,41 @@ else()
 endif()
 
 # ============================================================================
+# Parallel Executor Tests (Intra-Query Parallelism, v1.7.0)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_executor.cpp")
+    message(STATUS "Adding Parallel Executor (Intra-Query) tests")
+
+    add_executable(test_parallel_executor
+        test_parallel_executor.cpp
+    )
+
+    target_link_libraries(test_parallel_executor PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        TBB::tbb
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_parallel_executor PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ParallelExecutorTests COMMAND test_parallel_executor)
+
+    set_tests_properties(ParallelExecutorTests PROPERTIES
+        LABELS "query;parallel;scan;join;aggregate;unit"
+        TIMEOUT 300
+    )
+
+    message(STATUS "  Parallel Executor: scan, hash join, aggregation (sequential + parallel paths)")
+else()
+    message(STATUS "Parallel Executor tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_executor.cpp")
+endif()
+
+# ============================================================================
 # CDN Cache Middleware Tests
 # ============================================================================
 

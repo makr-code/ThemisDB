@@ -1574,6 +1574,7 @@ set(THEMIS_CORE_SOURCES
 
     # Vectorized Execution Engine – column-store style batch processing (Issue #2434)
     ../src/query/vectorized_execution.cpp
+    ../src/query/parallel_executor.cpp
 
     ../src/query/statistical_aggregator.cpp
     ../src/query/semantic_cache.cpp
