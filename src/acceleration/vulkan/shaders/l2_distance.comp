@@ -2,8 +2,14 @@
 
 // Compute L2 (Euclidean) distance between query vectors and database vectors
 // ThemisDB Vulkan Compute Shader
-
-layout(local_size_x = 16, local_size_y = 16) in;
+//
+// Workgroup dimensions are exposed as SPIR-V specialization constants (IDs 0
+// and 1) so that the host can tune occupancy per device at pipeline-creation
+// time (e.g. 16×16 for Mali-G710 / AMD RDNA2 vs. 32×8 on desktop GPUs)
+// without recompiling the shader.  Defaults match the original fixed sizes.
+layout(constant_id = 0) const uint LOCAL_SIZE_X = 16;
+layout(constant_id = 1) const uint LOCAL_SIZE_Y = 16;
+layout(local_size_x_id = 0, local_size_y_id = 1) in;
 
 layout(std430, binding = 0) readonly buffer QueryVectors {
     float queries[];

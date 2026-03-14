@@ -74,9 +74,9 @@ collectGeometries(QueryEngine& engine,
             const auto& fv = doc[field];
             geo::GeometryInfo geom;
             if (fv.is_string()) {
-                geom = geo::GeometryInfo::parseGeoJSON(fv.get<std::string>());
+                geom = geo::EWKBParser::parseGeoJSON(fv.get<std::string>());
             } else if (fv.is_object()) {
-                geom = geo::GeometryInfo::parseGeoJSON(fv.dump());
+                geom = geo::EWKBParser::parseGeoJSON(fv.dump());
             } else {
                 ++skipped;
                 continue;

@@ -116,6 +116,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_data_loader\\.cpp$"
         ".*test_directx_backend\\.cpp$"
         ".*test_docs_assistant_aql\\.cpp$"
+        ".*test_classify_bridge_integration\\.cpp$"
         ".*test_aql_lora_finetuner\\.cpp$"
         ".*test_aql_agent\\.cpp$"
         ".*test_nl_to_aql_translation\\.cpp$"
@@ -461,6 +462,11 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     # target below (PluginCapabilityNegotiationTests) to allow running the
     # capability-negotiation tests in isolation.
     ".*test_plugin_capability_negotiation\\.cpp$"
+    # Runtime Device Capability Negotiation focused tests — built as dedicated
+    # standalone targets below so they can run in isolation without pulling in
+    # the full themis_tests link graph.
+    ".*test_device_manager\\.cpp$"
+    ".*test_backend_registry_startup\\.cpp$"
 )
 foreach(pattern IN LISTS TEST_EXCLUDE_PATTERNS)
     list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX "${pattern}")
@@ -1184,12 +1190,15 @@ target_link_libraries(themis_tests PRIVATE
     RocksDB::rocksdb
     OpenSSL::SSL
     OpenSSL::Crypto
-    $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
     $<$<TARGET_EXISTS:protobuf::libprotobuf>:protobuf::libprotobuf>
-    $<$<BOOL:${CURL_FOUND}>:$<IF:$<TARGET_EXISTS:CURL::libcurl>,CURL::libcurl,${CURL_LIBRARIES}>>
-    protobuf::libprotobuf
     Threads::Threads
 )
+
+if(TARGET CURL::libcurl)
+    target_link_libraries(themis_tests PRIVATE CURL::libcurl)
+elseif(CURL_FOUND AND CURL_LIBRARIES)
+    target_link_libraries(themis_tests PRIVATE ${CURL_LIBRARIES})
+endif()
 
 if(TARGET prometheus-cpp::core)
     target_link_libraries(themis_tests PRIVATE prometheus-cpp::core)
@@ -2585,6 +2594,37 @@ else()
 endif()
 
 # ============================================================================
+# Logical Replication Tests (v1.7.0 – schema-aware, filters, initial sync)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_logical_replication.cpp")
+    message(STATUS "Adding Logical Replication tests")
+
+    add_executable(test_logical_replication
+        test_logical_replication.cpp
+    )
+
+    target_link_libraries(test_logical_replication PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_logical_replication PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME LogicalReplicationTests COMMAND test_logical_replication)
+
+    set_tests_properties(LogicalReplicationTests PROPERTIES
+        LABELS "replication;logical;schema;filters;unit"
+        TIMEOUT 60
+    )
+else()
+    message(STATUS "Logical Replication tests not found")
+endif()
+
+# ============================================================================
 # Replication Topology API Handler Tests (web UI / REST endpoint)
 # ============================================================================
 
@@ -2928,6 +2968,42 @@ $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
     message(STATUS "  OTLP Exporter: queue, span serialisation, middleware integration")
 else()
     message(STATUS "OTLP exporter tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_otlp_exporter.cpp")
+endif()
+
+# ============================================================================
+# TracingMiddleware Unit Tests (v1.7.0 — Issue #140)
+# Validates UUID v4 generation, thread-local correlation ID propagation,
+# logger context injection, and clearContext() behavior.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tracing_middleware.cpp")
+    message(STATUS "Adding TracingMiddleware unit tests")
+
+    add_executable(test_tracing_middleware
+        test_tracing_middleware.cpp
+    )
+
+    target_link_libraries(test_tracing_middleware PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_tracing_middleware PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TracingMiddlewareTests COMMAND test_tracing_middleware)
+
+    set_tests_properties(TracingMiddlewareTests PROPERTIES
+        LABELS "api;tracing;correlation-id;middleware;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  TracingMiddleware: UUID v4 generation, thread-local propagation, logger injection, clearContext()")
+else()
+    message(STATUS "TracingMiddleware tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tracing_middleware.cpp")
 endif()
 
 # ============================================================================
@@ -3934,6 +4010,44 @@ else()
     message(STATUS "Transaction Manager focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_manager.cpp")
 endif()
 
+# Adaptive Deadlock Prevention Focused Tests (v1.9.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_deadlock_prevention.cpp")
+    message(STATUS "Adding Adaptive Deadlock Prevention focused tests")
+
+    add_executable(test_adaptive_deadlock_prevention_focused
+        test_adaptive_deadlock_prevention.cpp
+    )
+
+    target_include_directories(test_adaptive_deadlock_prevention_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_adaptive_deadlock_prevention_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_adaptive_deadlock_prevention_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AdaptiveDeadlockPreventionFocusedTests
+        COMMAND test_adaptive_deadlock_prevention_focused)
+
+    set_tests_properties(AdaptiveDeadlockPreventionFocusedTests PROPERTIES
+        LABELS "transaction;deadlock;adaptive;predictor;ml;v1.9.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  AdaptiveDeadlockPrevention: DeadlockPredictor (record/predict/recommend/timeout), TransactionManager integration")
+else()
+    message(STATUS "Adaptive Deadlock Prevention tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_deadlock_prevention.cpp")
+endif()
+
 # Transaction Isolation Levels Focused Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_isolation_levels.cpp")
     message(STATUS "Adding Transaction Isolation Levels focused tests")
@@ -4347,7 +4461,7 @@ else()
     message(STATUS "Multi-Shard Transaction focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_multi_shard_transactions.cpp")
 endif()
 
-# Distributed Transactions Focused Tests (disabled placeholder)
+# Distributed Transactions Focused Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_transactions.cpp")
     message(STATUS "Adding Distributed Transactions focused tests")
 
@@ -4357,6 +4471,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_transactions.cpp")
 
     target_link_libraries(test_distributed_transactions_focused PRIVATE
         ${TEST_LIBS}
+        themis_core
         spdlog::spdlog
         Threads::Threads
     )
@@ -4368,11 +4483,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_transactions.cpp")
     add_test(NAME DistributedTransactionsFocusedTests COMMAND test_distributed_transactions_focused)
 
     set_tests_properties(DistributedTransactionsFocusedTests PROPERTIES
-        LABELS "transaction;distributed;2pc;unit"
-        TIMEOUT 30
+        LABELS "transaction;distributed;2pc;storage;unit"
+        TIMEOUT 60
     )
 
-    message(STATUS "  DistributedTransactions: placeholder (full suite gated behind gRPC shard transport)")
+    message(STATUS "  DistributedTransactions: DistributedTransactionManager 2PC, abort on vote NO, rollback, concurrent transactions")
 else()
     message(STATUS "Distributed Transactions focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_transactions.cpp")
 endif()
@@ -7333,6 +7448,41 @@ else()
 endif()
 
 # ============================================================================
+# Parallel Executor Tests (Intra-Query Parallelism, v1.7.0)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_executor.cpp")
+    message(STATUS "Adding Parallel Executor (Intra-Query) tests")
+
+    add_executable(test_parallel_executor
+        test_parallel_executor.cpp
+    )
+
+    target_link_libraries(test_parallel_executor PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        TBB::tbb
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_parallel_executor PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ParallelExecutorTests COMMAND test_parallel_executor)
+
+    set_tests_properties(ParallelExecutorTests PROPERTIES
+        LABELS "query;parallel;scan;join;aggregate;unit"
+        TIMEOUT 300
+    )
+
+    message(STATUS "  Parallel Executor: scan, hash join, aggregation (sequential + parallel paths)")
+else()
+    message(STATUS "Parallel Executor tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_executor.cpp")
+endif()
+
+# ============================================================================
 # CDN Cache Middleware Tests
 # ============================================================================
 
@@ -8066,7 +8216,16 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_path_resolver.cpp")
         spdlog::spdlog
         nlohmann_json::nlohmann_json
         Threads::Threads
+        ${THEMIS_YAML_TARGET}
+        OpenSSL::SSL
+        OpenSSL::Crypto
     )
+    if(TARGET prometheus-cpp::core)
+        target_link_libraries(test_config_path_resolver_focused PRIVATE prometheus-cpp::core)
+    endif()
+    if(TARGET prometheus-cpp::pull)
+        target_link_libraries(test_config_path_resolver_focused PRIVATE prometheus-cpp::pull)
+    endif()
 
     target_compile_definitions(test_config_path_resolver_focused PRIVATE
         THEMIS_TEST_BUILD=1
@@ -8103,7 +8262,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_schema_validator.cpp")
         nlohmann_json::nlohmann_json
         yaml-cpp::yaml-cpp
         Threads::Threads
+        OpenSSL::SSL
+        OpenSSL::Crypto
     )
+    if(TARGET prometheus-cpp::core)
+        target_link_libraries(test_config_schema_validator_focused PRIVATE prometheus-cpp::core)
+    endif()
+    if(TARGET prometheus-cpp::pull)
+        target_link_libraries(test_config_schema_validator_focused PRIVATE prometheus-cpp::pull)
+    endif()
 
     target_compile_definitions(test_config_schema_validator_focused PRIVATE
         THEMIS_TEST_BUILD=1
@@ -8212,7 +8379,16 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_metrics_scrape.cpp")
         spdlog::spdlog
         nlohmann_json::nlohmann_json
         Threads::Threads
+        ${THEMIS_YAML_TARGET}
+        OpenSSL::SSL
+        OpenSSL::Crypto
     )
+    if(TARGET prometheus-cpp::core)
+        target_link_libraries(test_config_metrics_scrape_focused PRIVATE prometheus-cpp::core)
+    endif()
+    if(TARGET prometheus-cpp::pull)
+        target_link_libraries(test_config_metrics_scrape_focused PRIVATE prometheus-cpp::pull)
+    endif()
 
     target_compile_definitions(test_config_metrics_scrape_focused PRIVATE
         THEMIS_TEST_BUILD=1
@@ -11052,6 +11228,7 @@ set(INGESTION_CORE_SOURCES
     ${THEMIS_ROOT_DIR}/src/ingestion/huggingface_connector.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/kafka_connector.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/object_storage_connector.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/s3_connector.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/database_connector.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/web_crawler_connector.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/ingestion_coordinator.cpp
@@ -11199,6 +11376,14 @@ add_ingestion_focused_test(
     IngestionObjectStorageFocusedTests
     "ingestion;objectstorage;s3;gcs;azure;focused;unit"
     "IngestionObjectStorage: S3/GCS/Azure mock-injection, prefix filter, path-traversal rejection, 28 tests"
+)
+
+add_ingestion_focused_test(
+    test_s3_connector_focused
+    test_s3_connector.cpp
+    S3ConnectorFocusedTests
+    "ingestion;s3;objectstorage;incremental;checkpoint;concurrent;focused;unit"
+    "S3Connector: incremental mode, max_keys_per_list, max_concurrent_downloads, flat-file delegation, checkpoint, path-traversal (Issue #178)"
 )
 
 add_ingestion_focused_test(
@@ -12959,6 +13144,66 @@ else()
     message(STATUS "Binary Delta Patches focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_binary_delta_patches.cpp")
 endif()
 
+# AutomaticSchemaMigration – focused tests for SchemaMigration (v1.7.0, Issue #127)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_automatic_schema_migration.cpp" AND NOT TARGET test_automatic_schema_migration_focused)
+    message(STATUS "Adding Automatic Schema Migration focused tests (Issue #127)")
+
+    add_executable(test_automatic_schema_migration_focused
+        test_automatic_schema_migration.cpp
+    )
+
+    target_include_directories(test_automatic_schema_migration_focused PRIVATE
+# DistributedClusterUpdates – focused tests for ClusterUpdateManager (v1.7.0, Issue #125)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cluster_updates.cpp" AND NOT TARGET test_distributed_cluster_updates_focused)
+    message(STATUS "Adding Distributed Cluster Updates focused tests (Issue #125)")
+
+    add_executable(test_distributed_cluster_updates_focused
+        test_distributed_cluster_updates.cpp
+    )
+
+    target_include_directories(test_distributed_cluster_updates_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_automatic_schema_migration_focused PRIVATE
+    target_link_libraries(test_distributed_cluster_updates_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_automatic_schema_migration_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AutomaticSchemaMigrationFocusedTests COMMAND test_automatic_schema_migration_focused)
+
+    set_tests_properties(AutomaticSchemaMigrationFocusedTests PROPERTIES
+        LABELS "updates;schema;migration;online-ddl;backfill;rollback;dual-write;focused;unit;integration"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  AutomaticSchemaMigration: schema versioning, online DDL, backfill, index rebuild, dual-write, rollback")
+else()
+    message(STATUS "Automatic Schema Migration focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_automatic_schema_migration.cpp")
+    target_compile_definitions(test_distributed_cluster_updates_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DistributedClusterUpdatesFocusedTests COMMAND test_distributed_cluster_updates_focused)
+
+    set_tests_properties(DistributedClusterUpdatesFocusedTests PROPERTIES
+        LABELS "updates;cluster;distributed;rolling-update;health-check;version-skew;focused;unit;integration"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  DistributedClusterUpdates: rolling updates, leader-last ordering, health checks, rollback, cancellation, progress callbacks")
+else()
+    message(STATUS "Distributed Cluster Updates focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cluster_updates.cpp")
+endif()
+
 # VoiceAssistant focused tests – covers VoiceBiometricAuthenticator, WakeWordDetector,
 # VoiceBatchProcessor, VoiceMacroManager, and full VoiceAssistant pipeline.
 # Requires THEMIS_ENABLE_LLM because voice_assistant.h includes llm/llama_wrapper.h.
@@ -13374,6 +13619,42 @@ else()
     message(STATUS "Dependency Resolution Engine focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_dependency_resolution_engine.cpp")
 endif()
 
+# MultiTenantUpdateScheduling – focused tests for TenantUpdateScheduler (Issue #262 / v1.8.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_tenant_update_scheduling.cpp")
+    message(STATUS "Adding Multi-Tenant Update Scheduling focused tests")
+
+    add_executable(test_multi_tenant_update_scheduling_focused
+        test_multi_tenant_update_scheduling.cpp
+    )
+
+    target_include_directories(test_multi_tenant_update_scheduling_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_multi_tenant_update_scheduling_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_multi_tenant_update_scheduling_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MultiTenantUpdateSchedulingFocusedTests
+        COMMAND test_multi_tenant_update_scheduling_focused)
+
+    set_tests_properties(MultiTenantUpdateSchedulingFocusedTests PROPERTIES
+        LABELS "updates;multi-tenant;maintenance-window;blackout;priority;consent;rollback;focused;unit;v1.8.0"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  MultiTenantUpdateScheduling: maintenance windows, blackout periods, priority tiers, tenant consent, per-tenant rollback")
+else()
+    message(STATUS "Multi-Tenant Update Scheduling focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_multi_tenant_update_scheduling.cpp")
+endif()
+
 # DistributedGateway – focused tests for multi-node API gateway
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_gateway.cpp")
     message(STATUS "Adding Distributed Gateway focused tests")
@@ -13530,6 +13811,17 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_storage_audit_logger.cpp")
     add_test(NAME StorageAuditLoggerFocusedTests COMMAND test_storage_audit_logger_focused)
     set_tests_properties(StorageAuditLoggerFocusedTests PROPERTIES LABELS "storage;audit;focused;unit" TIMEOUT 60)
     message(STATUS "  StorageAuditLogger: write, read, rotate, tamper detection")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_wom_tree.cpp")
+    message(STATUS "Adding Storage: WomTree focused tests")
+    add_executable(test_wom_tree_focused test_wom_tree.cpp)
+    target_include_directories(test_wom_tree_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_wom_tree_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_wom_tree_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME WomTreeFocusedTests COMMAND test_wom_tree_focused)
+    set_tests_properties(WomTreeFocusedTests PROPERTIES LABELS "storage;wom;write-optimized;focused;unit" TIMEOUT 60)
+    message(STATUS "  WomTree: put/get/remove, update-heavy workload, lazy flush, write amplification, thread safety")
 endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_storage_engine_di.cpp")
@@ -13769,6 +14061,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_consistent_hash_distribution.cpp")
     set_tests_properties(ConsistentHashDistributionFocusedTests PROPERTIES LABELS "sharding;distribution;hash;focused;unit" TIMEOUT 90)
     message(STATUS "  ConsistentHashDistribution: strict distribution and migration checks")
 endif()
+
 # ── RS Repair Engine Parallelisation focused tests (v1.6.0 Issue #204) ──────
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_repair.cpp")
     message(STATUS "Adding Sharding: RS Repair Engine Parallelisation focused tests")
@@ -14005,6 +14298,145 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cache_integration.cpp")
     message(STATUS "  RedisCache: URL parsing, consistent hashing, TTL, pub/sub invalidation, graceful degradation, statistics, ConcernsContext integration")
 else()
     message(STATUS "Distributed Cache Integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cache_integration.cpp")
+endif()
+
+# ============================================================================
+# Adaptive Shard Rebalancer with Load-Based Splitting (Issue #203, v1.7.0)
+# ============================================================================
+# Covers: HotShardSplitPolicy (reactive + predictive), ShardLoadDetector
+#         forecastLoad(), DataMigrator liveMigrate(), AutoRebalancer split
+#         integration, and audit event emission (SHARD_SPLIT / SHARD_MERGE).
+add_test(NAME AdaptiveShardRebalancerFocusedTests
+    COMMAND themis_tests --gtest_filter=AdaptiveShardRebalancer*:HotShardSplitPolicy*:ShardLoadForecast*:LiveMigration*)
+set_tests_properties(AdaptiveShardRebalancerFocusedTests PROPERTIES
+    LABELS "sharding;rebalancer;split;load-detection;forecasting;live-migration;v1.7.0;unit"
+    TIMEOUT 120
+)
+# Query Module – Adaptive Join Strategies Focused Tests (v1.7.0, Issue #91)
+# Validates all five acceptance criteria:
+#   AC-1  Hash Join: default for large equi-joins
+#   AC-2  Merge Join: both inputs sorted on join key
+#   AC-3  Nested Loop: left side < 1 000 rows
+#   AC-4  Index Nested Loop: right has index, left < 10 000 rows
+#   AC-5  Grace Hash: memory budget exceeded
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_join_strategies.cpp")
+    message(STATUS "Adding Query: AdaptiveJoinStrategies focused tests (v1.7.0, Issue #91)")
+
+    add_executable(test_adaptive_join_strategies_focused
+        test_adaptive_join_strategies.cpp
+        ${THEMIS_ROOT_DIR}/src/query/adaptive_join.cpp
+    )
+
+    target_include_directories(test_adaptive_join_strategies_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_adaptive_join_strategies_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_adaptive_join_strategies_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AdaptiveJoinStrategiesFocusedTests
+        COMMAND test_adaptive_join_strategies_focused)
+
+    set_tests_properties(AdaptiveJoinStrategiesFocusedTests PROPERTIES
+        LABELS "query;join;adaptive;hash-join;merge-join;nested-loop;index-nested-loop;grace-hash;v1.7.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  AdaptiveJoinExecutor: selectAlgorithm, executeJoin, estimateJoinCost, all AC-1..AC-5")
+else()
+    message(STATUS "AdaptiveJoinStrategies focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_join_strategies.cpp")
+# Runtime Device Capability Negotiation – focused tests (Issue #37, v1.7.0)
+#
+# Validates all acceptance criteria:
+#   AC-1  DeviceManager::probeDevices() returns a non-empty list with CPU fallback
+#   AC-2  Cache is returned within TTL; refresh() forces a fresh probe
+#   AC-3  getBestDevice() selects healthy device with highest free VRAM
+#   AC-4  hasGPU() / bestBackendType() are consistent with getBestDevice()
+#   AC-5  logDeviceInfo() emits structured output without crashing
+#   AC-6  BackendRegistry::deviceInfo() returns a non-empty snapshot after initializeRuntime()
+#   AC-7  initializeRuntime() performs capability-driven backend selection
+#   AC-8  getSelectedVectorBackend() / getSelectedGraphBackend() / getSelectedGeoBackend()
+#         return non-null CPU backends on headless CI
+#   AC-9  Custom (impossible) requirements yield nullptr for the relevant category
+#   AC-10 A second initializeRuntime() call refreshes the cached selection
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_device_manager.cpp")
+    message(STATUS "Adding DeviceManager focused tests (acceleration, Issue #37, v1.7.0)")
+
+    add_executable(test_device_manager_focused
+        test_device_manager.cpp
+    )
+
+    target_include_directories(test_device_manager_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_device_manager_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_device_manager_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DeviceManagerFocusedTests COMMAND test_device_manager_focused)
+
+    set_tests_properties(DeviceManagerFocusedTests PROPERTIES
+        LABELS "acceleration;device-manager;capability-negotiation;v1.7.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  DeviceManager: probeDevices, cache TTL, refresh, getBestDevice, hasGPU, bestBackendType, logDeviceInfo, BackendRegistry::deviceInfo")
+else()
+    message(STATUS "DeviceManager focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_device_manager.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_backend_registry_startup.cpp")
+    message(STATUS "Adding BackendRegistry startup focused tests (acceleration, Issue #37, v1.7.0)")
+
+    add_executable(test_backend_registry_startup_focused
+        test_backend_registry_startup.cpp
+    )
+
+    target_include_directories(test_backend_registry_startup_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_backend_registry_startup_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_backend_registry_startup_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME BackendRegistryStartupFocusedTests COMMAND test_backend_registry_startup_focused)
+
+    set_tests_properties(BackendRegistryStartupFocusedTests PROPERTIES
+        LABELS "acceleration;backend-registry;capability-negotiation;v1.7.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  BackendRegistry: initializeRuntime, default requirements, capability-driven selection, re-initialization, consistency with selectXBackendFor")
+else()
+    message(STATUS "BackendRegistry startup focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_backend_registry_startup.cpp")
 endif()
 
 # ============================================================================
