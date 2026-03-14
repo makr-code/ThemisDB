@@ -121,6 +121,16 @@ public:
                                       const std::string&          chunk_range = "");
 
     /**
+     * @brief Returns the key_id of the current master key without performing
+     *        any cryptographic operations.
+     *
+     * Used by TsEncryptedKeyRotation to identify stale chunks efficiently.
+     *
+     * @throws std::runtime_error if current_key_fn fails.
+     */
+    std::string getCurrentKeyId() const { return current_key_fn_().first; }
+
+    /**
      * @brief Returns true when an audit logger is attached.
      */
     bool isAuditEnabled() const noexcept { return audit_logger_ != nullptr; }
@@ -144,7 +154,7 @@ public:
     // -----------------------------------------------------------------------
 
     /// Length in bytes of the key_id prefix stored inside the blob.
-    /// Layout: KEY_ID_LEN_BYTES (4, big-endian) | key_id | IV[12] | CT | TAG[16]
+    /// Layout: KEY_ID_PREFIX_LEN_BYTES (4, big-endian) | key_id | IV[12] | CT | TAG[16]
     static constexpr size_t KEY_ID_PREFIX_LEN_BYTES = 4;
     static constexpr size_t IV_LEN                  = 12;
     static constexpr size_t TAG_LEN                 = 16;

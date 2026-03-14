@@ -101,32 +101,10 @@ void TsEncryptedKeyRotation::rotationLoop()
 
 size_t TsEncryptedKeyRotation::runOnce()
 {
-    // Determine the key_id of the current (target) master key.
-    // We use the enc_store_'s current_key_fn_ indirectly by encrypting an
-    // empty test blob — but that would be wasteful.  Instead, expose the
-    // current key_id directly via a zero-byte encryption.
-    //
-    // We obtain the current key_id by performing a dry-run encrypt of a
-    // single byte (we discard the result) to discover the key_id in the
-    // returned blob.
-    std::string current_key_id;
-    {
-        std::vector<uint8_t> dummy{0x00};
-        auto blob = enc_store_->encryptChunk("__probe__", dummy, "");
-        // Parse key_id from blob header.
-        if (blob.size() < EncryptedChunkStore::KEY_ID_PREFIX_LEN_BYTES) {
-            return 0;
-        }
-        uint32_t kid_len = (static_cast<uint32_t>(blob[0]) << 24)
-                         | (static_cast<uint32_t>(blob[1]) << 16)
-                         | (static_cast<uint32_t>(blob[2]) <<  8)
-                         |  static_cast<uint32_t>(blob[3]);
-        if (kid_len > 4096u || kid_len + EncryptedChunkStore::KEY_ID_PREFIX_LEN_BYTES > blob.size()) {
-            return 0;
-        }
-        current_key_id.assign(
-            reinterpret_cast<const char*>(blob.data() + EncryptedChunkStore::KEY_ID_PREFIX_LEN_BYTES),
-            kid_len);
+    // Determine the current master key_id without performing any encryption.
+    std::string current_key_id = enc_store_->getCurrentKeyId();
+    if (current_key_id.empty()) {
+        return 0;
     }
 
     // Scan all "tsc:" prefixed keys.
@@ -176,11 +154,14 @@ size_t TsEncryptedKeyRotation::runOnce()
 
             // Extract chunk range for audit log.
             size_t pos4 = key.find(':', pos3 + 1);
-            std::string chunk_range = "[" + key.substr(pos3 + 1,
-                                                        (pos4 != std::string::npos ? pos4 - pos3 - 1
-                                                                                   : std::string::npos))
-                                    + "," + (pos4 != std::string::npos ? key.substr(pos4 + 1) : "?")
-                                    + "]";
+            if (pos4 == std::string::npos) {
+                // Malformed chunk key — skip.
+                spdlog::warn("TsEncryptedKeyRotation: malformed chunk key (missing last_ts): {}", key);
+                it->Next();
+                continue;
+            }
+            std::string chunk_range = "[" + key.substr(pos3 + 1, pos4 - pos3 - 1)
+                                    + "," + key.substr(pos4 + 1) + "]";
 
             // Decrypt with old key.
             auto encrypted_data = chunk_meta["data"].get<std::vector<uint8_t>>();
@@ -191,17 +172,8 @@ size_t TsEncryptedKeyRotation::runOnce()
             std::vector<uint8_t> new_encrypted =
                 enc_store_->encryptChunk(series_id, plaintext, chunk_range);
 
-            // Update the JSON envelope.
-            // Parse the new key_id from the fresh blob.
-            uint32_t new_kid_len = (static_cast<uint32_t>(new_encrypted[0]) << 24)
-                                 | (static_cast<uint32_t>(new_encrypted[1]) << 16)
-                                 | (static_cast<uint32_t>(new_encrypted[2]) <<  8)
-                                 |  static_cast<uint32_t>(new_encrypted[3]);
-            std::string new_key_id(
-                reinterpret_cast<const char*>(new_encrypted.data() + EncryptedChunkStore::KEY_ID_PREFIX_LEN_BYTES),
-                new_kid_len);
-
-            chunk_meta["key_id"] = new_key_id;
+            // Update the JSON envelope using the fresh current key_id.
+            chunk_meta["key_id"] = current_key_id;
             chunk_meta["data"]   = nlohmann::json::binary(new_encrypted);
 
             std::string new_value = chunk_meta.dump();

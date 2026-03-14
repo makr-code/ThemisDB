@@ -4215,7 +4215,7 @@ if(THEMIS_BUILD_TESTS)
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_chunk_level_encryption>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
-        PROPERTIES LABELS "timeseries;encryption;security;unit" TIMEOUT 60
+        PROPERTIES LABELS "timeseries;encryption;security;integration" TIMEOUT 60
     )
 
     add_executable(test_cuda_hnsw_graph_traversal

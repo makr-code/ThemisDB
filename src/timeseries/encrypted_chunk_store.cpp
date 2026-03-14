@@ -230,7 +230,7 @@ EncryptedChunkStore::decryptChunk(const std::string&          series_id,
         int final_len = 0;
         if (EVP_DecryptFinal_ex(ctx, plaintext.data() + len, &final_len) != 1) {
             EVP_CIPHER_CTX_free(ctx);
-            throw std::runtime_error("EncryptedChunkStore: authentication tag mismatch — chunk may be corrupted");
+            throw std::runtime_error("EncryptedChunkStore: authentication tag mismatch — chunk is corrupted or tampered");
         }
     } catch (...) {
         EVP_CIPHER_CTX_free(ctx);

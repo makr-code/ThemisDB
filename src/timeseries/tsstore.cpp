@@ -346,6 +346,9 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
                     std::vector<uint8_t> encrypted =
                         enc_chunk_store_->encryptChunk(series_id, compressed, chunk_range);
                     chunk_meta["encryption"] = "aes-256-gcm";
+                    // Persist the key_id embedded in the blob header so that
+                    // TsEncryptedKeyRotation can detect stale chunks without decrypting.
+                    chunk_meta["key_id"]     = enc_chunk_store_->getCurrentKeyId();
                     chunk_meta["data"]       = nlohmann::json::binary(encrypted);
                 } else {
                     chunk_meta["data"] = nlohmann::json::binary(compressed);
@@ -575,10 +578,15 @@ TSStore::query(const QueryOptions& options) const {
                         continue;
                     }
                     size_t pos4 = key.find(':', pos3 + 1);
-                    std::string chunk_range = "[" + key.substr(pos3 + 1,
-                                                               pos4 != std::string::npos ? pos4 - pos3 - 1 : std::string::npos)
-                                           + "," + (pos4 != std::string::npos ? key.substr(pos4 + 1) : "?")
-                                           + "]";
+                    std::string chunk_range;
+                    if (pos4 == std::string::npos) {
+                        // Malformed chunk key — log a warning and skip.
+                        THEMIS_WARN("Malformed encrypted chunk key (missing last_ts): {}", key);
+                        it->Next();
+                        continue;
+                    }
+                    chunk_range = "[" + key.substr(pos3 + 1, pos4 - pos3 - 1)
+                                + "," + key.substr(pos4 + 1) + "]";
                     std::string series_id = metric + ":" + entity;
                     raw_data = enc_chunk_store_->decryptChunk(series_id, raw_data, chunk_range);
                 }

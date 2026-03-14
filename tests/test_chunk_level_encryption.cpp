@@ -79,17 +79,17 @@ static std::string makeTempPath(const std::string& tag) {
 static std::unique_ptr<utils::AuditLogger> makeTestAuditLogger(const std::string& log_path) {
     auto key_provider = std::make_shared<MockKeyProvider>();
     key_provider->createKey("saga_log", 1);
-    auto enc = std::make_shared<FieldEncryption>(key_provider);
+    auto field_enc = std::make_shared<FieldEncryption>(key_provider);
     PKIConfig pki_cfg;
     pki_cfg.service_id = "test";
     auto pki = std::make_shared<utils::VCCPKIClient>(pki_cfg);
 
     utils::AuditLoggerConfig cfg;
-    cfg.enabled          = true;
+    cfg.enabled           = true;
     cfg.encrypt_then_sign = false; // plaintext for easy inspection
-    cfg.log_path         = log_path;
-    cfg.key_id           = "saga_log";
-    return std::make_unique<utils::AuditLogger>(enc, pki, cfg);
+    cfg.log_path          = log_path;
+    cfg.key_id            = "saga_log";
+    return std::make_unique<utils::AuditLogger>(field_enc, pki, cfg);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -202,19 +202,19 @@ TEST_F(EncryptedChunkStoreTest, IsAuditEnabled) {
     EXPECT_FALSE(store_no_audit->isAuditEnabled());
 
     // Build a real AuditLogger to attach
-    std::string lp = (std::filesystem::temp_directory_path() / "enc_audit_test.jsonl").string();
-    auto logger = makeTestAuditLogger(lp);
+    std::string log_path = (std::filesystem::temp_directory_path() / "enc_audit_test.jsonl").string();
+    auto logger = makeTestAuditLogger(log_path);
     auto store_with_audit = makeStore(logger.get());
     EXPECT_TRUE(store_with_audit->isAuditEnabled());
-    std::filesystem::remove(lp);
+    std::filesystem::remove(log_path);
 }
 
 // AC-6: AuditLogger is called on encrypt/decrypt (writes to log file)
 TEST_F(EncryptedChunkStoreTest, AuditLogWritten) {
-    std::string lp = (std::filesystem::temp_directory_path() / "enc_audit_rw.jsonl").string();
-    std::filesystem::remove(lp);
+    std::string log_path = (std::filesystem::temp_directory_path() / "enc_audit_rw.jsonl").string();
+    std::filesystem::remove(log_path);
     {
-        auto logger = makeTestAuditLogger(lp);
+        auto logger = makeTestAuditLogger(log_path);
         auto store  = makeStore(logger.get());
 
         std::vector<uint8_t> pt = {1, 2, 3};
@@ -223,9 +223,9 @@ TEST_F(EncryptedChunkStoreTest, AuditLogWritten) {
         logger->flush();
     }
     // The log file must exist and be non-empty.
-    EXPECT_TRUE(std::filesystem::exists(lp));
-    EXPECT_GT(std::filesystem::file_size(lp), 0u);
-    std::filesystem::remove(lp);
+    EXPECT_TRUE(std::filesystem::exists(log_path));
+    EXPECT_GT(std::filesystem::file_size(log_path), 0u);
+    std::filesystem::remove(log_path);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -316,10 +316,14 @@ TEST_F(TSStoreEncryptionTest, EncryptedValueIsOpaque) {
 
     bool found_encrypted = false;
     for (it->Seek("tsc:"); it->Valid() && it->key().ToString().substr(0, 4) == "tsc:"; it->Next()) {
-        nlohmann::json j = nlohmann::json::parse(it->value().ToString());
-        if (j.value("encryption", "") == "aes-256-gcm") {
-            found_encrypted = true;
-            break;
+        try {
+            nlohmann::json j = nlohmann::json::parse(it->value().ToString());
+            if (j.value("encryption", "") == "aes-256-gcm") {
+                found_encrypted = true;
+                break;
+            }
+        } catch (const std::exception&) {
+            // skip non-JSON or malformed entries
         }
     }
     EXPECT_TRUE(found_encrypted) << "Expected at least one encrypted chunk in RocksDB";
