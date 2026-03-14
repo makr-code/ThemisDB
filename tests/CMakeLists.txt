@@ -461,6 +461,11 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     # target below (PluginCapabilityNegotiationTests) to allow running the
     # capability-negotiation tests in isolation.
     ".*test_plugin_capability_negotiation\\.cpp$"
+    # Runtime Device Capability Negotiation focused tests — built as dedicated
+    # standalone targets below so they can run in isolation without pulling in
+    # the full themis_tests link graph.
+    ".*test_device_manager\\.cpp$"
+    ".*test_backend_registry_startup\\.cpp$"
 )
 foreach(pattern IN LISTS TEST_EXCLUDE_PATTERNS)
     list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX "${pattern}")
@@ -2931,6 +2936,42 @@ else()
 endif()
 
 # ============================================================================
+# TracingMiddleware Unit Tests (v1.7.0 — Issue #140)
+# Validates UUID v4 generation, thread-local correlation ID propagation,
+# logger context injection, and clearContext() behavior.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tracing_middleware.cpp")
+    message(STATUS "Adding TracingMiddleware unit tests")
+
+    add_executable(test_tracing_middleware
+        test_tracing_middleware.cpp
+    )
+
+    target_link_libraries(test_tracing_middleware PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_tracing_middleware PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TracingMiddlewareTests COMMAND test_tracing_middleware)
+
+    set_tests_properties(TracingMiddlewareTests PROPERTIES
+        LABELS "api;tracing;correlation-id;middleware;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  TracingMiddleware: UUID v4 generation, thread-local propagation, logger injection, clearContext()")
+else()
+    message(STATUS "TracingMiddleware tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tracing_middleware.cpp")
+endif()
+
+# ============================================================================
 # API Interfaces Tests (header-only types: IHttpHandler, CorrelationId, etc.)
 # ============================================================================
 
@@ -4347,7 +4388,7 @@ else()
     message(STATUS "Multi-Shard Transaction focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_multi_shard_transactions.cpp")
 endif()
 
-# Distributed Transactions Focused Tests (disabled placeholder)
+# Distributed Transactions Focused Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_transactions.cpp")
     message(STATUS "Adding Distributed Transactions focused tests")
 
@@ -4357,6 +4398,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_transactions.cpp")
 
     target_link_libraries(test_distributed_transactions_focused PRIVATE
         ${TEST_LIBS}
+        themis_core
         spdlog::spdlog
         Threads::Threads
     )
@@ -4368,11 +4410,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_transactions.cpp")
     add_test(NAME DistributedTransactionsFocusedTests COMMAND test_distributed_transactions_focused)
 
     set_tests_properties(DistributedTransactionsFocusedTests PROPERTIES
-        LABELS "transaction;distributed;2pc;unit"
-        TIMEOUT 30
+        LABELS "transaction;distributed;2pc;storage;unit"
+        TIMEOUT 60
     )
 
-    message(STATUS "  DistributedTransactions: placeholder (full suite gated behind gRPC shard transport)")
+    message(STATUS "  DistributedTransactions: DistributedTransactionManager 2PC, abort on vote NO, rollback, concurrent transactions")
 else()
     message(STATUS "Distributed Transactions focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_transactions.cpp")
 endif()
@@ -7330,6 +7372,41 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_scan.cpp")
     message(STATUS "  Parallel Scan: sequential path, morsel-driven parallel path, predicate correctness")
 else()
     message(STATUS "Parallel Full-Table Scan tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_scan.cpp")
+endif()
+
+# ============================================================================
+# Parallel Executor Tests (Intra-Query Parallelism, v1.7.0)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_executor.cpp")
+    message(STATUS "Adding Parallel Executor (Intra-Query) tests")
+
+    add_executable(test_parallel_executor
+        test_parallel_executor.cpp
+    )
+
+    target_link_libraries(test_parallel_executor PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        TBB::tbb
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_parallel_executor PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ParallelExecutorTests COMMAND test_parallel_executor)
+
+    set_tests_properties(ParallelExecutorTests PROPERTIES
+        LABELS "query;parallel;scan;join;aggregate;unit"
+        TIMEOUT 300
+    )
+
+    message(STATUS "  Parallel Executor: scan, hash join, aggregation (sequential + parallel paths)")
+else()
+    message(STATUS "Parallel Executor tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_executor.cpp")
 endif()
 
 # ============================================================================
@@ -12959,6 +13036,42 @@ else()
     message(STATUS "Binary Delta Patches focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_binary_delta_patches.cpp")
 endif()
 
+# DistributedClusterUpdates – focused tests for ClusterUpdateManager (v1.7.0, Issue #125)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cluster_updates.cpp" AND NOT TARGET test_distributed_cluster_updates_focused)
+    message(STATUS "Adding Distributed Cluster Updates focused tests (Issue #125)")
+
+    add_executable(test_distributed_cluster_updates_focused
+        test_distributed_cluster_updates.cpp
+    )
+
+    target_include_directories(test_distributed_cluster_updates_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_distributed_cluster_updates_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_distributed_cluster_updates_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DistributedClusterUpdatesFocusedTests COMMAND test_distributed_cluster_updates_focused)
+
+    set_tests_properties(DistributedClusterUpdatesFocusedTests PROPERTIES
+        LABELS "updates;cluster;distributed;rolling-update;health-check;version-skew;focused;unit;integration"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  DistributedClusterUpdates: rolling updates, leader-last ordering, health checks, rollback, cancellation, progress callbacks")
+else()
+    message(STATUS "Distributed Cluster Updates focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cluster_updates.cpp")
+endif()
+
 # VoiceAssistant focused tests – covers VoiceBiometricAuthenticator, WakeWordDetector,
 # VoiceBatchProcessor, VoiceMacroManager, and full VoiceAssistant pipeline.
 # Requires THEMIS_ENABLE_LLM because voice_assistant.h includes llm/llama_wrapper.h.
@@ -13990,6 +14103,30 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_compaction.cpp")
     )
 
     target_include_directories(test_adaptive_compaction_focused PRIVATE
+# Runtime Device Capability Negotiation – focused tests (Issue #37, v1.7.0)
+#
+# Validates all acceptance criteria:
+#   AC-1  DeviceManager::probeDevices() returns a non-empty list with CPU fallback
+#   AC-2  Cache is returned within TTL; refresh() forces a fresh probe
+#   AC-3  getBestDevice() selects healthy device with highest free VRAM
+#   AC-4  hasGPU() / bestBackendType() are consistent with getBestDevice()
+#   AC-5  logDeviceInfo() emits structured output without crashing
+#   AC-6  BackendRegistry::deviceInfo() returns a non-empty snapshot after initializeRuntime()
+#   AC-7  initializeRuntime() performs capability-driven backend selection
+#   AC-8  getSelectedVectorBackend() / getSelectedGraphBackend() / getSelectedGeoBackend()
+#         return non-null CPU backends on headless CI
+#   AC-9  Custom (impossible) requirements yield nullptr for the relevant category
+#   AC-10 A second initializeRuntime() call refreshes the cached selection
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_device_manager.cpp")
+    message(STATUS "Adding DeviceManager focused tests (acceleration, Issue #37, v1.7.0)")
+
+    add_executable(test_device_manager_focused
+        test_device_manager.cpp
+    )
+
+    target_include_directories(test_device_manager_focused PRIVATE
         ${CMAKE_SOURCE_DIR}/include
         ${CMAKE_SOURCE_DIR}/src
     )
@@ -14016,6 +14153,60 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_compaction.cpp")
     message(STATUS "  AdaptiveCompactionScheduler: pattern monitoring, impact prediction, low-load scheduling, dynamic trigger adjustment")
 else()
     message(STATUS "Adaptive Compaction focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_compaction.cpp")
+    target_link_libraries(test_device_manager_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_device_manager_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DeviceManagerFocusedTests COMMAND test_device_manager_focused)
+
+    set_tests_properties(DeviceManagerFocusedTests PROPERTIES
+        LABELS "acceleration;device-manager;capability-negotiation;v1.7.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  DeviceManager: probeDevices, cache TTL, refresh, getBestDevice, hasGPU, bestBackendType, logDeviceInfo, BackendRegistry::deviceInfo")
+else()
+    message(STATUS "DeviceManager focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_device_manager.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_backend_registry_startup.cpp")
+    message(STATUS "Adding BackendRegistry startup focused tests (acceleration, Issue #37, v1.7.0)")
+
+    add_executable(test_backend_registry_startup_focused
+        test_backend_registry_startup.cpp
+    )
+
+    target_include_directories(test_backend_registry_startup_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_backend_registry_startup_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_backend_registry_startup_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME BackendRegistryStartupFocusedTests COMMAND test_backend_registry_startup_focused)
+
+    set_tests_properties(BackendRegistryStartupFocusedTests PROPERTIES
+        LABELS "acceleration;backend-registry;capability-negotiation;v1.7.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  BackendRegistry: initializeRuntime, default requirements, capability-driven selection, re-initialization, consistency with selectXBackendFor")
+else()
+    message(STATUS "BackendRegistry startup focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_backend_registry_startup.cpp")
 endif()
 
 # ============================================================================

@@ -68,6 +68,9 @@ list(APPEND THEMIS_CORE_SOURCES
     # Tiered storage (hot/warm/cold) with access-based and age-based migration
     ../src/storage/tiered_storage.cpp
 
+    # Distributed transactions (2PC across multiple shards) – v1.7.0
+    ../src/storage/distributed_transaction_manager.cpp
+
     # NVMe optimizations (io_uring, multi-queue, ZNS, Direct I/O) – v1.6.0
     ../src/storage/nvme_manager.cpp
 )
