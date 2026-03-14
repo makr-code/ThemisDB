@@ -26,6 +26,7 @@
 #include <cerrno>
 #include <cstring>
 #include <atomic>
+#include <thread>
 #include "utils/logger.h"
 #include <fcntl.h>
 #include <unistd.h>
@@ -230,11 +231,11 @@ void LogicalReplicationManager::onWALEntryApplied(const WALEntry& entry) {
         }
     }
 
-    for (auto& slot : slots_copy) {
+    auto process_slot = [this, entry, change](const std::shared_ptr<SlotRuntime>& slot) -> std::pair<uint64_t, uint64_t> {
         auto slot_change = change;
         std::lock_guard<std::mutex> lock(slot->mutex);
         if (!slot->meta.filter.replicate_dml) {
-            continue;
+            return {0, 0};
         }
 
         std::string doc_id = entry.document_id;
@@ -245,21 +246,83 @@ void LogicalReplicationManager::onWALEntryApplied(const WALEntry& entry) {
             !doc_id.empty() &&
             slot->snapshot_keys.count(collectionKey(change.collection, doc_id)) &&
             entry.sequence_number <= slot->meta.restart_lsn) {
-            continue;  // conflict-free initial sync: skip duplicates from snapshot
+            return {0, 0};  // conflict-free initial sync: skip duplicates from snapshot
         }
 
         if (!matchesFilter(slot_change, slot->meta.filter)) {
-            std::lock_guard<std::mutex> slog(stats_mutex_);
-            ++stats_.filtered_out;
-            continue;
+            return {1u, 0u};
         }
 
         applyTransform(slot_change);
         slot->buffer.push_back(slot_change);
-        {
-            std::lock_guard<std::mutex> slog(stats_mutex_);
-            ++stats_.changes_enqueued;
+        return {0u, 1u};
+    };
+
+    auto process_slots_sequential = [&] {
+        uint64_t total_filtered = 0;
+        uint64_t total_enqueued = 0;
+        for (auto& slot : slots_copy) {
+            auto [f, e] = process_slot(slot);
+            total_filtered += f;
+            total_enqueued += e;
         }
+        if (total_filtered || total_enqueued) {
+            std::lock_guard<std::mutex> slog(stats_mutex_);
+            stats_.filtered_out += total_filtered;
+            stats_.changes_enqueued += total_enqueued;
+        }
+    };
+
+    if (!config_.parallel_decoding || slots_copy.size() <= 1) {
+        process_slots_sequential();
+        return;
+    }
+
+    const unsigned hw_threads = std::thread::hardware_concurrency();
+    if (hw_threads <= 1) {
+        THEMIS_WARN("Parallel decoding: hardware concurrency is unavailable or single-core, using sequential processing");
+        process_slots_sequential();
+        return;
+    }
+    const size_t worker_count = std::min<size_t>(slots_copy.size(), hw_threads - 1);
+    std::exception_ptr worker_error;
+    std::mutex worker_err_mutex;
+    std::atomic<size_t> next_index{0};
+    std::vector<std::thread> workers;
+    workers.reserve(worker_count);
+    for (size_t w = 0; w < worker_count; ++w) {
+        workers.emplace_back([&next_index, &slots_copy, &process_slot, &worker_error, &worker_err_mutex, this] {
+            uint64_t local_filtered = 0;
+            uint64_t local_enqueued = 0;
+            try {
+                while (true) {
+                    const size_t idx = next_index.fetch_add(1);
+                    if (idx >= slots_copy.size()) break;
+                    auto [f, e] = process_slot(slots_copy[idx]);
+                    local_filtered += f;
+                    local_enqueued += e;
+                }
+                if (local_filtered || local_enqueued) {  // avoid contended lock if no updates
+                    std::lock_guard<std::mutex> slog(stats_mutex_);
+                    stats_.filtered_out += local_filtered;
+                    stats_.changes_enqueued += local_enqueued;
+                }
+            } catch (const std::exception& ex) {
+                THEMIS_ERROR("Parallel decoding worker failed: {}", ex.what());
+                std::lock_guard<std::mutex> elock(worker_err_mutex);
+                if (!worker_error) worker_error = std::current_exception();
+            } catch (...) {
+                THEMIS_ERROR("Parallel decoding worker failed with unknown exception");
+                std::lock_guard<std::mutex> elock(worker_err_mutex);
+                if (!worker_error) worker_error = std::current_exception();
+            }
+        });
+    }
+    for (auto& t : workers) {
+        t.join();
+    }
+    if (worker_error) {
+        std::rethrow_exception(worker_error);
     }
 }
 

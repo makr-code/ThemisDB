@@ -209,6 +209,7 @@ logical->advanceSlot("acme_replica", changes.back().lsn);
 ```
 
 > Note: set `Config::wal_directory` to the WALManager directory to persist slot state; leaving it empty disables persistence. Row filter expressions are validated up front—unsupported predicates are rejected and fail closed to avoid unintended replication.
+> Set `Config::parallel_decoding=false` to force sequential slot dispatch; default is `true`, dispatching slots in parallel when 2 or more slots are registered. When `std::thread::hardware_concurrency()` is unavailable, parallel decoding automatically falls back to sequential processing.
 
 **Replication Roles:**
 ```cpp
