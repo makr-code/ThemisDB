@@ -5,7 +5,7 @@
 //
 //   1. MoltenVK / VK_KHR_buffer_device_address probe
 //      - hasBufferDeviceAddress() returns a definite true/false after
-//        initialize(), never an uninitialised state.
+//        initialize(), never an uninitialized state.
 //      - The probe result is reflected in getHealthStatus().driverInfo.
 //
 //   2. SPIR-V specialization constants for workgroup sizes
@@ -74,7 +74,6 @@ TEST(VulkanComputeShaderHardening, BufferDeviceAddress_FalseBeforeInit) {
     // Before any initialization the probe result must be deterministically false.
     EXPECT_FALSE(backend.hasBufferDeviceAddress());
 }
-
 // ---------------------------------------------------------------------------
 // AC-2a: Default workgroup sizes match original shader dimensions
 // ---------------------------------------------------------------------------

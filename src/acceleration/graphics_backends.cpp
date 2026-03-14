@@ -585,7 +585,6 @@ public:
         // Submit CB1 and signal xferDone — the GPU starts DMA immediately.
         // The CPU can now record CB2 concurrently (overlap).
         {
-            const VkPipelineStageFlags waitMask = VK_PIPELINE_STAGE_TRANSFER_BIT;
             VkSubmitInfo si{};
             si.sType                = VK_STRUCTURE_TYPE_SUBMIT_INFO;
             si.commandBufferCount   = 1;
@@ -593,7 +592,6 @@ public:
             si.signalSemaphoreCount = 1;
             si.pSignalSemaphores    = &xferDone;
             vkQueueSubmit(computeQueue, 1, &si, VK_NULL_HANDLE);
-            (void)waitMask; // used below
         }
 
         // ---- CB2: compute+readback phase (recorded while CB1 runs) ----

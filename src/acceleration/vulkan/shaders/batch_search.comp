@@ -8,7 +8,7 @@
 // that the host can tune thread-count per device at pipeline-creation time
 // (e.g. 256 for Mali-G710 / RDNA2 vs. 128 on memory-bandwidth-bound GPUs)
 // without recompiling the shader.  Default matches the original fixed size.
-layout(constant_id = 0) const int LOCAL_SIZE_X = 256;
+layout(constant_id = 0) const uint LOCAL_SIZE_X = 256;
 layout(local_size_x_id = 0) in;
 
 // Shared memory for query vector caching (sized for maximum LOCAL_SIZE_X = 256)
