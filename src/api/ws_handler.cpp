@@ -30,6 +30,7 @@
 #include "utils/logger.h"
 
 #include <charconv>
+#include <cctype>
 #include <string_view>
 
 namespace themis {
@@ -53,6 +54,27 @@ WsChangeHandler::WsChangeHandler(std::shared_ptr<AuthMiddleware> auth,
 
 bool WsChangeHandler::isChangeStreamPath(std::string_view path) {
     return path == "/v2/changes" || path == "/v2/cdc/stream";
+}
+
+/// Decode a percent-encoded URL component (application/x-www-form-urlencoded
+/// style: '+' is treated as a literal '+', only %XX sequences are expanded).
+static std::string url_decode(const std::string& encoded) {
+    std::string result;
+    result.reserve(encoded.size());
+    for (std::size_t i = 0; i < encoded.size(); ++i) {
+        if (encoded[i] == '%' && i + 2 < encoded.size() &&
+            std::isxdigit(static_cast<unsigned char>(encoded[i + 1])) &&
+            std::isxdigit(static_cast<unsigned char>(encoded[i + 2])))
+        {
+            unsigned int val = 0;
+            std::from_chars(&encoded[i + 1], &encoded[i + 3], val, 16);
+            result += static_cast<char>(val);
+            i += 2;
+        } else {
+            result += encoded[i];
+        }
+    }
+    return result;
 }
 
 // ---------------------------------------------------------------------------
@@ -126,9 +148,10 @@ WsChangeHandler::validate(const http::request<http::string_body>& req) const
         if (pos == std::string::npos) return {};
         const auto val_start = pos + search.size();
         const auto val_end   = qs.find('&', val_start);
-        return (val_end == std::string::npos)
+        const std::string raw = (val_end == std::string::npos)
                    ? qs.substr(val_start)
                    : qs.substr(val_start, val_end - val_start);
+        return url_decode(raw);
     };
 
     const std::string from_seq_str = parse_param(query_str, "from_sequence");

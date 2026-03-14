@@ -163,6 +163,52 @@ TEST(WsChangeHandlerTest, ValidateZeroFromSequenceIsValid) {
 }
 
 // ============================================================================
+// validate() – URL-encoded query string parameters
+// ============================================================================
+
+TEST(WsChangeHandlerTest, ValidateDecodesPercentEncodedKeyPrefix) {
+    // %3A is the percent-encoding of ':'
+    WsChangeHandler handler(nullptr);
+    auto req      = make_upgrade_request("/v2/changes?key_prefix=orders%3A");
+    auto decision = handler.validate(req);
+
+    ASSERT_TRUE(decision.should_upgrade);
+    EXPECT_EQ(decision.key_prefix, "orders:");
+}
+
+TEST(WsChangeHandlerTest, ValidateDecodesPercentEncodedKeyPrefixWithSlash) {
+    // %2F is the percent-encoding of '/'
+    WsChangeHandler handler(nullptr);
+    auto req      = make_upgrade_request("/v2/changes?key_prefix=tenant%2Forders%3A");
+    auto decision = handler.validate(req);
+
+    ASSERT_TRUE(decision.should_upgrade);
+    EXPECT_EQ(decision.key_prefix, "tenant/orders:");
+}
+
+TEST(WsChangeHandlerTest, ValidateDecodesPercentEncodedBothParams) {
+    // key_prefix=orders%3A with a numeric from_sequence
+    WsChangeHandler handler(nullptr);
+    auto req = make_upgrade_request(
+        "/v2/changes?from_sequence=7&key_prefix=orders%3A");
+    auto decision = handler.validate(req);
+
+    ASSERT_TRUE(decision.should_upgrade);
+    EXPECT_EQ(decision.from_sequence, 7u);
+    EXPECT_EQ(decision.key_prefix, "orders:");
+}
+
+TEST(WsChangeHandlerTest, ValidateLiteralColonStillWorks) {
+    // Plain unencoded ':' should continue to work as before.
+    WsChangeHandler handler(nullptr);
+    auto req      = make_upgrade_request("/v2/changes?key_prefix=orders:");
+    auto decision = handler.validate(req);
+
+    ASSERT_TRUE(decision.should_upgrade);
+    EXPECT_EQ(decision.key_prefix, "orders:");
+}
+
+// ============================================================================
 // validate() – authentication (with default-constructed AuthMiddleware)
 // ============================================================================
 
