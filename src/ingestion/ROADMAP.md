@@ -92,6 +92,13 @@ v1.5.x – Production-grade data intake layer. All connectors (FileSystem, Huggi
   - Features: prefix filtering, `max_keys` cap, JSON `text_field` extraction, path-traversal rejection, `RetryConfig` passthrough, throughput metrics
   - Test coverage: 28 unit tests via mock-injection in `tests/test_ingestion_object_storage.cpp` (no cloud credentials required)
   - Security: `..` path components rejected; credentials never logged
+- [x] Dedicated S3-compatible source connector (`ingestion/s3_connector.cpp`) (Issue: #178, v1.7.0)
+  - Incremental mode: `IngestionCheckpoint::cursor` stores last processed key; `ListObjectsV2` `StartAfter` used on restart
+  - Configurable `max_keys_per_list` (default 1 000) and `max_concurrent_downloads` (default 4)
+  - Flat-file format delegation: `.jsonl`, `.csv`, `.parquet`, `.json`, `.txt`, `.html`, `.xml` written to temp file and parsed by `FileSystemIngester`
+  - `IngestionManager` routes `provider == "s3"` to `S3Connector`; GCS/Azure continue using `ObjectStorageConnector`
+  - Test coverage: 32 unit tests via mock-injection in `tests/test_s3_connector.cpp` (no cloud credentials required)
+  - Security: path-traversal guard (`..` rejection); credentials never logged
 - [x] Distributed ingestion coordinator across nodes (work-stealing thread pool) (Issue: #1906) → `ingestion/ingestion_coordinator.cpp`
 - [x] Change-data-capture (CDC) source for live database streams (Issue: #2199)
   - `ingestFromStream()` implemented using PostgreSQL logical replication protocol (libpq, `test_decoding` output plugin) under `THEMIS_ENABLE_CDC_STREAM`

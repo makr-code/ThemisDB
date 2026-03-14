@@ -1779,6 +1779,10 @@ set(THEMIS_CORE_SOURCES
     ../src/ingestion/huggingface_connector.cpp
     ../src/ingestion/kafka_connector.cpp
     ../src/ingestion/object_storage_connector.cpp
+    # s3_connector.cpp: dedicated S3-optimised connector (incremental mode,
+    # concurrent downloads, flat-file delegation); uses #ifdef THEMIS_ENABLE_S3
+    # internally – always compiles without the AWS SDK.
+    ../src/ingestion/s3_connector.cpp
     ../src/ingestion/database_connector.cpp
     ../src/ingestion/web_crawler_connector.cpp
     ../src/ingestion/ingestion_coordinator.cpp
