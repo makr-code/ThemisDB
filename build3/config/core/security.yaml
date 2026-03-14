@@ -1,0 +1,364 @@
+# =============================================================================
+# ThemisDB Security Configuration
+# Version: 1.4.2
+# =============================================================================
+#
+# This file contains security-related configuration for ThemisDB.
+# Proper configuration is CRITICAL for production deployments.
+#
+# =============================================================================
+
+# =============================================================================
+# HSM (Hardware Security Module) Configuration
+# =============================================================================
+#
+# ⚠️  CRITICAL SECURITY WARNING ⚠️
+#
+# The Hardware Security Module (HSM) protects master encryption keys.
+# Proper HSM configuration is MANDATORY for production deployments.
+#
+# COMPLIANCE REQUIREMENTS:
+# - NIST SP 800-53 SC-12 (Cryptographic Key Establishment and Management)
+# - ISO 27001 A.8.24 (Use of Cryptography)
+# - PCI DSS Requirement 3.6 (Key Protection)
+# - GDPR Article 32 (Security of Processing)
+#
+# =============================================================================
+
+hsm:
+  # ═══════════════════════════════════════════════════════════════════════
+  # HSM Provider Selection
+  # ═══════════════════════════════════════════════════════════════════════
+  #
+  # ⚠️  WARNING: 'stub' provider is INSECURE and for DEVELOPMENT ONLY! ⚠️
+  #
+  # The 'stub' provider stores keys in plaintext or with weak protection.
+  # It does NOT provide hardware-backed security.
+  #
+  # Available Providers:
+  # 
+  # 1. stub (DEFAULT - INSECURE!)
+  #    - For development/testing ONLY
+  #    - Keys NOT protected by hardware
+  #    - Violates compliance requirements
+  #    - Server will log ERROR-level warnings every 5 minutes
+  #
+  # 2. pkcs11 (RECOMMENDED for on-premises)
+  #    - Hardware Security Module via PKCS#11 interface
+  #    - Supported devices:
+  #      * Thales Luna HSM
+  #      * Utimaco CryptoServer
+  #      * AWS CloudHSM
+  #      * nCipher nShield
+  #      * SoftHSM2 (testing only)
+  #
+  # 3. aws_kms (RECOMMENDED for AWS)
+  #    - AWS Key Management Service
+  #    - FIPS 140-2 Level 2 validated
+  #    - Automatic key rotation
+  #
+  # 4. azure_keyvault (RECOMMENDED for Azure)
+  #    - Azure Key Vault
+  #    - FIPS 140-2 validated HSMs
+  #    - Managed service
+  #
+  # 5. gcp_kms (RECOMMENDED for GCP)
+  #    - Google Cloud Key Management Service
+  #    - FIPS 140-2 Level 3 HSMs available
+  #    - Integrated with GCP services
+  #
+  # 6. vault (RECOMMENDED for HashiCorp environments)
+  #    - HashiCorp Vault Transit Engine
+  #    - Encryption-as-a-Service
+  #    - Multi-cloud support
+  #
+  # ═══════════════════════════════════════════════════════════════════════
+  
+  provider: stub  # ⚠️  DEVELOPMENT ONLY - CHANGE FOR PRODUCTION! ⚠️
+  
+  # ═══════════════════════════════════════════════════════════════════════
+  # Stub Provider Security Gating (NEW in v1.4.2)
+  # ═══════════════════════════════════════════════════════════════════════
+  #
+  # SECURITY HARDENING: The stub provider now requires explicit opt-in to
+  # prevent accidental production deployment.
+  #
+  # Environment Variables:
+  #
+  # 1. THEMIS_ALLOW_HSM_STUB=1
+  #    - Explicitly allows stub provider usage
+  #    - Required in production-like environments
+  #    - Only set for development/testing
+  #
+  # 2. THEMIS_PRODUCTION_MODE=1
+  #    - Forces production mode
+  #    - Stub provider will FAIL even with THEMIS_ALLOW_HSM_STUB=1
+  #    - Use to ensure production deployments use real HSM
+  #
+  # 3. ENVIRONMENT=production (or NODE_ENV=production)
+  #    - Automatically detected as production environment
+  #    - Requires THEMIS_ALLOW_HSM_STUB=1 to proceed
+  #    - Logs ERROR-level warnings
+  #
+  # Behavior:
+  # - Development (no env vars): Stub allowed with warnings
+  # - Production indicators detected: Fails without THEMIS_ALLOW_HSM_STUB=1
+  # - THEMIS_PRODUCTION_MODE=1: Always fails with stub
+  #
+  # See: docs/security/HSM_PRODUCTION_SETUP.md
+  # ═══════════════════════════════════════════════════════════════════════
+  
+  # ═══════════════════════════════════════════════════════════════════════
+  # PKCS#11 Configuration (for 'pkcs11' provider)
+  # ═══════════════════════════════════════════════════════════════════════
+  #
+  # ⚠️  IMPORTANT: PKCS#11 Header Strategy (NEW in v1.4.2) ⚠️
+  #
+  # ThemisDB uses a two-tier PKCS#11 header approach:
+  #
+  # 1. DEVELOPMENT: pkcs11_minimal.h (built-in, limited)
+  #    - For local development and testing
+  #    - Works with SoftHSM2
+  #    - Missing vendor-specific features
+  #    - Build with: cmake (default)
+  #
+  # 2. PRODUCTION: Vendor PKCS#11 headers (required)
+  #    - Install HSM vendor SDK first
+  #    - Full PKCS#11 functionality
+  #    - Vendor-specific extensions
+  #    - Build with: cmake -DTHEMIS_USE_VENDOR_PKCS11=ON
+  #
+  # Vendor SDK Installation:
+  #   Thales Luna:  Luna HSM Client SDK
+  #   AWS CloudHSM: CloudHSM Client SDK
+  #   Utimaco:      CryptoServer SDK
+  #   nCipher:      nShield SDK
+  #
+  # See: docs/security/PKCS11_INTEGRATION.md
+  # ═══════════════════════════════════════════════════════════════════════
+  
+  pkcs11:
+    # Path to PKCS#11 library
+    # Examples:
+    #   Thales Luna:  /usr/lib/libCryptoki2_64.so
+    #   AWS CloudHSM: /opt/cloudhsm/lib/libcloudhsm_pkcs11.so
+    #   SoftHSM2:     /usr/lib/softhsm/libsofthsm2.so (testing only)
+    library_path: ""
+    
+    # HSM slot ID (usually 0 for single-slot devices)
+    slot_id: 0
+    
+    # User PIN for HSM authentication
+    # ⚠️  NEVER commit PIN to version control! ⚠️
+    # Use environment variable: THEMIS_HSM_PIN
+    # Or secure secrets management (Vault, AWS Secrets Manager, etc.)
+    pin: ""
+    
+    # Optional: Token label for multi-token setups
+    token_label: ""
+    
+    # Key label for master key operations
+    key_label: "themis-master-key"
+    
+    # Signature algorithm
+    signature_algorithm: "RSA-SHA256"
+    
+    # Session pool size for concurrent operations
+    # Increase for high-throughput environments
+    session_pool_size: 4
+    
+    # Enable verbose PKCS#11 logging (for troubleshooting)
+    verbose: false
+  
+  # ═══════════════════════════════════════════════════════════════════════
+  # AWS KMS Configuration (for 'aws_kms' provider)
+  # ═══════════════════════════════════════════════════════════════════════
+  aws_kms:
+    # AWS Region
+    region: "us-east-1"
+    
+    # KMS Key ARN or Alias
+    # Example: arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
+    # Or alias: alias/themis-master-key
+    key_id: ""
+    
+    # Optional: Assume IAM role for KMS access
+    # role_arn: "arn:aws:iam::123456789012:role/ThemisKMSRole"
+  
+  # ═══════════════════════════════════════════════════════════════════════
+  # Azure Key Vault Configuration (for 'azure_keyvault' provider)
+  # ═══════════════════════════════════════════════════════════════════════
+  azure_keyvault:
+    # Key Vault URL
+    # Example: https://themis-vault.vault.azure.net/
+    vault_url: ""
+    
+    # Key name in Key Vault
+    key_name: "themis-master-key"
+    
+    # Authentication method: managed_identity, service_principal, or cli
+    auth_method: "managed_identity"
+    
+    # For service_principal auth:
+    # tenant_id: ""
+    # client_id: ""
+    # client_secret: ""  # Use env var: AZURE_CLIENT_SECRET
+  
+  # ═══════════════════════════════════════════════════════════════════════
+  # Google Cloud KMS Configuration (for 'gcp_kms' provider)
+  # ═══════════════════════════════════════════════════════════════════════
+  gcp_kms:
+    # GCP Project ID
+    project_id: ""
+    
+    # KMS Location (region)
+    location: "us-central1"
+    
+    # Key Ring name
+    key_ring: "themis-keyring"
+    
+    # Key name
+    key_name: "themis-master-key"
+    
+    # Optional: Service account key file path
+    # Leave empty to use Application Default Credentials (recommended)
+    # credentials_file: ""
+  
+  # ═══════════════════════════════════════════════════════════════════════
+  # HashiCorp Vault Configuration (for 'vault' provider)
+  # ═══════════════════════════════════════════════════════════════════════
+  #
+  # ⚠️  IMPORTANT: VaultSigningProvider Limitation (NEW in v1.4.2) ⚠️
+  #
+  # VaultSigningProvider is a SIGNING-ONLY provider:
+  #   ✅ Supports: sign(), verify() operations
+  #   ❌ Does NOT support: getKey(), rotateKey(), listKeys(), etc.
+  #
+  # PURPOSE:
+  #   - Sign data using Vault Transit Engine
+  #   - Keys never leave Vault (enhanced security)
+  #   - Minimal permissions required
+  #
+  # FOR FULL KEY MANAGEMENT:
+  #   Use VaultKeyProvider instead (separate implementation)
+  #   Or use Vault CLI/API directly for key operations
+  #
+  # FEATURE FLAG:
+  #   Set THEMIS_VAULT_SIGNING_ONLY=1 to acknowledge this limitation
+  #
+  # See: docs/security/VAULT_SIGNING_PROVIDER.md
+  # ═══════════════════════════════════════════════════════════════════════
+  
+  vault:
+    # Vault server URL
+    address: "https://vault.example.com:8200"
+    
+    # Transit engine mount path
+    mount_path: "transit"
+    
+    # Key name in transit engine
+    key_name: "themis-master-key"
+    
+    # Authentication method: token, approle, kubernetes, or aws
+    auth_method: "token"
+    
+    # For token auth (use env var: VAULT_TOKEN)
+    # token: ""
+    
+    # For AppRole auth:
+    # role_id: ""
+    # secret_id: ""  # Use env var: VAULT_SECRET_ID
+    
+    # Enable TLS verification (set false only for testing)
+    tls_verify: true
+
+# =============================================================================
+# Production Mode Settings
+# =============================================================================
+#
+# Production mode enforces stricter security requirements.
+# Set via environment variable: THEMIS_PRODUCTION_MODE=true
+#
+# When production mode is enabled:
+# - HSM stub provider is BLOCKED by default
+# - Override with --allow-stub-hsm flag (NOT RECOMMENDED)
+# - Periodic security checks run every 5 minutes
+# - Enhanced audit logging enabled
+#
+# =============================================================================
+
+# =============================================================================
+# Additional Security Settings
+# =============================================================================
+
+# Enable field-level encryption
+field_encryption:
+  enabled: true
+  
+  # Encryption algorithm (AES-256-GCM recommended)
+  algorithm: "AES-256-GCM"
+
+# Access control settings
+access_control:
+  # Enable Role-Based Access Control (RBAC)
+  rbac_enabled: true
+  
+  # Require authentication for all operations
+  require_authentication: true
+  
+  # Session timeout (minutes)
+  session_timeout: 60
+
+# Audit logging
+audit:
+  # Enable audit logging
+  enabled: true
+  
+  # Audit log path
+  log_path: "./logs/audit.log"
+  
+  # Log retention (days)
+  retention_days: 365
+  
+  # Log sensitive operations
+  log_sensitive_operations: true
+
+# TLS/SSL Configuration
+tls:
+  # Enable TLS for all connections
+  enabled: true
+  
+  # Certificate path
+  cert_file: "./certs/server.crt"
+  
+  # Private key path
+  key_file: "./certs/server.key"
+  
+  # CA certificate for client verification
+  ca_file: "./certs/ca.crt"
+  
+  # Minimum TLS version (1.2 or 1.3)
+  min_version: "1.3"
+  
+  # Require client certificates
+  require_client_cert: false
+
+# =============================================================================
+# Documentation and Support
+# =============================================================================
+#
+# For detailed HSM setup instructions, see:
+# - docs/security/HSM_PRODUCTION_SETUP.md
+# - docs/security/COMPLIANCE_GUIDE.md
+# - docs/security/SECURITY_BEST_PRACTICES.md
+#
+# For troubleshooting:
+# - Check logs: ./logs/themis_server.log
+# - Enable verbose HSM logging: hsm.pkcs11.verbose: true
+# - Contact support: security@themisdb.com
+#
+# Security audit reports:
+# - docs/audit-reports/v1.4.1/FINDINGS_AND_RISKS.md
+# - docs/audit-reports/v1.4.1/SECURITY_CONTROLS_AUDIT.md
+#
+# =============================================================================

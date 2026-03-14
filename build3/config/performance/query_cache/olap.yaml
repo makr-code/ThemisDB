@@ -1,0 +1,152 @@
+# Query Cache Configuration - OLAP Workload
+# Optimized for: Low-frequency, large-result analytical queries
+# Use case: Business intelligence, data warehousing, reporting, analytics
+
+query_cache:
+  # Enable query result caching
+  enabled: true
+  
+  # Cache implementation: "basic" or "adaptive"
+  # - adaptive: Recommended for OLAP (handles large results with tiered storage)
+  # - basic: Works but may struggle with large result sets
+  type: "adaptive"
+  
+  # Workload detection and auto-tuning
+  workload_detection:
+    enabled: true
+    sample_rate: 0.2          # Sample 20% (OLAP has fewer queries)
+    min_samples: 50            # Fewer samples needed
+    detection_window_sec: 600  # Re-detect every 10 minutes
+  
+  # Adaptive cache configuration (3-tier)
+  adaptive:
+    # L1 (HOT): In-memory, fast access
+    l1:
+      max_entries: 1000                  # Fewer hot entries
+      max_entry_size_bytes: 10240        # 10KB max (small aggregates)
+      ttl_seconds: 600                   # 10 minutes
+    
+    # L2 (WARM): Compressed in-memory
+    l2:
+      max_entries: 5000
+      max_entry_size_bytes: 1048576      # 1MB (compressed)
+      ttl_seconds: 3600                  # 1 hour
+      compression_level: 3               # Zstd compression
+    
+    # L3 (COLD): RocksDB persistent storage
+    l3:
+      ttl_seconds: 86400                 # 24 hours (expensive queries)
+      db_path: "./data/query_cache"
+      enable_compression: true
+  
+  # Basic cache fallback (if adaptive not available)
+  basic:
+    max_entries: 5000                    # Fewer entries, larger results
+    max_memory_bytes: 524288000          # 500MB
+    max_entry_size_bytes: 52428800       # 50MB max per entry
+  
+  # TTL (Time-To-Live) settings for OLAP
+  ttl:
+    default_seconds: 7200    # 2 hours (expensive to recompute)
+    min_seconds: 600         # 10 minutes minimum
+    max_seconds: 86400       # 24 hours maximum
+    adaptive: true           # Longer TTL for less frequent queries
+  
+  # Eviction policy
+  # - LFU: Least Frequently Used (keep expensive analytical queries)
+  eviction_policy: "LFU"
+  
+  # Cache warming on startup
+  cache_warming:
+    enabled: true
+    top_k_queries: 50        # Top 50 most expensive queries
+    warmup_timeout_sec: 300   # Max 5 minutes for warming
+    # Warm from persistent L3 cache
+    from_persistent: true
+  
+  # OLAP-specific tuning
+  olap:
+    # Queries per minute threshold to classify as OLAP
+    low_frequency_threshold: 0.5
+    
+    # Result size threshold (larger = more OLAP-like)
+    large_result_threshold_bytes: 1048576  # 1MB
+    
+    # Don't use frequency weighting (focus on result size/cost)
+    frequency_weighting: false
+    
+    # Memory pressure handling
+    memory_pressure_threshold: 0.85  # Be more aggressive with eviction
+    
+    # Spillover to disk for very large results
+    enable_disk_spillover: true
+    spillover_threshold_bytes: 104857600  # 100MB
+    spillover_path: "./data/cache_spillover"
+  
+  # Monitoring and statistics
+  monitoring:
+    enabled: true
+    detailed_stats: true
+    stats_report_interval_sec: 600  # Log stats every 10 minutes
+    
+    # Track query cost metrics
+    track_cost_metrics: true
+    
+    # Alert on expensive queries
+    alert_threshold_ms: 30000  # Alert if query >30 seconds
+  
+  # Invalidation on data changes
+  invalidation:
+    by_table: true          # Invalidate when source tables change
+    by_pattern: true        # Support regex-based invalidation
+    
+    # Batch invalidation for ETL workflows
+    batch_mode: true
+    batch_delay_sec: 300    # Wait 5 minutes before invalidating
+
+# Example: Integration with server settings
+server:
+  query:
+    enable_cache: true
+    cache_layer: "post_optimize"  # Cache after optimizer for OLAP
+    
+    # Allow long-running cached queries
+    max_query_time_sec: 600
+    
+    # Enable query cost tracking
+    track_execution_metrics: true
+    track_cost_model: true
+
+# Example: Storage layer for OLAP
+storage:
+  rocksdb:
+    # Larger block cache for analytical workloads
+    block_cache_size_mb: 2048
+    
+    # Optimize for sequential reads
+    cache_index_and_filter_blocks: true
+    optimize_filters_for_hits: true
+
+# Example: Performance tuning for analytics
+performance:
+  # Enable parallel query execution
+  parallel_query: true
+  max_parallel_workers: 8
+  
+  # Result set streaming for large queries
+  streaming_results: true
+  stream_chunk_size: 10000
+
+# Performance expectations for OLAP configuration:
+# - Cache hit rate: 40-60% (less frequent but expensive queries)
+# - Cache lookup latency: <10ms (L2/L3 may require decompression)
+# - Memory efficiency: Aggressive compression for large results
+# - Throughput improvement: 10-50x for cached analytical queries
+# - Cost savings: 80-95% reduction in compute time for cache hits
+# - Storage: Up to 10GB cache (including L3 persistent)
+
+# Typical use cases:
+# - Daily/weekly reports (cache for 24 hours)
+# - Dashboard aggregations (cache for 1-2 hours)
+# - Ad-hoc analytics (cache for 30 minutes)
+# - Machine learning feature extraction (cache for hours/days)

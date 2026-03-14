@@ -1,0 +1,98 @@
+# Self-Improvement Module Configuration
+# Controls adaptive threshold adjustment and periodic re-selection of LoRA training data.
+#
+# Integrated with DataSelectionPipeline and ContinuousLearningOrchestrator.
+# Supports live-reload without restart.
+
+# ============================================================================
+# Self-improvement scheduling
+# ============================================================================
+self_improvement:
+  enabled: true
+  period_seconds: 86400          # Re-run data selection every 24 h (86 400 s)
+  threshold_auto_adjust: true    # Automatically tighten/loosen quality thresholds
+
+  # -- Latency monitoring --
+  latency_target_ms: 5000        # Target max inference latency in milliseconds
+  latency_action_on_exceed: "reduce_hard_ratio"  # Action when latency > target
+
+  # -- Accuracy monitoring --
+  accuracy_monitoring: true
+  accuracy_drop_alert_threshold: 0.05  # Alert when accuracy drops > 5 %
+  accuracy_rollback_threshold:   0.10  # Trigger rollback when accuracy drops > 10 %
+
+  # -- Diversity monitoring --
+  diversity_monitoring: true
+  min_diversity_score: 0.30      # Minimum acceptable type-token ratio in selected set
+
+  # -- Adaptive threshold rules --
+  # Each rule specifies a monitored metric and an action to apply when the
+  # metric breaches its bound.
+  adaptive_rules:
+    - metric: "avg_quality_score"
+      condition: "< 0.60"
+      action: "decrease_max_toxicity_score"
+      delta: -0.05
+    - metric: "duplicate_ratio"
+      condition: "> 0.10"
+      action: "decrease_minhash_threshold"
+      delta: -0.02
+    - metric: "training_accuracy"
+      condition: "< 0.75"
+      action: "increase_hard_ratio"
+      delta: 0.05
+    - metric: "inference_latency_ms"
+      condition: "> 5000"
+      action: "decrease_target_samples"
+      delta: -500
+
+# ============================================================================
+# A/B testing for new data selection configs
+# ============================================================================
+ab_testing:
+  enabled: true
+  traffic_split: 0.10            # 10 % of traffic to new adapter candidate
+  min_ab_samples: 50
+  min_improvement_threshold: 0.02  # 2 % relative improvement required to promote
+  ab_test_duration_hours: 24
+
+# ============================================================================
+# Rollback configuration
+# ============================================================================
+rollback:
+  automatic: true
+  triggers:
+    accuracy_drop_threshold: 0.10
+    min_avg_quality_score: 0.50
+    max_error_rate: 0.05
+  cooldown_hours: 6
+
+# ============================================================================
+# Monitoring & alerting
+# ============================================================================
+monitoring:
+  enabled: true
+  metrics:
+    - "selection_input_count"
+    - "selection_output_count"
+    - "filter_rejection_rate"
+    - "dedup_removal_rate"
+    - "avg_quality_score"
+    - "avg_difficulty_score"
+    - "diversity_score"
+    - "training_accuracy"
+    - "inference_latency_ms"
+  prometheus:
+    enabled: true
+    port: 9090
+    endpoint: "/metrics"
+  alerts:
+    - name: "LowDiversityAlert"
+      condition: "diversity_score < 0.25"
+      severity: "warning"
+    - name: "HighRejectionRateAlert"
+      condition: "filter_rejection_rate > 0.80"
+      severity: "warning"
+    - name: "AccuracyDropAlert"
+      condition: "training_accuracy_drop > 0.10"
+      severity: "critical"

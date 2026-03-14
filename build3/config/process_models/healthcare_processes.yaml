@@ -1,0 +1,538 @@
+# Healthcare Process Models
+# =========================
+# Process models for healthcare and medical workflows
+# Based on medical best practices and regulatory requirements
+#
+# Version: 1.1
+# Date: 2025-12-24
+# Status: Enhanced with LLM Support
+#
+# LLM Integration: See LLM_INTEGRATION_GUIDE.md for framework details
+
+healthcare_models:
+  
+  # =========================================================================
+  # Patient Admission Process
+  # =========================================================================
+  
+  - id: patient_admission_standard
+    name: "Patientenaufnahme (Standard)"
+    name_en: "Patient Admission (Standard)"
+    domain: "Gesundheitswesen"
+    domain_en: "Healthcare"
+    description: "Standard-Aufnahmeprozess für stationäre Patienten"
+    description_en: "Standard admission process for inpatient care"
+    
+    activities:
+      - id: "patient_arrival"
+        name: "Patientenankunft"
+        name_en: "Patient Arrival"
+        type: "start"
+        description: "Ankunft des Patienten in der Klinik"
+        sla_hours: 0
+        
+      - id: "registration"
+        name: "Registrierung"
+        name_en: "Registration"
+        type: "task"
+        description: "Erfassung der Patientendaten"
+        sla_hours: 0.5
+        responsible_role: "Aufnahme"
+        
+      - id: "insurance_verification"
+        name: "Versicherungsprüfung"
+        name_en: "Insurance Verification"
+        type: "task"
+        description: "Prüfung der Versicherungsdaten"
+        sla_hours: 1
+        responsible_role: "Aufnahme"
+        
+      - id: "initial_assessment"
+        name: "Erstuntersuchung"
+        name_en: "Initial Assessment"
+        type: "task"
+        description: "Erste medizinische Untersuchung"
+        sla_hours: 2
+        responsible_role: "Arzt"
+        
+      - id: "diagnosis"
+        name: "Diagnose"
+        name_en: "Diagnosis"
+        type: "task"
+        description: "Medizinische Diagnosestellung"
+        sla_hours: 4
+        responsible_role: "Facharzt"
+        
+      - id: "treatment_plan"
+        name: "Behandlungsplan"
+        name_en: "Treatment Plan"
+        type: "task"
+        description: "Erstellung des Behandlungsplans"
+        sla_hours: 2
+        responsible_role: "Arzt"
+        
+      - id: "room_assignment"
+        name: "Zimmerzuweisung"
+        name_en: "Room Assignment"
+        type: "task"
+        description: "Zuweisung eines Patientenzimmers"
+        sla_hours: 1
+        responsible_role: "Stationsleitung"
+        
+      - id: "admission_complete"
+        name: "Aufnahme abgeschlossen"
+        name_en: "Admission Complete"
+        type: "end"
+        description: "Aufnahmeprozess abgeschlossen"
+        sla_hours: 0.5
+        responsible_role: "Aufnahme"
+    
+    edges:
+      - from: "patient_arrival"
+        to: "registration"
+      - from: "registration"
+        to: "insurance_verification"
+      - from: "insurance_verification"
+        to: "initial_assessment"
+      - from: "initial_assessment"
+        to: "diagnosis"
+      - from: "diagnosis"
+        to: "treatment_plan"
+      - from: "treatment_plan"
+        to: "room_assignment"
+      - from: "room_assignment"
+        to: "admission_complete"
+    
+    compliance:
+      - rule: "Patientenrechtegesetz"
+        description: "Einhaltung der Patientenrechte"
+        check_type: "legal"
+        
+      - rule: "DSGVO Art. 9"
+        description: "Datenschutz für Gesundheitsdaten"
+        check_type: "data_protection"
+        
+      - rule: "Dokumentationspflicht"
+        description: "Vollständige medizinische Dokumentation"
+        check_type: "audit_trail"
+    
+    semantic_tags:
+      - "Gesundheitswesen"
+      - "Patientenaufnahme"
+      - "Krankenhaus"
+      - "Stationäre Versorgung"
+  
+  # =========================================================================
+  # Medication Management
+  # =========================================================================
+  
+  - id: medication_management_standard
+    name: "Medikamentenmanagement"
+    name_en: "Medication Management"
+    domain: "Gesundheitswesen"
+    domain_en: "Healthcare"
+    description: "Prozess für sichere Medikamentenvergabe"
+    
+    activities:
+      - id: "prescription"
+        name: "Verordnung"
+        name_en: "Prescription"
+        type: "start"
+        description: "Ärztliche Medikamentenverordnung"
+        sla_hours: 0
+        responsible_role: "Arzt"
+        
+      - id: "prescription_review"
+        name: "Verordnungsprüfung"
+        name_en: "Prescription Review"
+        type: "task"
+        description: "Pharmazeutische Prüfung der Verordnung"
+        sla_hours: 1
+        responsible_role: "Apotheker"
+        
+      - id: "medication_preparation"
+        name: "Medikamentenvorbereitung"
+        name_en: "Medication Preparation"
+        type: "task"
+        description: "Richten des Medikaments"
+        sla_hours: 0.5
+        responsible_role: "Apotheke"
+        
+      - id: "patient_identification"
+        name: "Patientenidentifikation"
+        name_en: "Patient Identification"
+        type: "task"
+        description: "Eindeutige Identifikation des Patienten"
+        sla_hours: 0.1
+        responsible_role: "Pflegekraft"
+        
+      - id: "medication_administration"
+        name: "Medikamentengabe"
+        name_en: "Medication Administration"
+        type: "task"
+        description: "Verabreichung des Medikaments"
+        sla_hours: 0.25
+        responsible_role: "Pflegekraft"
+        
+      - id: "administration_documentation"
+        name: "Dokumentation"
+        name_en: "Documentation"
+        type: "task"
+        description: "Dokumentation der Medikamentengabe"
+        sla_hours: 0.1
+        responsible_role: "Pflegekraft"
+        
+      - id: "monitoring"
+        name: "Monitoring"
+        name_en: "Monitoring"
+        type: "end"
+        description: "Überwachung der Wirkung und Nebenwirkungen"
+        sla_hours: 2
+        responsible_role: "Pflegekraft"
+    
+    edges:
+      - from: "prescription"
+        to: "prescription_review"
+      - from: "prescription_review"
+        to: "medication_preparation"
+      - from: "medication_preparation"
+        to: "patient_identification"
+      - from: "patient_identification"
+        to: "medication_administration"
+      - from: "medication_administration"
+        to: "administration_documentation"
+      - from: "administration_documentation"
+        to: "monitoring"
+    
+    five_rights:
+      - right: "Richtiger Patient"
+        check: "Patientenidentifikation mit Armband"
+        
+      - right: "Richtiges Medikament"
+        check: "Barcode-Scan oder visuelle Prüfung"
+        
+      - right: "Richtige Dosis"
+        check: "Doppelcheck vor Gabe"
+        
+      - right: "Richtiger Zeitpunkt"
+        check: "Zeitplan gemäß Verordnung"
+        
+      - right: "Richtige Applikationsform"
+        check: "Verordnete Darreichungsform"
+    
+    compliance:
+      - rule: "Arzneimittelgesetz (AMG)"
+        description: "Rechtssichere Medikamentenvergabe"
+        
+      - rule: "5R-Regel"
+        description: "Einhaltung der 5 Rights of Medication"
+        check_type: "safety_protocol"
+        
+      - rule: "Vier-Augen-Prinzip"
+        description: "Doppelcheck bei Hochrisikomedikamenten"
+        check_type: "separation_of_duties"
+    
+    semantic_tags:
+      - "Medikamentenmanagement"
+      - "Patientensicherheit"
+      - "Arzneimitteltherapie"
+      - "5R-Regel"
+  
+  # =========================================================================
+  # Laboratory Testing Process
+  # =========================================================================
+  
+  - id: lab_testing_standard
+    name: "Labortests"
+    name_en: "Laboratory Testing"
+    domain: "Gesundheitswesen"
+    domain_en: "Healthcare"
+    description: "Standard-Laboruntersuchungsprozess"
+    
+    activities:
+      - id: "test_order"
+        name: "Testanforderung"
+        name_en: "Test Order"
+        type: "start"
+        description: "Ärztliche Anordnung von Labortests"
+        sla_hours: 0
+        responsible_role: "Arzt"
+        
+      - id: "sample_collection"
+        name: "Probenentnahme"
+        name_en: "Sample Collection"
+        type: "task"
+        description: "Entnahme der Probe beim Patienten"
+        sla_hours: 2
+        responsible_role: "Pflegekraft"
+        
+      - id: "sample_labeling"
+        name: "Probenbeschriftung"
+        name_en: "Sample Labeling"
+        type: "task"
+        description: "Eindeutige Kennzeichnung der Probe"
+        sla_hours: 0.1
+        responsible_role: "Pflegekraft"
+        
+      - id: "sample_transport"
+        name: "Probentransport"
+        name_en: "Sample Transport"
+        type: "task"
+        description: "Transport der Probe ins Labor"
+        sla_hours: 1
+        responsible_role: "Transportdienst"
+        
+      - id: "sample_receipt"
+        name: "Probeneingang"
+        name_en: "Sample Receipt"
+        type: "task"
+        description: "Registrierung im Labor"
+        sla_hours: 0.5
+        responsible_role: "Laborassistent"
+        
+      - id: "analysis"
+        name: "Analyse"
+        name_en: "Analysis"
+        type: "task"
+        description: "Durchführung der Laboruntersuchung"
+        sla_hours: 8
+        responsible_role: "MTA"
+        
+      - id: "result_validation"
+        name: "Befundvalidierung"
+        name_en: "Result Validation"
+        type: "task"
+        description: "Fachliche Prüfung der Ergebnisse"
+        sla_hours: 2
+        responsible_role: "Laborarzt"
+        
+      - id: "result_transmission"
+        name: "Befundübermittlung"
+        name_en: "Result Transmission"
+        type: "end"
+        description: "Übermittlung an anfordernden Arzt"
+        sla_hours: 1
+        responsible_role: "Laborassistent"
+    
+    edges:
+      - from: "test_order"
+        to: "sample_collection"
+      - from: "sample_collection"
+        to: "sample_labeling"
+      - from: "sample_labeling"
+        to: "sample_transport"
+      - from: "sample_transport"
+        to: "sample_receipt"
+      - from: "sample_receipt"
+        to: "analysis"
+      - from: "analysis"
+        to: "result_validation"
+      - from: "result_validation"
+        to: "result_transmission"
+    
+    test_urgency:
+      - level: "STAT"
+        sla_total_hours: 1
+        description: "Notfall - sofortige Bearbeitung"
+        
+      - level: "Urgent"
+        sla_total_hours: 4
+        description: "Dringend - schnellstmögliche Bearbeitung"
+        
+      - level: "Routine"
+        sla_total_hours: 24
+        description: "Routineuntersuchung"
+    
+    compliance:
+      - rule: "RiliBÄK"
+        description: "Richtlinien der Bundesärztekammer zur Qualitätssicherung"
+        
+      - rule: "ISO 15189"
+        description: "Medizinische Laboratorien - Qualität und Kompetenz"
+        check_type: "iso_standard"
+        
+      - rule: "Probenidentifikation"
+        description: "Eindeutige Zuordnung Patient-Probe"
+        check_type: "safety_protocol"
+    
+    semantic_tags:
+      - "Labor"
+      - "Diagnostik"
+      - "Qualitätssicherung"
+      - "Patientensicherheit"
+
+# =============================================================================
+# Model Metadata
+# =============================================================================
+
+metadata:
+  version: "1.0"
+  last_updated: "2025-12-24"
+  author: "ThemisDB Team"
+  license: "MIT"
+  language: "de-DE"
+  
+  categories:
+    - id: "patient_care"
+      name: "Patientenversorgung"
+      name_en: "Patient Care"
+      models: ["patient_admission_standard"]
+      
+    - id: "medication"
+      name: "Medikamentenmanagement"
+      name_en: "Medication Management"
+      models: ["medication_management_standard"]
+      
+    - id: "diagnostics"
+      name: "Diagnostik"
+      name_en: "Diagnostics"
+      models: ["lab_testing_standard"]
+  
+  regulations:
+    - name: "Patientenrechtegesetz"
+      description: "Gesetz zur Verbesserung der Rechte von Patientinnen und Patienten"
+      url: "https://www.gesetze-im-internet.de/patrechtvbg/"
+      
+    - name: "Arzneimittelgesetz (AMG)"
+      description: "Gesetz über den Verkehr mit Arzneimitteln"
+      url: "https://www.gesetze-im-internet.de/amg_1976/"
+      
+    - name: "RiliBÄK"
+      description: "Richtlinien der Bundesärztekammer zur Qualitätssicherung"
+      
+    - name: "ISO 15189"
+      description: "Medical laboratories - Requirements for quality and competence"
+      url: "https://www.iso.org/standard/76677.html"
+      
+    - name: "DSGVO Art. 9"
+      description: "Verarbeitung besonderer Kategorien personenbezogener Daten (Gesundheitsdaten)"
+
+# =============================================================================
+# LLM Integration for Healthcare Processes
+# =============================================================================
+
+llm_integration:
+  common_prompts:
+    - task: "check_patient_safety"
+      prompt: |
+        Prüfe diesen medizinischen Prozess auf Patientensicherheit:
+        
+        Prozess: {process_type}
+        Aktivitäten: {trace}
+        Patient-ID: {patient_id}
+        
+        Überprüfe:
+        1. Wurden alle Sicherheitsprotokolle eingehalten?
+        2. 5R-Regel bei Medikamentengabe (falls relevant)
+        3. Patientenidentifikation korrekt durchgeführt?
+        4. Datenschutz (DSGVO Art. 9) eingehalten?
+        5. Kritische Sicherheitsrisiken
+  
+  medication_management:
+    llm_prompts:
+      - task: "verify_5r_rule"
+        prompt: |
+          Verifiziere die Einhaltung der 5R-Regel bei Medikamentengabe:
+          
+          Prozess-Trace: {trace}
+          Verordnung: {prescription}
+          Dokumentation: {documentation}
+          
+          Prüfe alle 5 Rechte:
+          1. Richtiger Patient (Identifikation durchgeführt?)
+          2. Richtiges Medikament (Barcode-Scan?)
+          3. Richtige Dosis (Doppelcheck?)
+          4. Richtiger Zeitpunkt (Zeitplan eingehalten?)
+          5. Richtige Applikationsform (Darreichungsform korrekt?)
+          
+          Bewerte pro Regel: ✓ eingehalten / ✗ verletzt / ? unklar
+        expected_output:
+          schema:
+            type: "object"
+            required: ["five_rights_check", "overall_compliance", "violations"]
+            properties:
+              five_rights_check:
+                type: "object"
+                properties:
+                  right_patient: {enum: ["compliant", "violated", "unclear"]}
+                  right_medication: {enum: ["compliant", "violated", "unclear"]}
+                  right_dose: {enum: ["compliant", "violated", "unclear"]}
+                  right_time: {enum: ["compliant", "violated", "unclear"]}
+                  right_route: {enum: ["compliant", "violated", "unclear"]}
+              overall_compliance: {type: "boolean"}
+              violations: {type: "array"}
+              risk_level: {enum: ["low", "medium", "high", "critical"]}
+    
+    llm_test_cases:
+      - name: "Perfect 5R compliance"
+        input:
+          trace: ["prescription", "prescription_review", "medication_preparation", "patient_identification", "medication_administration", "documentation"]
+          all_checks_completed: true
+        expected_behavior:
+          overall_compliance: true
+          violations_count: 0
+          risk_level: "low"
+      
+      - name: "Missing patient identification"
+        input:
+          trace: ["prescription", "medication_preparation", "medication_administration"]
+          patient_identification_skipped: true
+        expected_behavior:
+          overall_compliance: false
+          violated_right: "right_patient"
+          risk_level: "critical"
+  
+  patient_admission:
+    llm_prompts:
+      - task: "predict_admission_duration"
+        prompt: |
+          Basierend auf Patientendaten, sage die voraussichtliche Verweildauer vorher:
+          
+          Diagnose: {diagnosis}
+          Alter: {age}
+          Komorbiditäten: {comorbidities}
+          Behandlungsplan: {treatment_plan}
+          
+          Schätze:
+          1. Wahrscheinlichste Verweildauer (Tage)
+          2. Konfidenzintervall
+          3. Hauptfaktoren für Schätzung
+          4. Risikofaktoren für verlängerten Aufenthalt
+  
+  lab_testing:
+    llm_prompts:
+      - task: "validate_sample_chain"
+        prompt: |
+          Validiere die Proben-Kette (Chain of Custody):
+          
+          Trace: {trace}
+          Proben-ID: {sample_id}
+          Patient-ID: {patient_id}
+          
+          Prüfe:
+          1. Eindeutige Probenidentifikation durchgehend vorhanden?
+          2. Lückenlose Dokumentation aller Schritte?
+          3. Zeitliche Plausibilität?
+          4. Transport-Bedingungen eingehalten?
+        expected_output:
+          schema:
+            type: "object"
+            required: ["chain_valid", "issues"]
+            properties:
+              chain_valid: {type: "boolean"}
+              issues: {type: "array"}
+              iso15189_compliant: {type: "boolean"}
+
+llm_benchmarks:
+  accuracy_requirements:
+    patient_safety_check: ">= 0.98"  # Sehr hoch wegen Kritikalität
+    5r_rule_verification: ">= 0.95"
+    admission_duration_prediction: ">= 0.75"
+    privacy_compliance_check: ">= 0.95"
+  
+  performance_requirements:
+    max_response_time_seconds: 3  # Schnell für klinischen Einsatz
+  
+  quality_requirements:
+    false_negative_rate_safety: "< 0.02"  # Sehr niedrig für Sicherheit
+    explanation_required: true

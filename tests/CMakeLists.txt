@@ -13733,6 +13733,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_consistent_hash_distribution.cpp")
     add_test(NAME ConsistentHashDistributionFocusedTests COMMAND test_consistent_hash_distribution_focused)
     set_tests_properties(ConsistentHashDistributionFocusedTests PROPERTIES LABELS "sharding;distribution;hash;focused;unit" TIMEOUT 90)
     message(STATUS "  ConsistentHashDistribution: strict distribution and migration checks")
+endif()
 # ── RS Repair Engine Parallelisation focused tests (v1.6.0 Issue #204) ──────
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_repair.cpp")
     message(STATUS "Adding Sharding: RS Repair Engine Parallelisation focused tests")
@@ -13969,6 +13970,36 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cache_integration.cpp")
     message(STATUS "  RedisCache: URL parsing, consistent hashing, TTL, pub/sub invalidation, graceful degradation, statistics, ConcernsContext integration")
 else()
     message(STATUS "Distributed Cache Integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cache_integration.cpp")
+endif()
+
+# ── Online Schema Migration focused tests (v1.7.0 Issue #208) ─────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_online_schema_migration.cpp")
+    message(STATUS "Adding Storage: OnlineSchemaMigration focused tests")
+    add_executable(test_online_schema_migration_focused
+        test_online_schema_migration.cpp
+    )
+    target_include_directories(test_online_schema_migration_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_online_schema_migration_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_online_schema_migration_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    add_test(NAME OnlineSchemaMigrationFocusedTests
+        COMMAND test_online_schema_migration_focused)
+    set_tests_properties(OnlineSchemaMigrationFocusedTests PROPERTIES
+        LABELS "storage;schema;migration;online;ddl;v1.7.0;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  OnlineSchemaMigration: add/drop columns, rename, type change, index ops, partition, phase transitions")
+else()
+    message(STATUS "Online schema migration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_online_schema_migration.cpp")
 endif()
 
 # ============================================================================
