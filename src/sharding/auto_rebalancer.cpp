@@ -55,6 +55,8 @@ HotShardSplitPolicy::HotShardSplitPolicy(
 void HotShardSplitPolicy::setPredictiveDetector(
     themisdb::sharding::PredictiveFailureDetector* pd
 ) {
+    // Non-owning assignment: the caller is responsible for ensuring that 'pd'
+    // remains valid for at least as long as this HotShardSplitPolicy object.
     predictive_detector_ = pd;
 }
 
