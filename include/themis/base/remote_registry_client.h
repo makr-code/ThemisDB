@@ -297,7 +297,11 @@ private:
     // Auth header building (returns header value for Authorization or X-API-Key)
     std::string buildAuthorizationHeader() const;
 
-    // Perform a blocking back-off sleep for `ms` milliseconds.
+    // Perform a back-off delay for `ms` milliseconds.
+    // The sleep is dispatched to a background thread via std::async so that
+    // the calling thread blocks on a future rather than directly in
+    // sleep_for().  This decouples the back-off mechanism from the caller and
+    // allows future integration with cooperative schedulers.
     static void asyncBackoffSleep(int ms);
 
     // Parse a single JSON object into a RegistryPluginEntry (returns false on
