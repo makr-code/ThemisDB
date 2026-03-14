@@ -2126,6 +2126,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/sharding/gpu_erasure_coder.cu>
     $<$<BOOL:${THEMIS_ENABLE_OPENCL}>:../src/sharding/gpu_erasure_coder_opencl.cpp>
     ../src/storage/blob_redundancy_manager.cpp
+    ../src/storage/erasure_coding_backend.cpp
     ../src/server/sharding_metrics_handler.cpp
 
     # Enhanced sharding features
@@ -4137,6 +4138,23 @@ if(THEMIS_BUILD_TESTS)
     )
 
     # ── New feature tests ────────────────────────────────────────────────────
+
+    # Erasure Coding Backend Tests (v1.7.0 – Issue #207)
+    add_executable(test_erasure_coding_backend
+        ${THEMIS_ROOT_DIR}/tests/test_erasure_coding_backend.cpp
+    )
+    target_link_libraries(test_erasure_coding_backend
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_erasure_coding_backend
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_erasure_coding_backend>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+        PROPERTIES
+            LABELS "storage;erasure-coding;blob;reed-solomon;unit"
+            TIMEOUT 60
+    )
 
     add_executable(test_search_highlighter
         ${THEMIS_ROOT_DIR}/tests/test_search_highlighter.cpp
