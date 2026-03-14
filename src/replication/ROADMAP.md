@@ -27,6 +27,7 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Compressed WAL shipping (Zstd) for bandwidth reduction (Issue: #2444)
 - [x] Automated lag-based read traffic shifting (Issue: #2251)
 - [x] Cross-cluster logical replication (publish/subscribe model) (Issue: #2440)
+- [x] LogicalReplicationManager — schema-aware logical slots with per-collection filters, row predicates, DDL streaming, and cross-version transforms (Issue: #95)
 - [x] Kubernetes operator for automated topology management (Issue: #2257)
 - [x] Parallel replication — multi-threaded WAL application on followers with dependency tracking (v1.6.0)
 

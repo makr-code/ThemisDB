@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [query](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-03-13  
+**Datum:** 2026-03-14  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `include/query/FUTURE_ENHANCEMENTS.md`
@@ -45,4 +45,4 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`query`** a
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-13*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-14*
