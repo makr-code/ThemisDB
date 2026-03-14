@@ -335,10 +335,6 @@ bool LogicalReplicationManager::matchesFilter(const LogicalChange& change,
 
 bool LogicalReplicationManager::evaluateRowFilter(const std::string& expression,
                                                   const nlohmann::json& payload) const {
-    if (!isSupportedRowFilter(expression)) {
-        THEMIS_WARN("Unsupported row filter expression rejected: {}", expression);
-        return false;
-    }
     const auto eq_pos = expression.find("==");
     const auto ne_pos = expression.find("!=");
     bool equality = true;
@@ -351,6 +347,7 @@ bool LogicalReplicationManager::evaluateRowFilter(const std::string& expression,
         equality = false;
     } else {
         // Fail closed on unsupported expressions to avoid accidental broad replication
+        THEMIS_WARN("Unsupported row filter expression rejected: {}", expression);
         return false;
     }
 

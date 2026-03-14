@@ -47,10 +47,12 @@ struct TempDir {
         std::random_device rd;
         std::mt19937_64 gen(rd());
         std::uniform_int_distribution<uint64_t> dist;
-        std::ostringstream oss;
-        oss << "themis_logical_repl-" << std::hex
-            << std::chrono::steady_clock::now().time_since_epoch().count() << "-" << dist(gen);
-        path = (base / oss.str()).string();
+        do {
+            std::ostringstream oss;
+            oss << "themis_logical_repl-" << std::hex
+                << std::chrono::steady_clock::now().time_since_epoch().count() << "-" << dist(gen);
+            path = (base / oss.str()).string();
+        } while (std::filesystem::exists(path));
         std::filesystem::remove_all(path);
         std::filesystem::create_directories(path);
     }
