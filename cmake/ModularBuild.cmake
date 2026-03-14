@@ -437,6 +437,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
     ../src/query/adaptive_optimizer.cpp
+    ../src/query/adaptive_join.cpp
     ../src/query/runtime_reoptimizer.cpp
     ../src/query/optimizer_cost_model.cpp
     ../src/query/aql_parser.cpp

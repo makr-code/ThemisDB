@@ -13972,6 +13972,52 @@ else()
 endif()
 
 # ============================================================================
+# Query Module – Adaptive Join Strategies Focused Tests (v1.7.0, Issue #91)
+# Validates all five acceptance criteria:
+#   AC-1  Hash Join: default for large equi-joins
+#   AC-2  Merge Join: both inputs sorted on join key
+#   AC-3  Nested Loop: left side < 1 000 rows
+#   AC-4  Index Nested Loop: right has index, left < 10 000 rows
+#   AC-5  Grace Hash: memory budget exceeded
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_join_strategies.cpp")
+    message(STATUS "Adding Query: AdaptiveJoinStrategies focused tests (v1.7.0, Issue #91)")
+
+    add_executable(test_adaptive_join_strategies_focused
+        test_adaptive_join_strategies.cpp
+        ${THEMIS_ROOT_DIR}/src/query/adaptive_join.cpp
+    )
+
+    target_include_directories(test_adaptive_join_strategies_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_adaptive_join_strategies_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_adaptive_join_strategies_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AdaptiveJoinStrategiesFocusedTests
+        COMMAND test_adaptive_join_strategies_focused)
+
+    set_tests_properties(AdaptiveJoinStrategiesFocusedTests PROPERTIES
+        LABELS "query;join;adaptive;hash-join;merge-join;nested-loop;index-nested-loop;grace-hash;v1.7.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  AdaptiveJoinExecutor: selectAlgorithm, executeJoin, estimateJoinCost, all AC-1..AC-5")
+else()
+    message(STATUS "AdaptiveJoinStrategies focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_join_strategies.cpp")
+endif()
+
+# ============================================================================
 # Custom Test Targets
 # ============================================================================
 add_custom_target(run_tests
