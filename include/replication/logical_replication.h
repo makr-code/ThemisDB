@@ -45,6 +45,7 @@ namespace replication {
 struct LogicalChange {
     enum class Type { INSERT, UPDATE, DELETE, TRUNCATE, DDL, SNAPSHOT, UNKNOWN };
 
+    // Default to UNKNOWN to avoid misclassifying uninitialized changes
     Type type = Type::UNKNOWN;
     std::string collection;
     std::string schema_version;

@@ -23,6 +23,8 @@
 #include <fstream>
 #include <utility>
 #include <stdexcept>
+#include <cerrno>
+#include <cstring>
 #include "utils/logger.h"
 #include <fcntl.h>
 #include <unistd.h>
@@ -39,6 +41,12 @@ std::string trimCopy(const std::string& s) {
     size_t end = s.size();
     while (end > start && std::isspace(static_cast<unsigned char>(s[end - 1]))) end--;
     return s.substr(start, end - start);
+}
+
+bool isSupportedRowFilter(const std::string& expr) {
+    const auto trimmed = trimCopy(expr);
+    if (trimmed.empty()) return true;
+    return trimmed.find("==") != std::string::npos || trimmed.find("!=") != std::string::npos;
 }
 }  // namespace
 
@@ -60,9 +68,7 @@ LogicalReplicationManager::LogicalReplicationSlot LogicalReplicationManager::cre
 
     if (!filter.row_filter_expression.empty()) {
         const auto expr = trimCopy(filter.row_filter_expression);
-        const bool has_eq = expr.find("==") != std::string::npos;
-        const bool has_neq = expr.find("!=") != std::string::npos;
-        if (!has_eq && !has_neq) {
+        if (!isSupportedRowFilter(expr)) {
             throw std::invalid_argument("Unsupported row filter expression: " + expr);
         }
     }
@@ -270,6 +276,9 @@ LogicalChange LogicalReplicationManager::makeLogicalChange(const WALEntry& entry
     change.schema_version = config_.target_version;
     change.source_version = config_.source_version;
     change.target_version = config_.target_version;
+    if (entry.sequence_number == 0 && wal_) {
+        THEMIS_WARN("Logical replication entry missing sequence_number; using current WAL sequence");
+    }
     // Use WAL assigned sequence when available; fall back to current WAL position for notifications
     change.lsn = entry.sequence_number != 0 ? entry.sequence_number : (wal_ ? wal_->getCurrentSequence() : 0);
     change.timestamp = entry.timestamp.time_since_epoch().count() == 0
@@ -325,6 +334,9 @@ bool LogicalReplicationManager::matchesFilter(const LogicalChange& change,
 
 bool LogicalReplicationManager::evaluateRowFilter(const std::string& expression,
                                                   const nlohmann::json& payload) const {
+    if (!isSupportedRowFilter(expression)) {
+        return false;
+    }
     const auto eq_pos = expression.find("==");
     const auto ne_pos = expression.find("!=");
     bool equality = true;
@@ -406,7 +418,11 @@ void LogicalReplicationManager::loadPersistedSlots() {
     }
 
     for (fs::directory_iterator it(dir, fs::directory_options::skip_permission_denied, ec);
-         !ec && it != fs::directory_iterator(); ++it) {
+         !ec && it != fs::directory_iterator(); it.increment(ec)) {
+        if (ec) {
+            THEMIS_WARN("Error iterating logical slot directory: {}", ec.message());
+            break;
+        }
         const auto& entry = *it;
         std::error_code type_ec;
         if (!entry.is_regular_file(type_ec)) continue;
@@ -436,12 +452,20 @@ void LogicalReplicationManager::loadPersistedSlots() {
             runtime->meta.filter.replicate_dml = jf.value("replicate_dml", true);
             runtime->meta.filter.row_filter_expression = jf.value("row_filter_expression", "");
             if (jf.contains("include_collections") && jf["include_collections"].is_array()) {
-                runtime->meta.filter.include_collections =
-                    jf["include_collections"].get<std::vector<std::string>>();
+                try {
+                    runtime->meta.filter.include_collections =
+                        jf["include_collections"].get<std::vector<std::string>>();
+                } catch (...) {
+                    continue;
+                }
             }
             if (jf.contains("exclude_collections") && jf["exclude_collections"].is_array()) {
-                runtime->meta.filter.exclude_collections =
-                    jf["exclude_collections"].get<std::vector<std::string>>();
+                try {
+                    runtime->meta.filter.exclude_collections =
+                        jf["exclude_collections"].get<std::vector<std::string>>();
+                } catch (...) {
+                    continue;
+                }
             }
         }
 
@@ -485,6 +509,7 @@ void LogicalReplicationManager::persistSlot(const SlotRuntime& slot) const {
     const std::string payload = j.dump(2);
     int fd = ::open(tmp_path.c_str(), O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC, 0600);
     if (fd < 0) {
+        THEMIS_WARN("Failed to open logical slot state {}: {}", tmp_path.string(), strerror(errno));
         return;
     }
 
@@ -511,7 +536,9 @@ void LogicalReplicationManager::persistSlot(const SlotRuntime& slot) const {
 
     int dir_fd = ::open(base.c_str(), O_RDONLY | O_DIRECTORY | O_CLOEXEC);
     if (dir_fd >= 0) {
-        ::fsync(dir_fd);
+        if (::fsync(dir_fd) != 0) {
+            THEMIS_WARN("Failed to fsync logical slot directory {}: {}", base.string(), strerror(errno));
+        }
         ::close(dir_fd);
     }
 }
