@@ -28,6 +28,7 @@
 // Secondary index implementation
 
 #include "index/secondary_index.h"
+#include "index/index_compression.h"
 #include "index/secondary_index_metadata_cache.h"
 #include "index/spatial_index.h"
 #include "storage/rocksdb_wrapper.h"
@@ -39,6 +40,7 @@
 #include <nlohmann/json.hpp>
 
 #include <algorithm>
+#include <memory>
 #include <unordered_set>
 #include <unordered_map>
 #include <cmath>
@@ -89,7 +91,38 @@ std::string SecondaryIndexManager::makeFulltextDocLenPrefix(std::string_view tab
 	return key;
 }
 
-SecondaryIndexManager::SecondaryIndexManager(RocksDBWrapper& db) : db_(db) {}
+SecondaryIndexManager::SecondaryIndexManager(RocksDBWrapper& db) : db_(db) {
+	// Default codec with all features disabled until a Config is provided
+	index::IndexCompressionCodec::Config codec_cfg;
+	codec_cfg.enable_prefix_compression = false;
+	codec_cfg.enable_delta_encoding     = false;
+	codec_cfg.enable_rle                = false;
+	codec_cfg.enable_dict_encoding      = false;
+	codec_cfg.enable_bloom_filter       = false;
+	compression_codec_ = std::make_unique<index::IndexCompressionCodec>(codec_cfg);
+}
+
+SecondaryIndexManager::SecondaryIndexManager(RocksDBWrapper& db, const Config& config)
+	: db_(db), compression_config_(config)
+{
+	index::IndexCompressionCodec::Config codec_cfg;
+	if (config.enable_compression) {
+		codec_cfg.enable_prefix_compression = config.enable_prefix_compression;
+		codec_cfg.enable_delta_encoding     = config.enable_delta_encoding;
+		codec_cfg.enable_rle                = config.enable_rle;
+		codec_cfg.enable_dict_encoding      = config.enable_dict_encoding;
+		codec_cfg.enable_bloom_filter       = config.enable_bloom_filter;
+		codec_cfg.algorithm                 = config.compression_algorithm;
+		codec_cfg.compression_level         = config.compression_level;
+	} else {
+		codec_cfg.enable_prefix_compression = false;
+		codec_cfg.enable_delta_encoding     = false;
+		codec_cfg.enable_rle                = false;
+		codec_cfg.enable_dict_encoding      = false;
+		codec_cfg.enable_bloom_filter       = false;
+	}
+	compression_codec_ = std::make_unique<index::IndexCompressionCodec>(codec_cfg);
+}
 
 // Phase 4: Set expression evaluator for advanced filtering
 void SecondaryIndexManager::setExpressionEvaluator(std::shared_ptr<IExpressionEvaluator> evaluator) {

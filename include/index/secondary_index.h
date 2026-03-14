@@ -27,6 +27,7 @@
 #pragma once
 
 #include "storage/rocksdb_wrapper.h"
+#include "index/index_compression.h"
 #include <string>
 #include <string_view>
 #include <vector>
@@ -37,6 +38,7 @@
 #include <unordered_map>
 #include <atomic>
 #include <cstdint>
+#include <memory>
 
 namespace themis {
 
@@ -63,7 +65,22 @@ public:
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
     };
 
+    /// Index compression configuration (v1.7.0).
+    struct Config {
+        bool enable_compression = false;
+        index::CompressionAlgorithm compression_algorithm = index::CompressionAlgorithm::NONE;
+        int  compression_level  = 3; ///< Algorithm-specific level (e.g. 1–22 for ZSTD)
+
+        // Fine-grained technique flags (all default to true when enable_compression is set)
+        bool enable_prefix_compression = true;
+        bool enable_delta_encoding     = true;
+        bool enable_rle                = true;
+        bool enable_dict_encoding      = true;
+        bool enable_bloom_filter       = true;
+    };
+
     explicit SecondaryIndexManager(RocksDBWrapper& db);
+    explicit SecondaryIndexManager(RocksDBWrapper& db, const Config& config);
     
     // Phase 4: Set optional expression evaluator for advanced filtering
     void setExpressionEvaluator(std::shared_ptr<IExpressionEvaluator> evaluator);
@@ -356,6 +373,12 @@ public:
     QueryMetrics& getQueryMetrics() { return query_metrics_; }
     const QueryMetrics& getQueryMetrics() const { return query_metrics_; }
 
+    // Index compression (v1.7.0)
+    const Config& getCompressionConfig() const { return compression_config_; }
+    index::IndexCompressionCodec& getCompressionCodec() { return *compression_codec_; }
+    const index::IndexCompressionCodec& getCompressionCodec() const { return *compression_codec_; }
+    bool isCompressionEnabled() const { return compression_config_.enable_compression; }
+
 private:
     RocksDBWrapper& db_;
     RebuildMetrics rebuild_metrics_;
@@ -366,6 +389,10 @@ private:
     
     // Phase 2: Optional SpatialIndexManager for atomic geo index updates
     index::SpatialIndexManager* spatial_index_mgr_ = nullptr;
+
+    // Index compression (v1.7.0)
+    Config compression_config_;
+    std::unique_ptr<index::IndexCompressionCodec> compression_codec_;
 
     // Meta-Key für vorhandene Indizes: idxmeta:<table>:<column>
     // Composite: idxmeta:<table>:col1+col2+col3

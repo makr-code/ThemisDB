@@ -1501,6 +1501,7 @@ set(THEMIS_CORE_SOURCES
     ../src/index/tiered_index_manager.cpp
     ../src/index/vector_auto_buffer.cpp
     ../src/index/gpu_memory_oversubscription.cpp
+    ../src/index/index_compression.cpp
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/gpu_vector_index.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/multi_gpu_vector_index.cpp>
     $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/index/gpu_vector_index_vulkan.cpp>
