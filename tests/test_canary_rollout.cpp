@@ -775,3 +775,456 @@ TEST_F(UpdatesConfigToCanaryConfigTest, DefaultStagesYieldFourStages) {
     EXPECT_EQ(runtime.stages.size(), 4u);
     EXPECT_DOUBLE_EQ(runtime.stages.back().percentage, 1.0);
 }
+
+// ===========================================================================
+// CanaryDeployment tests (Issue #4046)
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// Helper: build a configured CanaryDeployment ready for deploy()
+// ---------------------------------------------------------------------------
+static std::shared_ptr<StubHotReloadEngine> makeStubEngine(bool apply_ok = true) {
+    return std::make_shared<StubHotReloadEngine>(apply_ok);
+}
+
+static CanaryDeployment makeDeployment(
+        std::shared_ptr<HotReloadEngine> engine,
+        const std::string& version = "1.5.0",
+        const std::string& node_id = "deploy-node-full") {
+    CanaryDeployment d;
+    d.setVersion(version);
+    d.setNodeId(node_id);
+    d.setEngine(engine);
+    // Use a single 100% stage so the node is always included.
+    d.setStages({{.percentage = 100, .duration = std::chrono::seconds{0}}});
+    return d;
+}
+
+// ---------------------------------------------------------------------------
+// Construction / validation
+// ---------------------------------------------------------------------------
+
+class CanaryDeploymentConstructionTest : public ::testing::Test {};
+
+TEST_F(CanaryDeploymentConstructionTest, MissingVersion_ThrowsOnDeploy) {
+    auto engine = makeStubEngine();
+    CanaryDeployment d;
+    d.setNodeId("node");
+    d.setEngine(engine);
+    d.setStages({{.percentage = 100, .duration = std::chrono::seconds{0}}});
+    EXPECT_THROW(d.deploy(), std::invalid_argument);
+}
+
+TEST_F(CanaryDeploymentConstructionTest, MissingNodeId_ThrowsOnDeploy) {
+    auto engine = makeStubEngine();
+    CanaryDeployment d;
+    d.setVersion("1.5.0");
+    d.setEngine(engine);
+    d.setStages({{.percentage = 100, .duration = std::chrono::seconds{0}}});
+    EXPECT_THROW(d.deploy(), std::invalid_argument);
+}
+
+TEST_F(CanaryDeploymentConstructionTest, MissingEngine_ThrowsOnDeploy) {
+    CanaryDeployment d;
+    d.setVersion("1.5.0");
+    d.setNodeId("node");
+    d.setStages({{.percentage = 100, .duration = std::chrono::seconds{0}}});
+    EXPECT_THROW(d.deploy(), std::invalid_argument);
+}
+
+TEST_F(CanaryDeploymentConstructionTest, MissingStages_ThrowsOnDeploy) {
+    auto engine = makeStubEngine();
+    CanaryDeployment d;
+    d.setVersion("1.5.0");
+    d.setNodeId("node");
+    d.setEngine(engine);
+    EXPECT_THROW(d.deploy(), std::invalid_argument);
+}
+
+TEST_F(CanaryDeploymentConstructionTest, ValidConfig_DeploySucceeds) {
+    auto engine = makeStubEngine();
+    auto d = makeDeployment(engine);
+    EXPECT_NO_THROW({
+        auto result = d.deploy();
+        EXPECT_TRUE(result.success);
+    });
+}
+
+// ---------------------------------------------------------------------------
+// Progressive rollout – stage management via CanaryDeployment
+// ---------------------------------------------------------------------------
+
+class CanaryDeploymentStageTest : public ::testing::Test {};
+
+TEST_F(CanaryDeploymentStageTest, FourDefaultStages_AreConvertedCorrectly) {
+    auto engine = makeStubEngine();
+    CanaryDeployment d;
+    d.setVersion("1.5.0");
+    d.setNodeId("node-full");
+    d.setEngine(engine);
+    d.setStages({
+        {.percentage = 1,   .duration = std::chrono::hours(1)},
+        {.percentage = 5,   .duration = std::chrono::hours(2)},
+        {.percentage = 25,  .duration = std::chrono::hours(6)},
+        {.percentage = 100, .duration = std::chrono::hours(0)},
+    });
+    d.deploy();
+    auto s = d.status();
+    EXPECT_EQ(s.total_stages, 4u);
+    EXPECT_EQ(s.current_stage, 0u);
+}
+
+TEST_F(CanaryDeploymentStageTest, AdvanceStage_IncrementsCurrentStage) {
+    auto engine = makeStubEngine();
+    auto d = makeDeployment(engine);
+    // Use two stages so we can advance
+    d.setStages({
+        {.percentage = 50,  .duration = std::chrono::seconds{0}},
+        {.percentage = 100, .duration = std::chrono::seconds{0}},
+    });
+    d.deploy();
+    EXPECT_EQ(d.status().current_stage, 0u);
+    EXPECT_TRUE(d.advanceStage());
+    EXPECT_EQ(d.status().current_stage, 1u);
+}
+
+TEST_F(CanaryDeploymentStageTest, StageCompleteCallback_IsCalled) {
+    auto engine = makeStubEngine();
+    CanaryDeployment d;
+    d.setVersion("1.5.0");
+    d.setNodeId("node-full");
+    d.setEngine(engine);
+    d.setStages({
+        {.percentage = 100, .duration = std::chrono::seconds{0}},
+        {.percentage = 100, .duration = std::chrono::seconds{0}},
+    });
+
+    int cb_count = 0;
+    d.onStageComplete([&](const CanaryDeploymentStage& stage) {
+        (void)stage;
+        ++cb_count;
+    });
+    d.deploy();
+    d.advanceStage();
+
+    EXPECT_EQ(cb_count, 1);
+}
+
+TEST_F(CanaryDeploymentStageTest, StageCompleteCallback_ReceivesStageNumber) {
+    auto engine = makeStubEngine();
+    CanaryDeployment d;
+    d.setVersion("1.5.0");
+    d.setNodeId("node-full");
+    d.setEngine(engine);
+    d.setStages({
+        {.percentage = 100, .duration = std::chrono::seconds{0}},
+        {.percentage = 100, .duration = std::chrono::seconds{0}},
+    });
+
+    size_t reported_stage = 999;
+    int    reported_pct   = -1;
+    d.onStageComplete([&](const CanaryDeploymentStage& stage) {
+        reported_stage = stage.stage_number;
+        reported_pct   = stage.percentage;
+    });
+    d.deploy();
+    d.advanceStage();
+
+    EXPECT_EQ(reported_stage, 0u);
+    EXPECT_EQ(reported_pct, 100);
+}
+
+// ---------------------------------------------------------------------------
+// Rollback via CanaryDeployment
+// ---------------------------------------------------------------------------
+
+class CanaryDeploymentRollbackTest : public ::testing::Test {};
+
+TEST_F(CanaryDeploymentRollbackTest, ManualRollback_SetsFlag) {
+    auto engine = makeStubEngine();
+    auto d = makeDeployment(engine);
+    d.deploy();
+    EXPECT_TRUE(d.rollback("test reason"));
+    EXPECT_TRUE(d.status().is_rolled_back);
+}
+
+TEST_F(CanaryDeploymentRollbackTest, RollbackCallback_IsCalled) {
+    auto engine = makeStubEngine();
+    auto d = makeDeployment(engine);
+    std::string received_reason;
+    d.onRollback([&](const std::string& reason) {
+        received_reason = reason;
+    });
+    d.deploy();
+    d.rollback("disk full");
+
+    EXPECT_EQ(received_reason, "disk full");
+}
+
+TEST_F(CanaryDeploymentRollbackTest, ErrorRateThreshold_TriggersAutoRollback) {
+    auto engine = makeStubEngine();
+    CanaryDeployment d;
+    d.setVersion("1.5.0");
+    d.setNodeId("node-full");
+    d.setEngine(engine);
+    d.setStages({{.percentage = 100, .duration = std::chrono::seconds{0}}});
+    d.setErrorRateThreshold(0.05);
+    d.deploy();
+
+    bool rb_fired = false;
+    d.onRollback([&](const std::string&) { rb_fired = true; });
+
+    // Trigger rollback via underlying CanaryRollout.
+    // Send 20 successes + 3 errors (~13% error rate > 5% threshold).
+    // min_sample_count defaults to 20, so 23 events satisfies the minimum.
+    for (int i = 0; i < 20; ++i) d.reportSuccess();
+    for (int i = 0; i < 3; ++i)  d.reportError();
+
+    EXPECT_TRUE(rb_fired);
+    EXPECT_TRUE(d.status().is_rolled_back);
+}
+
+// ---------------------------------------------------------------------------
+// Metrics – latency (p50 / p95 / p99)
+// ---------------------------------------------------------------------------
+
+class CanaryDeploymentMetricsTest : public ::testing::Test {
+protected:
+    std::shared_ptr<StubHotReloadEngine> engine_ = makeStubEngine();
+};
+
+TEST_F(CanaryDeploymentMetricsTest, InitialMetrics_AreZero) {
+    auto d = makeDeployment(engine_);
+    d.deploy();
+    auto snap = d.getMetricsSnapshot();
+    EXPECT_EQ(snap.latency.sample_count, 0u);
+    EXPECT_EQ(snap.latency.p50.count(), 0);
+    EXPECT_EQ(snap.latency.p99.count(), 0);
+    EXPECT_DOUBLE_EQ(snap.memory_bytes, 0.0);
+    EXPECT_DOUBLE_EQ(snap.cpu_fraction, 0.0);
+    EXPECT_DOUBLE_EQ(snap.disk_io_bytes_per_sec, 0.0);
+}
+
+TEST_F(CanaryDeploymentMetricsTest, LatencyPercentiles_ComputedCorrectly) {
+    auto d = makeDeployment(engine_);
+    d.deploy();
+
+    // Insert 100 samples: 1us … 100us (uniform distribution)
+    for (int i = 1; i <= 100; ++i) {
+        d.reportLatency(std::chrono::microseconds{i});
+    }
+
+    // With nearest-rank method on 100 uniform samples 1..100:
+    //   p50 → ceil(0.50 * 100) = 50 → sorted[49] = 50
+    //   p95 → ceil(0.95 * 100) = 95 → sorted[94] = 95
+    //   p99 → ceil(0.99 * 100) = 99 → sorted[98] = 99
+    auto snap = d.getMetricsSnapshot();
+    EXPECT_EQ(snap.latency.sample_count, 100u);
+    EXPECT_EQ(snap.latency.p50.count(), 50);
+    EXPECT_EQ(snap.latency.p95.count(), 95);
+    EXPECT_EQ(snap.latency.p99.count(), 99);
+}
+
+TEST_F(CanaryDeploymentMetricsTest, LatencyThreshold_TriggersRollback) {
+    auto d = makeDeployment(engine_);
+    d.setLatencyThreshold(std::chrono::milliseconds{10});  // 10 ms = 10 000 us
+    d.deploy();
+
+    // Feed 100 samples all at 20 ms (p99 = 20 ms > 10 ms threshold)
+    for (int i = 0; i < 100; ++i) {
+        d.reportLatency(std::chrono::microseconds{20000});
+    }
+
+    EXPECT_TRUE(d.status().is_rolled_back);
+}
+
+TEST_F(CanaryDeploymentMetricsTest, LatencyThreshold_NotTriggeredWhenBelowLimit) {
+    auto d = makeDeployment(engine_);
+    d.setLatencyThreshold(std::chrono::milliseconds{100});  // 100 ms
+    d.deploy();
+
+    // Feed 100 samples all at 5 ms (p99 = 5 ms < 100 ms threshold)
+    for (int i = 0; i < 100; ++i) {
+        d.reportLatency(std::chrono::microseconds{5000});
+    }
+
+    EXPECT_FALSE(d.status().is_rolled_back);
+}
+
+TEST_F(CanaryDeploymentMetricsTest, MemoryUsage_Stored) {
+    auto d = makeDeployment(engine_);
+    d.deploy();
+    d.reportMemoryUsage(1024.0 * 1024.0);
+    EXPECT_DOUBLE_EQ(d.getMetricsSnapshot().memory_bytes, 1024.0 * 1024.0);
+}
+
+TEST_F(CanaryDeploymentMetricsTest, CpuUsage_Stored) {
+    auto d = makeDeployment(engine_);
+    d.deploy();
+    d.reportCpuUsage(0.75);
+    EXPECT_DOUBLE_EQ(d.getMetricsSnapshot().cpu_fraction, 0.75);
+}
+
+TEST_F(CanaryDeploymentMetricsTest, DiskIO_Stored) {
+    auto d = makeDeployment(engine_);
+    d.deploy();
+    d.reportDiskIO(512.0 * 1024.0);
+    EXPECT_DOUBLE_EQ(d.getMetricsSnapshot().disk_io_bytes_per_sec, 512.0 * 1024.0);
+}
+
+// ---------------------------------------------------------------------------
+// Custom metrics
+// ---------------------------------------------------------------------------
+
+class CanaryDeploymentCustomMetricsTest : public ::testing::Test {
+protected:
+    std::shared_ptr<StubHotReloadEngine> engine_ = makeStubEngine();
+};
+
+TEST_F(CanaryDeploymentCustomMetricsTest, RecordCustomMetric_StoredInSnapshot) {
+    auto d = makeDeployment(engine_);
+    d.deploy();
+    d.recordCustomMetric("query_errors", 42.0);
+    auto snap = d.getMetricsSnapshot();
+    ASSERT_TRUE(snap.custom_metrics.count("query_errors") > 0);
+    EXPECT_DOUBLE_EQ(snap.custom_metrics.at("query_errors"), 42.0);
+}
+
+TEST_F(CanaryDeploymentCustomMetricsTest, MultipleCustomMetrics_AllStored) {
+    auto d = makeDeployment(engine_);
+    d.deploy();
+    d.recordCustomMetric("query_errors", 5.0);
+    d.recordCustomMetric("transaction_failures", 2.0);
+    d.recordCustomMetric("http_5xx_rate", 0.03);
+
+    auto snap = d.getMetricsSnapshot();
+    EXPECT_DOUBLE_EQ(snap.custom_metrics.at("query_errors"), 5.0);
+    EXPECT_DOUBLE_EQ(snap.custom_metrics.at("transaction_failures"), 2.0);
+    EXPECT_DOUBLE_EQ(snap.custom_metrics.at("http_5xx_rate"), 0.03);
+}
+
+TEST_F(CanaryDeploymentCustomMetricsTest, OverwriteCustomMetric_UpdatesValue) {
+    auto d = makeDeployment(engine_);
+    d.deploy();
+    d.recordCustomMetric("query_errors", 1.0);
+    d.recordCustomMetric("query_errors", 99.0);
+    EXPECT_DOUBLE_EQ(d.getMetricsSnapshot().custom_metrics.at("query_errors"), 99.0);
+}
+
+// ---------------------------------------------------------------------------
+// A/B testing and traffic splitting
+// ---------------------------------------------------------------------------
+
+class CanaryDeploymentABTestTest : public ::testing::Test {
+protected:
+    std::shared_ptr<StubHotReloadEngine> engine_ = makeStubEngine();
+};
+
+TEST_F(CanaryDeploymentABTestTest, ABTestingDisabled_IsCanaryRequestReturnsFalse) {
+    auto d = makeDeployment(engine_);
+    d.deploy();
+    EXPECT_FALSE(d.isCanaryRequest("any-request-id"));
+}
+
+TEST_F(CanaryDeploymentABTestTest, ABTestingEnabled_RequestsAreSplit) {
+    auto d = makeDeployment(engine_);
+    d.deploy();
+
+    ABTestConfig ab;
+    ab.canary_fraction = 0.10;  // 10% to canary
+    ab.experiment_id = "exp-001";
+    d.enableABTesting(ab);
+
+    // Generate 10 000 request IDs and count how many go to canary.
+    int canary_count = 0;
+    for (int i = 0; i < 10000; ++i) {
+        if (d.isCanaryRequest("req-" + std::to_string(i))) {
+            ++canary_count;
+        }
+    }
+    // Expect approximately 10% ± 2% (tight bounds: 99.9% CI for Binomial(n=10000, p=0.10))
+    EXPECT_GT(canary_count, 800)  << "Too few canary requests";
+    EXPECT_LT(canary_count, 1200) << "Too many canary requests";
+}
+
+TEST_F(CanaryDeploymentABTestTest, IsControlRequest_IsComplementOfIsCanary) {
+    auto d = makeDeployment(engine_);
+    d.deploy();
+
+    ABTestConfig ab;
+    ab.canary_fraction = 0.5;
+    ab.experiment_id = "exp-002";
+    d.enableABTesting(ab);
+
+    // For every request_id, isCanary and isControl must be complements.
+    for (int i = 0; i < 100; ++i) {
+        const std::string req = "r-" + std::to_string(i);
+        EXPECT_NE(d.isCanaryRequest(req), d.isControlRequest(req))
+            << "isCanaryRequest and isControlRequest must be complements for " << req;
+    }
+}
+
+TEST_F(CanaryDeploymentABTestTest, ABTesting_IsDeterministic) {
+    auto d = makeDeployment(engine_);
+    d.deploy();
+
+    ABTestConfig ab;
+    ab.canary_fraction = 0.3;
+    ab.experiment_id = "determinism-test";
+    d.enableABTesting(ab);
+
+    // Same request_id must always land in the same bucket.
+    const std::string req = "stable-request-42";
+    bool first_result = d.isCanaryRequest(req);
+    for (int i = 0; i < 100; ++i) {
+        EXPECT_EQ(d.isCanaryRequest(req), first_result);
+    }
+}
+
+TEST_F(CanaryDeploymentABTestTest, IsNodeInCanaryGroup_TrueAfterDeploy) {
+    // Use a 100% stage so the node is always in the canary group.
+    auto d = makeDeployment(engine_);
+    d.deploy();
+    EXPECT_TRUE(d.isNodeInCanaryGroup());
+}
+
+TEST_F(CanaryDeploymentABTestTest, IsNodeInCanaryGroup_FalseBeforeDeploy) {
+    auto d = makeDeployment(engine_);
+    // Not deployed yet
+    EXPECT_FALSE(d.isNodeInCanaryGroup());
+}
+
+// ---------------------------------------------------------------------------
+// LatencyThresholdExceeded flag in snapshot
+// ---------------------------------------------------------------------------
+
+TEST(CanaryDeploymentSnapshotTest, LatencyThresholdFlag_SetWhenExceeded) {
+    auto engine = makeStubEngine();
+    auto d = makeDeployment(engine);
+    d.setLatencyThreshold(std::chrono::milliseconds{1});  // 1 ms threshold
+    d.deploy();
+
+    // Feed samples above threshold (10 ms each)
+    for (int i = 0; i < 100; ++i) {
+        d.reportLatency(std::chrono::microseconds{10000});
+    }
+
+    // Note: rollback may have been triggered, but the snapshot's
+    // latency_threshold_exceeded flag should reflect the breach.
+    auto snap = d.getMetricsSnapshot();
+    EXPECT_TRUE(snap.latency_threshold_exceeded);
+}
+
+TEST(CanaryDeploymentSnapshotTest, LatencyThresholdFlag_ClearWhenNotExceeded) {
+    auto engine = makeStubEngine();
+    auto d = makeDeployment(engine);
+    d.setLatencyThreshold(std::chrono::milliseconds{100});  // 100 ms threshold
+    d.deploy();
+
+    // Feed samples well below threshold (500 us each)
+    for (int i = 0; i < 50; ++i) {
+        d.reportLatency(std::chrono::microseconds{500});
+    }
+
+    EXPECT_FALSE(d.getMetricsSnapshot().latency_threshold_exceeded);
+}
