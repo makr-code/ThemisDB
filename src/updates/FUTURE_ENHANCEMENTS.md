@@ -270,19 +270,20 @@ if (delta) {
 
 ---
 
-### Automatic Schema Migration Framework
+### Automatic Schema Migration Framework ✅ IMPLEMENTED (v1.7.0)
 **Priority:** High  
-**Target Version:** v1.7.0
+**Target Version:** v1.7.0  
+**Status:** ✅ Released — `include/updates/schema_migration.h`, `src/updates/schema_migration.cpp`
 
 Automated schema migration with online DDL (zero-downtime schema changes).
 
 **Features:**
-- Schema versioning and tracking
-- Online DDL (background schema changes)
-- Automatic backfill for new columns
-- Index rebuilding without downtime
-- Dual-write during migration
-- Rollback capability for schema changes
+- ✅ Schema versioning and tracking
+- ✅ Online DDL (background schema changes)
+- ✅ Automatic backfill for new columns
+- ✅ Index rebuilding without downtime
+- ✅ Dual-write during migration
+- ✅ Rollback capability for schema changes
 
 **Migration DSL:**
 ```cpp
@@ -352,9 +353,10 @@ if (!migration_result.success) {
 
 ---
 
-### Canary Deployments
+### Canary Deployments ✅ IMPLEMENTED (v1.7.0)
 **Priority:** Medium  
-**Target Version:** v1.7.0
+**Target Version:** v1.7.0  
+**Status:** ✅ Released — `include/updates/canary_rollout.h`, `src/updates/canary_rollout.cpp`
 
 Gradual rollout of updates with automatic rollback on errors.
 
@@ -378,14 +380,14 @@ canary.setStages({
 
 // Set monitoring thresholds
 canary.setErrorRateThreshold(0.05);  // 5% error rate
-canary.setLatencyThreshold(500ms);    // 500ms p99 latency
+canary.setLatencyThreshold(std::chrono::milliseconds(500));  // 500ms p99 latency
 
 // Start canary deployment
 auto result = canary.deploy();
 
 // Monitor progress
-canary.onStageComplete([](const CanaryStage& stage) {
-    LOG_INFO("Stage {} complete: {}% of nodes updated", 
+canary.onStageComplete([](const CanaryDeploymentStage& stage) {
+    LOG_INFO("Stage {} complete: {}% of nodes updated",
              stage.stage_number, stage.percentage);
 });
 

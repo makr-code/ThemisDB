@@ -371,6 +371,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/updates/dependency_resolver.cpp
     ../src/updates/schema_migration_tester.cpp
     ../src/updates/in_place_schema_migrator.cpp
+    ../src/updates/schema_migration.cpp
     ../src/updates/notification_webhook.cpp
     ../src/updates/blue_green_deployment.cpp
     ../src/updates/coordinated_update_manager.cpp
@@ -440,6 +441,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
     ../src/query/adaptive_optimizer.cpp
+    ../src/query/adaptive_join.cpp
     ../src/query/runtime_reoptimizer.cpp
     ../src/query/optimizer_cost_model.cpp
     ../src/query/aql_parser.cpp
@@ -764,6 +766,7 @@ set(THEMIS_TRANSACTION_SOURCES
     ../src/replication/replication_slot.cpp
     ../src/replication/raft_v2.cpp
     ../src/replication/schema_cdc.cpp
+    ../src/replication/logical_replication.cpp
     
 )
 
@@ -1944,4 +1947,3 @@ function(themis_build_modular)
     
     set(THEMIS_ALL_MODULES ${THEMIS_ALL_MODULES} PARENT_SCOPE)
 endfunction()
-

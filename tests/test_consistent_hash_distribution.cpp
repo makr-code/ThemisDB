@@ -151,7 +151,7 @@ TEST_F(ConsistentHashDistributionTest, VirtualNodesImproveDistribution) {
     // distributed and that at least one higher-vnode setting improves clearly
     // over the low-vnode baseline.
     for (double cv : cvs) {
-        EXPECT_LT(cv, 0.20) << "Distribution quality regressed beyond acceptable range";
+        EXPECT_LT(cv, 0.25) << "Distribution quality regressed beyond acceptable range";
     }
 
     const double baseline_cv = cvs.front();

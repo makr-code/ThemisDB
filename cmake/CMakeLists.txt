@@ -1441,6 +1441,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/transaction_retry_manager.cpp
     ../src/storage/compaction_manager.cpp
     ../src/storage/merge_operators.cpp
+    ../src/storage/wom_tree.cpp
     ../src/storage/compressed_storage.cpp
     ../src/storage/compression_strategy.cpp
     ../src/storage/gpu_compression.cpp
@@ -1548,6 +1549,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
     ../src/query/adaptive_optimizer.cpp
+    ../src/query/adaptive_join.cpp
     ../src/query/runtime_reoptimizer.cpp
     ../src/graph/graph_query_optimizer.cpp
     ../src/graph/path_constraints.cpp
@@ -1904,6 +1906,7 @@ set(THEMIS_CORE_SOURCES
     ../src/updates/dependency_resolver.cpp
     ../src/updates/schema_migration_tester.cpp
     ../src/updates/in_place_schema_migrator.cpp
+    ../src/updates/schema_migration.cpp
     ../src/updates/update_history_logger.cpp
     ../src/updates/notification_webhook.cpp
     ../src/updates/blue_green_deployment.cpp

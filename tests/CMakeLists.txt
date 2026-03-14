@@ -116,6 +116,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_data_loader\\.cpp$"
         ".*test_directx_backend\\.cpp$"
         ".*test_docs_assistant_aql\\.cpp$"
+        ".*test_classify_bridge_integration\\.cpp$"
         ".*test_aql_lora_finetuner\\.cpp$"
         ".*test_aql_agent\\.cpp$"
         ".*test_nl_to_aql_translation\\.cpp$"
@@ -1189,12 +1190,15 @@ target_link_libraries(themis_tests PRIVATE
     RocksDB::rocksdb
     OpenSSL::SSL
     OpenSSL::Crypto
-    $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
     $<$<TARGET_EXISTS:protobuf::libprotobuf>:protobuf::libprotobuf>
-    $<$<BOOL:${CURL_FOUND}>:$<IF:$<TARGET_EXISTS:CURL::libcurl>,CURL::libcurl,${CURL_LIBRARIES}>>
-    protobuf::libprotobuf
     Threads::Threads
 )
+
+if(TARGET CURL::libcurl)
+    target_link_libraries(themis_tests PRIVATE CURL::libcurl)
+elseif(CURL_FOUND AND CURL_LIBRARIES)
+    target_link_libraries(themis_tests PRIVATE ${CURL_LIBRARIES})
+endif()
 
 if(TARGET prometheus-cpp::core)
     target_link_libraries(themis_tests PRIVATE prometheus-cpp::core)
@@ -2587,6 +2591,37 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_replication_new_features.cpp")
     message(STATUS "  Replication New Features: observer lag/topology, ThreeWayMerge, FieldLevelMerge, EventStream, slots")
 else()
     message(STATUS "Replication New Features tests not found")
+endif()
+
+# ============================================================================
+# Logical Replication Tests (v1.7.0 – schema-aware, filters, initial sync)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_logical_replication.cpp")
+    message(STATUS "Adding Logical Replication tests")
+
+    add_executable(test_logical_replication
+        test_logical_replication.cpp
+    )
+
+    target_link_libraries(test_logical_replication PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_logical_replication PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME LogicalReplicationTests COMMAND test_logical_replication)
+
+    set_tests_properties(LogicalReplicationTests PROPERTIES
+        LABELS "replication;logical;schema;filters;unit"
+        TIMEOUT 60
+    )
+else()
+    message(STATUS "Logical Replication tests not found")
 endif()
 
 # ============================================================================
@@ -13036,6 +13071,15 @@ else()
     message(STATUS "Binary Delta Patches focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_binary_delta_patches.cpp")
 endif()
 
+# AutomaticSchemaMigration – focused tests for SchemaMigration (v1.7.0, Issue #127)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_automatic_schema_migration.cpp" AND NOT TARGET test_automatic_schema_migration_focused)
+    message(STATUS "Adding Automatic Schema Migration focused tests (Issue #127)")
+
+    add_executable(test_automatic_schema_migration_focused
+        test_automatic_schema_migration.cpp
+    )
+
+    target_include_directories(test_automatic_schema_migration_focused PRIVATE
 # DistributedClusterUpdates – focused tests for ClusterUpdateManager (v1.7.0, Issue #125)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cluster_updates.cpp" AND NOT TARGET test_distributed_cluster_updates_focused)
     message(STATUS "Adding Distributed Cluster Updates focused tests (Issue #125)")
@@ -13049,6 +13093,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cluster_updates.cpp" AND
         ${THEMIS_ROOT_DIR}/src
     )
 
+    target_link_libraries(test_automatic_schema_migration_focused PRIVATE
     target_link_libraries(test_distributed_cluster_updates_focused PRIVATE
         ${TEST_LIBS}
         themis_core
@@ -13056,6 +13101,20 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cluster_updates.cpp" AND
         Threads::Threads
     )
 
+    target_compile_definitions(test_automatic_schema_migration_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AutomaticSchemaMigrationFocusedTests COMMAND test_automatic_schema_migration_focused)
+
+    set_tests_properties(AutomaticSchemaMigrationFocusedTests PROPERTIES
+        LABELS "updates;schema;migration;online-ddl;backfill;rollback;dual-write;focused;unit;integration"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  AutomaticSchemaMigration: schema versioning, online DDL, backfill, index rebuild, dual-write, rollback")
+else()
+    message(STATUS "Automatic Schema Migration focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_automatic_schema_migration.cpp")
     target_compile_definitions(test_distributed_cluster_updates_focused PRIVATE
         THEMIS_TEST_BUILD=1
     )
@@ -13645,6 +13704,17 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_storage_audit_logger.cpp")
     message(STATUS "  StorageAuditLogger: write, read, rotate, tamper detection")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_wom_tree.cpp")
+    message(STATUS "Adding Storage: WomTree focused tests")
+    add_executable(test_wom_tree_focused test_wom_tree.cpp)
+    target_include_directories(test_wom_tree_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_wom_tree_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_wom_tree_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME WomTreeFocusedTests COMMAND test_wom_tree_focused)
+    set_tests_properties(WomTreeFocusedTests PROPERTIES LABELS "storage;wom;write-optimized;focused;unit" TIMEOUT 60)
+    message(STATUS "  WomTree: put/get/remove, update-heavy workload, lazy flush, write amplification, thread safety")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_storage_engine_di.cpp")
     message(STATUS "Adding Storage: StorageEngineDI focused tests")
     add_executable(test_storage_engine_di_focused test_storage_engine_di.cpp)
@@ -13846,6 +13916,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_consistent_hash_distribution.cpp")
     add_test(NAME ConsistentHashDistributionFocusedTests COMMAND test_consistent_hash_distribution_focused)
     set_tests_properties(ConsistentHashDistributionFocusedTests PROPERTIES LABELS "sharding;distribution;hash;focused;unit" TIMEOUT 90)
     message(STATUS "  ConsistentHashDistribution: strict distribution and migration checks")
+endif()
+
 # ── RS Repair Engine Parallelisation focused tests (v1.6.0 Issue #204) ──────
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_repair.cpp")
     message(STATUS "Adding Sharding: RS Repair Engine Parallelisation focused tests")
@@ -14096,6 +14168,49 @@ set_tests_properties(AdaptiveShardRebalancerFocusedTests PROPERTIES
     LABELS "sharding;rebalancer;split;load-detection;forecasting;live-migration;v1.7.0;unit"
     TIMEOUT 120
 )
+# Query Module – Adaptive Join Strategies Focused Tests (v1.7.0, Issue #91)
+# Validates all five acceptance criteria:
+#   AC-1  Hash Join: default for large equi-joins
+#   AC-2  Merge Join: both inputs sorted on join key
+#   AC-3  Nested Loop: left side < 1 000 rows
+#   AC-4  Index Nested Loop: right has index, left < 10 000 rows
+#   AC-5  Grace Hash: memory budget exceeded
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_join_strategies.cpp")
+    message(STATUS "Adding Query: AdaptiveJoinStrategies focused tests (v1.7.0, Issue #91)")
+
+    add_executable(test_adaptive_join_strategies_focused
+        test_adaptive_join_strategies.cpp
+        ${THEMIS_ROOT_DIR}/src/query/adaptive_join.cpp
+    )
+
+    target_include_directories(test_adaptive_join_strategies_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_adaptive_join_strategies_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_adaptive_join_strategies_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AdaptiveJoinStrategiesFocusedTests
+        COMMAND test_adaptive_join_strategies_focused)
+
+    set_tests_properties(AdaptiveJoinStrategiesFocusedTests PROPERTIES
+        LABELS "query;join;adaptive;hash-join;merge-join;nested-loop;index-nested-loop;grace-hash;v1.7.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  AdaptiveJoinExecutor: selectAlgorithm, executeJoin, estimateJoinCost, all AC-1..AC-5")
+else()
+    message(STATUS "AdaptiveJoinStrategies focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_join_strategies.cpp")
 # Runtime Device Capability Negotiation – focused tests (Issue #37, v1.7.0)
 #
 # Validates all acceptance criteria:
