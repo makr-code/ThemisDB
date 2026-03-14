@@ -2436,6 +2436,41 @@ else()
     message(STATUS "Multi-Region Active-Active tests not found")
 endif()
 
+# ============================================================================
+# Geo-Replication with Consistency Levels Tests (v1.7.0)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_geo_replication_consistency.cpp")
+    message(STATUS "Adding Geo-Replication Consistency tests")
+
+    add_executable(test_geo_replication_consistency
+        test_geo_replication_consistency.cpp
+    )
+
+    target_link_libraries(test_geo_replication_consistency PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_geo_replication_consistency PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GeoReplicationConsistencyFocusedTests
+             COMMAND test_geo_replication_consistency)
+
+    set_tests_properties(GeoReplicationConsistencyFocusedTests PROPERTIES
+        LABELS "replication;geo-replication;consistency-levels;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Geo-Replication: STRONG/BOUNDED_STALENESS/SESSION/EVENTUAL, routing, session tokens")
+else()
+    message(STATUS "Geo-Replication Consistency tests not found")
+endif()
+
 # Replication HA Focused Tests (Phase 1-3 production-readiness)
 # Covers: config validation, WAL checksum, LWW/CRDT resolvers, quorum-based
 # leader election, thread-safe replica list, error handling, witness nodes.
