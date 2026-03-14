@@ -29,6 +29,7 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 - [x] Adaptive query re-optimization on runtime statistics – `adaptive_optimizer.cpp`, `runtime_reoptimizer.cpp` (Issue: #2232)
 - [x] Multi-statement transaction AQL (BEGIN/COMMIT in query) – `aql_parser.cpp` (Issue: #2435)
 - [x] `QueryExpressionEvaluator` – delegates to AQL parser + `evaluateCondition()`; `get_expression_type()` returns `"AQL"`
+- [x] Query plan caching – `plan_cache.h/cpp` (fingerprinting, parameterized reuse, table/stats invalidation, 24h TTL) (Issue: #196)
 
 ## In Progress 🚧
 *(none currently in progress)*

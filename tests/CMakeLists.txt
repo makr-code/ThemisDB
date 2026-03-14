@@ -13517,6 +13517,43 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_query_plan_visualizer.cpp")
     message(STATUS "  QueryPlanVisualizer: EXPLAIN, EXPLAIN ANALYZE, JSON/text output")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_query_plan_caching.cpp")
+    message(STATUS "Adding Query Plan Caching focused tests (v1.7.0, Issue #196)")
+
+    add_executable(test_query_plan_caching_focused
+        test_query_plan_caching.cpp
+    )
+
+    target_include_directories(test_query_plan_caching_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_query_plan_caching_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+        OpenSSL::Crypto
+    )
+
+    target_compile_definitions(test_query_plan_caching_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME QueryPlanCachingFocusedTests
+        COMMAND test_query_plan_caching_focused)
+
+    set_tests_properties(QueryPlanCachingFocusedTests PROPERTIES
+        LABELS "query;plan-cache;fingerprint;invalidation;statistics;v1.7.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PlanCache: fingerprinting, parameterized reuse, table invalidation, stats drift, LRU eviction, 24h TTL")
+else()
+    message(STATUS "Query Plan Caching tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_query_plan_caching.cpp")
+endif()
+
 # ============================================================================
 # Storage Module Focused Tests
 # ============================================================================
@@ -13733,6 +13770,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_consistent_hash_distribution.cpp")
     add_test(NAME ConsistentHashDistributionFocusedTests COMMAND test_consistent_hash_distribution_focused)
     set_tests_properties(ConsistentHashDistributionFocusedTests PROPERTIES LABELS "sharding;distribution;hash;focused;unit" TIMEOUT 90)
     message(STATUS "  ConsistentHashDistribution: strict distribution and migration checks")
+endif()
 # ── RS Repair Engine Parallelisation focused tests (v1.6.0 Issue #204) ──────
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_repair.cpp")
     message(STATUS "Adding Sharding: RS Repair Engine Parallelisation focused tests")

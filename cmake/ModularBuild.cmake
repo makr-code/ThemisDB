@@ -461,6 +461,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/vectorized_execution.cpp
     ../src/query/query_canceller.cpp
     ../src/query/query_federation.cpp
+    ../src/query/plan_cache.cpp
     # Vectorized Execution Engine – column-store style batch processing (Issue #2434)
     ../src/query/vectorized_execution.cpp
     ../src/query/sparql_parser.cpp
