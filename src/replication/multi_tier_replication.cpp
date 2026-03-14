@@ -44,7 +44,7 @@ namespace {
  *
  * These represent the recommended settings for each tier:
  *
- *   TIER_1_CRITICAL  – 3 replicas, SYNC, 10 ms SLA, 99.9% availability
+ *   TIER_1_CRITICAL  – 3 replicas, SYNC, 10 ms SLA, 99% availability
  *   TIER_2_STANDARD  – 2 replicas, SEMI_SYNC, 50 ms SLA, 99% availability
  *   TIER_3_ARCHIVAL  – 1 replica,  ASYNC,   no SLA,  90% availability
  */
@@ -56,7 +56,7 @@ TierConfig builtinTierConfig(ReplicationTier tier) {
         cfg.replica_count        = 3;
         cfg.mode                 = ReplicationMode::SYNC;
         cfg.max_latency_ms       = 10;
-        cfg.min_availability_pct = 99; // 99.9% rounded to uint
+        cfg.min_availability_pct = 99;
         return cfg;
     }
     case ReplicationTier::TIER_2_STANDARD: {
@@ -179,8 +179,9 @@ TierConfig MultiTierReplicationManager::getDefaultTierConfig(
 
 void MultiTierReplicationManager::enableAutoTiering(bool enabled)
 {
+    // Only update the atomic flag; config_ fields are immutable after construction
+    // to avoid data races with concurrent readers.
     auto_tiering_.store(enabled);
-    config_.auto_tiering_enabled = enabled;
     THEMIS_INFO("MultiTierReplicationManager: auto-tiering {}",
                 enabled ? "enabled" : "disabled");
 }
@@ -204,6 +205,8 @@ void MultiTierReplicationManager::recordAccess(const std::string& collection)
     // must NOT hold stats_mutex_ while calling it.
     ReplicationTier tier = getTier(collection);
 
+    const auto now = std::chrono::system_clock::now();
+
     std::unique_lock<std::shared_mutex> lk(stats_mutex_);
     auto& stats = access_stats_[collection];
     if (stats.collection.empty()) {
@@ -211,12 +214,16 @@ void MultiTierReplicationManager::recordAccess(const std::string& collection)
         stats.current_tier = tier;
     }
     stats.total_accesses++;
-    stats.recent_accesses++;
+    stats.access_timestamps.push_back(now);
 }
 
 ReplicationTier MultiTierReplicationManager::evaluateTierPromotion(
     const std::string& collection)
 {
+    if (collection.empty()) {
+        return config_.default_tier;
+    }
+
     if (!auto_tiering_.load()) {
         return getTier(collection);
     }
@@ -309,10 +316,21 @@ MultiTierReplicationManager::getCollectionsForTier(ReplicationTier tier) const
 void MultiTierReplicationManager::refreshAccessRate(
     CollectionAccessStats& stats) const
 {
-    // Simple rate: recent_accesses / window_seconds * 60
-    const double window = static_cast<double>(
-        config_.auto_tier_window_seconds > 0 ? config_.auto_tier_window_seconds : 60);
-    stats.access_rate_per_min = (stats.recent_accesses / window) * 60.0;
+    const uint32_t window_secs =
+        config_.auto_tier_window_seconds > 0 ? config_.auto_tier_window_seconds : 60;
+    const auto cutoff = std::chrono::system_clock::now()
+                      - std::chrono::seconds(window_secs);
+
+    // Expire timestamps older than the rolling window.
+    while (!stats.access_timestamps.empty() &&
+           stats.access_timestamps.front() < cutoff) {
+        stats.access_timestamps.pop_front();
+    }
+
+    stats.recent_accesses   = stats.access_timestamps.size();
+    const double window_min = static_cast<double>(window_secs) / 60.0;
+    stats.access_rate_per_min =
+        window_min > 0.0 ? static_cast<double>(stats.recent_accesses) / window_min : 0.0;
 }
 
 void MultiTierReplicationManager::applyTierChange(const std::string& collection,
@@ -335,8 +353,9 @@ void MultiTierReplicationManager::applyTierChange(const std::string& collection,
         } else {
             stats.last_demotion = std::chrono::system_clock::now();
         }
-        // Reset recent accesses after tier change evaluation
-        stats.recent_accesses = 0;
+        // Clear the rolling-window timestamps after a tier change so the
+        // next evaluation starts fresh.
+        stats.access_timestamps.clear();
     }
 
     if (is_promotion) {

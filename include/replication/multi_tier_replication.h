@@ -39,6 +39,7 @@
 
 #include <string>
 #include <map>
+#include <deque>
 #include <mutex>
 #include <shared_mutex>
 #include <atomic>
@@ -120,11 +121,14 @@ struct MultiTierConfig {
 struct CollectionAccessStats {
     std::string collection;
     uint64_t    total_accesses    = 0; ///< Lifetime access count
-    uint64_t    recent_accesses   = 0; ///< Accesses within the last window
-    double      access_rate_per_min = 0.0; ///< Computed access rate
+    uint64_t    recent_accesses   = 0; ///< Accesses within the last window (derived from access_timestamps)
+    double      access_rate_per_min = 0.0; ///< Computed access rate (accesses/min over the rolling window)
     ReplicationTier current_tier  = ReplicationTier::TIER_2_STANDARD;
     std::chrono::system_clock::time_point last_promotion;
     std::chrono::system_clock::time_point last_demotion;
+    /// Timestamps of individual accesses kept for rolling-window rate computation.
+    /// Old entries (older than auto_tier_window_seconds) are expired on each evaluation.
+    std::deque<std::chrono::system_clock::time_point> access_timestamps;
 };
 
 // ============================================================================
@@ -276,14 +280,16 @@ private:
     // ── Internal helpers ──────────────────────────────────────────────────────
 
     /**
-     * Recompute access_rate_per_min and recent_accesses for a collection.
+     * Expire old timestamps outside the rolling window and recompute
+     * access_rate_per_min and recent_accesses.
      * Must be called while holding the stats write lock.
      */
     void refreshAccessRate(CollectionAccessStats& stats) const;
 
     /**
      * Apply a tier change and update promotion/demotion counters.
-     * Must be called while holding the assignment write lock.
+     * Acquires assignments_mutex_ and stats_mutex_ internally.
+     * Must NOT be called while holding either lock.
      */
     void applyTierChange(const std::string& collection,
                          ReplicationTier    old_tier,

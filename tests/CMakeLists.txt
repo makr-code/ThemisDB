@@ -2490,7 +2490,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_replication_ha.cpp")
 
     add_executable(test_multi_tier_replication_focused
         test_replication_ha.cpp
-        ${CMAKE_SOURCE_DIR}/src/replication/multi_tier_replication.cpp
     )
 
     target_include_directories(test_multi_tier_replication_focused PRIVATE
