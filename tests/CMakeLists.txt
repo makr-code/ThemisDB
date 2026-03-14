@@ -14157,6 +14157,17 @@ else()
 endif()
 
 # ============================================================================
+# Adaptive Shard Rebalancer with Load-Based Splitting (Issue #203, v1.7.0)
+# ============================================================================
+# Covers: HotShardSplitPolicy (reactive + predictive), ShardLoadDetector
+#         forecastLoad(), DataMigrator liveMigrate(), AutoRebalancer split
+#         integration, and audit event emission (SHARD_SPLIT / SHARD_MERGE).
+add_test(NAME AdaptiveShardRebalancerFocusedTests
+    COMMAND themis_tests --gtest_filter=AdaptiveShardRebalancer*:HotShardSplitPolicy*:ShardLoadForecast*:LiveMigration*)
+set_tests_properties(AdaptiveShardRebalancerFocusedTests PROPERTIES
+    LABELS "sharding;rebalancer;split;load-detection;forecasting;live-migration;v1.7.0;unit"
+    TIMEOUT 120
+)
 # Query Module – Adaptive Join Strategies Focused Tests (v1.7.0, Issue #91)
 # Validates all five acceptance criteria:
 #   AC-1  Hash Join: default for large equi-joins
