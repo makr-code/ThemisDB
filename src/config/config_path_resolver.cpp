@@ -1303,11 +1303,8 @@ const std::map<std::string, PathMappingMetadata> ConfigPathResolver::METADATA_TA
 std::string ConfigPathResolver::resolve(const std::string& legacy_path) {
     auto result = tryResolve(legacy_path);
     if (result) {
-        metrics_.resolution_hits++;
         return *result;
     }
-    
-    metrics_.resolution_misses++;
     
     // Build list of attempted paths for error message
     std::vector<std::string> attempted_paths;
@@ -1349,6 +1346,7 @@ std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& leg
     if (caching_enabled_.load()) {
         auto cached = cache_.get(cache_key);
         if (cached) {
+            metrics_.resolution_hits++;
             metrics_.cache_hits++;
             if (audit_log_.isEnabled()) {
                 bool is_legacy = isLegacyPath(normalized) && (*cached == normalized);
@@ -1365,6 +1363,7 @@ std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& leg
     try {
         validatePath(normalized);
     } catch (const InvalidPathException&) {
+        metrics_.resolution_misses++;
         return std::nullopt;
     }
 
@@ -1414,6 +1413,7 @@ std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& leg
                     }
                 }
 
+                initLegacyFallbackCategoryCounters();
                 metrics_.legacy_fallbacks++;
                 const std::string category_path = new_path.empty() ? normalized : new_path;
                 const std::string category = inferCategory(category_path);
@@ -1427,6 +1427,8 @@ std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& leg
             }
             resolved_path = normalized;
         } else {
+            metrics_.unmapped_requests++;
+            metrics_.resolution_misses++;
             return std::nullopt;
         }
     }
@@ -1434,6 +1436,8 @@ std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& leg
     if (caching_enabled_.load()) {
         cache_.put(cache_key, resolved_path);
     }
+
+    metrics_.resolution_hits++;
 
     if (audit_log_.isEnabled()) {
         audit_log_.record({legacy_path, resolved_path,

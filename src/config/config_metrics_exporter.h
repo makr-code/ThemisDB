@@ -47,8 +47,13 @@ namespace config {
  *   themis_config_resolution_hits_total      - counter
  *   themis_config_resolution_misses_total    - counter
  *   themis_config_legacy_fallbacks_total{category} - counter (per-category breakdown)
+ *   themis_config_legacy_fallbacks_all_total - counter (aggregate, no category label)
+ *   themis_config_new_path_hits_total        - counter (backward compatibility)
  *   themis_config_unmapped_requests_total    - counter
+ *   themis_config_cache_hits_total           - counter (backward compatibility)
+ *   themis_config_cache_misses_total         - counter (backward compatibility)
  *   themis_config_cache_hit_ratio            - gauge (derived)
+ *   themis_config_cache_size                 - gauge (info, backward compatibility)
  *   themis_config_cache_capacity             - gauge (info)
  *   themis_config_cache_ttl_seconds          - gauge (info)
  */
@@ -60,9 +65,11 @@ public:
      * Collect all config-path-resolution metrics and return them in
      * Prometheus text-exposition format (UTF-8, newline-terminated).
      *
-     * This is a pure read: it reads the atomic counters from
-     * ConfigPathResolver::metrics() and the LRU cache stats; no state
-     * is modified.  Suitable for use as a pull-model scrape target.
+     * This performs a pure read of ConfigPathResolver counters unless
+     * registerWithRegistry() has been called with a Prometheus registry,
+     * in which case collect() will also update the registered counters
+     * using deltas (stateful) before returning serialized text. Suitable
+     * for use as a pull-model scrape target.
      *
      * @return Prometheus text-format string ready to be served on /metrics.
      */
@@ -81,7 +88,8 @@ public:
     /**
      * Register Prometheus metric families for config path resolution in the
      * provided registry. Should be invoked during server startup so scrape
-     * handlers can serialize the registry without additional setup.
+     * handlers can serialize the registry without additional setup. No-op when
+     * Prometheus support (THEMIS_HAS_PROMETHEUS) is not available.
      */
     static void registerWithRegistry(const std::shared_ptr<prometheus::Registry>& registry);
 };

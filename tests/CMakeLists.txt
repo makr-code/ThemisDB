@@ -8049,7 +8049,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_path_resolver.cpp")
         spdlog::spdlog
         nlohmann_json::nlohmann_json
         Threads::Threads
-        yaml-cpp
+        ${THEMIS_YAML_TARGET}
         OpenSSL::SSL
         OpenSSL::Crypto
     )
@@ -8212,7 +8212,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_metrics_scrape.cpp")
         spdlog::spdlog
         nlohmann_json::nlohmann_json
         Threads::Threads
-        yaml-cpp
+        ${THEMIS_YAML_TARGET}
         OpenSSL::SSL
         OpenSSL::Crypto
     )
