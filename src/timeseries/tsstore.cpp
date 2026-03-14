@@ -24,6 +24,7 @@
 
 #include "timeseries/tsstore.h"
 #include "timeseries/timeseries_metrics.h"
+#include "timeseries/encrypted_chunk_store.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "timeseries/gorilla.h"
@@ -334,8 +335,22 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
                 chunk_meta["count"] = group_points.size();
                 chunk_meta["tags"] = group_points.front().tags;
                 chunk_meta["metadata"] = group_points.front().metadata;
-                chunk_meta["data"] = nlohmann::json::binary(compressed);
-                
+
+                // Compress-then-encrypt: apply AES-256-GCM after Gorilla compression
+                // when an EncryptedChunkStore is attached (transparent to query path).
+                if (enc_chunk_store_) {
+                    std::string series_id = group_points.front().metric + ":" +
+                                            group_points.front().entity;
+                    std::string chunk_range = "[" + std::to_string(timestamps.front()) +
+                                              "," + std::to_string(timestamps.back()) + "]";
+                    std::vector<uint8_t> encrypted =
+                        enc_chunk_store_->encryptChunk(series_id, compressed, chunk_range);
+                    chunk_meta["encryption"] = "aes-256-gcm";
+                    chunk_meta["data"]       = nlohmann::json::binary(encrypted);
+                } else {
+                    chunk_meta["data"] = nlohmann::json::binary(compressed);
+                }
+
                 std::string value = chunk_meta.dump();
                 
                 if (cf_) {
@@ -537,23 +552,43 @@ TSStore::query(const QueryOptions& options) const {
                     it->Next();
                     continue;
                 }
-                
-                // Decode Gorilla-compressed data
-                auto compressed_data = chunk_meta["data"].get<std::vector<uint8_t>>();
-                GorillaDecoder decoder(compressed_data);
-                
-                // Extract tags/metadata from chunk
-                nlohmann::json tags = chunk_meta.value("tags", nlohmann::json::object());
-                nlohmann::json metadata = chunk_meta.value("metadata", nlohmann::json::object());
-                
+
                 // Parse chunk key to get metric and entity
                 // Key format: "tsc:{metric}:{entity}:{first_ts}:{last_ts}"
                 size_t pos1 = strlen(GORILLA_CHUNK_PREFIX);
                 size_t pos2 = key.find(':', pos1);
-                size_t pos3 = key.find(':', pos2 + 1);
-                
+                size_t pos3 = (pos2 != std::string::npos) ? key.find(':', pos2 + 1) : std::string::npos;
+                if (pos2 == std::string::npos || pos3 == std::string::npos) {
+                    it->Next();
+                    continue;
+                }
+
                 std::string metric = key.substr(pos1, pos2 - pos1);
                 std::string entity = key.substr(pos2 + 1, pos3 - pos2 - 1);
+
+                // Decrypt if the chunk was encrypted (compress-then-encrypt path).
+                auto raw_data = chunk_meta["data"].get<std::vector<uint8_t>>();
+                if (chunk_meta.value("encryption", "") == "aes-256-gcm") {
+                    if (!enc_chunk_store_) {
+                        THEMIS_WARN("Encrypted chunk at {} but no EncryptedChunkStore attached — skipping", key);
+                        it->Next();
+                        continue;
+                    }
+                    size_t pos4 = key.find(':', pos3 + 1);
+                    std::string chunk_range = "[" + key.substr(pos3 + 1,
+                                                               pos4 != std::string::npos ? pos4 - pos3 - 1 : std::string::npos)
+                                           + "," + (pos4 != std::string::npos ? key.substr(pos4 + 1) : "?")
+                                           + "]";
+                    std::string series_id = metric + ":" + entity;
+                    raw_data = enc_chunk_store_->decryptChunk(series_id, raw_data, chunk_range);
+                }
+
+                // Decode Gorilla-compressed data
+                GorillaDecoder decoder(raw_data);
+
+                // Extract tags/metadata from chunk
+                nlohmann::json tags = chunk_meta.value("tags", nlohmann::json::object());
+                nlohmann::json metadata = chunk_meta.value("metadata", nlohmann::json::object());
                 
                 // Decode all points from chunk
                 while (auto point_opt = decoder.next()) {
@@ -788,6 +823,14 @@ TSStore::OutOfOrderStats TSStore::getOutOfOrderStats() const {
 
 void TSStore::setMetrics(std::shared_ptr<TimeSeriesMetrics> metrics) {
     metrics_ = metrics;
+}
+
+void TSStore::setEncryptedChunkStore(std::shared_ptr<EncryptedChunkStore> enc_store) {
+    enc_chunk_store_ = std::move(enc_store);
+}
+
+std::shared_ptr<EncryptedChunkStore> TSStore::getEncryptedChunkStore() const {
+    return enc_chunk_store_;
 }
 
 size_t TSStore::deleteOldData(int64_t before_timestamp_ms) {
