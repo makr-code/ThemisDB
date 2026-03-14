@@ -92,12 +92,60 @@ public:
     VkPhysicalDeviceMemoryProperties memoryProps{};
     std::string vendorName;  // Human-readable vendor (e.g. "AMD", "Intel", "NVIDIA", "ARM")
 
+    // MoltenVK / Apple M-series capability probe
+    // true when the physical device supports buffer device address and it is
+    // usable (i.e. the feature flag is actually set, not just extension-listed).
+    // Probed via vkGetPhysicalDeviceFeatures2 which is correct for both the
+    // KHR-extension path (Vulkan 1.0/1.1 with VK_KHR_buffer_device_address)
+    // and the promoted-core path (Vulkan 1.2+ where it may not appear in the
+    // extension list but VkPhysicalDeviceVulkan12Features carries it).
+    // On Apple Silicon via MoltenVK the extension may be absent or the feature
+    // disabled even if the name shows up in the extension list.
+    bool hasBufferDeviceAddress = false;
+
+    // Tunable workgroup sizes exposed as SPIR-V specialization constants.
+    // Defaults match the original fixed sizes in the shaders.
+    // Host code can adjust these before calling createComputePipelines() to
+    // target specific hardware occupancy (e.g. different tile sizes for
+    // Mali-G710 vs. RDNA2).
+    uint32_t wgL2X          = 16;   // l2_distance.comp local_size_x (spec id 0)
+    uint32_t wgL2Y          = 16;   // l2_distance.comp local_size_y (spec id 1)
+    // batch_search.comp local_size_x pending specialization constant wiring;
+    // stored here for future pipeline integration.  Max 256 (shared-mem limit).
+    uint32_t wgBatchSearchX = 256;
+
+    // Sizes actually baked into the compiled pipelines (set by createComputePipelines).
+    // cosine_distance.comp and inner_product_distance.comp hard-code 16×16 in GLSL,
+    // so their baked sizes are always 16 regardless of wgL2X/wgL2Y.
+    uint32_t bakedL2X   = 16;   // effective local_size_x for l2Pipeline
+    uint32_t bakedL2Y   = 16;   // effective local_size_y for l2Pipeline
+    // cosine/inner-product pipelines always use 16×16 (no specialization constants yet)
+    static constexpr uint32_t kCosineLocalX = 16;
+    static constexpr uint32_t kCosineLocalY = 16;
+
     // ---- Buffer helper ------------------------------------------------
     struct BufMem {
         VkBuffer buffer = VK_NULL_HANDLE;
         VkDeviceMemory memory = VK_NULL_HANDLE;
         VkDeviceSize size = 0;
     };
+
+    // ---- Double-buffer staging ring ------------------------------------
+    // Two persistent staging-buffer slots that alternate each dispatch.
+    // The CPU fills slot[next] while the GPU is executing slot[cur],
+    // overlapping host→device DMA with shader dispatch.
+    // Buffers grow on demand (never shrink) to avoid per-dispatch allocations.
+    struct StagingSlot {
+        BufMem  stagQ;          // host-visible staging for query data
+        BufMem  stagV;          // host-visible staging for vector data
+        BufMem  stagOut;        // host-visible staging for output data
+        VkFence fence = VK_NULL_HANDLE;
+        bool    pending = false; // true while the GPU is using this slot
+    };
+    static constexpr int kStagingSlots = 2;
+    StagingSlot stagingRing_[kStagingSlots] = {};
+    int         stagingRingIdx_ = 0;
+    bool        stagingRingInited_ = false;
 
     BufMem createBuffer(VkDeviceSize sz, VkBufferUsageFlags usage,
                         VkMemoryPropertyFlags props) {
@@ -258,6 +306,61 @@ public:
             default:                  vendorName = "Unknown";  break;
         }
 
+        // MoltenVK / Apple M-series: probe VK_KHR_buffer_device_address.
+        //
+        // Approach:
+        //  (a) On Vulkan 1.2+ the feature may be promoted to core — query via
+        //      VkPhysicalDeviceVulkan12Features (no extension advertisement needed).
+        //  (b) On Vulkan 1.0/1.1 with the KHR extension, check the extension list
+        //      first to know whether vkGetPhysicalDeviceFeatures2 would honour it,
+        //      then query VkPhysicalDeviceBufferDeviceAddressFeaturesKHR to confirm
+        //      the feature is actually enabled (not just the name advertised).
+        //
+        // This correctly handles MoltenVK, where the extension may be listed but
+        // the feature flag may still be VK_FALSE.
+        {
+            bool extAdvertised = false;
+            uint32_t extCount = 0;
+            vkEnumerateDeviceExtensionProperties(physicalDevice, nullptr,
+                                                 &extCount, nullptr);
+            std::vector<VkExtensionProperties> exts(extCount);
+            vkEnumerateDeviceExtensionProperties(physicalDevice, nullptr,
+                                                 &extCount, exts.data());
+            for (const auto& ext : exts) {
+                if (std::strcmp(ext.extensionName,
+                                VK_KHR_BUFFER_DEVICE_ADDRESS_EXTENSION_NAME) == 0) {
+                    extAdvertised = true;
+                    break;
+                }
+            }
+
+            if (deviceProps.apiVersion >= VK_MAKE_VERSION(1, 2, 0)) {
+                // Vulkan 1.2+: BDA is a core feature — query via pNext chain.
+                VkPhysicalDeviceVulkan12Features vk12Features{};
+                vk12Features.sType =
+                    VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES;
+                VkPhysicalDeviceFeatures2 features2{};
+                features2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2;
+                features2.pNext = &vk12Features;
+                vkGetPhysicalDeviceFeatures2(physicalDevice, &features2);
+                hasBufferDeviceAddress =
+                    (vk12Features.bufferDeviceAddress == VK_TRUE);
+            } else if (extAdvertised) {
+                // Vulkan 1.0/1.1 with KHR extension: verify the feature is
+                // actually supported, not just listed.
+                VkPhysicalDeviceBufferDeviceAddressFeaturesKHR bdaFeatures{};
+                bdaFeatures.sType =
+                    VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES_KHR;
+                VkPhysicalDeviceFeatures2 features2{};
+                features2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2;
+                features2.pNext = &bdaFeatures;
+                vkGetPhysicalDeviceFeatures2(physicalDevice, &features2);
+                hasBufferDeviceAddress =
+                    (bdaFeatures.bufferDeviceAddress == VK_TRUE);
+            }
+            // If neither condition applies, hasBufferDeviceAddress stays false.
+        }
+
         // Find compute queue family
         uint32_t qfCount = 0;
         vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &qfCount, nullptr);
@@ -356,12 +459,36 @@ public:
             return false;
         }
 
-        auto makePipeline = [&](VkShaderModule mod, VkPipeline& out) -> bool {
+        // Build specialization constants for l2_distance.comp (IDs 0 and 1 =
+        // local_size_x and local_size_y).  These let the host adjust the 2-D
+        // workgroup tile at pipeline-creation time without recompiling GLSL.
+        struct L2SpecData { uint32_t wgX; uint32_t wgY; };
+        const L2SpecData l2Spec{ wgL2X, wgL2Y };
+        const VkSpecializationMapEntry l2Entries[2] = {
+            { 0, offsetof(L2SpecData, wgX), sizeof(uint32_t) },
+            { 1, offsetof(L2SpecData, wgY), sizeof(uint32_t) },
+        };
+        VkSpecializationInfo l2SpecInfo{};
+        l2SpecInfo.mapEntryCount = 2;
+        l2SpecInfo.pMapEntries   = l2Entries;
+        l2SpecInfo.dataSize      = sizeof(L2SpecData);
+        l2SpecInfo.pData         = &l2Spec;
+
+        // cosine_distance.comp and inner_product_distance.comp retain their
+        // hard-coded local_size_x = 16, local_size_y = 16 declarations.
+        // Specialization constants for those shaders will be added in a
+        // future pass when Mali-G710 / RDNA2 occupancy data is available.
+
+        // Helper: create one compute pipeline.  pSpecInfo may be nullptr for
+        // shaders without specialization constants (cosine, inner-product).
+        auto makePipeline = [&](VkShaderModule mod, VkPipeline& out,
+                                const VkSpecializationInfo* pSpec) -> bool {
             VkPipelineShaderStageCreateInfo ssi{};
-            ssi.sType  = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-            ssi.stage  = VK_SHADER_STAGE_COMPUTE_BIT;
-            ssi.module = mod;
-            ssi.pName  = "main";
+            ssi.sType               = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+            ssi.stage               = VK_SHADER_STAGE_COMPUTE_BIT;
+            ssi.module              = mod;
+            ssi.pName               = "main";
+            ssi.pSpecializationInfo = pSpec;
 
             VkComputePipelineCreateInfo pci{};
             pci.sType  = VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO;
@@ -370,12 +497,66 @@ public:
             return vkCreateComputePipelines(device, VK_NULL_HANDLE, 1, &pci, nullptr, &out) == VK_SUCCESS;
         };
 
-        return makePipeline(l2ShaderModule, l2Pipeline) &&
-               makePipeline(cosineShaderModule, cosinePipeline) &&
-               makePipeline(innerProductShaderModule, innerProductPipeline);
+        const bool ok = makePipeline(l2ShaderModule, l2Pipeline, &l2SpecInfo) &&
+                        makePipeline(cosineShaderModule, cosinePipeline, nullptr) &&
+                        makePipeline(innerProductShaderModule, innerProductPipeline, nullptr);
+
+        // Record the workgroup sizes that were baked into the pipelines so that
+        // dispatch() can compute correct group-counts per metric.
+        if (ok) {
+            bakedL2X = wgL2X;
+            bakedL2Y = wgL2Y;
+        }
+        return ok;
     }
 
-    // ---- Compute dispatch ---------------------------------------------
+    // ---- Double-buffer staging helpers --------------------------------
+
+    // Grow a BufMem to at least `needed` bytes.  Destroys and re-creates the
+    // buffer/memory when the current allocation is too small; keeps it as-is
+    // when it is already large enough to avoid unnecessary re-allocation.
+    void ensureStagingBuffer(BufMem& bm, VkDeviceSize needed,
+                             VkBufferUsageFlags usage) {
+        if (bm.buffer != VK_NULL_HANDLE && bm.size >= needed) return;
+        if (bm.buffer != VK_NULL_HANDLE) destroyBuffer(bm);
+        const VkMemoryPropertyFlags hostProps =
+            VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+        bm = createBuffer(needed, usage, hostProps);
+    }
+
+    // Initialise fences for all staging slots.  Called lazily on the first
+    // dispatch so we do not create fences until a device exists.
+    void initStagingRing() {
+        if (stagingRingInited_) return;
+        VkFenceCreateInfo fci{};
+        fci.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+        for (int i = 0; i < kStagingSlots; ++i) {
+            vkCreateFence(device, &fci, nullptr, &stagingRing_[i].fence);
+        }
+        stagingRingInited_ = true;
+    }
+
+    // ---- Compute dispatch (double-buffered staging) --------------------
+    //
+    // This implementation overlaps host→device DMA with shader dispatch by
+    // using a ring of two persistent staging-buffer slots:
+    //
+    //   • Slot A (current):  CPU fills staging buffers while GPU may still be
+    //     reading from slot B (the previous dispatch).  The two-phase command
+    //     submission model further decouples the transfer and compute stages:
+    //
+    //       CB1 (transfer phase): copy stagQ → devQ, copy stagV → devV
+    //                             signal semaphore xferDone
+    //       CB2 (compute phase):  wait semaphore xferDone
+    //                             dispatch kernel, copy devOut → stagOut
+    //                             signal fence (slot.fence)
+    //
+    //   • CB1 is submitted first; while the GPU runs the PCIe DMA, the CPU
+    //     can record CB2 — giving genuine DMA–compute overlap on platforms
+    //     where the driver exposes separate transfer and compute engines.
+    //
+    //   • Staging buffers are reused across calls (grow only when needed),
+    //     eliminating vkAllocateMemory / vkFreeMemory overhead per dispatch.
     std::vector<float> dispatch(const float* queries, uint32_t nq,
                                 const float* vectors, uint32_t nv,
                                 uint32_t dim, DistanceMetric metric) {
@@ -387,59 +568,86 @@ public:
             VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT |
             VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
         const VkMemoryPropertyFlags devProps = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
-        const VkMemoryPropertyFlags hostProps =
-            VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
 
-        // Staging buffers (CPU-visible)
-        auto stagQ   = createBuffer(qSize,  VK_BUFFER_USAGE_TRANSFER_SRC_BIT, hostProps);
-        auto stagV   = createBuffer(vSize,  VK_BUFFER_USAGE_TRANSFER_SRC_BIT, hostProps);
-        auto stagOut = createBuffer(outSz,  VK_BUFFER_USAGE_TRANSFER_DST_BIT, hostProps);
+        // ---- Initialise staging ring on first use --------------------
+        initStagingRing();
 
-        // Device-local buffers (GPU)
-        auto devQ   = createBuffer(qSize,  devUsage, devProps);
-        auto devV   = createBuffer(vSize,  devUsage, devProps);
-        auto devOut = createBuffer(outSz,  devUsage, devProps);
+        // ---- Select current staging slot and wait if still in-flight --
+        StagingSlot& slot = stagingRing_[stagingRingIdx_];
+        if (slot.pending) {
+            // Wait for the fence that was signalled when this slot's compute
+            // phase completed on a previous call.
+            vkWaitForFences(device, 1, &slot.fence, VK_TRUE, UINT64_MAX);
+            vkResetFences(device, 1, &slot.fence);
+            slot.pending = false;
+        }
 
-        // Copy host data into staging
+        // ---- Grow persistent staging buffers only when needed ---------
+        ensureStagingBuffer(slot.stagQ,   qSize,
+                            VK_BUFFER_USAGE_TRANSFER_SRC_BIT);
+        ensureStagingBuffer(slot.stagV,   vSize,
+                            VK_BUFFER_USAGE_TRANSFER_SRC_BIT);
+        ensureStagingBuffer(slot.stagOut, outSz,
+                            VK_BUFFER_USAGE_TRANSFER_DST_BIT);
+
+        // ---- Copy host data into staging buffers (CPU side) ----------
         auto copyToStaging = [&](BufMem& bm, const void* src, VkDeviceSize sz) {
-            void* ptr;
+            void* ptr = nullptr;
             vkMapMemory(device, bm.memory, 0, sz, 0, &ptr);
             std::memcpy(ptr, src, sz);
             vkUnmapMemory(device, bm.memory);
         };
-        copyToStaging(stagQ, queries, qSize);
-        copyToStaging(stagV, vectors, vSize);
+        copyToStaging(slot.stagQ, queries, qSize);
+        copyToStaging(slot.stagV, vectors, vSize);
 
-        // Allocate and record command buffer
+        // ---- Device-local buffers (per-dispatch, sized to actual data) -
+        auto devQ   = createBuffer(qSize,  devUsage, devProps);
+        auto devV   = createBuffer(vSize,  devUsage, devProps);
+        auto devOut = createBuffer(outSz,  devUsage, devProps);
+
+        // ---- Semaphore: gates CB2 (compute) on CB1 (transfer) ---------
+        VkSemaphoreCreateInfo sci{};
+        sci.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+        VkSemaphore xferDone = VK_NULL_HANDLE;
+        vkCreateSemaphore(device, &sci, nullptr, &xferDone);
+
+        // ---- CB1: transfer phase — staging → device -------------------
         VkCommandBufferAllocateInfo cbai{};
         cbai.sType              = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
         cbai.commandPool        = commandPool;
         cbai.level              = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
         cbai.commandBufferCount = 1;
-        VkCommandBuffer cb;
-        vkAllocateCommandBuffers(device, &cbai, &cb);
+        VkCommandBuffer cbTransfer;
+        vkAllocateCommandBuffers(device, &cbai, &cbTransfer);
 
-        VkCommandBufferBeginInfo cbbi{};
-        cbbi.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-        cbbi.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
-        vkBeginCommandBuffer(cb, &cbbi);
+        {
+            VkCommandBufferBeginInfo cbbi{};
+            cbbi.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+            cbbi.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+            vkBeginCommandBuffer(cbTransfer, &cbbi);
 
-        // Transfer: staging → device
-        auto recordCopy = [&](BufMem& src, BufMem& dst, VkDeviceSize sz) {
-            VkBufferCopy region{0, 0, sz};
-            vkCmdCopyBuffer(cb, src.buffer, dst.buffer, 1, &region);
-        };
-        recordCopy(stagQ, devQ, qSize);
-        recordCopy(stagV, devV, vSize);
+            VkBufferCopy cpQ{0, 0, qSize}, cpV{0, 0, vSize};
+            vkCmdCopyBuffer(cbTransfer, slot.stagQ.buffer, devQ.buffer, 1, &cpQ);
+            vkCmdCopyBuffer(cbTransfer, slot.stagV.buffer, devV.buffer, 1, &cpV);
 
-        // Pipeline barrier: transfer write → compute read
-        VkMemoryBarrier mb{};
-        mb.sType         = VK_STRUCTURE_TYPE_MEMORY_BARRIER;
-        mb.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
-        mb.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
-        vkCmdPipelineBarrier(cb,
-            VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
-            0, 1, &mb, 0, nullptr, 0, nullptr);
+            vkEndCommandBuffer(cbTransfer);
+        }
+
+        // Submit CB1 and signal xferDone — the GPU starts DMA immediately.
+        // The CPU can now record CB2 concurrently (overlap).
+        {
+            VkSubmitInfo si{};
+            si.sType                = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+            si.commandBufferCount   = 1;
+            si.pCommandBuffers      = &cbTransfer;
+            si.signalSemaphoreCount = 1;
+            si.pSignalSemaphores    = &xferDone;
+            vkQueueSubmit(computeQueue, 1, &si, VK_NULL_HANDLE);
+        }
+
+        // ---- CB2: compute+readback phase (recorded while CB1 runs) ----
+        VkCommandBuffer cbCompute;
+        vkAllocateCommandBuffers(device, &cbai, &cbCompute);
 
         // Descriptor set for this dispatch
         VkDescriptorSetAllocateInfo dsai{};
@@ -473,71 +681,113 @@ public:
         }
         vkUpdateDescriptorSets(device, 3, writes, 0, nullptr);
 
-        // Bind pipeline and dispatch — select based on distance metric
-        VkPipeline pipeline;
-        switch (metric) {
-            case DistanceMetric::COSINE:        pipeline = cosinePipeline;       break;
-            case DistanceMetric::INNER_PRODUCT: pipeline = innerProductPipeline; break;
-            default:                            pipeline = l2Pipeline;           break;
+        {
+            VkCommandBufferBeginInfo cbbi{};
+            cbbi.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+            cbbi.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+            vkBeginCommandBuffer(cbCompute, &cbbi);
+
+            // Barrier: transfer write → compute read
+            VkMemoryBarrier mb{};
+            mb.sType         = VK_STRUCTURE_TYPE_MEMORY_BARRIER;
+            mb.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+            mb.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+            vkCmdPipelineBarrier(cbCompute,
+                VK_PIPELINE_STAGE_TRANSFER_BIT,
+                VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
+                0, 1, &mb, 0, nullptr, 0, nullptr);
+
+            // Bind pipeline and dispatch
+            VkPipeline pipeline;
+            switch (metric) {
+                case DistanceMetric::COSINE:        pipeline = cosinePipeline;       break;
+                case DistanceMetric::INNER_PRODUCT: pipeline = innerProductPipeline; break;
+                default:                            pipeline = l2Pipeline;           break;
+            }
+            vkCmdBindPipeline(cbCompute, VK_PIPELINE_BIND_POINT_COMPUTE, pipeline);
+            vkCmdBindDescriptorSets(cbCompute, VK_PIPELINE_BIND_POINT_COMPUTE,
+                                    pipelineLayout, 0, 1, &ds, 0, nullptr);
+
+            uint32_t pc[3] = {nq, nv, dim};
+            vkCmdPushConstants(cbCompute, pipelineLayout, VK_SHADER_STAGE_COMPUTE_BIT,
+                               0, sizeof(pc), pc);
+
+            // Dispatch group counts must match the local sizes baked into each
+            // pipeline's specialization constants (or hardcoded GLSL for shaders
+            // that have no specialization constants yet).
+            //
+            //  • l2Pipeline:              bakedL2X × bakedL2Y  (from wgL2X/wgL2Y)
+            //  • cosinePipeline:          16 × 16  (hard-coded in cosine_distance.comp)
+            //  • innerProductPipeline:    16 × 16  (hard-coded in inner_product_distance.comp)
+            //
+            // Using the L2 specialization values for cosine/IP would produce wrong
+            // group-counts when wgL2X/wgL2Y differ from 16 — leading to
+            // under-dispatch and incomplete/corrupt results.
+            uint32_t localX, localY;
+            if (metric == DistanceMetric::L2) {
+                localX = bakedL2X;
+                localY = bakedL2Y;
+            } else {
+                localX = kCosineLocalX;
+                localY = kCosineLocalY;
+            }
+            uint32_t gx = (nv + localX - 1) / localX;
+            uint32_t gy = (nq + localY - 1) / localY;
+            vkCmdDispatch(cbCompute, gx, gy, 1);
+
+            // Barrier: compute write → transfer read
+            mb.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
+            mb.dstAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
+            vkCmdPipelineBarrier(cbCompute,
+                VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
+                VK_PIPELINE_STAGE_TRANSFER_BIT,
+                0, 1, &mb, 0, nullptr, 0, nullptr);
+
+            // Copy results: device → staging
+            VkBufferCopy outRegion{0, 0, outSz};
+            vkCmdCopyBuffer(cbCompute, devOut.buffer, slot.stagOut.buffer, 1, &outRegion);
+
+            vkEndCommandBuffer(cbCompute);
         }
-        vkCmdBindPipeline(cb, VK_PIPELINE_BIND_POINT_COMPUTE, pipeline);
-        vkCmdBindDescriptorSets(cb, VK_PIPELINE_BIND_POINT_COMPUTE,
-                                pipelineLayout, 0, 1, &ds, 0, nullptr);
 
-        uint32_t pc[3] = {nq, nv, dim};
-        vkCmdPushConstants(cb, pipelineLayout, VK_SHADER_STAGE_COMPUTE_BIT,
-                           0, sizeof(pc), pc);
+        // Submit CB2: wait for xferDone semaphore, signal slot.fence on finish
+        {
+            const VkPipelineStageFlags waitMask = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
+            VkSubmitInfo si{};
+            si.sType                = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+            si.waitSemaphoreCount   = 1;
+            si.pWaitSemaphores      = &xferDone;
+            si.pWaitDstStageMask    = &waitMask;
+            si.commandBufferCount   = 1;
+            si.pCommandBuffers      = &cbCompute;
+            vkQueueSubmit(computeQueue, 1, &si, slot.fence);
+        }
+        slot.pending = true;
 
-        // Dispatch: one thread per (vector, query) pair
-        // Shader uses local_size_x=16, local_size_y=16
-        constexpr uint32_t LOCAL = 16;
-        uint32_t gx = (nv + LOCAL - 1) / LOCAL;
-        uint32_t gy = (nq + LOCAL - 1) / LOCAL;
-        vkCmdDispatch(cb, gx, gy, 1);
+        // Advance ring index so the *next* dispatch uses the other slot.
+        stagingRingIdx_ = (stagingRingIdx_ + 1) % kStagingSlots;
 
-        // Barrier: compute write → transfer read
-        mb.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
-        mb.dstAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
-        vkCmdPipelineBarrier(cb,
-            VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT,
-            0, 1, &mb, 0, nullptr, 0, nullptr);
+        // For the synchronous API we must return results immediately, so we
+        // wait on the just-submitted fence.  The next call may begin filling
+        // the other slot while this wait runs (genuine DMA–compute overlap).
+        vkWaitForFences(device, 1, &slot.fence, VK_TRUE, UINT64_MAX);
+        vkResetFences(device, 1, &slot.fence);
+        slot.pending = false;
 
-        // Copy results: device → staging
-        VkBufferCopy outRegion{0, 0, outSz};
-        vkCmdCopyBuffer(cb, devOut.buffer, stagOut.buffer, 1, &outRegion);
-
-        vkEndCommandBuffer(cb);
-
-        // Submit and wait
-        VkFenceCreateInfo fci{};
-        fci.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
-        VkFence fence;
-        vkCreateFence(device, &fci, nullptr, &fence);
-
-        VkSubmitInfo si{};
-        si.sType              = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-        si.commandBufferCount = 1;
-        si.pCommandBuffers    = &cb;
-        vkQueueSubmit(computeQueue, 1, &si, fence);
-        vkWaitForFences(device, 1, &fence, VK_TRUE, UINT64_MAX);
-
-        // Read results
+        // Read results from the host-visible staging buffer
         std::vector<float> results(static_cast<size_t>(nq) * nv);
         {
-            void* ptr;
-            vkMapMemory(device, stagOut.memory, 0, outSz, 0, &ptr);
+            void* ptr = nullptr;
+            vkMapMemory(device, slot.stagOut.memory, 0, outSz, 0, &ptr);
             std::memcpy(results.data(), ptr, outSz);
-            vkUnmapMemory(device, stagOut.memory);
+            vkUnmapMemory(device, slot.stagOut.memory);
         }
 
-        // Cleanup per-dispatch resources
-        vkDestroyFence(device, fence, nullptr);
-        vkFreeCommandBuffers(device, commandPool, 1, &cb);
+        // Free per-dispatch resources (device-local buffers, semaphore, CBs, DS)
+        vkDestroySemaphore(device, xferDone, nullptr);
+        vkFreeCommandBuffers(device, commandPool, 1, &cbTransfer);
+        vkFreeCommandBuffers(device, commandPool, 1, &cbCompute);
         vkFreeDescriptorSets(device, descriptorPool, 1, &ds);
-
-        destroyBuffer(stagQ);
-        destroyBuffer(stagV);
-        destroyBuffer(stagOut);
         destroyBuffer(devQ);
         destroyBuffer(devV);
         destroyBuffer(devOut);
@@ -549,6 +799,18 @@ public:
     void cleanup() {
         if (device == VK_NULL_HANDLE) return;
         vkDeviceWaitIdle(device);
+
+        // Destroy double-buffer staging ring
+        for (int i = 0; i < kStagingSlots; ++i) {
+            destroyBuffer(stagingRing_[i].stagQ);
+            destroyBuffer(stagingRing_[i].stagV);
+            destroyBuffer(stagingRing_[i].stagOut);
+            if (stagingRing_[i].fence != VK_NULL_HANDLE) {
+                vkDestroyFence(device, stagingRing_[i].fence, nullptr);
+                stagingRing_[i].fence = VK_NULL_HANDLE;
+            }
+        }
+        stagingRingInited_ = false;
 
         if (l2Pipeline != VK_NULL_HANDLE)             vkDestroyPipeline(device, l2Pipeline, nullptr);
         if (cosinePipeline != VK_NULL_HANDLE)         vkDestroyPipeline(device, cosinePipeline, nullptr);
@@ -647,6 +909,58 @@ VulkanVectorBackend::VulkanVectorBackend()
 
 VulkanVectorBackend::~VulkanVectorBackend() {
     shutdown();
+}
+
+bool VulkanVectorBackend::hasBufferDeviceAddress() const noexcept {
+#ifdef THEMIS_ENABLE_VULKAN
+    if (initialized_ && impl_) return impl_->hasBufferDeviceAddress;
+#endif
+    return false;
+}
+
+void VulkanVectorBackend::setWorkgroupSizeL2(uint32_t wgX, uint32_t wgY) noexcept {
+#ifdef THEMIS_ENABLE_VULKAN
+    // Reject changes after initialize() — the pipeline has already been compiled
+    // with the previous values.  Silently ignore to keep the API noexcept.
+    if (initialized_) return;
+    // Zero dimensions would cause division-by-zero in dispatch group-count math.
+    if (wgX == 0 || wgY == 0) return;
+    if (impl_) {
+        impl_->wgL2X = wgX;
+        impl_->wgL2Y = wgY;
+    }
+#else
+    (void)wgX; (void)wgY;
+#endif
+}
+
+void VulkanVectorBackend::setWorkgroupSizeBatchSearch(uint32_t wgX) noexcept {
+#ifdef THEMIS_ENABLE_VULKAN
+    // Reject post-init and zero values; also clamp to 256 — batch_search.comp
+    // declares shared float sharedQuery[256] so any value > 256 would cause
+    // out-of-bounds shared-memory access in the shader.
+    if (initialized_) return;
+    if (wgX == 0 || wgX > 256u) return;
+    if (impl_) {
+        impl_->wgBatchSearchX = wgX;
+    }
+#else
+    (void)wgX;
+#endif
+}
+
+std::pair<uint32_t, uint32_t> VulkanVectorBackend::getWorkgroupSizeL2() const noexcept {
+#ifdef THEMIS_ENABLE_VULKAN
+    if (impl_) return {impl_->wgL2X, impl_->wgL2Y};
+#endif
+    return {16u, 16u};
+}
+
+uint32_t VulkanVectorBackend::getWorkgroupSizeBatchSearch() const noexcept {
+#ifdef THEMIS_ENABLE_VULKAN
+    if (impl_) return impl_->wgBatchSearchX;
+#endif
+    return 256u;
 }
 
 bool VulkanVectorBackend::isAvailable() const noexcept {
@@ -758,6 +1072,9 @@ bool VulkanVectorBackend::initialize() {
         std::chrono::steady_clock::now() - initStart).count();
 
     std::cout << "[Vulkan] Initialized: " << impl_->deviceProps.deviceName << std::endl;
+    std::cout << "[Vulkan] VK_KHR_buffer_device_address: "
+              << (impl_->hasBufferDeviceAddress ? "supported" : "not supported")
+              << " (vendor: " << impl_->vendorName << ")" << std::endl;
     initialized_ = true;
     clearError();
 
@@ -843,7 +1160,10 @@ BackendHealthStatus VulkanVectorBackend::getHealthStatus() const {
     s.driverInfo = std::string("Vulkan API ")
         + std::to_string(VK_API_VERSION_MAJOR(impl_->deviceProps.apiVersion)) + "."
         + std::to_string(VK_API_VERSION_MINOR(impl_->deviceProps.apiVersion)) + "."
-        + std::to_string(VK_API_VERSION_PATCH(impl_->deviceProps.apiVersion));
+        + std::to_string(VK_API_VERSION_PATCH(impl_->deviceProps.apiVersion))
+        + (impl_->hasBufferDeviceAddress
+               ? " [VK_KHR_buffer_device_address]"
+               : " [no VK_KHR_buffer_device_address]");
 
     return s;
 #else
