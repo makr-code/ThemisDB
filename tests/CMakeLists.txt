@@ -2948,7 +2948,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tracing_middleware.cpp")
         themis_core
         spdlog::spdlog
         Threads::Threads
-        $<$<BOOL:${Boost_FOUND}>:Boost::boost>
     )
 
     target_compile_definitions(test_tracing_middleware PRIVATE

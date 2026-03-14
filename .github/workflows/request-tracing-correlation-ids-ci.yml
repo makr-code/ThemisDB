@@ -72,7 +72,7 @@ jobs:
   # ---------------------------------------------------------------------------
   request-tracing-tests:
     needs: ci-scope-classifier
-    if: needs.ci-scope-classifier.outputs.has_code_changes == 'true'
+    if: needs.ci-scope-classifier.outputs.has_code_changes == 'true' || needs.ci-scope-classifier.outputs.has_config_changes == 'true'
     name: Request Tracing (${{ matrix.os }} / ${{ matrix.compiler }})
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
@@ -119,6 +119,7 @@ jobs:
           cd build
           ctest -R TracingMiddlewareTests \
                 --output-on-failure \
+                --no-tests=error \
                 --timeout 60 \
                 2>&1 | tee tracing_middleware_results.txt
 
@@ -129,6 +130,7 @@ jobs:
           cd build
           ctest -R OtlpExporterTests \
                 --output-on-failure \
+                --no-tests=error \
                 --timeout 60 \
                 2>&1 | tee otlp_exporter_results.txt
 
@@ -139,6 +141,7 @@ jobs:
           cd build
           ctest -R OtelApiTracingTests \
                 --output-on-failure \
+                --no-tests=error \
                 --timeout 60 \
                 2>&1 | tee otel_api_tracing_results.txt
 
