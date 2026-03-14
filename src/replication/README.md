@@ -208,6 +208,8 @@ for (const auto& change : changes) {
 logical->advanceSlot("acme_replica", changes.back().lsn);
 ```
 
+> Note: set `Config::wal_directory` to the WALManager directory to persist slot state; leaving it empty disables persistence. Row filter expressions are validated up front—unsupported predicates are rejected and fail closed to avoid unintended replication.
+
 **Replication Roles:**
 ```cpp
 enum class ReplicationRole {

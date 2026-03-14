@@ -23,6 +23,7 @@
 #include <random>
 #include <sstream>
 #include <chrono>
+#include <stdexcept>
 
 using namespace themisdb::replication;
 
@@ -47,11 +48,15 @@ struct TempDir {
         std::random_device rd;
         std::mt19937_64 gen(rd());
         std::uniform_int_distribution<uint64_t> dist;
+        int attempts = 0;
         do {
             std::ostringstream oss;
             oss << "themis_logical_repl-" << std::hex
                 << std::chrono::steady_clock::now().time_since_epoch().count() << "-" << dist(gen);
             path = (base / oss.str()).string();
+            if (++attempts > 10) {
+                throw std::runtime_error("Failed to create unique temporary directory for test");
+            }
         } while (std::filesystem::exists(path));
         std::filesystem::remove_all(path);
         std::filesystem::create_directories(path);
