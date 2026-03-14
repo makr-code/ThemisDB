@@ -2936,6 +2936,42 @@ else()
 endif()
 
 # ============================================================================
+# TracingMiddleware Unit Tests (v1.7.0 — Issue #140)
+# Validates UUID v4 generation, thread-local correlation ID propagation,
+# logger context injection, and clearContext() behavior.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tracing_middleware.cpp")
+    message(STATUS "Adding TracingMiddleware unit tests")
+
+    add_executable(test_tracing_middleware
+        test_tracing_middleware.cpp
+    )
+
+    target_link_libraries(test_tracing_middleware PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_tracing_middleware PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TracingMiddlewareTests COMMAND test_tracing_middleware)
+
+    set_tests_properties(TracingMiddlewareTests PROPERTIES
+        LABELS "api;tracing;correlation-id;middleware;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  TracingMiddleware: UUID v4 generation, thread-local propagation, logger injection, clearContext()")
+else()
+    message(STATUS "TracingMiddleware tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tracing_middleware.cpp")
+endif()
+
+# ============================================================================
 # API Interfaces Tests (header-only types: IHttpHandler, CorrelationId, etc.)
 # ============================================================================
 
