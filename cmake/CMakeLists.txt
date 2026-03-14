@@ -1905,6 +1905,7 @@ set(THEMIS_CORE_SOURCES
     ../src/updates/dependency_resolver.cpp
     ../src/updates/schema_migration_tester.cpp
     ../src/updates/in_place_schema_migrator.cpp
+    ../src/updates/schema_migration.cpp
     ../src/updates/update_history_logger.cpp
     ../src/updates/notification_webhook.cpp
     ../src/updates/blue_green_deployment.cpp
