@@ -528,6 +528,9 @@ jobs:
             "include/themis/base/module_sandbox.h"
             "include/themis/network/wire_protocol_v2.hpp"
             "include/network/wire_protocol_performance.h"
+            "include/network/wire_protocol_zero_copy.h"
+            "include/network/wire_protocol_batch.h"
+            "include/network/connection_compression.h"
           )
           all_ok=true
           for h in "${headers[@]}"; do
@@ -548,6 +551,9 @@ jobs:
             src/base/module_sandbox.cpp \
             src/network/wire_protocol_v2.cpp \
             src/network/wire_protocol_performance.cpp \
+            src/network/wire_protocol_zero_copy.cpp \
+            src/network/wire_protocol_batch.cpp \
+            src/network/connection_compression.cpp \
             2>/dev/null | wc -l)
           echo "Open TODOs/FIXMEs in core sources: ${count}"
           # Warn but don't fail – these are expected during active development

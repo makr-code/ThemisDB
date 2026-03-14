@@ -2156,6 +2156,9 @@ set(THEMIS_CORE_SOURCES
     ../src/network/wire_protocol_connection_pool.cpp
     ../src/network/wire_protocol_v2.cpp
     ../src/network/wire_protocol_performance.cpp
+    ../src/network/wire_protocol_zero_copy.cpp
+    ../src/network/wire_protocol_batch.cpp
+    ../src/network/connection_compression.cpp
     ../src/network/socket_timeout_manager.cpp
     ../src/network/adaptive_circuit_breaker.cpp
     ../src/network/qos_manager.cpp

@@ -11562,6 +11562,15 @@ add_network_focused_test(
     "WireProtocolPerformanceMonitor: latency tracking, throughput counters, percentile computation"
 )
 
+# --- Wire Protocol Performance Optimizations (v1.7.0) ---
+add_network_focused_test(
+    test_wire_protocol_optimizations_focused
+    test_wire_protocol_optimizations.cpp
+    WireProtocolOptimizationsFocusedTests
+    "network;wire-protocol;zero-copy;batch;compression;dictionary;nagle;focused;unit"
+    "WireProtocolOptimizations: ZeroCopyFrameBuilder, MemoryMappedPayload, WireProtocolBatcher, NagleController, ZstdDictionaryCompressor"
+)
+
 # --- UDP Fast Path ---
 add_network_focused_test(
     test_udp_fast_path_focused
