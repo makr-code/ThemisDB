@@ -59,6 +59,7 @@
 #include <cassert>
 #include <cstring>
 #include <map>
+#include <shared_mutex>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -219,7 +220,7 @@ struct WomTree::Impl {
     NodePtr  root;
     uint32_t height{1};  // 1 == just a root leaf
 
-    mutable std::mutex mu;
+    mutable std::shared_mutex mu;
 
     // Statistics (write-side counters are relaxed atomic; the mutex guards
     // structural changes, not individual stat increments).
@@ -243,6 +244,8 @@ struct WomTree::Impl {
 
         if (root->is_leaf) {
             // Single-leaf fast path.
+            // Account for the write (WA = internal_bytes / user_bytes ≥ 1.0).
+            stat_internal_bytes.fetch_add(op.byteSize(), std::memory_order_relaxed);
             if (op.type == OpType::PUT) {
                 bool was_present = (root->leafFind(op.key) != root->data.end());
                 root->leafApply(op);
@@ -258,6 +261,21 @@ struct WomTree::Impl {
             }
             maybeSplitRootLeaf();
             return;
+        }
+
+        // ── Multi-level / buffered path ───────────────────────────────────
+
+        // Track live-entry count before buffering.
+        // For PUT: increment only when the key does not already exist.
+        // For REMOVE: remove() already verified existence, so always decrement.
+        if (op.type == OpType::PUT) {
+            bool already_live = doGet(op.key).has_value();
+            if (!already_live) {
+                stat_live_entries.fetch_add(1, std::memory_order_relaxed);
+            }
+        } else {
+            // remove() pre-checked existence; safe to decrement unconditionally.
+            stat_live_entries.fetch_sub(1, std::memory_order_relaxed);
         }
 
         // Append to root buffer.
@@ -276,6 +294,9 @@ struct WomTree::Impl {
                 flushAll(*root, 1);
             }
         }
+
+        // Enforce fanout: split any overfull internal nodes.
+        fixAllInternalOverflows();
     }
 
     // Recursively flush node's buffer one level downward.
@@ -283,8 +304,16 @@ struct WomTree::Impl {
     void flushNode(Node& node, uint32_t depth) {
         if (node.is_leaf || node.buffer.empty()) return;
 
-        // Group buffered ops by destination child.
-        std::vector<std::vector<Op>> child_ops(node.children.size());
+        // Snapshot the child count BEFORE we flush: child_ops is sized to
+        // match the original children, and ops are routed to them.  Leaf
+        // splits later in this function insert right-half nodes into
+        // node.children, but those new nodes don't receive additional ops
+        // (their entries come from the split of the original leaf) and must
+        // not be iterated in the ops-application loop below.
+        const size_t num_original_children = node.children.size();
+
+        // Group buffered ops by destination child (original layout).
+        std::vector<std::vector<Op>> child_ops(num_original_children);
         for (auto& op : node.buffer) {
             size_t idx = node.childIndex(op.key);
             child_ops[idx].push_back(std::move(op));
@@ -295,13 +324,20 @@ struct WomTree::Impl {
 
         uint32_t next_depth = depth + 1;
 
-        for (size_t ci = 0; ci < node.children.size(); ++ci) {
-            if (child_ops[ci].empty()) continue;
-            Node& child = *node.children[ci];
+        // Apply ops to each original child.
+        // 'splits_so_far' tracks how many right-half leaves have been
+        // inserted BEFORE orig_idx in node.children, so we can compute the
+        // true current index: ci = orig_idx + splits_so_far.
+        size_t splits_so_far = 0;
+        for (size_t orig_idx = 0; orig_idx < num_original_children; ++orig_idx) {
+            if (child_ops[orig_idx].empty()) continue;
+
+            size_t ci    = orig_idx + splits_so_far;
+            Node& child  = *node.children[ci];
 
             if (child.is_leaf) {
                 // Apply ops directly to leaf.
-                for (auto& op : child_ops[ci]) {
+                for (auto& op : child_ops[orig_idx]) {
                     stat_internal_bytes.fetch_add(op.byteSize(),
                                                   std::memory_order_relaxed);
                     bool before = (child.leafFind(op.key) != child.data.end());
@@ -313,11 +349,16 @@ struct WomTree::Impl {
                         stat_live_entries.fetch_sub(1, std::memory_order_relaxed);
                     }
                 }
-                // Split the leaf if it overflowed.
+                // Split the leaf if it overflowed; the new right leaf goes
+                // to ci+1 in node.children.
+                size_t children_before = node.children.size();
                 maybeSplitChild(node, ci);
+                if (node.children.size() > children_before) {
+                    ++splits_so_far;  // Account for the newly-inserted right leaf.
+                }
             } else {
                 // Push ops into child's buffer.
-                for (auto& op : child_ops[ci]) {
+                for (auto& op : child_ops[orig_idx]) {
                     stat_internal_bytes.fetch_add(op.byteSize(),
                                                   std::memory_order_relaxed);
                     child.buffer_bytes += op.byteSize();
@@ -376,7 +417,117 @@ struct WomTree::Impl {
         parent.children.insert(parent.children.begin() + static_cast<ptrdiff_t>(ci + 1),
                                 std::move(right));
 
-        // If parent is now overfull, it will be handled by the parent's caller.
+        // If parent is now overfull, it will be handled by fixAllInternalOverflows().
+    }
+
+    // ── Fanout enforcement ───────────────────────────────────────────────
+
+    // Perform one internal-node split, depth-first.  Returns true if any
+    // split was performed (the caller should then call again until stable).
+    bool doOneInternalSplit(NodePtr& node_ref, Node* parent, size_t idx_in_parent) {
+        if (node_ref->is_leaf) return false;
+
+        // Recurse into children first (bottom-up ordering).
+        for (size_t i = 0; i < node_ref->children.size(); ++i) {
+            if (doOneInternalSplit(node_ref->children[i], node_ref.get(), i)) {
+                return true;  // One split done; restart to re-evaluate indices.
+            }
+        }
+
+        // Check whether this node is overfull.
+        if (node_ref->children.size() <= static_cast<size_t>(config.fanout)) {
+            return false;
+        }
+
+        std::string pivot;
+        auto right = splitInternal(*node_ref, pivot);
+
+        if (parent == nullptr) {
+            // node_ref IS root — grow the tree by one level.
+            auto new_root = std::make_unique<Node>(false);
+            new_root->pivot_keys.push_back(std::move(pivot));
+            new_root->children.push_back(std::move(root));
+            new_root->children.push_back(std::move(right));
+            root = std::move(new_root);
+            height++;
+        } else {
+            // Insert the new right sibling into the parent.
+            parent->pivot_keys.insert(
+                parent->pivot_keys.begin() + static_cast<ptrdiff_t>(idx_in_parent),
+                std::move(pivot));
+            parent->children.insert(
+                parent->children.begin() + static_cast<ptrdiff_t>(idx_in_parent + 1),
+                std::move(right));
+        }
+        return true;
+    }
+
+    // Keep splitting overfull internal nodes until the tree satisfies the
+    // fanout constraint at every level.
+    void fixAllInternalOverflows() {
+        while (doOneInternalSplit(root, nullptr, 0)) {}
+    }
+
+    // ── lazy_deletes=false helpers ───────────────────────────────────────
+
+    // Remove all buffered ops for 'key' along the path from node down to the
+    // child subtree that contains 'key'.  This prevents a previously-buffered
+    // PUT from reappearing after the next flush when lazy_deletes=false.
+    void clearBufferedOpsForKey(const std::string& key, Node& node) {
+        if (node.is_leaf) return;
+
+        auto& buf = node.buffer;
+        size_t freed = 0;
+        buf.erase(std::remove_if(buf.begin(), buf.end(),
+                                 [&](const Op& op) {
+                                     if (op.key == key) {
+                                         freed += op.byteSize();
+                                         return true;
+                                     }
+                                     return false;
+                                 }),
+                  buf.end());
+        node.buffer_bytes -= freed;
+
+        // Recurse into the single child that covers 'key'.
+        size_t ci = node.childIndex(key);
+        clearBufferedOpsForKey(key, *node.children[ci]);
+    }
+
+    // Immediately remove 'key' from the tree without buffering a tombstone.
+    // All pending buffered ops for 'key' in internal nodes are purged first,
+    // then the entry is physically erased from its leaf.
+    // Precondition: caller has verified the key exists (doGet succeeded).
+    void directRemove(const std::string& key) {
+        if (root->is_leaf) {
+            bool was_present = (root->leafFind(key) != root->data.end());
+            Op op;
+            op.type = OpType::REMOVE;
+            op.key  = key;
+            root->leafApply(op);
+            if (was_present) {
+                stat_live_entries.fetch_sub(1, std::memory_order_relaxed);
+            }
+            return;
+        }
+
+        // Clear any buffered ops for this key so they can't resurrect it.
+        clearBufferedOpsForKey(key, *root);
+
+        // Descend to the leaf and erase the entry.
+        Node* node = root.get();
+        while (!node->is_leaf) {
+            size_t ci = node->childIndex(key);
+            node = node->children[ci].get();
+        }
+        bool was_present = (node->leafFind(key) != node->data.end());
+        Op op;
+        op.type = OpType::REMOVE;
+        op.key  = key;
+        node->leafApply(op);
+        if (was_present) {
+            stat_live_entries.fetch_sub(1, std::memory_order_relaxed);
+        }
     }
 
     // ── Read path ────────────────────────────────────────────────────────
@@ -533,7 +684,7 @@ Result<void> WomTree::put(std::string_view key, std::string_view value) {
         return ErrVoid(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                        "WomTree::put: key must not be empty");
     }
-    std::lock_guard<std::mutex> lk(impl_->mu);
+    std::lock_guard<std::shared_mutex> lk(impl_->mu);
     Op op;
     op.type  = OpType::PUT;
     op.key   = std::string(key);
@@ -550,9 +701,9 @@ Result<void> WomTree::remove(std::string_view key) {
         return ErrVoid(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                        "WomTree::remove: key must not be empty");
     }
-    std::lock_guard<std::mutex> lk(impl_->mu);
+    std::lock_guard<std::shared_mutex> lk(impl_->mu);
 
-    // Check existence before issuing the tombstone.
+    // Check existence before issuing the tombstone / direct removal.
     auto maybe = impl_->doGet(key);
     if (!maybe.has_value()) {
         return ErrVoid(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
@@ -560,11 +711,19 @@ Result<void> WomTree::remove(std::string_view key) {
                            std::string(key));
     }
 
-    Op op;
-    op.type = OpType::REMOVE;
-    op.key  = std::string(key);
     impl_->stat_removes.fetch_add(1, std::memory_order_relaxed);
-    impl_->doInsertOp(std::move(op));
+
+    if (!impl_->config.lazy_deletes) {
+        // Immediately descend and erase from the leaf, clearing all buffered
+        // ops for this key on the way down.
+        impl_->directRemove(std::string(key));
+    } else {
+        // Buffer a tombstone and propagate it lazily.
+        Op op;
+        op.type = OpType::REMOVE;
+        op.key  = std::string(key);
+        impl_->doInsertOp(std::move(op));
+    }
     return OkVoid();
 }
 
@@ -575,7 +734,7 @@ Result<std::string> WomTree::get(std::string_view key) const {
         return Err<std::string>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                                 "WomTree::get: key must not be empty");
     }
-    std::lock_guard<std::mutex> lk(impl_->mu);
+    std::shared_lock<std::shared_mutex> lk(impl_->mu);
     impl_->stat_gets.fetch_add(1, std::memory_order_relaxed);
     auto maybe = impl_->doGet(key);
     if (!maybe.has_value()) {
@@ -591,7 +750,7 @@ Result<std::string> WomTree::get(std::string_view key) const {
 
 bool WomTree::contains(std::string_view key) const {
     if (key.empty()) return false;
-    std::lock_guard<std::mutex> lk(impl_->mu);
+    std::shared_lock<std::shared_mutex> lk(impl_->mu);
     return impl_->doGet(key).has_value();
 }
 
@@ -599,9 +758,15 @@ bool WomTree::contains(std::string_view key) const {
 
 void WomTree::scan(
     const std::function<bool(std::string_view, std::string_view)>& callback) const {
-    std::lock_guard<std::mutex> lk(impl_->mu);
+    // Snapshot the entire tree state under a shared lock, then iterate and
+    // invoke the user callback outside the lock.  This prevents the lock from
+    // being held for the full duration of a potentially slow callback while
+    // still giving the caller a consistent point-in-time view.
     std::map<std::string, std::string> materialized;
-    impl_->collectAllEntries(materialized);
+    {
+        std::shared_lock<std::shared_mutex> lk(impl_->mu);
+        impl_->collectAllEntries(materialized);
+    }
     for (const auto& [k, v] : materialized) {
         if (!callback(k, v)) break;
     }
@@ -611,9 +776,11 @@ void WomTree::scanRange(
     std::string_view start_key,
     std::string_view end_key,
     const std::function<bool(std::string_view, std::string_view)>& callback) const {
-    std::lock_guard<std::mutex> lk(impl_->mu);
     std::map<std::string, std::string> materialized;
-    impl_->collectAllEntries(materialized);
+    {
+        std::shared_lock<std::shared_mutex> lk(impl_->mu);
+        impl_->collectAllEntries(materialized);
+    }
 
     auto it_begin = start_key.empty()
                         ? materialized.begin()
@@ -630,13 +797,13 @@ void WomTree::scanRange(
 // ── compact / flushOnce ──────────────────────────────────────────────────────
 
 Result<void> WomTree::compact() {
-    std::lock_guard<std::mutex> lk(impl_->mu);
+    std::lock_guard<std::shared_mutex> lk(impl_->mu);
     impl_->flushAll(*impl_->root, 1);
     return OkVoid();
 }
 
 Result<void> WomTree::flushOnce() {
-    std::lock_guard<std::mutex> lk(impl_->mu);
+    std::lock_guard<std::shared_mutex> lk(impl_->mu);
     if (!impl_->root->is_leaf && !impl_->root->buffer.empty()) {
         impl_->flushNode(*impl_->root, 1);
     }
@@ -654,7 +821,7 @@ bool WomTree::empty() const noexcept {
 }
 
 void WomTree::clear() {
-    std::lock_guard<std::mutex> lk(impl_->mu);
+    std::lock_guard<std::shared_mutex> lk(impl_->mu);
     impl_->root = std::make_unique<Node>(true);
     impl_->height = 1;
     impl_->stat_puts.store(0, std::memory_order_relaxed);
@@ -670,7 +837,7 @@ void WomTree::clear() {
 // ── stats ────────────────────────────────────────────────────────────────────
 
 WomTree::Stats WomTree::stats() const {
-    std::lock_guard<std::mutex> lk(impl_->mu);
+    std::shared_lock<std::shared_mutex> lk(impl_->mu);
     Stats s;
     s.total_puts          = impl_->stat_puts.load(std::memory_order_relaxed);
     s.total_removes       = impl_->stat_removes.load(std::memory_order_relaxed);

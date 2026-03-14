@@ -251,13 +251,13 @@ TEST(WomTreeFocusedTests, AC1_WriteAmplification_BelowLSMBaseline) {
 
     auto s = t.stats();
     EXPECT_GT(s.user_bytes_written, 0u);
-    // Write amplification for WOM tree must be < 30x (LSM baseline).
-    // (For WOM tree it should be 2-5x, but we assert the LSM threshold here
-    // to prove we are strictly better than LSM's worst case.)
-    if (s.internal_bytes_written > 0) {
-        double wa = s.writeAmplification();
-        EXPECT_LT(wa, 30.0) << "Write amplification " << wa << " exceeds LSM baseline";
-    }
+    // internal_bytes_written includes all tree writes (direct leaf + buffer
+    // hops), so writeAmplification() is always ≥ 1.0 after any put().
+    EXPECT_GE(s.writeAmplification(), 1.0)
+        << "Write amplification must be at least 1.0";
+    // WOM tree must be strictly better than the LSM worst case (30×).
+    EXPECT_LT(s.writeAmplification(), 30.0)
+        << "Write amplification " << s.writeAmplification() << " exceeds LSM baseline";
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -467,4 +467,211 @@ TEST(WomTreeFocusedTests, ThreadSafety_ConcurrentPutAndGet_NoDataRace) {
     for (auto& th : threads) th.join();
     // Readers should see either old or new value for every key.
     EXPECT_EQ(read_errors.load(), 0);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Fix 1: shared_mutex — concurrent readers do not block each other
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(WomTreeFocusedTests, ConcurrentReaders_NoBlockingEachOther) {
+    WomTree t;
+    for (int i = 0; i < 100; ++i) ASSERT_TRUE(t.put(key(i), val(i)).has_value());
+
+    constexpr int kReaders = 8;
+    std::atomic<int> errors{0};
+    std::vector<std::thread> threads;
+    threads.reserve(kReaders);
+    for (int r = 0; r < kReaders; ++r) {
+        threads.emplace_back([&t, &errors] {
+            for (int i = 0; i < 100; ++i) {
+                auto res = t.get(key(i));
+                if (!res.has_value()) ++errors;
+            }
+        });
+    }
+    for (auto& th : threads) th.join();
+    EXPECT_EQ(errors.load(), 0);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Fix 2: lazy_deletes=false — immediate leaf removal + buffer clearing
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(WomTreeFocusedTests, LazyDeletesFalse_ImmediateRemoval_LeafRoot) {
+    WomTree::Config cfg;
+    cfg.lazy_deletes = false;
+    WomTree t(cfg);
+
+    ASSERT_TRUE(t.put("alpha", "1").has_value());
+    ASSERT_TRUE(t.remove("alpha").has_value());
+    // Must be gone immediately.
+    EXPECT_FALSE(t.contains("alpha"));
+    EXPECT_EQ(t.size(), 0u);
+    // Compact must not resurrect the key.
+    ASSERT_TRUE(t.compact().has_value());
+    EXPECT_FALSE(t.contains("alpha"));
+}
+
+TEST(WomTreeFocusedTests, LazyDeletesFalse_ClearsBufferedPutBeforeRemoval) {
+    // With a large buffer the PUT is buffered in the root.  A subsequent
+    // lazy_deletes=false remove must clear that buffered PUT so it cannot
+    // reappear after the next flush.
+    WomTree::Config cfg;
+    cfg.lazy_deletes      = false;
+    cfg.buffer_size_bytes = 1024 * 1024;  // Prevent auto-flush.
+    cfg.leaf_capacity     = 4;
+    cfg.fanout            = 4;
+    WomTree t(cfg);
+
+    // Force a multi-level tree.
+    for (int i = 0; i < 20; ++i) ASSERT_TRUE(t.put(key(i), val(i)).has_value());
+
+    // Remove one key immediately.
+    ASSERT_TRUE(t.remove("key:5").has_value());
+    EXPECT_FALSE(t.contains("key:5"));
+
+    // After compact, the key must still be absent (no buffer resurrection).
+    ASSERT_TRUE(t.compact().has_value());
+    EXPECT_FALSE(t.contains("key:5"));
+
+    // All other keys must survive.
+    for (int i = 0; i < 20; ++i) {
+        if (i == 5) continue;
+        EXPECT_TRUE(t.contains(key(i))) << "key:" << i << " should still exist";
+    }
+}
+
+TEST(WomTreeFocusedTests, LazyDeletesFalse_ReinsertAfterDirectRemove) {
+    WomTree::Config cfg;
+    cfg.lazy_deletes      = false;
+    cfg.buffer_size_bytes = 1024 * 1024;
+    cfg.leaf_capacity     = 4;
+    cfg.fanout            = 4;
+    WomTree t(cfg);
+
+    for (int i = 0; i < 20; ++i) ASSERT_TRUE(t.put(key(i), val(i)).has_value());
+    ASSERT_TRUE(t.remove("key:3").has_value());
+    // Re-insert after direct remove.
+    ASSERT_TRUE(t.put("key:3", "restored").has_value());
+    auto res = t.get("key:3");
+    ASSERT_TRUE(res.has_value());
+    EXPECT_EQ(*res, "restored");
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Fix 3: writeAmplification() >= 1.0 even for single-leaf trees
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(WomTreeFocusedTests, WriteAmplification_AtLeastOneAfterSinglePut) {
+    WomTree t;  // Default config: large leaf capacity -> single-leaf mode.
+    ASSERT_TRUE(t.put("k", "v").has_value());
+    auto s = t.stats();
+    EXPECT_GE(s.writeAmplification(), 1.0)
+        << "WA must be >= 1.0 (every user byte is written to at least one node)";
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Fix 4: size() is accurate for buffered ops (multi-level tree)
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(WomTreeFocusedTests, Size_AccurateWithBufferedOps) {
+    // Use large buffer + small leaf to force a multi-level tree with pending
+    // buffered ops.  size() must equal the number of distinct keys inserted.
+    WomTree::Config cfg;
+    cfg.buffer_size_bytes = 1024 * 1024;  // Prevent auto-flush.
+    cfg.leaf_capacity     = 4;
+    cfg.fanout            = 4;
+    WomTree t(cfg);
+
+    for (int i = 0; i < 50; ++i) ASSERT_TRUE(t.put(key(i), val(i)).has_value());
+    // Even though some ops sit in internal buffers, size() must be accurate.
+    EXPECT_EQ(t.size(), 50u);
+
+    // Overwriting existing keys must not inflate size.
+    for (int i = 0; i < 50; ++i) ASSERT_TRUE(t.put(key(i), "updated").has_value());
+    EXPECT_EQ(t.size(), 50u);
+}
+
+TEST(WomTreeFocusedTests, Size_AccurateAfterBufferedRemove) {
+    WomTree::Config cfg;
+    cfg.buffer_size_bytes = 1024 * 1024;
+    cfg.leaf_capacity     = 4;
+    cfg.fanout            = 4;
+    WomTree t(cfg);
+
+    for (int i = 0; i < 30; ++i) ASSERT_TRUE(t.put(key(i), val(i)).has_value());
+    ASSERT_EQ(t.size(), 30u);
+
+    // Remove 10 keys (lazy tombstone path).
+    for (int i = 0; i < 10; ++i) ASSERT_TRUE(t.remove(key(i)).has_value());
+    EXPECT_EQ(t.size(), 20u);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Fix 5: fanout is enforced — internal nodes are split when overfull
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(WomTreeFocusedTests, FanoutEnforced_InternalNodesSplitCorrectly) {
+    // fanout=2 is the minimum; all keys must be reachable even with aggressive
+    // splitting.
+    WomTree::Config cfg;
+    cfg.fanout        = 2;
+    cfg.leaf_capacity = 2;
+    WomTree t(cfg);
+
+    constexpr int kEntries = 128;
+    for (int i = 0; i < kEntries; ++i) {
+        ASSERT_TRUE(t.put(key(i), val(i)).has_value());
+    }
+
+    // Every key must be readable after many internal-node splits.
+    for (int i = 0; i < kEntries; ++i) {
+        auto r = t.get(key(i));
+        ASSERT_TRUE(r.has_value()) << "missing key:" << i;
+        EXPECT_EQ(*r, val(i));
+    }
+}
+
+TEST(WomTreeFocusedTests, FanoutEnforced_TreeHeightBounded) {
+    // With fanout=4 and leaf_capacity=4, 256 keys need at most log4(256)=4
+    // levels.  With internal splitting properly enforced the height is bounded.
+    WomTree::Config cfg;
+    cfg.fanout        = 4;
+    cfg.leaf_capacity = 4;
+    WomTree t(cfg);
+
+    for (int i = 0; i < 256; ++i) ASSERT_TRUE(t.put(key(i), val(i)).has_value());
+
+    auto s = t.stats();
+    // Allow some slack; height should not blow up to N (unbounded growth).
+    EXPECT_LE(s.tree_height, 12u)
+        << "tree_height=" << s.tree_height << " indicates uncontrolled growth";
+
+    // Correctness: all keys must still be readable.
+    for (int i = 0; i < 256; ++i) {
+        auto r = t.get(key(i));
+        ASSERT_TRUE(r.has_value()) << "missing key:" << i;
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Fix 6: scan() releases lock before invoking callback
+// Confirmed by calling a write inside the scan callback — must not deadlock.
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(WomTreeFocusedTests, Scan_CallbackInvokedOutsideLock_NoDeadlock) {
+    WomTree t;
+    for (int i = 0; i < 10; ++i) ASSERT_TRUE(t.put(key(i), val(i)).has_value());
+
+    // Calling put() inside the scan callback would deadlock if the scan held
+    // the exclusive mutex while invoking the callback.  After Fix 6 the lock
+    // is released before the callback, so this must complete without deadlock.
+    std::vector<std::string> seen;
+    t.scan([&t, &seen](std::string_view k, std::string_view) {
+        seen.emplace_back(k);
+        // Write inside the callback — safe because the lock is already released.
+        (void)t.put("extra_" + std::string(k), "v");
+        return true;
+    });
+    EXPECT_EQ(seen.size(), 10u);
 }

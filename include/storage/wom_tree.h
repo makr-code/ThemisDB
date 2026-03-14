@@ -27,6 +27,7 @@
 #include <functional>
 #include <memory>
 #include <mutex>
+#include <shared_mutex>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -67,7 +68,11 @@ namespace themis {
  *
  * ## Thread safety
  *
- * All public methods are thread-safe via an internal reader-writer mutex.
+ * All public methods are thread-safe.  Read-only operations (`get`,
+ * `contains`, `stats`, `scan`, `scanRange`, `size`, `empty`, `config`)
+ * acquire a shared lock so concurrent readers do not block each other.
+ * Mutating operations (`put`, `remove`, `compact`, `flushOnce`, `clear`)
+ * acquire an exclusive lock.
  *
  * ## References
  *
@@ -112,10 +117,18 @@ public:
         size_t max_buffered_entries = 0;
 
         /**
-         * If true, deleted keys are tombstoned in-memory and purged
-         * asynchronously during the next flush/compact pass.
-         * If false, the delete takes effect immediately (higher read path
-         * cost for large buffers).
+         * If true (default), a `remove()` call is buffered as a tombstone and
+         * propagated lazily down to the leaf during the next flush/compact
+         * pass.  This keeps the write path fast at the cost of a slightly
+         * higher read path (every buffer along the path must be scanned for
+         * the most-recent tombstone).
+         *
+         * If false, `remove()` immediately descends to the leaf, clears any
+         * buffered ops for that key in all internal nodes on the path, and
+         * physically erases the entry from the leaf.  This makes reads
+         * cheaper (no buffer scanning for deleted keys) but makes the write
+         * path heavier: it must walk the tree top-to-bottom and purge the
+         * key from every intermediate buffer.
          */
         bool lazy_deletes = true;
     };
@@ -152,10 +165,11 @@ public:
         /**
          * @brief Estimated write-amplification factor.
          *
-         * Ratio of bytes written internally (buffer propagation + leaf
-         * writes) to bytes written by the user.  A value close to 1.0
-         * means minimal write overhead; the WOM tree targets 2–5×
-         * compared to 10–30× for typical LSM trees.
+         * Ratio of all bytes physically written to tree nodes (direct leaf
+         * writes + buffer propagation hops) to bytes submitted by the user.
+         * A value of 1.0 means each user byte was written exactly once
+         * (ideal, single-leaf tree); typical multi-level WOM trees target
+         * 2–5× compared to 10–30× for typical LSM trees.
          *
          * Returns 0.0 if no user bytes have been written yet.
          */
@@ -317,9 +331,12 @@ public:
     Result<void> flushOnce();
 
     /**
-     * @brief Return the number of live entries (approximate).
+     * @brief Return the number of live entries.
      *
-     * The count may be slightly stale if concurrent writers are active.
+     * The count is exact in single-threaded usage.  Under concurrent writes
+     * it may be momentarily stale by at most the number of in-flight writers,
+     * but it is always consistent with what `get()`/`contains()` observe once
+     * the same exclusive lock is acquired.
      */
     size_t size() const noexcept;
 
