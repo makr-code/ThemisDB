@@ -484,9 +484,9 @@ TEST(RemoteRegistryClient, CustomBackoffDispatcherIsUsed) {
 
     RegistryConfig cfg;
     cfg.registry_url            = "http://127.0.0.1:1";
-    cfg.timeout_ms              = 10;
+    cfg.timeout_ms              = 5;
     cfg.max_retries             = 1;   // ensure at least one backoff
-    cfg.max_total_retry_time_ms = 5;   // keep loop short
+    cfg.max_total_retry_time_ms = 15;  // allow one retry with minimal delay
     cfg.verify_ssl              = false;
 
     RemoteRegistryClient client(cfg);
