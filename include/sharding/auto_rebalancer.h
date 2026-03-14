@@ -39,6 +39,11 @@
 // Forward declare AuditLogger so sharding headers don't drag in heavy auth headers
 namespace themis { namespace utils { class AuditLogger; } }
 
+// Forward-declare PredictiveFailureDetector from its own namespace so
+// auto_rebalancer.h doesn't drag in the heavy predictive_detector.h
+// (which transitively includes redundancy_strategy.h).
+namespace themisdb { namespace sharding { class PredictiveFailureDetector; } }
+
 namespace themis {
 namespace sharding {
 
@@ -57,15 +62,23 @@ class DataMigrator;
  * Evaluates current and predicted load from ShardLoadDetector and produces
  * SplitProposal objects when a shard exceeds configured thresholds.
  *
- * Two detection modes:
- *  1. Reactive  – current CPU or storage already exceeds the threshold.
- *  2. Predictive – forecasted load (default 5 min ahead) exceeds 80 % of
- *                  capacity before saturation occurs.
+ * Three detection modes:
+ *  1. Reactive   – current CPU or storage already exceeds the threshold.
+ *  2. Statistical – `ShardLoadDetector::forecastLoad()` (linear regression)
+ *                   projects load > `predictive_load_threshold` within the
+ *                   configured horizon (default 5 min).
+ *  3. ML-based   – `PredictiveFailureDetector::predictShard()` (ONNX-backed ML)
+ *                   reports failure probability ≥ `failure_probability_threshold`;
+ *                   high failure probability is treated as a pre-emptive split
+ *                   trigger because it indicates the shard is under excessive stress.
+ *
+ * Mode 3 requires calling `setPredictiveDetector()` before `evaluate()`.
  *
  * Example:
  *   HotShardSplitPolicy::Config cfg;
  *   cfg.cpu_split_threshold = 0.80;
  *   HotShardSplitPolicy policy(load_detector, cfg);
+ *   policy.setPredictiveDetector(failure_detector);
  *   auto proposals = policy.evaluate();
  */
 class HotShardSplitPolicy {
@@ -77,14 +90,22 @@ public:
         /// Storage usage fraction that triggers a reactive split (default 80 %).
         double storage_split_threshold = 0.80;
 
-        /// Composite load score (0–100) that triggers a predictive split.
+        /// Composite load score (0–100) that triggers a statistical predictive split.
         double predictive_load_threshold = 80.0;
 
-        /// How far ahead to forecast load.
+        /// How far ahead to forecast load (statistical mode).
         std::chrono::minutes forecast_horizon{5};
 
-        /// Enable predictive (pre-emptive) splitting based on forecasted load.
+        /// Enable statistical (pre-emptive) splitting based on forecasted load.
         bool enable_predictive_splitting = true;
+
+        /// Failure probability [0, 1] from PredictiveFailureDetector above which
+        /// a pre-emptive split is triggered (ML-based mode).
+        /// Only consulted when a PredictiveFailureDetector is attached.
+        float failure_probability_threshold = 0.70f;
+
+        /// Enable ML-based predictive splitting via PredictiveFailureDetector.
+        bool enable_ml_predictive_splitting = true;
     };
 
     /**
@@ -94,7 +115,8 @@ public:
         /// Shard that should be split.
         std::string hot_shard_id;
 
-        /// Human-readable reason (e.g. "CPU 85%", "predicted composite 82/100").
+        /// Human-readable reason (e.g. "CPU 85%", "predicted composite 82/100",
+        /// "ML failure probability 0.72").
         std::string reason;
 
         /// Current composite load score (0–100).
@@ -116,6 +138,22 @@ public:
     );
 
     /**
+     * Attach a PredictiveFailureDetector for ML-based predictive splitting.
+     *
+     * When set, `evaluate()` will call `detector->predictShard()` for every
+     * tracked shard and emit a split proposal when the failure probability
+     * meets or exceeds `Config::failure_probability_threshold`.
+     *
+     * The detector is held as a raw pointer (non-owning) because
+     * PredictiveFailureDetector is constructed with non-ownable references
+     * (RedundancyStrategy&, ShardTopology&) and typically has a longer lifetime
+     * than HotShardSplitPolicy.
+     *
+     * @param pd Non-owning pointer; pass nullptr to disable ML-based path.
+     */
+    void setPredictiveDetector(themisdb::sharding::PredictiveFailureDetector* pd);
+
+    /**
      * Evaluate current and forecasted shard load and return all split proposals.
      * @return Zero or more proposals; empty when no shards require splitting.
      */
@@ -126,6 +164,8 @@ public:
 private:
     std::shared_ptr<ShardLoadDetector> detector_;
     Config config_;
+    // Non-owning pointer; may be nullptr when ML integration is not configured.
+    themisdb::sharding::PredictiveFailureDetector* predictive_detector_ = nullptr;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -24,6 +24,7 @@
 #include "sharding/shard_topology.h"
 #include "sharding/prometheus_metrics.h"
 #include "sharding/data_migrator.h"
+#include "sharding/predictive_detector.h"
 #include "utils/audit_logger.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
@@ -50,6 +51,12 @@ HotShardSplitPolicy::HotShardSplitPolicy(
     std::shared_ptr<ShardLoadDetector> detector,
     const Config& config
 ) : detector_(std::move(detector)), config_(config) {}
+
+void HotShardSplitPolicy::setPredictiveDetector(
+    themisdb::sharding::PredictiveFailureDetector* pd
+) {
+    predictive_detector_ = pd;
+}
 
 std::vector<HotShardSplitPolicy::SplitProposal> HotShardSplitPolicy::evaluate() const {
     if (!detector_) {
@@ -102,6 +109,34 @@ std::vector<HotShardSplitPolicy::SplitProposal> HotShardSplitPolicy::evaluate() 
                 proposal.predicted_load_percent = forecast->predicted_composite_load;
                 proposal.is_predictive          = true;
                 proposals.push_back(proposal);
+                continue;  // ML-based check not needed if statistical path already fired
+            }
+        }
+
+        // ── ML-based predictive check via PredictiveFailureDetector ──────────
+        // When a PredictiveFailureDetector is attached, consult its ML-model
+        // predictions for the shard.  A high failure probability indicates the
+        // shard is under significant stress (I/O errors, latency spikes, etc.)
+        // and should be split pre-emptively to reduce load before saturation or
+        // hardware failure occurs.
+        if (config_.enable_ml_predictive_splitting && predictive_detector_) {
+            try {
+                auto pred = predictive_detector_->predictShard(shard_id);
+                if (pred.failure_probability >= config_.failure_probability_threshold) {
+                    proposal.reason = "ML-based predictive split: PredictiveFailureDetector "
+                                      "failure probability " +
+                                      std::to_string(static_cast<int>(pred.failure_probability * 100)) +
+                                      "% >= threshold " +
+                                      std::to_string(static_cast<int>(
+                                          config_.failure_probability_threshold * 100)) + "%";
+                    proposal.current_load_percent   = load.cpu_usage_percent;
+                    proposal.predicted_load_percent = static_cast<double>(pred.failure_probability) * 100.0;
+                    proposal.is_predictive          = true;
+                    proposals.push_back(proposal);
+                }
+            } catch (const std::exception& ex) {
+                THEMIS_WARN("HotShardSplitPolicy: PredictiveFailureDetector threw for {}: {}",
+                            shard_id, ex.what());
             }
         }
     }

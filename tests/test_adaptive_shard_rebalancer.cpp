@@ -4,7 +4,8 @@
  *
  * Covers (Issue #203, v1.7.0):
  *  - HotShardSplitPolicy: reactive split detection (CPU/storage over threshold)
- *  - HotShardSplitPolicy: predictive split detection (forecasted load > 80%)
+ *  - HotShardSplitPolicy: statistical predictive detection (forecasted load > 80%)
+ *  - HotShardSplitPolicy: ML-based predictive detection via PredictiveFailureDetector
  *  - ShardLoadDetector::forecastLoad(): linear-regression 5-minute projection
  *  - DataMigrator::liveMigrate(): dual-write semantics (no topology/WAL shipper)
  *  - AutoRebalancer::setSplitPolicy() + evaluateAndExecuteSplits() integration
@@ -268,6 +269,23 @@ TEST(HotShardSplitPolicy, ConfigDefaults) {
     EXPECT_DOUBLE_EQ(cfg.predictive_load_threshold, 80.0);
     EXPECT_EQ(cfg.forecast_horizon, std::chrono::minutes{5});
     EXPECT_TRUE(cfg.enable_predictive_splitting);
+    EXPECT_FLOAT_EQ(cfg.failure_probability_threshold, 0.70f);
+    EXPECT_TRUE(cfg.enable_ml_predictive_splitting);
+}
+
+TEST(HotShardSplitPolicy, SetPredictiveDetector_NullptrDisablesMLPath) {
+    auto det = makeDetector(1);
+    det->updateShardLoad("s1", makeMetrics("s1", 50.0, 40.0));
+
+    HotShardSplitPolicy::Config cfg;
+    cfg.cpu_split_threshold             = 0.80;
+    cfg.enable_predictive_splitting     = false;
+    cfg.enable_ml_predictive_splitting  = true;
+    HotShardSplitPolicy policy(det, cfg);
+
+    // nullptr → ML path disabled; should return no proposals (load is below threshold)
+    policy.setPredictiveDetector(nullptr);
+    EXPECT_TRUE(policy.evaluate().empty());
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
