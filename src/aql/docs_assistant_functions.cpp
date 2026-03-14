@@ -26,6 +26,7 @@
  */
 
 #include "aql/docs_assistant_functions.h"
+#include "aql/classify_bridge.h"
 #include "llm/docs_assistant.h"
 #include "llm/embedded_llm.h"
 #include "llm/applications/themis_help_lora.h"
@@ -195,26 +196,31 @@ std::string DocsAssistantFunctions::help(const std::string& query, const std::st
 
 std::string DocsAssistantFunctions::detectIntentWithNativeNLP(const std::string& query) {
     try {
-        // Try to use ThemisDB native NLP CLASSIFY function
-        // This would require access to the function registry and execution context
-        // For now, return unknown to skip to next method
-        // TODO: Integrate with native CLASSIFY function when execution context available
-        
-        // The native CLASSIFY function signature is:
-        // CLASSIFY(text, categories) -> {category, confidence, scores}
-        // We would call it with:
-        // CLASSIFY(query, ["configuration", "troubleshooting", "search", "general"])
-        
-        // Since we don't have direct access to the function execution context here,
-        // we return unknown to fall through to LLM method
-        // In a future enhancement, this could be integrated at the AQL parser level
-        
-        return "unknown";
-        
+        if (!classifier_) {
+            // No classifier injected – fall through to LLM path.
+            return "unknown";
+        }
+
+        static const std::vector<std::string> categories = {
+            "configuration", "troubleshooting", "search", "general"
+        };
+
+        ClassifyResult result = classifier_->classify(query, categories);
+
+        if (result.category.empty() || result.confidence <= 0.0) {
+            return "unknown";
+        }
+
+        return result.category;
+
     } catch (const std::exception&) {
         // Native NLP not available or failed
         return "unknown";
     }
+}
+
+void DocsAssistantFunctions::setClassifier(IClassifyFn* classifier) {
+    classifier_ = classifier;
 }
 
 std::string DocsAssistantFunctions::detectIntentWithLLM(const std::string& query) {

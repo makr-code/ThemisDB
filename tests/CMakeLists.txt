@@ -116,6 +116,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_data_loader\\.cpp$"
         ".*test_directx_backend\\.cpp$"
         ".*test_docs_assistant_aql\\.cpp$"
+        ".*test_classify_bridge_integration\\.cpp$"
         ".*test_aql_lora_finetuner\\.cpp$"
         ".*test_aql_agent\\.cpp$"
         ".*test_nl_to_aql_translation\\.cpp$"
@@ -532,6 +533,14 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/test_self_improvement_orchestrator.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_engineering_integration.cpp
 )
+
+# Re-include classify-bridge integration tests that depend on the LLM subsystem
+# (docs_assistant_functions.cpp links against LLM object files).
+if(THEMIS_ENABLE_LLM)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_classify_bridge_integration.cpp
+    )
+endif()
 
 # Re-include prompt_engineering tests that depend on the LLM subsystem (llm/
 # headers) and are therefore only valid when THEMIS_ENABLE_LLM is ON.
