@@ -33,6 +33,9 @@
 #include "themis/base/module_loader.h"
 
 #include <nlohmann/json.hpp>
+#include <chrono>
+#include <functional>
+#include <future>
 #include <mutex>
 #include <optional>
 #include <string>
@@ -264,6 +267,39 @@ public:
 
     /// Return the current configuration.
     const RegistryConfig& config() const { return config_; }
+
+    // -------------------------------------------------------------------------
+    // Async APIs
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Asynchronously perform an HTTP GET with retry/back-off.
+     *
+     * The returned future completes with the response body or throws a
+     * std::runtime_error on failure. The calling thread is released as soon as
+     * the future is created; retries and back-off run on a worker thread.
+     */
+    std::future<std::string> httpGetAsync(const std::string& url);
+
+    /**
+     * @brief Asynchronously download a binary with retry/back-off.
+     *
+     * The returned future resolves to true on success, false on failure.
+     * Callers may choose to wait or poll the future; back-off delays do not
+     * block the calling thread.
+     */
+    std::future<bool> httpGetBinaryAsync(const std::string& url,
+                                         const std::string& out_path);
+
+    /**
+     * @brief Override the back-off dispatcher used for scheduling retry delays.
+     *
+     * Intended for integration with the existing TaskScheduler: pass a lambda
+     * that submits a delayed no-op task and returns a future that becomes ready
+     * after the delay. Passing nullptr resets to the internal scheduler.
+     */
+    static void setBackoffDispatcher(
+        std::function<std::future<void>(std::chrono::milliseconds)> dispatcher);
 
     // -------------------------------------------------------------------------
     // Observability

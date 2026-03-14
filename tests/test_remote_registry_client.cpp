@@ -36,6 +36,8 @@
 #include "themis/base/remote_registry_client.h"
 #include "themis/base/module_loader.h"
 
+#include <atomic>
+#include <chrono>
 #include <filesystem>
 #include <fstream>
 #include <string>
@@ -453,4 +455,54 @@ TEST(RemoteRegistryClient, TotalRetryBudgetExhausted) {
     const auto stats = client.lastRequestStats();
     EXPECT_EQ(stats.attempts, 1);
     EXPECT_FALSE(stats.last_error.empty());
+}
+
+// =============================================================================
+// Async back-off dispatcher – custom scheduler integration
+// =============================================================================
+
+TEST(RemoteRegistryClient, CustomBackoffDispatcherIsUsed) {
+    std::atomic<int> dispatcher_calls{0};
+
+    auto dispatcher = [&dispatcher_calls](std::chrono::milliseconds delay) {
+        dispatcher_calls.fetch_add(static_cast<int>(delay.count()), std::memory_order_relaxed);
+        std::promise<void> p;
+        auto fut = p.get_future();
+        p.set_value();  // no actual sleep to keep the test fast
+        return fut;
+    };
+
+    RemoteRegistryClient::setBackoffDispatcher(dispatcher);
+
+    RegistryConfig cfg;
+    cfg.registry_url            = "http://127.0.0.1:1";
+    cfg.timeout_ms              = 10;
+    cfg.max_retries             = 1;   // ensure at least one back-off
+    cfg.max_total_retry_time_ms = 5;   // keep loop short
+    cfg.verify_ssl              = false;
+
+    RemoteRegistryClient client(cfg);
+    client.listPlugins();  // will fail and trigger backoff dispatcher
+
+    EXPECT_GT(dispatcher_calls.load(), 0);
+
+    // Reset to default dispatcher to avoid bleeding into other tests
+    RemoteRegistryClient::setBackoffDispatcher(nullptr);
+}
+
+TEST(RemoteRegistryClient, HttpGetAsyncReleasesCaller) {
+    RegistryConfig cfg;
+    cfg.registry_url            = "http://127.0.0.1:1";
+    cfg.timeout_ms              = 10;
+    cfg.max_retries             = 0;
+    cfg.max_total_retry_time_ms = 5;
+    cfg.verify_ssl              = false;
+
+    RemoteRegistryClient client(cfg);
+
+    auto fut = client.httpGetAsync(cfg.registry_url + "/plugins");
+
+    // Future should be valid and we should be able to wait for completion.
+    EXPECT_TRUE(fut.valid());
+    EXPECT_THROW(fut.get(), std::runtime_error);
 }
