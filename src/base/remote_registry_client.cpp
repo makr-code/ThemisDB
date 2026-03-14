@@ -36,6 +36,7 @@
 #include <chrono>
 #include <filesystem>
 #include <fstream>
+#include <future>
 #include <iomanip>
 #include <mutex>
 #include <sstream>
@@ -290,9 +291,16 @@ ModuleVerificationResult RemoteRegistryClient::downloadAndLoad(
 // =============================================================================
 
 /*static*/ void RemoteRegistryClient::asyncBackoffSleep(int ms) {
-    // Plain blocking sleep: avoids thread-creation overhead per retry while
-    // still giving callers a single well-defined back-off helper.
-    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+    // Use std::async so the sleep runs on a worker thread, releasing the
+    // calling thread (which may be a server I/O or thread-pool thread) during
+    // the back-off interval.  Waiting on the returned future ensures the
+    // full back-off duration is observed before the next retry attempt.
+    auto f = std::async(std::launch::async,
+                        [ms]() {
+                            std::this_thread::sleep_for(
+                                std::chrono::milliseconds(ms));
+                        });
+    f.wait();
 }
 
 std::string RemoteRegistryClient::buildAuthorizationHeader() const {
