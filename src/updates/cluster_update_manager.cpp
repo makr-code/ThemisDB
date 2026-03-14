@@ -78,11 +78,16 @@ ClusterUpdateManager::ClusterUpdateManager(const Config& config)
 // Private helpers
 // ---------------------------------------------------------------------------
 
+/// Sentinel returned by findNodeIndex when the node is not found.
+static constexpr int NODE_NOT_FOUND = -1;
+
 int ClusterUpdateManager::findNodeIndex(const std::string& node_id) const {
-    for (int i = 0; i < static_cast<int>(node_statuses_.size()); ++i) {
-        if (node_statuses_[i].node_id == node_id) return i;
+    for (size_t i = 0; i < node_statuses_.size(); ++i) {
+        if (node_statuses_[i].node_id == node_id) {
+            return static_cast<int>(i);
+        }
     }
-    return -1;
+    return NODE_NOT_FOUND;
 }
 
 void ClusterUpdateManager::emitProgress(const std::string& current_node,

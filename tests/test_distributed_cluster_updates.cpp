@@ -420,14 +420,17 @@ TEST_F(DistributedClusterHealthCheck, HealthCheckSucceeds_NodeCompleted) {
 
 class DistributedClusterCancellation : public ::testing::Test {};
 
-TEST_F(DistributedClusterCancellation, CancelBeforeUpdate_AllNodesSkipped) {
+TEST_F(DistributedClusterCancellation, CancelBeforeUpdate_StopsRemainingNodes) {
     ClusterUpdateManager mgr(make3NodeConfig());
 
+    // Cancel the update after the very first NodeUpdateFunc call.
+    // Because cancellation is checked before each node is processed,
+    // only the first node reaches the update callback; subsequent nodes are
+    // skipped once the flag is seen.
     std::atomic<int> update_calls{0};
     mgr.setNodeUpdateFunc([&](const ClusterNode&, const std::string&,
                                const ClusterUpdateOptions&) {
         ++update_calls;
-        // Cancel during the first update attempt.
         mgr.cancelUpdate();
         return true;
     });
@@ -435,7 +438,8 @@ TEST_F(DistributedClusterCancellation, CancelBeforeUpdate_AllNodesSkipped) {
 
     auto result = mgr.updateCluster("1.7.0");
 
-    // At most one node was updated (the one that triggered cancellation).
+    // The cancellation flag is set inside the first callback, so at most
+    // one NodeUpdateFunc invocation occurs before the loop exits.
     EXPECT_LE(update_calls.load(), 1);
     EXPECT_FALSE(result.success);
 }
@@ -452,11 +456,13 @@ TEST_F(DistributedClusterCancellation, CancelledFlagReset_OnNewUpdateCall) {
     mgr.setNodeUpdateFunc(alwaysOkUpdate());
     mgr.setNodeHealthCheckFunc(alwaysHealthy());
 
-    // First update: cancel immediately.
+    // Cancel before the first update call.
     mgr.cancelUpdate();
-    mgr.updateCluster("1.7.0"); // resets cancelled_ flag at start
+    EXPECT_TRUE(mgr.isCancelled());
 
-    // Second update should run normally (flag is reset at start of updateCluster).
+    // updateCluster() resets the cancellation flag at the start of each call.
+    // The second call should therefore succeed normally.
+    mgr.updateCluster("1.7.0");
     auto result = mgr.updateCluster("1.7.0");
     EXPECT_TRUE(result.success);
 }
