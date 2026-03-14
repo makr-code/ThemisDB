@@ -287,14 +287,23 @@ void ConfigMetricsExporter::updateMetricsCollector() {
     // appear in the server-wide scrape endpoint.  Gauge names use the
     // "themis_config_*_current" convention to distinguish them from the
     // proper Prometheus counter series emitted by collect().
+    // Gauges use *_current naming; *_aggregate variants provide counter-like totals, while *_total aliases are preserved for backward compatibility (non-counter gauges; planned deprecation in v1.9.0).
     collector.setGauge("themis_config_resolution_hits_current",    static_cast<double>(hits));
     collector.setGauge("themis_config_resolution_misses_current",  static_cast<double>(misses));
-    collector.setGauge("themis_config_legacy_fallbacks_current",   static_cast<double>(fallbacks));
-    collector.setGauge("themis_config_legacy_fallbacks_all_total", static_cast<double>(fallbacks));
-    collector.setGauge("themis_config_new_path_hits_total",        static_cast<double>(new_path_hits));
-    collector.setGauge("themis_config_unmapped_requests_current",  static_cast<double>(unmapped));
-    collector.setGauge("themis_config_cache_hits_total",           static_cast<double>(cache_hits));
-    collector.setGauge("themis_config_cache_misses_total",         static_cast<double>(cache_misses));
+    collector.setGauge("themis_config_legacy_fallbacks_current",        static_cast<double>(fallbacks));
+    collector.setGauge("themis_config_legacy_fallbacks_all_current",    static_cast<double>(fallbacks));
+    collector.setGauge("themis_config_legacy_fallbacks_all_aggregate",  static_cast<double>(fallbacks));
+    collector.setGauge("themis_config_legacy_fallbacks_all_total",      static_cast<double>(fallbacks)); // compatibility gauge
+    collector.setGauge("themis_config_new_path_hits_current",           static_cast<double>(new_path_hits));
+    collector.setGauge("themis_config_new_path_hits_aggregate",         static_cast<double>(new_path_hits));
+    collector.setGauge("themis_config_new_path_hits_total",             static_cast<double>(new_path_hits)); // compatibility gauge
+    collector.setGauge("themis_config_unmapped_requests_current",       static_cast<double>(unmapped));
+    collector.setGauge("themis_config_cache_hits_current",              static_cast<double>(cache_hits));
+    collector.setGauge("themis_config_cache_hits_aggregate",            static_cast<double>(cache_hits));
+    collector.setGauge("themis_config_cache_hits_total",                static_cast<double>(cache_hits)); // compatibility gauge
+    collector.setGauge("themis_config_cache_misses_current",            static_cast<double>(cache_misses));
+    collector.setGauge("themis_config_cache_misses_aggregate",          static_cast<double>(cache_misses));
+    collector.setGauge("themis_config_cache_misses_total",              static_cast<double>(cache_misses)); // compatibility gauge
     collector.setGauge("themis_config_cache_hit_ratio",            cache_hit_ratio);
     collector.setGauge("themis_config_cache_size",                 static_cast<double>(cache_stats.size));
     collector.setGauge("themis_config_cache_capacity",             static_cast<double>(cache_stats.capacity));
@@ -340,7 +349,7 @@ void ConfigMetricsExporter::registerWithRegistry(const std::shared_ptr<prometheu
     for (const auto& category : ConfigPathResolver::legacyFallbackCategories()) {
         g_metrics.legacy_by_category[category] = &legacy_family.Add({{"category", category}});
     }
-    // Aggregate series exposed via dedicated metric to avoid double counting when summing by label
+    // Aggregate series exposed via dedicated metric; use this instead of summing the per-category series to avoid double-counting.
     auto& legacy_total_family = prometheus::BuildCounter()
         .Name("themis_config_legacy_fallbacks_all_total")
         .Help("Total number of legacy config path fallbacks (aggregate across all categories).")
