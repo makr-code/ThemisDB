@@ -36,6 +36,9 @@
 #include <map>
 #include <nlohmann/json.hpp>
 
+// Forward declare AuditLogger so sharding headers don't drag in heavy auth headers
+namespace themis { namespace utils { class AuditLogger; } }
+
 namespace themis {
 namespace sharding {
 
@@ -43,6 +46,89 @@ namespace sharding {
 class ShardTopology;
 class PrometheusMetrics;
 class DataMigrator;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// HotShardSplitPolicy
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Policy for detecting hot (overloaded) shards and proposing splits.
+ *
+ * Evaluates current and predicted load from ShardLoadDetector and produces
+ * SplitProposal objects when a shard exceeds configured thresholds.
+ *
+ * Two detection modes:
+ *  1. Reactive  – current CPU or storage already exceeds the threshold.
+ *  2. Predictive – forecasted load (default 5 min ahead) exceeds 80 % of
+ *                  capacity before saturation occurs.
+ *
+ * Example:
+ *   HotShardSplitPolicy::Config cfg;
+ *   cfg.cpu_split_threshold = 0.80;
+ *   HotShardSplitPolicy policy(load_detector, cfg);
+ *   auto proposals = policy.evaluate();
+ */
+class HotShardSplitPolicy {
+public:
+    struct Config {
+        /// CPU usage fraction that triggers a reactive split (default 80 %).
+        double cpu_split_threshold = 0.80;
+
+        /// Storage usage fraction that triggers a reactive split (default 80 %).
+        double storage_split_threshold = 0.80;
+
+        /// Composite load score (0–100) that triggers a predictive split.
+        double predictive_load_threshold = 80.0;
+
+        /// How far ahead to forecast load.
+        std::chrono::minutes forecast_horizon{5};
+
+        /// Enable predictive (pre-emptive) splitting based on forecasted load.
+        bool enable_predictive_splitting = true;
+    };
+
+    /**
+     * Proposal to split a specific hot shard.
+     */
+    struct SplitProposal {
+        /// Shard that should be split.
+        std::string hot_shard_id;
+
+        /// Human-readable reason (e.g. "CPU 85%", "predicted composite 82/100").
+        std::string reason;
+
+        /// Current composite load score (0–100).
+        double current_load_percent = 0.0;
+
+        /// Predicted composite load score (0–100); equals current_load_percent
+        /// when the proposal is reactive rather than predictive.
+        double predicted_load_percent = 0.0;
+
+        /// True when the proposal is based on forecasted (not current) load.
+        bool is_predictive = false;
+    };
+
+    explicit HotShardSplitPolicy(std::shared_ptr<ShardLoadDetector> detector);
+
+    HotShardSplitPolicy(
+        std::shared_ptr<ShardLoadDetector> detector,
+        const Config& config
+    );
+
+    /**
+     * Evaluate current and forecasted shard load and return all split proposals.
+     * @return Zero or more proposals; empty when no shards require splitting.
+     */
+    std::vector<SplitProposal> evaluate() const;
+
+    const Config& getConfig() const { return config_; }
+
+private:
+    std::shared_ptr<ShardLoadDetector> detector_;
+    Config config_;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
 
 /**
  * Automatic Rebalancing Coordinator
@@ -169,13 +255,31 @@ public:
      * @return JSON statistics
      */
     nlohmann::json getStatistics() const;
-    
+
+    /**
+     * Attach a HotShardSplitPolicy so the monitor loop also evaluates hot-shard splits.
+     * @param policy Policy instance (may be nullptr to disable)
+     */
+    void setSplitPolicy(std::shared_ptr<HotShardSplitPolicy> policy);
+
+    /**
+     * Attach an audit logger for emitting SHARD_SPLIT / SHARD_MERGE compliance events.
+     * @param audit_logger Logger instance (may be nullptr to disable audit)
+     */
+    void setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> audit_logger);
+
 private:
     std::shared_ptr<ShardTopology> topology_;
     std::shared_ptr<ShardLoadDetector> load_detector_;
     std::shared_ptr<PrometheusMetrics> metrics_;
     std::shared_ptr<DataMigrator> migrator_;
     Config config_;
+
+    // Optional hot-shard split policy
+    std::shared_ptr<HotShardSplitPolicy> split_policy_;
+
+    // Optional audit logger for compliance events
+    std::shared_ptr<themis::utils::AuditLogger> audit_logger_;
     
     // Threading
     std::atomic<bool> running_{false};
@@ -195,10 +299,15 @@ private:
     std::atomic<uint64_t> triggered_operations_{0};
     std::atomic<uint64_t> completed_operations_{0};
     std::atomic<uint64_t> failed_operations_{0};
+    std::atomic<uint64_t> split_proposals_total_{0};
     std::chrono::system_clock::time_point last_check_time_;
     
     // Monitoring loop
     void monitorLoop();
+
+    // Hot-shard split handling
+    void evaluateAndExecuteSplits();
+    bool executeSplitProposal(const HotShardSplitPolicy::SplitProposal& proposal);
     
     // Rebalance execution
     bool executeRebalance(const LoadImbalanceResult::RebalanceRecommendation& recommendation);

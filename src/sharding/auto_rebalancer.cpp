@@ -24,6 +24,7 @@
 #include "sharding/shard_topology.h"
 #include "sharding/prometheus_metrics.h"
 #include "sharding/data_migrator.h"
+#include "utils/audit_logger.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <sstream>
@@ -37,6 +38,79 @@
 
 namespace themis {
 namespace sharding {
+
+// ─────────────────────────────────────────────────────────────────────────────
+// HotShardSplitPolicy
+// ─────────────────────────────────────────────────────────────────────────────
+
+HotShardSplitPolicy::HotShardSplitPolicy(std::shared_ptr<ShardLoadDetector> detector)
+    : detector_(std::move(detector)), config_(Config{}) {}
+
+HotShardSplitPolicy::HotShardSplitPolicy(
+    std::shared_ptr<ShardLoadDetector> detector,
+    const Config& config
+) : detector_(std::move(detector)), config_(config) {}
+
+std::vector<HotShardSplitPolicy::SplitProposal> HotShardSplitPolicy::evaluate() const {
+    if (!detector_) {
+        return {};
+    }
+
+    std::vector<SplitProposal> proposals;
+
+    const auto all_loads = detector_->getAllShardLoads();
+
+    for (const auto& [shard_id, load] : all_loads) {
+        SplitProposal proposal;
+        proposal.hot_shard_id = shard_id;
+
+        // ── Reactive check: current CPU or storage already over threshold ──
+        const bool cpu_hot     = (load.cpu_usage_percent / 100.0) >= config_.cpu_split_threshold;
+        const bool storage_hot = (load.storage_usage_percent / 100.0) >= config_.storage_split_threshold;
+
+        if (cpu_hot || storage_hot) {
+            if (cpu_hot) {
+                proposal.reason = "CPU " + std::to_string(static_cast<int>(load.cpu_usage_percent)) + "%";
+            }
+            if (storage_hot) {
+                if (!proposal.reason.empty()) proposal.reason += ", ";
+                proposal.reason += "storage " + std::to_string(static_cast<int>(load.storage_usage_percent)) + "%";
+            }
+            proposal.reason = "Reactive split: " + proposal.reason +
+                              " exceeds " +
+                              std::to_string(static_cast<int>(config_.cpu_split_threshold * 100)) + "% threshold";
+            proposal.current_load_percent   = std::max(load.cpu_usage_percent, load.storage_usage_percent);
+            proposal.predicted_load_percent = proposal.current_load_percent;
+            proposal.is_predictive          = false;
+            proposals.push_back(proposal);
+            continue;  // No need to check predictive path for already-hot shard
+        }
+
+        // ── Predictive check: forecast exceeds threshold ──
+        if (config_.enable_predictive_splitting) {
+            auto forecast = detector_->forecastLoad(shard_id, config_.forecast_horizon);
+            if (forecast && forecast->predicted_composite_load >= config_.predictive_load_threshold) {
+                proposal.reason = "Predictive split: forecast composite load " +
+                                  std::to_string(static_cast<int>(forecast->predicted_composite_load)) +
+                                  "/100 in " + std::to_string(config_.forecast_horizon.count()) +
+                                  " min (threshold " +
+                                  std::to_string(static_cast<int>(config_.predictive_load_threshold)) + ")";
+                proposal.current_load_percent   = forecast->has_sufficient_history
+                                                      ? forecast->predicted_composite_load - (forecast->predicted_composite_load - 70.0) / 2.0
+                                                      : forecast->predicted_composite_load;
+                proposal.predicted_load_percent = forecast->predicted_composite_load;
+                proposal.is_predictive          = true;
+                proposals.push_back(proposal);
+            }
+        }
+    }
+
+    return proposals;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AutoRebalancer
+// ─────────────────────────────────────────────────────────────────────────────
 
 AutoRebalancer::AutoRebalancer(
     std::shared_ptr<ShardTopology> topology,
@@ -168,6 +242,9 @@ void AutoRebalancer::monitorLoop() {
                         load_detector_->recordRebalanceTriggered();
                     }
                 }
+
+                // Evaluate hot-shard splits (reactive + predictive)
+                evaluateAndExecuteSplits();
             }
             
         } catch (const std::exception& e) {
@@ -573,6 +650,7 @@ nlohmann::json AutoRebalancer::getStatistics() const {
     stats["triggered_operations"] = triggered_operations_.load();
     stats["completed_operations"] = completed_operations_.load();
     stats["failed_operations"] = failed_operations_.load();
+    stats["split_proposals_total"] = split_proposals_total_.load();
     stats["active_operations"] = active_operations_.size();
     stats["pending_approvals"] = pending_approvals_.size();
     
@@ -585,6 +663,132 @@ nlohmann::json AutoRebalancer::getStatistics() const {
     }
     
     return stats;
+}
+
+void AutoRebalancer::setSplitPolicy(std::shared_ptr<HotShardSplitPolicy> policy) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    split_policy_ = std::move(policy);
+}
+
+void AutoRebalancer::setAuditLogger(
+    std::shared_ptr<themis::utils::AuditLogger> audit_logger
+) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    audit_logger_ = std::move(audit_logger);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Hot-shard split evaluation and execution
+// ─────────────────────────────────────────────────────────────────────────────
+
+void AutoRebalancer::evaluateAndExecuteSplits() {
+    std::shared_ptr<HotShardSplitPolicy> policy;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        policy = split_policy_;
+    }
+
+    if (!policy) {
+        return;
+    }
+
+    const auto proposals = policy->evaluate();
+    if (proposals.empty()) {
+        THEMIS_DEBUG("HotShardSplitPolicy: no split proposals");
+        return;
+    }
+
+    THEMIS_INFO("HotShardSplitPolicy: {} split proposal(s) generated", proposals.size());
+    split_proposals_total_ += proposals.size();
+
+    if (metrics_) {
+        metrics_->setGauge("themis_split_proposals_total",
+                           static_cast<double>(split_proposals_total_.load()));
+    }
+
+    for (const auto& proposal : proposals) {
+        if (!canTriggerRebalance()) {
+            THEMIS_WARN("HotShardSplitPolicy: safety limits reached; deferring split for {}",
+                        proposal.hot_shard_id);
+            break;
+        }
+
+        executeSplitProposal(proposal);
+    }
+}
+
+bool AutoRebalancer::executeSplitProposal(const HotShardSplitPolicy::SplitProposal& proposal) {
+    auto span = Tracer::startSpan("AutoRebalancer.executeSplitProposal");
+    span.setAttribute("hot_shard", proposal.hot_shard_id);
+    span.setAttribute("is_predictive", proposal.is_predictive);
+
+    THEMIS_INFO("Executing shard split for {} – {} (current={:.1f}%, predicted={:.1f}%)",
+                proposal.hot_shard_id, proposal.reason,
+                proposal.current_load_percent, proposal.predicted_load_percent);
+
+    // Emit SHARD_SPLIT audit event for compliance trail
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (audit_logger_) {
+            nlohmann::json details;
+            details["hot_shard_id"]           = proposal.hot_shard_id;
+            details["reason"]                 = proposal.reason;
+            details["current_load_percent"]   = proposal.current_load_percent;
+            details["predicted_load_percent"] = proposal.predicted_load_percent;
+            details["is_predictive"]          = proposal.is_predictive;
+
+            try {
+                audit_logger_->logSecurityEvent(
+                    themis::utils::SecurityEventType::SHARD_SPLIT,
+                    "auto_rebalancer",
+                    proposal.hot_shard_id,
+                    details
+                );
+            } catch (const std::exception& ex) {
+                THEMIS_WARN("AutoRebalancer: audit log failed for split {}: {}",
+                            proposal.hot_shard_id, ex.what());
+            }
+        }
+    }
+
+    // Translate the split proposal into a standard rebalance recommendation.
+    // Splitting a hot shard means moving ~50 % of its token range to a new
+    // (currently empty or lightly loaded) shard.  The load detector's cold
+    // shard list is consulted; if no cold shard is available the split is
+    // deferred until one is.
+    const auto imbalance = load_detector_->detectImbalance();
+    std::string target_shard;
+
+    if (!imbalance.cold_shards.empty()) {
+        target_shard = imbalance.cold_shards.front();
+    } else {
+        THEMIS_WARN("AutoRebalancer: no cold shard available for split of {}; deferring",
+                    proposal.hot_shard_id);
+        span.setAttribute("deferred", true);
+        return false;
+    }
+
+    LoadImbalanceResult::RebalanceRecommendation rec;
+    rec.source_shard = proposal.hot_shard_id;
+    rec.target_shard = target_shard;
+    // Move the upper half of the source shard's token range
+    rec.token_range_start = UINT64_MAX / 2;
+    rec.token_range_end   = UINT64_MAX;
+    rec.expected_load_reduction_percent = 50.0;
+    rec.justification = "Hot-shard split – " + proposal.reason;
+
+    const bool ok = executeRebalance(rec);
+
+    if (metrics_) {
+        if (ok) {
+            metrics_->incrementCounter("themis_shard_splits_total");
+        } else {
+            metrics_->incrementCounter("themis_shard_split_failures_total");
+        }
+    }
+
+    span.setAttribute("success", ok);
+    return ok;
 }
 
 } // namespace sharding
