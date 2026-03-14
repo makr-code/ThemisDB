@@ -134,7 +134,7 @@ public:
 
     /// Aggregation function applied by @c parallelAggregate.
     enum class AggregateFunction {
-        Count,          ///< COUNT(*) – counts non-null rows.
+        Count,          ///< COUNT(*) – counts all input rows (field is ignored).
         Sum,            ///< SUM(field)
         Avg,            ///< AVG(field)
         Min,            ///< MIN(field)
@@ -146,9 +146,9 @@ public:
      *
      * When @c group_by is empty the result contains a single entry keyed by
      * the empty string.  When @c group_by is non-empty each distinct
-     * combination of group-field values produces one entry; the key is a
-     * pipe-separated concatenation of the group-field values in the order
-     * they appear in @c group_by.
+     * combination of group-field values produces one entry.  The group key
+     * uses a length-prefixed encoding (@c "len:value|len:value|...") so
+     * field values that contain the @c '|' character never cause collisions.
      */
     struct AggregateSpec {
         std::string field;               ///< Field to aggregate (ignored for Count).
@@ -171,7 +171,10 @@ public:
     explicit ParallelExecutor(ParallelConfig config = {});
 
     const ParallelConfig& getConfig() const noexcept { return config_; }
-    void setConfig(const ParallelConfig& cfg) { config_ = cfg; }
+    void setConfig(const ParallelConfig& cfg) {
+        config_ = cfg;
+        validateConfig(config_);
+    }
 
     // ========================================================================
     // Public API
@@ -189,7 +192,9 @@ public:
      * @param input       Rows to scan (read-only).
      * @param filter      Predicate; rows for which it returns @c true are kept.
      * @param num_threads Desired parallelism (0 → use @c config.max_threads).
-     * @return Filtered rows in an unspecified order.
+     * @return Filtered rows in the same relative order as in @p input
+     *         (morsel-stable: rows from earlier morsels precede rows from
+     *         later morsels, and within each morsel the input order is kept).
      */
     Result<Table> parallelScan(
         const Table&    input,
@@ -245,6 +250,9 @@ private:
 
     /// Resolve effective thread count: clamp to [1, max_threads].
     size_t resolveThreads(size_t requested) const noexcept;
+
+    /// Clamp zero values in a config to their minimum of 1.
+    static void validateConfig(ParallelConfig& cfg) noexcept;
 
     // ── Internal sequential helpers ─────────────────────────────────────────
 

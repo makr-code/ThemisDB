@@ -89,6 +89,16 @@ TEST(ParallelConfigTest, ZeroMorselSizeClampedToOne) {
     EXPECT_GE(exec.getConfig().morsel_size, 1u);
 }
 
+TEST(ParallelConfigTest, SetConfigClampsZeroValues) {
+    ParallelExecutor exec;
+    ParallelExecutor::ParallelConfig bad;
+    bad.max_threads = 0;
+    bad.morsel_size = 0;
+    exec.setConfig(bad);
+    EXPECT_GE(exec.getConfig().max_threads, 1u);
+    EXPECT_GE(exec.getConfig().morsel_size, 1u);
+}
+
 // ============================================================================
 // parallelScan
 // ============================================================================
@@ -393,8 +403,9 @@ TEST(ParallelAggregateTest, CountByGroup) {
     auto res = exec.parallelAggregate(input, spec);
     ASSERT_TRUE(res.has_value());
     ASSERT_EQ(res->size(), 2u);
-    EXPECT_DOUBLE_EQ(res->at("even"), 50.0);
-    EXPECT_DOUBLE_EQ(res->at("odd"),  50.0);
+    // Group keys use length-prefix encoding: "4:even" and "3:odd".
+    EXPECT_DOUBLE_EQ(res->at("4:even"), 50.0);
+    EXPECT_DOUBLE_EQ(res->at("3:odd"),  50.0);
 }
 
 TEST(ParallelAggregateTest, SumByGroup) {
@@ -406,8 +417,8 @@ TEST(ParallelAggregateTest, SumByGroup) {
     auto res = exec.parallelAggregate(input, spec);
     ASSERT_TRUE(res.has_value());
     ASSERT_EQ(res->size(), 2u);
-    EXPECT_DOUBLE_EQ(res->at("even"), 6.0);
-    EXPECT_DOUBLE_EQ(res->at("odd"),  9.0);
+    EXPECT_DOUBLE_EQ(res->at("4:even"), 6.0);
+    EXPECT_DOUBLE_EQ(res->at("3:odd"),  9.0);
 }
 
 TEST(ParallelAggregateTest, EmptyInputReturnsEmptyResult) {
@@ -469,4 +480,33 @@ TEST(ParallelAggregateTest, MorselBoundaryEdgeCase) {
     auto res = exec.parallelAggregate(input, spec);
     ASSERT_TRUE(res.has_value());
     EXPECT_DOUBLE_EQ(res->at(""), 42.0);
+}
+
+TEST(ParallelAggregateTest, GroupKeyPipeCharacterNoCollision) {
+    // Ensure that field values containing '|' do not cause two different
+    // group values to encode to the same group key.
+    // We create two groups: g="foo|bar" (value contains the separator) and
+    // g="foo", verifying they are counted independently.
+    ParallelExecutor exec;
+
+    Table input;
+    for (int i = 0; i < 5; ++i) {
+        BaseEntity::FieldMap f;
+        f["g"]     = std::string("foo|bar"); // value contains '|'
+        f["value"] = int64_t(1);
+        input.push_back(makeEntity("a" + std::to_string(i), std::move(f)));
+    }
+    for (int i = 0; i < 3; ++i) {
+        BaseEntity::FieldMap f;
+        f["g"]     = std::string("foo");
+        f["value"] = int64_t(1);
+        input.push_back(makeEntity("b" + std::to_string(i), std::move(f)));
+    }
+
+    AggSpec spec{"value", AggFn::Count, {"g"}};
+    auto res = exec.parallelAggregate(input, spec);
+    ASSERT_TRUE(res.has_value());
+    ASSERT_EQ(res->size(), 2u);
+    EXPECT_DOUBLE_EQ(res->at("7:foo|bar"), 5.0);
+    EXPECT_DOUBLE_EQ(res->at("3:foo"),     3.0);
 }

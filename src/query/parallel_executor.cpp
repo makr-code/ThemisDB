@@ -28,6 +28,7 @@
 #include <string>
 #include <vector>
 
+#include <tbb/task_arena.h>
 #include <tbb/task_group.h>
 
 #include "utils/error_registry.h"
@@ -35,17 +36,18 @@
 namespace themis {
 
 // ============================================================================
-// Construction
+// Construction / validation
 // ============================================================================
+
+// static
+void ParallelExecutor::validateConfig(ParallelConfig& cfg) noexcept {
+    if (cfg.max_threads == 0) cfg.max_threads = 1;
+    if (cfg.morsel_size  == 0) cfg.morsel_size  = 1;
+}
 
 ParallelExecutor::ParallelExecutor(ParallelConfig config)
     : config_(std::move(config)) {
-    if (config_.max_threads == 0) {
-        config_.max_threads = 1;
-    }
-    if (config_.morsel_size == 0) {
-        config_.morsel_size = 1;
-    }
+    validateConfig(config_);
 }
 
 // ============================================================================
@@ -62,11 +64,17 @@ std::string ParallelExecutor::groupKey(
     const BaseEntity&             e,
     const std::vector<std::string>& group_by) {
     if (group_by.empty()) return {};
+    // Length-prefixed encoding: "len:value|len:value|..."
+    // The length prefix makes the encoding collision-free even when field
+    // values contain the '|' separator character.
     std::string key;
     for (const auto& field : group_by) {
         if (!key.empty()) key += '|';
         auto v = e.getFieldAsString(field);
-        key += v.value_or("");
+        const std::string& sv = v.value_or("");
+        key += std::to_string(sv.size());
+        key += ':';
+        key += sv;
     }
     return key;
 }
@@ -187,22 +195,25 @@ Result<ParallelExecutor::Table> ParallelExecutor::parallelScan(
     const size_t nmors   = (n + morsel - 1) / morsel;
     std::vector<Table> buckets(nmors);
 
-    tbb::task_group tg;
-    for (size_t m = 0; m < nmors; ++m) {
-        tg.run([&, m]() {
-            const size_t start = m * morsel;
-            const size_t end   = std::min(start + morsel, n);
-            Table local;
-            local.reserve(end - start);
-            for (size_t i = start; i < end; ++i) {
-                if (filter(input[i])) local.push_back(input[i]);
-            }
-            buckets[m] = std::move(local);
-        });
-    }
-    tg.wait();
+    tbb::task_arena arena(static_cast<int>(threads));
+    arena.execute([&]() {
+        tbb::task_group tg;
+        for (size_t m = 0; m < nmors; ++m) {
+            tg.run([&, m]() {
+                const size_t start = m * morsel;
+                const size_t end   = std::min(start + morsel, n);
+                Table local;
+                local.reserve(end - start);
+                for (size_t i = start; i < end; ++i) {
+                    if (filter(input[i])) local.push_back(input[i]);
+                }
+                buckets[m] = std::move(local);
+            });
+        }
+        tg.wait();
+    });
 
-    // Merge morsel buckets.
+    // Merge morsel buckets (preserves input order across morsel boundaries).
     Table out;
     for (auto& b : buckets) {
         out.insert(out.end(),
@@ -232,45 +243,76 @@ Result<std::vector<ParallelExecutor::JoinTuple>> ParallelExecutor::parallelHashJ
         return Ok(sequentialHashJoin(left, right, spec));
     }
 
-    // Partition both sides by hash(join_key) % threads.
-    const size_t P = threads;
-    std::vector<Table> left_parts(P);
-    std::vector<Table> right_parts(P);
+    const size_t P      = threads;
+    const size_t morsel = config_.morsel_size;
 
-    // Pre-size partitions to avoid repeated allocations.
-    if (!left.empty()) {
-        const size_t hint = std::max<size_t>(1, left.size() / P);
-        for (auto& p : left_parts)  p.reserve(hint);
-    }
-    if (!right.empty()) {
-        const size_t hint = std::max<size_t>(1, right.size() / P);
-        for (auto& p : right_parts) p.reserve(hint);
-    }
+    // ── Parallel partitioning ─────────────────────────────────────────────
+    // Each morsel of left/right is processed by a separate TBB task that
+    // writes into a per-morsel, per-partition sub-buffer (no locking needed).
+    // After all tasks complete, the per-morsel buffers are merged sequentially.
 
-    for (const auto& l : left) {
-        auto k = l.getFieldAsString(spec.left_key);
-        if (!k) continue;
-        const size_t slot = std::hash<std::string>{}(*k) % P;
-        left_parts[slot].push_back(l);
-    }
-    for (const auto& r : right) {
-        auto k = r.getFieldAsString(spec.right_key);
-        if (!k) continue;
-        const size_t slot = std::hash<std::string>{}(*k) % P;
-        right_parts[slot].push_back(r);
-    }
+    auto partitionRowsByHash = [&](const Table& rows, std::string_view key_field)
+        -> std::vector<Table>
+    {
+        std::vector<Table> parts(P);
+        if (rows.empty()) return parts;
 
-    // Each worker joins its partition independently.
+        const size_t n     = rows.size();
+        const size_t nmors = (n + morsel - 1) / morsel;
+
+        // [morsel_idx][partition_idx]
+        std::vector<std::vector<Table>> morsel_partitions(nmors, std::vector<Table>(P));
+
+        tbb::task_group tg;
+        for (size_t m = 0; m < nmors; ++m) {
+            tg.run([&, m]() {
+                const size_t start = m * morsel;
+                const size_t end   = std::min(start + morsel, n);
+                for (size_t i = start; i < end; ++i) {
+                    auto k = rows[i].getFieldAsString(key_field);
+                    if (!k) continue;
+                    const size_t slot = std::hash<std::string>{}(*k) % P;
+                    morsel_partitions[m][slot].push_back(rows[i]);
+                }
+            });
+        }
+        tg.wait();
+
+        // Merge per-morsel buffers into global partitions.
+        for (size_t p = 0; p < P; ++p) {
+            for (size_t m = 0; m < nmors; ++m) {
+                parts[p].insert(parts[p].end(),
+                    std::make_move_iterator(morsel_partitions[m][p].begin()),
+                    std::make_move_iterator(morsel_partitions[m][p].end()));
+            }
+        }
+        return parts;
+    };
+
+    // Execute all parallel work (partitioning + join) inside a scoped arena
+    // so the thread count is enforced by the TBB scheduler.
+    tbb::task_arena arena(static_cast<int>(threads));
+
+    std::vector<Table> left_parts;
+    std::vector<Table> right_parts;
+    arena.execute([&]() {
+        left_parts  = partitionRowsByHash(left,  spec.left_key);
+        right_parts = partitionRowsByHash(right, spec.right_key);
+    });
+
+    // ── Parallel join ─────────────────────────────────────────────────────
     std::vector<std::vector<JoinTuple>> part_results(P);
 
-    tbb::task_group tg;
-    for (size_t p = 0; p < P; ++p) {
-        tg.run([&, p]() {
-            part_results[p] = sequentialHashJoin(
-                left_parts[p], right_parts[p], spec);
-        });
-    }
-    tg.wait();
+    arena.execute([&]() {
+        tbb::task_group tg;
+        for (size_t p = 0; p < P; ++p) {
+            tg.run([&, p]() {
+                part_results[p] = sequentialHashJoin(
+                    left_parts[p], right_parts[p], spec);
+            });
+        }
+        tg.wait();
+    });
 
     // Merge partition results.
     std::vector<JoinTuple> out;
@@ -303,30 +345,33 @@ Result<ParallelExecutor::AggregateResult> ParallelExecutor::parallelAggregate(
     const size_t nmors  = (n + morsel - 1) / morsel;
     std::vector<PartialMap> partials(nmors);
 
-    tbb::task_group tg;
-    for (size_t m = 0; m < nmors; ++m) {
-        tg.run([&, m]() {
-            const size_t start = m * morsel;
-            const size_t end   = std::min(start + morsel, n);
-            PartialMap& pm = partials[m];
-            for (size_t i = start; i < end; ++i) {
-                const BaseEntity& e = input[i];
-                const std::string gk = groupKey(e, spec.group_by);
-                auto& p = pm[gk];
-                if (spec.function == AggregateFunction::Count) {
-                    p.count += 1.0;
-                } else {
-                    auto v = e.getFieldAsDouble(spec.field);
-                    if (!v) continue;
-                    p.sum   += *v;
-                    p.count += 1.0;
-                    p.min    = std::min(p.min, *v);
-                    p.max    = std::max(p.max, *v);
+    tbb::task_arena arena(static_cast<int>(threads));
+    arena.execute([&]() {
+        tbb::task_group tg;
+        for (size_t m = 0; m < nmors; ++m) {
+            tg.run([&, m]() {
+                const size_t start = m * morsel;
+                const size_t end   = std::min(start + morsel, n);
+                PartialMap& pm = partials[m];
+                for (size_t i = start; i < end; ++i) {
+                    const BaseEntity& e = input[i];
+                    const std::string gk = groupKey(e, spec.group_by);
+                    auto& p = pm[gk];
+                    if (spec.function == AggregateFunction::Count) {
+                        p.count += 1.0;
+                    } else {
+                        auto v = e.getFieldAsDouble(spec.field);
+                        if (!v) continue;
+                        p.sum   += *v;
+                        p.count += 1.0;
+                        p.min    = std::min(p.min, *v);
+                        p.max    = std::max(p.max, *v);
+                    }
                 }
-            }
-        });
-    }
-    tg.wait();
+            });
+        }
+        tg.wait();
+    });
 
     // Phase 2: merge all partial maps into a single map.
     PartialMap merged;
