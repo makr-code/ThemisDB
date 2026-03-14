@@ -12959,6 +12959,42 @@ else()
     message(STATUS "Binary Delta Patches focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_binary_delta_patches.cpp")
 endif()
 
+# AutomaticSchemaMigration – focused tests for SchemaMigration (v1.7.0, Issue #127)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_automatic_schema_migration.cpp" AND NOT TARGET test_automatic_schema_migration_focused)
+    message(STATUS "Adding Automatic Schema Migration focused tests (Issue #127)")
+
+    add_executable(test_automatic_schema_migration_focused
+        test_automatic_schema_migration.cpp
+    )
+
+    target_include_directories(test_automatic_schema_migration_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_automatic_schema_migration_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_automatic_schema_migration_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AutomaticSchemaMigrationFocusedTests COMMAND test_automatic_schema_migration_focused)
+
+    set_tests_properties(AutomaticSchemaMigrationFocusedTests PROPERTIES
+        LABELS "updates;schema;migration;online-ddl;backfill;rollback;dual-write;focused;unit;integration"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  AutomaticSchemaMigration: schema versioning, online DDL, backfill, index rebuild, dual-write, rollback")
+else()
+    message(STATUS "Automatic Schema Migration focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_automatic_schema_migration.cpp")
+endif()
+
 # VoiceAssistant focused tests – covers VoiceBiometricAuthenticator, WakeWordDetector,
 # VoiceBatchProcessor, VoiceMacroManager, and full VoiceAssistant pipeline.
 # Requires THEMIS_ENABLE_LLM because voice_assistant.h includes llm/llama_wrapper.h.
