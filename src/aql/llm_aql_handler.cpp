@@ -41,6 +41,9 @@
 #include <sstream>
 #include <algorithm>
 #include <cctype>
+#include <future>
+#include <semaphore>
+#include <thread>
 #include <spdlog/spdlog.h>
 
 namespace themis {
@@ -1342,25 +1345,79 @@ std::string LLMAQLHandler::translateNLToAQLStreaming(
 }
 
 std::vector<LLMAQLHandler::BatchNLToAQLResult> LLMAQLHandler::translateBatchNLToAQL(
-    const std::vector<BatchNLToAQLRequest>& requests
+    const std::vector<BatchNLToAQLRequest>& requests,
+    std::size_t max_concurrent_requests
 ) {
-    std::vector<BatchNLToAQLResult> results;
-    results.reserve(requests.size());
+    const std::size_t n = requests.size();
+    if (n == 0) return {};
+
+    // Determine effective concurrency – default to hardware thread count.
+    const std::size_t hw_concurrency = std::max(
+        static_cast<std::size_t>(1u),
+        static_cast<std::size_t>(std::thread::hardware_concurrency())
+    );
+    const std::size_t requested_concurrency =
+        (max_concurrent_requests == 0) ? hw_concurrency : max_concurrent_requests;
+
+    // Clamp to the compile-time semaphore ceiling.
+    static constexpr std::ptrdiff_t kMaxSemaphoreCount = 256;
+    const std::ptrdiff_t sem_count = static_cast<std::ptrdiff_t>(
+        std::min(requested_concurrency, static_cast<std::size_t>(kMaxSemaphoreCount))
+    );
+
+    // Semaphore limits the number of in-flight LLM calls at any moment.
+    std::counting_semaphore<kMaxSemaphoreCount> sem(sem_count);
+
+    // Launch one async task per request.  Each task acquires the semaphore
+    // before calling translateNLToAQL() and releases it on exit, regardless
+    // of success or failure (RAII via try/finally pattern).
+    std::vector<std::future<BatchNLToAQLResult>> futures;
+    futures.reserve(n);
 
     for (const auto& req : requests) {
-        BatchNLToAQLResult result;
-        try {
-            result.aql_query = translateNLToAQL(req.nl_query, req.schema_context);
-            result.success = true;
-        } catch (const std::exception& e) {
-            result.aql_query.clear();
-            result.error = e.what();
-            result.success = false;
-        }
-        results.push_back(std::move(result));
+        futures.push_back(std::async(
+            std::launch::async,
+            [this, &req, &sem]() -> BatchNLToAQLResult {
+                sem.acquire();
+                BatchNLToAQLResult result;
+                try {
+                    result.aql_query = translateNLToAQL(req.nl_query, req.schema_context);
+                    result.success   = true;
+                } catch (const std::exception& e) {
+                    result.aql_query.clear();
+                    result.error   = e.what();
+                    result.success = false;
+                } catch (...) {
+                    result.aql_query.clear();
+                    result.error   = "Unknown exception during translation";
+                    result.success = false;
+                }
+                sem.release();
+                return result;
+            }
+        ));
     }
 
+    // Collect results in original request order.
+    std::vector<BatchNLToAQLResult> results;
+    results.reserve(n);
+    for (auto& f : futures) {
+        results.push_back(f.get());
+    }
     return results;
+}
+
+std::future<std::vector<LLMAQLHandler::BatchNLToAQLResult>>
+LLMAQLHandler::translateBatchNLToAQLAsync(
+    std::vector<BatchNLToAQLRequest> requests,
+    std::size_t max_concurrent_requests
+) {
+    return std::async(
+        std::launch::async,
+        [this, requests = std::move(requests), max_concurrent_requests]() {
+            return translateBatchNLToAQL(requests, max_concurrent_requests);
+        }
+    );
 }
 
 std::string LLMAQLHandler::executeChat(

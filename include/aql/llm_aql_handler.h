@@ -36,8 +36,11 @@
 #include <string>
 #include <cstdint>
 #include <functional>
+#include <future>
 #include <memory>
 #include <optional>
+#include <semaphore>
+#include <thread>
 #include <unordered_map>
 #include <vector>
 
@@ -387,17 +390,45 @@ public:
     };
 
     /**
-     * @brief Translate a batch of natural language queries to AQL for offline workloads.
+     * @brief Translate a batch of natural language queries to AQL in parallel.
      *
-     * Processes every request in order and returns one result per request.
-     * Individual translation failures are captured in the result's @c error field
-     * so that a single failure does not abort the entire batch.
+     * Dispatches up to @p max_concurrent_requests translations concurrently
+     * using @c std::async(std::launch::async, ...) and a
+     * @c std::counting_semaphore to bound the number of simultaneous LLM
+     * inferences.  Results are collected in the original request order.
      *
-     * @param requests Vector of NL queries with optional schema contexts
-     * @return Vector of results in the same order as the input requests
+     * Individual translation failures are captured in the result's @c error
+     * field so that a single failure does not abort the rest of the batch.
+     *
+     * @param requests               Vector of NL queries with optional schema
+     *                               contexts.
+     * @param max_concurrent_requests Maximum number of translations executed
+     *                               simultaneously.  Pass @c 0 (the default)
+     *                               to use @c std::thread::hardware_concurrency().
+     * @return Vector of results in the same order as the input requests.
      */
     std::vector<BatchNLToAQLResult> translateBatchNLToAQL(
-        const std::vector<BatchNLToAQLRequest>& requests
+        const std::vector<BatchNLToAQLRequest>& requests,
+        std::size_t max_concurrent_requests = 0
+    );
+
+    /**
+     * @brief Asynchronous overload of translateBatchNLToAQL().
+     *
+     * Launches the entire parallel batch on a background thread and returns
+     * immediately with a future that resolves to the completed result vector.
+     *
+     * @param requests               Vector of NL queries with optional schema
+     *                               contexts (moved into the background task).
+     * @param max_concurrent_requests Maximum number of translations executed
+     *                               simultaneously.  Pass @c 0 (the default)
+     *                               to use @c std::thread::hardware_concurrency().
+     * @return Future that resolves to a vector of results in the same order
+     *         as the input requests.
+     */
+    std::future<std::vector<BatchNLToAQLResult>> translateBatchNLToAQLAsync(
+        std::vector<BatchNLToAQLRequest> requests,
+        std::size_t max_concurrent_requests = 0
     );
 
     // Conversation/Chat Support
