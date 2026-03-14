@@ -56,8 +56,13 @@ bool WsChangeHandler::isChangeStreamPath(std::string_view path) {
     return path == "/v2/changes" || path == "/v2/cdc/stream";
 }
 
-/// Decode a percent-encoded URL component (application/x-www-form-urlencoded
-/// style: '+' is treated as a literal '+', only %XX sequences are expanded).
+/// Decode a percent-encoded URL path/query component per RFC 3986.
+/// Only %XX sequences are expanded; '+' is left as a literal '+' (this is a
+/// raw URL query string, not application/x-www-form-urlencoded).
+/// Malformed sequences (e.g. bare '%', truncated '%3', non-hex '%ZZ') pass
+/// through unchanged.
+/// Note: HTTP form-param decoding in http_type_adapter.cpp intentionally uses
+/// different semantics ('+' → ' ') for application/x-www-form-urlencoded bodies.
 static std::string url_decode(const std::string& encoded) {
     std::string result;
     result.reserve(encoded.size());

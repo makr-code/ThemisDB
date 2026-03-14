@@ -208,6 +208,47 @@ TEST(WsChangeHandlerTest, ValidateLiteralColonStillWorks) {
     EXPECT_EQ(decision.key_prefix, "orders:");
 }
 
+TEST(WsChangeHandlerTest, ValidateMalformedBarePercentPassesThrough) {
+    // A bare '%' at the end of the value is not a valid escape – pass through.
+    WsChangeHandler handler(nullptr);
+    auto req      = make_upgrade_request("/v2/changes?key_prefix=orders%");
+    auto decision = handler.validate(req);
+
+    ASSERT_TRUE(decision.should_upgrade);
+    EXPECT_EQ(decision.key_prefix, "orders%");
+}
+
+TEST(WsChangeHandlerTest, ValidateMalformedTruncatedPercentPassesThrough) {
+    // '%3' has only one hex digit – not a valid escape, pass through.
+    WsChangeHandler handler(nullptr);
+    auto req      = make_upgrade_request("/v2/changes?key_prefix=orders%3");
+    auto decision = handler.validate(req);
+
+    ASSERT_TRUE(decision.should_upgrade);
+    EXPECT_EQ(decision.key_prefix, "orders%3");
+}
+
+TEST(WsChangeHandlerTest, ValidateMalformedNonHexPercentPassesThrough) {
+    // '%ZZ' has non-hex digits – pass through unchanged.
+    WsChangeHandler handler(nullptr);
+    auto req      = make_upgrade_request("/v2/changes?key_prefix=orders%ZZ");
+    auto decision = handler.validate(req);
+
+    ASSERT_TRUE(decision.should_upgrade);
+    EXPECT_EQ(decision.key_prefix, "orders%ZZ");
+}
+
+TEST(WsChangeHandlerTest, ValidatePlusSignIsNotDecodedToSpace) {
+    // '+' in a raw URL query string is a literal '+', not a space.
+    // (Space is encoded as %20 in RFC 3986 query strings.)
+    WsChangeHandler handler(nullptr);
+    auto req      = make_upgrade_request("/v2/changes?key_prefix=orders+items");
+    auto decision = handler.validate(req);
+
+    ASSERT_TRUE(decision.should_upgrade);
+    EXPECT_EQ(decision.key_prefix, "orders+items");
+}
+
 // ============================================================================
 // validate() – authentication (with default-constructed AuthMiddleware)
 // ============================================================================
