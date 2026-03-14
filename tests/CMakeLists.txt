@@ -12959,6 +12959,42 @@ else()
     message(STATUS "Binary Delta Patches focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_binary_delta_patches.cpp")
 endif()
 
+# DistributedClusterUpdates – focused tests for ClusterUpdateManager (v1.7.0, Issue #125)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cluster_updates.cpp" AND NOT TARGET test_distributed_cluster_updates_focused)
+    message(STATUS "Adding Distributed Cluster Updates focused tests (Issue #125)")
+
+    add_executable(test_distributed_cluster_updates_focused
+        test_distributed_cluster_updates.cpp
+    )
+
+    target_include_directories(test_distributed_cluster_updates_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_distributed_cluster_updates_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_distributed_cluster_updates_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DistributedClusterUpdatesFocusedTests COMMAND test_distributed_cluster_updates_focused)
+
+    set_tests_properties(DistributedClusterUpdatesFocusedTests PROPERTIES
+        LABELS "updates;cluster;distributed;rolling-update;health-check;version-skew;focused;unit;integration"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  DistributedClusterUpdates: rolling updates, leader-last ordering, health checks, rollback, cancellation, progress callbacks")
+else()
+    message(STATUS "Distributed Cluster Updates focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cluster_updates.cpp")
+endif()
+
 # VoiceAssistant focused tests – covers VoiceBiometricAuthenticator, WakeWordDetector,
 # VoiceBatchProcessor, VoiceMacroManager, and full VoiceAssistant pipeline.
 # Requires THEMIS_ENABLE_LLM because voice_assistant.h includes llm/llama_wrapper.h.

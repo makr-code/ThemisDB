@@ -112,6 +112,86 @@ if (result.wait()) {
 
 ---
 
+
+## Distributed Cluster Updates ✅ IMPLEMENTED (v1.7.0)
+<!-- anchor: distributed-cluster-updates -->
+**Priority:** High  
+**Target Version:** v1.7.0  
+**Status:** ✅ Released — `include/updates/cluster_update_manager.h`, `src/updates/cluster_update_manager.cpp`
+
+Coordinate updates across all nodes in a ThemisDB cluster with Raft consensus.
+
+**Features:**
+- ✅ Rolling updates (update one node at a time, non-leaders before leader)
+- ✅ Automatic health checks before/after updates (`NodeHealthCheckFunc` callback)
+- ✅ Abort on failure with automatic rollback (`rollback_on_failure` option)
+- ✅ Version skew protection — leader node is always updated last
+- ✅ Transport-agnostic design via injected `NodeUpdateFunc` and `NodeHealthCheckFunc` callbacks
+- ✅ Incremental `ClusterUpdateProgress` callbacks for monitoring
+- ✅ Cancellation support via `cancelUpdate()`
+
+**API:**
+```cpp
+ClusterUpdateManager::Config cfg;
+cfg.nodes = {
+    { "node-a", "host-a:6543", false, "1.6.0" },
+    { "node-b", "host-b:6543", false, "1.6.0" },
+    { "node-c", "host-c:6543", true,  "1.6.0" },  // Raft leader — updated last
+};
+cfg.default_options.rolling              = true;
+cfg.default_options.rollback_on_failure  = true;
+cfg.default_options.health_check_timeout = std::chrono::seconds{30};
+
+ClusterUpdateManager cluster_updates(cfg);
+
+// Inject per-node update logic (e.g. gRPC RPC call).
+cluster_updates.setNodeUpdateFunc(
+    [](const ClusterNode& node, const std::string& version,
+       const ClusterUpdateOptions& opts) {
+        return my_rpc.updateNode(node.node_id, version);
+    });
+
+// Optional: inject per-node health check.
+cluster_updates.setNodeHealthCheckFunc(
+    [](const ClusterNode& node, std::chrono::seconds timeout) {
+        return my_rpc.healthCheck(node.node_id, timeout);
+    });
+
+// Monitor progress.
+cluster_updates.setProgressCallback([](const ClusterUpdateProgress& p) {
+    std::cout << "Updated: " << p.nodes_updated << "/" << p.total_nodes << "\n";
+    std::cout << "Current node: " << p.current_node << "\n";
+    std::cout << "Status: " << p.status << "\n";
+});
+
+// Initiate cluster-wide update.
+ClusterUpdateResult result = cluster_updates.updateCluster("1.7.0");
+if (result.success) {
+    LOG_INFO("Cluster updated successfully");
+} else {
+    LOG_ERROR("Cluster update failed: {}", result.error_message);
+}
+```
+
+**Rolling Update Procedure:**
+```
+1. Sort nodes: non-leader nodes first, leader(s) last
+2. For each node in order:
+   a. Mark DRAINING  — emit progress
+   b. Invoke NodeUpdateFunc (DOWNLOADING → APPLYING)
+   c. Invoke NodeHealthCheckFunc (HEALTH_CHECK)
+   d. On pass: REJOINING → COMPLETED
+   e. On fail (rollback_on_failure=true): ROLLED_BACK; abort if follower
+3. Emit final ClusterUpdateProgress
+```
+
+**Use Cases:**
+- Zero-downtime cluster upgrades
+- Coordinated schema migrations
+- Automatic failover during updates
+
+---
+
 ### Binary Delta Patches ✅ IMPLEMENTED (v1.6.0)
 **Priority:** High  
 **Target Version:** v1.6.0  
