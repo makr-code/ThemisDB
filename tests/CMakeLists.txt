@@ -4352,7 +4352,7 @@ else()
     message(STATUS "Multi-Shard Transaction focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_multi_shard_transactions.cpp")
 endif()
 
-# Distributed Transactions Focused Tests (disabled placeholder)
+# Distributed Transactions Focused Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_transactions.cpp")
     message(STATUS "Adding Distributed Transactions focused tests")
 
@@ -4362,6 +4362,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_transactions.cpp")
 
     target_link_libraries(test_distributed_transactions_focused PRIVATE
         ${TEST_LIBS}
+        themis_core
         spdlog::spdlog
         Threads::Threads
     )
@@ -4373,11 +4374,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_transactions.cpp")
     add_test(NAME DistributedTransactionsFocusedTests COMMAND test_distributed_transactions_focused)
 
     set_tests_properties(DistributedTransactionsFocusedTests PROPERTIES
-        LABELS "transaction;distributed;2pc;unit"
-        TIMEOUT 30
+        LABELS "transaction;distributed;2pc;storage;unit"
+        TIMEOUT 60
     )
 
-    message(STATUS "  DistributedTransactions: placeholder (full suite gated behind gRPC shard transport)")
+    message(STATUS "  DistributedTransactions: DistributedTransactionManager 2PC, abort on vote NO, rollback, concurrent transactions")
 else()
     message(STATUS "Distributed Transactions focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_transactions.cpp")
 endif()

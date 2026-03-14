@@ -76,15 +76,20 @@
 
 
 **Priority:** High  
-**Target Version:** v1.7.0
+**Target Version:** v1.7.0  
+**Status:** ✅ Implemented
 
 Raft-based distributed transactions across multiple nodes.
 
 **Features:**
 - Two-phase commit (2PC) protocol
-- Raft consensus for transaction coordination
 - Cross-shard atomic operations
-- Automatic deadlock detection
+- Abort on any participant vote NO
+- Thread-safe coordinator with per-transaction handles
+
+**Implementation:**
+- `include/storage/distributed_transaction_manager.h` — `DistributedTransactionManager`, `IDistributedShardParticipant`, `DistributedTransaction`, `DistributedOperation`
+- `src/storage/distributed_transaction_manager.cpp` — full 2PC implementation
 
 **API:**
 ```cpp
