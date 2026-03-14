@@ -25,6 +25,7 @@
 #include <stdexcept>
 #include <cerrno>
 #include <cstring>
+#include <atomic>
 #include "utils/logger.h"
 #include <fcntl.h>
 #include <unistd.h>
@@ -276,7 +277,8 @@ LogicalChange LogicalReplicationManager::makeLogicalChange(const WALEntry& entry
     change.schema_version = config_.target_version;
     change.source_version = config_.source_version;
     change.target_version = config_.target_version;
-    if (entry.sequence_number == 0 && wal_) {
+    static std::atomic<bool> missing_seq_warned{false};
+    if (entry.sequence_number == 0 && wal_ && !missing_seq_warned.exchange(true)) {
         THEMIS_WARN("Logical replication entry missing sequence_number; using current WAL sequence");
     }
     // Use WAL assigned sequence when available; fall back to current WAL position for notifications
@@ -335,6 +337,7 @@ bool LogicalReplicationManager::matchesFilter(const LogicalChange& change,
 bool LogicalReplicationManager::evaluateRowFilter(const std::string& expression,
                                                   const nlohmann::json& payload) const {
     if (!isSupportedRowFilter(expression)) {
+        THEMIS_WARN("Unsupported row filter expression rejected: {}", expression);
         return false;
     }
     const auto eq_pos = expression.find("==");
@@ -414,6 +417,9 @@ void LogicalReplicationManager::loadPersistedSlots() {
     const fs::path dir(base_path);
     if (!fs::exists(dir, ec)) {
         fs::create_directories(dir, ec);
+        if (ec) {
+            THEMIS_WARN("Failed to create logical slot directory {}: {}", dir.string(), ec.message());
+        }
         return;
     }
 
@@ -456,6 +462,7 @@ void LogicalReplicationManager::loadPersistedSlots() {
                     runtime->meta.filter.include_collections =
                         jf["include_collections"].get<std::vector<std::string>>();
                 } catch (...) {
+                    THEMIS_WARN("Failed to parse include_collections for slot {}", runtime->meta.slot_name);
                     continue;
                 }
             }
@@ -464,6 +471,7 @@ void LogicalReplicationManager::loadPersistedSlots() {
                     runtime->meta.filter.exclude_collections =
                         jf["exclude_collections"].get<std::vector<std::string>>();
                 } catch (...) {
+                    THEMIS_WARN("Failed to parse exclude_collections for slot {}", runtime->meta.slot_name);
                     continue;
                 }
             }
@@ -490,6 +498,10 @@ void LogicalReplicationManager::persistSlot(const SlotRuntime& slot) const {
     fs::path base = fs::path(state_path).parent_path();
     std::error_code ec;
     fs::create_directories(base, ec);
+    if (ec) {
+        THEMIS_WARN("Failed to create slot directory {}: {}", base.string(), ec.message());
+        return;
+    }
 
     nlohmann::json j;
     j["slot_name"] = slot.meta.slot_name;
@@ -531,6 +543,7 @@ void LogicalReplicationManager::persistSlot(const SlotRuntime& slot) const {
 
     fs::rename(tmp_path, state_path, ec);
     if (ec) {
+        THEMIS_WARN("Failed to rename slot state file {} to {}: {}", tmp_path.string(), state_path, ec.message());
         fs::remove(tmp_path, ec);
     }
 
