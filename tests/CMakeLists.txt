@@ -1446,6 +1446,22 @@ set_tests_properties(PluginWatchdogFocusedTests PROPERTIES
     TIMEOUT 60
 )
 
+# RemoteRegistryClient focused tests (subset of AllTests)
+# Covers: RegistryConfig defaults/assignment/max_total_retry_time_ms,
+#         RegistryPluginEntry defaults/assignment, PluginDownloadResult defaults,
+#         RequestStats defaults, RemoteRegistryClient construction/config-roundtrip,
+#         sync API (listPlugins/fetchPlugin/downloadPlugin/downloadAndLoad on
+#         unreachable server), integrity verification, retry budget enforcement,
+#         async API (listPluginsAsync/fetchPluginAsync/downloadPluginAsync –
+#         non-blocking dispatch, shared_ptr ownership requirement)
+#         (from test_remote_registry_client.cpp)
+add_test(NAME RemoteRegistryClientFocusedTests
+    COMMAND themis_tests --gtest_filter=RegistryConfig.*:RegistryPluginEntry.*:PluginDownloadResult.*:RequestStats.*:RemoteRegistryClient.*)
+set_tests_properties(RemoteRegistryClientFocusedTests PROPERTIES
+    LABELS "base;remote-registry;retry;async;unit"
+    TIMEOUT 60
+)
+
 # Session management and revocation endpoint tests (subset of AllTests)
 add_test(NAME SessionManagerTests
     COMMAND themis_tests --gtest_filter=SessionManagerTest*:SessionApiHandlerTest*)
