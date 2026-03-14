@@ -72,7 +72,9 @@ BackoffDispatcherState& dispatcherState() {
 
 void waitOrThrow(std::future<void>&& future, const char* source) {
     if (!future.valid()) {
-        throw std::runtime_error(std::string(source) + " returned invalid future");
+        throw std::runtime_error(std::string("Internal error: ")
+                                 + source
+                                 + " returned invalid future (dispatcher implementation bug)");
     }
     future.wait();
 }
@@ -424,7 +426,7 @@ ModuleVerificationResult RemoteRegistryClient::downloadAndLoad(
                           ex.what());
             throw;
         } catch (...) {
-            spdlog::error("RemoteRegistryClient::asyncBackoffSleep: dispatcher threw "
+            spdlog::error("RemoteRegistryClient::asyncBackoffSleep: dispatcher raised "
                           "unknown exception");
             throw;
         }

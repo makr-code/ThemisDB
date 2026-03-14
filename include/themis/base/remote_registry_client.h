@@ -280,7 +280,7 @@ public:
      * the future is created; retries and backoff run on a worker thread.
      * The RemoteRegistryClient instance must remain alive until the future
      * completes. Accessing the future after destroying the client results in
-     * undefined behaviour.
+     * undefined behavior.
      */
     std::future<std::string> httpGetAsync(const std::string& url);
 
@@ -291,7 +291,7 @@ public:
      * Callers may choose to wait or poll the future; backoff delays do not
      * block the calling thread. The RemoteRegistryClient instance must remain
      * alive until the future completes. Accessing the future after destroying
-     * the client results in undefined behaviour.
+     * the client results in undefined behavior.
      */
     std::future<bool> httpGetBinaryAsync(const std::string& url,
                                          const std::string& out_path);

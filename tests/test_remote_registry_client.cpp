@@ -45,8 +45,8 @@
 using namespace themis::modules;
 
 namespace {
-struct BackoffDispatcherGuard {
-    ~BackoffDispatcherGuard() { RemoteRegistryClient::setBackoffDispatcher(nullptr); }
+struct ScopedBackoffDispatcherReset {
+    ~ScopedBackoffDispatcherReset() { RemoteRegistryClient::setBackoffDispatcher(nullptr); }
 };
 }  // namespace
 
@@ -479,7 +479,7 @@ TEST(RemoteRegistryClient, CustomBackoffDispatcherIsUsed) {
         return fut;
     };
 
-    BackoffDispatcherGuard guard;
+    ScopedBackoffDispatcherReset guard;
     RemoteRegistryClient::setBackoffDispatcher(dispatcher);
 
     RegistryConfig cfg;
