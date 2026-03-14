@@ -49,6 +49,22 @@
 namespace themis {
 namespace ingestion {
 
+#ifdef THEMIS_ENABLE_S3
+namespace {
+/// AWS SDK must be initialised once per process before any SDK calls are made.
+/// Guard it with call_once so that multiple connectors / importers running in
+/// the same process share the single SDK lifecycle (matches s3_importer.cpp
+/// and blob_backend_s3.cpp).
+std::once_flag g_s3_sdk_init_flag;
+
+void initS3Sdk() {
+    Aws::SDKOptions options;
+    options.loggingOptions.logLevel = Aws::Utils::Logging::LogLevel::Warn;
+    Aws::InitAPI(options);
+}
+} // anonymous namespace
+#endif // THEMIS_ENABLE_S3
+
 namespace fs = std::filesystem;
 
 // ---------------------------------------------------------------------------
@@ -73,11 +89,13 @@ static std::string s3KeyExtension(const std::string& key) {
 }
 
 /// Return true if the extension should be processed through FileSystemIngester.
+/// Note: .json is intentionally excluded here because .json objects use the
+/// configurable `text_field` extraction path (s3JsonExtractField) rather than
+/// returning raw bytes; the fallback in extractText() handles .json separately.
 static bool isFlatFileExtension(const std::string& ext) {
     return ext == ".jsonl" || ext == ".ndjson" ||
            ext == ".csv"   || ext == ".tsv"    ||
            ext == ".parquet" ||
-           ext == ".json"  ||
            ext == ".txt"   || ext == ".md"     ||
            ext == ".html"  || ext == ".htm"    ||
            ext == ".xml";
@@ -352,6 +370,7 @@ public:
 
     void setObjectListForTesting(ObjectListFn fn) { list_fn_  = std::move(fn); }
     void setObjectFetchForTesting(ObjectFetchFn fn) { fetch_fn_ = std::move(fn); }
+    void setDocumentWriteForTesting(S3Connector::DocumentWriteFn fn) { doc_write_fn_ = std::move(fn); }
 
 private:
     // -----------------------------------------------------------------------
@@ -427,6 +446,9 @@ private:
                 std::string text = extractText(key, body, tmp_dir);
                 if (!text.empty()) {
                     ++stats.documents_processed;
+                    if (doc_write_fn_) {
+                        doc_write_fn_(key, text);
+                    }
                 }
                 stats.bytes_processed += body.size();
                 last_key_processed_ = key;
@@ -500,6 +522,9 @@ private:
     // AWS SDK helper: build S3 client
     // -----------------------------------------------------------------------
     std::unique_ptr<Aws::S3::S3Client> buildS3Client() const {
+        // Ensure the AWS SDK is initialised exactly once per process.
+        std::call_once(g_s3_sdk_init_flag, initS3Sdk);
+
         Aws::Client::ClientConfiguration client_cfg;
         client_cfg.region = region_;
         if (!endpoint_url_.empty()) {
@@ -644,6 +669,7 @@ private:
     // Testing hooks
     ObjectListFn  list_fn_;
     ObjectFetchFn fetch_fn_;
+    S3Connector::DocumentWriteFn doc_write_fn_;
 };
 
 // ---------------------------------------------------------------------------
@@ -686,6 +712,10 @@ void S3Connector::setObjectListForTesting(ObjectListFn fn) {
 
 void S3Connector::setObjectFetchForTesting(ObjectFetchFn fn) {
     impl_->setObjectFetchForTesting(std::move(fn));
+}
+
+void S3Connector::setDocumentWriteForTesting(DocumentWriteFn fn) {
+    impl_->setDocumentWriteForTesting(std::move(fn));
 }
 
 } // namespace ingestion

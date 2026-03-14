@@ -189,6 +189,21 @@ public:
     void setObjectListForTesting(ObjectListFn list_fn);
     void setObjectFetchForTesting(ObjectFetchFn fetch_fn);
 
+    /**
+     * @brief Inject a document-write callback for unit testing.
+     *
+     * When set, every successfully extracted document text is passed to this
+     * callback **in addition to** incrementing `documents_processed`.  This
+     * allows tests to verify the actual extracted content (e.g. that the
+     * `text_field` was correctly extracted from a JSON object) without
+     * requiring a live database.
+     *
+     * The callback receives `(key, extracted_text)`.
+     */
+    using DocumentWriteFn = std::function<void(const std::string& key,
+                                               const std::string& text)>;
+    void setDocumentWriteForTesting(DocumentWriteFn fn);
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;

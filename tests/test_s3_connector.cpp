@@ -241,8 +241,17 @@ TEST(S3ConnectorTest, IngestJsonObjectExtractsTextField) {
         return R"({"id":42,"body":"extracted text"})";
     });
 
+    // Capture the extracted text via the document-write hook.
+    std::string captured_text;
+    conn.setDocumentWriteForTesting([&](const std::string& /*key*/,
+                                        const std::string& text) {
+        captured_text = text;
+    });
+
     auto stats = conn.ingest("col", nullptr);
     EXPECT_EQ(stats.documents_processed, 1u);
+    // Verify that the text_field was actually extracted, not the raw JSON bytes.
+    EXPECT_EQ(captured_text, "extracted text");
 }
 
 TEST(S3ConnectorTest, IngestJsonObjectFallsBackWhenFieldAbsent) {
