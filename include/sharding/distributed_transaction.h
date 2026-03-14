@@ -121,6 +121,17 @@ public:
         uint64_t max_backoff_ms = 5000;        // Maximum backoff delay
         bool enable_recovery_log = true;       // Enable transaction recovery logging
         std::string coordinator_id;            // Identifier for Prometheus labels (default: "default")
+
+        /**
+         * When true (default), transactions with isolation_level ==
+         * SNAPSHOT_ISOLATION use the Percolator commit path instead of 2PC:
+         *   - Skip the prepare / vote round.
+         *   - Derive commit timestamp from TrueTime::now_with_uncertainty().
+         *   - Apply commit-wait before sending COMMIT to participants.
+         *
+         * SERIALIZABLE transactions always use 2PC regardless of this flag.
+         */
+        bool use_percolator_for_snapshot = true;
     };
     
     /**
@@ -311,6 +322,25 @@ private:
      * @brief Recover in-doubt transactions from log
      */
     void recoverTransactions();
+
+    /**
+     * @brief Percolator-style commit for SNAPSHOT_ISOLATION transactions.
+     *
+     * Replaces the 2PC prepare phase with an optimistic, primary-lock
+     * approach:
+     *   1. Skip the global prepare / vote round.
+     *   2. Derive commit timestamp via TrueTime::now_with_uncertainty().latest.
+     *   3. Perform commit-wait: spin until TT.now().earliest >
+     *      commit_ts + max_uncertainty.
+     *   4. Send COMMIT directly to all participants.
+     *
+     * This path is chosen when Config::use_percolator_for_snapshot == true and
+     * the transaction's isolation_level == SNAPSHOT_ISOLATION.
+     *
+     * @param txn Distributed transaction (state mutated in-place).
+     * @return True if all participants committed successfully.
+     */
+    bool percolatorCommit(DistributedTransaction& txn);
 };
 
 } // namespace themis::sharding

@@ -482,6 +482,144 @@ private:
     std::atomic<uint64_t> deadlocked_transactions_;
 };
 
+// ============================================================================
+// PercolatorCoordinator
+// ============================================================================
+
+/**
+ * @brief Standalone Percolator-style MVCC transaction coordinator.
+ *
+ * Implements the Google Percolator two-phase optimistic protocol for
+ * cross-shard transactions that favour snapshot-isolated, read-heavy
+ * workloads.  Key properties:
+ *
+ *  1. Primary-lock model: one row/shard acts as the transaction's "primary";
+ *     secondary rows reference the primary lock.
+ *  2. TrueTime commit-wait: commit timestamp is drawn from
+ *     TrueTime::now_with_uncertainty().latest; the coordinator then waits
+ *     until TT.now().earliest > commit_ts + max_uncertainty before sending
+ *     the final COMMIT to participants.
+ *  3. Coordinator-state durability: every phase transition is logged to the
+ *     supplied TransactionWAL so that a replacement coordinator can resume
+ *     in-flight transactions after a crash.
+ *  4. Stale-lock cleanup: cleanStaleLocks() may be called by OrphanDetector
+ *     to abort Percolator transactions that left locks behind after a
+ *     coordinator failure.
+ *
+ * The class uses callbacks for the low-level shard operations so it can be
+ * used both standalone (e.g. in tests) and wired into
+ * CrossShardTransactionCoordinator::executePercolator().
+ *
+ * Usage example:
+ * @code
+ *   PercolatorCoordinator::Config cfg;
+ *   cfg.lock_timeout   = std::chrono::milliseconds(500);
+ *   cfg.max_retries    = 3;
+ *
+ *   PercolatorCoordinator perc(cfg, truetime_ptr, std::move(wal_ptr));
+ *   bool ok = perc.execute(txn, prepare_fn, commit_fn, abort_fn);
+ * @endcode
+ */
+class PercolatorCoordinator {
+public:
+    /**
+     * @brief Runtime configuration.
+     */
+    struct Config {
+        /// Per-lock acquisition timeout (milliseconds).
+        std::chrono::milliseconds lock_timeout{1000};
+
+        /// Maximum number of lock-acquisition retries per shard.
+        uint32_t max_retries = 3;
+
+        /// How long a lock can be held before it is considered stale.
+        std::chrono::seconds stale_lock_threshold{30};
+    };
+
+    /// Callback type: send a PREPARE (lock) to one shard.
+    using SendPrepareFn = std::function<bool(const std::string& shard_id,
+                                             const std::string& txn_id)>;
+    /// Callback type: send a COMMIT to one shard.
+    using SendCommitFn  = std::function<bool(const std::string& shard_id,
+                                             const std::string& txn_id)>;
+    /// Callback type: send an ABORT to one shard.
+    using SendAbortFn   = std::function<bool(const std::string& shard_id,
+                                             const std::string& txn_id)>;
+
+    /**
+     * @brief Construct a PercolatorCoordinator.
+     *
+     * @param config     Runtime parameters.
+     * @param truetime   TrueTime clock used for commit-timestamp generation
+     *                   and commit-wait (may be nullptr; falls back to wall clock).
+     * @param wal        Optional WAL for coordinator-state durability.  Ownership
+     *                   is transferred.
+     */
+    explicit PercolatorCoordinator(
+        const Config& config,
+        std::shared_ptr<themis::sharding::TrueTime> truetime = nullptr,
+        std::unique_ptr<TransactionWAL> wal = nullptr
+    );
+
+    ~PercolatorCoordinator() = default;
+
+    // Non-copyable, movable.
+    PercolatorCoordinator(const PercolatorCoordinator&) = delete;
+    PercolatorCoordinator& operator=(const PercolatorCoordinator&) = delete;
+
+    /**
+     * @brief Execute the Percolator protocol for @p txn.
+     *
+     * Drives the full Percolator commit sequence:
+     *  Phase 1 – PreWrite: lock secondaries first, then lock primary.
+     *  Phase 2 – Assign TrueTime commit timestamp, perform commit-wait.
+     *  Phase 3 – Commit primary, then commit secondaries (lock release).
+     *
+     * The shard-level operations are performed via the supplied callbacks
+     * so this class is independent of the RPC transport layer and can be
+     * used without a live CrossShardTransactionCoordinator.
+     *
+     * @param txn         Transaction to commit (state is mutated in-place).
+     * @param prepare_fn  Callback: lock (prepare) one shard.
+     * @param commit_fn   Callback: commit one shard.
+     * @param abort_fn    Callback: abort / unlock one shard.
+     * @return            true if the transaction committed successfully.
+     */
+    bool execute(
+        CrossShardTransaction& txn,
+        SendPrepareFn prepare_fn,
+        SendCommitFn  commit_fn,
+        SendAbortFn   abort_fn
+    );
+
+    /**
+     * @brief Reclaim stale Percolator locks left by a failed coordinator.
+     *
+     * Iterates over @p stale_txn_ids and issues abort RPCs for every shard
+     * whose Percolator lock has exceeded the stale-lock threshold.  Intended
+     * to be called from OrphanDetector on its cleanup interval.
+     *
+     * @param stale_txn_ids  Transaction IDs whose locks should be cleaned up.
+     * @param coordinator    Host coordinator used for getTransaction() / abort().
+     * @return               Number of locks successfully released.
+     */
+    size_t cleanStaleLocks(
+        const std::vector<std::string>& stale_txn_ids,
+        CrossShardTransactionCoordinator& coordinator
+    );
+
+private:
+    Config config_;
+    std::shared_ptr<themis::sharding::TrueTime> truetime_;
+    std::unique_ptr<TransactionWAL> wal_;
+
+    /// Compute a commit timestamp using TrueTime if available, else wall clock.
+    int64_t computeCommitTimestamp() const;
+
+    /// Perform the TrueTime commit-wait: spin until now().earliest > deadline.
+    void commitWait(int64_t commit_ts_ns) const;
+};
+
 } // namespace sharding
 } // namespace themisdb
 

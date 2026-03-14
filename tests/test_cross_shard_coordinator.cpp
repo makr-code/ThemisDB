@@ -36,6 +36,8 @@
 #include "sharding/cross_shard_transaction.h"
 #include "sharding/consensus_module.h"
 #include "sharding/transaction_snapshot.h"
+#include "sharding/truetime.h"
+#include "sharding/orphan_detector.h"
 #include <memory>
 #include <thread>
 #include <chrono>
@@ -337,4 +339,187 @@ TEST_F(CalvinProtocolTest, ProtocolStringRoundtrip) {
               ::sharding::transactionProtocolFromString("CALVIN"));
     EXPECT_EQ("CALVIN",
               ::sharding::transactionProtocolToString(::sharding::TransactionProtocol::CALVIN));
+}
+
+// ============================================================================
+// PercolatorCoordinator Tests
+// ============================================================================
+
+class PercolatorCoordinatorTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        auto consensus = std::make_shared<MockConsensusModule>();
+        CrossShardTransactionConfig config;
+        config.transaction_log_path =
+            std::string("/tmp/themisdb_percolator_") + std::to_string(::getpid()) + ".jsonl";
+        config.default_protocol = TransactionProtocol::PERCOLATOR;
+        coordinator_ = std::make_shared<CrossShardTransactionCoordinator>(config, consensus);
+        coordinator_->initialize();
+        coordinator_->start();
+
+        PercolatorCoordinator::Config perc_cfg;
+        perc_cfg.lock_timeout       = std::chrono::milliseconds(200);
+        perc_cfg.max_retries        = 2;
+        perc_cfg.stale_lock_threshold = std::chrono::seconds(1);
+        percolator_ = std::make_unique<PercolatorCoordinator>(perc_cfg);
+    }
+
+    void TearDown() override {
+        if (coordinator_) {
+            coordinator_->stop();
+        }
+    }
+
+    std::shared_ptr<CrossShardTransactionCoordinator> coordinator_;
+    std::unique_ptr<PercolatorCoordinator> percolator_;
+};
+
+// TrueTime::now_with_uncertainty() returns an interval with earliest <= latest.
+TEST(TrueTimePercolatorTest, NowWithUncertaintyReturnsValidInterval) {
+    themis::sharding::TrueTime::Config cfg;
+    cfg.base_uncertainty_us = 500; // 0.5 ms
+    themis::sharding::TrueTime tt(cfg);
+
+    auto interval = tt.now_with_uncertainty();
+    EXPECT_LE(interval.earliest.count(), interval.latest.count())
+        << "earliest must be <= latest";
+    // Uncertainty must be non-negative.
+    EXPECT_GE(interval.uncertainty().count(), 0);
+}
+
+// now_with_uncertainty() and now() must return consistent intervals (same call
+// semantics — just a named alias).
+TEST(TrueTimePercolatorTest, NowWithUncertaintyConsistentWithNow) {
+    themis::sharding::TrueTime::Config cfg;
+    cfg.base_uncertainty_us = 1000;
+    themis::sharding::TrueTime tt(cfg);
+
+    auto i1 = tt.now();
+    auto i2 = tt.now_with_uncertainty();
+
+    // Both intervals should be "close" in time (within 1 second).
+    auto diff_ns = std::abs(i2.midpoint().count() - i1.midpoint().count());
+    EXPECT_LT(diff_ns, 1'000'000'000LL) << "Intervals should be within 1s of each other";
+}
+
+// PercolatorCoordinator constructs without error.
+TEST_F(PercolatorCoordinatorTest, ConstructsWithoutError) {
+    EXPECT_NE(percolator_, nullptr);
+}
+
+// Executing Percolator on a transaction with a single shard succeeds.
+TEST_F(PercolatorCoordinatorTest, SingleShardPercolatorCommit) {
+    const std::string txn_id = "perc-single-1";
+    ASSERT_TRUE(coordinator_->beginTransaction(
+        txn_id, TransactionProtocol::PERCOLATOR, IsolationLevel::SNAPSHOT_ISOLATION));
+    coordinator_->addParticipant(txn_id, "shard1", "shard1:8080", {"write:key1"});
+
+    bool ok = coordinator_->commit(txn_id);
+    EXPECT_TRUE(ok);
+
+    auto state = coordinator_->getTransactionState(txn_id);
+    ASSERT_TRUE(state.has_value());
+    EXPECT_EQ(*state, TransactionState::COMMITTED);
+}
+
+// Executing Percolator on a multi-shard transaction succeeds.
+TEST_F(PercolatorCoordinatorTest, MultiShardPercolatorCommit) {
+    const std::string txn_id = "perc-multi-1";
+    ASSERT_TRUE(coordinator_->beginTransaction(
+        txn_id, TransactionProtocol::PERCOLATOR, IsolationLevel::SNAPSHOT_ISOLATION));
+    coordinator_->addParticipant(txn_id, "shard1", "shard1:8080", {"write:keyA"});
+    coordinator_->addParticipant(txn_id, "shard2", "shard2:8080", {"write:keyB"});
+    coordinator_->addParticipant(txn_id, "shard3", "shard3:8080", {"write:keyC"});
+
+    bool ok = coordinator_->commit(txn_id);
+    EXPECT_TRUE(ok);
+
+    auto state = coordinator_->getTransactionState(txn_id);
+    ASSERT_TRUE(state.has_value());
+    EXPECT_EQ(*state, TransactionState::COMMITTED);
+}
+
+// Aborting a Percolator transaction yields ABORTED state.
+TEST_F(PercolatorCoordinatorTest, AbortPercolatorTransaction) {
+    const std::string txn_id = "perc-abort-1";
+    ASSERT_TRUE(coordinator_->beginTransaction(
+        txn_id, TransactionProtocol::PERCOLATOR, IsolationLevel::SNAPSHOT_ISOLATION));
+    coordinator_->addParticipant(txn_id, "shard1", "shard1:8080", {"write:keyX"});
+
+    bool ok = coordinator_->abort(txn_id);
+    EXPECT_TRUE(ok);
+
+    auto state = coordinator_->getTransactionState(txn_id);
+    ASSERT_TRUE(state.has_value());
+    EXPECT_EQ(*state, TransactionState::ABORTED);
+}
+
+// cleanStaleLocks returns 0 when no stale transaction IDs are provided.
+TEST_F(PercolatorCoordinatorTest, CleanStaleLocksEmptyListReturnsZero) {
+    size_t cleaned = percolator_->cleanStaleLocks({}, *coordinator_);
+    EXPECT_EQ(cleaned, 0u);
+}
+
+// cleanStaleLocks skips a non-existent transaction ID gracefully.
+TEST_F(PercolatorCoordinatorTest, CleanStaleLocksUnknownTxnSkipped) {
+    size_t cleaned = percolator_->cleanStaleLocks({"nonexistent-txn"}, *coordinator_);
+    EXPECT_EQ(cleaned, 0u);
+}
+
+// OrphanDetector::cleanPercolatorLocks returns 0 with an empty coordinator.
+TEST_F(PercolatorCoordinatorTest, OrphanDetectorCleanPercolatorLocksEmpty) {
+    ::sharding::OrphanDetector::Config cfg;
+    cfg.timeout_seconds = 1;
+    ::sharding::OrphanDetector detector(cfg);
+
+    size_t cleaned = detector.cleanPercolatorLocks(coordinator_);
+    EXPECT_EQ(cleaned, 0u);
+}
+
+// OrphanDetector::detectOrphans returns no orphans for a fresh coordinator.
+TEST_F(PercolatorCoordinatorTest, OrphanDetectorNoOrphansInitially) {
+    ::sharding::OrphanDetector::Config cfg;
+    cfg.timeout_seconds = 900;
+    ::sharding::OrphanDetector detector(cfg);
+
+    auto orphans = detector.detectOrphans(coordinator_);
+    EXPECT_TRUE(orphans.empty());
+}
+
+// OrphanDetector::isOrphaned returns false for an unknown transaction.
+TEST_F(PercolatorCoordinatorTest, OrphanDetectorIsOrphanedUnknownReturnsFalse) {
+    ::sharding::OrphanDetector::Config cfg;
+    ::sharding::OrphanDetector detector(cfg);
+
+    EXPECT_FALSE(detector.isOrphaned("no-such-txn", coordinator_));
+}
+
+// Concurrent Percolator transactions all succeed.
+TEST_F(PercolatorCoordinatorTest, ConcurrentPercolatorTransactions) {
+    const int kCount = 6;
+    std::vector<std::thread> threads;
+    std::atomic<int> success_count{0};
+
+    for (int i = 0; i < kCount; ++i) {
+        threads.emplace_back([this, i, &success_count]() {
+            const std::string txn_id = "perc-concurrent-" + std::to_string(i);
+            if (!coordinator_->beginTransaction(
+                    txn_id, TransactionProtocol::PERCOLATOR, IsolationLevel::SNAPSHOT_ISOLATION)) {
+                return;
+            }
+            coordinator_->addParticipant(txn_id, "shard1", "shard1:8080",
+                                         {"write:key" + std::to_string(i)});
+            coordinator_->addParticipant(txn_id, "shard2", "shard2:8080",
+                                         {"write:val" + std::to_string(i)});
+            if (coordinator_->commit(txn_id)) {
+                ++success_count;
+            }
+        });
+    }
+
+    for (auto& t : threads) {
+        t.join();
+    }
+
+    EXPECT_EQ(success_count.load(), kCount);
 }

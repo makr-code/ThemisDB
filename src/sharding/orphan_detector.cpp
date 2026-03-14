@@ -31,7 +31,7 @@ OrphanDetector::OrphanDetector(const Config& config)
 }
 
 std::vector<std::string> OrphanDetector::detectOrphans(
-    const std::shared_ptr<CrossShardTransactionCoordinator>& coordinator) {
+    const std::shared_ptr<themisdb::sharding::CrossShardTransactionCoordinator>& coordinator) {
     
     std::vector<std::string> orphaned_txns;
     
@@ -40,35 +40,113 @@ std::vector<std::string> OrphanDetector::detectOrphans(
         return orphaned_txns;
     }
     
-    auto now = std::chrono::system_clock::now();
-    
-    // Note: In actual implementation, we'd need access to transactions_ map
-    // This is a simplified version showing the logic
     spdlog::info("OrphanDetector: Scanning for orphaned transactions (timeout: {}s)", 
                  config_.timeout_seconds);
-    
-    // TODO: Access coordinator's transactions and check each one
-    // For now, this is a placeholder that would be called by the coordinator itself
-    // which has access to its private transactions_ map
-    
+
+    auto active_txns = coordinator->getActiveTransactions();
+    auto now = std::chrono::system_clock::now();
+    const auto threshold = std::chrono::seconds(config_.timeout_seconds);
+
+    for (const auto& txn : active_txns) {
+        const auto age = now - txn.start_time;
+        if (age < threshold) {
+            continue;
+        }
+
+        const bool orphanable =
+            (config_.check_preparing  && txn.state == themisdb::sharding::TransactionState::PREPARING)  ||
+            (config_.check_prepared   && txn.state == themisdb::sharding::TransactionState::PREPARED)    ||
+            (config_.check_committing && txn.state == themisdb::sharding::TransactionState::COMMITTING)  ||
+            (config_.check_aborting   && txn.state == themisdb::sharding::TransactionState::ABORTING);
+
+        if (orphanable) {
+            spdlog::info("OrphanDetector: Transaction {} is orphaned (age {}s, state {})",
+                         txn.transaction_id,
+                         std::chrono::duration_cast<std::chrono::seconds>(age).count(),
+                         static_cast<int>(txn.state));
+            orphaned_txns.push_back(txn.transaction_id);
+        }
+    }
+
     return orphaned_txns;
 }
 
 bool OrphanDetector::isOrphaned(
     const std::string& transaction_id,
-    const std::shared_ptr<CrossShardTransactionCoordinator>& coordinator) {
+    const std::shared_ptr<themisdb::sharding::CrossShardTransactionCoordinator>& coordinator) {
     
     if (!coordinator) {
         return false;
     }
-    
-    auto now = std::chrono::system_clock::now();
-    
-    // TODO: Get transaction from coordinator
-    // Check if age > timeout_seconds
-    // Check if in orphanable state (PREPARING, PREPARED, COMMITTING, ABORTING)
-    
-    return false;
+
+    auto txn_opt = coordinator->getTransaction(transaction_id);
+    if (!txn_opt.has_value()) {
+        return false;
+    }
+
+    const auto& txn = *txn_opt;
+    const auto age  = std::chrono::system_clock::now() - txn.start_time;
+
+    if (age < std::chrono::seconds(config_.timeout_seconds)) {
+        return false;
+    }
+
+    return
+        (config_.check_preparing  && txn.state == themisdb::sharding::TransactionState::PREPARING)  ||
+        (config_.check_prepared   && txn.state == themisdb::sharding::TransactionState::PREPARED)    ||
+        (config_.check_committing && txn.state == themisdb::sharding::TransactionState::COMMITTING)  ||
+        (config_.check_aborting   && txn.state == themisdb::sharding::TransactionState::ABORTING);
+}
+
+size_t OrphanDetector::cleanPercolatorLocks(
+    const std::shared_ptr<themisdb::sharding::CrossShardTransactionCoordinator>& coordinator) {
+
+    if (!coordinator) {
+        spdlog::warn("OrphanDetector::cleanPercolatorLocks: coordinator is null");
+        return 0;
+    }
+
+    auto active_txns = coordinator->getActiveTransactions();
+    auto now         = std::chrono::system_clock::now();
+    const auto threshold = std::chrono::seconds(config_.timeout_seconds);
+
+    size_t cleaned = 0;
+    for (const auto& txn : active_txns) {
+        // Only process Percolator transactions.
+        if (txn.protocol != themisdb::sharding::TransactionProtocol::PERCOLATOR) {
+            continue;
+        }
+
+        // Skip transactions that haven't yet hit the stale threshold.
+        if ((now - txn.start_time) < threshold) {
+            continue;
+        }
+
+        // Only clean up locks that are still being held (PREPARING / PREPARED).
+        if (txn.state != themisdb::sharding::TransactionState::PREPARING &&
+            txn.state != themisdb::sharding::TransactionState::PREPARED) {
+            continue;
+        }
+
+        spdlog::info("OrphanDetector: Reclaiming stale Percolator lock for txn {} "
+                     "(age {}s)",
+                     txn.transaction_id,
+                     std::chrono::duration_cast<std::chrono::seconds>(
+                         now - txn.start_time).count());
+
+        if (coordinator->abort(txn.transaction_id)) {
+            ++cleaned;
+            spdlog::info("OrphanDetector: Stale Percolator lock reclaimed for txn {}",
+                         txn.transaction_id);
+        } else {
+            spdlog::warn("OrphanDetector: Failed to abort stale Percolator txn {}",
+                         txn.transaction_id);
+        }
+    }
+
+    spdlog::info("OrphanDetector::cleanPercolatorLocks: reclaimed {} stale lock(s)",
+                 cleaned);
+    return cleaned;
 }
 
 } // namespace sharding

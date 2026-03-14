@@ -4377,6 +4377,38 @@ else()
     message(STATUS "Distributed Transactions focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_transactions.cpp")
 endif()
 
+# Percolator-Style Distributed Transaction Coordinator Focused Tests (v1.7.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_shard_coordinator.cpp")
+    message(STATUS "Adding Percolator Coordinator focused tests")
+
+    add_executable(test_percolator_coordinator_focused
+        test_cross_shard_coordinator.cpp
+    )
+
+    target_link_libraries(test_percolator_coordinator_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_percolator_coordinator_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PercolatorCoordinatorFocusedTests COMMAND test_percolator_coordinator_focused)
+
+    set_tests_properties(PercolatorCoordinatorFocusedTests PROPERTIES
+        LABELS "sharding;percolator;distributed;transaction;truetime;orphan-detector;v1.7.0;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  PercolatorCoordinator: PercolatorCoordinator class, TrueTime::now_with_uncertainty, OrphanDetector::cleanPercolatorLocks, protocol selection (2PC vs Percolator)")
+else()
+    message(STATUS "Percolator Coordinator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_shard_coordinator.cpp")
+endif()
+
 # Postgres Transaction Focused Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_postgres_transactions.cpp")
     message(STATUS "Adding Postgres Transaction focused tests")
