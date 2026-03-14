@@ -137,11 +137,11 @@ The AQL module is ThemisDB's query language and LLM-integration layer. It covers
 `detectIntentWithNativeNLP()` (line 196) always returns `"unknown"` and then falls through to the slower LLM path. The comment (lines 203–209) describes the intended call signature: `CLASSIFY(text, categories) -> {category, confidence, scores}`, but the function has no access to the AQL function registry at call time. This means every docs-assistant query that could be handled cheaply via the local CLASSIFY function instead triggers a full LLM round-trip.
 
 **Implementation Notes:**
-- `[ ]` Add a `FunctionRegistry*` or `IClassifyFn` interface pointer parameter to `DocsAssistantFunctions` (injectable via constructor or `setClassifier()`); when non-null, call it directly in `detectIntentWithNativeNLP()` instead of returning `"unknown"`
-- `[ ]` Define an `IClassifyFn` interface: `virtual ClassifyResult classify(const std::string& text, const std::vector<std::string>& categories) const = 0`; provide a `NullClassifyFn` no-op fallback
-- `[ ]` Register `AQLFunctionClassifyBridge` as the concrete implementation in the AQL module initialiser, binding it to the global function registry
-- `[ ]` Remove the `return "unknown"` early exit once a real implementation is wired; the `catch` block at line 215 serves as the fallback
-- `[ ]` Add an integration test that verifies `detectIntentWithNativeNLP("how do I create an index?")` returns `"configuration"` with confidence > 0.7 when the bridge is wired
+- `[x]` Add a `FunctionRegistry*` or `IClassifyFn` interface pointer parameter to `DocsAssistantFunctions` (injectable via constructor or `setClassifier()`); when non-null, call it directly in `detectIntentWithNativeNLP()` instead of returning `"unknown"`
+- `[x]` Define an `IClassifyFn` interface: `virtual ClassifyResult classify(const std::string& text, const std::vector<std::string>& categories) const = 0`; provide a `NullClassifyFn` no-op fallback
+- `[x]` Register `AQLFunctionClassifyBridge` as the concrete implementation in the AQL module initialiser, binding it to the global function registry
+- `[x]` Remove the `return "unknown"` early exit once a real implementation is wired; the `catch` block at line 215 serves as the fallback
+- `[x]` Add an integration test that verifies `detectIntentWithNativeNLP("how do I create an index?")` returns `"configuration"` with confidence > 0.7 when the bridge is wired
 
 ---
 

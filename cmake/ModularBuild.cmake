@@ -272,6 +272,8 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/raft_mvcc_bridge.cpp
     # Tiered storage (hot/warm/cold) with age- and access-based migration
     ../src/storage/tiered_storage.cpp
+    # Distributed transactions (2PC across multiple shards) – v1.7.0
+    ../src/storage/distributed_transaction_manager.cpp
     # NVMe optimizations (io_uring, multi-queue, ZNS, Direct I/O) – v1.6.0
     ../src/storage/nvme_manager.cpp
     # Storage engine abstraction (DI-based)
@@ -372,6 +374,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/updates/notification_webhook.cpp
     ../src/updates/blue_green_deployment.cpp
     ../src/updates/coordinated_update_manager.cpp
+    ../src/updates/cluster_update_manager.cpp
     ../src/updates/preflight_health_check.cpp
 
     # Storage security
@@ -460,6 +463,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/materialized_cte.cpp
     ../src/query/sparql_parser.cpp
     ../src/query/vectorized_execution.cpp
+    ../src/query/parallel_executor.cpp
     ../src/query/query_canceller.cpp
     ../src/query/query_federation.cpp
     # Vectorized Execution Engine – column-store style batch processing (Issue #2434)
@@ -1184,6 +1188,8 @@ set(THEMIS_TIMESERIES_SOURCES
     ../src/timeseries/aggregates.cpp
     ../src/timeseries/downsampling.cpp
     ../src/timeseries/ts_auto_buffer_adaptive.cpp
+    ../src/timeseries/encrypted_chunk_store.cpp
+    ../src/timeseries/ts_encrypted_key_rotation.cpp
 )
 
 set(THEMIS_INGESTION_SOURCES
