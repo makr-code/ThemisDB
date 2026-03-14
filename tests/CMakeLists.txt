@@ -116,6 +116,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_data_loader\\.cpp$"
         ".*test_directx_backend\\.cpp$"
         ".*test_docs_assistant_aql\\.cpp$"
+        ".*test_classify_bridge_integration\\.cpp$"
         ".*test_aql_lora_finetuner\\.cpp$"
         ".*test_aql_agent\\.cpp$"
         ".*test_nl_to_aql_translation\\.cpp$"
