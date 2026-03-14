@@ -109,6 +109,22 @@ public:
     // Frozen kernel dispatch table — L2, cosine, inner-product, and top-K
     ANNKernelDispatch populateANNDispatch() const override;
 
+    // ---- Vulkan-specific introspection --------------------------------
+
+    // Returns true when the selected physical device advertises
+    // VK_KHR_buffer_device_address (required for advanced buffer aliasing
+    // and bindless GPU pointer operations).  On Apple Silicon via MoltenVK
+    // this may return false even if Vulkan is otherwise functional.
+    // Only meaningful after a successful initialize().
+    bool hasBufferDeviceAddress() const noexcept;
+
+    // Tunable workgroup dimensions for SPIR-V specialization constants.
+    // Must be called before initialize() to take effect.
+    // Changing these post-initialization has no effect until the next
+    // initialize() call.
+    void setWorkgroupSizeL2(uint32_t wgX, uint32_t wgY) noexcept;
+    void setWorkgroupSizeBatchSearch(uint32_t wgX) noexcept;
+
 private:
     bool initialized_ = false;
     class VulkanVectorBackendImpl;

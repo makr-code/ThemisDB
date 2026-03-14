@@ -92,12 +92,45 @@ public:
     VkPhysicalDeviceMemoryProperties memoryProps{};
     std::string vendorName;  // Human-readable vendor (e.g. "AMD", "Intel", "NVIDIA", "ARM")
 
+    // MoltenVK / Apple M-series capability probe
+    // true when the physical device advertises VK_KHR_buffer_device_address.
+    // On Apple Silicon via MoltenVK this extension may not be exposed even
+    // though it is partially supported — so we probe at device-selection time
+    // and gate any BDA path on this flag.
+    bool hasBufferDeviceAddress = false;
+
+    // Tunable workgroup sizes exposed as SPIR-V specialization constants.
+    // Defaults match the original fixed sizes in the shaders.
+    // Host code can adjust these before calling createComputePipelines() to
+    // target specific hardware occupancy (e.g. different tile sizes for
+    // Mali-G710 vs. RDNA2).
+    uint32_t wgL2X          = 16;   // l2_distance.comp local_size_x (spec id 0)
+    uint32_t wgL2Y          = 16;   // l2_distance.comp local_size_y (spec id 1)
+    uint32_t wgBatchSearchX = 256;  // batch_search.comp local_size_x (spec id 0)
+
     // ---- Buffer helper ------------------------------------------------
     struct BufMem {
         VkBuffer buffer = VK_NULL_HANDLE;
         VkDeviceMemory memory = VK_NULL_HANDLE;
         VkDeviceSize size = 0;
     };
+
+    // ---- Double-buffer staging ring ------------------------------------
+    // Two persistent staging-buffer slots that alternate each dispatch.
+    // The CPU fills slot[next] while the GPU is executing slot[cur],
+    // overlapping host→device DMA with shader dispatch.
+    // Buffers grow on demand (never shrink) to avoid per-dispatch allocations.
+    struct StagingSlot {
+        BufMem  stagQ;          // host-visible staging for query data
+        BufMem  stagV;          // host-visible staging for vector data
+        BufMem  stagOut;        // host-visible staging for output data
+        VkFence fence = VK_NULL_HANDLE;
+        bool    pending = false; // true while the GPU is using this slot
+    };
+    static constexpr int kStagingSlots = 2;
+    StagingSlot stagingRing_[kStagingSlots] = {};
+    int         stagingRingIdx_ = 0;
+    bool        stagingRingInited_ = false;
 
     BufMem createBuffer(VkDeviceSize sz, VkBufferUsageFlags usage,
                         VkMemoryPropertyFlags props) {
@@ -258,6 +291,27 @@ public:
             default:                  vendorName = "Unknown";  break;
         }
 
+        // MoltenVK / Apple M-series: probe VK_KHR_buffer_device_address.
+        // Enumerate device extensions to check whether the physical device
+        // exposes VK_KHR_buffer_device_address.  On Apple Silicon via MoltenVK
+        // the extension may not be available or may have limited coverage, so
+        // we record the result here rather than assuming it is present.
+        {
+            uint32_t extCount = 0;
+            vkEnumerateDeviceExtensionProperties(physicalDevice, nullptr,
+                                                 &extCount, nullptr);
+            std::vector<VkExtensionProperties> exts(extCount);
+            vkEnumerateDeviceExtensionProperties(physicalDevice, nullptr,
+                                                 &extCount, exts.data());
+            for (const auto& ext : exts) {
+                if (std::strcmp(ext.extensionName,
+                                VK_KHR_BUFFER_DEVICE_ADDRESS_EXTENSION_NAME) == 0) {
+                    hasBufferDeviceAddress = true;
+                    break;
+                }
+            }
+        }
+
         // Find compute queue family
         uint32_t qfCount = 0;
         vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &qfCount, nullptr);
@@ -356,12 +410,42 @@ public:
             return false;
         }
 
-        auto makePipeline = [&](VkShaderModule mod, VkPipeline& out) -> bool {
+        // Build specialization constants for l2_distance.comp (IDs 0 and 1 =
+        // local_size_x and local_size_y).  These let the host adjust the 2-D
+        // workgroup tile at pipeline-creation time without recompiling GLSL.
+        struct L2SpecData { uint32_t wgX; uint32_t wgY; };
+        const L2SpecData l2Spec{ wgL2X, wgL2Y };
+        const VkSpecializationMapEntry l2Entries[2] = {
+            { 0, offsetof(L2SpecData, wgX), sizeof(uint32_t) },
+            { 1, offsetof(L2SpecData, wgY), sizeof(uint32_t) },
+        };
+        VkSpecializationInfo l2SpecInfo{};
+        l2SpecInfo.mapEntryCount = 2;
+        l2SpecInfo.pMapEntries   = l2Entries;
+        l2SpecInfo.dataSize      = sizeof(L2SpecData);
+        l2SpecInfo.pData         = &l2Spec;
+
+        // Build specialization constant for batch_search.comp (ID 0 =
+        // local_size_x).  Shared-memory array is declared for max 256 elements;
+        // wgBatchSearchX must not exceed 256.
+        const uint32_t bsSpec = wgBatchSearchX;
+        const VkSpecializationMapEntry bsEntry{ 0, 0, sizeof(uint32_t) };
+        VkSpecializationInfo bsSpecInfo{};
+        bsSpecInfo.mapEntryCount = 1;
+        bsSpecInfo.pMapEntries   = &bsEntry;
+        bsSpecInfo.dataSize      = sizeof(uint32_t);
+        bsSpecInfo.pData         = &bsSpec;
+
+        // Helper: create one compute pipeline.  pSpecInfo may be nullptr for
+        // shaders without specialization constants (cosine, inner-product).
+        auto makePipeline = [&](VkShaderModule mod, VkPipeline& out,
+                                const VkSpecializationInfo* pSpec) -> bool {
             VkPipelineShaderStageCreateInfo ssi{};
-            ssi.sType  = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-            ssi.stage  = VK_SHADER_STAGE_COMPUTE_BIT;
-            ssi.module = mod;
-            ssi.pName  = "main";
+            ssi.sType               = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+            ssi.stage               = VK_SHADER_STAGE_COMPUTE_BIT;
+            ssi.module              = mod;
+            ssi.pName               = "main";
+            ssi.pSpecializationInfo = pSpec;
 
             VkComputePipelineCreateInfo pci{};
             pci.sType  = VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO;
@@ -370,12 +454,58 @@ public:
             return vkCreateComputePipelines(device, VK_NULL_HANDLE, 1, &pci, nullptr, &out) == VK_SUCCESS;
         };
 
-        return makePipeline(l2ShaderModule, l2Pipeline) &&
-               makePipeline(cosineShaderModule, cosinePipeline) &&
-               makePipeline(innerProductShaderModule, innerProductPipeline);
+        return makePipeline(l2ShaderModule, l2Pipeline, &l2SpecInfo) &&
+               makePipeline(cosineShaderModule, cosinePipeline, nullptr) &&
+               makePipeline(innerProductShaderModule, innerProductPipeline, nullptr);
     }
 
-    // ---- Compute dispatch ---------------------------------------------
+    // ---- Double-buffer staging helpers --------------------------------
+
+    // Grow a BufMem to at least `needed` bytes.  Destroys and re-creates the
+    // buffer/memory when the current allocation is too small; keeps it as-is
+    // when it is already large enough to avoid unnecessary re-allocation.
+    void ensureStagingBuffer(BufMem& bm, VkDeviceSize needed,
+                             VkBufferUsageFlags usage) {
+        if (bm.buffer != VK_NULL_HANDLE && bm.size >= needed) return;
+        if (bm.buffer != VK_NULL_HANDLE) destroyBuffer(bm);
+        const VkMemoryPropertyFlags hostProps =
+            VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+        bm = createBuffer(needed, usage, hostProps);
+    }
+
+    // Initialise fences for all staging slots.  Called lazily on the first
+    // dispatch so we do not create fences until a device exists.
+    void initStagingRing() {
+        if (stagingRingInited_) return;
+        VkFenceCreateInfo fci{};
+        fci.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+        for (int i = 0; i < kStagingSlots; ++i) {
+            vkCreateFence(device, &fci, nullptr, &stagingRing_[i].fence);
+        }
+        stagingRingInited_ = true;
+    }
+
+    // ---- Compute dispatch (double-buffered staging) --------------------
+    //
+    // This implementation overlaps host→device DMA with shader dispatch by
+    // using a ring of two persistent staging-buffer slots:
+    //
+    //   • Slot A (current):  CPU fills staging buffers while GPU may still be
+    //     reading from slot B (the previous dispatch).  The two-phase command
+    //     submission model further decouples the transfer and compute stages:
+    //
+    //       CB1 (transfer phase): copy stagQ → devQ, copy stagV → devV
+    //                             signal semaphore xferDone
+    //       CB2 (compute phase):  wait semaphore xferDone
+    //                             dispatch kernel, copy devOut → stagOut
+    //                             signal fence (slot.fence)
+    //
+    //   • CB1 is submitted first; while the GPU runs the PCIe DMA, the CPU
+    //     can record CB2 — giving genuine DMA–compute overlap on platforms
+    //     where the driver exposes separate transfer and compute engines.
+    //
+    //   • Staging buffers are reused across calls (grow only when needed),
+    //     eliminating vkAllocateMemory / vkFreeMemory overhead per dispatch.
     std::vector<float> dispatch(const float* queries, uint32_t nq,
                                 const float* vectors, uint32_t nv,
                                 uint32_t dim, DistanceMetric metric) {
@@ -387,59 +517,88 @@ public:
             VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT |
             VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
         const VkMemoryPropertyFlags devProps = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
-        const VkMemoryPropertyFlags hostProps =
-            VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
 
-        // Staging buffers (CPU-visible)
-        auto stagQ   = createBuffer(qSize,  VK_BUFFER_USAGE_TRANSFER_SRC_BIT, hostProps);
-        auto stagV   = createBuffer(vSize,  VK_BUFFER_USAGE_TRANSFER_SRC_BIT, hostProps);
-        auto stagOut = createBuffer(outSz,  VK_BUFFER_USAGE_TRANSFER_DST_BIT, hostProps);
+        // ---- Initialise staging ring on first use --------------------
+        initStagingRing();
 
-        // Device-local buffers (GPU)
-        auto devQ   = createBuffer(qSize,  devUsage, devProps);
-        auto devV   = createBuffer(vSize,  devUsage, devProps);
-        auto devOut = createBuffer(outSz,  devUsage, devProps);
+        // ---- Select current staging slot and wait if still in-flight --
+        StagingSlot& slot = stagingRing_[stagingRingIdx_];
+        if (slot.pending) {
+            // Wait for the fence that was signalled when this slot's compute
+            // phase completed on a previous call.
+            vkWaitForFences(device, 1, &slot.fence, VK_TRUE, UINT64_MAX);
+            vkResetFences(device, 1, &slot.fence);
+            slot.pending = false;
+        }
 
-        // Copy host data into staging
+        // ---- Grow persistent staging buffers only when needed ---------
+        ensureStagingBuffer(slot.stagQ,   qSize,
+                            VK_BUFFER_USAGE_TRANSFER_SRC_BIT);
+        ensureStagingBuffer(slot.stagV,   vSize,
+                            VK_BUFFER_USAGE_TRANSFER_SRC_BIT);
+        ensureStagingBuffer(slot.stagOut, outSz,
+                            VK_BUFFER_USAGE_TRANSFER_DST_BIT);
+
+        // ---- Copy host data into staging buffers (CPU side) ----------
         auto copyToStaging = [&](BufMem& bm, const void* src, VkDeviceSize sz) {
-            void* ptr;
+            void* ptr = nullptr;
             vkMapMemory(device, bm.memory, 0, sz, 0, &ptr);
             std::memcpy(ptr, src, sz);
             vkUnmapMemory(device, bm.memory);
         };
-        copyToStaging(stagQ, queries, qSize);
-        copyToStaging(stagV, vectors, vSize);
+        copyToStaging(slot.stagQ, queries, qSize);
+        copyToStaging(slot.stagV, vectors, vSize);
 
-        // Allocate and record command buffer
+        // ---- Device-local buffers (per-dispatch, sized to actual data) -
+        auto devQ   = createBuffer(qSize,  devUsage, devProps);
+        auto devV   = createBuffer(vSize,  devUsage, devProps);
+        auto devOut = createBuffer(outSz,  devUsage, devProps);
+
+        // ---- Semaphore: gates CB2 (compute) on CB1 (transfer) ---------
+        VkSemaphoreCreateInfo sci{};
+        sci.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+        VkSemaphore xferDone = VK_NULL_HANDLE;
+        vkCreateSemaphore(device, &sci, nullptr, &xferDone);
+
+        // ---- CB1: transfer phase — staging → device -------------------
         VkCommandBufferAllocateInfo cbai{};
         cbai.sType              = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
         cbai.commandPool        = commandPool;
         cbai.level              = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
         cbai.commandBufferCount = 1;
-        VkCommandBuffer cb;
-        vkAllocateCommandBuffers(device, &cbai, &cb);
+        VkCommandBuffer cbTransfer;
+        vkAllocateCommandBuffers(device, &cbai, &cbTransfer);
 
-        VkCommandBufferBeginInfo cbbi{};
-        cbbi.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-        cbbi.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
-        vkBeginCommandBuffer(cb, &cbbi);
+        {
+            VkCommandBufferBeginInfo cbbi{};
+            cbbi.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+            cbbi.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+            vkBeginCommandBuffer(cbTransfer, &cbbi);
 
-        // Transfer: staging → device
-        auto recordCopy = [&](BufMem& src, BufMem& dst, VkDeviceSize sz) {
-            VkBufferCopy region{0, 0, sz};
-            vkCmdCopyBuffer(cb, src.buffer, dst.buffer, 1, &region);
-        };
-        recordCopy(stagQ, devQ, qSize);
-        recordCopy(stagV, devV, vSize);
+            VkBufferCopy cpQ{0, 0, qSize}, cpV{0, 0, vSize};
+            vkCmdCopyBuffer(cbTransfer, slot.stagQ.buffer, devQ.buffer, 1, &cpQ);
+            vkCmdCopyBuffer(cbTransfer, slot.stagV.buffer, devV.buffer, 1, &cpV);
 
-        // Pipeline barrier: transfer write → compute read
-        VkMemoryBarrier mb{};
-        mb.sType         = VK_STRUCTURE_TYPE_MEMORY_BARRIER;
-        mb.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
-        mb.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
-        vkCmdPipelineBarrier(cb,
-            VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
-            0, 1, &mb, 0, nullptr, 0, nullptr);
+            vkEndCommandBuffer(cbTransfer);
+        }
+
+        // Submit CB1 and signal xferDone — the GPU starts DMA immediately.
+        // The CPU can now record CB2 concurrently (overlap).
+        {
+            const VkPipelineStageFlags waitMask = VK_PIPELINE_STAGE_TRANSFER_BIT;
+            VkSubmitInfo si{};
+            si.sType                = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+            si.commandBufferCount   = 1;
+            si.pCommandBuffers      = &cbTransfer;
+            si.signalSemaphoreCount = 1;
+            si.pSignalSemaphores    = &xferDone;
+            vkQueueSubmit(computeQueue, 1, &si, VK_NULL_HANDLE);
+            (void)waitMask; // used below
+        }
+
+        // ---- CB2: compute+readback phase (recorded while CB1 runs) ----
+        VkCommandBuffer cbCompute;
+        vkAllocateCommandBuffers(device, &cbai, &cbCompute);
 
         // Descriptor set for this dispatch
         VkDescriptorSetAllocateInfo dsai{};
@@ -473,71 +632,99 @@ public:
         }
         vkUpdateDescriptorSets(device, 3, writes, 0, nullptr);
 
-        // Bind pipeline and dispatch — select based on distance metric
-        VkPipeline pipeline;
-        switch (metric) {
-            case DistanceMetric::COSINE:        pipeline = cosinePipeline;       break;
-            case DistanceMetric::INNER_PRODUCT: pipeline = innerProductPipeline; break;
-            default:                            pipeline = l2Pipeline;           break;
+        {
+            VkCommandBufferBeginInfo cbbi{};
+            cbbi.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+            cbbi.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+            vkBeginCommandBuffer(cbCompute, &cbbi);
+
+            // Barrier: transfer write → compute read
+            VkMemoryBarrier mb{};
+            mb.sType         = VK_STRUCTURE_TYPE_MEMORY_BARRIER;
+            mb.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+            mb.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+            vkCmdPipelineBarrier(cbCompute,
+                VK_PIPELINE_STAGE_TRANSFER_BIT,
+                VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
+                0, 1, &mb, 0, nullptr, 0, nullptr);
+
+            // Bind pipeline and dispatch
+            VkPipeline pipeline;
+            switch (metric) {
+                case DistanceMetric::COSINE:        pipeline = cosinePipeline;       break;
+                case DistanceMetric::INNER_PRODUCT: pipeline = innerProductPipeline; break;
+                default:                            pipeline = l2Pipeline;           break;
+            }
+            vkCmdBindPipeline(cbCompute, VK_PIPELINE_BIND_POINT_COMPUTE, pipeline);
+            vkCmdBindDescriptorSets(cbCompute, VK_PIPELINE_BIND_POINT_COMPUTE,
+                                    pipelineLayout, 0, 1, &ds, 0, nullptr);
+
+            uint32_t pc[3] = {nq, nv, dim};
+            vkCmdPushConstants(cbCompute, pipelineLayout, VK_SHADER_STAGE_COMPUTE_BIT,
+                               0, sizeof(pc), pc);
+
+            // Dispatch size derived from the active workgroup dimensions.
+            // l2_distance.comp uses wgL2X × wgL2Y; cosine/inner-product use a
+            // 1-D layout so we unify to wgL2X for the group-count calculation.
+            const uint32_t localX = wgL2X;
+            const uint32_t localY = wgL2Y;
+            uint32_t gx = (nv + localX - 1) / localX;
+            uint32_t gy = (nq + localY - 1) / localY;
+            vkCmdDispatch(cbCompute, gx, gy, 1);
+
+            // Barrier: compute write → transfer read
+            mb.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
+            mb.dstAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
+            vkCmdPipelineBarrier(cbCompute,
+                VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
+                VK_PIPELINE_STAGE_TRANSFER_BIT,
+                0, 1, &mb, 0, nullptr, 0, nullptr);
+
+            // Copy results: device → staging
+            VkBufferCopy outRegion{0, 0, outSz};
+            vkCmdCopyBuffer(cbCompute, devOut.buffer, slot.stagOut.buffer, 1, &outRegion);
+
+            vkEndCommandBuffer(cbCompute);
         }
-        vkCmdBindPipeline(cb, VK_PIPELINE_BIND_POINT_COMPUTE, pipeline);
-        vkCmdBindDescriptorSets(cb, VK_PIPELINE_BIND_POINT_COMPUTE,
-                                pipelineLayout, 0, 1, &ds, 0, nullptr);
 
-        uint32_t pc[3] = {nq, nv, dim};
-        vkCmdPushConstants(cb, pipelineLayout, VK_SHADER_STAGE_COMPUTE_BIT,
-                           0, sizeof(pc), pc);
+        // Submit CB2: wait for xferDone semaphore, signal slot.fence on finish
+        {
+            const VkPipelineStageFlags waitMask = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
+            VkSubmitInfo si{};
+            si.sType                = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+            si.waitSemaphoreCount   = 1;
+            si.pWaitSemaphores      = &xferDone;
+            si.pWaitDstStageMask    = &waitMask;
+            si.commandBufferCount   = 1;
+            si.pCommandBuffers      = &cbCompute;
+            vkQueueSubmit(computeQueue, 1, &si, slot.fence);
+        }
+        slot.pending = true;
 
-        // Dispatch: one thread per (vector, query) pair
-        // Shader uses local_size_x=16, local_size_y=16
-        constexpr uint32_t LOCAL = 16;
-        uint32_t gx = (nv + LOCAL - 1) / LOCAL;
-        uint32_t gy = (nq + LOCAL - 1) / LOCAL;
-        vkCmdDispatch(cb, gx, gy, 1);
+        // Advance ring index so the *next* dispatch uses the other slot.
+        stagingRingIdx_ = (stagingRingIdx_ + 1) % kStagingSlots;
 
-        // Barrier: compute write → transfer read
-        mb.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
-        mb.dstAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
-        vkCmdPipelineBarrier(cb,
-            VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT,
-            0, 1, &mb, 0, nullptr, 0, nullptr);
+        // For the synchronous API we must return results immediately, so we
+        // wait on the just-submitted fence.  The next call may begin filling
+        // the other slot while this wait runs (genuine DMA–compute overlap).
+        vkWaitForFences(device, 1, &slot.fence, VK_TRUE, UINT64_MAX);
+        vkResetFences(device, 1, &slot.fence);
+        slot.pending = false;
 
-        // Copy results: device → staging
-        VkBufferCopy outRegion{0, 0, outSz};
-        vkCmdCopyBuffer(cb, devOut.buffer, stagOut.buffer, 1, &outRegion);
-
-        vkEndCommandBuffer(cb);
-
-        // Submit and wait
-        VkFenceCreateInfo fci{};
-        fci.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
-        VkFence fence;
-        vkCreateFence(device, &fci, nullptr, &fence);
-
-        VkSubmitInfo si{};
-        si.sType              = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-        si.commandBufferCount = 1;
-        si.pCommandBuffers    = &cb;
-        vkQueueSubmit(computeQueue, 1, &si, fence);
-        vkWaitForFences(device, 1, &fence, VK_TRUE, UINT64_MAX);
-
-        // Read results
+        // Read results from the host-visible staging buffer
         std::vector<float> results(static_cast<size_t>(nq) * nv);
         {
-            void* ptr;
-            vkMapMemory(device, stagOut.memory, 0, outSz, 0, &ptr);
+            void* ptr = nullptr;
+            vkMapMemory(device, slot.stagOut.memory, 0, outSz, 0, &ptr);
             std::memcpy(results.data(), ptr, outSz);
-            vkUnmapMemory(device, stagOut.memory);
+            vkUnmapMemory(device, slot.stagOut.memory);
         }
 
-        // Cleanup per-dispatch resources
-        vkDestroyFence(device, fence, nullptr);
-        vkFreeCommandBuffers(device, commandPool, 1, &cb);
+        // Free per-dispatch resources (device-local buffers, semaphore, CBs, DS)
+        vkDestroySemaphore(device, xferDone, nullptr);
+        vkFreeCommandBuffers(device, commandPool, 1, &cbTransfer);
+        vkFreeCommandBuffers(device, commandPool, 1, &cbCompute);
         vkFreeDescriptorSets(device, descriptorPool, 1, &ds);
-
-        destroyBuffer(stagQ);
-        destroyBuffer(stagV);
-        destroyBuffer(stagOut);
         destroyBuffer(devQ);
         destroyBuffer(devV);
         destroyBuffer(devOut);
@@ -549,6 +736,18 @@ public:
     void cleanup() {
         if (device == VK_NULL_HANDLE) return;
         vkDeviceWaitIdle(device);
+
+        // Destroy double-buffer staging ring
+        for (int i = 0; i < kStagingSlots; ++i) {
+            destroyBuffer(stagingRing_[i].stagQ);
+            destroyBuffer(stagingRing_[i].stagV);
+            destroyBuffer(stagingRing_[i].stagOut);
+            if (stagingRing_[i].fence != VK_NULL_HANDLE) {
+                vkDestroyFence(device, stagingRing_[i].fence, nullptr);
+                stagingRing_[i].fence = VK_NULL_HANDLE;
+            }
+        }
+        stagingRingInited_ = false;
 
         if (l2Pipeline != VK_NULL_HANDLE)             vkDestroyPipeline(device, l2Pipeline, nullptr);
         if (cosinePipeline != VK_NULL_HANDLE)         vkDestroyPipeline(device, cosinePipeline, nullptr);
@@ -647,6 +846,34 @@ VulkanVectorBackend::VulkanVectorBackend()
 
 VulkanVectorBackend::~VulkanVectorBackend() {
     shutdown();
+}
+
+bool VulkanVectorBackend::hasBufferDeviceAddress() const noexcept {
+#ifdef THEMIS_ENABLE_VULKAN
+    if (initialized_ && impl_) return impl_->hasBufferDeviceAddress;
+#endif
+    return false;
+}
+
+void VulkanVectorBackend::setWorkgroupSizeL2(uint32_t wgX, uint32_t wgY) noexcept {
+#ifdef THEMIS_ENABLE_VULKAN
+    if (impl_) {
+        impl_->wgL2X = wgX;
+        impl_->wgL2Y = wgY;
+    }
+#else
+    (void)wgX; (void)wgY;
+#endif
+}
+
+void VulkanVectorBackend::setWorkgroupSizeBatchSearch(uint32_t wgX) noexcept {
+#ifdef THEMIS_ENABLE_VULKAN
+    if (impl_) {
+        impl_->wgBatchSearchX = wgX;
+    }
+#else
+    (void)wgX;
+#endif
 }
 
 bool VulkanVectorBackend::isAvailable() const noexcept {
@@ -758,6 +985,9 @@ bool VulkanVectorBackend::initialize() {
         std::chrono::steady_clock::now() - initStart).count();
 
     std::cout << "[Vulkan] Initialized: " << impl_->deviceProps.deviceName << std::endl;
+    std::cout << "[Vulkan] VK_KHR_buffer_device_address: "
+              << (impl_->hasBufferDeviceAddress ? "supported" : "not supported")
+              << " (vendor: " << impl_->vendorName << ")" << std::endl;
     initialized_ = true;
     clearError();
 
@@ -843,7 +1073,10 @@ BackendHealthStatus VulkanVectorBackend::getHealthStatus() const {
     s.driverInfo = std::string("Vulkan API ")
         + std::to_string(VK_API_VERSION_MAJOR(impl_->deviceProps.apiVersion)) + "."
         + std::to_string(VK_API_VERSION_MINOR(impl_->deviceProps.apiVersion)) + "."
-        + std::to_string(VK_API_VERSION_PATCH(impl_->deviceProps.apiVersion));
+        + std::to_string(VK_API_VERSION_PATCH(impl_->deviceProps.apiVersion))
+        + (impl_->hasBufferDeviceAddress
+               ? " [VK_KHR_buffer_device_address]"
+               : " [no VK_KHR_buffer_device_address]");
 
     return s;
 #else
