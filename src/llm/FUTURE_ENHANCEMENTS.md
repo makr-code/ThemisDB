@@ -82,7 +82,7 @@ This means LoRA adapter signature validation silently succeeds without verifying
 #### Design Constraints
 - SSE payloads must be valid JSON per RFC 8259 with control-character escaping; framing must end with `\n\n`.
 - On normal completion, emit the canonical `data: [DONE]\n\n` sentinel; chunked responses end with the zero-length chunk `0\r\n\r\n`.
-- When cancellation interrupts the callback before completion or network/client disconnects prevent final frame transmission, producers may be unable to send the terminal marker. Consumers/clients must tolerate its absence.
+- When cancellation interrupts the callback before completion or network/client disconnects prevent final frame transmission, producers may be unable to send the terminal marker. Consumers/clients must tolerate its absence (tracked in the Phase 3 verification task below).
 - Streaming callbacks run on worker threads and must respect cancellation/deadlines before emitting tokens.
 - Deduplication caching must be skipped for streaming requests to avoid serving partial cached content.
 
