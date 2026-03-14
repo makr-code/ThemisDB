@@ -36,6 +36,7 @@
 #include "cache/redis_cache_coordinator.h"
 #include "utils/logger.h"
 #include "observability/metrics_collector.h"
+#include <algorithm>
 #include <sstream>
 #include <stdexcept>
 #include <chrono>
@@ -260,9 +261,8 @@ nlohmann::json RedisCacheCoordinator::getStats() const {
 #ifdef THEMIS_ENABLE_REDIS
 
 namespace {
-/// Exponential back-off constants for the subscriber reconnect loop.
-constexpr int kReconnectBackoffBaseMs = 1000;   ///< Initial back-off: 1 second
-constexpr int kReconnectBackoffMaxMs  = 30000;  ///< Maximum back-off: 30 seconds
+/// Maximum back-off cap for the subscriber reconnect loop.
+constexpr int kReconnectBackoffMaxMs = 30000;  ///< Maximum back-off: 30 seconds
 } // anonymous namespace
 
 bool RedisCacheCoordinator::connectPublish() {
@@ -381,10 +381,11 @@ bool RedisCacheCoordinator::connectSubscribe() {
 }
 
 void RedisCacheCoordinator::subscribeLoop() {
-    // Exponential back-off state: starts at kReconnectBackoffBaseMs, doubles
+    // Exponential back-off: starts at config_.reconnect_interval_ms, doubles
     // each failed attempt, capped at kReconnectBackoffMaxMs.
     // Resets to the base interval on a successful connection.
-    int backoff_ms = kReconnectBackoffBaseMs;
+    const int backoff_base_ms = std::max(1, config_.reconnect_interval_ms);
+    int backoff_ms = backoff_base_ms;
 
     while (running_.load()) {
         // Connect the subscribe connection
@@ -416,7 +417,7 @@ void RedisCacheCoordinator::subscribeLoop() {
         }
 
         // Successful connection – reset back-off
-        backoff_ms = kReconnectBackoffBaseMs;
+        backoff_ms = backoff_base_ms;
 
         // Read messages in a loop; redisGetReply times out every 200ms
         // (set via redisSetTimeout in connectSubscribe) so we can check running_.

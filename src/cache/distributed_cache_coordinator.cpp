@@ -46,6 +46,7 @@
 #include "utils/logger.h"
 #include "observability/metrics_collector.h"
 
+#include <algorithm>
 #include <nlohmann/json.hpp>
 
 #if !defined(_WIN32)
@@ -186,9 +187,9 @@ bool RedisCacheCoordinator::verifyHmac(const nlohmann::json&) const { return tru
 #else  // THEMIS_POSIX_SOCKETS
 
 namespace {
-/// Exponential back-off constants for the subscriber reconnect loop.
-constexpr int kReconnectBackoffBaseMs = 1000;   ///< Initial back-off: 1 second
-constexpr int kReconnectBackoffMaxMs  = 30000;  ///< Maximum back-off: 30 seconds
+/// Maximum back-off cap for the subscriber reconnect loop.
+/// The initial back-off is taken from config_.reconnect_interval_ms.
+constexpr int kReconnectBackoffMaxMs = 30000;  ///< Maximum back-off: 30 seconds
 } // anonymous namespace
 
 // ---------------------------------------------------------------------------
@@ -516,27 +517,33 @@ bool RedisCacheCoordinator::redisPublish(const std::string& channel,
 // ---------------------------------------------------------------------------
 
 void RedisCacheCoordinator::subscriberLoop() {
-    // Exponential back-off: starts at kReconnectBackoffBaseMs, doubles each
-    // failure, capped at kReconnectBackoffMaxMs.
-    int backoff_ms = kReconnectBackoffBaseMs;
+    // Exponential back-off: starts at config_.reconnect_interval_ms, doubles
+    // each failure, capped at kReconnectBackoffMaxMs.
+    const int backoff_base_ms = std::max(1, config_.reconnect_interval_ms);
+    int backoff_ms = backoff_base_ms;
+
+    // Helper lambda: increment reconnect stats and emit metric.
+    auto notifyReconnect = [this](const char* reason, int delay_ms) {
+        {
+            std::lock_guard<std::mutex> lk(stats_mutex_);
+            ++reconnect_count_;
+        }
+        try {
+            auto& mc = observability::MetricsCollector::getInstance();
+            mc.incrementCounter("cache.redis.reconnect");
+        } catch (const std::exception& ex) {
+            THEMIS_DEBUG("RedisCacheCoordinator: metric emit failed: {}", ex.what());
+        } catch (...) {}
+        THEMIS_WARN("RedisCacheCoordinator: {} – retrying in {} ms (back-off)",
+                    reason, delay_ms);
+    };
 
     while (!stop_.load()) {
         SocketFd fd = tcpConnect();
         if (fd == kInvalidSocket) {
-            THEMIS_WARN("RedisCacheCoordinator: subscriber TCP connect to {}:{} failed; "
-                        "retrying in {} ms (back-off)",
-                        config_.host, config_.port, backoff_ms);
-            {
-                std::lock_guard<std::mutex> lk(stats_mutex_);
-                ++reconnect_count_;
+            if (!stop_.load()) {
+                notifyReconnect("subscriber TCP connect failed", backoff_ms);
             }
-            try {
-                auto& mc = observability::MetricsCollector::getInstance();
-                mc.incrementCounter("cache.redis.reconnect");
-            } catch (const std::exception& ex) {
-                THEMIS_DEBUG("RedisCacheCoordinator: metric emit failed: {}", ex.what());
-            } catch (...) {}
-
             for (int elapsed = 0; elapsed < backoff_ms && !stop_.load(); elapsed += 50) {
                 std::this_thread::sleep_for(std::chrono::milliseconds(50));
             }
@@ -546,6 +553,9 @@ void RedisCacheCoordinator::subscriberLoop() {
 
         if (!redisHandshake(fd)) {
             closeSocket(fd);
+            if (!stop_.load()) {
+                notifyReconnect("subscriber Redis handshake failed", backoff_ms);
+            }
             for (int elapsed = 0; elapsed < backoff_ms && !stop_.load(); elapsed += 50) {
                 std::this_thread::sleep_for(std::chrono::milliseconds(50));
             }
@@ -558,6 +568,13 @@ void RedisCacheCoordinator::subscriberLoop() {
             {"SUBSCRIBE", entryChannel(), invalidationChannel()});
         if (!sendAll(fd, cmd)) {
             closeSocket(fd);
+            if (!stop_.load()) {
+                notifyReconnect("subscriber SUBSCRIBE send failed", backoff_ms);
+            }
+            for (int elapsed = 0; elapsed < backoff_ms && !stop_.load(); elapsed += 50) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(50));
+            }
+            backoff_ms = std::min(backoff_ms * 2, kReconnectBackoffMaxMs);
             continue;
         }
 
@@ -570,7 +587,7 @@ void RedisCacheCoordinator::subscriberLoop() {
         }
 
         // Successful connection – reset back-off
-        backoff_ms = kReconnectBackoffBaseMs;
+        backoff_ms = backoff_base_ms;
 
         sub_connected_.store(true);
         THEMIS_INFO("RedisCacheCoordinator: subscriber connected, listening on "
@@ -583,20 +600,7 @@ void RedisCacheCoordinator::subscriberLoop() {
         closeSocket(fd);
 
         if (!stop_.load()) {
-            THEMIS_WARN("RedisCacheCoordinator: subscriber connection lost; "
-                        "reconnecting in {} ms (back-off)",
-                        backoff_ms);
-            {
-                std::lock_guard<std::mutex> lk(stats_mutex_);
-                ++reconnect_count_;
-            }
-            try {
-                auto& mc = observability::MetricsCollector::getInstance();
-                mc.incrementCounter("cache.redis.reconnect");
-            } catch (const std::exception& ex) {
-                THEMIS_DEBUG("RedisCacheCoordinator: metric emit failed: {}", ex.what());
-            } catch (...) {}
-
+            notifyReconnect("subscriber connection lost", backoff_ms);
             for (int elapsed = 0; elapsed < backoff_ms && !stop_.load(); elapsed += 50) {
                 std::this_thread::sleep_for(std::chrono::milliseconds(50));
             }

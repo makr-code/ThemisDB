@@ -77,7 +77,7 @@ This document covers implementation-specific future enhancements for the Cache m
 `redis_cache_coordinator.cpp` uses synchronous blocking `hiredis` calls (`redisCommand`) for both PUBLISH and SUBSCRIBE. The subscription thread blocks indefinitely on `redisGetReply`. On Redis disconnect, the thread silently exits without notifying the coordinator of the failure; reconnection is only triggered on the next PUBLISH call.
 
 **Implementation Notes:**
-- `[x]` Replace synchronous `hiredis` calls with `hiredis-async` + `libuv` or a dedicated async event loop thread to avoid blocking the coordinator's callers.
+- `[x]` Replace synchronous `hiredis` calls with `hiredis-async` + `libuv` or a dedicated async event loop thread to avoid blocking the coordinator's callers. **Delivered:** dedicated background subscriber thread with `redisSetTimeout`-bounded `redisGetReply` calls (200 ms poll interval); coordinator callers are never blocked. Full hiredis-async/libuv migration is a future enhancement.
 - `[x]` Implement a reconnection health loop: if the subscription thread exits, schedule reconnect with exponential back-off (1 s, 2 s, 4 s, max 30 s) and emit a `cache.redis.reconnect` metric.
 - `[x]` Expose `RedisCacheCoordinator::isConnected()` observable via `GET /v1/admin/cache/health`.
 - `[x]` The Windows stub (line 80 of `distributed_cache_coordinator.cpp`) should be replaced with a proper compile-time feature flag; the warning log on every construction is noisy in tests.

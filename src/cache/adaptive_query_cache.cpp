@@ -1605,7 +1605,7 @@ nlohmann::json AdaptiveQueryCache::getHealthStatus() const {
     // Embed circuit breaker details
     health["circuit_breaker"] = getCircuitBreakerStatus();
 
-    // Replication coordinator connection status
+    // Cache coordinator connection status (observable via health endpoint)
     {
         std::lock_guard<std::mutex> lk(coordinator_mutex_);
         if (coordinator_) {
