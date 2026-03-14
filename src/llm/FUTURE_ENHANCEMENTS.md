@@ -83,7 +83,10 @@ This means LoRA adapter signature validation silently succeeds without verifying
 - SSE payloads must be valid JSON per RFC 8259 with control-character escaping; framing must end with `\n\n`.
 - On normal completion, emit the canonical `data: [DONE]\n\n` sentinel; chunked responses end with the zero-length chunk `0\r\n\r\n`.
 - If cancellation interrupts the callback before completion or a network/client disconnect prevents the final frame, producers cannot send the terminal marker.
-- Consumers/clients must tolerate its absence (see Phase 3: consumer-tolerance task) by treating end-of-stream without the marker as an incomplete stream: on detecting EOF without the marker, surface a retriable “stream_incomplete” warning/error within 500 ms of detection and avoid serving partial cached responses.
+- Consumers/clients must tolerate its absence (see Phase 3: consumer-tolerance task):
+  - Treat end-of-stream without the marker as an incomplete stream.
+  - Surface a retriable `stream_incomplete` warning/error within 500 ms of detecting EOF without the marker.
+  - Avoid serving or caching partial responses.
 - Streaming callbacks run on worker threads and must respect cancellation/deadlines before emitting tokens.
 - Deduplication caching must be skipped for streaming requests to avoid serving partial cached content.
 
@@ -104,8 +107,12 @@ This means LoRA adapter signature validation silently succeeds without verifying
   - [x] Drop token emission when cancellation/deadlines trigger. On graceful completion producers still emit well-formed terminal `[DONE]`/zero-length chunk markers.
   - [ ] Ensure consumers tolerate missing markers when the transport aborts mid-stream (e.g., client disconnect, network failure, or server-side cancellation during write).
     - Scope: HTTP SSE writer/reader in the OpenAI-compatible adapter and chunked-response parsers used by SDK clients.
-    - Expected behavior: detect EOF without a terminal marker (per design constraint), flag a retriable `stream_incomplete` error, drop partial responses from dedup caches, and log a warning with request_id.
-    - Verification: `tests/llm/test_streaming_handler.cpp` and `tests/test_llm_timeout_cancellation.cpp` assert detection and error surfacing under injected disconnects once unblocked.
+    - Expected behavior:
+      - Detect EOF without a terminal marker (per design constraint).
+      - Flag a retriable `stream_incomplete` error.
+      - Drop partial responses from dedup caches.
+      - Log a warning with request_id for observability.
+    - Verification: `tests/llm/test_streaming_handler.cpp` and `tests/test_llm_timeout_cancellation.cpp` assert detection and error surfacing under injected disconnects once the RocksDB dependency is resolved in the CI/sandbox build environment.
   - [x] JSON-escape control characters in SSE payloads to prevent malformed event streams.
 - **Phase 4 — Tests**
   - [I] `tests/llm/test_streaming_handler.cpp` validates SSE framing, JSON escaping, chunked frames, and callback index sequencing (Blocked: themis_tests build currently fails in unrelated `llm_deployment_plugin.cpp` incomplete type error).
