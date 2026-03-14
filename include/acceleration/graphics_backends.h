@@ -120,10 +120,16 @@ public:
 
     // Tunable workgroup dimensions for SPIR-V specialization constants.
     // Must be called before initialize() to take effect.
-    // Changing these post-initialization has no effect until the next
-    // initialize() call.
+    // Calls after initialize() are silently ignored; zero values are rejected.
+    // setWorkgroupSizeBatchSearch() additionally rejects values > 256 because
+    // batch_search.comp declares shared float sharedQuery[256].
     void setWorkgroupSizeL2(uint32_t wgX, uint32_t wgY) noexcept;
     void setWorkgroupSizeBatchSearch(uint32_t wgX) noexcept;
+
+    // Inspect current (pending or baked) workgroup sizes for testing/debugging.
+    // Returns {wgX, wgY} for the L2 pipeline; {batchX, 1} for batch-search.
+    std::pair<uint32_t, uint32_t> getWorkgroupSizeL2() const noexcept;
+    uint32_t getWorkgroupSizeBatchSearch() const noexcept;
 
 private:
     bool initialized_ = false;

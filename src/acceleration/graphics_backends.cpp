@@ -93,10 +93,14 @@ public:
     std::string vendorName;  // Human-readable vendor (e.g. "AMD", "Intel", "NVIDIA", "ARM")
 
     // MoltenVK / Apple M-series capability probe
-    // true when the physical device advertises VK_KHR_buffer_device_address.
-    // On Apple Silicon via MoltenVK this extension may not be exposed even
-    // though it is partially supported — so we probe at device-selection time
-    // and gate any BDA path on this flag.
+    // true when the physical device supports buffer device address and it is
+    // usable (i.e. the feature flag is actually set, not just extension-listed).
+    // Probed via vkGetPhysicalDeviceFeatures2 which is correct for both the
+    // KHR-extension path (Vulkan 1.0/1.1 with VK_KHR_buffer_device_address)
+    // and the promoted-core path (Vulkan 1.2+ where it may not appear in the
+    // extension list but VkPhysicalDeviceVulkan12Features carries it).
+    // On Apple Silicon via MoltenVK the extension may be absent or the feature
+    // disabled even if the name shows up in the extension list.
     bool hasBufferDeviceAddress = false;
 
     // Tunable workgroup sizes exposed as SPIR-V specialization constants.
@@ -106,7 +110,18 @@ public:
     // Mali-G710 vs. RDNA2).
     uint32_t wgL2X          = 16;   // l2_distance.comp local_size_x (spec id 0)
     uint32_t wgL2Y          = 16;   // l2_distance.comp local_size_y (spec id 1)
-    uint32_t wgBatchSearchX = 256;  // batch_search.comp local_size_x (spec id 0)
+    // batch_search.comp local_size_x pending specialization constant wiring;
+    // stored here for future pipeline integration.  Max 256 (shared-mem limit).
+    uint32_t wgBatchSearchX = 256;
+
+    // Sizes actually baked into the compiled pipelines (set by createComputePipelines).
+    // cosine_distance.comp and inner_product_distance.comp hard-code 16×16 in GLSL,
+    // so their baked sizes are always 16 regardless of wgL2X/wgL2Y.
+    uint32_t bakedL2X   = 16;   // effective local_size_x for l2Pipeline
+    uint32_t bakedL2Y   = 16;   // effective local_size_y for l2Pipeline
+    // cosine/inner-product pipelines always use 16×16 (no specialization constants yet)
+    static constexpr uint32_t kCosineLocalX = 16;
+    static constexpr uint32_t kCosineLocalY = 16;
 
     // ---- Buffer helper ------------------------------------------------
     struct BufMem {
@@ -292,11 +307,19 @@ public:
         }
 
         // MoltenVK / Apple M-series: probe VK_KHR_buffer_device_address.
-        // Enumerate device extensions to check whether the physical device
-        // exposes VK_KHR_buffer_device_address.  On Apple Silicon via MoltenVK
-        // the extension may not be available or may have limited coverage, so
-        // we record the result here rather than assuming it is present.
+        //
+        // Approach:
+        //  (a) On Vulkan 1.2+ the feature may be promoted to core — query via
+        //      VkPhysicalDeviceVulkan12Features (no extension advertisement needed).
+        //  (b) On Vulkan 1.0/1.1 with the KHR extension, check the extension list
+        //      first to know whether vkGetPhysicalDeviceFeatures2 would honour it,
+        //      then query VkPhysicalDeviceBufferDeviceAddressFeaturesKHR to confirm
+        //      the feature is actually enabled (not just the name advertised).
+        //
+        // This correctly handles MoltenVK, where the extension may be listed but
+        // the feature flag may still be VK_FALSE.
         {
+            bool extAdvertised = false;
             uint32_t extCount = 0;
             vkEnumerateDeviceExtensionProperties(physicalDevice, nullptr,
                                                  &extCount, nullptr);
@@ -306,10 +329,36 @@ public:
             for (const auto& ext : exts) {
                 if (std::strcmp(ext.extensionName,
                                 VK_KHR_BUFFER_DEVICE_ADDRESS_EXTENSION_NAME) == 0) {
-                    hasBufferDeviceAddress = true;
+                    extAdvertised = true;
                     break;
                 }
             }
+
+            if (deviceProps.apiVersion >= VK_MAKE_VERSION(1, 2, 0)) {
+                // Vulkan 1.2+: BDA is a core feature — query via pNext chain.
+                VkPhysicalDeviceVulkan12Features vk12Features{};
+                vk12Features.sType =
+                    VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES;
+                VkPhysicalDeviceFeatures2 features2{};
+                features2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2;
+                features2.pNext = &vk12Features;
+                vkGetPhysicalDeviceFeatures2(physicalDevice, &features2);
+                hasBufferDeviceAddress =
+                    (vk12Features.bufferDeviceAddress == VK_TRUE);
+            } else if (extAdvertised) {
+                // Vulkan 1.0/1.1 with KHR extension: verify the feature is
+                // actually supported, not just listed.
+                VkPhysicalDeviceBufferDeviceAddressFeaturesKHR bdaFeatures{};
+                bdaFeatures.sType =
+                    VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES_KHR;
+                VkPhysicalDeviceFeatures2 features2{};
+                features2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2;
+                features2.pNext = &bdaFeatures;
+                vkGetPhysicalDeviceFeatures2(physicalDevice, &features2);
+                hasBufferDeviceAddress =
+                    (bdaFeatures.bufferDeviceAddress == VK_TRUE);
+            }
+            // If neither condition applies, hasBufferDeviceAddress stays false.
         }
 
         // Find compute queue family
@@ -425,16 +474,10 @@ public:
         l2SpecInfo.dataSize      = sizeof(L2SpecData);
         l2SpecInfo.pData         = &l2Spec;
 
-        // Build specialization constant for batch_search.comp (ID 0 =
-        // local_size_x).  Shared-memory array is declared for max 256 elements;
-        // wgBatchSearchX must not exceed 256.
-        const uint32_t bsSpec = wgBatchSearchX;
-        const VkSpecializationMapEntry bsEntry{ 0, 0, sizeof(uint32_t) };
-        VkSpecializationInfo bsSpecInfo{};
-        bsSpecInfo.mapEntryCount = 1;
-        bsSpecInfo.pMapEntries   = &bsEntry;
-        bsSpecInfo.dataSize      = sizeof(uint32_t);
-        bsSpecInfo.pData         = &bsSpec;
+        // cosine_distance.comp and inner_product_distance.comp retain their
+        // hard-coded local_size_x = 16, local_size_y = 16 declarations.
+        // Specialization constants for those shaders will be added in a
+        // future pass when Mali-G710 / RDNA2 occupancy data is available.
 
         // Helper: create one compute pipeline.  pSpecInfo may be nullptr for
         // shaders without specialization constants (cosine, inner-product).
@@ -454,9 +497,17 @@ public:
             return vkCreateComputePipelines(device, VK_NULL_HANDLE, 1, &pci, nullptr, &out) == VK_SUCCESS;
         };
 
-        return makePipeline(l2ShaderModule, l2Pipeline, &l2SpecInfo) &&
-               makePipeline(cosineShaderModule, cosinePipeline, nullptr) &&
-               makePipeline(innerProductShaderModule, innerProductPipeline, nullptr);
+        const bool ok = makePipeline(l2ShaderModule, l2Pipeline, &l2SpecInfo) &&
+                        makePipeline(cosineShaderModule, cosinePipeline, nullptr) &&
+                        makePipeline(innerProductShaderModule, innerProductPipeline, nullptr);
+
+        // Record the workgroup sizes that were baked into the pipelines so that
+        // dispatch() can compute correct group-counts per metric.
+        if (ok) {
+            bakedL2X = wgL2X;
+            bakedL2Y = wgL2Y;
+        }
+        return ok;
     }
 
     // ---- Double-buffer staging helpers --------------------------------
@@ -661,11 +712,25 @@ public:
             vkCmdPushConstants(cbCompute, pipelineLayout, VK_SHADER_STAGE_COMPUTE_BIT,
                                0, sizeof(pc), pc);
 
-            // Dispatch size derived from the active workgroup dimensions.
-            // l2_distance.comp uses wgL2X × wgL2Y; cosine/inner-product use a
-            // 1-D layout so we unify to wgL2X for the group-count calculation.
-            const uint32_t localX = wgL2X;
-            const uint32_t localY = wgL2Y;
+            // Dispatch group counts must match the local sizes baked into each
+            // pipeline's specialization constants (or hardcoded GLSL for shaders
+            // that have no specialization constants yet).
+            //
+            //  • l2Pipeline:              bakedL2X × bakedL2Y  (from wgL2X/wgL2Y)
+            //  • cosinePipeline:          16 × 16  (hard-coded in cosine_distance.comp)
+            //  • innerProductPipeline:    16 × 16  (hard-coded in inner_product_distance.comp)
+            //
+            // Using the L2 specialization values for cosine/IP would produce wrong
+            // group-counts when wgL2X/wgL2Y differ from 16 — leading to
+            // under-dispatch and incomplete/corrupt results.
+            uint32_t localX, localY;
+            if (metric == DistanceMetric::L2) {
+                localX = bakedL2X;
+                localY = bakedL2Y;
+            } else {
+                localX = kCosineLocalX;
+                localY = kCosineLocalY;
+            }
             uint32_t gx = (nv + localX - 1) / localX;
             uint32_t gy = (nq + localY - 1) / localY;
             vkCmdDispatch(cbCompute, gx, gy, 1);
@@ -855,6 +920,11 @@ bool VulkanVectorBackend::hasBufferDeviceAddress() const noexcept {
 
 void VulkanVectorBackend::setWorkgroupSizeL2(uint32_t wgX, uint32_t wgY) noexcept {
 #ifdef THEMIS_ENABLE_VULKAN
+    // Reject changes after initialize() — the pipeline has already been compiled
+    // with the previous values.  Silently ignore to keep the API noexcept.
+    if (initialized_) return;
+    // Zero dimensions would cause division-by-zero in dispatch group-count math.
+    if (wgX == 0 || wgY == 0) return;
     if (impl_) {
         impl_->wgL2X = wgX;
         impl_->wgL2Y = wgY;
@@ -866,12 +936,31 @@ void VulkanVectorBackend::setWorkgroupSizeL2(uint32_t wgX, uint32_t wgY) noexcep
 
 void VulkanVectorBackend::setWorkgroupSizeBatchSearch(uint32_t wgX) noexcept {
 #ifdef THEMIS_ENABLE_VULKAN
+    // Reject post-init and zero values; also clamp to 256 — batch_search.comp
+    // declares shared float sharedQuery[256] so any value > 256 would cause
+    // out-of-bounds shared-memory access in the shader.
+    if (initialized_) return;
+    if (wgX == 0 || wgX > 256u) return;
     if (impl_) {
         impl_->wgBatchSearchX = wgX;
     }
 #else
     (void)wgX;
 #endif
+}
+
+std::pair<uint32_t, uint32_t> VulkanVectorBackend::getWorkgroupSizeL2() const noexcept {
+#ifdef THEMIS_ENABLE_VULKAN
+    if (impl_) return {impl_->wgL2X, impl_->wgL2Y};
+#endif
+    return {16u, 16u};
+}
+
+uint32_t VulkanVectorBackend::getWorkgroupSizeBatchSearch() const noexcept {
+#ifdef THEMIS_ENABLE_VULKAN
+    if (impl_) return impl_->wgBatchSearchX;
+#endif
+    return 256u;
 }
 
 bool VulkanVectorBackend::isAvailable() const noexcept {

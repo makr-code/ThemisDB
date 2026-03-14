@@ -97,6 +97,59 @@ TEST(VulkanComputeShaderHardening, NonDefaultWorkgroupSizes_Accepted) {
     EXPECT_NO_FATAL_FAILURE(backend.setWorkgroupSizeBatchSearch(128));
 }
 
+// ---------------------------------------------------------------------------
+// AC-2c: Invalid workgroup sizes (zero) are silently rejected
+// ---------------------------------------------------------------------------
+TEST(VulkanComputeShaderHardening, WorkgroupSizeValidation_ZeroRejected) {
+    VulkanVectorBackend backend;
+    // Set a valid non-default value first
+    backend.setWorkgroupSizeL2(8, 8);
+
+    // Zero wgX: must be silently ignored — state must remain at (8, 8)
+    backend.setWorkgroupSizeL2(0, 8);
+    {
+        auto [x, y] = backend.getWorkgroupSizeL2();
+        EXPECT_EQ(x, 8u) << "setWorkgroupSizeL2(0,8) must not change wgX";
+        EXPECT_EQ(y, 8u) << "setWorkgroupSizeL2(0,8) must not change wgY";
+    }
+
+    // Zero wgY: must also be ignored
+    backend.setWorkgroupSizeL2(8, 0);
+    {
+        auto [x, y] = backend.getWorkgroupSizeL2();
+        EXPECT_EQ(x, 8u) << "setWorkgroupSizeL2(8,0) must not change wgX";
+        EXPECT_EQ(y, 8u) << "setWorkgroupSizeL2(8,0) must not change wgY";
+    }
+
+    // Zero batch search: must also be rejected
+    backend.setWorkgroupSizeBatchSearch(128);
+    backend.setWorkgroupSizeBatchSearch(0);
+    EXPECT_EQ(backend.getWorkgroupSizeBatchSearch(), 128u)
+        << "setWorkgroupSizeBatchSearch(0) must not change the value";
+}
+
+// ---------------------------------------------------------------------------
+// AC-2d: batch_search workgroup size > 256 is silently rejected (shader limit)
+// ---------------------------------------------------------------------------
+TEST(VulkanComputeShaderHardening, WorkgroupSizeValidation_BatchSearchMax256) {
+    VulkanVectorBackend backend;
+    // Values above 256 would cause out-of-bounds shared-memory access in
+    // batch_search.comp (sharedQuery is declared as float[256]).
+    backend.setWorkgroupSizeBatchSearch(128);
+    backend.setWorkgroupSizeBatchSearch(257);
+    EXPECT_EQ(backend.getWorkgroupSizeBatchSearch(), 128u)
+        << "setWorkgroupSizeBatchSearch(257) must be rejected";
+
+    backend.setWorkgroupSizeBatchSearch(512);
+    EXPECT_EQ(backend.getWorkgroupSizeBatchSearch(), 128u)
+        << "setWorkgroupSizeBatchSearch(512) must be rejected";
+
+    // Boundary: exactly 256 is valid
+    backend.setWorkgroupSizeBatchSearch(256);
+    EXPECT_EQ(backend.getWorkgroupSizeBatchSearch(), 256u)
+        << "setWorkgroupSizeBatchSearch(256) is the maximum valid value";
+}
+
 // =============================================================================
 // Suite: VulkanComputeShaderHardeningHwTest
 // Tests that require Vulkan hardware — automatically skipped without it.
