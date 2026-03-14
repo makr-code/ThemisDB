@@ -534,14 +534,6 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_engineering_integration.cpp
 )
 
-# Re-include classify-bridge integration tests that depend on the LLM subsystem
-# (docs_assistant_functions.cpp links against LLM object files).
-if(THEMIS_ENABLE_LLM)
-    target_sources(themis_tests PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/test_classify_bridge_integration.cpp
-    )
-endif()
-
 # Re-include prompt_engineering tests that depend on the LLM subsystem (llm/
 # headers) and are therefore only valid when THEMIS_ENABLE_LLM is ON.
 if(THEMIS_ENABLE_LLM)

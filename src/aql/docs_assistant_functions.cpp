@@ -211,6 +211,13 @@ std::string DocsAssistantFunctions::detectIntentWithNativeNLP(const std::string&
             return "unknown";
         }
 
+        // Guard against classifiers that return labels outside the expected set.
+        const bool valid = std::find(categories.begin(), categories.end(),
+                                     result.category) != categories.end();
+        if (!valid) {
+            return "unknown";
+        }
+
         return result.category;
 
     } catch (const std::exception&) {

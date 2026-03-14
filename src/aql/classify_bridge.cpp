@@ -17,6 +17,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <limits>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -70,9 +71,9 @@ const std::vector<CategorySpec>& categorySpecs() {
         {
             "search",
             {
-                "search", "find", "look for", "documentation about",
-                "where is", "list", "show me", "examples of", "what functions",
-                "all the", "available", "supported", "reference"
+                "search", "search for", "find", "look for", "documentation about",
+                "documentation", "where is", "list", "show me", "examples of",
+                "what functions", "all the", "available", "supported", "reference"
             },
             1.0
         },
@@ -141,9 +142,17 @@ ClassifyResult keywordClassify(const std::string& text,
     if (categories.empty()) return ClassifyResult{};
 
     std::string lower = text;
-    std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+    std::transform(lower.begin(), lower.end(), lower.begin(),
+                   [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
 
     auto raw    = scoreCategories(lower, categories);
+
+    // If no keywords matched at all, there is no signal – return an empty
+    // result so detectIntentWithNativeNLP() falls through to the LLM path.
+    double max_raw = 0.0;
+    for (const auto& [_, v] : raw) max_raw = std::max(max_raw, v);
+    if (max_raw == 0.0) return ClassifyResult{};
+
     auto probs  = softmax(raw);
 
     // Pick the highest-confidence category.
@@ -162,11 +171,11 @@ ClassifyResult keywordClassify(const std::string& text,
 
 } // anonymous namespace
 
-// Minimum confidence for accepting a FunctionRegistry CLASSIFY result over
-// the keyword fallback.  A result below this threshold is likely the registry's
-// default uniform distribution (e.g. 0.25 for 4 categories) and should be
-// discarded in favour of the keyword classifier.
-static constexpr double kMinRegistryConfidenceThreshold = 0.3;
+// Margin above the uniform baseline (1.0/N) required to accept a
+// FunctionRegistry CLASSIFY result over the keyword fallback.  A result
+// at or near uniform is likely the registry's default distribution and
+// should be discarded in favour of the keyword classifier.
+static constexpr double kRegistryConfidenceMargin = 0.15;
 
 // ---------------------------------------------------------------------------
 // AQLFunctionClassifyBridge
@@ -180,7 +189,7 @@ ClassifyResult AQLFunctionClassifyBridge::classify(
     try {
         using namespace themis::query::functions;
         auto& reg = FunctionRegistry::instance();
-        if (reg.hasFunction("CLASSIFY")) {
+        if (reg.hasFunction("CLASSIFY") && !categories.empty()) {
             // Build category array as nlohmann::json
             nlohmann::json cats = nlohmann::json::array();
             for (const auto& c : categories) cats.push_back(c);
@@ -199,8 +208,11 @@ ClassifyResult AQLFunctionClassifyBridge::classify(
                         cr.scores[k] = v.get<double>();
                     }
                 }
-                // Accept registry result only when it carries meaningful confidence.
-                if (cr.confidence > kMinRegistryConfidenceThreshold && !cr.category.empty()) {
+                // Accept registry result only when it is meaningfully above the
+                // uniform-distribution baseline (1/N), indicating real signal.
+                const double uniform_baseline = 1.0 / static_cast<double>(categories.size());
+                if (!cr.category.empty() &&
+                    cr.confidence > uniform_baseline + kRegistryConfidenceMargin) {
                     return cr;
                 }
             }

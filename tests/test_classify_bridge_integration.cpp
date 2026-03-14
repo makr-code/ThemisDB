@@ -47,7 +47,7 @@ public:
 };
 
 /**
- * @brief Thin subclass of DocsAssistantFunctions that exposes the private
+ * @brief Thin subclass of DocsAssistantFunctions that exposes the protected
  *        detectIntentWithNativeNLP() method for direct testing.
  */
 class TestableDocsAssistant : public DocsAssistantFunctions {
@@ -155,6 +155,34 @@ TEST(ClassifyBridgeIntegrationTest, ResettingClassifierReturnsUnknown) {
 }
 
 // ============================================================================
+// Invalid label from classifier is rejected
+// ============================================================================
+
+/**
+ * @brief Stub that always returns a category label outside the expected set.
+ */
+class BadLabelClassifyFn final : public IClassifyFn {
+public:
+    ClassifyResult classify(const std::string& /*text*/,
+                            const std::vector<std::string>& /*categories*/) const override
+    {
+        ClassifyResult r;
+        r.category   = "unexpected_label";
+        r.confidence = 0.99;
+        return r;
+    }
+};
+
+TEST(ClassifyBridgeIntegrationTest, InvalidLabelFromClassifierIsRejected) {
+    TestableDocsAssistant assistant;
+    BadLabelClassifyFn bad;
+
+    assistant.setClassifier(&bad);
+    // Unknown label must be rejected → "unknown" returned so LLM path is used.
+    EXPECT_EQ(assistant.callDetectIntent("how do I create an index?"), "unknown");
+}
+
+// ============================================================================
 // Additional bridge smoke-tests
 // ============================================================================
 
@@ -182,6 +210,19 @@ TEST(ClassifyBridgeIntegrationTest, BridgeHandlesEmptyCategoryList) {
     AQLFunctionClassifyBridge bridge;
     auto result = bridge.classify("any text", {});
     EXPECT_TRUE(result.category.empty());
+}
+
+TEST(ClassifyBridgeIntegrationTest, BridgeReturnsEmptyResultWhenNoKeywordsMatch) {
+    // A query with no recognisable keywords should return an empty ClassifyResult
+    // so that detectIntentWithNativeNLP() falls through to the LLM/regex path.
+    AQLFunctionClassifyBridge bridge;
+    auto result = bridge.classify(
+        "xyzzyx qrstu 12345",
+        {"configuration", "troubleshooting", "search", "general"}
+    );
+    EXPECT_TRUE(result.category.empty())
+        << "No-signal query should produce empty category, got '" << result.category << "'";
+    EXPECT_DOUBLE_EQ(result.confidence, 0.0);
 }
 
 TEST(ClassifyBridgeIntegrationTest, BridgeReturnedScoresSumToApproximatelyOne) {
