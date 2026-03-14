@@ -40,9 +40,9 @@
 #include <stdexcept>
 #include <sstream>
 #include <algorithm>
+#include <atomic>
 #include <cctype>
 #include <future>
-#include <semaphore>
 #include <thread>
 #include <spdlog/spdlog.h>
 
@@ -1356,53 +1356,53 @@ std::vector<LLMAQLHandler::BatchNLToAQLResult> LLMAQLHandler::translateBatchNLTo
         static_cast<std::size_t>(1u),
         static_cast<std::size_t>(std::thread::hardware_concurrency())
     );
-    const std::size_t requested_concurrency =
+    const std::size_t concurrency =
         (max_concurrent_requests == 0) ? hw_concurrency : max_concurrent_requests;
 
-    // Clamp to the compile-time semaphore ceiling.
-    static constexpr std::ptrdiff_t kMaxSemaphoreCount = 256;
-    const std::ptrdiff_t sem_count = static_cast<std::ptrdiff_t>(
-        std::min(requested_concurrency, static_cast<std::size_t>(kMaxSemaphoreCount))
-    );
+    // Launch at most min(n, concurrency) worker threads so the number of live
+    // threads is directly bounded — no unbounded thread-per-request creation.
+    // Each worker pulls the next unprocessed request via a shared atomic index,
+    // which avoids lambda reference captures into the range-for loop variable.
+    const std::size_t num_workers = std::min(n, concurrency);
 
-    // Semaphore limits the number of in-flight LLM calls at any moment.
-    std::counting_semaphore<kMaxSemaphoreCount> sem(sem_count);
+    // Pre-allocate result storage indexed by request position.  Workers write
+    // to distinct slots, so no mutex is required for the results vector.
+    std::vector<BatchNLToAQLResult> results(n);
 
-    // Launch one async task per request.  Each task acquires the semaphore
-    // before calling translateNLToAQL() and releases it on exit, regardless
-    // of success or failure (RAII via try/finally pattern).
-    std::vector<std::future<BatchNLToAQLResult>> futures;
-    futures.reserve(n);
+    // Shared work index: each worker atomically claims the next request slot.
+    std::atomic<std::size_t> work_index{0};
 
-    for (const auto& req : requests) {
-        futures.push_back(std::async(
+    // Launch the worker pool and wait for all workers to finish.
+    std::vector<std::future<void>> workers;
+    workers.reserve(num_workers);
+
+    for (std::size_t w = 0; w < num_workers; ++w) {
+        workers.push_back(std::async(
             std::launch::async,
-            [this, &req, &sem]() -> BatchNLToAQLResult {
-                sem.acquire();
-                BatchNLToAQLResult result;
-                try {
-                    result.aql_query = translateNLToAQL(req.nl_query, req.schema_context);
-                    result.success   = true;
-                } catch (const std::exception& e) {
-                    result.aql_query.clear();
-                    result.error   = e.what();
-                    result.success = false;
-                } catch (...) {
-                    result.aql_query.clear();
-                    result.error   = "Unknown exception during translation";
-                    result.success = false;
+            [this, &requests, &results, &work_index, n]() {
+                std::size_t idx;
+                while ((idx = work_index.fetch_add(1, std::memory_order_relaxed)) < n) {
+                    const BatchNLToAQLRequest& req = requests[idx];
+                    BatchNLToAQLResult& result     = results[idx];
+                    try {
+                        result.aql_query = translateNLToAQL(req.nl_query, req.schema_context);
+                        result.success   = true;
+                    } catch (const std::exception& e) {
+                        result.aql_query.clear();
+                        result.error   = e.what();
+                        result.success = false;
+                    } catch (...) {
+                        result.aql_query.clear();
+                        result.error   = "Unknown exception during translation";
+                        result.success = false;
+                    }
                 }
-                sem.release();
-                return result;
             }
         ));
     }
 
-    // Collect results in original request order.
-    std::vector<BatchNLToAQLResult> results;
-    results.reserve(n);
-    for (auto& f : futures) {
-        results.push_back(f.get());
+    for (auto& w : workers) {
+        w.get();
     }
     return results;
 }

@@ -39,7 +39,6 @@
 #include <future>
 #include <memory>
 #include <optional>
-#include <semaphore>
 #include <thread>
 #include <unordered_map>
 #include <vector>
@@ -425,6 +424,12 @@ public:
      *                               to use @c std::thread::hardware_concurrency().
      * @return Future that resolves to a vector of results in the same order
      *         as the input requests.
+     *
+     * @warning The caller **must** ensure that this @c LLMAQLHandler instance
+     *          outlives the returned future (i.e. call @c future.get() before
+     *          destroying the handler).  The background task holds a raw
+     *          @c this pointer; destroying the handler while the future is
+     *          still pending produces undefined behaviour.
      */
     std::future<std::vector<BatchNLToAQLResult>> translateBatchNLToAQLAsync(
         std::vector<BatchNLToAQLRequest> requests,
