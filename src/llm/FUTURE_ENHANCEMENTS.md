@@ -102,7 +102,7 @@ This means LoRA adapter signature validation silently succeeds without verifying
   - [x] Provide `StreamingHandler::{formatSseEvent, formatChunkedData, makeStreamCallback}` in `src/llm/streaming_handler.cpp`; `makeStreamCallback()` returns an atomic-indexed lambda for single-producer streams, verified to keep indices monotonic and to tolerate empty token strings without emitting invalid SSE frames.
 - **Phase 3 — Error Handling & Edge Cases**
   - [x] Drop token emission when cancellation/deadlines trigger. On graceful completion producers still emit well-formed terminal `[DONE]`/zero-length chunk markers.
-  - [~] Ensure consumers tolerate missing markers when the transport aborts mid-stream (e.g., client disconnect, network failure, or server-side cancellation during write).
+  - [ ] Ensure consumers tolerate missing markers when the transport aborts mid-stream (e.g., client disconnect, network failure, or server-side cancellation during write).
     - Scope: HTTP SSE writer/reader in the OpenAI-compatible adapter and chunked-response parsers used by SDK clients.
     - Expected behavior: detect EOF without a terminal marker within 500 ms, flag a retriable `stream_incomplete` error, drop partial responses from dedup caches, and log a warning with request_id.
     - Verification: `tests/llm/test_streaming_handler.cpp` and `tests/test_llm_timeout_cancellation.cpp` assert detection and error surfacing under injected disconnects once unblocked.
@@ -132,7 +132,7 @@ This means LoRA adapter signature validation silently succeeds without verifying
 - Prompt-policy enforcement still runs before streaming; blocked prompts return policy errors without invoking callbacks.
 
 #### Known Issues & Limitations
-- [~] Consumer tolerance verification (Phase 3) is blocked in the current CI/sandbox build environment because the LLM test suite cannot build without the RocksDB dependency.
+- [I] Consumer tolerance verification (Phase 3) is blocked in the current CI/sandbox build environment because the LLM test suite cannot build without the RocksDB dependency.
 
 ### OpenAI-Compatible `/v1/chat/completions` Adapter
 **Priority:** High
