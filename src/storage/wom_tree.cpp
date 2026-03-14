@@ -243,21 +243,14 @@ struct WomTree::Impl {
         stat_user_bytes.fetch_add(op.byteSize(), std::memory_order_relaxed);
 
         if (root->is_leaf) {
-            // Single-leaf fast path.
-            // Account for the write (WA = internal_bytes / user_bytes ≥ 1.0).
-            stat_internal_bytes.fetch_add(op.byteSize(), std::memory_order_relaxed);
-            if (op.type == OpType::PUT) {
-                bool was_present = (root->leafFind(op.key) != root->data.end());
-                root->leafApply(op);
-                if (!was_present) {
-                    stat_live_entries.fetch_add(1, std::memory_order_relaxed);
-                }
-            } else {
-                bool was_present = (root->leafFind(op.key) != root->data.end());
-                root->leafApply(op);
-                if (was_present) {
-                    stat_live_entries.fetch_sub(1, std::memory_order_relaxed);
-                }
+            // Single-leaf fast path: apply directly and update stats.
+            bool before = (root->leafFind(op.key) != root->data.end());
+            applyOpToLeaf(*root, op);
+            bool after = (root->leafFind(op.key) != root->data.end());
+            if (!before && after) {
+                stat_live_entries.fetch_add(1, std::memory_order_relaxed);
+            } else if (before && !after) {
+                stat_live_entries.fetch_sub(1, std::memory_order_relaxed);
             }
             maybeSplitRootLeaf();
             return;
@@ -468,6 +461,20 @@ struct WomTree::Impl {
         while (doOneInternalSplit(root, nullptr, 0)) {}
     }
 
+    // ── Leaf-apply helper ────────────────────────────────────────────────
+
+    // Apply a single Op to a leaf and record the write in stat_internal_bytes.
+    // stat_live_entries is NOT updated here — that responsibility belongs to:
+    //   • doInsertOp (single-leaf fast path: before/after check)
+    //   • doInsertOp (buffered path: doGet-based check before enqueueing)
+    //   • directRemove (unconditional decrement, existence pre-verified)
+    // This separation avoids double-counting when buffered ops are flushed
+    // by flushNode.
+    void applyOpToLeaf(Node& leaf, const Op& op) {
+        stat_internal_bytes.fetch_add(op.byteSize(), std::memory_order_relaxed);
+        leaf.leafApply(op);
+    }
+
     // ── lazy_deletes=false helpers ───────────────────────────────────────
 
     // Remove all buffered ops for 'key' along the path from node down to the
@@ -499,35 +506,26 @@ struct WomTree::Impl {
     // then the entry is physically erased from its leaf.
     // Precondition: caller has verified the key exists (doGet succeeded).
     void directRemove(const std::string& key) {
-        if (root->is_leaf) {
-            bool was_present = (root->leafFind(key) != root->data.end());
-            Op op;
-            op.type = OpType::REMOVE;
-            op.key  = key;
-            root->leafApply(op);
-            if (was_present) {
-                stat_live_entries.fetch_sub(1, std::memory_order_relaxed);
-            }
-            return;
+        // Clear any buffered ops for this key so they can't resurrect it
+        // after the next flush (relevant when root is already internal).
+        if (!root->is_leaf) {
+            clearBufferedOpsForKey(key, *root);
         }
 
-        // Clear any buffered ops for this key so they can't resurrect it.
-        clearBufferedOpsForKey(key, *root);
-
-        // Descend to the leaf and erase the entry.
+        // Descend to the leaf that should contain the key.
         Node* node = root.get();
         while (!node->is_leaf) {
             size_t ci = node->childIndex(key);
             node = node->children[ci].get();
         }
-        bool was_present = (node->leafFind(key) != node->data.end());
+
+        // Apply the removal (tracks stat_internal_bytes via applyOpToLeaf).
         Op op;
         op.type = OpType::REMOVE;
         op.key  = key;
-        node->leafApply(op);
-        if (was_present) {
-            stat_live_entries.fetch_sub(1, std::memory_order_relaxed);
-        }
+        applyOpToLeaf(*node, op);
+        // Existence was pre-verified by remove(); always decrement live count.
+        stat_live_entries.fetch_sub(1, std::memory_order_relaxed);
     }
 
     // ── Read path ────────────────────────────────────────────────────────

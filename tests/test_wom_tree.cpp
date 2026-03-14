@@ -670,8 +670,13 @@ TEST(WomTreeFocusedTests, Scan_CallbackInvokedOutsideLock_NoDeadlock) {
     t.scan([&t, &seen](std::string_view k, std::string_view) {
         seen.emplace_back(k);
         // Write inside the callback — safe because the lock is already released.
-        (void)t.put("extra_" + std::string(k), "v");
+        EXPECT_TRUE(t.put("extra_" + std::string(k), "v").has_value());
         return true;
     });
     EXPECT_EQ(seen.size(), 10u);
+    // Confirm that each in-callback put actually persisted.
+    for (const auto& k : seen) {
+        EXPECT_TRUE(t.contains("extra_" + k))
+            << "extra_" << k << " should have been inserted during scan callback";
+    }
 }
