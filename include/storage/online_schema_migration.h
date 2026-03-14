@@ -77,12 +77,13 @@ struct MigrationOp {
     MigrationOpType type;
 
     std::string table_name;
-    std::string column_name;      ///< Source column name (or index name)
-    std::string new_name;         ///< Rename target / new type / index column
-    std::string column_type;      ///< Column type string (e.g. "VARCHAR(20)")
+    std::string column_name;      ///< Source column name
+    std::string new_name;         ///< Rename target column name (RENAME_COLUMN only)
+    std::string column_type;      ///< Column type string: used by ADD_COLUMN, CHANGE_COLUMN_TYPE
     std::string partition_key;    ///< Partition key column (PARTITION_TABLE)
     size_t      num_partitions{0};///< Number of partitions  (PARTITION_TABLE)
     bool        nullable{true};   ///< Nullability for ADD_COLUMN / CHANGE_COLUMN_TYPE
+    bool        unique{false};    ///< Unique constraint flag (ADD_INDEX)
 };
 
 /**

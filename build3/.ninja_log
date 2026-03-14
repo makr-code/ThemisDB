@@ -1,7 +1,0 @@
-# ninja log v7
-33	80	1773505994087432573	proto_generated/themis_wire_v1.pb.cc	3e347bfc95ab98af
-33	80	1773505994087432573	proto_generated/themis_wire_v1.pb.h	3e347bfc95ab98af
-33	80	1773505994087432573	/home/runner/work/ThemisDB/ThemisDB/build3/proto_generated/themis_wire_v1.pb.cc	3e347bfc95ab98af
-33	80	1773505994087432573	/home/runner/work/ThemisDB/ThemisDB/build3/proto_generated/themis_wire_v1.pb.h	3e347bfc95ab98af
-33	18189	1773506545907697244	cmake/CMakeFiles/themis_core.dir/Unity/unity_38_cxx.cxx.o	d0b773efbaeaf02e
-38	20232	1773506578584542408	cmake/CMakeFiles/themis_core.dir/Unity/unity_39_cxx.cxx.o	2ec4b2fbc295be11

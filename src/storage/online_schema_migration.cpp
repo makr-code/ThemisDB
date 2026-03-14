@@ -104,7 +104,7 @@ SchemaMigrator& SchemaMigrator::changeColumnType(const std::string& table,
     op.type        = MigrationOpType::CHANGE_COLUMN_TYPE;
     op.table_name  = table;
     op.column_name = column;
-    op.new_name    = new_type;
+    op.column_type = new_type;
     op.nullable    = nullable;
     ops_.push_back(std::move(op));
     phase_.store(OnlineDDLPhase::PENDING, std::memory_order_relaxed);
@@ -119,8 +119,7 @@ SchemaMigrator& SchemaMigrator::addIndex(const std::string& table,
     op.type        = MigrationOpType::ADD_INDEX;
     op.table_name  = table;
     op.column_name = column;
-    // Re-use new_name to carry the unique flag as a sentinel
-    op.new_name    = unique ? "unique" : "";
+    op.unique      = unique;
     ops_.push_back(std::move(op));
     phase_.store(OnlineDDLPhase::PENDING, std::memory_order_relaxed);
     return *this;
@@ -436,7 +435,7 @@ MigrationResult SchemaMigrator::applyChangeColumnType(
 {
     MigrationResult r;
 
-    if (op.new_name.empty()) {
+    if (op.column_type.empty()) {
         r.error_message = "CHANGE_COLUMN_TYPE: new type must not be empty";
         return r;
     }
@@ -453,12 +452,12 @@ MigrationResult SchemaMigrator::applyChangeColumnType(
     }
 
     std::string old_type = it->type;
-    it->type     = op.new_name;
+    it->type     = op.column_type;
     it->nullable = op.nullable;
 
     r.success = true;
     LOG_INFO("SchemaMigrator: CHANGE COLUMN TYPE '{}': {} → {} on table '{}'",
-             op.column_name, old_type, op.new_name, op.table_name);
+             op.column_name, old_type, op.column_type, op.table_name);
     return r;
 }
 
@@ -494,7 +493,7 @@ MigrationResult SchemaMigrator::applyAddIndex(
         return r;
     }
 
-    bool unique = (op.new_name == "unique");
+    bool unique = op.unique;
 
     SchemaManager::IndexInfo idx;
     idx.name    = op.column_name;
