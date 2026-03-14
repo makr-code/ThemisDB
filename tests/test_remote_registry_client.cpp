@@ -472,9 +472,9 @@ TEST(RemoteRegistryClient, CustomBackoffDispatcherIsUsed) {
 
     auto dispatcher = [&total_delay_ms](std::chrono::milliseconds delay) {
         total_delay_ms.fetch_add(static_cast<int>(delay.count()), std::memory_order_relaxed);
-        std::promise<void> p;
-        auto fut = p.get_future();
-        p.set_value();  // no actual sleep to keep the test fast
+        auto p   = std::make_shared<std::promise<void>>();
+        auto fut = p->get_future();
+        p->set_value();  // no actual sleep to keep the test fast
         return fut;
     };
 

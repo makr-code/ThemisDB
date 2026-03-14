@@ -278,6 +278,8 @@ public:
      * The returned future completes with the response body or throws a
      * std::runtime_error on failure. The calling thread is released as soon as
      * the future is created; retries and backoff run on a worker thread.
+     * The RemoteRegistryClient instance must remain alive until the future
+     * completes.
      */
     std::future<std::string> httpGetAsync(const std::string& url);
 
@@ -286,7 +288,8 @@ public:
      *
      * The returned future resolves to true on success, false on failure.
      * Callers may choose to wait or poll the future; backoff delays do not
-     * block the calling thread.
+     * block the calling thread. The RemoteRegistryClient instance must remain
+     * alive until the future completes.
      */
     std::future<bool> httpGetBinaryAsync(const std::string& url,
                                          const std::string& out_path);

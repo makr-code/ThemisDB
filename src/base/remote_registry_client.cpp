@@ -408,8 +408,18 @@ ModuleVerificationResult RemoteRegistryClient::downloadAndLoad(
 
     if (dispatcher) {
         // Use the injected dispatcher (e.g., TaskScheduler) to schedule the delay.
-        auto future = dispatcher(delay);
-        future.wait();
+        try {
+            auto future = dispatcher(delay);
+            future.wait();
+        } catch (const std::exception& ex) {
+            spdlog::error("RemoteRegistryClient::asyncBackoffSleep: dispatcher error: {}",
+                          ex.what());
+            throw;
+        } catch (...) {
+            spdlog::error("RemoteRegistryClient::asyncBackoffSleep: dispatcher threw "
+                          "unknown exception");
+            throw;
+        }
         return;
     }
 
