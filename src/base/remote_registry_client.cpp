@@ -34,11 +34,14 @@
 
 #include <array>
 #include <chrono>
+#include <condition_variable>
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
 #include <future>
+#include <memory>
 #include <mutex>
+#include <queue>
 #include <sstream>
 #include <stdexcept>
 #include <thread>
@@ -56,10 +59,104 @@ constexpr int kMaxAllowedRetries = 10;
 // Maximum bit-shift used in the backoff formula (500 ms × 2^5 = 16 000 ms).
 constexpr int kMaxBackoffShift = 5;
 
+struct BackoffDispatcherState {
+    std::function<std::future<void>(std::chrono::milliseconds)> dispatcher;
+    std::mutex mutex;
+};
+
+BackoffDispatcherState& dispatcherState() {
+    static BackoffDispatcherState state;
+    return state;
+}
+
 // Optional externally provided dispatcher for delayed execution (e.g., TaskScheduler).
-// When unset we fall back to an internal std::async-based delay.
-std::function<std::future<void>(std::chrono::milliseconds)> g_backoff_dispatcher;
-std::mutex g_backoff_mutex;
+// When unset we fall back to an internal shared worker-based delay.
+
+// Lightweight one-shot scheduler to offload sleep without spawning a new
+// thread per backoff. A single worker thread sleeps until the earliest task
+// is due and then fulfils the associated promise.
+class BackoffScheduler {
+public:
+    using Clock = std::chrono::steady_clock;
+
+    static BackoffScheduler& instance() {
+        static BackoffScheduler scheduler;
+        return scheduler;
+    }
+
+    std::future<void> schedule(std::chrono::milliseconds delay) {
+        auto promise = std::make_shared<std::promise<void>>();
+        auto future  = promise->get_future();
+
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            tasks_.push(Task{Clock::now() + delay, std::move(promise)});
+        }
+
+        cv_.notify_one();
+        return future;
+    }
+
+private:
+    struct Task {
+        Clock::time_point when;
+        std::shared_ptr<std::promise<void>> promise;
+    };
+
+    struct TaskCompare {
+        bool operator()(const Task& lhs, const Task& rhs) const {
+            return lhs.when > rhs.when;
+        }
+    };
+
+    BackoffScheduler()
+        : worker_([this](std::stop_token st) { run(st); }) {}
+
+    ~BackoffScheduler() {
+        worker_.request_stop();
+        cv_.notify_all();
+    }
+
+    void run(std::stop_token stop_token) {
+        std::unique_lock<std::mutex> lock(mutex_);
+        while (!stop_token.stop_requested()) {
+            if (tasks_.empty()) {
+                cv_.wait(lock, stop_token, [&] { return !tasks_.empty(); });
+                continue;
+            }
+
+            auto next_when = tasks_.top().when;
+            if (cv_.wait_until(lock, next_when, stop_token, [&] {
+                    return tasks_.top().when != next_when;
+                })) {
+                continue;  // woken up due to new task; re-evaluate
+            }
+
+            if (tasks_.empty()) {
+                continue;
+            }
+
+            Task task = tasks_.top();
+            tasks_.pop();
+            lock.unlock();
+            task.promise->set_value();
+            lock.lock();
+        }
+
+        while (!tasks_.empty()) {
+            Task task = tasks_.top();
+            tasks_.pop();
+            lock.unlock();
+            task.promise->set_value();
+            lock.lock();
+        }
+    }
+
+    std::mutex mutex_;
+    std::condition_variable cv_;
+    std::priority_queue<Task, std::vector<Task>, TaskCompare> tasks_;
+    std::jthread worker_;
+};
 
 // Return a CURL timeout (≥ 1 ms) capped to the remaining total budget.
 // `config_timeout` is the per-request timeout from RegistryConfig.
@@ -304,8 +401,9 @@ ModuleVerificationResult RemoteRegistryClient::downloadAndLoad(
     const auto delay = std::chrono::milliseconds(ms);
     std::function<std::future<void>(std::chrono::milliseconds)> dispatcher;
     {
-        std::lock_guard<std::mutex> lock(g_backoff_mutex);
-        dispatcher = g_backoff_dispatcher;
+        auto& state = dispatcherState();
+        std::lock_guard<std::mutex> lock(state.mutex);
+        dispatcher = state.dispatcher;
     }
 
     if (dispatcher) {
@@ -315,13 +413,9 @@ ModuleVerificationResult RemoteRegistryClient::downloadAndLoad(
         return;
     }
 
-    // Default: offload the sleep to a background worker via std::async so the
-    // calling thread is not the one sleeping. This spawns one thread per delay;
-    // production deployments should prefer setBackoffDispatcher() to point at a
-    // shared scheduler (e.g., TaskScheduler) to avoid excess thread creation.
-    auto future = std::async(std::launch::async, [delay] {
-        std::this_thread::sleep_for(delay);
-    });
+    // Default: shared worker thread handles the delay to avoid spawning one
+    // thread per backoff when no dispatcher is injected.
+    auto future = BackoffScheduler::instance().schedule(delay);
     future.wait();
 }
 
@@ -617,8 +711,9 @@ std::future<bool> RemoteRegistryClient::httpGetBinaryAsync(const std::string& ur
 
 /*static*/ void RemoteRegistryClient::setBackoffDispatcher(
     std::function<std::future<void>(std::chrono::milliseconds)> dispatcher) {
-    std::lock_guard<std::mutex> lock(g_backoff_mutex);
-    g_backoff_dispatcher = std::move(dispatcher);
+    auto& state = dispatcherState();
+    std::lock_guard<std::mutex> lock(state.mutex);
+    state.dispatcher = std::move(dispatcher);
 }
 
 RequestStats RemoteRegistryClient::lastRequestStats() const {

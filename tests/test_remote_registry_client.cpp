@@ -44,6 +44,12 @@
 
 using namespace themis::modules;
 
+namespace {
+struct BackoffDispatcherGuard {
+    ~BackoffDispatcherGuard() { RemoteRegistryClient::setBackoffDispatcher(nullptr); }
+};
+}  // namespace
+
 // =============================================================================
 // RegistryConfig – defaults
 // =============================================================================
@@ -462,16 +468,17 @@ TEST(RemoteRegistryClient, TotalRetryBudgetExhausted) {
 // =============================================================================
 
 TEST(RemoteRegistryClient, CustomBackoffDispatcherIsUsed) {
-    std::atomic<int> dispatcher_calls{0};
+    std::atomic<int> total_delay_ms{0};
 
-    auto dispatcher = [&dispatcher_calls](std::chrono::milliseconds delay) {
-        dispatcher_calls.fetch_add(static_cast<int>(delay.count()), std::memory_order_relaxed);
+    auto dispatcher = [&total_delay_ms](std::chrono::milliseconds delay) {
+        total_delay_ms.fetch_add(static_cast<int>(delay.count()), std::memory_order_relaxed);
         std::promise<void> p;
         auto fut = p.get_future();
         p.set_value();  // no actual sleep to keep the test fast
         return fut;
     };
 
+    BackoffDispatcherGuard guard;
     RemoteRegistryClient::setBackoffDispatcher(dispatcher);
 
     RegistryConfig cfg;
@@ -486,13 +493,11 @@ TEST(RemoteRegistryClient, CustomBackoffDispatcherIsUsed) {
 
     EXPECT_TRUE(plugins.empty());
 
-    EXPECT_GT(dispatcher_calls.load(), 0);
+    EXPECT_GT(total_delay_ms.load(), 0);
     const auto stats = client.lastRequestStats();
     EXPECT_GE(stats.attempts, 1);
     EXPECT_FALSE(stats.last_error.empty());
 
-    // Reset to default dispatcher to avoid bleeding into other tests
-    RemoteRegistryClient::setBackoffDispatcher(nullptr);
 }
 
 TEST(RemoteRegistryClient, HttpGetAsyncReleasesCaller) {
