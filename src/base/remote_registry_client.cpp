@@ -57,8 +57,9 @@ constexpr int kMaxAllowedRetries = 10;
 constexpr int kMaxBackoffShift = 5;
 
 // Optional externally provided dispatcher for delayed execution (e.g., TaskScheduler).
-// When unset we fall back to the internal BackoffScheduler.
+// When unset we fall back to an internal std::async-based delay.
 std::function<std::future<void>(std::chrono::milliseconds)> g_backoff_dispatcher;
+std::mutex g_backoff_mutex;
 
 // Return a CURL timeout (≥ 1 ms) capped to the remaining total budget.
 // `config_timeout` is the per-request timeout from RegistryConfig.
@@ -301,15 +302,23 @@ ModuleVerificationResult RemoteRegistryClient::downloadAndLoad(
     }
 
     const auto delay = std::chrono::milliseconds(ms);
-    if (g_backoff_dispatcher) {
+    std::function<std::future<void>(std::chrono::milliseconds)> dispatcher;
+    {
+        std::lock_guard<std::mutex> lock(g_backoff_mutex);
+        dispatcher = g_backoff_dispatcher;
+    }
+
+    if (dispatcher) {
         // Use the injected dispatcher (e.g., TaskScheduler) to schedule the delay.
-        auto future = g_backoff_dispatcher(delay);
+        auto future = dispatcher(delay);
         future.wait();
         return;
     }
 
     // Default: offload the sleep to a background worker via std::async so the
-    // calling thread is not the one sleeping.
+    // calling thread is not the one sleeping. This spawns one thread per delay;
+    // production deployments should prefer setBackoffDispatcher() to point at a
+    // shared scheduler (e.g., TaskScheduler) to avoid excess thread creation.
     auto future = std::async(std::launch::async, [delay] {
         std::this_thread::sleep_for(delay);
     });
@@ -608,6 +617,7 @@ std::future<bool> RemoteRegistryClient::httpGetBinaryAsync(const std::string& ur
 
 /*static*/ void RemoteRegistryClient::setBackoffDispatcher(
     std::function<std::future<void>(std::chrono::milliseconds)> dispatcher) {
+    std::lock_guard<std::mutex> lock(g_backoff_mutex);
     g_backoff_dispatcher = std::move(dispatcher);
 }
 

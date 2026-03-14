@@ -273,26 +273,26 @@ public:
     // -------------------------------------------------------------------------
 
     /**
-     * @brief Asynchronously perform an HTTP GET with retry/back-off.
+     * @brief Asynchronously perform an HTTP GET with retry/backoff.
      *
      * The returned future completes with the response body or throws a
      * std::runtime_error on failure. The calling thread is released as soon as
-     * the future is created; retries and back-off run on a worker thread.
+     * the future is created; retries and backoff run on a worker thread.
      */
     std::future<std::string> httpGetAsync(const std::string& url);
 
     /**
-     * @brief Asynchronously download a binary with retry/back-off.
+     * @brief Asynchronously download a binary with retry/backoff.
      *
      * The returned future resolves to true on success, false on failure.
-     * Callers may choose to wait or poll the future; back-off delays do not
+     * Callers may choose to wait or poll the future; backoff delays do not
      * block the calling thread.
      */
     std::future<bool> httpGetBinaryAsync(const std::string& url,
                                          const std::string& out_path);
 
     /**
-     * @brief Override the back-off dispatcher used for scheduling retry delays.
+     * @brief Override the backoff dispatcher used for scheduling retry delays.
      *
      * Intended for integration with the existing TaskScheduler: pass a lambda
      * that submits a delayed no-op task and returns a future that becomes ready
@@ -333,7 +333,7 @@ private:
     // Auth header building (returns header value for Authorization or X-API-Key)
     std::string buildAuthorizationHeader() const;
 
-    // Perform a blocking back-off sleep for `ms` milliseconds.
+    // Perform a blocking backoff sleep for `ms` milliseconds.
     static void asyncBackoffSleep(int ms);
 
     // Parse a single JSON object into a RegistryPluginEntry (returns false on

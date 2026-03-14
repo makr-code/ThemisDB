@@ -458,7 +458,7 @@ TEST(RemoteRegistryClient, TotalRetryBudgetExhausted) {
 }
 
 // =============================================================================
-// Async back-off dispatcher – custom scheduler integration
+// Async backoff dispatcher – custom scheduler integration
 // =============================================================================
 
 TEST(RemoteRegistryClient, CustomBackoffDispatcherIsUsed) {
@@ -477,14 +477,19 @@ TEST(RemoteRegistryClient, CustomBackoffDispatcherIsUsed) {
     RegistryConfig cfg;
     cfg.registry_url            = "http://127.0.0.1:1";
     cfg.timeout_ms              = 10;
-    cfg.max_retries             = 1;   // ensure at least one back-off
+    cfg.max_retries             = 1;   // ensure at least one backoff
     cfg.max_total_retry_time_ms = 5;   // keep loop short
     cfg.verify_ssl              = false;
 
     RemoteRegistryClient client(cfg);
-    client.listPlugins();  // will fail and trigger backoff dispatcher
+    auto plugins = client.listPlugins();  // will fail and trigger backoff dispatcher
+
+    EXPECT_TRUE(plugins.empty());
 
     EXPECT_GT(dispatcher_calls.load(), 0);
+    const auto stats = client.lastRequestStats();
+    EXPECT_GE(stats.attempts, 1);
+    EXPECT_FALSE(stats.last_error.empty());
 
     // Reset to default dispatcher to avoid bleeding into other tests
     RemoteRegistryClient::setBackoffDispatcher(nullptr);
