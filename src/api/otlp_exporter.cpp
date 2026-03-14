@@ -6,6 +6,7 @@
 #include <chrono>
 #include <sstream>
 #include <iomanip>
+#include <thread>
 
 namespace themis {
 namespace api {
@@ -186,67 +187,121 @@ void OtlpExporter::flushLoop()
 // flushBatch() — builds OTLP JSON and sends via libcurl
 // ---------------------------------------------------------------------------
 
+namespace {
+/// Returns true for HTTP status codes that are transient and safe to retry.
+static bool isRetriableHttpCode(long code) noexcept {
+    return code == 429 || code == 503;
+}
+
+/// Returns true for curl errors that are transient network/transport failures.
+/// Configuration errors (bad URL, unsupported protocol, etc.) are excluded
+/// because retrying them will never succeed.
+static bool isRetriableCurlError(CURLcode code) noexcept {
+    switch (code) {
+        case CURLE_COULDNT_RESOLVE_HOST:
+        case CURLE_COULDNT_CONNECT:
+        case CURLE_OPERATION_TIMEDOUT:
+        case CURLE_SEND_ERROR:
+        case CURLE_RECV_ERROR:
+        case CURLE_GOT_NOTHING:
+        case CURLE_SSL_CONNECT_ERROR:
+            return true;
+        default:
+            return false;
+    }
+}
+} // anonymous namespace (extended)
+
 void OtlpExporter::flushBatch(std::vector<SpanData>& batch)
 {
     const std::string payload = buildOtlpJson(config_, batch);
 
-    CURL* curl = curl_easy_init();
-    if (!curl) {
-        THEMIS_ERROR("OtlpExporter: curl_easy_init() failed — {} spans lost", batch.size());
-        return;
+    const int max_attempts = 1 + std::max(0, config_.max_export_retries);
+    int delay_ms = std::max(1, config_.retry_initial_delay_ms);
+
+    for (int attempt = 0; attempt < max_attempts; ++attempt) {
+        if (attempt > 0) {
+            THEMIS_INFO("OtlpExporter: retry attempt {}/{} after {}ms back-off",
+                        attempt, config_.max_export_retries, delay_ms);
+            std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
+            delay_ms *= 2;
+        }
+
+        CURL* curl = curl_easy_init();
+        if (!curl) {
+            THEMIS_ERROR("OtlpExporter: curl_easy_init() failed — {} spans lost", batch.size());
+            dropped_count_.fetch_add(static_cast<uint64_t>(batch.size()),
+                                     std::memory_order_relaxed);
+            return;
+        }
+
+        struct curl_slist* headers = nullptr;
+        headers = curl_slist_append(headers, "Content-Type: application/json");
+
+        if (!config_.auth_header.empty()) {
+            const std::string auth = "Authorization: Bearer " + config_.auth_header;
+            headers = curl_slist_append(headers, auth.c_str());
+        }
+        for (const auto& [k, v] : config_.extra_headers) {
+            const std::string hdr = k + ": " + v;
+            headers = curl_slist_append(headers, hdr.c_str());
+        }
+
+        std::string response_body;
+
+        curl_easy_setopt(curl, CURLOPT_URL,            config_.endpoint.c_str());
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER,      headers);
+        curl_easy_setopt(curl, CURLOPT_POST,            1L);
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS,      payload.c_str());
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE,   static_cast<long>(payload.size()));
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS,      static_cast<long>(config_.timeout_ms));
+        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION,  1L);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION,   curlWriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA,       &response_body);
+
+        // TLS settings
+        if (!config_.tls_ca_cert.empty())
+            curl_easy_setopt(curl, CURLOPT_CAINFO, config_.tls_ca_cert.c_str());
+        if (!config_.tls_client_cert.empty())
+            curl_easy_setopt(curl, CURLOPT_SSLCERT, config_.tls_client_cert.c_str());
+        if (!config_.tls_client_key.empty())
+            curl_easy_setopt(curl, CURLOPT_SSLKEY, config_.tls_client_key.c_str());
+
+        const CURLcode res = curl_easy_perform(curl);
+
+        long http_code = 0;
+        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+
+        curl_slist_free_all(headers);
+        curl_easy_cleanup(curl);
+
+        if (res == CURLE_OK && http_code >= 200 && http_code < 300) {
+            exported_count_.fetch_add(static_cast<uint64_t>(batch.size()),
+                                      std::memory_order_relaxed);
+            THEMIS_DEBUG("OtlpExporter: exported {} spans (HTTP {})", batch.size(), http_code);
+            return;
+        }
+
+        const bool has_more_attempts = (attempt + 1 < max_attempts);
+
+        if (res != CURLE_OK) {
+            const bool retriable = has_more_attempts && isRetriableCurlError(res);
+            THEMIS_WARN("OtlpExporter: export failed (curl error: {}){}",
+                        curl_easy_strerror(res),
+                        retriable ? " — will retry" : " — spans lost");
+            if (!retriable) break;
+        } else {
+            // Non-2xx HTTP response
+            const bool retriable = has_more_attempts && isRetriableHttpCode(http_code);
+            THEMIS_WARN("OtlpExporter: collector returned HTTP {}{}",
+                        http_code,
+                        retriable ? " — will retry" : " — spans lost");
+            if (!retriable) break;
+        }
     }
 
-    struct curl_slist* headers = nullptr;
-    headers = curl_slist_append(headers, "Content-Type: application/json");
-
-    if (!config_.auth_header.empty()) {
-        const std::string auth = "Authorization: Bearer " + config_.auth_header;
-        headers = curl_slist_append(headers, auth.c_str());
-    }
-    for (const auto& [k, v] : config_.extra_headers) {
-        const std::string hdr = k + ": " + v;
-        headers = curl_slist_append(headers, hdr.c_str());
-    }
-
-    std::string response_body;
-
-    curl_easy_setopt(curl, CURLOPT_URL,            config_.endpoint.c_str());
-    curl_easy_setopt(curl, CURLOPT_HTTPHEADER,      headers);
-    curl_easy_setopt(curl, CURLOPT_POST,            1L);
-    curl_easy_setopt(curl, CURLOPT_POSTFIELDS,      payload.c_str());
-    curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE,   static_cast<long>(payload.size()));
-    curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS,      static_cast<long>(config_.timeout_ms));
-    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION,  1L);
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION,   curlWriteCallback);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA,       &response_body);
-
-    // TLS settings
-    if (!config_.tls_ca_cert.empty())
-        curl_easy_setopt(curl, CURLOPT_CAINFO, config_.tls_ca_cert.c_str());
-    if (!config_.tls_client_cert.empty())
-        curl_easy_setopt(curl, CURLOPT_SSLCERT, config_.tls_client_cert.c_str());
-    if (!config_.tls_client_key.empty())
-        curl_easy_setopt(curl, CURLOPT_SSLKEY, config_.tls_client_key.c_str());
-
-    const CURLcode res = curl_easy_perform(curl);
-
-    long http_code = 0;
-    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
-
-    if (res != CURLE_OK) {
-        THEMIS_WARN("OtlpExporter: export failed (curl error: {}) — {} spans lost",
-                    curl_easy_strerror(res), batch.size());
-    } else if (http_code < 200 || http_code >= 300) {
-        THEMIS_WARN("OtlpExporter: collector returned HTTP {} — {} spans lost",
-                    http_code, batch.size());
-    } else {
-        exported_count_.fetch_add(static_cast<uint64_t>(batch.size()),
-                                  std::memory_order_relaxed);
-        THEMIS_DEBUG("OtlpExporter: exported {} spans (HTTP {})", batch.size(), http_code);
-    }
-
-    curl_slist_free_all(headers);
-    curl_easy_cleanup(curl);
+    dropped_count_.fetch_add(static_cast<uint64_t>(batch.size()),
+                             std::memory_order_relaxed);
 }
 
 // ---------------------------------------------------------------------------
