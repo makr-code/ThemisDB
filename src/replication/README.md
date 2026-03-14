@@ -185,6 +185,7 @@ Provides schema-aware logical replication independent of physical WAL shipping. 
 ```cpp
 auto wal = std::make_shared<WALManager>(config);
 LogicalReplicationManager::Config lcfg;
+lcfg.wal_directory = config.wal_directory;
 lcfg.target_version = "v1.6";
 lcfg.transform = [](LogicalChange& change) {
     if (change.new_data.is_object()) {

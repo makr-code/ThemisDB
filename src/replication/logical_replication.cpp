@@ -22,6 +22,9 @@
 #include <filesystem>
 #include <fstream>
 #include <utility>
+#include <stdexcept>
+#include <fcntl.h>
+#include <unistd.h>
 
 namespace fs = std::filesystem;
 
@@ -51,6 +54,15 @@ LogicalReplicationManager::LogicalReplicationSlot LogicalReplicationManager::cre
     bool perform_initial_sync,
     std::vector<LogicalChange> initial_snapshot) {
 
+    if (!filter.row_filter_expression.empty()) {
+        const auto expr = trimCopy(filter.row_filter_expression);
+        const bool has_eq = expr.find("==") != std::string::npos;
+        const bool has_neq = expr.find("!=") != std::string::npos;
+        if (!has_eq && !has_neq) {
+            throw std::invalid_argument("Unsupported row filter expression: " + expr);
+        }
+    }
+
     auto runtime = std::make_shared<SlotRuntime>();
     runtime->meta.slot_name = slot_name;
     runtime->meta.plugin_name = output_plugin;
@@ -78,9 +90,15 @@ LogicalReplicationManager::LogicalReplicationSlot LogicalReplicationManager::cre
 
     {
         std::unique_lock<std::shared_mutex> lock(slots_mutex_);
+        if (slots_.count(slot_name)) {
+            throw std::runtime_error("logical replication slot already exists: " + slot_name);
+        }
         slots_[slot_name] = runtime;
     }
-    persistSlot(*runtime);
+    {
+        std::lock_guard<std::mutex> lock(runtime->mutex);
+        persistSlot(*runtime);
+    }
     return runtime->meta;
 }
 
@@ -95,6 +113,9 @@ void LogicalReplicationManager::advanceSlot(const std::string& slot_name, uint64
 
     {
         std::lock_guard<std::mutex> lock(runtime->mutex);
+        if (lsn < runtime->meta.confirmed_flush_lsn) {
+            return;
+        }
         runtime->meta.confirmed_flush_lsn = lsn;
         if (runtime->initial_sync_pending && lsn >= runtime->meta.restart_lsn) {
             runtime->initial_sync_pending = false;
@@ -186,6 +207,9 @@ void LogicalReplicationManager::onNetworkPartitionDetected(const std::vector<std
 
 void LogicalReplicationManager::onWALEntryApplied(const WALEntry& entry) {
     LogicalChange change = makeLogicalChange(entry);
+    if (change.type == LogicalChange::Type::UNKNOWN) {
+        return;
+    }
 
     std::vector<std::shared_ptr<SlotRuntime>> slots_copy;
     {
@@ -236,12 +260,13 @@ LogicalChange LogicalReplicationManager::makeLogicalChange(const WALEntry& entry
     else if (op == "DELETE") change.type = LogicalChange::Type::DELETE;
     else if (op == "TRUNCATE") change.type = LogicalChange::Type::TRUNCATE;
     else if (op == "DDL") change.type = LogicalChange::Type::DDL;
+    else change.type = LogicalChange::Type::UNKNOWN;
 
     change.collection = entry.collection;
     change.schema_version = config_.target_version;
     change.source_version = config_.source_version;
     change.target_version = config_.target_version;
-    change.lsn = entry.sequence_number;
+    change.lsn = entry.sequence_number != 0 ? entry.sequence_number : (wal_ ? wal_->getCurrentSequence() : 0);
     change.timestamp = entry.timestamp.time_since_epoch().count() == 0
                            ? std::chrono::system_clock::now()
                            : entry.timestamp;
@@ -259,6 +284,14 @@ LogicalChange LogicalReplicationManager::makeLogicalChange(const WALEntry& entry
 
 bool LogicalReplicationManager::matchesFilter(const LogicalChange& change,
                                               const ReplicationFilter& filter) const {
+    if (change.type == LogicalChange::Type::UNKNOWN) {
+        return false;
+    }
+
+    if (change.type == LogicalChange::Type::DDL) {
+        return filter.replicate_ddl;
+    }
+
     if (!filter.include_collections.empty()) {
         const bool included = std::find(filter.include_collections.begin(),
                                         filter.include_collections.end(),
@@ -270,10 +303,6 @@ bool LogicalReplicationManager::matchesFilter(const LogicalChange& change,
                   filter.exclude_collections.end(),
                   change.collection) != filter.exclude_collections.end()) {
         return false;
-    }
-
-    if (change.type == LogicalChange::Type::DDL) {
-        return filter.replicate_ddl;
     }
 
     if (!filter.replicate_dml) {
@@ -302,7 +331,7 @@ bool LogicalReplicationManager::evaluateRowFilter(const std::string& expression,
         pos = ne_pos;
         equality = false;
     } else {
-        return true;  // Treat unsupported expressions as pass-through
+        return false;  // Fail closed on unsupported expressions
     }
 
     std::string field = trimCopy(expression.substr(0, pos));
@@ -358,14 +387,23 @@ std::string LogicalReplicationManager::documentIdFromChange(const LogicalChange&
 }
 
 void LogicalReplicationManager::loadPersistedSlots() {
-    const fs::path dir(slotStatePath(""));
-    if (!fs::exists(dir)) {
-        fs::create_directories(dir);
+    const auto base_path = slotStatePath("");
+    if (base_path.empty()) {
         return;
     }
 
-    for (auto& entry : fs::directory_iterator(dir)) {
-        if (!entry.is_regular_file()) continue;
+    std::error_code ec;
+    const fs::path dir(base_path);
+    if (!fs::exists(dir, ec)) {
+        fs::create_directories(dir, ec);
+        return;
+    }
+
+    for (fs::directory_iterator it(dir, fs::directory_options::skip_permission_denied, ec);
+         !ec && it != fs::directory_iterator(); ++it) {
+        const auto& entry = *it;
+        if (!entry.is_regular_file(ec) || entry.path().extension() != ".json") continue;
+
         std::ifstream in(entry.path());
         if (!in.is_open()) continue;
         nlohmann::json j;
@@ -383,16 +421,16 @@ void LogicalReplicationManager::loadPersistedSlots() {
         runtime->meta.initial_sync_pending = j.value("initial_sync_pending", false);
         runtime->initial_sync_pending = runtime->meta.initial_sync_pending;
 
-        if (j.contains("filter")) {
+        if (j.contains("filter") && j["filter"].is_object()) {
             const auto& jf = j["filter"];
             runtime->meta.filter.replicate_ddl = jf.value("replicate_ddl", true);
             runtime->meta.filter.replicate_dml = jf.value("replicate_dml", true);
             runtime->meta.filter.row_filter_expression = jf.value("row_filter_expression", "");
-            if (jf.contains("include_collections")) {
+            if (jf.contains("include_collections") && jf["include_collections"].is_array()) {
                 runtime->meta.filter.include_collections =
                     jf["include_collections"].get<std::vector<std::string>>();
             }
-            if (jf.contains("exclude_collections")) {
+            if (jf.contains("exclude_collections") && jf["exclude_collections"].is_array()) {
                 runtime->meta.filter.exclude_collections =
                     jf["exclude_collections"].get<std::vector<std::string>>();
             }
@@ -404,12 +442,22 @@ void LogicalReplicationManager::loadPersistedSlots() {
         }
 
         std::unique_lock<std::shared_mutex> lock(slots_mutex_);
-        slots_[runtime->meta.slot_name] = runtime;
+        if (!slots_.count(runtime->meta.slot_name)) {
+            slots_[runtime->meta.slot_name] = runtime;
+        }
     }
 }
 
 void LogicalReplicationManager::persistSlot(const SlotRuntime& slot) const {
-    fs::create_directories(slotStatePath(""));
+    const auto state_path = slotStatePath(slot.meta.slot_name);
+    if (state_path.empty()) {
+        return;
+    }
+
+    fs::path base = fs::path(state_path).parent_path();
+    std::error_code ec;
+    fs::create_directories(base, ec);
+
     nlohmann::json j;
     j["slot_name"] = slot.meta.slot_name;
     j["plugin_name"] = slot.meta.plugin_name;
@@ -424,16 +472,40 @@ void LogicalReplicationManager::persistSlot(const SlotRuntime& slot) const {
         {"replicate_dml", slot.meta.filter.replicate_dml},
     };
 
-    std::ofstream out(slotStatePath(slot.meta.slot_name));
-    if (out.is_open()) {
-        out << j.dump(2);
+    const auto tmp_path = base / (slot.meta.slot_name + ".json.tmp");
+    const std::string payload = j.dump(2);
+    int fd = ::open(tmp_path.c_str(), O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC, 0644);
+    if (fd < 0) {
+        return;
+    }
+
+    const ssize_t written = ::write(fd, payload.data(), payload.size());
+    if (written < 0 || static_cast<size_t>(written) != payload.size()) {
+        ::close(fd);
+        fs::remove(tmp_path, ec);
+        return;
+    }
+
+    ::fsync(fd);
+    ::close(fd);
+
+    fs::rename(tmp_path, state_path, ec);
+    if (ec) {
+        fs::remove(tmp_path, ec);
+    }
+
+    int dir_fd = ::open(base.c_str(), O_RDONLY | O_DIRECTORY | O_CLOEXEC);
+    if (dir_fd >= 0) {
+        ::fsync(dir_fd);
+        ::close(dir_fd);
     }
 }
 
 std::string LogicalReplicationManager::slotStatePath(const std::string& slot_name) const {
     fs::path base = config_.wal_directory.empty()
-                        ? fs::path("/var/lib/themisdb/wal/logical_slots")
+                        ? fs::path()
                         : fs::path(config_.wal_directory) / "logical_slots";
+    if (base.empty()) return {};
     if (slot_name.empty()) return base.string();
     return (base / (slot_name + ".json")).string();
 }

@@ -39,7 +39,9 @@ ReplicationConfig makeConfig(const std::string& wal_dir) {
 }
 
 struct TempDir {
-    explicit TempDir(std::string p) : path(std::move(p)) {
+    TempDir() {
+        auto base = std::filesystem::temp_directory_path();
+        path = (base / std::filesystem::unique_path("themis_logical_repl-%%%%-%%%%")).string();
         std::filesystem::remove_all(path);
         std::filesystem::create_directories(path);
     }
@@ -49,9 +51,11 @@ struct TempDir {
 }  // namespace
 
 TEST(LogicalReplicationManagerTest, AppliesIncludeExcludeAndRowFilter) {
-    TempDir td("/tmp/themis_logical_repl_filters");
+    TempDir td;
     auto wal = std::make_shared<WALManager>(makeConfig(td.path));
-    LogicalReplicationManager mgr(wal, {});
+    LogicalReplicationManager::Config cfg;
+    cfg.wal_directory = td.path;
+    LogicalReplicationManager mgr(wal, cfg);
 
     LogicalReplicationManager::ReplicationFilter filter;
     filter.include_collections = {"orders"};
@@ -86,9 +90,11 @@ TEST(LogicalReplicationManagerTest, AppliesIncludeExcludeAndRowFilter) {
 }
 
 TEST(LogicalReplicationManagerTest, ReplicatesDDLWhenEnabled) {
-    TempDir td("/tmp/themis_logical_repl_ddl");
+    TempDir td;
     auto wal = std::make_shared<WALManager>(makeConfig(td.path));
-    LogicalReplicationManager mgr(wal, {});
+    LogicalReplicationManager::Config cfg;
+    cfg.wal_directory = td.path;
+    LogicalReplicationManager mgr(wal, cfg);
 
     mgr.createSlot("slot_ddl", "json", {});
 
@@ -101,7 +107,7 @@ TEST(LogicalReplicationManagerTest, ReplicatesDDLWhenEnabled) {
 }
 
 TEST(LogicalReplicationManagerTest, AppliesTransformAndCrossVersionMetadata) {
-    TempDir td("/tmp/themis_logical_repl_transform");
+    TempDir td;
     auto wal = std::make_shared<WALManager>(makeConfig(td.path));
 
     LogicalReplicationManager::Config cfg;
@@ -133,9 +139,11 @@ TEST(LogicalReplicationManagerTest, AppliesTransformAndCrossVersionMetadata) {
 }
 
 TEST(LogicalReplicationManagerTest, InitialSyncSkipsConflictingChanges) {
-    TempDir td("/tmp/themis_logical_repl_initial_sync");
+    TempDir td;
     auto wal = std::make_shared<WALManager>(makeConfig(td.path));
-    LogicalReplicationManager mgr(wal, {});
+    LogicalReplicationManager::Config cfg;
+    cfg.wal_directory = td.path;
+    LogicalReplicationManager mgr(wal, cfg);
 
     LogicalChange snapshot;
     snapshot.collection = "users";

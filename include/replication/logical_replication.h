@@ -43,9 +43,9 @@ namespace replication {
  * downstream subscribers.
  */
 struct LogicalChange {
-    enum class Type { INSERT, UPDATE, DELETE, TRUNCATE, DDL, SNAPSHOT };
+    enum class Type { INSERT, UPDATE, DELETE, TRUNCATE, DDL, SNAPSHOT, UNKNOWN };
 
-    Type type = Type::INSERT;
+    Type type = Type::UNKNOWN;
     std::string collection;
     std::string schema_version;
     std::string source_version;
@@ -87,7 +87,7 @@ public:
     };
 
     struct Config {
-        std::string wal_directory = "/var/lib/themisdb/wal";
+        std::string wal_directory;
         std::string source_version = "v1.5";
         std::string target_version = "v1.6";
         bool parallel_decoding = true;

@@ -61,12 +61,12 @@
 - [x] Integrate with external systems (Kafka, Elasticsearch, Snowflake)
 - [x] Use output plugins for different formats (JSON, Protobuf, Avro)
 - [x] Maintain replication slots persistently
-- [x] Support parallel decoding for high throughput
+- [ ] Support parallel decoding for high throughput
 
 #### Design Constraints
 - Row-filter evaluation must remain O(1) per change using lightweight predicate parsing.
 - Slot persistence must survive restart without blocking WAL writers; JSON state is fsync-safe under WAL directory.
-- Parallel decoding is optional (`parallel_decoding=true`) and cannot introduce WAL apply latency > 5 ms at p99 for 1k changes.
+- Parallel decoding remains future work; current implementation decodes inline and cannot exceed WAL apply latency > 5 ms at p99 for 1k changes once parallelization is added.
 
 #### Required Interfaces
 - `LogicalReplicationManager::createSlot(name, plugin, filter, initial_sync, snapshot)` for lifecycle.
