@@ -700,6 +700,26 @@ TEST_F(PerTenantRollbackTest, ApplyUpdate_ClearsConsentAfterSuccess) {
     EXPECT_FALSE(sched.hasConsent("t1"));
 }
 
+TEST_F(PerTenantRollbackTest, ApplyUpdate_ConsentVersionMismatch_Blocks) {
+    // Consent was granted for 1.8.0 but caller attempts to apply 1.9.0.
+    TenantUpdateScheduler sched([&]() { return now_; });
+    sched.setMaintenanceWindow("t1", {
+        .days = {"Saturday"}, .start_time = "02:00", .end_time = "06:00"
+    });
+    sched.setUpdatePolicy("t1", {.auto_update = false, .critical_auto_update = false});
+    sched.recordNotification("t1", "1.8.0");
+    ASSERT_TRUE(sched.grantConsent("t1", "1.8.0"));
+
+    StubEngine engine;
+    auto result = sched.applyUpdate("t1", "1.9.0", engine);  // wrong version!
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty());
+    EXPECT_EQ(engine.apply_count.load(), 0);  // engine must not be called
+
+    // Consent should remain (it was not consumed).
+    EXPECT_TRUE(sched.hasConsent("t1"));
+}
+
 // ===========================================================================
 // Status & lifecycle
 // ===========================================================================

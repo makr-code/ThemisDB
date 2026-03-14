@@ -33,8 +33,9 @@
  *
  *   scheduler.setMaintenanceWindow("tenant-123", {
  *       .days = {"Saturday", "Sunday"},
- *       .time_range = {"02:00", "06:00"},
- *       .timezone = "America/New_York"
+ *       .start_time = "02:00",
+ *       .end_time   = "06:00",
+ *       .timezone   = "America/New_York"
  *   });
  *
  *   scheduler.setUpdatePolicy("tenant-123", {
@@ -76,10 +77,14 @@ namespace updates {
  * @brief Priority tier for an update.
  *
  * Determines scheduling and consent rules:
- *  - CRITICAL  : may override blackout periods when
- *                `UpdatePolicy::critical_auto_update` is true.
- *  - NORMAL    : follows regular maintenance windows.
- *  - LOW       : deferred to the next available window; never auto-applied.
+ *  - CRITICAL : when `UpdatePolicy::critical_auto_update` is true, bypasses
+ *               blackout periods, maintenance-window restrictions, and the
+ *               manual-consent requirement.
+ *  - NORMAL   : follows regular maintenance windows and consent rules.
+ *  - LOW      : treated identically to NORMAL by the scheduler (follows
+ *               maintenance windows and consent rules); callers may use this
+ *               tier as a semantic hint, but no special deferral logic is
+ *               applied automatically.
  */
 enum class UpdatePriority {
     CRITICAL, ///< Security patches and data-integrity fixes.
@@ -237,7 +242,8 @@ public:
      * @brief Remove the maintenance window for a tenant.
      *
      * After removal, `canUpdateNow()` returns false for the tenant unless
-     * an override is granted via `grantConsent()`.
+     * the CRITICAL bypass applies (`critical_auto_update` is true and the
+     * update priority is CRITICAL).
      */
     void removeMaintenanceWindow(const std::string& tenant_id);
 
@@ -270,7 +276,10 @@ public:
                               const std::string& blackout_id);
 
     /**
-     * @brief Return all active blackout periods for a tenant.
+     * @brief Return all configured blackout periods for a tenant.
+     *
+     * Returns every stored period regardless of whether it is currently
+     * active or has already expired.
      */
     std::vector<BlackoutPeriod>
     getBlackoutPeriods(const std::string& tenant_id) const;

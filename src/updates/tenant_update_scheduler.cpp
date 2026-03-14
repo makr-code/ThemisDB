@@ -29,6 +29,7 @@
 #define LOG_DEBUG(...) SPDLOG_DEBUG(__VA_ARGS__)
 
 #include <algorithm>
+#include <cctype>
 #include <ctime>
 #include <iomanip>
 #include <sstream>
@@ -281,6 +282,19 @@ bool TenantUpdateScheduler::canUpdateNow(const std::string& tenant_id,
     return true;
 }
 
+// ---------------------------------------------------------------------------
+// File-local helpers
+// ---------------------------------------------------------------------------
+
+namespace {
+// Case-fold a string to ASCII lowercase (safe for non-ASCII characters).
+inline std::string toLowerAscii(std::string s) {
+    for (auto& c : s)
+        c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+    return s;
+}
+} // namespace
+
 std::string
 TenantUpdateScheduler::getNextMaintenanceWindow(const std::string& tenant_id) const
 {
@@ -326,14 +340,10 @@ TenantUpdateScheduler::getNextMaintenanceWindow(const std::string& tenant_id) co
     // Helper: does the window include a given day name?
     auto dayAllowed = [&](int wday) -> bool {
         for (const auto& d : win.days) {
-            std::string dlower = d;
-            for (auto& c : dlower) c = static_cast<char>(std::tolower(c));
-            if (dlower == "daily") {
+            if (toLowerAscii(d) == "daily") {
                 return true;
             }
-            std::string kday = kDayNames[wday];
-            for (auto& c : kday) c = static_cast<char>(std::tolower(c));
-            if (dlower == kday) {
+            if (toLowerAscii(d) == toLowerAscii(kDayNames[wday])) {
                 return true;
             }
         }
@@ -354,11 +364,15 @@ TenantUpdateScheduler::getNextMaintenanceWindow(const std::string& tenant_id) co
 
         // Build the candidate time_point: midnight of (now + offset days)
         // plus start_min minutes.
-        const std::time_t candidate_t =
+        const std::time_t midnight_t =
             now_t
-            - static_cast<std::time_t>(current_min_of_day * 60)  // back to midnight
-            + static_cast<std::time_t>(offset * 24 * 3600)       // advance days
-            + static_cast<std::time_t>(start_min * 60);          // add start time
+            - static_cast<std::time_t>(utc_tm.tm_hour * 3600
+                                       + utc_tm.tm_min  * 60
+                                       + utc_tm.tm_sec);  // normalize to UTC midnight
+        const std::time_t candidate_t =
+            midnight_t
+            + static_cast<std::time_t>(offset * 24 * 3600)  // advance days
+            + static_cast<std::time_t>(start_min * 60);      // add start time
 
         const auto candidate_tp =
             std::chrono::system_clock::from_time_t(candidate_t);
@@ -390,11 +404,47 @@ ReloadResult TenantUpdateScheduler::applyUpdate(const std::string& tenant_id,
         return r;
     }
 
+    // Version validation: when manual approval is required, confirm that the
+    // version being applied matches the version for which consent was granted.
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = tenants_.find(tenant_id);
+        if (it != tenants_.end()) {
+            const TenantState& state = it->second;
+            const bool is_critical =
+                (priority == UpdatePriority::CRITICAL) &&
+                state.policy.critical_auto_update;
+            if (!is_critical && !state.policy.auto_update && state.consent_granted) {
+                if (!state.pending_version.empty() &&
+                    state.pending_version != version) {
+                    ReloadResult r;
+                    r.success = false;
+                    r.error_message =
+                        "TenantUpdateScheduler: consent version mismatch for "
+                        "tenant '" + tenant_id + "': consented to '" +
+                        state.pending_version + "' but requested '" + version + "'";
+                    LOG_WARN("TenantUpdateScheduler: version mismatch blocked "
+                             "update for '{}': consented='{}' requested='{}'",
+                             tenant_id, state.pending_version, version);
+                    return r;
+                }
+            }
+        }
+    }
+
     ReloadResult result = engine.applyHotReload(version);
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        auto& state = tenants_[tenant_id];
+        auto it = tenants_.find(tenant_id);
+        if (it == tenants_.end()) {
+            // Tenant was removed concurrently while the engine was running.
+            LOG_WARN("TenantUpdateScheduler: tenant '{}' removed during apply; "
+                     "ignoring result",
+                     tenant_id);
+            return result;
+        }
+        TenantState& state = it->second;
         if (result.success) {
             state.current_version  = version;
             state.last_rollback_id = result.rollback_id;
@@ -532,30 +582,6 @@ bool TenantUpdateScheduler::isInWindow(const MaintenanceWindow& win,
     gmtime_r(&t, &utc);
 #endif
 
-    // Day-of-week check (tm_wday: 0=Sunday).
-    static const char* const kDayNames[] = {
-        "Sunday", "Monday", "Tuesday", "Wednesday",
-        "Thursday", "Friday", "Saturday"
-    };
-    bool day_ok = false;
-    for (const auto& d : win.days) {
-        std::string dlower = d;
-        for (auto& c : dlower) c = static_cast<char>(std::tolower(c));
-        if (dlower == "daily") {
-            day_ok = true;
-            break;
-        }
-        std::string kday = kDayNames[utc.tm_wday];
-        for (auto& c : kday) c = static_cast<char>(std::tolower(c));
-        if (dlower == kday) {
-            day_ok = true;
-            break;
-        }
-    }
-    if (!day_ok) {
-        return false;
-    }
-
     const int start_min = parseMinutes(win.start_time);
     const int end_min   = parseMinutes(win.end_time);
     if (start_min < 0 || end_min < 0) {
@@ -564,13 +590,56 @@ bool TenantUpdateScheduler::isInWindow(const MaintenanceWindow& win,
 
     const int cur_min = utc.tm_hour * 60 + utc.tm_min;
 
+    // Determine whether we are in the time range and which calendar day to
+    // test against the allowed-days list.
+    //
+    // For same-day windows (start < end, e.g., 02:00 – 06:00):
+    //   - The window day is today.
+    //
+    // For cross-midnight windows (start > end, e.g., 23:00 – 05:00):
+    //   - Before midnight (cur_min >= start_min): the window started today.
+    //   - After midnight  (cur_min < end_min):    the window started yesterday.
+    int  check_wday;
+    bool in_time_range;
+
     if (start_min <= end_min) {
-        // Same-day window, e.g., 02:00 – 06:00.
-        return cur_min >= start_min && cur_min < end_min;
+        // Same-day window.
+        in_time_range = (cur_min >= start_min && cur_min < end_min);
+        check_wday    = utc.tm_wday;
     } else {
-        // Cross-midnight window, e.g., 23:00 – 05:00.
-        return cur_min >= start_min || cur_min < end_min;
+        // Cross-midnight window.
+        if (cur_min >= start_min) {
+            // Before-midnight portion: window started on today.
+            in_time_range = true;
+            check_wday    = utc.tm_wday;
+        } else if (cur_min < end_min) {
+            // After-midnight portion: window started on the previous calendar day.
+            in_time_range = true;
+            check_wday    = (utc.tm_wday + 6) % 7;
+        } else {
+            in_time_range = false;
+            check_wday    = utc.tm_wday;
+        }
     }
+
+    if (!in_time_range) {
+        return false;
+    }
+
+    // Day-of-week check (tm_wday: 0=Sunday).
+    static const char* const kDayNames[] = {
+        "Sunday", "Monday", "Tuesday", "Wednesday",
+        "Thursday", "Friday", "Saturday"
+    };
+    for (const auto& d : win.days) {
+        if (toLowerAscii(d) == "daily") {
+            return true;
+        }
+        if (toLowerAscii(d) == toLowerAscii(kDayNames[check_wday])) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool TenantUpdateScheduler::isInBlackout(
