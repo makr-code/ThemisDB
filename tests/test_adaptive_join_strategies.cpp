@@ -397,8 +397,8 @@ TEST(AdaptiveJoinStrategiesTest, AC4_ExecuteJoin_IndexAndSmallLeft_IndexNestedLo
 
     // Force past nested-loop threshold by raising it
     AdaptiveJoinConfig cfg;
-    cfg.nested_loop_threshold       = 100;    // left=500 > 100 → skip NL
-    cfg.index_nested_loop_threshold = 10'000; // left=500 < 10000 + has_index → INDEX_NL
+    cfg.nested_loop_threshold       = 100;    // left=500 > 100  → skip NL
+    cfg.index_nested_loop_threshold = 10'000; // left=500 < 10000 → INDEX_NL
     AdaptiveJoinExecutor exec2(cfg);
 
     JoinSpec spec = makeSpec();
