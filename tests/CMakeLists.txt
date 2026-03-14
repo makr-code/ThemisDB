@@ -11052,6 +11052,7 @@ set(INGESTION_CORE_SOURCES
     ${THEMIS_ROOT_DIR}/src/ingestion/huggingface_connector.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/kafka_connector.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/object_storage_connector.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/s3_connector.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/database_connector.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/web_crawler_connector.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/ingestion_coordinator.cpp
@@ -11199,6 +11200,14 @@ add_ingestion_focused_test(
     IngestionObjectStorageFocusedTests
     "ingestion;objectstorage;s3;gcs;azure;focused;unit"
     "IngestionObjectStorage: S3/GCS/Azure mock-injection, prefix filter, path-traversal rejection, 28 tests"
+)
+
+add_ingestion_focused_test(
+    test_s3_connector_focused
+    test_s3_connector.cpp
+    S3ConnectorFocusedTests
+    "ingestion;s3;objectstorage;incremental;checkpoint;concurrent;focused;unit"
+    "S3Connector: incremental mode, max_keys_per_list, max_concurrent_downloads, flat-file delegation, checkpoint, path-traversal (Issue #178)"
 )
 
 add_ingestion_focused_test(
