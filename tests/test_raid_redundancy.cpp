@@ -681,7 +681,7 @@ TEST(BlobRedundancyManagerTest, PrometheusMetrics) {
 // RocksDB Event Listener Tests
 // ═══════════════════════════════════════════════════════════
 
-TEST(BlobRedundancyManagerTest, CreateRocksDBListenerSucceeds) {
+TEST(BlobRedundancyEventListenerTest, CreateRocksDBListenerSucceeds) {
     BlobRedundancyManager::Config config;
     BlobRedundancyManager manager(config);
 
@@ -690,7 +690,7 @@ TEST(BlobRedundancyManagerTest, CreateRocksDBListenerSucceeds) {
     EXPECT_NE(result.value(), nullptr) << "returned listener must not be null";
 }
 
-TEST(BlobRedundancyManagerTest, NotifySSTFileDeletedMarksLocationUnhealthy) {
+TEST(BlobRedundancyEventListenerTest, NotifySSTFileDeletedMarksLocationUnhealthy) {
     BlobRedundancyManager::Config config;
     BlobRedundancyManager manager(config);
 
@@ -713,7 +713,7 @@ TEST(BlobRedundancyManagerTest, NotifySSTFileDeletedMarksLocationUnhealthy) {
         << "location backed by the deleted SST should be unhealthy";
 }
 
-TEST(BlobRedundancyManagerTest, NotifySSTFileDeletedUnknownPathIsNoOp) {
+TEST(BlobRedundancyEventListenerTest, NotifySSTFileDeletedUnknownPathIsNoOp) {
     BlobRedundancyManager::Config config;
     BlobRedundancyManager manager(config);
 
@@ -724,7 +724,7 @@ TEST(BlobRedundancyManagerTest, NotifySSTFileDeletedUnknownPathIsNoOp) {
     EXPECT_NO_THROW(manager.notifySSTFileDeleted("/data/db/999999.sst"));
 }
 
-TEST(BlobRedundancyManagerTest, NotifySSTFileDeletedOnlyAffectsMatchingBlobs) {
+TEST(BlobRedundancyEventListenerTest, NotifySSTFileDeletedOnlyAffectsMatchingBlobs) {
     BlobRedundancyManager::Config config;
     BlobRedundancyManager manager(config);
 
@@ -750,7 +750,7 @@ TEST(BlobRedundancyManagerTest, NotifySSTFileDeletedOnlyAffectsMatchingBlobs) {
         << "unaffected blob's location must stay healthy";
 }
 
-TEST(BlobRedundancyManagerTest, RocksDBListenerOnTableFileDeletedTriggersReplication) {
+TEST(BlobRedundancyEventListenerTest, RocksDBListenerOnTableFileDeletedTriggersReplication) {
     BlobRedundancyManager::Config config;
     BlobRedundancyManager manager(config);
 

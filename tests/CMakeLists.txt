@@ -13992,7 +13992,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_raid_redundancy.cpp")
 
     add_test(NAME BlobRedundancyEventListenerFocusedTests
         COMMAND test_blob_redundancy_event_listener_focused
-        --gtest_filter=BlobRedundancyManagerTest.*
+        --gtest_filter=BlobRedundancyEventListenerTest.*
     )
 
     set_tests_properties(BlobRedundancyEventListenerFocusedTests PROPERTIES

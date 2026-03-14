@@ -646,6 +646,12 @@ bool RocksDBWrapper::isOpen() const {
 
 void RocksDBWrapper::addEventListener(std::shared_ptr<rocksdb::EventListener> listener) {
     if (!listener) return;
+    std::lock_guard<std::mutex> lock(db_lifecycle_mutex_);
+    if (isOpen()) {
+        THEMIS_WARN("addEventListener called after DB is already open; "
+                    "listener will not take effect for the current database instance");
+        return;
+    }
     options_->listeners.push_back(std::move(listener));
 }
 

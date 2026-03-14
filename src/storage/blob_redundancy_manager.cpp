@@ -767,6 +767,7 @@ Result<std::shared_ptr<rocksdb::EventListener>> BlobRedundancyManager::createRoc
 
 void BlobRedundancyManager::notifySSTFileDeleted(const std::string& file_path) {
     std::vector<std::string> affected_blob_ids;
+    std::vector<std::string> unrecoverable_blob_ids;
 
     {
         std::unique_lock<std::shared_mutex> lock(blobs_mutex_);
@@ -779,9 +780,29 @@ void BlobRedundancyManager::notifySSTFileDeleted(const std::string& file_path) {
                 }
             }
             if (location_marked) {
-                affected_blob_ids.push_back(blob_id);
+                // Only enqueue for repair when the deletion actually degrades the blob
+                // below its required replica count. Compaction routinely deletes SST
+                // files that have been superseded by new ones, and in those cases the
+                // remaining healthy locations are still sufficient.
+                uint32_t healthy_count  = metadata.healthyLocationCount();
+                uint32_t required_count = metadata.requiredLocationCount();
+                if (healthy_count < required_count) {
+                    if (metadata.canRecover()) {
+                        affected_blob_ids.push_back(blob_id);
+                    } else {
+                        unrecoverable_blob_ids.push_back(blob_id);
+                    }
+                }
+                // else: enough replicas still healthy — no repair needed
             }
         }
+    }
+
+    for (const auto& blob_id : unrecoverable_blob_ids) {
+        spdlog::error(
+            "Blob {} has suffered unrecoverable loss after SST deletion of '{}': "
+            "too few healthy locations remain to reconstruct the blob",
+            blob_id, file_path);
     }
 
     if (affected_blob_ids.empty()) {
