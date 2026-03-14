@@ -1184,12 +1184,15 @@ target_link_libraries(themis_tests PRIVATE
     RocksDB::rocksdb
     OpenSSL::SSL
     OpenSSL::Crypto
-    $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
     $<$<TARGET_EXISTS:protobuf::libprotobuf>:protobuf::libprotobuf>
-    $<$<BOOL:${CURL_FOUND}>:$<IF:$<TARGET_EXISTS:CURL::libcurl>,CURL::libcurl,${CURL_LIBRARIES}>>
-    protobuf::libprotobuf
     Threads::Threads
 )
+
+if(TARGET CURL::libcurl)
+    target_link_libraries(themis_tests PRIVATE CURL::libcurl)
+elseif(CURL_FOUND AND CURL_LIBRARIES)
+    target_link_libraries(themis_tests PRIVATE ${CURL_LIBRARIES})
+endif()
 
 if(TARGET prometheus-cpp::core)
     target_link_libraries(themis_tests PRIVATE prometheus-cpp::core)
@@ -13733,6 +13736,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_consistent_hash_distribution.cpp")
     add_test(NAME ConsistentHashDistributionFocusedTests COMMAND test_consistent_hash_distribution_focused)
     set_tests_properties(ConsistentHashDistributionFocusedTests PROPERTIES LABELS "sharding;distribution;hash;focused;unit" TIMEOUT 90)
     message(STATUS "  ConsistentHashDistribution: strict distribution and migration checks")
+endif()
+
 # ── RS Repair Engine Parallelisation focused tests (v1.6.0 Issue #204) ──────
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_repair.cpp")
     message(STATUS "Adding Sharding: RS Repair Engine Parallelisation focused tests")
