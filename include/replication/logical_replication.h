@@ -29,6 +29,7 @@
 #include <string>
 #include <unordered_set>
 #include <vector>
+#include <atomic>
 
 #include <nlohmann/json.hpp>
 
@@ -164,6 +165,7 @@ private:
 
     mutable std::mutex stats_mutex_;
     Stats stats_;
+    std::atomic<bool> missing_seq_warned_{false};
 
     // Persistence helpers
     void loadPersistedSlots();

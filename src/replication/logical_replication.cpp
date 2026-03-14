@@ -277,8 +277,7 @@ LogicalChange LogicalReplicationManager::makeLogicalChange(const WALEntry& entry
     change.schema_version = config_.target_version;
     change.source_version = config_.source_version;
     change.target_version = config_.target_version;
-    static std::atomic<bool> missing_seq_warned{false};
-    if (entry.sequence_number == 0 && wal_ && !missing_seq_warned.exchange(true)) {
+    if (entry.sequence_number == 0 && wal_ && !missing_seq_warned_.exchange(true)) {
         THEMIS_WARN("Logical replication entry missing sequence_number; using current WAL sequence");
     }
     // Use WAL assigned sequence when available; fall back to current WAL position for notifications
@@ -420,27 +419,39 @@ void LogicalReplicationManager::loadPersistedSlots() {
         if (ec) {
             THEMIS_WARN("Failed to create logical slot directory {}: {}", dir.string(), ec.message());
         }
+        fs::permissions(dir, fs::perms::owner_all, fs::perm_options::replace, ec);
         return;
     }
 
     for (fs::directory_iterator it(dir, fs::directory_options::skip_permission_denied, ec);
-         !ec && it != fs::directory_iterator(); it.increment(ec)) {
-        if (ec) {
-            THEMIS_WARN("Error iterating logical slot directory: {}", ec.message());
-            break;
-        }
+         !ec && it != fs::directory_iterator();) {
         const auto& entry = *it;
         std::error_code type_ec;
-        if (!entry.is_regular_file(type_ec)) continue;
-        if (type_ec) continue;
-        if (entry.path().extension() != ".json") continue;
+        if (!entry.is_regular_file(type_ec) || type_ec || entry.path().extension() != ".json") {
+            it.increment(ec);
+            if (ec) {
+                THEMIS_WARN("Error iterating logical slot directory: {}", ec.message());
+            }
+            continue;
+        }
 
         std::ifstream in(entry.path());
-        if (!in.is_open()) continue;
+        if (!in.is_open()) {
+            it.increment(ec);
+            if (ec) {
+                THEMIS_WARN("Error iterating logical slot directory: {}", ec.message());
+            }
+            continue;
+        }
         nlohmann::json j;
         try {
             in >> j;
-        } catch (...) {
+        } catch (const std::exception& ex) {
+            THEMIS_WARN("Failed to parse logical slot file {}: {}", entry.path().string(), ex.what());
+            it.increment(ec);
+            if (ec) {
+                THEMIS_WARN("Error iterating logical slot directory: {}", ec.message());
+            }
             continue;
         }
 
@@ -463,6 +474,10 @@ void LogicalReplicationManager::loadPersistedSlots() {
                         jf["include_collections"].get<std::vector<std::string>>();
                 } catch (...) {
                     THEMIS_WARN("Failed to parse include_collections for slot {}", runtime->meta.slot_name);
+                    it.increment(ec);
+                    if (ec) {
+                        THEMIS_WARN("Error iterating logical slot directory: {}", ec.message());
+                    }
                     continue;
                 }
             }
@@ -472,6 +487,10 @@ void LogicalReplicationManager::loadPersistedSlots() {
                         jf["exclude_collections"].get<std::vector<std::string>>();
                 } catch (...) {
                     THEMIS_WARN("Failed to parse exclude_collections for slot {}", runtime->meta.slot_name);
+                    it.increment(ec);
+                    if (ec) {
+                        THEMIS_WARN("Error iterating logical slot directory: {}", ec.message());
+                    }
                     continue;
                 }
             }
@@ -485,6 +504,12 @@ void LogicalReplicationManager::loadPersistedSlots() {
         std::unique_lock<std::shared_mutex> lock(slots_mutex_);
         if (!slots_.count(runtime->meta.slot_name)) {
             slots_[runtime->meta.slot_name] = runtime;
+        }
+
+        it.increment(ec);
+        if (ec) {
+            THEMIS_WARN("Error iterating logical slot directory: {}", ec.message());
+            break;
         }
     }
 }
@@ -502,6 +527,7 @@ void LogicalReplicationManager::persistSlot(const SlotRuntime& slot) const {
         THEMIS_WARN("Failed to create slot directory {}: {}", base.string(), ec.message());
         return;
     }
+    fs::permissions(base, fs::perms::owner_all, fs::perm_options::replace, ec);
 
     nlohmann::json j;
     j["slot_name"] = slot.meta.slot_name;
@@ -529,7 +555,11 @@ void LogicalReplicationManager::persistSlot(const SlotRuntime& slot) const {
     if (written < 0 || static_cast<size_t>(written) != payload.size()) {
         ::close(fd);
         fs::remove(tmp_path, ec);
-        THEMIS_WARN("Failed to persist logical slot {}, partial/failed write", slot.meta.slot_name);
+        if (written < 0) {
+            THEMIS_WARN("Failed to persist logical slot {}: {}", slot.meta.slot_name, strerror(errno));
+        } else {
+            THEMIS_WARN("Failed to persist logical slot {}, partial/failed write", slot.meta.slot_name);
+        }
         return;
     }
 
