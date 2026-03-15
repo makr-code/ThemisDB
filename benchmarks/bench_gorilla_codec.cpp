@@ -23,8 +23,11 @@
 
 // Benchmark: Gorilla Codec – Compression Ratio & Speed
 // Phase 7: Performance Benchmarks for Gorilla codec
+// Includes scalar baseline (GorillaDecoder) and SIMD accelerated path (GorillaSIMDDecoder)
+// for throughput comparison as required by the Gorilla SIMD acceptance criteria.
 
 #include "timeseries/gorilla.h"
+#include "timeseries/gorilla_simd.h"
 #include <benchmark/benchmark.h>
 #include <cmath>
 #include <random>
@@ -208,5 +211,101 @@ static void BM_GorillaCompressionRatio(benchmark::State& state) {
 BENCHMARK(BM_GorillaCompressionRatio)
     ->Arg(100)->Arg(1000)->Arg(10000)->Arg(100000)
     ->Unit(benchmark::kMillisecond);
+
+// ===== SIMD Decoding Benchmarks (vs scalar baseline) =====
+// These benchmarks compare GorillaSIMDDecoder (AVX2/NEON/scalar-fallback)
+// against the scalar GorillaDecoder to verify the >2 GB/s throughput target.
+
+static void BM_GorillaSIMDDecode_Constant(benchmark::State& state) {
+    const int n = state.range(0);
+    auto compressed = encode(makeConstantSeries(n));
+    for (auto _ : state) {
+        GorillaSIMDDecoder dec(compressed);
+        std::vector<std::pair<int64_t, double>> out;
+        out.reserve(n);
+        dec.decodeAll(out);
+        benchmark::DoNotOptimize(out);
+    }
+    state.counters["points_per_sec"] = benchmark::Counter(
+        static_cast<double>(state.iterations() * n), benchmark::Counter::kIsRate);
+    const size_t decoded_bytes = static_cast<size_t>(n) * (sizeof(int64_t) + sizeof(double));
+    state.counters["decoded_bytes_per_sec"] = benchmark::Counter(
+        static_cast<double>(state.iterations() * decoded_bytes), benchmark::Counter::kIsRate);
+}
+BENCHMARK(BM_GorillaSIMDDecode_Constant)->Arg(100)->Arg(1000)->Arg(10000)->Unit(benchmark::kMicrosecond);
+
+static void BM_GorillaSIMDDecode_Sine(benchmark::State& state) {
+    const int n = state.range(0);
+    auto compressed = encode(makeSineSeries(n));
+    for (auto _ : state) {
+        GorillaSIMDDecoder dec(compressed);
+        std::vector<std::pair<int64_t, double>> out;
+        out.reserve(n);
+        dec.decodeAll(out);
+        benchmark::DoNotOptimize(out);
+    }
+    state.counters["points_per_sec"] = benchmark::Counter(
+        static_cast<double>(state.iterations() * n), benchmark::Counter::kIsRate);
+    const size_t decoded_bytes = static_cast<size_t>(n) * (sizeof(int64_t) + sizeof(double));
+    state.counters["decoded_bytes_per_sec"] = benchmark::Counter(
+        static_cast<double>(state.iterations() * decoded_bytes), benchmark::Counter::kIsRate);
+}
+BENCHMARK(BM_GorillaSIMDDecode_Sine)->Arg(100)->Arg(1000)->Arg(10000)->Unit(benchmark::kMicrosecond);
+
+static void BM_GorillaSIMDDecode_Random(benchmark::State& state) {
+    const int n = state.range(0);
+    auto compressed = encode(makeRandomSeries(n));
+    for (auto _ : state) {
+        GorillaSIMDDecoder dec(compressed);
+        std::vector<std::pair<int64_t, double>> out;
+        out.reserve(n);
+        dec.decodeAll(out);
+        benchmark::DoNotOptimize(out);
+    }
+    state.counters["points_per_sec"] = benchmark::Counter(
+        static_cast<double>(state.iterations() * n), benchmark::Counter::kIsRate);
+    const size_t decoded_bytes = static_cast<size_t>(n) * (sizeof(int64_t) + sizeof(double));
+    state.counters["decoded_bytes_per_sec"] = benchmark::Counter(
+        static_cast<double>(state.iterations() * decoded_bytes), benchmark::Counter::kIsRate);
+}
+BENCHMARK(BM_GorillaSIMDDecode_Random)->Arg(100)->Arg(1000)->Arg(10000)->Unit(benchmark::kMicrosecond);
+
+// ===== Throughput comparison: scalar vs SIMD (large dataset) =====
+// Baseline: run_reference scalar decode at 10k and 100k points.
+
+static void BM_GorillaScalarDecode_Throughput(benchmark::State& state) {
+    const int n = state.range(0);
+    auto compressed = encode(makeSineSeries(n));
+    for (auto _ : state) {
+        GorillaDecoder dec(compressed);
+        int count = 0;
+        while (auto p = dec.next()) { benchmark::DoNotOptimize(*p); ++count; }
+        benchmark::DoNotOptimize(count);
+    }
+    const size_t decoded_bytes = static_cast<size_t>(n) * (sizeof(int64_t) + sizeof(double));
+    state.counters["decoded_bytes_per_sec"] = benchmark::Counter(
+        static_cast<double>(state.iterations() * decoded_bytes), benchmark::Counter::kIsRate);
+    state.counters["decoder"] = 0;  // 0 = scalar
+}
+BENCHMARK(BM_GorillaScalarDecode_Throughput)->Arg(10000)->Arg(100000)->Unit(benchmark::kMicrosecond);
+
+static void BM_GorillaSIMDDecode_Throughput(benchmark::State& state) {
+    const int n = state.range(0);
+    auto compressed = encode(makeSineSeries(n));
+    for (auto _ : state) {
+        GorillaSIMDDecoder dec(compressed);
+        std::vector<std::pair<int64_t, double>> out;
+        out.reserve(n);
+        dec.decodeAll(out);
+        benchmark::DoNotOptimize(out);
+    }
+    const size_t decoded_bytes = static_cast<size_t>(n) * (sizeof(int64_t) + sizeof(double));
+    state.counters["decoded_bytes_per_sec"] = benchmark::Counter(
+        static_cast<double>(state.iterations() * decoded_bytes), benchmark::Counter::kIsRate);
+    state.counters["has_avx2"] = gorilla_simd_has_avx2() ? 1 : 0;
+    state.counters["has_neon"] = gorilla_simd_has_neon() ? 1 : 0;
+    state.counters["decoder"] = 1;  // 1 = SIMD
+}
+BENCHMARK(BM_GorillaSIMDDecode_Throughput)->Arg(10000)->Arg(100000)->Unit(benchmark::kMicrosecond);
 
 BENCHMARK_MAIN();

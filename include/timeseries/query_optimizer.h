@@ -85,6 +85,12 @@ public:
         bool explain = false;  // Return optimization plan
         std::vector<PredicateFilter> predicates;  ///< Optional tag predicates to push down
         bool use_cache = true;  ///< Whether to use/populate the query plan cache
+
+        /// Decode-width hint for the Gorilla SIMD decoder.
+        /// Tells the decoder which value width to use for width-specific vectorisation paths,
+        /// avoiding unnecessary bit-width checks in tight decode loops.
+        enum class DecodeWidth { Auto, Float32, Float64 };
+        DecodeWidth decode_width = DecodeWidth::Auto;
     };
     
     struct QueryPlan {
@@ -96,6 +102,8 @@ public:
         double estimated_speedup = 1.0;  // Speedup factor vs raw query
         std::string explanation;
         std::vector<PredicateFilter> active_predicates;  ///< Predicates included in this plan
+        /// Decode-width resolved from the hint, propagated to the SIMD decoder.
+        OptimizationHint::DecodeWidth decode_width = OptimizationHint::DecodeWidth::Auto;
     };
     
     explicit TSQueryOptimizer(TSStore* store);

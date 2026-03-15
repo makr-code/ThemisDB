@@ -46,6 +46,7 @@ namespace themis {
 // Forward declarations
 class TimeSeriesMetrics;
 class EncryptedChunkStore;
+class TSAutoBuffer;
 
 /**
  * @brief Time-Series Storage MVP (Sprint B)
@@ -298,6 +299,21 @@ public:
      */
     std::shared_ptr<TimeSeriesMetrics> getMetrics() const { return metrics_; }
 
+    /**
+     * @brief Wire a TSAutoBuffer to receive single-point inserts when Gorilla compression
+     * is enabled.  When set, putDataPoint() routes through the buffer instead of writing
+     * directly to RocksDB, enabling Gorilla compression for IoT / streaming workloads.
+     *
+     * @param buf  Pointer to a TSAutoBuffer (not owned, must outlive this TSStore).
+     *             Pass nullptr to disable buffering and fall back to direct writes.
+     */
+    void setAutoBuffer(TSAutoBuffer* buf) { auto_buffer_ = buf; }
+
+    /**
+     * @brief Return the currently attached TSAutoBuffer, or nullptr if not set.
+     */
+    TSAutoBuffer* getAutoBuffer() const { return auto_buffer_; }
+
     // ==================== System Metadata ====================
 
     /**
@@ -336,6 +352,7 @@ private:
     Config config_;
     std::shared_ptr<TimeSeriesMetrics> metrics_; // Optional metrics collector
     std::shared_ptr<EncryptedChunkStore> enc_chunk_store_; // Optional AES-256-GCM wrapper
+    TSAutoBuffer* auto_buffer_ = nullptr; // Optional auto-buffer for single-point Gorilla inserts (not owned)
 
     // Out-of-order write statistics
     mutable std::atomic<uint64_t> ooo_accepted_{0};
