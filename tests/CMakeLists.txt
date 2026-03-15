@@ -51,6 +51,9 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_env\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_auto_failover_recovery\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_feature_flags\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_io_uring_zero_copy\\.cpp$")
+# themisctl test includes tools/themisctl.cpp directly (THEMISCTL_TEST_BUILD guard);
+# must be compiled as a focused target only, not merged into the unified themis_tests binary.
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_themisctl\\.cpp$")
 
 # Skip feature-dependent tests when the corresponding modules are disabled
 set(TEST_EXCLUDE_PATTERNS "")
@@ -14956,6 +14959,55 @@ endif()
 # ============================================================================
 # Custom Test Targets
 # ============================================================================
+
+# ── themisctl focused tests ────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_themisctl.cpp")
+    message(STATUS "Adding themisctl focused tests (tools, unified CLI)")
+
+    add_executable(test_themisctl_focused
+        test_themisctl.cpp
+    )
+
+    target_compile_features(test_themisctl_focused PRIVATE cxx_std_17)
+
+    # The test includes ../tools/themisctl.cpp directly with THEMISCTL_TEST_BUILD
+    target_include_directories(test_themisctl_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/tools
+    )
+
+    target_compile_definitions(test_themisctl_focused PRIVATE
+        THEMISCTL_TEST_BUILD=1
+    )
+
+    target_link_libraries(test_themisctl_focused PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        Threads::Threads
+    )
+
+    find_package(httplib QUIET)
+    if(httplib_FOUND)
+        target_link_libraries(test_themisctl_focused PRIVATE httplib::httplib)
+    endif()
+
+    find_package(nlohmann_json QUIET)
+    if(nlohmann_json_FOUND)
+        target_link_libraries(test_themisctl_focused PRIVATE nlohmann_json::nlohmann_json)
+    endif()
+
+    add_test(NAME ThemisctlFocusedTests COMMAND test_themisctl_focused)
+
+    set_tests_properties(ThemisctlFocusedTests PROPERTIES
+        LABELS "tools;cli;themisctl;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  themisctl: arg parsing, HTTP round-trips, command routing, error handling")
+else()
+    message(STATUS "themisctl focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_themisctl.cpp")
+endif()
+
 add_custom_target(run_tests
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}

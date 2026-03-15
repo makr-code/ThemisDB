@@ -106,6 +106,50 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/lora_provenance_cli.cpp")
 endif()
 
 # ============================================================================
+# themisctl — Unified ThemisDB Management CLI
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/themisctl.cpp")
+    message(STATUS "Adding themisctl unified management CLI")
+
+    project(ThemisTools LANGUAGES CXX)
+
+    add_executable(themisctl
+        themisctl.cpp
+    )
+
+    target_compile_features(themisctl PRIVATE cxx_std_17)
+
+    # cpp-httplib provides the HTTP client (header-only)
+    find_package(httplib QUIET)
+    if(httplib_FOUND)
+        target_link_libraries(themisctl PRIVATE httplib::httplib)
+    else()
+        # Fallback: assume httplib.h is on the include path (e.g. via vcpkg toolchain)
+        message(STATUS "httplib package not found via find_package; assuming httplib.h is on include path")
+    endif()
+
+    find_package(nlohmann_json QUIET)
+    if(nlohmann_json_FOUND)
+        target_link_libraries(themisctl PRIVATE nlohmann_json::nlohmann_json)
+    endif()
+
+    # OpenSSL is optional (HTTPS support for themisctl via cpp-httplib)
+    find_package(OpenSSL QUIET)
+    if(OpenSSL_FOUND)
+        target_link_libraries(themisctl PRIVATE OpenSSL::SSL OpenSSL::Crypto)
+        target_compile_definitions(themisctl PRIVATE CPPHTTPLIB_OPENSSL_SUPPORT)
+    endif()
+
+    install(TARGETS themisctl
+        RUNTIME DESTINATION bin
+        COMPONENT tools
+    )
+
+    message(STATUS "themisctl unified management CLI configured")
+endif()
+
+# ============================================================================
 # Config Migration Scanner
 # ============================================================================
 

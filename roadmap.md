@@ -284,6 +284,17 @@ Focus: Enterprise-grade monitoring, alerting, and automated operations.
 - [ ] AgenticRAG integration for iterative process question answering (Target: Q3 2026)
 - [ ] EPK ARIS-XML import (Target: Q3 2026)
 
+#### 4.7 CLI Tooling — Unified Management Interface
+- [x] `themisctl` — unified ThemisDB CLI for server operations (Target: Q1 2026)
+  - Commands: `health`, `version`, `query`, `get`, `put`, `delete`, `schema`, `branch`, `snapshot`, `admin`
+  - Environment variable support: `THEMIS_HOST`, `THEMIS_PORT`, `THEMIS_TOKEN`
+  - Raw JSON output mode (`--json`), auth token forwarding (`--token`), configurable timeout
+  - In-process httplib unit tests (arg parsing, HTTP round-trips, error handling)
+  - CMake target: `themisctl`; install component: `tools`
+- [ ] Shell completion scripts (bash, zsh, fish) for `themisctl` (Target: Q2 2026)
+- [ ] `themisctl config` sub-command — read/write server config via API (Target: Q2 2026)
+- [ ] Interactive REPL mode (`themisctl repl`) with command history (Target: Q3 2026)
+
 ---
 
 ### Phase 5: Security Hardening & Compliance (Q1 2027) — 📋 Planned
