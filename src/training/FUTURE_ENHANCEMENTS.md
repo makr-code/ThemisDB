@@ -24,16 +24,16 @@ This document covers planned enhancements to ThemisDB's legal-domain model train
 
 ## Planned Features
 
-### `ProvenanceTracker`: Replace AQL Template Stubs with Live Connection
+### [x] `ProvenanceTracker`: Replace AQL Template Stubs with Live Connection
 **Priority:** High
 **Target Version:** v1.8.0
 
 `provenance_tracker.cpp` line 36 documents: "AQL template stubs (production: bind against live ArangoDB connection)". The provenance tracker uses in-process simulation for AQL-based lineage queries (line 141: "build a stub tree from in-process store"). In production, provenance information is not queryable via the AQL API.
 
 **Implementation Notes:**
-- `[ ]` Replace the in-process stub with `AQLRunner::execute(provenance_query, bindings)` calls; inject `AQLRunner*` into `ProvenanceTracker`.
-- `[ ]` `knowledge_graph_enricher.cpp` has `vector_index_ = nullptr` guard (non-owning, "offline/stub"); inject a real `VectorIndexManager*` for production builds; fail fast (not silently degrade) when `nullptr` in non-test builds.
-- `[ ]` Add integration test for provenance lineage round-trip: create training sample, verify AQL provenance query returns correct lineage.
+- `[x]` Replace the in-process stub with `AQLRunner::execute(provenance_query, bindings)` calls; inject `AQLRunner*` into `ProvenanceTracker`.
+- `[x]` `knowledge_graph_enricher.cpp` has `vector_index_ = nullptr` guard (non-owning, "offline/stub"); inject a real `VectorIndexManager*` for production builds; fail fast (not silently degrade) when `nullptr` in non-test builds.
+- `[x]` Add integration test for provenance lineage round-trip: create training sample, verify AQL provenance query returns correct lineage.
 
 ---
 

@@ -29,28 +29,31 @@ This document covers planned enhancements to ThemisDB's sharding subsystem, whic
 **Priority:** High
 **Target Version:** v1.8.0
 
-`gpu_erasure_coder_opencl.cpp` (line 42: "OpenCL Implementation Class (Stub)") throws `std::runtime_error("OpenCL encode not implemented")` for all three operations: `encode`, `decode`, and `batchEncode`. The OpenCL erasure coding backend is completely non-functional.
+`gpu_erasure_coder_opencl.cpp` now provides a complete Reed-Solomon erasure
+coding implementation over GF(2^8). When an OpenCL device is found, parity
+computation is offloaded to the GPU via an NDRange kernel; the class falls back
+to an equivalent CPU path when no device is available.
 
 **Implementation Notes:**
-- `[ ]` Implement `OpenCLErasureCoder::encode()`: compile a Galois Field GF(2^8) multiply kernel via `clCreateProgramWithSource` at construction; enqueue an NDRange kernel to compute parity blocks in parallel.
-- `[ ]` Implement `OpenCLErasureCoder::decode()`: perform syndrome computation and Gaussian elimination on the GPU to recover erased data blocks.
-- `[ ]` Implement `batchEncode()`: batch multiple stripe operations into a single kernel dispatch.
-- `[ ]` Add CPU/GPU parity test for encode+decode round-trip with 1, 2, and 3 erasures.
+- `[x]` Implement `OpenCLErasureCoder::encode()`: compile a Galois Field GF(2^8) multiply kernel via `clCreateProgramWithSource` at construction; enqueue an NDRange kernel to compute parity blocks in parallel.
+- `[x]` Implement `OpenCLErasureCoder::decode()`: perform syndrome computation and Gaussian elimination on the GPU to recover erased data blocks.
+- `[x]` Implement `batchEncode()`: batch multiple stripe operations into a single kernel dispatch.
+- `[x]` Add CPU/GPU parity test for encode+decode round-trip with 1, 2, and 3 erasures.
 
 ---
 
-### `CrossShardTransaction`: Hardcode Coordinator ID and Missing Compensation RPC
+### [x] `CrossShardTransaction`: Hardcode Coordinator ID and Missing Compensation RPC
 **Priority:** High
 **Target Version:** v1.8.0
 
-`cross_shard_transaction.cpp` has 3 critical TODOs:
-- Line 1898: "TODO: Replace with proper compensation RPC" — SAGA compensation actions call no real RPC.
-- Line 2581: `coordinator_id = "coordinator-1"` hardcoded — transaction audit records show a placeholder instead of the actual node.
-- Line 2605: same hardcoded coordinator ID.
+`cross_shard_transaction.cpp` had 3 critical TODOs (all resolved):
+- Line 1743 (was 1898): `TODO: Replace with proper compensation RPC` — SAGA compensation actions now call `ShardRPCClient::compensate(txn_id, operation)`.
+- Line 2426 (was 2581): `coordinator_id = "coordinator-1"` replaced with `config_.coordinator_id`.
+- Line 2444 (was 2605): same hardcoded coordinator ID replaced.
 
 **Implementation Notes:**
-- `[ ]` Inject the actual `DistributedCoordinator::nodeId()` into `CrossShardTransactionManager`; replace all `"coordinator-1"` literals with the real node ID.
-- `[ ]` Line 1898: implement the SAGA compensation RPC by dispatching a `ShardRpcClient::compensate(shard_id, txn_id, operation)` call; handle network failures with a bounded retry queue.
+- `[x]` Added `coordinator_id` field to `CrossShardTransactionConfig`; callers inject `DistributedCoordinator::getLocalShardId()` before constructing the coordinator; all `"coordinator-1"` literals replaced with `config_.coordinator_id`.
+- `[x]` Line 1743: SAGA compensation RPC implemented via `ShardRPCClient::compensate(txn_id, operation)`; bounded retry queue (max_retries=3, exponential backoff) already present and unchanged.
 
 ---
 

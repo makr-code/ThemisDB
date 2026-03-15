@@ -13099,6 +13099,23 @@ if(TARGET test_modality_parser_focused)
     message(STATUS "  TrainingConvergence: ConfidenceCalibrator PAV isotonic regression, F1 threshold selection, multi-category")
 endif()
 
+# ProvenanceAqlIntegration focused tests – round-trip provenance write + lineage
+# query tests covering both offline (in-process store) and live QueryEngine paths.
+# Runs as a gtest_filter slice of themis_tests so it inherits all core libs.
+if(TARGET themis_tests)
+    add_test(NAME ProvenanceAqlIntegrationTests
+        COMMAND themis_tests
+            --gtest_filter=ProvenanceOfflineRoundTripTest.*:ProvenanceAqlRoundTripTest.*)
+
+    set_tests_properties(ProvenanceAqlIntegrationTests PROPERTIES
+        LABELS "training;provenance;aql;lineage;round-trip;focused;integration"
+        TIMEOUT 60
+    )
+
+    message(STATUS "Adding ProvenanceAqlIntegration focused tests")
+    message(STATUS "  ProvenanceAqlIntegration: provenance write + lineage round-trip (offline + QueryEngine paths)")
+endif()
+
 # AutoLabelerDbFetch focused tests – covers DB fetch paths in labelAll() and
 # labelQuery() by wiring a real QueryEngine (RocksDB + SecondaryIndexManager).
 # Runs as a gtest_filter slice of themis_tests so it inherits all core libs.
@@ -13141,6 +13158,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_kge_vector_search.cpp")
 
     target_compile_definitions(test_kge_vector_search_focused PRIVATE
         THEMIS_TEST_BUILD=1
+        THEMIS_TEST_MODE=1
     )
 
     add_test(NAME KgeVectorSearchFocusedTests COMMAND test_kge_vector_search_focused)
@@ -14471,6 +14489,59 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_erasure_coding_backend.cpp" AND NOT 
 endif()
 
 # ============================================================================
+# OpenCL Erasure Coder – CPU/GPU parity tests (Issue #105 / v1.8.0)
+# ============================================================================
+# Enabled when THEMIS_ENABLE_OPENCL is set (or the cmake find_package
+# for OpenCL succeeds).  Uses pocl-opencl-icd in CI for a CPU-only OpenCL
+# device so the GPU-assisted paths can be exercised without real hardware.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_opencl_erasure_coder_parity.cpp"
+        AND NOT TARGET test_opencl_erasure_coder_parity_focused)
+
+    # Try to locate an OpenCL SDK (headers + ICD loader)
+    find_package(OpenCL QUIET)
+
+    if(OpenCL_FOUND OR THEMIS_ENABLE_OPENCL)
+        message(STATUS "Adding Sharding: OpenCL ErasureCoder parity tests (Issue #105)")
+
+        add_executable(test_opencl_erasure_coder_parity_focused
+            test_opencl_erasure_coder_parity.cpp
+            ${CMAKE_SOURCE_DIR}/src/sharding/gpu_erasure_coder_opencl.cpp
+        )
+
+        target_include_directories(test_opencl_erasure_coder_parity_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+            ${OpenCL_INCLUDE_DIRS}
+        )
+
+        target_link_libraries(test_opencl_erasure_coder_parity_focused PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            Threads::Threads
+            ${OpenCL_LIBRARIES}
+        )
+
+        target_compile_definitions(test_opencl_erasure_coder_parity_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+            THEMIS_ENABLE_OPENCL=1
+        )
+
+        add_test(NAME OpenCLErasureCoderParityTests
+            COMMAND test_opencl_erasure_coder_parity_focused)
+
+        set_tests_properties(OpenCLErasureCoderParityTests PROPERTIES
+            LABELS "sharding;gpu;opencl;erasure-coding;reed-solomon;parity;v1.8.0;focused;unit"
+            TIMEOUT 120
+        )
+
+        message(STATUS "  OpenCLErasureCoder: encode/decode round-trip 1/2/3 erasures, CPU/GPU parity, batchEncode")
+    else()
+        message(STATUS "OpenCL SDK not found – OpenCL ErasureCoder parity tests will be skipped")
+    endif()
+endif()
+
+# ============================================================================
 # Network Module Focused Tests
 # ============================================================================
 
@@ -15416,6 +15487,29 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_orphan_detector_wired.cpp")
         ${CMAKE_SOURCE_DIR}/src
     )
 
+    target_link_libraries(test_orphan_detector_wired_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_orphan_detector_wired_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME OrphanDetectorWiredFocusedTests
+        COMMAND test_orphan_detector_wired_focused)
+
+    set_tests_properties(OrphanDetectorWiredFocusedTests PROPERTIES
+        LABELS "sharding;orphan-detector;distributed-coordinator;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  OrphanDetector: DistributedCoordinator injection, listInFlightTransactions, getTransaction wiring")
+else()
+    message(STATUS "OrphanDetector wired focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_orphan_detector_wired.cpp")
+endif()
+
 # SecuritySignatureManager: RocksDB Iteration focused tests (v1.8.0, Issue #206)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_security_signature_rocksdb_iteration.cpp")
     message(STATUS "Adding SecuritySignatureManager RocksDB Iteration focused tests (storage module, Issue #206)")
@@ -15440,21 +15534,21 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_security_signature_rocksdb_iteration
         Threads::Threads
     )
 
-    target_compile_definitions(test_orphan_detector_wired_focused PRIVATE
+    target_compile_definitions(test_security_signature_rocksdb_iteration_focused PRIVATE
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME OrphanDetectorWiredFocusedTests
-        COMMAND test_orphan_detector_wired_focused)
+    add_test(NAME SecuritySignatureRocksDBIterationFocusedTests
+        COMMAND test_security_signature_rocksdb_iteration_focused)
 
-    set_tests_properties(OrphanDetectorWiredFocusedTests PROPERTIES
-        LABELS "sharding;orphan-detector;distributed-coordinator;v1.8.0;focused;unit"
+    set_tests_properties(SecuritySignatureRocksDBIterationFocusedTests PROPERTIES
+        LABELS "storage;security;signature;rocksdb;iteration;v1.8.0;focused;unit"
         TIMEOUT 60
     )
 
-    message(STATUS "  OrphanDetector: DistributedCoordinator injection, listInFlightTransactions, getTransaction wiring")
+    message(STATUS "  SecuritySignatureManager: RocksDB range scan, listAllSignatures, verifyAll")
 else()
-    message(STATUS "OrphanDetector wired focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_orphan_detector_wired.cpp")
+    message(STATUS "SecuritySignatureManager RocksDB iteration focused tests not found")
 endif()
 
 # ---------------------------------------------------------------------------
@@ -15496,22 +15590,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_shard_rpc_integration.cpp")
     message(STATUS "  ShardRpcRetryPolicy, mtls pool wiring, OperationalMetrics/PrometheusMetrics recordRpcCall, cert-rotation drain")
 else()
     message(STATUS "Shard RPC Integration focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_shard_rpc_integration.cpp")
-endif()
-    target_compile_definitions(test_security_signature_rocksdb_iteration_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME SecuritySignatureRocksDBIterationFocusedTests
-        COMMAND test_security_signature_rocksdb_iteration_focused)
-
-    set_tests_properties(SecuritySignatureRocksDBIterationFocusedTests PROPERTIES
-        LABELS "storage;security;signature;rocksdb;iteration;verify-all;v1.8.0;focused;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  SecuritySignatureManager: iterateRange, listAllSignatures, verifyAll")
-else()
-    message(STATUS "SecuritySignatureManager RocksDB Iteration focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_security_signature_rocksdb_iteration.cpp")
 endif()
 
 

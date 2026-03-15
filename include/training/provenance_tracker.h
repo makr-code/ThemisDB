@@ -30,6 +30,10 @@
 #include <ctime>
 
 namespace themis {
+
+// Forward declaration – keeps the training header free of heavy query dependencies.
+class QueryEngine;
+
 namespace training {
 
 /**
@@ -113,11 +117,17 @@ class ProvenanceTracker {
 public:
     /**
      * @brief Construct the tracker.
-     * @param config      Tracker configuration.
+     * @param config        Tracker configuration.
      * @param db_connection Database connection string (ArangoDB endpoint).
+     * @param engine        Optional AQL query engine.  When non-null, write()
+     *                      persists vertices and edges via AQL INSERT statements
+     *                      and queryLineage() traverses the live graph via AQL.
+     *                      Pass nullptr (the default) to operate in offline /
+     *                      test mode, where the in-process store is used.
      */
     explicit ProvenanceTracker(const ProvenanceTrackerConfig& config,
-                               const std::string& db_connection);
+                               const std::string& db_connection,
+                               QueryEngine* engine = nullptr);
 
     ~ProvenanceTracker();
 
