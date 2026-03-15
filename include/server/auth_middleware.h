@@ -152,6 +152,19 @@ public:
     void removeToken(std::string_view token);
     void clearTokens();
 
+    /// Configure a role-to-scope mapping used by JWT and Kerberos authorization.
+    ///
+    /// When a JWT or Kerberos token's direct scope claims do not include the
+    /// `required_scope`, the middleware falls back to checking whether any of the
+    /// token's roles maps to that scope through this table.
+    ///
+    /// Example: `setRoleScopeMapping({{"admin", {"cache:write", "cache:read"}},
+    ///                                 {"viewer", {"cache:read"}}})`
+    ///
+    /// Thread-safe; replaces any previously configured mapping.
+    void setRoleScopeMapping(
+        std::unordered_map<std::string, std::vector<std::string>> mapping);
+
     /// Check if token has required scope
     /// @param token Bearer token from Authorization header
     /// @param required_scope Required scope (e.g., "admin", "config:write", "cdc:read", "metrics:read")
@@ -209,10 +222,19 @@ private:
     // API key authentication
     std::unique_ptr<auth::ApiKeyAuthenticator> api_key_auth_;
     bool api_key_enabled_ = false;
-    
+
+    // Role-to-scope mapping: role name → list of scopes that role grants.
+    // Used as fallback in JWT and Kerberos authorization when direct scope
+    // claims don't contain the required_scope.
+    std::unordered_map<std::string, std::vector<std::string>> role_scope_map_;
+
     // Helper: check if scope is an admin scope requiring USB
     bool isAdminScope(std::string_view scope) const;
-    
+
+    /// Returns true if @p required_scope is granted by any role in @p roles via role_scope_map_.
+    bool roleGrantsScope(const std::vector<std::string>& roles,
+                         std::string_view required_scope) const;
+
     // Helper: try to authorize via JWT
     AuthResult authorizeViaJWT(std::string_view token, std::string_view required_scope) const;
     

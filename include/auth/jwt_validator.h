@@ -53,6 +53,9 @@ struct JWTClaims {
     std::string tenant_id;                    // Tenant ID from JWT claim
     std::vector<std::string> groups;
     std::vector<std::string> roles;
+    /// OAuth2 `scope` / `scp` claim – space-separated or array.
+    /// Populated by parseAndValidate() from the `scope` (string) or `scp` (array) claim.
+    std::vector<std::string> scopes;
     std::string issuer;
     std::chrono::system_clock::time_point expiration;
     std::optional<std::chrono::system_clock::time_point> not_before;

@@ -59,27 +59,74 @@
 // - Secure task definition storage (encryption at rest)
 // - Sandboxed execution environments
 //
-// Note: Multiple TODO comments throughout this file indicate where user authentication
-// context should be integrated. Currently using "system" as a placeholder.
-// Tracked in issue: #TODO-AUTH-CONTEXT
-// When implementing, replace all "system" strings with actual user ID from auth context:
-//   audit_logger_->logTaskSchedulerEvent(..., auth_context->user_id, ...)
+// ---------------------------------------------------------------------------
+// Note: User authentication context is propagated via thread-local
+// TaskScheduler::RequestContext.  HTTP handlers call
+//   TaskScheduler::setRequestContext({user_id, client_ip});
+// before invoking scheduler operations, and clearRequestContext() afterwards.
+// All audit events use currentUserId() / currentClientIp() accessors which
+// return the thread-local values or "system" / "" as safe fallbacks.
+// ---------------------------------------------------------------------------
 
 namespace themis {
+
+// ---------------------------------------------------------------------------
+// Thread-local RequestContext  (replaces hardcoded "system" audit user)
+// ---------------------------------------------------------------------------
+
+namespace {
+struct TLSRequestContext {
+    std::string user_id;
+    std::string client_ip;
+    bool set = false;
+};
+} // anonymous namespace
+
+static thread_local TLSRequestContext tls_request_ctx;
+
+void TaskScheduler::setRequestContext(const RequestContext& ctx) noexcept {
+    tls_request_ctx.user_id  = ctx.user_id;
+    tls_request_ctx.client_ip = ctx.client_ip;
+    tls_request_ctx.set      = true;
+}
+
+void TaskScheduler::clearRequestContext() noexcept {
+    tls_request_ctx.user_id.clear();
+    tls_request_ctx.client_ip.clear();
+    tls_request_ctx.set = false;
+}
+
+std::string TaskScheduler::currentUserId(const char* fallback) noexcept {
+    if (tls_request_ctx.set && !tls_request_ctx.user_id.empty()) {
+        return tls_request_ctx.user_id;
+    }
+    return fallback ? fallback : "system";
+}
+
+std::string TaskScheduler::currentClientIp() noexcept {
+    if (tls_request_ctx.set) {
+        return tls_request_ctx.client_ip;
+    }
+    return {};
+}
+
+// ---------------------------------------------------------------------------
 
 // Default values for audit context (when auth context not available)
 static constexpr const char* DEFAULT_AUDIT_USER = "system";
 static constexpr const char* DEFAULT_AUDIT_IP = "localhost";
 
-// Helper function to set default audit context
+// Helper function to set audit context from thread-local RequestContext
 static void setDefaultAuditContext(scheduler::TaskAuditEvent& event) {
-    event.user_id = DEFAULT_AUDIT_USER;
-    event.ip_address = DEFAULT_AUDIT_IP;
+    event.user_id   = TaskScheduler::currentUserId(DEFAULT_AUDIT_USER);
+    const auto ip   = TaskScheduler::currentClientIp();
+    event.ip_address = ip.empty() ? DEFAULT_AUDIT_IP : ip;
 }
 
 static void setDefaultAuditContext(scheduler::TaskSecurityEvent& event) {
-    event.user_id = DEFAULT_AUDIT_USER;
-    event.ip_address = DEFAULT_AUDIT_IP;
+    event.user_id   = TaskScheduler::currentUserId(DEFAULT_AUDIT_USER);
+    const auto ip   = TaskScheduler::currentClientIp();
+    event.ip_address = ip.empty() ? DEFAULT_AUDIT_IP : ip;
 }
 
 // Helper function to convert trigger type to string
@@ -491,7 +538,7 @@ void TaskScheduler::unregisterTask(const std::string& task_id) {
             audit_logger_->logTaskSchedulerEvent(
                 utils::SecurityEventType::TASK_UNREGISTERED,
                 task_id,
-                "system", // TODO: Get actual user from auth context
+                TaskScheduler::currentUserId(), // propagated from thread-local RequestContext
                 details
             );
         }
@@ -521,7 +568,7 @@ void TaskScheduler::enableTask(const std::string& task_id) {
             audit_logger_->logTaskSchedulerEvent(
                 utils::SecurityEventType::TASK_ENABLED,
                 task_id,
-                "system", // TODO: Get actual user from auth context
+                TaskScheduler::currentUserId(), // propagated from thread-local RequestContext
                 details
             );
         }
@@ -549,7 +596,7 @@ void TaskScheduler::disableTask(const std::string& task_id) {
             audit_logger_->logTaskSchedulerEvent(
                 utils::SecurityEventType::TASK_DISABLED,
                 task_id,
-                "system", // TODO: Get actual user from auth context
+                TaskScheduler::currentUserId(), // propagated from thread-local RequestContext
                 details
             );
         }
@@ -629,7 +676,7 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
         audit_logger_->logTaskSchedulerEvent(
             utils::SecurityEventType::TASK_MANUAL_TRIGGERED,
             task_id,
-            "system", // TODO: Get actual user from auth context
+            TaskScheduler::currentUserId(), // propagated from thread-local RequestContext
             details
         );
     }
@@ -1420,7 +1467,7 @@ void TaskScheduler::schedulerLoop() {
                         audit_logger_->logTaskSchedulerEvent(
                             utils::SecurityEventType::TASK_CRON_TRIGGERED,
                             id,
-                            "system",
+                            TaskScheduler::currentUserId(), // propagated from thread-local RequestContext
                             details
                         );
                     }
@@ -2383,7 +2430,7 @@ void TaskScheduler::onCDCEvent(std::shared_ptr<ScheduledTask> task,
         audit_logger_->logTaskSchedulerEvent(
             utils::SecurityEventType::TASK_CDC_TRIGGERED,
             task->id,
-            "system",
+            TaskScheduler::currentUserId(), // propagated from thread-local RequestContext
             details
         );
     }
