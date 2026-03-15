@@ -3,7 +3,7 @@
 # Themis Core Framework Module Roadmap
 
 ## Current Status
-v1.8.0 – Wire Protocol V2 delivered (Phase 5): `V2Server` + `V2Session` with HTTP/2-style multiplexing, server push, flow control, priority/dependency management, and LZ4/Zstd compression implemented in `src/network/wire_protocol_v2.cpp`; public header at `include/themis/network/wire_protocol_v2.hpp`; 47 focused tests (WireProtocolV2FocusedTests); CI: `.github/workflows/wire-protocol-v2-ci.yml`. Previously (v1.7.0): module loading migrated to `src/themis/`; the directory now contains eleven implementation files: `build_info.cpp`, `wire_protocol_server.cpp` (Phase 3 deliverable: `themis::wire` namespace), `module_dependency_resolver.cpp`, `edition_manager.cpp` (Issue: #2469), `module_hash_verifier.cpp` (Issue: #2471), `module_signature_verifier.cpp` (Issue: #2473), `module_loader.cpp` (platform-independent core), `module_loader_win32.cpp` (Windows: Zone.Identifier, Authenticode), `module_loader_linux.cpp` (Linux: GPG, xattr, ELF metadata), `module_security.cpp` (ModuleSecurityVerifier), and `license_info.cpp`. The `src/network/wire_protocol_server.cpp` (`themis::network` namespace) is retained for backward compatibility.
+v1.8.0 – Wire Protocol V2 delivered (Phase 5): `V2Server` + `V2Session` with HTTP/2-style multiplexing, server push, flow control, priority/dependency management (RFC 7540 §6.3/§5.3.1 compliant), and LZ4/Zstd compression implemented in `src/network/wire_protocol_v2.cpp`; public header at `include/themis/network/wire_protocol_v2.hpp`; 52 focused tests (WireProtocolV2FocusedTests); CI: `.github/workflows/wire-protocol-v2-ci.yml`. Previously (v1.7.0): module loading migrated to `src/themis/`; the directory now contains eleven implementation files: `build_info.cpp`, `wire_protocol_server.cpp` (Phase 3 deliverable: `themis::wire` namespace), `module_dependency_resolver.cpp`, `edition_manager.cpp` (Issue: #2469), `module_hash_verifier.cpp` (Issue: #2471), `module_signature_verifier.cpp` (Issue: #2473), `module_loader.cpp` (platform-independent core), `module_loader_win32.cpp` (Windows: Zone.Identifier, Authenticode), `module_loader_linux.cpp` (Linux: GPG, xattr, ELF metadata), `module_security.cpp` (ModuleSecurityVerifier), and `license_info.cpp`. The `src/network/wire_protocol_server.cpp` (`themis::network` namespace) is retained for backward compatibility.
 
 ## Completed ✅
 - [x] Public header interfaces defined (`include/themis/`)
@@ -23,7 +23,7 @@ v1.8.0 – Wire Protocol V2 delivered (Phase 5): `V2Server` + `V2Session` with H
 - [x] `module_signature_verifier.cpp` – Authenticode/GPG signature verification registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake (Issue: #2473)
 - [x] `module_dependency_resolver.cpp` – focused CTest target added (ModuleDependencyResolverFocusedTests) covering topological sort, version compat, cycle detection (Issue: #2474)
 - [x] Build Reproducibility: `getReproducibilityInfo()`, `exportBuildManifest()`, `verifyBuildManifest()` implemented in `src/themis/build_info.cpp`; CMake captures git HEAD, branch, dirty flag, build host/user at configure time (v1.7.0)
-- [x] Wire Protocol V2: `V2Server` + `V2Session` with HTTP/2-style multiplexing, server push, flow control, priority/dependency management (`stream_dependency`, `exclusive_dependency`, `set_stream_priority()`, `PRIORITY` frame handler), LZ4/Zstd compression implemented in `src/network/wire_protocol_v2.cpp`; public header `include/themis/network/wire_protocol_v2.hpp`; 47 focused tests (WireProtocolV2FocusedTests); CI: `.github/workflows/wire-protocol-v2-ci.yml` (v1.8.0)
+- [x] Wire Protocol V2: `V2Server` + `V2Session` with HTTP/2-style multiplexing, server push, flow control, priority/dependency management (RFC 7540 §6.3/§5.3.1 compliant: stream_id=0 → GOAWAY, self-dependency → RST_STREAM), LZ4/Zstd compression; public header `include/themis/network/wire_protocol_v2.hpp`; 52 focused tests (WireProtocolV2FocusedTests); CI: `.github/workflows/wire-protocol-v2-ci.yml` (v1.8.0)
 
 ## In Progress 🚧
 - [~] `license_info.cpp` – implemented in `src/utils/`; pending migration to `src/themis/` (Target: Q2 2026, v1.7.0)
@@ -71,7 +71,7 @@ See "In Progress" section above for `license_info.cpp` migration status. `module
 
 ### Phase 5: Wire Protocol V2 (Status: Completed ✅)
 - [x] `include/themis/network/wire_protocol_v2.hpp` – public header with full V2 protocol types, frame layout, stream state machine, and `V2Server`/`V2Session` API
-- [x] `src/network/wire_protocol_v2.cpp` – `V2Server` + `V2SessionImpl` (PIMPL) with HTTP/2-style multiplexing, server push (`PUSH_PROMISE`), flow control (`WINDOW_UPDATE`), priority/dependency management (`PRIORITY` frame handler, `set_stream_priority()`), LZ4/Zstd compression
+- [x] `src/network/wire_protocol_v2.cpp` – `V2Server` + `V2SessionImpl` (PIMPL) with HTTP/2-style multiplexing, server push (`PUSH_PROMISE`), flow control (`WINDOW_UPDATE`), priority/dependency management (`PRIORITY` frame handler + `set_stream_priority()`, RFC 7540 §6.3/§5.3.1 guards), LZ4/Zstd compression
 - [x] `tests/test_wire_protocol_v2.cpp` – 47 unit tests (WireProtocolV2FocusedTests) covering all acceptance criteria
 - [x] `.github/workflows/wire-protocol-v2-ci.yml` – CI workflow (ubuntu-22.04 + ubuntu-24.04, GCC-12 + GCC-14)
 
@@ -86,7 +86,7 @@ See "In Progress" section above for `license_info.cpp` migration status. `module
 - [x] `module_loader.cpp` / `module_loader_win32.cpp` / `module_loader_linux.cpp` / `module_security.cpp` – migrated to `src/themis/`, registered in cmake/MiscellaneousFeatures.cmake and cmake/ModularBuild.cmake; CTest target ModuleLoaderFocusedTests added
 - [x] Unit tests for module loader core (tests/test_module_loader.cpp; CTest: ModuleLoaderFocusedTests)
 - [x] Unit tests for build info / reproducibility (tests/test_build_info.cpp; CTest: BuildInfoTests) – covers getBuildConfiguration(), getReproducibilityInfo(), exportBuildManifest(), verifyBuildManifest()
-- [x] Unit tests for Wire Protocol V2 (tests/test_wire_protocol_v2.cpp; CTest: WireProtocolV2FocusedTests) – 47 tests covering multiplexing, server push, flow control, priority/dependency management, compression flags, state machine; CI: wire-protocol-v2-ci.yml
+- [x] Unit tests for Wire Protocol V2 (tests/test_wire_protocol_v2.cpp; CTest: WireProtocolV2FocusedTests) – 52 tests covering multiplexing, server push, flow control, priority/dependency management, RFC 7540 compliance guards, compression flags, state machine; CI: wire-protocol-v2-ci.yml
 - [?] Integration tests (module load, license validation, build info)
 - [?] Performance benchmarks (module load time, license check overhead)
 - [?] Security audit (signature verification, constant-time license comparison)

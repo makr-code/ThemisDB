@@ -335,7 +335,7 @@ public:
 - [x] HTTP/2-style multiplexing (multiple logical streams per TCP connection via `stream_id`)
 - [x] Server push (`PUSH_PROMISE` frame + `push_to_client()` API)
 - [x] Flow control (`WINDOW_UPDATE` frames, per-stream and connection-level windows)
-- [x] Priority and dependency management (`V2Stream.priority` 0–255, `V2Stream.stream_dependency`, `V2Stream.exclusive_dependency`, `PRIORITY` frame handled in `handleFrame()`, `set_stream_priority()` on `V2Session`)
+- [x] Priority and dependency management (`V2Stream.priority` 0–255, `V2Stream.stream_dependency`, `V2Stream.exclusive_dependency`, `PRIORITY` frame handled in `handleFrame()`, `set_stream_priority()` on `V2Session`); RFC 7540 compliance: §6.3 stream_id=0 → `go_away(PROTOCOL_ERROR)`, §5.3.1 self-dependency → `reset_stream(PROTOCOL_ERROR)`, same guards in `set_stream_priority()`
 - [x] LZ4 and Zstd connection-level compression (`COMPRESSED` / `ZSTD_COMPRESSED` flags)
 - [x] Graceful connection shutdown (`GOAWAY` frame)
 - [x] Stream reset (`RST_STREAM` frame)

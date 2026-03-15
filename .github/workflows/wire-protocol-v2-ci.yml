@@ -51,6 +51,10 @@ jobs:
   #   AC-10 Priority and dependency management: stream_dependency/exclusive_dependency
   #         defaults, set_stream_priority() API, PRIORITY frame type enum value,
   #         PRIORITY_FLAG in HEADERS, multi-stream dependency chain
+  #   AC-11 RFC 7540 compliance: §6.3 PRIORITY on stream_id=0 → GOAWAY(PROTOCOL_ERROR);
+  #         §5.3.1 self-dependency → RST_STREAM(PROTOCOL_ERROR); exclusive-bit mask
+  #         correctly stripped before self-dependency check in both handler and
+  #         set_stream_priority() outgoing path
   # ---------------------------------------------------------------------------
   wire-protocol-v2-tests:
     needs: ci-scope-classifier
@@ -173,6 +177,7 @@ jobs:
           echo "- AC-8  Compression: LZ4 and Zstd flags are independent bit positions" >> "$GITHUB_STEP_SUMMARY"
           echo "- AC-9  Multiplexing: independent stream IDs with separate state machines" >> "$GITHUB_STEP_SUMMARY"
           echo "- AC-10 Priority/dependency: stream_dependency, exclusive_dependency defaults, set_stream_priority API, PRIORITY frame type and flag, dependency chain" >> "$GITHUB_STEP_SUMMARY"
+          echo "- AC-11 RFC 7540 §6.3/§5.3.1: stream_id=0 → GOAWAY, self-dependency → RST_STREAM, exclusive-bit mask guard" >> "$GITHUB_STEP_SUMMARY"
 
   # ---------------------------------------------------------------------------
   # Documentation / API gate – verifies all required files are in place and

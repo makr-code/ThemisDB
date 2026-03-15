@@ -303,6 +303,11 @@ public:
                               uint32_t dependency,
                               uint8_t  weight,
                               bool     exclusive) override {
+        // RFC 7540 §6.3: PRIORITY on stream 0 is a connection error.
+        if (stream_id == 0) return;
+        // RFC 7540 §5.3.1: A stream cannot depend on itself.
+        if ((dependency & 0x7FFFFFFFu) == stream_id) return;
+
         // Build the 5-byte PRIORITY frame payload (RFC 7540 §6.3):
         //   E (1 bit) | Stream Dependency (31 bits) | Weight (8 bits)
         uint32_t dep_field = dependency & 0x7FFFFFFFu;
@@ -492,6 +497,11 @@ private:
             break;
         }
         case V2FrameType::PRIORITY: {
+            // RFC 7540 §6.3: PRIORITY on stream 0 is a connection error.
+            if (hdr.stream_id == 0) {
+                go_away(0, 1 /* PROTOCOL_ERROR */);
+                break;
+            }
             // PRIORITY frame payload (RFC 7540 §6.3): 5 bytes
             //   E (1 bit) | Stream Dependency (31 bits) | Weight (8 bits)
             if (payload.size() < 5) break;
@@ -501,6 +511,11 @@ private:
             bool     exclusive  = (dep_field & 0x80000000u) != 0;
             uint32_t dep_id     = dep_field & 0x7FFFFFFFu;
             uint8_t  weight     = payload[4];
+            // RFC 7540 §5.3.1: A stream cannot depend on itself.
+            if (dep_id == hdr.stream_id) {
+                reset_stream(hdr.stream_id, 1 /* PROTOCOL_ERROR */);
+                break;
+            }
             std::lock_guard<std::mutex> lock(streams_mutex_);
             auto& s = streams_[hdr.stream_id];
             if (s.state == V2StreamState::IDLE) {
