@@ -295,12 +295,12 @@ Replace or supplement the SSE transport with a bidirectional WebSocket endpoint 
 Currently, multiple consumers of the same changefeed each receive all events independently (fan-out). Add consumer group support so a group of consumers cooperatively processes a partition of the change log, with durable offset tracking so replay can resume after disconnect without full log scan.
 
 **Implementation Notes:**
-- `[ ]` Create `consumer_group_manager.cpp`; introduce `ConsumerGroup` with a durable `group_id` and per-group `committed_sequence` stored in RocksDB (key: `cdc_group:{group_id}:offset`).
-- `[ ]` `Changefeed` assigns partitions by key-hash modulo `group.consumer_count`; each consumer receives only its assigned partition.
-- `[ ]` Consumer connects with `{"action":"subscribe","group_id":"etl-workers","consumer_id":"worker-3","collection":"orders"}`.
-- `[ ]` Consumer acknowledges processed events with `{"action":"ack","group_id":"etl-workers","sequence":10042}`; server advances committed offset.
-- `[ ]` On reconnect, resume from `committed_sequence + 1` without scanning the full log.
-- `[?]` Decision needed: how to rebalance partitions when consumers join/leave mid-session (static assignment vs. cooperative rebalance protocol).
+- `[x]` Create `consumer_group_manager.cpp`; introduce `ConsumerGroup` with a durable `group_id` and per-group `committed_sequence` stored in RocksDB (key: `cdc_group:{group_id}:offset`). — `src/cdc/consumer_group.cpp`, `include/cdc/consumer_group.h`; `ConsumerGroupManager`
+- `[x]` `Changefeed` assigns partitions by key-hash modulo `group.consumer_count`; each consumer receives only its assigned partition. — `ConsumerGroupManager::consumerHandlesKey()` / `partitionForKey()` / `partitionForConsumer()` (FNV-1a 32-bit hash mod N)
+- `[x]` Consumer connects with `{"action":"subscribe","group_id":"etl-workers","consumer_id":"worker-3","collection":"orders"}`. — `CdcWebSocketHandler::handleFrame()` now accepts `group_id` + `consumer_id`; subscription key defaults to `{group_id}:{consumer_id}` when no `id` is supplied.
+- `[x]` Consumer acknowledges processed events with `{"action":"ack","group_id":"etl-workers","sequence":10042}`; server advances committed offset. — `CdcWebSocketHandler::handleFrame()` ack path calls `ConsumerGroupManager::commitOffset()` for durable persistence.
+- `[x]` On reconnect, resume from `committed_sequence + 1` without scanning the full log. — Subscribe path calls `ConsumerGroupManager::getCommittedOffset()` and sets `last_sent_sequence` accordingly.
+- `[x]` Decision: **static assignment** chosen for v1.8.0. Partition is derived deterministically as `fnv1a32(consumer_id) % consumer_count`; the same consumer_id always maps to the same partition. Cooperative rebalance (Kafka-style) deferred to a future release.
 
 **Performance Targets:**
 - Consumer group offset commit (RocksDB write) < 1 ms p99.
