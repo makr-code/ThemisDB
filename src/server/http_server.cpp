@@ -3840,7 +3840,6 @@ http::response<http::string_body> HttpServer::routeRequest(
                     const std::string& db_path = storage_->getConfig().db_path;
                     storage::DiskSpaceMonitor dsm(db_path);
                     auto space = dsm.checkSpace();
-                    dsm.setRocksDBSize(rocksdb_size);
 
                     storage_json["disk"] = {
                         {"path",            space.path},

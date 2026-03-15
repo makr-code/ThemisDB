@@ -159,6 +159,26 @@ TEST(DiskSpaceMonitorSizeTests, SetRocksDBSizeDefaultsToZero) {
         << "rocksdb_size_bytes must default to 0 before setRocksDBSize is called";
 }
 
+// AC-3b: checkSpace() must preserve rocksdb_size_bytes set via setRocksDBSize()
+
+TEST(DiskSpaceMonitorSizeTests, CheckSpacePreservesRocksDBSize) {
+    std::string path = fs::temp_directory_path().string();
+    DiskSpaceMonitor dsm(path);
+
+    constexpr uint64_t kSize = 987654321ULL;
+    dsm.setRocksDBSize(kSize);
+
+    // checkSpace() performs an OS disk-space query and updates internal state.
+    // The rocksdb_size_bytes value must survive the update.
+    auto space = dsm.checkSpace();
+    EXPECT_EQ(space.rocksdb_size_bytes, kSize)
+        << "checkSpace() must preserve rocksdb_size_bytes across OS disk-space queries";
+
+    // Also verify via getSpaceInfo() for completeness.
+    auto info = dsm.getSpaceInfo();
+    EXPECT_EQ(info.rocksdb_size_bytes, kSize);
+}
+
 // ---------------------------------------------------------------------------
 // AC-4: getApproximateSize() returns 0 when the DB is not open
 // ---------------------------------------------------------------------------
