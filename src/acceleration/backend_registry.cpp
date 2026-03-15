@@ -49,7 +49,6 @@
 #endif
 #include <algorithm>
 #include <mutex>
-#include <iostream>
 
 namespace themis {
 namespace acceleration {
@@ -133,14 +132,13 @@ BackendRegistry& BackendRegistry::instance() {
 
 void BackendRegistry::registerBackend(std::unique_ptr<IComputeBackend> backend) {
     if (backend && backend->isAvailable()) {
-        std::cout << "Registered backend: " << backend->name() 
-                  << " (Type: " << static_cast<int>(backend->type()) << ")" << std::endl;
+        THEMIS_INFO("Registered backend: {} (type={})", backend->name(), static_cast<int>(backend->type()));
         backends_.push_back(std::move(backend));
     }
 }
 
 size_t BackendRegistry::loadPlugins(const std::string& pluginDirectory) {
-    std::cout << "Loading acceleration plugins from: " << pluginDirectory << std::endl;
+    THEMIS_INFO("Loading acceleration plugins from: {}", pluginDirectory);
     
     size_t count = pluginLoader_->loadPluginsFromDirectory(pluginDirectory);
     
@@ -164,7 +162,7 @@ size_t BackendRegistry::loadPlugins(const std::string& pluginDirectory) {
 }
 
 bool BackendRegistry::loadPlugin(const std::string& pluginPath) {
-    std::cout << "Loading acceleration plugin: " << pluginPath << std::endl;
+    THEMIS_INFO("Loading acceleration plugin: {}", pluginPath);
     
     if (!pluginLoader_->loadPlugin(pluginPath)) {
         return false;
@@ -308,7 +306,7 @@ IMatrixBackend* BackendRegistry::getBestMatrixBackend() const {
 }
 
 void BackendRegistry::autoDetect() {
-    std::cout << "Auto-detecting acceleration backends..." << std::endl;
+    THEMIS_INFO("Auto-detecting acceleration backends...");
 
     // Register multi-GPU sharding backend when multiple GPUs are visible.
     // This is done before plugin loading so it appears at the head of the
@@ -332,15 +330,15 @@ void BackendRegistry::autoDetect() {
         loadPlugins(path);
     }
     
-    std::cout << "Total backends available: " << backends_.size() << std::endl;
+    THEMIS_INFO("Total backends available: {}", backends_.size());
     
     // Print available backends
     for (const auto& backend : backends_) {
         auto caps = backend->getCapabilities();
-        std::cout << "  - " << backend->name() 
-                  << " (Vector:" << (caps.supportsVectorOps ? "Yes" : "No")
-                  << " Graph:" << (caps.supportsGraphOps ? "Yes" : "No")
-                  << " Geo:" << (caps.supportsGeoOps ? "Yes" : "No") << ")" << std::endl;
+        THEMIS_DEBUG("  - {} (Vector:{} Graph:{} Geo:{})", backend->name(),
+                     (caps.supportsVectorOps ? "Yes" : "No"),
+                     (caps.supportsGraphOps  ? "Yes" : "No"),
+                     (caps.supportsGeoOps    ? "Yes" : "No"));
     }
 }
 
@@ -356,7 +354,7 @@ std::vector<BackendType> BackendRegistry::getAvailableBackends() const {
 }
 
 void BackendRegistry::shutdownAll() {
-    std::cout << "Shutting down all acceleration backends..." << std::endl;
+    THEMIS_INFO("Shutting down all acceleration backends...");
     
     for (auto& backend : backends_) {
         backend->shutdown();
@@ -414,7 +412,7 @@ void BackendRegistry::initializeRuntime(
     const CapabilityRequirements& graphReqs,
     const CapabilityRequirements& geoReqs)
 {
-    std::cout << "Initializing acceleration runtime with capability-driven backend selection..." << std::endl;
+    THEMIS_INFO("Initializing acceleration runtime with capability-driven backend selection...");
 
     // Probe hardware capabilities and cache the snapshot for deviceInfo().
     cachedDeviceInfo_ = DeviceManager::instance().refresh();
@@ -435,12 +433,11 @@ void BackendRegistry::initializeRuntime(
     // Log the selected backends so operators can confirm the startup choice.
     auto logSelection = [](const char* category, const IComputeBackend* b) {
         if (b) {
-            std::cout << "  [acceleration] Selected " << category
-                      << " backend: " << b->name()
-                      << " (type=" << static_cast<int>(b->type()) << ")" << std::endl;
+            THEMIS_INFO("[acceleration] Selected {} backend: {} (type={})",
+                        category, b->name(), static_cast<int>(b->type()));
         } else {
-            std::cout << "  [acceleration] No suitable " << category
-                      << " backend found — operation category unavailable." << std::endl;
+            THEMIS_WARN("[acceleration] No suitable {} backend found — operation category unavailable.",
+                        category);
         }
     };
 
