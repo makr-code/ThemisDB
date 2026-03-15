@@ -2,8 +2,10 @@ name: Edition · HYPERSCALER · CI
 
 on:
   push:
+    # Hyperscaler builds run on the hyperscaler release lane and develop.
+    # They do NOT run on main (Community lane) or enterprise lane.
     branches:
-      - main
+      - hyperscaler
       - develop
     paths:
       - 'cmake/**'

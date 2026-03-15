@@ -46,7 +46,7 @@ echo ""
 # Build minimal Docker image (since full build failed)
 echo "Creating Docker image (using lite version without complex builds)..."
 docker build \
-  -f "$SCRIPT_DIR/Dockerfile.hyperscaler-lite" \
+  -f "$PROJECT_DIR/docker/hyperscaler/Dockerfile.lite" \
   -t themisdb-hyperscaler:latest \
   --build-arg THEMIS_VERSION=1.3.4-hyperscaler \
   "$PROJECT_DIR"

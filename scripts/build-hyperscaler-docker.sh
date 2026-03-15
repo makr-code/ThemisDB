@@ -14,7 +14,7 @@ echo ""
 # Build Docker image
 echo "Building Docker image themisdb-hyperscaler:latest..."
 docker build \
-  -f docker/Dockerfile.hyperscaler \
+  -f docker/hyperscaler/Dockerfile \
   -t themisdb-hyperscaler:latest \
   --build-arg THEMIS_VERSION=1.3.4-hyperscaler \
   --build-arg ENABLE_LLM=ON \

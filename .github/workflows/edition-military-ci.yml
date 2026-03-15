@@ -2,8 +2,10 @@ name: Edition · MILITARY · CI
 
 on:
   push:
+    # Military builds run on the enterprise release lane (Military is a build
+    # profile variant of Enterprise, not a separate branch) and develop.
     branches:
-      - main
+      - enterprise
       - develop
     paths:
       - 'cmake/**'
