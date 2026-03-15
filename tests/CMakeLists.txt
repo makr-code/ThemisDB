@@ -13512,7 +13512,48 @@ else()
     message(STATUS "Distributed Cluster Updates focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cluster_updates.cpp")
 endif()
 
-# VoiceAssistant focused tests – covers VoiceBiometricAuthenticator, WakeWordDetector,
+# ManifestDatabase file deletion focused tests – v1.8.0 Issue #214
+# Covers: deleteManifest() file cleanup, tombstone race guard, registry/cache cleanup.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_manifest_database_file_deletion.cpp" AND NOT TARGET test_manifest_database_file_deletion_focused)
+    message(STATUS "Adding ManifestDatabase file deletion focused tests (v1.8.0)")
+
+    add_executable(test_manifest_database_file_deletion_focused
+        test_manifest_database_file_deletion.cpp
+    )
+
+    target_include_directories(test_manifest_database_file_deletion_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_manifest_database_file_deletion_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_manifest_database_file_deletion_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ManifestDatabaseFileDeletionFocusedTests COMMAND test_manifest_database_file_deletion_focused)
+
+    set_tests_properties(ManifestDatabaseFileDeletionFocusedTests PROPERTIES
+        LABELS "updates;manifest;file-deletion;tombstone;registry;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ManifestDatabaseFileDeletion: deleteManifest() file cleanup, tombstone guard, registry/cache removal")
+else()
+    if(TARGET test_manifest_database_file_deletion_focused)
+        message(STATUS "ManifestDatabase file deletion focused tests already registered")
+    else()
+        message(STATUS "ManifestDatabase file deletion focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_manifest_database_file_deletion.cpp")
+    endif()
+endif()
+
+
 # VoiceBatchProcessor, VoiceMacroManager, and full VoiceAssistant pipeline.
 # Requires THEMIS_ENABLE_LLM because voice_assistant.h includes llm/llama_wrapper.h.
 if(THEMIS_ENABLE_LLM)

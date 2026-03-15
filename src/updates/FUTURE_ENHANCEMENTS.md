@@ -42,9 +42,9 @@
 `manifest_database.cpp` line 479: "TODO: Delete associated files from registry". When a manifest entry is removed, the associated binary files are not cleaned up from the registry directory, causing accumulation of orphaned files.
 
 **Implementation Notes:**
-- `[ ]` In `ManifestDatabase::removeEntry()`, after removing the RocksDB manifest record, enumerate associated file paths from the entry metadata and call `std::filesystem::remove()` for each.
-- `[ ]` Guard against race: delete files only after the RocksDB entry is committed; use a tombstone key during the deletion window.
-- `[ ]` Add test: insert manifest entry with 3 associated files, remove entry, verify all 3 files are deleted.
+- `[x]` In `ManifestDatabase::deleteManifest()`, after removing the RocksDB manifest record, enumerate associated file paths from the entry metadata and call `std::filesystem::remove()` for each.
+- `[x]` Guard against race: delete files only after the RocksDB entry is committed; use a tombstone key during the deletion window.
+- `[x]` Add test: insert manifest entry with 3 associated files, remove entry, verify all 3 files are deleted.
 
 ---
 
