@@ -325,3 +325,30 @@ TEST_F(AutoLabelerProductionTest, LabelDocument_NullEngine_StillProducesSamples)
     auto samples = labeler.labelDocument("doc_null_engine");
     EXPECT_GE(samples.size(), 1u);
 }
+
+// ============================================================================
+// Phase 3: Multi-modal extraction – ContentModality field and per-modality stats
+// ============================================================================
+
+TEST_F(AutoLabelerProductionTest, LabelDocument_SamplesHaveModalityField) {
+    // Every sample returned by labelDocument() must carry a non-UNKNOWN modality
+    // so the training pipeline can apply modality-specific confidence thresholds.
+    LegalAutoLabeler labeler(config_, db_conn_);
+    auto samples = labeler.labelDocument("doc_modality_test");
+    ASSERT_FALSE(samples.empty()) << "Expected at least one sample";
+    for (const auto& s : samples) {
+        EXPECT_NE(s.modality, ContentModality::UNKNOWN)
+            << "Sample '" << s.input.substr(0, 40) << "...' has UNKNOWN modality";
+    }
+}
+
+TEST_F(AutoLabelerProductionTest, LabelDocument_ModalityConfidenceInRange) {
+    // Confidence scores must be in [0, 1] for every modality so that
+    // mean-confidence logging produces sensible values.
+    LegalAutoLabeler labeler(config_, db_conn_);
+    auto samples = labeler.labelDocument("doc_conf_range_test");
+    for (const auto& s : samples) {
+        EXPECT_GE(s.confidence, 0.0f) << "Modality confidence below 0";
+        EXPECT_LE(s.confidence, 1.0f) << "Modality confidence above 1";
+    }
+}

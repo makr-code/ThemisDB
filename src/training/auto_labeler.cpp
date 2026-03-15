@@ -22,8 +22,10 @@
  */
 
 #include "training/auto_labeler.h"
+#include "training/modality_parser.h"
 #include "analytics/nlp_text_analyzer.h"
 #include "query/aql_runner.h"
+#include "utils/logger.h"
 #include <stdexcept>
 #include <chrono>
 #include <algorithm>
@@ -97,6 +99,13 @@ public:
         // Default to German for legal document processing
         nlp_config.default_language = analytics::NlpTextAnalyzer::Language::GERMAN;
         nlp_analyzer_ = std::make_unique<analytics::NlpTextAnalyzer>(nlp_config);
+
+        // Initialize the ModalityDetector for multi-modal document extraction.
+        // Dispatches to TextClauseExtractor, TableExtractor, CitationExtractor,
+        // and (when THEMIS_ENABLE_OCR is set) OCRExtractor.
+        ModalityParserConfig modality_cfg;
+        modality_cfg.language_code = config_.language_code;
+        modality_detector_ = std::make_unique<ModalityDetector>(modality_cfg);
     }
 
     ~Impl() = default;
@@ -176,7 +185,72 @@ public:
             return samples;
         }
 
-        // Phase 2: NLP extraction with error recovery
+        // Multi-modal extraction: ModalityDetector dispatches to per-modality
+        // extractors (text clause, table, citation, OCR), producing correctly
+        // typed TrainingSample records.  This runs first so structural modality
+        // tags (TABLE, CITATION, OCR_IMAGE) are captured before the NLP pass.
+        auto parse_result = modality_detector_->parseDocument(document_text, document_id);
+
+        // Emit per-modality extraction statistics at INFO level.
+        // Required fields per FUTURE_ENHANCEMENTS.md: document URN, sample
+        // count per modality, and mean confidence per modality.
+        if (parse_result.stats.samples_total > 0) {
+            // Compute per-modality confidence sums from the extracted samples.
+            double text_conf_sum = 0.0;   size_t text_count = 0;
+            double table_conf_sum = 0.0;  size_t table_count = 0;
+            double cit_conf_sum = 0.0;    size_t cit_count = 0;
+            double ocr_conf_sum = 0.0;    size_t ocr_count = 0;
+            for (const auto& s : parse_result.samples) {
+                switch (s.modality) {
+                    case ContentModality::TEXT_CLAUSE:
+                        text_conf_sum += s.confidence; ++text_count; break;
+                    case ContentModality::TABLE:
+                        table_conf_sum += s.confidence; ++table_count; break;
+                    case ContentModality::CITATION:
+                        cit_conf_sum += s.confidence; ++cit_count; break;
+                    case ContentModality::OCR_IMAGE:
+                        ocr_conf_sum += s.confidence; ++ocr_count; break;
+                    default: break;
+                }
+            }
+            auto mean_conf = [](double sum, size_t n) -> double {
+                return n > 0 ? sum / static_cast<double>(n) : 0.0;
+            };
+            THEMIS_INFO(
+                "ModalityExtraction: urn={} "
+                "text_clauses={} (mean_conf={:.3f}) "
+                "tables={} (mean_conf={:.3f}) "
+                "citations={} (mean_conf={:.3f}) "
+                "ocr={} (mean_conf={:.3f}) "
+                "total={}",
+                document_id,
+                parse_result.stats.text_clauses_extracted,
+                mean_conf(text_conf_sum, text_count),
+                parse_result.stats.tables_extracted,
+                mean_conf(table_conf_sum, table_count),
+                parse_result.stats.citations_extracted,
+                mean_conf(cit_conf_sum, cit_count),
+                parse_result.stats.ocr_pages_processed,
+                mean_conf(ocr_conf_sum, ocr_count),
+                parse_result.stats.samples_total);
+        }
+
+        // Apply confidence threshold to modality-detected samples
+        for (auto& sample : parse_result.samples) {
+            if (sample.confidence >= config_.min_confidence) {
+                samples.push_back(std::move(sample));
+            } else if (config_.flag_low_confidence) {
+                sample.metadata = "{\"flagged_for_review\":true,\"auto_labeled\":true}";
+                samples.push_back(std::move(sample));
+            }
+        }
+
+        // Supplement with NLP modal-verb extraction for deontic obligation/
+        // permission/etc. classification.  This pass targets semantic features
+        // (modal verbs: "muss", "soll", "kann") that are orthogonal to the
+        // structural modalities (TABLE, CITATION) detected above; samples from
+        // both passes are kept because they carry different label categories
+        // ("obligation"/"permission" vs. "legal_clause"/"table"/"citation").
         std::vector<analytics::LegalModality> modalities;
         try {
             modalities = nlp_analyzer_->extractLegalModalities(
@@ -192,7 +266,7 @@ public:
             modalities = extractFallbackModalities(document_text);
         }
 
-        // Phase 2: Confidence scoring and filtering
+        // Phase 2: Confidence scoring and filtering for NLP-extracted samples
         for (const auto& modality : modalities) {
             TrainingSample sample = createSampleFromModality(document_id, document_text, modality);
 
@@ -313,6 +387,7 @@ private:
     std::string db_connection_;
     QueryEngine* query_engine_;   ///< AQL engine (non-owning); nullptr in offline/test mode
     std::unique_ptr<analytics::NlpTextAnalyzer> nlp_analyzer_;
+    std::unique_ptr<ModalityDetector> modality_detector_; ///< Multi-modal document parser (Phase 3)
     size_t total_processed_;
     size_t total_errors_;
 

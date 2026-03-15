@@ -13099,6 +13099,23 @@ if(TARGET test_modality_parser_focused)
     message(STATUS "  TrainingConvergence: ConfidenceCalibrator PAV isotonic regression, F1 threshold selection, multi-category")
 endif()
 
+# ProvenanceAqlIntegration focused tests – round-trip provenance write + lineage
+# query tests covering both offline (in-process store) and live QueryEngine paths.
+# Runs as a gtest_filter slice of themis_tests so it inherits all core libs.
+if(TARGET themis_tests)
+    add_test(NAME ProvenanceAqlIntegrationTests
+        COMMAND themis_tests
+            --gtest_filter=ProvenanceOfflineRoundTripTest.*:ProvenanceAqlRoundTripTest.*)
+
+    set_tests_properties(ProvenanceAqlIntegrationTests PROPERTIES
+        LABELS "training;provenance;aql;lineage;round-trip;focused;integration"
+        TIMEOUT 60
+    )
+
+    message(STATUS "Adding ProvenanceAqlIntegration focused tests")
+    message(STATUS "  ProvenanceAqlIntegration: provenance write + lineage round-trip (offline + QueryEngine paths)")
+endif()
+
 # AutoLabelerDbFetch focused tests – covers DB fetch paths in labelAll() and
 # labelQuery() by wiring a real QueryEngine (RocksDB + SecondaryIndexManager).
 # Runs as a gtest_filter slice of themis_tests so it inherits all core libs.
@@ -13141,6 +13158,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_kge_vector_search.cpp")
 
     target_compile_definitions(test_kge_vector_search_focused PRIVATE
         THEMIS_TEST_BUILD=1
+        THEMIS_TEST_MODE=1
     )
 
     add_test(NAME KgeVectorSearchFocusedTests COMMAND test_kge_vector_search_focused)
