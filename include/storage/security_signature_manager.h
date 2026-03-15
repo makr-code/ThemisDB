@@ -58,6 +58,20 @@ public:
     /// Verify a file against stored signature
     /// Returns true if hash matches, false if mismatch or signature missing
     bool verifyFile(const std::string& file_path, const std::string& resource_id);
+
+    /// Result returned by verifyAll()
+    struct VerifyAllResult {
+        int total = 0;           ///< Total signatures scanned
+        int verified = 0;        ///< Signatures whose files matched their stored hashes
+        int failed = 0;          ///< Signatures with hash mismatches or missing files
+        std::vector<std::string> failed_resource_ids; ///< resource_ids that failed verification
+        bool success() const { return failed == 0; }
+    };
+
+    /// Verify all stored signatures by iterating over all document keys and
+    /// checking each file's SHA256 hash against its stored signature.
+    /// Uses RocksDBWrapper::iterateRange under the hood when RocksDB is available.
+    VerifyAllResult verifyAll();
     
     /// Compute SHA256 hash of a file
     static std::string computeFileHash(const std::string& file_path);
@@ -72,6 +86,11 @@ private:
     static constexpr const char* KEY_PREFIX = "security_sig:";
     
     std::string makeKey(const std::string& resource_id) const;
+
+    /// Returns the [start_key, end_key) range that covers all keys with KEY_PREFIX.
+    /// end_key is KEY_PREFIX with the last byte incremented (e.g. "security_sig;" when
+    /// KEY_PREFIX == "security_sig:").
+    static std::pair<std::string, std::string> makePrefixRange();
 };
 
 } // namespace storage

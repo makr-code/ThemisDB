@@ -15240,6 +15240,43 @@ add_custom_target(run_tests
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
 
+# SecuritySignatureManager: RocksDB Iteration focused tests (v1.8.0, Issue #206)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_security_signature_rocksdb_iteration.cpp")
+    message(STATUS "Adding SecuritySignatureManager RocksDB Iteration focused tests (storage module, Issue #206)")
+
+    add_executable(test_security_signature_rocksdb_iteration_focused
+        test_security_signature_rocksdb_iteration.cpp
+    )
+
+    target_include_directories(test_security_signature_rocksdb_iteration_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_security_signature_rocksdb_iteration_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_security_signature_rocksdb_iteration_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SecuritySignatureRocksDBIterationFocusedTests
+        COMMAND test_security_signature_rocksdb_iteration_focused)
+
+    set_tests_properties(SecuritySignatureRocksDBIterationFocusedTests PROPERTIES
+        LABELS "storage;security;signature;rocksdb;iteration;verify-all;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  SecuritySignatureManager: iterateRange, listAllSignatures, verifyAll")
+else()
+    message(STATUS "SecuritySignatureManager RocksDB Iteration focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_security_signature_rocksdb_iteration.cpp")
+endif()
+
+
 if(TARGET themis_tests)
     get_target_property(_themis_tests_sources_final themis_tests SOURCES)
     if(_themis_tests_sources_final)
