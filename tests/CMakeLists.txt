@@ -14471,6 +14471,59 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_erasure_coding_backend.cpp" AND NOT 
 endif()
 
 # ============================================================================
+# OpenCL Erasure Coder – CPU/GPU parity tests (Issue #105 / v1.8.0)
+# ============================================================================
+# Enabled when THEMIS_ENABLE_OPENCL is set (or the cmake find_package
+# for OpenCL succeeds).  Uses pocl-opencl-icd in CI for a CPU-only OpenCL
+# device so the GPU-assisted paths can be exercised without real hardware.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_opencl_erasure_coder_parity.cpp"
+        AND NOT TARGET test_opencl_erasure_coder_parity_focused)
+
+    # Try to locate an OpenCL SDK (headers + ICD loader)
+    find_package(OpenCL QUIET)
+
+    if(OpenCL_FOUND OR THEMIS_ENABLE_OPENCL)
+        message(STATUS "Adding Sharding: OpenCL ErasureCoder parity tests (Issue #105)")
+
+        add_executable(test_opencl_erasure_coder_parity_focused
+            test_opencl_erasure_coder_parity.cpp
+            ${CMAKE_SOURCE_DIR}/src/sharding/gpu_erasure_coder_opencl.cpp
+        )
+
+        target_include_directories(test_opencl_erasure_coder_parity_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+            ${OpenCL_INCLUDE_DIRS}
+        )
+
+        target_link_libraries(test_opencl_erasure_coder_parity_focused PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            Threads::Threads
+            ${OpenCL_LIBRARIES}
+        )
+
+        target_compile_definitions(test_opencl_erasure_coder_parity_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+            THEMIS_ENABLE_OPENCL=1
+        )
+
+        add_test(NAME OpenCLErasureCoderParityTests
+            COMMAND test_opencl_erasure_coder_parity_focused)
+
+        set_tests_properties(OpenCLErasureCoderParityTests PROPERTIES
+            LABELS "sharding;gpu;opencl;erasure-coding;reed-solomon;parity;v1.8.0;focused;unit"
+            TIMEOUT 120
+        )
+
+        message(STATUS "  OpenCLErasureCoder: encode/decode round-trip 1/2/3 erasures, CPU/GPU parity, batchEncode")
+    else()
+        message(STATUS "OpenCL SDK not found – OpenCL ErasureCoder parity tests will be skipped")
+    endif()
+endif()
+
+# ============================================================================
 # Network Module Focused Tests
 # ============================================================================
 
