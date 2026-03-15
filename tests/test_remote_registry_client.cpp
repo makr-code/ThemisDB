@@ -36,8 +36,11 @@
 #include "themis/base/remote_registry_client.h"
 #include "themis/base/module_loader.h"
 
+#include <chrono>
 #include <filesystem>
 #include <fstream>
+#include <future>
+#include <memory>
 #include <string>
 
 using namespace themis::modules;
@@ -453,4 +456,106 @@ TEST(RemoteRegistryClient, TotalRetryBudgetExhausted) {
     const auto stats = client.lastRequestStats();
     EXPECT_EQ(stats.attempts, 1);
     EXPECT_FALSE(stats.last_error.empty());
+}
+
+// =============================================================================
+// Async API – listPluginsAsync / fetchPluginAsync / downloadPluginAsync
+// =============================================================================
+
+// Helper: build a config that fails immediately without spending time retrying.
+static RegistryConfig makeFastFailConfig() {
+    RegistryConfig cfg;
+    cfg.registry_url = "http://127.0.0.1:1";  // Nothing listening
+    cfg.timeout_ms   = 300;
+    cfg.max_retries  = 0;
+    cfg.verify_ssl   = false;
+    return cfg;
+}
+
+// listPluginsAsync returns a valid future and resolves to an empty list when
+// the server is unreachable (mirrors the synchronous ListPluginsUnreachableServer
+// test above, but exercises the non-blocking path).
+TEST(RemoteRegistryClient, ListPluginsAsyncReturnsEmptyOnFailure) {
+    auto client = std::make_shared<RemoteRegistryClient>(makeFastFailConfig());
+
+    auto fut = client->listPluginsAsync();
+    ASSERT_EQ(fut.valid(), true);
+
+    const auto result = fut.get();
+    EXPECT_TRUE(result.empty());
+}
+
+// fetchPluginAsync returns a valid future that resolves to nullopt when the
+// server is unreachable.
+TEST(RemoteRegistryClient, FetchPluginAsyncReturnsNulloptOnFailure) {
+    auto client = std::make_shared<RemoteRegistryClient>(makeFastFailConfig());
+
+    auto fut = client->fetchPluginAsync("nonexistent_plugin");
+    ASSERT_EQ(fut.valid(), true);
+
+    const auto result = fut.get();
+    EXPECT_FALSE(result.has_value());
+}
+
+// downloadPluginAsync returns a valid future that resolves to a failed result
+// when the server is unreachable.
+TEST(RemoteRegistryClient, DownloadPluginAsyncFailsGracefully) {
+    auto client = std::make_shared<RemoteRegistryClient>(makeFastFailConfig());
+
+    RegistryPluginEntry entry;
+    entry.name         = "async_test_plugin";
+    entry.version      = "1.0.0";
+    entry.download_url = "http://127.0.0.1:1/async_test_plugin-1.0.0.so";
+
+    auto fut = client->downloadPluginAsync(entry);
+    ASSERT_EQ(fut.valid(), true);
+
+    const auto result = fut.get();
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty());
+}
+
+// Calling listPluginsAsync() on a stack-allocated (non-shared_ptr) instance
+// must throw std::bad_weak_ptr before any I/O is initiated.
+TEST(RemoteRegistryClient, AsyncThrowsWhenNotOwnedBySharedPtr) {
+    RemoteRegistryClient client(makeFastFailConfig());
+    EXPECT_THROW(client.listPluginsAsync(), std::bad_weak_ptr);
+}
+
+// Calling fetchPluginAsync() on a non-shared_ptr instance throws.
+TEST(RemoteRegistryClient, FetchPluginAsyncThrowsWhenNotOwnedBySharedPtr) {
+    RemoteRegistryClient client(makeFastFailConfig());
+    EXPECT_THROW(client.fetchPluginAsync("x"), std::bad_weak_ptr);
+}
+
+// Calling downloadPluginAsync() on a non-shared_ptr instance throws.
+TEST(RemoteRegistryClient, DownloadPluginAsyncThrowsWhenNotOwnedBySharedPtr) {
+    RemoteRegistryClient client(makeFastFailConfig());
+    RegistryPluginEntry entry;
+    entry.name         = "p";
+    entry.version      = "0.0.1";
+    entry.download_url = "http://127.0.0.1:1/p-0.0.1.so";
+    EXPECT_THROW(client.downloadPluginAsync(entry), std::bad_weak_ptr);
+}
+
+// Verify that listPluginsAsync() does not block the calling thread: it must
+// return before the operation completes (the future is not yet ready
+// immediately, or if it is ready it resolved fast enough not to block).
+// We simply verify the future is returned and resolves correctly when waited on.
+TEST(RemoteRegistryClient, ListPluginsAsyncCallerNotBlocked) {
+    auto client = std::make_shared<RemoteRegistryClient>(makeFastFailConfig());
+
+    const auto before = std::chrono::steady_clock::now();
+    auto fut = client->listPluginsAsync();
+    const auto after = std::chrono::steady_clock::now();
+
+    // The call to listPluginsAsync() itself must return almost instantly (within
+    // 100 ms), regardless of how long the background operation takes.
+    const auto dispatch_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        after - before).count();
+    EXPECT_LT(dispatch_ms, 100) << "listPluginsAsync() blocked the caller for "
+                                 << dispatch_ms << " ms";
+
+    // Wait for completion and verify the result.
+    EXPECT_TRUE(fut.get().empty());
 }

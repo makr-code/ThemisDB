@@ -33,6 +33,8 @@
 #include "themis/base/module_loader.h"
 
 #include <nlohmann/json.hpp>
+#include <future>
+#include <memory>
 #include <mutex>
 #include <optional>
 #include <string>
@@ -176,6 +178,12 @@ struct RequestStats {
  *
  * Thread safety: all public methods are safe to call from multiple threads.
  *
+ * Async API: listPluginsAsync(), fetchPluginAsync(), and downloadPluginAsync()
+ * dispatch work to a background thread via std::async so the calling thread is
+ * released immediately (no blocking during retry backoffs).  These methods
+ * require that the client is owned by a std::shared_ptr; calling them on a
+ * stack-allocated instance throws std::bad_weak_ptr.
+ *
  * Typical usage:
  * @code
  *   RegistryConfig cfg;
@@ -183,18 +191,25 @@ struct RequestStats {
  *   cfg.auth_token   = "my-secret-token";
  *   cfg.download_dir = "/opt/themis/plugins";
  *
+ *   // Synchronous usage (calling thread blocks during retries):
  *   RemoteRegistryClient client(cfg);
- *
  *   auto plugins = client.listPlugins();
+ *
+ *   // Async usage (calling thread is released during retry backoffs):
+ *   auto client = std::make_shared<RemoteRegistryClient>(cfg);
+ *   auto fut = client->listPluginsAsync();
+ *   // … do other work …
+ *   auto plugins = fut.get();
+ *
  *   for (const auto& entry : plugins) {
- *       auto result = client.downloadPlugin(entry);
+ *       auto result = client->downloadPlugin(entry);
  *       if (result.success) {
  *           loader.loadModule(result.local_path, entry.name);
  *       }
  *   }
  * @endcode
  */
-class RemoteRegistryClient {
+class RemoteRegistryClient : public std::enable_shared_from_this<RemoteRegistryClient> {
 public:
     explicit RemoteRegistryClient(const RegistryConfig& config);
     ~RemoteRegistryClient();
@@ -259,8 +274,47 @@ public:
                                              ModuleLoader& loader);
 
     // -------------------------------------------------------------------------
-    // Configuration access
+    // Async API (non-blocking — calling thread is released immediately)
+    //
+    // Each method dispatches the corresponding synchronous operation to a
+    // background thread via std::async(std::launch::async, …) and returns a
+    // std::future<T> that the caller can wait on at its convenience.
+    //
+    // Requirement: the client instance MUST be owned by a std::shared_ptr.
+    // Calling any of these methods on a stack-allocated or raw-pointer-managed
+    // instance throws std::bad_weak_ptr.  Use std::make_shared<RemoteRegistryClient>.
     // -------------------------------------------------------------------------
+
+    /**
+     * @brief Async version of listPlugins().
+     *
+     * Dispatches to a background thread so the calling thread is never
+     * blocked — not even during exponential back-off between retries.
+     *
+     * @return Future that resolves to the plugin list (empty on failure).
+     * @throws std::bad_weak_ptr if the client is not managed by shared_ptr.
+     */
+    std::future<std::vector<RegistryPluginEntry>> listPluginsAsync();
+
+    /**
+     * @brief Async version of fetchPlugin().
+     *
+     * @param name Plugin name to look up.
+     * @return Future resolving to the plugin entry or std::nullopt.
+     * @throws std::bad_weak_ptr if the client is not managed by shared_ptr.
+     */
+    std::future<std::optional<RegistryPluginEntry>> fetchPluginAsync(const std::string& name);
+
+    /**
+     * @brief Async version of downloadPlugin().
+     *
+     * @param entry Plugin entry describing the binary to download.
+     * @return Future resolving to the download result.
+     * @throws std::bad_weak_ptr if the client is not managed by shared_ptr.
+     */
+    std::future<PluginDownloadResult> downloadPluginAsync(const RegistryPluginEntry& entry);
+
+
 
     /// Return the current configuration.
     const RegistryConfig& config() const { return config_; }
@@ -297,7 +351,11 @@ private:
     // Auth header building (returns header value for Authorization or X-API-Key)
     std::string buildAuthorizationHeader() const;
 
-    // Perform a blocking back-off sleep for `ms` milliseconds.
+    // Synchronous back-off sleep used by the synchronous (blocking) retry path.
+    // Callers that need non-blocking behaviour should use the Async variants of
+    // the public API (listPluginsAsync / fetchPluginAsync / downloadPluginAsync)
+    // which run the entire operation — including all sleeps — on a background
+    // thread, freeing the calling thread for other work.
     static void asyncBackoffSleep(int ms);
 
     // Parse a single JSON object into a RegistryPluginEntry (returns false on
