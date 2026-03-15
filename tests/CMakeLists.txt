@@ -1455,6 +1455,19 @@ set_tests_properties(PluginWatchdogFocusedTests PROPERTIES
     TIMEOUT 60
 )
 
+# RemoteRegistryClient tests (subset of AllTests)
+# Covers: RegistryConfig defaults/field assignment/max_total_retry_time_ms,
+#         RegistryPluginEntry defaults/field assignment,
+#         PluginDownloadResult defaults, RequestStats defaults,
+#         RemoteRegistryClient construction/config-roundtrip/unreachable-server
+#         handling/empty-download-url/download-and-load/max-retries-zero/
+#         partial-file-cleanup/integrity-check/lastRequestStats/
+#         total-retry-budget enforcement.
+#         (from tests/test_remote_registry_client.cpp, Issue #3986)
+add_test(NAME RemoteRegistryClientFocusedTests
+    COMMAND themis_tests --gtest_filter=RegistryConfig.*:RegistryPluginEntry.*:PluginDownloadResult.*:RequestStats.*:RemoteRegistryClient.*)
+set_tests_properties(RemoteRegistryClientFocusedTests PROPERTIES
+    LABELS "base;module;registry;retry;async;reliability;unit"
 # RemoteRegistryClient focused tests (subset of AllTests)
 # Covers: RegistryConfig defaults/assignment/max_total_retry_time_ms,
 #         RegistryPluginEntry defaults/assignment, PluginDownloadResult defaults,
@@ -2498,6 +2511,52 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_replication_ha.cpp")
     message(STATUS "  ReplicationHA: config validation, WAL checksum, LWW/CRDT, quorum leader election, witness nodes")
 else()
     message(STATUS "Replication HA focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_replication_ha.cpp")
+endif()
+
+# ============================================================================
+# Multi-Tier Replication Focused Tests (v1.8.0)
+# Covers all five acceptance criteria:
+#   AC-1  Tier 1: Strong consistency, high durability (3+ replicas, sync, <10ms)
+#   AC-2  Tier 2: Eventual consistency, moderate durability (2 replicas, semi-sync)
+#   AC-3  Tier 3: Best-effort, low durability (1 replica, async)
+#   AC-4  Per-collection tier assignment
+#   AC-5  Automatic tier promotion/demotion based on access patterns
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_replication_ha.cpp")
+    message(STATUS "Adding Multi-Tier Replication focused tests (v1.8.0)")
+
+    add_executable(test_multi_tier_replication_focused
+        test_replication_ha.cpp
+    )
+
+    target_include_directories(test_multi_tier_replication_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_multi_tier_replication_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_multi_tier_replication_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MultiTierReplicationFocusedTests
+             COMMAND test_multi_tier_replication_focused
+                     --gtest_filter=MultiTierReplicationTest*)
+
+    set_tests_properties(MultiTierReplicationFocusedTests PROPERTIES
+        LABELS "replication;multi-tier;auto-tiering;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  MultiTierReplication: tier assignment, default configs, per-collection override, auto-tiering promotion/demotion, statistics")
+else()
+    message(STATUS "Multi-Tier Replication tests not found (test_replication_ha.cpp missing)")
 endif()
 
 # Replication New Features Focused Tests (v1.7.0 modules)

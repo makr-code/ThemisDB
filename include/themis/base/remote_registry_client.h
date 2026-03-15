@@ -397,6 +397,11 @@ private:
     // Auth header building (returns header value for Authorization or X-API-Key)
     std::string buildAuthorizationHeader() const;
 
+    // Perform a back-off delay for `ms` milliseconds.
+    // The sleep is dispatched to a background thread via std::async so that
+    // the calling thread blocks on a future rather than directly in
+    // sleep_for().  This decouples the back-off mechanism from the caller and
+    // allows future integration with cooperative schedulers.
     // Perform a blocking backoff sleep for `ms` milliseconds.
     // Synchronous back-off sleep used by the synchronous (blocking) retry path.
     // Callers that need non-blocking behaviour should use the Async variants of
