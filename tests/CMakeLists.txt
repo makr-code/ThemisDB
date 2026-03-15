@@ -3996,6 +3996,38 @@ else()
     message(STATUS "Transaction Isolation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_isolation.cpp")
 endif()
 
+# Serializable Snapshot Isolation (SSI) Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_ssi.cpp")
+    message(STATUS "Adding Serializable Snapshot Isolation (SSI) tests")
+
+    add_executable(test_transaction_ssi
+        test_transaction_ssi.cpp
+    )
+
+    target_link_libraries(test_transaction_ssi PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_transaction_ssi PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TransactionSSITests COMMAND test_transaction_ssi)
+
+    set_tests_properties(TransactionSSITests PROPERTIES
+        LABELS "transaction;ssi;serializable;predicate-locking;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  SSI: predicate locking, read-write conflict, write-write conflict, serialization failure, retry")
+else()
+    message(STATUS "SSI tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_ssi.cpp")
+endif()
+
 # SAGA Concurrent Execution Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_saga_concurrent_execution.cpp")
     message(STATUS "Adding SAGA Concurrent Execution tests")

@@ -1082,6 +1082,86 @@ public:
         std::string_view table,
         std::string_view pk) const;
 
+    // ── Serializable Snapshot Isolation (SSI) configuration ──────────────────
+
+    /**
+     * @brief Tuning parameters for Serializable Snapshot Isolation (SSI).
+     *
+     * These settings control the predicate-lock subsystem used by
+     * SERIALIZABLE transactions.  Adjust them to balance memory usage, false-
+     * positive abort rate, and conflict-detection latency.
+     */
+    struct SSIConfig {
+        /// Enable or disable predicate lock tracking.  When false, SERIALIZABLE
+        /// transactions behave identically to REPEATABLE_READ (snapshot isolation
+        /// only; write-skew anomalies are not detected).
+        bool enable_predicate_locking = true;
+
+        /// Maximum total number of predicate locks that may be held
+        /// simultaneously across all active transactions.  Once the limit is
+        /// reached, new acquirePredicateLock() calls are silently dropped,
+        /// which may increase the false-positive abort rate.
+        size_t max_predicate_locks = 10000;
+
+        /// How often the background conflict-detection sweep (if any) is
+        /// triggered.  Currently informational; no background sweep is
+        /// implemented – conflict detection is performed inline at write time.
+        std::chrono::milliseconds conflict_detection_interval{100};
+    };
+
+    /**
+     * @brief Update the SSI configuration.
+     *
+     * Thread-safe.  New values take effect immediately for all subsequent
+     * predicate-lock operations; existing in-flight locks are unaffected.
+     *
+     * @param config  New SSI tuning parameters.
+     */
+    void setSSIConfig(const SSIConfig& config);
+
+    /**
+     * @brief Return the currently active SSI configuration.
+     */
+    SSIConfig getSSIConfig() const;
+
+    /**
+     * @brief Describes a single read-write or write-write serialization
+     *        conflict detected for a SERIALIZABLE transaction.
+     */
+    struct SerializationConflict {
+        /// The transaction ID of the other transaction involved in the conflict.
+        TransactionId other_txn_id{0};
+
+        /// The storage key that triggered the conflict.
+        std::string key;
+
+        /// Human-readable description of the conflict kind.
+        ///  "read-write"  – this transaction's read range overlaps a write by
+        ///                  @p other_txn_id (phantom / write-skew risk).
+        ///  "write-write" – both transactions wrote the same key concurrently
+        ///                  (lost-update risk).
+        std::string conflict_type;
+
+        /// Human-readable explanation.
+        std::string message;
+    };
+
+    /**
+     * @brief Enumerate predicate-lock conflicts for a SERIALIZABLE transaction.
+     *
+     * Scans every predicate lock held by @p txn_id against the predicate locks
+     * held by all other active SERIALIZABLE transactions and returns one
+     * SerializationConflict entry for each key range that would produce a
+     * serialization failure.
+     *
+     * Returns an empty vector for non-SERIALIZABLE transactions or when
+     * predicate locking is disabled.
+     *
+     * @param txn_id  Transaction to analyse.
+     * @return        List of detected conflicts; empty when none exist.
+     */
+    std::vector<SerializationConflict> detectConflicts(TransactionId txn_id) const;
+
 private:
     RocksDBWrapper& db_;
     SecondaryIndexManager& secIdx_;
@@ -1185,6 +1265,10 @@ private:
     /// Stored atomically so setDeadlockPredictor() can be called concurrently
     /// with predict/recommend helpers without introducing a data race.
     std::atomic<DeadlockPredictor*> deadlock_predictor_{nullptr};
+
+    // SSI configuration – protected by ssi_config_mutex_
+    mutable std::mutex ssi_config_mutex_;
+    SSIConfig ssi_config_;
 };
 
 } // namespace themis

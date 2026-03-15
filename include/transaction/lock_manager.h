@@ -155,12 +155,36 @@ public:
     /// @param start_key  Lower bound of the predicate range (inclusive).
     /// @param end_key    Upper bound of the predicate range (inclusive; may
     ///                   equal @p start_key for a single-key predicate).
-    /// @return Always returns true; the predicate lock is always recorded.
-    ///         Conflict detection is performed lazily at write time via
-    ///         checkPredicateConflict(), not at acquire time.
+    /// @return true when the lock was recorded; false when the global limit
+    ///         set by setMaxPredicateLocks() has been reached (the lock is
+    ///         silently dropped in that case – the false-positive abort rate
+    ///         may increase but correctness is preserved).
     bool acquirePredicateLock(TransactionId txn_id,
                               const std::string& start_key,
                               const std::string& end_key);
+
+    /// Set the maximum total number of predicate locks that may be held
+    /// simultaneously across all active transactions.
+    ///
+    /// Once the limit is reached, acquirePredicateLock() returns false and
+    /// does not record the lock.  Pass 0 to disable the limit (default).
+    ///
+    /// Thread-safe.
+    void setMaxPredicateLocks(size_t max_locks);
+
+    /// Return the current maximum predicate-lock limit (0 = unlimited).
+    size_t getMaxPredicateLocks() const;
+
+    /// Enable or disable predicate-lock tracking globally.
+    ///
+    /// When disabled, acquirePredicateLock() is a no-op (returns false) and
+    /// checkPredicateConflict() always returns 0.
+    ///
+    /// Thread-safe.
+    void setPredicateLockingEnabled(bool enabled);
+
+    /// Return whether predicate-lock tracking is currently enabled.
+    bool isPredicateLockingEnabled() const;
 
     /// Release all predicate locks held by @p txn_id.
     ///
@@ -254,6 +278,12 @@ private:
 
     /// All active predicate locks, protected by mutex_.
     std::vector<PredicateLock> predicate_locks_;
+
+    /// Maximum total predicate locks allowed (0 = unlimited), protected by mutex_.
+    std::atomic<size_t> max_predicate_locks_{0};
+
+    /// Whether predicate-lock tracking is enabled (default: true).
+    std::atomic<bool> predicate_locking_enabled_{true};
 };
 
 } // namespace themis

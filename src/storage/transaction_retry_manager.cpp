@@ -89,7 +89,9 @@ ErrorType TransactionRetryManager::classifyError(const std::string& error_messag
     // Retryable errors
     if (lower_msg.find("conflict") != std::string::npos ||
         lower_msg.find("write conflict") != std::string::npos ||
-        lower_msg.find("concurrent") != std::string::npos) {
+        lower_msg.find("concurrent") != std::string::npos ||
+        lower_msg.find("serialization failure") != std::string::npos ||
+        lower_msg.find("transaction must be retried") != std::string::npos) {
         return ErrorType::WRITE_CONFLICT;
     }
     
