@@ -132,7 +132,7 @@ std::string LLMIntegration::generate(
         }
 #else
         // THEMIS_ENABLE_LLM is OFF and no explicit engine was injected.
-        // Return a silent placeholder silently is dangerous in evaluation pipelines;
+        // Returning a silent placeholder is dangerous in evaluation pipelines;
         // fail fast with a clear error instead.
         const std::string err =
             "LLMIntegration::generate: no inference engine configured. "
