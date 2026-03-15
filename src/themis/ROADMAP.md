@@ -22,6 +22,7 @@ v1.7.0 (in progress) – License validation lives in `src/utils/`; module loadin
 - [x] `module_hash_verifier.cpp` – SHA-256 manifest verification registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake (Issue: #2471)
 - [x] `module_signature_verifier.cpp` – Authenticode/GPG signature verification registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake (Issue: #2473)
 - [x] `module_dependency_resolver.cpp` – focused CTest target added (ModuleDependencyResolverFocusedTests) covering topological sort, version compat, cycle detection (Issue: #2474)
+- [x] Build Reproducibility: `getReproducibilityInfo()`, `exportBuildManifest()`, `verifyBuildManifest()` implemented in `src/themis/build_info.cpp`; CMake captures git HEAD, branch, dirty flag, build host/user at configure time (v1.7.0)
 
 ## In Progress 🚧
 - [~] `license_info.cpp` – implemented in `src/utils/`; pending migration to `src/themis/` (Target: Q2 2026, v1.7.0)
@@ -77,6 +78,7 @@ See "In Progress" section above for `license_info.cpp` migration status. `module
 - [x] Unit tests for module dependency resolver (tests/test_module_dependency_resolver.cpp; CTest: ModuleDependencyResolverFocusedTests)
 - [x] `module_loader.cpp` / `module_loader_win32.cpp` / `module_loader_linux.cpp` / `module_security.cpp` – migrated to `src/themis/`, registered in cmake/MiscellaneousFeatures.cmake and cmake/ModularBuild.cmake; CTest target ModuleLoaderFocusedTests added
 - [x] Unit tests for module loader core (tests/test_module_loader.cpp; CTest: ModuleLoaderFocusedTests)
+- [x] Unit tests for build info / reproducibility (tests/test_build_info.cpp; CTest: BuildInfoTests) – covers getBuildConfiguration(), getReproducibilityInfo(), exportBuildManifest(), verifyBuildManifest()
 - [?] Integration tests (module load, license validation, build info)
 - [?] Performance benchmarks (module load time, license check overhead)
 - [?] Security audit (signature verification, constant-time license comparison)

@@ -1128,9 +1128,9 @@ TEST_F(LLMAQLHandlerTest, RetryOnError_ModePreservedAcrossTranslationAttempt) {
 // ============================================================================
 
 // Mock executor that always returns the fixed string it was constructed with.
-static std::function<std::string(const std::vector<llm::ChatMessage>&)>
+static std::function<std::string(const std::vector<ChatMessage>&)>
 makeMockExecutor(const std::string& fixed_response) {
-    return [fixed_response](const std::vector<llm::ChatMessage>&) {
+    return [fixed_response](const std::vector<ChatMessage>&) {
         return fixed_response;
     };
 }
@@ -1206,7 +1206,7 @@ TEST_F(LLMAQLHandlerTest, MockLLM_RejectOnError_ValidAQL_DoesNotThrow) {
 TEST_F(LLMAQLHandlerTest, MockLLM_RetryOnError_BrokenAQL_ExhaustsRetries_Throws) {
     // In RETRY_ON_ERROR mode, after all retries the handler must throw INVALID_RESPONSE.
     int call_count = 0;
-    handler->setChatExecutor([&call_count](const std::vector<llm::ChatMessage>&) -> std::string {
+    handler->setChatExecutor([&call_count](const std::vector<ChatMessage>&) -> std::string {
         ++call_count;
         return "FOR x";  // Always return broken AQL
     });
@@ -1226,7 +1226,7 @@ TEST_F(LLMAQLHandlerTest, MockLLM_RetryOnError_BrokenAQL_ExhaustsRetries_Throws)
 TEST_F(LLMAQLHandlerTest, MockLLM_RetryOnError_SucceedsOnSecondAttempt) {
     // In RETRY_ON_ERROR mode, if the second attempt returns valid AQL, it must succeed.
     int call_count = 0;
-    handler->setChatExecutor([&call_count](const std::vector<llm::ChatMessage>&) -> std::string {
+    handler->setChatExecutor([&call_count](const std::vector<ChatMessage>&) -> std::string {
         ++call_count;
         if (call_count == 1) return "FOR x";  // First attempt: broken
         return "FOR doc IN collection RETURN doc";  // Second attempt: valid
@@ -1246,7 +1246,7 @@ TEST_F(LLMAQLHandlerTest, MockLLM_RetryOnError_FeedbackInjectedInPrompt) {
     std::vector<std::string> received_system_prompts;
     int call_count = 0;
     handler->setChatExecutor(
-        [&call_count, &received_system_prompts](const std::vector<llm::ChatMessage>& msgs)
+        [&call_count, &received_system_prompts](const std::vector<ChatMessage>& msgs)
             -> std::string
         {
             ++call_count;

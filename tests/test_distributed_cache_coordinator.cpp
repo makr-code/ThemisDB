@@ -351,3 +351,39 @@ TEST(RedisCacheCoordinatorTest, HmacEmptySecretPublishAndStatsOk) {
     EXPECT_TRUE(stats.contains("publish_errors"));
     EXPECT_GE(stats["publish_errors"].get<uint64_t>(), 0u);
 }
+
+// ============================================================================
+// Exponential back-off reconnect – validate reconnect_count increments
+// ============================================================================
+
+TEST(RedisCacheCoordinatorTest, ReconnectCountIncreasesOverTime) {
+    // The subscriber thread should attempt reconnects when Redis is absent
+    // and increment reconnect_count_ on each failure.
+    RedisCacheCoordinatorConfig cfg = makeOfflineConfig();
+    cfg.connect_timeout_ms   = 100;
+    cfg.reconnect_interval_ms = 50;  // fast for test; back-off overrides this
+
+    RedisCacheCoordinator coord(cfg);
+
+    // Wait long enough for at least one reconnect attempt.
+    std::this_thread::sleep_for(std::chrono::milliseconds(400));
+
+    auto stats = coord.getStats();
+    ASSERT_TRUE(stats.contains("reconnect_count"));
+    EXPECT_GE(stats["reconnect_count"].get<uint64_t>(), 1u);
+}
+
+TEST(RedisCacheCoordinatorTest, IsConnectedFalseAfterMultipleAttempts) {
+    // After several back-off cycles the coordinator must still report
+    // disconnected (not throw, not corrupt state).
+    RedisCacheCoordinatorConfig cfg = makeOfflineConfig();
+    cfg.connect_timeout_ms   = 100;
+
+    RedisCacheCoordinator coord(cfg);
+    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+
+    EXPECT_FALSE(coord.isConnected());
+    // Stats must remain well-formed
+    auto stats = coord.getStats();
+    EXPECT_TRUE(stats.is_object());
+}

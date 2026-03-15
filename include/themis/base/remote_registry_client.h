@@ -33,6 +33,8 @@
 #include "themis/base/module_loader.h"
 
 #include <nlohmann/json.hpp>
+#include <chrono>
+#include <functional>
 #include <future>
 #include <memory>
 #include <mutex>
@@ -195,10 +197,27 @@ struct RequestStats {
  *   // Asynchronous (calling thread released immediately)
  *   auto future = client->listPluginsAsync();
  *   auto plugins = future.get();
+ *   // Synchronous usage (calling thread blocks during retries):
+ *   RemoteRegistryClient client(cfg);
+ *   auto plugins = client.listPlugins();
+ *
+ *   // Async usage (calling thread is released during retry backoffs):
+ *   auto client = std::make_shared<RemoteRegistryClient>(cfg);
+ *   auto fut = client->listPluginsAsync();
+ *   // … do other work …
+ *   auto plugins = fut.get();
+ *
+ *   for (const auto& entry : plugins) {
+ *       auto result = client->downloadPlugin(entry);
+ *       if (result.success) {
+ *           loader.loadModule(result.local_path, entry.name);
+ *       }
+ *   }
  * @endcode
  */
 class RemoteRegistryClient
     : public std::enable_shared_from_this<RemoteRegistryClient> {
+class RemoteRegistryClient : public std::enable_shared_from_this<RemoteRegistryClient> {
 public:
     explicit RemoteRegistryClient(const RegistryConfig& config);
     ~RemoteRegistryClient();
@@ -250,6 +269,19 @@ public:
      */
     std::future<std::optional<RegistryPluginEntry>> fetchPluginAsync(
         const std::string& name);
+     * @brief Asynchronous version of fetchPlugin().
+     *
+     * Dispatches the entire operation (HTTP request + retry loop) to a
+     * worker thread via std::async, releasing the calling thread during
+     * back-off sleeps.  Multiple concurrent async calls on the same client
+     * are safe because all shared state is protected by internal mutexes.
+     *
+     * @param name Plugin name to look up.
+     * @return std::future that resolves to the plugin entry (nullopt if not found).
+     * @throws std::bad_weak_ptr if the client was not constructed via
+     *         std::make_shared (i.e. has never been owned by a shared_ptr).
+     */
+    std::future<std::optional<RegistryPluginEntry>> fetchPluginAsync(const std::string& name);
 
     // -------------------------------------------------------------------------
     // Download
@@ -276,6 +308,19 @@ public:
      */
     std::future<PluginDownloadResult> downloadPluginAsync(
         const RegistryPluginEntry& entry);
+     * @brief Asynchronous version of downloadPlugin().
+     *
+     * Dispatches the entire operation (HTTP request + retry loop) to a
+     * worker thread via std::async, releasing the calling thread during
+     * back-off sleeps.  Multiple concurrent async calls on the same client
+     * are safe because all shared state is protected by internal mutexes.
+     *
+     * @param entry Plugin entry (from listPlugins or fetchPlugin).
+     * @return std::future that resolves to the download result.
+     * @throws std::bad_weak_ptr if the client was not constructed via
+     *         std::make_shared (i.e. has never been owned by a shared_ptr).
+     */
+    std::future<PluginDownloadResult> downloadPluginAsync(const RegistryPluginEntry& entry);
 
     // -------------------------------------------------------------------------
     // Combined download + load
@@ -295,11 +340,94 @@ public:
                                              ModuleLoader& loader);
 
     // -------------------------------------------------------------------------
-    // Configuration access
+    // Async API (non-blocking — calling thread is released immediately)
+    //
+    // Each method dispatches the corresponding synchronous operation to a
+    // background thread via std::async(std::launch::async, …) and returns a
+    // std::future<T> that the caller can wait on at its convenience.
+    //
+    // Requirement: the client instance MUST be owned by a std::shared_ptr.
+    // Calling any of these methods on a stack-allocated or raw-pointer-managed
+    // instance throws std::bad_weak_ptr.  Use std::make_shared<RemoteRegistryClient>.
     // -------------------------------------------------------------------------
+
+    /**
+     * @brief Async version of listPlugins().
+     *
+     * Dispatches to a background thread so the calling thread is never
+     * blocked — not even during exponential back-off between retries.
+     *
+     * @return Future that resolves to the plugin list (empty on failure).
+     * @throws std::bad_weak_ptr if the client is not managed by shared_ptr.
+     */
+    std::future<std::vector<RegistryPluginEntry>> listPluginsAsync();
+
+    /**
+     * @brief Async version of fetchPlugin().
+     *
+     * @param name Plugin name to look up.
+     * @return Future resolving to the plugin entry or std::nullopt.
+     * @throws std::bad_weak_ptr if the client is not managed by shared_ptr.
+     */
+    std::future<std::optional<RegistryPluginEntry>> fetchPluginAsync(const std::string& name);
+
+    /**
+     * @brief Async version of downloadPlugin().
+     *
+     * @param entry Plugin entry describing the binary to download.
+     * @return Future resolving to the download result.
+     * @throws std::bad_weak_ptr if the client is not managed by shared_ptr.
+     */
+    std::future<PluginDownloadResult> downloadPluginAsync(const RegistryPluginEntry& entry);
+
+
 
     /// Return the current configuration.
     const RegistryConfig& config() const { return config_; }
+
+    // -------------------------------------------------------------------------
+    // Async APIs
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Asynchronously perform an HTTP GET with retry/backoff.
+     *
+     * The returned future completes with the response body or throws a
+     * std::runtime_error on failure. The calling thread is released as soon as
+     * the future is created; retries and backoff run on a worker thread.
+     * The RemoteRegistryClient instance must remain alive until the future
+     * completes. Accessing the future after destroying the client results in
+     * undefined behavior. Discarding the future is allowed, but the underlying
+     * work still runs and the client must remain alive until it completes.
+     * The client **must** be owned by std::shared_ptr; otherwise a
+     * std::bad_weak_ptr error is raised.
+     */
+    std::future<std::string> httpGetAsync(const std::string& url);
+
+    /**
+     * @brief Asynchronously download a binary with retry/backoff.
+     *
+     * The returned future resolves to true on success, false on failure.
+     * Callers may choose to wait or poll the future; backoff delays do not
+     * block the calling thread. The RemoteRegistryClient instance must remain
+     * alive until the future completes. Accessing the future after destroying
+     * the client results in undefined behavior. Discarding the future is
+     * allowed, but the underlying work still runs and the client must remain
+     * alive until it completes. The client **must** be owned by std::shared_ptr;
+     * otherwise a std::bad_weak_ptr error is raised.
+     */
+    std::future<bool> httpGetBinaryAsync(const std::string& url,
+                                         const std::string& out_path);
+
+    /**
+     * @brief Override the backoff dispatcher used for scheduling retry delays.
+     *
+     * Intended for integration with the existing TaskScheduler: pass a lambda
+     * that submits a delayed no-op task and returns a future that becomes ready
+     * after the delay. Passing nullptr resets to the internal scheduler.
+     */
+    static void setBackoffDispatcher(
+        std::function<std::future<void>(std::chrono::milliseconds)> dispatcher);
 
     // -------------------------------------------------------------------------
     // Observability
@@ -334,6 +462,20 @@ private:
     std::string buildAuthorizationHeader() const;
 
     // Perform a blocking back-off sleep for `ms` milliseconds.
+    // Used by the synchronous retry loop in httpGet / httpGetBinary; the
+    // async methods (listPluginsAsync etc.) release the calling thread by
+    // running the entire operation on a std::async worker thread.
+    // Perform a back-off delay for `ms` milliseconds.
+    // The sleep is dispatched to a background thread via std::async so that
+    // the calling thread blocks on a future rather than directly in
+    // sleep_for().  This decouples the back-off mechanism from the caller and
+    // allows future integration with cooperative schedulers.
+    // Perform a blocking backoff sleep for `ms` milliseconds.
+    // Synchronous back-off sleep used by the synchronous (blocking) retry path.
+    // Callers that need non-blocking behaviour should use the Async variants of
+    // the public API (listPluginsAsync / fetchPluginAsync / downloadPluginAsync)
+    // which run the entire operation — including all sleeps — on a background
+    // thread, freeing the calling thread for other work.
     static void asyncBackoffSleep(int ms);
 
     // Parse a single JSON object into a RegistryPluginEntry (returns false on

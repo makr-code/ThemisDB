@@ -425,6 +425,12 @@ std::string AuditLogger::securityEventTypeToString(SecurityEventType type) {
         case SecurityEventType::TASK_TIMEOUT: return "TASK_TIMEOUT";
         case SecurityEventType::TASK_RESOURCE_LIMIT_EXCEEDED: return "TASK_RESOURCE_LIMIT_EXCEEDED";
         case SecurityEventType::TASK_ANOMALY_DETECTED: return "TASK_ANOMALY_DETECTED";
+        // Sharding Events
+        case SecurityEventType::SHARD_SPLIT: return "SHARD_SPLIT";
+        case SecurityEventType::SHARD_MERGE: return "SHARD_MERGE";
+        case SecurityEventType::SHARD_LIVE_MIGRATION_STARTED: return "SHARD_LIVE_MIGRATION_STARTED";
+        case SecurityEventType::SHARD_LIVE_MIGRATION_COMPLETED: return "SHARD_LIVE_MIGRATION_COMPLETED";
+        case SecurityEventType::SHARD_LIVE_MIGRATION_FAILED: return "SHARD_LIVE_MIGRATION_FAILED";
         // Generic
         case SecurityEventType::CUSTOM_EVENT: return "CUSTOM_EVENT";
         default: return "UNKNOWN";

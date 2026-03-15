@@ -28,6 +28,7 @@
  */
 
 #include "storage/blob_redundancy_manager.h"
+#include "storage/erasure_coding_backend.h"
 #include "utils/expected.h"
 #include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
@@ -439,6 +440,27 @@ bool BlobRedundancyManager::verifyBlob(const std::string& blob_id) {
     return metadata.isHealthy();
 }
 
+// ---------------------------------------------------------------------------
+// Erasure-coding shard helpers (file-local)
+// ---------------------------------------------------------------------------
+
+/// Returns the shard_id for chunk @p chunk_index.
+/// Uses the pre-assigned location if available, otherwise falls back to a
+/// deterministic "shard-<N>" name so each chunk can live on a distinct node.
+static std::string ecShardId(const BlobMetadata& meta, uint32_t chunk_index) {
+    if (chunk_index < meta.locations.size()) {
+        return meta.locations[chunk_index].shard_id;
+    }
+    return "shard-" + std::to_string(chunk_index);
+}
+
+/// Returns the storage path for chunk @p chunk_index of blob @p blob_id.
+/// The chunk index is embedded in the path so all chunks can coexist under
+/// the same blob_id key space without colliding.
+static std::string ecChunkPath(const std::string& blob_id, uint32_t chunk_index) {
+    return blob_id + "/chunk/" + std::to_string(chunk_index);
+}
+
 Result<void> BlobRedundancyManager::writeBlob(
     const std::string& blob_id,
     const std::vector<uint8_t>& data,
@@ -456,7 +478,46 @@ Result<void> BlobRedundancyManager::writeBlob(
     
     const auto& metadata = it->second;
     lock.unlock();
-    
+
+    // --- Erasure-coded path (PARITY mode) ---
+    if (metadata.config.mode == RedundancyMode::PARITY) {
+        const auto& ec_cfg = metadata.config.erasure_coding;
+        ErasureCodingBackend ec_backend(ec_cfg);
+
+        std::vector<EncodedShard> shards;
+        try {
+            shards = ec_backend.encode(blob_id, data);
+        } catch (const std::exception& ex) {
+            return themis::Err<void>(
+                themis::errors::ErrorCode::ERR_STORAGE_REDUNDANCY_FAILED,
+                "Erasure encode failed for blob '" + blob_id + "': " +
+                    std::string(ex.what())
+            );
+        }
+
+        std::vector<std::string> written_shards;
+        for (const auto& shard : shards) {
+            const std::string shard_id   = ecShardId(metadata, shard.shard_index);
+            const std::string chunk_path = ecChunkPath(blob_id, shard.shard_index);
+            if (handler(shard_id, chunk_path, shard.data)) {
+                written_shards.push_back(shard_id);
+            }
+        }
+
+        if (written_shards.size() < static_cast<size_t>(ec_cfg.data_shards)) {
+            return themis::Err<void>(
+                themis::errors::ErrorCode::ERR_STORAGE_REDUNDANCY_FAILED,
+                "Failed to write enough erasure-coded shards for blob '" +
+                    blob_id + "': wrote " +
+                    std::to_string(written_shards.size()) + "/" +
+                    std::to_string(ec_cfg.totalShards())
+            );
+        }
+
+        return themis::OkVoid();
+    }
+
+    // --- Replication path (MIRROR / STRIPE / GEO_MIRROR) ---
     auto target_shards = selectTargetShards(metadata);
     
     std::vector<std::string> written_shards;
@@ -492,7 +553,61 @@ Result<std::vector<uint8_t>> BlobRedundancyManager::readBlob(
     
     const auto& metadata = it->second;
     lock.unlock();
-    
+
+    // --- Erasure-coded path (PARITY mode) ---
+    if (metadata.config.mode == RedundancyMode::PARITY) {
+        const auto& ec_cfg = metadata.config.erasure_coding;
+        const uint32_t total_shards = ec_cfg.totalShards();
+
+        // Collect available chunks from all shard locations
+        // Use total_size from metadata as original_size to trim padding correctly
+        std::map<uint32_t, EncodedShard> available;
+        const uint64_t original_size = metadata.total_size;
+
+        for (uint32_t i = 0; i < total_shards; ++i) {
+            const std::string shard_id   = ecShardId(metadata, i);
+            const std::string chunk_path = ecChunkPath(blob_id, i);
+
+            auto chunk_data = handler(shard_id, chunk_path);
+            if (chunk_data) {
+                EncodedShard s;
+                s.shard_index   = i;
+                s.is_parity     = (i >= ec_cfg.data_shards);
+                s.original_size = original_size;
+                s.data          = std::move(*chunk_data);
+                available[i]    = std::move(s);
+
+                if (available.size() >= static_cast<size_t>(ec_cfg.data_shards)) {
+                    // We have enough shards to reconstruct; stop reading further
+                    // to save I/O when shards are on separate remote nodes.
+                    break;
+                }
+            }
+        }
+
+        if (available.size() < static_cast<size_t>(ec_cfg.data_shards)) {
+            return themis::Err<std::vector<uint8_t>>(
+                themis::errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+                "Not enough shards to reconstruct blob '" + blob_id +
+                    "': have " + std::to_string(available.size()) +
+                    ", need " + std::to_string(ec_cfg.data_shards)
+            );
+        }
+
+        ErasureCodingBackend ec_backend(ec_cfg);
+        try {
+            auto recovered = ec_backend.decode(blob_id, available, original_size);
+            return themis::Ok(std::move(recovered));
+        } catch (const std::exception& ex) {
+            return themis::Err<std::vector<uint8_t>>(
+                themis::errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+                "Erasure decode failed for blob '" + blob_id + "': " +
+                    std::string(ex.what())
+            );
+        }
+    }
+
+    // --- Replication path (MIRROR / STRIPE / GEO_MIRROR) ---
     // Select read shard
     auto read_shard = selectReadShard(metadata);
     

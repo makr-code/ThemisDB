@@ -207,7 +207,7 @@ TEST_F(OpenTelemetryTracerTest, ChildSpanNonOtelParentFallsBackToRootSpan) {
     // Non-OtelSpan parent → fallback to new root span (no crash)
     OpenTelemetryTracer tracer(defaultConfig());
 
-    struct ForeignSpan : public core::concerns::ITracer::ISpan {
+    struct ForeignSpan : public themis::core::concerns::ITracer::ISpan {
         void setAttribute(const std::string&, const std::string&) override {}
         void setAttribute(const std::string&, int64_t)            override {}
         void setAttribute(const std::string&, double)             override {}
