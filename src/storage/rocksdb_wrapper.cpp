@@ -1398,6 +1398,7 @@ std::string RocksDBWrapper::getStats() const {
     uint64_t num_running_flushes = 0;
     uint64_t memtable_size = 0;
     uint64_t cur_size_all_mem_tables = 0;
+    uint64_t total_sst_files_size = 0;
     
     db_->GetIntProperty("rocksdb.block-cache-usage", &block_cache_usage);
     db_->GetIntProperty("rocksdb.block-cache-capacity", &block_cache_capacity);
@@ -1408,6 +1409,7 @@ std::string RocksDBWrapper::getStats() const {
     db_->GetIntProperty("rocksdb.num-running-flushes", &num_running_flushes);
     db_->GetIntProperty("rocksdb.size-all-mem-tables", &memtable_size);
     db_->GetIntProperty("rocksdb.cur-size-all-mem-tables", &cur_size_all_mem_tables);
+    db_->GetIntProperty("rocksdb.total-sst-files-size", &total_sst_files_size);
     
     // Get per-level file counts
     std::string num_files_at_levels;
@@ -1446,6 +1448,7 @@ std::string RocksDBWrapper::getStats() const {
     // Build JSON response
     std::string json = "{\n"
         "  \"rocksdb\": {\n"
+        "    \"total_sst_files_size_bytes\": " + std::to_string(total_sst_files_size) + ",\n"
         "    \"block_cache_usage_bytes\": " + std::to_string(block_cache_usage) + ",\n"
         "    \"block_cache_capacity_bytes\": " + std::to_string(block_cache_capacity) + ",\n"
         "    \"estimate_num_keys\": " + std::to_string(estimate_keys) + ",\n"
@@ -1514,9 +1517,24 @@ void RocksDBWrapper::flush() {
 
 uint64_t RocksDBWrapper::getApproximateSize() const {
     if (!db_) return 0;
-    
-    // TODO: Implement proper size calculation
-    return 0;
+
+    // Use the total-sst-files-size property to get on-disk SST file size.
+    // This covers all levels and matches what compaction/quota logic needs.
+    uint64_t total_sst_size = 0;
+    if (db_->GetIntProperty("rocksdb.total-sst-files-size", &total_sst_size)) {
+        return total_sst_size;
+    }
+
+    // Fallback: estimate the size of the full key range using GetApproximateSizes
+    // when the SST-size property is unavailable (e.g. some older builds).
+    // Use INCLUDE_FILES (bit 0 = 1) to count only on-disk SST file sizes.
+    static constexpr uint8_t kIncludeFiles = 1;  // rocksdb::DB::INCLUDE_FILES
+    rocksdb::Range full_range(
+        rocksdb::Slice("\x00", 1),
+        rocksdb::Slice("\xff\xff\xff\xff\xff\xff\xff\xff", 8));
+    uint64_t approx_size = 0;
+    db_->GetApproximateSizes(&full_range, 1, &approx_size, kIncludeFiles);
+    return approx_size;
 }
 
 uint64_t RocksDBWrapper::getLatestSequenceNumber() const {

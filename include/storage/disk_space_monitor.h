@@ -93,6 +93,7 @@ public:
         SpaceLevel level = SpaceLevel::NORMAL;
         bool writes_blocked = false;
         bool read_only = false;
+        uint64_t rocksdb_size_bytes = 0;  // RocksDB on-disk SST files size (set via setRocksDBSize)
     };
     
     struct MonitorStats {
@@ -188,6 +189,17 @@ public:
      * Use with caution - allows writes even in critical state
      */
     void setReadOnlyOverride(bool read_only);
+    
+    /**
+     * @brief Update the tracked RocksDB on-disk size
+     * 
+     * Called by storage components after computing the SST files size via
+     * RocksDBWrapper::getApproximateSize(). The value is propagated into
+     * SpaceInfo::rocksdb_size_bytes and is returned by getSpaceInfo().
+     *
+     * @param size_bytes Total RocksDB SST on-disk size in bytes
+     */
+    void setRocksDBSize(uint64_t size_bytes);
     
     /**
      * @brief Get recommended action based on space level

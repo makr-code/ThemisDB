@@ -49,6 +49,7 @@
 // Include full definitions BEFORE http_server.h to avoid incomplete types
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
+#include "storage/disk_space_monitor.h"
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
 #include "index/vector_index.h"
@@ -2156,6 +2157,7 @@ namespace {
     // Shard Admin endpoints
     AdminShardsPost,                // POST /v1/admin/shards
     AdminShardsGet,                 // GET  /v1/admin/shards
+    AdminStorageStatsGet,           // GET  /v1/admin/storage/stats
     // Prompt Template endpoints
     PromptTemplatePost,
     PromptTemplateList,
@@ -2575,6 +2577,7 @@ namespace {
     if (path_only == "/v1/admin/cache/snapshot" && method == http::verb::post) return Route::AdminCacheSnapshotPost;
     if (path_only == "/v1/admin/shards" && method == http::verb::post) return Route::AdminShardsPost;
     if (path_only == "/v1/admin/shards" && method == http::verb::get) return Route::AdminShardsGet;
+    if (path_only == "/v1/admin/storage/stats" && method == http::verb::get) return Route::AdminStorageStatsGet;
     if (target == "/prompt_template" && method == http::verb::post) return Route::PromptTemplatePost;
     if (target == "/prompt_template" && method == http::verb::get) return Route::PromptTemplateList;
     if (target.rfind("/prompt_template/", 0) == 0 && method == http::verb::get) return Route::PromptTemplateGet;
@@ -3818,6 +3821,43 @@ http::response<http::string_body> HttpServer::routeRequest(
                 {"healthy_count",   sharding_manager_->GetHealthyNodeCount()}
             };
             response = makeResponse(http::status::ok, result.dump(), req);
+            break;
+        }
+        case Route::AdminStorageStatsGet: {
+            // GET /v1/admin/storage/stats
+            // Returns RocksDB on-disk SST size and OS-level disk space metrics
+            // for the storage path so admin tooling and quota logic can act on
+            // real numbers instead of the previous hard-coded 0.
+            try {
+                uint64_t rocksdb_size = storage_ ? storage_->getApproximateSize() : 0;
+
+                json storage_json = {
+                    {"rocksdb_sst_size_bytes", rocksdb_size}
+                };
+
+                // Include OS-level disk space for the storage path when available.
+                if (storage_) {
+                    const std::string& db_path = storage_->getConfig().db_path;
+                    storage::DiskSpaceMonitor dsm(db_path);
+                    auto space = dsm.checkSpace();
+                    dsm.setRocksDBSize(rocksdb_size);
+
+                    storage_json["disk"] = {
+                        {"path",            space.path},
+                        {"total_bytes",     space.total_bytes},
+                        {"used_bytes",      space.used_bytes},
+                        {"free_bytes",      space.free_bytes},
+                        {"available_bytes", space.available_bytes},
+                        {"usage_percent",   space.usage_percent},
+                        {"free_percent",    space.free_percent}
+                    };
+                }
+
+                response = makeResponse(http::status::ok, storage_json.dump(), req);
+            } catch (const std::exception& e) {
+                response = makeErrorResponse(http::status::internal_server_error,
+                    std::string("Failed to get storage stats: ") + e.what(), req);
+            }
             break;
         }
         case Route::LlmInteractionPost:

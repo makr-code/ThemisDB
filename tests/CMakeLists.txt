@@ -15552,6 +15552,48 @@ else()
 endif()
 
 # ---------------------------------------------------------------------------
+# RocksDBWrapper Size Calculation focused tests (v1.8.0, Issue #205)
+# AC-1: getApproximateSize() returns non-zero after flush
+# AC-2: getStats() JSON has total_sst_files_size_bytes
+# AC-3: DiskSpaceMonitor::setRocksDBSize() persists in SpaceInfo
+# AC-4: getApproximateSize() returns 0 when DB not open
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rocksdb_size_calculation.cpp")
+    message(STATUS "Adding RocksDBWrapper Size Calculation focused tests (storage module, Issue #205)")
+
+    add_executable(test_rocksdb_size_calculation_focused
+        test_rocksdb_size_calculation.cpp
+    )
+
+    target_include_directories(test_rocksdb_size_calculation_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_rocksdb_size_calculation_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_rocksdb_size_calculation_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RocksDBSizeCalculationFocusedTests
+        COMMAND test_rocksdb_size_calculation_focused)
+
+    set_tests_properties(RocksDBSizeCalculationFocusedTests PROPERTIES
+        LABELS "storage;rocksdb;size;disk_space;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  RocksDBWrapper: getApproximateSize, getStats total_sst_files_size_bytes, DiskSpaceMonitor::setRocksDBSize")
+else()
+    message(STATUS "RocksDBWrapper size calculation focused tests not found")
+endif()
+
+# ---------------------------------------------------------------------------
 # Shard RPC Integration focused tests (v0.9.0 + v1.8.0, Issue #202)
 # AC3: ShardRpcRetryPolicy  AC4: mtls_connection_pool wiring + gossip config
 # AC5: OperationalMetrics + PrometheusMetrics per-RPC recording
