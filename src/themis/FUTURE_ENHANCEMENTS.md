@@ -293,45 +293,53 @@ private:
 
 ### Wire Protocol V2 Implementation
 **Priority:** High  
-**Target Version:** v1.8.0
+**Target Version:** v1.8.0  
+**Status:** ✅ Implemented (v1.8.0)
 
 Implement enhanced wire protocol with multiplexing.
 
 **Implementation:**
+- Header: `include/themis/network/wire_protocol_v2.hpp`
+- Source: `src/network/wire_protocol_v2.cpp`
+- Tests:  `tests/test_wire_protocol_v2.cpp` (WireProtocolV2FocusedTests — 30+ tests)
+- CI:     `.github/workflows/wire-protocol-v2-ci.yml`
+
 ```cpp
-// wire_protocol_v2.cpp (new file)
-class WireProtocolServerV2 {
+// V2Server – multiplexed wire protocol server
+// See include/themis/network/wire_protocol_v2.hpp for full API.
+class V2Server {
 public:
-    struct Config {
-        uint32_t max_concurrent_streams = 100;
-        bool enable_server_push = true;
-        bool enable_flow_control = true;
-        size_t initial_window_size = 64 * 1024;
-    };
-    
-    WireProtocolServerV2(boost::asio::io_context& io, uint16_t port);
-    
-    void start(const Config& config);
-    
-private:
-    // Stream management
-    class StreamManager {
-        std::unordered_map<uint32_t, Stream> streams_;
-    };
-    
-    // Server push
-    void pushData(uint32_t stream_id, const std::vector<uint8_t>& data);
-    
-    // Flow control
-    void handleWindowUpdate(uint32_t stream_id, uint32_t increment);
+    explicit V2Server(const V2ConnectionConfig& config);
+
+    void start();
+    void stop();
+    bool is_running() const;
+
+    void set_data_handler(V2DataHandler handler);
+    void set_headers_handler(V2HeadersHandler handler);
+    void set_rst_stream_handler(V2RstStreamHandler handler);
+
+    bool push_to_client(const std::string& connection_id,
+                        uint32_t associated_sid,
+                        const std::unordered_map<std::string, std::string>& headers,
+                        const std::vector<uint8_t>& data);
+
+    size_t   active_connections()   const;
+    uint64_t total_streams_opened() const;
+    uint64_t total_frames_sent()    const;
+    uint64_t total_frames_received() const;
 };
 ```
 
 **Protocol Features:**
-- HTTP/2-style multiplexing
-- Server push
-- Flow control
-- Priority and dependency management
+- [x] HTTP/2-style multiplexing (multiple logical streams per TCP connection via `stream_id`)
+- [x] Server push (`PUSH_PROMISE` frame + `push_to_client()` API)
+- [x] Flow control (`WINDOW_UPDATE` frames, per-stream and connection-level windows)
+- [x] Priority and dependency management (stream `priority` field 0–255, `PRIORITY` frame type)
+- [x] LZ4 and Zstd connection-level compression (`COMPRESSED` / `ZSTD_COMPRESSED` flags)
+- [x] Graceful connection shutdown (`GOAWAY` frame)
+- [x] Stream reset (`RST_STREAM` frame)
+- [x] Settings negotiation (`SETTINGS` frame with ACK)
 
 ---
 
