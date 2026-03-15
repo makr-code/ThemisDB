@@ -14252,6 +14252,42 @@ else()
     message(STATUS "Query JIT Compilation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_query_jit_compilation.cpp")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_materialized_view.cpp")
+    message(STATUS "Adding Materialized Views focused tests (v1.8.0, Issue #195)")
+
+    add_executable(test_materialized_view_focused
+        test_materialized_view.cpp
+    )
+
+    target_include_directories(test_materialized_view_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_materialized_view_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_materialized_view_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MaterializedViewFocusedTests
+        COMMAND test_materialized_view_focused)
+
+    set_tests_properties(MaterializedViewFocusedTests PROPERTIES
+        LABELS "query;materialized-view;incremental-maintenance;staleness;rewrite;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  MaterializedView: create, canRewrite, IMMEDIATE/DEFERRED/PERIODIC/MANUAL, staleness, registry")
+else()
+    message(STATUS "Materialized View tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_materialized_view.cpp")
+endif()
+
 # ============================================================================
 # Storage Module Focused Tests
 # ============================================================================
