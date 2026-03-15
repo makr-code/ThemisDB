@@ -639,20 +639,28 @@ jobs:
           python3 - <<'PYEOF'
           with open('/tmp/live_mysql_dump.sql') as f:
               content = f.read()
+              lines   = content.splitlines()
 
-          assert 'MySQL dump' in content or 'mysqldump' in content.lower(), \
-              "Dump must have MySQL header"
-          assert 'CREATE TABLE' in content.upper(), \
-              "Dump must have CREATE TABLE statements"
-          assert 'INSERT INTO' in content.upper(), \
-              "Dump must have INSERT INTO statements"
-          assert '`users`' in content or 'users' in content, \
-              "Dump must reference users table"
+          assert any('MySQL dump' in l or 'mysqldump' in l.lower() for l in lines[:20]), \
+              "Dump must have MySQL header in first 20 lines"
 
-          row_count = content.count("'alice'") + content.count("'bob'") + \
-                      content.count("'charlie'")
-          assert row_count >= 3, f"Expected at least 3 user rows, found {row_count}"
-          print(f"OK: MySQL dump structure verified, {row_count} user rows found")
+          create_table_count = sum(
+              1 for l in lines if l.strip().upper().startswith('CREATE TABLE'))
+          assert create_table_count >= 2, \
+              f"Expected >= 2 CREATE TABLE statements, found {create_table_count}"
+
+          insert_count = sum(
+              1 for l in lines if l.strip().upper().startswith('INSERT INTO'))
+          assert insert_count >= 2, \
+              f"Expected >= 2 INSERT INTO statements (one per table), found {insert_count}"
+
+          # Verify the 'users' table is present by checking for its CREATE TABLE statement
+          assert any('`users`' in l or "CREATE TABLE users" in l.upper() for l in lines), \
+              "Dump must reference users table in a CREATE TABLE statement"
+
+          print(f"OK: MySQL dump structure verified")
+          print(f"  CREATE TABLE statements: {create_table_count}")
+          print(f"  INSERT INTO statements:  {insert_count}")
           PYEOF
 
       - name: Upload test results

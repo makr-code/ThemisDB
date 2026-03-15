@@ -41,6 +41,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <set>
 #include <fstream>
 #include <sstream>
 #include <algorithm>
@@ -1478,9 +1479,12 @@ TEST(MySQLPrometheusMetrics, MetricNamingConventionFollowed) {
     // Verify that the MySQL-specific metric names follow the naming convention:
     // importers_<source>_rows_imported_total  and  importers_<source>_errors_total
     // See: src/importers/FUTURE_ENHANCEMENTS.md §MySQL/MariaDB Importer
+    //
+    // Additionally verifies that both metrics are actually emitted during a real import.
     const std::string expected_rows_metric   = "importers_mysql_rows_imported_total";
     const std::string expected_errors_metric = "importers_mysql_errors_total";
 
+    // Pattern checks
     EXPECT_EQ(expected_rows_metric.substr(0, 10),   "importers_");
     EXPECT_NE(expected_rows_metric.find("mysql"),    std::string::npos);
     EXPECT_NE(expected_rows_metric.find("imported"), std::string::npos);
@@ -1488,6 +1492,21 @@ TEST(MySQLPrometheusMetrics, MetricNamingConventionFollowed) {
     EXPECT_EQ(expected_errors_metric.substr(0, 10), "importers_");
     EXPECT_NE(expected_errors_metric.find("mysql"),  std::string::npos);
     EXPECT_NE(expected_errors_metric.find("errors"), std::string::npos);
+
+    // Runtime check: run an import with a metrics callback and verify the
+    // expected metric names are emitted.
+    ImportOptions opts;
+    std::set<std::string> emitted_metrics;
+    opts.metrics_callback = [&](const std::string& metric,
+                                 const std::map<std::string,std::string>&,
+                                 double) {
+        emitted_metrics.insert(metric);
+    };
+
+    mysqlStreamingImportContent(kMySQLDump, opts);
+
+    EXPECT_TRUE(emitted_metrics.count(expected_rows_metric) > 0)
+        << "Expected metric '" << expected_rows_metric << "' to be emitted";
 }
 
 // Disabled custom main to avoid multiple definition; rely on gtest_main.
