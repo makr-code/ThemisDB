@@ -79,9 +79,9 @@
 `cte_subquery.cpp` line 334 has: "Phase 1 stub: treat as scalar subquery; real behavior handled elsewhere". Correlated subqueries and EXISTS subqueries may be incorrectly evaluated as scalar, producing wrong results.
 
 **Implementation Notes:**
-- `[ ]` Implement correlated subquery evaluation: detect outer references in the subquery AST; evaluate subquery once per outer row with the correlated bindings.
-- `[ ]` Implement `EXISTS`/`NOT EXISTS` short-circuit: stop iterating the subquery result as soon as one matching row is found.
-- `[ ]` Add regression tests for correlated subqueries with outer reference in WHERE clause.
+- `[x]` Implement correlated subquery evaluation: detect outer references in the subquery AST; evaluate subquery once per outer row with the correlated bindings.
+- `[x]` Implement `EXISTS`/`NOT EXISTS` short-circuit: stop iterating the subquery result as soon as one matching row is found.
+- `[x]` Add regression tests for correlated subqueries with outer reference in WHERE clause.
 
 ---
 
