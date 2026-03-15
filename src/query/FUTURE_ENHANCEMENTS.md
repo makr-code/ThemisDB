@@ -85,7 +85,8 @@
 
 ---
 
-
+<a id="query-compilation--jit"></a>
+### Query Compilation & JIT
 **Priority:** High  
 **Target Version:** v1.8.0
 
