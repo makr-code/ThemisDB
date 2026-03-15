@@ -6993,6 +6993,39 @@ else()
     message(STATUS "Plugin Lifecycle focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_lifecycle.cpp")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_generic_plugin_registry.cpp")
+    message(STATUS "Adding Generic PluginRegistry focused tests (shared_mutex upgrade)")
+
+    add_executable(test_generic_plugin_registry_focused
+        test_generic_plugin_registry.cpp
+    )
+
+    target_include_directories(test_generic_plugin_registry_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_generic_plugin_registry_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_generic_plugin_registry_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GenericPluginRegistryFocusedTests COMMAND test_generic_plugin_registry_focused)
+
+    set_tests_properties(GenericPluginRegistryFocusedTests PROPERTIES
+        LABELS "plugins;registry;shared_mutex;concurrency;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  GenericPluginRegistry: registerFactory, create, listPlugins, hasPlugin, unregisterFactory, clearRegistry, concurrent reads")
+else()
+    message(STATUS "Generic PluginRegistry focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_generic_plugin_registry.cpp")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_health_monitor.cpp")
     message(STATUS "Adding Plugin Health Monitor focused tests")
 

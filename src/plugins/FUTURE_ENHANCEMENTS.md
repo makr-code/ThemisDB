@@ -27,16 +27,16 @@ This document covers planned enhancements to ThemisDB's plugin subsystem, which 
 
 ## Planned Features
 
-### `PluginRegistry`: Upgrade Global Mutex to `shared_mutex`
+### [x] `PluginRegistry`: Upgrade Global Mutex to `shared_mutex`
 **Priority:** Medium
 **Target Version:** v1.8.0
 
 `plugin_registry.cpp` uses a single static `std::mutex` (line 50) for all registry operations. All read operations (`getPlugin`, `listPlugins`, `isRegistered`) hold an exclusive lock, serializing concurrent reads from multiple modules.
 
 **Implementation Notes:**
-- `[ ]` Replace the static `std::mutex` in `PluginRegistry::getMutex()` with a `std::shared_mutex`.
-- `[ ]` Upgrade `getPlugin`, `listPlugins`, `isRegistered` to `std::shared_lock`.
-- `[ ]` Keep `registerPlugin`, `unregisterPlugin`, `clear` on `std::unique_lock`.
+- `[x]` Replace the static `std::mutex` in `PluginRegistry::getMutex()` with a `std::shared_mutex`.
+- `[x]` Upgrade `getPlugin`, `listPlugins`, `isRegistered` to `std::shared_lock`.
+- `[x]` Keep `registerPlugin`, `unregisterPlugin`, `clear` on `std::unique_lock`. Added `unregisterFactory<T>` with `std::unique_lock`.
 
 ---
 
@@ -47,10 +47,10 @@ This document covers planned enhancements to ThemisDB's plugin subsystem, which 
 Replace the current dlopen-based loading with a WASM runtime (Wasmtime or WasmEdge) to provide memory-safe, OS-independent plugin execution. Each plugin runs in its own WASM linear memory; host functions are explicitly allowlisted via a capabilities manifest field.
 
 **Implementation Notes:**
-- Add `wasm_plugin_loader.cpp` alongside `plugin_manager.cpp`; select loader via `PluginManifest.runtime` field (`"native"` | `"wasm"`).
-- Expose a `WasmHostAPI` header under `include/plugins/` that maps the existing `IPlugin` vtable to WASM import functions.
-- Update `plugin_system_edition.cpp` to gate WASM support behind the Enterprise edition flag.
-- `plugin_registry.cpp` must verify WASM module hash against manifest `sha256` field before instantiation.
+- `[x]` Add `wasm_plugin_loader.cpp` alongside `plugin_manager.cpp`; select loader via `PluginManifest.runtime` field (`"native"` | `"wasm"`). Runtime field added to `PluginManifest`; loader scaffold in place with `#ifdef THEMIS_WASM_SUPPORT`.
+- `[x]` Expose a `WasmHostAPI` header under `include/plugins/` that maps the existing `IPlugin` vtable to WASM import functions. Created `include/plugins/wasm_host_api.h`.
+- `[x]` Update `plugin_system_edition.cpp` to gate WASM support behind the Enterprise edition flag. WASM path gated by `ArePluginsSupported()` + `THEMIS_WASM_SUPPORT`.
+- `[x]` `plugin_registry.cpp` must verify WASM module hash against manifest `sha256` field before instantiation. Implemented in `verifyWasmModuleHash()` in `wasm_plugin_loader.cpp`; called before any WASM instantiation.
 
 **Performance Targets:**
 - WASM plugin cold-start latency: <50 ms per plugin on warm JIT cache.

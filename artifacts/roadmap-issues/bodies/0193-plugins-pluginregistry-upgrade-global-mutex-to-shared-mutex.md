@@ -43,13 +43,13 @@ Replace the current dlopen-based loading with a WASM runtime (Wasmtime or WasmEd
 
 ### Acceptance Criteria
 
-- [ ] Replace the static `std::mutex` in `PluginRegistry::getMutex()` with a `std::shared_mutex`.
-- [ ] Upgrade `getPlugin`, `listPlugins`, `isRegistered` to `std::shared_lock`.
-- [ ] Keep `registerPlugin`, `unregisterPlugin`, `clear` on `std::unique_lock`.
-- [ ] Add `wasm_plugin_loader.cpp` alongside `plugin_manager.cpp`; select loader via `PluginManifest.runtime` field (`"native"` | `"wasm"`).
-- [ ] Expose a `WasmHostAPI` header under `include/plugins/` that maps the existing `IPlugin` vtable to WASM import functions.
-- [ ] Update `plugin_system_edition.cpp` to gate WASM support behind the Enterprise edition flag.
-- [ ] `plugin_registry.cpp` must verify WASM module hash against manifest `sha256` field before instantiation.
+- [x] Replace the static `std::mutex` in `PluginRegistry::getMutex()` with a `std::shared_mutex`.
+- [x] Upgrade `getPlugin`, `listPlugins`, `isRegistered` to `std::shared_lock`.
+- [x] Keep `registerPlugin`, `unregisterPlugin`, `clear` on `std::unique_lock`.
+- [x] Add `wasm_plugin_loader.cpp` alongside `plugin_manager.cpp`; select loader via `PluginManifest.runtime` field (`"native"` | `"wasm"`).
+- [x] Expose a `WasmHostAPI` header under `include/plugins/` that maps the existing `IPlugin` vtable to WASM import functions.
+- [x] Update `plugin_system_edition.cpp` to gate WASM support behind the Enterprise edition flag.
+- [x] `plugin_registry.cpp` must verify WASM module hash against manifest `sha256` field before instantiation.
 - [ ] WASM plugin cold-start latency: <50 ms per plugin on warm JIT cache.
 - [ ] Steady-state call overhead vs. native plugin: <3× (Wasmtime near-native tier).
 
