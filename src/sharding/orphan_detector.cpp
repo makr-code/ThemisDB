@@ -22,6 +22,7 @@
 
 #include "sharding/orphan_detector.h"
 #include "sharding/cross_shard_transaction.h"
+#include "sharding/distributed_coordinator.h"
 #include <spdlog/spdlog.h>
 
 namespace sharding {
@@ -46,20 +47,33 @@ OrphanDetector::OrphanDetector(const Config& config)
     : config_(config) {
 }
 
+OrphanDetector::OrphanDetector(const Config& config,
+                               themis::sharding::DistributedCoordinator* dist_coordinator)
+    : config_(config), distributed_coordinator_(dist_coordinator) {
+}
+
 std::vector<std::string> OrphanDetector::detectOrphans(
     const std::shared_ptr<themisdb::sharding::CrossShardTransactionCoordinator>& coordinator) {
     
     std::vector<std::string> orphaned_txns;
     
-    if (!coordinator) {
-        spdlog::warn("OrphanDetector: Coordinator is null");
+    if (!coordinator && !distributed_coordinator_) {
+        spdlog::warn("OrphanDetector: No coordinator available");
         return orphaned_txns;
     }
     
     spdlog::info("OrphanDetector: Scanning for orphaned transactions (timeout: {}s)", 
                  config_.timeout_seconds);
 
-    auto active_txns = coordinator->getActiveTransactions();
+    // Prefer the authoritative in-flight list from DistributedCoordinator when
+    // available; fall back to the per-call CrossShardTransactionCoordinator.
+    std::vector<themisdb::sharding::CrossShardTransaction> active_txns;
+    if (distributed_coordinator_) {
+        active_txns = distributed_coordinator_->listInFlightTransactions();
+    } else {
+        active_txns = coordinator->getActiveTransactions();
+    }
+
     auto now = std::chrono::system_clock::now();
     const auto threshold = std::chrono::seconds(config_.timeout_seconds);
 
@@ -85,11 +99,19 @@ bool OrphanDetector::isOrphaned(
     const std::string& transaction_id,
     const std::shared_ptr<themisdb::sharding::CrossShardTransactionCoordinator>& coordinator) {
     
-    if (!coordinator) {
+    if (!coordinator && !distributed_coordinator_) {
         return false;
     }
 
-    auto txn_opt = coordinator->getTransaction(transaction_id);
+    // Prefer the authoritative getTransaction() from DistributedCoordinator
+    // when available; fall back to the per-call coordinator.
+    std::optional<themisdb::sharding::CrossShardTransaction> txn_opt;
+    if (distributed_coordinator_) {
+        txn_opt = distributed_coordinator_->getTransaction(transaction_id);
+    } else {
+        txn_opt = coordinator->getTransaction(transaction_id);
+    }
+
     if (!txn_opt.has_value()) {
         return false;
     }

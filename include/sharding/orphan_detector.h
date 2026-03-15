@@ -28,6 +28,10 @@
 #include <vector>
 #include "cross_shard_transaction.h"
 
+namespace themis::sharding {
+class DistributedCoordinator;
+} // namespace themis::sharding
+
 namespace sharding {
 
 /**
@@ -51,6 +55,19 @@ public:
     };
     
     explicit OrphanDetector(const Config& config);
+
+    /**
+     * Construct with an optional DistributedCoordinator for authoritative
+     * in-flight transaction lookups.  When @p dist_coordinator is non-null,
+     * detectOrphans() and isOrphaned() query it directly instead of (or in
+     * addition to) the per-call CrossShardTransactionCoordinator.
+     *
+     * @param config           Orphan-detection configuration.
+     * @param dist_coordinator Wired DistributedCoordinator; may be nullptr.
+     */
+    OrphanDetector(const Config& config,
+                   themis::sharding::DistributedCoordinator* dist_coordinator);
+
     ~OrphanDetector() = default;
     
     /**
@@ -90,6 +107,7 @@ public:
     
 private:
     Config config_;
+    themis::sharding::DistributedCoordinator* distributed_coordinator_{nullptr};
 };
 
 } // namespace sharding

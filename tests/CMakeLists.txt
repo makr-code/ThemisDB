@@ -15240,6 +15240,44 @@ add_custom_target(run_tests
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
 
+# ---------------------------------------------------------------------------
+# OrphanDetector DistributedCoordinator wiring focused tests (v1.8.0, #202)
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_orphan_detector_wired.cpp")
+    message(STATUS "Adding OrphanDetector DistributedCoordinator wiring focused tests (sharding, Issue #202)")
+
+    add_executable(test_orphan_detector_wired_focused
+        test_orphan_detector_wired.cpp
+    )
+
+    target_include_directories(test_orphan_detector_wired_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_orphan_detector_wired_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_orphan_detector_wired_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME OrphanDetectorWiredFocusedTests
+        COMMAND test_orphan_detector_wired_focused)
+
+    set_tests_properties(OrphanDetectorWiredFocusedTests PROPERTIES
+        LABELS "sharding;orphan-detector;distributed-coordinator;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  OrphanDetector: DistributedCoordinator injection, listInFlightTransactions, getTransaction wiring")
+else()
+    message(STATUS "OrphanDetector wired focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_orphan_detector_wired.cpp")
+endif()
+
 if(TARGET themis_tests)
     get_target_property(_themis_tests_sources_final themis_tests SOURCES)
     if(_themis_tests_sources_final)

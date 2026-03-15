@@ -546,4 +546,35 @@ void DistributedCoordinator::transferLeadership(const std::string& new_leader) {
     stepDown();
 }
 
+// Transaction visibility
+
+void DistributedCoordinator::setTransactionCoordinator(
+    themisdb::sharding::CrossShardTransactionCoordinator* txn_coordinator)
+{
+    std::lock_guard<std::shared_mutex> lock(txn_coordinator_mutex_);
+    txn_coordinator_ = txn_coordinator;
+    THEMIS_INFO("DistributedCoordinator: transaction coordinator {}",
+                txn_coordinator ? "registered" : "detached");
+}
+
+std::vector<themisdb::sharding::CrossShardTransaction>
+DistributedCoordinator::listInFlightTransactions() const
+{
+    std::shared_lock<std::shared_mutex> lock(txn_coordinator_mutex_);
+    if (!txn_coordinator_) {
+        return {};
+    }
+    return txn_coordinator_->getActiveTransactions();
+}
+
+std::optional<themisdb::sharding::CrossShardTransaction>
+DistributedCoordinator::getTransaction(const std::string& txn_id) const
+{
+    std::shared_lock<std::shared_mutex> lock(txn_coordinator_mutex_);
+    if (!txn_coordinator_) {
+        return std::nullopt;
+    }
+    return txn_coordinator_->getTransaction(txn_id);
+}
+
 } // namespace themis::sharding
