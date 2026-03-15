@@ -35,7 +35,8 @@ namespace themis::exporters {
 /// Compression type
 enum class CompressionType {
     NONE,
-    GZIP,
+    GZIP,   ///< Accepted for backward compatibility; produces ZSTD output (not gzip format).
+            ///< For gzip output, pipe through: zstd -d | gzip  (or pigz).
     ZSTD
 };
 
@@ -45,7 +46,7 @@ public:
     struct Config {
         std::string output_path;
         CompressionType compression = CompressionType::NONE;
-        int compression_level = 6;  // 1-9 for gzip, 1-22 for zstd
+        int compression_level = 3;  // 1-22 for zstd
         size_t buffer_size = 8192;
         size_t max_file_size = 0;  // 0 = unlimited
     };
@@ -83,7 +84,7 @@ private:
     size_t compressed_bytes_written_ = 0;
     
     // Compression state
-    void* compression_state_ = nullptr;  // zlib or zstd state
+    void* compression_state_ = nullptr;  // zstd stream state
     
     void initCompression();
     void writeBuffer();

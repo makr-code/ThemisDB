@@ -121,9 +121,7 @@ ExportStats StreamingExporter::exportFromCursor(
     writer_config.max_file_size = options.max_file_size_bytes;
 
     if (options.compress) {
-        if (options.compression_type == "gzip") {
-            writer_config.compression = CompressionType::GZIP;
-        } else if (options.compression_type == "zstd") {
+        if (options.compression_type == "gzip" || options.compression_type == "zstd") {
             writer_config.compression = CompressionType::ZSTD;
         }
         writer_config.compression_level = options.compression_level;
