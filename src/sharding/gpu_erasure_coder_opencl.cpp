@@ -220,19 +220,27 @@ public:
         cl_device_id chosen_device = nullptr;
         for (auto& plat : platforms) {
             cl_uint num_dev = 0;
-            // Prefer GPU; fall back to any device on this platform
-            if (clGetDeviceIDs(plat, CL_DEVICE_TYPE_GPU, 0, nullptr, &num_dev)
-                    == CL_SUCCESS && num_dev > 0) {
-                std::vector<cl_device_id> devs(num_dev);
-                clGetDeviceIDs(plat, CL_DEVICE_TYPE_GPU, num_dev,
-                               devs.data(), nullptr);
-                chosen_device = devs[static_cast<size_t>(config.device_id)
-                                     % num_dev];
-                break;
+            // Prefer GPU devices; fall back to any available device type.
+            cl_device_type dtypes[] = { CL_DEVICE_TYPE_GPU, CL_DEVICE_TYPE_ALL };
+            for (cl_device_type dtype : dtypes) {
+                if (clGetDeviceIDs(plat, dtype, 0, nullptr, &num_dev)
+                        == CL_SUCCESS && num_dev > 0) {
+                    std::vector<cl_device_id> devs(num_dev);
+                    clGetDeviceIDs(plat, dtype, num_dev, devs.data(), nullptr);
+                    // Guard against negative device_id (GPUConfig uses int)
+                    const size_t dev_idx =
+                        (config.device_id >= 0)
+                        ? static_cast<size_t>(config.device_id) % num_dev
+                        : 0;
+                    chosen_device = devs[dev_idx];
+                    break;
+                }
             }
+            if (chosen_device) break;
         }
         if (!chosen_device) {
-            spdlog::warn("OpenCL: no GPU device found, coder will use CPU fallback");
+            spdlog::warn("OpenCL: no device found on any platform, "
+                         "coder will use CPU fallback");
             return false;
         }
 
@@ -282,22 +290,24 @@ public:
             return false;
         }
 
-        // Upload static GF tables to constant buffers
+        // Upload static GF tables to constant buffers — check each individually.
+        cl_int exp_err = CL_SUCCESS, log_err = CL_SUCCESS;
         buf_gf_exp_ = clCreateBuffer(context_,
             CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
-            sizeof(gf_exp), gf_exp, &err);
+            sizeof(gf_exp), gf_exp, &exp_err);
         buf_gf_log_ = clCreateBuffer(context_,
             CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
-            sizeof(gf_log), gf_log, &err);
-        if (err != CL_SUCCESS) {
-            spdlog::error("OpenCL: failed to allocate GF table buffers ({})", err);
+            sizeof(gf_log), gf_log, &log_err);
+        if (exp_err != CL_SUCCESS || log_err != CL_SUCCESS) {
+            spdlog::error("OpenCL: failed to allocate GF table buffers "
+                          "(exp={}, log={})", exp_err, log_err);
             shutdown();
             return false;
         }
 
         device_ = chosen_device;
         initialized_ = true;
-        spdlog::info("OpenCL erasure coder initialised (device {})",
+        spdlog::info("OpenCL erasure coder initialized (device {})",
                      config.device_id);
         return true;
     }
@@ -477,21 +487,26 @@ public:
             }
         }
 
-        // Allocate OpenCL buffers for the entire batch
-        cl_int err = CL_SUCCESS;
+        // Allocate OpenCL buffers for the entire batch — check each independently.
+        cl_int data_err   = CL_SUCCESS;
+        cl_int parity_err = CL_SUCCESS;
+        cl_int matrix_err = CL_SUCCESS;
         cl_mem buf_data = clCreateBuffer(context_,
             CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
-            total_data_bytes, flat_data.data(), &err);
+            total_data_bytes, flat_data.data(), &data_err);
         cl_mem buf_parity = clCreateBuffer(context_,
             CL_MEM_WRITE_ONLY,
-            total_parity_bytes, nullptr, &err);
+            total_parity_bytes, nullptr, &parity_err);
         cl_mem buf_matrix = clCreateBuffer(context_,
             CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
-            enc_matrix.size(), const_cast<uint8_t*>(enc_matrix.data()), &err);
+            enc_matrix.size(), const_cast<uint8_t*>(enc_matrix.data()),
+            &matrix_err);
 
-        if (err != CL_SUCCESS || !buf_data || !buf_parity || !buf_matrix) {
-            spdlog::warn("OpenCL batchEncode: buffer allocation failed ({}), "
-                         "falling back to CPU", err);
+        if (data_err != CL_SUCCESS || parity_err != CL_SUCCESS
+                || matrix_err != CL_SUCCESS) {
+            spdlog::warn("OpenCL batchEncode: buffer allocation failed "
+                         "(data={}, parity={}, matrix={}), falling back to CPU",
+                         data_err, parity_err, matrix_err);
             if (buf_data)   clReleaseMemObject(buf_data);
             if (buf_parity) clReleaseMemObject(buf_parity);
             if (buf_matrix) clReleaseMemObject(buf_matrix);
@@ -516,14 +531,21 @@ public:
             cl_buffer_region data_reg   = {data_off_bytes,   stripe_data_bytes};
             cl_buffer_region parity_reg = {parity_off_bytes, stripe_parity_bytes};
 
+            cl_int sub_data_err   = CL_SUCCESS;
+            cl_int sub_parity_err = CL_SUCCESS;
             cl_mem sub_data   = clCreateSubBuffer(buf_data,
                 CL_MEM_READ_ONLY, CL_BUFFER_CREATE_TYPE_REGION,
-                &data_reg, &err);
+                &data_reg, &sub_data_err);
             cl_mem sub_parity = clCreateSubBuffer(buf_parity,
                 CL_MEM_WRITE_ONLY, CL_BUFFER_CREATE_TYPE_REGION,
-                &parity_reg, &err);
+                &parity_reg, &sub_parity_err);
 
-            if (err != CL_SUCCESS) { gpu_ok = false; break; }
+            if (sub_data_err != CL_SUCCESS || sub_parity_err != CL_SUCCESS) {
+                if (sub_data)   clReleaseMemObject(sub_data);
+                if (sub_parity) clReleaseMemObject(sub_parity);
+                gpu_ok = false;
+                break;
+            }
 
             clSetKernelArg(kernel_, 0, sizeof(cl_mem), &sub_data);
             clSetKernelArg(kernel_, 1, sizeof(cl_mem), &sub_parity);
@@ -535,13 +557,13 @@ public:
             clSetKernelArg(kernel_, 7, sizeof(cl_uint), &ps);
 
             size_t global_size = chunk_size;
-            err = clEnqueueNDRangeKernel(queue_, kernel_, 1, nullptr,
-                                         &global_size, nullptr, 0,
-                                         nullptr, nullptr);
+            cl_int enq_err = clEnqueueNDRangeKernel(queue_, kernel_, 1, nullptr,
+                                                     &global_size, nullptr, 0,
+                                                     nullptr, nullptr);
             clReleaseMemObject(sub_data);
             clReleaseMemObject(sub_parity);
 
-            if (err != CL_SUCCESS) { gpu_ok = false; break; }
+            if (enq_err != CL_SUCCESS) { gpu_ok = false; break; }
         }
 
         if (gpu_ok) {
@@ -628,20 +650,25 @@ private:
         const size_t parity_flat_size =
             static_cast<size_t>(parity_shards) * chunk_size;
 
-        cl_int err = CL_SUCCESS;
+        // Allocate OpenCL buffers — check each independently.
+        cl_int data_err   = CL_SUCCESS;
+        cl_int parity_err = CL_SUCCESS;
+        cl_int matrix_err = CL_SUCCESS;
         cl_mem buf_data = clCreateBuffer(context_,
             CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
-            flat_size, flat_data.data(), &err);
+            flat_size, flat_data.data(), &data_err);
         cl_mem buf_parity = clCreateBuffer(context_,
-            CL_MEM_WRITE_ONLY, parity_flat_size, nullptr, &err);
+            CL_MEM_WRITE_ONLY, parity_flat_size, nullptr, &parity_err);
         cl_mem buf_matrix = clCreateBuffer(context_,
             CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
             enc_matrix.size(),
-            const_cast<uint8_t*>(enc_matrix.data()), &err);
+            const_cast<uint8_t*>(enc_matrix.data()), &matrix_err);
 
-        if (err != CL_SUCCESS || !buf_data || !buf_parity || !buf_matrix) {
-            spdlog::warn("OpenCL encode: buffer alloc failed ({}), "
-                         "using CPU path", err);
+        if (data_err != CL_SUCCESS || parity_err != CL_SUCCESS
+                || matrix_err != CL_SUCCESS) {
+            spdlog::warn("OpenCL encode: buffer alloc failed "
+                         "(data={}, parity={}, matrix={}), using CPU path",
+                         data_err, parity_err, matrix_err);
             if (buf_data)   clReleaseMemObject(buf_data);
             if (buf_parity) clReleaseMemObject(buf_parity);
             if (buf_matrix) clReleaseMemObject(buf_matrix);
@@ -663,12 +690,12 @@ private:
         clSetKernelArg(kernel_, 7, sizeof(cl_uint), &ps);
 
         size_t global_size = chunk_size;
-        err = clEnqueueNDRangeKernel(queue_, kernel_, 1, nullptr,
-                                     &global_size, nullptr, 0,
-                                     nullptr, nullptr);
-        if (err != CL_SUCCESS) {
+        cl_int enq_err = clEnqueueNDRangeKernel(queue_, kernel_, 1, nullptr,
+                                                 &global_size, nullptr, 0,
+                                                 nullptr, nullptr);
+        if (enq_err != CL_SUCCESS) {
             spdlog::warn("OpenCL encode: kernel launch failed ({}), "
-                         "using CPU path", err);
+                         "using CPU path", enq_err);
             clReleaseMemObject(buf_data);
             clReleaseMemObject(buf_parity);
             clReleaseMemObject(buf_matrix);

@@ -265,7 +265,7 @@ TEST_F(OpenCLErasureCoderParityTest, BatchEncode_MatchesSingleEncode) {
 // ─── isAvailable contract ────────────────────────────────────────────────────
 
 TEST_F(OpenCLErasureCoderParityTest, IsAvailable_ReflectsInit) {
-    // A freshly built, not-yet-initialised impl must not be available
+    // A freshly built, not-yet-initialized impl must not be available
     auto fresh = createOpenCLErasureCoder(
         GPUConfig{}, ErasureCodingAlgorithm::REED_SOLOMON);
     ASSERT_NE(fresh, nullptr);
