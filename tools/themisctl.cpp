@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            themisctl.cpp                                      ║
-  Version:         1.0.0                                              ║
+  Version:         1.1.0                                              ║
   Last Modified:   2026-03-15                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     ~700                                           ║
+    • Total Lines:     ~900                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -41,6 +41,8 @@
  *   put    <id> <json-body>      Create or update an entity
  *   delete <id>                  Delete an entity
  *   schema [table]               Show schema (optionally for one table)
+ *   config get                   Print current server configuration
+ *   config set <key=value> ...   Hot-reload one or more config keys
  *   branch list                  List branches
  *   branch create <name>         Create a branch
  *   branch switch <name>         Switch the active branch
@@ -49,6 +51,7 @@
  *   snapshot create [tag]        Create a snapshot tag
  *   admin stats                  Show observability health / node stats
  *   admin cache                  Show cache health and statistics
+ *   repl                         Start interactive REPL (with history)
  *
  * Exit codes:
  *   0  Success
@@ -70,6 +73,19 @@
 
 // ── nlohmann/json (header-only) ───────────────────────────────────────────────
 #include <nlohmann/json.hpp>
+
+// ── GNU Readline (optional — disabled in test builds) ─────────────────────────
+#ifndef THEMISCTL_TEST_BUILD
+#  ifdef THEMISCTL_ENABLE_READLINE
+#    include <readline/readline.h>
+#    include <readline/history.h>
+#    define THEMISCTL_HAS_READLINE 1
+#  else
+#    define THEMISCTL_HAS_READLINE 0
+#  endif
+#else
+#  define THEMISCTL_HAS_READLINE 0
+#endif
 
 using json = nlohmann::json;
 
@@ -393,6 +409,127 @@ static int cmdSchema(const std::vector<std::string>& args) {
     return handleResponse(r);
 }
 
+// ── config ───────────────────────────────────────────────────────────────────
+//
+// config get                  — GET /config, pretty-print response
+// config set key=value ...    — POST /config with a patch JSON object
+//
+// Supported dotted keys (mirroring the server handleConfig hot-reload):
+//   logging.level              string  (trace|debug|info|warn|error)
+//   logging.format             string  (text|json)
+//   request_timeout_ms         number  (1000-300000)
+//   features.semantic_cache    bool    (true|false)
+//   features.llm_store         bool    (true|false)
+//   features.cdc               bool    (true|false)
+//   features.timeseries        bool    (true|false)
+//   cdc_retention_hours        number  (1-8760)
+
+static int cmdConfig(const std::vector<std::string>& args) {
+    const std::string sub = args.empty() ? "get" : args[0];
+
+    // ── config get ─────────────────────────────────────────────────────────
+    if (sub == "get") {
+        Response r = httpGet("/config");
+        if (r.status == -1) {
+            std::cerr << "[" << fail() << "] " << r.body << "\n";
+            return 3;
+        }
+        if (!r.ok()) {
+            std::cerr << "[" << fail() << "] HTTP " << r.status << "\n";
+            return 1;
+        }
+        if (g_ctx.raw_json) {
+            printJson(r.body);
+            return 0;
+        }
+        try {
+            json j = json::parse(r.body);
+            std::cout << j.dump(2) << "\n";
+        } catch (...) {
+            std::cout << r.body << "\n";
+        }
+        return 0;
+    }
+
+    // ── config set key=value ... ───────────────────────────────────────────
+    if (sub == "set") {
+        const std::vector<std::string> pairs(args.begin() + 1, args.end());
+        if (pairs.empty()) {
+            std::cerr << "Usage: themisctl config set <key=value> [...]\n"
+                      << "Keys: logging.level, logging.format, request_timeout_ms,\n"
+                      << "      features.semantic_cache, features.llm_store,\n"
+                      << "      features.cdc, features.timeseries,\n"
+                      << "      cdc_retention_hours\n";
+            return 2;
+        }
+
+        // Build a nested patch JSON from the flat key=value pairs
+        json patch = json::object();
+
+        for (const auto& pair : pairs) {
+            auto eq = pair.find('=');
+            if (eq == std::string::npos) {
+                std::cerr << "[" << fail() << "] Invalid key=value pair: " << pair
+                          << " (missing '=')\n";
+                return 2;
+            }
+            std::string key   = pair.substr(0, eq);
+            std::string value = pair.substr(eq + 1);
+
+            // Dotted key → nested JSON (one level only for current schema)
+            auto dot = key.find('.');
+            if (dot != std::string::npos) {
+                std::string outer = key.substr(0, dot);
+                std::string inner = key.substr(dot + 1);
+                if (!patch.contains(outer) || !patch[outer].is_object()) {
+                    patch[outer] = json::object();
+                }
+                // Coerce booleans and numbers
+                if (value == "true")       patch[outer][inner] = true;
+                else if (value == "false") patch[outer][inner] = false;
+                else {
+                    try { patch[outer][inner] = std::stold(value); }
+                    catch (...) { patch[outer][inner] = value; }
+                }
+            } else {
+                // Top-level key
+                if (value == "true")       patch[key] = true;
+                else if (value == "false") patch[key] = false;
+                else {
+                    try { patch[key] = std::stold(value); }
+                    catch (...) { patch[key] = value; }
+                }
+            }
+        }
+
+        Response r = httpPost("/config", patch.dump());
+        if (r.status == -1) {
+            std::cerr << "[" << fail() << "] " << r.body << "\n";
+            return 3;
+        }
+        if (!r.ok()) {
+            std::cerr << "[" << fail() << "] HTTP " << r.status << "\n";
+            try { std::cerr << json::parse(r.body).dump(2) << "\n"; }
+            catch (...) { std::cerr << r.body << "\n"; }
+            return 1;
+        }
+        if (g_ctx.raw_json) {
+            printJson(r.body);
+        } else {
+            std::cout << "[" << ok() << "] Config updated.\n";
+            try {
+                json j = json::parse(r.body);
+                std::cout << j.dump(2) << "\n";
+            } catch (...) { /* no body */ }
+        }
+        return 0;
+    }
+
+    std::cerr << "Unknown config sub-command: " << sub
+              << "\n  Valid sub-commands: get, set\n";
+    return 2;
+}
+
 // ── branch ───────────────────────────────────────────────────────────────────
 
 static int cmdBranch(const std::vector<std::string>& args) {
@@ -536,6 +673,133 @@ static int cmdAdmin(const std::vector<std::string>& args) {
 }
 
 // ============================================================================
+// REPL support — shared tokeniser used by both cmdRepl and tests
+// ============================================================================
+
+/// Split a shell-style line into tokens:
+///   - Words separated by whitespace
+///   - Single- and double-quoted strings (no escape sequences)
+/// Returns false and sets @p error if there is an unterminated quote.
+static bool tokenizeLine(const std::string& line,
+                         std::vector<std::string>& tokens,
+                         std::string& error) {
+    tokens.clear();
+    error.clear();
+    std::string current;
+    bool in_single = false;
+    bool in_double = false;
+
+    for (size_t i = 0; i < line.size(); ++i) {
+        char c = line[i];
+        if (in_single) {
+            if (c == '\'') { in_single = false; }
+            else           { current += c; }
+        } else if (in_double) {
+            if (c == '"') { in_double = false; }
+            else          { current += c; }
+        } else {
+            if (c == '\'') {
+                in_single = true;
+            } else if (c == '"') {
+                in_double = true;
+            } else if (c == ' ' || c == '\t') {
+                if (!current.empty()) { tokens.push_back(current); current.clear(); }
+            } else {
+                current += c;
+            }
+        }
+    }
+    if (in_single || in_double) {
+        error = "Unterminated quote";
+        return false;
+    }
+    if (!current.empty()) tokens.push_back(current);
+    return true;
+}
+
+// ── repl ─────────────────────────────────────────────────────────────────────
+
+static int cmdRepl(const std::vector<std::string>& /*args*/);
+
+// Forward-declare dispatch table lookup so cmdRepl can call it
+static int dispatchCommand(const std::string& cmd,
+                           const std::vector<std::string>& cmd_args);
+
+static int cmdRepl(const std::vector<std::string>& /*args*/) {
+#if THEMISCTL_HAS_READLINE
+    // Use GNU readline for line editing and persistent history
+    const std::string hist_file = (std::getenv("HOME") ? std::string(std::getenv("HOME")) : "/tmp")
+                                  + "/.themisctl_history";
+    read_history(hist_file.c_str());
+    rl_bind_key('\t', rl_complete);
+#endif
+
+    const std::string prompt_str =
+        col(Color::Green, "themisctl") + col(Color::Dim, "> ");
+
+    std::cout << col(Color::Bold, "ThemisDB Interactive Shell") << "\n"
+              << "Connected to " << col(Color::Cyan, g_ctx.host + ":" + std::to_string(g_ctx.port)) << "\n"
+              << "Type " << col(Color::Yellow, "help") << " for available commands, "
+              << col(Color::Yellow, "exit") << " or " << col(Color::Yellow, "quit") << " to leave.\n\n";
+
+    while (true) {
+        std::string line;
+
+#if THEMISCTL_HAS_READLINE
+        char* rl_line = readline(prompt_str.c_str());
+        if (!rl_line) {
+            // EOF (Ctrl-D)
+            std::cout << "\n";
+            break;
+        }
+        line = rl_line;
+        free(rl_line);
+        if (!line.empty()) {
+            add_history(line.c_str());
+            append_history(1, hist_file.c_str());
+        }
+#else
+        std::cout << prompt_str << std::flush;
+        if (!std::getline(std::cin, line)) {
+            std::cout << "\n";
+            break;
+        }
+#endif
+
+        // Strip leading/trailing whitespace
+        size_t start = line.find_first_not_of(" \t");
+        if (start == std::string::npos) continue;
+        line = line.substr(start);
+        size_t end = line.find_last_not_of(" \t");
+        if (end != std::string::npos) line = line.substr(0, end + 1);
+        if (line.empty() || line[0] == '#') continue;
+
+        // Built-in REPL commands
+        if (line == "exit" || line == "quit") break;
+
+        // Tokenise
+        std::vector<std::string> tokens;
+        std::string tok_err;
+        if (!tokenizeLine(line, tokens, tok_err)) {
+            std::cerr << "[" << fail() << "] " << tok_err << "\n";
+            continue;
+        }
+        if (tokens.empty()) continue;
+
+        const std::string cmd = tokens[0];
+        const std::vector<std::string> cmd_args(tokens.begin() + 1, tokens.end());
+
+        // Dispatch
+        dispatchCommand(cmd, cmd_args);
+    }
+
+#if THEMISCTL_HAS_READLINE
+    write_history(hist_file.c_str());
+#endif
+    return 0;
+}
+
+// ============================================================================
 // Help
 // ============================================================================
 
@@ -566,10 +830,14 @@ static void printHelp(const char* prog) {
             << "                 Delete an entity\n"
         << "  " << col(Color::Cyan, "schema") << " [table]"
             << "               Show schema (all tables or a specific one)\n"
+        << "  " << col(Color::Cyan, "config") << " get|set [key=value ...]"
+            << "  Read or hot-reload server config\n"
         << "  " << col(Color::Cyan, "branch") << " list|create|switch|delete\n"
         << "  " << col(Color::Cyan, "snapshot") << " list|create [tag]\n"
         << "  " << col(Color::Cyan, "admin") << " stats|cache"
-            << "             Show observability/cache statistics\n\n"
+            << "             Show observability/cache statistics\n"
+        << "  " << col(Color::Cyan, "repl")
+            << "                        Start interactive REPL (with history)\n\n"
         << col(Color::Bold, "Examples") << ":\n"
         << "  " << prog << " health\n"
         << "  " << prog << " --host db.internal --port 9000 version\n"
@@ -578,11 +846,51 @@ static void printHelp(const char* prog) {
         << "  " << prog << " put user:42 '{\"name\":\"Alice\",\"active\":true}'\n"
         << "  " << prog << " delete user:42\n"
         << "  " << prog << " schema users\n"
+        << "  " << prog << " config get\n"
+        << "  " << prog << " config set logging.level=debug request_timeout_ms=60000\n"
+        << "  " << prog << " config set features.cdc=true\n"
         << "  " << prog << " branch list\n"
         << "  " << prog << " branch create feature-x\n"
         << "  " << prog << " snapshot create v1.2.0\n"
         << "  " << prog << " admin stats\n"
-        << "  " << prog << " --json admin cache\n";
+        << "  " << prog << " --json admin cache\n"
+        << "  " << prog << " repl\n";
+}
+
+// ============================================================================
+// Dispatch helper (used by both main and REPL)
+// ============================================================================
+
+static int dispatchCommand(const std::string& cmd,
+                           const std::vector<std::string>& cmd_args) {
+    using CmdFn = int(*)(const std::vector<std::string>&);
+    static const std::unordered_map<std::string, CmdFn> dispatch = {
+        {"health",   cmdHealth},
+        {"version",  cmdVersion},
+        {"query",    cmdQuery},
+        {"get",      cmdGet},
+        {"put",      cmdPut},
+        {"delete",   cmdDelete},
+        {"schema",   cmdSchema},
+        {"config",   cmdConfig},
+        {"branch",   cmdBranch},
+        {"snapshot", cmdSnapshot},
+        {"admin",    cmdAdmin},
+        {"repl",     cmdRepl},
+    };
+
+    if (cmd == "help" || cmd == "--help" || cmd == "-h") {
+        printHelp("themisctl");
+        return 0;
+    }
+
+    auto it = dispatch.find(cmd);
+    if (it == dispatch.end()) {
+        std::cerr << "Unknown command: " << cmd << "\n"
+                  << "Type 'help' for available commands.\n";
+        return 2;
+    }
+    return it->second(cmd_args);
 }
 
 // ============================================================================
@@ -639,27 +947,6 @@ int main(int argc, char* argv[]) {
     const std::string command = all_args[0];
     const std::vector<std::string> cmd_args(all_args.begin() + 1, all_args.end());
 
-    using CmdFn = int(*)(const std::vector<std::string>&);
-    static const std::unordered_map<std::string, CmdFn> dispatch = {
-        {"health",   cmdHealth},
-        {"version",  cmdVersion},
-        {"query",    cmdQuery},
-        {"get",      cmdGet},
-        {"put",      cmdPut},
-        {"delete",   cmdDelete},
-        {"schema",   cmdSchema},
-        {"branch",   cmdBranch},
-        {"snapshot", cmdSnapshot},
-        {"admin",    cmdAdmin},
-    };
-
-    auto it = dispatch.find(command);
-    if (it == dispatch.end()) {
-        std::cerr << "Unknown command: " << command << "\n"
-                  << "Run '" << argv[0] << " --help' for usage.\n";
-        return 2;
-    }
-
-    return it->second(cmd_args);
+    return dispatchCommand(command, cmd_args);
 }
 #endif  // THEMISCTL_TEST_BUILD

@@ -29,9 +29,6 @@
 #ifdef CPPHTTPLIB_OPENSSL_SUPPORT
 #undef CPPHTTPLIB_OPENSSL_SUPPORT
 #endif
-#ifdef CPPHTTPLIB_OPENSSL_SUPPORT
-#undef CPPHTTPLIB_OPENSSL_SUPPORT
-#endif
 
 #include <gtest/gtest.h>
 #include <nlohmann/json.hpp>
@@ -291,6 +288,33 @@ protected:
                    [](const httplib::Request&, httplib::Response& res) {
             res.status = 200;
             res.set_content(R"({"hit_rate":0.95,"entries":1024})", "application/json");
+        });
+
+        // Config endpoint (GET + POST hot-reload)
+        s_srv_.Get("/config", [](const httplib::Request&, httplib::Response& res) {
+            res.status = 200;
+            res.set_content(R"({
+                "server":   {"port":8765,"threads":4,"request_timeout_ms":30000},
+                "features": {"semantic_cache":false,"llm_store":false,"cdc":false,"timeseries":false},
+                "logging":  {"level":"info","format":"text"}
+            })", "application/json");
+        });
+        s_srv_.Post("/config", [](const httplib::Request& req, httplib::Response& res) {
+            try {
+                json body = json::parse(req.body);
+                // Echo back the accepted patch merged into a minimal config
+                json reply = {
+                    {"server",   {{"port",8765},{"threads",4},{"request_timeout_ms",30000}}},
+                    {"features", {{"semantic_cache",false},{"llm_store",false},{"cdc",false},{"timeseries",false}}},
+                    {"logging",  {{"level","info"},{"format","text"}}},
+                    {"applied",  body}
+                };
+                res.status = 200;
+                res.set_content(reply.dump(), "application/json");
+            } catch (...) {
+                res.status = 400;
+                res.set_content(R"({"error":"invalid json"})", "application/json");
+            }
         });
 
         // Bind and start server
@@ -563,6 +587,173 @@ TEST_F(ThemisctlHttpTest, AdminCache) {
 
 TEST_F(ThemisctlHttpTest, AdminUnknownSubcommand) {
     EXPECT_EQ(cmdAdmin({"frobnicate"}), 2);
+}
+
+// ── config ────────────────────────────────────────────────────────────────────
+
+TEST_F(ThemisctlHttpTest, ConfigGet) {
+    g_ctx.raw_json = true;
+    std::ostringstream cap;
+    auto* old = std::cout.rdbuf(cap.rdbuf());
+    int rc = cmdConfig({"get"});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+    json j = json::parse(cap.str());
+    EXPECT_TRUE(j.contains("server"));
+    EXPECT_TRUE(j.contains("features"));
+}
+
+TEST_F(ThemisctlHttpTest, ConfigGetDefaultSub) {
+    // "config" with no sub-command defaults to "get"
+    g_ctx.raw_json = true;
+    std::ostringstream cap;
+    auto* old = std::cout.rdbuf(cap.rdbuf());
+    int rc = cmdConfig({});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+}
+
+TEST_F(ThemisctlHttpTest, ConfigSetSingleKey) {
+    int rc = cmdConfig({"set", "request_timeout_ms=60000"});
+    EXPECT_EQ(rc, 0);
+}
+
+TEST_F(ThemisctlHttpTest, ConfigSetDottedKey) {
+    int rc = cmdConfig({"set", "logging.level=debug"});
+    EXPECT_EQ(rc, 0);
+}
+
+TEST_F(ThemisctlHttpTest, ConfigSetMultipleKeys) {
+    int rc = cmdConfig({"set", "logging.level=warn", "features.cdc=true"});
+    EXPECT_EQ(rc, 0);
+}
+
+TEST_F(ThemisctlHttpTest, ConfigSetVerifyPatch) {
+    g_ctx.raw_json = true;
+    std::ostringstream cap;
+    auto* old = std::cout.rdbuf(cap.rdbuf());
+    int rc = cmdConfig({"set", "logging.level=debug", "request_timeout_ms=60000"});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+    json j = json::parse(cap.str());
+    // The test server echoes the applied patch
+    EXPECT_TRUE(j.contains("applied"));
+    EXPECT_TRUE(j["applied"].contains("logging"));
+    EXPECT_EQ(j["applied"]["logging"]["level"], "debug");
+}
+
+TEST_F(ThemisctlHttpTest, ConfigSetMissingValueReturnsUsageError) {
+    EXPECT_EQ(cmdConfig({"set"}), 2);
+}
+
+TEST_F(ThemisctlHttpTest, ConfigSetInvalidPairReturnsUsageError) {
+    EXPECT_EQ(cmdConfig({"set", "no-equals-sign"}), 2);
+}
+
+TEST_F(ThemisctlHttpTest, ConfigUnknownSubcommand) {
+    EXPECT_EQ(cmdConfig({"frobnicate"}), 2);
+}
+
+// ── REPL tokeniser ────────────────────────────────────────────────────────────
+
+class ThemisctlTokenizerTest : public ::testing::Test {};
+
+TEST_F(ThemisctlTokenizerTest, SimpleWords) {
+    std::vector<std::string> tokens;
+    std::string err;
+    ASSERT_TRUE(tokenizeLine("health", tokens, err));
+    ASSERT_EQ(tokens.size(), 1u);
+    EXPECT_EQ(tokens[0], "health");
+}
+
+TEST_F(ThemisctlTokenizerTest, MultipleWords) {
+    std::vector<std::string> tokens;
+    std::string err;
+    ASSERT_TRUE(tokenizeLine("config set logging.level=debug", tokens, err));
+    ASSERT_EQ(tokens.size(), 3u);
+    EXPECT_EQ(tokens[0], "config");
+    EXPECT_EQ(tokens[1], "set");
+    EXPECT_EQ(tokens[2], "logging.level=debug");
+}
+
+TEST_F(ThemisctlTokenizerTest, SingleQuotedToken) {
+    std::vector<std::string> tokens;
+    std::string err;
+    ASSERT_TRUE(tokenizeLine("query 'FOR d IN col RETURN d'", tokens, err));
+    ASSERT_EQ(tokens.size(), 2u);
+    EXPECT_EQ(tokens[1], "FOR d IN col RETURN d");
+}
+
+TEST_F(ThemisctlTokenizerTest, DoubleQuotedToken) {
+    std::vector<std::string> tokens;
+    std::string err;
+    ASSERT_TRUE(tokenizeLine("get \"user:1\"", tokens, err));
+    ASSERT_EQ(tokens.size(), 2u);
+    EXPECT_EQ(tokens[1], "user:1");
+}
+
+TEST_F(ThemisctlTokenizerTest, ExtraWhitespace) {
+    std::vector<std::string> tokens;
+    std::string err;
+    ASSERT_TRUE(tokenizeLine("  health  ", tokens, err));
+    ASSERT_EQ(tokens.size(), 1u);
+    EXPECT_EQ(tokens[0], "health");
+}
+
+TEST_F(ThemisctlTokenizerTest, EmptyLine) {
+    std::vector<std::string> tokens;
+    std::string err;
+    ASSERT_TRUE(tokenizeLine("", tokens, err));
+    EXPECT_TRUE(tokens.empty());
+}
+
+TEST_F(ThemisctlTokenizerTest, UnterminatedSingleQuote) {
+    std::vector<std::string> tokens;
+    std::string err;
+    EXPECT_FALSE(tokenizeLine("get 'user:1", tokens, err));
+    EXPECT_FALSE(err.empty());
+}
+
+TEST_F(ThemisctlTokenizerTest, UnterminatedDoubleQuote) {
+    std::vector<std::string> tokens;
+    std::string err;
+    EXPECT_FALSE(tokenizeLine("get \"user:1", tokens, err));
+    EXPECT_FALSE(err.empty());
+}
+
+TEST_F(ThemisctlTokenizerTest, MixedQuotes) {
+    std::vector<std::string> tokens;
+    std::string err;
+    ASSERT_TRUE(tokenizeLine("config set 'logging.level=debug'", tokens, err));
+    ASSERT_EQ(tokens.size(), 3u);
+    EXPECT_EQ(tokens[2], "logging.level=debug");
+}
+
+// ── dispatch helper ───────────────────────────────────────────────────────────
+
+TEST(ThemisctlDispatchTest, UnknownCommandReturnsTwo) {
+    g_ctx.host    = "localhost";
+    g_ctx.port    = 19999;
+    g_ctx.timeout = 1;
+    g_use_color   = false;
+    std::ostringstream capErr;
+    auto* old = std::cerr.rdbuf(capErr.rdbuf());
+    int rc = dispatchCommand("frobnicate", {});
+    std::cerr.rdbuf(old);
+    EXPECT_EQ(rc, 2);
+}
+
+TEST(ThemisctlDispatchTest, HelpReturnsZero) {
+    g_ctx.host    = "localhost";
+    g_ctx.port    = 19999;
+    g_ctx.timeout = 1;
+    g_use_color   = false;
+    std::ostringstream capOut;
+    auto* old = std::cout.rdbuf(capOut.rdbuf());
+    int rc = dispatchCommand("help", {});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+    EXPECT_NE(capOut.str().find("themisctl"), std::string::npos);
 }
 
 // ── connection failure ────────────────────────────────────────────────────────

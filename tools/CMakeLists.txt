@@ -141,10 +141,52 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/themisctl.cpp")
         target_compile_definitions(themisctl PRIVATE CPPHTTPLIB_OPENSSL_SUPPORT)
     endif()
 
+    # GNU Readline for REPL command history (optional)
+    find_package(Readline QUIET)
+    if(Readline_FOUND)
+        target_link_libraries(themisctl PRIVATE ${READLINE_LIBRARIES})
+        target_include_directories(themisctl PRIVATE ${READLINE_INCLUDE_DIR})
+        target_compile_definitions(themisctl PRIVATE THEMISCTL_ENABLE_READLINE=1)
+        message(STATUS "themisctl: readline found — REPL will use line editing + history")
+    else()
+        # Fallback: check for the library directly (common on Debian/Ubuntu)
+        find_library(READLINE_LIB readline)
+        if(READLINE_LIB)
+            target_link_libraries(themisctl PRIVATE ${READLINE_LIB})
+            target_compile_definitions(themisctl PRIVATE THEMISCTL_ENABLE_READLINE=1)
+            message(STATUS "themisctl: readline found (manual) — REPL will use line editing + history")
+        else()
+            message(STATUS "themisctl: readline not found — REPL will use plain getline()")
+        endif()
+    endif()
+
     install(TARGETS themisctl
         RUNTIME DESTINATION bin
         COMPONENT tools
     )
+
+    # ── Shell completion scripts ───────────────────────────────────────────────
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/completion/themisctl.bash")
+        install(FILES completion/themisctl.bash
+            DESTINATION share/bash-completion/completions
+            RENAME themisctl
+            COMPONENT tools
+        )
+    endif()
+
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/completion/_themisctl")
+        install(FILES completion/_themisctl
+            DESTINATION share/zsh/site-functions
+            COMPONENT tools
+        )
+    endif()
+
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/completion/themisctl.fish")
+        install(FILES completion/themisctl.fish
+            DESTINATION share/fish/vendor_completions.d
+            COMPONENT tools
+        )
+    endif()
 
     message(STATUS "themisctl unified management CLI configured")
 endif()
