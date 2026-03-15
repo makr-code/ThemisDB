@@ -29,6 +29,7 @@
 #include <string>
 #include <vector>
 #include "security/pii_redaction_policy.h"
+#include "utils/audit_logger.h"
 
 namespace themis::llm::lora {
 
@@ -111,4 +112,19 @@ std::string PIIRedactionPolicy::applyRedaction(const std::string& text) const {
 }
 
 } // namespace themis::security
+
+namespace themis::utils {
+
+void AuditLogger::logSecurityEvent(
+    SecurityEventType event_type,
+    const std::string& user_id,
+    const std::string& resource,
+    const nlohmann::json& details) {
+    (void)event_type;
+    (void)user_id;
+    (void)resource;
+    (void)details;
+}
+
+} // namespace themis::utils
 

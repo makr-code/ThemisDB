@@ -165,7 +165,7 @@ private:
 
     mutable std::mutex stats_mutex_;
     Stats stats_;
-    std::atomic<bool> missing_seq_warned_{false};
+    mutable std::atomic<bool> missing_seq_warned_{false};
 
     // Persistence helpers
     void loadPersistedSlots();

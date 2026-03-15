@@ -366,6 +366,52 @@ void CanaryRollout::setRollbackCallback(RollbackCallback cb) {
 
 CanaryDeployment::CanaryDeployment() = default;
 
+CanaryDeployment::CanaryDeployment(CanaryDeployment&& other) noexcept {
+    std::lock_guard<std::mutex> lock(other.mutex_);
+    version_ = std::move(other.version_);
+    node_id_ = std::move(other.node_id_);
+    stages_ = std::move(other.stages_);
+    error_rate_threshold_ = other.error_rate_threshold_;
+    latency_threshold_us_ = other.latency_threshold_us_;
+    engine_ = std::move(other.engine_);
+    rollout_ = std::move(other.rollout_);
+    stage_complete_cb_ = std::move(other.stage_complete_cb_);
+    rollback_cb_ = std::move(other.rollback_cb_);
+    latency_samples_us_ = std::move(other.latency_samples_us_);
+    memory_bytes_ = other.memory_bytes_;
+    cpu_fraction_ = other.cpu_fraction_;
+    disk_io_bytes_per_sec_ = other.disk_io_bytes_per_sec_;
+    custom_metrics_ = std::move(other.custom_metrics_);
+    ab_testing_enabled_ = other.ab_testing_enabled_;
+    ab_config_ = std::move(other.ab_config_);
+}
+
+CanaryDeployment& CanaryDeployment::operator=(CanaryDeployment&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+
+    std::scoped_lock lock(mutex_, other.mutex_);
+    version_ = std::move(other.version_);
+    node_id_ = std::move(other.node_id_);
+    stages_ = std::move(other.stages_);
+    error_rate_threshold_ = other.error_rate_threshold_;
+    latency_threshold_us_ = other.latency_threshold_us_;
+    engine_ = std::move(other.engine_);
+    rollout_ = std::move(other.rollout_);
+    stage_complete_cb_ = std::move(other.stage_complete_cb_);
+    rollback_cb_ = std::move(other.rollback_cb_);
+    latency_samples_us_ = std::move(other.latency_samples_us_);
+    memory_bytes_ = other.memory_bytes_;
+    cpu_fraction_ = other.cpu_fraction_;
+    disk_io_bytes_per_sec_ = other.disk_io_bytes_per_sec_;
+    custom_metrics_ = std::move(other.custom_metrics_);
+    ab_testing_enabled_ = other.ab_testing_enabled_;
+    ab_config_ = std::move(other.ab_config_);
+
+    return *this;
+}
+
 // ---------------------------------------------------------------------------
 // Builder API
 // ---------------------------------------------------------------------------

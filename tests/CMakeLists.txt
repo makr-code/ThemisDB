@@ -13080,21 +13080,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_automatic_schema_migration.cpp" AND 
     )
 
     target_include_directories(test_automatic_schema_migration_focused PRIVATE
-# DistributedClusterUpdates – focused tests for ClusterUpdateManager (v1.7.0, Issue #125)
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cluster_updates.cpp" AND NOT TARGET test_distributed_cluster_updates_focused)
-    message(STATUS "Adding Distributed Cluster Updates focused tests (Issue #125)")
-
-    add_executable(test_distributed_cluster_updates_focused
-        test_distributed_cluster_updates.cpp
-    )
-
-    target_include_directories(test_distributed_cluster_updates_focused PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_automatic_schema_migration_focused PRIVATE
-    target_link_libraries(test_distributed_cluster_updates_focused PRIVATE
         ${TEST_LIBS}
         themis_core
         spdlog::spdlog
@@ -13115,6 +13105,28 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cluster_updates.cpp" AND
     message(STATUS "  AutomaticSchemaMigration: schema versioning, online DDL, backfill, index rebuild, dual-write, rollback")
 else()
     message(STATUS "Automatic Schema Migration focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_automatic_schema_migration.cpp")
+endif()
+
+# DistributedClusterUpdates – focused tests for ClusterUpdateManager (v1.7.0, Issue #125)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cluster_updates.cpp" AND NOT TARGET test_distributed_cluster_updates_focused)
+    message(STATUS "Adding Distributed Cluster Updates focused tests (Issue #125)")
+
+    add_executable(test_distributed_cluster_updates_focused
+        test_distributed_cluster_updates.cpp
+    )
+
+    target_include_directories(test_distributed_cluster_updates_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_distributed_cluster_updates_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
     target_compile_definitions(test_distributed_cluster_updates_focused PRIVATE
         THEMIS_TEST_BUILD=1
     )
@@ -14200,6 +14212,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_join_strategies.cpp")
     message(STATUS "  AdaptiveJoinExecutor: selectAlgorithm, executeJoin, estimateJoinCost, all AC-1..AC-5")
 else()
     message(STATUS "AdaptiveJoinStrategies focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_join_strategies.cpp")
+endif()
+
 # Runtime Device Capability Negotiation – focused tests (Issue #37, v1.7.0)
 #
 # Validates all acceptance criteria:

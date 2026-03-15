@@ -33,6 +33,8 @@
 #include <string>
 #include <vector>
 
+#include <rocksdb/utilities/transaction_db.h>
+
 namespace themis {
 namespace {
 
@@ -80,7 +82,7 @@ static std::unique_ptr<utils::AuditLogger> makeTestAuditLogger(const std::string
     auto key_provider = std::make_shared<MockKeyProvider>();
     key_provider->createKey("saga_log", 1);
     auto field_enc = std::make_shared<FieldEncryption>(key_provider);
-    PKIConfig pki_cfg;
+    utils::PKIConfig pki_cfg;
     pki_cfg.service_id = "test";
     auto pki = std::make_shared<utils::VCCPKIClient>(pki_cfg);
 

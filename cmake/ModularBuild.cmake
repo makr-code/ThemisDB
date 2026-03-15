@@ -531,7 +531,9 @@ set(THEMIS_QUERY_SOURCES
     ../src/aql/aql_conversation_context.cpp
     ../src/aql/aql_schema_provider.cpp
     ../src/aql/aql_migration_assistant.cpp
-    
+    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/aql/classify_bridge.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/aql/docs_assistant_functions.cpp>
+
     # Security: AQL injection detection (uses AQLParser)
     ../src/security/aql_injection_detector.cpp
     
@@ -931,6 +933,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/llm_security_utils.cpp
     ../src/llm/vision_resource_monitor.cpp
     ../src/llm/docs_assistant.cpp
+    ../src/llm/applications/themis_help_lora.cpp
     ../src/llm/feedback_store.cpp
     ../src/llm/llm_model_storage.cpp
     ../src/llm/llm_model_audit_logger.cpp
@@ -1304,6 +1307,8 @@ set(THEMIS_NETWORK_SOURCES
     ../src/server/response_transformer.cpp
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_gateway.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/distributed_gateway.cpp>
+    ../src/server/request_coalescing.cpp
+    ../src/server/smart_routing.cpp
     ../src/server/update_api_handler.cpp
     ../src/server/hot_reload_api_handler.cpp
     ../src/server/export_api_handler.cpp
@@ -1418,6 +1423,7 @@ set(THEMIS_NETWORK_SOURCES
     ../src/observability/advanced_metrics.cpp
     # Observability: OpenTelemetry Full Integration (v1.6.0)
     ../src/observability/opentelemetry_tracer.cpp
+    ../src/observability/root_cause_analyzer.cpp
 )
 
 set(THEMIS_GEO_SOURCES
