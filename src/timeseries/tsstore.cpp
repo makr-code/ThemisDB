@@ -29,6 +29,7 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "timeseries/gorilla.h"
+#include "timeseries/gorilla_simd.h"
 #include "timeseries/query_optimizer.h"
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/transaction.h>
@@ -608,18 +609,21 @@ TSStore::query(const QueryOptions& options) const {
                     raw_data = enc_chunk_store_->decryptChunk(series_id, raw_data, chunk_range);
                 }
 
-                // Decode Gorilla-compressed data
-                GorillaDecoder decoder(raw_data);
+                // Decode Gorilla-compressed data.
+                // Use GorillaSIMDDecoder which dispatches at runtime to the best
+                // available SIMD path (AVX2 on x86-64, NEON on AArch64) and falls
+                // back to the scalar GorillaDecoder on other platforms.
+                GorillaSIMDDecoder decoder(raw_data);
+                std::vector<std::pair<int64_t, double>> chunk_points;
+                chunk_points.reserve(128); // typical gorilla_batch_size
+                decoder.decodeAll(chunk_points);
 
                 // Extract tags/metadata from chunk
                 nlohmann::json tags = chunk_meta.value("tags", nlohmann::json::object());
                 nlohmann::json metadata = chunk_meta.value("metadata", nlohmann::json::object());
                 
-                // Decode all points from chunk
-                while (auto point_opt = decoder.next()) {
-                    auto [timestamp_ms, value] = *point_opt;
-                    
-                    // Check timestamp bounds
+                // Apply time-range filter and tag filter to decoded points
+                for (const auto& [timestamp_ms, value] : chunk_points) {
                     if (timestamp_ms < options.from_timestamp_ms || timestamp_ms > options.to_timestamp_ms) {
                         continue;
                     }
