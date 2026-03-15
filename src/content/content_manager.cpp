@@ -2316,7 +2316,22 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
     // Pass the embedding stage flag to importContent via the spec.
     // The "__embedding_enabled" key is an internal hint consumed by importContent;
     // it is never persisted to storage.
-    spec["__embedding_enabled"] = stage_cfg.embedding.enabled;
+    //
+    // ContentPolicy::embedding_model gates the stage per collection:
+    //   - If config["embedding_model"] is present and non-empty → stage is activated
+    //     (provided the global ProcessorChainConfig also has it enabled).
+    //   - If config["embedding_model"] is present but empty     → stage is disabled
+    //     for this ingestion regardless of the global setting.
+    //   - If config["embedding_model"] is absent                → fall back to the
+    //     ProcessorChainConfig default (backward-compatible).
+    {
+        bool embedding_active = stage_cfg.embedding.enabled;
+        if (config.contains("embedding_model")) {
+            const std::string policy_model = config.value("embedding_model", std::string{});
+            embedding_active = stage_cfg.embedding.enabled && !policy_model.empty();
+        }
+        spec["__embedding_enabled"] = embedding_active;
+    }
 
     // Storage stage: importContent with per-stage retry.
     {
@@ -2509,6 +2524,18 @@ ContentManager::IngestResult ContentManager::ingestStream(
     }();
     const ContentTypePipelineConfig stream_stage_cfg =
         processor_chain_config_.getEffectiveConfig(detected_mime, streaming_category);
+    // ContentPolicy::embedding_model gates embedding generation per collection.
+    // If config["embedding_model"] is present:
+    //   - non-empty → embedding active (subject to stream_stage_cfg.embedding.enabled)
+    //   - empty     → embedding disabled for this ingestion regardless of global config
+    // If absent → fall back to the ProcessorChainConfig default (backward-compatible).
+    const bool stream_embedding_active = [&]() -> bool {
+        if (config.contains("embedding_model")) {
+            const std::string policy_model = config.value("embedding_model", std::string{});
+            return stream_stage_cfg.embedding.enabled && !policy_model.empty();
+        }
+        return stream_stage_cfg.embedding.enabled;
+    }();
     // Incremental SHA-256 hash over all streamed bytes.
     EVP_MD_CTX* sha256_ctx = EVP_MD_CTX_new();
     if (sha256_ctx) {
@@ -2567,7 +2594,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
         cm.text       = text;
         cm.created_at = now;
 
-        if (stream_stage_cfg.embedding.enabled && embedding_pipeline_ && embedding_pipeline_->isEnabled()) {
+        if (stream_embedding_active && embedding_pipeline_ && embedding_pipeline_->isEnabled()) {
             auto emb = embedding_pipeline_->generateEmbedding(text);
             if (!emb.empty()) cm.embedding = std::move(emb);
         }
