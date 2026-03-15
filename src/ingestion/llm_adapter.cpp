@@ -12,14 +12,15 @@
  */
 
 #include "ingestion/llm_adapter.h"
-#include <regex>
+#include <nlohmann/json.hpp>
 #include <fstream>
-#include <sstream>
+#include <stdexcept>
 
 // Phase 2: When THEMIS_ENABLE_LLM is ON, include the llama.cpp bridge.
 // The include is guarded so Phase 1 compiles without llama.cpp.
 #ifdef THEMIS_ENABLE_LLM
-// #include "llm/llama_resource_manager.h"  // Phase 2: uncomment when wiring
+#include "llm/llama_resource_manager.h"
+#include "llm/llm_plugin_manager.h"
 #endif
 
 namespace themis {
@@ -58,6 +59,20 @@ bool LegalLlmAdapter::isLlmAvailable() const {
 }
 
 DeonticExtractor::ExtractorFn LegalLlmAdapter::buildExtractorFn() const {
+#ifdef THEMIS_ENABLE_LLM
+    // Phase 2 health check: when a model path is explicitly configured but the
+    // GGUF file does not exist or is not readable, fail fast with a clear error
+    // rather than silently falling back to the stub regex implementation.
+    if (config_.hasModel()) {
+        std::ifstream probe(config_.model_path);
+        if (!probe.good()) {
+            throw std::runtime_error(
+                "LegalLlmAdapter: GGUF model file is not accessible: " +
+                config_.model_path);
+        }
+    }
+#endif
+
     if (!isLlmAvailable()) {
         // Phase 1 / no model configured: return empty fn → DeonticExtractor
         // will use its built-in regex implementation.
@@ -68,17 +83,22 @@ DeonticExtractor::ExtractorFn LegalLlmAdapter::buildExtractorFn() const {
     // Phase 2: capture config by value so the function outlives this adapter.
     LlmAdapterConfig captured_config = config_;
     return [captured_config](const std::string& text) -> DeonticExtraction {
-        // ── Phase 2 implementation (uncomment when wiring llama.cpp) ────────
-        // auto& llm = themis::llm::LlamaResourceManager::instance();
-        // auto response = llm.infer(buildPrompt(text), captured_config);
-        // return parseLlmResponse(response);
-        // ────────────────────────────────────────────────────────────────────
+        themis::llm::InferenceRequest req;
+        req.prompt       = LegalLlmAdapter::buildPrompt(text);
+        req.model_id     = "default";
+        req.max_tokens   = 512;
+        req.temperature  = static_cast<float>(captured_config.temperature);
+        // "json" is a built-in grammar type supported by LLMPluginManager
+        // (see InferenceRequest::grammar_type) that constrains generation to
+        // produce syntactically valid JSON — a best-effort hint to the backend.
+        req.grammar_type = "json";
 
-        // Temporary fallback until Phase 2 wiring is complete:
-        DeonticExtractor fallback;
-        fallback.setConfidenceThreshold(0.75);
-        (void)captured_config;
-        return fallback.extract(text);
+        if (captured_config.hasAdapter()) {
+            req.lora_adapter_id = captured_config.adapter_path;
+        }
+
+        auto response = themis::llm::LLMPluginManager::instance().generate(req);
+        return LegalLlmAdapter::parseLlmResponse(response.text);
     };
 #else
     return {};
@@ -126,42 +146,54 @@ DeonticExtractor LegalLlmAdapter::buildExtractor(double confidence_threshold) co
         const std::string& llm_response) {
     DeonticExtraction result;
 
-    // ── Simple JSON extraction via regex (no heavy JSON library dependency) ─
-    // Phase 2 TODO: replace with a proper JSON parser (nlohmann/json or
-    // the JSON utilities already present in ThemisDB's utils module).
+    // ── JSON extraction via nlohmann::json ──────────────────────────────────
+    // The LLM may emit extra text around the JSON object; locate the outermost
+    // '{' … '}' block and parse only that portion so stray preamble / suffix
+    // tokens do not break the parser.
+    const std::size_t first = llm_response.find('{');
+    const std::size_t last  = llm_response.rfind('}');
+    if (first == std::string::npos || last == std::string::npos || last < first) {
+        result.warnings.push_back("LLM response contains no JSON object");
+        return result;
+    }
+
+    nlohmann::json j;
+    try {
+        j = nlohmann::json::parse(llm_response.substr(first, last - first + 1));
+    } catch (const nlohmann::json::parse_error& e) {
+        result.warnings.push_back(
+            std::string("LLM response JSON parse error: ") + e.what());
+        return result;
+    }
 
     // Extract "deontic_category"
-    static const std::regex kCatRe(
-        "\"deontic_category\"\\s*:\\s*\"([^\"]+)\"",
-        std::regex::ECMAScript);
-    std::smatch m;
-    if (std::regex_search(llm_response, m, kCatRe)) {
-        auto cat = deonticCategoryFromString(m[1].str());
+    if (j.contains("deontic_category") && j["deontic_category"].is_string()) {
+        auto cat = deonticCategoryFromString(j["deontic_category"].get<std::string>());
         if (cat != DeonticCategory::UNKNOWN) {
             result.deontic_categories.push_back(cat);
         }
     }
 
     // Extract "confidence"
-    static const std::regex kConfRe(
-        "\"confidence\"\\s*:\\s*([0-9.]+)",
-        std::regex::ECMAScript);
-    if (std::regex_search(llm_response, m, kConfRe)) {
+    if (j.contains("confidence") && j["confidence"].is_number()) {
         try {
-            result.overall_confidence = std::stod(m[1].str());
+            result.overall_confidence = j["confidence"].get<double>();
         } catch (...) {
             result.overall_confidence = 0.0;
         }
     }
 
-    // Extract entities (simplified: pick first type+value pair)
-    static const std::regex kEntRe(
-        "\"type\"\\s*:\\s*\"([^\"]+)\"[^}]*\"value\"\\s*:\\s*\"([^\"]+)\"",
-        std::regex::ECMAScript);
-    auto begin = std::sregex_iterator(llm_response.begin(), llm_response.end(), kEntRe);
-    for (auto it = begin; it != std::sregex_iterator(); ++it) {
-        const std::smatch& em = *it;
-        result.entities.emplace_back(em[1].str(), em[2].str(), em[2].str(), 0.85);
+    // Extract entities array
+    if (j.contains("entities") && j["entities"].is_array()) {
+        for (const auto& ent : j["entities"]) {
+            if (ent.is_object() &&
+                ent.contains("type")  && ent["type"].is_string() &&
+                ent.contains("value") && ent["value"].is_string()) {
+                const std::string type_str  = ent["type"].get<std::string>();
+                const std::string value_str = ent["value"].get<std::string>();
+                result.entities.emplace_back(type_str, value_str, value_str, 0.85);
+            }
+        }
     }
 
     if (result.deontic_categories.empty()) {

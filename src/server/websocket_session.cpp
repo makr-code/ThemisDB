@@ -88,7 +88,14 @@ void WebSocketSession::run(http::request<http::string_body> req) {
     // Initialise the CdcWebSocketHandler for the /v2/cdc/stream endpoint so
     // that processMessage() can delegate named-subscription frames to it.
     if (request_path_ == "/v2/cdc/stream") {
-        cdc_stream_handler_ = std::make_unique<cdc::CdcWebSocketHandler>();
+        // Pass the ConsumerGroupManager (if available) so that group-protocol
+        // subscriptions get durable offset tracking and partition filtering.
+        cdc::ConsumerGroupManager* cgm =
+            (server_ && server_->consumer_group_manager_)
+                ? server_->consumer_group_manager_.get()
+                : nullptr;
+        cdc_stream_handler_ = std::make_unique<cdc::CdcWebSocketHandler>(
+            cdc::CdcWebSocketHandler::kMaxPendingAck, cgm);
     }
 
     // Set suggested timeout settings for the websocket

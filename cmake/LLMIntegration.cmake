@@ -22,6 +22,7 @@ if(THEMIS_ENABLE_LLM)
         ../src/server/lora_api_handler.cpp
         ../src/query/functions/lora_functions.cpp
         ../src/llm/lora_security_validator.cpp
+        ../src/llm/lora_certificate_store.cpp
         
         # LoRA Router - Automatic routing automation
         ../src/llm/lora_router.cpp

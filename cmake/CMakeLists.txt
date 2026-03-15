@@ -1589,6 +1589,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/query_canceller.cpp
     ../src/query/query_federation.cpp
     ../src/query/plan_cache.cpp
+    ../src/query/query_compiler.cpp
     ../src/query/functions/function_registry.cpp
     ../src/query/functions/ethics_functions.cpp
     ../src/query/functions/fulltext_functions.cpp

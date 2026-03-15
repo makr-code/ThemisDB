@@ -29,11 +29,11 @@ After text extraction (from documents, PDF, OCR output), automatically generate 
 
 ### Acceptance Criteria
 
-- [ ] Add `EmbeddingStage` to the ingestion pipeline in `content_manager.cpp`; activated when `ContentPolicy::embeddingModel` is set for a collection.
-- [ ] `content_manager_embedding.cpp` exposes `ContentManager::generateEmbedding(text, model_name)` returning `std::vector<float>`; delegates to `EmbeddingPipeline::generateEmbedding()` when a pipeline is attached, falls back to the registered `TextProcessor::generateEmbedding()`. (`content_manager_llm.cpp` handles LLM analysis; embedding is separate.)
-- [ ] Store embedding under `emb:<ContentId>` in RocksDB for direct lookup by ContentId; also registered in the vector index via `vector_index_->addEntity()` under `chunks:<chunk_id>`.
-- [ ] Batch API available: `EmbeddingPipeline::generateEmbeddingBatch()` processes up to `batch_size=32` texts per call.
-- [ ] On model failure (timeout > 5 s or error), content is stored without embedding and `content_embedding_failures_total` is incremented via `ContentMetrics::recordEmbeddingFailure()` when a metrics sink is configured.
+- [x] Add `EmbeddingStage` to the ingestion pipeline in `content_manager.cpp`; activated when `ContentPolicy::embeddingModel` is set for a collection.
+- [x] `content_manager_embedding.cpp` exposes `ContentManager::generateEmbedding(text, model_name)` returning `std::vector<float>`; delegates to `EmbeddingPipeline::generateEmbedding()` when a pipeline is attached, falls back to the registered `TextProcessor::generateEmbedding()`. (`content_manager_llm.cpp` handles LLM analysis; embedding is separate.)
+- [x] Store embedding under `emb:<ContentId>` in RocksDB for direct lookup by ContentId; also registered in the vector index via `vector_index_->addEntity()` under `chunks:<chunk_id>`.
+- [x] Batch API available: `EmbeddingPipeline::generateEmbeddingBatch()` processes up to `batch_size=32` texts per call.
+- [x] On model failure (timeout > 5 s or error), content is stored without embedding and `content_embedding_failures_total` is incremented via `ContentMetrics::recordEmbeddingFailure()` when a metrics sink is configured.
 - [ ] Embedding latency (384-dim model, batch=32): < 50 ms on CPU; < 5 ms on CUDA GPU.
 - [ ] Ingestion pipeline with embedding adds < 100 ms overhead vs ingestion without embedding (batch amortised).
 

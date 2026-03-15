@@ -82,6 +82,7 @@
 #include "llm/llm_interaction_store.h"
 #include "prompt_engineering/prompt_manager.h"
 #include "cdc/changefeed.h"
+#include "cdc/consumer_group.h"
 #include "transaction/snapshot_manager.h"
 #include "transaction/branch_manager.h"
 #include "transaction/merge_engine.h"
@@ -432,6 +433,15 @@ HttpServer::HttpServer(
             cdc_retention_policy
         );
         THEMIS_INFO("Changefeed initialized using default CF");
+
+        // Initialize ConsumerGroupManager for /v2/cdc/stream group-protocol
+        // sessions.  Uses the same RocksDB instance and CDC column family as
+        // the changefeed so group offsets are co-located with change events.
+        consumer_group_manager_ = std::make_unique<cdc::ConsumerGroupManager>(
+            storage_->getRawDB(),
+            cdc_cf_handle_
+        );
+        THEMIS_INFO("ConsumerGroupManager initialized (CDC consumer groups ready)");
         
         // Initialize SnapshotManager (Named Snapshots feature)
         snapshot_manager_ = std::make_unique<transaction::SnapshotManager>(*storage_, *changefeed_);
