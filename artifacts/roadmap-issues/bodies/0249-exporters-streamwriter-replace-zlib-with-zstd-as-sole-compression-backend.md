@@ -17,17 +17,17 @@ Deliver the scoped changes for `StreamWriter`: Replace zlib with ZSTD as Sole Co
 `stream_writer.cpp` includes both `zlib.h` (line 27) and `zstd.h` (line 29), maintaining two separate compression code paths (gzip via `deflateInit2`, and zstd). The zlib path adds a dependency and binary size overhead. The module already uses `utils/zstd_codec.h` in other paths.
 
 **Implementation Notes:**
-- `[ ]` Remove zlib/gzip compression path from `StreamWriter`; replace gzip-format output with zstd-compressed output using `ZSTD_createCStream` (already present at line 172).
-- `[ ]` Offer a `ZSTD_MAGICNUMBER`-prefixed output mode that most data pipeline tools can ingest directly; for tools requiring gzip, document the `pigz` / `zstd -d | gzip` conversion path.
-- `[ ]` Remove `<zlib.h>` include and the associated `z_stream` compression state path; reduces binary size and maintenance surface.
+- `[x]` Remove zlib/gzip compression path from `StreamWriter`; replace gzip-format output with zstd-compressed output using `ZSTD_createCStream` (already present at line 172).
+- `[x]` Offer a `ZSTD_MAGICNUMBER`-prefixed output mode that most data pipeline tools can ingest directly; for tools requiring gzip, document the `pigz` / `zstd -d | gzip` conversion path.
+- `[x]` Remove `<zlib.h>` include and the associated `z_stream` compression state path; reduces binary size and maintenance surface.
 
 ---
 
 ### Acceptance Criteria
 
-- [ ] Remove zlib/gzip compression path from `StreamWriter`; replace gzip-format output with zstd-compressed output using `ZSTD_createCStream` (already present at line 172).
-- [ ] Offer a `ZSTD_MAGICNUMBER`-prefixed output mode that most data pipeline tools can ingest directly; for tools requiring gzip, document the `pigz` / `zstd -d | gzip` conversion path.
-- [ ] Remove `<zlib.h>` include and the associated `z_stream` compression state path; reduces binary size and maintenance surface.
+- [x] Remove zlib/gzip compression path from `StreamWriter`; replace gzip-format output with zstd-compressed output using `ZSTD_createCStream` (already present at line 172).
+- [x] Offer a `ZSTD_MAGICNUMBER`-prefixed output mode that most data pipeline tools can ingest directly; for tools requiring gzip, document the `pigz` / `zstd -d | gzip` conversion path.
+- [x] Remove `<zlib.h>` include and the associated `z_stream` compression state path; reduces binary size and maintenance surface.
 
 ### Relationships
 

@@ -148,16 +148,20 @@ backward compatibility.
 
 ---
 
-### `StreamWriter`: Replace zlib with ZSTD as Sole Compression Backend
+### ~~`StreamWriter`: Replace zlib with ZSTD as Sole Compression Backend~~ ✅ Implemented
 **Priority:** Low
 **Target Version:** v1.8.0
 
-`stream_writer.cpp` includes both `zlib.h` (line 27) and `zstd.h` (line 29), maintaining two separate compression code paths (gzip via `deflateInit2`, and zstd). The zlib path adds a dependency and binary size overhead. The module already uses `utils/zstd_codec.h` in other paths.
+`stream_writer.cpp` now uses ZSTD exclusively as the compression backend. The zlib/gzip
+code path (`deflateInit2`, `z_stream`, `<zlib.h>`) has been removed. `CompressionType::GZIP`
+is retained in the enum for backward compatibility but silently redirects to ZSTD output.
+Callers requesting `"gzip"` compression type produce ZSTD-framed output; for tools requiring
+gzip format, pipe through `zstd -d | gzip` or use `pigz`.
 
 **Implementation Notes:**
-- `[ ]` Remove zlib/gzip compression path from `StreamWriter`; replace gzip-format output with zstd-compressed output using `ZSTD_createCStream` (already present at line 172).
-- `[ ]` Offer a `ZSTD_MAGICNUMBER`-prefixed output mode that most data pipeline tools can ingest directly; for tools requiring gzip, document the `pigz` / `zstd -d | gzip` conversion path.
-- `[ ]` Remove `<zlib.h>` include and the associated `z_stream` compression state path; reduces binary size and maintenance surface.
+- `[x]` Remove zlib/gzip compression path from `StreamWriter`; replace gzip-format output with zstd-compressed output using `ZSTD_createCStream`.
+- `[x]` Offer a `ZSTD_MAGICNUMBER`-prefixed output mode that most data pipeline tools can ingest directly; for tools requiring gzip, document the `pigz` / `zstd -d | gzip` conversion path.
+- `[x]` Remove `<zlib.h>` include and the associated `z_stream` compression state path; reduces binary size and maintenance surface.
 
 ---
 

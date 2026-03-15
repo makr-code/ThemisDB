@@ -854,6 +854,9 @@ TEST_F(JSONLLLMExporterTest, PIIFailOnDetection) {
 // ===== P2 Tests: Compression =====
 
 TEST_F(JSONLLLMExporterTest, CompressionGzip) {
+#ifndef THEMIS_HAS_ZSTD
+    GTEST_SKIP() << "ZSTD compression not available in this build (gzip type redirects to ZSTD)";
+#endif
     JSONLLLMConfig config;
     JSONLLLMExporter exporter(config);
     
