@@ -5912,5 +5912,301 @@ void BidirectionalReplicationManager::handleConflict(
     }
 }
 
+// ============================================================================
+// GeoReplicationManager Implementation (v1.7.0)
+// ============================================================================
+
+GeoReplicationManager::GeoReplicationManager(const GeoConfig& config)
+    : config_(config)
+{
+    // Initialise the local region as fully fresh (zero lag) at startup.
+    RegionStalenessInfo local;
+    local.region_id             = config_.local_region;
+    local.staleness_ms           = 0;
+    local.last_applied_sequence  = 0;
+    local.last_update            = std::chrono::system_clock::now();
+    local.is_healthy             = true;
+    region_staleness_[config_.local_region] = local;
+
+    // Initialise all other regions as unknown (very high lag).
+    for (const auto& r : config_.regions) {
+        if (r == config_.local_region) continue;
+        RegionStalenessInfo info;
+        info.region_id             = r;
+        info.staleness_ms           = std::numeric_limits<int64_t>::max();
+        info.last_applied_sequence  = 0;
+        info.last_update            = std::chrono::system_clock::now();
+        info.is_healthy             = false;
+        region_staleness_[r]       = info;
+    }
+}
+
+// ── Session token helpers ─────────────────────────────────────────────────────
+
+std::string GeoReplicationManager::generateSessionToken(uint64_t sequence) const
+{
+    auto expiry_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch() +
+        std::chrono::milliseconds(config_.session_token_ttl_ms)).count();
+    return "seq=" + std::to_string(sequence) +
+           ";region=" + config_.local_region +
+           ";exp=" + std::to_string(expiry_ms);
+}
+
+uint64_t GeoReplicationManager::parseSessionToken(const std::string& token) const
+{
+    if (token.empty()) return 0;
+    // Check expiry
+    auto exp_pos = token.find("exp=");
+    if (exp_pos != std::string::npos) {
+        try {
+            int64_t expiry_ms = std::stoll(token.substr(exp_pos + 4));
+            auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count();
+            if (now_ms > expiry_ms) return 0;  // expired
+        } catch (...) {
+            return 0;
+        }
+    }
+    auto seq_pos = token.find("seq=");
+    if (seq_pos == std::string::npos) return 0;
+    try {
+        return std::stoull(token.substr(seq_pos + 4));
+    } catch (...) {
+        return 0;
+    }
+}
+
+std::string GeoReplicationManager::getSessionToken() const
+{
+    return generateSessionToken(local_sequence_.load());
+}
+
+// ── Staleness management ──────────────────────────────────────────────────────
+
+void GeoReplicationManager::updateRegionStaleness(const std::string& region,
+                                                   int64_t            staleness_ms,
+                                                   uint64_t           last_applied_sequence)
+{
+    std::unique_lock<std::shared_mutex> lock(staleness_mutex_);
+    auto& info                  = region_staleness_[region];
+    info.region_id              = region;
+    info.staleness_ms            = staleness_ms;
+    info.last_applied_sequence   = last_applied_sequence;
+    info.last_update             = std::chrono::system_clock::now();
+    info.is_healthy              = (staleness_ms >= 0);
+}
+
+std::chrono::milliseconds GeoReplicationManager::getStaleness(
+    const std::string& region) const
+{
+    std::shared_lock<std::shared_mutex> lock(staleness_mutex_);
+    auto it = region_staleness_.find(region);
+    if (it == region_staleness_.end()) {
+        return std::chrono::milliseconds(std::numeric_limits<int64_t>::max());
+    }
+    return std::chrono::milliseconds(it->second.staleness_ms);
+}
+
+// ── Automatic routing ─────────────────────────────────────────────────────────
+
+std::string GeoReplicationManager::selectReadRegion(
+    ConsistencyLevel   consistency,
+    const std::string& session_token) const
+{
+    std::shared_lock<std::shared_mutex> lock(staleness_mutex_);
+
+    switch (consistency) {
+        case ConsistencyLevel::STRONG: {
+            // Return the local region only if it has zero lag.
+            auto it = region_staleness_.find(config_.local_region);
+            if (it != region_staleness_.end() && it->second.staleness_ms == 0) {
+                return config_.local_region;
+            }
+            // Fall back: find any region with zero lag.
+            for (const auto& [rid, info] : region_staleness_) {
+                if (info.staleness_ms == 0 && info.is_healthy) return rid;
+            }
+            return "";  // No eligible region
+        }
+
+        case ConsistencyLevel::BOUNDED_STALENESS: {
+            // Prefer local region if within bound; otherwise pick freshest eligible.
+            const int64_t bound = static_cast<int64_t>(config_.max_staleness_ms);
+            auto local_it = region_staleness_.find(config_.local_region);
+            if (local_it != region_staleness_.end() &&
+                local_it->second.staleness_ms <= bound) {
+                return config_.local_region;
+            }
+            // Pick the region with smallest staleness that is within bound.
+            std::string best_region;
+            int64_t best_lag = std::numeric_limits<int64_t>::max();
+            for (const auto& [rid, info] : region_staleness_) {
+                if (info.is_healthy && info.staleness_ms <= bound &&
+                    info.staleness_ms < best_lag) {
+                    best_lag    = info.staleness_ms;
+                    best_region = rid;
+                }
+            }
+            return best_region;
+        }
+
+        case ConsistencyLevel::SESSION: {
+            // Local region must have applied at least the sequence in the token.
+            // parseSessionToken() is mutex-free (no staleness_mutex_ acquired inside),
+            // so it is safe to call while holding staleness_mutex_ as a shared lock.
+            uint64_t required_seq = parseSessionToken(session_token);
+            auto it = region_staleness_.find(config_.local_region);
+            if (it != region_staleness_.end() &&
+                it->second.last_applied_sequence >= required_seq) {
+                return config_.local_region;
+            }
+            return "";
+        }
+
+        case ConsistencyLevel::EVENTUAL:
+        default:
+            return config_.local_region;
+    }
+}
+
+// ── Write ─────────────────────────────────────────────────────────────────────
+
+bool GeoReplicationManager::write(
+    const std::string& key,
+    const std::string& value,
+    ConsistencyLevel   consistency)
+{
+    (void)key; (void)value;  // key/value applied by the caller's storage layer
+
+    // For STRONG writes, require the local region to have zero lag.
+    if (consistency == ConsistencyLevel::STRONG) {
+        auto lag = getStaleness(config_.local_region);
+        if (lag.count() > 0) {
+            THEMIS_WARN("GeoReplicationManager: STRONG write rejected – "
+                        "local region '{}' has lag={}ms",
+                        config_.local_region, lag.count());
+            return false;
+        }
+    }
+
+    // Advance the local sequence and mark the local region as fresh.
+    uint64_t seq = ++local_sequence_;
+    ++writes_total_;
+    {
+        std::unique_lock<std::shared_mutex> lock(staleness_mutex_);
+        auto& local               = region_staleness_[config_.local_region];
+        local.staleness_ms        = 0;
+        local.last_applied_sequence = seq;
+        local.last_update         = std::chrono::system_clock::now();
+    }
+
+    THEMIS_INFO("GeoReplicationManager: write key='{}' seq={} consistency={} region={}",
+                key, seq,
+                static_cast<int>(consistency),
+                config_.local_region);
+    return true;
+}
+
+// ── Read ──────────────────────────────────────────────────────────────────────
+
+std::optional<std::string> GeoReplicationManager::read(
+    const std::string& key,
+    ConsistencyLevel   consistency,
+    const std::string& session_token)
+{
+    (void)key;
+
+    ++reads_total_;
+
+    switch (consistency) {
+        case ConsistencyLevel::STRONG:
+            ++strong_reads_;
+            break;
+        case ConsistencyLevel::BOUNDED_STALENESS:
+            ++bounded_staleness_reads_;
+            break;
+        case ConsistencyLevel::SESSION:
+            ++session_reads_;
+            break;
+        case ConsistencyLevel::EVENTUAL:
+            ++eventual_reads_;
+            break;
+    }
+
+    const std::string region = selectReadRegion(consistency, session_token);
+    if (region.empty()) {
+        ++reads_rejected_;
+        THEMIS_WARN("GeoReplicationManager: read key='{}' rejected – "
+                    "no eligible region for consistency={}",
+                    key, static_cast<int>(consistency));
+        return std::nullopt;
+    }
+
+    THEMIS_INFO("GeoReplicationManager: read key='{}' consistency={} served by region={}",
+                key, static_cast<int>(consistency), region);
+    // Return a non-empty sentinel value – the actual value comes from the
+    // caller's storage layer; this manager handles routing / consistency only.
+    return region;
+}
+
+// ── Metrics ───────────────────────────────────────────────────────────────────
+
+std::string GeoReplicationManager::exportPrometheusMetrics() const
+{
+    std::ostringstream oss;
+    const std::string lbl = "{region=\"" + config_.local_region + "\"}";
+
+    oss << "# HELP themisdb_geo_repl_writes_total Total writes accepted\n"
+        << "# TYPE themisdb_geo_repl_writes_total counter\n"
+        << "themisdb_geo_repl_writes_total" << lbl << " "
+        << writes_total_.load() << "\n";
+
+    oss << "# HELP themisdb_geo_repl_reads_total Total reads attempted\n"
+        << "# TYPE themisdb_geo_repl_reads_total counter\n"
+        << "themisdb_geo_repl_reads_total" << lbl << " "
+        << reads_total_.load() << "\n";
+
+    oss << "# HELP themisdb_geo_repl_reads_rejected_total Reads rejected due to consistency constraints\n"
+        << "# TYPE themisdb_geo_repl_reads_rejected_total counter\n"
+        << "themisdb_geo_repl_reads_rejected_total" << lbl << " "
+        << reads_rejected_.load() << "\n";
+
+    oss << "# HELP themisdb_geo_repl_strong_reads_total STRONG reads\n"
+        << "# TYPE themisdb_geo_repl_strong_reads_total counter\n"
+        << "themisdb_geo_repl_strong_reads_total" << lbl << " "
+        << strong_reads_.load() << "\n";
+
+    oss << "# HELP themisdb_geo_repl_bounded_staleness_reads_total BOUNDED_STALENESS reads\n"
+        << "# TYPE themisdb_geo_repl_bounded_staleness_reads_total counter\n"
+        << "themisdb_geo_repl_bounded_staleness_reads_total" << lbl << " "
+        << bounded_staleness_reads_.load() << "\n";
+
+    oss << "# HELP themisdb_geo_repl_session_reads_total SESSION reads\n"
+        << "# TYPE themisdb_geo_repl_session_reads_total counter\n"
+        << "themisdb_geo_repl_session_reads_total" << lbl << " "
+        << session_reads_.load() << "\n";
+
+    oss << "# HELP themisdb_geo_repl_eventual_reads_total EVENTUAL reads\n"
+        << "# TYPE themisdb_geo_repl_eventual_reads_total counter\n"
+        << "themisdb_geo_repl_eventual_reads_total" << lbl << " "
+        << eventual_reads_.load() << "\n";
+
+    // Per-region staleness gauge
+    oss << "# HELP themisdb_geo_repl_region_staleness_ms Replication lag per region (ms)\n"
+        << "# TYPE themisdb_geo_repl_region_staleness_ms gauge\n";
+    {
+        std::shared_lock<std::shared_mutex> lock(staleness_mutex_);
+        for (const auto& [rid, info] : region_staleness_) {
+            int64_t lag = (info.staleness_ms == std::numeric_limits<int64_t>::max())
+                          ? -1 : info.staleness_ms;
+            oss << "themisdb_geo_repl_region_staleness_ms{region=\"" << rid << "\"} "
+                << lag << "\n";
+        }
+    }
+
+    return oss.str();
+}
+
 } // namespace replication
 } // namespace themisdb
