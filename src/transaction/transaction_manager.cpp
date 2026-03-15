@@ -318,9 +318,34 @@ void TransactionManager::resolveDeadlock(const std::vector<TransactionId>& cycle
     info.detected_at = std::chrono::system_clock::now();
     info.victim_id = victim_id;
     info.policy_used = policy;
-    
+
+    // Adaptive Deadlock Prevention: collect cycle keys BEFORE erasing the
+    // victim's entries from held_locks_ / waiting_for_ so that all participants'
+    // keys (including the victim's) are captured in the training data.
+    std::vector<std::string> cycle_keys;
     {
         std::lock_guard<std::mutex> lock(lock_tracking_mutex_);
+
+        // Collect for predictor (deduplicate via temporary set).
+        if (deadlock_predictor_.load(std::memory_order_acquire)) {
+            std::unordered_set<std::string> seen;
+            for (const auto& txn_id : cycle) {
+                for (const auto& [key, linfo] : held_locks_) {
+                    if (linfo.holder == txn_id && seen.insert(key).second) {
+                        cycle_keys.push_back(key);
+                    }
+                }
+                auto wit = waiting_for_.find(txn_id);
+                if (wit != waiting_for_.end()) {
+                    for (const auto& wkey : wit->second) {
+                        if (seen.insert(wkey).second) {
+                            cycle_keys.push_back(wkey);
+                        }
+                    }
+                }
+            }
+        }
+
         recent_deadlocks_.push_back(info);
         
         // Keep only last 100 deadlocks (use pop_front for efficiency with deque)
@@ -342,6 +367,14 @@ void TransactionManager::resolveDeadlock(const std::vector<TransactionId>& cycle
     // Abort the victim transaction (outside lock to avoid potential deadlock)
     // Note: rollbackTransaction has its own internal locking
     rollbackTransaction(victim_id);
+
+    // Adaptive Deadlock Prevention: notify the predictor about this deadlock so
+    // it can increase the conflict weight for the keys involved in the cycle.
+    if (!cycle_keys.empty()) {
+        if (DeadlockPredictor* dp = deadlock_predictor_.load(std::memory_order_acquire)) {
+            dp->recordDeadlock(cycle_keys);
+        }
+    }
 }
 
 // Session-based transaction management
@@ -470,6 +503,22 @@ TransactionManager::Status TransactionManager::commitTransaction(TransactionId i
     }
     
     moveToCompleted(id);
+
+    // Adaptive Deadlock Prevention: feed the predictor with this transaction's
+    // lock history so future probability estimates improve over time.
+    if (DeadlockPredictor* dp = deadlock_predictor_.load(std::memory_order_acquire)) {
+        std::vector<std::string> keys;
+        {
+            std::lock_guard<std::mutex> lk(lock_tracking_mutex_);
+            for (const auto& [key, info] : held_locks_) {
+                if (info.holder == id) keys.push_back(key);
+            }
+        }
+        auto duration_us = std::chrono::duration_cast<std::chrono::microseconds>(
+            std::chrono::milliseconds(txn->getDurationMs()));
+        dp->recordTransaction(id, keys, duration_us);
+    }
+
     return status;
 }
 
@@ -499,6 +548,21 @@ bool TransactionManager::rollbackTransaction(TransactionId id) {
     if (crash_recovery_mgr_) crash_recovery_mgr_->logAbort(id);
     
     moveToCompleted(id);
+
+    // Adaptive Deadlock Prevention: record rolled-back transaction's pattern.
+    if (DeadlockPredictor* dp = deadlock_predictor_.load(std::memory_order_acquire)) {
+        std::vector<std::string> keys;
+        {
+            std::lock_guard<std::mutex> lk(lock_tracking_mutex_);
+            for (const auto& [key, info] : held_locks_) {
+                if (info.holder == id) keys.push_back(key);
+            }
+        }
+        auto duration_us = std::chrono::duration_cast<std::chrono::microseconds>(
+            std::chrono::milliseconds(txn->getDurationMs()));
+        dp->recordTransaction(id, keys, duration_us);
+    }
+
     return true;
 }
 
@@ -1929,6 +1993,61 @@ TransactionManager::listEntityVersions(
         result.push_back(toTimeTravelRecord(rec));
     }
     return result;
+}
+
+// ── Adaptive Deadlock Prevention (v1.9.0) ────────────────────────────────────
+
+void TransactionManager::setDeadlockPredictor(DeadlockPredictor* predictor) {
+    // Release store so that any writes made to *predictor before this call are
+    // visible to threads that subsequently load the pointer with acquire order.
+    deadlock_predictor_.store(predictor, std::memory_order_release);
+}
+
+DeadlockPredictor* TransactionManager::getDeadlockPredictor() const {
+    return deadlock_predictor_.load(std::memory_order_acquire);
+}
+
+double TransactionManager::predictDeadlockProbability(
+        const std::vector<std::string>& proposed_locks) const
+{
+    DeadlockPredictor* p = deadlock_predictor_.load(std::memory_order_acquire);
+    if (!p || proposed_locks.empty()) {
+        return 0.0;
+    }
+
+    // Build the set of currently active transaction IDs.
+    std::set<DeadlockPredictor::TransactionId> active_ids;
+    {
+        std::lock_guard<std::mutex> lock(sessions_mutex_);
+        for (const auto& [id, _] : active_transactions_) {
+            active_ids.insert(id);
+        }
+    }
+    return p->predictDeadlockProbability(proposed_locks, active_ids);
+}
+
+std::vector<std::string> TransactionManager::recommendLockOrder(
+        const std::vector<std::string>& keys) const
+{
+    DeadlockPredictor* p = deadlock_predictor_.load(std::memory_order_acquire);
+    if (!p) {
+        // Fall back to lexicographic order for determinism.
+        std::vector<std::string> sorted = keys;
+        std::sort(sorted.begin(), sorted.end());
+        return sorted;
+    }
+    return p->recommendLockOrder(keys);
+}
+
+std::chrono::milliseconds TransactionManager::recommendTimeout(
+        const std::vector<std::string>& keys) const
+{
+    DeadlockPredictor* p = deadlock_predictor_.load(std::memory_order_acquire);
+    if (!p) {
+        return std::chrono::milliseconds(
+            deadlock_timeout_ms_.load(std::memory_order_relaxed));
+    }
+    return p->recommendTimeout(keys);
 }
 
 } // namespace themis

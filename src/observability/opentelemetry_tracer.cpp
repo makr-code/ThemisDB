@@ -144,8 +144,9 @@ ExporterType exporterFromString(const std::string& name) {
         // unknown name is normalised to the literal string "unknown" to keep
         // cardinality bounded (a single metric series regardless of how many
         // different typos are used in config).
-        MetricsCollector::getInstance().incrementCounter(
+        MetricsCollector::getInstance().addCounter(
             "themis_otel_unknown_exporter_total",
+            1,
             {{"exporter", "unknown"}});
     }
     return ExporterType::OTLP;

@@ -37,6 +37,7 @@
 #include <condition_variable>
 #include <filesystem>
 #include <fstream>
+#include <future>
 #include <iomanip>
 #include <future>
 #include <memory>
@@ -437,6 +438,12 @@ ModuleVerificationResult RemoteRegistryClient::downloadAndLoad(
     // thread per backoff when no dispatcher is injected.
     auto future = BackoffScheduler::instance().schedule(delay);
     waitOrThrow(std::move(future), "internal backoff scheduler for retry delay");
+    // Synchronous blocking sleep used by the synchronous (blocking) API path.
+    // When the caller needs non-blocking behaviour it should use the Async
+    // variants (listPluginsAsync / fetchPluginAsync / downloadPluginAsync)
+    // which run the entire retry loop — including these sleeps — on a dedicated
+    // background thread, freeing the calling thread immediately.
+    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
 
 std::string RemoteRegistryClient::buildAuthorizationHeader() const {
@@ -805,6 +812,45 @@ RequestStats RemoteRegistryClient::lastRequestStats() const {
     out.sha256       = obj.value("sha256", "");
     out.min_themis_version = obj.value("min_themis_version", "");
     return !out.name.empty() && !out.download_url.empty();
+}
+
+// =============================================================================
+// Async API – non-blocking wrappers around the synchronous public methods
+//
+// Each wrapper captures a shared_ptr to *this (via shared_from_this()) and
+// dispatches the synchronous operation to a fresh thread via
+// std::async(std::launch::async, …).  The calling thread is released
+// immediately: it never blocks during HTTP round-trips or exponential
+// back-off sleeps.
+//
+// Precondition: the RemoteRegistryClient instance must be managed by a
+// std::shared_ptr.  If it is not (stack-allocated or raw-pointer owned),
+// shared_from_this() throws std::bad_weak_ptr before any I/O is initiated.
+// =============================================================================
+
+std::future<std::vector<RegistryPluginEntry>> RemoteRegistryClient::listPluginsAsync() {
+    // Capture a shared_ptr so the client outlives the background thread even
+    // if the caller drops its own reference before the future is awaited.
+    auto self = shared_from_this();
+    return std::async(std::launch::async, [self]() {
+        return self->listPlugins();
+    });
+}
+
+std::future<std::optional<RegistryPluginEntry>>
+RemoteRegistryClient::fetchPluginAsync(const std::string& name) {
+    auto self = shared_from_this();
+    return std::async(std::launch::async, [self, name]() {
+        return self->fetchPlugin(name);
+    });
+}
+
+std::future<PluginDownloadResult>
+RemoteRegistryClient::downloadPluginAsync(const RegistryPluginEntry& entry) {
+    auto self = shared_from_this();
+    return std::async(std::launch::async, [self, entry]() {
+        return self->downloadPlugin(entry);
+    });
 }
 
 } // namespace modules

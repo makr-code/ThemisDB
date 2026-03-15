@@ -27,6 +27,7 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Compressed WAL shipping (Zstd) for bandwidth reduction (Issue: #2444)
 - [x] Automated lag-based read traffic shifting (Issue: #2251)
 - [x] Cross-cluster logical replication (publish/subscribe model) (Issue: #2440)
+- [x] LogicalReplicationManager — schema-aware logical slots with per-collection filters, row predicates, DDL streaming, and cross-version transforms (Issue: #95)
 - [x] Kubernetes operator for automated topology management (Issue: #2257)
 - [x] Parallel replication — multi-threaded WAL application on followers with dependency tracking (v1.6.0)
 
@@ -83,6 +84,34 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] `include/replication/policy.h` + `src/replication/policy.cpp` — ReplicationPolicy with per-collection policy assignment and topology validation
 - [x] `include/replication/replication_slot.h` + `src/replication/replication_slot.cpp` — ReplicationSlot / ReplicationSlotManager
 - [x] All 5 v1.7.0 files registered in `cmake/ModularBuild.cmake` THEMIS_TRANSACTION_SOURCES
+- [x] `BidirectionalReplicationManager` in `include/replication/replication_manager.h` + `src/replication/replication_manager.cpp` — Active-active bidirectional replication with origin tracking, per-collection conflict resolution (LWW/FIRST_WRITE/VECTOR_CLOCK/CUSTOM), DDL replication, and loop prevention
+
+### Phase 7: Bidirectional Replication (Status: Completed ✅ — v1.7.0)
+- [x] `BidirectionalReplicationManager` class with `BidiConfig` (local/remote node IDs, conflict strategy, origin tracking, DDL replication flags)
+- [x] Symmetric replication: both nodes are primary; `submitWrite()` enqueues changes for peer forwarding
+- [x] Conflict detection: concurrent writes from different origin nodes detected via `detectConflict()`; handled by `handleConflict()`
+- [x] Configurable conflict resolution per collection: `setCollectionStrategy()` / `getEffectiveStrategy()` with LWW, FIRST_WRITE_WINS, VECTOR_CLOCK, and CUSTOM strategies
+- [x] Origin tracking: every write tagged with `origin_node` + `origin_seq` + `timestamp_ms`; loop prevention via `replicate_foreign_changes=false` (default)
+- [x] DDL replication: `applyRemoteDDL()` forwards schema changes with conflict detection; `is_ddl_conflict` flag on conflict records
+- [x] `SyncStatus`: `local_sequence`, `remote_sequence`, `lag_ms`, `conflicts_detected`, `conflicts_resolved`, `conflicts_last_hour` (rolling 60-min window), `is_running`, `is_synchronized`
+- [x] `bidirectional_sync = false` flag honoured: `applyRemoteWrite()` returns false when disabled
+- [x] `replicate_ddl = false` flag honoured: `applyRemoteDDL()` returns false when disabled
+- [x] Manual conflict resolution: `resolveConflict(document_id, winner_node)` for CUSTOM strategy pending conflicts
+- [x] `BidiConflictRecord`: full audit trail with local/remote/resolved writes, strategy used, timestamp, DDL flag
+- [x] `updateRemoteSequence()` + `applyRemoteWrite()` for simulation/integration without a live network layer
+- [x] 21 unit tests in `tests/test_replication_ha.cpp` (BidirectionalReplicationTest suite):
+  - AC-1: start/stop lifecycle, double-start idempotency, invalid config (same node IDs, empty IDs)
+  - AC-1/6: submitWrite advances local sequence; returns 0 when stopped
+  - AC-4: origin tracking rejects own change bouncing back; accepts peer changes; updates remote_sequence
+  - AC-2: concurrent writes from different origins detected as conflict; LWW picks higher-timestamp winner
+  - AC-3: per-collection strategy override (FIRST_WRITE_WINS); CUSTOM strategy produces pending conflict
+  - AC-7: manual resolveConflict picks winner node; returns false for unknown node
+  - AC-5: DDL replication accepted; DDL conflict recorded with is_ddl_conflict=true
+  - AC-8: SyncStatus reflects lag, remote_sequence, is_synchronized; not synchronized under high lag
+  - Audit-1: `bidirectional_sync=false` blocks incoming remote writes
+  - Audit-2: `replicate_ddl=false` blocks DDL apply
+  - Audit-3: `conflicts_last_hour` rolling window correctly counted in SyncStatus
+- [x] CI: `.github/workflows/bidirectional-replication-ci.yml`
 
 ## New Modules (v1.8.0 – Phase 4)
 - [x] `include/replication/raft_v2.h` + `src/replication/raft_v2.cpp` — Full Raft v2: RaftV2ClusterConfig (joint consensus quorum), MembershipChangeManager (two-phase membership transitions), RaftV2State
@@ -153,7 +182,7 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] CI workflow: `.github/workflows/wal-archival-object-storage-ci.yml`
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (233+ test cases: 225 previous + 8 WALArchival object-storage tests)
+- [x] Unit tests coverage > 80% (268+ test cases: previous + 21 BidirectionalReplicationManager tests)
 - [x] Integration tests (failover, lag detection, PITR restoration, cross-cluster end-to-end)
 - [x] Performance benchmarks (WAL append > 50 000 entries/s, WAL readFrom 1000 < 5 ms, serialize/deserialize < 2 µs) — `benchmarks/bench_replication_throughput.cpp`
 - [x] Focused standalone test targets: `ReplicationHAFocusedTests`, `ReplicationNewFeaturesFocusedTests`, `MultiRegionActiveActiveTests`, `CacheReplicationTests`

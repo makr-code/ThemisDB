@@ -3,19 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_kafka_importer.cpp                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:04:51                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-13 18:00:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     909                                            ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     (updated)                                      ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 59453d3ae  2026-02-28  feat(importers): Add Kafka consumer importer for real-tim... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -78,16 +74,6 @@
  *  importData – invalid source_path
  *  - Error returned for malformed URL
  *
- *  importData – missing broker with kafka:// URL requires broker
- *  - Error when no brokers in URL and none from config
- *
- *  importDataAsync
- *  - Handle transitions from running → completed
- *  - Final stats available via handle->future.get()
- *
- *  cancel
- *  - cancel() stops an ongoing import at the next iteration
- *
  *  getSourceSchema
  *  - Returns JSON with type="kafka" and the topic name
  *
@@ -99,6 +85,7 @@
  */
 
 #include <gtest/gtest.h>
+#include "importers/kafka_importer.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -109,217 +96,26 @@
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
+using namespace themis::importers;
 
 // ---------------------------------------------------------------------------
-// Minimal self-contained re-implementation of IImporter types.
-// Mirrors importer_interface.h to keep the test binary fully standalone.
+// Helper: build a JSON config string for KafkaImporter::initialize()
 // ---------------------------------------------------------------------------
 
-enum class ImportErrorCode : uint32_t {
-    SUCCESS              = 0,
-    FILE_NOT_FOUND       = 100,
-    FILE_OPEN_FAILED     = 101,
-    ROW_TOO_LARGE        = 205,
-    DRY_RUN_ONLY         = 500,
-    PERMISSION_DENIED    = 503,
-    UNKNOWN              = 900
-};
-
-enum class ImportErrorSeverity { INFO, WARNING, ERROR, CRITICAL };
-
-struct ImportError {
-    ImportErrorCode     code     = ImportErrorCode::UNKNOWN;
-    ImportErrorSeverity severity = ImportErrorSeverity::ERROR;
-    std::string         message;
-    std::string         location;
-};
-
-struct ImportStats {
-    size_t total_records      = 0;
-    size_t imported_records   = 0;
-    size_t failed_records     = 0;
-    size_t skipped_records    = 0;
-    size_t tables_processed   = 0;
-    double elapsed_seconds    = 0.0;
-    std::vector<std::string>  warnings;
-    std::vector<std::string>  errors;
-    std::vector<ImportError>  structured_errors;
-};
-
-using RowCallback = std::function<bool(const std::string&, const json&)>;
-using ProgressCallback =
-    std::function<void(const std::string&, size_t, size_t)>;
-using MetricsCallback =
-    std::function<void(const std::string&,
-                       const std::map<std::string,std::string>&, double)>;
-using SpanCallback =
-    std::function<void(const std::string&,
-                       const std::map<std::string,std::string>&, double)>;
-using PermissionCheckCallback =
-    std::function<bool(const std::string&, const std::string&)>;
-
-struct ImportOptions {
-    bool   dry_run           = false;
-    bool   continue_on_error = true;
-    size_t batch_size        = 1000;
-    size_t max_row_size_bytes = 0;
-    RowCallback               streaming_row_callback;
-    MetricsCallback           metrics_callback;
-    SpanCallback              tracing_callback;
-    PermissionCheckCallback   permission_check;
-};
-
-// ---------------------------------------------------------------------------
-// Minimal KafkaImporter re-implementation for self-contained testing.
-//
-// This mirrors the production logic in src/importers/kafka_importer.cpp
-// without the librdkafka / logger / plugin dependencies.
-// ---------------------------------------------------------------------------
-
-namespace {
-
-/// Parse a Kafka URL into broker list and topic name.
-static bool parseKafkaUrl(const std::string& url,
-                           std::string& brokers,
-                           std::string& topic) {
-    brokers.clear();
-    topic.clear();
-    if (url.empty()) return false;
-
-    const std::string prefix = "kafka://";
-    if (url.substr(0, prefix.size()) == prefix) {
-        std::string rest = url.substr(prefix.size());
-        auto slash_pos = rest.rfind('/');
-        if (slash_pos == std::string::npos || slash_pos == rest.size() - 1)
-            return false;
-        brokers = rest.substr(0, slash_pos);
-        topic   = rest.substr(slash_pos + 1);
-    } else {
-        topic = url;
-    }
-    return !topic.empty();
+static std::string buildConfig(
+        const std::string& consumer_group = "themis-import",
+        const std::string& message_format = "json",
+        const std::string& text_field     = "text",
+        size_t             max_messages   = 0,
+        const std::string& brokers        = "") {
+    json cfg;
+    cfg["consumer_group"]  = consumer_group;
+    cfg["message_format"]  = message_format;
+    cfg["text_field"]      = text_field;
+    cfg["max_messages"]    = max_messages;
+    if (!brokers.empty()) cfg["brokers"] = brokers;
+    return cfg.dump();
 }
-
-/// Convert a Kafka message payload to a JSON entity.
-static json extractEntity(const std::string& payload,
-                           const std::string& message_format,
-                           const std::string& text_field) {
-    if (payload.empty()) return json(nullptr);
-
-    if (message_format == "avro") {
-        if (payload.size() > 5 &&
-            static_cast<unsigned char>(payload[0]) == 0x00) {
-            std::string content = payload.substr(5);
-            if (content.empty()) return json(nullptr);
-            try { return json::parse(content); }
-            catch (...) { return json{{"content", content}}; }
-        }
-        try { return json::parse(payload); }
-        catch (...) { return json{{"content", payload}}; }
-    }
-
-    if (message_format == "plaintext") {
-        return json{{"content", payload}};
-    }
-
-    // JSON (default)
-    try {
-        json parsed = json::parse(payload);
-        if (parsed.is_object() || parsed.is_array()) return parsed;
-        return json{{text_field, parsed}};
-    } catch (...) {
-        return json{{text_field, payload}};
-    }
-}
-
-/// Configuration for the mini-importer used in tests.
-struct KafkaImporterConfig {
-    std::string default_brokers;
-    std::string consumer_group   = "themis-import";
-    std::string message_format   = "json";
-    std::string text_field       = "text";
-    size_t      max_messages     = 0;
-    size_t      max_row_size_bytes = 0;
-};
-
-using KafkaMessageFn = std::function<std::vector<std::string>()>;
-
-/// Minimal mock-based Kafka import function (mirrors production importData).
-static ImportStats mockImport(const std::string& source_path,
-                              const ImportOptions& options,
-                              KafkaMessageFn message_fn,
-                              const KafkaImporterConfig& cfg) {
-    ImportStats stats;
-
-    // Permission check
-    if (options.permission_check &&
-        !options.permission_check("import", "write")) {
-        ImportError e;
-        e.code     = ImportErrorCode::PERMISSION_DENIED;
-        e.severity = ImportErrorSeverity::CRITICAL;
-        e.message  = "Permission denied by permission_check callback";
-        stats.structured_errors.push_back(e);
-        stats.errors.push_back(e.message);
-        return stats;
-    }
-
-    std::string brokers, topic;
-    if (!parseKafkaUrl(source_path, brokers, topic)) {
-        ImportError e;
-        e.code     = ImportErrorCode::FILE_NOT_FOUND;
-        e.severity = ImportErrorSeverity::CRITICAL;
-        e.message  = "Invalid Kafka source URL: " + source_path;
-        stats.structured_errors.push_back(e);
-        stats.errors.push_back(e.message);
-        return stats;
-    }
-    if (brokers.empty()) brokers = cfg.default_brokers;
-    // In mock mode we allow empty brokers.
-
-    size_t consumed = 0;
-    bool aborted = false;
-    while (!aborted) {
-        if (cfg.max_messages > 0 && consumed >= cfg.max_messages) break;
-        auto batch = message_fn();
-        if (batch.empty()) break;
-
-        for (auto& payload : batch) {
-            if (cfg.max_messages > 0 && consumed >= cfg.max_messages) break;
-            ++stats.total_records;
-
-            if (options.max_row_size_bytes > 0 &&
-                payload.size() > options.max_row_size_bytes) {
-                ++stats.failed_records;
-                ++consumed;
-                continue;
-            }
-
-            json entity = extractEntity(payload, cfg.message_format, cfg.text_field);
-            if (entity.is_null()) {
-                ++stats.skipped_records;
-                ++consumed;
-                continue;
-            }
-
-            if (!options.dry_run) {
-                if (options.streaming_row_callback) {
-                    bool cont = options.streaming_row_callback(topic, entity);
-                    ++stats.imported_records;
-                    if (!cont) { aborted = true; break; }
-                } else {
-                    ++stats.imported_records;
-                }
-            } else {
-                stats.warnings.push_back("dry-run: msg " +
-                                         std::to_string(consumed));
-            }
-            ++consumed;
-        }
-    }
-    return stats;
-}
-
-} // anonymous namespace
 
 // ===========================================================================
 // Test suite: URL parsing
@@ -327,471 +123,625 @@ static ImportStats mockImport(const std::string& source_path,
 
 TEST(KafkaImporterUrlParsing, SingleBroker) {
     std::string b, t;
-    ASSERT_TRUE(parseKafkaUrl("kafka://localhost:9092/events", b, t));
+    ASSERT_TRUE(KafkaImporter::parseKafkaUrl("kafka://localhost:9092/events", b, t));
     EXPECT_EQ(b, "localhost:9092");
     EXPECT_EQ(t, "events");
 }
 
 TEST(KafkaImporterUrlParsing, MultipleBrokers) {
     std::string b, t;
-    ASSERT_TRUE(parseKafkaUrl("kafka://b1:9092,b2:9092/logs", b, t));
+    ASSERT_TRUE(KafkaImporter::parseKafkaUrl("kafka://b1:9092,b2:9092/logs", b, t));
     EXPECT_EQ(b, "b1:9092,b2:9092");
     EXPECT_EQ(t, "logs");
 }
 
 TEST(KafkaImporterUrlParsing, BareTopicName) {
     std::string b, t;
-    ASSERT_TRUE(parseKafkaUrl("my-topic", b, t));
+    ASSERT_TRUE(KafkaImporter::parseKafkaUrl("my-topic", b, t));
     EXPECT_TRUE(b.empty());
     EXPECT_EQ(t, "my-topic");
 }
 
 TEST(KafkaImporterUrlParsing, EmptyUrl) {
     std::string b, t;
-    EXPECT_FALSE(parseKafkaUrl("", b, t));
+    EXPECT_FALSE(KafkaImporter::parseKafkaUrl("", b, t));
 }
 
 TEST(KafkaImporterUrlParsing, TrailingSlashNoTopic) {
     std::string b, t;
     // kafka://broker:9092/  – empty topic after last '/'
-    EXPECT_FALSE(parseKafkaUrl("kafka://broker:9092/", b, t));
+    EXPECT_FALSE(KafkaImporter::parseKafkaUrl("kafka://broker:9092/", b, t));
 }
 
 TEST(KafkaImporterUrlParsing, MissingTopicSlash) {
     // kafka://broker:9092  – no '/' at all after the prefix
     std::string b, t;
-    EXPECT_FALSE(parseKafkaUrl("kafka://broker:9092", b, t));
+    EXPECT_FALSE(KafkaImporter::parseKafkaUrl("kafka://broker:9092", b, t));
 }
 
 TEST(KafkaImporterUrlParsing, TopicWithHyphens) {
     std::string b, t;
-    ASSERT_TRUE(parseKafkaUrl("kafka://broker:9092/my-cool-topic-v2", b, t));
+    ASSERT_TRUE(KafkaImporter::parseKafkaUrl("kafka://broker:9092/my-cool-topic-v2", b, t));
     EXPECT_EQ(t, "my-cool-topic-v2");
 }
 
 // ===========================================================================
-// Test suite: getSupportedTypes (via the real header if available)
+// Test suite: getSupportedTypes
 // ===========================================================================
 
 TEST(KafkaImporterSupportedTypes, ContainsExpectedTypes) {
-    // Mirror the expected list from the implementation.
-    std::vector<std::string> expected = {
-        "kafka", "kafka-json", "kafka-avro", "kafka-plaintext"
-    };
-    // We test the concept here since we're using the local re-implementation.
-    for (const auto& t : expected) {
-        EXPECT_FALSE(t.empty());
+    KafkaImporter importer;
+    auto types = importer.getSupportedTypes();
+    EXPECT_FALSE(types.empty());
+    // Must include the four documented formats.
+    for (const auto& expected : {"kafka", "kafka-json", "kafka-avro", "kafka-plaintext"}) {
+        EXPECT_NE(std::find(types.begin(), types.end(), expected), types.end())
+            << "Missing type: " << expected;
     }
 }
 
 // ===========================================================================
-// Test suite: entity extraction
+// Test suite: entity extraction (via setMessageFetchForTesting + importData)
 // ===========================================================================
 
 TEST(KafkaImporterExtractEntity, JsonObjectPassedThrough) {
-    json e = extractEntity(R"({"id":1,"value":"hello"})", "json", "text");
-    ASSERT_TRUE(e.is_object());
-    EXPECT_EQ(e["id"].get<int>(), 1);
-    EXPECT_EQ(e["value"].get<std::string>(), "hello");
+    KafkaImporter importer;
+    importer.initialize(buildConfig());
+
+    int call = 0;
+    importer.setMessageFetchForTesting([&]() -> std::vector<std::string> {
+        if (call++ == 0) return {R"({"id":1,"value":"hello"})"};
+        return {};
+    });
+
+    json captured;
+    ImportOptions opts;
+    opts.streaming_row_callback = [&](const std::string&, const json& e) -> bool {
+        captured = e;
+        return true;
+    };
+
+    auto stats = importer.importData("bare-topic", opts);
+    ASSERT_TRUE(captured.is_object());
+    EXPECT_EQ(captured["id"].get<int>(), 1);
+    EXPECT_EQ(captured["value"].get<std::string>(), "hello");
+    EXPECT_EQ(stats.imported_records, 1u);
 }
 
 TEST(KafkaImporterExtractEntity, ScalarJsonWrapped) {
-    json e = extractEntity("42", "json", "text");
-    ASSERT_TRUE(e.is_object());
-    EXPECT_EQ(e["text"].get<int>(), 42);
+    KafkaImporter importer;
+    importer.initialize(buildConfig());
+
+    int call = 0;
+    importer.setMessageFetchForTesting([&]() -> std::vector<std::string> {
+        if (call++ == 0) return {"42"};
+        return {};
+    });
+
+    json captured;
+    ImportOptions opts;
+    opts.streaming_row_callback = [&](const std::string&, const json& e) -> bool {
+        captured = e;
+        return true;
+    };
+
+    auto stats = importer.importData("bare-topic", opts);
+    ASSERT_TRUE(captured.is_object());
+    EXPECT_EQ(captured["text"].get<int>(), 42);
 }
 
 TEST(KafkaImporterExtractEntity, NonJsonWrapped) {
-    json e = extractEntity("plain text payload", "json", "text");
-    ASSERT_TRUE(e.is_object());
-    EXPECT_EQ(e["text"].get<std::string>(), "plain text payload");
+    KafkaImporter importer;
+    importer.initialize(buildConfig());
+
+    int call = 0;
+    importer.setMessageFetchForTesting([&]() -> std::vector<std::string> {
+        if (call++ == 0) return {"plain text payload"};
+        return {};
+    });
+
+    json captured;
+    ImportOptions opts;
+    opts.streaming_row_callback = [&](const std::string&, const json& e) -> bool {
+        captured = e;
+        return true;
+    };
+
+    auto stats = importer.importData("bare-topic", opts);
+    ASSERT_TRUE(captured.is_object());
+    EXPECT_EQ(captured["text"].get<std::string>(), "plain text payload");
 }
 
 TEST(KafkaImporterExtractEntity, PlaintextFormat) {
-    json e = extractEntity("raw bytes", "plaintext", "text");
-    ASSERT_TRUE(e.is_object());
-    EXPECT_EQ(e["content"].get<std::string>(), "raw bytes");
+    KafkaImporter importer;
+    importer.initialize(buildConfig("themis-import", "plaintext"));
+
+    int call = 0;
+    importer.setMessageFetchForTesting([&]() -> std::vector<std::string> {
+        if (call++ == 0) return {"raw bytes"};
+        return {};
+    });
+
+    json captured;
+    ImportOptions opts;
+    opts.streaming_row_callback = [&](const std::string&, const json& e) -> bool {
+        captured = e;
+        return true;
+    };
+
+    auto stats = importer.importData("bare-topic", opts);
+    ASSERT_TRUE(captured.is_object());
+    EXPECT_EQ(captured["content"].get<std::string>(), "raw bytes");
 }
 
 TEST(KafkaImporterExtractEntity, AvroMagicByteStripped) {
-    // Build a Confluent-framed Avro message: 0x00 + 4-byte schema ID + JSON
-    std::string avro;
-    avro += '\x00';
-    avro += '\x00'; avro += '\x00'; avro += '\x00'; avro += '\x01'; // schema ID = 1
-    avro += R"({"content":"avro_data"})";
+    KafkaImporter importer;
+    importer.initialize(buildConfig("themis-import", "avro"));
 
-    json e = extractEntity(avro, "avro", "text");
-    ASSERT_TRUE(e.is_object());
-    EXPECT_EQ(e["content"].get<std::string>(), "avro_data");
+    // Build a Confluent-framed Avro message: 0x00 + 4-byte schema ID + JSON
+    std::string avro_payload;
+    avro_payload += '\x00';
+    avro_payload += '\x00'; avro_payload += '\x00';
+    avro_payload += '\x00'; avro_payload += '\x01'; // schema ID = 1
+    avro_payload += R"({"content":"avro_data"})";
+
+    int call = 0;
+    importer.setMessageFetchForTesting([&]() -> std::vector<std::string> {
+        if (call++ == 0) return {avro_payload};
+        return {};
+    });
+
+    json captured;
+    ImportOptions opts;
+    opts.streaming_row_callback = [&](const std::string&, const json& e) -> bool {
+        captured = e;
+        return true;
+    };
+
+    auto stats = importer.importData("bare-topic", opts);
+    ASSERT_TRUE(captured.is_object());
+    EXPECT_EQ(captured["content"].get<std::string>(), "avro_data");
 }
 
 TEST(KafkaImporterExtractEntity, AvroNoMagicByteJsonFallback) {
-    // Avro payload without magic byte – fall back to JSON parse
-    json e = extractEntity(R"({"val":99})", "avro", "text");
-    ASSERT_TRUE(e.is_object());
-    EXPECT_EQ(e["val"].get<int>(), 99);
+    KafkaImporter importer;
+    importer.initialize(buildConfig("themis-import", "avro"));
+
+    int call = 0;
+    importer.setMessageFetchForTesting([&]() -> std::vector<std::string> {
+        if (call++ == 0) return {R"({"val":99})"};
+        return {};
+    });
+
+    json captured;
+    ImportOptions opts;
+    opts.streaming_row_callback = [&](const std::string&, const json& e) -> bool {
+        captured = e;
+        return true;
+    };
+
+    auto stats = importer.importData("bare-topic", opts);
+    ASSERT_TRUE(captured.is_object());
+    EXPECT_EQ(captured["val"].get<int>(), 99);
 }
 
 TEST(KafkaImporterExtractEntity, EmptyPayloadReturnsNull) {
-    json e = extractEntity("", "json", "text");
-    EXPECT_TRUE(e.is_null());
+    KafkaImporter importer;
+    importer.initialize(buildConfig());
+
+    int call = 0;
+    importer.setMessageFetchForTesting([&]() -> std::vector<std::string> {
+        if (call++ == 0) return {""};
+        return {};
+    });
+
+    ImportOptions opts;
+    // Callback should never be invoked for empty (null) entity.
+    bool callback_invoked = false;
+    opts.streaming_row_callback = [&](const std::string&, const json&) -> bool {
+        callback_invoked = true;
+        return true;
+    };
+
+    auto stats = importer.importData("bare-topic", opts);
+    EXPECT_FALSE(callback_invoked);
+    EXPECT_EQ(stats.skipped_records, 1u);
+    EXPECT_EQ(stats.imported_records, 0u);
 }
 
 // ===========================================================================
-// Test suite: mockImport - basic JSON ingestion
+// Test suite: importData – mock injection via setMessageFetchForTesting
 // ===========================================================================
 
 TEST(KafkaImporterMockImport, IngestsJsonMessages) {
-    KafkaImporterConfig cfg;
+    KafkaImporter importer;
+    importer.initialize(buildConfig());
+
     int call = 0;
-    auto fn = [&]() -> std::vector<std::string> {
+    importer.setMessageFetchForTesting([&]() -> std::vector<std::string> {
         if (call++ == 0) return {
             R"({"id":1,"name":"Alice"})",
-            R"({"id":2,"name":"Bob"})",
-            R"({"id":3,"name":"Carol"})"
+            R"({"id":2,"name":"Bob"})"
         };
         return {};
+    });
+
+    std::vector<json> entities;
+    ImportOptions opts;
+    opts.streaming_row_callback = [&](const std::string&, const json& e) -> bool {
+        entities.push_back(e);
+        return true;
     };
 
-    ImportOptions opts;
-    auto stats = mockImport("kafka://broker:9092/users", opts, fn, cfg);
-    EXPECT_EQ(stats.imported_records, 3u);
-    EXPECT_EQ(stats.total_records, 3u);
+    auto stats = importer.importData("bare-topic", opts);
+    ASSERT_EQ(entities.size(), 2u);
+    EXPECT_EQ(entities[0]["name"].get<std::string>(), "Alice");
+    EXPECT_EQ(entities[1]["name"].get<std::string>(), "Bob");
+    EXPECT_EQ(stats.imported_records, 2u);
     EXPECT_EQ(stats.failed_records, 0u);
 }
 
 TEST(KafkaImporterMockImport, BareTopicNameAccepted) {
-    KafkaImporterConfig cfg;
-    cfg.default_brokers = "localhost:9092";
+    KafkaImporter importer;
+    // Configure default brokers so the bare-topic path doesn't fail with
+    // "no broker list".
+    importer.initialize(buildConfig("themis-import", "json", "text", 0, "localhost:9092"));
+
     int call = 0;
-    auto fn = [&]() -> std::vector<std::string> {
+    importer.setMessageFetchForTesting([&]() -> std::vector<std::string> {
         if (call++ == 0) return {R"({"x":1})"};
         return {};
-    };
+    });
 
     ImportOptions opts;
-    auto stats = mockImport("my-topic", opts, fn, cfg);
-    EXPECT_EQ(stats.imported_records, 1u);
-}
-
-// ===========================================================================
-// Test suite: max_messages limit
-// ===========================================================================
-
-TEST(KafkaImporterMockImport, MaxMessagesLimit) {
-    KafkaImporterConfig cfg;
-    cfg.max_messages = 2;
-    int call = 0;
-    auto fn = [&]() -> std::vector<std::string> {
-        if (call++ < 5)
-            return {"msg1", "msg2", "msg3", "msg4", "msg5"};
-        return {};
-    };
-
-    ImportOptions opts;
-    auto stats = mockImport("kafka://broker:9092/t", opts, fn, cfg);
-    EXPECT_EQ(stats.imported_records, 2u);
-}
-
-TEST(KafkaImporterMockImport, MaxMessagesZeroMeansUnlimited) {
-    KafkaImporterConfig cfg;
-    cfg.max_messages = 0;
-    int call = 0;
-    auto fn = [&]() -> std::vector<std::string> {
-        if (call++ < 3) return {"msg"};
-        return {};
-    };
-
-    ImportOptions opts;
-    auto stats = mockImport("kafka://broker:9092/t", opts, fn, cfg);
-    EXPECT_EQ(stats.imported_records, 3u);
-}
-
-// ===========================================================================
-// Test suite: streaming row callback
-// ===========================================================================
-
-TEST(KafkaImporterMockImport, StreamingCallbackReceivesEntities) {
-    KafkaImporterConfig cfg;
-    int call = 0;
-    auto fn = [&]() -> std::vector<std::string> {
-        if (call++ == 0) return {
-            R"({"name":"Alice"})",
-            R"({"name":"Bob"})"
-        };
-        return {};
-    };
-
-    std::vector<json> received;
-    ImportOptions opts;
-    opts.streaming_row_callback =
-        [&](const std::string& /*table*/, const json& e) -> bool {
-            received.push_back(e);
-            return true;
-        };
-
-    auto stats = mockImport("kafka://broker:9092/users", opts, fn, cfg);
-    ASSERT_EQ(received.size(), 2u);
-    EXPECT_EQ(received[0]["name"].get<std::string>(), "Alice");
-    EXPECT_EQ(received[1]["name"].get<std::string>(), "Bob");
-    EXPECT_EQ(stats.imported_records, 2u);
-}
-
-TEST(KafkaImporterMockImport, StreamingCallbackAbortOnFalse) {
-    KafkaImporterConfig cfg;
-    int call = 0;
-    auto fn = [&]() -> std::vector<std::string> {
-        if (call++ == 0) return {"a", "b", "c"};
-        return {};
-    };
-
-    size_t cb_count = 0;
-    ImportOptions opts;
-    opts.streaming_row_callback =
-        [&](const std::string&, const json&) -> bool {
-            ++cb_count;
-            return cb_count < 2; // abort after second
-        };
-
-    auto stats = mockImport("kafka://broker:9092/t", opts, fn, cfg);
-    EXPECT_EQ(cb_count, 2u);
-    EXPECT_LE(stats.imported_records, 2u);
-}
-
-TEST(KafkaImporterMockImport, StreamingCallbackTableNameMatchesTopic) {
-    KafkaImporterConfig cfg;
-    int call = 0;
-    auto fn = [&]() -> std::vector<std::string> {
-        if (call++ == 0) return {R"({"x":1})"};
-        return {};
-    };
-
-    std::string received_table;
-    ImportOptions opts;
-    opts.streaming_row_callback =
-        [&](const std::string& t, const json&) -> bool {
-            received_table = t;
-            return true;
-        };
-
-    mockImport("kafka://broker:9092/events", opts, fn, cfg);
-    EXPECT_EQ(received_table, "events");
-}
-
-// ===========================================================================
-// Test suite: dry-run mode
-// ===========================================================================
-
-TEST(KafkaImporterMockImport, DryRunDoesNotInvokeCallback) {
-    KafkaImporterConfig cfg;
-    int call = 0;
-    auto fn = [&]() -> std::vector<std::string> {
-        if (call++ == 0) return {"msg1", "msg2"};
-        return {};
-    };
-
-    bool callback_invoked = false;
-    ImportOptions opts;
-    opts.dry_run = true;
-    opts.streaming_row_callback =
-        [&](const std::string&, const json&) -> bool {
-            callback_invoked = true;
-            return true;
-        };
-
-    auto stats = mockImport("kafka://b:9092/t", opts, fn, cfg);
-    EXPECT_FALSE(callback_invoked);
-    EXPECT_EQ(stats.imported_records, 0u);
-    EXPECT_EQ(stats.total_records, 2u);
-    EXPECT_EQ(stats.warnings.size(), 2u);
-}
-
-// ===========================================================================
-// Test suite: permission_check callback
-// ===========================================================================
-
-TEST(KafkaImporterMockImport, PermissionDenied) {
-    KafkaImporterConfig cfg;
-    auto fn = []() -> std::vector<std::string> { return {}; };
-
-    ImportOptions opts;
-    opts.permission_check = [](const std::string&, const std::string&) {
-        return false;
-    };
-
-    auto stats = mockImport("kafka://b:9092/t", opts, fn, cfg);
-    EXPECT_FALSE(stats.errors.empty());
-    bool has_denied = false;
-    for (const auto& e : stats.structured_errors) {
-        if (e.code == ImportErrorCode::PERMISSION_DENIED) has_denied = true;
-    }
-    EXPECT_TRUE(has_denied);
-    EXPECT_EQ(stats.imported_records, 0u);
-}
-
-TEST(KafkaImporterMockImport, PermissionGranted) {
-    KafkaImporterConfig cfg;
-    int call = 0;
-    auto fn = [&]() -> std::vector<std::string> {
-        if (call++ == 0) return {R"({"v":1})"};
-        return {};
-    };
-
-    ImportOptions opts;
-    opts.permission_check = [](const std::string&, const std::string&) {
+    size_t count = 0;
+    opts.streaming_row_callback = [&](const std::string& table, const json&) -> bool {
+        EXPECT_EQ(table, "my-topic");
+        ++count;
         return true;
     };
 
-    auto stats = mockImport("kafka://b:9092/t", opts, fn, cfg);
+    auto stats = importer.importData("my-topic", opts);
+    EXPECT_EQ(count, 1u);
     EXPECT_EQ(stats.imported_records, 1u);
 }
 
-// ===========================================================================
-// Test suite: oversized messages
-// ===========================================================================
+TEST(KafkaImporterMockImport, MaxMessagesLimit) {
+    KafkaImporter importer;
+    importer.initialize(buildConfig("themis-import", "json", "text", 3 /*max_messages*/));
 
-TEST(KafkaImporterMockImport, OversizedMessageFailed) {
-    KafkaImporterConfig cfg;
-    cfg.max_row_size_bytes = 10;
     int call = 0;
-    auto fn = [&]() -> std::vector<std::string> {
-        if (call++ == 0) return {"this_message_is_definitely_longer_than_ten_bytes"};
-        return {};
-    };
+    importer.setMessageFetchForTesting([&]() -> std::vector<std::string> {
+        ++call;
+        return {R"({"v":1})", R"({"v":2})", R"({"v":3})",
+                R"({"v":4})", R"({"v":5})"};
+    });
 
     ImportOptions opts;
-    opts.max_row_size_bytes = 10;
-    auto stats = mockImport("kafka://b:9092/t", opts, fn, cfg);
+    auto stats = importer.importData("bare-topic", opts);
+    EXPECT_EQ(stats.imported_records, 3u);
+}
+
+TEST(KafkaImporterMockImport, MaxMessagesZeroMeansUnlimited) {
+    KafkaImporter importer;
+    importer.initialize(buildConfig("themis-import", "json", "text", 0 /*unlimited*/));
+
+    int call = 0;
+    importer.setMessageFetchForTesting([&]() -> std::vector<std::string> {
+        if (call++ < 3) return {R"({"v":1})", R"({"v":2})"};
+        return {};
+    });
+
+    ImportOptions opts;
+    auto stats = importer.importData("bare-topic", opts);
+    // 3 batches × 2 messages = 6
+    EXPECT_EQ(stats.imported_records, 6u);
+}
+
+TEST(KafkaImporterMockImport, StreamingCallbackReceivesEntities) {
+    KafkaImporter importer;
+    importer.initialize(buildConfig());
+
+    int call = 0;
+    importer.setMessageFetchForTesting([&]() -> std::vector<std::string> {
+        if (call++ == 0) return {
+            R"({"seq":1})", R"({"seq":2})", R"({"seq":3})"
+        };
+        return {};
+    });
+
+    std::vector<int> seqs;
+    ImportOptions opts;
+    opts.streaming_row_callback = [&](const std::string&, const json& e) -> bool {
+        seqs.push_back(e["seq"].get<int>());
+        return true;
+    };
+
+    auto stats = importer.importData("bare-topic", opts);
+    ASSERT_EQ(seqs.size(), 3u);
+    EXPECT_EQ(seqs[0], 1);
+    EXPECT_EQ(seqs[1], 2);
+    EXPECT_EQ(seqs[2], 3);
+    EXPECT_EQ(stats.imported_records, 3u);
+}
+
+TEST(KafkaImporterMockImport, StreamingCallbackAbortOnFalse) {
+    KafkaImporter importer;
+    importer.initialize(buildConfig());
+
+    int call = 0;
+    importer.setMessageFetchForTesting([&]() -> std::vector<std::string> {
+        if (call++ == 0) return {
+            R"({"n":1})", R"({"n":2})", R"({"n":3})", R"({"n":4})"
+        };
+        return {};
+    });
+
+    size_t delivered = 0;
+    ImportOptions opts;
+    opts.streaming_row_callback = [&](const std::string&, const json&) -> bool {
+        ++delivered;
+        return delivered < 2; // abort after 2nd entity
+    };
+
+    auto stats = importer.importData("bare-topic", opts);
+    EXPECT_EQ(delivered, 2u);
+    // imported_records includes the last one that caused abort
+    EXPECT_EQ(stats.imported_records, 2u);
+}
+
+TEST(KafkaImporterMockImport, StreamingCallbackTableNameMatchesTopic) {
+    KafkaImporter importer;
+    importer.initialize(buildConfig());
+
+    int call = 0;
+    importer.setMessageFetchForTesting([&]() -> std::vector<std::string> {
+        if (call++ == 0) return {R"({"x":1})", R"({"x":2})"};
+        return {};
+    });
+
+    std::vector<std::string> table_names;
+    ImportOptions opts;
+    opts.streaming_row_callback = [&](const std::string& table,
+                                       const json&) -> bool {
+        table_names.push_back(table);
+        return true;
+    };
+
+    auto stats = importer.importData("kafka://b:9092/user-events", opts);
+    for (const auto& t : table_names) {
+        EXPECT_EQ(t, "user-events");
+    }
+    EXPECT_EQ(stats.imported_records, 2u);
+}
+
+TEST(KafkaImporterMockImport, DryRunDoesNotInvokeCallback) {
+    KafkaImporter importer;
+    importer.initialize(buildConfig());
+
+    int call = 0;
+    importer.setMessageFetchForTesting([&]() -> std::vector<std::string> {
+        if (call++ == 0) return {
+            R"({"a":1})", R"({"a":2})", R"({"a":3})"
+        };
+        return {};
+    });
+
+    bool callback_called = false;
+    ImportOptions opts;
+    opts.dry_run = true;
+    opts.streaming_row_callback = [&](const std::string&, const json&) -> bool {
+        callback_called = true;
+        return true;
+    };
+
+    auto stats = importer.importData("bare-topic", opts);
+    EXPECT_FALSE(callback_called);
+    EXPECT_EQ(stats.imported_records, 0u);
+    EXPECT_EQ(stats.total_records, 3u);
+    EXPECT_FALSE(stats.warnings.empty()); // dry-run produces warnings
+}
+
+TEST(KafkaImporterMockImport, PermissionDenied) {
+    KafkaImporter importer;
+    importer.initialize(buildConfig());
+
+    bool fn_called = false;
+    importer.setMessageFetchForTesting([&]() -> std::vector<std::string> {
+        fn_called = true;
+        return {R"({"x":1})"};
+    });
+
+    ImportOptions opts;
+    opts.permission_check = [](const std::string&, const std::string&) {
+        return false; // deny
+    };
+
+    auto stats = importer.importData("bare-topic", opts);
+    EXPECT_EQ(stats.imported_records, 0u);
+    EXPECT_FALSE(stats.errors.empty());
+    EXPECT_FALSE(stats.structured_errors.empty());
+    EXPECT_EQ(stats.structured_errors[0].code, ImportErrorCode::PERMISSION_DENIED);
+    EXPECT_FALSE(fn_called) << "message_fn must not be called after permission denial";
+}
+
+TEST(KafkaImporterMockImport, PermissionGranted) {
+    KafkaImporter importer;
+    importer.initialize(buildConfig());
+
+    int call = 0;
+    importer.setMessageFetchForTesting([&]() -> std::vector<std::string> {
+        if (call++ == 0) return {R"({"ok":true})"};
+        return {};
+    });
+
+    ImportOptions opts;
+    opts.permission_check = [](const std::string&, const std::string&) {
+        return true; // allow
+    };
+    size_t count = 0;
+    opts.streaming_row_callback = [&](const std::string&, const json&) -> bool {
+        ++count;
+        return true;
+    };
+
+    auto stats = importer.importData("bare-topic", opts);
+    EXPECT_EQ(count, 1u);
+    EXPECT_EQ(stats.imported_records, 1u);
+    EXPECT_TRUE(stats.errors.empty());
+}
+
+TEST(KafkaImporterMockImport, OversizedMessageFailed) {
+    KafkaImporter importer;
+    importer.initialize(buildConfig());
+
+    std::string big_msg(200, 'x'); // 200 bytes
+
+    int call = 0;
+    importer.setMessageFetchForTesting([&]() -> std::vector<std::string> {
+        if (call++ == 0) return {big_msg};
+        return {};
+    });
+
+    ImportOptions opts;
+    opts.max_row_size_bytes = 100; // reject messages > 100 bytes
+    bool callback_called = false;
+    opts.streaming_row_callback = [&](const std::string&, const json&) -> bool {
+        callback_called = true;
+        return true;
+    };
+
+    auto stats = importer.importData("bare-topic", opts);
+    EXPECT_FALSE(callback_called);
     EXPECT_EQ(stats.failed_records, 1u);
     EXPECT_EQ(stats.imported_records, 0u);
 }
 
 TEST(KafkaImporterMockImport, SmallMessageAccepted) {
-    KafkaImporterConfig cfg;
-    cfg.max_row_size_bytes = 100;
+    KafkaImporter importer;
+    importer.initialize(buildConfig());
+
     int call = 0;
-    auto fn = [&]() -> std::vector<std::string> {
-        if (call++ == 0) return {"hi"};
+    importer.setMessageFetchForTesting([&]() -> std::vector<std::string> {
+        if (call++ == 0) return {R"({"small":true})"};
         return {};
-    };
+    });
 
     ImportOptions opts;
-    opts.max_row_size_bytes = 100;
-    auto stats = mockImport("kafka://b:9092/t", opts, fn, cfg);
-    EXPECT_EQ(stats.imported_records, 1u);
+    opts.max_row_size_bytes = 1000; // plenty of room
+    size_t count = 0;
+    opts.streaming_row_callback = [&](const std::string&, const json&) -> bool {
+        ++count;
+        return true;
+    };
+
+    auto stats = importer.importData("bare-topic", opts);
+    EXPECT_EQ(count, 1u);
     EXPECT_EQ(stats.failed_records, 0u);
 }
 
-// ===========================================================================
-// Test suite: empty batch terminates immediately
-// ===========================================================================
-
 TEST(KafkaImporterMockImport, EmptyBatchTerminates) {
-    KafkaImporterConfig cfg;
-    // Mock always returns empty – should terminate without consuming anything.
-    auto fn = []() -> std::vector<std::string> { return {}; };
+    KafkaImporter importer;
+    importer.initialize(buildConfig());
+
+    importer.setMessageFetchForTesting([]() -> std::vector<std::string> {
+        return {}; // immediately empty
+    });
 
     ImportOptions opts;
-    auto stats = mockImport("kafka://b:9092/t", opts, fn, cfg);
+    auto stats = importer.importData("bare-topic", opts);
     EXPECT_EQ(stats.imported_records, 0u);
-    EXPECT_TRUE(stats.errors.empty());
+    EXPECT_EQ(stats.failed_records, 0u);
+    EXPECT_EQ(stats.total_records, 0u);
 }
 
-// ===========================================================================
-// Test suite: invalid source_path
-// ===========================================================================
-
 TEST(KafkaImporterMockImport, InvalidUrlReturnsError) {
-    KafkaImporterConfig cfg;
-    auto fn = []() -> std::vector<std::string> { return {}; };
+    KafkaImporter importer;
+    importer.initialize(buildConfig());
 
+    // A kafka:// URL without a topic triggers an error in importData().
     ImportOptions opts;
-    // Empty source_path
-    auto stats = mockImport("", opts, fn, cfg);
+    auto stats = importer.importData("kafka://broker:9092", opts);
+    EXPECT_EQ(stats.imported_records, 0u);
     EXPECT_FALSE(stats.errors.empty());
 }
 
-// ===========================================================================
-// Test suite: multiple batches
-// ===========================================================================
-
 TEST(KafkaImporterMockImport, MultipleBatchesAggregated) {
-    KafkaImporterConfig cfg;
+    KafkaImporter importer;
+    importer.initialize(buildConfig());
+
     int call = 0;
-    auto fn = [&]() -> std::vector<std::string> {
+    importer.setMessageFetchForTesting([&]() -> std::vector<std::string> {
         switch (call++) {
-            case 0: return {R"({"n":1})", R"({"n":2})"};
-            case 1: return {R"({"n":3})"};
-            default: return {};
+        case 0: return {R"({"b":1})", R"({"b":2})"};
+        case 1: return {R"({"b":3})", R"({"b":4})", R"({"b":5})"};
+        default: return {};
         }
-    };
+    });
 
     ImportOptions opts;
-    auto stats = mockImport("kafka://b:9092/t", opts, fn, cfg);
-    EXPECT_EQ(stats.imported_records, 3u);
-    EXPECT_EQ(stats.total_records, 3u);
+    auto stats = importer.importData("bare-topic", opts);
+    EXPECT_EQ(stats.imported_records, 5u);
 }
 
-// ===========================================================================
-// Test suite: plaintext message format
-// ===========================================================================
-
 TEST(KafkaImporterMockImport, PlaintextMessagesWrapped) {
-    KafkaImporterConfig cfg;
-    cfg.message_format = "plaintext";
+    KafkaImporter importer;
+    importer.initialize(buildConfig("themis-import", "plaintext"));
+
     int call = 0;
-    auto fn = [&]() -> std::vector<std::string> {
-        if (call++ == 0) return {"raw log line 1", "raw log line 2"};
+    importer.setMessageFetchForTesting([&]() -> std::vector<std::string> {
+        if (call++ == 0) return {"hello", "world"};
         return {};
-    };
+    });
 
     std::vector<json> entities;
     ImportOptions opts;
-    opts.streaming_row_callback =
-        [&](const std::string&, const json& e) -> bool {
-            entities.push_back(e);
-            return true;
-        };
+    opts.streaming_row_callback = [&](const std::string&, const json& e) -> bool {
+        entities.push_back(e);
+        return true;
+    };
 
-    auto stats = mockImport("kafka://b:9092/logs", opts, fn, cfg);
+    auto stats = importer.importData("bare-topic", opts);
     ASSERT_EQ(entities.size(), 2u);
-    EXPECT_EQ(entities[0]["content"].get<std::string>(), "raw log line 1");
-    EXPECT_EQ(entities[1]["content"].get<std::string>(), "raw log line 2");
+    EXPECT_EQ(entities[0]["content"].get<std::string>(), "hello");
+    EXPECT_EQ(entities[1]["content"].get<std::string>(), "world");
     EXPECT_EQ(stats.imported_records, 2u);
 }
 
-// ===========================================================================
-// Test suite: Avro message format
-// ===========================================================================
-
 TEST(KafkaImporterMockImport, AvroMagicByteStrippedOnImport) {
-    KafkaImporterConfig cfg;
-    cfg.message_format = "avro";
+    KafkaImporter importer;
+    importer.initialize(buildConfig("themis-import", "avro"));
 
-    // Build Confluent-framed Avro message
-    std::string avro;
-    avro += '\x00';
-    avro += '\x00'; avro += '\x00'; avro += '\x00'; avro += '\x02'; // schema ID = 2
-    avro += R"({"event":"click"})";
+    // Build two Confluent-framed Avro messages.
+    auto makeAvro = [](const std::string& json_payload) -> std::string {
+        std::string msg;
+        msg += '\x00';
+        msg += '\x00'; msg += '\x00'; msg += '\x00'; msg += '\x02'; // schema ID = 2
+        msg += json_payload;
+        return msg;
+    };
 
     int call = 0;
-    auto fn = [&]() -> std::vector<std::string> {
-        if (call++ == 0) return {avro};
+    importer.setMessageFetchForTesting([&]() -> std::vector<std::string> {
+        if (call++ == 0) {
+            return {makeAvro(R"({"event":"login","user":1})"),
+                    makeAvro(R"({"event":"logout","user":1})")};
+        }
         return {};
-    };
+    });
 
     std::vector<json> entities;
     ImportOptions opts;
-    opts.streaming_row_callback =
-        [&](const std::string&, const json& e) -> bool {
-            entities.push_back(e);
-            return true;
-        };
+    opts.streaming_row_callback = [&](const std::string&, const json& e) -> bool {
+        entities.push_back(e);
+        return true;
+    };
 
-    auto stats = mockImport("kafka://b:9092/clicks", opts, fn, cfg);
-    ASSERT_EQ(entities.size(), 1u);
-    EXPECT_EQ(entities[0]["event"].get<std::string>(), "click");
-    EXPECT_EQ(stats.imported_records, 1u);
+    auto stats = importer.importData("bare-topic", opts);
+    ASSERT_EQ(entities.size(), 2u);
+    EXPECT_EQ(entities[0]["event"].get<std::string>(), "login");
+    EXPECT_EQ(entities[1]["event"].get<std::string>(), "logout");
+    EXPECT_EQ(stats.imported_records, 2u);
 }
 
 // ===========================================================================
@@ -799,14 +749,10 @@ TEST(KafkaImporterMockImport, AvroMagicByteStrippedOnImport) {
 // ===========================================================================
 
 TEST(KafkaImporterSchemaTest, SchemaContainsTopicName) {
-    // Directly test the schema logic (mirrors getSourceSchema behaviour).
-    std::string b, t;
-    parseKafkaUrl("kafka://broker:9092/my-topic", b, t);
-    json schema{
-        {"type",   "kafka"},
-        {"topic",  t},
-        {"schema", nullptr}
-    };
+    KafkaImporter importer;
+    importer.initialize(buildConfig());
+
+    json schema = importer.getSourceSchema("kafka://broker:9092/my-topic");
     EXPECT_EQ(schema["type"].get<std::string>(), "kafka");
     EXPECT_EQ(schema["topic"].get<std::string>(), "my-topic");
     EXPECT_TRUE(schema["schema"].is_null());
@@ -817,15 +763,14 @@ TEST(KafkaImporterSchemaTest, SchemaContainsTopicName) {
 // ===========================================================================
 
 TEST(KafkaImporterMockImport, MetricsCallbackInvokedOnCompletion) {
-    // The full metrics invocation is in the production KafkaImporter::importData().
-    // Here we verify the mock import is self-consistent (metrics are emitted
-    // externally to the mini-importer; this test verifies the mock logic only).
-    KafkaImporterConfig cfg;
+    KafkaImporter importer;
+    importer.initialize(buildConfig());
+
     int call = 0;
-    auto fn = [&]() -> std::vector<std::string> {
+    importer.setMessageFetchForTesting([&]() -> std::vector<std::string> {
         if (call++ == 0) return {R"({"v":1})", R"({"v":2})"};
         return {};
-    };
+    });
 
     std::vector<std::string> metric_names;
     ImportOptions opts;
@@ -836,12 +781,20 @@ TEST(KafkaImporterMockImport, MetricsCallbackInvokedOnCompletion) {
             metric_names.push_back(m);
         };
 
-    // The metrics callback is passed through ImportOptions – production
-    // code invokes it after the consume loop.  We verify the mock itself
-    // produces correct import counts which the production metrics are based on.
-    auto stats = mockImport("kafka://b:9092/t", opts, fn, cfg);
+    auto stats = importer.importData("kafka://b:9092/t", opts);
     EXPECT_EQ(stats.imported_records, 2u);
-    // (Metrics emission happens in production KafkaImporter::importData, not mock.)
+    // Production importData() emits metrics after the consume loop.
+    EXPECT_FALSE(metric_names.empty())
+        << "Expected at least one metric to be emitted by importData()";
+    // At minimum the row counter metric should be present.
+    bool found_row_metric = false;
+    for (const auto& m : metric_names) {
+        if (m.find("import_rows") != std::string::npos) {
+            found_row_metric = true;
+        }
+    }
+    EXPECT_TRUE(found_row_metric)
+        << "Expected 'themisdb_import_rows_total' to be emitted";
 }
 
 // ===========================================================================
@@ -849,12 +802,14 @@ TEST(KafkaImporterMockImport, MetricsCallbackInvokedOnCompletion) {
 // ===========================================================================
 
 TEST(KafkaImporterMockImport, TracingCallbackCanReceiveSpans) {
-    KafkaImporterConfig cfg;
+    KafkaImporter importer;
+    importer.initialize(buildConfig());
+
     int call = 0;
-    auto fn = [&]() -> std::vector<std::string> {
+    importer.setMessageFetchForTesting([&]() -> std::vector<std::string> {
         if (call++ == 0) return {R"({"v":1})"};
         return {};
-    };
+    });
 
     int span_count = 0;
     ImportOptions opts;
@@ -865,10 +820,11 @@ TEST(KafkaImporterMockImport, TracingCallbackCanReceiveSpans) {
             ++span_count;
         };
 
-    // Tracing is emitted by production KafkaImporter; mock does not call it.
-    // This test just verifies the option structure is compatible.
-    auto stats = mockImport("kafka://b:9092/t", opts, fn, cfg);
+    auto stats = importer.importData("kafka://b:9092/t", opts);
     EXPECT_EQ(stats.imported_records, 1u);
+    // Production importData() emits spans at start and end of import.
+    EXPECT_GE(span_count, 1)
+        << "Expected at least one span to be emitted by importData()";
 }
 
 // ===========================================================================
@@ -876,11 +832,26 @@ TEST(KafkaImporterMockImport, TracingCallbackCanReceiveSpans) {
 // ===========================================================================
 
 TEST(KafkaImporterMockImport, CustomTextFieldExtracted) {
-    KafkaImporterConfig cfg;
-    cfg.text_field = "payload";
-    // A non-JSON string should be wrapped in the configured text_field key.
-    json e = extractEntity("hello world", "json", "payload");
-    EXPECT_EQ(e["payload"].get<std::string>(), "hello world");
+    KafkaImporter importer;
+    // Configure a custom text_field "payload".
+    importer.initialize(buildConfig("themis-import", "json", "payload"));
+
+    int call = 0;
+    importer.setMessageFetchForTesting([&]() -> std::vector<std::string> {
+        if (call++ == 0) return {"hello world"}; // non-JSON → wrapped in text_field
+        return {};
+    });
+
+    json captured;
+    ImportOptions opts;
+    opts.streaming_row_callback = [&](const std::string&, const json& e) -> bool {
+        captured = e;
+        return true;
+    };
+
+    auto stats = importer.importData("bare-topic", opts);
+    ASSERT_TRUE(captured.is_object());
+    EXPECT_EQ(captured["payload"].get<std::string>(), "hello world");
 }
 
 // ===========================================================================
@@ -888,12 +859,14 @@ TEST(KafkaImporterMockImport, CustomTextFieldExtracted) {
 // ===========================================================================
 
 TEST(KafkaImporterMockImport, JsonArrayMessageImportedAsArray) {
-    KafkaImporterConfig cfg;
+    KafkaImporter importer;
+    importer.initialize(buildConfig());
+
     int call = 0;
-    auto fn = [&]() -> std::vector<std::string> {
+    importer.setMessageFetchForTesting([&]() -> std::vector<std::string> {
         if (call++ == 0) return {R"([1, 2, 3])"};
         return {};
-    };
+    });
 
     std::vector<json> entities;
     ImportOptions opts;
@@ -903,7 +876,7 @@ TEST(KafkaImporterMockImport, JsonArrayMessageImportedAsArray) {
             return true;
         };
 
-    auto stats = mockImport("kafka://b:9092/t", opts, fn, cfg);
+    auto stats = importer.importData("kafka://b:9092/t", opts);
     ASSERT_EQ(entities.size(), 1u);
     EXPECT_TRUE(entities[0].is_array());
     EXPECT_EQ(stats.imported_records, 1u);

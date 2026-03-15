@@ -37,9 +37,9 @@ The Acceleration module (`src/acceleration/`) provides hardware-accelerated comp
 
 **Implementation Notes:**
 - `[~]` `.cu` kernel files (`cuda/ann_kernels.cu`, `cuda/vector_kernels.cu`) are implemented; HNSW graph traversal wiring into `CUDAVectorBackend` is still pending.
-- `[ ]` Cosine distance: fuse L2-norm and dot-product into a single tiled kernel to avoid a second pass over device memory (IO-aware pattern per FlashAttention \[3\]).
-- `[ ]` Top-k (k ≤ 1024): use CUB `DeviceSegmentedSort` \[6\]; for k > 1024 fall back to `thrust::partial_sort`.
-- `[ ]` Add `CUDA_ARCH` compile-time guard: require sm_70+ (Tensor Core availability); emit warning for sm_60.
+- `[x]` Cosine distance: fuse L2-norm and dot-product into a single tiled kernel to avoid a second pass over device memory (IO-aware pattern per FlashAttention \[3\]).
+- `[x]` Top-k (k ≤ 1024): use CUB `DeviceSegmentedSort` \[6\]; for k > 1024 fall back to `thrust::partial_sort`.
+- `[x]` Add `CUDA_ARCH` compile-time guard: require sm_70+ (Tensor Core availability); emit warning for sm_60.
 
 **Performance Targets:**
 - 1M × 128-dim float32 L2 search in < 8 ms on RTX 3090 (single GPU).
@@ -212,7 +212,7 @@ A fixed block size of 256 is a reasonable default for NVIDIA sm_86 and AMD RDNA2
 - `[ ]` Replace hard-coded `threadsPerBlock = 256` in `cuda/vector_kernels.cu:359` and `hip_backend.cpp:602` with a runtime call to `cudaOccupancyMaxPotentialBlockSize()` / `hipOccupancyMaxPotentialBlockSize()` at `initialize()` time; store the result in the backend's `Impl` struct and pass it to all kernel launches.
 - `[ ]` For `constexpr` block sizes in `.cu`/`.hip` files (`ann_kernels.cu`, `geo_kernels.cu`, `graph_kernels.cu`), expose a launch wrapper that accepts `threadsPerBlock` as a parameter and is called from the backend with the occupancy-tuned value rather than hard-coding the constant at the launch site.
 - `[ ]` For AMD GCN targets (wavefront = 64): default to 64 threads when `hipGetDeviceProperties().warpSize == 64` to avoid half-occupancy.
-- `[ ]` Vulkan `l2_distance.comp` hard-codes `layout(local_size_x = 16, local_size_y = 16)`: expose this as a specialization constant (`layout(constant_id = 0) const uint LOCAL_SIZE_X = 16`) so the `VulkanVectorBackend` can inject the optimal value for the target device via `VkSpecializationInfo` at pipeline creation time.
+- `[x]` Vulkan `l2_distance.comp` hard-codes `layout(local_size_x = 16, local_size_y = 16)`: expose this as a specialization constant (`layout(constant_id = 0) const uint LOCAL_SIZE_X = 16`) so the `VulkanVectorBackend` can inject the optimal value for the target device via `VkSpecializationInfo` at pipeline creation time. Also `batch_search.comp` `local_size_x = 256` is now a specialization constant.
 - `[ ]` Add a micro-benchmark (`benchmarks/kernel_block_size_bench.cpp`) that sweeps block sizes 64/128/256/512 for each kernel and reports achieved occupancy.
 
 **Performance Targets:**
@@ -319,9 +319,9 @@ The `selectTyped<T>()` helper in `backend_registry.cpp:223–233` iterates the e
 `vulkan_backend_full.cpp` is PRODUCTION-READY (0 stubs). All SPIR-V compute shaders for vector distance and geospatial operations are implemented in `vulkan/shaders/`: `l2_distance.comp`, `cosine_distance.comp`, `inner_product_distance.comp`, `batch_search.comp`, `topk_selection.comp`, `haversine_distance.comp`, `point_in_polygon.comp`. The LoRA shaders (`matmul.comp`, `elementwise.comp`, `gradient.comp`, etc.) are also complete.
 
 **Remaining Hardening:**
-- `[ ]` MoltenVK path: verify `VK_KHR_buffer_device_address` capability probe on Apple M-series.
-- `[ ]` Benchmark on Mali-G710 and RDNA2 to validate workgroup size (256 threads for `batch_search.comp`, 16×16 for `l2_distance.comp`) occupancy targets; expose as SPIR-V specialization constants (see Kernel Block-Dimension Occupancy Tuning above).
-- `[ ]` Double-buffer staging buffers to overlap host→device DMA with shader dispatch.
+- `[x]` MoltenVK path: verify `VK_KHR_buffer_device_address` capability probe on Apple M-series.
+- `[x]` Benchmark on Mali-G710 and RDNA2 to validate workgroup size (256 threads for `batch_search.comp`, 16×16 for `l2_distance.comp`) occupancy targets; expose as SPIR-V specialization constants (see Kernel Block-Dimension Occupancy Tuning above).
+- `[x]` Double-buffer staging buffers to overlap host→device DMA with shader dispatch.
 
 **Performance Targets:**
 - 500K × 128-dim cosine search in < 20 ms on Apple M2 Pro via MoltenVK.

@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [maintenance](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-03-13  
+**Datum:** 2026-03-15  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `src/maintenance/ARCHITECTURE.md`
@@ -36,4 +36,4 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`maintenanc
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-13*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-15*

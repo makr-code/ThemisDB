@@ -36,9 +36,10 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] SAGA compensation for graph edge additions (fixed: `SagaOperation::graphAddWithCompensation` now calls `graph.deleteEdge()`)
 - [x] Distributed SAGA orchestration across multiple nodes (Issue: #2326)
 - [x] Global transaction manager for multi-region ACID guarantees with TrueTime 2PC (Issue: #2327)
+- [x] Adaptive Deadlock Prevention – `DeadlockPredictor` with probability scoring, lock-order recommendation, and adaptive timeouts (Target: v1.9.0)
 
 ## In Progress 🚧
-> All Phase 3 and Phase 4 items are now complete.
+> All Phase 3, Phase 4, and Phase 5 items are now complete.
 
 
 ## Planned Features 📋
@@ -55,6 +56,10 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Global transaction manager for multi-region ACID guarantees (Issue: #2327)
   — implemented in `include/transaction/global_transaction_manager.h`,
   `src/transaction/global_transaction_manager.cpp`, tests in `tests/test_global_transaction_manager.cpp`
+- [x] Adaptive Deadlock Prevention (Target: v1.9.0)
+  — implemented in `include/transaction/deadlock_predictor.h`, `src/transaction/deadlock_predictor.cpp`;
+  integrated into `TransactionManager` via `setDeadlockPredictor` / `predictDeadlockProbability` /
+  `recommendLockOrder` / `recommendTimeout`; tests in `tests/test_adaptive_deadlock_prevention.cpp`
 
 ## Implementation Phases
 
@@ -91,6 +96,19 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Calvin protocol for deterministic distributed transactions
 - [x] Time-travel queries against snapshot history
 - [x] Branch merge conflict resolution UI
+
+### Phase 5: Adaptive Deadlock Prevention (Status: Completed ✅)
+- [x] `DeadlockPredictor` – ML-inspired deadlock probability scoring (Target: v1.9.0)
+  — implemented in `include/transaction/deadlock_predictor.h`, `src/transaction/deadlock_predictor.cpp`
+- [x] Historical deadlock pattern analysis via pair-conflict weight matrix
+- [x] Lock acquire order recommendation (danger-score sort with lexicographic tie-break)
+- [x] Dynamic timeout adjustment based on observed per-key hold-time percentiles
+- [x] Deadlock probability scoring with active-transaction contention scaling
+- [x] `TransactionManager` integration: `setDeadlockPredictor`, `predictDeadlockProbability`,
+  `recommendLockOrder`, `recommendTimeout`
+- [x] Automatic training: `recordTransaction` on commit/rollback; `recordDeadlock` on cycle resolution
+- [x] Tests: `tests/test_adaptive_deadlock_prevention.cpp` (`AdaptiveDeadlockPreventionFocusedTests`)
+- [x] CI: `.github/workflows/adaptive-deadlock-prevention-ci.yml`
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (Verified: Q1 2026) — Primary: `tests/test_savepoints.cpp` (20 savepoint tests); bulk API: `tests/test_transaction_bulk.cpp` (12 tests); SagaOperation: `tests/test_saga_operation.cpp` (8 tests covering `indexPutWithCompensation`, `graphAddWithCompensation`, `putEntityWithCompensation`, `deleteEntityWithCompensation`, `vectorAddWithCompensation`); supplementary: `tests/test_transaction_isolation_levels.cpp`, `tests/test_transaction_manager.cpp`, `tests/test_postgres_transactions.cpp`; standalone focused targets: `TransactionManagerFocusedTests`, `TransactionIsolationLevelsFocusedTests`, `SAGALoggerFocusedTests`, `SAGACompactorFocusedTests`, `ShardingTransactionWALFocusedTests`, `MultiShardTransactionFocusedTests`, `DistributedTransactionsFocusedTests`, `PostgresTransactionFocusedTests`, `AQLMultiStatementTransactionFocusedTests`, `DbTransactionIsolationFocusedTests`
