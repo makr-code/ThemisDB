@@ -414,9 +414,9 @@ private:
     // Round-robin cursor
     std::atomic<size_t> rr_index_{0};
 
-    // Weighted round-robin: current position in the virtual-weight sequence
-    size_t wrr_current_{0};
-    double wrr_current_weight_{0.0};
+    // Smooth weighted round-robin: per-backend effective (current) weight,
+    // keyed by backend address.  Protected by backends_mutex_.
+    std::unordered_map<std::string, double> wrr_effective_weights_;
 
     // Raft state
     mutable std::mutex raft_mutex_;
@@ -439,7 +439,8 @@ private:
     // Background threads
     std::thread health_check_thread_;
     std::thread raft_thread_;
-    std::atomic<bool> shutdown_{false};
+    std::atomic<bool> started_{false};   ///< True once start() launches threads.
+    std::atomic<bool> shutdown_{false};  ///< Signals background threads to stop.
     std::mutex shutdown_mutex_;
     std::condition_variable shutdown_cv_;
 

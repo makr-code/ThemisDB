@@ -97,8 +97,10 @@ RaftLoadBalancer::~RaftLoadBalancer() {
 // =============================================================================
 
 void RaftLoadBalancer::start() {
-    if (!shutdown_.exchange(false)) {
-        // Already running — idempotent start
+    // Prevent double-start: exchange started_ to true; if it was already true,
+    // the threads are running and we return immediately.
+    if (started_.exchange(true, std::memory_order_acq_rel)) {
+        return; // Already started — idempotent.
     }
     shutdown_.store(false, std::memory_order_release);
 
@@ -115,6 +117,9 @@ void RaftLoadBalancer::stop() {
 
     if (health_check_thread_.joinable()) health_check_thread_.join();
     if (raft_thread_.joinable())         raft_thread_.join();
+
+    // Reset started_ so that start() can be called again after stop().
+    started_.store(false, std::memory_order_release);
 }
 
 // =============================================================================
@@ -330,40 +335,38 @@ std::string RaftLoadBalancer::selectLeastConnections() {
 }
 
 std::string RaftLoadBalancer::selectWeightedRoundRobin() {
-    // Nginx-style smooth weighted round-robin (no lock needed beyond the
-    // outer backends_mutex_ that the caller already holds).
+    // Nginx smooth weighted round-robin.
+    // Each call: (1) add each backend's configured weight to its effective
+    // weight, (2) pick the backend with the highest effective weight,
+    // (3) subtract the total weight from the winner's effective weight.
+    // This guarantees a proportional distribution over N calls without
+    // sorting the entire list every time.
     auto healthy = healthyBackends();
     if (healthy.empty()) return {};
 
-    // Compute total weight
     double total_weight = 0.0;
     for (auto* b : healthy) total_weight += b->weight;
     if (total_weight <= 0.0) return selectRoundRobin();
 
-    // Pick the backend whose effective weight (after adding its weight and
-    // subtracting total) is highest — classic smooth WRR.
-    // We maintain per-backend "current weight" state implicitly by using
-    // a simple weighted-probability walk stored in wrr_current_ /
-    // wrr_current_weight_.  For simplicity we use a deterministic approach:
-    // track the running effective weight per backend inside a temporary vector.
-    struct WRREntry { RaftLoadBalancer::Backend* b; double current_weight; };
-    std::vector<WRREntry> entries;
-    entries.reserve(healthy.size());
+    // Step 1 – increment effective weights by configured weight.
     for (auto* b : healthy) {
-        entries.push_back({b, b->weight});
+        wrr_effective_weights_[b->address] += b->weight;
     }
 
-    // Sort entries by weight descending to pick the highest-priority backend
-    std::sort(entries.begin(), entries.end(),
-              [](const WRREntry& a, const WRREntry& b) {
-                  return a.current_weight > b.current_weight;
-              });
+    // Step 2 – pick the backend with the highest effective weight.
+    Backend* winner = healthy[0];
+    double   best   = wrr_effective_weights_[healthy[0]->address];
+    for (size_t i = 1; i < healthy.size(); ++i) {
+        const double ew = wrr_effective_weights_[healthy[i]->address];
+        if (ew > best) {
+            best   = ew;
+            winner = healthy[i];
+        }
+    }
 
-    // Elect the winner (highest current weight) and reduce its weight
-    Backend* winner = entries.front().b;
+    // Step 3 – reduce the winner's effective weight by total_weight.
+    wrr_effective_weights_[winner->address] -= total_weight;
 
-    // Advance round-robin cursor for tie-breaking on next call
-    rr_index_.fetch_add(1, std::memory_order_relaxed);
     return winner->address;
 }
 

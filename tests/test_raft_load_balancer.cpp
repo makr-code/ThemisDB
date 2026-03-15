@@ -120,36 +120,21 @@ TEST_F(RaftLoadBalancerTest, AC1_TermIncrementsOnElection) {
 
 TEST_F(RaftLoadBalancerTest, AC2_UnhealthyBackendExcludedAfterThreshold) {
     auto cfg = make_config(LoadBalancingStrategy::HEALTH_BASED);
-    cfg.unhealthy_threshold = 2;
+    cfg.health_check_interval_ms = 10; // 10 ms
+    cfg.unhealthy_threshold      = 2;
 
     RaftLoadBalancer lb(cfg);
     lb.addBackend("good:8766");
     lb.addBackend("bad:8766");
-
-    // Inject health check: "bad" always fails
     lb.setHealthCheckFn([](const RaftLoadBalancer::Backend& b) -> bool {
         return b.address != "bad:8766";
     });
-
-    // Manually drive health checks without starting background threads
-    // to avoid timing sensitivity in unit tests.
-    // We call runHealthChecks indirectly via exposing it — instead we
-    // trigger it by calling start() and waiting briefly.
-    auto run_cfg = make_config(LoadBalancingStrategy::HEALTH_BASED);
-    run_cfg.health_check_interval_ms = 10; // 10 ms
-    run_cfg.unhealthy_threshold      = 2;
-    RaftLoadBalancer lb2(run_cfg);
-    lb2.addBackend("good:8766");
-    lb2.addBackend("bad:8766");
-    lb2.setHealthCheckFn([](const RaftLoadBalancer::Backend& b) -> bool {
-        return b.address != "bad:8766";
-    });
-    lb2.start();
+    lb.start();
 
     // Wait up to 500 ms for "bad" to be marked unhealthy (2 checks × 10 ms = 20 ms)
     auto deadline = std::chrono::steady_clock::now() + 500ms;
     while (std::chrono::steady_clock::now() < deadline) {
-        auto backends = lb2.getBackends();
+        auto backends = lb.getBackends();
         bool bad_unhealthy = false;
         for (auto* b : backends) {
             if (b->address == "bad:8766" && !b->healthy) {
@@ -162,40 +147,31 @@ TEST_F(RaftLoadBalancerTest, AC2_UnhealthyBackendExcludedAfterThreshold) {
 
     // Routing should never return "bad" now
     for (int i = 0; i < 20; ++i) {
-        const auto selected = lb2.selectBackend();
+        const auto selected = lb.selectBackend();
         EXPECT_NE(selected, "bad:8766")
             << "Unhealthy backend must not be selected";
     }
 
-    lb2.stop();
+    lb.stop();
 }
 
 TEST_F(RaftLoadBalancerTest, AC3_HealthBasedRoutingSkipsUnhealthy) {
     auto cfg = make_config(LoadBalancingStrategy::HEALTH_BASED);
+    cfg.health_check_interval_ms = 10;
+    cfg.unhealthy_threshold      = 1;
+
     RaftLoadBalancer lb(cfg);
     lb.addBackend("a:8766");
     lb.addBackend("b:8766");
     lb.addBackend("c:8766");
-
-    // Mark "b" unhealthy directly
     lb.setHealthCheckFn([](const RaftLoadBalancer::Backend& b) { return b.address != "b:8766"; });
-
-    // Manually trigger unhealthy by simulating failed checks
-    auto run_cfg = cfg;
-    run_cfg.health_check_interval_ms = 10;
-    run_cfg.unhealthy_threshold = 1;
-    RaftLoadBalancer lb2(run_cfg);
-    lb2.addBackend("a:8766");
-    lb2.addBackend("b:8766");
-    lb2.addBackend("c:8766");
-    lb2.setHealthCheckFn([](const RaftLoadBalancer::Backend& b) { return b.address != "b:8766"; });
-    lb2.start();
+    lb.start();
 
     // Wait for "b" to be marked unhealthy
     auto deadline = std::chrono::steady_clock::now() + 500ms;
     while (std::chrono::steady_clock::now() < deadline) {
         bool done = true;
-        for (auto* backend : lb2.getBackends()) {
+        for (auto* backend : lb.getBackends()) {
             if (backend->address == "b:8766" && backend->healthy) {
                 done = false;
             }
@@ -206,13 +182,13 @@ TEST_F(RaftLoadBalancerTest, AC3_HealthBasedRoutingSkipsUnhealthy) {
 
     std::set<std::string> seen;
     for (int i = 0; i < 30; ++i) {
-        seen.insert(lb2.selectBackend());
+        seen.insert(lb.selectBackend());
     }
     EXPECT_EQ(seen.count("b:8766"), 0u) << "Unhealthy backend must not appear";
     EXPECT_GT(seen.count("a:8766"), 0u);
     EXPECT_GT(seen.count("c:8766"), 0u);
 
-    lb2.stop();
+    lb.stop();
 }
 
 TEST_F(RaftLoadBalancerTest, AC13_RecoveryReAddsBackend) {
