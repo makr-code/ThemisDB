@@ -953,13 +953,16 @@ ProcessGraphManager::Status ProcessGraphManager::advanceToken(
         token->state = ProcessToken::State::COMPLETED;
         token->completed_at_ms = currentTimeMs();
         
-        // Update token in DB
+        // Update token in DB — include visited_nodes and visit_timestamps so
+        // history is preserved even after the token reaches a terminal node.
         BaseEntity::FieldMap fields;
         fields["id"] = std::string(token_id);
         fields["instance_id"] = std::string(instance_id);
         fields["current_node"] = token->current_node;
         fields["state"] = std::string("COMPLETED");
         fields["completed_at"] = static_cast<int64_t>(*token->completed_at_ms);
+        fields["visited_nodes"] = serializeVisitedNodes(token->visited_nodes);
+        fields["visit_timestamps"] = serializeVisitTimestamps(token->visit_timestamps);
         BaseEntity tokenEntity = BaseEntity::fromFields(std::string(token_id), fields);
         
         std::string tokenKey = makeTokenKey_(instance_id, token_id);
@@ -1169,13 +1172,15 @@ ProcessGraphManager::Status ProcessGraphManager::signalEvent(
         // Set token to READY state
         token.state = ProcessToken::State::READY;
         
-        // Update token in database
+        // Update token in database — preserve visited_nodes and visit_timestamps
         BaseEntity tokenEntity(token.token_id);
         tokenEntity.setField("id", token.token_id);
         tokenEntity.setField("instance_id", std::string(instance_id));
         tokenEntity.setField("current_node", token.current_node);
         tokenEntity.setField("state", "READY");
         tokenEntity.setField("variables", token.variables.dump());
+        tokenEntity.setField("visited_nodes", serializeVisitedNodes(token.visited_nodes));
+        tokenEntity.setField("visit_timestamps", serializeVisitTimestamps(token.visit_timestamps));
         
         std::string tokenKey = makeTokenKey_(instance_id, token.token_id);
         if (!db_.put(tokenKey, tokenEntity.serialize())) {
