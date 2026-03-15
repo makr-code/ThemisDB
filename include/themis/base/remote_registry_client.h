@@ -211,6 +211,8 @@ struct RequestStats {
  *   }
  * @endcode
  */
+class RemoteRegistryClient
+    : public std::enable_shared_from_this<RemoteRegistryClient> {
 class RemoteRegistryClient : public std::enable_shared_from_this<RemoteRegistryClient> {
 public:
     explicit RemoteRegistryClient(const RegistryConfig& config);
@@ -233,6 +235,20 @@ public:
     std::vector<RegistryPluginEntry> listPlugins();
 
     /**
+     * @brief Asynchronous version of listPlugins().
+     *
+     * Dispatches the entire operation (HTTP request + retry loop) to a
+     * worker thread via std::async, releasing the calling thread during
+     * back-off sleeps.  Multiple concurrent async calls on the same client
+     * are safe because all shared state is protected by internal mutexes.
+     *
+     * @return std::future that resolves to the plugin list.
+     * @throws std::bad_weak_ptr if the client was not constructed via
+     *         std::make_shared (i.e. has never been owned by a shared_ptr).
+     */
+    std::future<std::vector<RegistryPluginEntry>> listPluginsAsync();
+
+    /**
      * @brief Fetch metadata for a single plugin by name.
      *
      * Issues GET <registry_url>/plugins/<name>.
@@ -241,6 +257,21 @@ public:
      * @return Plugin entry if found, or std::nullopt on error/not found.
      */
     std::optional<RegistryPluginEntry> fetchPlugin(const std::string& name);
+
+    /**
+     * @brief Asynchronous version of fetchPlugin().
+     *
+     * Dispatches the entire operation (HTTP request + retry loop) to a
+     * worker thread via std::async, releasing the calling thread during
+     * back-off sleeps.  Multiple concurrent async calls on the same client
+     * are safe because all shared state is protected by internal mutexes.
+     *
+     * @param name Plugin name to look up.
+     * @return std::future that resolves to the plugin entry (nullopt if not found).
+     * @throws std::bad_weak_ptr if the client was not constructed via
+     *         std::make_shared (i.e. has never been owned by a shared_ptr).
+     */
+    std::future<std::optional<RegistryPluginEntry>> fetchPluginAsync(const std::string& name);
 
     // -------------------------------------------------------------------------
     // Download
@@ -257,6 +288,21 @@ public:
      * @return PluginDownloadResult describing success, local path, or error.
      */
     PluginDownloadResult downloadPlugin(const RegistryPluginEntry& entry);
+
+    /**
+     * @brief Asynchronous version of downloadPlugin().
+     *
+     * Dispatches the entire operation (HTTP request + retry loop) to a
+     * worker thread via std::async, releasing the calling thread during
+     * back-off sleeps.  Multiple concurrent async calls on the same client
+     * are safe because all shared state is protected by internal mutexes.
+     *
+     * @param entry Plugin entry (from listPlugins or fetchPlugin).
+     * @return std::future that resolves to the download result.
+     * @throws std::bad_weak_ptr if the client was not constructed via
+     *         std::make_shared (i.e. has never been owned by a shared_ptr).
+     */
+    std::future<PluginDownloadResult> downloadPluginAsync(const RegistryPluginEntry& entry);
 
     // -------------------------------------------------------------------------
     // Combined download + load
@@ -397,6 +443,10 @@ private:
     // Auth header building (returns header value for Authorization or X-API-Key)
     std::string buildAuthorizationHeader() const;
 
+    // Perform a blocking back-off sleep for `ms` milliseconds.
+    // Used by the synchronous retry loop in httpGet / httpGetBinary; the
+    // async methods (listPluginsAsync etc.) release the calling thread by
+    // running the entire operation on a std::async worker thread.
     // Perform a back-off delay for `ms` milliseconds.
     // The sleep is dispatched to a background thread via std::async so that
     // the calling thread blocks on a future rather than directly in

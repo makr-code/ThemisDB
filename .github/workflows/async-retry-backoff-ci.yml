@@ -1,5 +1,11 @@
 name: Async Retry Back-Off CI
 
+# CI for the async retry back-off implementation in RemoteRegistryClient
+# (Issue #155, target v1.3.0).  Validates that the blocking sleep in the
+# retry loop has been replaced with a std::async/future-based back-off and
+# that the max_total_retry_time_ms cap and lastRequestStats() observability
+# work correctly.
+
 # Triggered on every push / PR that touches the RemoteRegistryClient sources,
 # tests, or this workflow file.  Targets v1.3.0 (roadmap row #155).
 on:
@@ -23,6 +29,7 @@ on:
       - 'cmake/MiscellaneousFeatures.cmake'
       - 'tests/CMakeLists.txt'
       - '.github/workflows/async-retry-backoff-ci.yml'
+  workflow_dispatch:
 
 concurrency:
   group: async-retry-backoff-${{ github.ref }}
