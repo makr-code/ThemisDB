@@ -519,3 +519,392 @@ TEST_F(ImporterPluginApiTest, ImportDataStreamingDefaultDelegatesToImportData) {
     // Default implementation in IImporter delegates; stub records 3 rows
     EXPECT_EQ(3u, stats.imported_records);
 }
+
+// ============================================================================
+// PluginSandboxConfig defaults
+// ============================================================================
+
+TEST(PluginSandboxConfigTest, DefaultMemoryLimitIs256MiB) {
+    PluginSandboxConfig cfg;
+    EXPECT_EQ(256UL * 1024UL * 1024UL, cfg.memory_limit_bytes);
+}
+
+TEST(PluginSandboxConfigTest, DefaultTimeoutIs5Minutes) {
+    PluginSandboxConfig cfg;
+    EXPECT_EQ(300'000u, cfg.timeout_ms);
+}
+
+TEST(PluginSandboxConfigTest, ZeroDisablesLimits) {
+    PluginSandboxConfig cfg;
+    cfg.memory_limit_bytes = 0;
+    cfg.timeout_ms         = 0;
+    EXPECT_EQ(0u, cfg.memory_limit_bytes);
+    EXPECT_EQ(0u, cfg.timeout_ms);
+}
+
+// ============================================================================
+// importer_plugin.h — C ABI constants
+// ============================================================================
+
+TEST(ImporterPluginAbiTest, AbiVersionV1IsOne) {
+    EXPECT_EQ(1u, static_cast<unsigned>(THEMIS_IMPORTER_PLUGIN_ABI_V1));
+}
+
+TEST(ImporterPluginAbiTest, CreateSymbolIsCorrect) {
+    EXPECT_STREQ("themis_importer_create", THEMIS_IMPORTER_CREATE_SYMBOL);
+}
+
+TEST(ImporterPluginAbiTest, StructSizeIsNonZero) {
+    EXPECT_GT(sizeof(THEMIS_IMPORTER_PLUGIN_V1), 0u);
+}
+
+TEST(ImporterPluginAbiTest, AllocatorNullFieldsAreZeroInitialised) {
+    ThemisImporterAllocator alloc{};
+    EXPECT_EQ(nullptr, alloc.alloc);
+    EXPECT_EQ(nullptr, alloc.free);
+    EXPECT_EQ(nullptr, alloc.user_data);
+}
+
+TEST(ImporterPluginAbiTest, V1StructZeroInitialisedHasNullFunctionPointers) {
+    THEMIS_IMPORTER_PLUGIN_V1 desc{};
+    EXPECT_EQ(0u,     desc.abi_version);
+    EXPECT_EQ(0u,     desc.struct_size);
+    EXPECT_EQ(nullptr, desc.name);
+    EXPECT_EQ(nullptr, desc.create_instance);
+    EXPECT_EQ(nullptr, desc.destroy_instance);
+    EXPECT_EQ(nullptr, desc.initialize);
+    EXPECT_EQ(nullptr, desc.import_data);
+}
+
+// ============================================================================
+// ImporterPluginRegistry::loadPlugin() error paths
+// ============================================================================
+
+TEST_F(ImporterPluginApiTest, LoadPluginReturnsFalseForNonExistentPath) {
+    bool ok = ImporterPluginRegistry::instance()
+                  .loadPlugin("/nonexistent/oracle_importer.so");
+    EXPECT_FALSE(ok);
+    EXPECT_FALSE(ImporterPluginRegistry::instance().lastLoadError().empty());
+}
+
+TEST_F(ImporterPluginApiTest, LoadPluginDoesNotRegisterOnFailure) {
+    ImporterPluginRegistry::instance()
+        .loadPlugin("/nonexistent/oracle_importer.so");
+    // Registry should remain empty after a failed load
+    EXPECT_TRUE(ImporterPluginRegistry::instance().listPlugins().empty());
+}
+
+TEST_F(ImporterPluginApiTest, LastLoadErrorIsEmptyBeforeAnyLoad) {
+    // fresh registry via clear() in SetUp
+    EXPECT_TRUE(ImporterPluginRegistry::instance().lastLoadError().empty());
+}
+
+TEST_F(ImporterPluginApiTest, UnloadPluginForUnknownNameIsNoop) {
+    EXPECT_NO_THROW(
+        ImporterPluginRegistry::instance().unloadPlugin("nonexistent_plugin"));
+    EXPECT_TRUE(ImporterPluginRegistry::instance().listPlugins().empty());
+}
+
+TEST_F(ImporterPluginApiTest, LoadPluginSandboxWithZeroLimitsIsAccepted) {
+    PluginSandboxConfig cfg;
+    cfg.memory_limit_bytes = 0;
+    cfg.timeout_ms         = 0;
+    // Will fail at dlopen (no such file), but sandbox config is accepted
+    bool ok = ImporterPluginRegistry::instance()
+                  .loadPlugin("/nonexistent/plugin.so", cfg);
+    EXPECT_FALSE(ok);
+}
+
+// ============================================================================
+// ImporterRegistry alias
+// ============================================================================
+
+TEST_F(ImporterPluginApiTest, ImporterRegistryAliasIsSameSingleton) {
+    // Both names must refer to the same singleton instance
+    EXPECT_EQ(&ImporterRegistry::instance(),
+              &ImporterPluginRegistry::instance());
+}
+
+TEST_F(ImporterPluginApiTest, ImporterRegistryLoadPluginFailsForBadPath) {
+    bool ok = ImporterRegistry::instance()
+                  .loadPlugin("/no/such/plugin.so");
+    EXPECT_FALSE(ok);
+    EXPECT_FALSE(ImporterRegistry::instance().lastLoadError().empty());
+}
+
+// ============================================================================
+// V1ImporterAdapter: basic lifecycle
+// ============================================================================
+
+// Build a minimal but complete THEMIS_IMPORTER_PLUGIN_V1 descriptor in-process
+// to exercise V1ImporterAdapter without a real shared library.
+
+namespace {
+
+struct TestPluginState {
+    bool initialized = false;
+    bool cancelled   = false;
+    bool destroyed   = false;
+    int  import_rc   = 0;        ///< Return code for import_data
+    uint64_t import_records = 5; ///< Records to report
+    std::string schema_json;
+};
+
+static void* testV1Create(const ThemisImporterAllocator* /*alloc*/) {
+    return new TestPluginState{};
+}
+static void testV1Destroy(void* p, const ThemisImporterAllocator* /*alloc*/) {
+    delete static_cast<TestPluginState*>(p);
+}
+static int testV1Init(void* p, const char* /*cfg*/) {
+    static_cast<TestPluginState*>(p)->initialized = true;
+    return 0;
+}
+static int testV1Validate(void* /*p*/, const char* src,
+                          char* err_buf, size_t err_size) {
+    if (!src || src[0] == '\0') {
+        if (err_buf && err_size > 0) {
+            std::snprintf(err_buf, err_size, "source_path must not be empty");
+        }
+        return 1;
+    }
+    return 0;
+}
+static int testV1Import(void* p, const char* /*src*/, const char* /*opts*/,
+                        uint64_t* imported, uint64_t* failed) {
+    auto* state = static_cast<TestPluginState*>(p);
+    if (imported) *imported = state->import_rc == 0 ? state->import_records : 0;
+    if (failed)   *failed   = state->import_rc == 0 ? 0 : state->import_records;
+    return state->import_rc;
+}
+static const char* testV1Schema(void* p, const char* /*src*/) {
+    auto* state = static_cast<TestPluginState*>(p);
+    if (state->schema_json.empty()) return nullptr;
+    return state->schema_json.c_str();
+}
+static void testV1Cancel(void* p) {
+    static_cast<TestPluginState*>(p)->cancelled = true;
+}
+
+static const THEMIS_IMPORTER_PLUGIN_V1 kTestDescriptor = {
+    THEMIS_IMPORTER_PLUGIN_ABI_V1,
+    static_cast<uint32_t>(sizeof(THEMIS_IMPORTER_PLUGIN_V1)),
+    "test_v1_plugin",
+    "1.0.0",
+    &testV1Create,
+    &testV1Destroy,
+    &testV1Init,
+    &testV1Validate,
+    &testV1Import,
+    &testV1Schema,
+    &testV1Cancel,
+    {nullptr, nullptr, nullptr, nullptr}
+};
+
+} // anonymous namespace
+
+class V1AdapterTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        ImporterPluginRegistry::instance().clear();
+    }
+    void TearDown() override {
+        ImporterPluginRegistry::instance().clear();
+    }
+};
+
+TEST_F(V1AdapterTest, AdapterGetNameReturnsPluginName) {
+    V1ImporterAdapter adapter(&kTestDescriptor, PluginSandboxConfig{});
+    EXPECT_STREQ("test_v1_plugin", adapter.getName());
+}
+
+TEST_F(V1AdapterTest, AdapterInitializeCallsV1Init) {
+    V1ImporterAdapter adapter(&kTestDescriptor, PluginSandboxConfig{});
+    EXPECT_TRUE(adapter.initialize("{}"));
+}
+
+TEST_F(V1AdapterTest, AdapterValidateSourceEmptyPathFails) {
+    V1ImporterAdapter adapter(&kTestDescriptor, PluginSandboxConfig{});
+    std::vector<std::string> errors;
+    EXPECT_FALSE(adapter.validateSource("", errors));
+    EXPECT_FALSE(errors.empty());
+}
+
+TEST_F(V1AdapterTest, AdapterValidateSourceNonEmptyPathSucceeds) {
+    V1ImporterAdapter adapter(&kTestDescriptor, PluginSandboxConfig{});
+    std::vector<std::string> errors;
+    EXPECT_TRUE(adapter.validateSource("/some/path", errors));
+    EXPECT_TRUE(errors.empty());
+}
+
+TEST_F(V1AdapterTest, AdapterImportDataReturnsStats) {
+    PluginSandboxConfig cfg;
+    cfg.timeout_ms = 0;  // disable timeout for this test
+    V1ImporterAdapter adapter(&kTestDescriptor, cfg);
+    ImportStats stats = adapter.importData("/path", ImportOptions{});
+    EXPECT_EQ(5u, stats.imported_records);
+    EXPECT_EQ(0u, stats.failed_records);
+    EXPECT_TRUE(stats.errors.empty());
+}
+
+TEST_F(V1AdapterTest, AdapterImportDataRecordsErrorOnNonZeroReturnCode) {
+    // Override import_rc in the state by using a custom descriptor
+    static TestPluginState gState;
+    gState.import_rc = 42;
+    static const THEMIS_IMPORTER_PLUGIN_V1 kErrDescriptor = {
+        THEMIS_IMPORTER_PLUGIN_ABI_V1,
+        static_cast<uint32_t>(sizeof(THEMIS_IMPORTER_PLUGIN_V1)),
+        "err_v1_plugin", "1.0.0",
+        [](const ThemisImporterAllocator*) -> void* { return &gState; },
+        [](void*, const ThemisImporterAllocator*) {},
+        testV1Init, testV1Validate, testV1Import,
+        testV1Schema, testV1Cancel,
+        {nullptr, nullptr, nullptr, nullptr}
+    };
+    PluginSandboxConfig cfg;
+    cfg.timeout_ms = 0;
+    V1ImporterAdapter adapter(&kErrDescriptor, cfg);
+    ImportStats stats = adapter.importData("/path", ImportOptions{});
+    EXPECT_FALSE(stats.errors.empty());
+}
+
+TEST_F(V1AdapterTest, AdapterGetSchemaReturnsJsonObject) {
+    // Override schema in state
+    static TestPluginState gSchemaState;
+    gSchemaState.schema_json = R"({"tables":[]})";
+    static const THEMIS_IMPORTER_PLUGIN_V1 kSchemaDescriptor = {
+        THEMIS_IMPORTER_PLUGIN_ABI_V1,
+        static_cast<uint32_t>(sizeof(THEMIS_IMPORTER_PLUGIN_V1)),
+        "schema_v1_plugin", "1.0.0",
+        [](const ThemisImporterAllocator*) -> void* { return &gSchemaState; },
+        [](void*, const ThemisImporterAllocator*) {},
+        testV1Init, testV1Validate, testV1Import,
+        testV1Schema, testV1Cancel,
+        {nullptr, nullptr, nullptr, nullptr}
+    };
+    V1ImporterAdapter adapter(&kSchemaDescriptor, PluginSandboxConfig{});
+    json schema = adapter.getSourceSchema("/any");
+    EXPECT_TRUE(schema.is_object());
+    EXPECT_TRUE(schema.contains("tables"));
+}
+
+TEST_F(V1AdapterTest, AdapterGetSchemaReturnsEmptyObjectWhenNullptr) {
+    V1ImporterAdapter adapter(&kTestDescriptor, PluginSandboxConfig{});
+    // kTestDescriptor's get_schema returns nullptr for empty schema_json
+    json schema = adapter.getSourceSchema("/any");
+    EXPECT_TRUE(schema.is_object());
+}
+
+TEST_F(V1AdapterTest, AdapterCancelCallsV1Cancel) {
+    static TestPluginState gCancelState;
+    static const THEMIS_IMPORTER_PLUGIN_V1 kCancelDescriptor = {
+        THEMIS_IMPORTER_PLUGIN_ABI_V1,
+        static_cast<uint32_t>(sizeof(THEMIS_IMPORTER_PLUGIN_V1)),
+        "cancel_v1_plugin", "1.0.0",
+        [](const ThemisImporterAllocator*) -> void* { return &gCancelState; },
+        [](void*, const ThemisImporterAllocator*) {},
+        testV1Init, testV1Validate, testV1Import,
+        testV1Schema, testV1Cancel,
+        {nullptr, nullptr, nullptr, nullptr}
+    };
+    V1ImporterAdapter adapter(&kCancelDescriptor, PluginSandboxConfig{});
+    EXPECT_FALSE(gCancelState.cancelled);
+    adapter.cancel();
+    EXPECT_TRUE(gCancelState.cancelled);
+}
+
+TEST_F(V1AdapterTest, AdapterImportDataAsyncCompletesSuccessfully) {
+    PluginSandboxConfig cfg;
+    cfg.timeout_ms = 0;
+    auto adapter = std::make_shared<V1ImporterAdapter>(&kTestDescriptor, cfg);
+    auto handle = adapter->importDataAsync("/path", ImportOptions{});
+    ASSERT_NE(nullptr, handle);
+    // Wait for the async job
+    auto stats = handle->future.get();
+    EXPECT_EQ(5u, stats.imported_records);
+}
+
+// ============================================================================
+// Sandbox: memory limit tracking
+// ============================================================================
+
+TEST_F(V1AdapterTest, SandboxAllocatorTracksAllocationsBelowLimit) {
+    // Verify that the counting allocator accepts allocations below the limit
+    // and correctly decrements the counter when memory is freed.
+    // We test the allocator directly via a descriptor whose create_instance
+    // uses the provided allocator.
+
+    struct AllocTrackState {
+        void*  ptr_from_alloc = nullptr;
+        bool   alloc_succeeded = false;
+    };
+    static AllocTrackState gTrackState;
+
+    static const THEMIS_IMPORTER_PLUGIN_V1 kTrackDescriptor = {
+        THEMIS_IMPORTER_PLUGIN_ABI_V1,
+        static_cast<uint32_t>(sizeof(THEMIS_IMPORTER_PLUGIN_V1)),
+        "track_alloc_plugin", "1.0.0",
+        [](const ThemisImporterAllocator* alloc) -> void* {
+            if (alloc && alloc->alloc) {
+                // Allocate 32 bytes — within the 1 KiB limit
+                gTrackState.ptr_from_alloc = alloc->alloc(32, alloc->user_data);
+                gTrackState.alloc_succeeded = (gTrackState.ptr_from_alloc != nullptr);
+                // Free it back so the counter returns to 0
+                if (gTrackState.ptr_from_alloc && alloc->free) {
+                    alloc->free(gTrackState.ptr_from_alloc, alloc->user_data);
+                    gTrackState.ptr_from_alloc = nullptr;
+                }
+            }
+            return new AllocTrackState{};
+        },
+        [](void* p, const ThemisImporterAllocator*) { delete static_cast<AllocTrackState*>(p); },
+        testV1Init, testV1Validate, testV1Import,
+        testV1Schema, testV1Cancel,
+        {nullptr, nullptr, nullptr, nullptr}
+    };
+
+    PluginSandboxConfig cfg;
+    cfg.memory_limit_bytes = 1024;  // 1 KiB — 32-byte alloc fits
+    cfg.timeout_ms = 0;
+    V1ImporterAdapter adapter(&kTrackDescriptor, cfg);
+    EXPECT_TRUE(gTrackState.alloc_succeeded);
+    // After free, bytes_used should be 0 again (no limit exceeded)
+    ImportStats stats = adapter.importData("/path", ImportOptions{});
+    EXPECT_TRUE(stats.errors.empty());  // no OOM error
+}
+
+TEST_F(V1AdapterTest, SandboxAllocatorRejectsAllocationsBeyondLimit) {
+    // Verify that the counting allocator returns nullptr when the memory
+    // limit is exceeded.
+
+    struct OomCheckState {
+        bool alloc_failed_as_expected = false;
+    };
+    static OomCheckState gOomState;
+
+    static const THEMIS_IMPORTER_PLUGIN_V1 kOomDescriptor = {
+        THEMIS_IMPORTER_PLUGIN_ABI_V1,
+        static_cast<uint32_t>(sizeof(THEMIS_IMPORTER_PLUGIN_V1)),
+        "oom_plugin", "1.0.0",
+        [](const ThemisImporterAllocator* alloc) -> void* {
+            if (alloc && alloc->alloc) {
+                // Try to allocate 1 MiB — exceeds the 10-byte limit
+                void* p = alloc->alloc(1024 * 1024, alloc->user_data);
+                gOomState.alloc_failed_as_expected = (p == nullptr);
+                if (p && alloc->free) alloc->free(p, alloc->user_data);
+            }
+            return new OomCheckState{};
+        },
+        [](void* p, const ThemisImporterAllocator*) { delete static_cast<OomCheckState*>(p); },
+        testV1Init, testV1Validate, testV1Import,
+        testV1Schema, testV1Cancel,
+        {nullptr, nullptr, nullptr, nullptr}
+    };
+
+    PluginSandboxConfig cfg;
+    cfg.memory_limit_bytes = 10;  // 10 bytes — 1 MiB allocation must fail
+    cfg.timeout_ms = 0;
+    V1ImporterAdapter adapter(&kOomDescriptor, cfg);
+    EXPECT_TRUE(gOomState.alloc_failed_as_expected);
+}
+

@@ -131,14 +131,15 @@ Add a flat-file importer that reads `CSV`, `.parquet`, and `.jsonl` files from l
 ### Importer Plugin API
 **Priority:** Low
 **Target Version:** v1.9.0
+**Status:** ✅ Implemented (Issue #251)
 
 Add a stable plugin API (`IImporter` + `ImporterPlugin` factory) that allows third-party importers to be compiled as shared libraries and loaded at runtime via `ImporterRegistry::loadPlugin(path)`. This is required for proprietary source connectors (Oracle, MSSQL, Salesforce) that cannot be distributed with ThemisDB due to licensing.
 
 **Implementation Notes:**
-- Define a C-linkage plugin ABI in `include/importers/importer_plugin.h`; use a `THEMIS_IMPORTER_PLUGIN_V1` versioned struct to allow ABI evolution without breaking existing plugins.
-- `ImporterRegistry::loadPlugin(path)` uses `dlopen`/`dlsym` (Linux/macOS) or `LoadLibrary`/`GetProcAddress` (Windows) to load the factory symbol `themis_importer_create`.
-- Plugin isolation: each plugin runs in a sandboxed thread group with a configurable memory limit; a plugin that allocates beyond its limit is terminated and the import job fails gracefully.
-- Document the plugin API with a worked example Oracle importer skeleton in `docs/importers/plugin_guide.md`.
+- [x] C-linkage plugin ABI defined in `include/importers/importer_plugin.h`; `THEMIS_IMPORTER_PLUGIN_V1` versioned struct (with `abi_version`, `struct_size`, function table) allows ABI evolution without breaking existing plugins.
+- [x] `ImporterRegistry::loadPlugin(path)` (alias for `ImporterPluginRegistry::loadPlugin()`) uses `dlopen`/`dlsym` (Linux/macOS) or `LoadLibrary`/`GetProcAddress` (Windows) to load the factory symbol `themis_importer_create`.
+- [x] Plugin isolation: each plugin's `importData()` call runs in a sandboxed thread with a configurable memory limit (`PluginSandboxConfig::memory_limit_bytes`). The sandbox counting allocator (`ThemisImporterAllocator`) is passed to `create_instance`; imports that exceed the limit fail gracefully. A `timeout_ms` field enforces an upper wall-clock limit; `cancel()` is signalled on timeout.
+- [x] Oracle importer skeleton documented in `docs/importers/plugin_guide.md` with full V1 ABI walked example, CMake build, runtime loading, and sandbox configuration.
 
 **Performance Targets:**
 - Plugin load time (cold `dlopen`) ≤ 50 ms; negligible impact on import throughput once loaded.
