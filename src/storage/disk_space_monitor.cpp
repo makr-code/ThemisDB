@@ -117,6 +117,9 @@ DiskSpaceMonitor::SpaceInfo DiskSpaceMonitor::checkSpace() {
     std::lock_guard<std::mutex> lock(mutex_);
     
     SpaceLevel old_level = current_level_.load();
+    // Preserve the RocksDB size that was set via setRocksDBSize() — it is
+    // managed independently from OS disk-space queries.
+    info.rocksdb_size_bytes = current_info_.rocksdb_size_bytes;
     current_info_ = info;
     
     updateSpaceLevel(info);
@@ -227,6 +230,11 @@ void DiskSpaceMonitor::triggerGC() {
 void DiskSpaceMonitor::setReadOnlyOverride(bool read_only) {
     read_only_override_ = read_only;
     spdlog::warn("Read-only override set to: {}", read_only);
+}
+
+void DiskSpaceMonitor::setRocksDBSize(uint64_t size_bytes) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    current_info_.rocksdb_size_bytes = size_bytes;
 }
 
 std::string DiskSpaceMonitor::getRecommendedAction() const {
