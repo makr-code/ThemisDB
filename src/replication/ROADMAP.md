@@ -27,6 +27,7 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Compressed WAL shipping (Zstd) for bandwidth reduction (Issue: #2444)
 - [x] Automated lag-based read traffic shifting (Issue: #2251)
 - [x] Cross-cluster logical replication (publish/subscribe model) (Issue: #2440)
+- [x] LogicalReplicationManager — schema-aware logical slots with per-collection filters, row predicates, DDL streaming, and cross-version transforms (Issue: #95)
 - [x] Kubernetes operator for automated topology management (Issue: #2257)
 - [x] Parallel replication — multi-threaded WAL application on followers with dependency tracking (v1.6.0)
 
@@ -116,6 +117,7 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] `include/replication/raft_v2.h` + `src/replication/raft_v2.cpp` — Full Raft v2: RaftV2ClusterConfig (joint consensus quorum), MembershipChangeManager (two-phase membership transitions), RaftV2State
 - [x] `include/replication/crdt_types.h` — Standalone type-safe CRDT library: GrowOnlyCounter, PNCounter, LWWRegister, MVRegister, GrowOnlySet, TwoPSet, ORSet, LWWMap, RGArray, EnableWinsFlag, DisableWinsFlag
 - [x] `include/replication/schema_cdc.h` + `src/replication/schema_cdc.cpp` — SchemaAwareCDCBridge: bridges replication WAL CDC events with CDC SchemaRegistryClient / CdcSchemaEncoder for Confluent-compatible schema-encoded output
+- [x] `include/replication/multi_tier_replication.h` + `src/replication/multi_tier_replication.cpp` — MultiTierReplicationManager: hierarchical replication with TIER_1_CRITICAL (3+ replicas, sync, <10ms), TIER_2_STANDARD (2 replicas, semi-sync, <50ms), TIER_3_ARCHIVAL (1 replica, async); per-collection tier assignment; automatic tier promotion/demotion based on access patterns
 
 ### Phase 4: Full Raft v2 & Multi-Region Active-Active (Status: Completed ✅)
 - [x] Full Raft v2 implementation (joint consensus for membership changes)
@@ -155,8 +157,33 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
   - `adaptive=false` forces compression even below `min_batch_size`
 - [x] CI: `.github/workflows/compressed-replication-ci.yml`
 
-## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (247+ test cases: 225 previous + 22 CompressedReplicationStream tests)
+## New Modules (v1.8.0 – Phase 8: Multi-Tier Replication)
+- [x] `include/replication/multi_tier_replication.h` + `src/replication/multi_tier_replication.cpp` — MultiTierReplicationManager: hierarchical replication with TIER_1_CRITICAL (3+ replicas, sync, <10ms), TIER_2_STANDARD (2 replicas, semi-sync, <50ms), TIER_3_ARCHIVAL (1 replica, async); per-collection tier assignment; automatic tier promotion/demotion based on access patterns
+
+### Phase 8: Multi-Tier Replication (Status: Completed ✅ — v1.8.0)
+- [x] `MultiTierReplicationManager` class with `MultiTierConfig` (auto-tiering thresholds, default tier, per-tier overrides)
+- [x] Three-tier model: `TIER_1_CRITICAL` (3+ replicas, SYNC, <10ms SLA), `TIER_2_STANDARD` (2 replicas, SEMI_SYNC, <50ms SLA), `TIER_3_ARCHIVAL` (1 replica, ASYNC)
+- [x] `assignTier(collection, tier)` / `removeTier(collection)` / `getTier(collection)` for per-collection tier management
+- [x] `getTierConfig(collection)` returns full `TierConfig` (replica_count, mode, max_latency_ms, min_availability_pct)
+- [x] `getDefaultTierConfig(tier)` returns built-in or overridden `TierConfig` per tier
+- [x] `enableAutoTiering(bool)` / `isAutoTieringEnabled()` to toggle automatic tier adjustment
+- [x] `recordAccess(collection)` tracks per-collection access rates for auto-tiering decisions
+- [x] `evaluateTierPromotion(collection)`: hot data (rate ≥ hot_access_threshold) → TIER_1_CRITICAL; cold data (rate < cold_access_threshold) → TIER_3_ARCHIVAL; moderate → TIER_2_STANDARD
+- [x] `getStats()` → `MultiTierStats` with per-tier collection counts, lifetime promotions/demotions, auto-tiering flag
+- [x] `getCollectionStats()` → per-collection `CollectionAccessStats` (total/recent accesses, rate, current tier, last promotion/demotion timestamps)
+- [x] `getCollectionsForTier(tier)` enumerates all explicitly assigned collections for a tier
+- [x] Thread-safe: all public methods protected via `shared_mutex` (assignments + stats independently locked)
+- [x] 19 unit tests in `tests/test_replication_ha.cpp` (MultiTierReplicationTest suite):
+  - AC-1: Tier 1 default config has 3+ replicas, SYNC mode, ≤10ms latency
+  - AC-2: Tier 2 default config has 2 replicas, SEMI_SYNC, ≤50ms latency
+  - AC-3: Tier 3 default config has 1 replica, ASYNC
+  - AC-4: assignTier/getTier/removeTier per-collection; unassigned returns default; override existing assignment; getCollectionsForTier; getTierConfig reflects assignment
+  - AC-5: auto-tiering disabled by default; enableAutoTiering toggle; recordAccess no-op when disabled; hot collection promoted to Tier 1; cold collection demoted to Tier 3; moderate access normalised to Tier 2; evaluateTierPromotion no-op when auto-tiering disabled
+  - Stats: getStats reflects assignments; promotions and demotions counted; getCollectionStats includes all tracked collections
+  - Custom tier config override replaces built-in defaults
+- [x] CI: `.github/workflows/multi-tier-replication-ci.yml`
+
+
 ### Phase 6: Quorum-Based Reads (Status: Completed ✅ — v1.6.0)
 - [x] `QuorumReadManager` class in `include/replication/replication_manager.h` + `src/replication/replication_manager.cpp`
 - [x] Concurrent per-replica reads with configurable `read_quorum` (default 2) and `read_timeout_ms`

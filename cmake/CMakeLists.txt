@@ -1441,6 +1441,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/transaction_retry_manager.cpp
     ../src/storage/compaction_manager.cpp
     ../src/storage/merge_operators.cpp
+    ../src/storage/wom_tree.cpp
     ../src/storage/compressed_storage.cpp
     ../src/storage/compression_strategy.cpp
     ../src/storage/gpu_compression.cpp
@@ -1544,10 +1545,12 @@ set(THEMIS_CORE_SOURCES
     ../src/transaction/lock_manager.cpp
     ../src/transaction/crash_recovery_manager.cpp
     ../src/transaction/global_transaction_manager.cpp
+    ../src/transaction/deadlock_predictor.cpp
     
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
     ../src/query/adaptive_optimizer.cpp
+    ../src/query/adaptive_join.cpp
     ../src/query/runtime_reoptimizer.cpp
     ../src/graph/graph_query_optimizer.cpp
     ../src/graph/path_constraints.cpp
@@ -1574,6 +1577,7 @@ set(THEMIS_CORE_SOURCES
 
     # Vectorized Execution Engine – column-store style batch processing (Issue #2434)
     ../src/query/vectorized_execution.cpp
+    ../src/query/parallel_executor.cpp
 
     ../src/query/statistical_aggregator.cpp
     ../src/query/semantic_cache.cpp
@@ -1776,6 +1780,10 @@ set(THEMIS_CORE_SOURCES
     ../src/ingestion/huggingface_connector.cpp
     ../src/ingestion/kafka_connector.cpp
     ../src/ingestion/object_storage_connector.cpp
+    # s3_connector.cpp: dedicated S3-optimised connector (incremental mode,
+    # concurrent downloads, flat-file delegation); uses #ifdef THEMIS_ENABLE_S3
+    # internally – always compiles without the AWS SDK.
+    ../src/ingestion/s3_connector.cpp
     ../src/ingestion/database_connector.cpp
     ../src/ingestion/web_crawler_connector.cpp
     ../src/ingestion/ingestion_coordinator.cpp
@@ -1811,6 +1819,7 @@ set(THEMIS_CORE_SOURCES
     ../src/replication/replication_slot.cpp
     ../src/replication/raft_v2.cpp
     ../src/replication/schema_cdc.cpp
+    ../src/replication/multi_tier_replication.cpp
     
     # Temporal versioning and query engine
     ../src/temporal/temporal_conflict_resolver.cpp
@@ -1839,6 +1848,8 @@ set(THEMIS_CORE_SOURCES
     ../src/timeseries/aggregates.cpp
     ../src/timeseries/downsampling.cpp
     ../src/timeseries/ts_auto_buffer_adaptive.cpp
+    ../src/timeseries/encrypted_chunk_store.cpp
+    ../src/timeseries/ts_encrypted_key_rotation.cpp
     
     ../src/utils/serialization.cpp
     ../src/utils/logger.cpp
@@ -1901,11 +1912,14 @@ set(THEMIS_CORE_SOURCES
     ../src/updates/dependency_resolver.cpp
     ../src/updates/schema_migration_tester.cpp
     ../src/updates/in_place_schema_migrator.cpp
+    ../src/updates/schema_migration.cpp
     ../src/updates/update_history_logger.cpp
     ../src/updates/notification_webhook.cpp
     ../src/updates/blue_green_deployment.cpp
     ../src/updates/coordinated_update_manager.cpp
+    ../src/updates/cluster_update_manager.cpp
     ../src/updates/preflight_health_check.cpp
+    ../src/updates/tenant_update_scheduler.cpp
     
     # Geo utilities
     ../src/utils/geo/ewkb.cpp
@@ -2113,6 +2127,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/sharding/gpu_erasure_coder.cu>
     $<$<BOOL:${THEMIS_ENABLE_OPENCL}>:../src/sharding/gpu_erasure_coder_opencl.cpp>
     ../src/storage/blob_redundancy_manager.cpp
+    ../src/storage/erasure_coding_backend.cpp
     ../src/server/sharding_metrics_handler.cpp
 
     # Enhanced sharding features
@@ -2156,6 +2171,9 @@ set(THEMIS_CORE_SOURCES
     ../src/network/wire_protocol_connection_pool.cpp
     ../src/network/wire_protocol_v2.cpp
     ../src/network/wire_protocol_performance.cpp
+    ../src/network/wire_protocol_zero_copy.cpp
+    ../src/network/wire_protocol_batch.cpp
+    ../src/network/connection_compression.cpp
     ../src/network/socket_timeout_manager.cpp
     ../src/network/adaptive_circuit_breaker.cpp
     ../src/network/qos_manager.cpp
@@ -4125,6 +4143,23 @@ if(THEMIS_BUILD_TESTS)
 
     # ── New feature tests ────────────────────────────────────────────────────
 
+    # Erasure Coding Backend Tests (v1.7.0 – Issue #207)
+    add_executable(test_erasure_coding_backend
+        ${THEMIS_ROOT_DIR}/tests/test_erasure_coding_backend.cpp
+    )
+    target_link_libraries(test_erasure_coding_backend
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_erasure_coding_backend
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_erasure_coding_backend>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+        PROPERTIES
+            LABELS "storage;erasure-coding;blob;reed-solomon;unit"
+            TIMEOUT 60
+    )
+
     add_executable(test_search_highlighter
         ${THEMIS_ROOT_DIR}/tests/test_search_highlighter.cpp
     )
@@ -4200,6 +4235,20 @@ if(THEMIS_BUILD_TESTS)
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_ts_auto_buffer_adaptive>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
+    )
+
+    add_executable(test_chunk_level_encryption
+        ${THEMIS_ROOT_DIR}/tests/test_chunk_level_encryption.cpp
+    )
+    target_link_libraries(test_chunk_level_encryption
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_chunk_level_encryption
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_chunk_level_encryption>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+        PROPERTIES LABELS "timeseries;encryption;security;integration" TIMEOUT 60
     )
 
     add_executable(test_cuda_hnsw_graph_traversal

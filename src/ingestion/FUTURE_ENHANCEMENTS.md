@@ -92,14 +92,17 @@ Add a `KafkaConnector` that consumes documents from one or more Kafka topics and
 ### S3-Compatible Object Storage Source Connector
 **Priority:** Medium
 **Target Version:** v1.7.0
+**Status:** ✅ Implemented (Issue: #178, PR: 2026-03-14)
 
 Add an `S3Connector` that lists and downloads objects from an S3-compatible bucket (AWS S3, MinIO, GCS via S3 interop) and ingests them as documents. This supports batch ingestion of data lake files without requiring a local copy.
 
 **Implementation Notes:**
-- Add `s3_connector.cpp` implementing `ISourceConnector`; use the AWS C++ SDK (`aws-sdk-cpp`) or, for lighter-weight builds, a minimal S3 client built on the `HttpClient` class introduced above.
-- Incremental mode: checkpoint the last processed `LastModified` timestamp or lexicographic key prefix; on restart, use `ListObjectsV2` with a `StartAfter` marker.
-- Support all flat-file formats handled by the Importers module flat-file path (`.jsonl`, `.csv`, `.parquet`) by delegating parsing to `FileSystemIngester`'s format readers.
-- Configurable `max_keys_per_list` (default 1 000) and `max_concurrent_downloads` (default 4) to balance throughput against memory pressure.
+- [x] `s3_connector.cpp` / `s3_connector.h` implementing `ISourceConnector`; uses the AWS C++ SDK (`aws-sdk-cpp`) when `THEMIS_ENABLE_S3` is defined; falls back gracefully to `CONNECTOR_NOT_SUPPORTED` (or mock path) when not.
+- [x] Incremental mode: `IngestionCheckpoint::cursor` stores the last processed object key; on restart, `ListObjectsV2` `StartAfter` is set to the stored cursor.  `setCheckpointStore()` injection mirrors the Kafka connector pattern.
+- [x] Flat-file format delegation: objects with `.jsonl`, `.csv`, `.parquet`, `.json`, `.txt`, `.html`, `.xml` extensions are written to a temporary file and parsed by `FileSystemIngester`'s format readers; raw body fallback for unknown extensions.
+- [x] `max_keys_per_list` (default 1 000) controls the `MaxKeys` parameter of each `ListObjectsV2` call.  `max_concurrent_downloads` (default 4) issues parallel `GetObject` requests using `std::async`.
+- [x] `IngestionManager::ingestSource()` routes `OBJECT_STORAGE` sources with `provider == "s3"` to `S3Connector`; GCS / Azure continue to use `ObjectStorageConnector`.
+- [x] 32 unit tests in `tests/test_s3_connector.cpp` → `S3ConnectorFocusedTests` (no AWS credentials required; all tests use mock injection).
 
 **Performance Targets:**
 - S3 object listing overhead ≤ 100 ms per 1 000 objects (single `ListObjectsV2` call).

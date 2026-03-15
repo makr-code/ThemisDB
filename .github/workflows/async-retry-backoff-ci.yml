@@ -6,6 +6,8 @@ name: Async Retry Back-Off CI
 # that the max_total_retry_time_ms cap and lastRequestStats() observability
 # work correctly.
 
+# Triggered on every push / PR that touches the RemoteRegistryClient sources,
+# tests, or this workflow file.  Targets v1.3.0 (roadmap row #155).
 on:
   push:
     branches:
