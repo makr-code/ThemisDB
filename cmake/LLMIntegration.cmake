@@ -9,6 +9,7 @@ if(THEMIS_ENABLE_LLM)
         # Documentation assistant
         ../src/llm/docs_assistant.cpp
         ../src/aql/docs_assistant_functions.cpp
+        ../src/aql/classify_bridge.cpp
         
         # Model conversion and management
         ../src/llm/lora_framework/gguf_converter.cpp

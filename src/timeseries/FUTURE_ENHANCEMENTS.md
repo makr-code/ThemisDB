@@ -115,17 +115,19 @@ Enhance `ts_auto_buffer.cpp` to dynamically adjust the flush batch size based on
 
 ---
 
-### [ ] Chunk-Level Encryption at Rest
+### [x] Chunk-Level Encryption at Rest
 **Priority:** Medium
-**Target Version:** v1.0.0
+**Target Version:** v1.7.0
+**Status:** Implemented (PR: copilot/add-chunk-level-encryption)
 
 Add AES-256-GCM encryption to individual time series chunks in `tsstore.cpp` using data encryption keys derived by `utils/hkdf_helper.cpp` and managed by `utils/lek_manager.cpp`. Encryption must be transparent to the query path; chunks are decrypted on-demand during scan.
 
 **Implementation Notes:**
-- Add `EncryptedChunkStore` wrapper in `tsstore.cpp` that intercepts chunk write/read operations and applies AES-256-GCM using keys fetched from `utils/lek_manager.cpp` by series ID.
-- Key rotation must re-encrypt affected chunks in a background job without blocking reads; implement in `ts_encrypted_key_rotation.cpp`.
-- Gorilla-compressed data must be encrypted after compression (compress-then-encrypt) to maximise compression ratio and avoid information leakage from cipher input patterns.
-- Audit every key access via `utils/audit_logger.cpp` with series ID, chunk range, and accessor identity.
+- `EncryptedChunkStore` wrapper in `include/timeseries/encrypted_chunk_store.h` / `src/timeseries/encrypted_chunk_store.cpp` intercepts chunk write/read operations and applies AES-256-GCM using HKDF-derived per-series DEKs.
+- `TSStore::setEncryptedChunkStore()` attaches the wrapper; `TSStore::getEncryptedChunkStore()` retrieves it.
+- Key rotation implemented in `include/timeseries/ts_encrypted_key_rotation.h` / `src/timeseries/ts_encrypted_key_rotation.cpp` — background job re-encrypts stale chunks without blocking reads.
+- Gorilla-compressed data is encrypted after compression (compress-then-encrypt).
+- Every key access is audited via `utils/audit_logger.cpp` with series ID, chunk range, and accessor identity.
 
 **Performance Targets:**
 - Encryption overhead on write path: <5% throughput reduction vs. unencrypted baseline.

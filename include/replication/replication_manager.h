@@ -2084,5 +2084,145 @@ private:
                            const std::string& document_id) const;
 };
 
+// ============================================================================
+// GeoReplicationManager  (v1.7.0)
+// ============================================================================
+
+/**
+ * GeoReplicationManager
+ *
+ * Provides a simple key/value API for geo-distributed deployments with
+ * per-request consistency level control.  Applications can choose between
+ * four consistency levels depending on their trade-off between correctness
+ * and availability:
+ *
+ *   STRONG            – Linearizable reads; only served from a region with
+ *                       zero replication lag.
+ *   BOUNDED_STALENESS – Reads permitted when lag <= max_staleness_ms; the
+ *                       freshest eligible region is preferred.
+ *   SESSION           – Read-your-writes within a session token; the local
+ *                       region must have applied at least the sequence
+ *                       embedded in the token.
+ *   EVENTUAL          – Always served from the local region regardless of
+ *                       lag; maximum throughput, no freshness guarantee.
+ *
+ * The manager tracks per-region staleness and selects the appropriate region
+ * automatically (automatic routing).  In a real deployment, staleness is
+ * updated via updateRegionStaleness() whenever a WAL acknowledgement or
+ * heartbeat arrives from a remote region.
+ *
+ * Thread safety: all public methods are thread-safe.
+ */
+class GeoReplicationManager {
+public:
+    /**
+     * Configuration for GeoReplicationManager.
+     */
+    struct GeoConfig {
+        std::string              local_region;                   ///< ID of the local (primary) region
+        std::vector<std::string> regions;                        ///< All region IDs (including local)
+        uint32_t replication_factor  = 3;                        ///< Total number of replicas
+        uint32_t local_replicas      = 2;                        ///< Replicas in the local region
+        uint32_t global_replicas     = 1;                        ///< Replicas in remote regions
+        ConsistencyLevel default_consistency = ConsistencyLevel::SESSION;
+        uint32_t max_staleness_ms    = 5000;                     ///< Bound for BOUNDED_STALENESS (ms)
+        uint32_t session_token_ttl_ms = 30000;                   ///< Session token TTL (ms)
+    };
+
+    explicit GeoReplicationManager(const GeoConfig& config);
+
+    /**
+     * Write a key/value pair with the specified consistency level.
+     *
+     * Returns false only when consistency == STRONG and the local replica is
+     * not fully caught up (staleness > 0).  All other levels always succeed
+     * locally.  The returned session_token encodes the new sequence number
+     * for subsequent SESSION reads.
+     */
+    bool write(
+        const std::string& key,
+        const std::string& value,
+        ConsistencyLevel   consistency = ConsistencyLevel::SESSION
+    );
+
+    /**
+     * Read a value with the specified consistency level.
+     *
+     * Automatic routing rules:
+     *   STRONG            – served only if local staleness == 0.
+     *   BOUNDED_STALENESS – served only if local staleness <= max_staleness_ms.
+     *   SESSION           – served only if local sequence >= token sequence.
+     *   EVENTUAL          – always served.
+     *
+     * Returns std::nullopt when the consistency constraint cannot be satisfied
+     * by the local region (caller should retry or relax the level).
+     */
+    std::optional<std::string> read(
+        const std::string& key,
+        ConsistencyLevel   consistency  = ConsistencyLevel::SESSION,
+        const std::string& session_token = ""
+    );
+
+    /**
+     * Return a fresh session token embedding the current local sequence.
+     * Pass this token to subsequent read() calls to obtain read-your-writes
+     * (SESSION consistency).
+     */
+    std::string getSessionToken() const;
+
+    /**
+     * Return the estimated replication lag for a given region.
+     * Returns chrono::milliseconds::max() for unknown regions.
+     */
+    std::chrono::milliseconds getStaleness(const std::string& region) const;
+
+    /**
+     * Feed new staleness information from the replication layer.
+     * Called on every WAL acknowledgement or heartbeat from a remote region.
+     */
+    void updateRegionStaleness(const std::string& region,
+                               int64_t            staleness_ms,
+                               uint64_t           last_applied_sequence = 0);
+
+    /**
+     * Select the best read region for the given consistency level and optional
+     * session token.  Returns an empty string when no eligible region exists.
+     */
+    std::string selectReadRegion(
+        ConsistencyLevel   consistency,
+        const std::string& session_token = ""
+    ) const;
+
+    /**
+     * Validate a session token and return the sequence it encodes.
+     * Returns 0 for malformed or expired tokens.
+     */
+    uint64_t parseSessionToken(const std::string& token) const;
+
+    /** Prometheus-format metrics snapshot. */
+    std::string exportPrometheusMetrics() const;
+
+private:
+    GeoConfig config_;
+
+    // Per-region staleness
+    mutable std::shared_mutex             staleness_mutex_;
+    std::map<std::string, RegionStalenessInfo> region_staleness_;
+
+    // Monotonic write sequence for this region
+    std::atomic<uint64_t> local_sequence_{0};
+
+    // Metrics counters
+    std::atomic<uint64_t> writes_total_{0};
+    std::atomic<uint64_t> reads_total_{0};
+    std::atomic<uint64_t> reads_rejected_{0};
+    std::atomic<uint64_t> strong_reads_{0};
+    std::atomic<uint64_t> bounded_staleness_reads_{0};
+    std::atomic<uint64_t> session_reads_{0};
+    std::atomic<uint64_t> eventual_reads_{0};
+
+    std::string generateSessionToken(uint64_t sequence) const;
+};
+
 } // namespace replication
 } // namespace themisdb

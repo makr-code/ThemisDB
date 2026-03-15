@@ -20,7 +20,7 @@ Plugin lifecycle management (`module_loader.cpp`, `hot_reload_manager.cpp`), sec
 - `[ ]` Rollback of a failed hot-reload must complete within 500 ms and restore the previous plugin version atomically.
 - `[ ]` All lifecycle hooks (init, reload, shutdown) must complete within 5 s or are terminated and logged as failures.
 - `[ ]` WASM fuel/instruction metering must bound runaway plugin execution; modules exceeding the fuel limit must be terminated, not hung.
-- `[ ]` `RemoteRegistryClient` retry back-off (`std::this_thread::sleep_for`) must not block the calling thread; async scheduling required.
+- `[x]` `RemoteRegistryClient` retry back-off (`std::this_thread::sleep_for`) must not block the calling thread; async scheduling required.
 
 ---
 
@@ -128,9 +128,9 @@ In `wasm_plugin_sandbox.cpp` (lines 192–203), parsing of the imports section s
 `remote_registry_client.cpp` uses `std::this_thread::sleep_for(std::chrono::milliseconds(backoff_ms))` in both `httpGet` (line 309) and `httpGetBinary` (line 394) retry loops. This blocks the calling thread — potentially a server I/O thread — for up to 16 s.
 
 **Implementation Notes:**
-- `[x]` Replace blocking sleep with a `std::async`/future or a scheduler callback so the calling thread is released during back-off; use the existing `TaskScheduler` for delayed retry dispatch.
-- `[x]` Add a `RemoteRegistryConfig::max_total_retry_time_ms` cap (default: 30 000 ms) to prevent retries from exceeding a caller's timeout budget.
-- `[x]` Expose retry attempt count and last error in a `RemoteRegistryClient::lastRequestStats()` struct for observability.
+- [x] Replace blocking sleep with a `std::async`/future or a scheduler callback so the calling thread is released during back-off; use the existing `TaskScheduler` for delayed retry dispatch.
+- [x] Add a `RemoteRegistryConfig::max_total_retry_time_ms` cap (default: 30 000 ms) to prevent retries from exceeding a caller's timeout budget.
+- [x] Expose retry attempt count and last error in a `RemoteRegistryClient::lastRequestStats()` struct for observability.
 
 ---
 

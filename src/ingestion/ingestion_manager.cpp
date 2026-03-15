@@ -30,6 +30,7 @@
 #include "ingestion/api_connector.h"
 #include "ingestion/kafka_connector.h"
 #include "ingestion/object_storage_connector.h"
+#include "ingestion/s3_connector.h"
 #include "ingestion/database_connector.h"
 #include "ingestion/web_crawler_connector.h"
 #include "ingestion/cdc_connector.h"
@@ -622,16 +623,48 @@ public:
                 }
 
                 case SourceType::OBJECT_STORAGE: {
-                    auto obj_connector = std::make_unique<ObjectStorageConnector>();
-                    obj_connector->setRetryConfig(retry_config_);
-                    if (!obj_connector->initialize(config)) {
-                        stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
-                                       IngestionErrorSeverity::ERROR,
-                                       "Failed to initialize ObjectStorage connector",
-                                       source_id);
-                        return stats;
+                    // Route S3-compatible sources to the dedicated S3Connector
+                    // (which provides incremental checkpointing, concurrent
+                    // downloads, flat-file format delegation, and a per-page
+                    // max_keys_per_list cap).  All other providers (gcs, azure)
+                    // fall through to the generic ObjectStorageConnector.
+                    auto prov_it = config.options.find("provider");
+                    std::string provider = (prov_it != config.options.end())
+                                          ? prov_it->second : "s3";
+
+                    if (provider == "s3" || provider.empty()) {
+                        auto s3_connector = std::make_unique<S3Connector>();
+                        s3_connector->setRetryConfig(retry_config_);
+                        if (incremental_mode_) {
+                            std::shared_ptr<CheckpointStore> cs;
+                            {
+                                std::lock_guard<std::mutex> lock(mutex_);
+                                cs = checkpoint_store_shared_;
+                            }
+                            if (cs) {
+                                s3_connector->setCheckpointStore(cs);
+                            }
+                        }
+                        if (!s3_connector->initialize(config)) {
+                            stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
+                                           IngestionErrorSeverity::ERROR,
+                                           "Failed to initialize S3 connector",
+                                           source_id);
+                            return stats;
+                        }
+                        connector = std::move(s3_connector);
+                    } else {
+                        auto obj_connector = std::make_unique<ObjectStorageConnector>();
+                        obj_connector->setRetryConfig(retry_config_);
+                        if (!obj_connector->initialize(config)) {
+                            stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
+                                           IngestionErrorSeverity::ERROR,
+                                           "Failed to initialize ObjectStorage connector",
+                                           source_id);
+                            return stats;
+                        }
+                        connector = std::move(obj_connector);
                     }
-                    connector = std::move(obj_connector);
                     break;
                 }
 

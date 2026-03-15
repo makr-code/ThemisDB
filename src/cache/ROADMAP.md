@@ -43,6 +43,7 @@ Production-ready multi-level cache (L1/L2/L3) with all four implementation phase
 - [x] HMAC-SHA256 signed invalidation messages for `RedisCacheCoordinator` – `Config::hmac_secret` field; `computeHmac()` / `verifyHmac()` in `src/cache/redis_cache_coordinator.cpp`; unsigned messages rejected when secret configured
 - [x] Public cache abstraction interfaces – `include/cache/cache_interfaces.h`; `IEvictionPolicy`, `ICacheAdminOps`, `ICacheWarmup`, `IGDPRPurgeHook`, `ITTLAdapter` with value types `CacheStats`, `KeyFilter`, `WarmupStats`, `PurgeDescriptor`, `PurgeResult`, `AccessPattern`, `TTLAdapterConfig`
 - [x] Unit tests coverage > 80% (Issue: #1596) — `tests/test_cache_interfaces.cpp`; 43 unit tests for all 5 interfaces and all value types; registered as `CacheInterfacesTests` in `tests/CMakeLists.txt`
+- [x] `RedisCacheCoordinator` Async Pub/Sub Subscription Loop (v1.7.0) — exponential back-off reconnection (1 s → 30 s) with `cache.redis.reconnect` metric; `isConnected()` exposed in `GET /v1/admin/cache/health`; Windows stub replaced with `THEMIS_POSIX_SOCKETS` compile-time feature flag; noisy `THEMIS_WARN` in stub constructor downgraded to `THEMIS_DEBUG`; CI: `redis-cache-coordinator-async-loop-ci.yml`
 
 ## Implementation Phases
 

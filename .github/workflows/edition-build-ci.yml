@@ -45,11 +45,14 @@ jobs:
       - name: Configure and build (${{ inputs.edition }} edition)
         uses: ./.github/actions/configure-themis
         with:
-          cc:         gcc-12
-          cxx:        g++-12
-          build-type: ${{ inputs.build-type }}
-          edition:    ${{ inputs.edition }}
-          ci-mode:    'true'
+          cc:           gcc-12
+          cxx:          g++-12
+          build-type:   ${{ inputs.build-type }}
+          edition:      ${{ inputs.edition }}
+          ci-mode:      'true'
+          # MINIMAL edition sets THEMIS_BUILD_TESTS=OFF in CMake, so themis_tests
+          # is not a valid build target. Skip it to avoid 'unknown target' errors.
+          build-target: ${{ inputs.edition != 'MINIMAL' && 'themis_tests' || '' }}
 
       - name: Show ccache statistics
         if: always()
@@ -57,6 +60,7 @@ jobs:
 
       # ── Core smoke tests ─────────────────────────────────────────────────
       - name: Run build-info tests
+        if: ${{ inputs.edition != 'MINIMAL' }}
         run: |
           set -o pipefail
           cd build
@@ -66,6 +70,7 @@ jobs:
             2>&1 | tee build_info_output.txt
 
       - name: Run module loader tests
+        if: ${{ inputs.edition != 'MINIMAL' }}
         run: |
           set -o pipefail
           cd build
@@ -75,6 +80,7 @@ jobs:
             2>&1 | tee module_loader_output.txt
 
       - name: Run wire protocol V2 tests
+        if: ${{ inputs.edition != 'MINIMAL' }}
         run: |
           set -o pipefail
           cd build
@@ -84,6 +90,7 @@ jobs:
             2>&1 | tee wire_v2_output.txt
 
       - name: Run concerns context tests
+        if: ${{ inputs.edition != 'MINIMAL' }}
         run: |
           set -o pipefail
           cd build

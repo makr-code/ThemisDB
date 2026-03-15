@@ -52,6 +52,22 @@ static std::string makePointJson(double lon, double lat) {
            std::to_string(lon) + "," + std::to_string(lat) + "]}";
 }
 
+/// Build a small square GeoJSON Polygon string centred at (lon, lat).
+/// The outer ring has 5 vertices (first == last, closed ring).
+static std::string makePolygonJson(double lon, double lat,
+                                   double half_deg = 0.001) {
+    auto v = [](double x, double y) {
+        return "[" + std::to_string(x) + "," + std::to_string(y) + "]";
+    };
+    return "{\"type\":\"Polygon\",\"coordinates\":[[" +
+           v(lon - half_deg, lat - half_deg) + "," +
+           v(lon + half_deg, lat - half_deg) + "," +
+           v(lon + half_deg, lat + half_deg) + "," +
+           v(lon - half_deg, lat + half_deg) + "," +
+           v(lon - half_deg, lat - half_deg) +
+           "]]}";
+}
+
 /// Insert a document with a GeoJSON point in the "location" field.
 static void insertEntity(SystemVersionedTable& table,
                          const std::string& key,
@@ -317,5 +333,133 @@ TEST(EntitiesWithinDistanceAtTimeSorted, NegativeDistance_ReturnsEmpty) {
 
     auto result = TemporalSpatialQuery::entitiesWithinDistanceAtTimeSorted(
         table, 13.4, 52.5, -1.0, now());
+    EXPECT_TRUE(result.empty());
+}
+
+// ---------------------------------------------------------------------------
+// Non-Point geometry: centroid path
+// ---------------------------------------------------------------------------
+
+// The spec requires: "Point geometries use their single coordinate directly;
+// all other types use GeometryInfo::computeCentroid()."
+
+TEST(TemporalSpatialQuery, ExtractGeometry_Polygon_ParsesSuccessfully) {
+    VersionedDocument doc;
+    doc.key = "p1";
+    // Square polygon centred at Berlin
+    doc.data["location"] = makePolygonJson(13.4050, 52.5200);
+
+    auto geom = TemporalSpatialQuery::extractGeometry(doc);
+    ASSERT_TRUE(geom.has_value());
+    EXPECT_TRUE(geom->isPolygon());
+    EXPECT_FALSE(geom->rings.empty());
+}
+
+TEST(EntitiesInBBoxAtTime, PolygonGeometry_UsesCentroid) {
+    SystemVersionedTable table{"poly_bbox", "n"};
+    // Square polygon centred at Berlin (centroid ≈ Berlin)
+    nlohmann::json doc;
+    doc["location"] = makePolygonJson(13.4050, 52.5200);
+    table.insert("berlin_poly", doc);
+    // Square polygon centred at Paris
+    nlohmann::json doc2;
+    doc2["location"] = makePolygonJson(2.3522, 48.8566);
+    table.insert("paris_poly", doc2);
+
+    // Rough bounding box of Germany — contains Berlin centroid, not Paris
+    MBR germany{5.8, 47.2, 15.1, 55.1};
+    auto result = TemporalSpatialQuery::entitiesInBBoxAtTime(table, germany, now());
+
+    ASSERT_EQ(result.size(), 1u);
+    EXPECT_EQ(result[0].key, "berlin_poly");
+}
+
+TEST(EntitiesWithinDistanceAtTime, PolygonGeometry_UsesCentroid) {
+    SystemVersionedTable table{"poly_dist", "n"};
+    // Square polygon centred at Berlin Mitte — centroid ≈ Berlin Mitte
+    nlohmann::json doc;
+    doc["location"] = makePolygonJson(13.4050, 52.5200);
+    table.insert("berlin_poly", doc);
+    // Square polygon centred at Paris — far away
+    nlohmann::json doc2;
+    doc2["location"] = makePolygonJson(2.3522, 48.8566);
+    table.insert("paris_poly", doc2);
+
+    // Query within 5 km of Berlin Mitte
+    auto result = TemporalSpatialQuery::entitiesWithinDistanceAtTime(
+        table, 13.4050, 52.5200, 5000.0, now());
+
+    ASSERT_EQ(result.size(), 1u);
+    EXPECT_EQ(result[0].key, "berlin_poly");
+}
+
+// ---------------------------------------------------------------------------
+// Temporal correctness: historical timestamps
+// ---------------------------------------------------------------------------
+
+TEST(AllLocationsAtTime, HistoricalTimestamp_ExcludesLaterInserts) {
+    SystemVersionedTable table{"hist_all", "n"};
+    insertEntity(table, "v1", 13.4, 52.5); // inserted first
+    const Timestamp t1 = now();
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    insertEntity(table, "v2", 2.35, 48.85); // inserted later
+
+    // At t1 only v1 was alive
+    auto locs_at_t1 = TemporalSpatialQuery::allLocationsAtTime(table, t1);
+    ASSERT_EQ(locs_at_t1.size(), 1u);
+    EXPECT_EQ(locs_at_t1[0].first, "v1");
+
+    // At now() both are alive
+    auto locs_now = TemporalSpatialQuery::allLocationsAtTime(table, now());
+    EXPECT_EQ(locs_now.size(), 2u);
+}
+
+TEST(EntitiesInBBoxAtTime, HistoricalTimestamp_ExcludesLaterInserts) {
+    SystemVersionedTable table{"hist_bbox", "n"};
+    // Berlin inside Germany bbox
+    insertEntity(table, "berlin", 13.4050, 52.5200);
+    const Timestamp t1 = now();
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    // Hamburg (also inside Germany bbox) inserted after t1
+    insertEntity(table, "hamburg", 10.0, 53.55);
+
+    MBR germany{5.8, 47.2, 15.1, 55.1};
+
+    // At t1 only Berlin was alive
+    auto at_t1 = TemporalSpatialQuery::entitiesInBBoxAtTime(table, germany, t1);
+    ASSERT_EQ(at_t1.size(), 1u);
+    EXPECT_EQ(at_t1[0].key, "berlin");
+
+    // At now() both are inside Germany bbox
+    auto at_now = TemporalSpatialQuery::entitiesInBBoxAtTime(table, germany, now());
+    EXPECT_EQ(at_now.size(), 2u);
+}
+
+TEST(EntitiesWithinDistanceAtTime, DeletedEntity_NotReturnedAfterDelete) {
+    SystemVersionedTable table{"del_dist", "n"};
+    insertEntity(table, "bus", 13.4050, 52.5200); // Berlin
+    const Timestamp t_before = now();
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    table.deleteRow("bus");
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    const Timestamp t_after = now();
+
+    // Before delete: entity should be found within 1 km of Berlin
+    auto before = TemporalSpatialQuery::entitiesWithinDistanceAtTime(
+        table, 13.4050, 52.5200, 1000.0, t_before);
+    EXPECT_EQ(before.size(), 1u);
+
+    // After delete: entity must not appear
+    auto after = TemporalSpatialQuery::entitiesWithinDistanceAtTime(
+        table, 13.4050, 52.5200, 1000.0, t_after);
+    EXPECT_TRUE(after.empty());
+}
+
+TEST(EntitiesWithinDistanceAtTimeSorted, ZeroDistance_ReturnsEmpty) {
+    SystemVersionedTable table{"t", "n"};
+    insertEntity(table, "e1", 13.4, 52.5);
+
+    auto result = TemporalSpatialQuery::entitiesWithinDistanceAtTimeSorted(
+        table, 13.4, 52.5, 0.0, now());
     EXPECT_TRUE(result.empty());
 }
