@@ -2129,26 +2129,6 @@ public:
         uint32_t session_token_ttl_ms = 30000;                   ///< Session token TTL (ms)
     };
 
-    /**
-     * Result returned by write().
-     */
-    struct WriteResult {
-        bool        success        = false;
-        std::string session_token;           ///< Updated session token encoding the new sequence
-        uint64_t    sequence_number = 0;
-    };
-
-    /**
-     * Result returned by read().
-     */
-    struct ReadResult {
-        bool        success      = false;
-        std::string value;
-        std::string region_id;               ///< Region that served the read
-        int64_t     staleness_ms = 0;        ///< Observed lag at read time
-        ConsistencyLevel served_at = ConsistencyLevel::EVENTUAL;
-    };
-
     explicit GeoReplicationManager(const GeoConfig& config);
 
     /**

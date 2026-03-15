@@ -391,9 +391,20 @@ std::cout << "Saved " << (stats.bytes_uncompressed - stats.bytes_compressed)
 
 ---
 
-### Geo-Replication with Consistency Levels
+### Geo-Replication with Consistency Levels ✅ **IMPLEMENTED — v1.7.0**
 **Priority:** Medium  
 **Target Version:** v1.7.0
+
+**Status:** ✅ Implemented (`include/replication/replication_manager.h`, `src/replication/replication_manager.cpp`)
+- `GeoReplicationManager` class with `GeoConfig` (local_region, regions, replication_factor, local_replicas, global_replicas, default_consistency, max_staleness_ms, session_token_ttl_ms)
+- All four consistency levels implemented: STRONG (linearizable), BOUNDED_STALENESS (lag-bound), SESSION (read-your-writes), EVENTUAL (always-local)
+- Automatic routing via `selectReadRegion()` for each level
+- Session tokens with TTL encoding sequence number for read-your-writes guarantee
+- `updateRegionStaleness()` for replication layer integration
+- Prometheus metrics: per-level read counters, write counter, rejection counter, per-region lag gauges
+- 34 unit tests in `tests/test_geo_replication_consistency.cpp` → `GeoReplicationConsistencyFocusedTests`
+- CI: `.github/workflows/geo-replication-consistency-ci.yml`
+
 
 Support multiple consistency levels for geo-distributed deployments, allowing applications to choose between consistency and availability.
 

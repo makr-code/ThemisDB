@@ -6053,18 +6053,9 @@ std::string GeoReplicationManager::selectReadRegion(
 
         case ConsistencyLevel::SESSION: {
             // Local region must have applied at least the sequence in the token.
-            uint64_t required_seq = 0;
-            if (!session_token.empty()) {
-                // parseSessionToken is const but acquires no lock – safe to call
-                // while holding staleness_mutex_ (different mutex).
-                // We release the shared lock briefly to call the helper, but
-                // here we inline the parse to avoid double-locking.
-                auto seq_pos = session_token.find("seq=");
-                if (seq_pos != std::string::npos) {
-                    try { required_seq = std::stoull(session_token.substr(seq_pos + 4)); }
-                    catch (...) { required_seq = 0; }
-                }
-            }
+            // parseSessionToken() is mutex-free (no staleness_mutex_ acquired inside),
+            // so it is safe to call while holding staleness_mutex_ as a shared lock.
+            uint64_t required_seq = parseSessionToken(session_token);
             auto it = region_staleness_.find(config_.local_region);
             if (it != region_staleness_.end() &&
                 it->second.last_applied_sequence >= required_seq) {
@@ -6088,8 +6079,6 @@ bool GeoReplicationManager::write(
 {
     (void)key; (void)value;  // key/value applied by the caller's storage layer
 
-    ++writes_total_;
-
     // For STRONG writes, require the local region to have zero lag.
     if (consistency == ConsistencyLevel::STRONG) {
         auto lag = getStaleness(config_.local_region);
@@ -6103,6 +6092,7 @@ bool GeoReplicationManager::write(
 
     // Advance the local sequence and mark the local region as fresh.
     uint64_t seq = ++local_sequence_;
+    ++writes_total_;
     {
         std::unique_lock<std::shared_mutex> lock(staleness_mutex_);
         auto& local               = region_staleness_[config_.local_region];

@@ -201,9 +201,33 @@ TEST(GeoReplicationConsistencyTest, RoutingEventualAlwaysSucceeds) {
     EXPECT_EQ(region, "us-east-1");
 }
 
-// ============================================================================
-// 5. Write behaviour  (AC-1, AC-2, AC-5)
-// ============================================================================
+// SESSION with a garbage token: parseSessionToken returns 0 → required_seq=0
+// → always satisfies local_applied_sequence >= 0 → routes to local region
+TEST(GeoReplicationConsistencyTest, RoutingSessionGarbageTokenTreatedAsNoToken) {
+    GeoReplicationManager mgr(makeGeoConfig("us-east-1", 5000));
+    std::string region = mgr.selectReadRegion(ConsistencyLevel::SESSION, "not_a_valid_token");
+    EXPECT_EQ(region, "us-east-1");
+}
+
+// SESSION without a token at all: required_seq=0, always succeeds
+TEST(GeoReplicationConsistencyTest, RoutingSessionNoTokenAlwaysSucceeds) {
+    GeoReplicationManager mgr(makeGeoConfig("us-east-1", 5000));
+    std::string region = mgr.selectReadRegion(ConsistencyLevel::SESSION, "");
+    EXPECT_EQ(region, "us-east-1");
+}
+
+// STRONG write rejection does NOT increment writes_total_
+TEST(GeoReplicationConsistencyTest, WritesCounterNotIncrementedOnStrongRejection) {
+    GeoReplicationManager mgr(makeGeoConfig("us-east-1", 5000));
+    mgr.updateRegionStaleness("us-east-1", 100, 0);  // make local stale
+    bool ok = mgr.write("key", "val", ConsistencyLevel::STRONG);
+    EXPECT_FALSE(ok);
+    // Rejected write should NOT appear in Prometheus writes_total
+    std::string m = mgr.exportPrometheusMetrics();
+    EXPECT_NE(m.find("themisdb_geo_repl_writes_total{region=\"us-east-1\"} 0"),
+              std::string::npos);
+}
+
 
 TEST(GeoReplicationConsistencyTest, WriteStrongSucceedsWhenFresh) {
     GeoReplicationManager mgr(makeGeoConfig());

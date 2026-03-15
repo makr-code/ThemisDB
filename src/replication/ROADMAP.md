@@ -112,6 +112,32 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
   - Audit-3: `conflicts_last_hour` rolling window correctly counted in SyncStatus
 - [x] CI: `.github/workflows/bidirectional-replication-ci.yml`
 
+### Phase 8: Geo-Replication with Consistency Levels (Status: Completed ✅ — v1.7.0)
+- [x] `GeoReplicationManager` class in `include/replication/replication_manager.h` + `src/replication/replication_manager.cpp`
+- [x] `GeoConfig`: `local_region`, `regions`, `replication_factor`, `local_replicas`, `global_replicas`, `default_consistency`, `max_staleness_ms`, `session_token_ttl_ms`
+- [x] `write(key, value, consistency)` — STRONG write rejected when local staleness > 0; all other levels always succeed locally; advances monotonic sequence
+- [x] `read(key, consistency, session_token)` — returns routed region string or `std::nullopt` on constraint violation
+- [x] `selectReadRegion()` — automatic routing per consistency level:
+  - STRONG: local region only when `staleness_ms == 0`; falls back to any healthy region with zero lag
+  - BOUNDED_STALENESS: prefers local region if within `max_staleness_ms`; picks freshest eligible peer otherwise
+  - SESSION: local region when `last_applied_sequence >= token_sequence`; uses `parseSessionToken()` for expiry check
+  - EVENTUAL: always returns local region (no routing overhead)
+- [x] `getSessionToken()` — opaque `seq=N;region=R;exp=T` token for read-your-writes guarantee
+- [x] `parseSessionToken()` — validates TTL expiry before returning embedded sequence
+- [x] `updateRegionStaleness()` — feeds WAL acknowledgement / heartbeat data from replication layer
+- [x] `exportPrometheusMetrics()` — per-level read counters, accepted write counter, rejection counter, per-region lag gauges
+- [x] 34 unit tests in `tests/test_geo_replication_consistency.cpp` → `GeoReplicationConsistencyFocusedTests`:
+  - Construction, initial state (local fresh, peers unknown)
+  - Staleness updates (refresh, add new region, update local)
+  - Session tokens (non-empty, contains seq/region, advances after write, invalid token returns 0)
+  - Automatic routing for all four consistency levels
+  - Write behaviour (STRONG success/failure, SESSION/EVENTUAL/BOUNDED always succeed)
+  - Read behaviour (per-level success and rejection)
+  - SESSION read-your-writes guarantee
+  - Prometheus metrics (key presence, counter accuracy)
+  - Thread safety (concurrent writes, reads, staleness updates)
+- [x] CI: `.github/workflows/geo-replication-consistency-ci.yml`
+
 ## New Modules (v1.8.0 – Phase 4)
 - [x] `include/replication/raft_v2.h` + `src/replication/raft_v2.cpp` — Full Raft v2: RaftV2ClusterConfig (joint consensus quorum), MembershipChangeManager (two-phase membership transitions), RaftV2State
 - [x] `include/replication/crdt_types.h` — Standalone type-safe CRDT library: GrowOnlyCounter, PNCounter, LWWRegister, MVRegister, GrowOnlySet, TwoPSet, ORSet, LWWMap, RGArray, EnableWinsFlag, DisableWinsFlag
