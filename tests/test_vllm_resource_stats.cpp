@@ -98,3 +98,49 @@ TEST(VLLMResourceStatsTest, GetStats_UninitializedReturnsZero) {
     EXPECT_EQ(stats.ram_used_mb,     static_cast<size_t>(0));
     EXPECT_EQ(stats.ram_utilization, 0.0);
 }
+
+// ---------------------------------------------------------------------------
+// gpu_device_index / gpu_device_indices config (no CUDA runtime needed)
+// ---------------------------------------------------------------------------
+
+TEST(VLLMResourceStatsTest, ConfigDefaultDeviceIndex_IsZero) {
+    VLLMResourceManager::Config cfg;
+    EXPECT_EQ(cfg.gpu_device_index, 0u);
+    EXPECT_TRUE(cfg.gpu_device_indices.empty());
+}
+
+TEST(VLLMResourceStatsTest, ConfigSingleDeviceIndex_StoresCorrectly) {
+    VLLMResourceManager::Config cfg;
+    cfg.gpu_device_index = 2;
+    EXPECT_EQ(cfg.gpu_device_index, 2u);
+    EXPECT_TRUE(cfg.gpu_device_indices.empty());
+}
+
+TEST(VLLMResourceStatsTest, ConfigMultiDeviceIndices_StoreCorrectly) {
+    VLLMResourceManager::Config cfg;
+    cfg.gpu_device_indices = {2, 3};
+    ASSERT_EQ(cfg.gpu_device_indices.size(), 2u);
+    EXPECT_EQ(cfg.gpu_device_indices[0], 2u);
+    EXPECT_EQ(cfg.gpu_device_indices[1], 3u);
+}
+
+// initialize() must succeed even when NVML is unavailable (no CUDA in CI).
+// The manager gracefully falls back to CPU-only mode.
+TEST(VLLMResourceStatsTest, MultiDeviceConfig_InitializeSucceeds_WithoutCUDA) {
+    VLLMResourceManager::Config cfg = makeConfig();
+    cfg.gpu_device_indices = {0, 1};  // Would monitor two GPUs if NVML were present
+
+    VLLMResourceManager mgr(cfg);
+    // initialize() should not crash/throw even without NVML on CI
+    ASSERT_TRUE(mgr.initialize());
+    mgr.shutdown();
+}
+
+TEST(VLLMResourceStatsTest, SingleDeviceIndex_InitializeSucceeds_WithoutCUDA) {
+    VLLMResourceManager::Config cfg = makeConfig();
+    cfg.gpu_device_index = 1;  // Non-default single device
+
+    VLLMResourceManager mgr(cfg);
+    ASSERT_TRUE(mgr.initialize());
+    mgr.shutdown();
+}

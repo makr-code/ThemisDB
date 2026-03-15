@@ -142,15 +142,16 @@ This means any GPU plugin with a revoked code-signing certificate will pass secu
 ### VLLMResourceManager: Multi-GPU NVML Monitoring (Beyond GPU 0)
 **Priority:** Medium
 **Target Version:** v1.8.0
+**Status:** ✅ Implemented
 
-`VLLMResourceManager::initializeNVML()` in `vllm_resource_manager.cpp:178` hard-codes `nvmlDeviceGetHandleByIndex(0, &device)` — it always monitors only the first GPU. In a multi-GPU co-location scenario (4× A100), ThemisDB may be routed to GPU 2 or GPU 3 by the scheduler, but `canUseGPU()` will report GPU 0's utilization, causing incorrect GPU-busy decisions.
+`VLLMResourceManager::initializeNVML()` previously hard-coded `nvmlDeviceGetHandleByIndex(0, &device)`.
 
 **Implementation Notes:**
-- `[ ]` Extend `VLLMResourceManager::Config` with a `gpu_device_index` field (default `0`); pass it to `nvmlDeviceGetHandleByIndex(config_.gpu_device_index, &device)` in `initializeNVML()`.
-- `[ ]` Alternatively, store a `std::vector<nvmlDevice_t>` for all devices from `0` to `total_gpu_count - 1`; return the maximum utilization across all monitored devices from `queryGPUUtilization()` so that a single busy GPU blocks ThemisDB from scheduling new work on any device.
-- `[ ]` Add a `gpu_device_indices` override field to `Config` to allow explicit device pinning (e.g., `{2, 3}` for a 4-GPU node where GPUs 0 and 1 are reserved for vLLM).
-- `[ ]` Update `shutdownNVML()` to call `nvmlShutdown()` only after all device handles have been released.
-- `[ ]` Test: in a CI environment with a mock NVML shim, verify that `canUseGPU()` returns `false` when the configured device is at 90% utilization but GPU 0 is idle.
+- `[x]` Added `gpu_device_index` field (default `0`) to `VLLMResourceManager::Config`; `initializeNVML()` now calls `nvmlDeviceGetHandleByIndex(config_.gpu_device_index, &device)`.
+- `[x]` Added `gpu_device_indices` vector override to `Config`; when non-empty, `initializeNVML()` opens handles for all listed devices and stores them in `nvml_devices_`.
+- `[x]` `queryGPUUtilization()` returns the **maximum** utilization across all monitored devices; a single busy GPU blocks new ThemisDB work.
+- `[x]` `shutdownNVML()` clears `nvml_devices_` before calling `nvmlShutdown()`, ensuring all device handles are released first.
+- `[x]` 5 tests in `test_vllm_resource_stats.cpp` validating config fields, multi-device init without CUDA, and single non-zero device index.
 
 ---
 

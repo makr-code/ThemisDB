@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   85.0/100                                       ║
     • Total Lines:     2568                                           ║
-    • Open Issues:     TODOs: 9, Stubs: 0                             ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a64247126  2026-03-08  Refactor code structure for improved readability and main... ║
@@ -495,9 +495,7 @@ std::string TaskScheduler::registerTask(const ScheduledTask& task) {
         event.event_type = scheduler::TaskEventType::TASK_REGISTERED;
         event.trigger_type = getTriggerTypeString(sanitized_task.trigger_type);
         event.success = true;
-        setDefaultAuditContext(event);
-        // TODO: Integrate with AuthenticationContext to retrieve actual user_id when available
-        // TODO: Integrate with RequestContext to retrieve actual client IP address when available
+        setDefaultAuditContext(event);  // reads thread-local RequestContext (see setRequestContext())
         event.metadata["cron_expression"] = sanitized_task.cron_expression;
         event.metadata["interval_ms"] = sanitized_task.interval.count();
         

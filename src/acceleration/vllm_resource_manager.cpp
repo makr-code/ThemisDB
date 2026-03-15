@@ -308,18 +308,35 @@ bool VLLMResourceManager::initializeNVML() {
         THEMIS_ERROR("NVML initialization failed: {}", nvmlErrorString(result));
         return false;
     }
-    
-    // Get first GPU device
-    nvmlDevice_t device;
-    result = nvmlDeviceGetHandleByIndex(0, &device);
-    if (result != NVML_SUCCESS) {
-        THEMIS_ERROR("Failed to get NVML device handle: {}", nvmlErrorString(result));
-        nvmlShutdown();
-        return false;
+
+    // Build the list of device indices to monitor.
+    // gpu_device_indices (explicit multi-device) takes priority over gpu_device_index.
+    const std::vector<uint32_t> indices = !config_.gpu_device_indices.empty()
+        ? config_.gpu_device_indices
+        : std::vector<uint32_t>{config_.gpu_device_index};
+
+    nvml_devices_.clear();
+    for (uint32_t idx : indices) {
+        nvmlDevice_t dev;
+        result = nvmlDeviceGetHandleByIndex(idx, &dev);
+        if (result != NVML_SUCCESS) {
+            THEMIS_ERROR("Failed to get NVML device handle for device {}: {}",
+                         idx, nvmlErrorString(result));
+            nvml_devices_.clear();
+            nvml_device_ = nullptr;
+            nvmlShutdown();
+            return false;
+        }
+        nvml_devices_.push_back(static_cast<void*>(dev));
     }
-    
-    nvml_device_ = static_cast<void*>(device);
-    THEMIS_INFO("NVML initialized for GPU monitoring");
+
+    // nvml_device_ is a convenience alias to the first monitored device; it is
+    // only used by canUseGPU() which monitors the primary device for the timeout
+    // check.  queryGPUUtilization() always iterates nvml_devices_ for max across
+    // all devices.
+    nvml_device_ = nvml_devices_.empty() ? nullptr : nvml_devices_.front();
+
+    THEMIS_INFO("NVML initialized, monitoring {} GPU device(s)", nvml_devices_.size());
     return true;
 #else
     return false;  // NVML not available
@@ -328,9 +345,11 @@ bool VLLMResourceManager::initializeNVML() {
 
 void VLLMResourceManager::shutdownNVML() {
 #if defined(THEMIS_ENABLE_CUDA) && defined(__linux__)
-    if (nvml_device_ != nullptr) {
-        nvmlShutdown();
+    if (!nvml_devices_.empty()) {
+        // Release all device handle references before calling nvmlShutdown().
+        nvml_devices_.clear();
         nvml_device_ = nullptr;
+        nvmlShutdown();
         THEMIS_INFO("NVML shutdown");
     }
 #endif
@@ -338,20 +357,29 @@ void VLLMResourceManager::shutdownNVML() {
 
 std::optional<double> VLLMResourceManager::queryGPUUtilization() {
 #if defined(THEMIS_ENABLE_CUDA) && defined(__linux__)
-    if (nvml_device_ == nullptr) {
+    if (nvml_devices_.empty()) {
         return std::nullopt;
     }
-    
-    nvmlUtilization_t utilization;
-    nvmlDevice_t device = static_cast<nvmlDevice_t>(nvml_device_);
-    nvmlReturn_t result = nvmlDeviceGetUtilizationRates(device, &utilization);
-    
-    if (result != NVML_SUCCESS) {
-        THEMIS_WARN("Failed to query GPU utilization: {}", nvmlErrorString(result));
-        return std::nullopt;
+
+    // Return the maximum utilization across all monitored devices so that a
+    // single busy GPU blocks ThemisDB from scheduling new work on any device.
+    double max_utilization = 0.0;
+    bool got_any = false;
+    for (void* handle : nvml_devices_) {
+        nvmlDevice_t device = static_cast<nvmlDevice_t>(handle);
+        nvmlUtilization_t utilization;
+        nvmlReturn_t result = nvmlDeviceGetUtilizationRates(device, &utilization);
+        if (result != NVML_SUCCESS) {
+            THEMIS_WARN("Failed to query GPU utilization: {}", nvmlErrorString(result));
+            continue;
+        }
+        double util = static_cast<double>(utilization.gpu);
+        if (util > max_utilization) {
+            max_utilization = util;
+        }
+        got_any = true;
     }
-    
-    return static_cast<double>(utilization.gpu);
+    return got_any ? std::optional<double>{max_utilization} : std::nullopt;
 #else
     return std::nullopt;  // NVML not available
 #endif
