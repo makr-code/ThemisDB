@@ -13,6 +13,12 @@
 #include <algorithm>
 #include <iomanip>
 
+#if defined(_WIN32)
+#  include <windows.h>
+#  include <wincrypt.h>
+#  include <openssl/x509v3.h>
+#endif
+
 namespace themis {
 namespace llm {
 
@@ -100,6 +106,18 @@ std::optional<std::string> LoRACertificateStore::lookupByFingerprint(
     }
 
     // 3. System certificate store fallback
+#if defined(_WIN32)
+    {
+        auto pem = searchWindowsCertStore(fingerprint);
+        if (pem.has_value()) {
+            spdlog::debug("LoRACertificateStore: found cert in Windows system store for {}",
+                          fingerprint);
+            std::lock_guard<std::mutex> lock(cache_mutex_);
+            cert_cache_[fingerprint] = *pem;
+            return pem;
+        }
+    }
+#else
     if (!system_store_path_.empty()) {
         auto pem = searchSystemStore(fingerprint);
         if (pem.has_value()) {
@@ -110,6 +128,7 @@ std::optional<std::string> LoRACertificateStore::lookupByFingerprint(
             return pem;
         }
     }
+#endif
 
     spdlog::warn("LoRACertificateStore: certificate not found for fingerprint {}",
                  fingerprint);
@@ -233,6 +252,93 @@ std::optional<std::string> LoRACertificateStore::searchSystemStore(
 
     return std::nullopt;
 }
+
+#if defined(_WIN32)
+// ---------------------------------------------------------------------------
+// Windows HCERTSTORE integration
+// ---------------------------------------------------------------------------
+//
+// Opens the "MY" and "ROOT" system certificate stores, iterates every
+// certificate, converts each DER-encoded CERT_CONTEXT to an OpenSSL X509,
+// computes its SHA-256 fingerprint, and returns the PEM string on a match.
+//
+// The caller is responsible for caching; this function has no side effects
+// on the LoRACertificateStore state.
+//
+std::optional<std::string> LoRACertificateStore::searchWindowsCertStore(
+    const std::string& fingerprint) {
+
+    // Store names to search, in priority order
+    static const LPCSTR kStoreNames[] = {"MY", "ROOT", "CA", nullptr};
+
+    for (int si = 0; kStoreNames[si] != nullptr; ++si) {
+        HCERTSTORE h_store = CertOpenSystemStoreA(0, kStoreNames[si]);
+        if (!h_store) {
+            spdlog::debug("LoRACertificateStore: cannot open Windows store '{}': error {}",
+                          kStoreNames[si], GetLastError());
+            continue;
+        }
+
+        PCCERT_CONTEXT ctx = nullptr;
+        while ((ctx = CertEnumCertificatesInStore(h_store, ctx)) != nullptr) {
+            // Convert DER → OpenSSL X509
+            const unsigned char* der_ptr = ctx->pbCertEncoded;
+            X509* x509 = d2i_X509(nullptr, &der_ptr,
+                                   static_cast<long>(ctx->cbCertEncoded));
+            if (!x509) continue;
+
+            std::string computed = computeCertFingerprint(x509);
+            X509_free(x509);
+
+            if (computed.empty()) continue;
+
+            // Case-insensitive comparison
+            std::string lower_fp = fingerprint;
+            std::transform(lower_fp.begin(), lower_fp.end(), lower_fp.begin(),
+                           [](unsigned char c) { return std::tolower(c); });
+            std::string lower_computed = computed;
+            std::transform(lower_computed.begin(), lower_computed.end(),
+                           lower_computed.begin(),
+                           [](unsigned char c) { return std::tolower(c); });
+
+            if (lower_fp == lower_computed) {
+                // Convert DER → PEM via OpenSSL BIO
+                const unsigned char* der_ptr2 = ctx->pbCertEncoded;
+                X509* match = d2i_X509(nullptr, &der_ptr2,
+                                       static_cast<long>(ctx->cbCertEncoded));
+
+                std::string pem_str;
+                if (match) {
+                    BIO* bio = BIO_new(BIO_s_mem());
+                    if (bio && PEM_write_bio_X509(bio, match) == 1) {
+                        BUF_MEM* mem = nullptr;
+                        BIO_get_mem_ptr(bio, &mem);
+                        pem_str.assign(mem->data, mem->length);
+                    }
+                    if (bio) BIO_free(bio);
+                    X509_free(match);
+                }
+
+                CertFreeCertificateContext(ctx);
+                CertCloseStore(h_store, 0);
+
+                if (!pem_str.empty()) {
+                    spdlog::debug("LoRACertificateStore: matched cert in Windows store "
+                                  "'{}' for fingerprint {}",
+                                  kStoreNames[si], fingerprint);
+                    return pem_str;
+                }
+            }
+        }
+
+        CertCloseStore(h_store, 0);
+    }
+
+    spdlog::debug("LoRACertificateStore: certificate not found in Windows system stores "
+                  "for fingerprint {}", fingerprint);
+    return std::nullopt;
+}
+#endif  // _WIN32
 
 } // namespace llm
 } // namespace themis

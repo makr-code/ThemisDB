@@ -102,9 +102,17 @@ private:
     static bool fingerprintMatches(const std::string& cert_pem,
                                    const std::string& fingerprint);
 
-    // Search the system certificate directory for a cert matching fingerprint.
+    // Search the system certificate directory for a cert matching fingerprint
+    // (Linux/macOS: iterates PEM/CRT files under system_store_path_).
     std::optional<std::string> searchSystemStore(
         const std::string& fingerprint) const;
+
+#if defined(_WIN32)
+    // Search the Windows system certificate store (HCERTSTORE) for a cert
+    // matching fingerprint.  Falls back gracefully if the store cannot be opened.
+    static std::optional<std::string> searchWindowsCertStore(
+        const std::string& fingerprint);
+#endif
 };
 
 } // namespace llm
