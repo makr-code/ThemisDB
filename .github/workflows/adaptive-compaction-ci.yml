@@ -91,22 +91,14 @@ jobs:
         with:
           cc:             ${{ matrix.cc }}
           cxx:            ${{ matrix.cxx }}
-          extra-packages: nlohmann-json3-dev libssl-dev libzstd-dev
+          extra-packages: librocksdb-dev libssl-dev libzstd-dev nlohmann-json3-dev
 
-      - name: Configure (adaptive compaction focused test target)
-        env:
-          CC:  ${{ matrix.cc }}
-          CXX: ${{ matrix.cxx }}
-        run: |
-          cmake -B build -G Ninja \
-            -DCMAKE_BUILD_TYPE=Debug \
-            -DCMAKE_C_COMPILER=${{ matrix.cc }} \
-            -DCMAKE_CXX_COMPILER=${{ matrix.cxx }} \
-            -DTHEMIS_ENABLE_LLM=OFF \
-            -DTHEMIS_ENABLE_GPU=OFF
-
-      - name: Build focused test binary
-        run: cmake --build build --target test_adaptive_compaction_focused -- -j$(nproc)
+      - name: Configure and build
+        uses: ./.github/actions/configure-themis
+        with:
+          cc:           ${{ matrix.cc }}
+          cxx:          ${{ matrix.cxx }}
+          build-target: test_adaptive_compaction_focused
 
       - name: Run Adaptive Compaction unit tests
         run: |
