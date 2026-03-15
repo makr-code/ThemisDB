@@ -15483,21 +15483,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_orphan_detector_wired.cpp")
     )
 
     target_include_directories(test_orphan_detector_wired_focused PRIVATE
-# SecuritySignatureManager: RocksDB Iteration focused tests (v1.8.0, Issue #206)
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_security_signature_rocksdb_iteration.cpp")
-    message(STATUS "Adding SecuritySignatureManager RocksDB Iteration focused tests (storage module, Issue #206)")
-
-    add_executable(test_security_signature_rocksdb_iteration_focused
-        test_security_signature_rocksdb_iteration.cpp
-    )
-
-    target_include_directories(test_security_signature_rocksdb_iteration_focused PRIVATE
         ${CMAKE_SOURCE_DIR}/include
         ${CMAKE_SOURCE_DIR}/src
     )
 
     target_link_libraries(test_orphan_detector_wired_focused PRIVATE
-    target_link_libraries(test_security_signature_rocksdb_iteration_focused PRIVATE
         ${TEST_LIBS}
         themis_core
         Threads::Threads
@@ -15518,6 +15508,42 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_security_signature_rocksdb_iteration
     message(STATUS "  OrphanDetector: DistributedCoordinator injection, listInFlightTransactions, getTransaction wiring")
 else()
     message(STATUS "OrphanDetector wired focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_orphan_detector_wired.cpp")
+endif()
+
+# SecuritySignatureManager: RocksDB Iteration focused tests (v1.8.0, Issue #206)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_security_signature_rocksdb_iteration.cpp")
+    message(STATUS "Adding SecuritySignatureManager RocksDB Iteration focused tests (storage module, Issue #206)")
+
+    add_executable(test_security_signature_rocksdb_iteration_focused
+        test_security_signature_rocksdb_iteration.cpp
+    )
+
+    target_include_directories(test_security_signature_rocksdb_iteration_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_security_signature_rocksdb_iteration_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_security_signature_rocksdb_iteration_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SecuritySignatureRocksDBIterationFocusedTests
+        COMMAND test_security_signature_rocksdb_iteration_focused)
+
+    set_tests_properties(SecuritySignatureRocksDBIterationFocusedTests PROPERTIES
+        LABELS "storage;security;signature;rocksdb;iteration;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  SecuritySignatureManager: RocksDB range scan, listAllSignatures, verifyAll")
+else()
+    message(STATUS "SecuritySignatureManager RocksDB iteration focused tests not found")
 endif()
 
 # ---------------------------------------------------------------------------
@@ -15559,22 +15585,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_shard_rpc_integration.cpp")
     message(STATUS "  ShardRpcRetryPolicy, mtls pool wiring, OperationalMetrics/PrometheusMetrics recordRpcCall, cert-rotation drain")
 else()
     message(STATUS "Shard RPC Integration focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_shard_rpc_integration.cpp")
-endif()
-    target_compile_definitions(test_security_signature_rocksdb_iteration_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME SecuritySignatureRocksDBIterationFocusedTests
-        COMMAND test_security_signature_rocksdb_iteration_focused)
-
-    set_tests_properties(SecuritySignatureRocksDBIterationFocusedTests PROPERTIES
-        LABELS "storage;security;signature;rocksdb;iteration;verify-all;v1.8.0;focused;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  SecuritySignatureManager: iterateRange, listAllSignatures, verifyAll")
-else()
-    message(STATUS "SecuritySignatureManager RocksDB Iteration focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_security_signature_rocksdb_iteration.cpp")
 endif()
 
 
