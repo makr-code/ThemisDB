@@ -228,6 +228,22 @@ public:
         return config_;
     }
 
+    /**
+     * Persist the last-run timestamp and document count for a shard.
+     *
+     * Updates both the in-memory maps (used by the schedule gate and
+     * shouldUpdate) and the durable RocksDB state key
+     * "utils_capgen_state:<shard_id>".  No-op on the RocksDB side when
+     * state_db_ is null.  This method is public so that callers can
+     * pre-seed or reset persisted state (e.g. during migration, testing,
+     * or manual override).
+     *
+     * @param shard_id   Shard identifier
+     * @param timestamp  Unix epoch seconds to record as last run time
+     * @param doc_count  Document count to record as last known count
+     */
+    void persistState(const std::string& shard_id, int64_t timestamp, uint64_t doc_count);
+
 private:
     Config config_;
     std::shared_ptr<sharding::ShardTopology> topology_;
@@ -319,16 +335,6 @@ private:
      * Called once in the constructor when state_db_ is non-null.
      */
     void loadPersistedState();
-    
-    /**
-     * Persist the last-run timestamp and document count for a shard to state_db_.
-     * No-op when state_db_ is null.
-     *
-     * @param shard_id   Shard identifier
-     * @param timestamp  Unix epoch seconds of the run
-     * @param doc_count  Document count observed during the run
-     */
-    void persistState(const std::string& shard_id, int64_t timestamp, uint64_t doc_count);
 };
 
 } // namespace themis::util
