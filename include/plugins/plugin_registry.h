@@ -32,6 +32,7 @@
 #include <typeinfo>
 #include <stdexcept>
 #include <mutex>
+#include <shared_mutex>
 
 namespace themis {
 namespace plugins {
@@ -74,7 +75,7 @@ public:
         const std::string& plugin_name,
         std::function<std::unique_ptr<PluginInterface>()> factory
     ) {
-        std::lock_guard<std::mutex> lock(getMutex());
+        std::unique_lock<std::shared_mutex> lock(getMutex());
         
         // Store the factory with type erasure in type-specific registry
         // This avoids data duplication and ensures consistency
@@ -112,10 +113,20 @@ public:
      */
     template<typename PluginInterface>
     static std::unique_ptr<PluginInterface> create(const std::string& plugin_name) {
-        std::lock_guard<std::mutex> lock(getMutex());
+        std::shared_lock<std::shared_mutex> lock(getMutex());
         
-        // Look up in type-specific registry
-        auto& type_registry = getTypeRegistry(typeid(PluginInterface));
+        // Look up in type-specific registry (read-only: no creation of missing entries)
+        const auto& type_registries = getTypeRegistries();
+        size_t type_hash = typeid(PluginInterface).hash_code();
+        auto trIt = type_registries.find(type_hash);
+        if (trIt == type_registries.end()) {
+            throw std::runtime_error(
+                "No plugins registered for interface type '" +
+                std::string(typeid(PluginInterface).name()) +
+                "' (requested plugin: " + plugin_name + ")"
+            );
+        }
+        const auto& type_registry = trIt->second;
         auto it = type_registry.find(plugin_name);
         
         if (it == type_registry.end()) {
@@ -179,8 +190,14 @@ public:
      */
     template<typename PluginInterface>
     static std::vector<std::string> listPlugins() {
-        std::lock_guard<std::mutex> lock(getMutex());
-        auto& type_registry = getTypeRegistry(typeid(PluginInterface));
+        std::shared_lock<std::shared_mutex> lock(getMutex());
+        const auto& type_registries = getTypeRegistries();
+        size_t type_hash = typeid(PluginInterface).hash_code();
+        auto it = type_registries.find(type_hash);
+        if (it == type_registries.end()) {
+            return {};
+        }
+        const auto& type_registry = it->second;
         
         std::vector<std::string> names;
         for (const auto& [name, _] : type_registry) {
@@ -198,10 +215,14 @@ public:
      */
     template<typename PluginInterface>
     static bool hasPlugin(const std::string& plugin_name) {
-        std::lock_guard<std::mutex> lock(getMutex());
-        auto& type_registry = getTypeRegistry(typeid(PluginInterface));
-        
-        return type_registry.count(plugin_name) > 0;
+        std::shared_lock<std::shared_mutex> lock(getMutex());
+        const auto& type_registries = getTypeRegistries();
+        size_t type_hash = typeid(PluginInterface).hash_code();
+        auto it = type_registries.find(type_hash);
+        if (it == type_registries.end()) {
+            return false;
+        }
+        return it->second.count(plugin_name) > 0;
     }
 
     /**
@@ -222,7 +243,7 @@ private:
 
     static TypeRegistries& getTypeRegistries();
     static Registry& getTypeRegistry(const std::type_info& type);
-    static std::mutex& getMutex();
+    static std::shared_mutex& getMutex();
 };
 
 /**

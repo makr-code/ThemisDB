@@ -31,6 +31,8 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <thread>
+#include <atomic>
 
 using namespace themis::plugins;
 
@@ -169,4 +171,40 @@ TEST_F(GenericPluginRegistryTest, ClearRegistryRemovesAllEntries) {
     PluginRegistry::clearRegistry();
     EXPECT_FALSE(PluginRegistry::hasPlugin<ITestInterface>("a_plugin"));
     EXPECT_TRUE(PluginRegistry::listPlugins<ITestInterface>().empty());
+}
+
+// ============================================================================
+// Concurrent reads: shared_mutex allows multiple simultaneous readers
+// ============================================================================
+
+TEST_F(GenericPluginRegistryTest, ConcurrentReadsDoNotDeadlock) {
+    PluginRegistry::registerFactory<ITestInterface>(
+        "r_plugin", []() { return std::make_unique<ConcreteA>(); });
+
+    constexpr int kReaders = 8;
+    std::atomic<int> ready{0};
+    std::atomic<int> success{0};
+
+    auto reader = [&]() {
+        ready.fetch_add(1, std::memory_order_relaxed);
+        // Spin until all readers are ready to maximize concurrency
+        while (ready.load(std::memory_order_acquire) < kReaders) {}
+
+        bool found = PluginRegistry::hasPlugin<ITestInterface>("r_plugin");
+        auto names = PluginRegistry::listPlugins<ITestInterface>();
+        if (found && !names.empty()) {
+            success.fetch_add(1, std::memory_order_relaxed);
+        }
+    };
+
+    std::vector<std::thread> threads;
+    threads.reserve(kReaders);
+    for (int i = 0; i < kReaders; ++i) {
+        threads.emplace_back(reader);
+    }
+    for (auto& t : threads) {
+        t.join();
+    }
+
+    EXPECT_EQ(kReaders, success.load());
 }
