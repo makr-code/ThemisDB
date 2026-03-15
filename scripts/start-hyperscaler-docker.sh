@@ -56,7 +56,7 @@ echo ""
 
 # Start services
 echo "Starting 10-instance cluster with docker-compose..."
-cd "$SCRIPT_DIR"
+cd "$PROJECT_DIR/docker/hyperscaler"
 
 docker-compose -f docker-compose.hyperscaler-sharding.yml up -d
 
@@ -93,8 +93,8 @@ echo "  - Prometheus:           http://localhost:9090"
 echo "  - Grafana:              http://localhost:3000 (admin/admin)"
 echo ""
 echo "Management commands:"
-echo "  View logs:       docker-compose -f docker-compose.hyperscaler-sharding.yml logs -f [service]"
-echo "  Stop cluster:    docker-compose -f docker-compose.hyperscaler-sharding.yml down"
-echo "  Restart shard:   docker-compose -f docker-compose.hyperscaler-sharding.yml restart themis-shard-X"
-echo "  View status:     docker-compose -f docker-compose.hyperscaler-sharding.yml ps"
+echo "  View logs:       docker-compose -f docker/hyperscaler/docker-compose.hyperscaler-sharding.yml logs -f [service]"
+echo "  Stop cluster:    docker-compose -f docker/hyperscaler/docker-compose.hyperscaler-sharding.yml down"
+echo "  Restart shard:   docker-compose -f docker/hyperscaler/docker-compose.hyperscaler-sharding.yml restart themis-shard-X"
+echo "  View status:     docker-compose -f docker/hyperscaler/docker-compose.hyperscaler-sharding.yml ps"
 echo ""

@@ -30,6 +30,14 @@ examples/**/usage_example_enabled
 
 # Build directories (CMake, Ninja, MSVC, other build outputs)
 enterprise*/
+# Explicitly un-ignore edition-specific deployment/packaging directories
+# (these are part of the release strategy, not build outputs)
+!docker/enterprise/
+!docker/enterprise/**
+!packaging/enterprise/
+!packaging/enterprise/**
+!packaging/hyperscaler/
+!packaging/hyperscaler/**
 test_*/
 /release
 /build/

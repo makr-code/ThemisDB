@@ -500,7 +500,20 @@ docker build -f docker/hyperscaler/Dockerfile.lite \
 
 The `enterprise` and `hyperscaler` branches must be created once from `develop`.
 
-### Using GitHub CLI (recommended)
+### Option A: Automated (recommended) — bootstrap workflow
+
+The repository includes a dedicated workflow that creates the branches for you:
+
+1. Merge the release strategy PR into `develop`.
+2. Go to **Actions → Bootstrap Release Branches → Run workflow**.
+3. Leave "Source branch" as `develop` (default).
+4. Set "Dry-run" to `true` first to see what would be created.
+5. Re-run with "Dry-run" set to `false` to actually create the branches.
+
+The workflow is idempotent — running it multiple times is safe; it skips
+branches that already exist.
+
+### Option B: Using GitHub CLI
 
 ```bash
 # Ensure develop is up-to-date locally
@@ -535,13 +548,19 @@ In **GitHub Repository Settings → Branches**, configure protection rules for:
 
 ### What changed
 
-The Hyperscaler Docker images have been moved from `docker/` to `docker/hyperscaler/`
+Hyperscaler Docker artefacts have been moved into edition-specific subdirectories
 to enable clean path-based gating in CI:
 
-| Old path                       | New path                            |
-|--------------------------------|-------------------------------------|
-| `docker/Dockerfile.hyperscaler`     | `docker/hyperscaler/Dockerfile`|
-| `docker/Dockerfile.hyperscaler-lite`| `docker/hyperscaler/Dockerfile.lite`|
+| Old path                              | New path                                          |
+|---------------------------------------|---------------------------------------------------|
+| `docker/Dockerfile.hyperscaler`       | `docker/hyperscaler/Dockerfile`                   |
+| `docker/Dockerfile.hyperscaler-lite`  | `docker/hyperscaler/Dockerfile.lite`              |
+| `docker/docker-compose.hyperscaler-sharding.yml` | `docker/hyperscaler/docker-compose.hyperscaler-sharding.yml` |
+
+New directories were added to reserve edition-specific paths:
+- `docker/community/` — Community Docker images (actual files at root for backwards compatibility)
+- `docker/enterprise/` — Enterprise Docker images (planned; README only for now)
+- `docker/hyperscaler/` — Hyperscaler Docker images and compose files
 
 The scripts referencing these files have been updated accordingly:
 - `scripts/build-hyperscaler-docker.sh`
@@ -552,6 +571,7 @@ The scripts referencing these files have been updated accordingly:
 Update any local scripts or CI configuration that uses:
 - `docker/Dockerfile.hyperscaler` → use `docker/hyperscaler/Dockerfile`
 - `docker/Dockerfile.hyperscaler-lite` → use `docker/hyperscaler/Dockerfile.lite`
+- `docker/docker-compose.hyperscaler-sharding.yml` → use `docker/hyperscaler/docker-compose.hyperscaler-sharding.yml`
 
 ### Community Docker (unchanged)
 
@@ -567,10 +587,14 @@ Community Docker files remain at the repo root and are allowed in `main`:
 - **Enterprise and Hyperscaler sourcecode is public.** The branch model only
   protects *build/runtime artefacts*. If proprietary enterprise code needs to be
   private, a separate private repository would be required for those modules.
-- **Manual branch creation required.** The `enterprise` and `hyperscaler`
-  branches must be created manually (see §9). They are not auto-created.
+- **Branch creation via bootstrap workflow.** The `enterprise` and `hyperscaler`
+  branches need to be created once via the `bootstrap-release-branches.yml`
+  workflow (see §9). They are not automatically created on merge.
 - **Path-gate is not retroactive.** Existing content on `main` that violates the
   policy is not automatically removed. The gate only applies to new PRs.
 - **Military artefacts.** Military builds produce artefacts signed and published
   via the `enterprise-prod` environment. A dedicated `military-prod` environment
   with stricter access can be added if required.
+- **Enterprise Docker images.** `docker/enterprise/` is reserved but currently
+  contains only a README. Enterprise-specific Dockerfiles will be added when the
+  Enterprise Docker build pipeline is activated.

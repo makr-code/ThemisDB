@@ -44,6 +44,8 @@ on:
     branches-ignore:
       - main
       - develop
+      - enterprise
+      - hyperscaler
 
   workflow_dispatch:
 
