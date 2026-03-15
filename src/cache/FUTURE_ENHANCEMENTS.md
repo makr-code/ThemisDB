@@ -136,9 +136,9 @@ This document covers implementation-specific future enhancements for the Cache m
 `warmup.cpp` (`warmupFromLog`) processes warmup entries sequentially — one line at a time — which limits warmup throughput on startup when the log file has millions of entries.
 
 **Implementation Notes:**
-- `[ ]` Partition the NDJSON warmup log into N chunks (one per CPU core) and spawn N `std::async` tasks to parse and insert in parallel; use per-shard L1 insertion to avoid contention.
-- `[ ]` Add `WarmupConfig::max_parallel_workers` (default: `std::thread::hardware_concurrency()`).
-- `[ ]` Report `warmup_duration_ms` and `warmup_entries_per_second` in the warmup result JSON.
+- `[x]` Partition the NDJSON warmup log into N chunks (one per CPU core) and spawn N `std::async` tasks to parse and insert in parallel; use per-shard L1 insertion to avoid contention.
+- `[x]` Add `WarmupConfig::max_parallel_workers` (default: `std::thread::hardware_concurrency()`).
+- `[x]` Report `warmup_duration_ms` and `warmup_entries_per_second` in the warmup result JSON.
 
 **Performance Targets:**
 - Warmup throughput: ≥ 500 K entries/s on a 4-core machine for a 5 M entry log.
@@ -162,5 +162,5 @@ This document covers implementation-specific future enhancements for the Cache m
 
 ---
 
-*Last Updated: 2026-03-12*
-*Module Version: v1.7.0*
+*Last Updated: 2026-03-15*
+*Module Version: v1.8.0*

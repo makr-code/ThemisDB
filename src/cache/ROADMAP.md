@@ -44,6 +44,7 @@ Production-ready multi-level cache (L1/L2/L3) with all four implementation phase
 - [x] Public cache abstraction interfaces – `include/cache/cache_interfaces.h`; `IEvictionPolicy`, `ICacheAdminOps`, `ICacheWarmup`, `IGDPRPurgeHook`, `ITTLAdapter` with value types `CacheStats`, `KeyFilter`, `WarmupStats`, `PurgeDescriptor`, `PurgeResult`, `AccessPattern`, `TTLAdapterConfig`
 - [x] Unit tests coverage > 80% (Issue: #1596) — `tests/test_cache_interfaces.cpp`; 43 unit tests for all 5 interfaces and all value types; registered as `CacheInterfacesTests` in `tests/CMakeLists.txt`
 - [x] `RedisCacheCoordinator` Async Pub/Sub Subscription Loop (v1.7.0) — exponential back-off reconnection (1 s → 30 s) with `cache.redis.reconnect` metric; `isConnected()` exposed in `GET /v1/admin/cache/health`; Windows stub replaced with `THEMIS_POSIX_SOCKETS` compile-time feature flag; noisy `THEMIS_WARN` in stub constructor downgraded to `THEMIS_DEBUG`; CI: `redis-cache-coordinator-async-loop-ci.yml`
+- [x] Warmup: Parallel Bulk Load (v1.8.0, Issue: #244) — `src/cache/warmup.cpp` rewrites `warmupFromLog()` with N `std::async` workers (one per CPU core); `Config::max_parallel_workers` (default: `std::thread::hardware_concurrency()`); `WarmupResult::warmup_duration_ms` + `warmup_entries_per_second`; per-shard L1/L2 insertion under existing mutexes; atomic aggregate counters; API response extended with timing/throughput fields; 4 new tests in `tests/test_cache_warmup.cpp`; CI: `cache-warmup-parallel-bulk-load-ci.yml`
 
 ## Implementation Phases
 

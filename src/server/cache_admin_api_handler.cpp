@@ -411,11 +411,13 @@ http::response<http::string_body> CacheAdminApiHandler::handleWarmup(
         }
 
         nlohmann::json resp = {
-            {"status",           "ok"},
-            {"entries_loaded",   result.entries_loaded},
-            {"entries_skipped",  result.entries_skipped},
-            {"entries_total",    result.entries_total},
-            {"log_path",         log_path}
+            {"status",                      "ok"},
+            {"entries_loaded",              result.entries_loaded},
+            {"entries_skipped",             result.entries_skipped},
+            {"entries_total",               result.entries_total},
+            {"warmup_duration_ms",          result.warmup_duration_ms},
+            {"warmup_entries_per_second",   result.warmup_entries_per_second},
+            {"log_path",                    log_path}
         };
         return makeResponse(http::status::ok, resp.dump(), req);
     } catch (const std::exception& e) {

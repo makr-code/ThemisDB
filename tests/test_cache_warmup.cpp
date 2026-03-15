@@ -559,3 +559,120 @@ TEST_F(CacheWarmupTest, WarmupFromLog_TenantQuota_NoDuplicateCharge) {
             << "Quota should still have room for entry " << i;
     }
 }
+
+// ---------------------------------------------------------------------------
+// Parallel Bulk Load: max_parallel_workers defaults to hardware concurrency
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheWarmupTest, Config_MaxParallelWorkers_DefaultIsHardwareConcurrency) {
+    AdaptiveQueryCache::Config config;
+    // hardware_concurrency() can return 0 on unusual platforms; the config
+    // normalises this to at least 1.
+    EXPECT_GE(config.max_parallel_workers, 1u);
+}
+
+// ---------------------------------------------------------------------------
+// Parallel Bulk Load: WarmupResult carries timing and throughput fields
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheWarmupTest, WarmupFromLog_ReportsDurationAndThroughput) {
+    auto config = cfg();
+    AdaptiveQueryCache cache(config);
+
+    const int count = 10;
+    {
+        std::ofstream f(log_path_);
+        for (int i = 0; i < count; ++i) {
+            writeLogLine(f, makeKey(i), b64Encode(json({{"n", i}}).dump()), 300);
+        }
+    }
+
+    auto result = cache.warmupFromLog(log_path_);
+
+    EXPECT_EQ(result.entries_loaded, static_cast<size_t>(count));
+    // duration must be non-negative
+    EXPECT_GE(result.warmup_duration_ms, 0);
+    // throughput must be positive for a non-empty load
+    EXPECT_GT(result.warmup_entries_per_second, 0.0);
+}
+
+// ---------------------------------------------------------------------------
+// Parallel Bulk Load: multiple workers produce the same correct result
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheWarmupTest, WarmupFromLog_ParallelWorkers_CorrectResults) {
+    const int count = 50;
+    const uint32_t workers = 4;
+
+    auto config = cfg();
+    config.l1_max_entries = 100;
+    config.l2_max_entries = 200;
+    config.max_parallel_workers = workers;
+    AdaptiveQueryCache cache(config);
+
+    {
+        std::ofstream f(log_path_);
+        for (int i = 0; i < count; ++i) {
+            // Use a moderately-sized value (64 bytes of filler) so the test
+            // exercises realistic per-entry sizes without being trivially small.
+            json value = {{"idx", i}, {"data", std::string(64, static_cast<char>('a' + (i % 26)))}};
+            writeLogLine(f, makeKey(i), b64Encode(value.dump()), 300);
+        }
+    }
+
+    auto result = cache.warmupFromLog(log_path_);
+
+    EXPECT_EQ(result.entries_loaded, static_cast<size_t>(count));
+    EXPECT_EQ(result.entries_total, static_cast<size_t>(count));
+
+    // Every entry must be retrievable after parallel warmup.
+    for (int i = 0; i < count; ++i) {
+        auto entry = cache.get(makeKey(i));
+        ASSERT_TRUE(entry.has_value()) << "Entry " << i << " missing after parallel warmup";
+        EXPECT_EQ(entry->result["idx"], i);
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Parallel Bulk Load: single-worker path yields identical results
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheWarmupTest, WarmupFromLog_SingleWorker_SameAsDefault) {
+    const int count = 15;
+
+    // Two caches: one with default (parallel) workers, one forced to 1.
+    auto config1 = cfg();
+    config1.l3_db_path = db_path_ + "_par";
+    AdaptiveQueryCache cache_par(config1);
+
+    auto config2 = cfg();
+    config2.l3_db_path = db_path_ + "_seq";
+    config2.max_parallel_workers = 1;
+    AdaptiveQueryCache cache_seq(config2);
+
+    {
+        std::ofstream f(log_path_);
+        for (int i = 0; i < count; ++i) {
+            writeLogLine(f, makeKey(i), b64Encode(json({{"n", i}}).dump()), 300);
+        }
+    }
+
+    auto r_par = cache_par.warmupFromLog(log_path_);
+    auto r_seq = cache_seq.warmupFromLog(log_path_);
+
+    EXPECT_EQ(r_par.entries_loaded, r_seq.entries_loaded);
+    EXPECT_EQ(r_par.entries_total,  r_seq.entries_total);
+
+    // Both caches must hold the same entries.
+    for (int i = 0; i < count; ++i) {
+        auto ep = cache_par.get(makeKey(i));
+        auto es = cache_seq.get(makeKey(i));
+        ASSERT_TRUE(ep.has_value()) << "Parallel cache missing entry " << i;
+        ASSERT_TRUE(es.has_value()) << "Sequential cache missing entry " << i;
+        EXPECT_EQ(ep->result, es->result);
+    }
+
+    std::error_code ec;
+    std::filesystem::remove_all(config1.l3_db_path, ec);
+    std::filesystem::remove_all(config2.l3_db_path, ec);
+}
