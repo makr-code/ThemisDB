@@ -12080,6 +12080,15 @@ add_network_focused_test(
     "UDPFastPath: config defaults, packet format validation, opcode filter, response builder"
 )
 
+# --- UDP Ingestion Server (v1.8.0) ---
+add_network_focused_test(
+    test_udp_server_focused
+    test_udp_server.cpp
+    UDPServerFocusedTests
+    "network;udp;server;ingestion;metrics;logs;events;batching;acks;dedup;rate-limit;v1.8.0;focused;unit"
+    "UDPServer: config defaults, packet constants (TM magic/opcodes/flags), validatePacket, buildAck, stats init, isRunning, seq-num encoding, ACK flag"
+)
+
 # --- Geo Topology Router ---
 # Needs sharding sources for ShardTopology / ShardInfo types.
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_geo_topology_router.cpp")
