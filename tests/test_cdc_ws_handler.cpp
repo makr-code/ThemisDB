@@ -407,6 +407,24 @@ TEST(CdcWsHandlerGroupTest, AckByGroupIdNoConsumerGroupManagerIsNoop) {
     EXPECT_TRUE(responses.empty());
 }
 
+TEST(CdcWsHandlerGroupTest, SubscribeWithGroupIdNoManagerDoesNotCrash) {
+    // When there is no ConsumerGroupManager (e.g. CDC disabled), a subscribe
+    // frame with group_id should succeed with a subscribed ack and deliver
+    // from sequence 0 rather than crashing.
+    CdcWebSocketHandler handler; // no ConsumerGroupManager
+
+    auto responses = handler.handleFrame({
+        {"action",      "subscribe"},
+        {"group_id",    "etl-workers"},
+        {"consumer_id", "worker-3"},
+        {"collection",  "orders"}
+    });
+
+    ASSERT_EQ(responses.size(), 1u);
+    EXPECT_EQ(responses[0]["action"], "subscribed");
+    EXPECT_TRUE(handler.hasSubscriptions());
+}
+
 TEST(CdcWsHandlerGroupTest, AckByIdWithNoGroupIdOrIdReturnsError) {
     CdcWebSocketHandler handler;
 
@@ -438,10 +456,10 @@ protected:
             db_->getDB(), nullptr);
 
         // Create the group used in all sub-tests (single partition).
-        themis::cdc::ConsumerGroupConfig cfg2;
-        cfg2.group_id       = "etl-workers";
-        cfg2.consumer_count = 1;
-        group_mgr_->createGroup(cfg2);
+        themis::cdc::ConsumerGroupConfig group_cfg;
+        group_cfg.group_id       = "etl-workers";
+        group_cfg.consumer_count = 1;
+        group_mgr_->createGroup(group_cfg);
     }
 
     void TearDown() override {

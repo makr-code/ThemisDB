@@ -74,6 +74,7 @@
 #include "server/bpmn_api_handler.h"
 #include "server/content_api_handler.h"
 #include "server/changefeed_api_handler.h"
+#include "cdc/consumer_group.h"
 #include "server/saga_api_handler.h"
 #include "server/geo_topology_api_handler.h"
 #include "server/replication_topology_api_handler.h"
@@ -752,6 +753,8 @@ private:
     // Changefeed (Sprint A CDC)
     std::shared_ptr<Changefeed> changefeed_; // shared_ptr for SSE manager
     rocksdb::ColumnFamilyHandle* cdc_cf_handle_ = nullptr;
+    // Consumer group manager for /v2/cdc/stream group-protocol sessions
+    std::unique_ptr<cdc::ConsumerGroupManager> consumer_group_manager_;
     
     // Snapshot Manager (Named Snapshots feature)
     std::unique_ptr<transaction::SnapshotManager> snapshot_manager_;
