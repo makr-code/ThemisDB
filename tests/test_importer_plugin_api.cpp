@@ -750,6 +750,7 @@ TEST_F(V1AdapterTest, AdapterImportDataReturnsStats) {
 TEST_F(V1AdapterTest, AdapterImportDataRecordsErrorOnNonZeroReturnCode) {
     // Override import_rc in the state by using a custom descriptor
     static TestPluginState gState;
+    gState = TestPluginState{};          // reset to default state each run
     gState.import_rc = 42;
     static const THEMIS_IMPORTER_PLUGIN_V1 kErrDescriptor = {
         THEMIS_IMPORTER_PLUGIN_ABI_V1,
@@ -771,6 +772,7 @@ TEST_F(V1AdapterTest, AdapterImportDataRecordsErrorOnNonZeroReturnCode) {
 TEST_F(V1AdapterTest, AdapterGetSchemaReturnsJsonObject) {
     // Override schema in state
     static TestPluginState gSchemaState;
+    gSchemaState = TestPluginState{};    // reset to default state each run
     gSchemaState.schema_json = R"({"tables":[]})";
     static const THEMIS_IMPORTER_PLUGIN_V1 kSchemaDescriptor = {
         THEMIS_IMPORTER_PLUGIN_ABI_V1,
@@ -797,6 +799,7 @@ TEST_F(V1AdapterTest, AdapterGetSchemaReturnsEmptyObjectWhenNullptr) {
 
 TEST_F(V1AdapterTest, AdapterCancelCallsV1Cancel) {
     static TestPluginState gCancelState;
+    gCancelState = TestPluginState{};   // reset: cancelled must start as false
     static const THEMIS_IMPORTER_PLUGIN_V1 kCancelDescriptor = {
         THEMIS_IMPORTER_PLUGIN_ABI_V1,
         static_cast<uint32_t>(sizeof(THEMIS_IMPORTER_PLUGIN_V1)),
@@ -839,6 +842,7 @@ TEST_F(V1AdapterTest, SandboxAllocatorTracksAllocationsBelowLimit) {
         bool   alloc_succeeded = false;
     };
     static AllocTrackState gTrackState;
+    gTrackState = AllocTrackState{};    // reset each run
 
     static const THEMIS_IMPORTER_PLUGIN_V1 kTrackDescriptor = {
         THEMIS_IMPORTER_PLUGIN_ABI_V1,
@@ -881,6 +885,7 @@ TEST_F(V1AdapterTest, SandboxAllocatorRejectsAllocationsBeyondLimit) {
         bool alloc_failed_as_expected = false;
     };
     static OomCheckState gOomState;
+    gOomState = OomCheckState{};        // reset each run
 
     static const THEMIS_IMPORTER_PLUGIN_V1 kOomDescriptor = {
         THEMIS_IMPORTER_PLUGIN_ABI_V1,

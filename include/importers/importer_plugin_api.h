@@ -577,9 +577,21 @@ public:
     /**
      * @brief Remove all registered factories.
      *
-     * Primarily intended for unit-test teardown.  Note: does **not** close
-     * shared libraries opened via `loadPlugin()`; call `unloadPlugin()` for
-     * each loaded plugin before calling `clear()` in production code.
+     * Primarily intended for unit-test teardown.
+     *
+     * @warning This method removes factory entries but does **not** close the
+     *          underlying shared-library handles opened by `loadPlugin()`.
+     *          Always call `unloadPlugin(name)` for every plugin loaded via
+     *          `loadPlugin()` before calling `clear()` to avoid resource leaks
+     *          and dangling function pointers in the process image:
+     * @code
+     *   // Correct teardown sequence:
+     *   auto& reg = ImporterPluginRegistry::instance();
+     *   for (const auto& name : reg.listPlugins()) {
+     *       reg.unloadPlugin(name);   // closes shared library
+     *   }
+     *   // reg.clear() is now a no-op since all factories were removed by unloadPlugin()
+     * @endcode
      */
     void clear() {
         std::lock_guard<std::mutex> lk(mutex_);
