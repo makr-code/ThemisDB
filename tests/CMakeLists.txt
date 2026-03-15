@@ -13889,40 +13889,13 @@ endif()
 #   AC13 – Automatic re-addition when backend recovers
 #   AC14 – Leader election (Raft loop elects leader autonomously)
 # ============================================================================
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_raft_load_balancer.cpp")
-    message(STATUS "Adding RaftLoadBalancer focused tests (network, Issue #78, v1.8.0)")
-
-    add_executable(test_raft_load_balancer_focused
-        test_raft_load_balancer.cpp
-        ${CMAKE_SOURCE_DIR}/src/network/raft_load_balancer.cpp
-    )
-
-    target_include_directories(test_raft_load_balancer_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
-    )
-
-    target_link_libraries(test_raft_load_balancer_focused PRIVATE
-        ${TEST_LIBS}
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_raft_load_balancer_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME RaftLoadBalancerFocusedTests
-        COMMAND test_raft_load_balancer_focused)
-
-    set_tests_properties(RaftLoadBalancerFocusedTests PROPERTIES
-        LABELS "network;load-balancer;raft;failover;health;routing;consistent-hash;v1.8.0;focused;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  RaftLoadBalancer: leader election, failover, health-based routing, dynamic weights, cross-DC, all 5 strategies")
-else()
-    message(STATUS "RaftLoadBalancer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_raft_load_balancer.cpp")
-endif()
+add_network_focused_test(
+    test_raft_load_balancer_focused
+    test_raft_load_balancer.cpp
+    RaftLoadBalancerFocusedTests
+    "network;load-balancer;raft;failover;health;routing;consistent-hash;v1.8.0;focused;unit"
+    "RaftLoadBalancer: leader election, failover, health-based routing, dynamic weights, cross-DC, all 5 strategies"
+)
 
 # DistributedGateway – focused tests for multi-node API gateway
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_gateway.cpp")
