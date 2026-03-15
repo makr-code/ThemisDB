@@ -552,4 +552,58 @@ bool TSAutoBuffer::removeWAL(const std::string& wal_path) {
     return std::filesystem::remove(wal_path);
 }
 
+TSAutoBuffer::PushStatus TSAutoBuffer::push(const TSStore::DataPoint& point) {
+    if (point.metric.empty() || point.entity.empty()) {
+        // Invalid point – treated as BUFFER_FULL so caller falls back to direct write
+        return PushStatus::BUFFER_FULL;
+    }
+
+    std::string buffer_key = makeBufferKey(point.metric, point.entity);
+
+    {
+        std::lock_guard<std::mutex> lock(buffers_mutex_);
+
+        // Non-blocking backpressure: compute total in-memory bytes across all buffers
+        // and return BUFFER_FULL when max_buffer_bytes is configured and exceeded.
+        if (config_.max_buffer_bytes > 0) {
+            size_t total_bytes = 0;
+            for (const auto& [key, buf] : buffers_) {
+                total_bytes += buf.memory_bytes;
+            }
+            if (total_bytes >= config_.max_buffer_bytes) {
+                stats_.buffer_overflow_count++;
+                THEMIS_WARN("TSAutoBuffer::push backpressure: total_mem={}B exceeds max_buffer_bytes={}B",
+                            total_bytes, config_.max_buffer_bytes);
+                return PushStatus::BUFFER_FULL;
+            }
+        }
+
+        auto& buffer = buffers_[buffer_key];
+        buffer.add(point);
+
+        stats_.points_buffered++;
+        stats_.current_buffer_size++;
+        bp_buffer_size_.fetch_add(1, std::memory_order_relaxed);
+        stats_.current_buffer_memory = buffer.memory_bytes; // same pattern as add()
+
+        // Flush once gorilla_batch_size points have accumulated for this series
+        const size_t batch_trigger = (config_.gorilla_batch_size > 0)
+                                         ? config_.gorilla_batch_size
+                                         : effectiveBatchSize();
+        if (buffer.points.size() >= batch_trigger) {
+            size_t flushed = flushBuffer(buffer_key, buffer);
+            stats_.size_triggered_flush++;
+            THEMIS_DEBUG("TSAutoBuffer::push gorilla batch flush: {} points for {}",
+                         flushed, buffer_key);
+        }
+    }
+
+    // Notify background flush thread
+    if (config_.async_flush && running_.load()) {
+        flush_cv_.notify_one();
+    }
+
+    return PushStatus::OK;
+}
+
 } // namespace themis

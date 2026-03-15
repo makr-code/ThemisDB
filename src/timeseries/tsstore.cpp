@@ -25,6 +25,7 @@
 #include "timeseries/tsstore.h"
 #include "timeseries/timeseries_metrics.h"
 #include "timeseries/encrypted_chunk_store.h"
+#include "timeseries/ts_auto_buffer.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "timeseries/gorilla.h"
@@ -204,15 +205,29 @@ Result<void> TSStore::putDataPoint(const DataPoint& point) {
         }
     }
     
-    // STORAGE METHOD: Singular RocksDB Entity
-    // Single data points are always stored as individual RocksDB entities,
-    // regardless of the compression configuration.
-    // Key format: ts:{metric}:{entity}:{timestamp_ms}
-    // Value format: JSON with full DataPoint information
-    // 
-    // For Gorilla compression, we'd need to buffer points and flush in chunks.
-    // TODO: Implement buffering strategy for single-point inserts with Gorilla
-    // Use putDataPoints() for batch inserts with Gorilla compression.
+    // STORAGE METHOD: Singular RocksDB Entity (or buffered Gorilla when auto_buffer_ is set)
+    // When a TSAutoBuffer is attached and Gorilla compression is enabled, single-point
+    // inserts are routed through the buffer so they can be Gorilla-encoded in batches
+    // (gorilla_batch_size, default 128).  This resolves the IoT write pattern problem
+    // where individual inserts would otherwise bypass compression entirely.
+    // Falls back to direct RocksDB write when:
+    //   • no auto_buffer_ is configured, or
+    //   • auto_buffer_->push() returns BUFFER_FULL (non-blocking backpressure signal), or
+    //   • compression is not Gorilla.
+    if (config_.compression == CompressionType::Gorilla && auto_buffer_ != nullptr) {
+        auto status = auto_buffer_->push(point);
+        if (status == TSAutoBuffer::PushStatus::OK) {
+            auto latency = std::chrono::duration<double, std::milli>(
+                std::chrono::steady_clock::now() - start_time).count();
+            (void)latency; // latency tracked inside TSAutoBuffer
+            THEMIS_DEBUG("Buffered single-point via TSAutoBuffer: metric={}, entity={}, ts={}",
+                         point.metric, point.entity, point.timestamp_ms);
+            return OkVoid();
+        }
+        // BUFFER_FULL: fall through to direct write below
+        THEMIS_WARN("TSAutoBuffer BUFFER_FULL for metric={}, falling back to direct write",
+                    point.metric);
+    }
     
     std::string key = makeKey(point.metric, point.entity, point.timestamp_ms);
     std::string value = point.toJson().dump();

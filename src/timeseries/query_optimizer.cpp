@@ -84,6 +84,9 @@ TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeAggregateQuery(
     plan.to_timestamp_ms = to_timestamp_ms;
     // Include active predicates in the plan
     plan.active_predicates = hint.predicates;
+    // Propagate decode-width hint to the plan so range-scan callers can configure
+    // the Gorilla SIMD decoder for width-specific vectorisation paths.
+    plan.decode_width = hint.decode_width;
     
     int64_t time_range_ms = to_timestamp_ms - from_timestamp_ms;
     size_t raw_points = estimateRawPointCount(time_range_ms);

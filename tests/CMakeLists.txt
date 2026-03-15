@@ -15412,6 +15412,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_orphan_detector_wired.cpp")
     )
 
     target_include_directories(test_orphan_detector_wired_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
 # SecuritySignatureManager: RocksDB Iteration focused tests (v1.8.0, Issue #206)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_security_signature_rocksdb_iteration.cpp")
     message(STATUS "Adding SecuritySignatureManager RocksDB Iteration focused tests (storage module, Issue #206)")
@@ -15426,6 +15430,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_security_signature_rocksdb_iteration
     )
 
     target_link_libraries(test_orphan_detector_wired_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
     target_link_libraries(test_security_signature_rocksdb_iteration_focused PRIVATE
         ${TEST_LIBS}
         themis_core
@@ -15514,6 +15522,46 @@ if(TARGET themis_tests)
         list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]src[\\/]importers[\\/]postgres_importer_mdm\\.cpp$")
         set_property(TARGET themis_tests PROPERTY SOURCES ${_themis_tests_sources_final})
     endif()
+endif()
+
+# ---------------------------------------------------------------------------
+# TSStore Gorilla Buffer focused tests (v1.8.0, Issue #116)
+# AC: single-point insert buffering, gorilla_batch_size flush trigger,
+#     push() BUFFER_FULL backpressure, p99 latency, decode_width hint propagation
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tsstore_gorilla_buffer.cpp")
+    message(STATUS "Adding TSStore Gorilla Buffer focused tests (timeseries, Issue #116)")
+
+    add_executable(test_tsstore_gorilla_buffer_focused
+        test_tsstore_gorilla_buffer.cpp
+    )
+
+    target_include_directories(test_tsstore_gorilla_buffer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_tsstore_gorilla_buffer_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_tsstore_gorilla_buffer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TSStoreGorillaBufFocusedTests
+        COMMAND test_tsstore_gorilla_buffer_focused)
+
+    set_tests_properties(TSStoreGorillaBufFocusedTests PROPERTIES
+        LABELS "timeseries;tsstore;gorilla;buffer;v1.8.0;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  TSStore: single-point buffering, gorilla_batch_size, push() BUFFER_FULL, p99 latency")
+else()
+    message(STATUS "TSStore Gorilla Buffer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tsstore_gorilla_buffer.cpp")
 endif()
 
 message(STATUS "Tests configured successfully")
