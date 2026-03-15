@@ -30,6 +30,7 @@
 #include <algorithm>
 #include <unordered_map>
 #include <cmath>
+#include <filesystem>
 
 namespace themis::util {
 
@@ -101,8 +102,13 @@ CapabilityAutoGenerator::Config CapabilityAutoGenerator::Config::loadFromYAML(co
 CapabilityAutoGenerator::CapabilityAutoGenerator(
     const Config& config,
     std::shared_ptr<sharding::ShardTopology> topology,
-    std::shared_ptr<SelfAwareness> self_awareness
-) : config_(config), topology_(topology), self_awareness_(self_awareness) {
+    std::shared_ptr<SelfAwareness> self_awareness,
+    std::shared_ptr<RocksDBWrapper> state_db
+) : config_(config), topology_(topology), self_awareness_(self_awareness),
+    state_db_(state_db) {
+    if (state_db_) {
+        loadPersistedState();
+    }
 }
 
 // Destructor
@@ -190,8 +196,19 @@ void CapabilityAutoGenerator::processShard(const sharding::ShardInfo& shard) {
         return;  // Updates disabled for this shard type
     }
     
-    // TODO: Check last update time and compare with schedule interval
-    // For now, just check if update is needed
+    // Check last update time and compare with schedule interval
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = last_run_timestamps_.find(shard.shard_id);
+        if (it != last_run_timestamps_.end()) {
+            int64_t now_s = std::chrono::duration_cast<std::chrono::seconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count();
+            int64_t elapsed = now_s - it->second;
+            if (elapsed < static_cast<int64_t>(schedule.interval.count())) {
+                return;  // Within the schedule interval — skip regeneration
+            }
+        }
+    }
     
     try {
         // Analyze shard data
@@ -213,6 +230,10 @@ void CapabilityAutoGenerator::processShard(const sharding::ShardInfo& shard) {
         // Save capability
         if (saveCapability(shard.shard_id, new_capability, audit_info)) {
             successful_generations_++;
+            // Persist state: timestamp and document count
+            int64_t now_s = std::chrono::duration_cast<std::chrono::seconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count();
+            persistState(shard.shard_id, now_s, result.document_count);
         } else {
             failed_generations_++;
         }
@@ -369,8 +390,20 @@ bool CapabilityAutoGenerator::shouldUpdate(const sharding::ShardInfo& shard, con
         return true;
     }
     
-    // Check document count change
-    // TODO: Store previous document count somewhere
+    // Check document count change against persisted previous count
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = last_document_counts_.find(shard.shard_id);
+        if (it != last_document_counts_.end()) {
+            uint64_t prev_count = it->second;
+            uint64_t curr_count = current.document_count;
+            uint64_t delta = (curr_count > prev_count) ? (curr_count - prev_count) : 0;
+            auto schedule = getScheduleForShard(shard);
+            if (delta >= schedule.min_document_change) {
+                return true;  // Enough new documents to warrant regeneration
+            }
+        }
+    }
     
     // Check keyword change
     auto prev_keywords = shard.domain_capability.keywords;
@@ -432,8 +465,68 @@ bool CapabilityAutoGenerator::saveCapability(
     const sharding::DomainCapability& capability,
     const nlohmann::json& audit_info
 ) {
-    // TODO: Implement YAML serialization and file writing
-    // For now, just log
+    // Serialize DomainCapability to YAML using yaml-cpp
+    // and atomically write to output_directory/<shard_id>.yaml
+    try {
+        namespace fs = std::filesystem;
+
+        // Ensure output directory exists
+        fs::path out_dir(config_.output_directory);
+        fs::create_directories(out_dir);
+
+        fs::path out_path  = out_dir / (shard_id + ".yaml");
+        fs::path tmp_path  = out_dir / (shard_id + ".yaml.tmp");
+
+        // Build YAML document
+        YAML::Emitter emitter;
+        emitter << YAML::BeginMap;
+
+        emitter << YAML::Key << "shard_id" << YAML::Value << shard_id;
+
+        auto emitSeq = [&](const std::string& key, const std::vector<std::string>& vec) {
+            emitter << YAML::Key << key;
+            if (vec.empty()) {
+                emitter << YAML::Value << YAML::BeginSeq << YAML::EndSeq;
+            } else {
+                emitter << YAML::Value << YAML::BeginSeq;
+                for (const auto& s : vec) emitter << s;
+                emitter << YAML::EndSeq;
+            }
+        };
+
+        emitSeq("domains",       capability.domains);
+        emitSeq("organizations", capability.organizations);
+        emitSeq("regions",       capability.regions);
+        emitSeq("data_types",    capability.data_types);
+        emitSeq("keywords",      capability.keywords);
+
+        if (!capability.metadata.empty()) {
+            emitter << YAML::Key << "metadata" << YAML::Value << YAML::BeginMap;
+            for (const auto& [k, v] : capability.metadata) {
+                emitter << YAML::Key << k << YAML::Value << v;
+            }
+            emitter << YAML::EndMap;
+        }
+
+        emitter << YAML::EndMap;
+
+        // Atomic write: write to .tmp then rename
+        {
+            std::ofstream ofs(tmp_path, std::ios::trunc);
+            if (!ofs) {
+                auditLog(shard_id, {{"error", "Failed to open tmp file for writing"},
+                                    {"path", tmp_path.string()}});
+                return false;
+            }
+            ofs << emitter.c_str();
+        }
+        fs::rename(tmp_path, out_path);
+
+    } catch (const std::exception& e) {
+        auditLog(shard_id, {{"error", e.what()}, {"status", "save_failed"}});
+        return false;
+    }
+
     auditLog(shard_id, audit_info);
     return true;
 }
@@ -507,6 +600,72 @@ nlohmann::json CapabilityAutoGenerator::getStatistics() const {
         {"manual_review_required", manual_review_required_.load()},
         {"running", running_.load()}
     };
+}
+
+// Load persisted schedule/count state from state_db_ into in-memory maps
+void CapabilityAutoGenerator::loadPersistedState() {
+    if (!state_db_) return;
+
+    // Iterate all keys with prefix "utils_capgen_state:" to load per-shard state
+    static constexpr std::string_view STATE_KEY_PREFIX = "utils_capgen_state:";
+
+    std::string start_key(STATE_KEY_PREFIX);
+    std::string end_key = start_key;
+    end_key.back()++;  // e.g. "utils_capgen_state:" -> "utils_capgen_state;"
+
+    std::vector<std::pair<std::string, std::string>> corrupt_entries;
+
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        state_db_->iterateRange(start_key, end_key,
+            [&](std::string_view key, std::string_view value) -> bool {
+                if (key.size() <= STATE_KEY_PREFIX.size()) return true;
+                std::string shard_id(key.substr(STATE_KEY_PREFIX.size()));
+
+                try {
+                    auto j = nlohmann::json::parse(value);
+                    if (j.contains("last_run_timestamp")) {
+                        last_run_timestamps_[shard_id] = j["last_run_timestamp"].get<int64_t>();
+                    }
+                    if (j.contains("last_document_count")) {
+                        last_document_counts_[shard_id] = j["last_document_count"].get<uint64_t>();
+                    }
+                } catch (const std::exception& e) {
+                    // Collect corrupted entries to log after releasing the lock
+                    corrupt_entries.emplace_back(shard_id, e.what());
+                }
+                return true;  // continue iteration
+            });
+    }
+
+    // Log corrupted entries outside the lock to avoid I/O under mutex
+    for (const auto& [shard_id, err] : corrupt_entries) {
+        auditLog(shard_id, {{"warning", "Skipping corrupted state entry"},
+                            {"error", err}});
+    }
+}
+
+// Persist the last-run timestamp and document count for a shard to state_db_
+void CapabilityAutoGenerator::persistState(
+    const std::string& shard_id,
+    int64_t timestamp,
+    uint64_t doc_count
+) {
+    // Update in-memory maps
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        last_run_timestamps_[shard_id]   = timestamp;
+        last_document_counts_[shard_id]  = doc_count;
+    }
+
+    if (!state_db_) return;
+
+    std::string key = "utils_capgen_state:" + shard_id;
+    nlohmann::json j = {
+        {"last_run_timestamp",   timestamp},
+        {"last_document_count",  doc_count}
+    };
+    state_db_->put(key, j.dump());
 }
 
 } // namespace themis::util

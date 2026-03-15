@@ -13607,8 +13607,47 @@ else()
     endif()
 endif()
 
+# CapabilityAutoGenerator: Persist Schedule and Document Count State – v1.8.0 Issue #217
+# Covers: constructor state load, schedule gate, YAML serialisation, atomic write, persistState.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_capabilityautogenerator_persist_state.cpp" AND NOT TARGET test_capabilityautogenerator_persist_state_focused)
+    message(STATUS "Adding CapabilityAutoGenerator persist-state focused tests (v1.8.0, Issue #217)")
 
-# VoiceBatchProcessor, VoiceMacroManager, and full VoiceAssistant pipeline.
+    add_executable(test_capabilityautogenerator_persist_state_focused
+        test_capabilityautogenerator_persist_state.cpp
+    )
+
+    target_include_directories(test_capabilityautogenerator_persist_state_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_capabilityautogenerator_persist_state_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_capabilityautogenerator_persist_state_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CapGenPersistStateTests COMMAND test_capabilityautogenerator_persist_state_focused)
+
+    set_tests_properties(CapGenPersistStateTests PROPERTIES
+        LABELS "utils;capability;auto-generator;persist;rocksdb;yaml;schedule;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CapGenPersistState: constructor load, schedule gate, YAML serialise, atomic write, persistState")
+else()
+    if(TARGET test_capabilityautogenerator_persist_state_focused)
+        message(STATUS "CapabilityAutoGenerator persist-state focused tests already registered")
+    else()
+        message(STATUS "CapabilityAutoGenerator persist-state focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_capabilityautogenerator_persist_state.cpp")
+    endif()
+endif()
+
+
 # Requires THEMIS_ENABLE_LLM because voice_assistant.h includes llm/llama_wrapper.h.
 if(THEMIS_ENABLE_LLM)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_assistant.cpp")
