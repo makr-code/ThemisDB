@@ -480,6 +480,12 @@ public:
 
 /**
  * @brief Configuration bundle passed to `IImporterPlugin::createImporter()`.
+ *
+ * In addition to the source location and JSON initialisation string, callers
+ * may pre-configure the per-import-job conflict resolution policy here.  When
+ * a plugin's `createImporter()` implementation propagates these fields into
+ * the `ImportOptions` that it passes to each `IImporter::importData()` call,
+ * operators can control conflict behaviour from a single configuration point.
  */
 struct ImportConfig {
     /// Source URI, e.g. "mysql://host:3306/dbname" or "s3://bucket/key".
@@ -487,6 +493,30 @@ struct ImportConfig {
 
     /// JSON configuration string forwarded verbatim to `IImporter::initialize()`.
     std::string json_config;
+
+    // -------------------------------------------------------------------------
+    // Conflict resolution policy
+    // -------------------------------------------------------------------------
+
+    /// Strategy to apply when the same conflict key is encountered more than
+    /// once during an import session.
+    /// Default is OVERWRITE for backward compatibility.
+    ConflictStrategy conflict_strategy = ConflictStrategy::OVERWRITE;
+
+    /// Columns whose values form the conflict detection key.
+    /// If empty, no in-session conflict detection is performed.
+    /// Example: {"id"} or {"tenant_id", "user_id"}
+    std::vector<std::string> conflict_key_columns;
+
+    /// Fields that the MERGE strategy must not overwrite with incoming values.
+    /// Ignored by SKIP, OVERWRITE, and ERROR strategies.
+    std::vector<std::string> protected_fields;
+
+    /// Recursion depth for the MERGE strategy.
+    ///  1  = top-level fields only (default; nested objects replaced entirely).
+    /// -1  = deep recursive merge for all nested JSON objects.
+    ///  N  = merge up to N levels deep.
+    int merge_depth = 1;
 };
 
 /**

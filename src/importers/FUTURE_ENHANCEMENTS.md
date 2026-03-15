@@ -108,17 +108,19 @@ Add a flat-file importer that reads `CSV`, `.parquet`, and `.jsonl` files from l
 
 ---
 
-### Import Conflict Resolution Strategies
+### [x] Import Conflict Resolution Strategies
+**Status:** ✅ Implemented (`src/importers/conflict_resolver.cpp`, `include/importers/conflict_resolver.h`)
 **Priority:** Medium
 **Target Version:** v1.7.0
 
-Add an `ImportConflictResolver` that handles documents where the target collection already contains a document with the same key. Currently the PostgreSQL importer silently overwrites or errors on conflict; operators need explicit control to support upsert, merge, and skip workflows.
+`ImportConflictResolver` handles documents where the target collection already contains a document with the same key. The PostgreSQL importer (`postgres_importer.cpp`) integrates the resolver on every COPY and INSERT block, giving operators explicit control over upsert, merge, and skip workflows.
 
 **Implementation Notes:**
-- Add `conflict_resolver.cpp` with four strategies: `SKIP` (do not overwrite existing), `OVERWRITE` (replace existing document entirely), `MERGE` (merge fields: incoming fields win unless the existing field is listed in `protected_fields`), and `ERROR` (abort the batch on first conflict).
-- Strategy is configured per import job via `ImportConfig::conflict_strategy`; default is `OVERWRITE` for backward compatibility.
+- `conflict_resolver.cpp` provides four strategies: `SKIP` (do not overwrite existing), `OVERWRITE` (replace existing document entirely), `MERGE` (merge fields: incoming fields win unless the existing field is listed in `protected_fields`), and `ERROR` (abort the batch on first conflict).
+- Strategy is configured per import job via `ImportConfig::conflict_strategy` (see `include/importers/importer_interfaces.h`) and `ImportOptions::conflict_strategy` (see `include/importers/importer_interface.h`); default is `OVERWRITE` for backward compatibility.
 - MERGE strategy uses a configurable `merge_depth` (default 1, meaning top-level fields only; set to -1 for deep recursive merge) to avoid unexpected behavior with nested objects.
-- Emit `importers_conflicts_total` Prometheus counter with label `strategy` and `outcome=skipped|overwritten|merged|error` for operator visibility.
+- `importers_conflicts_total` Prometheus counter is emitted via `ImportOptions::metrics_callback` with labels `strategy` and `outcome=skipped|overwritten|merged|error` for operator visibility.
+- 28 unit tests in `tests/test_importer_conflict_resolver.cpp` (self-contained; all four strategies, composite keys, deep merge, metrics emission).
 
 **Performance Targets:**
 - Conflict resolution overhead ≤ 5 % of import throughput for SKIP and OVERWRITE strategies (one extra key-existence check per document).
