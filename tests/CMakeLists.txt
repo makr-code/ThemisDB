@@ -8306,10 +8306,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_ws_handler.cpp")
     # cdc_ws_handler.cpp and ws_transport.cpp are compiled into themis_core only
     # when THEMIS_ENABLE_HTTP_SERVER=ON.  Add them explicitly to this test
     # target when HTTP_SERVER is OFF to avoid missing-symbol linker errors.
+    # consumer_group.cpp is also needed for the v1.8.0 group-protocol tests.
     if(NOT THEMIS_ENABLE_HTTP_SERVER)
         target_sources(test_cdc_ws_handler PRIVATE
             ${THEMIS_ROOT_DIR}/src/cdc/cdc_ws_handler.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/ws_transport.cpp
+            ${THEMIS_ROOT_DIR}/src/cdc/consumer_group.cpp
         )
     endif()
 
@@ -8339,6 +8341,54 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_ws_handler.cpp")
     message(STATUS "  CdcWsHandler: subscribe/unsubscribe/ack frames, back-pressure (cdc_ws_overflow_total), pollEvents, checkRedelivery")
 else()
     message(STATUS "CDC WebSocket handler tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_ws_handler.cpp")
+endif()
+
+# ============================================================================
+# CDC Consumer Group Focused Tests (v1.8.0 – consumer group semantics and
+# durable offset tracking via ConsumerGroupManager)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_consumer_group.cpp")
+    message(STATUS "Adding CDC Consumer Group focused tests (v1.8.0 roadmap:56)")
+
+    add_executable(test_cdc_consumer_group
+        test_cdc_consumer_group.cpp
+    )
+
+    # consumer_group.cpp is compiled into themis_core. When HTTP_SERVER is OFF
+    # it may not be linked; add it explicitly to avoid missing-symbol errors.
+    if(NOT THEMIS_ENABLE_HTTP_SERVER)
+        target_sources(test_cdc_consumer_group PRIVATE
+            ${THEMIS_ROOT_DIR}/src/cdc/consumer_group.cpp
+        )
+    endif()
+
+    target_include_directories(test_cdc_consumer_group PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_cdc_consumer_group PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cdc_consumer_group PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ConsumerGroupFocusedTests COMMAND test_cdc_consumer_group)
+
+    set_tests_properties(ConsumerGroupFocusedTests PROPERTIES
+        LABELS "cdc;consumer-group;offset-tracking;partition;at-least-once;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ConsumerGroup: createGroup/deleteGroup, commitOffset/getCommittedOffset, partitionForKey, fetchEvents, fetchEventsAtLeastOnce, acknowledgeEvents")
+else()
+    message(STATUS "CDC Consumer Group tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_consumer_group.cpp")
 endif()
 
 # Config Module – Focused Standalone Test Targets
