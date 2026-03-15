@@ -202,6 +202,17 @@ public:
      * @return JSON object with engine metadata
      */
     virtual nlohmann::json getMetadata() const = 0;
+
+    /**
+     * @brief Return the maximum number of bytes a single entity span can occupy.
+     *
+     * Used by PIIStreamScanner to size its cross-chunk lookahead buffer so that
+     * entity spans straddling a chunk boundary are detected correctly.  The
+     * sliding-window overlap used for cross-chunk regex matching equals this value.
+     *
+     * @return Maximum entity length in bytes (default: 256).
+     */
+    virtual size_t maxPatternLength() const { return kDefaultLookaheadBytes; }
 };
 
 /**
@@ -307,11 +318,16 @@ public:
 // PIIStreamScanner
 // ---------------------------------------------------------------------------
 
+/// Default lookahead buffer size for cross-chunk entity span detection.
+/// Also used as the floor value returned by IPIIDetectionEngine::maxPatternLength()
+/// when no patterns are loaded.
+static constexpr size_t kDefaultLookaheadBytes = 256;
+
 /**
  * @brief Configuration for streaming PII scanner.
  */
 struct PIIStreamScannerConfig {
-    size_t lookahead_bytes = 256; ///< Buffer to handle cross-chunk entity spans
+    size_t lookahead_bytes = kDefaultLookaheadBytes; ///< Buffer to handle cross-chunk entity spans
     double min_confidence  = 0.5;
 };
 
