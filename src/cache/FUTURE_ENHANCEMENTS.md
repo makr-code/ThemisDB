@@ -162,5 +162,5 @@ This document covers implementation-specific future enhancements for the Cache m
 
 ---
 
-*Last Updated: 2026-03-12*
-*Module Version: v1.7.0*
+*Last Updated: 2026-03-15*
+*Module Version: v1.8.0*
