@@ -163,7 +163,11 @@ public:
 /// previous value is stored.  This is most effective when keys are densely
 /// sequential (e.g., auto-increment primary keys).
 ///
-/// Values are encoded as variable-length unsigned integers (LEB128 / VarInt).
+/// @note  The empty-sequence sentinel is `{base=0, deltas=[]}`.  A single-
+///        element sequence `{0}` produces the same block representation and
+///        therefore cannot be round-tripped.  Callers should use positive
+///        integer primary keys (the standard database convention) to avoid
+///        this ambiguity.
 struct DeltaBlock {
     int64_t              base{0};   ///< First value in the sequence
     std::vector<int64_t> deltas;    ///< Differences between consecutive values

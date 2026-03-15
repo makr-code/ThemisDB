@@ -56,6 +56,7 @@ jobs:
     if: needs.ci-scope-classifier.outputs.has_code_changes == 'true'
     name: Index Compression tests (${{ matrix.os }} / ${{ matrix.compiler }})
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
     permissions:
       contents: read
 
@@ -75,62 +76,49 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Install build dependencies
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends \
-            cmake ninja-build \
-            ${{ matrix.cxx }} ${{ matrix.cc }} \
-            libgtest-dev \
-            libmimalloc-dev \
-            librocksdb-dev \
-            libssl-dev \
-            zlib1g-dev \
-            libzstd-dev \
-            liblz4-dev \
-            libfmt-dev \
-            libspdlog-dev \
-            nlohmann-json3-dev \
-            libyaml-cpp-dev \
-            pkg-config
+      - name: Set up C++ build environment
+        uses: ./.github/actions/setup-cpp-build
+        with:
+          cc:             ${{ matrix.cc }}
+          cxx:            ${{ matrix.cxx }}
+          extra-packages: >-
+            libmimalloc-dev
+            librocksdb-dev
+            libssl-dev
+            zlib1g-dev
+            libzstd-dev
+            liblz4-dev
+            libfmt-dev
+            libspdlog-dev
+            nlohmann-json3-dev
+            libyaml-cpp-dev
 
-      - name: Configure CMake (COMMUNITY edition)
-        env:
-          CC: ${{ matrix.cc }}
-          CXX: ${{ matrix.cxx }}
-        run: |
-          cmake -S . -B build \
-            -G Ninja \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DTHEMIS_EDITION=COMMUNITY \
-            -DTHEMIS_ENABLE_GPU=OFF \
-            -DBUILD_TESTING=ON \
-            -DBUILD_BENCHMARKS=OFF
-
-      - name: Build index compression test target
-        run: |
-          cmake --build build \
-            --target test_index_compression_focused \
-            --parallel 4
+      - name: Configure and build
+        uses: ./.github/actions/configure-themis
+        with:
+          cc:           ${{ matrix.cc }}
+          cxx:          ${{ matrix.cxx }}
+          edition:      COMMUNITY
+          build-target: test_index_compression_focused
 
       - name: Run IndexCompressionFocusedTests
         run: |
+          set -o pipefail
           cd build
           ctest --output-on-failure \
             --tests-regex "^IndexCompressionFocusedTests$" \
-            --timeout 120
+            --timeout 120 \
+            2>&1 | tee index_compression_results.txt
 
-      - name: Verify index_compression header is self-contained
-        env:
-          CXX: ${{ matrix.cxx }}
-        run: |
-          ${{ matrix.cxx }} -std=c++20 \
-            -I include \
-            -fsyntax-only \
-            include/index/index_compression.h 2>&1 || \
-          echo "Note: header has external dependencies (expected for full build)"
-          echo "✅ index_compression header check complete"
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: index-compression-results-${{ matrix.os }}-${{ matrix.compiler }}
+          path: build/index_compression_results.txt
 
       - name: Write job summary
         if: always()
@@ -248,6 +236,12 @@ jobs:
             echo "✅ compression_level field found" || \
             (echo "❌ compression_level field missing" && exit 1)
 
+      - name: Verify implementation is referenced in FUTURE_ENHANCEMENTS
+        run: |
+          grep -q "index_compression" src/index/FUTURE_ENHANCEMENTS.md && \
+            echo "✅ Implementation reference found in FUTURE_ENHANCEMENTS.md" || \
+            (echo "❌ Implementation reference missing from FUTURE_ENHANCEMENTS.md" && exit 1)
+
       - name: Write job summary
         if: always()
         run: |
@@ -266,3 +260,5 @@ jobs:
           echo "| DeltaEncoder class | ✅ |" >> "$GITHUB_STEP_SUMMARY"
           echo "| RunLengthEncoder class | ✅ |" >> "$GITHUB_STEP_SUMMARY"
           echo "| SecondaryIndexManager::Config compression fields | ✅ |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| FUTURE_ENHANCEMENTS.md updated | ✅ |" >> "$GITHUB_STEP_SUMMARY"
+

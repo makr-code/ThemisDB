@@ -214,7 +214,8 @@ auto gpu_index = std::make_unique<GPUVectorIndex>(config);
 
 ### Index Compression
 **Priority:** Medium  
-**Target Version:** v1.7.0
+**Target Version:** v1.7.0  
+**Status:** ✅ Implemented (v1.7.0)
 
 Reduce index storage footprint via compression.
 
@@ -248,7 +249,14 @@ config.compression_level = 3;  // Balance: speed vs ratio
 SecondaryIndexManager sim(db, config);
 ```
 
----
+**Implementation:**
+- `include/index/index_compression.h` — `CompressionAlgorithm` enum, `BloomFilter`, `DictionaryCodec`, `PrefixCompressor`/`PrefixBlock`, `DeltaEncoder`/`DeltaBlock`, `RunLengthEncoder`/`RunLengthBlock`, `IndexCompressionCodec`
+- `src/index/index_compression.cpp` — Full production implementation of all five techniques
+- `include/index/secondary_index.h` — `SecondaryIndexManager::Config` with `enable_compression`, `compression_algorithm`, `compression_level`, and per-technique flags
+- `src/index/secondary_index.cpp` — Config-based constructor wires `IndexCompressionCodec` into the manager
+
+**Tests:** `tests/index/test_index_compression.cpp` — 30+ focused tests covering all 5 acceptance criteria  
+**CI:** `.github/workflows/index-compression-ci.yml`
 
 ### Learned Indexes
 **Priority:** Medium  

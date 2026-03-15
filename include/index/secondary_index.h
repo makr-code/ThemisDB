@@ -71,7 +71,8 @@ public:
         index::CompressionAlgorithm compression_algorithm = index::CompressionAlgorithm::NONE;
         int  compression_level  = 3; ///< Algorithm-specific level (e.g. 1–22 for ZSTD)
 
-        // Fine-grained technique flags (all default to true when enable_compression is set)
+        // Fine-grained technique flags.  When enable_compression is true and
+        // these flags are not explicitly set to false, all techniques are active.
         bool enable_prefix_compression = true;
         bool enable_delta_encoding     = true;
         bool enable_rle                = true;
