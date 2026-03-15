@@ -14551,6 +14551,37 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_module.cpp")
     message(STATUS "                 ProcessLinker attach/detach/required-docs, ProcessGraphRag")
 endif()
 
+# Process Graph Visit Timestamp focused tests
+# Covers: ProcessGraphManager visit_timestamps, getVisitTimestamp, visited_nodes persistence
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_graph.cpp")
+    message(STATUS "Adding Process Graph visit-timestamp focused tests")
+    add_executable(test_process_graph_visit_timestamp_focused
+        test_process_graph.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
+    )
+    target_include_directories(test_process_graph_visit_timestamp_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_process_graph_visit_timestamp_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_process_graph_visit_timestamp_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    add_test(NAME ProcessGraphVisitTimestampFocusedTests
+             COMMAND test_process_graph_visit_timestamp_focused)
+    set_tests_properties(ProcessGraphVisitTimestampFocusedTests PROPERTIES
+        LABELS "process;graph;visit-timestamp;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  ProcessGraph: visit_timestamps, getVisitTimestamp, multi-hop ordering")
+endif()
+
 # ============================================================================
 # Temporal Module Focused Tests
 # ============================================================================
