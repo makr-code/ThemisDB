@@ -156,11 +156,13 @@ enum class V2StreamState {
 };
 
 struct V2Stream {
-    uint32_t      stream_id    = 0;
-    V2StreamState state        = V2StreamState::IDLE;
-    int32_t       send_window  = static_cast<int32_t>(V2_DEFAULT_WINDOW);
-    int32_t       recv_window  = static_cast<int32_t>(V2_DEFAULT_WINDOW);
-    uint8_t       priority     = 16; ///< 0 (highest) – 255 (lowest)
+    uint32_t      stream_id            = 0;
+    V2StreamState state                = V2StreamState::IDLE;
+    int32_t       send_window          = static_cast<int32_t>(V2_DEFAULT_WINDOW);
+    int32_t       recv_window          = static_cast<int32_t>(V2_DEFAULT_WINDOW);
+    uint8_t       priority             = 16; ///< 0 (highest) – 255 (lowest)
+    uint32_t      stream_dependency    = 0;  ///< ID of the parent stream (0 = root)
+    bool          exclusive_dependency = false; ///< Exclusive dependency flag (RFC 7540 §5.3)
 
     bool is_open() const noexcept {
         return state == V2StreamState::OPEN ||
@@ -258,6 +260,22 @@ public:
 
     /// @brief Update the connection-level send-window (WINDOW_UPDATE).
     virtual void update_connection_window(uint32_t increment) = 0;
+
+    /// @brief Send a PRIORITY frame to inform the remote side of stream ordering.
+    ///
+    /// The PRIORITY frame payload follows RFC 7540 §6.3:
+    ///   - E (1 bit)             – exclusive dependency flag
+    ///   - Stream Dependency (31 bits) – ID of the parent stream (0 = root)
+    ///   - Weight (8 bits)       – priority weight 0–255 (maps to HTTP/2 weight 1–256)
+    ///
+    /// @param stream_id   Stream to reprioritise.
+    /// @param dependency  Parent stream ID this stream depends on (0 = root).
+    /// @param weight      Priority weight 0–255.
+    /// @param exclusive   When true the stream exclusively depends on @p dependency.
+    virtual void set_stream_priority(uint32_t stream_id,
+                                     uint32_t dependency,
+                                     uint8_t  weight,
+                                     bool     exclusive = false) = 0;
 
     // ── Statistics ────────────────────────────────────────────────────────
     virtual uint64_t frames_received()  const = 0;

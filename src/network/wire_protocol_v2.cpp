@@ -299,6 +299,43 @@ public:
                                           std::memory_order_relaxed);
     }
 
+    void set_stream_priority(uint32_t stream_id,
+                              uint32_t dependency,
+                              uint8_t  weight,
+                              bool     exclusive) override {
+        // Build the 5-byte PRIORITY frame payload (RFC 7540 §6.3):
+        //   E (1 bit) | Stream Dependency (31 bits) | Weight (8 bits)
+        uint32_t dep_field = dependency & 0x7FFFFFFFu;
+        if (exclusive) dep_field |= 0x80000000u;
+        uint32_t dep_be = htonl32(dep_field);
+
+        V2FrameHeader hdr{};
+        hdr.magic          = WIRE_V2_MAGIC;
+        hdr.version        = WIRE_VERSION_2;
+        hdr.frame_type     = static_cast<uint8_t>(V2FrameType::PRIORITY);
+        hdr.stream_id      = stream_id;
+        hdr.payload_length = 5;
+
+        auto hdr_bytes = serializeHeader(hdr);
+        std::vector<uint8_t> frame;
+        frame.insert(frame.end(), hdr_bytes.begin(), hdr_bytes.end());
+        const uint8_t* p = reinterpret_cast<const uint8_t*>(&dep_be);
+        frame.insert(frame.end(), p, p + 4);
+        frame.push_back(weight);
+        sendFrame(std::move(frame));
+
+        // Also update local stream metadata so callers can inspect priority.
+        std::lock_guard<std::mutex> lock(streams_mutex_);
+        auto& s = streams_[stream_id];
+        if (s.state == V2StreamState::IDLE) {
+            s.stream_id = stream_id;
+            s.state     = V2StreamState::OPEN;
+        }
+        s.priority              = weight;
+        s.stream_dependency     = dependency & 0x7FFFFFFFu;
+        s.exclusive_dependency  = exclusive;
+    }
+
     uint64_t frames_received()  const override {
         return frames_received_.load(std::memory_order_relaxed);
     }
@@ -452,6 +489,27 @@ private:
             frame.insert(frame.end(), hdr_bytes.begin(), hdr_bytes.end());
             frame.insert(frame.end(), payload.begin(), payload.end());
             sendFrame(std::move(frame));
+            break;
+        }
+        case V2FrameType::PRIORITY: {
+            // PRIORITY frame payload (RFC 7540 §6.3): 5 bytes
+            //   E (1 bit) | Stream Dependency (31 bits) | Weight (8 bits)
+            if (payload.size() < 5) break;
+            uint32_t dep_field = 0;
+            std::memcpy(&dep_field, payload.data(), 4);
+            dep_field         = ntohl32(dep_field);
+            bool     exclusive  = (dep_field & 0x80000000u) != 0;
+            uint32_t dep_id     = dep_field & 0x7FFFFFFFu;
+            uint8_t  weight     = payload[4];
+            std::lock_guard<std::mutex> lock(streams_mutex_);
+            auto& s = streams_[hdr.stream_id];
+            if (s.state == V2StreamState::IDLE) {
+                s.stream_id = hdr.stream_id;
+                s.state     = V2StreamState::OPEN;
+            }
+            s.priority              = weight;
+            s.stream_dependency     = dep_id;
+            s.exclusive_dependency  = exclusive;
             break;
         }
         default:

@@ -48,6 +48,9 @@ jobs:
   #   AC-7  Aggregate frame/stream statistics start at zero
   #   AC-8  LZ4 (COMPRESSED) and Zstd (ZSTD_COMPRESSED) flags are independent
   #   AC-9  Independent stream IDs and state transitions per-stream
+  #   AC-10 Priority and dependency management: stream_dependency/exclusive_dependency
+  #         defaults, set_stream_priority() API, PRIORITY frame type enum value,
+  #         PRIORITY_FLAG in HEADERS, multi-stream dependency chain
   # ---------------------------------------------------------------------------
   wire-protocol-v2-tests:
     needs: ci-scope-classifier
@@ -169,6 +172,7 @@ jobs:
           echo "- AC-7  Aggregate statistics: frames/streams/connections start at zero" >> "$GITHUB_STEP_SUMMARY"
           echo "- AC-8  Compression: LZ4 and Zstd flags are independent bit positions" >> "$GITHUB_STEP_SUMMARY"
           echo "- AC-9  Multiplexing: independent stream IDs with separate state machines" >> "$GITHUB_STEP_SUMMARY"
+          echo "- AC-10 Priority/dependency: stream_dependency, exclusive_dependency defaults, set_stream_priority API, PRIORITY frame type and flag, dependency chain" >> "$GITHUB_STEP_SUMMARY"
 
   # ---------------------------------------------------------------------------
   # Documentation / API gate – verifies all required files are in place and
@@ -237,6 +241,21 @@ jobs:
             echo "✅ max_concurrent_streams field found in V2ConnectionConfig" || \
             (echo "❌ max_concurrent_streams missing from V2ConnectionConfig" && exit 1)
 
+      - name: Verify priority and dependency management — PRIORITY frame + stream_dependency
+        run: |
+          grep -q "PRIORITY" include/themis/network/wire_protocol_v2.hpp && \
+            echo "✅ PRIORITY frame type found (priority management support)" || \
+            (echo "❌ PRIORITY frame type missing from header" && exit 1)
+          grep -q "stream_dependency" include/themis/network/wire_protocol_v2.hpp && \
+            echo "✅ stream_dependency field found in V2Stream" || \
+            (echo "❌ stream_dependency field missing from V2Stream" && exit 1)
+          grep -q "exclusive_dependency" include/themis/network/wire_protocol_v2.hpp && \
+            echo "✅ exclusive_dependency field found in V2Stream" || \
+            (echo "❌ exclusive_dependency field missing from V2Stream" && exit 1)
+          grep -q "set_stream_priority" include/themis/network/wire_protocol_v2.hpp && \
+            echo "✅ set_stream_priority() method found in V2Session interface" || \
+            (echo "❌ set_stream_priority() missing from V2Session" && exit 1)
+
       - name: Verify V2Server lifecycle API declared
         run: |
           grep -q "void start" include/themis/network/wire_protocol_v2.hpp && \
@@ -272,5 +291,8 @@ jobs:
           echo "| Server push: push_promise + push_to_client | ✅ |" >> "$GITHUB_STEP_SUMMARY"
           echo "| Flow control: WINDOW_UPDATE + update_connection_window | ✅ |" >> "$GITHUB_STEP_SUMMARY"
           echo "| max_concurrent_streams config | ✅ |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Priority/dependency: PRIORITY frame type | ✅ |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Priority/dependency: stream_dependency + exclusive_dependency in V2Stream | ✅ |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Priority/dependency: set_stream_priority() in V2Session | ✅ |" >> "$GITHUB_STEP_SUMMARY"
           echo "| V2Server lifecycle: start/stop/is_running | ✅ |" >> "$GITHUB_STEP_SUMMARY"
           echo "| Compression: COMPRESSED + ZSTD_COMPRESSED flags | ✅ |" >> "$GITHUB_STEP_SUMMARY"
