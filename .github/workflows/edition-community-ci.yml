@@ -2,6 +2,8 @@ name: Edition · COMMUNITY · CI
 
 on:
   push:
+    # Community builds run on main (Community release lane) and develop
+    # (integration branch). They do NOT run on enterprise/hyperscaler branches.
     branches:
       - main
       - develop
