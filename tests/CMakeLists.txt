@@ -12379,6 +12379,14 @@ add_index_focused_test(
     "GPUMemoryOversubscription: partition management, LRU eviction, streaming, prefetch strategies, multi-GPU config (v1.7.0)"
 )
 
+add_index_focused_test(
+    test_index_compression_focused
+    index/test_index_compression.cpp
+    IndexCompressionFocusedTests
+    "index;compression;delta;prefix;bloom;dictionary;rle;focused;unit"
+    "IndexCompression: delta encoding, prefix compression, bloom filters, dictionary encoding, RLE (v1.7.0)"
+)
+
 # ============================================================================
 # Cache Interfaces Tests (Issue: #1596 — unit test coverage >80%)
 # ============================================================================

@@ -314,6 +314,7 @@ set(THEMIS_STORAGE_SOURCES
     
     # Indexes
     ../src/index/secondary_index.cpp
+    ../src/index/index_compression.cpp
     ../src/index/ann_index.cpp
     ../src/index/rotary_embeddings.cpp
     ../src/index/rotary_embeddings_gpu_cpu.cpp

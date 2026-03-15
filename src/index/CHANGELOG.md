@@ -15,6 +15,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Full security audit (issue #1885)
 - API stability guarantees documentation (issue #1887)
 
+## [1.7.0] — 2026-03-xx
+### Added
+- **Index Compression** (issue #176): `IndexCompressionCodec` with five techniques:
+  delta encoding, prefix compression, Bloom filters, dictionary encoding, and
+  run-length encoding.  `SecondaryIndexManager::Config` gains `enable_compression`,
+  `compression_algorithm` (NONE/LZ4/ZSTD/SNAPPY), `compression_level`, and
+  per-technique enable flags.
+  Files: `include/index/index_compression.h`, `src/index/index_compression.cpp`.
+- GPU memory oversubscription manager for VRAM-bounded large-scale vector search
+
 ## [1.6.0] — 2026-03-xx
 ### Added
 - Multi-GPU distributed vector index with cross-device shard rebalancing
