@@ -21,6 +21,7 @@
  */
 
 #include "llm/lora_security_validator.h"
+#include "llm/lora_certificate_store.h"
 #include "llm/security/signature_verifier.h"
 #include "llm/llm_model_audit_logger.h"
 #include <spdlog/spdlog.h>
@@ -160,6 +161,8 @@ static bool validate_signature_format(
 
 LoRASecurityValidator::LoRASecurityValidator(const LoRASecurityConfig& config)
     : config_(config) {
+    cert_store_ = std::make_shared<LoRACertificateStore>(
+        config_.cert_store_path, config_.system_cert_store_path);
     spdlog::info("LoRASecurityValidator initialized with {} trusted signers", 
              config_.trusted_signers.size());
 }
@@ -244,9 +247,22 @@ LoRASignatureResult LoRASecurityValidator::verifySignature(
     // Note: For full certificate chain validation, the certificate PEM needs to be provided
     // For now, we perform basic RSA-SHA256 verification if a certificate is available
     
-    // Check if we have a certificate PEM for the signer
-    // In a production system, this would be retrieved from a certificate store
-    std::string cert_pem;  // TODO: Retrieve from certificate store by fingerprint
+    // Retrieve certificate PEM from the certificate store by fingerprint.
+    // Fail closed: if the certificate is not found, the signature cannot be
+    // verified and we must not silently accept it.
+    std::string cert_pem;
+    {
+        auto found = cert_store_->lookupByFingerprint(cert_fingerprint);
+        if (found.has_value()) {
+            cert_pem = std::move(*found);
+        } else {
+            result.is_valid = false;
+            result.error_message = "SIGNATURE_UNVERIFIABLE: certificate not found in store for fingerprint " + cert_fingerprint;
+            spdlog::error("LoRa signature verification failed for {}: certificate not found for fingerprint {}",
+                         lora_path, cert_fingerprint);
+            return result;
+        }
+    }
     
     if (!cert_pem.empty()) {
         // Create signature verifier
@@ -275,19 +291,6 @@ LoRASignatureResult LoRASecurityValidator::verifySignature(
         
         spdlog::info("LoRa signature cryptographically verified for {}: signer={}", 
                  lora_path, result.signer_identity);
-    } else {
-        // Certificate not available - fall back to format validation only
-        // This provides basic security but not full cryptographic verification
-        spdlog::warn("LoRa signature: Certificate not available for {}, using format validation only", 
-                 cert_fingerprint);
-        
-        result.is_valid = true;
-        result.signer_identity = cert_fingerprint;
-        result.signature_algorithm = "RSA-SHA256 (format validation only)";
-        result.error_message = "Certificate not available - format validated only";
-        
-        spdlog::info("LoRa signature format validated for {}: signer={} (full verification requires certificate)", 
-                 lora_path, cert_fingerprint);
     }
     
     return result;
@@ -359,21 +362,41 @@ LoRASignatureResult LoRASecurityValidator::verifyEmbeddedSignature(
         return result;
     }
     
-    // Perform cryptographic signature verification
-    // Check if we have a certificate PEM for the signer
-    // In a production system, this would be retrieved from a certificate store
-    // TODO: Implement certificate store integration for production deployments:
-    //       - Support X.509 certificate lookup by fingerprint
-    //       - Integrate with system certificate stores (e.g., /etc/ssl/certs)
-    //       - Consider HashiCorp Vault or HSM integration for enterprise deployments
+    // Perform cryptographic signature verification.
+    // Retrieve the certificate PEM from the certificate store (local or system).
+    // Priority: inline certificate in metadata > certificate store lookup.
+    // Fail closed: if no certificate is found, the signature cannot be verified.
     std::string cert_pem;
-    
+
     // Check if certificate is embedded in metadata
     if (metadata.contains("certificate")) {
         cert_pem = metadata["certificate"];
         spdlog::debug("Using embedded certificate for verification");
     }
-    
+
+    // If no inline certificate, look up from the certificate store
+    if (cert_pem.empty()) {
+        auto found = cert_store_->lookupByFingerprint(signer);
+        if (found.has_value()) {
+            cert_pem = std::move(*found);
+            spdlog::debug("Retrieved certificate from store for signer {}", signer);
+        } else {
+            result.is_valid = false;
+            result.error_message = "SIGNATURE_UNVERIFIABLE: certificate not found in store for fingerprint " + signer;
+            spdlog::error("Embedded LoRa signature verification failed for {}: certificate not found for signer {}",
+                         lora_path, signer);
+            if (audit_logger_) {
+                audit_logger_->logEvent(
+                    LLMModelAuditEventType::SIGNATURE_FAILED,
+                    lora_path,
+                    {{"error", result.error_message},
+                     {"signer_identity", signer}}
+                );
+            }
+            return result;
+        }
+    }
+
     if (!cert_pem.empty()) {
         // Create signature verifier
         themis::llm::security::RSA_SHA256_Verifier verifier;
@@ -423,19 +446,6 @@ LoRASignatureResult LoRASecurityValidator::verifyEmbeddedSignature(
                  {"algorithm", result.signature_algorithm}}
             );
         }
-    } else {
-        // Certificate not available - fall back to format validation only
-        // This provides basic security but not full cryptographic verification
-        spdlog::warn("Embedded LoRa signature: Certificate not available for {}, using format validation only", 
-                 signer);
-        
-        result.is_valid = true;
-        result.signer_identity = signer;
-        result.signature_algorithm = "RSA-SHA256 (format validation only)";
-        result.error_message = "Certificate not available - format validated only";
-        
-        spdlog::info("Embedded LoRa signature format validated for {}: signer={} (full verification requires certificate)", 
-                 lora_path, signer);
     }
     
     return result;
@@ -617,6 +627,16 @@ void LoRASecurityValidator::setConfig(const LoRASecurityConfig& config) {
 void LoRASecurityValidator::setAuditLogger(const std::shared_ptr<LLMModelAuditLogger>& logger) {
     audit_logger_ = logger;
     spdlog::debug("LoRASecurityValidator: audit logger {}", audit_logger_ ? "attached" : "detached");
+}
+
+void LoRASecurityValidator::setCertificateStore(
+    std::shared_ptr<LoRACertificateStore> store) {
+    cert_store_ = std::move(store);
+    spdlog::debug("LoRASecurityValidator: certificate store replaced");
+}
+
+std::shared_ptr<LoRACertificateStore> LoRASecurityValidator::getCertificateStore() const {
+    return cert_store_;
 }
 
 // Helper methods

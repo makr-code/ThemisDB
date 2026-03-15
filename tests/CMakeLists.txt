@@ -14858,8 +14858,53 @@ else()
 endif()
 
 # ============================================================================
-# Custom Test Targets
+# LoRA Certificate Store – focused tests (v1.8.0, Issue #75)
+# Covers all four acceptance criteria:
+#   AC-1  missing cert → verifySignature returns SIGNATURE_UNVERIFIABLE (fail closed)
+#   AC-2  valid cert registered in store + valid sig → verifySignature passes
+#   AC-3  valid cert + tampered sig → verifySignature fails
+#   AC-4  LoRACertificateStore: register / lookup / evict / filesystem lookup
 # ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_security.cpp")
+    message(STATUS "Adding LoRA Certificate Store focused tests (llm module, Issue #75)")
+
+    add_executable(test_lora_certificate_store_focused
+        test_lora_security.cpp
+    )
+
+    target_include_directories(test_lora_certificate_store_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_lora_certificate_store_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_lora_certificate_store_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME LoRACertificateStoreFocusedTests
+        COMMAND test_lora_certificate_store_focused
+            --gtest_filter="LoRACertificateStoreTest*:LoRACertStoreIntegrationTest*")
+
+    set_tests_properties(LoRACertificateStoreFocusedTests PROPERTIES
+        LABELS "llm;lora;security;certificate-store;signature;fail-closed;v1.8.0;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  LoRACertificateStore: register/lookup/evict, filesystem, fail-closed, crypto verification")
+else()
+    message(STATUS "LoRA Certificate Store focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lora_security.cpp")
+endif()
+
+
 add_custom_target(run_tests
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
