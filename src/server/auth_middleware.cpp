@@ -569,8 +569,9 @@ void AuthMiddleware::loadRoleScopeMapping()
 
     auto resolved = config::ConfigPathResolver::tryResolve("config/security/rbac_roles.yaml");
     if (!resolved.has_value()) {
-        THEMIS_DEBUG("Role-to-scope mapping file not found (config/security/rbac_roles.yaml); "
-                     "scope enforcement via role mapping disabled until setRoleScopeMapping() is called");
+        THEMIS_DEBUG("rbac_roles.yaml not found (config/security/rbac_roles.yaml); "
+                     "role-to-scope mapping not loaded — only direct scope claims from JWTs "
+                     "will be enforced until setRoleScopeMapping() is called");
         return;
     }
 

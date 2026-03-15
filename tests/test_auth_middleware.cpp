@@ -868,7 +868,7 @@ TEST_F(ApiKeyMiddlewareTest, Roles_PropagatedToAuthResult) {
 namespace {
 
 // ── Base64url helpers ──────────────────────────────────────────────────────
-static std::string jse_b64url(const std::vector<uint8_t>& in) {
+static std::string jwt_b64url(const std::vector<uint8_t>& in) {
     static const char* tbl =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     std::string b64;
@@ -894,23 +894,23 @@ static std::string jse_b64url(const std::vector<uint8_t>& in) {
     return b64;
 }
 
-static std::string jse_b64urlStr(const std::string& s) {
-    return jse_b64url(std::vector<uint8_t>(s.begin(), s.end()));
+static std::string jwt_b64urlStr(const std::string& s) {
+    return jwt_b64url(std::vector<uint8_t>(s.begin(), s.end()));
 }
 
 // ── Minimal ECDSA P-256 key fixture ───────────────────────────────────────
-struct JseECKey {
+struct JwtTestECKey {
     EVP_PKEY* pkey = nullptr;
-    JseECKey() {
+    JwtTestECKey() {
         EVP_PKEY_CTX* ctx = EVP_PKEY_CTX_new_id(EVP_PKEY_EC, nullptr);
         EVP_PKEY_keygen_init(ctx);
         EVP_PKEY_CTX_set_ec_paramgen_curve_nid(ctx, NID_X9_62_prime256v1);
         EVP_PKEY_keygen(ctx, &pkey);
         EVP_PKEY_CTX_free(ctx);
     }
-    ~JseECKey() { if (pkey) EVP_PKEY_free(pkey); }
-    JseECKey(const JseECKey&) = delete;
-    JseECKey& operator=(const JseECKey&) = delete;
+    ~JwtTestECKey() { if (pkey) EVP_PKEY_free(pkey); }
+    JwtTestECKey(const JwtTestECKey&) = delete;
+    JwtTestECKey& operator=(const JwtTestECKey&) = delete;
 
     std::pair<std::vector<uint8_t>, std::vector<uint8_t>> publicKeyCoords() const {
         const EC_KEY* ec = EVP_PKEY_get0_EC_KEY(pkey);
@@ -926,7 +926,7 @@ struct JseECKey {
     }
 };
 
-static std::string jse_signES256(EVP_PKEY* pkey, const std::string& msg) {
+static std::string jwt_signES256(EVP_PKEY* pkey, const std::string& msg) {
     EVP_MD_CTX* ctx = EVP_MD_CTX_new();
     EVP_DigestSignInit(ctx, nullptr, EVP_sha256(), nullptr, pkey);
     EVP_DigestSignUpdate(ctx, msg.data(), msg.size());
@@ -944,20 +944,20 @@ static std::string jse_signES256(EVP_PKEY* pkey, const std::string& msg) {
     BN_bn2binpad(r, rs.data(),      32);
     BN_bn2binpad(s, rs.data() + 32, 32);
     ECDSA_SIG_free(esig);
-    return jse_b64url(rs);
+    return jwt_b64url(rs);
 }
 
-static nlohmann::json jse_makeECJwks(const JseECKey& key, const std::string& kid = "ec1") {
+static nlohmann::json jwt_makeECJwks(const JwtTestECKey& key, const std::string& kid = "ec1") {
     auto [x, y] = key.publicKeyCoords();
     nlohmann::json jwk = {
         {"kty","EC"},{"crv","P-256"},{"kid",kid},
         {"alg","ES256"},{"use","sig"},
-        {"x",jse_b64url(x)},{"y",jse_b64url(y)}
+        {"x",jwt_b64url(x)},{"y",jwt_b64url(y)}
     };
     return nlohmann::json{{"keys", nlohmann::json::array({jwk})}};
 }
 
-static std::string jse_makeES256Token(const JseECKey& key,
+static std::string jwt_makeES256Token(const JwtTestECKey& key,
                                       const nlohmann::json& extra_claims,
                                       int exp_offset_sec = 300) {
     auto now_sec = std::chrono::duration_cast<std::chrono::seconds>(
@@ -973,8 +973,8 @@ static std::string jse_makeES256Token(const JseECKey& key,
         payload[it.key()] = it.value();
     }
     nlohmann::json header = {{"alg","ES256"},{"typ","JWT"},{"kid","ec1"}};
-    std::string hp = jse_b64urlStr(header.dump()) + "." + jse_b64urlStr(payload.dump());
-    return hp + "." + jse_signES256(key.pkey, hp);
+    std::string hp = jwt_b64urlStr(header.dump()) + "." + jwt_b64urlStr(payload.dump());
+    return hp + "." + jwt_signES256(key.pkey, hp);
 }
 
 } // anonymous namespace
@@ -987,10 +987,10 @@ protected:
         jwt_cfg.require_issuer_validation = false;
         jwt_cfg.require_audience_validation = false;
         auth_.enableJWT(jwt_cfg);
-        auth_.setJWKSForTesting(jse_makeECJwks(key_));
+        auth_.setJWKSForTesting(jwt_makeECJwks(key_));
     }
 
-    JseECKey key_;
+    JwtTestECKey key_;
     AuthMiddleware auth_;
 };
 
@@ -1005,7 +1005,7 @@ TEST(JWTClaimsScopesTest, ScopesFieldExistsAndDefaultsEmpty) {
 
 TEST_F(JWTScopeEnforcementTest, SpaceSeparatedScopeClaimParsed) {
     // JWT with "scope" claim as space-separated string
-    auto token = jse_makeES256Token(key_, {{"scope", "cache:read cache:write metrics:read"}});
+    auto token = jwt_makeES256Token(key_, {{"scope", "cache:read cache:write metrics:read"}});
     auto result = auth_.authorize(token, "cache:read");
     EXPECT_TRUE(result.authorized) << result.reason;
     EXPECT_EQ(result.user_id, "testuser");
@@ -1013,7 +1013,7 @@ TEST_F(JWTScopeEnforcementTest, SpaceSeparatedScopeClaimParsed) {
 
 TEST_F(JWTScopeEnforcementTest, ScpArrayClaimParsed) {
     // JWT with "scp" claim as JSON array
-    auto token = jse_makeES256Token(
+    auto token = jwt_makeES256Token(
         key_, {{"scp", nlohmann::json::array({"cache:read", "metrics:read"})}});
     auto result = auth_.authorize(token, "cache:read");
     EXPECT_TRUE(result.authorized) << result.reason;
@@ -1021,7 +1021,7 @@ TEST_F(JWTScopeEnforcementTest, ScpArrayClaimParsed) {
 
 TEST_F(JWTScopeEnforcementTest, MissingScopeDenied) {
     // JWT grants cache:read but endpoint requires cache:write
-    auto token = jse_makeES256Token(key_, {{"scope", "cache:read metrics:read"}});
+    auto token = jwt_makeES256Token(key_, {{"scope", "cache:read metrics:read"}});
     auto result = auth_.authorize(token, "cache:write");
     EXPECT_FALSE(result.authorized);
     EXPECT_FALSE(result.reason.empty());
@@ -1029,7 +1029,7 @@ TEST_F(JWTScopeEnforcementTest, MissingScopeDenied) {
 
 TEST_F(JWTScopeEnforcementTest, NoScopeClaimDeniedWhenScopeRequired) {
     // JWT has no scope/scp claim and no role mapping configured
-    auto token = jse_makeES256Token(key_, {});
+    auto token = jwt_makeES256Token(key_, {});
     auto result = auth_.authorize(token, "cache:read");
     EXPECT_FALSE(result.authorized);
     EXPECT_FALSE(result.reason.empty());
@@ -1037,7 +1037,7 @@ TEST_F(JWTScopeEnforcementTest, NoScopeClaimDeniedWhenScopeRequired) {
 
 TEST_F(JWTScopeEnforcementTest, EmptyRequiredScopeAlwaysPasses) {
     // Empty required_scope means "any valid token" (no scope enforcement)
-    auto token = jse_makeES256Token(key_, {});
+    auto token = jwt_makeES256Token(key_, {});
     auto result = auth_.authorize(token, "");
     EXPECT_TRUE(result.authorized) << result.reason;
 }
@@ -1052,7 +1052,7 @@ TEST_F(JWTScopeEnforcementTest, RoleMappingGrantsScope) {
     });
 
     // JWT with roles claim (no scope claim) — role grants the required scope
-    auto token = jse_makeES256Token(key_,
+    auto token = jwt_makeES256Token(key_,
         {{"roles", nlohmann::json::array({"cache_reader"})}});
     auto result = auth_.authorize(token, "cache:read");
     EXPECT_TRUE(result.authorized) << result.reason;
@@ -1064,7 +1064,7 @@ TEST_F(JWTScopeEnforcementTest, RoleMappingDeniesWhenScopeNotInRole) {
     });
 
     // cache_reader role does not grant cache:write
-    auto token = jse_makeES256Token(key_,
+    auto token = jwt_makeES256Token(key_,
         {{"roles", nlohmann::json::array({"cache_reader"})}});
     auto result = auth_.authorize(token, "cache:write");
     EXPECT_FALSE(result.authorized);
@@ -1078,7 +1078,7 @@ TEST_F(JWTScopeEnforcementTest, DirectScopeClaimTakesPrecedenceOverRoleMap) {
         {"analyst", {"cache:read", "metrics:read"}}
     });
 
-    auto token = jse_makeES256Token(key_,
+    auto token = jwt_makeES256Token(key_,
         {{"scope", "cache:read cache:write"},
          {"roles", nlohmann::json::array({"analyst"})}});
     auto result = auth_.authorize(token, "cache:write");
@@ -1091,7 +1091,7 @@ TEST_F(JWTScopeEnforcementTest, SetRoleScopeMappingOverridesLoadedConfig) {
         {"superuser", {"cache:read", "cache:write", "admin"}}
     });
 
-    auto token = jse_makeES256Token(key_,
+    auto token = jwt_makeES256Token(key_,
         {{"roles", nlohmann::json::array({"superuser"})}});
     EXPECT_TRUE(auth_.authorize(token, "admin").authorized);
     EXPECT_TRUE(auth_.authorize(token, "cache:read").authorized);
