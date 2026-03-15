@@ -27,6 +27,7 @@
 #include "importers/importer_interface.h"
 #include "plugins/plugin_interface.h"
 #include <atomic>
+#include <cstdint>
 #include <unordered_set>
 
 namespace themis {
@@ -100,7 +101,8 @@ private:
                        ImportStats& stats, ProgressCallback& callback);
     bool parseCreateTable(const std::string& sql, TableSchema& schema);
     bool parseInsert(const std::string& sql, const ImportOptions& options,
-                     ImportStats& stats, size_t line_number);
+                     ImportStats& stats, size_t line_number,
+                     std::unordered_set<uint64_t>& delta_hashes);
 
     // Schema mapping
     std::string mapMySQLTypeToThemis(const std::string& mysql_type,
@@ -142,6 +144,19 @@ private:
     // Progress reporting
     void reportProgress(ProgressCallback& callback, const std::string& stage,
                         size_t current, size_t total);
+
+    // Delta / incremental import helpers (same pattern as PostgreSQL importer).
+    // When ImportOptions::delta_hash_file is set, rows whose FNV-1a hash is already
+    // in the file are skipped; new hashes are persisted at end of import.
+    // Setting delta_key_columns = {"updated_at"} is the recommended high-watermark
+    // configuration for MySQL sources.
+    static uint64_t computeRowHash(const std::string& tuple_str,
+                                   const std::vector<std::string>& values,
+                                   const std::vector<std::string>& key_columns,
+                                   const std::vector<std::string>& schema_columns);
+    static std::unordered_set<uint64_t> loadDeltaHashes(const std::string& delta_hash_file);
+    static void saveDeltaHashes(const std::string& delta_hash_file,
+                                const std::unordered_set<uint64_t>& hashes);
 };
 
 /**
