@@ -587,6 +587,32 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     if (payload.contains("roles")) {
         claims.roles = payload["roles"].get<std::vector<std::string>>();
     }
+    // Extract OAuth2 scopes from `scope` (space-separated string) or `scp` (array).
+    // Some IdPs (Keycloak, Auth0) use `scope`; Azure AD uses `scp`.
+    if (payload.contains("scope") && payload["scope"].is_string()) {
+        const std::string scope_str = payload["scope"].get<std::string>();
+        std::istringstream iss(scope_str);
+        std::string token_item;
+        while (iss >> token_item) {
+            if (!token_item.empty()) {
+                claims.scopes.push_back(std::move(token_item));
+            }
+        }
+    } else if (payload.contains("scp")) {
+        if (payload["scp"].is_array()) {
+            claims.scopes = payload["scp"].get<std::vector<std::string>>();
+        } else if (payload["scp"].is_string()) {
+            // Some implementations use space-separated string in scp as well
+            const std::string scp_str = payload["scp"].get<std::string>();
+            std::istringstream iss(scp_str);
+            std::string token_item;
+            while (iss >> token_item) {
+                if (!token_item.empty()) {
+                    claims.scopes.push_back(std::move(token_item));
+                }
+            }
+        }
+    }
     auto now = std::chrono::system_clock::now();
     if (payload.contains("exp")) {
         int64_t exp = payload["exp"].get<int64_t>();

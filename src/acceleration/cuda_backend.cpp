@@ -2194,6 +2194,11 @@ BackendCapabilities CUDAMatrixBackend::getCapabilities() const {
             caps.deviceName    = std::string(prop.name);
             caps.maxMemoryBytes = prop.totalGlobalMem;
             caps.computeUnits  = prop.multiProcessorCount;
+            // INT8 Tensor Core acceleration requires Turing (SM 7.5+).
+            const int sm = prop.major * 10 + prop.minor;
+            if (sm >= 75) {
+                caps.supportedPrecisions = caps.supportedPrecisions | PrecisionMode::INT8;
+            }
         }
     } else {
         caps.deviceName = "CUDA Device (Not Available)";

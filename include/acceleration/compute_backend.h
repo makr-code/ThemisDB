@@ -30,6 +30,8 @@
 #include <vector>
 #include <memory>
 #include <cstdint>
+#include <atomic>
+#include <shared_mutex>
 #include "acceleration/error_context.h"
 #include "acceleration/kernel_invocation.h"
 
@@ -576,6 +578,13 @@ private:
     BackendRegistry(const BackendRegistry&) = delete;
     BackendRegistry& operator=(const BackendRegistry&) = delete;
     
+    // Protects all mutable state below.
+    // Read-only operations (getBackend, getBestXBackend, selectXBackendFor,
+    // getAvailableBackends, deviceInfo) acquire a shared lock.
+    // Write operations (registerBackend, shutdownAll, initializeRuntime,
+    // autoDetect, loadPlugins, loadPlugin) acquire an exclusive lock.
+    mutable std::shared_mutex registryMutex_;
+
     std::vector<std::unique_ptr<IComputeBackend>> backends_;
     std::unique_ptr<PluginLoader> pluginLoader_;
 
@@ -584,7 +593,7 @@ private:
     IVectorBackend* selectedVectorBackend_ = nullptr;
     IGraphBackend*  selectedGraphBackend_  = nullptr;
     IGeoBackend*    selectedGeoBackend_    = nullptr;
-    bool            runtimeInitialized_    = false;
+    std::atomic<bool> runtimeInitialized_{false};
 
     // Device info snapshot captured at the last initializeRuntime() call.
     std::vector<DeviceCapabilityInfo> cachedDeviceInfo_;

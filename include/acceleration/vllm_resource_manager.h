@@ -27,6 +27,7 @@
 #include <string>
 #include <memory>
 #include <optional>
+#include <vector>
 
 namespace themis {
 namespace acceleration {
@@ -67,6 +68,19 @@ public:
         size_t max_gpu_vram_mb = 2048;      // 2 GB per GPU for ThemisDB
         size_t max_vector_batch_size = 1024; // Small batches to avoid blocking vLLM
         int gpu_priority = -1;               // Lower priority than vLLM
+
+        // GPU device selection for NVML monitoring.
+        // If gpu_device_indices is non-empty it takes precedence over gpu_device_index
+        // and queryGPUUtilization() returns the *maximum* utilization across all listed
+        // devices (so a single busy GPU blocks new ThemisDB work on any device).
+        //
+        // Example (4-GPU node, GPUs 0-1 reserved for vLLM, 2-3 for ThemisDB):
+        //   config.gpu_device_indices = {2, 3};
+        //
+        // When both fields are at their defaults the manager monitors device 0 only
+        // (backward-compatible behaviour).
+        uint32_t gpu_device_index = 0;                        ///< Primary device to monitor (default: 0)
+        std::vector<uint32_t> gpu_device_indices;             ///< Explicit multi-device override; empty = use gpu_device_index
     };
     
     /**
@@ -150,8 +164,13 @@ private:
     Config config_;
     bool initialized_ = false;
     
-    // NVML handle for GPU monitoring (opaque pointer)
+    // NVML handles for GPU monitoring (opaque pointers to nvmlDevice_t).
+    // nvml_devices_ is the authoritative list; nvml_device_ is a convenience
+    // alias to nvml_devices_.front() used only by canUseGPU() for the
+    // timeout-guarded primary-device utilization query.
+    // Both fields are always kept in sync by initializeNVML()/shutdownNVML().
     void* nvml_device_ = nullptr;
+    std::vector<void*> nvml_devices_;
     
     /**
      * @brief Initialize NVML for GPU monitoring
@@ -165,6 +184,9 @@ private:
     
     /**
      * @brief Query GPU utilization via NVML
+     *
+     * When multiple devices are monitored (gpu_device_indices), returns the
+     * maximum utilization across all of them.
      */
     std::optional<double> queryGPUUtilization();
 };

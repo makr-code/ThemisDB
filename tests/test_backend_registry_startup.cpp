@@ -40,6 +40,9 @@
 #include <gtest/gtest.h>
 #include "acceleration/compute_backend.h"
 #include "acceleration/cpu_backend.h"
+#include <thread>
+#include <vector>
+#include <atomic>
 
 using namespace themis::acceleration;
 
@@ -259,4 +262,81 @@ TEST(BackendRegistryStartup, SelectedGeoBackend_ConsistentWithSelectAPI) {
         BackendRegistry::defaultGeoRequirements());
 
     EXPECT_EQ(fromStartup, fromSelect);
+}
+
+// =============================================================================
+// Thread-safety tests
+// =============================================================================
+
+// 16 threads all call getBestVectorBackend() concurrently.
+// None should crash, return garbage, or trigger a data race under TSan.
+TEST(BackendRegistryStartup, ConcurrentGetBestVectorBackend_NoCrash) {
+    BackendRegistry::instance().initializeRuntime();
+
+    constexpr int kThreads = 16;
+    std::vector<std::thread> threads;
+    std::atomic<int> ok{0};
+    threads.reserve(kThreads);
+
+    for (int i = 0; i < kThreads; ++i) {
+        threads.emplace_back([&ok]() {
+            auto* b = BackendRegistry::instance().getBestVectorBackend();
+            if (b != nullptr) ++ok;
+        });
+    }
+    for (auto& t : threads) t.join();
+
+    // CPU backend is always registered, so at least 1 should have succeeded.
+    EXPECT_GT(ok.load(), 0);
+}
+
+// 8 reader threads call getBestVectorBackend() while a writer thread calls
+// getAvailableBackends().  No crash or data race expected.
+TEST(BackendRegistryStartup, ConcurrentReadersAndAvailableBackends_NoCrash) {
+    BackendRegistry::instance().initializeRuntime();
+
+    constexpr int kReaders = 8;
+    std::atomic<bool> running{true};
+    std::vector<std::thread> readers;
+    readers.reserve(kReaders);
+
+    for (int i = 0; i < kReaders; ++i) {
+        readers.emplace_back([&running]() {
+            while (running.load(std::memory_order_relaxed)) {
+                (void)BackendRegistry::instance().getBestVectorBackend();
+            }
+        });
+    }
+
+    // Background writer
+    std::thread writer([&running]() {
+        for (int i = 0; i < 20; ++i) {
+            (void)BackendRegistry::instance().getAvailableBackends();
+            std::this_thread::yield();
+        }
+        running.store(false, std::memory_order_release);
+    });
+
+    writer.join();
+    for (auto& t : readers) t.join();
+    SUCCEED();
+}
+
+// isRuntimeInitialized() must be thread-safe after initializeRuntime().
+TEST(BackendRegistryStartup, IsRuntimeInitialized_ThreadSafe) {
+    BackendRegistry::instance().initializeRuntime();
+
+    constexpr int kThreads = 8;
+    std::vector<std::thread> threads;
+    std::atomic<int> true_count{0};
+    threads.reserve(kThreads);
+
+    for (int i = 0; i < kThreads; ++i) {
+        threads.emplace_back([&true_count]() {
+            if (BackendRegistry::instance().isRuntimeInitialized()) ++true_count;
+        });
+    }
+    for (auto& t : threads) t.join();
+
+    EXPECT_EQ(true_count.load(), kThreads);
 }

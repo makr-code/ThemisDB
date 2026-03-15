@@ -15235,13 +15235,53 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_backend_registry_startup.cpp")
     add_test(NAME BackendRegistryStartupFocusedTests COMMAND test_backend_registry_startup_focused)
 
     set_tests_properties(BackendRegistryStartupFocusedTests PROPERTIES
-        LABELS "acceleration;backend-registry;capability-negotiation;v1.7.0;unit"
+        LABELS "acceleration;backend-registry;capability-negotiation;v1.7.0;unit;thread-safety"
         TIMEOUT 60
     )
 
-    message(STATUS "  BackendRegistry: initializeRuntime, default requirements, capability-driven selection, re-initialization, consistency with selectXBackendFor")
+    message(STATUS "  BackendRegistry: initializeRuntime, default requirements, capability-driven selection, re-initialization, consistency with selectXBackendFor, thread-safety")
 else()
     message(STATUS "BackendRegistry startup focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_backend_registry_startup.cpp")
+endif()
+
+# ============================================================================
+# VLLMResourceManager – CPU/RAM Monitoring Stats Tests
+# Covers: getStats() OS-specific CPU utilisation + RAM monitoring,
+#         canUseGPU() NVML timeout safety, uninitialised guard.
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_vllm_resource_stats.cpp")
+    message(STATUS "Adding VLLMResourceManager stats focused tests")
+
+    add_executable(test_vllm_resource_stats_focused
+        test_vllm_resource_stats.cpp
+    )
+
+    target_include_directories(test_vllm_resource_stats_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_vllm_resource_stats_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_vllm_resource_stats_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME VLLMResourceStatsFocusedTests COMMAND test_vllm_resource_stats_focused)
+
+    set_tests_properties(VLLMResourceStatsFocusedTests PROPERTIES
+        LABELS "acceleration;vllm;resource-manager;cpu-monitoring;ram-monitoring;unit"
+        TIMEOUT 30
+    )
+
+
+    message(STATUS "  VLLMResourceManager: cpu_utilization, ram_used_mb, canUseGPU timeout, uninitialised guard")
+else()
+    message(STATUS "VLLMResourceManager stats focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_vllm_resource_stats.cpp")
 endif()
 
 # ============================================================================

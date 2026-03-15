@@ -237,6 +237,7 @@ enum class MatrixPrecision : uint32_t {
     FP32 = 0, ///< 32-bit IEEE 754 single precision (CPU fallback)
     FP16 = 1, ///< 16-bit IEEE 754 half precision  (Tensor Core on SM 7.0+)
     BF16 = 2, ///< bfloat16                         (Tensor Core on SM 8.0+)
+    INT8 = 3, ///< 8-bit integer with FP32 accumulator (Tensor Core on SM 7.5+)
 };
 
 /// Describes one batched matrix-multiply call: C = alpha * A × B + beta * C.
