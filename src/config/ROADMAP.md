@@ -64,6 +64,12 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 - [x] Make LRU cache size and TTL configurable via environment variables (`THEMIS_CONFIG_CACHE_SIZE`, `THEMIS_CONFIG_CACHE_TTL`) (Issue: #1672)
 - [x] Add multi-environment config overlay support (dev/staging/prod path sets) (Issue: #1673)
 
+### Phase 5: inotify/kqueue Hot-Reload (Status: Completed – v1.8.0)
+- [x] `ConfigFileWatcher`: Linux inotify, macOS kqueue, Windows ReadDirectoryChangesW – watches config directory tree for `.yaml`/`.json` changes
+- [x] Wired into `ConfigPathResolver::startHotReload()` / `stopHotReload()` alongside existing SIGHUP path
+- [x] 200 ms debounce settling window prevents spurious flushes during editor save-then-rename sequences
+- [x] Focused tests in `tests/test_config_file_watcher.cpp`; CI in `.github/workflows/config-file-watcher-ci.yml`
+
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% — achieved via `tests/test_config_path_resolver.cpp` (1 339 lines), `tests/test_config_coverage.cpp` (777 lines), `tests/test_config_migration_scanner.cpp` (708 lines), `tests/test_config_schema_validator.cpp` (1 193 lines, including `$ref`/`$defs` tests and `loadAsJson` string-overload tests), `tests/test_config_metrics_scrape.cpp` (metrics scrape latency < 1 ms gate), `tests/test_config_encrypted_store.cpp` (encryption, key rotation, serialisation, thread safety) (Issue: #1674)
 - [x] Integration tests (path resolution, LRU cache, fallback, metadata)
@@ -75,6 +81,7 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 ## Known Issues & Limitations
 - Does not parse or validate config file contents (YAML/JSON parsing is out of scope)
 - Runtime hot-reload via SIGHUP is supported; calling `ConfigPathResolver::registerSighupHandler()` at startup installs the handler
+- inotify/kqueue/ReadDirectoryChangesW file-system hot-reload is available; call `ConfigPathResolver::startHotReload("config")` to activate automatic cache flushes on config file changes
 - `ConfigEncryptedStore` serialises the AES-256 key in plaintext inside the JSON snapshot — callers must wrap the snapshot in a master-key envelope before writing to disk
 - Migration scanner available: `config_migration_scanner --fix` rewrites legacy path strings in config files in-place (creates `.bak` backups).
 

@@ -8437,6 +8437,46 @@ else()
     message(STATUS "ConfigPathResolver focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_config_path_resolver.cpp")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_file_watcher.cpp")
+    message(STATUS "Adding ConfigFileWatcher focused tests (v1.8.0 inotify/kqueue hot-reload)")
+
+    add_executable(test_config_file_watcher_focused
+        test_config_file_watcher.cpp
+        ${CONFIG_MODULE_SOURCES}
+        ${THEMIS_ROOT_DIR}/src/config/config_file_watcher.cpp
+    )
+
+    target_include_directories(test_config_file_watcher_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_config_file_watcher_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+        ${THEMIS_YAML_TARGET}
+        OpenSSL::SSL
+        OpenSSL::Crypto
+    )
+
+    target_compile_definitions(test_config_file_watcher_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ConfigFileWatcherFocusedTests COMMAND test_config_file_watcher_focused)
+
+    set_tests_properties(ConfigFileWatcherFocusedTests PROPERTIES
+        LABELS "config;file-watcher;inotify;kqueue;hot-reload;debounce;v1.8.0;unit;focused"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ConfigFileWatcher: inotify/kqueue/ReadDirectoryChangesW, debounce, startHotReload/stopHotReload")
+else()
+    message(STATUS "ConfigFileWatcher focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_config_file_watcher.cpp")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_schema_validator.cpp")
     message(STATUS "Adding ConfigSchemaValidator focused tests")
 
