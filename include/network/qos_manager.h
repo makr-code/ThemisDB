@@ -622,6 +622,10 @@ public:
         bool     has_token_bucket = false;
         uint64_t token_bucket_rate_bps   = 0;
         uint64_t token_bucket_burst_bytes = 0;
+        // Congestion control fields (UINT64_MAX = no CC active)
+        uint64_t congestion_window = UINT64_MAX;         ///< Current cwnd in bytes
+        uint64_t congestion_ssthresh_bytes = UINT64_MAX; ///< Slow-start threshold (bytes)
+        uint64_t smoothed_rtt_us = 0;                    ///< Smoothed RTT in microseconds
     };
 
     /**

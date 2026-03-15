@@ -390,6 +390,66 @@ TEST_F(BandwidthQoSTest, CongestionWindowUnknownConnectionIsMaxUint) {
 }
 
 // =============================================================================
+// Congestion control integration: allowSend() enforces cwnd (AC: congestion
+// control integration)
+// =============================================================================
+
+TEST_F(BandwidthQoSTest, AllowSendBlockedByCongestionWindow) {
+    qos_->registerConnection(kConn1, Priority::HIGH);
+
+    // Seed the CC with ACKs so a small cwnd is established after a loss
+    for (int i = 0; i < 5; ++i) {
+        qos_->recordAck(kConn1, 1460, 1000us);
+    }
+    // Force loss to cut cwnd in half and get a known small window
+    qos_->recordLoss(kConn1);
+    uint64_t small_cwnd = qos_->getCongestionWindow(kConn1);
+    ASSERT_GT(small_cwnd, 0u);
+    ASSERT_LT(small_cwnd, UINT64_MAX);
+
+    // Send exactly cwnd bytes → should succeed (fills window)
+    EXPECT_TRUE(qos_->allowSend(kConn1, small_cwnd, 0ms));
+    // Any additional bytes exceed the window → must be blocked
+    EXPECT_FALSE(qos_->allowSend(kConn1, 1, 0ms));
+}
+
+TEST_F(BandwidthQoSTest, AllowSendAfterWindowDrainedIsPermitted) {
+    qos_->registerConnection(kConn1, Priority::HIGH);
+
+    // Establish small window via loss
+    for (int i = 0; i < 5; ++i) {
+        qos_->recordAck(kConn1, 1460, 1000us);
+    }
+    qos_->recordLoss(kConn1);
+    uint64_t cwnd = qos_->getCongestionWindow(kConn1);
+
+    // Fill the window
+    EXPECT_TRUE(qos_->allowSend(kConn1, cwnd, 0ms));
+    EXPECT_FALSE(qos_->allowSend(kConn1, 1, 0ms));
+
+    // Drain the queue (simulate ACKed data)
+    qos_->recordBytesSent(kConn1, cwnd);
+    // Now the window is available again
+    EXPECT_TRUE(qos_->allowSend(kConn1, cwnd, 0ms));
+}
+
+TEST_F(BandwidthQoSTest, ConnectionStatsExposesCC) {
+    qos_->registerConnection(kConn1, Priority::HIGH);
+
+    // Before CC is seeded, congestion_window == UINT64_MAX
+    auto cs_before = qos_->getConnectionStats(kConn1);
+    EXPECT_EQ(cs_before.congestion_window, UINT64_MAX);
+    EXPECT_EQ(cs_before.smoothed_rtt_us, 0u);
+
+    // After an ACK, CC fields are populated
+    qos_->recordAck(kConn1, 1460, 2000us);
+    auto cs_after = qos_->getConnectionStats(kConn1);
+    EXPECT_NE(cs_after.congestion_window, UINT64_MAX);
+    EXPECT_GT(cs_after.smoothed_rtt_us, 0u);
+    EXPECT_NE(cs_after.congestion_ssthresh_bytes, 0u);
+}
+
+// =============================================================================
 // AC-BW-7: Config mbps convenience fields
 // =============================================================================
 
@@ -466,6 +526,16 @@ TEST(LinuxTcTest, ConfigureTcWithMaliciousInterfaceNameReturnsFalse) {
     EXPECT_FALSE(qos.configureTc(tc));
 
     tc.interface_name = "eth0`id`";
+    EXPECT_FALSE(qos.configureTc(tc));
+
+    // Argument injection via leading dash: tc could interpret "-h" as a flag
+    tc.interface_name = "-h";
+    EXPECT_FALSE(qos.configureTc(tc));
+
+    tc.interface_name = "--help";
+    EXPECT_FALSE(qos.configureTc(tc));
+
+    tc.interface_name = "-eth0";  // starts with dash
     EXPECT_FALSE(qos.configureTc(tc));
 }
 

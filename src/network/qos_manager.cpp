@@ -633,8 +633,14 @@ bool QoSManager::configureTc(const TcConfig& tc_config) {
     }
 
 #if defined(__linux__)
-    // Validate interface name: must contain only alphanumeric, '-', '_', or '.'
-    // to prevent command injection via shell metacharacters.
+    // Validate interface name:
+    //  1. Must not start with '-' to prevent argument injection (tc parses
+    //     flags if the interface name looks like "-h" or "--help").
+    //  2. Must contain only alphanumeric, '-', '_', or '.' characters to
+    //     prevent shell metacharacter injection via snprintf.
+    if (tc_config.interface_name.front() == '-') {
+        return false;
+    }
     for (char c : tc_config.interface_name) {
         if (!std::isalnum(static_cast<unsigned char>(c)) &&
             c != '-' && c != '_' && c != '.') {
@@ -799,6 +805,27 @@ bool QoSManager::allowSend(uint64_t connection_id,
         }
     }
 
+    // --- Congestion window check ---
+    // If a CongestionController is active, gate sends so that in-flight bytes
+    // never exceed the current congestion window.  This provides the
+    // "congestion control integration" called for by the issue AC.
+    {
+        std::shared_ptr<CongestionController> cc;
+        {
+            std::lock_guard<std::mutex> cc_lock(state->congestion_mutex);
+            cc = state->congestion_ctrl;
+        }
+        if (cc) {
+            uint64_t cwnd      = cc->cwnd();
+            uint64_t in_flight = state->queue_depth.load(std::memory_order_relaxed);
+            if (in_flight + bytes > cwnd) {
+                state->bytes_shaped.fetch_add(bytes, std::memory_order_relaxed);
+                total_bytes_shaped_.fetch_add(bytes, std::memory_order_relaxed);
+                return false;
+            }
+        }
+    }
+
     // Reserve queue space
     state->queue_depth.fetch_add(bytes, std::memory_order_relaxed);
     return true;
@@ -900,6 +927,15 @@ QoSManager::getConnectionStats(uint64_t connection_id) const {
         if (cs.has_token_bucket) {
             cs.token_bucket_rate_bps    = state->token_bucket->rateBps();
             cs.token_bucket_burst_bytes = state->token_bucket->burstBytes();
+        }
+    }
+    {
+        std::lock_guard<std::mutex> cc_lock(state->congestion_mutex);
+        if (state->congestion_ctrl) {
+            cs.congestion_window        = state->congestion_ctrl->cwnd();
+            cs.congestion_ssthresh_bytes = state->congestion_ctrl->ssthresh();
+            cs.smoothed_rtt_us          = static_cast<uint64_t>(
+                state->congestion_ctrl->smoothedRtt().count());
         }
     }
     return cs;
