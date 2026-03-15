@@ -21,15 +21,11 @@
 //   Circular reference detection
 //   Column defaults, UNIQUE constraints, NOT NULL inline
 //   getSourceSchema() v2 enriched output
-
-╠═════════════════════════════════════════════════════════════════════╣
-  Tests for the 12 new v2.1+ importer modules:
-    schema_inference, column_importance, crdt_importer,
-    postgres_cdc, data_quality, audit_trail, adaptive_import,
-    polyglot_mapper, temporal_support, blockchain_integrity,
-    federated_learning, graphql_federation
-╚═════════════════════════════════════════════════════════════════════╝
- */
+// Additional v2.1 module coverage:
+// schema_inference, column_importance, crdt_importer, postgres_cdc,
+// data_quality, audit_trail, adaptive_import, polyglot_mapper,
+// temporal_support, blockchain_integrity, federated_learning,
+// graphql_federation.
 
 #include <gtest/gtest.h>
 #include <string>

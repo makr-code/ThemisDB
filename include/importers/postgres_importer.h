@@ -212,14 +212,42 @@ private:
             std::string on_delete;              ///< ON DELETE action, e.g. "CASCADE" (empty = RESTRICT)
             std::string on_update;              ///< ON UPDATE action, e.g. "SET NULL" (empty = RESTRICT)
 
+            // Compatibility aliases used by older mapper/validation paths.
+            std::string name;
+            std::string source_column;
+            std::string target_table;
+            std::string target_column;
+            std::string on_delete_action;
+            std::string on_update_action;
+
             json toJson() const {
+                auto joinCols = [](const std::vector<std::string>& v) {
+                    std::string out;
+                    for (size_t i = 0; i < v.size(); ++i) {
+                        if (i > 0) out += ",";
+                        out += v[i];
+                    }
+                    return out;
+                };
+                const std::string effective_name = !constraint_name.empty() ? constraint_name : name;
+                const std::string effective_src = !source_column.empty() ? source_column : joinCols(columns);
+                const std::string effective_tgt_table = !target_table.empty() ? target_table : ref_table;
+                const std::string effective_tgt_col = !target_column.empty() ? target_column : joinCols(ref_columns);
+                const std::string effective_on_delete = !on_delete_action.empty() ? on_delete_action : on_delete;
+                const std::string effective_on_update = !on_update_action.empty() ? on_update_action : on_update;
                 return json{
-                    {"constraint_name", constraint_name},
+                    {"constraint_name", effective_name},
                     {"columns",         columns},
-                    {"ref_table",       ref_table},
+                    {"ref_table",       effective_tgt_table},
                     {"ref_columns",     ref_columns},
-                    {"on_delete",       on_delete},
-                    {"on_update",       on_update}
+                    {"on_delete",       effective_on_delete},
+                    {"on_update",       effective_on_update},
+                    {"name",            effective_name},
+                    {"source_column",   effective_src},
+                    {"target_table",    effective_tgt_table},
+                    {"target_column",   effective_tgt_col},
+                    {"on_delete_action", effective_on_delete},
+                    {"on_update_action", effective_on_update}
                 };
             }
         };

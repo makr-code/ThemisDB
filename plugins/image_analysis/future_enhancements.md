@@ -7,7 +7,7 @@
 ## Scope
 
 - Enhancements to the ONNX CLIP image embedding plugin: new model support (BLIP-2, Florence-2, DepthAnything), multi-modal fusion (image + text), batch inference optimisation, and infrastructure hardening.
-- Entry-point: `plugins/image_analysis/onnx_clip/`; ONNX Runtime backend.
+- Entry-point: `plugins/image_analysis/onnx_clip/CMakeLists.txt` (compatibility shim) · canonical implementation: `src/onnx_clip/`.
 - Out of scope: training or fine-tuning models; this plugin only handles inference and embedding generation.
 - Covers model registry management, dynamic model loading, and adversarial input sanitisation.
 

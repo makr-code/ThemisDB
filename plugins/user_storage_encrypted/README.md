@@ -4,6 +4,8 @@
 
 The Multi-Level Encrypted User Storage Plugin provides secure, classification-based storage for user and group data with filesystem-level encryption. It implements ThemisDB's four-tier security classification system with separate encrypted containers per level.
 
+The canonical implementation now lives in `src/user_storage_encrypted/`, with public headers under `include/user_storage_encrypted/` and compatibility forwarding headers under `include/plugins/user_storage_encrypted/`. This directory remains the manifest, documentation, test, and legacy CMake entry-point layer.
+
 ## Features
 
 - **4 Security Levels**: offen, vs-nfd, geheim, streng-geheim
@@ -98,6 +100,13 @@ std::string config((std::istreambuf_iterator<char>(config_file)),
                    std::istreambuf_iterator<char>());
 storage->initialize(config.c_str());
 ```
+
+## Integration Notes
+
+- Canonical implementation: `src/user_storage_encrypted/`
+- Public headers: `include/user_storage_encrypted/*.hpp`
+- Compatibility headers: `include/plugins/user_storage_encrypted/*.hpp`
+- Legacy compatibility CMake entry point: `plugins/user_storage_encrypted/CMakeLists.txt`
 
 ## Usage
 

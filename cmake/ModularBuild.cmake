@@ -937,6 +937,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/feedback_store.cpp
     ../src/llm/llm_model_storage.cpp
     ../src/llm/llm_model_audit_logger.cpp
+    ../src/llm/lora_framework/lora_audit_logger.cpp
     ../src/llm/kv_cache_buffer.cpp
     ../src/llm/multi_lora_manager.cpp
     ../src/llm/gguf_loader.cpp

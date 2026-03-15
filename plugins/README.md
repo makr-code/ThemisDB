@@ -24,6 +24,8 @@
 
 ThemisDB uses a flexible plugin system that allows extending functionality through dynamically loadable DLLs/shared libraries. The plugin architecture supports multiple plugin types for different purposes.
 
+Compiled plugin implementations are being consolidated into the canonical source tree under src and exposed through public headers under include. The plugins directory remains the compatibility, manifest, roadmap, and legacy entry-point layer.
+
 ## Plugin Architecture
 
 ThemisDB's plugin system consists of a unified plugin manager that handles dynamic loading and lifecycle management for various plugin types:
@@ -55,7 +57,7 @@ Plugin Types:
 plugins/
 ├── README.md                           (This file)
 ├── PLANNED_ACCELERATION_PLUGINS.md     (Hardware acceleration usage guide)
-├── CMakeLists.txt                      (Build configuration)
+├── CMakeLists.txt                      (Compatibility and manifest entry point)
 ├── blob_storage/                       ✅ Production
 │   ├── README.md
 │   ├── roadmap.md
@@ -69,7 +71,7 @@ plugins/
 │   ├── CMakeLists.txt.example
 │   ├── cuda_plugin.cpp.example
 │   └── cuda_plugin.json
-├── ethics_ai/                          🔧 WIP
+├── ethics_ai/                          🔧 WIP / compatibility shim to src/ethics_ai
 │   ├── README.md
 │   ├── roadmap.md
 │   └── future_enhancements.md
@@ -82,7 +84,7 @@ plugins/
 │   ├── README.md
 │   ├── roadmap.md
 │   └── future_enhancements.md
-├── image_analysis/                     ✅ Production
+├── image_analysis/                     ✅ Production / compatibility shim to src/onnx_clip
 │   ├── README.md
 │   ├── roadmap.md
 │   ├── future_enhancements.md
@@ -92,12 +94,12 @@ plugins/
 │   ├── roadmap.md
 │   ├── future_enhancements.md
 │   └── postgres/                       (PostgreSQL importer)
-├── rpc/                                ✅ Production
+├── rpc/                                ✅ Production / compatibility shim to src/rpc_grpc
 │   ├── README.md
 │   ├── roadmap.md
 │   ├── future_enhancements.md
 │   └── grpc/                           (gRPC plugin)
-└── user_storage_encrypted/             🔧 WIP
+└── user_storage_encrypted/             🔧 WIP / compatibility shim to src/user_storage_encrypted
     ├── README.md
     ├── roadmap.md
     └── future_enhancements.md
@@ -107,7 +109,9 @@ plugins/
 > (planned work), and `future_enhancements.md` (ideas backlog).
 
 Note: Hardware acceleration backends (CUDA, Vulkan, etc.) are implemented
-in src/acceleration/ and can be enabled via build configuration.
+in src/acceleration/ and can be enabled via build configuration. Several
+runtime plugins are likewise built from src/* while plugins/* preserves
+legacy CMake entry points, manifests, examples, and roadmap material.
 ```
 
 ## Production Plugin Types

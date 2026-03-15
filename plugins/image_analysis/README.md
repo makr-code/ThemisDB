@@ -18,6 +18,8 @@ This directory contains image analysis plugins that enable ThemisDB to process a
 
 Image analysis plugins enable ThemisDB to process and analyze image data in parallel with LLM operations. Each plugin implements the `IImageAnalysisBackend` interface and can provide capabilities such as:
 
+For integrated plugins, canonical implementation code lives under `src/`, public API headers live under `include/plugins/`, and this directory primarily serves as documentation, manifests, and compatibility CMake entry points.
+
 - **Image Embeddings**: Generate semantic vectors for similarity search (CLIP, etc.)
 - **Image Captioning**: Generate text descriptions (LLaVA, BLIP-2, etc.)
 - **Object Detection**: Detect and localize objects (YOLO, Faster R-CNN, etc.)
@@ -32,6 +34,10 @@ Image analysis plugins enable ThemisDB to process and analyze image data in para
 **Status**: ✅ Production-Ready
 
 CLIP-based image embedding generation using ONNX Runtime.
+
+**Public API:** `include/plugins/image_analysis/onnx_clip_plugin.h`  
+**Implementation:** `src/onnx_clip/`  
+**Legacy compatibility path:** `plugins/image_analysis/onnx_clip/`
 
 **Features**:
 - CLIP ViT-B/32 and ViT-L/14 support
@@ -122,6 +128,8 @@ Image generation using Stable Diffusion via ONNX Runtime.
 └─────────────────────────────────────────────────────┘
 ```
 
+Integrated production plugins are built from `src/*`; legacy plugin subdirectories under `plugins/image_analysis/*` are retained for compatibility and documentation.
+
 ## Plugin Naming Convention
 
 Plugin DLLs must follow this naming pattern:
@@ -139,17 +147,17 @@ Examples:
 
 ## Creating a New Plugin
 
-### 1. Create Plugin Directory
+### 1. Create Plugin Sources
 
 ```bash
-mkdir plugins/image_analysis/my_plugin
-cd plugins/image_analysis/my_plugin
+mkdir src/my_image_plugin
+mkdir include/plugins/image_analysis
 ```
 
 ### 2. Implement Plugin Interface
 
 ```cpp
-// my_plugin.h
+// include/plugins/image_analysis/my_plugin.h
 #include "plugins/image_analysis_interface.h"
 
 class MyImagePlugin : public IImageAnalysisBackend {
@@ -181,8 +189,6 @@ public:
     // ... other methods
 };
 
-// Export plugin
-THEMIS_IMAGE_PLUGIN(MyImagePlugin)
 ```
 
 ### 3. Create CMakeLists.txt
@@ -196,7 +202,8 @@ add_library(themis_image_my_plugin SHARED
 )
 
 target_include_directories(themis_image_my_plugin PRIVATE
-    ${CMAKE_SOURCE_DIR}/include
+    ${THEMIS_ROOT_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 target_link_libraries(themis_image_my_plugin PRIVATE
@@ -208,6 +215,8 @@ install(TARGETS themis_image_my_plugin
     RUNTIME DESTINATION lib/themis/plugins
 )
 ```
+
+The plugin export macro should stay in the implementation translation unit, not in the public header.
 
 ### 4. Build Plugin
 

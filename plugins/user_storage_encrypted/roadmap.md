@@ -4,7 +4,7 @@
 
 **Status:** 🔧 Implemented (WIP / validation pending)
 
-Entry-point: `plugins/user_storage_encrypted/` · `src/` (TODO: confirm exact source file location)
+Entry-point: `plugins/user_storage_encrypted/CMakeLists.txt` (compatibility shim) · implementation: `src/user_storage_encrypted/` · public API: `include/user_storage_encrypted/*.hpp`
 
 | Feature | Status |
 |---------|--------|
@@ -21,7 +21,7 @@ Entry-point: `plugins/user_storage_encrypted/` · `src/` (TODO: confirm exact so
 
 - [~] Integration tests for all four security levels using a test Vault instance
 - [~] Zero-downtime key rotation smoke test in CI
-- [~] Confirmation and documentation of exact source file(s) in `src/`
+- [x] Source location documented: `src/user_storage_encrypted/` + `include/user_storage_encrypted/*.hpp`
 
 ## Planned Features
 
@@ -38,7 +38,7 @@ Entry-point: `plugins/user_storage_encrypted/` · `src/` (TODO: confirm exact so
 
 ## Short-term Goals (next 1–2 sprints)
 
-- [ ] Confirm and document the exact source file(s) in `src/` that implement this plugin.
+- [x] Confirm and document canonical implementation paths (`src/user_storage_encrypted/`, `include/user_storage_encrypted/*.hpp`).
 - [ ] Add integration tests for all four security levels using a test Vault instance.
 - [ ] Validate key rotation without service downtime (zero-downtime smoke test in CI).
 - [ ] Document minimum gocryptfs and FUSE version requirements.
@@ -72,7 +72,7 @@ Entry-point: `plugins/user_storage_encrypted/` · `src/` (TODO: confirm exact so
 - [ ] Docker Compose fixture: Vault dev server + ThemisDB for all four security levels
 - [ ] Integration tests: encrypt, store, retrieve, and decrypt for each tier
 - [ ] Zero-downtime key rotation: rotate key while active readers/writers are running; assert no data loss
-- [ ] Confirm and document exact source file location in `src/`
+- [x] Confirm and document canonical source/public-header locations for the integrated plugin
 
 ### Phase 2 – Windows Support & Audit Log
 - [ ] Windows implementation: evaluate VeraCrypt CLI wrapper vs. native NTFS EFS
@@ -126,7 +126,7 @@ Entry-point: `plugins/user_storage_encrypted/` · `src/` (TODO: confirm exact so
 
 ## Known Issues & Limitations
 
-- Exact source file location in `src/` has not been confirmed; documentation is incomplete
+- Source location is now defined (`src/user_storage_encrypted/` and `include/user_storage_encrypted/*.hpp`); remaining work is validation and hardening
 - gocryptfs mount management strategy is unclear: direct plugin control vs. external service
 - Vault unavailability behavior (read-only mode vs. full lockout) is not yet decided or implemented
 - Formal security audit / penetration test has not been performed; production use of streng-geheim tier is at operator risk until audit is complete

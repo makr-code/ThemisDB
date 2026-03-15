@@ -4,7 +4,7 @@
 
 **Status:** ✅ Production-ready
 
-Entry-point: `plugins/image_analysis/onnx_clip/`
+Entry-point: `plugins/image_analysis/onnx_clip/CMakeLists.txt` (compatibility shim) · implementation: `src/onnx_clip/` · public API: `include/plugins/image_analysis/onnx_clip_plugin.h`
 
 | Plugin | Status |
 |--------|--------|

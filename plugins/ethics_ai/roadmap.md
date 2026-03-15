@@ -4,16 +4,16 @@
 
 **Status:** 🔧 WIP / Implemented (native C++)
 
-Entry-point: `plugins/ethics_ai/ethics_ai_plugin.cpp`
+Entry-point: `plugins/ethics_ai/CMakeLists.txt` (compatibility shim) · implementation: `src/ethics_ai/` · public API: `include/plugins/ethics_ai/`
 
 | Component | File | Status |
 |-----------|------|--------|
-| Plugin entry-point | `ethics_ai_plugin.cpp` | ✅ Implemented |
-| Philosophy Loader | `philosophy_loader.cpp` | ✅ Implemented |
-| Argument Store | `argument_store.cpp` | ✅ Implemented |
-| Ethical Discourse Engine | `discourse_engine.cpp` | ✅ Implemented |
-| Ethics Evaluator | `ethics_evaluator.cpp` | ✅ Implemented |
-| RAG Context Engine | `rag_context_engine.cpp` | ✅ Implemented |
+| Plugin entry-point | `src/ethics_ai/ethics_ai_plugin.cpp` | ✅ Implemented |
+| Philosophy Loader | `src/ethics_ai/philosophy_loader.cpp` | ✅ Implemented |
+| Argument Store | `src/ethics_ai/argument_store.cpp` | ✅ Implemented |
+| Ethical Discourse Engine | `src/ethics_ai/discourse_engine.cpp` | ✅ Implemented |
+| Ethics Evaluator | `src/ethics_ai/ethics_evaluator.cpp` | ✅ Implemented |
+| RAG Context Engine | `src/ethics_ai/rag_context_engine.cpp` | ✅ Implemented |
 
 ---
 
@@ -68,8 +68,8 @@ Entry-point: `plugins/ethics_ai/ethics_ai_plugin.cpp`
 ## Implementation Phases
 
 ### Phase 1 – Test Coverage ≥ 80 %
-- [ ] Write unit tests for `ethics_ai_plugin.cpp`, `philosophy_loader.cpp`, `argument_store.cpp`
-- [ ] Write unit tests for `discourse_engine.cpp`, `ethics_evaluator.cpp`, `rag_context_engine.cpp`
+- [ ] Write unit tests for `src/ethics_ai/ethics_ai_plugin.cpp`, `src/ethics_ai/philosophy_loader.cpp`, `src/ethics_ai/argument_store.cpp`
+- [ ] Write unit tests for `src/ethics_ai/discourse_engine.cpp`, `src/ethics_ai/ethics_evaluator.cpp`, `src/ethics_ai/rag_context_engine.cpp`
 - [ ] Wire Prometheus metrics; verify `/metrics` endpoint in CI
 - [ ] YAML philosophy profile schema validation in CI; remove stubs from `STUB_REMOVAL_PLAN.md`
 

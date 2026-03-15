@@ -35,18 +35,18 @@ This document provides a complete summary of the Ethics AI Plugin implementation
 ### Core Implementation (22 files, ~3,000 LOC)
 
 #### Plugin Components
-1. **ethics_ai_plugin.cpp** - Main plugin implementation
-2. **ethics_ai_types.cpp/h** - Core data structures (8 types)
-3. **philosophy_loader.cpp/h** - YAML profile loading
-4. **argument_store.cpp/h** - Multi-model storage interface
-5. **rag_context_engine.cpp/h** - 7-pattern RAG framework
-6. **discourse_engine.cpp/h** - Debate orchestration
-7. **ethics_evaluator.cpp/h** - 5-dimension evaluation
-8. **ethics_aql_queries.h** - 26 AQL query templates
-9. **ethics_base_entity_adapter.h** - BaseEntity conversion
+1. **src/ethics_ai/ethics_ai_plugin.cpp** - Main plugin implementation
+2. **src/ethics_ai/ethics_ai_types.cpp/h** - Core data structures (8 types)
+3. **src/ethics_ai/philosophy_loader.cpp/h** - YAML profile loading
+4. **src/ethics_ai/argument_store.cpp/h** - Multi-model storage interface
+5. **src/ethics_ai/rag_context_engine.cpp/h** - 7-pattern RAG framework
+6. **src/ethics_ai/discourse_engine.cpp/h** - Debate orchestration
+7. **src/ethics_ai/ethics_evaluator.cpp/h** - 5-dimension evaluation
+8. **include/plugins/ethics_ai/ethics_aql_queries.h** - 26 AQL query templates
+9. **include/plugins/ethics_ai/ethics_base_entity_adapter.h** - BaseEntity conversion
 
 #### Build System
-10. **CMakeLists.txt** - Build configuration
+10. **CMakeLists.txt** - Compatibility shim / legacy entry point
 11. **ethics_ai_plugin.json.in** - Plugin metadata
 
 ### Philosophy Profiles (11 files, ~120KB)

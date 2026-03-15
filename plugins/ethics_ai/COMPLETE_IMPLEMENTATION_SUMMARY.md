@@ -201,11 +201,12 @@ auto scores = std::get<EthicsEvaluationResult>(evaluation);
 ### Build Plugin with Examples
 ```bash
 cmake -B build \
-  -DTHEMIS_BUILD_ETHICS_AI_PLUGIN=ON \
+    -DTHEMIS_BUILD_ENTERPRISE_PLUGINS=ON \
+    -DTHEMIS_PLUGIN_ETHICS_AI=ON \
   -DTHEMIS_BUILD_EXAMPLES=ON \
   -DTHEMIS_BUILD_TESTS=ON
 
-cmake --build build --target ethics_ai_plugin
+cmake --build build --target bench_rag_ethics
 ```
 
 ### Run Tests

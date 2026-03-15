@@ -7,7 +7,7 @@
 ## Scope
 
 - Enhancements to the ethics AI plugin covering multi-philosophy discourse, explainability of ethical verdicts, regulatory compliance checking (EU AI Act, GDPR), and causal/counterfactual reasoning.
-- Entry-points: `ethics_ai_plugin.cpp`, `discourse_engine.cpp`, `ethics_evaluator.cpp`, `rag_context_engine.cpp`.
+- Entry-point: `plugins/ethics_ai/CMakeLists.txt` (compatibility shim) · canonical implementation: `src/ethics_ai/`.
 - Out of scope: changes to ThemisDB vector storage or LLM inference; this plugin consumes those services via defined interfaces.
 - Covers ontology integration (OWL/RDF), multi-agent adversarial debate, and stakeholder-weighted evaluation.
 

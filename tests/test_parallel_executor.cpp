@@ -168,7 +168,7 @@ TEST(ParallelScanTest, EvenRowsFilter_LargeInput) {
     EXPECT_EQ(res->size(), N / 2);
 }
 
-TEST(ParallelScanTest, ParallelAndSequentialResultsAgree) {
+TEST(ParallelExecutorScanTest, ParallelAndSequentialResultsAgree) {
     // Both paths must produce the same set of entities.
     const size_t N = 300;
     Table input = buildTable(N);

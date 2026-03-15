@@ -16,7 +16,7 @@
 - ✅ Integration with main ThemisDB build system
 
 #### 2. Core Types and Data Structures
-**File:** `include/plugins/ethics_ai/ethics_ai_types.h` + `.cpp`
+**Files:** `include/plugins/ethics_ai/ethics_ai_types.h` + `src/ethics_ai/ethics_ai_types.cpp`
 
 - ✅ `EthicalArgument` - Complete with all fields
 - ✅ `ArgumentChain` - Dialectical reasoning support
@@ -138,7 +138,7 @@
 - Documentation completeness
 
 #### 9. Main Plugin Implementation
-**File:** `ethics_ai_plugin.cpp`
+**File:** `src/ethics_ai/ethics_ai_plugin.cpp`
 
 - ✅ Full `IEthicsAIPlugin` implementation
 - ✅ All 30+ interface methods
@@ -225,7 +225,8 @@
 
 **File:** `plugins/CMakeLists.txt`
 
-- ✅ Added `THEMIS_BUILD_ETHICS_AI_PLUGIN` option
+- ✅ Historical note: legacy standalone flag was introduced during initial implementation
+- ✅ Current integration uses `THEMIS_BUILD_ENTERPRISE_PLUGINS` + `THEMIS_PLUGIN_ETHICS_AI`
 - ✅ Conditional subdirectory inclusion
 - ✅ Status messages
 
@@ -244,23 +245,23 @@
 
 ### Created Files (21 total)
 
-**Headers (6):**
+**Headers (7):**
 1. `include/plugins/ethics_ai/ethics_ai_types.h`
 2. `include/plugins/ethics_ai/ethics_ai_plugin_interface.h`
-3. `plugins/ethics_ai/philosophy_loader.h`
-4. `plugins/ethics_ai/argument_store.h`
-5. `plugins/ethics_ai/rag_context_engine.h`
-6. `plugins/ethics_ai/discourse_engine.h`
-7. `plugins/ethics_ai/ethics_evaluator.h`
+3. `src/ethics_ai/philosophy_loader.h`
+4. `src/ethics_ai/argument_store.h`
+5. `src/ethics_ai/rag_context_engine.h`
+6. `src/ethics_ai/discourse_engine.h`
+7. `src/ethics_ai/ethics_evaluator.h`
 
 **Implementation (8):**
-1. `plugins/ethics_ai/ethics_ai_types.cpp`
-2. `plugins/ethics_ai/philosophy_loader.cpp`
-3. `plugins/ethics_ai/argument_store.cpp`
-4. `plugins/ethics_ai/rag_context_engine.cpp`
-5. `plugins/ethics_ai/discourse_engine.cpp`
-6. `plugins/ethics_ai/ethics_evaluator.cpp`
-7. `plugins/ethics_ai/ethics_ai_plugin.cpp`
+1. `src/ethics_ai/ethics_ai_types.cpp`
+2. `src/ethics_ai/philosophy_loader.cpp`
+3. `src/ethics_ai/argument_store.cpp`
+4. `src/ethics_ai/rag_context_engine.cpp`
+5. `src/ethics_ai/discourse_engine.cpp`
+6. `src/ethics_ai/ethics_evaluator.cpp`
+7. `src/ethics_ai/ethics_ai_plugin.cpp`
 
 **Build (2):**
 1. `plugins/ethics_ai/CMakeLists.txt`

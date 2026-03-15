@@ -1140,6 +1140,7 @@ if(THEMIS_BUILD_MODULAR)
             themis_graph
             themis_geo
             themis_content
+            themis_network
         )
             if(TARGET ${_mod})
                 list(APPEND _themis_test_core_libs ${_mod})
@@ -1158,6 +1159,7 @@ if(THEMIS_BUILD_MODULAR)
             themis_graph
             themis_geo
             themis_content
+            themis_network
         )
             if(TARGET ${_mod})
                 list(APPEND _themis_test_core_libs ${_mod})

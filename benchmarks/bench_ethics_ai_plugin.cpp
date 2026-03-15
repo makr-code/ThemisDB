@@ -33,11 +33,11 @@
  */
 
 #include <benchmark/benchmark.h>
-#include "../plugins/ethics_ai/philosophy_loader.h"
-#include "../plugins/ethics_ai/argument_store.h"
-#include "../plugins/ethics_ai/rag_context_engine.h"
-#include "../plugins/ethics_ai/discourse_engine.h"
-#include "../plugins/ethics_ai/ethics_evaluator.h"
+#include "plugins/ethics_ai/philosophy_loader.h"
+#include "plugins/ethics_ai/argument_store.h"
+#include "plugins/ethics_ai/rag_context_engine.h"
+#include "plugins/ethics_ai/discourse_engine.h"
+#include "plugins/ethics_ai/ethics_evaluator.h"
 #include <memory>
 #include <random>
 #include <sstream>

@@ -7,13 +7,14 @@
 ## Scope
 
 - Enhancements to RPC transport plugins: new protocols (Cap'n Proto, NATS, Arrow Flight), security hardening (mTLS, JWT/OAuth2), and observability (OpenTelemetry traces, per-RPC metrics).
-- Entry-point: `plugins/rpc/grpc/grpc_plugin.cpp`; new protocol backends follow the same `IRPCBackend` interface.
+- Entry-point: `plugins/rpc/grpc/CMakeLists.txt` (compatibility shim) · canonical implementation: `src/rpc_grpc/`.
+- New protocol backends should follow Themis RPC plugin interfaces (`IRPCPlugin` / `IRPCServer`).
 - Out of scope: changes to ThemisDB query engine internals; this plugin only handles transport serialisation and connection lifecycle.
 - Covers adaptive flow control, compression negotiation, and multiplexed streaming for high-throughput clients.
 
 ## Design Constraints
 
-- [ ] Every RPC backend MUST implement `IRPCBackend` (`listen`, `send`, `receive`, `shutdown`).
+- [ ] Every RPC backend MUST integrate via `IRPCPlugin` and provide an `IRPCServer` implementation.
 - [ ] gRPC streaming MUST support at least 50,000 events/s before back-pressure triggers.
 - [ ] TLS MUST be enabled by default; plaintext connections MUST require explicit `allow_insecure=true` configuration.
 - [ ] JWT validation MUST use asymmetric keys (RS256 or ES256); symmetric HS256 is prohibited.
@@ -24,10 +25,10 @@
 
 | Interface | Consumer | Notes |
 |---|---|---|
-| `IRPCBackend` | `RPCPlugin`, ThemisDB server | `listen`, `send`, `receive`, `shutdown` |
-| `ITLSConfigProvider` | `IRPCBackend` impls | Loads cert/key/CA; validates cert chain at startup |
-| `IJWTValidator` | `IRPCBackend` impls | Validates RS256/ES256 tokens; returns principal + claims |
-| `ICompressionNegotiator` | `IRPCBackend` impls | Selects zstd/gzip per call based on `Accept-Encoding` |
+| `IRPCPlugin` / `IRPCServer` | PluginManager, ThemisDB server | RPC plugin contract + server lifecycle |
+| `ITLSConfigProvider` | RPC backend impls | Loads cert/key/CA; validates cert chain at startup |
+| `IJWTValidator` | RPC backend impls | Validates RS256/ES256 tokens; returns principal + claims |
+| `ICompressionNegotiator` | RPC backend impls | Selects zstd/gzip per call based on `Accept-Encoding` |
 | OpenTelemetry `Tracer` | All backends | Span per RPC call with method, status, response-size attributes |
 
 ## Idea Backlog
@@ -62,7 +63,7 @@
 
 ## Test Strategy
 
-- Unit tests for `IRPCBackend` with a loopback server; assert round-trip latency ≤ 1 ms for 1 KB payload.
+- Unit tests for `IRPCServer` implementations with a loopback server; assert round-trip latency ≤ 1 ms for 1 KB payload.
 - TLS enforcement tests: assert that a plaintext connection is rejected when `allow_insecure=false` (default).
 - JWT validation tests: expired token, wrong algorithm (HS256), and invalid signature must all return `UNAUTHENTICATED`.
 - Throughput benchmark: gRPC unary 10,000 req/s with 100-byte payload sustained for 30 s; assert zero errors.
