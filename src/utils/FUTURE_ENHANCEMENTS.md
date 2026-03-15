@@ -53,9 +53,9 @@ This document covers planned enhancements to ThemisDB's shared utilities subsyst
 - Line 575: "Fallback stub verification: compare base64(hash) equality" — TLS certificate verification falls back to comparing base64 hashes instead of validating the certificate chain.
 
 **Implementation Notes:**
-- `[ ]` Line 456: implement real PKCS#10 CSR generation and submission using OpenSSL `X509_REQ_*` API; only fall back when ACME/internal CA is not configured.
-- `[ ]` Line 575: implement real X.509 chain verification using `X509_verify_cert()` with the configured trust store; never fall back to hash comparison for production traffic.
-- `[ ]` Add explicit `#ifdef THEMIS_TEST_MODE` guard around the stub paths so they cannot be used in production builds.
+- `[x]` Line 456: implement real PKCS#10 CSR generation and submission using OpenSSL `X509_REQ_*` API; only fall back when ACME/internal CA is not configured.
+- `[x]` Line 575: implement real X.509 chain verification using `X509_verify_cert()` with the configured trust store; never fall back to hash comparison for production traffic.
+- `[x]` Add explicit `#ifdef THEMIS_TEST_MODE` guard around the stub paths so they cannot be used in production builds.
 
 ---
 

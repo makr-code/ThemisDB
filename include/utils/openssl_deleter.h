@@ -81,6 +81,13 @@ struct X509CRLDeleter {
     }
 };
 
+/// Deleter for X509_REQ (PKCS#10 Certificate Signing Request)
+struct X509REQDeleter {
+    void operator()(X509_REQ* req) const noexcept {
+        if (req) X509_REQ_free(req);
+    }
+};
+
 /// Deleter for X509_STORE
 struct X509StoreDeleter {
     void operator()(X509_STORE* store) const noexcept {
@@ -131,6 +138,9 @@ using X509Ptr = std::unique_ptr<X509, X509Deleter>;
 
 /// RAII wrapper for X509_CRL
 using X509CRLPtr = std::unique_ptr<X509_CRL, X509CRLDeleter>;
+
+/// RAII wrapper for X509_REQ (PKCS#10 Certificate Signing Request)
+using X509REQPtr = std::unique_ptr<X509_REQ, X509REQDeleter>;
 
 /// RAII wrapper for X509_STORE
 using X509StorePtr = std::unique_ptr<X509_STORE, X509StoreDeleter>;

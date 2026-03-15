@@ -26,6 +26,7 @@
 #include <openssl/evp.h>
 #include <openssl/pem.h>
 #include <openssl/x509.h>
+#include <openssl/x509_vfy.h>
 #include <openssl/rsa.h>
 
 #include <filesystem>
@@ -267,4 +268,86 @@ TEST(PKIClientTest, VerifyHash_ChainVerify_TrustedSelfSignedCert_Accepted) {
 
     EXPECT_TRUE(client.verifyHash(hash, sig))
         << "Certificate chain validation must accept a self-signed cert trusted by itself";
+}
+
+// ---------------------------------------------------------------------------
+// PKCS#10 CSR generation tests (X509_REQ_* API)
+// ---------------------------------------------------------------------------
+
+// generateCSR() must produce a non-empty, PEM-encoded, self-signed PKCS#10
+// request that can be parsed back by OpenSSL.
+TEST(PKIClientTest, GenerateCSR_WithKey_ProducesValidX509Req) {
+    std::filesystem::create_directories("data/test_pki_csr");
+    const std::string key_path  = "data/test_pki_csr/csr_key.pem";
+    const std::string cert_path = "data/test_pki_csr/csr_cert.pem"; // generated but not used
+
+    ASSERT_TRUE(generate_rsa_key_and_self_signed_cert(key_path, cert_path));
+
+    PKIConfig cfg;
+    cfg.key_path   = key_path;
+    cfg.service_id = "themis-test-service";
+    cfg.signature_algorithm = "RSA-SHA256";
+
+    VCCPKIClient client(cfg);
+    std::string csr_pem = client.generateCSR();
+
+    ASSERT_FALSE(csr_pem.empty()) << "generateCSR() must return a non-empty PEM string";
+    EXPECT_NE(csr_pem.find("-----BEGIN CERTIFICATE REQUEST-----"), std::string::npos)
+        << "CSR PEM must contain CERTIFICATE REQUEST header";
+
+    // Parse the CSR back with OpenSSL to confirm it is well-formed
+    BIO* bio = BIO_new_mem_buf(csr_pem.data(), static_cast<int>(csr_pem.size()));
+    ASSERT_NE(bio, nullptr);
+    X509_REQ* req = PEM_read_bio_X509_REQ(bio, nullptr, nullptr, nullptr);
+    BIO_free(bio);
+    ASSERT_NE(req, nullptr) << "OpenSSL must be able to parse the generated CSR";
+
+    // Verify the CSR self-signature
+    EVP_PKEY* pub = X509_REQ_get_pubkey(req);
+    ASSERT_NE(pub, nullptr);
+    int verify_rc = X509_REQ_verify(req, pub);
+    EVP_PKEY_free(pub);
+    X509_REQ_free(req);
+
+    EXPECT_EQ(verify_rc, 1) << "CSR self-signature must be valid";
+}
+
+// generateCSR() must fail gracefully when no private key is configured.
+TEST(PKIClientTest, GenerateCSR_NoKey_ReturnsEmpty) {
+    PKIConfig cfg; // no key_path
+    cfg.service_id = "themis-test";
+    VCCPKIClient client(cfg);
+    EXPECT_TRUE(client.generateCSR().empty())
+        << "generateCSR() without a configured key must return an empty string";
+}
+
+// When ca_url is configured but the CA server is unavailable, signHash must
+// not fall back to the base64 stub — it must return ok=false (fail-closed).
+TEST(PKIClientTest, SignHash_CaUrlConfigured_UnavailableCA_FailsClosed) {
+    std::filesystem::create_directories("data/test_pki_csr");
+    const std::string key_path  = "data/test_pki_csr/capath_key.pem";
+    const std::string cert_path = "data/test_pki_csr/capath_cert.pem";
+    ASSERT_TRUE(generate_rsa_key_and_self_signed_cert(key_path, cert_path));
+
+    PKIConfig cfg;
+    cfg.key_path   = key_path;
+    // No cert_path — triggers the ca_url provisioning path
+    cfg.ca_url     = "http://127.0.0.1:19999"; // unreachable
+    cfg.service_id = "themis-test";
+    cfg.signature_algorithm = "RSA-SHA256";
+
+    VCCPKIClient client(cfg);
+    auto hash = random_bytes(32);
+    auto sig  = client.signHash(hash);
+
+    // CA is unreachable: provisioned cert will be empty.
+    // Production: ok=false (no THEMIS_TEST_MODE fallback)
+    // Test mode: the THEMIS_TEST_MODE stub kicks in.
+#ifdef THEMIS_TEST_MODE
+    // In test mode the base64 stub is still active — just verify we get a result.
+    EXPECT_TRUE(sig.ok);
+#else
+    EXPECT_FALSE(sig.ok)
+        << "signHash must fail-closed when ca_url is unreachable and no local cert exists";
+#endif
 }
