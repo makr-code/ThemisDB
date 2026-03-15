@@ -4,6 +4,14 @@ Based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [1.8.0] — 2026-03-15
+### Added
+- Named savepoints with partial rollback (`createSavepoint`, `rollbackToSavepoint`, `releaseSavepoint`, `getSavepoints`, `hasSavepoint`) — backs each named savepoint with RocksDB `SetSavePoint`/`RollbackToSavePoint`/`PopSavePoint`
+- SAGA step trimming on `rollbackToSavepoint` — compensating actions registered after the savepoint are discarded, preventing incorrect compensation during full rollback
+- Savepoint stacking with correct LIFO ordering — multiple overlapping savepoints are resolved in creation order
+- Automatic savepoint cleanup on rollback and release — the target savepoint and all newer ones are always removed together
+- CI workflow for Transaction Savepoints (`transaction-savepoints-ci.yml`) covering named savepoint API, SAGA trimming, and anonymous stack API on gcc-12, clang-15, and gcc-13
+
 ## [1.5.0] — 2026-03-12
 ### Added
 - SAGA orchestration engine with fully-implemented compensating actions (relational, secondary-index, graph, vector)
