@@ -182,6 +182,7 @@ class HealthMonitor;
 class CollectionRedundancyManager;
 class ConsistentHashRing;
 class ShardTopology;
+class ShardingManager;
 }
 
 namespace index {
@@ -422,6 +423,23 @@ public:
 #ifdef THEMIS_ENABLE_HTTP3
     friend class Http3Session;
 #endif
+
+    /**
+     * @brief Inject the live ShardingManager into the HTTP server.
+     *
+     * Must be called before start() to activate /v1/admin/shards endpoints.
+     * The pointer must remain valid for the lifetime of the HttpServer.
+     *
+     * @param mgr Pointer to the live ShardingManager (typically the singleton).
+     */
+    void setShardingManager(sharding::ShardingManager* mgr) {
+        sharding_manager_ = mgr;
+    }
+
+    /// @return the injected ShardingManager (may be nullptr before injection).
+    sharding::ShardingManager* getShardingManager() const {
+        return sharding_manager_;
+    }
 
 private:
     // Session class for handling individual connections
@@ -972,6 +990,9 @@ private:
     std::shared_ptr<sharding::HealthMonitor> health_monitor_;
     std::string wal_shared_secret_;
     std::string wal_hmac_secret_;
+
+    // Live ShardingManager (injected via setShardingManager before start())
+    sharding::ShardingManager* sharding_manager_{nullptr};
 
     // RAID redundancy components (optional)
     std::shared_ptr<sharding::CollectionRedundancyManager> redundancy_manager_;
