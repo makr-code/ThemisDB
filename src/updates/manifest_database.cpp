@@ -11,7 +11,7 @@
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   78.0/100                                       ║
     • Total Lines:     489                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
@@ -464,20 +464,84 @@ std::optional<std::string> ManifestDatabase::getCachedDownload(
 
 bool ManifestDatabase::deleteManifest(const std::string& version) {
     try {
-        // Delete manifest
-        rocksdb::Status status = storage_->getRawDB()->Delete(
-            rocksdb::WriteOptions(),
-            cf_manifests_ ? cf_manifests_ : storage_->getRawDB()->DefaultColumnFamily(),
-            version
-        );
-        
-        if (!status.ok()) {
-            LOG_ERROR("Failed to delete manifest {}: {}", version, status.ToString());
+        // Retrieve manifest before deletion to obtain the list of associated files.
+        // Also acts as an existence check: if the manifest is absent, abort early.
+        auto manifest_opt = getManifest(version);
+        if (!manifest_opt) {
+            LOG_ERROR("Cannot delete manifest {}: not found", version);
             return false;
         }
-        
-        // TODO: Delete associated files from registry
-        
+
+        auto* manifests_cf = cf_manifests_ ? cf_manifests_
+                                           : storage_->getRawDB()->DefaultColumnFamily();
+        auto* files_cf = cf_files_ ? cf_files_
+                                   : storage_->getRawDB()->DefaultColumnFamily();
+        auto* cache_cf = cf_cache_ ? cf_cache_
+                                   : storage_->getRawDB()->DefaultColumnFamily();
+
+        // Write tombstone key before the deletion window to guard against races.
+        // This signals that deletion of version is in progress; on restart any
+        // pending tombstones can be detected and the cleanup retried.
+        const std::string tombstone_key = "__tombstone__:" + version;
+        storage_->getRawDB()->Put(
+            rocksdb::WriteOptions(),
+            manifests_cf,
+            tombstone_key,
+            "deleting"
+        );
+
+        // Delete manifest record from RocksDB (committed before touching files)
+        rocksdb::Status status = storage_->getRawDB()->Delete(
+            rocksdb::WriteOptions(),
+            manifests_cf,
+            version
+        );
+
+        if (!status.ok()) {
+            LOG_ERROR("Failed to delete manifest {}: {}", version, status.ToString());
+            // Remove tombstone so the version is not stuck in a deleting state
+            storage_->getRawDB()->Delete(rocksdb::WriteOptions(), manifests_cf, tombstone_key);
+            return false;
+        }
+
+        // Delete associated files only after the RocksDB manifest entry is committed
+        for (const auto& file : manifest_opt->files) {
+            // Remove file_registry entry from RocksDB
+            const std::string file_key = file.path + ":" + version;
+            rocksdb::Status file_status = storage_->getRawDB()->Delete(
+                rocksdb::WriteOptions(),
+                files_cf,
+                file_key
+            );
+            if (!file_status.ok() && !file_status.IsNotFound()) {
+                LOG_WARN("Failed to delete file registry entry for {}: {}",
+                         file.path, file_status.ToString());
+            }
+
+            // Look up the cached local path and remove the file from the filesystem
+            auto cached_path = getCachedDownload(version, file.path);
+            if (cached_path) {
+                std::error_code ec;
+                if (std::filesystem::remove(*cached_path, ec)) {
+                    LOG_DEBUG("Deleted cached file: {}", *cached_path);
+                } else if (ec) {
+                    LOG_WARN("Failed to delete cached file {}: {}",
+                             *cached_path, ec.message());
+                }
+
+                // Remove download cache entry from RocksDB
+                const std::string cache_key = version + ":" + file.path;
+                storage_->getRawDB()->Delete(
+                    rocksdb::WriteOptions(),
+                    cache_cf,
+                    cache_key
+                );
+            }
+        }
+
+        // Deletion window complete; remove tombstone
+        storage_->getRawDB()->Delete(rocksdb::WriteOptions(), manifests_cf, tombstone_key);
+
         LOG_INFO("Deleted manifest for version {}", version);
         return true;
     } catch (const std::exception& e) {
