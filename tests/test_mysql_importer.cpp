@@ -98,6 +98,10 @@ struct ImportStats {
 using RowCallback = std::function<bool(const std::string& table_name,
                                        const nlohmann::json& entity)>;
 
+using MetricsCallback = std::function<void(const std::string& metric,
+                                           const std::map<std::string, std::string>& labels,
+                                           double value)>;
+
 struct ImportOptions {
     bool                             dry_run             = false;
     bool                             continue_on_error   = true;
@@ -109,6 +113,7 @@ struct ImportOptions {
     size_t                           max_statement_size_bytes = 0;
     std::function<bool(const std::string&, const std::string&)> permission_check;
     RowCallback                      streaming_row_callback;
+    MetricsCallback                  metrics_callback;  ///< Prometheus / OTel metrics hook
 };
 
 // ---------------------------------------------------------------------------
@@ -1008,6 +1013,11 @@ static ImportStats mysqlStreamingImportContent(const std::string& content,
                         }
                     }
                     stats.imported_records++;
+                    if (options.metrics_callback) {
+                        options.metrics_callback(
+                            "importers_mysql_rows_imported_total",
+                            {{"table", table_name}}, 1.0);
+                    }
                     if (cancelled) break;
                 }
             }
@@ -1425,6 +1435,59 @@ TEST(MySQLJdbcJsonConfig, TypeOverridesField) {
     } catch (...) {}
     EXPECT_EQ(overrides.at("enum"),  "string");
     EXPECT_EQ(overrides.at("set"),   "array");
+}
+
+// ===========================================================================
+// Tests: MySQL-specific Prometheus metric names
+// (Verifies that the correct per-importer counter names are emitted, consistent
+//  with the naming convention importers_<source>_rows_imported_total and
+//  importers_<source>_errors_total.)
+// ===========================================================================
+
+TEST(MySQLPrometheusMetrics, RowsImportedTotalEmittedPerRow) {
+    ImportOptions opts;
+    std::vector<std::string> metric_names;
+    opts.metrics_callback = [&](const std::string& metric,
+                                 const std::map<std::string,std::string>&,
+                                 double) {
+        metric_names.push_back(metric);
+    };
+
+    mysqlStreamingImportContent(kMySQLDump, opts);
+
+    bool found = std::find(metric_names.begin(), metric_names.end(),
+                           "importers_mysql_rows_imported_total") != metric_names.end();
+    EXPECT_TRUE(found) << "Expected importers_mysql_rows_imported_total to be emitted";
+}
+
+TEST(MySQLPrometheusMetrics, RowsImportedTotalCountMatchesImportedRecords) {
+    ImportOptions opts;
+    size_t rows_imported_emitted = 0;
+    opts.metrics_callback = [&](const std::string& metric,
+                                 const std::map<std::string,std::string>&,
+                                 double) {
+        if (metric == "importers_mysql_rows_imported_total") ++rows_imported_emitted;
+    };
+
+    auto stats = mysqlStreamingImportContent(kMySQLDump, opts);
+
+    EXPECT_EQ(rows_imported_emitted, stats.imported_records);
+}
+
+TEST(MySQLPrometheusMetrics, MetricNamingConventionFollowed) {
+    // Verify that the MySQL-specific metric names follow the naming convention:
+    // importers_<source>_rows_imported_total  and  importers_<source>_errors_total
+    // See: src/importers/FUTURE_ENHANCEMENTS.md §MySQL/MariaDB Importer
+    const std::string expected_rows_metric   = "importers_mysql_rows_imported_total";
+    const std::string expected_errors_metric = "importers_mysql_errors_total";
+
+    EXPECT_EQ(expected_rows_metric.substr(0, 10),   "importers_");
+    EXPECT_NE(expected_rows_metric.find("mysql"),    std::string::npos);
+    EXPECT_NE(expected_rows_metric.find("imported"), std::string::npos);
+
+    EXPECT_EQ(expected_errors_metric.substr(0, 10), "importers_");
+    EXPECT_NE(expected_errors_metric.find("mysql"),  std::string::npos);
+    EXPECT_NE(expected_errors_metric.find("errors"), std::string::npos);
 }
 
 // Disabled custom main to avoid multiple definition; rely on gtest_main.

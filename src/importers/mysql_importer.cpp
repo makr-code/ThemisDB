@@ -251,6 +251,7 @@ ImportStats MySQLImporter::importData(
         stats.elapsed_seconds);
 
     // Prometheus / OTel metrics emission
+    // Generic pipeline-level counters
     emitMetric(options, "themisdb_import_rows_total",
                {{"status", "imported"}},
                static_cast<double>(stats.imported_records));
@@ -271,6 +272,13 @@ ImportStats MySQLImporter::importData(
                    {{"code", std::to_string(static_cast<uint32_t>(e.code))}},
                    1.0);
     }
+    // MySQL-specific counters (consistent with import pipeline naming convention)
+    emitMetric(options, "importers_mysql_rows_imported_total",
+               {},
+               static_cast<double>(stats.imported_records));
+    emitMetric(options, "importers_mysql_errors_total",
+               {},
+               static_cast<double>(stats.failed_records + stats.structured_errors.size()));
 
     // OTel span for the entire import
     emitSpan(options, "import_total",
@@ -824,6 +832,8 @@ bool MySQLImporter::parseInsert(const std::string& sql, const ImportOptions& opt
             stats.failed_records++;
             emitMetric(options, "themisdb_import_rows_total",
                        {{"table", table_name}, {"status", "failed"}}, 1.0);
+            emitMetric(options, "importers_mysql_errors_total",
+                       {{"table", table_name}}, 1.0);
         } else {
             json entity = convertRowToEntity(eff_schema, values);
             THEMIS_DEBUG("MySQL INSERT entity: {}", entity.dump());
@@ -836,6 +846,8 @@ bool MySQLImporter::parseInsert(const std::string& sql, const ImportOptions& opt
             rows_imported++;
             emitMetric(options, "themisdb_import_rows_total",
                        {{"table", table_name}, {"status", "imported"}}, 1.0);
+            emitMetric(options, "importers_mysql_rows_imported_total",
+                       {{"table", table_name}}, 1.0);
             if (cancelled_) return true;  // outer loop checks cancelled_ and stops
         }
 

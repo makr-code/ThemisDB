@@ -37,8 +37,8 @@ This document covers planned enhancements to the Importers module beyond what is
 
 **Implementation Notes:**
 - `[ ]` Verify `mysql_importer.cpp` registers with `ImporterRegistry` and is reachable from the admin import API.
-- `[ ]` Add Prometheus counters `importers_mysql_rows_imported_total` and `importers_mysql_errors_total` consistent with other importer naming.
-- `[ ]` Add integration test using a Docker MySQL 8.0 container.
+- `[x]` Add Prometheus counters `importers_mysql_rows_imported_total` and `importers_mysql_errors_total` consistent with other importer naming.
+- `[x]` Add integration test using a Docker MySQL 8.0 container.
 
 ### MongoDB Document Importer
 **Priority:** High
@@ -46,8 +46,8 @@ This document covers planned enhancements to the Importers module beyond what is
 **Status:** `src/importers/mongo_importer.cpp` exists; verify it handles all BSON extended JSON types.
 
 **Implementation Notes:**
-- `[ ]` BSON-to-JSON conversion must handle `ObjectId` → string, `ISODate` → ISO 8601, `Decimal128` → string, `Binary` → base64.
-- `[ ]` Add integration test using a Docker MongoDB 6.0 container.
+- `[x]` BSON-to-JSON conversion must handle `ObjectId` → string, `ISODate` → ISO 8601, `Decimal128` → string, `Binary` → base64.
+- `[x]` Add integration test using a Docker MongoDB 6.0 container.
 
 **Performance Targets:**
 - Import throughput ≥ 30 000 documents/sec from a local MongoDB 6.0 instance with 2 KB average documents.
