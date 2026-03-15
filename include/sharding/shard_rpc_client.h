@@ -26,6 +26,7 @@
 #include <string>
 #include <memory>
 #include <stdexcept>
+#include <functional>
 #include <nlohmann/json.hpp>
 
 #ifdef THEMIS_ENABLE_GRPC
@@ -33,6 +34,11 @@
 #endif
 
 namespace themis::sharding {
+
+// Forward declarations
+class OperationalMetrics;
+class PrometheusMetrics;
+class MTLSConnectionPoolManager;
 
 /**
  * @brief Exception thrown for non-retryable RPC errors.
@@ -44,6 +50,26 @@ namespace themis::sharding {
 class NonRetryableRpcError : public std::runtime_error {
 public:
     using std::runtime_error::runtime_error;
+};
+
+/**
+ * @brief Retry policy for cross-shard RPC calls.
+ *
+ * Classifies gRPC status codes into retryable and non-retryable categories
+ * and integrates with the CircuitBreaker to prevent retry storms.
+ *
+ * Retryable status codes:
+ *   UNAVAILABLE, DEADLINE_EXCEEDED, RESOURCE_EXHAUSTED, ABORTED, INTERNAL
+ *
+ * Non-retryable status codes (raise NonRetryableRpcError immediately):
+ *   INVALID_ARGUMENT, NOT_FOUND, ALREADY_EXISTS, PERMISSION_DENIED,
+ *   UNAUTHENTICATED, FAILED_PRECONDITION, OUT_OF_RANGE, UNIMPLEMENTED
+ */
+struct ShardRpcRetryPolicy {
+    int max_attempts         = 3;     ///< Maximum total attempts (1 + retries).
+    int initial_backoff_ms   = 100;   ///< Initial delay before first retry.
+    int max_backoff_ms       = 5000;  ///< Upper cap for exponential back-off.
+    bool use_circuit_breaker = true;  ///< Gate retries through the circuit breaker.
 };
 
 /**
@@ -63,6 +89,7 @@ class ShardRPCClient {
 public:
     struct Config {
         std::string endpoint;           // Shard endpoint (e.g., "shard1:50051" for gRPC)
+        std::string shard_id;           // Local shard identifier used for metric labels
         int timeout_ms = 5000;          // RPC timeout in milliseconds
         int max_retries = 3;            // Maximum retry attempts
         int retry_delay_ms = 100;       // Initial delay between retries (exponential backoff)
@@ -74,10 +101,18 @@ public:
         std::string tls_ca_cert_path;   // Path to CA certificate for server verification (PEM format)
         bool tls_verify_server = true;  // Verify server certificate against CA
 
+        // Connection pool (optional, shared across ShardRPCClient instances)
+        MTLSConnectionPoolManager* connection_pool = nullptr; // Non-owning; nullptr disables pooling
+        int max_pool_connections = 50;  // Per-endpoint pool size; propagated via GossipConfigManager
+
         // Circuit Breaker Configuration
         bool enable_circuit_breaker = true;          // Enable circuit breaker protection
         int circuit_breaker_failure_threshold = 5;   // Failures before opening circuit
-        int circuit_breaker_recovery_ms = 5000;      // Milliseconds before half-open probe
+        int circuit_breaker_recovery_ms = 5000;      // Milliseconds before half-open probe (default 5 s)
+
+        // Metrics (optional, non-owning pointers; nullptr disables the respective metric sink)
+        OperationalMetrics* operational_metrics = nullptr;
+        PrometheusMetrics*  prometheus_metrics  = nullptr;
     };
     
     explicit ShardRPCClient(const Config& config);

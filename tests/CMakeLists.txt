@@ -15365,6 +15365,17 @@ add_custom_target(run_tests
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
 
+# ---------------------------------------------------------------------------
+# OrphanDetector DistributedCoordinator wiring focused tests (v1.8.0, #202)
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_orphan_detector_wired.cpp")
+    message(STATUS "Adding OrphanDetector DistributedCoordinator wiring focused tests (sharding, Issue #202)")
+
+    add_executable(test_orphan_detector_wired_focused
+        test_orphan_detector_wired.cpp
+    )
+
+    target_include_directories(test_orphan_detector_wired_focused PRIVATE
 # SecuritySignatureManager: RocksDB Iteration focused tests (v1.8.0, Issue #206)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_security_signature_rocksdb_iteration.cpp")
     message(STATUS "Adding SecuritySignatureManager RocksDB Iteration focused tests (storage module, Issue #206)")
@@ -15378,12 +15389,70 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_security_signature_rocksdb_iteration
         ${CMAKE_SOURCE_DIR}/src
     )
 
+    target_link_libraries(test_orphan_detector_wired_focused PRIVATE
     target_link_libraries(test_security_signature_rocksdb_iteration_focused PRIVATE
         ${TEST_LIBS}
         themis_core
         Threads::Threads
     )
 
+    target_compile_definitions(test_orphan_detector_wired_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME OrphanDetectorWiredFocusedTests
+        COMMAND test_orphan_detector_wired_focused)
+
+    set_tests_properties(OrphanDetectorWiredFocusedTests PROPERTIES
+        LABELS "sharding;orphan-detector;distributed-coordinator;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  OrphanDetector: DistributedCoordinator injection, listInFlightTransactions, getTransaction wiring")
+else()
+    message(STATUS "OrphanDetector wired focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_orphan_detector_wired.cpp")
+endif()
+
+# ---------------------------------------------------------------------------
+# Shard RPC Integration focused tests (v0.9.0 + v1.8.0, Issue #202)
+# AC3: ShardRpcRetryPolicy  AC4: mtls_connection_pool wiring + gossip config
+# AC5: OperationalMetrics + PrometheusMetrics per-RPC recording
+# AC6: MTLSConnectionPoolManager::onCertificateRotated() cert-rotation drain
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_shard_rpc_integration.cpp")
+    message(STATUS "Adding Shard RPC Integration focused tests (sharding, Issue #202)")
+
+    add_executable(test_shard_rpc_integration_focused
+        test_shard_rpc_integration.cpp
+    )
+
+    target_include_directories(test_shard_rpc_integration_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_shard_rpc_integration_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_shard_rpc_integration_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ShardRpcIntegrationFocusedTests
+        COMMAND test_shard_rpc_integration_focused)
+
+    set_tests_properties(ShardRpcIntegrationFocusedTests PROPERTIES
+        LABELS "sharding;rpc;retry-policy;mtls;metrics;cert-rotation;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ShardRpcRetryPolicy, mtls pool wiring, OperationalMetrics/PrometheusMetrics recordRpcCall, cert-rotation drain")
+else()
+    message(STATUS "Shard RPC Integration focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_shard_rpc_integration.cpp")
+endif()
     target_compile_definitions(test_security_signature_rocksdb_iteration_focused PRIVATE
         THEMIS_TEST_BUILD=1
     )

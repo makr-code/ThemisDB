@@ -25,8 +25,10 @@
 
 #include "sharding/gossip_config_manager.h"
 #include "sharding/shard_topology.h"
+#include "sharding/cross_shard_transaction.h"
 #include <nlohmann/json.hpp>
 #include <atomic>
+#include <optional>
 #include <shared_mutex>
 #include <thread>
 #include <chrono>
@@ -165,7 +167,34 @@ public:
     // Statistics
     Statistics getStatistics() const;
     nlohmann::json getStatisticsJson() const;
-    
+
+    // Transaction visibility – wired to a CrossShardTransactionCoordinator
+    // so that OrphanDetector can query in-flight transactions via this class.
+
+    /**
+     * Register the transaction coordinator whose in-flight transactions this
+     * DistributedCoordinator will expose.  The caller must ensure the
+     * coordinator outlives this object (or call with nullptr to detach).
+     */
+    void setTransactionCoordinator(
+        themisdb::sharding::CrossShardTransactionCoordinator* txn_coordinator);
+
+    /**
+     * Return all transactions that are currently active / in-flight according
+     * to the registered CrossShardTransactionCoordinator.
+     * Returns an empty vector when no coordinator has been registered.
+     */
+    std::vector<themisdb::sharding::CrossShardTransaction>
+    listInFlightTransactions() const;
+
+    /**
+     * Look up a specific transaction by ID in the registered coordinator.
+     * Returns std::nullopt when no coordinator is registered or the
+     * transaction does not exist.
+     */
+    std::optional<themisdb::sharding::CrossShardTransaction>
+    getTransaction(const std::string& txn_id) const;
+
 private:
     std::string local_shard_id_;
     std::shared_ptr<ShardTopology> topology_;
@@ -198,7 +227,11 @@ private:
     
     // Statistics
     Statistics stats_;
-    
+
+    // Optional wired transaction coordinator (non-owning pointer).
+    themisdb::sharding::CrossShardTransactionCoordinator* txn_coordinator_{nullptr};
+    mutable std::shared_mutex txn_coordinator_mutex_;
+
     // Election logic (Raft-inspired but gossip-based)
     void electionLoop();
     void heartbeatLoop();

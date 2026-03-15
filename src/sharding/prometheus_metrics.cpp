@@ -33,6 +33,19 @@ PrometheusMetrics::PrometheusMetrics(const Config& config)
     : config_(config) {
 }
 
+void PrometheusMetrics::recordRpcCall(
+    const std::string& shard_id,
+    const std::string& method,
+    const std::string& outcome,
+    double latency_ms
+) {
+    incrementCounter("themis_cross_shard_rpc_calls_total",
+                     {{"shard_id", shard_id}, {"method", method}, {"outcome", outcome}});
+    observeHistogram("themis_cross_shard_rpc_latency_seconds",
+                     latency_ms / 1000.0,
+                     {{"shard_id", shard_id}, {"method", method}});
+}
+
 void PrometheusMetrics::recordShardHealth(const std::string& shard_id, const std::string& status) {
     setGauge("themis_shard_health_status", 1.0, {{"shard_id", shard_id}, {"status", status}});
 }

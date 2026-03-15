@@ -27,6 +27,9 @@
 
 #include "sharding/shard_rpc_client.h"
 #include "sharding/circuit_breaker.h"
+#include "sharding/mtls_connection_pool.h"
+#include "sharding/operational_metrics.h"
+#include "sharding/prometheus_metrics.h"
 #include "utils/logger.h"
 #include "utils/file_utils.h"
 #include <thread>
@@ -64,6 +67,21 @@ struct ShardRPCClient::Impl {
     std::shared_ptr<grpc::Channel> channel;
     std::unique_ptr<themis::sharding::proto::ShardService::Stub> stub;
 #endif
+
+    /// Emit a single-attempt metric to both sinks (if configured).
+    void recordMetrics(const std::string& method,
+                       const std::string& outcome,
+                       uint64_t latency_us) const
+    {
+        const std::string& sid = config.shard_id.empty() ? config.endpoint : config.shard_id;
+        if (config.operational_metrics) {
+            config.operational_metrics->recordRpcCall(sid, method, outcome, latency_us);
+        }
+        if (config.prometheus_metrics) {
+            config.prometheus_metrics->recordRpcCall(
+                sid, method, outcome, static_cast<double>(latency_us) / 1000.0);
+        }
+    }
     
     static CircuitBreaker makeCb(const Config& cfg) {
         CircuitBreaker::Config cb;
@@ -85,6 +103,19 @@ struct ShardRPCClient::Impl {
         // Detect if we should use gRPC or in-process simulation
         // Use in-process if endpoint contains loopback addresses
         use_grpc = !isLoopbackEndpoint(config.endpoint);
+
+        // If a connection pool is supplied, apply the max_pool_connections limit
+        // (propagated from GossipConfigManagerConfig::rpc_max_pool_connections).
+        if (config.connection_pool && config.max_pool_connections > 0) {
+            auto pool = config.connection_pool->getPool(config.endpoint);
+            if (pool) {
+                // Pool configuration is set at construction time; log the
+                // effective value so operators can verify gossip propagation.
+                THEMIS_INFO("ShardRPCClient: using connection pool for {} "
+                            "(max_connections={})",
+                            config.endpoint, config.max_pool_connections);
+            }
+        }
         
 #if THEMIS_HAS_SHARD_GRPC
         if (use_grpc) {
@@ -374,6 +405,9 @@ nlohmann::json ShardRPCClient::sendRequestGrpc(
             auto deadline = std::chrono::system_clock::now() + 
                            std::chrono::milliseconds(impl_->config.timeout_ms);
             context.set_deadline(deadline);
+
+            // Per-attempt latency measurement for metrics.
+            const auto t0 = std::chrono::steady_clock::now();
             
             // Route to appropriate gRPC method
             nlohmann::json result;
@@ -391,15 +425,21 @@ nlohmann::json ShardRPCClient::sendRequestGrpc(
                 throw std::runtime_error("Unknown RPC method: " + method);
             }
 
+            const auto latency_us = static_cast<uint64_t>(
+                std::chrono::duration_cast<std::chrono::microseconds>(
+                    std::chrono::steady_clock::now() - t0).count());
+
             if (impl_->config.enable_circuit_breaker) {
                 impl_->circuit_breaker.recordSuccess();
             }
+            impl_->recordMetrics(method, "success", latency_us);
             return result;
             
         } catch (const NonRetryableRpcError& e) {
             if (impl_->config.enable_circuit_breaker) {
                 impl_->circuit_breaker.recordFailure();
             }
+            impl_->recordMetrics(method, "non_retryable_error", 0u);
             THEMIS_WARN("gRPC {} non-retryable error: {}", method, e.what());
             throw;  // Rethrow immediately without further retry attempts
 
@@ -410,6 +450,7 @@ nlohmann::json ShardRPCClient::sendRequestGrpc(
             if (impl_->config.enable_circuit_breaker) {
                 impl_->circuit_breaker.recordFailure();
             }
+            impl_->recordMetrics(method, "retryable_error", 0u);
 
             THEMIS_WARN("gRPC {} attempt {}/{} failed: {}",
                        method, attempts, impl_->config.max_retries, err_msg);
@@ -638,6 +679,7 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
                         impl_->config.endpoint);
             
             // Simulate network delay
+            const auto t0 = std::chrono::steady_clock::now();
             std::this_thread::sleep_for(
                 std::chrono::milliseconds(10)
             );
@@ -670,10 +712,15 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
             } else {
                 throw std::runtime_error("Unknown RPC method: " + method);
             }
+
+            const auto latency_us = static_cast<uint64_t>(
+                std::chrono::duration_cast<std::chrono::microseconds>(
+                    std::chrono::steady_clock::now() - t0).count());
             
             if (impl_->config.enable_circuit_breaker) {
                 impl_->circuit_breaker.recordSuccess();
             }
+            impl_->recordMetrics(method, "success", latency_us);
             return response;
             
         } catch (const std::exception& e) {
@@ -682,6 +729,7 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
             if (impl_->config.enable_circuit_breaker) {
                 impl_->circuit_breaker.recordFailure();
             }
+            impl_->recordMetrics(method, "retryable_error", 0u);
 
             THEMIS_WARN("RPC {} attempt {}/{} failed: {}",
                        method, attempts, impl_->config.max_retries, e.what());

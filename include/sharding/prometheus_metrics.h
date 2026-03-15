@@ -52,6 +52,21 @@ public:
     explicit PrometheusMetrics(const Config& config);
     ~PrometheusMetrics() = default;
 
+    // Cross-shard RPC metrics
+    /**
+     * @brief Record a cross-shard RPC call attempt.
+     * @param shard_id  Target shard identifier (label).
+     * @param method    RPC method name: "prepare", "commit", "abort", etc.
+     * @param outcome   "success", "retryable_error", or "non_retryable_error".
+     * @param latency_ms Round-trip latency of this single attempt in milliseconds.
+     */
+    void recordRpcCall(
+        const std::string& shard_id,
+        const std::string& method,
+        const std::string& outcome,
+        double latency_ms
+    );
+
     // Shard health metrics
     void recordShardHealth(const std::string& shard_id, const std::string& status);
     void recordCertificateExpiry(const std::string& shard_id, int64_t seconds_until_expiry);

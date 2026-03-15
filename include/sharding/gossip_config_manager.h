@@ -166,7 +166,11 @@ struct GossipConfigManagerConfig {
     uint32_t update_ttl = 10;                 // Default TTL for updates (rounds)
     uint32_t anti_entropy_interval_ms = 5000; // Anti-entropy sync interval
     bool require_mtls = true;                 // Require mTLS for communication
-    
+
+    // Cross-shard RPC connection pool configuration.
+    // Propagated via gossip so all shards converge on the same pool limit.
+    uint32_t rpc_max_pool_connections = 50;   // Per-endpoint connection pool size
+
     std::string local_shard_id;
     std::string local_endpoint;
 };

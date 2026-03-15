@@ -254,6 +254,24 @@ public:
     HealthStatus getClusterHealth() const;
     
     /**
+     * @brief Record a cross-shard RPC call.
+     *
+     * Called by ShardRPCClient for every call attempt so that latency and
+     * outcome distributions are visible in dashboards.
+     *
+     * @param shard_id  Target shard identifier (metric label).
+     * @param method    RPC method name: "prepare", "commit", "abort", etc.
+     * @param outcome   "success", "retryable_error", or "non_retryable_error".
+     * @param latency_us Round-trip latency of this single attempt in microseconds.
+     */
+    void recordRpcCall(
+        const std::string& shard_id,
+        const std::string& method,
+        const std::string& outcome,
+        uint64_t latency_us
+    );
+
+    /**
      * @brief Record a request
      * @param shard_id Shard identifier
      * @param latency_us Latency in microseconds
