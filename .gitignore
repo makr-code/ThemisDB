@@ -411,3 +411,8 @@ benchmark_results/
 build2/
 build_temp/
 build_alt/
+
+# Local build directories (non-standard names)
+/build3/
+/build4/
+/build5/

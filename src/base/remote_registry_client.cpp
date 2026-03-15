@@ -34,14 +34,19 @@
 
 #include <array>
 #include <chrono>
+#include <condition_variable>
 #include <filesystem>
 #include <fstream>
 #include <future>
 #include <iomanip>
+#include <future>
+#include <memory>
 #include <mutex>
+#include <queue>
 #include <sstream>
 #include <stdexcept>
 #include <thread>
+#include <vector>
 
 namespace themis {
 namespace modules {
@@ -54,6 +59,115 @@ constexpr int kMaxAllowedRetries = 10;
 
 // Maximum bit-shift used in the backoff formula (500 ms × 2^5 = 16 000 ms).
 constexpr int kMaxBackoffShift = 5;
+
+struct BackoffDispatcherState {
+    std::function<std::future<void>(std::chrono::milliseconds)> dispatcher;
+    std::mutex mutex;
+};
+
+BackoffDispatcherState& dispatcherState() {
+    static BackoffDispatcherState state;
+    return state;
+}
+
+void waitOrThrow(std::future<void>&& future, const char* source) {
+    if (!future.valid()) {
+        throw std::runtime_error(std::string("RemoteRegistryClient: ")
+                                 + source
+                                 + " returned invalid future; ensure the dispatcher returns "
+                                   "a valid future object");
+    }
+    future.wait();
+}
+
+// Optional externally provided dispatcher for delayed execution (e.g., TaskScheduler).
+// When unset we fall back to an internal shared worker-based delay.
+
+// Lightweight one-shot scheduler to offload sleep without spawning a new
+// thread per backoff. A single worker thread sleeps until the earliest task
+// is due and then fulfils the associated promise.
+class BackoffScheduler {
+public:
+    using Clock = std::chrono::steady_clock;
+
+    static BackoffScheduler& instance() {
+        static BackoffScheduler scheduler;
+        return scheduler;
+    }
+
+    std::future<void> schedule(std::chrono::milliseconds delay) {
+        auto promise = std::make_shared<std::promise<void>>();
+        auto future  = promise->get_future();
+
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            tasks_.push(Task{Clock::now() + delay, std::move(promise)});
+        }
+
+        cv_.notify_one();
+        return future;
+    }
+
+private:
+    struct Task {
+        Clock::time_point when;
+        std::shared_ptr<std::promise<void>> promise;
+    };
+
+    struct TaskCompare {
+        bool operator()(const Task& lhs, const Task& rhs) const {
+            return lhs.when > rhs.when;
+        }
+    };
+
+    BackoffScheduler()
+        : worker_([this](std::stop_token st) { run(st); }) {}
+
+    ~BackoffScheduler() {
+        worker_.request_stop();
+        cv_.notify_all();
+    }
+
+    void run(std::stop_token stop_token) {
+        std::unique_lock<std::mutex> lock(mutex_);
+        while (!stop_token.stop_requested()) {
+            if (tasks_.empty()) {
+                cv_.wait(lock, stop_token, [&] { return !tasks_.empty(); });
+                continue;
+            }
+
+            auto next_when = tasks_.top().when;
+            if (cv_.wait_until(lock, next_when, stop_token, [&] {
+                    return tasks_.top().when != next_when;
+                })) {
+                continue;  // woken up due to new task; re-evaluate
+            }
+
+            if (tasks_.empty()) {
+                continue;
+            }
+
+            Task task = tasks_.top();
+            tasks_.pop();
+            lock.unlock();
+            task.promise->set_value();
+            lock.lock();
+        }
+
+        while (!tasks_.empty()) {
+            Task task = tasks_.top();
+            tasks_.pop();
+            lock.unlock();
+            task.promise->set_value();
+            lock.lock();
+        }
+    }
+
+    std::mutex mutex_;
+    std::condition_variable cv_;
+    std::priority_queue<Task, std::vector<Task>, TaskCompare> tasks_;
+    std::jthread worker_;
+};
 
 // Return a CURL timeout (≥ 1 ms) capped to the remaining total budget.
 // `config_timeout` is the per-request timeout from RegistryConfig.
@@ -305,6 +419,45 @@ ModuleVerificationResult RemoteRegistryClient::downloadAndLoad(
                                 std::chrono::milliseconds(ms));
                         });
     f.wait();
+    if (ms <= 0) {
+        return;
+    }
+
+    const auto delay = std::chrono::milliseconds(ms);
+    std::function<std::future<void>(std::chrono::milliseconds)> dispatcher;
+    {
+        auto& state = dispatcherState();
+        std::lock_guard<std::mutex> lock(state.mutex);
+        dispatcher = state.dispatcher;
+    }
+
+    if (dispatcher) {
+        // Use the injected dispatcher (e.g., TaskScheduler) to schedule the delay.
+        try {
+            auto future = dispatcher(delay);
+            waitOrThrow(std::move(future), "backoff dispatcher for retry delay");
+        } catch (const std::exception& ex) {
+            spdlog::error("RemoteRegistryClient::asyncBackoffSleep: dispatcher error: {}",
+                          ex.what());
+            throw;
+        } catch (...) {
+            spdlog::error("RemoteRegistryClient::asyncBackoffSleep: dispatcher threw "
+                          "unknown exception");
+            throw;
+        }
+        return;
+    }
+
+    // Default: shared worker thread handles the delay to avoid spawning one
+    // thread per backoff when no dispatcher is injected.
+    auto future = BackoffScheduler::instance().schedule(delay);
+    waitOrThrow(std::move(future), "internal backoff scheduler for retry delay");
+    // Synchronous blocking sleep used by the synchronous (blocking) API path.
+    // When the caller needs non-blocking behaviour it should use the Async
+    // variants (listPluginsAsync / fetchPluginAsync / downloadPluginAsync)
+    // which run the entire retry loop — including these sleeps — on a dedicated
+    // background thread, freeing the calling thread immediately.
+    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
 
 std::string RemoteRegistryClient::buildAuthorizationHeader() const {
@@ -587,6 +740,58 @@ bool RemoteRegistryClient::httpGetBinary(const std::string& url,
     return false;
 }
 
+std::future<std::string> RemoteRegistryClient::httpGetAsync(const std::string& url) {
+    // Caller must ensure this instance outlives the returned future.
+    // url is copied to decouple the async worker from the caller's lifetime.
+    // WARNING: destroying the client before the future completes is undefined (see header docs).
+    std::weak_ptr<RemoteRegistryClient> weak_self;
+    try {
+        weak_self = shared_from_this();
+    } catch (const std::bad_weak_ptr&) {
+        throw std::runtime_error(
+            "httpGetAsync requires RemoteRegistryClient to be managed by std::shared_ptr");
+    }
+
+    return std::async(std::launch::async, [weak_self, url]() {
+        auto self = weak_self.lock();
+        if (!self) {
+            throw std::runtime_error(
+                "RemoteRegistryClient destroyed before httpGetAsync completed");
+        }
+        return self->httpGet(url);
+    });
+}
+
+std::future<bool> RemoteRegistryClient::httpGetBinaryAsync(const std::string& url,
+                                                           const std::string& out_path) {
+    // Caller must ensure this instance outlives the returned future.
+    // url/out_path are copied to decouple the async worker from the caller's lifetime.
+    // WARNING: destroying the client before the future completes is undefined (see header docs).
+    std::weak_ptr<RemoteRegistryClient> weak_self;
+    try {
+        weak_self = shared_from_this();
+    } catch (const std::bad_weak_ptr&) {
+        throw std::runtime_error(
+            "httpGetBinaryAsync requires RemoteRegistryClient to be managed by std::shared_ptr");
+    }
+
+    return std::async(std::launch::async, [weak_self, url, out_path]() {
+        auto self = weak_self.lock();
+        if (!self) {
+            throw std::runtime_error(
+                "RemoteRegistryClient destroyed before httpGetBinaryAsync completed");
+        }
+        return self->httpGetBinary(url, out_path);
+    });
+}
+
+/*static*/ void RemoteRegistryClient::setBackoffDispatcher(
+    std::function<std::future<void>(std::chrono::milliseconds)> dispatcher) {
+    auto& state = dispatcherState();
+    std::lock_guard<std::mutex> lock(state.mutex);
+    state.dispatcher = std::move(dispatcher);
+}
+
 RequestStats RemoteRegistryClient::lastRequestStats() const {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return last_stats_;
@@ -621,6 +826,45 @@ RequestStats RemoteRegistryClient::lastRequestStats() const {
     out.sha256       = obj.value("sha256", "");
     out.min_themis_version = obj.value("min_themis_version", "");
     return !out.name.empty() && !out.download_url.empty();
+}
+
+// =============================================================================
+// Async API – non-blocking wrappers around the synchronous public methods
+//
+// Each wrapper captures a shared_ptr to *this (via shared_from_this()) and
+// dispatches the synchronous operation to a fresh thread via
+// std::async(std::launch::async, …).  The calling thread is released
+// immediately: it never blocks during HTTP round-trips or exponential
+// back-off sleeps.
+//
+// Precondition: the RemoteRegistryClient instance must be managed by a
+// std::shared_ptr.  If it is not (stack-allocated or raw-pointer owned),
+// shared_from_this() throws std::bad_weak_ptr before any I/O is initiated.
+// =============================================================================
+
+std::future<std::vector<RegistryPluginEntry>> RemoteRegistryClient::listPluginsAsync() {
+    // Capture a shared_ptr so the client outlives the background thread even
+    // if the caller drops its own reference before the future is awaited.
+    auto self = shared_from_this();
+    return std::async(std::launch::async, [self]() {
+        return self->listPlugins();
+    });
+}
+
+std::future<std::optional<RegistryPluginEntry>>
+RemoteRegistryClient::fetchPluginAsync(const std::string& name) {
+    auto self = shared_from_this();
+    return std::async(std::launch::async, [self, name]() {
+        return self->fetchPlugin(name);
+    });
+}
+
+std::future<PluginDownloadResult>
+RemoteRegistryClient::downloadPluginAsync(const RegistryPluginEntry& entry) {
+    auto self = shared_from_this();
+    return std::async(std::launch::async, [self, entry]() {
+        return self->downloadPlugin(entry);
+    });
 }
 
 } // namespace modules

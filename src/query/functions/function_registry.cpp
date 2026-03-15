@@ -67,6 +67,7 @@
 #include "query/functions/security_functions.h"
 #ifdef THEMIS_ENABLE_LLM
 #include "query/functions/lora_functions.h"
+#include "aql/classify_bridge.h"
 #endif
 #include "query/functions/ethics_functions.h"
 #include "query/functions/process_mining_functions.h"
@@ -116,6 +117,11 @@ void registerBuiltinFunctions() {
         // LoRA functions (LLM adapter management and operations)
         // Includes: LORA_TRAIN, LORA_QUERY, LORA_SIMILAR, LORA_PATH, LORA_STATS, LORA_RECOMMEND, LORA_LINEAGE
         registerLoRAFunctions(registry);
+        
+        // Wire the CLASSIFY bridge into DocsAssistantFunctions so that
+        // detectIntentWithNativeNLP() uses the native NLP path instead of
+        // always falling through to the LLM intent-detection round-trip.
+        themis::aql::registerClassifyBridge();
 #endif
         
         // Ethics AI functions (ethical decision-making and evaluation)

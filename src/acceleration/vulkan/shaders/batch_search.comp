@@ -3,10 +3,15 @@
 // Optimized batch vector search with shared memory
 // ThemisDB Vulkan Compute Shader
 // Uses shared memory for query caching and parallel reduction
+//
+// Workgroup size is exposed as a SPIR-V specialization constant (ID 0) so
+// that the host can tune thread-count per device at pipeline-creation time
+// (e.g. 256 for Mali-G710 / RDNA2 vs. 128 on memory-bandwidth-bound GPUs)
+// without recompiling the shader.  Default matches the original fixed size.
+layout(constant_id = 0) const uint LOCAL_SIZE_X = 256;
+layout(local_size_x_id = 0) in;
 
-layout(local_size_x = 256) in;
-
-// Shared memory for query vector caching
+// Shared memory for query vector caching (sized for maximum LOCAL_SIZE_X = 256)
 shared float sharedQuery[256];
 
 layout(std430, binding = 0) readonly buffer QueryVectors {
@@ -40,7 +45,7 @@ void main() {
     uint queryOffset = queryIdx * pc.dim;
     
     // Load query vector into shared memory (coalesced access)
-    for (uint i = localThreadId; i < pc.dim; i += 256) {
+    for (uint i = localThreadId; i < pc.dim; i += uint(LOCAL_SIZE_X)) {
         sharedQuery[i] = queries[queryOffset + i];
     }
     

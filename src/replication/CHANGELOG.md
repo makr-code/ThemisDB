@@ -7,6 +7,12 @@ All notable changes documented here. Based on [Keep a Changelog](https://keepach
 
 ## [Unreleased]
 
+## [1.7.0] — 2026-03-13
+### Added
+- LogicalReplicationManager with schema-aware logical slots, include/exclude filters, row predicates, DDL streaming, and data transformation hooks for cross-version replication.
+- Conflict-free initial sync for logical subscribers via snapshot deduplication and persisted slot state under `<wal_directory>/logical_slots`.
+- Focused logical replication tests (filters, DDL, transforms, initial sync) under the `LogicalReplicationTests` label.
+
 ## [1.5.0] — 2026-03-12
 ### Added
 - Raft consensus with leader election and log replication

@@ -253,7 +253,6 @@ public:
                 
             } catch (const std::exception& e) {
                 attempt++;
-                stats_.total_retry_attempts.fetch_add(1);
                 
                 // Classify error
                 ErrorType error_type = classifyError(e.what());
@@ -292,6 +291,9 @@ public:
                     recordFailure();
                     throw std::runtime_error("Max retry attempts exceeded for: " + operation_name);
                 }
+                
+                // We will perform another attempt, so count this as a retry.
+                stats_.total_retry_attempts.fetch_add(1);
                 
                 // Calculate delay
                 uint32_t delay_ms = calculateDelay(attempt, policy);

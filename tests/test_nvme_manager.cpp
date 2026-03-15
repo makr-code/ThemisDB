@@ -379,14 +379,14 @@ TEST_F(RocksDBNVMeIntegrationTest, BasicPutGetWithNVMeEnabled) {
 
     themis::RocksDBWrapper db(cfg);
     auto open_status = db.open();
-    if (!open_status.has_value()) {
+    if (!open_status) {
         GTEST_SKIP() << "RocksDB open failed in test environment; skipping I/O tests";
     }
 
     auto put_result = db.put("nvme_key", "nvme_value");
-    ASSERT_TRUE(put_result.has_value()) << "put failed";
+    ASSERT_TRUE(put_result) << "put failed";
 
     auto get_result = db.get("nvme_key");
     ASSERT_TRUE(get_result.has_value()) << "get failed";
-    EXPECT_EQ(*get_result, "nvme_value");
+    EXPECT_EQ(std::string(get_result->begin(), get_result->end()), "nvme_value");
 }

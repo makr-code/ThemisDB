@@ -672,7 +672,7 @@ TEST_F(ParallelDownloaderHashTest, WrongHashRejectedAndFileRemoved) {
     const auto results = dl.downloadAll({task});
     ASSERT_EQ(results.size(), 1u);
     EXPECT_FALSE(results[0].success);
-    EXPECT_THAT(results[0].error_message, ::testing::HasSubstr("Hash mismatch"));
+    EXPECT_NE(std::string::npos, results[0].error_message.find("Hash mismatch"));
 
     // The corrupt file must be removed
     EXPECT_FALSE(fs::exists(task.dest));

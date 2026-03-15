@@ -287,11 +287,6 @@ endif()
 # Main build logic
 add_subdirectory(cmake)
 
-# Benchmarking
-if(THEMIS_BUILD_BENCHMARKS)
-    add_subdirectory(benchmarks)
-endif()
-
 # ============================================================================
 # DOCUMENTATION DATABASE GENERATION
 # ============================================================================
