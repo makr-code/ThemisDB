@@ -287,20 +287,39 @@ ModuleVerificationResult RemoteRegistryClient::downloadAndLoad(
 }
 
 // =============================================================================
+// Async wrappers — release the calling thread during retry back-off
+// =============================================================================
+
+std::future<std::vector<RegistryPluginEntry>> RemoteRegistryClient::listPluginsAsync() {
+    auto self = shared_from_this();
+    return std::async(std::launch::async,
+                      [self]() { return self->listPlugins(); });
+}
+
+std::future<std::optional<RegistryPluginEntry>>
+RemoteRegistryClient::fetchPluginAsync(const std::string& name) {
+    auto self = shared_from_this();
+    return std::async(std::launch::async,
+                      [self, name]() { return self->fetchPlugin(name); });
+}
+
+std::future<PluginDownloadResult>
+RemoteRegistryClient::downloadPluginAsync(const RegistryPluginEntry& entry) {
+    auto self = shared_from_this();
+    return std::async(std::launch::async,
+                      [self, entry]() { return self->downloadPlugin(entry); });
+}
+
+// =============================================================================
 // Private helpers
 // =============================================================================
 
 /*static*/ void RemoteRegistryClient::asyncBackoffSleep(int ms) {
-    // Use std::async so the sleep runs on a worker thread, releasing the
-    // calling thread (which may be a server I/O or thread-pool thread) during
-    // the back-off interval.  Waiting on the returned future ensures the
-    // full back-off duration is observed before the next retry attempt.
-    auto f = std::async(std::launch::async,
-                        [ms]() {
-                            std::this_thread::sleep_for(
-                                std::chrono::milliseconds(ms));
-                        });
-    f.wait();
+    // Blocking sleep used by the synchronous retry loops in httpGet /
+    // httpGetBinary.  The async counterparts (listPluginsAsync, fetchPluginAsync,
+    // downloadPluginAsync) release the calling thread by running the entire
+    // operation — including this sleep — on a std::async worker thread.
+    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
 
 std::string RemoteRegistryClient::buildAuthorizationHeader() const {

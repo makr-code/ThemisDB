@@ -13749,6 +13749,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_consistent_hash_distribution.cpp")
     add_test(NAME ConsistentHashDistributionFocusedTests COMMAND test_consistent_hash_distribution_focused)
     set_tests_properties(ConsistentHashDistributionFocusedTests PROPERTIES LABELS "sharding;distribution;hash;focused;unit" TIMEOUT 90)
     message(STATUS "  ConsistentHashDistribution: strict distribution and migration checks")
+endif()
 # ── RS Repair Engine Parallelisation focused tests (v1.6.0 Issue #204) ──────
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_repair.cpp")
     message(STATUS "Adding Sharding: RS Repair Engine Parallelisation focused tests")

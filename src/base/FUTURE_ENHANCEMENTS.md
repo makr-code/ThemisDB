@@ -20,7 +20,7 @@ Plugin lifecycle management (`module_loader.cpp`, `hot_reload_manager.cpp`), sec
 - `[ ]` Rollback of a failed hot-reload must complete within 500 ms and restore the previous plugin version atomically.
 - `[ ]` All lifecycle hooks (init, reload, shutdown) must complete within 5 s or are terminated and logged as failures.
 - `[ ]` WASM fuel/instruction metering must bound runaway plugin execution; modules exceeding the fuel limit must be terminated, not hung.
-- `[ ]` `RemoteRegistryClient` retry back-off (`std::this_thread::sleep_for`) must not block the calling thread; async scheduling required.
+- `[x]` `RemoteRegistryClient` retry back-off (`std::this_thread::sleep_for`) must not block the calling thread; async scheduling required.
 
 ---
 

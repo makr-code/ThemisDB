@@ -454,3 +454,55 @@ TEST(RemoteRegistryClient, TotalRetryBudgetExhausted) {
     EXPECT_EQ(stats.attempts, 1);
     EXPECT_FALSE(stats.last_error.empty());
 }
+
+// =============================================================================
+// Async methods — release the calling thread; require shared_ptr ownership
+// =============================================================================
+
+TEST(RemoteRegistryClient, ListPluginsAsyncUnreachableServer) {
+    RegistryConfig cfg;
+    cfg.registry_url = "http://127.0.0.1:1";
+    cfg.timeout_ms   = 300;
+    cfg.max_retries  = 0;
+    cfg.verify_ssl   = false;
+
+    auto client = std::make_shared<RemoteRegistryClient>(cfg);
+    auto fut = client->listPluginsAsync();
+    ASSERT_TRUE(fut.valid());
+    auto plugins = fut.get();
+    EXPECT_TRUE(plugins.empty());
+}
+
+TEST(RemoteRegistryClient, FetchPluginAsyncUnreachableServer) {
+    RegistryConfig cfg;
+    cfg.registry_url = "http://127.0.0.1:1";
+    cfg.timeout_ms   = 300;
+    cfg.max_retries  = 0;
+    cfg.verify_ssl   = false;
+
+    auto client = std::make_shared<RemoteRegistryClient>(cfg);
+    auto fut = client->fetchPluginAsync("themis_analytics");
+    ASSERT_TRUE(fut.valid());
+    auto result = fut.get();
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST(RemoteRegistryClient, DownloadPluginAsyncEmptyUrl) {
+    RegistryConfig cfg;
+    cfg.registry_url = "https://registry.example.com/api/v1";
+    cfg.download_dir = "/tmp";
+
+    auto client = std::make_shared<RemoteRegistryClient>(cfg);
+
+    RegistryPluginEntry entry;
+    entry.name    = "my_plugin";
+    entry.version = "1.0.0";
+    // download_url intentionally left empty
+
+    auto fut = client->downloadPluginAsync(entry);
+    ASSERT_TRUE(fut.valid());
+    auto result = fut.get();
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty());
+    EXPECT_EQ(result.plugin_name, "my_plugin");
+}
