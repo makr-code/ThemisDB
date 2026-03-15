@@ -54,6 +54,7 @@
 #include <chrono>
 #include <cstdint>
 #include <functional>
+#include <cmath>
 #include <limits>
 #include <mutex>
 #include <optional>
@@ -397,23 +398,39 @@ public:
             }
 
             if (entry.compiled && entry.compiled->execute) {
-                // Release lock during execution
+                // Release lock during execution; record timing for speedup estimation
                 auto fn = entry.compiled->execute;
                 lock.unlock();
+                auto t0 = std::chrono::steady_clock::now();
                 auto result = fn(params);
+                auto elapsed = static_cast<uint64_t>(
+                    std::chrono::duration_cast<std::chrono::microseconds>(
+                        std::chrono::steady_clock::now() - t0).count());
                 lock.lock();
                 entry.last_row_count = result.rows.size();
                 if (entry.baseline_row_count == 0.0)
                     entry.baseline_row_count =
                         static_cast<double>(result.rows.size());
+                total_hot_exec_time_us_ += elapsed;
+                hot_exec_samples_++;
+                updateSpeedupEstimate();
                 return result;
             }
         }
 
-        // Cold path
+        // Cold path — record timing for speedup estimation
         stats_.cold_path_invocations++;
         lock.unlock();
-        return interpretedExecute(query, schema, params);
+        auto t0 = std::chrono::steady_clock::now();
+        auto result = interpretedExecute(query, schema, params);
+        auto elapsed = static_cast<uint64_t>(
+            std::chrono::duration_cast<std::chrono::microseconds>(
+                std::chrono::steady_clock::now() - t0).count());
+        lock.lock();
+        total_cold_exec_time_us_ += elapsed;
+        cold_exec_samples_++;
+        lock.unlock();
+        return result;
     }
 
     // ─── Explicit compile ─────────────────────────────────────────────────────
@@ -492,6 +509,10 @@ public:
     void resetStats() {
         std::lock_guard<std::mutex> lock(mutex_);
         stats_ = CompilationStats{};
+        total_cold_exec_time_us_ = 0;
+        cold_exec_samples_       = 0;
+        total_hot_exec_time_us_  = 0;
+        hot_exec_samples_        = 0;
     }
 
     const CompilationConfig& config() const noexcept { return cfg_; }
@@ -1018,10 +1039,10 @@ private:
             if (cq.execute) {
                 stats_.queries_compiled++;
                 stats_.total_compilation_time_us += cq.compilation_time_us;
-                // Estimate speedup: typically 3–10× for filter/aggregate
-                stats_.average_speedup_percent = (stats_.queries_compiled > 0)
-                    ? 500  // 5× average
-                    : 0;
+                // Initial estimate: will be refined by updateSpeedupEstimate()
+                // once hot-path timings are available.
+                if (stats_.average_speedup_percent == 0)
+                    stats_.average_speedup_percent = 500;  // 5× conservative estimate
             } else {
                 stats_.compilation_failures++;
             }
@@ -1030,11 +1051,45 @@ private:
         return cq;
     }
 
+    // ─── Speedup estimation ───────────────────────────────────────────────────
+
+    /**
+     * @brief Update average_speedup_percent from measured cold vs hot timings.
+     *
+     * Called under mutex_ after each hot-path invocation that has enough
+     * timing samples to produce a stable estimate.
+     *
+     * Speedup (%) = (cold_avg / hot_avg - 1) * 100
+     * A cold_avg of 50 µs and hot_avg of 10 µs → 400 %
+     */
+    void updateSpeedupEstimate() {
+        // Require at least a few samples of each path for a stable estimate
+        if (cold_exec_samples_ < 3 || hot_exec_samples_ < 1) return;
+
+        const double cold_avg = static_cast<double>(total_cold_exec_time_us_) /
+                                static_cast<double>(cold_exec_samples_);
+        const double hot_avg  = static_cast<double>(total_hot_exec_time_us_) /
+                                static_cast<double>(hot_exec_samples_);
+
+        if (hot_avg > 0.0) {
+            // Clamp to a reasonable range [0, 9900 %] to avoid outliers
+            const double speedup_pct = (cold_avg / hot_avg - 1.0) * 100.0;
+            const double clamped     = std::max(0.0, std::min(speedup_pct, 9900.0));
+            stats_.average_speedup_percent = static_cast<uint64_t>(clamped);
+        }
+    }
+
     // ── Data members ─────────────────────────────────────────────────────────
     CompilationConfig cfg_;
     mutable std::mutex mutex_;
     std::unordered_map<std::string, Entry> entries_;
     CompilationStats stats_{};
+
+    // Per-compilation timing accumulators for speedup estimation
+    uint64_t total_cold_exec_time_us_ = 0;
+    uint64_t cold_exec_samples_       = 0;
+    uint64_t total_hot_exec_time_us_  = 0;
+    uint64_t hot_exec_samples_        = 0;
 };
 
 // ============================================================================
@@ -1053,6 +1108,17 @@ QueryResult AdaptiveQueryCompiler::execute(const ParsedQuery& query,
                                             const Schema&      schema,
                                             const QueryParams& params) {
     return impl_->execute(query, schema, params);
+}
+
+QueryResult AdaptiveQueryCompiler::execute(const CompiledQuery& compiled,
+                                            const QueryParams&   params) {
+    if (!compiled.execute) {
+        QueryResult err;
+        err.ok    = false;
+        err.error = "AdaptiveQueryCompiler::execute: CompiledQuery has no execute function";
+        return err;
+    }
+    return compiled.execute(params);
 }
 
 AdaptiveQueryCompiler::CompiledQuery

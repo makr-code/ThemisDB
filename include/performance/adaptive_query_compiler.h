@@ -414,6 +414,21 @@ public:
                         const QueryParams& params);
 
     /**
+     * @brief Execute a pre-compiled query specialisation.
+     *
+     * This overload allows callers that obtained a `CompiledQuery` via
+     * `compile()` to invoke it directly, bypassing the hot-path detection
+     * layer entirely.
+     *
+     * @param compiled  A valid CompiledQuery (operator bool() must be true).
+     * @param params    Bind parameter values.
+     * @return          Query result; result.ok is false when compiled is
+     *                  invalid (null execute function).
+     */
+    QueryResult execute(const CompiledQuery& compiled,
+                        const QueryParams& params);
+
+    /**
      * @brief Explicitly compile a query to a specialised execution function.
      *
      * May be called proactively (before the hot threshold is reached) to
@@ -471,6 +486,14 @@ public:
 
     /** @brief Return a snapshot of current compiler statistics. */
     CompilationStats getStats() const;
+
+    /**
+     * @brief Return a snapshot of current compiler statistics.
+     *
+     * Alias for `getStats()` matching the snake_case naming used in the
+     * roadmap architecture specification.
+     */
+    CompilationStats get_stats() const { return getStats(); }
 
     /** @brief Reset all statistics counters without evicting compiled code. */
     void resetStats();

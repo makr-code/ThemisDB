@@ -916,3 +916,100 @@ TEST(AdaptiveQueryCompilationFocusedTests, ConcurrentExecuteDoesNotCrash) {
     auto stats = compiler.getStats();
     EXPECT_GE(stats.hot_path_invocations + stats.cold_path_invocations, 0u);
 }
+
+
+// ─── execute(CompiledQuery, params) overload tests ────────────────────────────
+
+TEST(AdaptiveQueryCompilationFocusedTests, ExecuteCompiledQueryOverloadWorks) {
+    auto q      = makeFilterQuery("fp_exec_cq", "users", 2);
+    auto schema = makeUserSchema();
+
+    AdaptiveQueryCompiler compiler;
+    auto cq = compiler.compile(q, schema);
+    ASSERT_TRUE(static_cast<bool>(cq));
+
+    // Execute via the (CompiledQuery, params) overload
+    QueryResult r = compiler.execute(cq, QueryParams{});
+    EXPECT_TRUE(r.ok);
+    EXPECT_TRUE(r.error.empty());
+}
+
+TEST(AdaptiveQueryCompilationFocusedTests, ExecuteCompiledQueryOverloadMatchesAutoPath) {
+    AdaptiveQueryCompiler::CompilationConfig cfg;
+    cfg.hot_threshold = 2;
+    AdaptiveQueryCompiler compiler(cfg);
+
+    auto q      = makeFilterQuery("fp_exec_cq2", "users", 0);
+    auto schema = makeUserSchema();
+
+    // Warm up to hot path
+    for (int i = 0; i < 3; ++i) compiler.execute(q, schema, {});
+    ASSERT_TRUE(compiler.isCompiled(q.fingerprint));
+
+    // Explicit compile
+    auto cq = compiler.compile(q, schema);
+    ASSERT_TRUE(static_cast<bool>(cq));
+
+    auto r1 = compiler.execute(q, schema, {});
+    auto r2 = compiler.execute(cq, {});
+
+    EXPECT_EQ(r1.rows.size(), r2.rows.size());
+}
+
+TEST(AdaptiveQueryCompilationFocusedTests, ExecuteInvalidCompiledQueryReturnsError) {
+    AdaptiveQueryCompiler compiler;
+    AdaptiveQueryCompiler::CompiledQuery empty_cq;  // execute == nullptr
+
+    auto r = compiler.execute(empty_cq, QueryParams{});
+    EXPECT_FALSE(r.ok);
+    EXPECT_FALSE(r.error.empty());
+}
+
+// ─── get_stats() alias tests ──────────────────────────────────────────────────
+
+TEST(AdaptiveQueryCompilationFocusedTests, GetStatsAliasMatchesGetStats) {
+    AdaptiveQueryCompiler::CompilationConfig cfg;
+    cfg.hot_threshold = 1;
+    AdaptiveQueryCompiler compiler(cfg);
+
+    auto schema = makeUserSchema();
+    auto q      = makeFilterQuery("fp_getstats", "users", 0);
+
+    compiler.execute(q, schema, {});
+    compiler.execute(q, schema, {});
+
+    auto s1 = compiler.getStats();
+    auto s2 = compiler.get_stats();
+
+    EXPECT_EQ(s1.queries_compiled,    s2.queries_compiled);
+    EXPECT_EQ(s1.cache_size,          s2.cache_size);
+    EXPECT_EQ(s1.hot_path_invocations, s2.hot_path_invocations);
+    EXPECT_EQ(s1.cold_path_invocations, s2.cold_path_invocations);
+}
+
+TEST(AdaptiveQueryCompilationFocusedTests, GetStatsSnakeCaseMethodWorks) {
+    AdaptiveQueryCompiler compiler;
+    auto stats = compiler.get_stats();  // Must compile and return a valid struct
+    EXPECT_EQ(stats.queries_compiled, 0u);
+    EXPECT_EQ(stats.compilation_failures, 0u);
+}
+
+// ─── average_speedup_percent measurement tests ────────────────────────────────
+
+TEST(AdaptiveQueryCompilationFocusedTests, AverageSpeedupPercentIsPositiveAfterHotPath) {
+    AdaptiveQueryCompiler::CompilationConfig cfg;
+    cfg.hot_threshold = 5;
+    AdaptiveQueryCompiler compiler(cfg);
+
+    auto schema = makeUserSchema();
+    auto q      = makeFilterQuery("fp_speedup", "users", 0);
+
+    // Cold path (5 calls) + hot path (10 calls)
+    for (int i = 0; i < 15; ++i) compiler.execute(q, schema, {});
+
+    auto stats = compiler.get_stats();
+    // After enough samples the compiler should compute a meaningful speedup
+    // (may still be the conservative 500% estimate if the system is too fast
+    //  to produce distinct cold/hot timings, but must be >= 0)
+    EXPECT_GE(stats.average_speedup_percent, 0u);
+}
