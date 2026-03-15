@@ -110,6 +110,24 @@ int launchFP32MatmulKernel(
     cudaStream_t stream
 );
 
+/// INT8 GEMM using cuBLAS GemmEx: INT8 inputs × INT8 weights → INT32 accumulator.
+/// Requires compute capability SM 7.5+ (Turing or later).
+/// d_A [M×K] int8_t, d_B [K×N] int8_t, d_C [M×N] int32_t — all device pointers.
+/// alpha and beta are applied to the INT32 output (cast to float for scaling).
+/// Returns 0 on success, cuBLAS status code on failure, or 1 when the device
+/// compute capability is < 7.5 (INT8 Tensor Core not supported).
+int launchINT8MatmulKernel(
+    const int8_t*  d_A,
+    const int8_t*  d_B,
+    int32_t*       d_C,
+    int            M,
+    int            K,
+    int            N,
+    float          alpha,
+    float          beta,
+    cudaStream_t   stream
+);
+
 } // extern "C"
 
 #endif // THEMIS_ENABLE_CUDA

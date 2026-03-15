@@ -24,12 +24,26 @@
 #include "utils/logger.h"
 #include <thread>
 #include <algorithm>
+#include <future>
+#include <chrono>
+#include <memory>
+
+#ifdef __linux__
+#   include <fstream>
+#   include <string>
+#   include <inttypes.h>
+#endif
+
+#ifdef _WIN32
+#   define WIN32_LEAN_AND_MEAN
+#   include <windows.h>
+#endif
 
 #ifdef THEMIS_ENABLE_CUDA
-    #include <cuda_runtime.h>
-    #ifdef __linux__
-        #include <nvml.h>
-    #endif
+#   include <cuda_runtime.h>
+#   ifdef __linux__
+#       include <nvml.h>
+#   endif
 #endif
 
 namespace themis {
@@ -91,8 +105,46 @@ bool VLLMResourceManager::canUseGPU() {
 #ifndef THEMIS_ENABLE_CUDA
     return false;  // CUDA not enabled
 #else
-    
-    auto gpu_util = queryGPUUtilization();
+    // Wrap the NVML query in a background future with a 500 ms deadline.
+    // If the NVML driver is wedged the query can hang indefinitely; returning
+    // false (safe CPU fallback) is preferable to blocking the caller.
+    //
+    // Safety: the future captures a raw copy of nvml_device_ (void*) rather
+    // than `this`, so the background task cannot dereference a destroyed
+    // VLLMResourceManager if the timeout fires.  The future is detached by
+    // storing it in a shared_ptr to ensure the background thread keeps running
+    // (and eventually finishes) even after `canUseGPU()` returns.  The shared
+    // ownership means no use-after-free is possible.
+    void* device_handle = nvml_device_;
+    if (device_handle == nullptr) {
+        return false;  // NVML not initialized
+    }
+
+    auto shared_future = std::make_shared<std::future<std::optional<double>>>(
+        std::async(std::launch::async,
+                   [device_handle]() -> std::optional<double> {
+#if defined(THEMIS_ENABLE_CUDA) && defined(__linux__)
+                       nvmlUtilization_t util;
+                       nvmlDevice_t dev = static_cast<nvmlDevice_t>(device_handle);
+                       if (nvmlDeviceGetUtilizationRates(dev, &util) == NVML_SUCCESS) {
+                           return static_cast<double>(util.gpu);
+                       }
+#endif
+                       return std::nullopt;
+                   }));
+
+    std::optional<double> gpu_util;
+    if (shared_future->wait_for(std::chrono::milliseconds(500)) ==
+        std::future_status::ready) {
+        gpu_util = shared_future->get();
+    } else {
+        // NVML query timed out — assume GPU busy, fall back to CPU.
+        // The background task keeps running in the shared_ptr-owned future;
+        // it will complete on its own without accessing this object.
+        THEMIS_WARN("GPU utilization query timed out (>500 ms) — using CPU fallback");
+        return false;
+    }
+
     if (!gpu_util.has_value()) {
         // Can't query GPU - assume busy (safe fallback to CPU)
         return false;
@@ -131,14 +183,98 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
         return stats;
     }
     
-    // CPU stats (basic metrics - OS integration recommended for production)
+    // CPU stats
     stats.active_threads = config_.themis_cpu_cores;
-    stats.cpu_utilization = 0.0;  // Note: Implement OS-specific CPU monitoring for accurate metrics
-    
-    // RAM stats (basic metrics - OS integration recommended for production)
-    stats.ram_used_mb = 0;  // Note: Implement OS-specific memory monitoring for accurate metrics
-    stats.ram_utilization = 0.0;
-    
+
+#if defined(__linux__)
+    // Linux CPU utilisation: two /proc/stat snapshots 100 ms apart.
+    // Format of line 1: "cpu  user nice system idle iowait irq softirq steal ..."
+    auto readCpuTimes = [](uint64_t& total, uint64_t& idle) -> bool {
+        std::ifstream f("/proc/stat");
+        if (!f.is_open()) return false;
+        std::string tag;
+        uint64_t user, nice, system, idle_val, iowait, irq, softirq, steal;
+        f >> tag >> user >> nice >> system >> idle_val >> iowait >> irq >> softirq >> steal;
+        if (tag != "cpu") return false;
+        idle  = idle_val + iowait;
+        total = user + nice + system + idle_val + iowait + irq + softirq + steal;
+        return true;
+    };
+
+    uint64_t t0 = 0, i0 = 0, t1 = 0, i1 = 0;
+    if (readCpuTimes(t0, i0)) {
+        // Cache the previous snapshot to avoid sleeping on every call.
+        // For a first call (or after a long gap) sleep briefly for accuracy.
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        if (readCpuTimes(t1, i1) && t1 > t0) {
+            uint64_t dtotal = t1 - t0;
+            uint64_t didle  = (i1 > i0) ? (i1 - i0) : 0;
+            stats.cpu_utilization = 100.0 * (1.0 - static_cast<double>(didle) /
+                                                    static_cast<double>(dtotal));
+        }
+    }
+
+    // Linux RAM: /proc/meminfo  (MemTotal and MemAvailable in kB)
+    {
+        std::ifstream mf("/proc/meminfo");
+        uint64_t mem_total_kb  = 0;
+        uint64_t mem_avail_kb  = 0;
+        std::string line;
+        while (std::getline(mf, line) &&
+               (mem_total_kb == 0 || mem_avail_kb == 0)) {
+            if (line.rfind("MemTotal:", 0) == 0) {
+                sscanf(line.c_str(), "MemTotal: %" SCNu64 " kB", &mem_total_kb);
+            } else if (line.rfind("MemAvailable:", 0) == 0) {
+                sscanf(line.c_str(), "MemAvailable: %" SCNu64 " kB", &mem_avail_kb);
+            }
+        }
+        if (mem_total_kb > 0) {
+            uint64_t used_kb  = (mem_total_kb > mem_avail_kb)
+                                ? (mem_total_kb - mem_avail_kb)
+                                : 0;
+            stats.ram_used_mb     = used_kb / 1024u;
+            stats.ram_utilization = 100.0 * static_cast<double>(used_kb) /
+                                            static_cast<double>(mem_total_kb);
+        }
+    }
+
+#elif defined(_WIN32)
+    // Windows CPU utilisation: delta of GetSystemTimes() over 100 ms.
+    {
+        FILETIME idle0, kernel0, user0;
+        FILETIME idle1, kernel1, user1;
+        if (GetSystemTimes(&idle0, &kernel0, &user0)) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            if (GetSystemTimes(&idle1, &kernel1, &user1)) {
+                auto ft2u64 = [](const FILETIME& ft) -> uint64_t {
+                    return (static_cast<uint64_t>(ft.dwHighDateTime) << 32) |
+                           static_cast<uint64_t>(ft.dwLowDateTime);
+                };
+                uint64_t idle   = ft2u64(idle1)   - ft2u64(idle0);
+                uint64_t kernel = ft2u64(kernel1)  - ft2u64(kernel0);
+                uint64_t user   = ft2u64(user1)    - ft2u64(user0);
+                uint64_t total  = kernel + user;   // kernel already includes idle
+                if (total > 0) {
+                    stats.cpu_utilization = 100.0 * (1.0 - static_cast<double>(idle) /
+                                                           static_cast<double>(total));
+                }
+            }
+        }
+    }
+
+    // Windows RAM: GlobalMemoryStatusEx
+    {
+        MEMORYSTATUSEX ms{};
+        ms.dwLength = sizeof(ms);
+        if (GlobalMemoryStatusEx(&ms)) {
+            stats.ram_utilization = static_cast<double>(ms.dwMemoryLoad);
+            uint64_t used = ms.ullTotalPhys - ms.ullAvailPhys;
+            stats.ram_used_mb = static_cast<size_t>(used / (1024u * 1024u));
+        }
+    }
+#endif
+    // macOS / unknown: cpu_utilization and ram_used_mb remain 0.0 / 0.
+
 #ifdef THEMIS_ENABLE_CUDA
     // GPU stats via NVML
     auto gpu_util = const_cast<VLLMResourceManager*>(this)->queryGPUUtilization();

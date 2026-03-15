@@ -29,6 +29,7 @@
 
 #include "acceleration/tensor_core_matmul.h"
 #include <cstring>
+#include <iostream>
 
 #ifdef THEMIS_ENABLE_CUDA
 #include <cuda_fp16.h>
@@ -110,6 +111,15 @@ int dispatchMatmul(const MatrixKernelParams& params, void* opaque_stream)
                 static_cast<const __nv_bfloat16*>(params.A),
                 static_cast<const __nv_bfloat16*>(params.B),
                 static_cast<__nv_bfloat16*>(params.C),
+                M, K, N,
+                params.alpha, params.beta,
+                stream
+            );
+        case MatrixPrecision::INT8:
+            return launchINT8MatmulKernel(
+                static_cast<const int8_t*>(params.A),
+                static_cast<const int8_t*>(params.B),
+                static_cast<int32_t*>(params.C),
                 M, K, N,
                 params.alpha, params.beta,
                 stream
