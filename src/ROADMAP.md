@@ -447,7 +447,7 @@ Affects: `analytics`, `acceleration`, `cache`, `config`, `graph`, `maintenance`,
 
 All modules still using exclusive mutexes on read paths (should upgrade to `std::shared_mutex`):
 - `analytics` items #41–45 (6 lock-under-callback / lock-under-inference issues)
-- `observability` MetricsCollector #191
+- ~~`observability` MetricsCollector #191~~ ✅ Done (v1.8.0)
 - `plugins` PluginRegistry #193
 - `maintenance` schedules_mutex_ #185
 - `graph` DistributedGraphManager #174

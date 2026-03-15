@@ -24,6 +24,7 @@
 #include "observability/metrics_collector.h"
 #include "security/pii_redaction_policy.h"
 #include <algorithm>
+#include <shared_mutex>
 #include <sstream>
 #include <iomanip>
 #include <numeric>
@@ -175,7 +176,7 @@ void MetricsCollector::recordTotalSpans(int64_t count) {
 // ===== Prometheus Text Format Export =====
 
 std::string MetricsCollector::getPrometheusMetrics() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     std::ostringstream oss;
     
     // Header
@@ -237,7 +238,7 @@ std::string MetricsCollector::getPrometheusMetrics() const {
 }
 
 void MetricsCollector::reset() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     counters_.clear();
     gauges_.clear();
     histograms_.clear();
@@ -248,12 +249,12 @@ void MetricsCollector::reset() {
 // ===== Cardinality control =====
 
 void MetricsCollector::setCardinalityLimit(size_t limit) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     cardinality_limit_ = limit;
 }
 
 size_t MetricsCollector::getCardinalityLimit() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     return cardinality_limit_;
 }
 
@@ -298,7 +299,7 @@ void MetricsCollector::recordExporterRecovery(const std::string& exporter_name) 
 void MetricsCollector::addCounter(const std::string& name, int64_t delta,
                                    const std::map<std::string, std::string>& labels) {
     std::string key = makeKey(name, labels);
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     if (!checkCardinality(name, key)) return;
     counters_[key] += delta;
 }
@@ -306,7 +307,7 @@ void MetricsCollector::addCounter(const std::string& name, int64_t delta,
 void MetricsCollector::modifyGauge(const std::string& name, double delta,
                                     const std::map<std::string, std::string>& labels) {
     std::string key = makeKey(name, labels);
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     if (!checkCardinality(name, key)) return;
     // Read current value (treat as 0 if the gauge doesn't exist yet) then add delta.
     auto it = gauges_.find(key);
@@ -316,20 +317,20 @@ void MetricsCollector::modifyGauge(const std::string& name, double delta,
 
 void MetricsCollector::incrementCounter(const std::string& name, const std::map<std::string, std::string>& labels) {
     std::string key = makeKey(name, labels);
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     if (!checkCardinality(name, key)) return;
     counters_[key]++;
 }
 
 void MetricsCollector::setGauge(const std::string& name, double value, const std::map<std::string, std::string>& labels) {
     std::string key = makeKey(name, labels);
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     if (!checkCardinality(name, key)) return;
     gauges_[key].store(value);
 }
 
 void MetricsCollector::observeHistogram(const std::string& name, double value, const std::map<std::string, std::string>& labels) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     std::string key = makeKey(name, labels);
     if (!checkCardinality(name, key)) return;
     
@@ -343,7 +344,7 @@ void MetricsCollector::observeHistogram(const std::string& name, double value, c
 void MetricsCollector::observeHistogramWithExemplar(const std::string& name, double value,
                                                     const Exemplar& exemplar,
                                                     const std::map<std::string, std::string>& labels) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     std::string key = makeKey(name, labels);
     if (!checkCardinality(name, key)) return;
 
