@@ -14173,6 +14173,42 @@ else()
     message(STATUS "Query Plan Caching tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_query_plan_caching.cpp")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_query_jit_compilation.cpp")
+    message(STATUS "Adding Query JIT Compilation focused tests (v1.8.0, Issue #89)")
+
+    add_executable(test_query_jit_compilation_focused
+        test_query_jit_compilation.cpp
+    )
+
+    target_include_directories(test_query_jit_compilation_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_query_jit_compilation_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_query_jit_compilation_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME QueryJITCompilationFocusedTests
+        COMMAND test_query_jit_compilation_focused)
+
+    set_tests_properties(QueryJITCompilationFocusedTests PROPERTIES
+        LABELS "query;jit;compilation;hot-path;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  QueryCompiler: hot-path detection, result identity, fallback, key determinism, invalidation, stats")
+else()
+    message(STATUS "Query JIT Compilation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_query_jit_compilation.cpp")
+endif()
+
 # ============================================================================
 # Storage Module Focused Tests
 # ============================================================================
