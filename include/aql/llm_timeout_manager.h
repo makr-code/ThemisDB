@@ -331,8 +331,10 @@ public:
                     throw;  // Non-retryable error
                 }
                 
-                // Check if we've exhausted retries
-                if (attempt >= config_.max_retries) {
+                // Check if we've exhausted retries.
+                // max_retries is the number of retries after the initial call,
+                // so we exhaust only once attempt exceeds it.
+                if (attempt > config_.max_retries) {
                     throw;  // Give up after max retries
                 }
                 

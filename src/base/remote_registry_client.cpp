@@ -36,6 +36,7 @@
 #include <chrono>
 #include <filesystem>
 #include <fstream>
+#include <future>
 #include <iomanip>
 #include <mutex>
 #include <sstream>
@@ -283,6 +284,33 @@ ModuleVerificationResult RemoteRegistryClient::downloadAndLoad(
     }
 
     return loader.loadModule(dl.local_path, entry.name);
+}
+
+// =============================================================================
+// Async public API
+// =============================================================================
+
+std::future<std::vector<RegistryPluginEntry>> RemoteRegistryClient::listPluginsAsync() {
+    return std::async(std::launch::async,
+                      [self = shared_from_this()]() {
+                          return self->listPlugins();
+                      });
+}
+
+std::future<std::optional<RegistryPluginEntry>> RemoteRegistryClient::fetchPluginAsync(
+    const std::string& name) {
+    return std::async(std::launch::async,
+                      [self = shared_from_this(), name]() {
+                          return self->fetchPlugin(name);
+                      });
+}
+
+std::future<PluginDownloadResult> RemoteRegistryClient::downloadPluginAsync(
+    const RegistryPluginEntry& entry) {
+    return std::async(std::launch::async,
+                      [self = shared_from_this(), entry]() {
+                          return self->downloadPlugin(entry);
+                      });
 }
 
 // =============================================================================

@@ -33,6 +33,8 @@
 #include "themis/base/module_loader.h"
 
 #include <nlohmann/json.hpp>
+#include <future>
+#include <memory>
 #include <mutex>
 #include <optional>
 #include <string>
@@ -176,25 +178,27 @@ struct RequestStats {
  *
  * Thread safety: all public methods are safe to call from multiple threads.
  *
+ * Async usage: the *Async variants (listPluginsAsync, fetchPluginAsync,
+ * downloadPluginAsync) return a std::future and run the entire operation —
+ * including retry back-off sleeps — on a detached worker thread, so the
+ * calling thread is never blocked.  The client must be owned by a
+ * std::shared_ptr for those methods to work; they call shared_from_this()
+ * internally and throw std::bad_weak_ptr if the client is stack-allocated.
+ *
  * Typical usage:
  * @code
- *   RegistryConfig cfg;
- *   cfg.registry_url = "https://registry.example.com/api/v1";
- *   cfg.auth_token   = "my-secret-token";
- *   cfg.download_dir = "/opt/themis/plugins";
+ *   auto client = std::make_shared<RemoteRegistryClient>(cfg);
  *
- *   RemoteRegistryClient client(cfg);
+ *   // Synchronous
+ *   auto plugins = client->listPlugins();
  *
- *   auto plugins = client.listPlugins();
- *   for (const auto& entry : plugins) {
- *       auto result = client.downloadPlugin(entry);
- *       if (result.success) {
- *           loader.loadModule(result.local_path, entry.name);
- *       }
- *   }
+ *   // Asynchronous (calling thread released immediately)
+ *   auto future = client->listPluginsAsync();
+ *   auto plugins = future.get();
  * @endcode
  */
-class RemoteRegistryClient {
+class RemoteRegistryClient
+    : public std::enable_shared_from_this<RemoteRegistryClient> {
 public:
     explicit RemoteRegistryClient(const RegistryConfig& config);
     ~RemoteRegistryClient();
@@ -216,6 +220,18 @@ public:
     std::vector<RegistryPluginEntry> listPlugins();
 
     /**
+     * @brief Asynchronous variant of listPlugins().
+     *
+     * Launches the operation on a worker thread and returns immediately.
+     * The calling thread is never blocked by retry back-off sleeps.
+     *
+     * @note The client must be owned by a std::shared_ptr.  Calling this
+     *       method on a stack-allocated instance throws std::bad_weak_ptr.
+     * @return Future that resolves to the plugin list (may be empty on error).
+     */
+    std::future<std::vector<RegistryPluginEntry>> listPluginsAsync();
+
+    /**
      * @brief Fetch metadata for a single plugin by name.
      *
      * Issues GET <registry_url>/plugins/<name>.
@@ -224,6 +240,16 @@ public:
      * @return Plugin entry if found, or std::nullopt on error/not found.
      */
     std::optional<RegistryPluginEntry> fetchPlugin(const std::string& name);
+
+    /**
+     * @brief Asynchronous variant of fetchPlugin().
+     *
+     * @note The client must be owned by a std::shared_ptr.
+     * @param name Plugin name to look up.
+     * @return Future that resolves to the plugin entry, or std::nullopt.
+     */
+    std::future<std::optional<RegistryPluginEntry>> fetchPluginAsync(
+        const std::string& name);
 
     // -------------------------------------------------------------------------
     // Download
@@ -240,6 +266,16 @@ public:
      * @return PluginDownloadResult describing success, local path, or error.
      */
     PluginDownloadResult downloadPlugin(const RegistryPluginEntry& entry);
+
+    /**
+     * @brief Asynchronous variant of downloadPlugin().
+     *
+     * @note The client must be owned by a std::shared_ptr.
+     * @param entry Plugin entry to download.
+     * @return Future that resolves to the download result.
+     */
+    std::future<PluginDownloadResult> downloadPluginAsync(
+        const RegistryPluginEntry& entry);
 
     // -------------------------------------------------------------------------
     // Combined download + load

@@ -38,6 +38,8 @@
 
 #include <filesystem>
 #include <fstream>
+#include <future>
+#include <memory>
 #include <string>
 
 using namespace themis::modules;
@@ -453,4 +455,116 @@ TEST(RemoteRegistryClient, TotalRetryBudgetExhausted) {
     const auto stats = client.lastRequestStats();
     EXPECT_EQ(stats.attempts, 1);
     EXPECT_FALSE(stats.last_error.empty());
+}
+
+// =============================================================================
+// Async API – listPluginsAsync returns a future that resolves on failure
+// =============================================================================
+
+TEST(RemoteRegistryClient, ListPluginsAsyncReturnsEmptyOnUnreachableServer) {
+    RegistryConfig cfg;
+    cfg.registry_url = "http://127.0.0.1:1";
+    cfg.timeout_ms   = 300;
+    cfg.max_retries  = 0;
+    cfg.verify_ssl   = false;
+
+    auto client = std::make_shared<RemoteRegistryClient>(cfg);
+    auto future = client->listPluginsAsync();
+
+    // The future must become ready and the list must be empty (network failure).
+    auto plugins = future.get();
+    EXPECT_TRUE(plugins.empty());
+}
+
+// =============================================================================
+// Async API – fetchPluginAsync returns nullopt on unreachable server
+// =============================================================================
+
+TEST(RemoteRegistryClient, FetchPluginAsyncReturnsNulloptOnUnreachableServer) {
+    RegistryConfig cfg;
+    cfg.registry_url = "http://127.0.0.1:1";
+    cfg.timeout_ms   = 300;
+    cfg.max_retries  = 0;
+    cfg.verify_ssl   = false;
+
+    auto client = std::make_shared<RemoteRegistryClient>(cfg);
+    auto future = client->fetchPluginAsync("some_plugin");
+    auto result = future.get();
+    EXPECT_FALSE(result.has_value());
+}
+
+// =============================================================================
+// Async API – downloadPluginAsync returns failure for empty URL
+// =============================================================================
+
+TEST(RemoteRegistryClient, DownloadPluginAsyncFailsForEmptyUrl) {
+    RegistryConfig cfg;
+    cfg.registry_url = "https://registry.example.com/api/v1";
+    cfg.download_dir = "/tmp";
+
+    auto client = std::make_shared<RemoteRegistryClient>(cfg);
+
+    RegistryPluginEntry entry;
+    entry.name    = "async_plugin";
+    entry.version = "1.0.0";
+    // download_url intentionally left empty
+
+    auto future = client->downloadPluginAsync(entry);
+    auto result = future.get();
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty());
+}
+
+// =============================================================================
+// Async API – calling thread is not blocked (stats updated after future.get())
+// =============================================================================
+
+TEST(RemoteRegistryClient, AsyncStatsUpdatedAfterFutureGet) {
+    RegistryConfig cfg;
+    cfg.registry_url = "http://127.0.0.1:1";
+    cfg.timeout_ms   = 300;
+    cfg.max_retries  = 0;
+    cfg.verify_ssl   = false;
+
+    auto client = std::make_shared<RemoteRegistryClient>(cfg);
+
+    // Stats are zero before any request.
+    EXPECT_EQ(client->lastRequestStats().attempts, 0);
+
+    auto future = client->listPluginsAsync();
+    future.get();  // wait for completion
+
+    // After the future resolves the stats must reflect the completed attempt.
+    const auto stats = client->lastRequestStats();
+    EXPECT_EQ(stats.attempts, 1);
+    EXPECT_FALSE(stats.last_error.empty());
+}
+
+// =============================================================================
+// Async API – listPluginsAsync keeps client alive during background work
+// =============================================================================
+
+TEST(RemoteRegistryClient, AsyncKeepsClientAlive) {
+    RegistryConfig cfg;
+    cfg.registry_url = "http://127.0.0.1:1";
+    cfg.timeout_ms   = 300;
+    cfg.max_retries  = 0;
+    cfg.verify_ssl   = false;
+
+    // Helper that creates a short-lived client, launches the async call, and
+    // returns the future so we can verify the client stays alive for the
+    // duration of the background work even after the caller's shared_ptr
+    // goes out of scope.
+    auto launch_and_drop = [&]() {
+        auto client = std::make_shared<RemoteRegistryClient>(cfg);
+        return client->listPluginsAsync();
+        // `client` shared_ptr is destroyed here; the async lambda holds a copy
+        // via shared_from_this(), keeping the object alive until it finishes.
+    };
+
+    auto future = launch_and_drop();
+    // Even though the caller's shared_ptr is gone, the future must still be
+    // retrievable without use-after-free.
+    auto plugins = future.get();
+    EXPECT_TRUE(plugins.empty());
 }
