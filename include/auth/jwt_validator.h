@@ -53,6 +53,7 @@ struct JWTClaims {
     std::string tenant_id;                    // Tenant ID from JWT claim
     std::vector<std::string> groups;
     std::vector<std::string> roles;
+    std::vector<std::string> scopes;          // OAuth2 scopes from "scope" (space-sep) or "scp" (array) claim
     std::string issuer;
     std::chrono::system_clock::time_point expiration;
     std::optional<std::chrono::system_clock::time_point> not_before;
