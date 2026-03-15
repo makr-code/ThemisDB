@@ -42,6 +42,14 @@ struct OtlpExporterConfig {
 
     // Extra static HTTP headers sent with every export request.
     std::unordered_map<std::string, std::string> extra_headers;
+
+    // Retry configuration for transient export failures.
+    // On a retriable error (HTTP 429/503 or a curl transport error), the
+    // exporter retries up to `max_export_retries` times before dropping the
+    // batch.  The wait before retry i (1-based) is:
+    //   delay = retry_initial_delay_ms * 2^(i-1)   (100 ms, 200 ms, 400 ms …)
+    int max_export_retries     = 3;   ///< Number of retry attempts after initial failure (0 = no retries).
+    int retry_initial_delay_ms = 100; ///< Initial retry back-off delay in milliseconds (>= 1); doubled each attempt.
 };
 
 /**
