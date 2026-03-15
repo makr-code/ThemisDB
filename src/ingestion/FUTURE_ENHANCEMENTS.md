@@ -42,13 +42,13 @@ This document covers planned enhancements to the Ingestion module beyond what is
 **Target Version:** v1.8.0
 **Status:** ✅ Implemented
 
-`ingestion/llm_adapter.cpp` documents "Phase 2: wire to Mistral 7B via llama.cpp" and contains 3 explicit Phase 2 TODOs/comments. The adapter currently returns an empty embedding vector from a stub lambda (line 77: "Temporary fallback until Phase 2 wiring is complete").
+`ingestion/llm_adapter.cpp` now fully implements Phase 2: `#include "llm/llama_resource_manager.h"` and `#include "llm/llm_plugin_manager.h"` are active under `THEMIS_ENABLE_LLM`; the `buildExtractorFn()` lambda calls `LLMPluginManager::instance().generate()` with a structured German legal extraction prompt and parses the JSON response via `nlohmann::json::parse()`.
 
 **Implementation Notes:**
-- `[x]` Uncomment `#include "llm/llama_resource_manager.h"` (line 22) and wire the `ILLMAdapter::embed()` callback to `LlamaResourceManager::embed()` when `THEMIS_ENABLE_LLM` is defined.
-- `[x]` Replace the naive line-by-line JSON parser at line 130 ("Phase 2 TODO: replace with a proper JSON parser") with `nlohmann::json::parse()`.
-- `[x]` Add a Phase 2 model health check at `initialize()` (line 47: "Phase 2: check that the model file exists and is readable") — fail fast with a clear error if the model file is missing rather than silently using the stub embedding.
-- `[x]` Add integration tests for `LLMIngestionAdapter` with a real (small) GGUF model file.
+- `[x]` Uncomment `#include "llm/llama_resource_manager.h"` and wire the `buildExtractorFn()` callback to `LLMPluginManager::instance().generate()` when `THEMIS_ENABLE_LLM` is defined.
+- `[x]` Replace the naive line-by-line JSON parser with `nlohmann::json::parse()` — locates the outermost `{…}` block to handle LLM preamble noise, then extracts `deontic_category`, `confidence`, and `entities`.
+- `[x]` Add a Phase 2 model health check at `buildExtractorFn()` — throws `std::runtime_error` when a model path is configured but the GGUF file is not accessible.
+- `[x]` Add integration tests for `LLMIngestionAdapter` with a real (small) GGUF model file (see `tests/test_ingestion_llm_adapter.cpp`, skipped with `GTEST_SKIP` when no model is available).
 
 ---
 

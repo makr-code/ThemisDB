@@ -88,7 +88,10 @@ DeonticExtractor::ExtractorFn LegalLlmAdapter::buildExtractorFn() const {
         req.model_id     = "default";
         req.max_tokens   = 512;
         req.temperature  = static_cast<float>(captured_config.temperature);
-        req.grammar_type = "json";  // constrain output to valid JSON
+        // "json" is a built-in grammar type supported by LLMPluginManager
+        // (see InferenceRequest::grammar_type) that constrains generation to
+        // produce syntactically valid JSON — a best-effort hint to the backend.
+        req.grammar_type = "json";
 
         if (captured_config.hasAdapter()) {
             req.lora_adapter_id = captured_config.adapter_path;
@@ -172,7 +175,7 @@ DeonticExtractor LegalLlmAdapter::buildExtractor(double confidence_threshold) co
     }
 
     // Extract "confidence"
-    if (j.contains("confidence")) {
+    if (j.contains("confidence") && j["confidence"].is_number()) {
         try {
             result.overall_confidence = j["confidence"].get<double>();
         } catch (...) {

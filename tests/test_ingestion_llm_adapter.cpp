@@ -233,7 +233,7 @@ static DeonticExtraction parseResponseViaAdapter(const std::string& json_text) {
                     result.deontic_categories.push_back(cat);
                 }
             }
-            if (j.contains("confidence")) {
+            if (j.contains("confidence") && j["confidence"].is_number()) {
                 result.overall_confidence = j["confidence"].get<double>();
             }
             if (j.contains("entities") && j["entities"].is_array()) {
