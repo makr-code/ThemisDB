@@ -51,6 +51,9 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_env\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_auto_failover_recovery\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_feature_flags\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_io_uring_zero_copy\\.cpp$")
+# themisctl test includes tools/themisctl.cpp directly (THEMISCTL_TEST_BUILD guard);
+# must be compiled as a focused target only, not merged into the unified themis_tests binary.
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_themisctl\\.cpp$")
 
 # Skip feature-dependent tests when the corresponding modules are disabled
 set(TEST_EXCLUDE_PATTERNS "")
@@ -349,6 +352,10 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_saml_auth_provider\\.cpp$"
     # Built as standalone focused target with explicit maintenance sources.
     ".*test_database_maintenance_orchestrator\\.cpp$"
+    # Built as standalone focused target; remote_registry_client.cpp is not in
+    # themis_core (monolithic build) so the file must be compiled directly into
+    # the focused executable.
+    ".*test_remote_registry_client\\.cpp$"
 )
 
 if(NOT THEMIS_ENABLE_WISCKEY)
@@ -1457,6 +1464,30 @@ set_tests_properties(PluginWatchdogFocusedTests PROPERTIES
     TIMEOUT 60
 )
 
+# RemoteRegistryClient focused tests (subset of AllTests, Issue #155)
+# Covers: RegistryConfig defaults/assignment, max_total_retry_time_ms cap,
+#         RegistryPluginEntry defaults/assignment, PluginDownloadResult defaults,
+#         RemoteRegistryClient construction/config-roundtrip, listPlugins/fetchPlugin
+#         against an unreachable server, downloadPlugin with empty URL, partial-file
+#         cleanup on failure, integrity check (wrong hash / no hash), RequestStats
+#         defaults, lastRequestStats() populated after failure, initially-zero stats,
+#         total retry-budget exhausted after the first attempt
+# RemoteRegistryClient tests (subset of AllTests)
+# Covers: RegistryConfig defaults/field assignment/max_total_retry_time_ms,
+#         RegistryPluginEntry defaults/field assignment,
+#         PluginDownloadResult defaults, RequestStats defaults,
+#         RemoteRegistryClient construction/config-roundtrip/unreachable-server
+#         handling/empty-download-url/download-and-load/max-retries-zero/
+#         partial-file-cleanup/integrity-check/lastRequestStats/
+#         total-retry-budget enforcement.
+#         (from tests/test_remote_registry_client.cpp, Issue #3986)
+add_test(NAME RemoteRegistryClientUnifiedTests
+    COMMAND themis_tests --gtest_filter=RegistryConfig.*:RegistryPluginEntry.*:PluginDownloadResult.*:RequestStats.*:RemoteRegistryClient.*)
+set_tests_properties(RemoteRegistryClientUnifiedTests PROPERTIES
+    LABELS "base;remote-registry;async-retry;reliability;unit"
+    TIMEOUT 60
+)
+
 # Session management and revocation endpoint tests (subset of AllTests)
 add_test(NAME SessionManagerTests
     COMMAND themis_tests --gtest_filter=SessionManagerTest*:SessionApiHandlerTest*)
@@ -2447,6 +2478,41 @@ else()
     message(STATUS "Multi-Region Active-Active tests not found")
 endif()
 
+# ============================================================================
+# Geo-Replication with Consistency Levels Tests (v1.7.0)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_geo_replication_consistency.cpp")
+    message(STATUS "Adding Geo-Replication Consistency tests")
+
+    add_executable(test_geo_replication_consistency
+        test_geo_replication_consistency.cpp
+    )
+
+    target_link_libraries(test_geo_replication_consistency PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_geo_replication_consistency PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GeoReplicationConsistencyFocusedTests
+             COMMAND test_geo_replication_consistency)
+
+    set_tests_properties(GeoReplicationConsistencyFocusedTests PROPERTIES
+        LABELS "replication;geo-replication;consistency-levels;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Geo-Replication: STRONG/BOUNDED_STALENESS/SESSION/EVENTUAL, routing, session tokens")
+else()
+    message(STATUS "Geo-Replication Consistency tests not found")
+endif()
+
 # Replication HA Focused Tests (Phase 1-3 production-readiness)
 # Covers: config validation, WAL checksum, LWW/CRDT resolvers, quorum-based
 # leader election, thread-safe replica list, error handling, witness nodes.
@@ -2484,6 +2550,52 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_replication_ha.cpp")
     message(STATUS "  ReplicationHA: config validation, WAL checksum, LWW/CRDT, quorum leader election, witness nodes")
 else()
     message(STATUS "Replication HA focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_replication_ha.cpp")
+endif()
+
+# ============================================================================
+# Multi-Tier Replication Focused Tests (v1.8.0)
+# Covers all five acceptance criteria:
+#   AC-1  Tier 1: Strong consistency, high durability (3+ replicas, sync, <10ms)
+#   AC-2  Tier 2: Eventual consistency, moderate durability (2 replicas, semi-sync)
+#   AC-3  Tier 3: Best-effort, low durability (1 replica, async)
+#   AC-4  Per-collection tier assignment
+#   AC-5  Automatic tier promotion/demotion based on access patterns
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_replication_ha.cpp")
+    message(STATUS "Adding Multi-Tier Replication focused tests (v1.8.0)")
+
+    add_executable(test_multi_tier_replication_focused
+        test_replication_ha.cpp
+    )
+
+    target_include_directories(test_multi_tier_replication_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_multi_tier_replication_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_multi_tier_replication_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MultiTierReplicationFocusedTests
+             COMMAND test_multi_tier_replication_focused
+                     --gtest_filter=MultiTierReplicationTest*)
+
+    set_tests_properties(MultiTierReplicationFocusedTests PROPERTIES
+        LABELS "replication;multi-tier;auto-tiering;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  MultiTierReplication: tier assignment, default configs, per-collection override, auto-tiering promotion/demotion, statistics")
+else()
+    message(STATUS "Multi-Tier Replication tests not found (test_replication_ha.cpp missing)")
 endif()
 
 # Replication New Features Focused Tests (v1.7.0 modules)
@@ -4012,6 +4124,44 @@ else()
     message(STATUS "Transaction Manager focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_manager.cpp")
 endif()
 
+# Adaptive Deadlock Prevention Focused Tests (v1.9.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_deadlock_prevention.cpp")
+    message(STATUS "Adding Adaptive Deadlock Prevention focused tests")
+
+    add_executable(test_adaptive_deadlock_prevention_focused
+        test_adaptive_deadlock_prevention.cpp
+    )
+
+    target_include_directories(test_adaptive_deadlock_prevention_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_adaptive_deadlock_prevention_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_adaptive_deadlock_prevention_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AdaptiveDeadlockPreventionFocusedTests
+        COMMAND test_adaptive_deadlock_prevention_focused)
+
+    set_tests_properties(AdaptiveDeadlockPreventionFocusedTests PROPERTIES
+        LABELS "transaction;deadlock;adaptive;predictor;ml;v1.9.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  AdaptiveDeadlockPrevention: DeadlockPredictor (record/predict/recommend/timeout), TransactionManager integration")
+else()
+    message(STATUS "Adaptive Deadlock Prevention tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_deadlock_prevention.cpp")
+endif()
+
 # Transaction Isolation Levels Focused Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_isolation_levels.cpp")
     message(STATUS "Adding Transaction Isolation Levels focused tests")
@@ -4454,6 +4604,38 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_transactions.cpp")
     message(STATUS "  DistributedTransactions: DistributedTransactionManager 2PC, abort on vote NO, rollback, concurrent transactions")
 else()
     message(STATUS "Distributed Transactions focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_transactions.cpp")
+endif()
+
+# Percolator-Style Distributed Transaction Coordinator Focused Tests (v1.7.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_shard_coordinator.cpp")
+    message(STATUS "Adding Percolator Coordinator focused tests")
+
+    add_executable(test_percolator_coordinator_focused
+        test_cross_shard_coordinator.cpp
+    )
+
+    target_link_libraries(test_percolator_coordinator_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_percolator_coordinator_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PercolatorCoordinatorFocusedTests COMMAND test_percolator_coordinator_focused)
+
+    set_tests_properties(PercolatorCoordinatorFocusedTests PROPERTIES
+        LABELS "sharding;percolator;distributed;transaction;truetime;orphan-detector;v1.7.0;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  PercolatorCoordinator: PercolatorCoordinator class, TrueTime::now_with_uncertainty, OrphanDetector::cleanPercolatorLocks, protocol selection (2PC vs Percolator)")
+else()
+    message(STATUS "Percolator Coordinator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_shard_coordinator.cpp")
 endif()
 
 # Postgres Transaction Focused Tests
@@ -8115,10 +8297,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_ws_handler.cpp")
     # cdc_ws_handler.cpp and ws_transport.cpp are compiled into themis_core only
     # when THEMIS_ENABLE_HTTP_SERVER=ON.  Add them explicitly to this test
     # target when HTTP_SERVER is OFF to avoid missing-symbol linker errors.
+    # consumer_group.cpp is also needed for the v1.8.0 group-protocol tests.
     if(NOT THEMIS_ENABLE_HTTP_SERVER)
         target_sources(test_cdc_ws_handler PRIVATE
             ${THEMIS_ROOT_DIR}/src/cdc/cdc_ws_handler.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/ws_transport.cpp
+            ${THEMIS_ROOT_DIR}/src/cdc/consumer_group.cpp
         )
     endif()
 
@@ -8148,6 +8332,54 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_ws_handler.cpp")
     message(STATUS "  CdcWsHandler: subscribe/unsubscribe/ack frames, back-pressure (cdc_ws_overflow_total), pollEvents, checkRedelivery")
 else()
     message(STATUS "CDC WebSocket handler tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_ws_handler.cpp")
+endif()
+
+# ============================================================================
+# CDC Consumer Group Focused Tests (v1.8.0 – consumer group semantics and
+# durable offset tracking via ConsumerGroupManager)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_consumer_group.cpp")
+    message(STATUS "Adding CDC Consumer Group focused tests (v1.8.0 roadmap:56)")
+
+    add_executable(test_cdc_consumer_group
+        test_cdc_consumer_group.cpp
+    )
+
+    # consumer_group.cpp is compiled into themis_core. When HTTP_SERVER is OFF
+    # it may not be linked; add it explicitly to avoid missing-symbol errors.
+    if(NOT THEMIS_ENABLE_HTTP_SERVER)
+        target_sources(test_cdc_consumer_group PRIVATE
+            ${THEMIS_ROOT_DIR}/src/cdc/consumer_group.cpp
+        )
+    endif()
+
+    target_include_directories(test_cdc_consumer_group PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_cdc_consumer_group PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cdc_consumer_group PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ConsumerGroupFocusedTests COMMAND test_cdc_consumer_group)
+
+    set_tests_properties(ConsumerGroupFocusedTests PROPERTIES
+        LABELS "cdc;consumer-group;offset-tracking;partition;at-least-once;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ConsumerGroup: createGroup/deleteGroup, commitOffset/getCommittedOffset, partitionForKey, fetchEvents, fetchEventsAtLeastOnce, acknowledgeEvents")
+else()
+    message(STATUS "CDC Consumer Group tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_consumer_group.cpp")
 endif()
 
 # Config Module – Focused Standalone Test Targets
@@ -8180,7 +8412,16 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_path_resolver.cpp")
         spdlog::spdlog
         nlohmann_json::nlohmann_json
         Threads::Threads
+        ${THEMIS_YAML_TARGET}
+        OpenSSL::SSL
+        OpenSSL::Crypto
     )
+    if(TARGET prometheus-cpp::core)
+        target_link_libraries(test_config_path_resolver_focused PRIVATE prometheus-cpp::core)
+    endif()
+    if(TARGET prometheus-cpp::pull)
+        target_link_libraries(test_config_path_resolver_focused PRIVATE prometheus-cpp::pull)
+    endif()
 
     target_compile_definitions(test_config_path_resolver_focused PRIVATE
         THEMIS_TEST_BUILD=1
@@ -8196,6 +8437,46 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_path_resolver.cpp")
     message(STATUS "  ConfigPathResolver: path mapping, LRU cache, legacy fallback, metrics, audit trail")
 else()
     message(STATUS "ConfigPathResolver focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_config_path_resolver.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_file_watcher.cpp")
+    message(STATUS "Adding ConfigFileWatcher focused tests (v1.8.0 inotify/kqueue hot-reload)")
+
+    add_executable(test_config_file_watcher_focused
+        test_config_file_watcher.cpp
+        ${CONFIG_MODULE_SOURCES}
+        ${THEMIS_ROOT_DIR}/src/config/config_file_watcher.cpp
+    )
+
+    target_include_directories(test_config_file_watcher_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_config_file_watcher_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+        ${THEMIS_YAML_TARGET}
+        OpenSSL::SSL
+        OpenSSL::Crypto
+    )
+
+    target_compile_definitions(test_config_file_watcher_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ConfigFileWatcherFocusedTests COMMAND test_config_file_watcher_focused)
+
+    set_tests_properties(ConfigFileWatcherFocusedTests PROPERTIES
+        LABELS "config;file-watcher;inotify;kqueue;hot-reload;debounce;v1.8.0;unit;focused"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ConfigFileWatcher: inotify/kqueue/ReadDirectoryChangesW, debounce, startHotReload/stopHotReload")
+else()
+    message(STATUS "ConfigFileWatcher focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_config_file_watcher.cpp")
 endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_schema_validator.cpp")
@@ -8217,7 +8498,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_schema_validator.cpp")
         nlohmann_json::nlohmann_json
         yaml-cpp::yaml-cpp
         Threads::Threads
+        OpenSSL::SSL
+        OpenSSL::Crypto
     )
+    if(TARGET prometheus-cpp::core)
+        target_link_libraries(test_config_schema_validator_focused PRIVATE prometheus-cpp::core)
+    endif()
+    if(TARGET prometheus-cpp::pull)
+        target_link_libraries(test_config_schema_validator_focused PRIVATE prometheus-cpp::pull)
+    endif()
 
     target_compile_definitions(test_config_schema_validator_focused PRIVATE
         THEMIS_TEST_BUILD=1
@@ -8326,7 +8615,16 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_metrics_scrape.cpp")
         spdlog::spdlog
         nlohmann_json::nlohmann_json
         Threads::Threads
+        ${THEMIS_YAML_TARGET}
+        OpenSSL::SSL
+        OpenSSL::Crypto
     )
+    if(TARGET prometheus-cpp::core)
+        target_link_libraries(test_config_metrics_scrape_focused PRIVATE prometheus-cpp::core)
+    endif()
+    if(TARGET prometheus-cpp::pull)
+        target_link_libraries(test_config_metrics_scrape_focused PRIVATE prometheus-cpp::pull)
+    endif()
 
     target_compile_definitions(test_config_metrics_scrape_focused PRIVATE
         THEMIS_TEST_BUILD=1
@@ -9743,6 +10041,51 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_zero_copy_logging.cpp")
     message(STATUS "  ZeroCopyLogger: string_view hot-path, pre-allocated thread-local buffer, early level-check, PII redaction")
 else()
     message(STATUS "Zero-Copy Logging focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_zero_copy_logging.cpp")
+endif()
+
+# ============================================================================
+# Zero-Copy Blob Transfers focused tests (storage module, Issue #231, v1.7.0)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_zero_copy_blob_transfers.cpp")
+    message(STATUS "Adding Zero-Copy Blob Transfers focused tests (storage module, Issue #231)")
+
+    add_executable(test_zero_copy_blob_transfers_focused
+        test_zero_copy_blob_transfers.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/zero_copy_blob_transfer.cpp
+    )
+
+    target_include_directories(test_zero_copy_blob_transfers_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_zero_copy_blob_transfers_focused PRIVATE
+        ${TEST_LIBS}
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+
+    if(TARGET themis_core)
+        target_link_libraries(test_zero_copy_blob_transfers_focused PRIVATE themis_core)
+    endif()
+
+    target_compile_definitions(test_zero_copy_blob_transfers_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ZeroCopyBlobTransferFocusedTests
+             COMMAND test_zero_copy_blob_transfers_focused)
+
+    set_tests_properties(ZeroCopyBlobTransferFocusedTests PROPERTIES
+        LABELS "storage;blob;zero-copy;sendfile;mmap;s3-multipart;v1.7.0;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ZeroCopyBlobTransfer: sendfile() kernel-level transfer, MmapBlobView, S3 multipart streaming upload")
+else()
+    message(STATUS "Zero-Copy Blob Transfers focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_zero_copy_blob_transfers.cpp")
 endif()
 
 # ============================================================================
@@ -11166,6 +11509,7 @@ set(INGESTION_CORE_SOURCES
     ${THEMIS_ROOT_DIR}/src/ingestion/huggingface_connector.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/kafka_connector.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/object_storage_connector.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/s3_connector.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/database_connector.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/web_crawler_connector.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/ingestion_coordinator.cpp
@@ -11313,6 +11657,14 @@ add_ingestion_focused_test(
     IngestionObjectStorageFocusedTests
     "ingestion;objectstorage;s3;gcs;azure;focused;unit"
     "IngestionObjectStorage: S3/GCS/Azure mock-injection, prefix filter, path-traversal rejection, 28 tests"
+)
+
+add_ingestion_focused_test(
+    test_s3_connector_focused
+    test_s3_connector.cpp
+    S3ConnectorFocusedTests
+    "ingestion;s3;objectstorage;incremental;checkpoint;concurrent;focused;unit"
+    "S3Connector: incremental mode, max_keys_per_list, max_concurrent_downloads, flat-file delegation, checkpoint, path-traversal (Issue #178)"
 )
 
 add_ingestion_focused_test(
@@ -11674,6 +12026,15 @@ add_network_focused_test(
     WireProtocolPerformanceFocusedTests
     "network;performance;metrics;wire-protocol;focused;unit"
     "WireProtocolPerformanceMonitor: latency tracking, throughput counters, percentile computation"
+)
+
+# --- Wire Protocol Performance Optimizations (v1.7.0) ---
+add_network_focused_test(
+    test_wire_protocol_optimizations_focused
+    test_wire_protocol_optimizations.cpp
+    WireProtocolOptimizationsFocusedTests
+    "network;wire-protocol;zero-copy;batch;compression;dictionary;nagle;focused;unit"
+    "WireProtocolOptimizations: ZeroCopyFrameBuilder, MemoryMappedPayload, WireProtocolBatcher, NagleController, ZstdDictionaryCompressor"
 )
 
 # --- UDP Fast Path ---
@@ -12097,6 +12458,14 @@ add_index_focused_test(
     GPUMemoryOversubscriptionFocusedTests
     "index;gpu;oversubscription;lru;streaming;prefetch;vram;focused;unit"
     "GPUMemoryOversubscription: partition management, LRU eviction, streaming, prefetch strategies, multi-GPU config (v1.7.0)"
+)
+
+add_index_focused_test(
+    test_index_compression_focused
+    index/test_index_compression.cpp
+    IndexCompressionFocusedTests
+    "index;compression;delta;prefix;bloom;dictionary;rle;focused;unit"
+    "IndexCompression: delta encoding, prefix compression, bloom filters, dictionary encoding, RLE (v1.7.0)"
 )
 
 # ============================================================================
@@ -13560,6 +13929,115 @@ else()
     message(STATUS "Dependency Resolution Engine focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_dependency_resolution_engine.cpp")
 endif()
 
+# ContentEmbeddingPipeline – focused tests for EmbeddingPipeline and
+# ContentManager::generateEmbedding() (Issue #62 / v1.8.0)
+# Covers:
+#   AC-1  EmbeddingPipeline disabled when model_name is empty; enabled otherwise
+#   AC-2  batch_size clamped to [1, 32]; timeout_ms clamped to ≥100 ms
+#   AC-3  generateEmbedding returns empty vector when pipeline is disabled
+#   AC-4  generateEmbeddingBatch result size matches input size (shape invariant)
+#   AC-5  ContentMetrics::recordEmbeddingFailure increments
+#         content_embedding_failures_total; Prometheus output contains counter
+#   AC-6  ContentPolicy::embedding_model field wired and round-trips correctly
+#   AC-7  EmbeddingPipelineConfig::metrics pointer is forwarded correctly
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_content_embedding_pipeline.cpp")
+    message(STATUS "Adding Content Embedding Pipeline focused tests (content, Issue #62, v1.8.0)")
+
+    add_executable(test_content_embedding_pipeline_focused
+        test_content_embedding_pipeline.cpp
+    )
+
+    target_include_directories(test_content_embedding_pipeline_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_content_embedding_pipeline_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_content_embedding_pipeline_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ContentEmbeddingPipelineFocusedTests
+        COMMAND test_content_embedding_pipeline_focused)
+
+    set_tests_properties(ContentEmbeddingPipelineFocusedTests PROPERTIES
+        LABELS "content;embedding;pipeline;vector;metrics;policy;focused;unit;v1.8.0"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ContentEmbeddingPipeline: config clamping, enable/disable, batch shape, failure counter, Prometheus export, ContentPolicy::embedding_model")
+else()
+    message(STATUS "Content Embedding Pipeline focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_content_embedding_pipeline.cpp")
+endif()
+
+# MultiTenantUpdateScheduling – focused tests for TenantUpdateScheduler (Issue #262 / v1.8.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_tenant_update_scheduling.cpp")
+    message(STATUS "Adding Multi-Tenant Update Scheduling focused tests")
+
+    add_executable(test_multi_tenant_update_scheduling_focused
+        test_multi_tenant_update_scheduling.cpp
+    )
+
+    target_include_directories(test_multi_tenant_update_scheduling_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_multi_tenant_update_scheduling_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_multi_tenant_update_scheduling_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MultiTenantUpdateSchedulingFocusedTests
+        COMMAND test_multi_tenant_update_scheduling_focused)
+
+    set_tests_properties(MultiTenantUpdateSchedulingFocusedTests PROPERTIES
+        LABELS "updates;multi-tenant;maintenance-window;blackout;priority;consent;rollback;focused;unit;v1.8.0"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  MultiTenantUpdateScheduling: maintenance windows, blackout periods, priority tiers, tenant consent, per-tenant rollback")
+else()
+    message(STATUS "Multi-Tenant Update Scheduling focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_multi_tenant_update_scheduling.cpp")
+endif()
+
+# ============================================================================
+# RaftLoadBalancer – focused tests for Raft-coordinated load balancing
+# (Issue #78 / v1.8.0)
+# Covers all 14 acceptance criteria:
+#   AC1  – Raft consensus: single-node leader election, term increment
+#   AC2  – Automatic failover after unhealthy_threshold failures
+#   AC3  – Health-based routing excludes unhealthy backends
+#   AC4  – Dynamic weight adjustment and rebalance events
+#   AC5  – Cross-datacenter routing with local-DC preference
+#   AC6  – Round Robin strategy
+#   AC7  – Least Connections strategy
+#   AC8  – Weighted Round Robin strategy
+#   AC9  – Health-Based strategy
+#   AC10 – Consistent Hashing strategy
+#   AC11 – Health monitoring by the Raft leader
+#   AC12 – Automatic removal of failed backends
+#   AC13 – Automatic re-addition when backend recovers
+#   AC14 – Leader election (Raft loop elects leader autonomously)
+# ============================================================================
+add_network_focused_test(
+    test_raft_load_balancer_focused
+    test_raft_load_balancer.cpp
+    RaftLoadBalancerFocusedTests
+    "network;load-balancer;raft;failover;health;routing;consistent-hash;v1.8.0;focused;unit"
+    "RaftLoadBalancer: leader election, failover, health-based routing, dynamic weights, cross-DC, all 5 strategies"
+)
+
 # DistributedGateway – focused tests for multi-node API gateway
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_gateway.cpp")
     message(STATUS "Adding Distributed Gateway focused tests")
@@ -13703,6 +14181,79 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_query_plan_visualizer.cpp")
     message(STATUS "  QueryPlanVisualizer: EXPLAIN, EXPLAIN ANALYZE, JSON/text output")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_query_plan_caching.cpp")
+    message(STATUS "Adding Query Plan Caching focused tests (v1.7.0, Issue #196)")
+
+    add_executable(test_query_plan_caching_focused
+        test_query_plan_caching.cpp
+    )
+
+    target_include_directories(test_query_plan_caching_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_query_plan_caching_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+        OpenSSL::Crypto
+    )
+
+    target_compile_definitions(test_query_plan_caching_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME QueryPlanCachingFocusedTests
+        COMMAND test_query_plan_caching_focused)
+
+    set_tests_properties(QueryPlanCachingFocusedTests PROPERTIES
+        LABELS "query;plan-cache;fingerprint;invalidation;statistics;v1.7.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PlanCache: fingerprinting, parameterized reuse, table invalidation, stats drift, LRU eviction, 24h TTL")
+else()
+    message(STATUS "Query Plan Caching tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_query_plan_caching.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_query_jit_compilation.cpp")
+    message(STATUS "Adding Query JIT Compilation focused tests (v1.8.0, Issue #89)")
+
+    add_executable(test_query_jit_compilation_focused
+        test_query_jit_compilation.cpp
+    )
+
+    target_include_directories(test_query_jit_compilation_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_query_jit_compilation_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_query_jit_compilation_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME QueryJITCompilationFocusedTests
+        COMMAND test_query_jit_compilation_focused)
+
+    set_tests_properties(QueryJITCompilationFocusedTests PROPERTIES
+        LABELS "query;jit;compilation;hot-path;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  QueryCompiler: hot-path detection, result identity, fallback, key determinism, invalidation, stats")
+else()
+    message(STATUS "Query JIT Compilation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_query_jit_compilation.cpp")
+endif()
+
 # ============================================================================
 # Storage Module Focused Tests
 # ============================================================================
@@ -13771,6 +14322,41 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_nvme_manager.cpp")
     # POSIX-specific tests (::open/::close/pread/pwrite) are guarded in the
     # source with #ifndef _WIN32 and will SKIP gracefully on Windows.
     message(STATUS "  NVMe: capability detection, io_uring lifecycle, ZNS no-ops, Direct I/O flags, RocksDB integration")
+endif()
+
+# ErasureCodingBackend – focused tests for Reed-Solomon blob erasure coding (Issue #207 / v1.7.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_erasure_coding_backend.cpp" AND NOT TARGET test_erasure_coding_backend_focused)
+    message(STATUS "Adding Storage: ErasureCodingBackend focused tests (Issue #207)")
+
+    add_executable(test_erasure_coding_backend_focused
+        test_erasure_coding_backend.cpp
+    )
+
+    target_include_directories(test_erasure_coding_backend_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_erasure_coding_backend_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_erasure_coding_backend_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ErasureCodingFocusedTests
+        COMMAND test_erasure_coding_backend_focused)
+
+    set_tests_properties(ErasureCodingFocusedTests PROPERTIES
+        LABELS "storage;erasure-coding;reed-solomon;blob;fault-tolerance;focused;unit;v1.7.0"
+        TIMEOUT 90
+    )
+
+    message(STATUS "  ErasureCodingBackend: RS(10,4)/RS(6,3)/RS(4,2) encode/decode, multi-shard fault tolerance, BlobRedundancyManager PARITY mode integration")
 endif()
 
 # ============================================================================
@@ -14008,6 +14594,37 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_module.cpp")
     message(STATUS "                 ProcessLinker attach/detach/required-docs, ProcessGraphRag")
 endif()
 
+# Process Graph Visit Timestamp focused tests
+# Covers: ProcessGraphManager visit_timestamps, getVisitTimestamp, visited_nodes persistence
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_graph.cpp")
+    message(STATUS "Adding Process Graph visit-timestamp focused tests")
+    add_executable(test_process_graph_visit_timestamp_focused
+        test_process_graph.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
+    )
+    target_include_directories(test_process_graph_visit_timestamp_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_process_graph_visit_timestamp_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_process_graph_visit_timestamp_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    add_test(NAME ProcessGraphVisitTimestampFocusedTests
+             COMMAND test_process_graph_visit_timestamp_focused)
+    set_tests_properties(ProcessGraphVisitTimestampFocusedTests PROPERTIES
+        LABELS "process;graph;visit-timestamp;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  ProcessGraph: visit_timestamps, getVisitTimestamp, multi-hop ordering")
+endif()
+
 # ============================================================================
 # Temporal Module Focused Tests
 # ============================================================================
@@ -14171,7 +14788,94 @@ else()
     message(STATUS "Distributed Cache Integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cache_integration.cpp")
 endif()
 
+# ── Online Schema Migration focused tests (v1.7.0 Issue #208) ─────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_online_schema_migration.cpp")
+    message(STATUS "Adding Storage: OnlineSchemaMigration focused tests")
+    add_executable(test_online_schema_migration_focused
+        test_online_schema_migration.cpp
+    )
+    target_include_directories(test_online_schema_migration_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_online_schema_migration_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_online_schema_migration_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    add_test(NAME OnlineSchemaMigrationFocusedTests
+        COMMAND test_online_schema_migration_focused)
+    set_tests_properties(OnlineSchemaMigrationFocusedTests PROPERTIES
+        LABELS "storage;schema;migration;online;ddl;v1.7.0;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  OnlineSchemaMigration: add/drop columns, rename, type change, index ops, partition, phase transitions")
+else()
+    message(STATUS "Online schema migration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_online_schema_migration.cpp")
+endif()
+
 # ============================================================================
+# Adaptive Shard Rebalancer with Load-Based Splitting (Issue #203, v1.7.0)
+# ============================================================================
+# Adaptive Compaction Scheduler Focused Tests (Issue #209, v1.7.0)
+# Validates all four acceptance criteria:
+#   AC-1  Monitor read/write patterns (recordRead/recordWrite, EMA rates)
+#   AC-2  Predict compaction impact (predictCompactionImpact)
+#   AC-3  Schedule compactions during low-load periods (isLowLoadPeriod /
+#          shouldTriggerCompaction)
+#   AC-4  Adjust compaction triggers dynamically (getAdaptedConfig /
+#          applyAdaptedConfig + CompactionManager::setConfig/getConfig)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_compaction.cpp")
+    message(STATUS "Adding Adaptive Compaction Scheduler focused tests (storage module, Issue #209)")
+
+    add_executable(test_adaptive_compaction_focused
+        test_adaptive_compaction.cpp
+    )
+
+    target_include_directories(test_adaptive_compaction_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_adaptive_compaction_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_adaptive_compaction_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AdaptiveCompactionFocusedTests
+        COMMAND test_adaptive_compaction_focused)
+
+    set_tests_properties(AdaptiveCompactionFocusedTests PROPERTIES
+        LABELS "storage;compaction;adaptive;scheduling;v1.7.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  AdaptiveCompactionScheduler: pattern monitoring, impact prediction, low-load scheduling, dynamic trigger adjustment")
+else()
+    message(STATUS "Adaptive Compaction focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_compaction.cpp")
+endif()
+
+# Covers: HotShardSplitPolicy (reactive + predictive), ShardLoadDetector
+#         forecastLoad(), DataMigrator liveMigrate(), AutoRebalancer split
+#         integration, and audit event emission (SHARD_SPLIT / SHARD_MERGE).
+add_test(NAME AdaptiveShardRebalancerFocusedTests
+    COMMAND themis_tests --gtest_filter=AdaptiveShardRebalancer*:HotShardSplitPolicy*:ShardLoadForecast*:LiveMigration*)
+set_tests_properties(AdaptiveShardRebalancerFocusedTests PROPERTIES
+    LABELS "sharding;rebalancer;split;load-detection;forecasting;live-migration;v1.7.0;unit"
+    TIMEOUT 120
+)
+
 # Query Module – Adaptive Join Strategies Focused Tests (v1.7.0, Issue #91)
 # Validates all five acceptance criteria:
 #   AC-1  Hash Join: default for large equi-joins
@@ -14302,8 +15006,240 @@ else()
 endif()
 
 # ============================================================================
-# Custom Test Targets
+# BlobRedundancyManager – RocksDB Event Listener Focused Tests (v1.8.0)
+# Covers: createRocksDBListener(), notifySSTFileDeleted(),
+#         RocksDBBlobListener::OnTableFileDeleted(), healthy→unhealthy
+#         location marking, repair-queue notification.
 # ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_raid_redundancy.cpp")
+    message(STATUS "Adding BlobRedundancy EventListener focused tests")
+
+    add_executable(test_blob_redundancy_event_listener_focused
+        test_raid_redundancy.cpp
+    )
+
+    target_include_directories(test_blob_redundancy_event_listener_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_blob_redundancy_event_listener_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_blob_redundancy_event_listener_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME BlobRedundancyEventListenerFocusedTests
+        COMMAND test_blob_redundancy_event_listener_focused
+        --gtest_filter=BlobRedundancyEventListenerTest.*
+    )
+
+    set_tests_properties(BlobRedundancyEventListenerFocusedTests PROPERTIES
+        LABELS "storage;blob-redundancy;rocksdb-listener;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  BlobRedundancy: createRocksDBListener, notifySSTFileDeleted, OnTableFileDeleted, location health tracking")
+else()
+    message(STATUS "BlobRedundancy EventListener tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_raid_redundancy.cpp")
+endif()
+
+# ============================================================================
+# RemoteRegistryClient – Async Retry Back-Off Focused Tests (v1.3.0, Issue #3986)
+# Covers: sync API (listPlugins, fetchPlugin, downloadPlugin), RequestStats,
+#         max_total_retry_time_ms budget, and async variants (listPluginsAsync,
+#         fetchPluginAsync, downloadPluginAsync) that release the calling thread
+#         during back-off via std::async + shared_from_this().
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_remote_registry_client.cpp")
+    message(STATUS "Adding RemoteRegistryClient async retry focused tests (base module, Issue #3986)")
+
+    # remote_registry_client.cpp is not yet in themis_core (monolithic build)
+    # and not in THEMIS_BASE_SOURCES (modular build was updated), so compile it
+    # directly into the focused test executable to guarantee availability.
+    add_executable(test_remote_registry_client_focused
+        test_remote_registry_client.cpp
+        ${CMAKE_SOURCE_DIR}/src/base/remote_registry_client.cpp
+    )
+
+    target_include_directories(test_remote_registry_client_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_remote_registry_client_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+        $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
+        OpenSSL::Crypto
+    )
+
+    target_compile_definitions(test_remote_registry_client_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RemoteRegistryClientFocusedTests
+        COMMAND test_remote_registry_client_focused)
+
+    set_tests_properties(RemoteRegistryClientFocusedTests PROPERTIES
+        LABELS "base;remote-registry;async-retry;backoff;shared-from-this;v1.3.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  RemoteRegistryClient: sync/async list/fetch/download, RequestStats, retry budget, shared_ptr lifetime")
+else()
+    message(STATUS "RemoteRegistryClient focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_remote_registry_client.cpp")
+endif()
+
+# ============================================================================
+# AdaptiveQueryCompiler – Focused Tests (v1.8.0, Issue #86)
+# Covers:
+#   AC-1  Hot Query Detection  (execution counter crosses hot_threshold)
+#   AC-2  Type Specialisation  (compiled path uses typed predicate dispatch)
+#   AC-3  Expression Folding   (constant predicates folded at compile time)
+#   AC-4  Vectorized Codegen   (IR/assembly reflects vectorisation flag)
+#   AC-5  Adaptive Recompilation (drift check triggers re-compile)
+#   AC-6  LLVM IR generation   (CompiledQuery::llvm_ir non-empty and valid)
+#   AC-7  CompilationStats     (queries_compiled, failures, cache_size, etc.)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_query_compilation.cpp")
+    message(STATUS "Adding AdaptiveQueryCompiler focused tests (performance module, Issue #86)")
+
+    add_executable(test_adaptive_query_compilation_focused
+        test_adaptive_query_compilation.cpp
+        ${CMAKE_SOURCE_DIR}/src/performance/adaptive_query_compiler.cpp
+    )
+
+    target_include_directories(test_adaptive_query_compilation_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_adaptive_query_compilation_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_adaptive_query_compilation_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AdaptiveQueryCompilationFocusedTests
+        COMMAND test_adaptive_query_compilation_focused)
+
+    set_tests_properties(AdaptiveQueryCompilationFocusedTests PROPERTIES
+        LABELS "performance;query-compiler;jit;hot-path;type-specialisation;vectorization;adaptive;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  AdaptiveQueryCompiler: hot-path detection, type specialisation, expression folding, vectorized codegen, adaptive recompilation")
+else()
+    message(STATUS "AdaptiveQueryCompiler focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_query_compilation.cpp")
+endif()
+
+# ============================================================================
+# Custom Test Targets
+# LoRA Certificate Store – focused tests (v1.8.0, Issue #75)
+# Covers all four acceptance criteria:
+#   AC-1  missing cert → verifySignature returns SIGNATURE_UNVERIFIABLE (fail closed)
+#   AC-2  valid cert registered in store + valid sig → verifySignature passes
+#   AC-3  valid cert + tampered sig → verifySignature fails
+#   AC-4  LoRACertificateStore: register / lookup / evict / filesystem lookup
+# ============================================================================
+
+# ── themisctl focused tests ────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_themisctl.cpp")
+    message(STATUS "Adding themisctl focused tests (tools, unified CLI)")
+
+    add_executable(test_themisctl_focused
+        test_themisctl.cpp
+    )
+
+    target_compile_features(test_themisctl_focused PRIVATE cxx_std_17)
+
+    # The test includes ../tools/themisctl.cpp directly with THEMISCTL_TEST_BUILD
+    target_include_directories(test_themisctl_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/tools
+    )
+
+    target_compile_definitions(test_themisctl_focused PRIVATE
+        THEMISCTL_TEST_BUILD=1
+    )
+
+    target_link_libraries(test_themisctl_focused PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        Threads::Threads
+    )
+
+    find_package(httplib QUIET)
+    if(httplib_FOUND)
+        target_link_libraries(test_themisctl_focused PRIVATE httplib::httplib)
+    endif()
+
+    find_package(nlohmann_json QUIET)
+    if(nlohmann_json_FOUND)
+        target_link_libraries(test_themisctl_focused PRIVATE nlohmann_json::nlohmann_json)
+    endif()
+
+    add_test(NAME ThemisctlFocusedTests COMMAND test_themisctl_focused)
+
+    set_tests_properties(ThemisctlFocusedTests PROPERTIES
+        LABELS "tools;cli;themisctl;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  themisctl: arg parsing, HTTP round-trips, command routing, error handling")
+else()
+    message(STATUS "themisctl focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_themisctl.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_security.cpp")
+    message(STATUS "Adding LoRA Certificate Store focused tests (llm module, Issue #75)")
+
+    add_executable(test_lora_certificate_store_focused
+        test_lora_security.cpp
+    )
+
+    target_include_directories(test_lora_certificate_store_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_lora_certificate_store_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_lora_certificate_store_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME LoRACertificateStoreFocusedTests
+        COMMAND test_lora_certificate_store_focused
+            --gtest_filter="LoRACertificateStoreTest*:LoRACertStoreIntegrationTest*")
+
+    set_tests_properties(LoRACertificateStoreFocusedTests PROPERTIES
+        LABELS "llm;lora;security;certificate-store;signature;fail-closed;v1.8.0;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  LoRACertificateStore: register/lookup/evict, filesystem, fail-closed, crypto verification")
+else()
+    message(STATUS "LoRA Certificate Store focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lora_security.cpp")
+endif()
+
+
 add_custom_target(run_tests
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}

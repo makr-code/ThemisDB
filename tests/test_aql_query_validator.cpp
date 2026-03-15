@@ -285,6 +285,108 @@ TEST(AQLQueryBuilderValidateTest, IncompleteBuilderValidateNoError) {
 }
 
 // ============================================================================
+// Traversal depth validation tests
+// ============================================================================
+
+TEST_F(AQLQueryValidatorStringTest, TraversalValidDepthRange) {
+    // min=1, max=3 is valid
+    auto result = validator.validate(
+        "FOR v, e, p IN 1..3 OUTBOUND \"start/1\" GRAPH \"g\" RETURN v"
+    );
+    bool has_depth_error = false;
+    for (const auto& issue : result.issues) {
+        if (issue.clause == "FOR" && issue.severity == ValidationIssue::Severity::ERROR) {
+            has_depth_error = true;
+            break;
+        }
+    }
+    EXPECT_FALSE(has_depth_error);
+}
+
+TEST_F(AQLQueryValidatorStringTest, TraversalInvalidDepthRangeIsError) {
+    // min=5, max=2 is invalid (min > max)
+    auto result = validator.validate(
+        "FOR v, e, p IN 5..2 OUTBOUND \"start/1\" GRAPH \"g\" RETURN v"
+    );
+    EXPECT_FALSE(result.is_valid);
+    EXPECT_TRUE(result.hasErrors());
+    bool has_depth_error = false;
+    for (const auto& issue : result.issues) {
+        if (issue.clause == "FOR" && issue.severity == ValidationIssue::Severity::ERROR) {
+            has_depth_error = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(has_depth_error);
+}
+
+TEST(AQLQueryBuilderValidateTest, TraverseBuilderValidateDepthError) {
+    // The builder rejects min > max at construction time
+    AQLQueryBuilder builder;
+    EXPECT_THROW(
+        builder.forTraverse("v", "e", "p", "start", "g", "OUTBOUND", 5, 2),
+        std::invalid_argument
+    );
+}
+
+TEST(AQLQueryBuilderValidateTest, TraverseBuilderValidateValidDepth) {
+    AQLQueryBuilder builder;
+    builder.forTraverse("v", "e", "p", "\"start/1\"", "myGraph", "OUTBOUND", 1, 4).ret("v");
+
+    ValidationResult result = builder.validate();
+    EXPECT_FALSE(result.hasErrors());
+    EXPECT_TRUE(result.is_valid);
+}
+
+// ============================================================================
+// DML string validation tests
+// ============================================================================
+
+TEST_F(AQLQueryValidatorStringTest, InsertQueryIsValid) {
+    // Standalone INSERT does not need FOR
+    auto result = validator.validate("INSERT {name: \"Alice\"} INTO users");
+    EXPECT_TRUE(result.is_valid);
+    EXPECT_FALSE(result.hasErrors());
+}
+
+TEST_F(AQLQueryValidatorStringTest, RemoveQueryWithForIsValid) {
+    auto result = validator.validate(
+        "FOR u IN users FILTER u.active == false REMOVE u IN users"
+    );
+    EXPECT_TRUE(result.is_valid);
+    EXPECT_FALSE(result.hasErrors());
+}
+
+TEST_F(AQLQueryValidatorStringTest, UpsertQueryIsValid) {
+    auto result = validator.validate(
+        "UPSERT {name: \"Alice\"} INSERT {name: \"Alice\", age: 30} UPDATE {age: 30} IN users"
+    );
+    EXPECT_TRUE(result.is_valid);
+    EXPECT_FALSE(result.hasErrors());
+}
+
+TEST_F(AQLQueryValidatorStringTest, StandaloneRemoveByKeyIsValid) {
+    // REMOVE "key123" IN users — standalone, no FOR required
+    auto result = validator.validate("REMOVE \"key123\" IN users");
+    EXPECT_TRUE(result.is_valid);
+    EXPECT_FALSE(result.hasErrors());
+}
+
+TEST_F(AQLQueryValidatorStringTest, StandaloneUpdateByKeyIsValid) {
+    // UPDATE "key123" WITH {age: 31} IN users — standalone, no FOR required
+    auto result = validator.validate("UPDATE \"key123\" WITH {age: 31} IN users");
+    EXPECT_TRUE(result.is_valid);
+    EXPECT_FALSE(result.hasErrors());
+}
+
+TEST_F(AQLQueryValidatorStringTest, StandaloneReplaceByKeyIsValid) {
+    // REPLACE "key123" WITH {name: \"Bob\"} IN users — standalone, no FOR required
+    auto result = validator.validate("REPLACE \"key123\" WITH {name: \"Bob\"} IN users");
+    EXPECT_TRUE(result.is_valid);
+    EXPECT_FALSE(result.hasErrors());
+}
+
+// ============================================================================
 // scoreQueryConfidence tests (graceful LLM absence)
 // ============================================================================
 

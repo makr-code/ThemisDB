@@ -758,3 +758,88 @@ TEST(RegisterImporterPluginMacroTest, MacroPluginIdInList) {
     EXPECT_NE(ids.end(),
               std::find(ids.begin(), ids.end(), "macro_registered_plugin"));
 }
+
+// ===========================================================================
+// ImportConfig – conflict resolution fields (Issue #175, v1.7.0)
+// ===========================================================================
+
+TEST(ImportConfigConflictTest, DefaultStrategyIsOverwrite) {
+    ImportConfig cfg;
+    EXPECT_EQ(ConflictStrategy::OVERWRITE, cfg.conflict_strategy);
+}
+
+TEST(ImportConfigConflictTest, DefaultMergeDepthIsOne) {
+    ImportConfig cfg;
+    EXPECT_EQ(1, cfg.merge_depth);
+}
+
+TEST(ImportConfigConflictTest, DefaultConflictKeyColumnsEmpty) {
+    ImportConfig cfg;
+    EXPECT_TRUE(cfg.conflict_key_columns.empty());
+}
+
+TEST(ImportConfigConflictTest, DefaultProtectedFieldsEmpty) {
+    ImportConfig cfg;
+    EXPECT_TRUE(cfg.protected_fields.empty());
+}
+
+TEST(ImportConfigConflictTest, CanSetStrategySkip) {
+    ImportConfig cfg;
+    cfg.conflict_strategy = ConflictStrategy::SKIP;
+    EXPECT_EQ(ConflictStrategy::SKIP, cfg.conflict_strategy);
+}
+
+TEST(ImportConfigConflictTest, CanSetStrategyMerge) {
+    ImportConfig cfg;
+    cfg.conflict_strategy = ConflictStrategy::MERGE;
+    EXPECT_EQ(ConflictStrategy::MERGE, cfg.conflict_strategy);
+}
+
+TEST(ImportConfigConflictTest, CanSetStrategyError) {
+    ImportConfig cfg;
+    cfg.conflict_strategy = ConflictStrategy::ERROR;
+    EXPECT_EQ(ConflictStrategy::ERROR, cfg.conflict_strategy);
+}
+
+TEST(ImportConfigConflictTest, CanSetConflictKeyColumns) {
+    ImportConfig cfg;
+    cfg.conflict_key_columns = {"id", "tenant_id"};
+    ASSERT_EQ(2u, cfg.conflict_key_columns.size());
+    EXPECT_EQ("id",        cfg.conflict_key_columns[0]);
+    EXPECT_EQ("tenant_id", cfg.conflict_key_columns[1]);
+}
+
+TEST(ImportConfigConflictTest, CanSetProtectedFields) {
+    ImportConfig cfg;
+    cfg.protected_fields = {"created_at", "original_owner"};
+    ASSERT_EQ(2u, cfg.protected_fields.size());
+    EXPECT_EQ("created_at",      cfg.protected_fields[0]);
+    EXPECT_EQ("original_owner",  cfg.protected_fields[1]);
+}
+
+TEST(ImportConfigConflictTest, CanSetMergeDepthDeep) {
+    ImportConfig cfg;
+    cfg.merge_depth = -1;  // unlimited recursive merge
+    EXPECT_EQ(-1, cfg.merge_depth);
+}
+
+TEST(ImportConfigConflictTest, ConflictFieldsAreIndependentOfSourceUri) {
+    ImportConfig cfg;
+    cfg.source_uri           = "postgresql://host/db";
+    cfg.json_config          = "{}";
+    cfg.conflict_strategy    = ConflictStrategy::MERGE;
+    cfg.conflict_key_columns = {"id"};
+    cfg.protected_fields     = {"created_at"};
+    cfg.merge_depth          = -1;
+
+    // Source location fields unaffected
+    EXPECT_EQ("postgresql://host/db", cfg.source_uri);
+    EXPECT_EQ("{}", cfg.json_config);
+    // Conflict fields correctly set
+    EXPECT_EQ(ConflictStrategy::MERGE, cfg.conflict_strategy);
+    ASSERT_EQ(1u, cfg.conflict_key_columns.size());
+    EXPECT_EQ("id", cfg.conflict_key_columns[0]);
+    ASSERT_EQ(1u, cfg.protected_fields.size());
+    EXPECT_EQ("created_at", cfg.protected_fields[0]);
+    EXPECT_EQ(-1, cfg.merge_depth);
+}

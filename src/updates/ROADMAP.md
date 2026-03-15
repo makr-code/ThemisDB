@@ -63,6 +63,13 @@ v1.7.0 – Production-ready zero-downtime update and migration system. HotReload
 ### Short-term (Next 3-6 months)
 <!-- All short-term items are complete — see Completed ✅ section above -->
 
+### v1.8.0 – Completed ✅
+- [x] Multi-tenant update scheduling – per-tenant maintenance windows, blackout periods, priority tiers (critical/normal/low), tenant consent, and per-tenant rollback (Issue: #262)
+  - Implemented: `include/updates/tenant_update_scheduler.h`, `src/updates/tenant_update_scheduler.cpp`
+  - API: `MaintenanceWindow`, `BlackoutPeriod`, `UpdatePolicy`, `UpdatePriority`, `TenantUpdateStatus`, `TenantUpdateScheduler`
+  - Tests: 37 focused tests in `tests/test_multi_tenant_update_scheduling.cpp`
+  - CI: `.github/workflows/multi-tenant-update-scheduling-ci.yml`
+
 ### Long-term (6-12 months)
 - [!] Kubernetes operator integration (rolling update coordination) (Issue: #2483)
 

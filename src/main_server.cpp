@@ -51,6 +51,7 @@
 #include "server/http_server.h"
 #endif
 #include "config/config_path_resolver.h"
+#include "config/config_metrics_exporter.h"
 #include "sharding/wal_applier.h"
 #include "sharding/wal_manager.h"
 #include "sharding/wal_shipper.h"
@@ -75,6 +76,9 @@
 #include "themis/build_info.h"
 #include "themis/license_info.h"
 #include "themis/runtime_license_gate.h"
+#ifdef THEMIS_HAS_PROMETHEUS
+#include <prometheus/registry.h>
+#endif
 
 #ifdef THEMIS_ENABLE_LLM
 #include "llm/embedded_llm.h"
@@ -117,6 +121,9 @@ std::atomic<bool> g_shutdown_requested{false};
 #ifndef _WIN32
 // SIGHUP flag for TLS certificate hot-reload (Linux/macOS only)
 std::atomic<bool> g_tls_reload_requested{false};
+#endif
+#ifdef THEMIS_HAS_PROMETHEUS
+std::shared_ptr<prometheus::Registry> g_config_prom_registry;
 #endif
 // Server instance (accessed only from main thread, not from signal handler)
 #ifdef THEMIS_ENABLE_HTTP_SERVER
@@ -353,6 +360,12 @@ int main(int argc, char* argv[]) {
     // Initialize logger AFTER simple flag checks to avoid file I/O for --version/--help
     // This prevents unnecessary initialization when user just wants version info
     utils::Logger::init("themis_server.log", utils::Logger::Level::INFO);
+
+#ifdef THEMIS_HAS_PROMETHEUS
+    // Initialize Prometheus registry for config path resolution metrics
+    g_config_prom_registry = std::make_shared<prometheus::Registry>();
+    config::ConfigMetricsExporter::registerWithRegistry(g_config_prom_registry);
+#endif
     
     THEMIS_INFO("=== Themis Multi-Model Database API Server ===");
 #ifdef THEMIS_VERSION_STRING

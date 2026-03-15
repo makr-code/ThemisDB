@@ -2,8 +2,10 @@ name: Edition · ENTERPRISE · CI
 
 on:
   push:
+    # Enterprise builds run on the enterprise release lane and develop.
+    # They do NOT run on main (Community lane) or hyperscaler lane.
     branches:
-      - main
+      - enterprise
       - develop
     paths:
       - 'cmake/**'

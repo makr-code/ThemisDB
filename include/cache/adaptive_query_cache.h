@@ -32,6 +32,7 @@
 #include <memory>
 #include <chrono>
 #include <mutex>
+#include <thread>
 #include <unordered_map>
 #include <unordered_set>
 #include <nlohmann/json.hpp>
@@ -149,7 +150,17 @@ public:
         // subsequent reads. Recommended for read-heavy workloads where writes are
         // infrequent relative to reads.
         bool enable_write_through = false;
-        
+
+        // Warmup: Parallel Bulk Load
+        // Maximum number of parallel worker threads used by warmupFromLog().
+        // Each worker processes an independent chunk of the NDJSON log and inserts
+        // entries concurrently, exploiting all available CPU cores.
+        // 0 is treated as 1 (single-threaded). Defaults to hardware concurrency.
+        uint32_t max_parallel_workers = static_cast<uint32_t>(
+            std::thread::hardware_concurrency() > 0
+                ? std::thread::hardware_concurrency()
+                : 1u);
+
         /**
          * @brief Validate configuration parameters
          * @return true if config is valid, false otherwise
@@ -436,6 +447,8 @@ public:
         size_t entries_total = 0;    ///< total lines read / entries considered
         bool   ok = true;            ///< false if the log file could not be opened
         std::string error;           ///< error message when ok == false
+        int64_t warmup_duration_ms = 0;          ///< wall-clock time for warmupFromLog (ms)
+        double  warmup_entries_per_second = 0.0; ///< throughput: entries loaded / second
     };
 
     /**
@@ -459,10 +472,13 @@ public:
      * - Validates SHA-256 hex format and entry size limits before insertion.
      * - Reports progress to the global MetricsCollector gauge
      *   `themis_cache_warmup_entries_loaded_total`.
+     * - Partitions the log into `config_.max_parallel_workers` chunks and
+     *   processes them concurrently using `std::async`, reducing startup
+     *   latency for large warmup logs.
      *
      * @param log_path    Path to the NDJSON warmup log.
      * @param max_entries Hard cap on total entries loaded (0 = no extra cap).
-     * @return WarmupResult with counts and error info.
+     * @return WarmupResult with counts, timing, throughput, and error info.
      */
     WarmupResult warmupFromLog(const std::string& log_path, size_t max_entries = 0);
 

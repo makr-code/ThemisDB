@@ -136,6 +136,69 @@ bool isGatewayNode(const ProcessNodeInfo& node) {
     return false;
 }
 
+/**
+ * @brief Serialize a ProcessGraphVisitLog to a JSON string (node_id -> ns since epoch).
+ */
+std::string serializeVisitTimestamps(const ProcessGraphVisitLog& log) {
+    nlohmann::json obj = nlohmann::json::object();
+    for (const auto& [node, tp] : log) {
+        int64_t ns = std::chrono::duration_cast<std::chrono::nanoseconds>(
+            tp.time_since_epoch()).count();
+        obj[node] = ns;
+    }
+    return obj.dump();
+}
+
+/**
+ * @brief Deserialize a ProcessGraphVisitLog from a JSON string.
+ */
+ProcessGraphVisitLog deserializeVisitTimestamps(const std::string& s) {
+    ProcessGraphVisitLog log;
+    try {
+        auto obj = nlohmann::json::parse(s);
+        if (obj.is_object()) {
+            for (const auto& [node, val] : obj.items()) {
+                if (val.is_number_integer()) {
+                    int64_t ns = val.get<int64_t>();
+                    log[node] = std::chrono::system_clock::time_point{
+                        std::chrono::nanoseconds{ns}};
+                }
+            }
+        }
+    } catch (const nlohmann::json::parse_error& e) {
+        THEMIS_WARN("ProcessGraph: failed to deserialize visit_timestamps: {}", e.what());
+    }
+    return log;
+}
+
+/**
+ * @brief Serialize visited_nodes vector to a JSON array string.
+ */
+std::string serializeVisitedNodes(const std::vector<std::string>& nodes) {
+    nlohmann::json arr = nodes;
+    return arr.dump();
+}
+
+/**
+ * @brief Deserialize visited_nodes vector from a JSON array string.
+ */
+std::vector<std::string> deserializeVisitedNodes(const std::string& s) {
+    std::vector<std::string> nodes;
+    try {
+        auto arr = nlohmann::json::parse(s);
+        if (arr.is_array()) {
+            for (const auto& item : arr) {
+                if (item.is_string()) {
+                    nodes.push_back(item.get<std::string>());
+                }
+            }
+        }
+    } catch (const nlohmann::json::parse_error& e) {
+        THEMIS_WARN("ProcessGraph: failed to deserialize visited_nodes: {}", e.what());
+    }
+    return nodes;
+}
+
 bool isStartNode(const ProcessNodeInfo& node) {
     if (std::holds_alternative<BPMNNodeType>(node.node_type)) {
         return std::get<BPMNNodeType>(node.node_type) == BPMNNodeType::START_EVENT;
@@ -703,6 +766,7 @@ std::pair<ProcessGraphManager::Status, std::string> ProcessGraphManager::startPr
     token.created_at_ms = currentTimeMs();
     token.variables = initial_variables;
     token.visited_nodes.push_back(startNodeId);
+    token.visit_timestamps[startNodeId] = std::chrono::system_clock::now();
 
     instance.tokens.push_back(token);
 
@@ -726,6 +790,8 @@ std::pair<ProcessGraphManager::Status, std::string> ProcessGraphManager::startPr
     tokenEntity.setField("current_node", startNodeId);
     tokenEntity.setField("state", "READY");
     tokenEntity.setField("created_at", token.created_at_ms);
+    tokenEntity.setField("visited_nodes", serializeVisitedNodes(token.visited_nodes));
+    tokenEntity.setField("visit_timestamps", serializeVisitTimestamps(token.visit_timestamps));
 
     std::string tokenKey = makeTokenKey_(instanceId, token.token_id);
     if (!db_.put(tokenKey, tokenEntity.serialize())) {
@@ -793,6 +859,16 @@ ProcessGraphManager::getProcessInstance(std::string_view instance_id) const {
             else if (stateStr == "COMPLETED") token.state = ProcessToken::State::COMPLETED;
             else if (stateStr == "WAITING") token.state = ProcessToken::State::WAITING;
             else if (stateStr == "FAILED") token.state = ProcessToken::State::FAILED;
+
+            auto visitedNodesStr = tokenEntity.getFieldAsString("visited_nodes");
+            if (visitedNodesStr) {
+                token.visited_nodes = deserializeVisitedNodes(*visitedNodesStr);
+            }
+
+            auto visitTimestampsStr = tokenEntity.getFieldAsString("visit_timestamps");
+            if (visitTimestampsStr) {
+                token.visit_timestamps = deserializeVisitTimestamps(*visitTimestampsStr);
+            }
             
             instance.tokens.push_back(token);
         }
@@ -800,6 +876,27 @@ ProcessGraphManager::getProcessInstance(std::string_view instance_id) const {
     });
 
     return {Status::OK(), instance};
+}
+
+std::optional<std::chrono::system_clock::time_point>
+ProcessGraphManager::getVisitTimestamp(
+    std::string_view instance_id,
+    std::string_view node_id
+) const {
+    auto [st, instance] = getProcessInstance(instance_id);
+    if (!st.ok) return std::nullopt;
+
+    std::optional<std::chrono::system_clock::time_point> result;
+    for (const auto& token : instance.tokens) {
+        auto it = token.visit_timestamps.find(std::string(node_id));
+        if (it != token.visit_timestamps.end()) {
+            // Return the most recent timestamp across all tokens
+            if (!result.has_value() || it->second > result.value()) {
+                result = it->second;
+            }
+        }
+    }
+    return result;
 }
 
 ProcessGraphManager::Status ProcessGraphManager::advanceToken(
@@ -856,13 +953,16 @@ ProcessGraphManager::Status ProcessGraphManager::advanceToken(
         token->state = ProcessToken::State::COMPLETED;
         token->completed_at_ms = currentTimeMs();
         
-        // Update token in DB
+        // Update token in DB — include visited_nodes and visit_timestamps so
+        // history is preserved even after the token reaches a terminal node.
         BaseEntity::FieldMap fields;
         fields["id"] = std::string(token_id);
         fields["instance_id"] = std::string(instance_id);
         fields["current_node"] = token->current_node;
         fields["state"] = std::string("COMPLETED");
         fields["completed_at"] = static_cast<int64_t>(*token->completed_at_ms);
+        fields["visited_nodes"] = serializeVisitedNodes(token->visited_nodes);
+        fields["visit_timestamps"] = serializeVisitTimestamps(token->visit_timestamps);
         BaseEntity tokenEntity = BaseEntity::fromFields(std::string(token_id), fields);
         
         std::string tokenKey = makeTokenKey_(instance_id, token_id);
@@ -922,6 +1022,7 @@ ProcessGraphManager::Status ProcessGraphManager::advanceToken(
     // Move token
     token->current_node = targetNode;
     token->visited_nodes.push_back(targetNode);
+    token->visit_timestamps[targetNode] = std::chrono::system_clock::now();
 
     // Update token in DB
     BaseEntity::FieldMap fields2;
@@ -929,6 +1030,8 @@ ProcessGraphManager::Status ProcessGraphManager::advanceToken(
     fields2["instance_id"] = std::string(instance_id);
     fields2["current_node"] = token->current_node;
     fields2["state"] = std::string("READY");
+    fields2["visited_nodes"] = serializeVisitedNodes(token->visited_nodes);
+    fields2["visit_timestamps"] = serializeVisitTimestamps(token->visit_timestamps);
     BaseEntity tokenEntity2 = BaseEntity::fromFields(std::string(token_id), fields2);
     
     std::string tokenKey = makeTokenKey_(instance_id, token_id);
@@ -1069,13 +1172,15 @@ ProcessGraphManager::Status ProcessGraphManager::signalEvent(
         // Set token to READY state
         token.state = ProcessToken::State::READY;
         
-        // Update token in database
+        // Update token in database — preserve visited_nodes and visit_timestamps
         BaseEntity tokenEntity(token.token_id);
         tokenEntity.setField("id", token.token_id);
         tokenEntity.setField("instance_id", std::string(instance_id));
         tokenEntity.setField("current_node", token.current_node);
         tokenEntity.setField("state", "READY");
         tokenEntity.setField("variables", token.variables.dump());
+        tokenEntity.setField("visited_nodes", serializeVisitedNodes(token.visited_nodes));
+        tokenEntity.setField("visit_timestamps", serializeVisitTimestamps(token.visit_timestamps));
         
         std::string tokenKey = makeTokenKey_(instance_id, token.token_id);
         if (!db_.put(tokenKey, tokenEntity.serialize())) {
@@ -1827,6 +1932,7 @@ ProcessGraphManager::Status ProcessGraphManager::moveToken_(
     (void)instance;
     token.current_node = std::string(target_node);
     token.visited_nodes.push_back(std::string(target_node));
+    token.visit_timestamps[std::string(target_node)] = std::chrono::system_clock::now();
     return Status::OK();
 }
 

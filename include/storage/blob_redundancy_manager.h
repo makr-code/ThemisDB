@@ -465,6 +465,11 @@ public:
     // RocksDB Integration
     Result<std::shared_ptr<rocksdb::EventListener>> createRocksDBListener();
     
+    // Called by RocksDBBlobListener when an SST file is deleted by RocksDB.
+    // Marks all blob locations backed by the deleted file as unhealthy and
+    // queues the affected blobs for re-replication.
+    void notifySSTFileDeleted(const std::string& file_path);
+    
 private:
     Config config_;
     std::atomic<bool> running_{false};

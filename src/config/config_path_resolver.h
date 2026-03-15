@@ -32,7 +32,9 @@
 #include <filesystem>
 #include <optional>
 #include <atomic>
+#include <mutex>
 #include <chrono>
+#include <memory>
 #include "config/config_audit_log.h"
 #include <csignal>
 #include "config/config_errors.h"
@@ -41,6 +43,10 @@
 
 namespace themis {
 namespace config {
+
+// Forward declaration so ConfigPathResolver can hold a unique_ptr without
+// pulling in the platform-specific config_file_watcher.h headers.
+class ConfigFileWatcher;
 
 /**
  * Deployment environment for config overlay resolution.
@@ -151,6 +157,23 @@ public:
      * Get current metrics.
      */
     static const Metrics& metrics() { return metrics_; }
+
+    /**
+     * Get legacy fallback counts broken down by config category.
+     *
+     * Categories are inferred from the canonical new path via inferCategory()
+     * when a legacy fallback occurs. Counts are stored in per-category atomic
+     * counters; the returned vector is a snapshot of (category, count) pairs.
+     * No external locking is required once initialization has completed.
+     */
+    static std::vector<std::pair<std::string, uint64_t>> legacyFallbacksByCategory();
+
+    /**
+     * Returns the set of category labels used for legacy fallback counters.
+     * Categories are initialized once from PATH_MAPPING to keep the label
+     * cardinality stable for Prometheus exports.
+     */
+    static std::vector<std::string> legacyFallbackCategories();
     
     /**
      * Reset metrics (primarily for testing).
@@ -209,6 +232,36 @@ public:
      * the actual cache.clear() is executed on the next call to tryResolve().
      */
     static void registerSighupHandler();
+
+    /**
+     * Start the inotify/kqueue/ReadDirectoryChangesW file watcher that
+     * automatically clears the resolved path cache whenever a `.yaml` or
+     * `.json` file under @p watch_dir changes on disk.
+     *
+     * This is an optional enhancement on top of the existing SIGHUP-based
+     * hot-reload: both mechanisms can be active simultaneously.  File-system
+     * events are debounced with a 200 ms settling window to avoid spurious
+     * cache flushes during editor save-then-rename sequences.
+     *
+     * On unsupported platforms this function is a no-op (logs a warning).
+     *
+     * @param watch_dir  Directory tree to monitor.  Defaults to "config/".
+     * @param debounce   Settling window before the cache is cleared.
+     *                   Defaults to 200 ms.
+     *
+     * @return true if the file watcher was started successfully; false if the
+     *         platform does not support file watching or @p watch_dir is not
+     *         accessible.
+     */
+    static bool startHotReload(
+        const std::string& watch_dir = "config",
+        std::chrono::milliseconds debounce = std::chrono::milliseconds(200));
+
+    /**
+     * Stop the file watcher started by startHotReload().
+     * Idempotent – safe to call even if startHotReload() was never called.
+     */
+    static void stopHotReload();
 
     /**
      * Default LRU cache TTL in seconds.
@@ -367,6 +420,11 @@ private:
 
     // Active cache configuration (set once at startup from env vars or defaults)
     static CacheConfig cache_config_;
+
+    // Per-category legacy fallback counters (initialized once, then atomically incremented)
+    static std::map<std::string, std::atomic<uint64_t>> legacy_fallbacks_by_category_;
+    static std::once_flag category_init_flag_;
+    static void initLegacyFallbackCategoryCounters();
     
     // Helper to normalize path separators
     static std::string normalizePath(const std::string& path);
@@ -388,6 +446,11 @@ private:
     // SIGHUP hot-reload flag and handler (POSIX only; no-op on Windows)
     static volatile sig_atomic_t sighup_pending_;
     static void handleSighup(int sig);
+
+    // Optional inotify/kqueue/ReadDirectoryChangesW file watcher (v1.8.0).
+    // Stored as a unique_ptr so the platform headers are not exposed in this
+    // public header (include config_file_watcher.h in the .cpp only).
+    static std::unique_ptr<ConfigFileWatcher> file_watcher_;
 
     // Converts a ConfigEnvironment to its lowercase string name
     static std::string envToString(ConfigEnvironment env);

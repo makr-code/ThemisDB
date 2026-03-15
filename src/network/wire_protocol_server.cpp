@@ -2303,9 +2303,14 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
                 for (const auto& node : token.visited_nodes) {
                     json event;
                     event["event_type"] = "node_visited";
-                    // TODO: ProcessGraphManager doesn't store individual visit timestamps per node,
-                    // only token creation time. Future enhancement: add visit timestamp tracking.
-                    event["timestamp_ns"] = token.created_at_ms * 1000000;
+                    auto tsIt = token.visit_timestamps.find(node);
+                    if (tsIt != token.visit_timestamps.end()) {
+                        int64_t ns = std::chrono::duration_cast<std::chrono::nanoseconds>(
+                            tsIt->second.time_since_epoch()).count();
+                        event["timestamp_ns"] = ns;
+                    } else {
+                        event["timestamp_ns"] = token.created_at_ms * 1000000;
+                    }
                     event["data"] = json::object();
                     event["data"]["node_id"] = node;
                     history.push_back(event);

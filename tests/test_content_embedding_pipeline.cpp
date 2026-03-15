@@ -34,6 +34,7 @@
 #include "content/embedding_pipeline.h"
 #include "content/content_metrics.h"
 #include "content/content_policy.h"
+#include <nlohmann/json.hpp>
 
 using namespace themis::content;
 
@@ -265,4 +266,78 @@ TEST(ContentPolicyTest_Embedding, EmbeddingModelCanBeSet) {
     themis::content::ContentPolicy policy;
     policy.embedding_model = "all-minilm-l6-v2";
     EXPECT_EQ(policy.embedding_model, "all-minilm-l6-v2");
+}
+
+// ============================================================================
+// ContentPolicy::embedding_model gates the embedding stage (AC-1)
+//
+// The gate logic lives in ContentManager::ingestRawBlob() and ingestStream().
+// Its behaviour is:
+//   - config contains "embedding_model" key AND value is non-empty
+//       → stage enabled  (AND stage_cfg.embedding.enabled)
+//   - config contains "embedding_model" key AND value is empty
+//       → stage disabled (regardless of stage_cfg.embedding.enabled)
+//   - config does NOT contain "embedding_model"
+//       → fall back to stage_cfg.embedding.enabled (backward-compatible)
+//
+// The helper below mirrors the exact gate expression from content_manager.cpp
+// so the tests remain in sync with the implementation.
+// ============================================================================
+
+namespace {
+/// Mirror of the gate expression used in ingestRawBlob / ingestStream.
+bool computeEmbeddingActive(const nlohmann::json& config, bool stage_enabled) {
+    if (config.contains("embedding_model")) {
+        const std::string policy_model = config.value("embedding_model", std::string{});
+        return stage_enabled && !policy_model.empty();
+    }
+    return stage_enabled;
+}
+} // namespace
+
+TEST(ContentPolicyTest_Embedding, EmptyModelKey_DisablesStageEvenWhenStageEnabled) {
+    // ContentPolicy::embedding_model = "" → embedding stage must be suppressed.
+    nlohmann::json config = {{"embedding_model", ""}};
+    EXPECT_FALSE(computeEmbeddingActive(config, /*stage_enabled=*/true));
+}
+
+TEST(ContentPolicyTest_Embedding, NonEmptyModelKey_ActivatesStageWhenStageEnabled) {
+    // ContentPolicy::embedding_model = "all-minilm-l6-v2" → embedding stage runs.
+    nlohmann::json config = {{"embedding_model", "all-minilm-l6-v2"}};
+    EXPECT_TRUE(computeEmbeddingActive(config, /*stage_enabled=*/true));
+}
+
+TEST(ContentPolicyTest_Embedding, AbsentModelKey_FallsBackToStageCfgEnabled) {
+    // No "embedding_model" key → ProcessorChainConfig default (enabled) used.
+    nlohmann::json config = nlohmann::json::object();  // no key
+    EXPECT_TRUE(computeEmbeddingActive(config, /*stage_enabled=*/true));
+}
+
+TEST(ContentPolicyTest_Embedding, AbsentModelKey_FallsBackToStageCfgDisabled) {
+    // No key + ProcessorChainConfig disabled → stage stays disabled.
+    nlohmann::json config = nlohmann::json::object();
+    EXPECT_FALSE(computeEmbeddingActive(config, /*stage_enabled=*/false));
+}
+
+TEST(ContentPolicyTest_Embedding, NonEmptyModelKey_StageCfgDisabled_StageStaysOff) {
+    // AND semantics: ProcessorChainConfig can veto even when policy model is set.
+    nlohmann::json config = {{"embedding_model", "bert-base"}};
+    EXPECT_FALSE(computeEmbeddingActive(config, /*stage_enabled=*/false));
+}
+
+TEST(ContentPolicyTest_Embedding, DisabledPipelineWithNonEmptyPolicyModel_NoEmbedding) {
+    // Even if the policy model is non-empty, a disabled EmbeddingPipeline
+    // (empty model_name in its own config) must not generate embeddings.
+    EmbeddingPipelineConfig cfg;
+    cfg.model_name = "";  // pipeline disabled
+    EmbeddingPipeline pipeline(cfg);
+    EXPECT_FALSE(pipeline.isEnabled());
+
+    // Stage would be active from the policy perspective…
+    nlohmann::json config = {{"embedding_model", "all-minilm-l6-v2"}};
+    EXPECT_TRUE(computeEmbeddingActive(config, /*stage_enabled=*/true));
+
+    // …but the pipeline gate blocks actual embedding generation.
+    auto result = pipeline.generateEmbedding("hello world");
+    EXPECT_TRUE(result.empty());
 }

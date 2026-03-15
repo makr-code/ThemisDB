@@ -166,6 +166,44 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
     }
     
     const std::string coordinator_id = coordinatorLabel(config_);
+
+    // -----------------------------------------------------------------------
+    // Protocol selection:
+    //   SNAPSHOT_ISOLATION + use_percolator_for_snapshot → Percolator path
+    //   SERIALIZABLE (or flag disabled)               → 2PC path
+    // -----------------------------------------------------------------------
+    const bool use_percolator =
+        config_.use_percolator_for_snapshot &&
+        (txn.isolation_level == DistributedIsolationLevel::SNAPSHOT_ISOLATION);
+
+    if (use_percolator) {
+        THEMIS_DEBUG("Transaction {} using Percolator commit path (SNAPSHOT_ISOLATION)",
+                     txn_id);
+        lock.unlock();
+        const bool committed = percolatorCommit(txn);
+        lock.lock();
+
+        if (committed) {
+            txn.state = TransactionState::COMMITTED;
+            committed_transactions_.fetch_add(1, std::memory_order_relaxed);
+            if (config_.enable_recovery_log) {
+                logTransactionForRecovery(txn);
+            }
+        } else {
+            txn.state = TransactionState::ABORTED;
+            aborted_transactions_.fetch_add(1, std::memory_order_relaxed);
+            if (auto m = ShardingMetricsRegistry::instance().getMetrics()) {
+                m->record2PCAbort(coordinator_id, "percolator_commit_failed");
+                m->record2PCTransaction(coordinator_id, false);
+            }
+        }
+
+        return committed;
+    }
+
+    // -----------------------------------------------------------------------
+    // 2PC path (SERIALIZABLE or Percolator disabled).
+    // -----------------------------------------------------------------------
     
     // Phase 1: Prepare
     txn.state = TransactionState::PREPARING;
@@ -808,6 +846,75 @@ void DistributedTransactionCoordinator::recoverTransactions() {
     } catch (const std::exception& e) {
         THEMIS_ERROR("Transaction recovery failed: {}", e.what());
     }
+}
+
+// ---------------------------------------------------------------------------
+// Percolator-style commit path (used for SNAPSHOT_ISOLATION transactions)
+// ---------------------------------------------------------------------------
+bool DistributedTransactionCoordinator::percolatorCommit(DistributedTransaction& txn) {
+    // Percolator protocol skips the global prepare / vote round.
+    // Instead it:
+    //   1. Assigns a commit timestamp from TrueTime::now_with_uncertainty().latest
+    //   2. Performs commit-wait: spins until TT.now().earliest > commit_ts + epsilon
+    //   3. Sends COMMIT to all participants with the agreed timestamp
+
+    // Step 1: Derive commit timestamp.
+    // Use the *latest* bound so every concurrent snapshot read that started
+    // before this commit is guaranteed to see either the old or new version.
+    const auto tt_interval = truetime_->now_with_uncertainty();
+    txn.commit_time         = tt_interval.latest;
+
+    THEMIS_DEBUG("Percolator txn {} commit_ts={} (TrueTime [earliest={}, latest={}])",
+                 txn.transaction_id,
+                 txn.commit_time.count(),
+                 tt_interval.earliest.count(),
+                 tt_interval.latest.count());
+
+    // Step 2: Commit-wait.
+    // commit_time was drawn from now_with_uncertainty().latest which already
+    // incorporates the uncertainty bound; waiting until commit_time is
+    // sufficient to guarantee TT.now().earliest > commit_time.
+    truetime_->waitUntil(txn.commit_time);
+
+    // Step 3: Send COMMIT to all participants.
+    txn.state = TransactionState::COMMITTING;
+
+    std::vector<std::thread> threads;
+    std::atomic<bool> all_committed{true};
+    std::mutex error_mutex;
+    std::vector<std::string> error_details;
+
+    for (auto& participant : txn.participants) {
+        // Capture a stable pointer rather than the loop variable reference,
+        // which would be reused across iterations and cause data races.
+        TransactionParticipant* p_ptr = &participant;
+        threads.emplace_back([this, p_ptr, &txn, &all_committed,
+                              &error_mutex, &error_details]() {
+            if (!sendCommit(*p_ptr, txn.transaction_id, txn.commit_time)) {
+                all_committed.store(false, std::memory_order_relaxed);
+                std::lock_guard<std::mutex> lk(error_mutex);
+                error_details.push_back("Shard " + p_ptr->shard_id +
+                                        " failed Percolator commit: " +
+                                        p_ptr->error_msg);
+            }
+        });
+    }
+
+    for (auto& t : threads) {
+        t.join();
+    }
+
+    if (!all_committed.load()) {
+        std::lock_guard<std::mutex> lk(error_mutex);
+        txn.error_detail = "Percolator commit failures: ";
+        for (const auto& e : error_details) {
+            txn.error_detail += e + "; ";
+        }
+        THEMIS_ERROR("Percolator commit failed for txn {}: {}",
+                     txn.transaction_id, txn.error_detail);
+    }
+
+    return all_committed.load();
 }
 
 } // namespace themis::sharding

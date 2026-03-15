@@ -3061,3 +3061,54 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_content_versioning.cpp")
 
     message(STATUS "  ContentVersioning: content lifecycle throughput (create/update/fork/merge), version history scan, GC overhead")
 endif()
+
+# ============================================================================
+# AdaptiveQueryCompiler benchmarks (v1.8.0, Issue #86)
+# Validates:
+#   - Cold path (interpreted) vs. hot path (compiled) throughput
+#   - Compilation overhead (<100ms target)
+#   - Pre-warmed cache execute(CompiledQuery, params)
+#   - Multi-fingerprint cache performance
+#   - Differential correctness (cold == hot result sizes)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_adaptive_query_compilation.cpp")
+    message(STATUS "Adding AdaptiveQueryCompiler benchmarks (performance module, Issue #86)")
+
+    add_executable(bench_adaptive_query_compilation
+        bench_adaptive_query_compilation.cpp
+        ${CMAKE_SOURCE_DIR}/src/performance/adaptive_query_compiler.cpp
+    )
+
+    target_include_directories(bench_adaptive_query_compilation PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(bench_adaptive_query_compilation PRIVATE
+        ${BENCHMARK_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_adaptive_query_compilation PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_adaptive_query_compilation PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_adaptive_query_compilation
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  AdaptiveQueryCompiler: cold/hot filter/agg/join throughput, compilation overhead, differential correctness")
+endif()

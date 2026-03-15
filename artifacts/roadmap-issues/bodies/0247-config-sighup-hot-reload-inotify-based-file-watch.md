@@ -17,9 +17,9 @@ Deliver the scoped changes for SIGHUP Hot-Reload: inotify-Based File Watch in sr
 `config_path_resolver.cpp` (line 1764) explicitly logs "SIGHUP hot-reload not supported on Windows" and on POSIX registers a SIGHUP handler that sets a flag, but there is no inotify/kqueue watch that would trigger reload when config files actually change on disk. Operators must manually send SIGHUP.
 
 **Implementation Notes:**
-- `[ ]` Add an optional `ConfigFileWatcher` class (Linux: inotify, macOS: kqueue, Windows: `ReadDirectoryChangesW`) that watches the `config/` directory tree and invokes a reload callback when any `.yaml`/`.json` file changes.
-- `[ ]` Wire `ConfigFileWatcher` into `ConfigPathResolver::startHotReload()` as an optional enhancement alongside the existing SIGHUP path.
-- `[ ]` Debounce rapid file-system events (e.g., editor save-then-rename) with a 200 ms settling window.
+- `[x]` Add an optional `ConfigFileWatcher` class (Linux: inotify, macOS: kqueue, Windows: `ReadDirectoryChangesW`) that watches the `config/` directory tree and invokes a reload callback when any `.yaml`/`.json` file changes.
+- `[x]` Wire `ConfigFileWatcher` into `ConfigPathResolver::startHotReload()` as an optional enhancement alongside the existing SIGHUP path.
+- `[x]` Debounce rapid file-system events (e.g., editor save-then-rename) with a 200 ms settling window.
 
 ---
 
@@ -45,9 +45,9 @@ implemented in § "ConfigSchemaValidator: Extended JSON Schema Keyword Support".
 
 ### Acceptance Criteria
 
-- [ ] Add an optional `ConfigFileWatcher` class (Linux: inotify, macOS: kqueue, Windows: `ReadDirectoryChangesW`) that watches the `config/` directory tree and invokes a reload callback when any `.yaml`/`.json` file changes.
-- [ ] Wire `ConfigFileWatcher` into `ConfigPathResolver::startHotReload()` as an optional enhancement alongside the existing SIGHUP path.
-- [ ] Debounce rapid file-system events (e.g., editor save-then-rename) with a 200 ms settling window.
+- [x] Add an optional `ConfigFileWatcher` class (Linux: inotify, macOS: kqueue, Windows: `ReadDirectoryChangesW`) that watches the `config/` directory tree and invokes a reload callback when any `.yaml`/`.json` file changes.
+- [x] Wire `ConfigFileWatcher` into `ConfigPathResolver::startHotReload()` as an optional enhancement alongside the existing SIGHUP path.
+- [x] Debounce rapid file-system events (e.g., editor save-then-rename) with a 200 ms settling window.
 
 ### Relationships
 

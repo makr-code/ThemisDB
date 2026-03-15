@@ -79,13 +79,14 @@
 `cte_subquery.cpp` line 334 has: "Phase 1 stub: treat as scalar subquery; real behavior handled elsewhere". Correlated subqueries and EXISTS subqueries may be incorrectly evaluated as scalar, producing wrong results.
 
 **Implementation Notes:**
-- `[ ]` Implement correlated subquery evaluation: detect outer references in the subquery AST; evaluate subquery once per outer row with the correlated bindings.
-- `[ ]` Implement `EXISTS`/`NOT EXISTS` short-circuit: stop iterating the subquery result as soon as one matching row is found.
-- `[ ]` Add regression tests for correlated subqueries with outer reference in WHERE clause.
+- `[x]` Implement correlated subquery evaluation: detect outer references in the subquery AST; evaluate subquery once per outer row with the correlated bindings.
+- `[x]` Implement `EXISTS`/`NOT EXISTS` short-circuit: stop iterating the subquery result as soon as one matching row is found.
+- `[x]` Add regression tests for correlated subqueries with outer reference in WHERE clause.
 
 ---
 
-
+<a id="query-compilation--jit"></a>
+### Query Compilation & JIT
 **Priority:** High  
 **Target Version:** v1.8.0
 
@@ -507,6 +508,8 @@ Merge results → Next operator
 ### Query Plan Caching
 **Priority:** Medium  
 **Target Version:** v1.7.0
+
+> **✅ Delivered — v1.7.0 (Issue #196).** This feature is retained here for traceability; its completion is tracked in `src/query/ROADMAP.md` ("Query plan caching", completed). Implementation: `include/query/plan_cache.h` and `src/query/plan_cache.cpp`. Focused tests: `tests/test_query_plan_caching.cpp` → `QueryPlanCachingFocusedTests`.
 
 Cache optimized query plans to skip parsing and optimization on repeated queries.
 

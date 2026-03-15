@@ -406,6 +406,14 @@ struct Hyperedge {
 // ============================================================================
 
 /**
+ * @brief ProcessGraphVisitLog: Maps a node ID to its most recent visit timestamp.
+ *
+ * Used to record when a process token visited each node during traversal,
+ * enabling temporal ordering of multi-hop graph paths.
+ */
+using ProcessGraphVisitLog = std::unordered_map<std::string, std::chrono::system_clock::time_point>;
+
+/**
  * @brief Token: Represents execution state at a node
  * 
  * Based on Petri Net semantics used in BPMN execution.
@@ -437,6 +445,9 @@ struct ProcessToken {
     // History (for audit/replay)
     std::vector<std::string> visited_nodes;
     std::vector<std::string> traversed_edges;
+
+    // Per-node visit timestamps: records when each node was last visited
+    ProcessGraphVisitLog visit_timestamps;
 };
 
 /**
@@ -585,6 +596,22 @@ public:
         std::string_view assignee_or_role
     ) const;
     
+    /**
+     * @brief Get the visit timestamp for a node within a process instance.
+     *
+     * Returns the most recent time_point at which any token in the given
+     * instance visited @p node_id, or std::nullopt if the node has not
+     * been visited or the instance does not exist.
+     *
+     * When multiple tokens have visited the same node (e.g. in parallel
+     * gateway scenarios), the most recent timestamp across all tokens is
+     * returned.
+     */
+    std::optional<std::chrono::system_clock::time_point> getVisitTimestamp(
+        std::string_view instance_id,
+        std::string_view node_id
+    ) const;
+
     /**
      * @brief Get process history (all tokens that passed through a node)
      */

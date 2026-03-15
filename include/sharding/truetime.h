@@ -147,6 +147,20 @@ public:
      * @return TTInterval representing current time with uncertainty
      */
     TTInterval now() const;
+
+    /**
+     * @brief Get current time as an interval with explicit uncertainty bounds.
+     *
+     * Convenience alias for now() that emphasises the [earliest, latest] semantics
+     * used by the Percolator commit-wait protocol:
+     *
+     *   auto tt = truetime->now_with_uncertainty();
+     *   // commit_ts = tt.latest
+     *   // wait until TT.now().earliest > commit_ts + max_uncertainty
+     *
+     * @return TTInterval with earliest = now - epsilon, latest = now + epsilon
+     */
+    TTInterval now_with_uncertainty() const;
     
     /**
      * @brief Wait until a specific timestamp is definitely in the past

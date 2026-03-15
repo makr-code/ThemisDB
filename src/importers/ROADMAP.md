@@ -247,6 +247,15 @@ implemented on top of the production-ready v1.x multi-source import pipeline.
 - [ ] Quantum-safe cryptography (NIST PQC) for audit trail signatures (Target: 2027)
 - [ ] Zero-Knowledge Proofs for privacy-preserving data validation (Target: 2027)
 
+### Phase 10: Stable Plugin ABI – v1.9.0 (Status: Completed ✅)
+- [x] Stable C-linkage plugin ABI in `include/importers/importer_plugin.h`; `THEMIS_IMPORTER_PLUGIN_V1` versioned struct (Target: v1.9.0)
+- [x] `ImporterRegistry::loadPlugin(path)` and `unloadPlugin(name)` using `themis_importer_create` (Target: v1.9.0)
+- [x] `PluginSandboxConfig` — per-job memory limit + timeout enforcement via dedicated thread (Target: v1.9.0)
+- [x] `V1ImporterAdapter` — `IImporter` wrapper for V1 plugins with sandbox allocator callbacks (Target: v1.9.0)
+- [x] `ImporterRegistry` typedef alias for `ImporterPluginRegistry` (Target: v1.9.0)
+- [x] Oracle importer skeleton + V1 ABI docs in `docs/importers/plugin_guide.md` (Target: v1.9.0)
+- [x] New tests in `tests/test_importer_plugin_api.cpp` covering V1 ABI, loadPlugin error paths, sandbox config, `V1ImporterAdapter` lifecycle (Target: v1.9.0)
+
 ## Production Readiness Checklist
 - [x] All 12 v2.1+ modules designd & documented (research docs in `docs/research/`)
 - [I] Unit tests coverage > 80% for v2.1+ modules (Issue: #1857)

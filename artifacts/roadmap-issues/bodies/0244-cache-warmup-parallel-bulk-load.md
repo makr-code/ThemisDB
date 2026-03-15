@@ -17,9 +17,9 @@ Deliver the scoped changes for Warmup: Parallel Bulk Load in src/cache/ and comp
 `warmup.cpp` (`warmupFromLog`) processes warmup entries sequentially — one line at a time — which limits warmup throughput on startup when the log file has millions of entries.
 
 **Implementation Notes:**
-- `[ ]` Partition the NDJSON warmup log into N chunks (one per CPU core) and spawn N `std::async` tasks to parse and insert in parallel; use per-shard L1 insertion to avoid contention.
-- `[ ]` Add `WarmupConfig::max_parallel_workers` (default: `std::thread::hardware_concurrency()`).
-- `[ ]` Report `warmup_duration_ms` and `warmup_entries_per_second` in the warmup result JSON.
+- `[x]` Partition the NDJSON warmup log into N chunks (one per CPU core) and spawn N `std::async` tasks to parse and insert in parallel; use per-shard L1 insertion to avoid contention.
+- `[x]` Add `WarmupConfig::max_parallel_workers` (default: `std::thread::hardware_concurrency()`).
+- `[x]` Report `warmup_duration_ms` and `warmup_entries_per_second` in the warmup result JSON.
 
 **Performance Targets:**
 - Warmup throughput: ≥ 500 K entries/s on a 4-core machine for a 5 M entry log.
@@ -28,10 +28,10 @@ Deliver the scoped changes for Warmup: Parallel Bulk Load in src/cache/ and comp
 
 ### Acceptance Criteria
 
-- [ ] Partition the NDJSON warmup log into N chunks (one per CPU core) and spawn N `std::async` tasks to parse and insert in parallel; use per-shard L1 insertion to avoid contention.
-- [ ] Add `WarmupConfig::max_parallel_workers` (default: `std::thread::hardware_concurrency()`).
-- [ ] Report `warmup_duration_ms` and `warmup_entries_per_second` in the warmup result JSON.
-- [ ] Warmup throughput: ≥ 500 K entries/s on a 4-core machine for a 5 M entry log.
+- [x] Partition the NDJSON warmup log into N chunks (one per CPU core) and spawn N `std::async` tasks to parse and insert in parallel; use per-shard L1 insertion to avoid contention.
+- [x] Add `WarmupConfig::max_parallel_workers` (default: `std::thread::hardware_concurrency()`).
+- [x] Report `warmup_duration_ms` and `warmup_entries_per_second` in the warmup result JSON.
+- [x] Warmup throughput: ≥ 500 K entries/s on a 4-core machine for a 5 M entry log.
 
 ### Relationships
 

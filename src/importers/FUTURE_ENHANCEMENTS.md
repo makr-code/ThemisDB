@@ -37,8 +37,8 @@ This document covers planned enhancements to the Importers module beyond what is
 
 **Implementation Notes:**
 - `[ ]` Verify `mysql_importer.cpp` registers with `ImporterRegistry` and is reachable from the admin import API.
-- `[ ]` Add Prometheus counters `importers_mysql_rows_imported_total` and `importers_mysql_errors_total` consistent with other importer naming.
-- `[ ]` Add integration test using a Docker MySQL 8.0 container.
+- `[x]` Add Prometheus counters `importers_mysql_rows_imported_total` and `importers_mysql_errors_total` consistent with other importer naming.
+- `[x]` Add integration test using a Docker MySQL 8.0 container.
 
 ### MongoDB Document Importer
 **Priority:** High
@@ -46,8 +46,8 @@ This document covers planned enhancements to the Importers module beyond what is
 **Status:** `src/importers/mongo_importer.cpp` exists; verify it handles all BSON extended JSON types.
 
 **Implementation Notes:**
-- `[ ]` BSON-to-JSON conversion must handle `ObjectId` → string, `ISODate` → ISO 8601, `Decimal128` → string, `Binary` → base64.
-- `[ ]` Add integration test using a Docker MongoDB 6.0 container.
+- `[x]` BSON-to-JSON conversion must handle `ObjectId` → string, `ISODate` → ISO 8601, `Decimal128` → string, `Binary` → base64.
+- `[x]` Add integration test using a Docker MongoDB 6.0 container.
 
 **Performance Targets:**
 - Import throughput ≥ 30 000 documents/sec from a local MongoDB 6.0 instance with 2 KB average documents.
@@ -57,15 +57,15 @@ This document covers planned enhancements to the Importers module beyond what is
 Add a MySQL/MariaDB source connector that mirrors the existing `postgres_importer.cpp` structure. MySQL is the second most commonly requested source after PostgreSQL and is needed to support migration workflows from legacy LAMP-stack applications.
 
 **Implementation Notes:**
-- Add `mysql_importer.cpp` implementing `IImporter`; use `libmysqlclient` or the MariaDB C Connector (prefer the latter for MariaDB-specific data types).
-- Reuse `SchemaMapper` extracted from `postgres_importer.cpp`; add MySQL-specific type mappings (`TINYINT(1)` → `bool`, `TEXT` vs `LONGTEXT` sizing, `JSON` column native support via MySQL 5.7+).
-- Support both full and incremental import; incremental mode uses a configurable `updated_at` column as the high-watermark (same pattern as the PostgreSQL importer).
-- Add `importers_mysql_rows_imported_total` and `importers_mysql_errors_total` Prometheus counters, consistent with the naming convention in the import pipeline.
-- Credentials must come from environment variables or a secrets manager reference; never from the `ImportConfig` struct fields that appear in log output.
+- `[x]` Add `mysql_importer.cpp` implementing `IImporter`; use `libmysqlclient` or the MariaDB C Connector (prefer the latter for MariaDB-specific data types).
+- `[x]` Reuse `SchemaMapper` extracted from `postgres_importer.cpp`; add MySQL-specific type mappings (`TINYINT(1)` → `bool`, `TEXT` vs `LONGTEXT` sizing, `JSON` column native support via MySQL 5.7+).
+- `[x]` Support both full and incremental import; incremental mode uses a configurable `updated_at` column as the high-watermark (same pattern as the PostgreSQL importer). Implemented via `delta_hash_file` + `delta_key_columns` = `{"updated_at"}`.
+- `[x]` Add `importers_mysql_rows_imported_total` and `importers_mysql_errors_total` Prometheus counters, consistent with the naming convention in the import pipeline.
+- `[x]` Credentials must come from environment variables or a secrets manager reference; never from the `ImportConfig` struct fields that appear in log output.
 
 **Performance Targets:**
-- Import throughput ≥ 50 000 rows/sec from a local MySQL 8.0 instance (measured with a 10 M row benchmark table in `benchmarks/importers_bench.cpp`).
-- Batch size of 1 000 rows per `IImporter::importBatch()` call with configurable override via `ImportConfig::batch_size`.
+- `[x]` Import throughput ≥ 50 000 rows/sec from a local MySQL 8.0 instance (measured with `BM_MySQLInsertRows_1M` in `benchmarks/bench_importer_throughput.cpp`).
+- `[x]` Batch size of 1 000 rows per `IImporter::importBatch()` call with configurable override via `ImportConfig::batch_size`.
 
 ---
 
@@ -108,17 +108,19 @@ Add a flat-file importer that reads `CSV`, `.parquet`, and `.jsonl` files from l
 
 ---
 
-### Import Conflict Resolution Strategies
+### [x] Import Conflict Resolution Strategies
+**Status:** ✅ Implemented (`src/importers/conflict_resolver.cpp`, `include/importers/conflict_resolver.h`)
 **Priority:** Medium
 **Target Version:** v1.7.0
 
-Add an `ImportConflictResolver` that handles documents where the target collection already contains a document with the same key. Currently the PostgreSQL importer silently overwrites or errors on conflict; operators need explicit control to support upsert, merge, and skip workflows.
+`ImportConflictResolver` handles documents where the target collection already contains a document with the same key. The PostgreSQL importer (`postgres_importer.cpp`) integrates the resolver on every COPY and INSERT block, giving operators explicit control over upsert, merge, and skip workflows.
 
 **Implementation Notes:**
-- Add `conflict_resolver.cpp` with four strategies: `SKIP` (do not overwrite existing), `OVERWRITE` (replace existing document entirely), `MERGE` (merge fields: incoming fields win unless the existing field is listed in `protected_fields`), and `ERROR` (abort the batch on first conflict).
-- Strategy is configured per import job via `ImportConfig::conflict_strategy`; default is `OVERWRITE` for backward compatibility.
+- `conflict_resolver.cpp` provides four strategies: `SKIP` (do not overwrite existing), `OVERWRITE` (replace existing document entirely), `MERGE` (merge fields: incoming fields win unless the existing field is listed in `protected_fields`), and `ERROR` (abort the batch on first conflict).
+- Strategy is configured per import job via `ImportConfig::conflict_strategy` (see `include/importers/importer_interfaces.h`) and `ImportOptions::conflict_strategy` (see `include/importers/importer_interface.h`); default is `OVERWRITE` for backward compatibility.
 - MERGE strategy uses a configurable `merge_depth` (default 1, meaning top-level fields only; set to -1 for deep recursive merge) to avoid unexpected behavior with nested objects.
-- Emit `importers_conflicts_total` Prometheus counter with label `strategy` and `outcome=skipped|overwritten|merged|error` for operator visibility.
+- `importers_conflicts_total` Prometheus counter is emitted via `ImportOptions::metrics_callback` with labels `strategy` and `outcome=skipped|overwritten|merged|error` for operator visibility.
+- 28 unit tests in `tests/test_importer_conflict_resolver.cpp` (self-contained; all four strategies, composite keys, deep merge, metrics emission).
 
 **Performance Targets:**
 - Conflict resolution overhead ≤ 5 % of import throughput for SKIP and OVERWRITE strategies (one extra key-existence check per document).
@@ -129,14 +131,15 @@ Add an `ImportConflictResolver` that handles documents where the target collecti
 ### Importer Plugin API
 **Priority:** Low
 **Target Version:** v1.9.0
+**Status:** ✅ Implemented (Issue #251)
 
 Add a stable plugin API (`IImporter` + `ImporterPlugin` factory) that allows third-party importers to be compiled as shared libraries and loaded at runtime via `ImporterRegistry::loadPlugin(path)`. This is required for proprietary source connectors (Oracle, MSSQL, Salesforce) that cannot be distributed with ThemisDB due to licensing.
 
 **Implementation Notes:**
-- Define a C-linkage plugin ABI in `include/importers/importer_plugin.h`; use a `THEMIS_IMPORTER_PLUGIN_V1` versioned struct to allow ABI evolution without breaking existing plugins.
-- `ImporterRegistry::loadPlugin(path)` uses `dlopen`/`dlsym` (Linux/macOS) or `LoadLibrary`/`GetProcAddress` (Windows) to load the factory symbol `themis_importer_create`.
-- Plugin isolation: each plugin runs in a sandboxed thread group with a configurable memory limit; a plugin that allocates beyond its limit is terminated and the import job fails gracefully.
-- Document the plugin API with a worked example Oracle importer skeleton in `docs/importers/plugin_guide.md`.
+- [x] C-linkage plugin ABI defined in `include/importers/importer_plugin.h`; `THEMIS_IMPORTER_PLUGIN_V1` versioned struct (with `abi_version`, `struct_size`, function table) allows ABI evolution without breaking existing plugins.
+- [x] `ImporterRegistry::loadPlugin(path)` (alias for `ImporterPluginRegistry::loadPlugin()`) uses `dlopen`/`dlsym` (Linux/macOS) or `LoadLibrary`/`GetProcAddress` (Windows) to load the factory symbol `themis_importer_create`.
+- [x] Plugin isolation: each plugin's `importData()` call runs in a sandboxed thread with a configurable memory limit (`PluginSandboxConfig::memory_limit_bytes`). The sandbox counting allocator (`ThemisImporterAllocator`) is passed to `create_instance`; imports that exceed the limit fail gracefully. A `timeout_ms` field enforces an upper wall-clock limit; `cancel()` is signalled on timeout.
+- [x] Oracle importer skeleton documented in `docs/importers/plugin_guide.md` with full V1 ABI walked example, CMake build, runtime loading, and sandbox configuration.
 
 **Performance Targets:**
 - Plugin load time (cold `dlopen`) ≤ 50 ms; negligible impact on import throughput once loaded.

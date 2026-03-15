@@ -245,6 +245,27 @@ TEST_F(ConfigMigrationScannerTest, FixFileDryRunDoesNotModifyFile) {
     EXPECT_FALSE(fs::exists(fs::path(f.string() + ".bak")));      // No backup created
 }
 
+TEST_F(ConfigMigrationScannerTest, FixFileDryRunPrintsWouldUpdateMessage) {
+    auto f = test_dir_ / "dryrun_msg.yaml";
+    writeFile(f, "path: config/lora_training_config.yaml\n");
+
+    auto matches = cms::scanFile(f);
+    ASSERT_FALSE(matches.empty());
+
+    // Capture stdout to verify the [dry-run] message is printed
+    std::ostringstream oss;
+    std::streambuf* old = std::cout.rdbuf(oss.rdbuf());
+    bool ok = cms::fixFile(f, matches, /*dry_run=*/true);
+    std::cout.rdbuf(old);
+
+    EXPECT_TRUE(ok);
+    std::string output = oss.str();
+    EXPECT_NE(output.find("[dry-run]"), std::string::npos)
+        << "dry-run mode must print a '[dry-run]' notice to stdout";
+    EXPECT_NE(output.find(f.string()), std::string::npos)
+        << "dry-run message must include the affected file path";
+}
+
 TEST_F(ConfigMigrationScannerTest, FixFileReplacesLegacyPath) {
     auto f = test_dir_ / "fix.yaml";
     writeFile(f, "path: config/lora_training_config.yaml\n");

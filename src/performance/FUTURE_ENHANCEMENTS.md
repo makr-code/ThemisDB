@@ -133,7 +133,9 @@ if (accel.can_accelerate(join_operator)) {
 ---
 
 ### Adaptive Query Compilation
+<!-- Status: implemented | validated: 2026-03-15 -->
 **Priority:** High  
+**Status:** ✅ Implemented (v1.8.0, Issue #86)  
 **Target Version:** v1.8.0  
 **Research Basis:** "How to Architect a Query Compiler, Revisited" (SIGMOD'18)
 

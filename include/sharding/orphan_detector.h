@@ -30,9 +30,6 @@
 
 namespace sharding {
 
-// Forward declaration
-class CrossShardTransactionCoordinator;
-
 /**
  * OrphanDetector identifies transactions that are stuck in inconsistent states
  * due to coordinator failures, network partitions, or participant crashes.
@@ -62,7 +59,7 @@ public:
      * @return List of orphaned transaction IDs
      */
     std::vector<std::string> detectOrphans(
-        const std::shared_ptr<CrossShardTransactionCoordinator>& coordinator
+        const std::shared_ptr<themisdb::sharding::CrossShardTransactionCoordinator>& coordinator
     );
     
     /**
@@ -73,7 +70,22 @@ public:
      */
     bool isOrphaned(
         const std::string& transaction_id,
-        const std::shared_ptr<CrossShardTransactionCoordinator>& coordinator
+        const std::shared_ptr<themisdb::sharding::CrossShardTransactionCoordinator>& coordinator
+    );
+
+    /**
+     * Reclaim stale Percolator locks left by failed coordinators.
+     *
+     * Scans all active transactions in @p coordinator, identifies those using
+     * the PERCOLATOR protocol whose locks have been held longer than
+     * Config::timeout_seconds, and aborts them via the coordinator's abort()
+     * method.  The abort triggers lock release on every shard participant.
+     *
+     * @param coordinator  The cross-shard coordinator to scan and clean.
+     * @return             Number of stale Percolator locks reclaimed.
+     */
+    size_t cleanPercolatorLocks(
+        const std::shared_ptr<themisdb::sharding::CrossShardTransactionCoordinator>& coordinator
     );
     
 private:

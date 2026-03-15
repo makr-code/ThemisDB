@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cte_subquery.h                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:40                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-15 08:15:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     262                                            ║
+    • Total Lines:     282                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -250,6 +250,23 @@ public:
     );
     
 private:
+    /**
+     * @brief Evaluates a correlated subquery, returning all matching rows as a JSON array.
+     *
+     * Used when the subquery AST references outer variables. Binds the outer row into
+     * the evaluation context so the subquery is executed once with those bindings.
+     *
+     * @param query     Subquery to execute
+     * @param queryEngine  Query engine
+     * @param outerRow  Outer row whose fields are injected as parent-context bindings
+     * @return JSON array of all result rows, or an error
+     */
+    Result<nlohmann::json> evaluateArraySubquery(
+        const std::shared_ptr<query::Query>& query,
+        ::themis::QueryEngine& queryEngine,
+        const nlohmann::json& outerRow
+    );
+
     /**
      * @brief Bindet Outer Variables in Subquery Context
      * @param query Subquery

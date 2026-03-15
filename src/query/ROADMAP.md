@@ -29,6 +29,8 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 - [x] Adaptive query re-optimization on runtime statistics – `adaptive_optimizer.cpp`, `runtime_reoptimizer.cpp` (Issue: #2232)
 - [x] Multi-statement transaction AQL (BEGIN/COMMIT in query) – `aql_parser.cpp` (Issue: #2435)
 - [x] `QueryExpressionEvaluator` – delegates to AQL parser + `evaluateCondition()`; `get_expression_type()` returns `"AQL"`
+- [x] Query plan caching – `plan_cache.h/cpp` (fingerprinting, parameterized reuse, table/stats invalidation, 24h TTL) (Issue: #196)
+- [x] Query compilation (JIT) – `query_compiler.h/cpp` (hot-path specialisation, FNV-1a fingerprinting, fallback to interpreter) (Issue: #89)
 
 ## In Progress 🚧
 *(none currently in progress)*
@@ -116,7 +118,8 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
   `materialized_cte.cpp`, `vectorized_execution.cpp`, `sparql_parser.cpp`, and
   `functions/fulltext_functions.cpp` were absent from `cmake/ModularBuild.cmake` THEMIS_QUERY_SOURCES;
   a duplicate `result_stream.cpp` entry in the graph section of ModularBuild.cmake was removed.
-  All 34 `src/query/**/*.cpp` files are now registered in both build files.
+  `query_compiler.cpp` (JIT, Issue #89) added to both `cmake/CMakeLists.txt` and `cmake/ModularBuild.cmake`.
+  All 38 `src/query/**/*.cpp` files are now registered in both build files.
 
 ## Breaking Changes
 - AQL syntax is stable from v1.x; new keywords are additive.

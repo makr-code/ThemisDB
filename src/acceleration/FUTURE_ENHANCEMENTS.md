@@ -228,10 +228,10 @@ A fixed block size of 256 is a reasonable default for NVIDIA sm_86 and AMD RDNA2
 `backend_registry.cpp` uses `std::cout` for all diagnostic output (lines 136, 143, 167, 311, 335, 340, 359, 417, 438, 442) despite the codebase providing a structured logger via `utils/logger.h` (`THEMIS_INFO`, `THEMIS_WARN`, `THEMIS_ERROR`, `THEMIS_DEBUG` macros). The inconsistency means backend-selection events are invisible when the calling application redirects or suppresses `std::cout`, and they cannot be structured-logged (JSON, syslog) by the logging framework.
 
 **Implementation Notes:**
-- `[ ]` Replace all `std::cout << "Registered backend: ..."` (line 136) with `THEMIS_INFO("Registered backend: {} (type={})", backend->name(), static_cast<int>(backend->type()))`.
-- `[ ]` Replace all `std::cout <<` calls in `autoDetect()`, `initializeRuntime()`, `shutdownAll()`, `loadPlugins()`, `loadPlugin()` with the appropriate severity-level macro (`THEMIS_INFO` for status, `THEMIS_WARN` for degraded paths, `THEMIS_DEBUG` for verbose capability dumps).
-- `[ ]` The `logSelection` lambda in `initializeRuntime()` (line 435) already uses `std::cout`; convert it to `THEMIS_INFO` / `THEMIS_WARN`.
-- `[ ]` Ensure `utils/logger.h` is already included in `backend_registry.cpp` (it is used for `THEMIS_ERROR` on line 180 but `#include "utils/logger.h"` is already present).
+- `[x]` Replace all `std::cout << "Registered backend: ..."` (line 136) with `THEMIS_INFO("Registered backend: {} (type={})", backend->name(), static_cast<int>(backend->type()))`.
+- `[x]` Replace all `std::cout <<` calls in `autoDetect()`, `initializeRuntime()`, `shutdownAll()`, `loadPlugins()`, `loadPlugin()` with the appropriate severity-level macro (`THEMIS_INFO` for status, `THEMIS_WARN` for degraded paths, `THEMIS_DEBUG` for verbose capability dumps).
+- `[x]` The `logSelection` lambda in `initializeRuntime()` (line 435) already uses `std::cout`; convert it to `THEMIS_INFO` / `THEMIS_WARN`.
+- `[x]` Ensure `utils/logger.h` is already included in `backend_registry.cpp` (it is used for `THEMIS_ERROR` on line 180 but `#include "utils/logger.h"` is already present).
 
 ---
 
