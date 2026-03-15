@@ -275,6 +275,7 @@ if(NOT THEMIS_ENABLE_HTTP_SERVER)
     list(APPEND TEST_EXCLUDE_PATTERNS
         ".*test_task_scheduler\\.cpp$"
         ".*test_task_scheduler_api_handler\\.cpp$"
+        ".*test_task_scheduler_auth_context\\.cpp$"
         ".*test_task_scheduler_dynamic_scaling\\.cpp$"
         ".*test_task_scheduler_siem_integration\\.cpp$"
         ".*test_task_scheduler_triggers\\.cpp$"
@@ -5196,6 +5197,27 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_compliance_reporting.cpp")
         TIMEOUT 90
     )
     message(STATUS "  Compliance Reporting: CoverageAnalyzer, ComplianceGapDetector, ComplianceReporter (JSON/CSV/HTML/PDF)")
+endif()
+
+# Scheduler – TaskScheduler auth context propagation focused tests (Issue #98 v1.8.0)
+if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_task_scheduler_auth_context.cpp")
+    message(STATUS "Adding TaskScheduler Auth Context focused tests (Issue #98)")
+    add_executable(test_task_scheduler_auth_context_focused
+        test_task_scheduler_auth_context.cpp
+    )
+    target_link_libraries(test_task_scheduler_auth_context_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    target_compile_definitions(test_task_scheduler_auth_context_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME TaskSchedulerAuthContextFocusedTests COMMAND test_task_scheduler_auth_context_focused)
+    set_tests_properties(TaskSchedulerAuthContextFocusedTests PROPERTIES
+        LABELS "scheduler;auth;audit;request-context;thread-local;sandbox;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  TaskScheduler: RequestContext TLS propagation, audit event user attribution, sandbox_execution flag")
 endif()
 
 # Phase 5 – LEK Manager lifecycle tests

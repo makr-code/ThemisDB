@@ -335,8 +335,45 @@ public:
         size_t max_concurrent_tasks_ceil   = 16;    ///< Maximum worker slots (ceiling for scaling)
         size_t scale_up_queue_depth        = 2;     ///< Pending tasks threshold to trigger scale-up
         size_t scale_down_idle_ticks       = 3;     ///< Consecutive idle ticks before scale-down
+
+        // Sandboxed execution
+        bool sandbox_execution = false; ///< When true, wrap user-provided task functions in ModuleSandbox
     };
-    
+
+    /**
+     * @brief Per-request authentication context propagated via thread-local storage.
+     *
+     * HTTP handler code sets this on the handler thread before calling scheduler
+     * operations.  The scheduler reads it when constructing audit events so that
+     * audit trails correctly attribute operations to the requesting operator rather
+     * than the system account.
+     *
+     * Example usage (HTTP handler):
+     * @code
+     * TaskScheduler::setRequestContext({auth_result.user_id, client_ip});
+     * scheduler.registerTask(task);
+     * TaskScheduler::clearRequestContext();
+     * @endcode
+     */
+    struct RequestContext {
+        std::string user_id;   ///< Authenticated user identifier
+        std::string client_ip; ///< Client IP address
+    };
+
+    /// Set the authentication context for the calling thread.
+    /// Must be called before any scheduler method that performs audit logging.
+    /// Thread-safe (each thread owns its own context slot).
+    static void setRequestContext(const RequestContext& ctx) noexcept;
+
+    /// Clear the authentication context for the calling thread.
+    static void clearRequestContext() noexcept;
+
+    /// Return the user ID from the thread-local request context, or @p fallback.
+    static std::string currentUserId(const char* fallback = "system") noexcept;
+
+    /// Return the client IP from the thread-local request context (empty if not set).
+    static std::string currentClientIp() noexcept;
+
     /**
      * @brief Construct a task scheduler
      * @param query_engine   Query engine for executing AQL queries
