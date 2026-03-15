@@ -46,7 +46,7 @@ public:
     struct Config {
         std::string output_path;
         CompressionType compression = CompressionType::NONE;
-        int compression_level = 3;  // 1-22 for zstd
+        int compression_level = 3;  // 1-22 for zstd; level 3 is the default (good speed/compression ratio)
         size_t buffer_size = 8192;
         size_t max_file_size = 0;  // 0 = unlimited
     };
