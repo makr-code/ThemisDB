@@ -171,10 +171,18 @@ void checkMissingReturn(const std::string& upper_query, ValidationResult& result
 
 // Warn about missing FOR when query is expected to be complete
 void checkMissingFor(const std::string& upper_query, ValidationResult& result) {
-    // Standalone DML (INSERT without a FOR loop) does not require FOR
+    // All standalone DML statements do not require a FOR loop:
+    //   INSERT { ... } INTO collection
+    //   UPSERT { ... } INSERT { ... } UPDATE { ... } IN collection
+    //   REMOVE "key" IN collection
+    //   UPDATE "key" WITH { ... } IN collection
+    //   REPLACE "key" WITH { ... } IN collection
     bool is_standalone_dml = !containsKeyword(upper_query, "FOR")
         && (containsKeyword(upper_query, "INSERT")
-            || containsKeyword(upper_query, "UPSERT"));
+            || containsKeyword(upper_query, "UPSERT")
+            || containsKeyword(upper_query, "REMOVE")
+            || containsKeyword(upper_query, "UPDATE")
+            || containsKeyword(upper_query, "REPLACE"));
     if (!is_standalone_dml && !containsKeyword(upper_query, "FOR")) {
         result.issues.push_back({
             ValidationIssue::Severity::ERROR,

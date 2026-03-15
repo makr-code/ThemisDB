@@ -365,6 +365,27 @@ TEST_F(AQLQueryValidatorStringTest, UpsertQueryIsValid) {
     EXPECT_FALSE(result.hasErrors());
 }
 
+TEST_F(AQLQueryValidatorStringTest, StandaloneRemoveByKeyIsValid) {
+    // REMOVE "key123" IN users — standalone, no FOR required
+    auto result = validator.validate("REMOVE \"key123\" IN users");
+    EXPECT_TRUE(result.is_valid);
+    EXPECT_FALSE(result.hasErrors());
+}
+
+TEST_F(AQLQueryValidatorStringTest, StandaloneUpdateByKeyIsValid) {
+    // UPDATE "key123" WITH {age: 31} IN users — standalone, no FOR required
+    auto result = validator.validate("UPDATE \"key123\" WITH {age: 31} IN users");
+    EXPECT_TRUE(result.is_valid);
+    EXPECT_FALSE(result.hasErrors());
+}
+
+TEST_F(AQLQueryValidatorStringTest, StandaloneReplaceByKeyIsValid) {
+    // REPLACE "key123" WITH {name: \"Bob\"} IN users — standalone, no FOR required
+    auto result = validator.validate("REPLACE \"key123\" WITH {name: \"Bob\"} IN users");
+    EXPECT_TRUE(result.is_valid);
+    EXPECT_FALSE(result.hasErrors());
+}
+
 // ============================================================================
 // scoreQueryConfidence tests (graceful LLM absence)
 // ============================================================================

@@ -599,27 +599,40 @@ ValidationResult AQLQueryBuilder::validate() const {
 std::vector<std::string> AQLQueryBuilder::getNextSteps() const {
     std::vector<std::string> steps;
 
-    if (impl_->for_clauses.empty()) {
-        // Query must start with FOR
+    bool has_for = !impl_->for_clauses.empty() || !impl_->for_traverse_clauses.empty();
+
+    if (!has_for && impl_->dml_clauses.empty()) {
+        // Query must start with FOR or a standalone DML statement
         steps.push_back("FOR");
+        steps.push_back("INSERT");
+        steps.push_back("UPSERT");
+        steps.push_back("UPDATE");
+        steps.push_back("REMOVE");
+        steps.push_back("REPLACE");
         return steps;
     }
 
     // After FOR, most clauses are optional and can be added in any order
-    // (before RETURN)
-    if (impl_->return_expr.empty()) {
+    // (before RETURN or a DML terminator)
+    if (has_for && impl_->return_expr.empty() && impl_->dml_clauses.empty()) {
         steps.push_back("LET");
         steps.push_back("FILTER");
+        steps.push_back("WINDOW");
         steps.push_back("COLLECT");
         steps.push_back("SORT");
         if (impl_->limit_count < 0) {
             steps.push_back("LIMIT");
         }
         steps.push_back("RETURN");
+        // DML as FOR-loop terminator
+        steps.push_back("INSERT");
+        steps.push_back("UPDATE");
+        steps.push_back("REMOVE");
+        steps.push_back("REPLACE");
+        steps.push_back("UPSERT");
     }
-    // If RETURN is already set, the query is complete
-    // (though additional FOR clauses for nested loops are still possible)
-    steps.push_back("FOR");  // nested FOR is always valid
+    // Nested FOR is always valid
+    steps.push_back("FOR");
 
     return steps;
 }

@@ -318,6 +318,29 @@ TEST_F(AQLQueryBuilderTest, NextStepsAlwaysAllowsNestedFOR) {
     EXPECT_NE(std::find(steps.begin(), steps.end(), "FOR"), steps.end());
 }
 
+TEST_F(AQLQueryBuilderTest, NextStepsEmptyBuilderIncludesDMLOptions) {
+    // Empty builder should also suggest standalone DML entry points
+    auto steps = builder->getNextSteps();
+    EXPECT_NE(std::find(steps.begin(), steps.end(), "INSERT"), steps.end());
+    EXPECT_NE(std::find(steps.begin(), steps.end(), "UPSERT"), steps.end());
+}
+
+TEST_F(AQLQueryBuilderTest, NextStepsAfterFORIncludesWINDOW) {
+    builder->forIn("t", "timestamps");
+    auto steps = builder->getNextSteps();
+    EXPECT_NE(std::find(steps.begin(), steps.end(), "WINDOW"), steps.end());
+}
+
+TEST_F(AQLQueryBuilderTest, NextStepsAfterFORIncludesDMLTerminators) {
+    builder->forIn("u", "users");
+    auto steps = builder->getNextSteps();
+    EXPECT_NE(std::find(steps.begin(), steps.end(), "INSERT"),  steps.end());
+    EXPECT_NE(std::find(steps.begin(), steps.end(), "UPDATE"),  steps.end());
+    EXPECT_NE(std::find(steps.begin(), steps.end(), "REMOVE"),  steps.end());
+    EXPECT_NE(std::find(steps.begin(), steps.end(), "REPLACE"), steps.end());
+    EXPECT_NE(std::find(steps.begin(), steps.end(), "UPSERT"),  steps.end());
+}
+
 // ============================================================================
 // LLM suggestion tests (gracefully handle absent model)
 // ============================================================================
