@@ -613,6 +613,8 @@ TEST_F(CacheWarmupTest, WarmupFromLog_ParallelWorkers_CorrectResults) {
     {
         std::ofstream f(log_path_);
         for (int i = 0; i < count; ++i) {
+            // Use a moderately-sized value (64 bytes of filler) so the test
+            // exercises realistic per-entry sizes without being trivially small.
             json value = {{"idx", i}, {"data", std::string(64, static_cast<char>('a' + (i % 26)))}};
             writeLogLine(f, makeKey(i), b64Encode(value.dump()), 300);
         }

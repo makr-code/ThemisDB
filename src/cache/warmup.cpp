@@ -211,9 +211,12 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
     const size_t chunk_size = (total_lines + num_workers - 1) / num_workers;
 
     // Worker lambda: processes lines[start..end) independently.
-    // Captures all state by reference; thread-safety is ensured through
-    // existing per-level mutexes (l1_mutex_, l2_mutex_, tenant_mutex_) and
-    // atomic metrics counters.
+    // Thread-safety notes:
+    //  - l1_mutex_ / l2_mutex_ / tenant_mutex_ serialise per-shard insertions.
+    //  - total_loaded / total_skipped / total_failed / l1_warmed are
+    //    std::atomic<size_t>, updated without holding any other lock.
+    //  - enhanced_metrics_.warmup_entries_* / total_bytes_* are
+    //    std::atomic<uint64_t> (see cache_metrics.h), safe for concurrent ++.
     auto processChunk = [&](size_t start, size_t end) {
         for (size_t i = start; i < end; ++i) {
             const std::string& line = lines[i];
@@ -222,6 +225,11 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
             if (line.empty() || line.front() == '#') continue;
 
             // Honour max_entries across all workers via a shared atomic.
+            // Note: with multiple workers the check is approximate — up to
+            // (num_workers - 1) extra entries may be loaded before all
+            // workers observe the limit. This is intentional: warmup is a
+            // best-effort bulk operation and an off-by-a-few overshoot is
+            // preferable to the overhead of a full compare-and-swap loop.
             if (max_entries > 0 &&
                 total_loaded.load(std::memory_order_relaxed) >= max_entries) {
                 break;
@@ -287,6 +295,8 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
             }
 
             // Parse decoded JSON value.
+            // Named `value_json` (not `result`) to avoid shadowing the outer
+            // WarmupResult variable `result`.
             nlohmann::json value_json;
             try {
                 value_json = nlohmann::json::parse(decoded);
@@ -406,25 +416,30 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
     }
 
     // Compute elapsed time and throughput.
+    // Use microsecond precision internally so sub-millisecond runs still
+    // produce a meaningful entries-per-second value.
     const auto t1 = std::chrono::steady_clock::now();
-    const int64_t duration_ms =
-        std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count();
+    const int64_t duration_us =
+        std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count();
+    const int64_t duration_ms = duration_us / 1000;
     const size_t loaded  = total_loaded.load();
     const size_t skipped = total_skipped.load();
     const size_t failed  = total_failed.load();
-    const double eps = (duration_ms > 0)
-        ? static_cast<double>(loaded) / (static_cast<double>(duration_ms) / 1000.0)
-        : static_cast<double>(loaded) * 1000.0;
+    // Throughput: 0.0 when no time has elapsed (e.g. empty log) to avoid
+    // reporting a bogus infinity-like value.
+    const double entries_per_second = (duration_us > 0)
+        ? static_cast<double>(loaded) / (static_cast<double>(duration_us) / 1'000'000.0)
+        : 0.0;
 
     THEMIS_INFO("warmupFromLog: loaded={}, skipped={}, failed={} from '{}' "
                 "in {}ms ({:.0f} entries/s, {} workers)",
-                loaded, skipped, failed, log_path, duration_ms, eps, num_workers);
+                loaded, skipped, failed, log_path, duration_ms, entries_per_second, num_workers);
 
     result.entries_loaded = loaded;
     result.entries_skipped = skipped + failed;
     result.entries_total = loaded + skipped + failed;
     result.warmup_duration_ms = duration_ms;
-    result.warmup_entries_per_second = eps;
+    result.warmup_entries_per_second = entries_per_second;
     return result;
 }
 
