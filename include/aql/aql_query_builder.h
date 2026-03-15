@@ -121,6 +121,106 @@ public:
      */
     AQLQueryBuilder& collect(const std::string& variable, const std::string& expression);
 
+    // =========================================================================
+    // Graph traversal
+    // =========================================================================
+
+    /**
+     * @brief Add a graph traversal clause: FOR vertex_var, edge_var, path_var IN min..max direction start GRAPH graph
+     * @param vertex_var Vertex loop variable (e.g., "v")
+     * @param edge_var   Edge loop variable (e.g., "e")
+     * @param path_var   Path loop variable (e.g., "p")
+     * @param start      Start vertex id expression (e.g., "\"users/1\"")
+     * @param graph      Graph name (e.g., "myGraph")
+     * @param direction  Traversal direction: "OUTBOUND", "INBOUND", or "ANY" (default "OUTBOUND")
+     * @param min_depth  Minimum traversal depth (default 1)
+     * @param max_depth  Maximum traversal depth (default 1)
+     * @throws std::invalid_argument if any required string is empty or min_depth > max_depth
+     */
+    AQLQueryBuilder& forTraverse(
+        const std::string& vertex_var,
+        const std::string& edge_var,
+        const std::string& path_var,
+        const std::string& start,
+        const std::string& graph,
+        const std::string& direction = "OUTBOUND",
+        int min_depth = 1,
+        int max_depth = 1
+    );
+
+    // =========================================================================
+    // DML (data manipulation) clauses
+    // =========================================================================
+
+    /**
+     * @brief Add an INSERT clause: INSERT doc_expr INTO collection
+     * @param collection Target collection name
+     * @param doc_expr   Document expression to insert (e.g., "{name: \"Alice\"}")
+     */
+    AQLQueryBuilder& insertInto(const std::string& collection, const std::string& doc_expr);
+
+    /**
+     * @brief Add an UPDATE clause: UPDATE doc_expr IN collection
+     * @param collection Target collection name
+     * @param doc_expr   Document/key expression to update (e.g., "u WITH {active: false}")
+     */
+    AQLQueryBuilder& updateIn(const std::string& collection, const std::string& doc_expr);
+
+    /**
+     * @brief Add a REMOVE clause: REMOVE doc_expr IN collection
+     * @param collection Target collection name
+     * @param doc_expr   Document/key expression to remove (e.g., "u" or "u._key")
+     */
+    AQLQueryBuilder& removeIn(const std::string& collection, const std::string& doc_expr);
+
+    /**
+     * @brief Add an UPSERT clause: UPSERT filter_expr INSERT insert_expr UPDATE update_expr IN collection
+     * @param collection  Target collection name
+     * @param filter_expr Search/lookup expression (e.g., "{name: \"Alice\"}")
+     * @param insert_expr Document expression for insert branch
+     * @param update_expr Document expression for update branch
+     */
+    AQLQueryBuilder& upsertIn(
+        const std::string& collection,
+        const std::string& filter_expr,
+        const std::string& insert_expr,
+        const std::string& update_expr
+    );
+
+    /**
+     * @brief Add a REPLACE clause: REPLACE doc_expr IN collection
+     * @param collection Target collection name
+     * @param doc_expr   Document/key expression to replace (e.g., "u WITH {name: \"Bob\"}")
+     */
+    AQLQueryBuilder& replaceIn(const std::string& collection, const std::string& doc_expr);
+
+    // =========================================================================
+    // WINDOW analytics clause
+    // =========================================================================
+
+    /**
+     * @brief Add a WINDOW analytics clause for timeseries queries.
+     *
+     * Renders as: WINDOW partition_expr WITH window_spec
+     * If partition_expr is empty, renders as: WINDOW window_spec
+     *
+     * @param partition_expr Range expression (e.g., "t.time"); pass "" for row-based windows
+     * @param window_spec    Window specification object (e.g., "{ preceding: \"PT30M\" }")
+     */
+    AQLQueryBuilder& window(const std::string& partition_expr, const std::string& window_spec);
+
+    // =========================================================================
+    // Subquery support
+    // =========================================================================
+
+    /**
+     * @brief Add a subquery as a LET binding: LET variable = ( <inner query> )
+     * @param variable Variable name for the subquery result
+     * @param inner    Builder holding the inner query (rendered via getPartialQuery())
+     * @throws std::invalid_argument if variable is empty or inner has no clauses
+     */
+    AQLQueryBuilder& subquery(const std::string& variable, const AQLQueryBuilder& inner);
+
     /**
      * @brief Reset the builder to initial empty state
      */

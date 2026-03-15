@@ -318,6 +318,29 @@ TEST_F(AQLQueryBuilderTest, NextStepsAlwaysAllowsNestedFOR) {
     EXPECT_NE(std::find(steps.begin(), steps.end(), "FOR"), steps.end());
 }
 
+TEST_F(AQLQueryBuilderTest, NextStepsEmptyBuilderIncludesDMLOptions) {
+    // Empty builder should also suggest standalone DML entry points
+    auto steps = builder->getNextSteps();
+    EXPECT_NE(std::find(steps.begin(), steps.end(), "INSERT"), steps.end());
+    EXPECT_NE(std::find(steps.begin(), steps.end(), "UPSERT"), steps.end());
+}
+
+TEST_F(AQLQueryBuilderTest, NextStepsAfterFORIncludesWINDOW) {
+    builder->forIn("t", "timestamps");
+    auto steps = builder->getNextSteps();
+    EXPECT_NE(std::find(steps.begin(), steps.end(), "WINDOW"), steps.end());
+}
+
+TEST_F(AQLQueryBuilderTest, NextStepsAfterFORIncludesDMLTerminators) {
+    builder->forIn("u", "users");
+    auto steps = builder->getNextSteps();
+    EXPECT_NE(std::find(steps.begin(), steps.end(), "INSERT"),  steps.end());
+    EXPECT_NE(std::find(steps.begin(), steps.end(), "UPDATE"),  steps.end());
+    EXPECT_NE(std::find(steps.begin(), steps.end(), "REMOVE"),  steps.end());
+    EXPECT_NE(std::find(steps.begin(), steps.end(), "REPLACE"), steps.end());
+    EXPECT_NE(std::find(steps.begin(), steps.end(), "UPSERT"),  steps.end());
+}
+
 // ============================================================================
 // LLM suggestion tests (gracefully handle absent model)
 // ============================================================================
@@ -369,4 +392,259 @@ TEST_F(AQLQueryBuilderTest, GetCompletionSuggestionsWithSchemaAndPartialQuery) {
         suggestions = builder->getCompletionSuggestions(handler, schema, 2);
     });
     (void)suggestions;
+}
+
+// ============================================================================
+// Graph traversal tests
+// ============================================================================
+
+TEST_F(AQLQueryBuilderTest, ForTraverseBasic) {
+    auto query = builder
+        ->forTraverse("v", "e", "p", "\"users/1\"", "myGraph")
+        .ret("v")
+        .build();
+    EXPECT_NE(query.find("FOR v, e, p IN 1..1 OUTBOUND \"users/1\" GRAPH myGraph"), std::string::npos);
+    EXPECT_NE(query.find("RETURN v"), std::string::npos);
+}
+
+TEST_F(AQLQueryBuilderTest, ForTraverseCustomDepthAndDirection) {
+    auto query = builder
+        ->forTraverse("v", "e", "p", "startVertex", "socialGraph", "INBOUND", 2, 5)
+        .filter("v.active == true")
+        .ret("v")
+        .build();
+    EXPECT_NE(query.find("FOR v, e, p IN 2..5 INBOUND startVertex GRAPH socialGraph"), std::string::npos);
+    EXPECT_NE(query.find("FILTER v.active == true"), std::string::npos);
+}
+
+TEST_F(AQLQueryBuilderTest, ForTraverseAnyDirection) {
+    auto query = builder
+        ->forTraverse("v", "e", "p", "start", "g", "ANY", 1, 3)
+        .ret("v")
+        .build();
+    EXPECT_NE(query.find("ANY"), std::string::npos);
+    EXPECT_NE(query.find("1..3"), std::string::npos);
+}
+
+TEST_F(AQLQueryBuilderTest, ForTraverseRejectsEmptyVertexVar) {
+    EXPECT_THROW(builder->forTraverse("", "e", "p", "start", "g"), std::invalid_argument);
+}
+
+TEST_F(AQLQueryBuilderTest, ForTraverseRejectsEmptyEdgeVar) {
+    EXPECT_THROW(builder->forTraverse("v", "", "p", "start", "g"), std::invalid_argument);
+}
+
+TEST_F(AQLQueryBuilderTest, ForTraverseRejectsEmptyPathVar) {
+    EXPECT_THROW(builder->forTraverse("v", "e", "", "start", "g"), std::invalid_argument);
+}
+
+TEST_F(AQLQueryBuilderTest, ForTraverseRejectsEmptyStart) {
+    EXPECT_THROW(builder->forTraverse("v", "e", "p", "", "g"), std::invalid_argument);
+}
+
+TEST_F(AQLQueryBuilderTest, ForTraverseRejectsEmptyGraph) {
+    EXPECT_THROW(builder->forTraverse("v", "e", "p", "start", ""), std::invalid_argument);
+}
+
+TEST_F(AQLQueryBuilderTest, ForTraverseRejectsMinDepthGreaterThanMaxDepth) {
+    EXPECT_THROW(builder->forTraverse("v", "e", "p", "start", "g", "OUTBOUND", 5, 2),
+                 std::invalid_argument);
+}
+
+TEST_F(AQLQueryBuilderTest, ForTraverseIsCompleteWithReturn) {
+    builder->forTraverse("v", "e", "p", "start", "g").ret("v");
+    EXPECT_TRUE(builder->isComplete());
+}
+
+TEST_F(AQLQueryBuilderTest, ForTraverseIsValidWhenDepthsCorrect) {
+    builder->forTraverse("v", "e", "p", "start", "g", "OUTBOUND", 1, 3);
+    EXPECT_TRUE(builder->isValid());
+}
+
+// ============================================================================
+// DML tests — INSERT
+// ============================================================================
+
+TEST_F(AQLQueryBuilderTest, InsertInto) {
+    auto query = builder->insertInto("users", "{name: \"Alice\", age: 30}").build();
+    EXPECT_NE(query.find("INSERT {name: \"Alice\", age: 30} INTO users"), std::string::npos);
+}
+
+TEST_F(AQLQueryBuilderTest, InsertIntoIsComplete) {
+    builder->insertInto("users", "{name: \"Bob\"}");
+    EXPECT_TRUE(builder->isComplete());
+}
+
+TEST_F(AQLQueryBuilderTest, InsertIntoRejectsEmptyCollection) {
+    EXPECT_THROW(builder->insertInto("", "{name: \"Alice\"}"), std::invalid_argument);
+}
+
+TEST_F(AQLQueryBuilderTest, InsertIntoRejectsEmptyDocExpr) {
+    EXPECT_THROW(builder->insertInto("users", ""), std::invalid_argument);
+}
+
+// ============================================================================
+// DML tests — UPDATE
+// ============================================================================
+
+TEST_F(AQLQueryBuilderTest, UpdateIn) {
+    auto query = builder
+        ->forIn("u", "users")
+        .filter("u.name == \"Alice\"")
+        .updateIn("users", "u WITH {age: 31}")
+        .build();
+    EXPECT_NE(query.find("UPDATE u WITH {age: 31} IN users"), std::string::npos);
+}
+
+TEST_F(AQLQueryBuilderTest, UpdateInRejectsEmptyCollection) {
+    EXPECT_THROW(builder->updateIn("", "u WITH {x: 1}"), std::invalid_argument);
+}
+
+TEST_F(AQLQueryBuilderTest, UpdateInRejectsEmptyDocExpr) {
+    EXPECT_THROW(builder->updateIn("users", ""), std::invalid_argument);
+}
+
+// ============================================================================
+// DML tests — REMOVE
+// ============================================================================
+
+TEST_F(AQLQueryBuilderTest, RemoveIn) {
+    auto query = builder
+        ->forIn("u", "users")
+        .filter("u.active == false")
+        .removeIn("users", "u")
+        .build();
+    EXPECT_NE(query.find("REMOVE u IN users"), std::string::npos);
+}
+
+TEST_F(AQLQueryBuilderTest, RemoveInRejectsEmptyCollection) {
+    EXPECT_THROW(builder->removeIn("", "u"), std::invalid_argument);
+}
+
+TEST_F(AQLQueryBuilderTest, RemoveInRejectsEmptyDocExpr) {
+    EXPECT_THROW(builder->removeIn("users", ""), std::invalid_argument);
+}
+
+// ============================================================================
+// DML tests — UPSERT
+// ============================================================================
+
+TEST_F(AQLQueryBuilderTest, UpsertIn) {
+    auto query = builder
+        ->upsertIn("users", "{name: \"Alice\"}", "{name: \"Alice\", age: 30}", "{age: 30}")
+        .build();
+    EXPECT_NE(query.find("UPSERT {name: \"Alice\"} INSERT {name: \"Alice\", age: 30} UPDATE {age: 30} IN users"),
+              std::string::npos);
+}
+
+TEST_F(AQLQueryBuilderTest, UpsertInIsComplete) {
+    builder->upsertIn("users", "{name: \"Alice\"}", "{name: \"Alice\"}", "{age: 31}");
+    EXPECT_TRUE(builder->isComplete());
+}
+
+TEST_F(AQLQueryBuilderTest, UpsertInRejectsEmptyCollection) {
+    EXPECT_THROW(builder->upsertIn("", "{x: 1}", "{x: 1}", "{x: 2}"), std::invalid_argument);
+}
+
+TEST_F(AQLQueryBuilderTest, UpsertInRejectsEmptyFilterExpr) {
+    EXPECT_THROW(builder->upsertIn("users", "", "{x: 1}", "{x: 2}"), std::invalid_argument);
+}
+
+TEST_F(AQLQueryBuilderTest, UpsertInRejectsEmptyInsertExpr) {
+    EXPECT_THROW(builder->upsertIn("users", "{x: 1}", "", "{x: 2}"), std::invalid_argument);
+}
+
+TEST_F(AQLQueryBuilderTest, UpsertInRejectsEmptyUpdateExpr) {
+    EXPECT_THROW(builder->upsertIn("users", "{x: 1}", "{x: 1}", ""), std::invalid_argument);
+}
+
+// ============================================================================
+// DML tests — REPLACE
+// ============================================================================
+
+TEST_F(AQLQueryBuilderTest, ReplaceIn) {
+    auto query = builder
+        ->forIn("u", "users")
+        .filter("u.name == \"Alice\"")
+        .replaceIn("users", "u WITH {name: \"Alice\", age: 35}")
+        .build();
+    EXPECT_NE(query.find("REPLACE u WITH {name: \"Alice\", age: 35} IN users"), std::string::npos);
+}
+
+TEST_F(AQLQueryBuilderTest, ReplaceInRejectsEmptyCollection) {
+    EXPECT_THROW(builder->replaceIn("", "u WITH {x: 1}"), std::invalid_argument);
+}
+
+TEST_F(AQLQueryBuilderTest, ReplaceInRejectsEmptyDocExpr) {
+    EXPECT_THROW(builder->replaceIn("users", ""), std::invalid_argument);
+}
+
+// ============================================================================
+// WINDOW analytics tests
+// ============================================================================
+
+TEST_F(AQLQueryBuilderTest, WindowWithPartitionExpr) {
+    auto query = builder
+        ->forIn("t", "timestamps")
+        .window("t.time", "{ preceding: \"PT30M\", following: 0 }")
+        .ret("t")
+        .build();
+    EXPECT_NE(query.find("WINDOW t.time WITH { preceding: \"PT30M\", following: 0 }"),
+              std::string::npos);
+}
+
+TEST_F(AQLQueryBuilderTest, WindowWithoutPartitionExpr) {
+    auto query = builder
+        ->forIn("t", "timestamps")
+        .window("", "{ preceding: 5, following: 5 }")
+        .ret("t")
+        .build();
+    // Partition-less window: WINDOW { preceding: 5, following: 5 }
+    EXPECT_NE(query.find("WINDOW { preceding: 5, following: 5 }"), std::string::npos);
+    // Ensure it does NOT include "WITH" when no partition expression
+    std::string w_clause = "WINDOW { preceding: 5, following: 5 }";
+    auto pos = query.find(w_clause);
+    EXPECT_NE(pos, std::string::npos);
+}
+
+TEST_F(AQLQueryBuilderTest, WindowRejectsEmptyWindowSpec) {
+    EXPECT_THROW(builder->window("t.time", ""), std::invalid_argument);
+}
+
+// ============================================================================
+// Subquery tests
+// ============================================================================
+
+TEST_F(AQLQueryBuilderTest, SubqueryRendersAsLet) {
+    AQLQueryBuilder inner;
+    inner.forIn("x", "items").filter("x.price > 10").ret("x");
+
+    auto query = builder
+        ->forIn("u", "users")
+        .subquery("expensiveItems", inner)
+        .ret("{u, expensiveItems}")
+        .build();
+
+    EXPECT_NE(query.find("LET expensiveItems = ("), std::string::npos);
+    EXPECT_NE(query.find("FOR x IN items"), std::string::npos);
+    EXPECT_NE(query.find("FILTER x.price > 10"), std::string::npos);
+}
+
+TEST_F(AQLQueryBuilderTest, SubqueryRejectsEmptyVariable) {
+    AQLQueryBuilder inner;
+    inner.forIn("x", "items").ret("x");
+    EXPECT_THROW(builder->subquery("", inner), std::invalid_argument);
+}
+
+TEST_F(AQLQueryBuilderTest, SubqueryRejectsEmptyInnerBuilder) {
+    AQLQueryBuilder inner;  // empty builder
+    EXPECT_THROW(builder->subquery("result", inner), std::invalid_argument);
+}
+
+TEST_F(AQLQueryBuilderTest, SubqueryIsValidAfterForClause) {
+    AQLQueryBuilder inner;
+    inner.forIn("x", "items").ret("x");
+
+    builder->forIn("u", "users").subquery("items", inner);
+    EXPECT_TRUE(builder->isValid());
 }
