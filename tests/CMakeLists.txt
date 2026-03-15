@@ -349,6 +349,10 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_saml_auth_provider\\.cpp$"
     # Built as standalone focused target with explicit maintenance sources.
     ".*test_database_maintenance_orchestrator\\.cpp$"
+    # Built as standalone focused target; remote_registry_client.cpp is not in
+    # themis_core (monolithic build) so the file must be compiled directly into
+    # the focused executable.
+    ".*test_remote_registry_client\\.cpp$"
 )
 
 if(NOT THEMIS_ENABLE_WISCKEY)
@@ -14672,6 +14676,97 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_backend_registry_startup.cpp")
     message(STATUS "  BackendRegistry: initializeRuntime, default requirements, capability-driven selection, re-initialization, consistency with selectXBackendFor")
 else()
     message(STATUS "BackendRegistry startup focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_backend_registry_startup.cpp")
+endif()
+
+# ============================================================================
+# BlobRedundancyManager – RocksDB Event Listener Focused Tests (v1.8.0)
+# Covers: createRocksDBListener(), notifySSTFileDeleted(),
+#         RocksDBBlobListener::OnTableFileDeleted(), healthy→unhealthy
+#         location marking, repair-queue notification.
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_raid_redundancy.cpp")
+    message(STATUS "Adding BlobRedundancy EventListener focused tests")
+
+    add_executable(test_blob_redundancy_event_listener_focused
+        test_raid_redundancy.cpp
+    )
+
+    target_include_directories(test_blob_redundancy_event_listener_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_blob_redundancy_event_listener_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_blob_redundancy_event_listener_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME BlobRedundancyEventListenerFocusedTests
+        COMMAND test_blob_redundancy_event_listener_focused
+        --gtest_filter=BlobRedundancyEventListenerTest.*
+    )
+
+    set_tests_properties(BlobRedundancyEventListenerFocusedTests PROPERTIES
+        LABELS "storage;blob-redundancy;rocksdb-listener;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  BlobRedundancy: createRocksDBListener, notifySSTFileDeleted, OnTableFileDeleted, location health tracking")
+else()
+    message(STATUS "BlobRedundancy EventListener tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_raid_redundancy.cpp")
+endif()
+
+# ============================================================================
+# RemoteRegistryClient – Async Retry Back-Off Focused Tests (v1.3.0, Issue #3986)
+# Covers: sync API (listPlugins, fetchPlugin, downloadPlugin), RequestStats,
+#         max_total_retry_time_ms budget, and async variants (listPluginsAsync,
+#         fetchPluginAsync, downloadPluginAsync) that release the calling thread
+#         during back-off via std::async + shared_from_this().
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_remote_registry_client.cpp")
+    message(STATUS "Adding RemoteRegistryClient async retry focused tests (base module, Issue #3986)")
+
+    # remote_registry_client.cpp is not yet in themis_core (monolithic build)
+    # and not in THEMIS_BASE_SOURCES (modular build was updated), so compile it
+    # directly into the focused test executable to guarantee availability.
+    add_executable(test_remote_registry_client_focused
+        test_remote_registry_client.cpp
+        ${CMAKE_SOURCE_DIR}/src/base/remote_registry_client.cpp
+    )
+
+    target_include_directories(test_remote_registry_client_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_remote_registry_client_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+        $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
+        OpenSSL::Crypto
+    )
+
+    target_compile_definitions(test_remote_registry_client_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RemoteRegistryClientFocusedTests
+        COMMAND test_remote_registry_client_focused)
+
+    set_tests_properties(RemoteRegistryClientFocusedTests PROPERTIES
+        LABELS "base;remote-registry;async-retry;backoff;shared-from-this;v1.3.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  RemoteRegistryClient: sync/async list/fetch/download, RequestStats, retry budget, shared_ptr lifetime")
+else()
+    message(STATUS "RemoteRegistryClient focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_remote_registry_client.cpp")
 endif()
 
 # ============================================================================

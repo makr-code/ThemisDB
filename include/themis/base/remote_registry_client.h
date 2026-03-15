@@ -180,19 +180,23 @@ struct RequestStats {
  *
  * Thread safety: all public methods are safe to call from multiple threads.
  *
- * Async API: listPluginsAsync(), fetchPluginAsync(), and downloadPluginAsync()
- * dispatch work to a background thread via std::async so the calling thread is
- * released immediately (no blocking during retry backoffs).  These methods
- * require that the client is owned by a std::shared_ptr; calling them on a
- * stack-allocated instance throws std::bad_weak_ptr.
+ * Async usage: the *Async variants (listPluginsAsync, fetchPluginAsync,
+ * downloadPluginAsync) return a std::future and run the entire operation —
+ * including retry back-off sleeps — on a detached worker thread, so the
+ * calling thread is never blocked.  The client must be owned by a
+ * std::shared_ptr for those methods to work; they call shared_from_this()
+ * internally and throw std::bad_weak_ptr if the client is stack-allocated.
  *
  * Typical usage:
  * @code
- *   RegistryConfig cfg;
- *   cfg.registry_url = "https://registry.example.com/api/v1";
- *   cfg.auth_token   = "my-secret-token";
- *   cfg.download_dir = "/opt/themis/plugins";
+ *   auto client = std::make_shared<RemoteRegistryClient>(cfg);
  *
+ *   // Synchronous
+ *   auto plugins = client->listPlugins();
+ *
+ *   // Asynchronous (calling thread released immediately)
+ *   auto future = client->listPluginsAsync();
+ *   auto plugins = future.get();
  *   // Synchronous usage (calling thread blocks during retries):
  *   RemoteRegistryClient client(cfg);
  *   auto plugins = client.listPlugins();
@@ -235,16 +239,14 @@ public:
     std::vector<RegistryPluginEntry> listPlugins();
 
     /**
-     * @brief Asynchronous version of listPlugins().
+     * @brief Asynchronous variant of listPlugins().
      *
-     * Dispatches the entire operation (HTTP request + retry loop) to a
-     * worker thread via std::async, releasing the calling thread during
-     * back-off sleeps.  Multiple concurrent async calls on the same client
-     * are safe because all shared state is protected by internal mutexes.
+     * Launches the operation on a worker thread and returns immediately.
+     * The calling thread is never blocked by retry back-off sleeps.
      *
-     * @return std::future that resolves to the plugin list.
-     * @throws std::bad_weak_ptr if the client was not constructed via
-     *         std::make_shared (i.e. has never been owned by a shared_ptr).
+     * @note The client must be owned by a std::shared_ptr.  Calling this
+     *       method on a stack-allocated instance throws std::bad_weak_ptr.
+     * @return Future that resolves to the plugin list (may be empty on error).
      */
     std::future<std::vector<RegistryPluginEntry>> listPluginsAsync();
 
@@ -259,6 +261,14 @@ public:
     std::optional<RegistryPluginEntry> fetchPlugin(const std::string& name);
 
     /**
+     * @brief Asynchronous variant of fetchPlugin().
+     *
+     * @note The client must be owned by a std::shared_ptr.
+     * @param name Plugin name to look up.
+     * @return Future that resolves to the plugin entry, or std::nullopt.
+     */
+    std::future<std::optional<RegistryPluginEntry>> fetchPluginAsync(
+        const std::string& name);
      * @brief Asynchronous version of fetchPlugin().
      *
      * Dispatches the entire operation (HTTP request + retry loop) to a
@@ -290,6 +300,14 @@ public:
     PluginDownloadResult downloadPlugin(const RegistryPluginEntry& entry);
 
     /**
+     * @brief Asynchronous variant of downloadPlugin().
+     *
+     * @note The client must be owned by a std::shared_ptr.
+     * @param entry Plugin entry to download.
+     * @return Future that resolves to the download result.
+     */
+    std::future<PluginDownloadResult> downloadPluginAsync(
+        const RegistryPluginEntry& entry);
      * @brief Asynchronous version of downloadPlugin().
      *
      * Dispatches the entire operation (HTTP request + retry loop) to a

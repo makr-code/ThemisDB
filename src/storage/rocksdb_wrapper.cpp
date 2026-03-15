@@ -31,6 +31,7 @@
 #include <rocksdb/utilities/transaction.h>
 #include <rocksdb/utilities/write_batch_with_index.h>
 #include <rocksdb/options.h>
+#include <rocksdb/listener.h>
 #include <rocksdb/write_batch.h>
 #include <rocksdb/iterator.h>
 #include <rocksdb/table.h>
@@ -641,6 +642,17 @@ void RocksDBWrapper::close() {
 
 bool RocksDBWrapper::isOpen() const {
     return db_ != nullptr;
+}
+
+void RocksDBWrapper::addEventListener(std::shared_ptr<rocksdb::EventListener> listener) {
+    if (!listener) return;
+    std::lock_guard<std::mutex> lock(db_lifecycle_mutex_);
+    if (isOpen()) {
+        THEMIS_WARN("addEventListener called after DB is already open; "
+                    "listener will not take effect for the current database instance");
+        return;
+    }
+    options_->listeners.push_back(std::move(listener));
 }
 
 std::optional<std::vector<uint8_t>> RocksDBWrapper::get(std::string_view key) {
