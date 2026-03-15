@@ -37,6 +37,34 @@
 namespace themis::rag::judge {
 
 /**
+ * @brief Abstract inference engine interface for dependency injection
+ *
+ * Implement this interface to provide a real or test LLM backend to
+ * LLMJudgeIntegration via the engine-injection constructor.
+ *
+ * Example (test double returning random scores):
+ * @code
+ *   struct RandomEngine : ILLMInferenceEngine {
+ *       std::string generate(const std::string&) override {
+ *           return R"({"score":)" + std::to_string(dist_(rng_)) + R"(,"confidence":0.8})";
+ *       }
+ *   private:
+ *       std::mt19937 rng_{std::random_device{}()};
+ *       std::uniform_real_distribution<double> dist_{1.0, 5.0};
+ *   };
+ * @endcode
+ */
+struct ILLMInferenceEngine {
+    virtual ~ILLMInferenceEngine() = default;
+    /**
+     * @brief Generate a response for the given prompt.
+     * @param prompt The full prompt text.
+     * @return Generated response text.
+     */
+    virtual std::string generate(const std::string& prompt) = 0;
+};
+
+/**
  * @brief LLM integration wrapper for judge evaluations
  * 
  * Handles communication with LLM inference engine, including:
@@ -44,19 +72,22 @@ namespace themis::rag::judge {
  * - Response retrieval and parsing
  * - Error handling and retries
  * 
- * Usage Example (Production with EmbeddedLLM):
+ * Usage Example (Production with injected engine):
+ * @code
+ *   struct MyEngine : ILLMInferenceEngine {
+ *       std::string generate(const std::string& prompt) override {
+ *           return myBackend.infer(prompt);
+ *       }
+ *   };
+ *   MyEngine engine;
+ *   LLMJudgeIntegration integration(&engine);
+ * @endcode
+ *
+ * Usage Example (Production with setInferenceFunction):
  * @code
  *   LLMJudgeIntegration::Config config;
  *   config.use_mock_mode = false;
  *   LLMJudgeIntegration integration(config);
- *   
- *   // Option 1: Use EmbeddedLLM directly
- *   auto& llm = EmbeddedLLMManager::instance().get();
- *   integration.setInferenceFunction([&llm](const std::string& prompt) {
- *       return llm.generate(prompt, 1024);
- *   });
- * 
- *   // Option 2: Use custom backend
  *   integration.setInferenceFunction([](const std::string& prompt) {
  *       return myCustomLLMBackend.infer(prompt);
  *   });
@@ -86,8 +117,20 @@ public:
         // Mock mode configuration
         bool use_mock_mode = false;           // Enable mock responses (for testing only)
         bool warn_on_mock_mode = true;        // Log warning once when mock mode is used
+        bool allow_mock = false;              // Allow nullptr engine (opt-in for tests; default false = fail fast in production)
     };
     
+    /**
+     * @brief Construct with an explicit inference engine (production path).
+     *
+     * @param engine Pointer to an ILLMInferenceEngine implementation.
+     *               Must not be nullptr unless @p config.allow_mock is true.
+     * @param config Integration configuration.
+     * @throws std::invalid_argument if @p engine is nullptr and
+     *         @p config.allow_mock is false.
+     */
+    explicit LLMJudgeIntegration(ILLMInferenceEngine* engine, const Config& config = Config{});
+
     /**
      * @brief Construct LLM integration
      * @param config Integration configuration

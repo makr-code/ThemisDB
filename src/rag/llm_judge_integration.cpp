@@ -29,8 +29,32 @@
 #include "utils/logger.h"
 #include <thread>
 #include <chrono>
+#include <stdexcept>
 
 namespace themis::rag::judge {
+
+LLMJudgeIntegration::LLMJudgeIntegration(ILLMInferenceEngine* engine, const Config& config)
+    : config_(config), mock_mode_warning_shown_(false) {
+    if (engine == nullptr && !config_.allow_mock) {
+        throw std::invalid_argument(
+            "LLMJudgeIntegration: engine must not be nullptr when allow_mock is false. "
+            "Pass a valid ILLMInferenceEngine* or set config.allow_mock = true for testing.");
+    }
+    if (engine != nullptr) {
+        // Wire the engine's generate() into the inference function slot
+        inference_fn_ = [engine](const std::string& prompt) {
+            return engine->generate(prompt);
+        };
+        THEMIS_INFO("LLMJudgeIntegration initialized with injected inference engine");
+    } else {
+        // allow_mock = true AND engine = nullptr → fall back to default mock
+        inference_fn_ = defaultInference;
+        if (config_.warn_on_mock_mode) {
+            THEMIS_WARN("LLMJudgeIntegration initialized with nullptr engine in MOCK MODE "
+                        "(allow_mock=true) - evaluations will use stub responses");
+        }
+    }
+}
 
 LLMJudgeIntegration::LLMJudgeIntegration()
     : LLMJudgeIntegration(Config{}) {
@@ -162,8 +186,9 @@ std::string LLMJudgeIntegration::callLLM(const std::string& prompt) {
     if (!inference_fn_) {
         // Provide helpful error message
         std::string error_msg = "No inference function set. ";
-        error_msg += "Call setInferenceFunction() with a valid LLM inference function, ";
-        error_msg += "or enable mock mode (config.use_mock_mode = true) for testing.";
+        error_msg += "Options: (1) call setInferenceFunction() with a valid LLM inference function; ";
+        error_msg += "(2) pass an ILLMInferenceEngine* to the constructor; ";
+        error_msg += "(3) set config.allow_mock = true or config.use_mock_mode = true for testing.";
         THEMIS_ERROR("{}", error_msg);
         throw std::runtime_error(error_msg);
     }
@@ -201,7 +226,7 @@ std::string LLMJudgeIntegration::defaultInference(const std::string& prompt) {
 }
 
 bool LLMJudgeIntegration::isMockMode() const {
-    return config_.use_mock_mode;
+    return config_.use_mock_mode || config_.allow_mock;
 }
 
 } // namespace themis::rag::judge
