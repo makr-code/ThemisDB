@@ -12026,6 +12026,15 @@ add_network_focused_test(
     "QoSManager: TokenBucket construction/tryConsume/timeout, per-tenant quota, backpressure, stats, callback"
 )
 
+# --- Bandwidth Management and QoS (v1.8.0, Issue #190) ---
+add_network_focused_test(
+    test_bandwidth_management_qos_focused
+    test_bandwidth_management_qos.cpp
+    BandwidthManagementQoSFocusedTests
+    "network;qos;bandwidth;token-bucket;leaky-bucket;priority-queue;fair-queuing;congestion-control;linux-tc;focused;unit"
+    "BandwidthManagementQoS: LeakyBucket shaping, set_bandwidth_limit, set_token_bucket, set_priority, priority queue scheduling, fair-queuing starvation guard, CongestionController AIMD, Linux tc configureTc"
+)
+
 # --- Network Timeout (SocketTimeoutManager) ---
 add_network_focused_test(
     test_network_timeout_focused
