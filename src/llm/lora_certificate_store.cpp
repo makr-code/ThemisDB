@@ -185,6 +185,21 @@ bool LoRACertificateStore::fingerprintMatches(const std::string& cert_pem,
 std::optional<std::string> LoRACertificateStore::searchSystemStore(
     const std::string& fingerprint) const {
 
+    // Validate fingerprint format before iterating the store.
+    // A SHA-256 fingerprint must be exactly 64 lowercase hex chars.
+    if (fingerprint.size() != 64) {
+        spdlog::debug("LoRACertificateStore: skipping system store — fingerprint "
+                      "size {} is not 64", fingerprint.size());
+        return std::nullopt;
+    }
+    for (char c : fingerprint) {
+        if (!std::isxdigit(static_cast<unsigned char>(c))) {
+            spdlog::debug("LoRACertificateStore: skipping system store — "
+                          "fingerprint contains non-hex character");
+            return std::nullopt;
+        }
+    }
+
     std::error_code ec;
     if (!std::filesystem::exists(system_store_path_, ec) || ec) {
         spdlog::debug("LoRACertificateStore: system store path '{}' not accessible",
