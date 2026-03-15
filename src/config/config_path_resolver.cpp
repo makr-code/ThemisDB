@@ -27,6 +27,7 @@
 #include "config/config_path_resolver.h"
 #include "config/config_audit_log.h"
 #include "config/config_errors.h"
+#include "config/config_file_watcher.h"
 #include "config/path_mapping_metadata.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
@@ -285,6 +286,7 @@ volatile sig_atomic_t ConfigPathResolver::sighup_pending_ = 0;
 ConfigAuditLog ConfigPathResolver::audit_log_;
 std::atomic<double> ConfigPathResolver::legacy_fallback_threshold_{0.0};
 std::atomic<uint64_t> ConfigPathResolver::last_threshold_warn_count_{0};
+std::unique_ptr<ConfigFileWatcher> ConfigPathResolver::file_watcher_;
 
 // ═══════════════════════════════════════════════════════════
 // Path Mapping Table: Legacy → New
@@ -1784,6 +1786,41 @@ void ConfigPathResolver::registerSighupHandler() {
                      "send SIGHUP to flush the resolved path cache at runtime");
     }
 #endif
+}
+
+// ── inotify/kqueue/ReadDirectoryChangesW hot-reload ─────────────────────────
+
+bool ConfigPathResolver::startHotReload(const std::string& watch_dir,
+                                        std::chrono::milliseconds debounce) {
+    if (file_watcher_ && file_watcher_->isRunning()) {
+        spdlog::debug("ConfigPathResolver: file watcher already running on '{}'",
+                      file_watcher_->watchPath());
+        return true;
+    }
+
+    file_watcher_ = std::make_unique<ConfigFileWatcher>(
+        watch_dir,
+        []() {
+            cache_.clear();
+            spdlog::info("ConfigPathResolver: config file changed on disk – "
+                         "resolved path cache cleared");
+        },
+        debounce);
+
+    bool ok = file_watcher_->start();
+    if (!ok) {
+        file_watcher_.reset();
+        spdlog::warn("ConfigPathResolver: file-based hot-reload could not be started "
+                     "for '{}'; fall back to SIGHUP-only hot-reload", watch_dir);
+    }
+    return ok;
+}
+
+void ConfigPathResolver::stopHotReload() {
+    if (file_watcher_) {
+        file_watcher_->stop();
+        file_watcher_.reset();
+    }
 }
 
 } // namespace config

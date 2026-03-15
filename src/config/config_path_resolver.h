@@ -34,6 +34,7 @@
 #include <atomic>
 #include <mutex>
 #include <chrono>
+#include <memory>
 #include "config/config_audit_log.h"
 #include <csignal>
 #include "config/config_errors.h"
@@ -42,6 +43,10 @@
 
 namespace themis {
 namespace config {
+
+// Forward declaration so ConfigPathResolver can hold a unique_ptr without
+// pulling in the platform-specific config_file_watcher.h headers.
+class ConfigFileWatcher;
 
 /**
  * Deployment environment for config overlay resolution.
@@ -229,6 +234,36 @@ public:
     static void registerSighupHandler();
 
     /**
+     * Start the inotify/kqueue/ReadDirectoryChangesW file watcher that
+     * automatically clears the resolved path cache whenever a `.yaml` or
+     * `.json` file under @p watch_dir changes on disk.
+     *
+     * This is an optional enhancement on top of the existing SIGHUP-based
+     * hot-reload: both mechanisms can be active simultaneously.  File-system
+     * events are debounced with a 200 ms settling window to avoid spurious
+     * cache flushes during editor save-then-rename sequences.
+     *
+     * On unsupported platforms this function is a no-op (logs a warning).
+     *
+     * @param watch_dir  Directory tree to monitor.  Defaults to "config/".
+     * @param debounce   Settling window before the cache is cleared.
+     *                   Defaults to 200 ms.
+     *
+     * @return true if the file watcher was started successfully; false if the
+     *         platform does not support file watching or @p watch_dir is not
+     *         accessible.
+     */
+    static bool startHotReload(
+        const std::string& watch_dir = "config",
+        std::chrono::milliseconds debounce = std::chrono::milliseconds(200));
+
+    /**
+     * Stop the file watcher started by startHotReload().
+     * Idempotent – safe to call even if startHotReload() was never called.
+     */
+    static void stopHotReload();
+
+    /**
      * Default LRU cache TTL in seconds.
      * Exposed as a named constant so the metrics exporter and other consumers
      * can reference the single source of truth rather than duplicating the value.
@@ -411,6 +446,11 @@ private:
     // SIGHUP hot-reload flag and handler (POSIX only; no-op on Windows)
     static volatile sig_atomic_t sighup_pending_;
     static void handleSighup(int sig);
+
+    // Optional inotify/kqueue/ReadDirectoryChangesW file watcher (v1.8.0).
+    // Stored as a unique_ptr so the platform headers are not exposed in this
+    // public header (include config_file_watcher.h in the .cpp only).
+    static std::unique_ptr<ConfigFileWatcher> file_watcher_;
 
     // Converts a ConfigEnvironment to its lowercase string name
     static std::string envToString(ConfigEnvironment env);
