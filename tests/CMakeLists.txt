@@ -15021,6 +15021,54 @@ else()
 endif()
 
 # ============================================================================
+# AdaptiveQueryCompiler – Focused Tests (v1.8.0, Issue #86)
+# Covers:
+#   AC-1  Hot Query Detection  (execution counter crosses hot_threshold)
+#   AC-2  Type Specialisation  (compiled path uses typed predicate dispatch)
+#   AC-3  Expression Folding   (constant predicates folded at compile time)
+#   AC-4  Vectorized Codegen   (IR/assembly reflects vectorisation flag)
+#   AC-5  Adaptive Recompilation (drift check triggers re-compile)
+#   AC-6  LLVM IR generation   (CompiledQuery::llvm_ir non-empty and valid)
+#   AC-7  CompilationStats     (queries_compiled, failures, cache_size, etc.)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_query_compilation.cpp")
+    message(STATUS "Adding AdaptiveQueryCompiler focused tests (performance module, Issue #86)")
+
+    add_executable(test_adaptive_query_compilation_focused
+        test_adaptive_query_compilation.cpp
+        ${CMAKE_SOURCE_DIR}/src/performance/adaptive_query_compiler.cpp
+    )
+
+    target_include_directories(test_adaptive_query_compilation_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_adaptive_query_compilation_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_adaptive_query_compilation_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AdaptiveQueryCompilationFocusedTests
+        COMMAND test_adaptive_query_compilation_focused)
+
+    set_tests_properties(AdaptiveQueryCompilationFocusedTests PROPERTIES
+        LABELS "performance;query-compiler;jit;hot-path;type-specialisation;vectorization;adaptive;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  AdaptiveQueryCompiler: hot-path detection, type specialisation, expression folding, vectorized codegen, adaptive recompilation")
+else()
+    message(STATUS "AdaptiveQueryCompiler focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_query_compilation.cpp")
+endif()
+
+# ============================================================================
+# Custom Test Targets
 # LoRA Certificate Store – focused tests (v1.8.0, Issue #75)
 # Covers all four acceptance criteria:
 #   AC-1  missing cert → verifySignature returns SIGNATURE_UNVERIFIABLE (fail closed)
