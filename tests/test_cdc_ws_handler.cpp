@@ -582,7 +582,7 @@ TEST_F(CdcWsGroupIntegrationTest, PartitionFilterDeliverOnlyConsumerEvents) {
         std::string consumer_in_sub;
         if (sub_id == "split-group:worker-0") consumer_in_sub = "worker-0";
         else if (sub_id == "split-group:worker-1") consumer_in_sub = "worker-1";
-        else continue;  // Unrecognised subscription (skip)
+        else continue;  // Unrecognized subscription (skip)
 
         const uint32_t consumer_part =
             themis::cdc::ConsumerGroupManager::partitionForConsumer(consumer_in_sub, 2);

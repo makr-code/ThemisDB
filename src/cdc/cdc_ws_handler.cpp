@@ -155,16 +155,21 @@ std::vector<json> CdcWebSocketHandler::handleFrame(const json& frame) {
         if (!group_id.empty()) {
             // Group-level ack: find the subscription for this group/consumer pair
             // and advance the durable committed offset.
-            const std::string ack_consumer = !consumer_id.empty() ? consumer_id : "";
-            const std::string ack_key      = group_id + ":" + ack_consumer;
+            // When consumer_id is absent the key is "group_id:" — this mirrors
+            // the subscribe path where an empty consumer_id also produces "group_id:".
+            const std::string ack_key = group_id + ":" + consumer_id;
 
             std::string matched_key;
             {
                 std::lock_guard<std::mutex> lock(mu_);
-                // Try exact key first; fall back to any subscription in the group.
+                // Fast path: exact key match (typical case: one subscription per group).
                 if (subscriptions_.count(ack_key)) {
                     matched_key = ack_key;
                 } else {
+                    // Fallback scan: handles the case where the client acked by
+                    // group_id only (no consumer_id in the ack frame).  A single
+                    // WebSocket connection typically holds only a handful of
+                    // subscriptions so O(n) is acceptable here.
                     for (auto& [k, s] : subscriptions_) {
                         if (s.group_id == group_id) {
                             matched_key = k;
