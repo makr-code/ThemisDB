@@ -284,6 +284,31 @@ Focus: Enterprise-grade monitoring, alerting, and automated operations.
 - [ ] AgenticRAG integration for iterative process question answering (Target: Q3 2026)
 - [ ] EPK ARIS-XML import (Target: Q3 2026)
 
+#### 4.7 CLI Tooling — Unified Management Interface
+- [x] `themisctl` — unified ThemisDB CLI for server operations (Target: Q1 2026)
+  - Commands: `health`, `version`, `query`, `get`, `put`, `delete`, `schema`, `branch`, `snapshot`, `admin`
+  - Environment variable support: `THEMIS_HOST`, `THEMIS_PORT`, `THEMIS_TOKEN`
+  - Raw JSON output mode (`--json`), auth token forwarding (`--token`), configurable timeout
+  - In-process httplib unit tests (arg parsing, HTTP round-trips, error handling)
+  - CMake target: `themisctl`; install component: `tools`
+- [x] Shell completion scripts for `themisctl` (Target: Q2 2026)
+  - Bash: `tools/completion/themisctl.bash` — installed to `share/bash-completion/completions/`
+  - Zsh:  `tools/completion/_themisctl`      — installed to `share/zsh/site-functions/`
+  - Fish: `tools/completion/themisctl.fish`  — installed to `share/fish/vendor_completions.d/`
+  - Covers all commands and sub-commands; `config set` offers known key completions
+- [x] `themisctl config` sub-command — read/write server config via API (Target: Q2 2026)
+  - `config get` — GET `/config`, pretty-printed JSON
+  - `config set key=value ...` — POST `/config` hot-reload patch (dotted key → nested JSON)
+  - Supported keys: `logging.level`, `logging.format`, `request_timeout_ms`, `features.*`, `cdc_retention_hours`
+  - 9 unit tests for config get/set/error paths
+- [x] `themisctl repl` — interactive REPL mode with command history (Target: Q2 2026)
+  - Shell-style tokenizer with single/double quote support (`tokenizeLine`)
+  - GNU Readline integration when available (`THEMISCTL_ENABLE_READLINE`); plain getline() fallback
+  - History persisted to `~/.themisctl_history`; exits on `exit`, `quit`, or EOF (Ctrl-D)
+  - 9 tokenizer unit tests
+- [ ] `themisctl config` schema validation — dry-run + diff output (Target: Q3 2026)
+- [ ] AgentRAG integration — `themisctl rag query <nl-question>` (Target: Q4 2026)
+
 ---
 
 ### Phase 5: Security Hardening & Compliance (Q1 2027) — 📋 Planned
