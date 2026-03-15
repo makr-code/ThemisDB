@@ -9959,6 +9959,51 @@ else()
 endif()
 
 # ============================================================================
+# Zero-Copy Blob Transfers focused tests (storage module, Issue #231, v1.7.0)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_zero_copy_blob_transfers.cpp")
+    message(STATUS "Adding Zero-Copy Blob Transfers focused tests (storage module, Issue #231)")
+
+    add_executable(test_zero_copy_blob_transfers_focused
+        test_zero_copy_blob_transfers.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/zero_copy_blob_transfer.cpp
+    )
+
+    target_include_directories(test_zero_copy_blob_transfers_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_zero_copy_blob_transfers_focused PRIVATE
+        ${TEST_LIBS}
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+
+    if(TARGET themis_core)
+        target_link_libraries(test_zero_copy_blob_transfers_focused PRIVATE themis_core)
+    endif()
+
+    target_compile_definitions(test_zero_copy_blob_transfers_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ZeroCopyBlobTransferFocusedTests
+             COMMAND test_zero_copy_blob_transfers_focused)
+
+    set_tests_properties(ZeroCopyBlobTransferFocusedTests PROPERTIES
+        LABELS "storage;blob;zero-copy;sendfile;mmap;s3-multipart;v1.7.0;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ZeroCopyBlobTransfer: sendfile() kernel-level transfer, MmapBlobView, S3 multipart streaming upload")
+else()
+    message(STATUS "Zero-Copy Blob Transfers focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_zero_copy_blob_transfers.cpp")
+endif()
+
+# ============================================================================
 # Security Sub-directory Focused Test Targets
 # These provide dedicated standalone binaries for security module tests in
 # tests/security/ and tests/security/attack-vectors/, enabling fast focused
