@@ -247,6 +247,22 @@ nlohmann::json RegexDetectionEngine::getMetadata() const {
     return metadata;
 }
 
+size_t RegexDetectionEngine::maxPatternLength() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    // Return the length of the longest regex_str across all enabled patterns.
+    // PIIStreamScanner uses this as the sliding-window overlap so that patterns
+    // whose match spans straddle a chunk boundary are still detected.
+    size_t max_len = 0;
+    for (const auto& p : patterns_) {
+        if (p.enabled && p.regex_str.size() > max_len) {
+            max_len = p.regex_str.size();
+        }
+    }
+    // Apply a minimum floor equal to kDefaultLookaheadBytes so that even a
+    // pattern-less engine produces a usable overlap value.
+    return max_len > kDefaultLookaheadBytes ? max_len : kDefaultLookaheadBytes;
+}
+
 void RegexDetectionEngine::loadEmbeddedDefaults() {
     patterns_.clear();
     redaction_modes_.clear();

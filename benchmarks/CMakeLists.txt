@@ -3112,3 +3112,56 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_adaptive_query_compilation.cpp")
 
     message(STATUS "  AdaptiveQueryCompiler: cold/hot filter/agg/join throughput, compilation overhead, differential correctness")
 endif()
+
+# ============================================================================
+# PIIStreamScanner benchmarks (v0.9.0)
+# Validates acceptance criteria:
+#   - Streaming PII scan throughput: >100 MB/s per core for English legal text
+#   - Scan+pseudonymise overhead: <2× vs. scan-only
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_pii_stream_scanner.cpp")
+    message(STATUS "Adding PIIStreamScanner benchmarks (utils module, v0.9.0)")
+
+    add_executable(bench_pii_stream_scanner
+        bench_pii_stream_scanner.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/pii_stream_scanner.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/regex_detection_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/pii_detection_engine.cpp
+    )
+
+    target_include_directories(bench_pii_stream_scanner PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(bench_pii_stream_scanner PRIVATE
+        ${BENCHMARK_LIBS}
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_pii_stream_scanner PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_pii_stream_scanner PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_pii_stream_scanner
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  PIIStreamScanner: 100MB scan-only and scan+pseudonymise throughput at 4KB/64KB/1MB chunks")
+endif()

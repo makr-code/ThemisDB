@@ -95,6 +95,15 @@ public:
     std::string getRedactionRecommendation(PIIType type) const override;
     std::string getLastError() const override;
     nlohmann::json getMetadata() const override;
+
+    /**
+     * @brief Returns the longest regex string length across all enabled patterns.
+     *
+     * PIIStreamScanner uses this value to set the cross-chunk lookahead buffer
+     * so that patterns whose match spans straddle a chunk boundary are still
+     * detected.  A sliding-window overlap equal to maxPatternLength() is applied.
+     */
+    size_t maxPatternLength() const override;
     
 private:
     // Configuration
