@@ -1726,9 +1726,6 @@ void CrossShardTransactionCoordinator::executeCompensations(
             // Execute the SAGA compensation operation via a dedicated compensate RPC.
             // The operation JSON carries the reverse action (e.g., DELETE to undo INSERT)
             // that the shard will apply idempotently.
-            nlohmann::json operations = nlohmann::json::array();
-            operations.push_back(operation);
-            
             int retries = 0;
             bool success = false;
             
@@ -1740,6 +1737,17 @@ void CrossShardTransactionCoordinator::executeCompensations(
                         spdlog::info("Compensation {} completed successfully", idx);
                         break;
                     }
+                    
+                    // RPC returned a non-success status without throwing — count as
+                    // a failed attempt so the bounded retry loop terminates correctly.
+                    if (retries < rpc_config.max_retries) {
+                        spdlog::warn("Compensation {} not acknowledged (attempt {}/{}). Retrying",
+                                   idx, retries + 1, rpc_config.max_retries + 1);
+                        std::this_thread::sleep_for(
+                            std::chrono::milliseconds(rpc_config.retry_delay_ms * (1 << retries))
+                        );
+                    }
+                    retries++;
                     
                 } catch (const std::exception& e) {
                     if (retries < rpc_config.max_retries) {
