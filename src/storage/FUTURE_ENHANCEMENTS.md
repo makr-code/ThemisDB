@@ -57,8 +57,8 @@
 `security_signature_manager.cpp` line 110: "TODO: Implement proper RocksDB iteration when `RocksDBWrapper` supports it". Without iteration, the signature manager cannot verify integrity across all stored records.
 
 **Implementation Notes:**
-- `[ ]` Add `RocksDBWrapper::iterateRange(start_key, end_key, callback)` that uses a `rocksdb::Iterator` under the hood.
-- `[ ]` Wire into `SecuritySignatureManager::verifyAll()` to scan all document keys and verify their signatures in sequence.
+- `[x]` Add `RocksDBWrapper::iterateRange(start_key, end_key, callback)` that uses a `rocksdb::Iterator` under the hood.
+- `[x]` Wire into `SecuritySignatureManager::verifyAll()` to scan all document keys and verify their signatures in sequence.
 
 ---
 

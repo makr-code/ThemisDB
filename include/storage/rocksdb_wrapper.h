@@ -500,7 +500,12 @@ public:
     
     /// Scan range [start_key, end_key)
     void scanRange(std::string_view start_key, std::string_view end_key, ScanCallback callback);
-    
+
+    /// Iterate over a key range [start_key, end_key) using a rocksdb::Iterator.
+    /// The callback receives each (key, value) pair in order; returning false
+    /// from the callback stops iteration early.
+    void iterateRange(std::string_view start_key, std::string_view end_key, ScanCallback callback);
+
     /// Full scan (use sparingly!)
     void scanAll(ScanCallback callback);
     

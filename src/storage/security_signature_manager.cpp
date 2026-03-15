@@ -43,6 +43,13 @@ std::string SecuritySignatureManager::makeKey(const std::string& resource_id) co
     return std::string(KEY_PREFIX) + resource_id;
 }
 
+std::pair<std::string, std::string> SecuritySignatureManager::makePrefixRange() {
+    std::string start = std::string(KEY_PREFIX);
+    std::string end   = start;
+    end.back()++; // e.g. "security_sig:" -> "security_sig;" (';' == ':' + 1)
+    return {start, end};
+}
+
 bool SecuritySignatureManager::storeSignature(const SecuritySignature& sig) {
     try {
         std::string key = makeKey(sig.resource_id);
@@ -107,8 +114,18 @@ std::vector<SecuritySignature> SecuritySignatureManager::listAllSignatures() {
         return signatures;
     }
     
-    // TODO: Implement proper RocksDB iteration when RocksDBWrapper supports it
-    
+    // Compute the end key for the prefix range: increment the last byte of KEY_PREFIX
+    // e.g. "security_sig:" -> "security_sig;" (';' == ':' + 1)
+    auto [start_key, end_key] = makePrefixRange();
+
+    db_->iterateRange(start_key, end_key, [&](std::string_view /*key*/, std::string_view value) -> bool {
+        auto sig = SecuritySignature::deserialize(std::string(value));
+        if (sig.has_value()) {
+            signatures.push_back(*sig);
+        }
+        return true; // continue iteration
+    });
+
     return signatures;
 }
 
@@ -190,6 +207,51 @@ bool SecuritySignatureManager::verifyFile(const std::string& file_path,
     } catch (const std::exception&) {
         return false;
     }
+}
+
+SecuritySignatureManager::VerifyAllResult SecuritySignatureManager::verifyAll() {
+    VerifyAllResult result;
+
+    if (use_fallback_memory_store_) {
+        for (const auto& [key, value] : mem_store_) {
+            auto sig = SecuritySignature::deserialize(value);
+            if (!sig.has_value()) {
+                result.total++;
+                result.failed++;
+                continue;
+            }
+            result.total++;
+            if (verifyFile(sig->resource_id, sig->resource_id)) {
+                result.verified++;
+            } else {
+                result.failed++;
+                result.failed_resource_ids.push_back(sig->resource_id);
+            }
+        }
+        return result;
+    }
+
+    // Use iterateRange to scan all signature keys from RocksDB
+    auto [start_key, end_key] = makePrefixRange();
+
+    db_->iterateRange(start_key, end_key, [&](std::string_view /*key*/, std::string_view value) -> bool {
+        auto sig = SecuritySignature::deserialize(std::string(value));
+        if (!sig.has_value()) {
+            result.total++;
+            result.failed++;
+            return true; // continue
+        }
+        result.total++;
+        if (verifyFile(sig->resource_id, sig->resource_id)) {
+            result.verified++;
+        } else {
+            result.failed++;
+            result.failed_resource_ids.push_back(sig->resource_id);
+        }
+        return true; // continue
+    });
+
+    return result;
 }
 
 } // namespace storage
