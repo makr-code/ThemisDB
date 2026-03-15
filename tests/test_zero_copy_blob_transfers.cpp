@@ -183,7 +183,8 @@ TEST_F(ZeroCopyBlobTransferFocusedTests, MmapBlobViewValidForExistingFile) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST_F(ZeroCopyBlobTransferFocusedTests, MmapBlobViewInvalidForMissingFile) {
-    themis::storage::MmapBlobView view("/tmp/no_such_file_themisdb_12345.blob");
+    themis::storage::MmapBlobView view(
+        (fs::temp_directory_path() / "no_such_file_themisdb_12345.blob").string());
 
     EXPECT_FALSE(view.valid());
     EXPECT_EQ(view.data(), nullptr);
@@ -274,7 +275,7 @@ TEST_F(ZeroCopyBlobTransferFocusedTests, AC1_SendfileTransfersFullFile) {
     std::vector<uint8_t> data = makeBlob(16384);
     std::string src_path = createTmpBlobFromData("sendfile_full_src.blob", data);
 
-    std::string dst_path = "/tmp/sendfile_full_dst.blob";
+    std::string dst_path = (fs::temp_directory_path() / "sendfile_full_dst.blob").string();
     tmp_files_.push_back(dst_path);
 
     int dst_fd = ::open(dst_path.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0600);
@@ -298,7 +299,7 @@ TEST_F(ZeroCopyBlobTransferFocusedTests, AC3_SendfileWithOffsetAndLength) {
     std::vector<uint8_t> data = makeBlob(16384);
     std::string src_path = createTmpBlobFromData("sendfile_partial_src.blob", data);
 
-    std::string dst_path = "/tmp/sendfile_partial_dst.blob";
+    std::string dst_path = (fs::temp_directory_path() / "sendfile_partial_dst.blob").string();
     tmp_files_.push_back(dst_path);
 
     int dst_fd = ::open(dst_path.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0600);
@@ -324,7 +325,7 @@ TEST_F(ZeroCopyBlobTransferFocusedTests, AC12_TransferStatsMatchFileSize) {
     std::vector<uint8_t> data = makeBlob(blob_size);
     std::string src_path = createTmpBlobFromData("stats_check.blob", data);
 
-    std::string dst_path = "/tmp/stats_check_dst.blob";
+    std::string dst_path = (fs::temp_directory_path() / "stats_check_dst.blob").string();
     tmp_files_.push_back(dst_path);
 
     int dst_fd = ::open(dst_path.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0600);
@@ -343,7 +344,7 @@ TEST_F(ZeroCopyBlobTransferFocusedTests, AC4_SendfileErrorForMissingSource) {
     // AC-4: missing source → ERR_STORAGE_FILE_NOT_FOUND
     int dummy_fd = 1;  // stdout — we won't actually write to it
     auto result = xfer_.sendfileTransfer(
-        "/tmp/no_such_blob_xfer_9999.blob", dummy_fd);
+        (fs::temp_directory_path() / "no_such_blob_xfer_9999.blob").string(), dummy_fd);
 
     EXPECT_FALSE(result.has_value());
 }

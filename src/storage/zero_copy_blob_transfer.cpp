@@ -18,6 +18,7 @@
 #include <cstring>
 #include <filesystem>
 #include <fstream>
+#include <mutex>
 #include <stdexcept>
 
 // POSIX headers available on Linux and macOS
@@ -55,10 +56,63 @@ namespace storage {
 namespace fs = std::filesystem;
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Portable fd write helpers (mirrors wal_storage.cpp pattern)
+// ─────────────────────────────────────────────────────────────────────────────
+
+#if defined(_WIN32)
+using themis_zc_ssize_t = std::ptrdiff_t;
+static themis_zc_ssize_t themis_zc_write_fd(int fd, const void* data, size_t len) {
+    return static_cast<themis_zc_ssize_t>(
+        _write(fd, data, static_cast<unsigned int>(len)));
+}
+#elif defined(_POSIX_VERSION)
+using themis_zc_ssize_t = ssize_t;
+static themis_zc_ssize_t themis_zc_write_fd(int fd, const void* data, size_t len) {
+    return ::write(fd, data, len);
+}
+#else
+using themis_zc_ssize_t = std::ptrdiff_t;
+static themis_zc_ssize_t themis_zc_write_fd(int /*fd*/, const void* /*data*/, size_t /*len*/) {
+    return -1;  // unsupported platform
+}
+#endif
+
+/// Write exactly @p len bytes, retrying on short writes.  Returns false on error.
+static bool zc_write_all(int fd, const void* data, size_t len) {
+    const uint8_t* ptr       = static_cast<const uint8_t*>(data);
+    size_t         remaining = len;
+    while (remaining > 0) {
+        themis_zc_ssize_t written = themis_zc_write_fd(fd, ptr, remaining);
+        if (written <= 0) {
+            return false;
+        }
+        ptr       += static_cast<size_t>(written);
+        remaining -= static_cast<size_t>(written);
+    }
+    return true;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AWS SDK one-time initialisation (Fix 3)
+// ─────────────────────────────────────────────────────────────────────────────
+
+#if THEMIS_ZERO_COPY_S3_AVAILABLE
+static std::once_flag g_aws_sdk_init_flag;
+static void ensureAwsSdkInitialized() {
+    std::call_once(g_aws_sdk_init_flag, []() {
+        Aws::SDKOptions options;
+        options.loggingOptions.logLevel = Aws::Utils::Logging::LogLevel::Warn;
+        Aws::InitAPI(options);
+        THEMIS_INFO("ZeroCopyBlobTransfer: AWS SDK initialized");
+    });
+}
+#endif
+
+// ─────────────────────────────────────────────────────────────────────────────
 // MmapBlobView
 // ─────────────────────────────────────────────────────────────────────────────
 
-MmapBlobView::MmapBlobView(const std::string& file_path) {
+MmapBlobView::MmapBlobView(const std::string& file_path, bool sequential_hint) {
 #if defined(__linux__) || defined(__APPLE__)
     fd_ = ::open(file_path.c_str(), O_RDONLY);
     if (fd_ < 0) {
@@ -87,9 +141,12 @@ MmapBlobView::MmapBlobView(const std::string& file_path) {
     mapping_ = ptr;
     data_    = static_cast<uint8_t*>(ptr);
 
-    // Hint: we expect sequential forward access
-    ::madvise(ptr, size_, MADV_SEQUENTIAL);
+    // Optionally hint the kernel about our access pattern
+    if (sequential_hint) {
+        ::madvise(ptr, size_, MADV_SEQUENTIAL);
+    }
 #else
+    (void)sequential_hint;  // hint unused on non-POSIX platforms
     // Non-POSIX: fall back to reading the file into a heap buffer.
     // The "zero-copy" goal is not met, but correctness is preserved.
     try {
@@ -308,20 +365,13 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::fallbackTransfer(
         if (got <= 0) {
             break;
         }
-#if defined(_POSIX_VERSION)
-        ssize_t written = ::write(dest_fd, buf.data(), static_cast<size_t>(got));
-        if (written < 0) {
+        if (!zc_write_all(dest_fd, buf.data(), static_cast<size_t>(got))) {
             return Err<ZeroCopyTransferStats>(
                 errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
-                std::string("fallbackTransfer: write error: ") + ::strerror(errno));
+                "fallbackTransfer: write error writing to dest fd");
         }
-        stats.bytes_transferred += written;
-        remaining               -= written;
-#else
-        (void)dest_fd;
         stats.bytes_transferred += got;
         remaining               -= got;
-#endif
     }
 
     auto t1 = std::chrono::steady_clock::now();
@@ -337,7 +387,7 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::fallbackTransfer(
 // ─────────────────────────────────────────────────────────────────────────────
 
 MmapBlobView ZeroCopyBlobTransfer::openMmap(const std::string& file_path) const {
-    return MmapBlobView(file_path);
+    return MmapBlobView(file_path, config_.mmap_sequential_hint);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -361,6 +411,9 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::s3MultipartUpload(
 
     const int64_t file_size  = static_cast<int64_t>(fs::file_size(source_path));
     const int64_t part_size  = config_.s3_multipart_part_size_bytes;
+
+    // Ensure the AWS SDK is initialized exactly once per process
+    ensureAwsSdkInitialized();
 
     // Use the default credential provider chain (env vars / ~/.aws / IAM role)
     Aws::Client::ClientConfiguration aws_config;

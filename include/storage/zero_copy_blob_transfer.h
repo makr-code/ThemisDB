@@ -58,12 +58,15 @@ class MmapBlobView {
 public:
     /**
      * @brief Map the file at @p file_path for read-only access.
-     * @param file_path  Absolute path to the blob file.
+     * @param file_path        Absolute path to the blob file.
+     * @param sequential_hint  When true, hints the kernel via MADV_SEQUENTIAL
+     *                         for forward-sequential access patterns.
      *
      * If the mapping fails (file not found, permission denied, etc.) the object
      * is left in an invalid state; check valid() before accessing data().
      */
-    explicit MmapBlobView(const std::string& file_path);
+    explicit MmapBlobView(const std::string& file_path,
+                          bool sequential_hint = true);
 
     ~MmapBlobView();
 

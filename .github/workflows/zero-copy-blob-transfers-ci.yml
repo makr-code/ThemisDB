@@ -58,6 +58,7 @@ jobs:
     if: needs.ci-scope-classifier.outputs.has_code_changes == 'true'
     name: Zero-Copy Blob tests (${{ matrix.os }} / ${{ matrix.compiler }})
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
     permissions:
       contents: read
 
@@ -82,32 +83,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          submodules: recursive
+          fetch-depth: 0
 
       - name: Set up C++ build environment
         uses: ./.github/actions/setup-cpp-build
         with:
           cc:             ${{ matrix.cc }}
           cxx:            ${{ matrix.cxx }}
-          extra-packages: libssl-dev
+          extra-packages: libssl-dev librocksdb-dev libfmt-dev libtbb-dev libspdlog-dev nlohmann-json3-dev
 
-      - name: Configure (zero-copy blob focused test target)
-        env:
-          CC:  ${{ matrix.cc }}
-          CXX: ${{ matrix.cxx }}
-        run: |
-          cmake -B build -G Ninja \
-            -DCMAKE_BUILD_TYPE=Debug \
-            -DCMAKE_C_COMPILER=${{ matrix.cc }} \
-            -DCMAKE_CXX_COMPILER=${{ matrix.cxx }} \
-            -DTHEMIS_ENABLE_LLM=OFF \
-            -DTHEMIS_ENABLE_GPU=OFF
-
-      - name: Build focused test binary
-        run: cmake --build build --target test_zero_copy_blob_transfers_focused -- -j$(nproc)
+      - name: Configure and build
+        uses: ./.github/actions/configure-themis
+        with:
+          cc:  ${{ matrix.cc }}
+          cxx: ${{ matrix.cxx }}
 
       - name: Run Zero-Copy Blob Transfer unit tests
         run: |
+          set -o pipefail
           cd build
           ctest --test-dir . \
             --tests-regex ZeroCopyBlobTransferFocusedTests \
