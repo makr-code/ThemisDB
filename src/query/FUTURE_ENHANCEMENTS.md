@@ -508,6 +508,8 @@ Merge results → Next operator
 **Priority:** Medium  
 **Target Version:** v1.7.0
 
+> **✅ Delivered — v1.7.0 (Issue #196).** This feature is retained here for traceability; its completion is tracked in `src/query/ROADMAP.md` ("Query plan caching", completed). Implementation: `include/query/plan_cache.h` and `src/query/plan_cache.cpp`. Focused tests: `tests/test_query_plan_caching.cpp` → `QueryPlanCachingFocusedTests`.
+
 Cache optimized query plans to skip parsing and optimization on repeated queries.
 
 **Features:**
