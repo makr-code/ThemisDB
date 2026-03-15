@@ -330,7 +330,7 @@ See: <Detail link>
 | 187 | metadata | Statistics Collector | v1.6.0 | `feature`, `module:metadata` | #4018 | [→ Detail](metadata/FUTURE_ENHANCEMENTS.md#statistics-collector) |
 | 188 | metadata | Schema Versioning | v1.8.0 | `feature`, `module:metadata` | #4019 | [→ Detail](metadata/FUTURE_ENHANCEMENTS.md#schema-versioning) |
 | 189 | network | UDP Protocol Support | v1.8.0 | `network`, `module:network` | #4020 | [→ Detail](network/FUTURE_ENHANCEMENTS.md#udp-protocol-support) |
-| 190 | network | Bandwidth Management and QoS | v1.8.0 | `network`, `module:network` | #4021 | [→ Detail](network/FUTURE_ENHANCEMENTS.md#bandwidth-management-and-qos) |
+| 190 | network | Bandwidth Management and QoS | v1.8.0 | `network`, `module:network` | #4021 ✅ | [→ Detail](network/FUTURE_ENHANCEMENTS.md#bandwidth-management-and-qos) |
 | 191 | observability | `MetricsCollector`: Upgrade to `shared_mutex` | v1.8.0 | `thread-safety`, `performance`, `module:observability` | #4022 | [→ Detail](observability/FUTURE_ENHANCEMENTS.md#metricscollecter-upgrade-to-shared_mutex-for-metric-read-path) |
 | 192 | performance | Intelligent Prefetching System | v1.8.0 | `performance`, `module:performance` | #4023 | [→ Detail](performance/FUTURE_ENHANCEMENTS.md#intelligent-prefetching-system) |
 | 193 | plugins | `PluginRegistry`: Upgrade Global Mutex to `shared_mutex` | v1.8.0 | `thread-safety`, `module:plugins` | #4024 | [→ Detail](plugins/FUTURE_ENHANCEMENTS.md#pluginregistry-upgrade-global-mutex-to-shared_mutex) |
