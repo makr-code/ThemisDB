@@ -147,53 +147,59 @@ Target v1.7.0:
 
 ### Build Reproducibility Implementation
 **Priority:** High  
-**Target Version:** v1.7.0
+**Target Version:** v1.7.0  
+**Status:** ✅ Implemented in v1.7.0
 
 Ensure all builds are reproducible for security auditing.
 
-**Implementation:**
+**Implementation** (`src/themis/build_info.cpp`, `include/themis/build_info.h`):
 ```cpp
-// build_info.cpp additions
 namespace themis::build_info {
 
 struct ReproducibilityInfo {
-    std::string git_commit;
-    std::string git_commit_date;
-    std::string build_host;
-    std::string build_user;
-    std::map<std::string, std::string> dependencies;
-    std::string expected_hash;
+    std::string git_commit;        ///< Full SHA-1 of HEAD at build time
+    std::string git_commit_date;   ///< ISO-8601 author date of HEAD
+    std::string git_branch;        ///< Branch name (or "(detached)")
+    bool        git_dirty = false; ///< True if working tree had uncommitted changes
+    std::string build_host;        ///< Hostname of the build machine
+    std::string build_user;        ///< OS username that invoked the build
+    std::string toolchain;         ///< "compiler-id/version" e.g. "GCC/13.2.0"
+    std::map<std::string, std::string> dependencies; ///< dep-name → version/hash
+    std::string binary_hash;       ///< SHA-256 of the running executable (OpenSSL)
 };
 
 ReproducibilityInfo getReproducibilityInfo();
-bool verifyBuildHash(const std::string& expected_hash);
-void exportBuildManifest(const std::string& output_path);
+bool exportBuildManifest(const std::string& output_path);
+bool verifyBuildManifest(const std::string& manifest_path);
 
 } // namespace themis::build_info
 ```
 
-**CMake Integration:**
+**CMake Integration** (`cmake/CMakeLists.txt`):
 ```cmake
-# Capture build metadata
-execute_process(
-    COMMAND git log -1 --format=%H
-    OUTPUT_VARIABLE GIT_COMMIT
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-)
+# Capture git HEAD, branch, dirty flag, and build environment
+find_package(Git QUIET)
+execute_process(COMMAND ${GIT_EXECUTABLE} log -1 --format=%H
+    OUTPUT_VARIABLE _THEMIS_GIT_COMMIT OUTPUT_STRIP_TRAILING_WHITESPACE)
+execute_process(COMMAND ${GIT_EXECUTABLE} log -1 --format=%ci
+    OUTPUT_VARIABLE _THEMIS_GIT_COMMIT_DATE OUTPUT_STRIP_TRAILING_WHITESPACE)
+execute_process(COMMAND ${GIT_EXECUTABLE} rev-parse --abbrev-ref HEAD
+    OUTPUT_VARIABLE _THEMIS_GIT_BRANCH OUTPUT_STRIP_TRAILING_WHITESPACE)
+cmake_host_system_information(RESULT _THEMIS_BUILD_HOST QUERY HOSTNAME)
 
-execute_process(
-    COMMAND git log -1 --format=%ci
-    OUTPUT_VARIABLE GIT_COMMIT_DATE
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-
-# Embed in build
-target_compile_definitions(themis-base PRIVATE
-    THEMIS_GIT_COMMIT="${GIT_COMMIT}"
-    THEMIS_GIT_COMMIT_DATE="${GIT_COMMIT_DATE}"
-    THEMIS_BUILD_HOST="${CMAKE_HOST_SYSTEM_NAME}"
+# Injected as compile definitions into src/themis/build_info.cpp
+add_compile_definitions(
+    "THEMIS_GIT_COMMIT=\"${_THEMIS_GIT_COMMIT}\""
+    "THEMIS_GIT_COMMIT_DATE=\"${_THEMIS_GIT_COMMIT_DATE}\""
+    "THEMIS_GIT_BRANCH=\"${_THEMIS_GIT_BRANCH}\""
+    "THEMIS_GIT_DIRTY=${_THEMIS_GIT_DIRTY}"
+    "THEMIS_BUILD_HOST=\"${_THEMIS_BUILD_HOST}\""
+    "THEMIS_BUILD_USER=\"${_THEMIS_BUILD_USER}\""
 )
 ```
+
+**Tests:** `tests/test_build_info.cpp` — CTest target `BuildInfoTests` (15 tests).  
+**CI:** `.github/workflows/build-reproducibility-ci.yml`.
 
 ---
 

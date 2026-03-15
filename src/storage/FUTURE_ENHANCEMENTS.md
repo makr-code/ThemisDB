@@ -143,7 +143,8 @@ TieredStorageManager tiered(config);
 
 ### Erasure Coding for Blob Storage
 **Priority:** Medium  
-**Target Version:** v1.7.0
+**Target Version:** v1.7.0  
+**Status:** ✅ Implemented
 
 Space-efficient redundancy using erasure codes (e.g., Reed-Solomon).
 
@@ -157,11 +158,15 @@ Space-efficient redundancy using erasure codes (e.g., Reed-Solomon).
 - Survives multiple node failures
 - Configurable fault tolerance
 
+**Implementation:** `src/storage/erasure_coding_backend.cpp` / `include/storage/erasure_coding_backend.h`
+
+`BlobRedundancyManager` activates erasure coding automatically when `BlobRedundancyConfig::mode == RedundancyMode::PARITY`.
+
 **Example:**
 ```cpp
 ErasureCodingConfig config;
-config.data_blocks = 10;
-config.parity_blocks = 4;
+config.data_shards   = 10;   // RS(10,4): 40% overhead vs 200% for mirroring
+config.parity_shards = 4;
 
 ErasureCodingBackend backend(config);
 backend.put("blob-123", data);  // Automatically encodes and distributes
@@ -202,9 +207,12 @@ migrator.migrate();  // Background process, versioned migrations
 
 ### Write-Optimized Merge (WOM) Tree
 **Priority:** Low  
-**Target Version:** v1.8.0
+**Target Version:** v1.8.0  
+**Status:** ✅ Implemented (v1.8.0)
 
 Alternative to LSM-tree for write-heavy workloads.
+
+**Implementation:** `src/storage/wom_tree.cpp` / `include/storage/wom_tree.h`
 
 **Advantages:**
 - Lower write amplification (2-5x vs 10-30x for LSM)

@@ -154,6 +154,13 @@ enum class SecurityEventType {
     TASK_RESOURCE_LIMIT_EXCEEDED,
     TASK_ANOMALY_DETECTED,
     
+    // Sharding Events
+    SHARD_SPLIT,            ///< A hot shard was split into two shards (load-based splitting)
+    SHARD_MERGE,            ///< Two shards were merged into one (load-based merging)
+    SHARD_LIVE_MIGRATION_STARTED,  ///< Dual-write live migration initiated
+    SHARD_LIVE_MIGRATION_COMPLETED, ///< Dual-write live migration completed with atomic cutover
+    SHARD_LIVE_MIGRATION_FAILED,   ///< Dual-write live migration failed
+
     // Generic
     CUSTOM_EVENT
 };

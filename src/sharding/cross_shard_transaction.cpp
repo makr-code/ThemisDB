@@ -978,210 +978,55 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
 }
 
 bool CrossShardTransactionCoordinator::executePercolator(CrossShardTransaction& txn) {
-    // Percolator-style distributed transaction protocol
-    // Based on Google's Percolator paper
-    // Uses optimistic concurrency control with locks
-    
-    spdlog::info("Starting Percolator transaction {}", txn.transaction_id);
-    
-    if (txn.participants.empty()) {
-        spdlog::error("No participants in transaction {}", txn.transaction_id);
-        return false;
-    }
-    
-    // Step 1: Choose a primary shard (first participant)
-    auto primary_it = txn.participants.begin();
-    const std::string& primary_shard_id = primary_it->first;
-    auto& primary_participant = primary_it->second;
-    
-    spdlog::info("Primary shard for transaction {}: {}", 
-                txn.transaction_id, primary_shard_id);
-    
-    // Step 2: Acquire locks on all shards (starting with secondaries)
-    // In a full implementation, this would use a lock column in the database
-    std::vector<std::string> locked_shards;
-    bool all_locked = true;
-    
-    // Lock secondaries first
-    for (auto& [shard_id, participant] : txn.participants) {
-        if (shard_id == primary_shard_id) {
-            continue;  // Lock primary last
+    // Delegate to the PercolatorCoordinator class which provides:
+    //   - TrueTime-based commit-wait via now_with_uncertainty()
+    //   - WAL-backed coordinator state persistence
+    //   - Clean separation of the Percolator protocol logic
+    //
+    // The callbacks wire the coordinator's private shard RPC methods into the
+    // PercolatorCoordinator so it can perform lock acquisition and release
+    // without breaking the coordinator's encapsulation.
+
+    PercolatorCoordinator::Config perc_cfg;
+    perc_cfg.lock_timeout         = config_.percolator_lock_timeout;
+    perc_cfg.max_retries          = config_.percolator_max_retries;
+    perc_cfg.stale_lock_threshold = std::chrono::seconds(30);
+
+    // Pass transaction_wal_.get() so PercolatorCoordinator can log PREPARE/COMMIT
+    // records using the coordinator's own WAL without taking ownership.
+    PercolatorCoordinator perc_coord(perc_cfg, truetime_, transaction_wal_.get());
+
+    auto result = perc_coord.execute(
+        txn,
+        /*prepare_fn=*/[this](const std::string& shard_id, const std::string& txn_id) {
+            return sendPrepare(shard_id, txn_id);
+        },
+        /*commit_fn=*/[this](const std::string& shard_id, const std::string& txn_id) {
+            return sendCommit(shard_id, txn_id);
+        },
+        /*abort_fn=*/[this](const std::string& shard_id, const std::string& txn_id) {
+            return sendAbort(shard_id, txn_id);
         }
-        
-        // Attempt to acquire lock with timeout
-        spdlog::debug("Acquiring lock on secondary shard {} for transaction {}", 
-                     shard_id, txn.transaction_id);
-        
-        // In production, this would be an RPC call to acquire a lock
-        // For now, we'll use the prepare mechanism as a proxy
-        bool locked = sendPrepare(shard_id, txn.transaction_id);
-        
-        if (locked) {
-            locked_shards.push_back(shard_id);
-            participant.prepared = true;
-        } else {
-            all_locked = false;
-            spdlog::error("Failed to acquire lock on shard {} for transaction {}", 
-                         shard_id, txn.transaction_id);
-            break;
-        }
-    }
-    
-    // If secondary locks failed, abort
-    if (!all_locked) {
-        spdlog::error("Failed to acquire all secondary locks for transaction {}", 
-                     txn.transaction_id);
-        
-        // Release acquired locks
-        for (const auto& shard_id : locked_shards) {
-            sendAbort(shard_id, txn.transaction_id);
-        }
-        
-        return false;
-    }
-    
-    // Lock primary
-    spdlog::debug("Acquiring lock on primary shard {} for transaction {}", 
-                 primary_shard_id, txn.transaction_id);
-    
-    bool primary_locked = sendPrepare(primary_shard_id, txn.transaction_id);
-    
-    if (!primary_locked) {
-        spdlog::error("Failed to acquire lock on primary shard {} for transaction {}", 
-                     primary_shard_id, txn.transaction_id);
-        
-        // Release all locks
-        for (const auto& shard_id : locked_shards) {
-            sendAbort(shard_id, txn.transaction_id);
-        }
-        
-        return false;
-    }
-    
-    locked_shards.push_back(primary_shard_id);
-    primary_participant.prepared = true;
-    
-    txn.state = TransactionState::PREPARED;
-    
-    // Phase 2.3.4: Log locks acquired (using PREPARE)
+    );
+
+    // Log to coordinator-level WAL and check snapshot threshold.
     if (transaction_wal_) {
         try {
-            nlohmann::json lock_data = {
-                {"protocol", "Percolator"},
-                {"primary", primary_shard_id},
-                {"locks_acquired", true}
-            };
-            transaction_wal_->logPrepare(txn.transaction_id, primary_shard_id, lock_data);
-            operations_since_snapshot_++;
-        } catch (const std::exception& e) {
-            spdlog::warn("Failed to log Percolator lock acquisition to WAL: {}", e.what());
-        }
-    }
-    
-    spdlog::info("All locks acquired for Percolator transaction {}", 
-                txn.transaction_id);
-    
-    // Step 3: Write data to all shards (with locks held)
-    // In Percolator, this is the "write" column
-    // For our implementation, the prepare phase has already written the data
-    
-    // Step 4: Commit primary first
-    txn.state = TransactionState::COMMITTING;
-    
-    // Generate commit timestamp using TrueTime for MVCC guarantees
-    int64_t commit_timestamp = generateCommitTimestamp(txn);
-    
-    // Store commit timestamp in transaction for recovery
-    txn.commit_timestamp = commit_timestamp;
-    
-    spdlog::info("Committing primary shard {} for Percolator transaction {} at timestamp {}", 
-                primary_shard_id, txn.transaction_id, commit_timestamp);
-    
-    // Phase 2.3.4: Log primary commit to WAL
-    if (transaction_wal_) {
-        try {
-            nlohmann::json commit_data = {
-                {"protocol", "Percolator"},
-                {"primary", primary_shard_id},
-                {"commit_timestamp", commit_timestamp}
-            };
-            transaction_wal_->logCommit(txn.transaction_id, commit_data);
-            operations_since_snapshot_++;
-        } catch (const std::exception& e) {
-            spdlog::warn("Failed to log Percolator primary commit to WAL: {}", e.what());
-        }
-    }
-    
-    bool primary_committed = sendCommit(primary_shard_id, txn.transaction_id);
-    
-    if (!primary_committed) {
-        spdlog::error("Primary shard commit failed for transaction {}", 
-                     txn.transaction_id);
-        
-        // Primary commit failed - this is a critical error in Percolator
-        // We must abort all participants
-        for (const auto& shard_id : locked_shards) {
-            sendAbort(shard_id, txn.transaction_id);
-        }
-        
-        return false;
-    }
-    
-    primary_participant.committed = true;
-    
-    spdlog::info("Primary shard committed for Percolator transaction {}", 
-                txn.transaction_id);
-    
-    // Step 5: Commit secondaries (can be done asynchronously in production)
-    // Once primary is committed, the transaction is durable
-    // Secondary commits can be retried if they fail
-    bool all_committed = true;
-    
-    for (auto& [shard_id, participant] : txn.participants) {
-        if (shard_id == primary_shard_id) {
-            continue;  // Already committed
-        }
-        
-        spdlog::debug("Committing secondary shard {} for Percolator transaction {}", 
-                     shard_id, txn.transaction_id);
-        
-        bool committed = sendCommit(shard_id, txn.transaction_id);
-        participant.committed = committed;
-        
-        // Phase 2.3.4: Log secondary commits to WAL
-        if (transaction_wal_ && committed) {
-            try {
-                transaction_wal_->logCommitted(txn.transaction_id, shard_id);
+            if (result) {
+                operations_since_snapshot_ += static_cast<uint64_t>(txn.participants.size());
+            } else {
+                transaction_wal_->logAbort(txn.transaction_id, "percolator_failed");
                 operations_since_snapshot_++;
-            } catch (const std::exception& e) {
-                spdlog::warn("Failed to log Percolator secondary commit to WAL: {}", e.what());
             }
+        } catch (const std::exception& e) {
+            spdlog::warn("Failed to log Percolator result to WAL: {}", e.what());
         }
-        
-        if (!committed) {
-            all_committed = false;
-            spdlog::error("Secondary shard {} commit failed for transaction {}", 
-                         shard_id, txn.transaction_id);
-            // In Percolator, this can be retried later since primary is committed
+        if (transaction_wal_->shouldCreateSnapshot(operations_since_snapshot_.load())) {
+            createPeriodicSnapshot();
         }
     }
-    
-    // Phase 2.3.4: Check if snapshot needed
-    if (transaction_wal_ && transaction_wal_->shouldCreateSnapshot(operations_since_snapshot_.load())) {
-        createPeriodicSnapshot();
-    }
-    
-    if (all_committed) {
-        spdlog::info("Percolator transaction {} completed successfully", 
-                    txn.transaction_id);
-    } else {
-        spdlog::warn("Percolator transaction {} committed but some secondaries failed (can be retried)", 
-                    txn.transaction_id);
-    }
-    
-    // Consider transaction successful if primary committed
-    // Secondary commits can be repaired asynchronously
-    return true;
+
+    return result;
 }
 
 bool CrossShardTransactionCoordinator::executeCalvin(CrossShardTransaction& txn) {
@@ -2618,6 +2463,289 @@ void CrossShardTransactionCoordinator::createPeriodicSnapshot() {
     } catch (const std::exception& e) {
         spdlog::error("Failed to create periodic snapshot: {}", e.what());
     }
+}
+
+} // namespace sharding
+} // namespace themisdb
+
+// ============================================================================
+// PercolatorCoordinator implementation
+// ============================================================================
+namespace themisdb {
+namespace sharding {
+
+PercolatorCoordinator::PercolatorCoordinator(
+    const Config& config,
+    std::shared_ptr<themis::sharding::TrueTime> truetime,
+    TransactionWAL* wal
+)
+    : config_(config)
+    , truetime_(std::move(truetime))
+    , wal_(wal)
+{
+}
+
+int64_t PercolatorCoordinator::computeCommitTimestamp() const {
+    if (truetime_) {
+        // Use the *latest* bound so that the commit timestamp is definitely
+        // after any concurrent read that obtained a snapshot.
+        return truetime_->now_with_uncertainty().latest.count();
+    }
+    // Fallback: wall clock in nanoseconds.
+    return static_cast<int64_t>(
+        std::chrono::duration_cast<std::chrono::nanoseconds>(
+            std::chrono::system_clock::now().time_since_epoch()
+        ).count()
+    );
+}
+
+void PercolatorCoordinator::commitWait(int64_t commit_ts_ns) const {
+    if (!truetime_) {
+        return; // No TrueTime → no commit-wait required.
+    }
+
+    // Percolator commit-wait: wait until commit_ts is definitely in the past.
+    // commit_ts_ns was drawn from now_with_uncertainty().latest, which already
+    // incorporates the uncertainty bound.  Calling waitUntil(commit_ts) is
+    // therefore sufficient to guarantee TT.now().earliest > commit_ts.
+    truetime_->waitUntil(std::chrono::nanoseconds(commit_ts_ns));
+}
+
+bool PercolatorCoordinator::execute(
+    CrossShardTransaction& txn,
+    SendPrepareFn prepare_fn,
+    SendCommitFn  commit_fn,
+    SendAbortFn   abort_fn
+) {
+    spdlog::info("[Percolator] Starting Percolator commit for transaction {}",
+                 txn.transaction_id);
+
+    if (txn.participants.empty()) {
+        spdlog::error("[Percolator] No participants in transaction {}",
+                      txn.transaction_id);
+        return false;
+    }
+
+    // Base retry delay and maximum shift for exponential backoff.
+    // Backoff = BASE_RETRY_DELAY_MS * 2^(attempt-1), capped at lock_timeout.
+    static constexpr uint32_t BASE_RETRY_DELAY_MS  = 10;
+    static constexpr uint32_t MAX_BACKOFF_SHIFT     = 20; // caps at ~10 s before lock_timeout clip
+
+    // Helper: acquire a lock on one shard with retry/backoff honoring
+    // config_.max_retries and config_.lock_timeout.
+    auto acquire_lock = [&](const std::string& shard_id) -> bool {
+        for (uint32_t attempt = 0; attempt <= config_.max_retries; ++attempt) {
+            if (attempt > 0) {
+                // Exponential backoff capped at lock_timeout.
+                // Guard the left-shift against overflow by capping the exponent.
+                const uint32_t shift = std::min(attempt - 1u, MAX_BACKOFF_SHIFT);
+                auto delay = std::min(
+                    config_.lock_timeout,
+                    std::chrono::milliseconds(BASE_RETRY_DELAY_MS) * (1u << shift)
+                );
+                spdlog::debug("[Percolator] Retry {} for lock on shard {} (delay {}ms)",
+                              attempt, shard_id, delay.count());
+                std::this_thread::sleep_for(delay);
+            }
+            if (prepare_fn(shard_id, txn.transaction_id)) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    // ------------------------------------------------------------------
+    // Phase 1 – PreWrite: acquire locks (secondary shards first, primary last).
+    // ------------------------------------------------------------------
+    const std::string primary_shard_id = txn.participants.begin()->first;
+
+    std::vector<std::string> locked_shards;
+
+    // Lock secondary shards first.
+    for (auto& [shard_id, participant] : txn.participants) {
+        if (shard_id == primary_shard_id) {
+            continue;
+        }
+
+        spdlog::debug("[Percolator] Acquiring lock on secondary shard {} for txn {}",
+                      shard_id, txn.transaction_id);
+
+        bool locked = acquire_lock(shard_id);
+        if (!locked) {
+            spdlog::error("[Percolator] Lock acquisition failed on shard {} for txn {} "
+                          "after {} retries",
+                          shard_id, txn.transaction_id, config_.max_retries);
+            for (const auto& ls : locked_shards) {
+                abort_fn(ls, txn.transaction_id);
+            }
+            return false;
+        }
+
+        locked_shards.push_back(shard_id);
+        participant.prepared = true;
+    }
+
+    // Lock the primary shard.
+    spdlog::debug("[Percolator] Acquiring lock on primary shard {} for txn {}",
+                  primary_shard_id, txn.transaction_id);
+
+    bool primary_locked = acquire_lock(primary_shard_id);
+    if (!primary_locked) {
+        spdlog::error("[Percolator] Primary shard lock failed for txn {} after {} retries",
+                      txn.transaction_id, config_.max_retries);
+        for (const auto& ls : locked_shards) {
+            abort_fn(ls, txn.transaction_id);
+        }
+        return false;
+    }
+
+    locked_shards.push_back(primary_shard_id);
+    txn.participants.begin()->second.prepared = true;
+    txn.state = TransactionState::PREPARED;
+
+    // Log PREPARED state to WAL for crash-recovery.
+    if (wal_) {
+        try {
+            nlohmann::json lock_meta = {
+                {"protocol", "Percolator"},
+                {"primary", primary_shard_id},
+                {"locks_acquired", locked_shards}
+            };
+            wal_->logPrepare(txn.transaction_id, primary_shard_id, lock_meta);
+        } catch (const std::exception& e) {
+            spdlog::warn("[Percolator] WAL logPrepare failed: {}", e.what());
+        }
+    }
+
+    spdlog::info("[Percolator] All locks acquired for txn {}", txn.transaction_id);
+
+    // ------------------------------------------------------------------
+    // Phase 2 – Assign TrueTime commit timestamp and perform commit-wait.
+    // ------------------------------------------------------------------
+    txn.state = TransactionState::COMMITTING;
+
+    const int64_t commit_ts = computeCommitTimestamp();
+    txn.commit_timestamp = commit_ts;
+
+    spdlog::info("[Percolator] Commit timestamp for txn {} = {}",
+                 txn.transaction_id, commit_ts);
+
+    // Log commit decision to WAL (primary commit record).
+    if (wal_) {
+        try {
+            nlohmann::json commit_meta = {
+                {"protocol", "Percolator"},
+                {"primary", primary_shard_id},
+                {"commit_timestamp", commit_ts}
+            };
+            wal_->logCommit(txn.transaction_id, commit_meta);
+        } catch (const std::exception& e) {
+            spdlog::warn("[Percolator] WAL logCommit failed: {}", e.what());
+        }
+    }
+
+    // Commit-wait: ensure commit_ts is definitely in the past before revealing it.
+    commitWait(commit_ts);
+
+    // ------------------------------------------------------------------
+    // Phase 3 – Commit primary, then secondaries (releases locks).
+    // ------------------------------------------------------------------
+    bool primary_committed = commit_fn(primary_shard_id, txn.transaction_id);
+    if (!primary_committed) {
+        spdlog::error("[Percolator] Primary shard commit failed for txn {}",
+                      txn.transaction_id);
+        for (const auto& ls : locked_shards) {
+            abort_fn(ls, txn.transaction_id);
+        }
+        return false;
+    }
+
+    txn.participants.begin()->second.committed = true;
+    spdlog::info("[Percolator] Primary committed for txn {}", txn.transaction_id);
+
+    // Commit secondaries (lock cleanup; can be retried asynchronously).
+    for (auto& [shard_id, participant] : txn.participants) {
+        if (shard_id == primary_shard_id) {
+            continue;
+        }
+
+        bool committed = commit_fn(shard_id, txn.transaction_id);
+        participant.committed = committed;
+
+        if (committed) {
+            // Log COMMITTED only after the RPC succeeds to preserve WAL integrity.
+            if (wal_) {
+                try {
+                    wal_->logCommitted(txn.transaction_id, shard_id);
+                } catch (const std::exception& e) {
+                    spdlog::warn("[Percolator] WAL logCommitted failed for shard {}: {}",
+                                 shard_id, e.what());
+                }
+            }
+        } else {
+            spdlog::warn("[Percolator] Secondary shard {} commit failed for txn {} "
+                         "(will be cleaned up by background worker)",
+                         shard_id, txn.transaction_id);
+        }
+    }
+
+    spdlog::info("[Percolator] Transaction {} committed successfully", txn.transaction_id);
+    return true;
+}
+
+size_t PercolatorCoordinator::cleanStaleLocks(
+    const std::vector<std::string>& stale_txn_ids,
+    CrossShardTransactionCoordinator& coordinator
+) {
+    size_t cleaned = 0;
+
+    for (const auto& txn_id : stale_txn_ids) {
+        auto txn_opt = coordinator.getTransaction(txn_id);
+        if (!txn_opt.has_value()) {
+            continue;
+        }
+
+        const auto& txn = *txn_opt;
+
+        // Only abort Percolator transactions that are stuck in PREPARING or PREPARED.
+        if (txn.protocol != TransactionProtocol::PERCOLATOR) {
+            continue;
+        }
+
+        if (txn.state != TransactionState::PREPARING &&
+            txn.state != TransactionState::PREPARED) {
+            continue;
+        }
+
+        const auto age = std::chrono::system_clock::now() - txn.start_time;
+        if (age < config_.stale_lock_threshold) {
+            continue;
+        }
+
+        spdlog::info("[Percolator] Cleaning stale lock for txn {} (age {}s)",
+                     txn_id,
+                     std::chrono::duration_cast<std::chrono::seconds>(age).count());
+
+        // Log the abort to WAL before issuing it.
+        if (wal_) {
+            try {
+                wal_->logAbort(txn_id, "stale_lock_cleanup");
+            } catch (const std::exception& e) {
+                spdlog::warn("[Percolator] WAL logAbort failed for {}: {}", txn_id, e.what());
+            }
+        }
+
+        if (coordinator.abort(txn_id)) {
+            ++cleaned;
+            spdlog::info("[Percolator] Stale lock cleaned for txn {}", txn_id);
+        } else {
+            spdlog::warn("[Percolator] Failed to clean stale lock for txn {}", txn_id);
+        }
+    }
+
+    spdlog::info("[Percolator] cleanStaleLocks: cleaned {} / {} stale locks",
+                 cleaned, stale_txn_ids.size());
+    return cleaned;
 }
 
 } // namespace sharding

@@ -228,6 +228,7 @@ set(THEMIS_BASE_SOURCES
     ../src/base/module_sandbox.cpp
     ../src/base/hot_reload_manager.cpp
     ../src/base/ab_test_manager.cpp
+    ../src/base/remote_registry_client.cpp
     ../src/base/wasm_plugin_sandbox.cpp
     ../src/base/wasm_runtime_injector.cpp
     ../src/base/plugin_dependency_graph.cpp
@@ -373,11 +374,13 @@ set(THEMIS_STORAGE_SOURCES
     ../src/updates/dependency_resolver.cpp
     ../src/updates/schema_migration_tester.cpp
     ../src/updates/in_place_schema_migrator.cpp
+    ../src/updates/schema_migration.cpp
     ../src/updates/notification_webhook.cpp
     ../src/updates/blue_green_deployment.cpp
     ../src/updates/coordinated_update_manager.cpp
     ../src/updates/cluster_update_manager.cpp
     ../src/updates/preflight_health_check.cpp
+    ../src/updates/tenant_update_scheduler.cpp
 
     # Storage security
     ../src/storage/security_signature.cpp
@@ -442,6 +445,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
     ../src/query/adaptive_optimizer.cpp
+    ../src/query/adaptive_join.cpp
     ../src/query/runtime_reoptimizer.cpp
     ../src/query/optimizer_cost_model.cpp
     ../src/query/aql_parser.cpp
@@ -744,6 +748,7 @@ set(THEMIS_TRANSACTION_SOURCES
     ../src/transaction/snapshot_manager.cpp
     ../src/transaction/branch_manager.cpp
     ../src/transaction/merge_engine.cpp
+    ../src/transaction/deadlock_predictor.cpp
     ../src/analytics/diff_engine.cpp
     
     # Temporal conflict resolution and production-readiness modules
@@ -766,6 +771,8 @@ set(THEMIS_TRANSACTION_SOURCES
     ../src/replication/replication_slot.cpp
     ../src/replication/raft_v2.cpp
     ../src/replication/schema_cdc.cpp
+    ../src/replication/multi_tier_replication.cpp
+    ../src/replication/logical_replication.cpp
     
 )
 
@@ -1375,6 +1382,9 @@ set(THEMIS_NETWORK_SOURCES
     ../src/network/wire_protocol_connection_pool.cpp
     ../src/network/wire_protocol_v2.cpp
     ../src/network/wire_protocol_performance.cpp
+    ../src/network/wire_protocol_zero_copy.cpp
+    ../src/network/wire_protocol_batch.cpp
+    ../src/network/connection_compression.cpp
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/network/quic_transport.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/network/grpc_transport.cpp>
     ../src/network/geo_topology_router.cpp
@@ -1400,6 +1410,8 @@ set(THEMIS_NETWORK_SOURCES
     ../src/observability/slo_reporter.cpp
     # Observability: ML-based anomaly detection on metric time-series (Issue #2097)
     ../src/observability/metric_anomaly_detector.cpp
+    # Observability: ML anomaly detector (forecasting + change-point + outlier) (Issue #83)
+    ../src/observability/ml_anomaly_detector.cpp
     # Observability: query, storage, and performance profiling
     ../src/observability/query_profiler.cpp
     ../src/observability/storage_profiler.cpp
@@ -1946,4 +1958,3 @@ function(themis_build_modular)
     
     set(THEMIS_ALL_MODULES ${THEMIS_ALL_MODULES} PARENT_SCOPE)
 endfunction()
-

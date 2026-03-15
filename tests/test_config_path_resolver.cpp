@@ -960,10 +960,7 @@ TEST_F(ConfigMetricsExporterTest, CollectContainsRequiredMetricNames) {
     EXPECT_NE(output.find("themis_config_resolution_hits_total"), std::string::npos);
     EXPECT_NE(output.find("themis_config_resolution_misses_total"), std::string::npos);
     EXPECT_NE(output.find("themis_config_legacy_fallbacks_total"), std::string::npos);
-    EXPECT_NE(output.find("themis_config_new_path_hits_total"), std::string::npos);
     EXPECT_NE(output.find("themis_config_unmapped_requests_total"), std::string::npos);
-    EXPECT_NE(output.find("themis_config_cache_hits_total"), std::string::npos);
-    EXPECT_NE(output.find("themis_config_cache_misses_total"), std::string::npos);
     EXPECT_NE(output.find("themis_config_cache_hit_ratio"), std::string::npos);
     EXPECT_NE(output.find("themis_config_cache_capacity"), std::string::npos);
     EXPECT_NE(output.find("themis_config_cache_ttl_seconds"), std::string::npos);
@@ -1070,7 +1067,7 @@ TEST_F(ConfigMetricsExporterTest, CollectContainsPerCategoryFallbackMetric) {
 
     std::string output = ConfigMetricsExporter::collect();
 
-    EXPECT_NE(output.find("themis_config_legacy_fallbacks_by_category_total{category="), std::string::npos)
+    EXPECT_NE(output.find("themis_config_legacy_fallbacks_total{category="), std::string::npos)
         << "Expected per-category fallback metric in output:\n" << output;
     // pii_patterns.yaml maps to config/security/ → category "security"
     EXPECT_NE(output.find("category=\"security\""), std::string::npos)

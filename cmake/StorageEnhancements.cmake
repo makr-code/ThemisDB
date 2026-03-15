@@ -73,4 +73,7 @@ list(APPEND THEMIS_CORE_SOURCES
 
     # NVMe optimizations (io_uring, multi-queue, ZNS, Direct I/O) – v1.6.0
     ../src/storage/nvme_manager.cpp
+
+    # Online Schema Migration (zero-downtime DDL) – v1.7.0
+    ../src/storage/online_schema_migration.cpp
 )

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
@@ -21,7 +22,8 @@
 ╚═════════════════════════════════════════════════════════════════════╝
 """
 
-#!/usr/bin/env python3
+from __future__ import annotations
+
 """
 Chimera Benchmark Regression Detector
 
@@ -58,8 +60,6 @@ Exit codes:
     1  Blocking regressions detected (at or above --fail-on threshold).
     2  Fatal error (bad arguments, missing files, JSON parse error).
 """
-
-from __future__ import annotations
 
 import argparse
 import json

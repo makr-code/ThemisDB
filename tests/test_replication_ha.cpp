@@ -42,6 +42,7 @@
 #include <gtest/gtest.h>
 #include "replication/replication_manager.h"
 #include "replication/multi_master_replication.h"
+#include "replication/multi_tier_replication.h"
 
 #include <filesystem>
 #include <fstream>
@@ -5159,4 +5160,308 @@ TEST(BidirectionalReplicationTest, ConflictsLastHourCountedInSyncStatus) {
     EXPECT_EQ(s.conflicts_last_hour, 2u);
 
     mgr.stop();
+}
+
+// ============================================================================
+// MultiTierReplicationTest  (v1.8.0)
+// ============================================================================
+//
+// Validates all acceptance criteria for Multi-Tier Replication:
+//   AC-1  Tier 1: Strong consistency, high durability (3+ replicas, sync, <10ms)
+//   AC-2  Tier 2: Eventual consistency, moderate durability (2 replicas, semi-sync)
+//   AC-3  Tier 3: Best-effort, low durability (1 replica, async)
+//   AC-4  Per-collection tier assignment
+//   AC-5  Automatic tier promotion/demotion based on access patterns
+// ============================================================================
+
+// ── AC-1: Tier 1 default config ──────────────────────────────────────────────
+
+TEST(MultiTierReplicationTest, Tier1DefaultConfigHasStrongConsistency) {
+    MultiTierReplicationManager mgr;
+    TierConfig cfg = mgr.getDefaultTierConfig(ReplicationTier::TIER_1_CRITICAL);
+
+    EXPECT_EQ(cfg.tier,          ReplicationTier::TIER_1_CRITICAL);
+    EXPECT_GE(cfg.replica_count, 3u);
+    EXPECT_EQ(cfg.mode,          ReplicationMode::SYNC);
+    EXPECT_LE(cfg.max_latency_ms, 10u);
+}
+
+// ── AC-2: Tier 2 default config ──────────────────────────────────────────────
+
+TEST(MultiTierReplicationTest, Tier2DefaultConfigHasModerateConsistency) {
+    MultiTierReplicationManager mgr;
+    TierConfig cfg = mgr.getDefaultTierConfig(ReplicationTier::TIER_2_STANDARD);
+
+    EXPECT_EQ(cfg.tier,          ReplicationTier::TIER_2_STANDARD);
+    EXPECT_EQ(cfg.replica_count, 2u);
+    EXPECT_EQ(cfg.mode,          ReplicationMode::SEMI_SYNC);
+    EXPECT_LE(cfg.max_latency_ms, 50u);
+}
+
+// ── AC-3: Tier 3 default config ──────────────────────────────────────────────
+
+TEST(MultiTierReplicationTest, Tier3DefaultConfigHasAsyncBestEffort) {
+    MultiTierReplicationManager mgr;
+    TierConfig cfg = mgr.getDefaultTierConfig(ReplicationTier::TIER_3_ARCHIVAL);
+
+    EXPECT_EQ(cfg.tier,          ReplicationTier::TIER_3_ARCHIVAL);
+    EXPECT_EQ(cfg.replica_count, 1u);
+    EXPECT_EQ(cfg.mode,          ReplicationMode::ASYNC);
+}
+
+// ── AC-4: Per-collection tier assignment ─────────────────────────────────────
+
+TEST(MultiTierReplicationTest, AssignTierPersistsAndIsRetrievable) {
+    MultiTierReplicationManager mgr;
+
+    mgr.assignTier("financial_transactions", ReplicationTier::TIER_1_CRITICAL);
+    mgr.assignTier("user_profiles",          ReplicationTier::TIER_2_STANDARD);
+    mgr.assignTier("audit_logs",             ReplicationTier::TIER_3_ARCHIVAL);
+
+    EXPECT_EQ(mgr.getTier("financial_transactions"), ReplicationTier::TIER_1_CRITICAL);
+    EXPECT_EQ(mgr.getTier("user_profiles"),          ReplicationTier::TIER_2_STANDARD);
+    EXPECT_EQ(mgr.getTier("audit_logs"),             ReplicationTier::TIER_3_ARCHIVAL);
+}
+
+TEST(MultiTierReplicationTest, UnassignedCollectionReturnsDefaultTier) {
+    MultiTierConfig config;
+    config.default_tier = ReplicationTier::TIER_2_STANDARD;
+    MultiTierReplicationManager mgr(config);
+
+    EXPECT_EQ(mgr.getTier("unknown_collection"), ReplicationTier::TIER_2_STANDARD);
+}
+
+TEST(MultiTierReplicationTest, AssignTierOverridesExistingAssignment) {
+    MultiTierReplicationManager mgr;
+    mgr.assignTier("orders", ReplicationTier::TIER_3_ARCHIVAL);
+    EXPECT_EQ(mgr.getTier("orders"), ReplicationTier::TIER_3_ARCHIVAL);
+
+    mgr.assignTier("orders", ReplicationTier::TIER_1_CRITICAL);
+    EXPECT_EQ(mgr.getTier("orders"), ReplicationTier::TIER_1_CRITICAL);
+}
+
+TEST(MultiTierReplicationTest, RemoveTierFallsBackToDefault) {
+    MultiTierConfig config;
+    config.default_tier = ReplicationTier::TIER_2_STANDARD;
+    MultiTierReplicationManager mgr(config);
+
+    mgr.assignTier("events", ReplicationTier::TIER_1_CRITICAL);
+    EXPECT_EQ(mgr.getTier("events"), ReplicationTier::TIER_1_CRITICAL);
+
+    mgr.removeTier("events");
+    EXPECT_EQ(mgr.getTier("events"), ReplicationTier::TIER_2_STANDARD);
+}
+
+TEST(MultiTierReplicationTest, GetTierConfigReflectsAssignedTier) {
+    MultiTierReplicationManager mgr;
+    mgr.assignTier("transactions", ReplicationTier::TIER_1_CRITICAL);
+
+    TierConfig cfg = mgr.getTierConfig("transactions");
+    EXPECT_EQ(cfg.tier,   ReplicationTier::TIER_1_CRITICAL);
+    EXPECT_EQ(cfg.mode,   ReplicationMode::SYNC);
+    EXPECT_GE(cfg.replica_count, 3u);
+}
+
+TEST(MultiTierReplicationTest, GetCollectionsForTierReturnsCorrectSubset) {
+    MultiTierReplicationManager mgr;
+    mgr.assignTier("col_a", ReplicationTier::TIER_1_CRITICAL);
+    mgr.assignTier("col_b", ReplicationTier::TIER_1_CRITICAL);
+    mgr.assignTier("col_c", ReplicationTier::TIER_3_ARCHIVAL);
+
+    auto tier1 = mgr.getCollectionsForTier(ReplicationTier::TIER_1_CRITICAL);
+    ASSERT_EQ(tier1.size(), 2u);
+
+    auto tier3 = mgr.getCollectionsForTier(ReplicationTier::TIER_3_ARCHIVAL);
+    ASSERT_EQ(tier3.size(), 1u);
+    EXPECT_EQ(tier3[0], "col_c");
+
+    auto tier2 = mgr.getCollectionsForTier(ReplicationTier::TIER_2_STANDARD);
+    EXPECT_TRUE(tier2.empty());
+}
+
+// ── Tier config override ──────────────────────────────────────────────────────
+
+TEST(MultiTierReplicationTest, CustomTierConfigOverridesBuiltinDefaults) {
+    MultiTierConfig config;
+    TierConfig custom;
+    custom.tier                = ReplicationTier::TIER_1_CRITICAL;
+    custom.replica_count       = 5;
+    custom.mode                = ReplicationMode::SYNC;
+    custom.max_latency_ms      = 5;
+    custom.min_availability_pct = 99;
+    config.tier1_config        = custom;
+
+    MultiTierReplicationManager mgr(config);
+    TierConfig got = mgr.getDefaultTierConfig(ReplicationTier::TIER_1_CRITICAL);
+
+    EXPECT_EQ(got.replica_count, 5u);
+    EXPECT_EQ(got.max_latency_ms, 5u);
+}
+
+// ── AC-5: Auto-tiering promotion ─────────────────────────────────────────────
+
+TEST(MultiTierReplicationTest, AutoTieringDisabledByDefault) {
+    MultiTierReplicationManager mgr;
+    EXPECT_FALSE(mgr.isAutoTieringEnabled());
+}
+
+TEST(MultiTierReplicationTest, EnableAutoTieringToggleWorks) {
+    MultiTierReplicationManager mgr;
+    mgr.enableAutoTiering(true);
+    EXPECT_TRUE(mgr.isAutoTieringEnabled());
+    mgr.enableAutoTiering(false);
+    EXPECT_FALSE(mgr.isAutoTieringEnabled());
+}
+
+TEST(MultiTierReplicationTest, RecordAccessHasNoEffectWhenAutoTieringDisabled) {
+    MultiTierReplicationManager mgr;
+    mgr.assignTier("metrics", ReplicationTier::TIER_2_STANDARD);
+
+    // Auto-tiering is OFF: accesses should not be tracked
+    for (int i = 0; i < 200; ++i) {
+        mgr.recordAccess("metrics");
+    }
+    auto stats = mgr.getCollectionStats();
+    // Either no stats entry or zero total_accesses
+    bool found = false;
+    for (const auto& s : stats) {
+        if (s.collection == "metrics") {
+            found = true;
+            EXPECT_EQ(s.total_accesses, 0u);
+        }
+    }
+    // If no entry at all that is also acceptable
+    (void)found;
+}
+
+TEST(MultiTierReplicationTest, HotCollectionPromotedToTier1ByAutoTiering) {
+    MultiTierConfig config;
+    config.auto_tiering_enabled  = true;
+    config.hot_access_threshold  = 50;   // 50 accesses/min → Tier 1
+    config.cold_access_threshold = 5;
+    config.auto_tier_window_seconds = 60;
+    MultiTierReplicationManager mgr(config);
+
+    mgr.assignTier("hot_collection", ReplicationTier::TIER_2_STANDARD);
+
+    // Record 60 accesses (rate = 60/min > 50 threshold)
+    for (int i = 0; i < 60; ++i) {
+        mgr.recordAccess("hot_collection");
+    }
+
+    ReplicationTier new_tier = mgr.evaluateTierPromotion("hot_collection");
+    EXPECT_EQ(new_tier, ReplicationTier::TIER_1_CRITICAL);
+    EXPECT_EQ(mgr.getTier("hot_collection"), ReplicationTier::TIER_1_CRITICAL);
+}
+
+TEST(MultiTierReplicationTest, ColdCollectionDemotedToTier3ByAutoTiering) {
+    MultiTierConfig config;
+    config.auto_tiering_enabled  = true;
+    config.hot_access_threshold  = 100;
+    config.cold_access_threshold = 10;   // < 10/min → Tier 3
+    config.auto_tier_window_seconds = 60;
+    MultiTierReplicationManager mgr(config);
+
+    mgr.assignTier("cold_collection", ReplicationTier::TIER_2_STANDARD);
+
+    // Record only 3 accesses (rate = 3/min < 10 threshold)
+    for (int i = 0; i < 3; ++i) {
+        mgr.recordAccess("cold_collection");
+    }
+
+    ReplicationTier new_tier = mgr.evaluateTierPromotion("cold_collection");
+    EXPECT_EQ(new_tier, ReplicationTier::TIER_3_ARCHIVAL);
+    EXPECT_EQ(mgr.getTier("cold_collection"), ReplicationTier::TIER_3_ARCHIVAL);
+}
+
+TEST(MultiTierReplicationTest, ModerateAccessCollectionNormalisedToTier2) {
+    MultiTierConfig config;
+    config.auto_tiering_enabled  = true;
+    config.hot_access_threshold  = 100;
+    config.cold_access_threshold = 5;
+    config.auto_tier_window_seconds = 60;
+    MultiTierReplicationManager mgr(config);
+
+    mgr.assignTier("normal_col", ReplicationTier::TIER_1_CRITICAL);
+
+    // Record moderate accesses: 30/min → between 5 and 100 → Tier 2
+    for (int i = 0; i < 30; ++i) {
+        mgr.recordAccess("normal_col");
+    }
+
+    ReplicationTier new_tier = mgr.evaluateTierPromotion("normal_col");
+    EXPECT_EQ(new_tier, ReplicationTier::TIER_2_STANDARD);
+}
+
+TEST(MultiTierReplicationTest, EvaluateTierNoChangeWhenAutoTieringDisabled) {
+    MultiTierReplicationManager mgr;
+    mgr.assignTier("locked_col", ReplicationTier::TIER_1_CRITICAL);
+
+    // Auto-tiering disabled: evaluateTierPromotion should not move the tier
+    ReplicationTier result = mgr.evaluateTierPromotion("locked_col");
+    EXPECT_EQ(result, ReplicationTier::TIER_1_CRITICAL);
+}
+
+// ── Statistics ────────────────────────────────────────────────────────────────
+
+TEST(MultiTierReplicationTest, GetStatsReflectsAssignments) {
+    MultiTierReplicationManager mgr;
+    mgr.assignTier("t1a", ReplicationTier::TIER_1_CRITICAL);
+    mgr.assignTier("t1b", ReplicationTier::TIER_1_CRITICAL);
+    mgr.assignTier("t2a", ReplicationTier::TIER_2_STANDARD);
+    mgr.assignTier("t3a", ReplicationTier::TIER_3_ARCHIVAL);
+
+    MultiTierStats stats = mgr.getStats();
+    EXPECT_EQ(stats.collections_tier1, 2u);
+    EXPECT_EQ(stats.collections_tier2, 1u);
+    EXPECT_EQ(stats.collections_tier3, 1u);
+    EXPECT_FALSE(stats.auto_tiering_active);
+}
+
+TEST(MultiTierReplicationTest, GetStatsCountsPromotionsAndDemotions) {
+    MultiTierConfig config;
+    config.auto_tiering_enabled  = true;
+    config.hot_access_threshold  = 10;
+    config.cold_access_threshold = 2;
+    config.auto_tier_window_seconds = 60;
+    MultiTierReplicationManager mgr(config);
+
+    mgr.assignTier("p_col", ReplicationTier::TIER_2_STANDARD);
+    mgr.assignTier("d_col", ReplicationTier::TIER_2_STANDARD);
+
+    // Promote p_col
+    for (int i = 0; i < 15; ++i) mgr.recordAccess("p_col");
+    mgr.evaluateTierPromotion("p_col");
+
+    // Demote d_col
+    mgr.recordAccess("d_col"); // 1 access → < 2 threshold
+    mgr.evaluateTierPromotion("d_col");
+
+    MultiTierStats stats = mgr.getStats();
+    EXPECT_EQ(stats.total_promotions, 1u);
+    EXPECT_EQ(stats.total_demotions,  1u);
+}
+
+TEST(MultiTierReplicationTest, GetCollectionStatsIncludesAllTrackedCollections) {
+    MultiTierConfig config;
+    config.auto_tiering_enabled = true;
+    MultiTierReplicationManager mgr(config);
+
+    mgr.assignTier("col1", ReplicationTier::TIER_1_CRITICAL);
+    mgr.assignTier("col2", ReplicationTier::TIER_3_ARCHIVAL);
+    mgr.recordAccess("col1");
+    mgr.recordAccess("col1");
+
+    auto cs = mgr.getCollectionStats();
+    ASSERT_GE(cs.size(), 2u);
+
+    bool found_col1 = false;
+    for (const auto& s : cs) {
+        if (s.collection == "col1") {
+            found_col1 = true;
+            EXPECT_EQ(s.total_accesses, 2u);
+            EXPECT_EQ(s.current_tier, ReplicationTier::TIER_1_CRITICAL);
+        }
+    }
+    EXPECT_TRUE(found_col1);
 }

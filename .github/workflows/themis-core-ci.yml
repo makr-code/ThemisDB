@@ -15,6 +15,9 @@ on:
       - 'src/base/module_sandbox.cpp'
       - 'src/network/wire_protocol_v2.cpp'
       - 'src/network/wire_protocol_performance.cpp'
+      - 'src/network/wire_protocol_zero_copy.cpp'
+      - 'src/network/wire_protocol_batch.cpp'
+      - 'src/network/connection_compression.cpp'
       - 'include/themis/build_info.h'
       - 'include/themis/license_info.h'
       - 'include/themis/edition_manager.h'
@@ -27,6 +30,9 @@ on:
       - 'include/themis/base/module_sandbox.h'
       - 'include/themis/network/wire_protocol_v2.hpp'
       - 'include/network/wire_protocol_performance.h'
+      - 'include/network/wire_protocol_zero_copy.h'
+      - 'include/network/wire_protocol_batch.h'
+      - 'include/network/connection_compression.h'
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'cmake/MiscellaneousFeatures.cmake'
@@ -37,6 +43,7 @@ on:
       - 'tests/test_module_sandbox.cpp'
       - 'tests/test_wire_protocol_v2.cpp'
       - 'tests/test_wire_protocol_performance.cpp'
+      - 'tests/test_wire_protocol_optimizations.cpp'
       - 'tests/test_fuzz_core.cpp'
       - 'tests/performance/test_wire_perf_benchmark.cpp'
       - 'tests/test_concerns_context.cpp'
@@ -73,6 +80,9 @@ on:
       - 'src/base/module_sandbox.cpp'
       - 'src/network/wire_protocol_v2.cpp'
       - 'src/network/wire_protocol_performance.cpp'
+      - 'src/network/wire_protocol_zero_copy.cpp'
+      - 'src/network/wire_protocol_batch.cpp'
+      - 'src/network/connection_compression.cpp'
       - 'include/themis/build_info.h'
       - 'include/themis/license_info.h'
       - 'include/themis/edition_manager.h'
@@ -85,6 +95,9 @@ on:
       - 'include/themis/base/module_sandbox.h'
       - 'include/themis/network/wire_protocol_v2.hpp'
       - 'include/network/wire_protocol_performance.h'
+      - 'include/network/wire_protocol_zero_copy.h'
+      - 'include/network/wire_protocol_batch.h'
+      - 'include/network/connection_compression.h'
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'cmake/MiscellaneousFeatures.cmake'
@@ -95,6 +108,7 @@ on:
       - 'tests/test_module_sandbox.cpp'
       - 'tests/test_wire_protocol_v2.cpp'
       - 'tests/test_wire_protocol_performance.cpp'
+      - 'tests/test_wire_protocol_optimizations.cpp'
       - 'tests/test_fuzz_core.cpp'
       - 'tests/performance/test_wire_perf_benchmark.cpp'
       - 'tests/test_concerns_context.cpp'
@@ -528,6 +542,9 @@ jobs:
             "include/themis/base/module_sandbox.h"
             "include/themis/network/wire_protocol_v2.hpp"
             "include/network/wire_protocol_performance.h"
+            "include/network/wire_protocol_zero_copy.h"
+            "include/network/wire_protocol_batch.h"
+            "include/network/connection_compression.h"
           )
           all_ok=true
           for h in "${headers[@]}"; do
@@ -548,6 +565,9 @@ jobs:
             src/base/module_sandbox.cpp \
             src/network/wire_protocol_v2.cpp \
             src/network/wire_protocol_performance.cpp \
+            src/network/wire_protocol_zero_copy.cpp \
+            src/network/wire_protocol_batch.cpp \
+            src/network/connection_compression.cpp \
             2>/dev/null | wc -l)
           echo "Open TODOs/FIXMEs in core sources: ${count}"
           # Warn but don't fail – these are expected during active development

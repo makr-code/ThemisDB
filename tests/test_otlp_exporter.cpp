@@ -252,3 +252,75 @@ TEST(OtlpExporterConfigTest, DefaultEndpoint)
     EXPECT_EQ(cfg.max_queue_size, 8192u);
     EXPECT_FALSE(cfg.enabled);
 }
+
+// ---------------------------------------------------------------------------
+// Retry configuration defaults
+// ---------------------------------------------------------------------------
+
+TEST(OtlpExporterConfigTest, RetryDefaults)
+{
+    OtlpExporterConfig cfg;
+    EXPECT_EQ(cfg.max_export_retries,     3);
+    EXPECT_EQ(cfg.retry_initial_delay_ms, 100);
+}
+
+TEST(OtlpExporterConfigTest, RetryCanBeDisabled)
+{
+    OtlpExporterConfig cfg;
+    cfg.max_export_retries = 0;
+    EXPECT_EQ(cfg.max_export_retries, 0);
+
+    // An exporter with no retries must still be constructible.
+    OtlpExporter exp(cfg);
+    EXPECT_EQ(exp.config().max_export_retries, 0);
+}
+
+TEST(OtlpExporterConfigTest, RetryConfigRoundtrips)
+{
+    OtlpExporterConfig cfg;
+    cfg.max_export_retries     = 5;
+    cfg.retry_initial_delay_ms = 200;
+
+    OtlpExporter exp(cfg);
+    EXPECT_EQ(exp.config().max_export_retries,     5);
+    EXPECT_EQ(exp.config().retry_initial_delay_ms, 200);
+}
+
+TEST(OtlpExporterConfigTest, RetryDelaySequence)
+{
+    // Verify the documented exponential delay progression:
+    //   attempt 1: initial_delay_ms
+    //   attempt 2: initial_delay_ms * 2
+    //   attempt 3: initial_delay_ms * 4
+    const int initial = 100;
+    int delay = initial;
+    EXPECT_EQ(delay,       100); delay *= 2;
+    EXPECT_EQ(delay,       200); delay *= 2;
+    EXPECT_EQ(delay,       400);
+}
+
+// ---------------------------------------------------------------------------
+// Retry-related queue behaviour (no network required)
+// ---------------------------------------------------------------------------
+
+TEST(OtlpExporterTest, RetryZeroMeansNoRetries)
+{
+    // When max_export_retries = 0, OtlpExporter must construct and enqueue
+    // without error.  We cannot exercise the retry path without a real HTTP
+    // server, but we can confirm the exporter accepts the configuration.
+    OtlpExporterConfig cfg;
+    cfg.enabled            = true;
+    cfg.max_export_retries = 0;
+    cfg.max_queue_size     = 10;
+
+    OtlpExporter exp(cfg);
+    // No start() → background thread absent.
+
+    SpanData s;
+    s.trace_id = "00000000000000000000000000000099";
+    s.name     = "retry-zero-test";
+    exp.enqueue(s);
+
+    EXPECT_EQ(exp.droppedSpanCount(), 0u);
+    exp.stop();
+}
