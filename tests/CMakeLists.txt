@@ -15235,6 +15235,51 @@ else()
 endif()
 
 
+# ============================================================================
+# IntelligentPrefetcher – focused tests (v1.8.0, Issue #192)
+# Covers all six acceptance criteria:
+#   AC-1  Pattern Learning     (sequential and strided pattern detection)
+#   AC-2  Prefetch Distance    (adaptive distance responds to latency)
+#   AC-3  Confidence Scoring   (only high-confidence predictions issued)
+#   AC-4  Multi-Level          (prefetch level routed by confidence)
+#   AC-5  Feedback Loop        (useful vs wasted prefetch accounting)
+#   AC-6  Stats                (accuracy and coverage computed correctly)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_intelligent_prefetcher.cpp")
+    message(STATUS "Adding IntelligentPrefetcher focused tests (performance module, Issue #192)")
+
+    add_executable(test_intelligent_prefetcher_focused
+        test_intelligent_prefetcher.cpp
+        ${CMAKE_SOURCE_DIR}/src/performance/intelligent_prefetcher.cpp
+    )
+
+    target_include_directories(test_intelligent_prefetcher_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_intelligent_prefetcher_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_intelligent_prefetcher_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME IntelligentPrefetchingFocusedTests
+        COMMAND test_intelligent_prefetcher_focused)
+
+    set_tests_properties(IntelligentPrefetchingFocusedTests PROPERTIES
+        LABELS "performance;prefetching;pattern-learning;adaptive;confidence;multi-level;feedback-loop;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  IntelligentPrefetcher: pattern learning, adaptive distance, confidence scoring, multi-level prefetch, feedback loop")
+else()
+    message(STATUS "IntelligentPrefetcher focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_intelligent_prefetcher.cpp")
+endif()
+
 add_custom_target(run_tests
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
