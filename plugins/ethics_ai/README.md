@@ -8,6 +8,8 @@ The Ethics AI Plugin is a native C++ implementation of the Ethical AI Framework 
 - Uses **BaseEntity** for unified storage (no SQL tables)
 - Uses **AQL** for all queries (ThemisDB native)
 - **Direct integration** with ThemisDB storage (no wrappers)
+- Canonical runtime implementation in `src/ethics_ai/` with public headers in `include/plugins/ethics_ai/`
+- `plugins/ethics_ai/` is retained as compatibility, manifest, and documentation layer
 
 **Key Features:**
 - Multi-philosophy ethical debates (10 schools: Kant, Utilitarianism, Virtue Ethics, etc.)
@@ -73,7 +75,7 @@ See `THEMISDB_ARCHITECTURE_INTEGRATION.md` for detailed integration guide.
 
 ```bash
 mkdir build && cd build
-cmake .. -DTHEMIS_BUILD_ETHICS_AI_PLUGIN=ON
+cmake .. -DTHEMIS_BUILD_ENTERPRISE_PLUGINS=ON -DTHEMIS_PLUGIN_ETHICS_AI=ON
 cmake --build . --target ethics_ai_plugin
 ```
 

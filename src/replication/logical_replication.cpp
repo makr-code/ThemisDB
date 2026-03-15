@@ -29,7 +29,11 @@
 #include <thread>
 #include "utils/logger.h"
 #include <fcntl.h>
+#ifdef _WIN32
+#include <io.h>
+#else
 #include <unistd.h>
+#endif
 
 namespace fs = std::filesystem;
 
@@ -605,15 +609,28 @@ void LogicalReplicationManager::persistSlot(const SlotRuntime& slot) const {
 
     const auto tmp_path = base / (slot.meta.slot_name + ".json.tmp");
     const std::string payload = j.dump(2);
+#ifdef _WIN32
+    int fd = ::_open(tmp_path.string().c_str(), _O_WRONLY | _O_CREAT | _O_TRUNC | _O_BINARY, _S_IREAD | _S_IWRITE);
+#else
     int fd = ::open(tmp_path.c_str(), O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC, 0600);
+#endif
     if (fd < 0) {
         THEMIS_WARN("Failed to open logical slot state {}: {}", tmp_path.string(), strerror(errno));
         return;
     }
 
-    const ssize_t written = ::write(fd, payload.data(), payload.size());
+        const auto written =
+#ifdef _WIN32
+        ::_write(fd, payload.data(), static_cast<unsigned int>(payload.size()));
+#else
+        ::write(fd, payload.data(), payload.size());
+#endif
     if (written < 0 || static_cast<size_t>(written) != payload.size()) {
+#ifdef _WIN32
+        ::_close(fd);
+#else
         ::close(fd);
+#endif
         fs::remove(tmp_path, ec);
         if (written < 0) {
             THEMIS_WARN("Failed to persist logical slot {}: {}", slot.meta.slot_name, strerror(errno));
@@ -623,13 +640,25 @@ void LogicalReplicationManager::persistSlot(const SlotRuntime& slot) const {
         return;
     }
 
+#ifdef _WIN32
+    if (::_commit(fd) != 0) {
+#else
     if (::fsync(fd) != 0) {
+#endif
+#ifdef _WIN32
+        ::_close(fd);
+#else
         ::close(fd);
+#endif
         fs::remove(tmp_path, ec);
         THEMIS_WARN("Failed to fsync logical slot {}", slot.meta.slot_name);
         return;
     }
+#ifdef _WIN32
+    ::_close(fd);
+#else
     ::close(fd);
+#endif
 
     fs::rename(tmp_path, state_path, ec);
     if (ec) {
@@ -637,6 +666,7 @@ void LogicalReplicationManager::persistSlot(const SlotRuntime& slot) const {
         fs::remove(tmp_path, ec);
     }
 
+#ifndef _WIN32
     int dir_fd = ::open(base.c_str(), O_RDONLY | O_DIRECTORY | O_CLOEXEC);
     if (dir_fd >= 0) {
         if (::fsync(dir_fd) != 0) {
@@ -644,6 +674,7 @@ void LogicalReplicationManager::persistSlot(const SlotRuntime& slot) const {
         }
         ::close(dir_fd);
     }
+#endif
 }
 
 std::string LogicalReplicationManager::slotStatePath(const std::string& slot_name) const {

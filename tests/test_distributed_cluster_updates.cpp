@@ -120,15 +120,15 @@ class DistributedClusterConstruction : public ::testing::Test {};
 
 TEST_F(DistributedClusterConstruction, EmptyNodeList_Throws) {
     ClusterUpdateManager::Config cfg;
-    EXPECT_THROW(ClusterUpdateManager(cfg), std::invalid_argument);
+    EXPECT_THROW(ClusterUpdateManager{cfg}, std::invalid_argument);
 }
 
 TEST_F(DistributedClusterConstruction, ValidConfig_DoesNotThrow) {
-    EXPECT_NO_THROW(ClusterUpdateManager(make3NodeConfig()));
+    EXPECT_NO_THROW(ClusterUpdateManager{make3NodeConfig()});
 }
 
 TEST_F(DistributedClusterConstruction, SingleNode_DoesNotThrow) {
-    EXPECT_NO_THROW(ClusterUpdateManager(makeSingleNodeConfig()));
+    EXPECT_NO_THROW(ClusterUpdateManager{makeSingleNodeConfig()});
 }
 
 TEST_F(DistributedClusterConstruction, TotalNodes_MatchesNodeList) {

@@ -24,6 +24,7 @@
 #include "plugins/plugin_registry.h"
 #include <map>
 #include <mutex>
+#include <shared_mutex>
 
 namespace themis {
 namespace plugins {
@@ -46,13 +47,13 @@ PluginRegistry::Registry& PluginRegistry::getTypeRegistry(const std::type_info& 
     return type_registries[type_hash];
 }
 
-std::mutex& PluginRegistry::getMutex() {
-    static std::mutex mutex;
+std::shared_mutex& PluginRegistry::getMutex() {
+    static std::shared_mutex mutex;
     return mutex;
 }
 
 void PluginRegistry::clearRegistry() {
-    std::lock_guard<std::mutex> lock(getMutex());
+    std::unique_lock<std::shared_mutex> lock(getMutex());
     getTypeRegistries().clear();
 }
 

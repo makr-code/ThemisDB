@@ -4,7 +4,7 @@
 
 **Status:** ✅ Production-ready (gRPC backend)
 
-Entry-point: `plugins/rpc/grpc/grpc_plugin.cpp`
+Entry-point: `plugins/rpc/grpc/CMakeLists.txt` (compatibility shim) · implementation: `src/rpc_grpc/` · public API: `include/plugins/rpc/grpc_plugin.h`
 
 | Backend | Status |
 |---------|--------|

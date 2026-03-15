@@ -570,12 +570,7 @@ json VoiceAssistant::getStatistics() const {
     }
     
     if (llm_wrapper_) {
-        auto llm_stats = llm_wrapper_->getStats();
-        stats["llm"]["tokens_processed"] = llm_stats.total_tokens_processed;
-        stats["llm"]["cache_hits"] = llm_stats.cache_hits;
-        stats["llm"]["cache_misses"] = llm_stats.cache_misses;
-        stats["llm"]["avg_latency_ms"] = llm_stats.avg_latency_ms;
-        stats["llm"]["vram_used_mb"] = llm_stats.vram_used_mb;
+        stats["llm"] = llm_wrapper_->getPerformanceStats();
     }
     
     if (wake_word_detector_) {

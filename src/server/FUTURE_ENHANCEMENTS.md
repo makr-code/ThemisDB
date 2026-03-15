@@ -62,8 +62,8 @@ Both together mean scope-based authorization is effectively not enforced.
 `http_server.cpp` line 587: "TODO: Initialize actual `ShardingManager` here when available". Sharding-related admin endpoints (`/v1/admin/shards/*`) are wired but receive a null or stub `ShardingManager`, meaning all shard admin calls silently fail or return empty results.
 
 **Implementation Notes:**
-- `[ ]` Inject the live `ShardingManager*` from the `DatabaseServer` construction path into `HttpServer`; remove the TODO and null-check guard.
-- `[ ]` Add integration test: create 3 shards via HTTP, verify they appear in `GET /v1/admin/shards`.
+- `[x]` Inject the live `ShardingManager*` from the `DatabaseServer` construction path into `HttpServer`; remove the TODO and null-check guard.
+- `[x]` Add integration test: create 3 shards via HTTP, verify they appear in `GET /v1/admin/shards`.
 
 ---
 

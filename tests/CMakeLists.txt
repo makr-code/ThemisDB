@@ -1147,6 +1147,7 @@ if(THEMIS_BUILD_MODULAR)
             themis_graph
             themis_geo
             themis_content
+            themis_network
         )
             if(TARGET ${_mod})
                 list(APPEND _themis_test_core_libs ${_mod})
@@ -1165,6 +1166,7 @@ if(THEMIS_BUILD_MODULAR)
             themis_graph
             themis_geo
             themis_content
+            themis_network
         )
             if(TARGET ${_mod})
                 list(APPEND _themis_test_core_libs ${_mod})
@@ -1268,6 +1270,7 @@ endif()
 
 target_compile_definitions(themis_tests PRIVATE
     THEMIS_TEST_BUILD=1
+    THEMIS_TEST_MODE=1
     THEMIS_TEST_CERT_DIR="${THEMIS_ROOT_DIR}/certs/test/wire_protocol"
 )
 
@@ -6988,6 +6991,39 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_lifecycle.cpp")
     message(STATUS "  PluginLifecycle: load/initialize/unload, hot-reload, dependency-ordered loading, RAII guards")
 else()
     message(STATUS "Plugin Lifecycle focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_lifecycle.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_generic_plugin_registry.cpp")
+    message(STATUS "Adding Generic PluginRegistry focused tests (shared_mutex upgrade)")
+
+    add_executable(test_generic_plugin_registry_focused
+        test_generic_plugin_registry.cpp
+    )
+
+    target_include_directories(test_generic_plugin_registry_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_generic_plugin_registry_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_generic_plugin_registry_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GenericPluginRegistryFocusedTests COMMAND test_generic_plugin_registry_focused)
+
+    set_tests_properties(GenericPluginRegistryFocusedTests PROPERTIES
+        LABELS "plugins;registry;shared_mutex;concurrency;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  GenericPluginRegistry: registerFactory, create, listPlugins, hasPlugin, unregisterFactory, clearRegistry, concurrent reads")
+else()
+    message(STATUS "Generic PluginRegistry focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_generic_plugin_registry.cpp")
 endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_health_monitor.cpp")
@@ -13512,7 +13548,48 @@ else()
     message(STATUS "Distributed Cluster Updates focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cluster_updates.cpp")
 endif()
 
-# VoiceAssistant focused tests – covers VoiceBiometricAuthenticator, WakeWordDetector,
+# ManifestDatabase file deletion focused tests – v1.8.0 Issue #214
+# Covers: deleteManifest() file cleanup, tombstone race guard, registry/cache cleanup.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_manifest_database_file_deletion.cpp" AND NOT TARGET test_manifest_database_file_deletion_focused)
+    message(STATUS "Adding ManifestDatabase file deletion focused tests (v1.8.0)")
+
+    add_executable(test_manifest_database_file_deletion_focused
+        test_manifest_database_file_deletion.cpp
+    )
+
+    target_include_directories(test_manifest_database_file_deletion_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_manifest_database_file_deletion_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_manifest_database_file_deletion_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ManifestDatabaseFileDeletionFocusedTests COMMAND test_manifest_database_file_deletion_focused)
+
+    set_tests_properties(ManifestDatabaseFileDeletionFocusedTests PROPERTIES
+        LABELS "updates;manifest;file-deletion;tombstone;registry;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ManifestDatabaseFileDeletion: deleteManifest() file cleanup, tombstone guard, registry/cache removal")
+else()
+    if(TARGET test_manifest_database_file_deletion_focused)
+        message(STATUS "ManifestDatabase file deletion focused tests already registered")
+    else()
+        message(STATUS "ManifestDatabase file deletion focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_manifest_database_file_deletion.cpp")
+    endif()
+endif()
+
+
 # VoiceBatchProcessor, VoiceMacroManager, and full VoiceAssistant pipeline.
 # Requires THEMIS_ENABLE_LLM because voice_assistant.h includes llm/llama_wrapper.h.
 if(THEMIS_ENABLE_LLM)
@@ -14527,6 +14604,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_repair.cpp")
     target_include_directories(test_rs_repair_parallelisation_focused PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
+        ${CMAKE_BINARY_DIR}/proto_generated
     )
 
     target_link_libraries(test_rs_repair_parallelisation_focused PRIVATE
@@ -14917,6 +14995,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_join_strategies.cpp")
 else()
     message(STATUS "AdaptiveJoinStrategies focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_join_strategies.cpp")
 endif()
+
+# Runtime Device Capability Negotiation – focused tests (Issue #37, v1.7.0)
 #
 # Validates all acceptance criteria:
 #   AC-1  DeviceManager::probeDevices() returns a non-empty list with CPU fallback
@@ -15235,6 +15315,51 @@ else()
 endif()
 
 
+# ============================================================================
+# IntelligentPrefetcher – focused tests (v1.8.0, Issue #192)
+# Covers all six acceptance criteria:
+#   AC-1  Pattern Learning     (sequential and strided pattern detection)
+#   AC-2  Prefetch Distance    (adaptive distance responds to latency)
+#   AC-3  Confidence Scoring   (only high-confidence predictions issued)
+#   AC-4  Multi-Level          (prefetch level routed by confidence)
+#   AC-5  Feedback Loop        (useful vs wasted prefetch accounting)
+#   AC-6  Stats                (accuracy and coverage computed correctly)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_intelligent_prefetcher.cpp")
+    message(STATUS "Adding IntelligentPrefetcher focused tests (performance module, Issue #192)")
+
+    add_executable(test_intelligent_prefetcher_focused
+        test_intelligent_prefetcher.cpp
+        ${CMAKE_SOURCE_DIR}/src/performance/intelligent_prefetcher.cpp
+    )
+
+    target_include_directories(test_intelligent_prefetcher_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_intelligent_prefetcher_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_intelligent_prefetcher_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME IntelligentPrefetchingFocusedTests
+        COMMAND test_intelligent_prefetcher_focused)
+
+    set_tests_properties(IntelligentPrefetchingFocusedTests PROPERTIES
+        LABELS "performance;prefetching;pattern-learning;adaptive;confidence;multi-level;feedback-loop;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  IntelligentPrefetcher: pattern learning, adaptive distance, confidence scoring, multi-level prefetch, feedback loop")
+else()
+    message(STATUS "IntelligentPrefetcher focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_intelligent_prefetcher.cpp")
+endif()
+
 add_custom_target(run_tests
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
@@ -15251,11 +15376,21 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_orphan_detector_wired.cpp")
     )
 
     target_include_directories(test_orphan_detector_wired_focused PRIVATE
+# SecuritySignatureManager: RocksDB Iteration focused tests (v1.8.0, Issue #206)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_security_signature_rocksdb_iteration.cpp")
+    message(STATUS "Adding SecuritySignatureManager RocksDB Iteration focused tests (storage module, Issue #206)")
+
+    add_executable(test_security_signature_rocksdb_iteration_focused
+        test_security_signature_rocksdb_iteration.cpp
+    )
+
+    target_include_directories(test_security_signature_rocksdb_iteration_focused PRIVATE
         ${CMAKE_SOURCE_DIR}/include
         ${CMAKE_SOURCE_DIR}/src
     )
 
     target_link_libraries(test_orphan_detector_wired_focused PRIVATE
+    target_link_libraries(test_security_signature_rocksdb_iteration_focused PRIVATE
         ${TEST_LIBS}
         themis_core
         Threads::Threads
@@ -15318,6 +15453,23 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_shard_rpc_integration.cpp")
 else()
     message(STATUS "Shard RPC Integration focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_shard_rpc_integration.cpp")
 endif()
+    target_compile_definitions(test_security_signature_rocksdb_iteration_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SecuritySignatureRocksDBIterationFocusedTests
+        COMMAND test_security_signature_rocksdb_iteration_focused)
+
+    set_tests_properties(SecuritySignatureRocksDBIterationFocusedTests PROPERTIES
+        LABELS "storage;security;signature;rocksdb;iteration;verify-all;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  SecuritySignatureManager: iterateRange, listAllSignatures, verifyAll")
+else()
+    message(STATUS "SecuritySignatureManager RocksDB Iteration focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_security_signature_rocksdb_iteration.cpp")
+endif()
+
 
 if(TARGET themis_tests)
     get_target_property(_themis_tests_sources_final themis_tests SOURCES)

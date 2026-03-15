@@ -232,10 +232,10 @@ Collections:
 /// Helper: make a mock chat executor that sleeps for @p delay_ms before
 /// returning a fixed AQL string.  The executor is thread-safe (no shared
 /// mutable state).
-static std::function<std::string(const std::vector<llm::ChatMessage>&)>
+static std::function<std::string(const std::vector<themis::llm::ChatMessage>&)>
 makeSleepingMockExecutor(unsigned int delay_ms,
                          const std::string& fixed_response = "FOR doc IN col RETURN doc") {
-    return [delay_ms, fixed_response](const std::vector<llm::ChatMessage>&) -> std::string {
+    return [delay_ms, fixed_response](const std::vector<themis::llm::ChatMessage>&) -> std::string {
         std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
         return fixed_response;
     };
@@ -279,7 +279,7 @@ TEST_F(BatchNLToAQLTranslationTest, ParallelExecution_ResultsAreOrderedLikeReque
     // reordering by the scheduler.
     std::atomic<int> counter{0};
     handler->setChatExecutor(
-        [&counter](const std::vector<llm::ChatMessage>& msgs) -> std::string {
+        [&counter](const std::vector<themis::llm::ChatMessage>& msgs) -> std::string {
             const int idx = counter.fetch_add(1, std::memory_order_relaxed);
             // Tiny jitter: odd-indexed requests sleep slightly longer so the
             // thread scheduler may deliver completions out of order.
@@ -324,7 +324,7 @@ TEST_F(BatchNLToAQLTranslationTest, ParallelExecution_OneFailureDoesNotCancelOth
     // must still produce a successful result.
     std::atomic<int> call_count{0};
     handler->setChatExecutor(
-        [&call_count](const std::vector<llm::ChatMessage>&) -> std::string {
+        [&call_count](const std::vector<themis::llm::ChatMessage>&) -> std::string {
             if (call_count.fetch_add(1, std::memory_order_relaxed) == 0) {
                 throw std::runtime_error("simulated LLM failure for request 0");
             }
@@ -374,7 +374,7 @@ TEST_F(BatchNLToAQLTranslationTest, ParallelExecution_ConcurrencyLimit_IsRespect
     std::atomic<int> peak{0};
 
     handler->setChatExecutor(
-        [&active, &peak](const std::vector<llm::ChatMessage>&) -> std::string {
+        [&active, &peak](const std::vector<themis::llm::ChatMessage>&) -> std::string {
             const int current = active.fetch_add(1, std::memory_order_relaxed) + 1;
             // Update peak concurrency.
             int expected = peak.load(std::memory_order_relaxed);

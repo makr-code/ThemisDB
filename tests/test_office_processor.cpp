@@ -35,7 +35,7 @@
 #include "content/content_metrics.h"
 #include <string>
 #include <vector>
-#include <dirent.h>
+#include <filesystem>
 
 using namespace themis::content;
 
@@ -694,20 +694,26 @@ TEST_F(LibreOfficeSecurityTest, LargeOLEBlobHandledGracefully) {
 // on disk after the extraction call returns.
 TEST_F(LibreOfficeSecurityTest, TempDirIsCleanedUpAfterFailure) {
     // Snapshot the number of themisdb_lo_* entries before extraction
-    const char* tmp_base_env = P_tmpdir;
-    std::string tmp_base = tmp_base_env ? std::string(tmp_base_env) : std::string("/tmp");
+    std::error_code tmp_ec;
+    std::string tmp_base = std::filesystem::temp_directory_path(tmp_ec).string();
+    if (tmp_ec || tmp_base.empty()) {
+        tmp_base = ".";
+    }
 
     auto count_lo_dirs = [&]() -> int {
+        namespace fs = std::filesystem;
+        std::error_code ec;
+        if (!fs::exists(tmp_base, ec) || ec) return -1;
+
         int n = 0;
-        DIR* d = opendir(tmp_base.c_str());
-        if (!d) return -1;
-        struct dirent* ent;
-        while ((ent = readdir(d)) != nullptr) {
-            std::string name(ent->d_name);
-            if (name.rfind("themisdb_lo_", 0) == 0) ++n;
+        for (fs::directory_iterator it(tmp_base, ec); !ec && it != fs::directory_iterator(); it.increment(ec)) {
+            if (it->is_directory(ec) && !ec) {
+                const std::string name = it->path().filename().string();
+                if (name.rfind("themisdb_lo_", 0) == 0) ++n;
+            }
         }
-        closedir(d);
-        return n;
+
+        return ec ? -1 : n;
     };
 
     int before = count_lo_dirs();

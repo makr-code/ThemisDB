@@ -1,77 +1,18 @@
 cmake_minimum_required(VERSION 3.20)
-project(themis_image_onnx_clip VERSION 1.0.0)
 
-# Find dependencies
-find_package(onnxruntime REQUIRED)
-find_package(nlohmann_json REQUIRED)
+# Compatibility shim: runtime plugin implementation has been integrated at
+# src/onnx_clip. Keep this file for legacy paths under plugins/image_analysis/onnx_clip.
+if(NOT THEMIS_ROOT_DIR)
+    get_filename_component(THEMIS_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../.." ABSOLUTE)
+endif()
 
-# Optional: OpenCV for image preprocessing (fallback to stb_image if not available)
-find_package(OpenCV COMPONENTS core imgproc imgcodecs)
+set(_onnx_src_dir "${THEMIS_ROOT_DIR}/src/onnx_clip")
 
-# Plugin library
-add_library(themis_image_onnx_clip SHARED
-    onnx_clip_plugin.cpp
-)
-
-target_include_directories(themis_image_onnx_clip PRIVATE
-    ${CMAKE_SOURCE_DIR}/include
-    ${onnxruntime_INCLUDE_DIRS}
-)
-
-target_link_libraries(themis_image_onnx_clip PRIVATE
-    onnxruntime::onnxruntime
-    nlohmann_json::nlohmann_json
-)
-
-# Add OpenCV if available
-if(OpenCV_FOUND)
-    target_link_libraries(themis_image_onnx_clip PRIVATE
-        opencv_core
-        opencv_imgproc
-        opencv_imgcodecs
-    )
-    target_compile_definitions(themis_image_onnx_clip PRIVATE
-        HAVE_OPENCV
-    )
+if(EXISTS "${_onnx_src_dir}/CMakeLists.txt")
+    message(STATUS "plugins/image_analysis/onnx_clip: delegating build to src/onnx_clip")
+    if(NOT TARGET themis_onnx_clip)
+        add_subdirectory("${_onnx_src_dir}" "${CMAKE_CURRENT_BINARY_DIR}/src_onnx_clip")
+    endif()
 else()
-    # Use stb_image as fallback
-    message(STATUS "OpenCV not found, using stb_image for image loading")
-    # stb_image is header-only, no linking needed
+    message(FATAL_ERROR "plugins/image_analysis/onnx_clip: expected integrated source at ${_onnx_src_dir}")
 endif()
-
-# Set plugin properties
-set_target_properties(themis_image_onnx_clip PROPERTIES
-    PREFIX ""  # No 'lib' prefix on Unix
-    OUTPUT_NAME "themis_image_onnx_clip"
-    CXX_STANDARD 17
-    CXX_STANDARD_REQUIRED ON
-    VERSION ${PROJECT_VERSION}
-    SOVERSION 1
-)
-
-# Windows-specific settings
-if(WIN32)
-    target_compile_definitions(themis_image_onnx_clip PRIVATE
-        THEMIS_PLUGIN_EXPORTS
-    )
-endif()
-
-# Install
-install(TARGETS themis_image_onnx_clip
-    LIBRARY DESTINATION lib/themis/plugins
-    RUNTIME DESTINATION lib/themis/plugins
-    ARCHIVE DESTINATION lib/themis/plugins
-)
-
-# Install model files (if provided)
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/models")
-    install(DIRECTORY models/
-        DESTINATION share/themis/models/onnx_clip
-        FILES_MATCHING PATTERN "*.onnx"
-    )
-endif()
-
-# Install documentation
-install(FILES README.md
-    DESTINATION share/doc/themis/plugins/onnx_clip
-)

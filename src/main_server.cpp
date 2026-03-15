@@ -63,6 +63,7 @@
 #include "sharding/redundancy_strategy.h"
 #include "sharding/consistent_hash.h"
 #include "sharding/shard_topology.h"
+#include "sharding/sharding_manager.h"
 #include "utils/retention_manager.h"
 #include "utils/audit_logger.h"
 #include "utils/pki_client.h"
@@ -1398,6 +1399,8 @@ int main(int argc, char* argv[]) {
             hash_ring,
             shard_topology
         );
+        // Inject live ShardingManager so /v1/admin/shards/* endpoints are functional
+        g_server->setShardingManager(&themis::sharding::ShardingManager::GetInstance());
 #else
         THEMIS_INFO("HTTP server disabled at build time (THEMIS_ENABLE_HTTP_SERVER=OFF)");
 #endif

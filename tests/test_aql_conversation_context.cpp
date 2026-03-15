@@ -342,24 +342,24 @@ TEST_F(AQLConversationContextTest, TokenCount_ResetToZeroAfterReset) {
 // CharDivisionEstimator
 // ============================================================================
 
-TEST(CharDivisionEstimatorTest, EmptyStringReturnsZero) {
+TEST(AqlConversationCharDivisionEstimatorTest, EmptyStringReturnsZero) {
     CharDivisionEstimator est;
     EXPECT_EQ(est.estimate(""), 0u);
 }
 
-TEST(CharDivisionEstimatorTest, DefaultRatioFour) {
+TEST(AqlConversationCharDivisionEstimatorTest, DefaultRatioFour) {
     CharDivisionEstimator est;
     // "hello" = 5 chars => ceil(5/4) = 2
     EXPECT_EQ(est.estimate("hello"), 2u);
 }
 
-TEST(CharDivisionEstimatorTest, CustomRatio) {
+TEST(AqlConversationCharDivisionEstimatorTest, CustomRatio) {
     CharDivisionEstimator est(2);
     // "hello" = 5 chars => ceil(5/2) = 3
     EXPECT_EQ(est.estimate("hello"), 3u);
 }
 
-TEST(CharDivisionEstimatorTest, ZeroRatioFallsBackToFour) {
+TEST(AqlConversationCharDivisionEstimatorTest, ZeroRatioFallsBackToFour) {
     CharDivisionEstimator est(0);
     EXPECT_EQ(est.estimate("abcd"), 1u);
 }

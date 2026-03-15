@@ -438,6 +438,8 @@ public:
 
     CanaryDeployment(const CanaryDeployment&) = delete;
     CanaryDeployment& operator=(const CanaryDeployment&) = delete;
+    CanaryDeployment(CanaryDeployment&& other) noexcept;
+    CanaryDeployment& operator=(CanaryDeployment&& other) noexcept;
 
     // -----------------------------------------------------------------------
     // Builder API

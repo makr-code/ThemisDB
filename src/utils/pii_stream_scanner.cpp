@@ -45,6 +45,14 @@ PIIStreamScanner::PIIStreamScanner(std::shared_ptr<IPIIDetectionEngine> engine,
     , global_offset_(0)
 {
     if (!engine_) throw std::invalid_argument("PIIStreamScanner: engine must not be null");
+    // Auto-derive lookahead_bytes from the engine's maxPatternLength() when the
+    // caller uses the default config (lookahead_bytes == kDefaultLookaheadBytes).
+    // This makes the cross-chunk sliding-window overlap exactly equal to the
+    // longest possible regex pattern, satisfying the chunk-boundary-aware
+    // matching requirement.
+    if (cfg_.lookahead_bytes == kDefaultLookaheadBytes) {
+        cfg_.lookahead_bytes = engine_->maxPatternLength();
+    }
 }
 
 std::vector<PIIFinding> PIIStreamScanner::scan_chunk(std::string_view chunk, bool is_last) {

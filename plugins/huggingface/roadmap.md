@@ -4,9 +4,7 @@
 
 **Status:** ✅ Ready for use
 
-Entry-point: `plugins/huggingface/plugin.json` · implementation header: `include/plugins/huggingface_ingestion_plugin.h`
-
-> TODO: Confirm exact implementation path (search `src/` for `huggingface_ingestion_plugin.cpp`).
+Entry-point: `plugins/huggingface/plugin.json` · implementation: `src/plugins/huggingface_ingestion_plugin.cpp` · public header: `include/plugins/huggingface_ingestion_plugin.h`
 
 | Feature | Status |
 |---------|--------|
@@ -94,7 +92,6 @@ Entry-point: `plugins/huggingface/plugin.json` · implementation header: `includ
 
 ## Open Questions
 
-- [ ] Where exactly is the implementation source file (`*.cpp`)? – TODO: locate in `src/`
 - [ ] Should authentication tokens be stored in ThemisDB secrets store or config file?
 
 ---
@@ -112,11 +109,10 @@ Entry-point: `plugins/huggingface/plugin.json` · implementation header: `includ
 | Resume / checkpoint on interrupted ingestion | ❌ Not implemented |
 | Model Hub support | ❌ Not implemented |
 | Rate-limiter tested under concurrent workers | ❌ Pending |
-| Exact implementation source file confirmed | ❌ TODO |
+| Exact implementation source file confirmed | ✅ Ready |
 
 ## Known Issues & Limitations
 
-- Exact implementation source file (`*.cpp`) not yet confirmed; must be located in `src/`
 - Private and gated datasets are not supported; requests return 401 with no recovery path
 - Rate-limiter has not been tested under concurrent ingestion workers; correctness unverified
 - No resume/checkpoint: a crashed ingestion restarts from the beginning

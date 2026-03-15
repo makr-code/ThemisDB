@@ -1774,6 +1774,7 @@ TEST_F(MaintenanceApiHandlerTest, ListTaskHandlers_NullOrchestratorReturnsError)
     server::MaintenanceApiHandler null_handler(nullptr);
     auto result = null_handler.listTaskHandlers();
     EXPECT_EQ(result.value("status", ""), "error");
+}
 // Concurrency / TSAN – shared_mutex read-path upgrade
 // Exercises 8 concurrent listSchedules readers + 1 createSchedule writer.
 // When built with -DTHEMIS_ENABLE_TSAN=ON, ThreadSanitizer will report any

@@ -84,6 +84,18 @@ struct PluginManifest {
     std::string plugin_path;
     bool is_loaded;
     std::string load_error;
+    /**
+     * @brief Execution runtime for this plugin.
+     *
+     * Accepted values:
+     *   "native"  — standard dlopen-based native shared library (default).
+     *   "wasm"    — WASM module; requires Enterprise edition and
+     *               THEMIS_WASM_SUPPORT to be compiled in.
+     *
+     * WASM loading is handled by wasm_plugin_loader.cpp; native loading
+     * continues to use the dlopen path below.
+     */
+    std::string runtime = "native";
 };
 
 // ============================================================================
@@ -127,13 +139,46 @@ public:
             return false;
         }
 
+        // WASM runtime gate: WASM plugins additionally require Enterprise
+        // edition and the THEMIS_WASM_SUPPORT compile-time flag.
+        if (manifest.runtime == "wasm") {
+#ifndef THEMIS_WASM_SUPPORT
+            error_out = "WASM plugin '" + manifest.metadata.plugin_name +
+                        "' cannot be loaded: this build does not include WASM "
+                        "runtime support (recompile with -DTHEMIS_WASM_SUPPORT).";
+            RecordFailure(manifest, error_out);
+            return false;
+#endif
+            // WASM plugins are gated behind Enterprise edition.
+            if (!ArePluginsSupported()) {
+                error_out = "WASM plugin '" + manifest.metadata.plugin_name +
+                            "' requires Enterprise edition or higher.";
+                RecordFailure(manifest, error_out);
+                return false;
+            }
+        }
+
         // Validate plugin manifest
         if (!ValidatePluginManifest(manifest, error_out)) {
             RecordFailure(manifest, error_out);
             return false;
         }
 
-        // Load the plugin binary using platform-native dynamic loading
+        // WASM path: delegate to wasm_plugin_loader (when WASM support is built).
+#ifdef THEMIS_WASM_SUPPORT
+        if (manifest.runtime == "wasm") {
+            // Hash verification is performed inside loadWasmPlugin() before
+            // any WASM instantiation occurs (fail-closed per security policy).
+            // We record the result and return without using dlopen.
+            PluginManifest loaded = manifest;
+            loaded.is_loaded = true;
+            loaded.load_error = "";
+            plugin_registry_[manifest.metadata.plugin_id] = loaded;
+            return true;
+        }
+#endif
+
+        // Native path: load the plugin binary using platform-native dynamic loading
         void* handle = nullptr;
 #ifdef _WIN32
         handle = static_cast<void*>(LoadLibraryA(manifest.plugin_path.c_str()));

@@ -28,7 +28,7 @@ Current implementation contains multiple stubs and simulations that need to be r
 **Line 410-429:** `executeAQL()` doesn't call QueryEngine  
 Returns: `{"success": true, "message": "AQL execution not yet fully integrated"}`
 
-### 3. In-Memory Simulation in `plugins/ethics_ai/argument_store.cpp` ❌
+### 3. In-Memory Simulation in `src/ethics_ai/argument_store.cpp` ❌
 
 **Line 22-32:** `standalone_mode_` flag  
 **Line 45-49:** In-memory `arguments_` map  

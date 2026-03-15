@@ -53,23 +53,24 @@ This document covers planned enhancements to ThemisDB's shared utilities subsyst
 - Line 575: "Fallback stub verification: compare base64(hash) equality" — TLS certificate verification falls back to comparing base64 hashes instead of validating the certificate chain.
 
 **Implementation Notes:**
-- `[ ]` Line 456: implement real PKCS#10 CSR generation and submission using OpenSSL `X509_REQ_*` API; only fall back when ACME/internal CA is not configured.
-- `[ ]` Line 575: implement real X.509 chain verification using `X509_verify_cert()` with the configured trust store; never fall back to hash comparison for production traffic.
-- `[ ]` Add explicit `#ifdef THEMIS_TEST_MODE` guard around the stub paths so they cannot be used in production builds.
+- `[x]` Line 456: implement real PKCS#10 CSR generation and submission using OpenSSL `X509_REQ_*` API; only fall back when ACME/internal CA is not configured.
+- `[x]` Line 575: implement real X.509 chain verification using `X509_verify_cert()` with the configured trust store; never fall back to hash comparison for production traffic.
+- `[x]` Add explicit `#ifdef THEMIS_TEST_MODE` guard around the stub paths so they cannot be used in production builds.
 
 ---
 
 
+### [x] Streaming PII Scanner for Large Documents
 **Priority:** High
 **Target Version:** v0.9.0
 
 Refactor `pii_detection_engine.cpp` and `pii_pseudonymizer.cpp` to operate on a chunked streaming interface so that large legal documents (>100 MB) can be processed without full in-memory buffering. Entity spans that straddle chunk boundaries must be detected and merged correctly.
 
 **Implementation Notes:**
-- Define a `PIIStreamScanner` class in `pii_detection_engine.cpp` with `scan_chunk(chunk, is_last)` → `PIISpanList`; internally maintains a lookahead buffer sized to the maximum entity length (configurable, default 256 bytes) to handle cross-boundary spans.
-- `pii_pseudonymizer.cpp` adds a companion `PIIStreamPseudonymizer::process_chunk()` that applies replacements using the span offsets from `PIIStreamScanner`; replacements are deterministic per `(entity_text, tenant_id)` using HMAC-SHA-256 keyed with the tenant pseudonymisation key from `lek_manager.cpp`.
-- The `regex_detection_engine.cpp` must also support chunk-boundary-aware matching; cross-chunk regex detection uses a sliding window overlap equal to `max_pattern_length`.
-- Add a throughput benchmark in `benchmarks/` measuring end-to-end scan+pseudonymise throughput on 100 MB synthetic legal text.
+- `[x]` Define a `PIIStreamScanner` class in `pii_detection_engine.cpp` with `scan_chunk(chunk, is_last)` → `PIISpanList`; internally maintains a lookahead buffer sized to the maximum entity length (configurable, default 256 bytes) to handle cross-boundary spans.
+- `[x]` `pii_pseudonymizer.cpp` adds a companion `PIIStreamPseudonymizer::process_chunk()` that applies replacements using the span offsets from `PIIStreamScanner`; replacements are deterministic per `(entity_text, tenant_id)` using HMAC-SHA-256 keyed with the tenant pseudonymisation key from `lek_manager.cpp`.
+- `[x]` The `regex_detection_engine.cpp` must also support chunk-boundary-aware matching; cross-chunk regex detection uses a sliding window overlap equal to `max_pattern_length` (implemented via `IPIIDetectionEngine::maxPatternLength()` and `RegexDetectionEngine::maxPatternLength()`, used by `PIIStreamScanner` constructor to auto-derive `lookahead_bytes`).
+- `[x]` Add a throughput benchmark in `benchmarks/` measuring end-to-end scan+pseudonymise throughput on 100 MB synthetic legal text (`bench_pii_stream_scanner.cpp`).
 
 **Performance Targets:**
 - Streaming PII scan throughput: >100 MB/s per core for English legal text.

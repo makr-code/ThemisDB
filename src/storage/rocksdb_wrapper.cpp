@@ -1324,6 +1324,35 @@ void RocksDBWrapper::scanRange(std::string_view start_key, std::string_view end_
     }
 }
 
+void RocksDBWrapper::iterateRange(std::string_view start_key, std::string_view end_key, ScanCallback callback) {
+    // Protect iterator lifetime with OperationGuard
+    OperationGuard guard(this);
+    if (!guard) return;
+
+    auto* base_db = guard.get()->GetBaseDB();
+    if (!base_db) {
+        THEMIS_ERROR("iterateRange: base DB is null");
+        return;
+    }
+
+    std::unique_ptr<rocksdb::Iterator> it(base_db->NewIterator(*read_options_));
+    if (!it) {
+        THEMIS_ERROR("iterateRange: failed to create iterator");
+        return;
+    }
+
+    rocksdb::Slice start_slice(start_key.data(), start_key.size());
+    rocksdb::Slice end_slice(end_key.data(), end_key.size());
+
+    for (it->Seek(start_slice); it->Valid() && it->key().compare(end_slice) < 0; it->Next()) {
+        std::string_view key(it->key().data(), it->key().size());
+        std::string_view value(it->value().data(), it->value().size());
+        if (!callback(key, value)) {
+            break;
+        }
+    }
+}
+
 void RocksDBWrapper::scanAll(ScanCallback callback) {
     // RACE CONDITION FIX #3: Protect iterator lifetime with OperationGuard
     OperationGuard guard(this);

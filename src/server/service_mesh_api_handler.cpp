@@ -24,9 +24,10 @@
 
 #include <nlohmann/json.hpp>
 
+#include "utils/tracing.h"
+
 #ifdef THEMIS_ENABLE_SERVICE_MESH
 #include "network/service_mesh.h"
-#include "utils/tracing.h"
 #endif
 
 namespace themis {
@@ -78,7 +79,7 @@ http::response<http::string_body> ServiceMeshApiHandler::makeDisabled(
 http::response<http::string_body> ServiceMeshApiHandler::handleStatus(
     const http::request<http::string_body>& req) const
 {
-    auto span = Tracer::startSpan("handleStatus");
+    auto span = ::themis::Tracer::startSpan("handleStatus");
 #ifdef THEMIS_ENABLE_SERVICE_MESH
     if (!smi_) {
         json body = {
@@ -118,7 +119,7 @@ http::response<http::string_body> ServiceMeshApiHandler::handleStatus(
 http::response<http::string_body> ServiceMeshApiHandler::handleConfig(
     const http::request<http::string_body>& req) const
 {
-    auto span = Tracer::startSpan("handleConfig");
+    auto span = ::themis::Tracer::startSpan("handleConfig");
 #ifdef THEMIS_ENABLE_SERVICE_MESH
     if (!smi_) {
         json body = {
@@ -151,7 +152,7 @@ http::response<http::string_body> ServiceMeshApiHandler::handleConfig(
 http::response<http::string_body> ServiceMeshApiHandler::handleAnnotations(
     const http::request<http::string_body>& req) const
 {
-    auto span = Tracer::startSpan("handleAnnotations");
+    auto span = ::themis::Tracer::startSpan("handleAnnotations");
 #ifdef THEMIS_ENABLE_SERVICE_MESH
     if (!smi_) {
         json body = {

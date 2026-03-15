@@ -71,12 +71,12 @@ protected:
     void SetUp() override {
         PagedBlockManager::Config bm_cfg;
         bm_cfg.block_size_tokens = BLOCK_SIZE;
-        bm_cfg.num_blocks        = NUM_BLOCKS;
-        block_manager = std::make_unique<PagedBlockManager>(bm_cfg);
+        bm_cfg.max_blocks        = static_cast<int>(NUM_BLOCKS);
+        block_manager = std::make_shared<PagedBlockManager>(bm_cfg);
 
         PagedKVCache::Config kv_cfg;
-        kv_cfg.block_size_tokens = BLOCK_SIZE;
-        kv_cache = std::make_unique<PagedKVCache>(kv_cfg, block_manager.get());
+        kv_cfg.block_size = BLOCK_SIZE;
+        kv_cache = std::make_unique<PagedKVCache>(kv_cfg, block_manager);
 
         ContinuousBatchScheduler::SchedulerConfig sched_cfg;
         sched_cfg.max_batch_size       = BATCH_SIZE;
@@ -131,7 +131,7 @@ protected:
         return v[idx];
     }
 
-    std::unique_ptr<PagedBlockManager> block_manager;
+    std::shared_ptr<PagedBlockManager> block_manager;
     std::unique_ptr<PagedKVCache>      kv_cache;
     std::unique_ptr<ContinuousBatchScheduler> scheduler;
 };
@@ -197,12 +197,12 @@ TEST_F(SchedulerBenchmark, RejectionLatency_QueueFull) {
     // Create a scheduler with a very small queue to force rejection quickly
     PagedBlockManager::Config bm_cfg;
     bm_cfg.block_size_tokens = BLOCK_SIZE;
-    bm_cfg.num_blocks        = NUM_BLOCKS;
-    auto bm = std::make_unique<PagedBlockManager>(bm_cfg);
+    bm_cfg.max_blocks        = static_cast<int>(NUM_BLOCKS);
+    auto bm = std::make_shared<PagedBlockManager>(bm_cfg);
 
     PagedKVCache::Config kv_cfg;
-    kv_cfg.block_size_tokens = BLOCK_SIZE;
-    auto kv = std::make_unique<PagedKVCache>(kv_cfg, bm.get());
+    kv_cfg.block_size = BLOCK_SIZE;
+    auto kv = std::make_unique<PagedKVCache>(kv_cfg, bm);
 
     ContinuousBatchScheduler::SchedulerConfig cfg;
     cfg.max_batch_size       = BATCH_SIZE;

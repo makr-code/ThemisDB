@@ -121,6 +121,7 @@
 #include "sharding/wal_applier.h"
 #include "sharding/distributed_transaction.h"
 #include "sharding/truetime.h"
+#include "sharding/sharding_manager.h"
 #include "server/distributed_txn_api_handler.h"
 #if !defined(_WIN32)
 #include <time.h>
@@ -594,10 +595,11 @@ HttpServer::HttpServer(
                 THEMIS_INFO("  Bootstrap shard: {}", bootstrap_shard);
             }
             
-            // TODO: Initialize actual ShardingManager here when available
-            // For now, setting a flag to indicate sharding context is active
-            // This prevents AdaptiveIndexManager from hanging on cluster MVCC coordination
-            THEMIS_INFO("Sharding context prepared (cluster discovery ready)");
+            // Initialize actual ShardingManager - use the live singleton instance
+            if (!sharding_manager_) {
+                sharding_manager_ = &themis::sharding::ShardingManager::GetInstance();
+            }
+            THEMIS_INFO("Sharding context prepared (ShardingManager initialized, cluster discovery ready)");
         }
     }
     
@@ -2151,6 +2153,9 @@ namespace {
     AdminCacheTenantStatsGet,       // GET  /v1/admin/cache/tenant/{tenant_id}/stats
     AdminCacheTenantQuotaPatch,     // PATCH /v1/admin/cache/tenant/{tenant_id}/quota
     AdminCachePiiEvictDelete,       // DELETE /v1/admin/cache/pii/{pii_uuid}
+    // Shard Admin endpoints
+    AdminShardsPost,                // POST /v1/admin/shards
+    AdminShardsGet,                 // GET  /v1/admin/shards
     // Prompt Template endpoints
     PromptTemplatePost,
     PromptTemplateList,
@@ -2568,6 +2573,8 @@ namespace {
     if (path_only.rfind("/v1/admin/cache/pii/", 0) == 0 && method == http::verb::delete_) return Route::AdminCachePiiEvictDelete;
     if (path_only == "/v1/admin/cache/warmup" && method == http::verb::post) return Route::AdminCacheWarmupPost;
     if (path_only == "/v1/admin/cache/snapshot" && method == http::verb::post) return Route::AdminCacheSnapshotPost;
+    if (path_only == "/v1/admin/shards" && method == http::verb::post) return Route::AdminShardsPost;
+    if (path_only == "/v1/admin/shards" && method == http::verb::get) return Route::AdminShardsGet;
     if (target == "/prompt_template" && method == http::verb::post) return Route::PromptTemplatePost;
     if (target == "/prompt_template" && method == http::verb::get) return Route::PromptTemplateList;
     if (target.rfind("/prompt_template/", 0) == 0 && method == http::verb::get) return Route::PromptTemplateGet;
@@ -3759,6 +3766,60 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
             }
             break;
+        case Route::AdminShardsPost: {
+            if (!sharding_manager_) {
+                sharding_manager_ = &themis::sharding::ShardingManager::GetInstance();
+            }
+            try {
+                auto body = json::parse(req.body());
+                themis::sharding::ShardNodeInfo node;
+                node.node_id      = body.value("node_id", uint32_t(0));
+                node.node_address = body.value("node_address", std::string{});
+                node.node_role    = body.value("node_role", std::string{"PRIMARY"});
+                node.is_healthy   = body.value("is_healthy", true);
+                if (node.node_address.empty()) {
+                    response = makeErrorResponse(http::status::bad_request, "node_address is required", req);
+                    break;
+                }
+                sharding_manager_->AddShardNode(node);
+                json result = {
+                    {"node_id",      node.node_id},
+                    {"node_address", node.node_address},
+                    {"node_role",    node.node_role},
+                    {"is_healthy",   node.is_healthy}
+                };
+                response = makeResponse(http::status::created, result.dump(), req);
+            } catch (const std::runtime_error& e) {
+                response = makeErrorResponse(http::status::conflict, e.what(), req);
+            } catch (const json::exception& e) {
+                response = makeErrorResponse(http::status::bad_request, std::string("invalid JSON: ") + e.what(), req);
+            }
+            break;
+        }
+        case Route::AdminShardsGet: {
+            if (!sharding_manager_) {
+                sharding_manager_ = &themis::sharding::ShardingManager::GetInstance();
+            }
+            auto nodes = sharding_manager_->GetAllNodes();
+            json shards_arr = json::array();
+            for (const auto& n : nodes) {
+                shards_arr.push_back({
+                    {"node_id",      n.node_id},
+                    {"node_address", n.node_address},
+                    {"node_role",    n.node_role},
+                    {"is_healthy",   n.is_healthy}
+                });
+            }
+            json result = {
+                {"shards",          shards_arr},
+                {"total",           sharding_manager_->GetNodeCount()},
+                {"max_nodes",       themis::sharding::ShardingManager::GetMaxShardNodes()},
+                {"remaining",       sharding_manager_->GetRemainingNodeCapacity()},
+                {"healthy_count",   sharding_manager_->GetHealthyNodeCount()}
+            };
+            response = makeResponse(http::status::ok, result.dump(), req);
+            break;
+        }
         case Route::LlmInteractionPost:
             response = handleLlmInteractionPost(req);
             break;
