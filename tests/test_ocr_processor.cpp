@@ -33,11 +33,9 @@
 #include "content/ocr_processor.h"
 #include "content/content_metrics.h"
 #include "content/content_type.h"
-#include "config/config_path_resolver.h"
 #include <string>
 #include <vector>
 #include <cstdint>
-#include <filesystem>
 
 using namespace themis::content;
 

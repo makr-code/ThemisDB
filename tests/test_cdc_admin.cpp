@@ -26,11 +26,13 @@
 #include <gtest/gtest.h>
 #include "cdc/cdc_admin.h"
 #include "cdc/changefeed.h"
+#include "cdc/cdc_error.h"
 #include <memory>
 #include <rocksdb/utilities/transaction_db.h>
 #include <filesystem>
 
 using namespace themis::cdc;
+using themis::Changefeed;
 namespace fs = std::filesystem;
 
 class CDCAdminTest : public ::testing::Test {

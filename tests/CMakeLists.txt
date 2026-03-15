@@ -13943,6 +13943,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_repair.cpp")
     target_include_directories(test_rs_repair_parallelisation_focused PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
+        ${CMAKE_BINARY_DIR}/proto_generated
     )
 
     target_link_libraries(test_rs_repair_parallelisation_focused PRIVATE
