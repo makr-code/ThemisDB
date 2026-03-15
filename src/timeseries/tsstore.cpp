@@ -217,14 +217,12 @@ Result<void> TSStore::putDataPoint(const DataPoint& point) {
     if (config_.compression == CompressionType::Gorilla && auto_buffer_ != nullptr) {
         auto status = auto_buffer_->push(point);
         if (status == TSAutoBuffer::PushStatus::OK) {
-            auto latency = std::chrono::duration<double, std::milli>(
-                std::chrono::steady_clock::now() - start_time).count();
-            (void)latency; // latency tracked inside TSAutoBuffer
             THEMIS_DEBUG("Buffered single-point via TSAutoBuffer: metric={}, entity={}, ts={}",
                          point.metric, point.entity, point.timestamp_ms);
             return OkVoid();
         }
-        // BUFFER_FULL: fall through to direct write below
+        // INVALID_INPUT is unreachable here (metric/entity validated above).
+        // BUFFER_FULL: fall through to direct uncompressed write as graceful degradation.
         THEMIS_WARN("TSAutoBuffer BUFFER_FULL for metric={}, falling back to direct write",
                     point.metric);
     }

@@ -14,6 +14,7 @@
 #include "timeseries/ts_auto_buffer.h"
 #include "timeseries/query_optimizer.h"
 #include "storage/rocksdb_wrapper.h"
+#include <rocksdb/db.h>
 #include <algorithm>
 #include <chrono>
 #include <filesystem>
@@ -128,8 +129,8 @@ TEST_F(GorillaBufFixture, PushReturnBufferFullWhenMemoryExceeded) {
     EXPECT_EQ(status, TSAutoBuffer::PushStatus::BUFFER_FULL);
 }
 
-// AC: push() on invalid (empty metric/entity) returns BUFFER_FULL (treated as error)
-TEST_F(GorillaBufFixture, PushInvalidPointReturnBufferFull) {
+// AC: push() on invalid (empty metric/entity) returns INVALID_INPUT
+TEST_F(GorillaBufFixture, PushInvalidPointReturnsInvalidInput) {
     TSAutoBufferConfig buf_cfg;
     buf_cfg.async_flush = false;
     TSAutoBuffer buf(store_gorilla.get(), buf_cfg);
@@ -139,7 +140,7 @@ TEST_F(GorillaBufFixture, PushInvalidPointReturnBufferFull) {
     bad.entity = "e";
     bad.timestamp_ms = 1000;
     bad.value = 0.0;
-    EXPECT_EQ(buf.push(bad), TSAutoBuffer::PushStatus::BUFFER_FULL);
+    EXPECT_EQ(buf.push(bad), TSAutoBuffer::PushStatus::INVALID_INPUT);
 }
 
 // AC: TSStore::putDataPoint() routes through TSAutoBuffer when Gorilla + auto_buffer set
@@ -267,9 +268,11 @@ TEST_F(GorillaBufFixture, GorillaSmallerThanRaw) {
         ASSERT_TRUE(r.has_value()) << r.error().message();
     }
 
-    // Flush RocksDB WAL so file sizes are meaningful
-    db_gorilla->getRawDB()->FlushWAL(true);
-    db_raw->getRawDB()->FlushWAL(true);
+    // Force RocksDB memtable flush to SST so file sizes are meaningful
+    rocksdb::FlushOptions flush_opts;
+    flush_opts.wait = true;
+    db_gorilla->getRawDB()->Flush(flush_opts);
+    db_raw->getRawDB()->Flush(flush_opts);
 
     uint64_t size_gorilla = dirSizeBytes(db_path_gorilla);
     uint64_t size_raw     = dirSizeBytes(db_path_raw);

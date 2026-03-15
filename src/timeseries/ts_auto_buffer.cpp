@@ -554,8 +554,7 @@ bool TSAutoBuffer::removeWAL(const std::string& wal_path) {
 
 TSAutoBuffer::PushStatus TSAutoBuffer::push(const TSStore::DataPoint& point) {
     if (point.metric.empty() || point.entity.empty()) {
-        // Invalid point – treated as BUFFER_FULL so caller falls back to direct write
-        return PushStatus::BUFFER_FULL;
+        return PushStatus::INVALID_INPUT;
     }
 
     std::string buffer_key = makeBufferKey(point.metric, point.entity);

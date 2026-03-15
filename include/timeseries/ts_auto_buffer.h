@@ -205,8 +205,9 @@ public:
      * @brief Status returned by push() for non-blocking single-point inserts.
      */
     enum class PushStatus {
-        OK,          ///< Point accepted and buffered successfully
-        BUFFER_FULL  ///< Total in-memory buffer bytes exceed config_.max_buffer_bytes; caller should back off
+        OK,           ///< Point accepted and buffered successfully
+        BUFFER_FULL,  ///< Total in-memory buffer bytes exceed config_.max_buffer_bytes; caller should back off
+        INVALID_INPUT ///< Point has empty metric or entity; permanent error, do not retry
     };
 
     /**
