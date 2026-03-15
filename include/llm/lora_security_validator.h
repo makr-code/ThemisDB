@@ -30,6 +30,7 @@
 #include <chrono>
 #include <memory>
 #include <nlohmann/json.hpp>
+#include "llm/lora_certificate_store.h"
 
 using json = nlohmann::json;
 
@@ -80,6 +81,12 @@ struct LoRASecurityConfig {
     bool require_signature = true;
     std::vector<std::string> trusted_signers;  // X.509 cert fingerprints
     bool enforce_cert_validity = true;
+
+    // Certificate store paths
+    // Local store: PEM files named <fingerprint>.pem
+    std::string cert_store_path = "config/security/lora_certs/";
+    // System store fallback (empty disables system-store lookup)
+    std::string system_cert_store_path = "/etc/ssl/certs";
     
     // Integrity checks
     bool verify_checksum = true;
@@ -227,9 +234,26 @@ public:
      */
     void setAuditLogger(const std::shared_ptr<LLMModelAuditLogger>& logger);
 
+    /**
+     * @brief Replace the certificate store used for fingerprint lookups.
+     *
+     * By default the validator constructs its own LoRACertificateStore from
+     * the paths in LoRASecurityConfig.  Call this to inject a custom or
+     * pre-populated store (e.g., in tests).
+     *
+     * @param store Shared ownership of the certificate store.
+     */
+    void setCertificateStore(std::shared_ptr<LoRACertificateStore> store);
+
+    /**
+     * @brief Return the active certificate store.
+     */
+    std::shared_ptr<LoRACertificateStore> getCertificateStore() const;
+
 private:
     LoRASecurityConfig config_;
     std::shared_ptr<LLMModelAuditLogger> audit_logger_;
+    std::shared_ptr<LoRACertificateStore> cert_store_;
     
     // Helper methods
     bool loadLoRAFile(const std::string& path, std::vector<uint8_t>& data);

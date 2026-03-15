@@ -30,18 +30,16 @@ This document covers planned enhancements to the LLM module beyond what is track
 ### `LoraSecurityValidator`: Certificate Store Integration
 **Priority:** High
 **Target Version:** v1.8.0
+**Status:** ✅ Implemented
 
-`lora_security_validator.cpp` has 2 critical TODOs for certificate retrieval (lines 249 and 365):
-- Line 249: "TODO: Retrieve from certificate store by fingerprint" — `cert_pem` is left empty; signature verification is effectively **never performed** when no inline certificate is provided in the metadata.
-- Line 365: "TODO: Implement certificate store integration for production deployments"
-
-This means LoRA adapter signature validation silently succeeds without verifying the certificate chain.
+`lora_security_validator.cpp` had 2 critical TODOs for certificate retrieval (lines 249 and 365).
 
 **Implementation Notes:**
-- `[ ]` Implement a `LoRACertificateStore` class backed by `src/security/secret_manager.cpp` or a filesystem path (`config/security/lora_certs/`).
-- `[ ]` In `verifyLoRASignature()` at line 248, look up the certificate by fingerprint from `LoRACertificateStore`; fail closed if the certificate is not found (return `SIGNATURE_UNVERIFIABLE` error, not success).
-- `[ ]` Wire integration with the system certificate store (`/etc/ssl/certs` on Linux; `HCERTSTORE` on Windows) as a fallback after the local `LoRACertificateStore`.
-- `[ ]` Add unit tests: missing cert → verification fails; valid cert + valid sig → passes; valid cert + tampered sig → fails.
+- `[x]` Implemented `LoRACertificateStore` class backed by a filesystem path (`config/security/lora_certs/`).
+- `[x]` In `verifySignature()`, look up the certificate by fingerprint from `LoRACertificateStore`; fail closed if the certificate is not found (returns `SIGNATURE_UNVERIFIABLE` error, not success).
+- `[x]` In `verifyEmbeddedSignature()`, look up the certificate from the store if not embedded in metadata; fail closed if not found.
+- `[x]` Wired integration with the system certificate store (`/etc/ssl/certs` on Linux) as a fallback after the local `LoRACertificateStore`.
+- `[x]` Added unit tests: missing cert → verification fails; valid cert + valid sig → passes; valid cert + tampered sig → fails.
 
 ---
 
