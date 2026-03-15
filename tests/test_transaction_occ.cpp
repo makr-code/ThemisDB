@@ -167,11 +167,15 @@ TEST_F(OccTest, OptimisticPutUpdateFailsOnVersionConflict) {
         mgr_->getTransaction(id)->optimisticPut("users", makeEntity("u5"), 0);
         mgr_->commitTransaction(id);
     }
-    // Try to update with stale expected_version=0 (actual is 1)
+    // Try to update with a stale non-zero expected_version (expected=5, actual=1)
+    // This exercises the "OCC version conflict" code path (expected_version != current_version
+    // where both are non-zero).
     auto id = mgr_->beginTransaction();
-    auto st = mgr_->getTransaction(id)->optimisticPut("users", makeEntity("u5", "Bob"), 0);
+    auto st = mgr_->getTransaction(id)->optimisticPut("users", makeEntity("u5", "Bob"), 5);
     EXPECT_FALSE(st.ok);
     EXPECT_NE(st.message.find("OCC version conflict"), std::string::npos) << st.message;
+    EXPECT_NE(st.message.find("expected=5"), std::string::npos) << st.message;
+    EXPECT_NE(st.message.find("actual=1"),   std::string::npos) << st.message;
     mgr_->rollbackTransaction(id);
 }
 
