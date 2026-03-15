@@ -1380,6 +1380,7 @@ set(THEMIS_NETWORK_SOURCES
     # Themis core module wire protocol (themis::wire – Phase-3 modular implementation)
     ../src/themis/wire_protocol_server.cpp
     ../src/network/qos_manager.cpp
+    ../src/network/raft_load_balancer.cpp
     ../src/network/wire_protocol_helpers.cpp
     ../src/network/wire_protocol_connection_pool.cpp
     ../src/network/wire_protocol_v2.cpp
