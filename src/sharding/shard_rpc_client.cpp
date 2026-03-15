@@ -317,6 +317,34 @@ bool ShardRPCClient::abort(const std::string& txn_id) {
     }
 }
 
+bool ShardRPCClient::compensate(
+    const std::string& txn_id,
+    const nlohmann::json& operation
+) {
+    THEMIS_DEBUG("RPC COMPENSATE to {}: txn={}", impl_->config.endpoint, txn_id);
+
+    try {
+        nlohmann::json params = {
+            {"transaction_id", txn_id},
+            {"operation", operation}
+        };
+
+        auto response = sendRequest("compensate", params);
+
+        if (response.contains("status") && response["status"] == "compensated") {
+            THEMIS_DEBUG("RPC COMPENSATE success");
+            return true;
+        } else {
+            THEMIS_WARN("RPC COMPENSATE failed");
+            return false;
+        }
+
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("RPC COMPENSATE exception: {}", e.what());
+        return false;
+    }
+}
+
 nlohmann::json ShardRPCClient::snapshotRead(
     int64_t snapshot_ts,
     const nlohmann::json& query
@@ -417,6 +445,14 @@ nlohmann::json ShardRPCClient::sendRequestGrpc(
                 result = handleCommitGrpc(context, params);
             } else if (method == "abort") {
                 result = handleAbortGrpc(context, params);
+            } else if (method == "compensate") {
+                // SAGA compensation: reuse the abort gRPC path until a dedicated
+                // CompensateTransaction RPC is added to the shard_rpc.proto service
+                // (tracked in Issue #106 / proto migration backlog).
+                result = handleAbortGrpc(context, params);
+                if (result.contains("status") && result["status"] == "aborted") {
+                    result["status"] = "compensated";
+                }
             } else if (method == "snapshot_read") {
                 result = handleSnapshotReadGrpc(context, params);
             } else if (method == "ping") {
@@ -699,6 +735,10 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
             } else if (method == "abort") {
                 response = {
                     {"status", "aborted"}
+                };
+            } else if (method == "compensate") {
+                response = {
+                    {"status", "compensated"}
                 };
             } else if (method == "snapshot_read") {
                 response = {
