@@ -13886,6 +13886,52 @@ else()
     message(STATUS "Dependency Resolution Engine focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_dependency_resolution_engine.cpp")
 endif()
 
+# ContentEmbeddingPipeline – focused tests for EmbeddingPipeline and
+# ContentManager::generateEmbedding() (Issue #62 / v1.8.0)
+# Covers:
+#   AC-1  EmbeddingPipeline disabled when model_name is empty; enabled otherwise
+#   AC-2  batch_size clamped to [1, 32]; timeout_ms clamped to ≥100 ms
+#   AC-3  generateEmbedding returns empty vector when pipeline is disabled
+#   AC-4  generateEmbeddingBatch result size matches input size (shape invariant)
+#   AC-5  ContentMetrics::recordEmbeddingFailure increments
+#         content_embedding_failures_total; Prometheus output contains counter
+#   AC-6  ContentPolicy::embedding_model field wired and round-trips correctly
+#   AC-7  EmbeddingPipelineConfig::metrics pointer is forwarded correctly
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_content_embedding_pipeline.cpp")
+    message(STATUS "Adding Content Embedding Pipeline focused tests (content, Issue #62, v1.8.0)")
+
+    add_executable(test_content_embedding_pipeline_focused
+        test_content_embedding_pipeline.cpp
+    )
+
+    target_include_directories(test_content_embedding_pipeline_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_content_embedding_pipeline_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_content_embedding_pipeline_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ContentEmbeddingPipelineFocusedTests
+        COMMAND test_content_embedding_pipeline_focused)
+
+    set_tests_properties(ContentEmbeddingPipelineFocusedTests PROPERTIES
+        LABELS "content;embedding;pipeline;vector;metrics;policy;focused;unit;v1.8.0"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ContentEmbeddingPipeline: config clamping, enable/disable, batch shape, failure counter, Prometheus export, ContentPolicy::embedding_model")
+else()
+    message(STATUS "Content Embedding Pipeline focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_content_embedding_pipeline.cpp")
+endif()
+
 # MultiTenantUpdateScheduling – focused tests for TenantUpdateScheduler (Issue #262 / v1.8.0)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_tenant_update_scheduling.cpp")
     message(STATUS "Adding Multi-Tenant Update Scheduling focused tests")
