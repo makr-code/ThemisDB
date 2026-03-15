@@ -1406,6 +1406,8 @@ set(THEMIS_NETWORK_SOURCES
     ../src/observability/slo_reporter.cpp
     # Observability: ML-based anomaly detection on metric time-series (Issue #2097)
     ../src/observability/metric_anomaly_detector.cpp
+    # Observability: ML anomaly detector (forecasting + change-point + outlier) (Issue #83)
+    ../src/observability/ml_anomaly_detector.cpp
     # Observability: query, storage, and performance profiling
     ../src/observability/query_profiler.cpp
     ../src/observability/storage_profiler.cpp

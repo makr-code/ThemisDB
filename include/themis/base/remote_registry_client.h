@@ -33,6 +33,8 @@
 #include "themis/base/module_loader.h"
 
 #include <nlohmann/json.hpp>
+#include <chrono>
+#include <functional>
 #include <future>
 #include <memory>
 #include <mutex>
@@ -320,6 +322,50 @@ public:
     const RegistryConfig& config() const { return config_; }
 
     // -------------------------------------------------------------------------
+    // Async APIs
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Asynchronously perform an HTTP GET with retry/backoff.
+     *
+     * The returned future completes with the response body or throws a
+     * std::runtime_error on failure. The calling thread is released as soon as
+     * the future is created; retries and backoff run on a worker thread.
+     * The RemoteRegistryClient instance must remain alive until the future
+     * completes. Accessing the future after destroying the client results in
+     * undefined behavior. Discarding the future is allowed, but the underlying
+     * work still runs and the client must remain alive until it completes.
+     * The client **must** be owned by std::shared_ptr; otherwise a
+     * std::bad_weak_ptr error is raised.
+     */
+    std::future<std::string> httpGetAsync(const std::string& url);
+
+    /**
+     * @brief Asynchronously download a binary with retry/backoff.
+     *
+     * The returned future resolves to true on success, false on failure.
+     * Callers may choose to wait or poll the future; backoff delays do not
+     * block the calling thread. The RemoteRegistryClient instance must remain
+     * alive until the future completes. Accessing the future after destroying
+     * the client results in undefined behavior. Discarding the future is
+     * allowed, but the underlying work still runs and the client must remain
+     * alive until it completes. The client **must** be owned by std::shared_ptr;
+     * otherwise a std::bad_weak_ptr error is raised.
+     */
+    std::future<bool> httpGetBinaryAsync(const std::string& url,
+                                         const std::string& out_path);
+
+    /**
+     * @brief Override the backoff dispatcher used for scheduling retry delays.
+     *
+     * Intended for integration with the existing TaskScheduler: pass a lambda
+     * that submits a delayed no-op task and returns a future that becomes ready
+     * after the delay. Passing nullptr resets to the internal scheduler.
+     */
+    static void setBackoffDispatcher(
+        std::function<std::future<void>(std::chrono::milliseconds)> dispatcher);
+
+    // -------------------------------------------------------------------------
     // Observability
     // -------------------------------------------------------------------------
 
@@ -351,6 +397,7 @@ private:
     // Auth header building (returns header value for Authorization or X-API-Key)
     std::string buildAuthorizationHeader() const;
 
+    // Perform a blocking backoff sleep for `ms` milliseconds.
     // Synchronous back-off sleep used by the synchronous (blocking) retry path.
     // Callers that need non-blocking behaviour should use the Async variants of
     // the public API (listPluginsAsync / fetchPluginAsync / downloadPluginAsync)

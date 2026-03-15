@@ -36,6 +36,10 @@
 #include "themis/base/remote_registry_client.h"
 #include "themis/base/module_loader.h"
 
+#include <atomic>
+#include <chrono>
+#include <filesystem>
+#include <fstream>
 #include <chrono>
 #include <filesystem>
 #include <fstream>
@@ -44,6 +48,12 @@
 #include <string>
 
 using namespace themis::modules;
+
+namespace {
+struct ScopedBackoffDispatcherReset {
+    ~ScopedBackoffDispatcherReset() { RemoteRegistryClient::setBackoffDispatcher(nullptr); }
+};
+}  // namespace
 
 // =============================================================================
 // RegistryConfig – defaults
@@ -459,6 +469,58 @@ TEST(RemoteRegistryClient, TotalRetryBudgetExhausted) {
 }
 
 // =============================================================================
+// Async backoff dispatcher – custom scheduler integration
+// =============================================================================
+
+TEST(RemoteRegistryClient, CustomBackoffDispatcherIsUsed) {
+    std::atomic<int> total_delay_ms{0};
+
+    auto dispatcher = [&total_delay_ms](std::chrono::milliseconds delay) {
+        total_delay_ms.fetch_add(static_cast<int>(delay.count()), std::memory_order_relaxed);
+        auto promise = std::make_shared<std::promise<void>>();
+        auto fut     = promise->get_future();
+        // In this test the promise is fulfilled synchronously to keep execution fast;
+        // real dispatchers would satisfy it after the scheduled delay.
+        promise->set_value();
+        return fut;
+    };
+
+    ScopedBackoffDispatcherReset guard;
+    RemoteRegistryClient::setBackoffDispatcher(dispatcher);
+
+    RegistryConfig cfg;
+    cfg.registry_url            = "http://127.0.0.1:1";
+    cfg.timeout_ms              = 5;
+    cfg.max_retries             = 1;   // ensure at least one backoff
+    cfg.max_total_retry_time_ms = 15;  // allow one retry with minimal delay
+    cfg.verify_ssl              = false;
+
+    RemoteRegistryClient client(cfg);
+    auto plugins = client.listPlugins();  // will fail and trigger backoff dispatcher
+
+    EXPECT_TRUE(plugins.empty());
+
+    EXPECT_GT(total_delay_ms.load(), 0);
+    const auto stats = client.lastRequestStats();
+    EXPECT_GE(stats.attempts, 1);
+    EXPECT_FALSE(stats.last_error.empty());
+}
+
+TEST(RemoteRegistryClient, HttpGetAsyncReleasesCaller) {
+    RegistryConfig cfg;
+    cfg.registry_url            = "http://127.0.0.1:1";
+    cfg.timeout_ms              = 10;
+    cfg.max_retries             = 0;
+    cfg.max_total_retry_time_ms = 5;
+    cfg.verify_ssl              = false;
+
+    auto client = std::make_shared<RemoteRegistryClient>(cfg);
+
+    auto fut = client->httpGetAsync(cfg.registry_url + "/plugins");
+
+    // Future should be valid and we should be able to wait for completion.
+    EXPECT_TRUE(fut.valid());
+    EXPECT_THROW(fut.get(), std::runtime_error);
 // Async API – listPluginsAsync / fetchPluginAsync / downloadPluginAsync
 // =============================================================================
 
