@@ -14542,6 +14542,31 @@ endif()
 # ============================================================================
 # Adaptive Shard Rebalancer with Load-Based Splitting (Issue #203, v1.7.0)
 # ============================================================================
+# Adaptive Compaction Scheduler Focused Tests (Issue #209, v1.7.0)
+# Validates all four acceptance criteria:
+#   AC-1  Monitor read/write patterns (recordRead/recordWrite, EMA rates)
+#   AC-2  Predict compaction impact (predictCompactionImpact)
+#   AC-3  Schedule compactions during low-load periods (isLowLoadPeriod /
+#          shouldTriggerCompaction)
+#   AC-4  Adjust compaction triggers dynamically (getAdaptedConfig /
+#          applyAdaptedConfig + CompactionManager::setConfig/getConfig)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_compaction.cpp")
+    message(STATUS "Adding Adaptive Compaction Scheduler focused tests (storage module, Issue #209)")
+
+    add_executable(test_adaptive_compaction_focused
+        test_adaptive_compaction.cpp
+    )
+
+    target_include_directories(test_adaptive_compaction_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_adaptive_compaction_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
 # Covers: HotShardSplitPolicy (reactive + predictive), ShardLoadDetector
 #         forecastLoad(), DataMigrator liveMigrate(), AutoRebalancer split
 #         integration, and audit event emission (SHARD_SPLIT / SHARD_MERGE).
@@ -14579,6 +14604,24 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_join_strategies.cpp")
         Threads::Threads
     )
 
+    target_compile_definitions(test_adaptive_compaction_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AdaptiveCompactionFocusedTests
+        COMMAND test_adaptive_compaction_focused)
+
+    set_tests_properties(AdaptiveCompactionFocusedTests PROPERTIES
+        LABELS "storage;compaction;adaptive;scheduling;v1.7.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  AdaptiveCompactionScheduler: pattern monitoring, impact prediction, low-load scheduling, dynamic trigger adjustment")
+else()
+    message(STATUS "Adaptive Compaction focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_compaction.cpp")
+endif()
+
+# ============================================================================
     target_compile_definitions(test_adaptive_join_strategies_focused PRIVATE
         THEMIS_TEST_BUILD=1
     )
