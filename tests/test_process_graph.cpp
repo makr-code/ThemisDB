@@ -956,3 +956,187 @@ TEST_F(ProcessGraphTest, HyperedgeReadiness) {
     ASSERT_TRUE(readyStatus.ok) << readyStatus.message;
     EXPECT_FALSE(ready); // Not ready yet as no sources activated
 }
+
+// ============================================================================
+// ProcessGraphVisitLog / Visit Timestamp Tests
+// ============================================================================
+
+TEST_F(ProcessGraphTest, VisitTimestampPopulatedOnStartProcess) {
+    pgm_->registerProcess("ts-start-test", "Visit Timestamp Start Test");
+
+    themis::ProcessNodeInfo start{.node_id = "start", .name = "Start",
+                                  .node_type = themis::BPMNNodeType::START_EVENT};
+    pgm_->addProcessNode("ts-start-test", start);
+
+    auto beforeStart = std::chrono::system_clock::now();
+    auto [startStatus, instanceId] = pgm_->startProcess("ts-start-test");
+    auto afterStart = std::chrono::system_clock::now();
+    ASSERT_TRUE(startStatus.ok) << startStatus.message;
+
+    // The start node visit timestamp should be recorded and retrievable
+    auto ts = pgm_->getVisitTimestamp(instanceId, "start");
+    ASSERT_TRUE(ts.has_value()) << "Expected visit timestamp for 'start' node";
+    EXPECT_GE(ts.value(), beforeStart);
+    EXPECT_LE(ts.value(), afterStart);
+}
+
+TEST_F(ProcessGraphTest, VisitTimestampsPopulatedAndOrderedAcrossMultiHopTraversal) {
+    pgm_->registerProcess("ts-multihop-test", "Visit Timestamp Multi-Hop Test");
+
+    themis::ProcessNodeInfo start{.node_id = "start", .name = "Start",
+                                  .node_type = themis::BPMNNodeType::START_EVENT};
+    themis::ProcessNodeInfo task1{.node_id = "task1", .name = "Task 1",
+                                  .node_type = themis::BPMNNodeType::TASK};
+    themis::ProcessNodeInfo task2{.node_id = "task2", .name = "Task 2",
+                                  .node_type = themis::BPMNNodeType::TASK};
+    themis::ProcessNodeInfo end{.node_id = "end", .name = "End",
+                                .node_type = themis::BPMNNodeType::END_EVENT};
+
+    pgm_->addProcessNode("ts-multihop-test", start);
+    pgm_->addProcessNode("ts-multihop-test", task1);
+    pgm_->addProcessNode("ts-multihop-test", task2);
+    pgm_->addProcessNode("ts-multihop-test", end);
+
+    themis::ProcessEdgeInfo f1{.edge_id = "f1", .from_node = "start", .to_node = "task1"};
+    themis::ProcessEdgeInfo f2{.edge_id = "f2", .from_node = "task1", .to_node = "task2"};
+    themis::ProcessEdgeInfo f3{.edge_id = "f3", .from_node = "task2", .to_node = "end"};
+    pgm_->addProcessEdge("ts-multihop-test", f1);
+    pgm_->addProcessEdge("ts-multihop-test", f2);
+    pgm_->addProcessEdge("ts-multihop-test", f3);
+
+    auto [startStatus, instanceId] = pgm_->startProcess("ts-multihop-test");
+    ASSERT_TRUE(startStatus.ok) << startStatus.message;
+
+    // Get initial token id
+    auto [inst0Status, inst0] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(inst0Status.ok);
+    ASSERT_FALSE(inst0.tokens.empty());
+    std::string tokenId = inst0.tokens[0].token_id;
+
+    // start node should have a timestamp already
+    auto tsStart = pgm_->getVisitTimestamp(instanceId, "start");
+    ASSERT_TRUE(tsStart.has_value()) << "Expected timestamp for 'start'";
+
+    // Advance: start -> task1
+    auto adv1 = pgm_->advanceToken(instanceId, tokenId);
+    ASSERT_TRUE(adv1.ok) << adv1.message;
+
+    auto tsTask1 = pgm_->getVisitTimestamp(instanceId, "task1");
+    ASSERT_TRUE(tsTask1.has_value()) << "Expected timestamp for 'task1'";
+    EXPECT_GE(tsTask1.value(), tsStart.value())
+        << "task1 timestamp must be >= start timestamp";
+
+    // Advance: task1 -> task2
+    auto adv2 = pgm_->advanceToken(instanceId, tokenId);
+    ASSERT_TRUE(adv2.ok) << adv2.message;
+
+    auto tsTask2 = pgm_->getVisitTimestamp(instanceId, "task2");
+    ASSERT_TRUE(tsTask2.has_value()) << "Expected timestamp for 'task2'";
+    EXPECT_GE(tsTask2.value(), tsTask1.value())
+        << "task2 timestamp must be >= task1 timestamp";
+
+    // Advance: task2 -> end (completes token)
+    auto adv3 = pgm_->advanceToken(instanceId, tokenId);
+    ASSERT_TRUE(adv3.ok) << adv3.message;
+
+    // Verify visited_nodes also round-trips correctly through DB
+    auto [instFinalStatus, instFinal] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instFinalStatus.ok);
+    ASSERT_FALSE(instFinal.tokens.empty());
+
+    const auto& finalToken = instFinal.tokens[0];
+    // visited_nodes should contain all traversed nodes
+    const auto& vn = finalToken.visited_nodes;
+    EXPECT_NE(std::find(vn.begin(), vn.end(), "start"), vn.end());
+    EXPECT_NE(std::find(vn.begin(), vn.end(), "task1"), vn.end());
+    EXPECT_NE(std::find(vn.begin(), vn.end(), "task2"), vn.end());
+
+    // visit_timestamps should be present for all visited nodes
+    EXPECT_TRUE(finalToken.visit_timestamps.count("start") > 0);
+    EXPECT_TRUE(finalToken.visit_timestamps.count("task1") > 0);
+    EXPECT_TRUE(finalToken.visit_timestamps.count("task2") > 0);
+}
+
+TEST_F(ProcessGraphTest, GetVisitTimestampReturnsNulloptForUnvisitedNode) {
+    pgm_->registerProcess("ts-missing-test", "Visit Timestamp Missing Test");
+
+    themis::ProcessNodeInfo start{.node_id = "start", .name = "Start",
+                                  .node_type = themis::BPMNNodeType::START_EVENT};
+    pgm_->addProcessNode("ts-missing-test", start);
+
+    auto [startStatus, instanceId] = pgm_->startProcess("ts-missing-test");
+    ASSERT_TRUE(startStatus.ok);
+
+    // "unvisited_node" was never traversed — should return nullopt
+    auto ts = pgm_->getVisitTimestamp(instanceId, "unvisited_node");
+    EXPECT_FALSE(ts.has_value())
+        << "Expected nullopt for a node that was never visited";
+}
+
+TEST_F(ProcessGraphTest, VisitTimestampsPersistedAfterTokenCompletion) {
+    // Regression test: the COMPLETED write path must also persist visited_nodes
+    // and visit_timestamps so history is not lost when a token reaches its
+    // terminal node (no outgoing edges).
+    pgm_->registerProcess("ts-complete-test", "Visit Timestamp Completion Test");
+
+    themis::ProcessNodeInfo start{.node_id = "start", .name = "Start",
+                                  .node_type = themis::BPMNNodeType::START_EVENT};
+    themis::ProcessNodeInfo task{.node_id = "task", .name = "Task",
+                                 .node_type = themis::BPMNNodeType::TASK};
+    themis::ProcessNodeInfo end{.node_id = "end", .name = "End",
+                                .node_type = themis::BPMNNodeType::END_EVENT};
+
+    pgm_->addProcessNode("ts-complete-test", start);
+    pgm_->addProcessNode("ts-complete-test", task);
+    pgm_->addProcessNode("ts-complete-test", end);
+
+    themis::ProcessEdgeInfo f1{.edge_id = "f1", .from_node = "start", .to_node = "task"};
+    themis::ProcessEdgeInfo f2{.edge_id = "f2", .from_node = "task",  .to_node = "end"};
+    pgm_->addProcessEdge("ts-complete-test", f1);
+    pgm_->addProcessEdge("ts-complete-test", f2);
+
+    auto [startStatus, instanceId] = pgm_->startProcess("ts-complete-test");
+    ASSERT_TRUE(startStatus.ok) << startStatus.message;
+
+    auto [inst0Status, inst0] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(inst0Status.ok);
+    ASSERT_FALSE(inst0.tokens.empty());
+    std::string tokenId = inst0.tokens[0].token_id;
+
+    // start → task
+    ASSERT_TRUE(pgm_->advanceToken(instanceId, tokenId).ok);
+    // task → end
+    ASSERT_TRUE(pgm_->advanceToken(instanceId, tokenId).ok);
+    // end → (no outgoing) — token reaches COMPLETED state
+    ASSERT_TRUE(pgm_->advanceToken(instanceId, tokenId).ok);
+
+    // Reload from DB and verify that the full traversal history is intact
+    auto [finalStatus, finalInstance] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(finalStatus.ok);
+    ASSERT_FALSE(finalInstance.tokens.empty());
+
+    const auto& tok = finalInstance.tokens[0];
+    EXPECT_EQ(tok.state, themis::ProcessToken::State::COMPLETED);
+
+    // All nodes must be in visited_nodes
+    const auto& vn = tok.visited_nodes;
+    EXPECT_NE(std::find(vn.begin(), vn.end(), "start"), vn.end())
+        << "visited_nodes missing 'start' after completion";
+    EXPECT_NE(std::find(vn.begin(), vn.end(), "task"), vn.end())
+        << "visited_nodes missing 'task' after completion";
+    EXPECT_NE(std::find(vn.begin(), vn.end(), "end"), vn.end())
+        << "visited_nodes missing 'end' after completion";
+
+    // All nodes must have timestamps in visit_timestamps
+    EXPECT_TRUE(tok.visit_timestamps.count("start") > 0)
+        << "visit_timestamps missing 'start' after completion";
+    EXPECT_TRUE(tok.visit_timestamps.count("task") > 0)
+        << "visit_timestamps missing 'task' after completion";
+    EXPECT_TRUE(tok.visit_timestamps.count("end") > 0)
+        << "visit_timestamps missing 'end' after completion";
+
+    // getVisitTimestamp must still return values after completion
+    EXPECT_TRUE(pgm_->getVisitTimestamp(instanceId, "start").has_value());
+    EXPECT_TRUE(pgm_->getVisitTimestamp(instanceId, "task").has_value());
+    EXPECT_TRUE(pgm_->getVisitTimestamp(instanceId, "end").has_value());
+}

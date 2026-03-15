@@ -44,13 +44,14 @@
 ### `WireProtocolServer`: ProcessGraph Visit Timestamp TODO
 **Priority:** Low
 **Target Version:** v1.8.0
+**Status:** ✅ Implemented (v1.8.0)
 
-`wire_protocol_server.cpp` line 2306 has: "TODO: `ProcessGraphManager` doesn't store individual visit timestamps per node" — the temporal-graph traversal path in the wire server cannot reconstruct visit ordering for graph result pages.
+`wire_protocol_server.cpp` line 2306 had: "TODO: `ProcessGraphManager` doesn't store individual visit timestamps per node" — the temporal-graph traversal path in the wire server cannot reconstruct visit ordering for graph result pages.
 
 **Implementation Notes:**
-- `[ ]` Add `ProcessGraphVisitLog` (map from node ID to `std::chrono::system_clock::time_point`) to `ProcessGraphManager` state; update on each traversal step.
-- `[ ]` Expose via `ProcessGraphManager::getVisitTimestamp(node_id)` for use in the wire protocol server response encoding.
-- `[ ]` Add unit test verifying visit timestamps are populated and ordered correctly across multi-hop traversals.
+- `[x]` Add `ProcessGraphVisitLog` (map from node ID to `std::chrono::system_clock::time_point`) to `ProcessGraphManager` state; update on each traversal step.
+- `[x]` Expose via `ProcessGraphManager::getVisitTimestamp(instance_id, node_id)` for use in the wire protocol server response encoding.
+- `[x]` Add unit test verifying visit timestamps are populated and ordered correctly across multi-hop traversals.
 
 ---
 
