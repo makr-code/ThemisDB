@@ -629,12 +629,13 @@ static double runMySQLBench(const std::string& sql_file, bool dry_run,
     std::string line;
     size_t records    = 0;
     size_t byte_count = 0;
+    static constexpr std::string_view kInsertPrefix = "INSERT INTO";
 
     while (std::getline(f, line)) {
         byte_count += line.size() + 1;
         // MySQL dump lines starting with "INSERT INTO" are data rows.
-        if (line.size() >= 11 &&
-            line[0] == 'I' && line[1] == 'N' && line[2] == 'S') {
+        if (line.size() >= kInsertPrefix.size() &&
+            line.compare(0, kInsertPrefix.size(), kInsertPrefix) == 0) {
             if (!dry_run) ++records;
         }
     }

@@ -1080,7 +1080,15 @@ static ImportStats mysqlStreamingImportContent(const std::string& content,
                         if (schemas.count(table_name))
                             schema_cols = schemas[table_name].columns;
                         if (!col_list.empty()) schema_cols = col_list;
-                        uint64_t h = testComputeRowHash("", vals,
+                        // Build a full-row string for the fallback hash (when
+                        // delta_key_columns is empty).  Join with \x01 to avoid
+                        // false collisions from adjacent field concatenation.
+                        std::string tuple_str;
+                        for (size_t vi = 0; vi < vals.size(); ++vi) {
+                            if (vi > 0) tuple_str += '\x01';
+                            tuple_str += vals[vi];
+                        }
+                        uint64_t h = testComputeRowHash(tuple_str, vals,
                                                          options.delta_key_columns,
                                                          schema_cols);
                         if (delta_hashes.count(h)) {
