@@ -39,18 +39,18 @@ This document covers planned enhancements to ThemisDB's sharding subsystem, whic
 
 ---
 
-### `CrossShardTransaction`: Hardcode Coordinator ID and Missing Compensation RPC
+### [x] `CrossShardTransaction`: Hardcode Coordinator ID and Missing Compensation RPC
 **Priority:** High
 **Target Version:** v1.8.0
 
-`cross_shard_transaction.cpp` has 3 critical TODOs:
-- Line 1898: "TODO: Replace with proper compensation RPC" — SAGA compensation actions call no real RPC.
-- Line 2581: `coordinator_id = "coordinator-1"` hardcoded — transaction audit records show a placeholder instead of the actual node.
-- Line 2605: same hardcoded coordinator ID.
+`cross_shard_transaction.cpp` had 3 critical TODOs (all resolved):
+- Line 1743 (was 1898): `TODO: Replace with proper compensation RPC` — SAGA compensation actions now call `ShardRPCClient::compensate(txn_id, operation)`.
+- Line 2426 (was 2581): `coordinator_id = "coordinator-1"` replaced with `config_.coordinator_id`.
+- Line 2444 (was 2605): same hardcoded coordinator ID replaced.
 
 **Implementation Notes:**
-- `[ ]` Inject the actual `DistributedCoordinator::nodeId()` into `CrossShardTransactionManager`; replace all `"coordinator-1"` literals with the real node ID.
-- `[ ]` Line 1898: implement the SAGA compensation RPC by dispatching a `ShardRpcClient::compensate(shard_id, txn_id, operation)` call; handle network failures with a bounded retry queue.
+- `[x]` Added `coordinator_id` field to `CrossShardTransactionConfig`; callers inject `DistributedCoordinator::getLocalShardId()` before constructing the coordinator; all `"coordinator-1"` literals replaced with `config_.coordinator_id`.
+- `[x]` Line 1743: SAGA compensation RPC implemented via `ShardRPCClient::compensate(txn_id, operation)`; bounded retry queue (max_retries=3, exponential backoff) already present and unchanged.
 
 ---
 

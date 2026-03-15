@@ -1723,31 +1723,31 @@ void CrossShardTransactionCoordinator::executeCompensations(
             
             themis::sharding::ShardRPCClient rpc_client(rpc_config);
             
-            // Execute compensation operation
-            // NOTE: In a full production implementation, this should use a dedicated
-            // compensation RPC call that executes the actual compensation operation
-            // (e.g., DELETE to undo INSERT, UPDATE to revert changes, etc.)
-            // For now, we use abort as a proxy to signal the shard to roll back
-            // the corresponding step. Production systems should implement:
-            // - rpc_client.executeCompensation(compensation_id, operation)
-            // - Shard-side compensation handlers that interpret the operation JSON
-            // - Idempotent compensation execution (in case of retries)
-            nlohmann::json operations = nlohmann::json::array();
-            operations.push_back(operation);
-            
+            // Execute the SAGA compensation operation via a dedicated compensate RPC.
+            // The operation JSON carries the reverse action (e.g., DELETE to undo INSERT)
+            // that the shard will apply idempotently.
             int retries = 0;
             bool success = false;
             
             while (retries <= rpc_config.max_retries) {
                 try {
-                    // TODO: Replace with proper compensation RPC
-                    // For now using abort as a proxy signal
-                    success = rpc_client.abort(transaction_id + "_compensation_" + std::to_string(idx));
+                    success = rpc_client.compensate(transaction_id, operation);
                     
                     if (success) {
                         spdlog::info("Compensation {} completed successfully", idx);
                         break;
                     }
+                    
+                    // RPC returned a non-success status without throwing — count as
+                    // a failed attempt so the bounded retry loop terminates correctly.
+                    if (retries < rpc_config.max_retries) {
+                        spdlog::warn("Compensation {} not acknowledged (attempt {}/{}). Retrying",
+                                   idx, retries + 1, rpc_config.max_retries + 1);
+                        std::this_thread::sleep_for(
+                            std::chrono::milliseconds(rpc_config.retry_delay_ms * (1 << retries))
+                        );
+                    }
+                    retries++;
                     
                 } catch (const std::exception& e) {
                     if (retries < rpc_config.max_retries) {
@@ -2423,7 +2423,9 @@ void CrossShardTransactionCoordinator::createPeriodicSnapshot() {
                 entry.state = to_snapshot_state(txn.state);
                 entry.start_timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(
                     txn.start_time.time_since_epoch()).count();
-                entry.coordinator_id = "coordinator-1";  // TODO: Get actual coordinator ID
+                entry.coordinator_id = config_.coordinator_id.empty()
+                    ? "unknown-coordinator"
+                    : config_.coordinator_id;
                 
                 // Add participants
                 for (const auto& [shard_id, participant] : txn.participants) {
@@ -2447,7 +2449,7 @@ void CrossShardTransactionCoordinator::createPeriodicSnapshot() {
         
         // Create snapshot
         auto snapshot_id = snapshot_manager_->createSnapshot(
-            "coordinator-1",  // TODO: Get actual coordinator ID
+            config_.coordinator_id.empty() ? "unknown-coordinator" : config_.coordinator_id,
             last_applied_lsn_,
             active_txns
         );

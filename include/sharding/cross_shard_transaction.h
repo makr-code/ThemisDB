@@ -199,6 +199,11 @@ struct CrossShardTransactionConfig {
     std::string data_dir;                           // Base directory for WAL and snapshots
     uint64_t snapshot_interval = 1000;              // Create snapshot every N operations
     size_t max_snapshots = 10;                      // Maximum snapshots to retain
+
+    // Coordinator identity — set to DistributedCoordinator::getLocalShardId()
+    // before constructing CrossShardTransactionCoordinator so that audit records
+    // and snapshots carry the real node ID instead of a placeholder.
+    std::string coordinator_id;                     // Actual coordinator node identifier
 };
 
 /**

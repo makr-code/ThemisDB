@@ -154,6 +154,17 @@ public:
     bool abort(const std::string& txn_id);
     
     /**
+     * @brief Send COMPENSATE request (SAGA compensation)
+     * @param txn_id Transaction ID
+     * @param operation Compensation operation JSON payload
+     * @return true if compensation executed successfully
+     */
+    bool compensate(
+        const std::string& txn_id,
+        const nlohmann::json& operation
+    );
+    
+    /**
      * @brief Execute snapshot read at specific timestamp
      * @param snapshot_ts Snapshot timestamp for consistent read
      * @param query Query to execute
