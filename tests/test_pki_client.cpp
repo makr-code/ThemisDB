@@ -126,6 +126,7 @@ cleanup:
 
 } // namespace
 
+#ifdef THEMIS_TEST_MODE
 TEST(PKIClientTest, SignVerify_StubMode_Base64Echo) {
     PKIConfig cfg; // no key/cert -> stub mode
     cfg.signature_algorithm = "RSA-SHA256";
@@ -137,6 +138,7 @@ TEST(PKIClientTest, SignVerify_StubMode_Base64Echo) {
     // In stub mode signature is base64(hash); verify should succeed
     EXPECT_TRUE(client.verifyHash(hash, sig));
 }
+#endif // THEMIS_TEST_MODE
 
 TEST(PKIClientTest, SignVerify_RSA_SHA256_Succeeds) {
     // Prepare temp files
@@ -168,6 +170,7 @@ TEST(PKIClientTest, SignVerify_RSA_SHA256_Succeeds) {
     EXPECT_FALSE(client.verifyHash(hash, sig));
 }
 
+#ifdef THEMIS_TEST_MODE
 TEST(PKIClientTest, SignVerify_AlgoMismatch_FallsBackStub) {
     PKIConfig cfg; // no key/cert
     cfg.signature_algorithm = "RSA-SHA512"; // expects 64-byte hash
@@ -178,4 +181,90 @@ TEST(PKIClientTest, SignVerify_AlgoMismatch_FallsBackStub) {
     ASSERT_TRUE(sig.ok);
     // Should verify via stub comparison
     EXPECT_TRUE(client.verifyHash(hash, sig));
+}
+#endif // THEMIS_TEST_MODE
+
+// In production mode (THEMIS_TEST_MODE not defined), signHash without a configured key
+// must return ok=false so that callers are not misled by a fake stub signature.
+TEST(PKIClientTest, SignHash_NoKeyConfigured_ReturnsFailureInProdMode) {
+#ifdef THEMIS_TEST_MODE
+    GTEST_SKIP() << "Stub fallback is active in THEMIS_TEST_MODE; skipping production-mode check.";
+#endif
+    PKIConfig cfg; // no key, no endpoint
+    cfg.signature_algorithm = "RSA-SHA256";
+    VCCPKIClient client(cfg);
+    auto hash = random_bytes(32);
+    auto sig = client.signHash(hash);
+    EXPECT_FALSE(sig.ok) << "signHash without a configured key must fail in production mode";
+}
+
+// In production mode, verifyHash without a configured cert must return false (fail-closed).
+TEST(PKIClientTest, VerifyHash_NoCertConfigured_ReturnsFalseInProdMode) {
+#ifdef THEMIS_TEST_MODE
+    GTEST_SKIP() << "Stub fallback is active in THEMIS_TEST_MODE; skipping production-mode check.";
+#endif
+    PKIConfig cfg; // no cert, no endpoint
+    cfg.signature_algorithm = "RSA-SHA256";
+    VCCPKIClient client(cfg);
+    auto hash = random_bytes(32);
+
+    SignatureResult fake_sig;
+    fake_sig.ok = true;
+    fake_sig.algorithm = "RSA-SHA256";
+    fake_sig.signature_b64 = "dGVzdA=="; // arbitrary base64
+
+    EXPECT_FALSE(client.verifyHash(hash, fake_sig))
+        << "verifyHash without a configured cert must fail-closed in production mode";
+}
+
+// Verify that verifyHash rejects a signature when the certificate chain is invalid
+// (i.e. the cert is self-signed and the trust store does not contain it as a trusted CA).
+TEST(PKIClientTest, VerifyHash_ChainVerify_UntrustedCert_Rejected) {
+    std::filesystem::create_directories("data/test_pki_chain");
+    const std::string key_path  = "data/test_pki_chain/key.pem";
+    const std::string cert_path = "data/test_pki_chain/cert.pem";
+    // Use a different self-signed cert as the (wrong) trust store — chain must be rejected.
+    const std::string other_key  = "data/test_pki_chain/other_key.pem";
+    const std::string other_cert = "data/test_pki_chain/other_cert.pem";
+
+    ASSERT_TRUE(generate_rsa_key_and_self_signed_cert(key_path, cert_path));
+    ASSERT_TRUE(generate_rsa_key_and_self_signed_cert(other_key, other_cert));
+
+    PKIConfig cfg;
+    cfg.key_path         = key_path;
+    cfg.cert_path        = cert_path;
+    cfg.trust_store_path = other_cert; // intentionally wrong CA
+    cfg.signature_algorithm = "RSA-SHA256";
+
+    VCCPKIClient client(cfg);
+    auto hash = random_bytes(32);
+    auto sig  = client.signHash(hash);
+    ASSERT_TRUE(sig.ok) << "Signing with a local key must succeed";
+
+    // Verification must fail because the cert is not trusted by the (wrong) trust store.
+    EXPECT_FALSE(client.verifyHash(hash, sig))
+        << "Certificate chain validation must reject an untrusted certificate";
+}
+
+// Verify that verifyHash accepts a valid chain when the trust store contains the CA cert.
+TEST(PKIClientTest, VerifyHash_ChainVerify_TrustedSelfSignedCert_Accepted) {
+    std::filesystem::create_directories("data/test_pki_chain");
+    const std::string key_path  = "data/test_pki_chain/self_key.pem";
+    const std::string cert_path = "data/test_pki_chain/self_cert.pem";
+
+    ASSERT_TRUE(generate_rsa_key_and_self_signed_cert(key_path, cert_path));
+
+    PKIConfig cfg;
+    cfg.key_path         = key_path;
+    cfg.cert_path        = cert_path;
+    cfg.trust_store_path = cert_path; // self-signed cert is its own CA
+    cfg.signature_algorithm = "RSA-SHA256";
+
+    VCCPKIClient client(cfg);
+    auto hash = random_bytes(32);
+    auto sig  = client.signHash(hash);
+    ASSERT_TRUE(sig.ok);
+
+    EXPECT_TRUE(client.verifyHash(hash, sig))
+        << "Certificate chain validation must accept a self-signed cert trusted by itself";
 }

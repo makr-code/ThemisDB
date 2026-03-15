@@ -1268,6 +1268,7 @@ endif()
 
 target_compile_definitions(themis_tests PRIVATE
     THEMIS_TEST_BUILD=1
+    THEMIS_TEST_MODE=1
     THEMIS_TEST_CERT_DIR="${THEMIS_ROOT_DIR}/certs/test/wire_protocol"
 )
 

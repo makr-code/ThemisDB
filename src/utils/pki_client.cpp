@@ -285,6 +285,56 @@ static Result<EVP_PKEY*> load_public_key_and_serial(const PKIConfig& cfg, std::s
     return Ok(pub);
 }
 
+// Verify the X.509 certificate chain for cert_path against the CA bundle at trust_store_path.
+// Returns true only when the chain is fully valid.
+static bool verify_cert_chain(const PKIConfig& cfg) {
+    if (cfg.cert_path.empty() || cfg.trust_store_path.empty()) {
+        return false;
+    }
+
+    auto bio_leaf = make_bio_file(cfg.cert_path.c_str(), "r");
+    if (!bio_leaf) {
+        std::cerr << "PKI chain verify: cannot open cert file: " << cfg.cert_path << "\n";
+        return false;
+    }
+
+    auto leaf = X509Ptr(PEM_read_bio_X509(bio_leaf.get(), nullptr, nullptr, nullptr));
+    if (!leaf) {
+        std::cerr << "PKI chain verify: cannot parse certificate: " << cfg.cert_path << "\n";
+        return false;
+    }
+
+    X509StorePtr store(X509_STORE_new());
+    if (!store) {
+        std::cerr << "PKI chain verify: X509_STORE_new() failed\n";
+        return false;
+    }
+
+    if (X509_STORE_load_locations(store.get(), cfg.trust_store_path.c_str(), nullptr) != 1) {
+        std::cerr << "PKI chain verify: cannot load trust store: " << cfg.trust_store_path << "\n";
+        return false;
+    }
+
+    X509StoreCtxPtr ctx(X509_STORE_CTX_new());
+    if (!ctx) {
+        std::cerr << "PKI chain verify: X509_STORE_CTX_new() failed\n";
+        return false;
+    }
+
+    if (X509_STORE_CTX_init(ctx.get(), store.get(), leaf.get(), nullptr) != 1) {
+        std::cerr << "PKI chain verify: X509_STORE_CTX_init() failed\n";
+        return false;
+    }
+
+    int rc = X509_verify_cert(ctx.get());
+    if (rc != 1) {
+        int err = X509_STORE_CTX_get_error(ctx.get());
+        std::cerr << "PKI chain verify: X509_verify_cert() failed: "
+                  << X509_verify_cert_error_string(err) << "\n";
+    }
+    return rc == 1;
+}
+
 // Configure CURL handle with certificate pinning
 static void configure_curl_pinning(CURL* curl, const PKIConfig* cfg) {
     if (!cfg || !cfg->enable_cert_pinning || cfg->pinned_cert_fingerprints.empty()) {
@@ -453,11 +503,18 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
         }
     }
 
-    // Fallback: stub behavior (base64 of hash)
+    // Fallback: stub behavior (base64 of hash).
+    // Guarded by THEMIS_TEST_MODE so it cannot be compiled into production builds.
+#ifdef THEMIS_TEST_MODE
     res.ok = true;
     res.signature_b64 = base64_encode(hash_bytes);
     res.cert_serial = "DEMO-CERT-SERIAL";
     return res;
+#else
+    // Production: no key or endpoint configured — signing is not available.
+    res.ok = false;
+    return res;
+#endif
 }
 
 bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const SignatureResult& sig) const {
@@ -547,8 +604,15 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
         }
     }
 
-    // Try real RSA verify if certificate is available and hash length matches
+    // Try real RSA verify if certificate is available and hash length matches.
+    // When trust_store_path is also configured, first validate the full X.509 chain
+    // so that an untrusted or expired certificate is rejected before checking the signature.
     if (!cfg_.cert_path.empty() && (expected_len == 0 || hash_bytes.size() == expected_len)) {
+        // Enforce chain validation when a trust store is configured.
+        if (!cfg_.trust_store_path.empty() && !verify_cert_chain(cfg_)) {
+            return false;
+        }
+
         std::string serial;
         auto pub_result = load_public_key_and_serial(cfg_, serial);
         if (pub_result) {
@@ -572,9 +636,17 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
         }
     }
 
-    // Fallback stub verification: compare base64(hash) equality
-    std::string expected = base64_encode(hash_bytes);
-    return expected == sig.signature_b64;
+    // Fallback stub verification: compare base64(hash) equality.
+    // Guarded by THEMIS_TEST_MODE — never compiled into production builds.
+#ifdef THEMIS_TEST_MODE
+    {
+        std::string expected = base64_encode(hash_bytes);
+        return expected == sig.signature_b64;
+    }
+#else
+    // Production: no cert or endpoint configured — treat as verification failure.
+    return false;
+#endif
 }
 
 } // namespace utils

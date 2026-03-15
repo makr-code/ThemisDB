@@ -40,6 +40,7 @@
 #include <optional>
 #include <openssl/evp.h>
 #include <openssl/x509.h>
+#include <openssl/x509_vfy.h>
 #include <openssl/bio.h>
 #include <openssl/pem.h>
 #include <openssl/rsa.h>
@@ -80,6 +81,20 @@ struct X509CRLDeleter {
     }
 };
 
+/// Deleter for X509_STORE
+struct X509StoreDeleter {
+    void operator()(X509_STORE* store) const noexcept {
+        if (store) X509_STORE_free(store);
+    }
+};
+
+/// Deleter for X509_STORE_CTX
+struct X509StoreCtxDeleter {
+    void operator()(X509_STORE_CTX* ctx) const noexcept {
+        if (ctx) X509_STORE_CTX_free(ctx);
+    }
+};
+
 /// Deleter for BIO
 struct BIODeleter {
     void operator()(BIO* bio) const noexcept {
@@ -116,6 +131,12 @@ using X509Ptr = std::unique_ptr<X509, X509Deleter>;
 
 /// RAII wrapper for X509_CRL
 using X509CRLPtr = std::unique_ptr<X509_CRL, X509CRLDeleter>;
+
+/// RAII wrapper for X509_STORE
+using X509StorePtr = std::unique_ptr<X509_STORE, X509StoreDeleter>;
+
+/// RAII wrapper for X509_STORE_CTX
+using X509StoreCtxPtr = std::unique_ptr<X509_STORE_CTX, X509StoreCtxDeleter>;
 
 /// RAII wrapper for BIO
 using BIOPtr = std::unique_ptr<BIO, BIODeleter>;

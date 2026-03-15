@@ -42,6 +42,11 @@ struct PKIConfig {
     bool enable_cert_pinning = false;                   // Enable certificate pinning
     std::vector<std::string> pinned_cert_fingerprints;  // SHA256 fingerprints (hex) of allowed certificates
     bool pin_leaf_only = false;                         // If true, pin only leaf cert; if false, pin any cert in chain
+
+    // X.509 Chain Verification: path to PEM trust store (CA bundle or CA cert).
+    // When set, verifyHash() validates the full certificate chain via X509_verify_cert()
+    // before accepting any signature.  Must be configured for production traffic.
+    std::string trust_store_path;
 };
 
 struct SignatureResult {
