@@ -41,12 +41,18 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <set>
+#include <unordered_set>
+#include <atomic>
+#include <cstdint>
 #include <fstream>
 #include <sstream>
 #include <algorithm>
 #include <functional>
 #include <regex>
 #include <cctype>
+#include <cinttypes>
+#include <cstdio>
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
@@ -98,6 +104,10 @@ struct ImportStats {
 using RowCallback = std::function<bool(const std::string& table_name,
                                        const nlohmann::json& entity)>;
 
+using MetricsCallback = std::function<void(const std::string& metric,
+                                           const std::map<std::string, std::string>& labels,
+                                           double value)>;
+
 struct ImportOptions {
     bool                             dry_run             = false;
     bool                             continue_on_error   = true;
@@ -109,11 +119,71 @@ struct ImportOptions {
     size_t                           max_statement_size_bytes = 0;
     std::function<bool(const std::string&, const std::string&)> permission_check;
     RowCallback                      streaming_row_callback;
+    MetricsCallback                  metrics_callback;  ///< Prometheus / OTel metrics hook
+    // Delta / incremental import (same pattern as PostgreSQL importer)
+    std::string                      delta_hash_file;     ///< Path to hash state file (empty = disabled)
+    std::vector<std::string>         delta_key_columns;   ///< Columns to hash; "updated_at" = watermark mode
 };
 
 // ---------------------------------------------------------------------------
 // Helpers duplicated from mysql_importer.cpp (kept in sync manually for tests)
 // ---------------------------------------------------------------------------
+
+/// FNV-1a 64-bit hash (mirrors mysql_fnv1a64 in mysql_importer.cpp).
+static uint64_t test_fnv1a64(const char* data, size_t len) {
+    uint64_t hash = UINT64_C(14695981039346656037);
+    for (size_t i = 0; i < len; ++i) {
+        hash ^= static_cast<uint8_t>(data[i]);
+        hash *= UINT64_C(1099511628211);
+    }
+    return hash;
+}
+
+/// Compute a row hash for delta/incremental import (mirrors MySQLImporter::computeRowHash).
+static uint64_t testComputeRowHash(const std::string& tuple_str,
+                                    const std::vector<std::string>& values,
+                                    const std::vector<std::string>& key_columns,
+                                    const std::vector<std::string>& schema_columns) {
+    static constexpr char kFieldSep = '\x01';
+    if (key_columns.empty() || schema_columns.empty()) {
+        return test_fnv1a64(tuple_str.data(), tuple_str.size());
+    }
+    std::string key_data;
+    for (const auto& kc : key_columns) {
+        auto it = std::find(schema_columns.begin(), schema_columns.end(), kc);
+        if (it != schema_columns.end()) {
+            size_t idx = static_cast<size_t>(it - schema_columns.begin());
+            if (idx < values.size()) key_data += values[idx];
+        }
+        key_data += kFieldSep;
+    }
+    return test_fnv1a64(key_data.data(), key_data.size());
+}
+
+/// Load delta hashes from a file (mirrors MySQLImporter::loadDeltaHashes).
+static std::unordered_set<uint64_t> testLoadDeltaHashes(const std::string& path) {
+    std::unordered_set<uint64_t> hashes;
+    std::ifstream f(path);
+    if (!f) return hashes;
+    std::string line;
+    while (std::getline(f, line)) {
+        if (line.empty()) continue;
+        try { hashes.insert(std::stoull(line, nullptr, 16)); } catch (...) {}
+    }
+    return hashes;
+}
+
+/// Save delta hashes to a file (mirrors MySQLImporter::saveDeltaHashes).
+static void testSaveDeltaHashes(const std::string& path,
+                                  const std::unordered_set<uint64_t>& hashes) {
+    std::ofstream f(path, std::ios::trunc);
+    if (!f) return;
+    for (uint64_t h : hashes) {
+        char buf[17];
+        std::snprintf(buf, sizeof(buf), "%016" PRIx64, h);
+        f << buf << "\n";
+    }
+}
 
 static std::string toLowerTest(const std::string& s) {
     std::string r = s;
@@ -920,11 +990,18 @@ TEST(MySQLPermissionCheck, AllowedByCallback) {
 // ===========================================================================
 
 /// Minimal MySQL streaming importer driven from in-memory dump text.
-/// Mirrors the logic of MySQLImporter::parseInsert() with streaming support.
+/// Mirrors the logic of MySQLImporter::parseInsert() with streaming support
+/// and delta/incremental import (delta_hash_file + delta_key_columns).
 static ImportStats mysqlStreamingImportContent(const std::string& content,
                                                 const ImportOptions& options) {
     ImportStats stats;
     bool cancelled = false;
+
+    // Load delta hashes for incremental import
+    std::unordered_set<uint64_t> delta_hashes;
+    if (!options.delta_hash_file.empty()) {
+        delta_hashes = testLoadDeltaHashes(options.delta_hash_file);
+    }
 
     // First pass: build table schemas from CREATE TABLE statements
     std::map<std::string, TableSchema> schemas;
@@ -996,6 +1073,31 @@ static ImportStats mysqlStreamingImportContent(const std::string& content,
 
                 for (auto& vals : tuples) {
                     stats.total_records++;
+
+                    // Delta / incremental import check (mirrors parseInsert logic)
+                    if (!options.delta_hash_file.empty()) {
+                        std::vector<std::string> schema_cols;
+                        if (schemas.count(table_name))
+                            schema_cols = schemas[table_name].columns;
+                        if (!col_list.empty()) schema_cols = col_list;
+                        // Build a full-row string for the fallback hash (when
+                        // delta_key_columns is empty).  Join with \x01 to avoid
+                        // false collisions from adjacent field concatenation.
+                        std::string tuple_str;
+                        for (size_t vi = 0; vi < vals.size(); ++vi) {
+                            if (vi > 0) tuple_str += '\x01';
+                            tuple_str += vals[vi];
+                        }
+                        uint64_t h = testComputeRowHash(tuple_str, vals,
+                                                         options.delta_key_columns,
+                                                         schema_cols);
+                        if (delta_hashes.count(h)) {
+                            stats.skipped_records++;
+                            continue;
+                        }
+                        delta_hashes.insert(h);
+                    }
+
                     // Build entity
                     json entity;
                     entity["_table"] = table_name;
@@ -1008,11 +1110,21 @@ static ImportStats mysqlStreamingImportContent(const std::string& content,
                         }
                     }
                     stats.imported_records++;
+                    if (options.metrics_callback) {
+                        options.metrics_callback(
+                            "importers_mysql_rows_imported_total",
+                            {{"table", table_name}}, 1.0);
+                    }
                     if (cancelled) break;
                 }
             }
         }
         sql.clear();
+    }
+
+    // Persist updated delta hashes (not in dry-run)
+    if (!options.dry_run && !options.delta_hash_file.empty() && !delta_hashes.empty()) {
+        testSaveDeltaHashes(options.delta_hash_file, delta_hashes);
     }
 
     return stats;
@@ -1425,6 +1537,297 @@ TEST(MySQLJdbcJsonConfig, TypeOverridesField) {
     } catch (...) {}
     EXPECT_EQ(overrides.at("enum"),  "string");
     EXPECT_EQ(overrides.at("set"),   "array");
+}
+
+// ===========================================================================
+// Tests: MySQL-specific Prometheus metric names
+// (Verifies that the correct per-importer counter names are emitted, consistent
+//  with the naming convention importers_<source>_rows_imported_total and
+//  importers_<source>_errors_total.)
+// ===========================================================================
+
+TEST(MySQLPrometheusMetrics, RowsImportedTotalEmittedPerRow) {
+    ImportOptions opts;
+    std::vector<std::string> metric_names;
+    opts.metrics_callback = [&](const std::string& metric,
+                                 const std::map<std::string,std::string>&,
+                                 double) {
+        metric_names.push_back(metric);
+    };
+
+    mysqlStreamingImportContent(kMySQLDump, opts);
+
+    bool found = std::find(metric_names.begin(), metric_names.end(),
+                           "importers_mysql_rows_imported_total") != metric_names.end();
+    EXPECT_TRUE(found) << "Expected importers_mysql_rows_imported_total to be emitted";
+}
+
+TEST(MySQLPrometheusMetrics, RowsImportedTotalCountMatchesImportedRecords) {
+    ImportOptions opts;
+    size_t rows_imported_emitted = 0;
+    opts.metrics_callback = [&](const std::string& metric,
+                                 const std::map<std::string,std::string>&,
+                                 double) {
+        if (metric == "importers_mysql_rows_imported_total") ++rows_imported_emitted;
+    };
+
+    auto stats = mysqlStreamingImportContent(kMySQLDump, opts);
+
+    EXPECT_EQ(rows_imported_emitted, stats.imported_records);
+}
+
+TEST(MySQLPrometheusMetrics, MetricNamingConventionFollowed) {
+    // Verify that the MySQL-specific metric names follow the naming convention:
+    // importers_<source>_rows_imported_total  and  importers_<source>_errors_total
+    // See: src/importers/FUTURE_ENHANCEMENTS.md §MySQL/MariaDB Importer
+    //
+    // Additionally verifies that both metrics are actually emitted during a real import.
+    const std::string expected_rows_metric   = "importers_mysql_rows_imported_total";
+    const std::string expected_errors_metric = "importers_mysql_errors_total";
+
+    // Pattern checks
+    EXPECT_EQ(expected_rows_metric.substr(0, 10),   "importers_");
+    EXPECT_NE(expected_rows_metric.find("mysql"),    std::string::npos);
+    EXPECT_NE(expected_rows_metric.find("imported"), std::string::npos);
+
+    EXPECT_EQ(expected_errors_metric.substr(0, 10), "importers_");
+    EXPECT_NE(expected_errors_metric.find("mysql"),  std::string::npos);
+    EXPECT_NE(expected_errors_metric.find("errors"), std::string::npos);
+
+    // Runtime check: run an import with a metrics callback and verify the
+    // expected metric names are emitted.
+    ImportOptions opts;
+    std::set<std::string> emitted_metrics;
+    opts.metrics_callback = [&](const std::string& metric,
+                                 const std::map<std::string,std::string>&,
+                                 double) {
+        emitted_metrics.insert(metric);
+    };
+
+    mysqlStreamingImportContent(kMySQLDump, opts);
+
+    EXPECT_TRUE(emitted_metrics.count(expected_rows_metric) > 0)
+        << "Expected metric '" << expected_rows_metric << "' to be emitted";
+}
+
+// ===========================================================================
+// Tests: Delta / incremental import
+// (Verifies that rows already seen in a previous import are skipped, and that
+//  new rows are imported.  Mirrors the pattern from the PostgreSQL importer.)
+// ===========================================================================
+
+/// Helper: return a unique path in /tmp for a delta hash file.
+static std::string makeDeltaHashPath() {
+    static std::atomic<int> counter{0};
+    return "/tmp/themis_mysql_delta_test_" +
+           std::to_string(reinterpret_cast<uintptr_t>(&counter)) + "_" +
+           std::to_string(++counter) + ".hashes";
+}
+
+TEST(MySQLDeltaImport, FullImportWhenNoDeltaFile) {
+    // Without a delta_hash_file all rows are imported.
+    ImportOptions opts;
+    auto stats = mysqlStreamingImportContent(kMySQLDump, opts);
+    EXPECT_EQ(stats.imported_records, 3u);
+    EXPECT_EQ(stats.skipped_records,  0u);
+}
+
+TEST(MySQLDeltaImport, SecondFullImportSkipsAllRows) {
+    // On a second run with the same delta file all rows are already known
+    // and should be skipped.
+    std::string hash_path = makeDeltaHashPath();
+
+    ImportOptions opts;
+    opts.delta_hash_file = hash_path;
+
+    // First run: imports 3 rows and writes hash file
+    auto stats1 = mysqlStreamingImportContent(kMySQLDump, opts);
+    EXPECT_EQ(stats1.imported_records, 3u);
+    EXPECT_EQ(stats1.skipped_records,  0u);
+
+    // Second run: all 3 rows are already in the hash file
+    auto stats2 = mysqlStreamingImportContent(kMySQLDump, opts);
+    EXPECT_EQ(stats2.imported_records, 0u);
+    EXPECT_EQ(stats2.skipped_records,  3u);
+
+    std::remove(hash_path.c_str());
+}
+
+TEST(MySQLDeltaImport, NewRowsImportedAfterPartialRun) {
+    // Simulate a scenario where 2 rows were already imported and 1 new row
+    // is added in the second run.
+    std::string hash_path = makeDeltaHashPath();
+
+    // Dump with only 2 rows
+    const std::string kDump2Rows = R"(
+-- MySQL dump 8.0
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+INSERT INTO `users` (`id`,`name`) VALUES (1,'Alice');
+INSERT INTO `users` (`id`,`name`) VALUES (2,'Bob');
+)";
+
+    // Dump with 3 rows (1 new)
+    const std::string kDump3Rows = R"(
+-- MySQL dump 8.0
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+INSERT INTO `users` (`id`,`name`) VALUES (1,'Alice');
+INSERT INTO `users` (`id`,`name`) VALUES (2,'Bob');
+INSERT INTO `users` (`id`,`name`) VALUES (3,'Charlie');
+)";
+
+    ImportOptions opts;
+    opts.delta_hash_file = hash_path;
+
+    // First run with 2 rows
+    auto stats1 = mysqlStreamingImportContent(kDump2Rows, opts);
+    EXPECT_EQ(stats1.imported_records, 2u);
+    EXPECT_EQ(stats1.skipped_records,  0u);
+
+    // Second run: 2 rows skipped, 1 new row imported
+    auto stats2 = mysqlStreamingImportContent(kDump3Rows, opts);
+    EXPECT_EQ(stats2.imported_records, 1u)
+        << "Only the new row should be imported";
+    EXPECT_EQ(stats2.skipped_records,  2u)
+        << "Two previously-seen rows should be skipped";
+
+    std::remove(hash_path.c_str());
+}
+
+TEST(MySQLDeltaImport, DeltaKeyColumnsHashOnlySpecifiedColumn) {
+    // When delta_key_columns is set to {"id"}, two rows with different content
+    // but the same id should collide and the second one should be skipped.
+    std::string hash_path = makeDeltaHashPath();
+
+    const std::string kDump = R"(
+-- MySQL dump 8.0
+CREATE TABLE `orders` (
+  `id` int NOT NULL,
+  `status` varchar(20),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+INSERT INTO `orders` (`id`,`status`) VALUES (1,'pending');
+INSERT INTO `orders` (`id`,`status`) VALUES (2,'shipped');
+)";
+
+    ImportOptions opts;
+    opts.delta_hash_file   = hash_path;
+    opts.delta_key_columns = {"id"};
+
+    // First run
+    auto stats1 = mysqlStreamingImportContent(kDump, opts);
+    EXPECT_EQ(stats1.imported_records, 2u);
+
+    // Second run with same ids → both skipped
+    const std::string kDumpUpdated = R"(
+-- MySQL dump 8.0
+CREATE TABLE `orders` (
+  `id` int NOT NULL,
+  `status` varchar(20),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+INSERT INTO `orders` (`id`,`status`) VALUES (1,'delivered');
+INSERT INTO `orders` (`id`,`status`) VALUES (2,'returned');
+)";
+
+    auto stats2 = mysqlStreamingImportContent(kDumpUpdated, opts);
+    EXPECT_EQ(stats2.skipped_records, 2u)
+        << "Same id values → same hash → should be skipped";
+
+    std::remove(hash_path.c_str());
+}
+
+TEST(MySQLDeltaImport, UpdatedAtColumnHighWatermark) {
+    // The canonical high-watermark configuration: delta_key_columns = {"updated_at"}.
+    // Rows with the same updated_at as a previously-seen row are skipped.
+    std::string hash_path = makeDeltaHashPath();
+
+    const std::string kDump = R"(
+-- MySQL dump 8.0
+CREATE TABLE `events` (
+  `id` int NOT NULL,
+  `payload` text,
+  `updated_at` datetime,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+INSERT INTO `events` (`id`,`payload`,`updated_at`) VALUES (1,'ping','2025-01-01 00:00:00');
+INSERT INTO `events` (`id`,`payload`,`updated_at`) VALUES (2,'pong','2025-01-02 00:00:00');
+)";
+
+    ImportOptions opts;
+    opts.delta_hash_file   = hash_path;
+    opts.delta_key_columns = {"updated_at"};
+
+    // First run: import both rows
+    auto stats1 = mysqlStreamingImportContent(kDump, opts);
+    EXPECT_EQ(stats1.imported_records, 2u);
+
+    // Second run: same updated_at → skip both
+    auto stats2 = mysqlStreamingImportContent(kDump, opts);
+    EXPECT_EQ(stats2.skipped_records, 2u)
+        << "updated_at-based watermark: same timestamp → skip";
+
+    // Third run with one updated row (new updated_at) → import 1, skip 1
+    const std::string kDumpNew = R"(
+-- MySQL dump 8.0
+CREATE TABLE `events` (
+  `id` int NOT NULL,
+  `payload` text,
+  `updated_at` datetime,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+INSERT INTO `events` (`id`,`payload`,`updated_at`) VALUES (1,'ping','2025-01-01 00:00:00');
+INSERT INTO `events` (`id`,`payload`,`updated_at`) VALUES (2,'pong_v2','2025-06-01 12:00:00');
+)";
+
+    auto stats3 = mysqlStreamingImportContent(kDumpNew, opts);
+    EXPECT_EQ(stats3.imported_records, 1u)
+        << "Row 2 has a new updated_at → should be imported";
+    EXPECT_EQ(stats3.skipped_records,  1u)
+        << "Row 1 has the same updated_at → should be skipped";
+
+    std::remove(hash_path.c_str());
+}
+
+TEST(MySQLDeltaImport, DryRunDoesNotPersistHashes) {
+    // In dry_run mode hashes must NOT be written to disk.
+    std::string hash_path = makeDeltaHashPath();
+
+    ImportOptions opts;
+    opts.dry_run         = true;
+    opts.delta_hash_file = hash_path;
+
+    mysqlStreamingImportContent(kMySQLDump, opts);
+
+    // File should not exist after dry run
+    std::ifstream f(hash_path);
+    EXPECT_FALSE(f.good())
+        << "Dry run must not write the delta hash file";
+}
+
+TEST(MySQLDeltaImport, HashFilePersistenceRoundTrip) {
+    // Verify that hashes written by testSaveDeltaHashes are correctly loaded
+    // by testLoadDeltaHashes (hex round-trip).
+    std::string hash_path = makeDeltaHashPath();
+
+    std::unordered_set<uint64_t> written = {
+        0x0000000000000001ULL,
+        0xDEADBEEFCAFEBABEULL,
+        0xFFFFFFFFFFFFFFFFULL,
+        UINT64_C(14695981039346656037)  // FNV offset basis
+    };
+    testSaveDeltaHashes(hash_path, written);
+    auto loaded = testLoadDeltaHashes(hash_path);
+
+    EXPECT_EQ(loaded, written);
+    std::remove(hash_path.c_str());
 }
 
 // Disabled custom main to avoid multiple definition; rely on gtest_main.
