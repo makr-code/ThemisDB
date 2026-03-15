@@ -262,6 +262,23 @@ public:
      * @brief Close all connections and clear pools
      */
     void shutdown();
+
+    /**
+     * @brief Graceful connection drain triggered by a certificate rotation event.
+     *
+     * Closes all idle connections immediately (they will be re-established with
+     * the new certificate on the next request).  In-flight connections are
+     * allowed to complete; each endpoint pool stops issuing new connections
+     * from its current TLS context until the drain completes.
+     *
+     * This method is non-blocking: it schedules the drain and returns.  Callers
+     * that need to await completion should poll getStatistics() or wait for the
+     * idle-connection count to return to its expected level.
+     *
+     * Wire-up: call this from the PKI client's certificate-rotation callback so
+     * that stale TLS sessions are not reused after a cert rotation.
+     */
+    void onCertificateRotated();
     
 private:
     std::map<std::string, std::shared_ptr<EndpointConnectionPool>> pools_;

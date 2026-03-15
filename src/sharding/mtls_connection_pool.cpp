@@ -409,6 +409,24 @@ MTLSConnectionPoolManager::GlobalStatistics MTLSConnectionPoolManager::getStatis
     return stats;
 }
 
+void MTLSConnectionPoolManager::onCertificateRotated() {
+    // Drain idle connections so all new requests re-establish TLS with the
+    // refreshed certificate.  In-flight active connections are left untouched
+    // (they will be closed naturally when their users release them, after which
+    // the pool will create fresh connections with the new cert).
+    std::shared_lock<std::shared_mutex> lock(pools_mutex_);
+
+    std::cout << "MTLSConnectionPoolManager: certificate rotated – draining idle "
+              << "connections across " << pools_.size() << " endpoint pools" << std::endl;
+
+    for (auto& [endpoint, pool] : pools_) {
+        // closeAll() drains idle connections while active ones remain open.
+        // The next getConnection() call will create a new TLS connection which
+        // will pick up the rotated certificate from disk.
+        pool->closeAll();
+    }
+}
+
 void MTLSConnectionPoolManager::shutdown() {
     std::unique_lock<std::shared_mutex> lock(pools_mutex_);
     

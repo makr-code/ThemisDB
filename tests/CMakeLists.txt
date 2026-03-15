@@ -15278,6 +15278,47 @@ else()
     message(STATUS "OrphanDetector wired focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_orphan_detector_wired.cpp")
 endif()
 
+# ---------------------------------------------------------------------------
+# Shard RPC Integration focused tests (v0.9.0 + v1.8.0, Issue #202)
+# AC3: ShardRpcRetryPolicy  AC4: mtls_connection_pool wiring + gossip config
+# AC5: OperationalMetrics + PrometheusMetrics per-RPC recording
+# AC6: MTLSConnectionPoolManager::onCertificateRotated() cert-rotation drain
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_shard_rpc_integration.cpp")
+    message(STATUS "Adding Shard RPC Integration focused tests (sharding, Issue #202)")
+
+    add_executable(test_shard_rpc_integration_focused
+        test_shard_rpc_integration.cpp
+    )
+
+    target_include_directories(test_shard_rpc_integration_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_shard_rpc_integration_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_shard_rpc_integration_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ShardRpcIntegrationFocusedTests
+        COMMAND test_shard_rpc_integration_focused)
+
+    set_tests_properties(ShardRpcIntegrationFocusedTests PROPERTIES
+        LABELS "sharding;rpc;retry-policy;mtls;metrics;cert-rotation;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ShardRpcRetryPolicy, mtls pool wiring, OperationalMetrics/PrometheusMetrics recordRpcCall, cert-rotation drain")
+else()
+    message(STATUS "Shard RPC Integration focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_shard_rpc_integration.cpp")
+endif()
+
 if(TARGET themis_tests)
     get_target_property(_themis_tests_sources_final themis_tests SOURCES)
     if(_themis_tests_sources_final)
