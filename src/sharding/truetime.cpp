@@ -121,6 +121,13 @@ void TrueTime::waitUntil(std::chrono::nanoseconds timestamp) {
     }
 }
 
+TTInterval TrueTime::now_with_uncertainty() const {
+    // Identical to now(); provided as an explicit named method for the
+    // Percolator commit-wait pattern where callers need the [earliest, latest]
+    // interval to compute: wait until TT.now().earliest > commit_ts + epsilon.
+    return now();
+}
+
 std::chrono::nanoseconds TrueTime::getUncertainty() const {
     return std::chrono::nanoseconds(calculateUncertainty());
 }
