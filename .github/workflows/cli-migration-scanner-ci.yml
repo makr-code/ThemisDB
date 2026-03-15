@@ -17,6 +17,7 @@ on:
       - 'src/config/config_audit_log.h'
       - 'tests/test_config_migration_scanner.cpp'
       - 'tests/CMakeLists.txt'
+      - 'cmake/CMakeLists.txt'
       - '.github/workflows/cli-migration-scanner-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
@@ -30,6 +31,7 @@ on:
       - 'src/config/config_audit_log.h'
       - 'tests/test_config_migration_scanner.cpp'
       - 'tests/CMakeLists.txt'
+      - 'cmake/CMakeLists.txt'
       - '.github/workflows/cli-migration-scanner-ci.yml'
   workflow_dispatch:
 
