@@ -226,6 +226,31 @@ public:
     }
 
     /**
+     * @brief Unregister a previously registered plugin factory
+     * 
+     * @tparam PluginInterface  Interface type
+     * @param plugin_name       Plugin identifier to remove
+     * @return true if the factory was found and removed, false otherwise
+     */
+    template<typename PluginInterface>
+    static bool unregisterFactory(const std::string& plugin_name) {
+        std::unique_lock<std::shared_mutex> lock(getMutex());
+        auto& type_registries = getTypeRegistries();
+        size_t type_hash = typeid(PluginInterface).hash_code();
+        auto trIt = type_registries.find(type_hash);
+        if (trIt == type_registries.end()) {
+            return false;
+        }
+        auto& type_registry = trIt->second;
+        auto it = type_registry.find(plugin_name);
+        if (it == type_registry.end()) {
+            return false;
+        }
+        type_registry.erase(it);
+        return true;
+    }
+
+    /**
      * @brief Clear all registered plugins (testing only)
      */
     static void clearRegistry();

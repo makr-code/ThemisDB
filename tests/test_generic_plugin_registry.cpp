@@ -174,6 +174,41 @@ TEST_F(GenericPluginRegistryTest, ClearRegistryRemovesAllEntries) {
 }
 
 // ============================================================================
+// unregisterFactory
+// ============================================================================
+
+TEST_F(GenericPluginRegistryTest, UnregisterFactoryReturnsTrueWhenFound) {
+    PluginRegistry::registerFactory<ITestInterface>(
+        "u_plugin", []() { return std::make_unique<ConcreteA>(); });
+    EXPECT_TRUE(PluginRegistry::unregisterFactory<ITestInterface>("u_plugin"));
+    EXPECT_FALSE(PluginRegistry::hasPlugin<ITestInterface>("u_plugin"));
+}
+
+TEST_F(GenericPluginRegistryTest, UnregisterFactoryReturnsFalseWhenNotFound) {
+    EXPECT_FALSE(PluginRegistry::unregisterFactory<ITestInterface>("ghost"));
+}
+
+TEST_F(GenericPluginRegistryTest, UnregisterFactoryDoesNotAffectOtherPlugins) {
+    PluginRegistry::registerFactory<ITestInterface>(
+        "keep", []() { return std::make_unique<ConcreteA>(); });
+    PluginRegistry::registerFactory<ITestInterface>(
+        "remove", []() { return std::make_unique<ConcreteA2>(); });
+    EXPECT_TRUE(PluginRegistry::unregisterFactory<ITestInterface>("remove"));
+    EXPECT_TRUE(PluginRegistry::hasPlugin<ITestInterface>("keep"));
+    EXPECT_FALSE(PluginRegistry::hasPlugin<ITestInterface>("remove"));
+}
+
+TEST_F(GenericPluginRegistryTest, UnregisterFactoryDoesNotAffectOtherInterfaces) {
+    PluginRegistry::registerFactory<ITestInterface>(
+        "shared_name", []() { return std::make_unique<ConcreteA>(); });
+    PluginRegistry::registerFactory<ITestInterfaceB>(
+        "shared_name", []() { return std::make_unique<ConcreteB>(); });
+    EXPECT_TRUE(PluginRegistry::unregisterFactory<ITestInterface>("shared_name"));
+    EXPECT_FALSE(PluginRegistry::hasPlugin<ITestInterface>("shared_name"));
+    EXPECT_TRUE(PluginRegistry::hasPlugin<ITestInterfaceB>("shared_name"));
+}
+
+// ============================================================================
 // Concurrent reads: shared_mutex allows multiple simultaneous readers
 // ============================================================================
 
