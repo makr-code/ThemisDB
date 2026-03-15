@@ -413,35 +413,44 @@ public:
         auto it = custom_queries_.find("find_similar");
         (void)it;
 
-        // Use the VectorIndexManager when one has been wired in.
-        if (vector_index_) {
-            // Fetch the embedding of the query document.
-            auto query_vec_opt = vector_index_->getVectorByPk(document_id);
-            if (!query_vec_opt.has_value()) {
-                // Document has no embedding – cannot perform vector search.
-                return similar;
-            }
-
-            // Request max_results + 1 candidates so we can safely exclude the
-            // query document itself from the result set.
-            const size_t k = max_results + 1;
-            auto [st, results] = vector_index_->searchKnn(*query_vec_opt, k);
-
-            if (!st.ok) {
-                // Index search failed – return empty rather than crashing.
-                return similar;
-            }
-
-            for (const auto& r : results) {
-                if (r.pk == document_id) continue; // exclude self
-                similar.emplace_back(r.pk, distanceToSimilarityScore(r.distance));
-                if (similar.size() >= max_results) break;
-            }
+        // In production builds, a VectorIndexManager must be injected via
+        // setVectorIndex() before requesting similarity search.  Returning an
+        // empty result silently would hide a configuration error; fail fast
+        // instead so callers are forced to wire the dependency correctly.
+        if (!vector_index_) {
+#ifdef THEMIS_TEST_MODE
+            // Silent stub in test mode: return empty result set.
+            return similar;
+#else
+            throw std::runtime_error(
+                "KnowledgeGraphEnricher: VectorIndexManager not injected. "
+                "Call setVectorIndex() with an initialized VectorIndexManager "
+                "before invoking findSimilarDocuments() in production builds.");
+#endif
+        }
+        // Use the VectorIndexManager (already confirmed non-null above).
+        // Fetch the embedding of the query document.
+        auto query_vec_opt = vector_index_->getVectorByPk(document_id);
+        if (!query_vec_opt.has_value()) {
+            // Document has no embedding – cannot perform vector search.
             return similar;
         }
 
-        // Phase 6: Vector similarity search (graph_aql::SIMILAR_DOCUMENTS)
-        // No VectorIndexManager wired – return empty (no database connection).
+        // Request max_results + 1 candidates so we can safely exclude the
+        // query document itself from the result set.
+        const size_t k = max_results + 1;
+        auto [st, results] = vector_index_->searchKnn(*query_vec_opt, k);
+
+        if (!st.ok) {
+            // Index search failed – return empty rather than crashing.
+            return similar;
+        }
+
+        for (const auto& r : results) {
+            if (r.pk == document_id) continue; // exclude self
+            similar.emplace_back(r.pk, distanceToSimilarityScore(r.distance));
+            if (similar.size() >= max_results) break;
+        }
         return similar;
     }
 
