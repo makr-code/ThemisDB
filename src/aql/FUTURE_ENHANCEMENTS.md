@@ -137,11 +137,11 @@ The AQL module is ThemisDB's query language and LLM-integration layer. It covers
 `detectIntentWithNativeNLP()` (line 196) always returns `"unknown"` and then falls through to the slower LLM path. The comment (lines 203–209) describes the intended call signature: `CLASSIFY(text, categories) -> {category, confidence, scores}`, but the function has no access to the AQL function registry at call time. This means every docs-assistant query that could be handled cheaply via the local CLASSIFY function instead triggers a full LLM round-trip.
 
 **Implementation Notes:**
-- `[ ]` Add a `FunctionRegistry*` or `IClassifyFn` interface pointer parameter to `DocsAssistantFunctions` (injectable via constructor or `setClassifier()`); when non-null, call it directly in `detectIntentWithNativeNLP()` instead of returning `"unknown"`
-- `[ ]` Define an `IClassifyFn` interface: `virtual ClassifyResult classify(const std::string& text, const std::vector<std::string>& categories) const = 0`; provide a `NullClassifyFn` no-op fallback
-- `[ ]` Register `AQLFunctionClassifyBridge` as the concrete implementation in the AQL module initialiser, binding it to the global function registry
-- `[ ]` Remove the `return "unknown"` early exit once a real implementation is wired; the `catch` block at line 215 serves as the fallback
-- `[ ]` Add an integration test that verifies `detectIntentWithNativeNLP("how do I create an index?")` returns `"configuration"` with confidence > 0.7 when the bridge is wired
+- `[x]` Add a `FunctionRegistry*` or `IClassifyFn` interface pointer parameter to `DocsAssistantFunctions` (injectable via constructor or `setClassifier()`); when non-null, call it directly in `detectIntentWithNativeNLP()` instead of returning `"unknown"`
+- `[x]` Define an `IClassifyFn` interface: `virtual ClassifyResult classify(const std::string& text, const std::vector<std::string>& categories) const = 0`; provide a `NullClassifyFn` no-op fallback
+- `[x]` Register `AQLFunctionClassifyBridge` as the concrete implementation in the AQL module initialiser, binding it to the global function registry
+- `[x]` Remove the `return "unknown"` early exit once a real implementation is wired; the `catch` block at line 215 serves as the fallback
+- `[x]` Add an integration test that verifies `detectIntentWithNativeNLP("how do I create an index?")` returns `"configuration"` with confidence > 0.7 when the bridge is wired
 
 ---
 
@@ -152,11 +152,11 @@ The AQL module is ThemisDB's query language and LLM-integration layer. It covers
 **Problem (from code):** `llm_aql_handler.cpp:translateBatchNLToAQL()` (lines 1172–1188) processes each request sequentially in a `for` loop. Each call to `translateNLToAQL()` performs a synchronous LLM inference (potentially 1–30 seconds). A batch of 10 independent translation requests therefore takes 10× the single-request latency. There is no parallelism despite each request being completely independent.
 
 **Implementation Notes:**
-- `[ ]` Replace the sequential loop with `std::transform` over a `std::vector<std::future<BatchNLToAQLResult>>` created via `std::async(std::launch::async, ...)`; collect futures in a second pass
-- `[ ]` Respect a `max_concurrent_requests` limit (default: `std::thread::hardware_concurrency()`) to avoid exhausting the LLM backend thread pool; implement with a semaphore (`std::counting_semaphore`, C++20) or a bounded thread pool
-- `[ ]` Propagate per-request cancellation: if one request in the batch throws a non-retryable exception, do not cancel others (current sequential behaviour accidentally provides this; parallel version must preserve it)
-- `[ ]` Add a `translateBatchNLToAQLAsync()` overload that returns `std::future<std::vector<BatchNLToAQLResult>>`
-- `[ ]` Benchmark: 10 independent requests with a mock LLM (each 50 ms) should complete in ≤ 150 ms wall-time when concurrency ≥ 4
+- `[x]` Replace the sequential loop with a bounded worker pool: launch `min(n, max_concurrent_requests)` workers via `std::async(std::launch::async, ...)`; each worker claims requests from a shared `std::atomic<size_t>` work index; results collected in original request order via pre-allocated output vector
+- `[x]` Respect a `max_concurrent_requests` limit (default: `std::thread::hardware_concurrency()`) to avoid exhausting the LLM backend thread pool; implemented via bounded thread pool (`min(n, concurrency)` workers), directly bounding both thread creation and active inferences
+- `[x]` Propagate per-request cancellation: if one request in the batch throws a non-retryable exception, do not cancel others (current sequential behaviour accidentally provides this; parallel version must preserve it)
+- `[x]` Add a `translateBatchNLToAQLAsync()` overload that returns `std::future<std::vector<BatchNLToAQLResult>>`
+- `[x]` Benchmark: 10 independent requests with a mock LLM (each 50 ms) should complete in ≤ 150 ms wall-time when concurrency ≥ 4
 
 ---
 

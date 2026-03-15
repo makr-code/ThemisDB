@@ -43,8 +43,9 @@ namespace rocksdb {
 
 namespace themis {
 
-// Forward declaration
+// Forward declarations
 class TimeSeriesMetrics;
+class EncryptedChunkStore;
 
 /**
  * @brief Time-Series Storage MVP (Sprint B)
@@ -267,6 +268,25 @@ public:
     void clear();
     
     /**
+     * @brief Attach an EncryptedChunkStore to enable AES-256-GCM encryption.
+     *
+     * When set, all new Gorilla-compressed chunk writes are encrypted
+     * (compress-then-encrypt) and existing encrypted chunks are decrypted
+     * transparently on read.  Pass nullptr to disable encryption.
+     *
+     * Key access is audited via the AuditLogger that was configured on the
+     * provided EncryptedChunkStore.
+     *
+     * @param enc_store  Shared EncryptedChunkStore, or nullptr to disable.
+     */
+    void setEncryptedChunkStore(std::shared_ptr<EncryptedChunkStore> enc_store);
+
+    /**
+     * @brief Returns the currently attached EncryptedChunkStore (may be null).
+     */
+    std::shared_ptr<EncryptedChunkStore> getEncryptedChunkStore() const;
+
+    /**
      * @brief Set metrics collector for monitoring
      * @param metrics Shared pointer to TimeSeriesMetrics instance
      */
@@ -315,6 +335,7 @@ private:
     rocksdb::ColumnFamilyHandle* cf_;
     Config config_;
     std::shared_ptr<TimeSeriesMetrics> metrics_; // Optional metrics collector
+    std::shared_ptr<EncryptedChunkStore> enc_chunk_store_; // Optional AES-256-GCM wrapper
 
     // Out-of-order write statistics
     mutable std::atomic<uint64_t> ooo_accepted_{0};

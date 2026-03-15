@@ -103,7 +103,7 @@ Implement a Percolator-style MVCC transaction protocol in `cross_shard_transacti
 
 ---
 
-### [ ] Adaptive Shard Rebalancer with Load-Based Splitting
+### [~] Adaptive Shard Rebalancer with Load-Based Splitting
 **Priority:** Medium
 **Target Version:** v0.10.0
 

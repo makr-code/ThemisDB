@@ -140,8 +140,9 @@ Static utility that formats `ConfigPathResolver` metrics in Prometheus text-expo
 | `themis_config_cache_capacity` | gauge | Maximum cache capacity (info) |
 | `themis_config_cache_ttl_seconds` | gauge | Cache entry TTL in seconds (info) |
 | `themis_config_legacy_fallbacks_by_category_total{category}` | counter | Legacy fallbacks broken down by config category |
+| `themis_config_legacy_fallbacks_all_total` | counter | Aggregate legacy fallbacks across all categories |
 
-`collect()` is a pure read (no state mutations, no locks beyond the cache mutex); it is suitable for repeated polling in a pull-model scrape. `updateMetricsCollector()` pushes the same values into the central `MetricsCollector` singleton as `_current` gauges for Grafana dashboard integration.
+`collect()` performs a pure read unless a Prometheus registry is registered via `registerWithRegistry()`, in which case it also updates the registered counters using deltas before returning serialized text. `updateMetricsCollector()` pushes the same values into the central `MetricsCollector` singleton as `_current` gauges for Grafana dashboard integration.
 
 
 ### PathMappingMetadata
