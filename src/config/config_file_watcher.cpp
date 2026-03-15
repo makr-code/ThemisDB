@@ -124,7 +124,28 @@ bool ConfigFileWatcher::start() {
 #endif
 
     running_.store(true, std::memory_order_release);
-    thread_ = std::thread(&ConfigFileWatcher::watchLoop, this);
+    try {
+        thread_ = std::thread(&ConfigFileWatcher::watchLoop, this);
+    } catch (...) {
+        running_.store(false, std::memory_order_release);
+        // Roll back OS resources allocated above
+#if defined(__linux__)
+        if (pipe_write_fd_ != -1) { ::close(pipe_write_fd_); pipe_write_fd_ = -1; }
+        if (pipe_read_fd_  != -1) { ::close(pipe_read_fd_);  pipe_read_fd_  = -1; }
+#elif defined(__APPLE__)
+        if (pipe_write_fd_ != -1) { ::close(pipe_write_fd_); pipe_write_fd_ = -1; }
+        if (pipe_read_fd_  != -1) { ::close(pipe_read_fd_);  pipe_read_fd_  = -1; }
+        if (kqueue_fd_     != -1) { ::close(kqueue_fd_);     kqueue_fd_     = -1; }
+#elif defined(_WIN32)
+        if (stop_event_ != nullptr) {
+            CloseHandle(static_cast<HANDLE>(stop_event_));
+            stop_event_ = nullptr;
+        }
+#endif
+        spdlog::warn("ConfigFileWatcher: failed to start watcher thread for '{}'",
+                     watch_path_);
+        return false;
+    }
     spdlog::info("ConfigFileWatcher: started watching '{}' (debounce {}ms)",
                  watch_path_, debounce_.count());
     return true;
