@@ -29,13 +29,16 @@ This document covers planned enhancements to ThemisDB's sharding subsystem, whic
 **Priority:** High
 **Target Version:** v1.8.0
 
-`gpu_erasure_coder_opencl.cpp` (line 42: "OpenCL Implementation Class (Stub)") throws `std::runtime_error("OpenCL encode not implemented")` for all three operations: `encode`, `decode`, and `batchEncode`. The OpenCL erasure coding backend is completely non-functional.
+`gpu_erasure_coder_opencl.cpp` now provides a complete Reed-Solomon erasure
+coding implementation over GF(2^8). When an OpenCL device is found, parity
+computation is offloaded to the GPU via an NDRange kernel; the class falls back
+to an equivalent CPU path when no device is available.
 
 **Implementation Notes:**
-- `[ ]` Implement `OpenCLErasureCoder::encode()`: compile a Galois Field GF(2^8) multiply kernel via `clCreateProgramWithSource` at construction; enqueue an NDRange kernel to compute parity blocks in parallel.
-- `[ ]` Implement `OpenCLErasureCoder::decode()`: perform syndrome computation and Gaussian elimination on the GPU to recover erased data blocks.
-- `[ ]` Implement `batchEncode()`: batch multiple stripe operations into a single kernel dispatch.
-- `[ ]` Add CPU/GPU parity test for encode+decode round-trip with 1, 2, and 3 erasures.
+- `[x]` Implement `OpenCLErasureCoder::encode()`: compile a Galois Field GF(2^8) multiply kernel via `clCreateProgramWithSource` at construction; enqueue an NDRange kernel to compute parity blocks in parallel.
+- `[x]` Implement `OpenCLErasureCoder::decode()`: perform syndrome computation and Gaussian elimination on the GPU to recover erased data blocks.
+- `[x]` Implement `batchEncode()`: batch multiple stripe operations into a single kernel dispatch.
+- `[x]` Add CPU/GPU parity test for encode+decode round-trip with 1, 2, and 3 erasures.
 
 ---
 
