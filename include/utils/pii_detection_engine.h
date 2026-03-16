@@ -96,6 +96,10 @@ struct PluginSignature {
     static std::string computeConfigHash(const nlohmann::json& config);
 };
 
+/// Default lookahead buffer size for cross-chunk entity span detection.
+/// Forward-declared here so IPIIDetectionEngine::maxPatternLength() can use it.
+static constexpr size_t kDefaultLookaheadBytes = 256;
+
 /**
  * @brief Abstract base class for PII detection engines
  * 
@@ -322,7 +326,7 @@ public:
 /// Default lookahead buffer size for cross-chunk entity span detection.
 /// Also used as the floor value returned by IPIIDetectionEngine::maxPatternLength()
 /// when no patterns are loaded.
-static constexpr size_t kDefaultLookaheadBytes = 256;
+// Note: kDefaultLookaheadBytes is forward-declared above IPIIDetectionEngine.
 
 /**
  * @brief Configuration for streaming PII scanner.
