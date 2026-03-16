@@ -106,7 +106,7 @@ struct SecurityCheckResult {
  * Integrates:
  * - Malware scanning (via MalwareFilterManager)
  * - PII detection (via PIIDetector)
- * - Content abuse detection (stub)
+ * - Content abuse detection (PhotoDNA + text pattern detectors)
  * - Error sanitization
  * 
  * Usage:
