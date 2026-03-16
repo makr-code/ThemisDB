@@ -8489,6 +8489,48 @@ else()
 endif()
 
 # ============================================================================
+# CDC Changefeed Sequence Counter Tests (v1.8.0 – roadmap #160)
+# Validates: SequenceIncrementOperator, atomic counter, crash recovery,
+# no-duplicate sequences under 8 threads, ≥200K seq/s throughput.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_changefeed_sequence_counter.cpp")
+    message(STATUS "Adding CDC Changefeed Sequence Counter focused tests (v1.8.0 roadmap:160)")
+
+    add_executable(test_cdc_changefeed_sequence_counter
+        test_cdc_changefeed_sequence_counter.cpp
+    )
+
+    target_include_directories(test_cdc_changefeed_sequence_counter PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_cdc_changefeed_sequence_counter PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cdc_changefeed_sequence_counter PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CDCChangefeedSequenceCounterTests
+             COMMAND test_cdc_changefeed_sequence_counter)
+
+    set_tests_properties(CDCChangefeedSequenceCounterTests PROPERTIES
+        LABELS "cdc;sequence;merge-operator;lock-free;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  CDCSequenceCounter: SequenceIncrementOperator, atomic counter, crash recovery, concurrent uniqueness, >=200K/s throughput")
+else()
+    message(STATUS "CDC Sequence Counter tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_changefeed_sequence_counter.cpp")
+endif()
+
+# ============================================================================
 # CDC WebSocket Handler Tests (standalone – validates the /v2/cdc/stream
 # named-subscription protocol: subscribe/unsubscribe/ack frames,
 # back-pressure metric cdc_ws_overflow_total, and pollEvents delivery)
