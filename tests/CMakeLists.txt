@@ -16047,4 +16047,41 @@ else()
     message(STATUS "TSStore Gorilla Buffer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tsstore_gorilla_buffer.cpp")
 endif()
 
+# SAGA Orchestration Engine Focused Tests (Issue #4043, v1.8.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_saga_orchestrator.cpp")
+    message(STATUS "Adding SAGA Orchestration Engine focused tests")
+
+    add_executable(test_saga_orchestrator_focused
+        test_saga_orchestrator.cpp
+    )
+
+    target_include_directories(test_saga_orchestrator_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_saga_orchestrator_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_saga_orchestrator_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SAGAOrchestratorFocusedTests
+        COMMAND test_saga_orchestrator_focused)
+
+    set_tests_properties(SAGAOrchestratorFocusedTests PROPERTIES
+        LABELS "transaction;saga;orchestrator;parallel;dag;v1.8.0;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  SAGAOrchestrator: parallel DAG execution, conditional branching, retry, timeout, templates, workflow designer")
+else()
+    message(STATUS "SAGA Orchestrator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_saga_orchestrator.cpp")
+endif()
+
 message(STATUS "Tests configured successfully")
