@@ -10283,7 +10283,47 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_row_level_security.cpp")
     message(STATUS "  RowLevelSecurity: policy evaluation, predicate injection, AQL filter integration")
 endif()
 
-# Attack Vector Tests (security/attack-vectors/ sub-directory)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_arrow_user_registration_plugin.cpp")
+    message(STATUS "Adding ArrowUserRegistrationPlugin focused tests")
+
+    add_executable(test_arrow_user_registration_plugin_focused
+        security/test_arrow_user_registration_plugin.cpp
+        ${CMAKE_SOURCE_DIR}/src/security/arrow_user_registration_plugin.cpp
+    )
+
+    target_include_directories(test_arrow_user_registration_plugin_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_arrow_user_registration_plugin_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+        OpenSSL::Crypto
+    )
+
+    if(THEMIS_HAS_ARROW)
+        target_link_libraries(test_arrow_user_registration_plugin_focused PRIVATE ${THEMIS_ARROW_TARGET})
+        target_compile_definitions(test_arrow_user_registration_plugin_focused PRIVATE THEMIS_ENABLE_ARROW=1)
+    endif()
+
+    target_compile_definitions(test_arrow_user_registration_plugin_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ArrowUserRegistrationPluginFocusedTests
+             COMMAND test_arrow_user_registration_plugin_focused)
+
+    set_tests_properties(ArrowUserRegistrationPluginFocusedTests PROPERTIES
+        LABELS "security;arrow;user-registration;plugin;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ArrowUserRegistrationPlugin: bulkSyncFromArrow, authenticateFromArrow, 1000-user batch")
+endif()
+
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/attack-vectors/crypto/test_crypto_attack_vectors.cpp")
     message(STATUS "Adding Crypto Attack Vector tests")
 
