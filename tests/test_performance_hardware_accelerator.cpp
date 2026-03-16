@@ -621,7 +621,7 @@ TEST(HardwareAcceleratorFocusedTests, ThresholdsControlHWPath) {
     EXPECT_TRUE(r.used_hw_path);
 }
 
-TEST(HardwareAcceleratorFocusedTests, HighThresholdForcescpuFallback) {
+TEST(HardwareAcceleratorFocusedTests, HighThresholdForcesCPUFallback) {
     HardwareAccelerator::Config cfg;
     cfg.gpu_row_threshold  = 1'000'000;
     cfg.simd_row_threshold = 1'000'000;
