@@ -12246,6 +12246,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_index_recommender.cpp")
     target_include_directories(test_index_recommender_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_index_recommender_focused PRIVATE
         ${TEST_LIBS}
+        themisdb
         themis_core
         OpenSSL::Crypto
         Threads::Threads
@@ -12253,10 +12254,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_index_recommender.cpp")
     target_compile_definitions(test_index_recommender_focused PRIVATE THEMIS_TEST_BUILD=1)
     add_test(NAME IndexRecommenderFocusedTests COMMAND test_index_recommender_focused)
     set_tests_properties(IndexRecommenderFocusedTests PROPERTIES
-        LABELS "metadata;index;recommendation;query-patterns;advisor;unit"
+        LABELS "metadata;index;recommendation;query-patterns;advisor;persistence;unit"
         TIMEOUT 60
     )
-    message(STATUS "  IndexRecommender: query-pattern analysis, usage tracking, missing index detection, cost-benefit")
+    message(STATUS "  IndexRecommender: query-pattern analysis, usage tracking, missing index detection, cost-benefit, RocksDB persistence, cost-model scoring, metric emission")
 endif()
 
 # Metadata – DistributedMetadataCatalog focused tests
