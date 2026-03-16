@@ -43,6 +43,7 @@
 
 #include "server/async_job_api_handler.h"
 #include "server/auth_middleware.h"
+#include "cache/adaptive_query_cache.h"
 #include "utils/logger.h"
 
 #include <chrono>
@@ -170,14 +171,31 @@ void AsyncJobRegistry::prune() {
 // ============================================================================
 
 AsyncJobApiHandler::AsyncJobApiHandler(
-    AqlExecutor                         executor,
-    std::shared_ptr<AuthMiddleware>     auth,
-    std::shared_ptr<AsyncJobRegistry>   registry)
+    AqlExecutor                                        executor,
+    std::shared_ptr<AuthMiddleware>                    auth,
+    std::shared_ptr<AsyncJobRegistry>                  registry,
+    std::shared_ptr<cache::AdaptiveQueryCache>         result_cache)
     : executor_(std::move(executor))
     , auth_(std::move(auth))
     , registry_(registry ? std::move(registry)
                           : std::make_shared<AsyncJobRegistry>())
-{}
+{
+    if (result_cache) {
+        result_cache_ = std::move(result_cache);
+    } else {
+        // Create a dedicated AdaptiveQueryCache with TTL = 1 hour for job results.
+        cache::AdaptiveQueryCache::Config cfg;
+        cfg.l1_ttl_seconds = 3600;   // 1 hour, as required by the AC
+        cfg.l2_ttl_seconds = 3600;
+        cfg.l3_ttl_seconds = 3600;
+        cfg.enable_l3      = false;  // in-memory only; no RocksDB needed for jobs
+        try {
+            result_cache_ = std::make_shared<cache::AdaptiveQueryCache>(cfg);
+        } catch (const std::exception& ex) {
+            THEMIS_WARN("AsyncJobApiHandler: failed to create result cache: {}", ex.what());
+        }
+    }
+}
 
 AsyncJobApiHandler::~AsyncJobApiHandler() {
     // Give in-flight jobs a short window to complete so background threads
@@ -243,11 +261,12 @@ http::response<http::string_body> AsyncJobApiHandler::makeJsonResponse(
 
 void AsyncJobApiHandler::launchJob(std::shared_ptr<AsyncJobRecord> job) {
     // Capture strong refs so the lambda keeps them alive beyond the handler.
-    auto registry = registry_;
-    auto executor = executor_;
+    auto registry     = registry_;
+    auto executor     = executor_;
+    auto result_cache = result_cache_;
 
     auto fut = std::async(std::launch::async,
-        [job, registry, executor]() mutable {
+        [job, registry, executor, result_cache]() mutable {
             // Transition: PENDING → RUNNING (under per-record lock)
             {
                 std::lock_guard<std::mutex> rlock(job->mu);
@@ -265,6 +284,7 @@ void AsyncJobApiHandler::launchJob(std::shared_ptr<AsyncJobRecord> job) {
             try {
                 auto result = executor(job->query, job->auth_header);
                 std::string final_status;
+                nlohmann::json job_snapshot;
                 {
                     std::lock_guard<std::mutex> rlock(job->mu);
                     if (job->cancel_requested.load(std::memory_order_acquire)) {
@@ -274,24 +294,45 @@ void AsyncJobApiHandler::launchJob(std::shared_ptr<AsyncJobRecord> job) {
                         job->status = AsyncJobStatus::COMPLETED;
                     }
                     job->updated_at = std::chrono::system_clock::now();
-                    final_status = asyncJobStatusToString(job->status);
+                    final_status    = asyncJobStatusToString(job->status);
+                    job_snapshot    = job->toJson();
+                }
+                // Persist completed/cancelled state in AdaptiveQueryCache (TTL=1h).
+                if (result_cache) {
+                    result_cache->put(job->id, {{"job_id", job->id}}, job_snapshot,
+                                      "async_jobs");
                 }
                 THEMIS_DEBUG("AsyncJob {} finished with status {}", job->id, final_status);
             } catch (const std::exception& ex) {
                 std::string final_status;
+                nlohmann::json job_snapshot;
                 {
                     std::lock_guard<std::mutex> rlock(job->mu);
                     job->error      = ex.what();
                     job->status     = AsyncJobStatus::FAILED;
                     job->updated_at = std::chrono::system_clock::now();
                     final_status    = asyncJobStatusToString(job->status);
+                    job_snapshot    = job->toJson();
+                }
+                // Persist failed state in AdaptiveQueryCache (TTL=1h).
+                if (result_cache) {
+                    result_cache->put(job->id, {{"job_id", job->id}}, job_snapshot,
+                                      "async_jobs");
                 }
                 THEMIS_DEBUG("AsyncJob {} finished with status {}", job->id, final_status);
             } catch (...) {
-                std::lock_guard<std::mutex> rlock(job->mu);
-                job->error      = "unknown error during async AQL execution";
-                job->status     = AsyncJobStatus::FAILED;
-                job->updated_at = std::chrono::system_clock::now();
+                nlohmann::json job_snapshot;
+                {
+                    std::lock_guard<std::mutex> rlock(job->mu);
+                    job->error      = "unknown error during async AQL execution";
+                    job->status     = AsyncJobStatus::FAILED;
+                    job->updated_at = std::chrono::system_clock::now();
+                    job_snapshot    = job->toJson();
+                }
+                if (result_cache) {
+                    result_cache->put(job->id, {{"job_id", job->id}}, job_snapshot,
+                                      "async_jobs");
+                }
                 THEMIS_DEBUG("AsyncJob {} finished with status failed", job->id);
             }
         });

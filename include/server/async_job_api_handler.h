@@ -41,6 +41,10 @@ namespace themis {
 
 class AuthMiddleware;
 
+namespace cache {
+class AdaptiveQueryCache;
+} // namespace cache
+
 namespace server {
 
 namespace beast = boost::beast;
@@ -179,15 +183,19 @@ public:
                        const std::string& auth_header)>;
 
     /**
-     * @param executor   Callable that executes an AQL query.
-     * @param auth       Optional AuthMiddleware for access control at submission.
-     *                   Pass nullptr to bypass authentication (tests only).
-     * @param registry   Shared job registry (created internally if nullptr).
+     * @param executor     Callable that executes an AQL query.
+     * @param auth         Optional AuthMiddleware for access control at submission.
+     *                     Pass nullptr to bypass authentication (tests only).
+     * @param registry     Shared job registry (created internally if nullptr).
+     * @param result_cache Optional AdaptiveQueryCache for persisting completed job
+     *                     results with TTL = 1 hour, per the AC requirement.
+     *                     Created internally with TTL=3600 s if nullptr.
      */
     explicit AsyncJobApiHandler(
-        AqlExecutor                         executor,
-        std::shared_ptr<AuthMiddleware>     auth     = nullptr,
-        std::shared_ptr<AsyncJobRegistry>   registry = nullptr);
+        AqlExecutor                                        executor,
+        std::shared_ptr<AuthMiddleware>                    auth         = nullptr,
+        std::shared_ptr<AsyncJobRegistry>                  registry     = nullptr,
+        std::shared_ptr<cache::AdaptiveQueryCache>         result_cache = nullptr);
 
     /// Wait for running jobs to finish (up to a short grace period) on
     /// destruction so that background threads do not outlive dependencies.
@@ -230,9 +238,11 @@ private:
     /// Launch `job` on a background thread via `executor_`.
     void launchJob(std::shared_ptr<AsyncJobRecord> job);
 
-    AqlExecutor                       executor_;
-    std::shared_ptr<AuthMiddleware>   auth_;
-    std::shared_ptr<AsyncJobRegistry> registry_;
+    AqlExecutor                                    executor_;
+    std::shared_ptr<AuthMiddleware>                auth_;
+    std::shared_ptr<AsyncJobRegistry>              registry_;
+    /// AdaptiveQueryCache used to persist completed job results (TTL = 1 h).
+    std::shared_ptr<cache::AdaptiveQueryCache>     result_cache_;
 
     // Track live futures so the destructor can join them.
     mutable std::mutex                           futures_mutex_;
