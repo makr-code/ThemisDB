@@ -30,11 +30,16 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <array>
 #include <mutex>
 #include <cstdint>
+#include <ctime>
 #include <nlohmann/json.hpp>
 
 namespace themis {
+// Forward declaration – avoids pulling in all of rocksdb_wrapper.h
+class RocksDBWrapper;
+
 namespace cache {
 
 /**
@@ -80,6 +85,15 @@ public:
         /// Minimum prediction confidence [0.0, 1.0]: fraction of transitions
         /// from the source key that must lead to the successor.
         double min_confidence = 0.0;
+
+        /// When true, prediction scores are weighted by time-of-day access
+        /// frequency (24 one-hour buckets).
+        bool enable_time_of_day_weighting = false;
+
+        /// When true, exactly 50 % of tenants are routed to the Markov model
+        /// (with time-of-day weighting) and the other 50 % to the frequency
+        /// baseline.  The split is deterministic: hash(tenant_id) % 2.
+        bool enable_ab_test = false;
 
         static Config defaults() { return {}; }
     };
@@ -134,6 +148,39 @@ public:
     void recordCandidatesGenerated();
 
     /**
+     * @brief Track bytes fetched via prefetch that were never subsequently hit.
+     *
+     * The caller (e.g. AdaptiveQueryCache) should call this when a prefetched
+     * entry expires or is evicted before being accessed.  Used to report the
+     * `cache.prefetch.overhead_bytes` metric.
+     *
+     * @param bytes Number of overhead bytes to record.
+     */
+    void recordOverheadBytes(uint64_t bytes);
+
+    /**
+     * @brief Persist the Markov transition matrix to RocksDB.
+     *
+     * Keys are written under the prefix `prefetch_model::`.  Each key encodes
+     * the (from, to) fingerprint pair; the value is a JSON object containing
+     * the raw transition count and the 24-bucket time-of-day histogram.
+     *
+     * @param db  Open RocksDBWrapper instance.  If null this is a no-op.
+     */
+    void saveModel(RocksDBWrapper* db);
+
+    /**
+     * @brief Restore the Markov transition matrix from RocksDB.
+     *
+     * Scans `prefetch_model::` prefix and populates the in-memory transition
+     * table.  Existing in-memory state is merged (not replaced) so that
+     * concurrent learning is not lost.
+     *
+     * @param db  Open RocksDBWrapper instance.  If null this is a no-op.
+     */
+    void loadModel(RocksDBWrapper* db);
+
+    /**
      * @brief Clear all transition state and reset counters.
      */
     void clear();
@@ -155,12 +202,35 @@ private:
     // Per-tenant (or global if empty) last-seen fingerprint for session tracking.
     std::unordered_map<std::string, std::string> last_fingerprint_;
 
+    // Time-of-day access counts: from -> to -> hour[0..23].
+    // Tracked when config_.enable_time_of_day_weighting is true.
+    std::unordered_map<std::string,
+        std::unordered_map<std::string,
+            std::array<uint32_t, 24>>> tod_buckets_;
+
     mutable std::mutex mutex_;
 
     // Metrics
     uint64_t total_transitions_recorded_ = 0;
     uint64_t candidates_generated_ = 0;
     uint64_t prefetch_hits_ = 0;
+    uint64_t overhead_bytes_ = 0;
+
+    // A/B group hit-rate counters (only meaningful when enable_ab_test is true)
+    uint64_t ab_markov_hits_ = 0;
+    uint64_t ab_markov_generated_ = 0;
+    uint64_t ab_baseline_hits_ = 0;
+    uint64_t ab_baseline_generated_ = 0;
+
+    // Internal helpers
+    /// Returns true if the tenant should use the enhanced Markov model (vs. baseline).
+    bool useMarkovModel(const std::string& tenant_id) const;
+
+    /// Return the current wall-clock hour in [0, 23].
+    static int currentHour();
+
+    /// Emit `cache.prefetch.hit_rate` and `cache.prefetch.overhead_bytes` via MetricsCollector.
+    void emitMetrics() const;
 };
 
 } // namespace cache

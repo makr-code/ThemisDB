@@ -102,6 +102,8 @@ AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)
         pf_config.max_predictions        = config_.prefetch_max_predictions;
         pf_config.min_transition_count   = config_.prefetch_min_transition_count;
         pf_config.min_confidence         = config_.prefetch_min_confidence;
+        pf_config.enable_time_of_day_weighting = config_.prefetch_enable_time_of_day_weighting;
+        pf_config.enable_ab_test         = config_.prefetch_enable_ab_test;
         prefetcher_ = std::make_unique<cache::PredictivePrefetcher>(pf_config);
         THEMIS_INFO("Predictive pre-fetcher enabled: max_keys={}, max_predictions={}",
                     pf_config.max_tracked_keys, pf_config.max_predictions);
@@ -142,6 +144,9 @@ AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)
             }
         }
     }
+
+    // Restore the Markov prefetch model from RocksDB (no-op if either is null)
+    loadPrefetchModel();
 }
 
 AdaptiveQueryCache::~AdaptiveQueryCache() {
@@ -2381,6 +2386,24 @@ nlohmann::json AdaptiveQueryCache::getPrefetchStats() const {
     // Enrich with the hit counter maintained in enhanced_metrics_
     j["prefetch_hits_from_metrics"] = enhanced_metrics_.prefetch_hits.load();
     return j;
+}
+
+void AdaptiveQueryCache::recordPrefetchOverheadBytes(uint64_t bytes) {
+    if (prefetcher_) {
+        prefetcher_->recordOverheadBytes(bytes);
+    }
+}
+
+void AdaptiveQueryCache::savePrefetchModel() {
+    if (prefetcher_ && l3_db_) {
+        prefetcher_->saveModel(l3_db_.get());
+    }
+}
+
+void AdaptiveQueryCache::loadPrefetchModel() {
+    if (prefetcher_ && l3_db_) {
+        prefetcher_->loadModel(l3_db_.get());
+    }
 }
 
 // ============================================================================
