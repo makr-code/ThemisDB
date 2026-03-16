@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auth_middleware.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:17                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:10:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     226                                            ║
+    • Total Lines:     251                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • c97360e57  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
+    • b4f9cb129  2026-03-12  refactor(auth): improve normalization helper and comment ... ║
+    • c21f255d8  2026-03-12  fix(auth): address review feedback on JWT issuer/audience... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 92608937d  2026-02-26  fix: GCC default-arg error in 18 headers - add ::defaults... ║
-    • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
-    • ce63cc36d  2026-02-24  feat(auth): integrate ApiKeyAuthenticator into AuthMiddle... ║
-    • 5cc90b16b  2026-02-24  feat(auth): implement mTLS certificate-based authentication ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -152,6 +152,19 @@ public:
     void removeToken(std::string_view token);
     void clearTokens();
 
+    /// Configure a role-to-scope mapping used by JWT and Kerberos authorization.
+    ///
+    /// When a JWT or Kerberos token's direct scope claims do not include the
+    /// `required_scope`, the middleware falls back to checking whether any of the
+    /// token's roles maps to that scope through this table.
+    ///
+    /// Example: `setRoleScopeMapping({{"admin", {"cache:write", "cache:read"}},
+    ///                                 {"viewer", {"cache:read"}}})`
+    ///
+    /// Thread-safe; replaces any previously configured mapping.
+    void setRoleScopeMapping(
+        std::unordered_map<std::string, std::vector<std::string>> mapping);
+
     /// Check if token has required scope
     /// @param token Bearer token from Authorization header
     /// @param required_scope Required scope (e.g., "admin", "config:write", "cdc:read", "metrics:read")
@@ -209,10 +222,19 @@ private:
     // API key authentication
     std::unique_ptr<auth::ApiKeyAuthenticator> api_key_auth_;
     bool api_key_enabled_ = false;
-    
+
+    // Role-to-scope mapping: role name → list of scopes that role grants.
+    // Used as fallback in JWT and Kerberos authorization when direct scope
+    // claims don't contain the required_scope.
+    std::unordered_map<std::string, std::vector<std::string>> role_scope_map_;
+
     // Helper: check if scope is an admin scope requiring USB
     bool isAdminScope(std::string_view scope) const;
-    
+
+    /// Returns true if @p required_scope is granted by any role in @p roles via role_scope_map_.
+    bool roleGrantsScope(const std::vector<std::string>& roles,
+                         std::string_view required_scope) const;
+
     // Helper: try to authorize via JWT
     AuthResult authorizeViaJWT(std::string_view token, std::string_view required_scope) const;
     

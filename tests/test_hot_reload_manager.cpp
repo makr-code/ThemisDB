@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_hot_reload_manager.cpp                        ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-03-09 04:04:23                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-03-16 04:25:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     442                                            ║
+    • Total Lines:     511                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 3af72be8d  2026-03-12  fix(test): move GoogleTest assertions out of worker threa... ║
+    • fe4e33c57  2026-03-12  feat(base): upgrade HotReloadManager mutex to shared_mute... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 11a2aa184  2026-02-28  feat(base): integrate ModuleSandbox into HotReloadManager... ║
     • 4fb12f70c  2026-02-22  Add hot-reload manager for plugins (base module Phase 2) ║

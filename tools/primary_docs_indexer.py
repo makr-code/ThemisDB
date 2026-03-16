@@ -4,13 +4,17 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            primary_docs_indexer.py                            ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-03-09                                         ║
+  Last Modified:   2026-03-16 04:33:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Total Lines:     500                                            ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 071f2f619  2026-03-09  feat: add primary-docs index/inventory generator ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

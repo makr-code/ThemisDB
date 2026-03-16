@@ -275,6 +275,7 @@ if(NOT THEMIS_ENABLE_HTTP_SERVER)
     list(APPEND TEST_EXCLUDE_PATTERNS
         ".*test_task_scheduler\\.cpp$"
         ".*test_task_scheduler_api_handler\\.cpp$"
+        ".*test_task_scheduler_auth_context\\.cpp$"
         ".*test_task_scheduler_dynamic_scaling\\.cpp$"
         ".*test_task_scheduler_siem_integration\\.cpp$"
         ".*test_task_scheduler_triggers\\.cpp$"
@@ -5196,6 +5197,27 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_compliance_reporting.cpp")
         TIMEOUT 90
     )
     message(STATUS "  Compliance Reporting: CoverageAnalyzer, ComplianceGapDetector, ComplianceReporter (JSON/CSV/HTML/PDF)")
+endif()
+
+# Scheduler – TaskScheduler auth context propagation focused tests (Issue #98 v1.8.0)
+if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_task_scheduler_auth_context.cpp")
+    message(STATUS "Adding TaskScheduler Auth Context focused tests (Issue #98)")
+    add_executable(test_task_scheduler_auth_context_focused
+        test_task_scheduler_auth_context.cpp
+    )
+    target_link_libraries(test_task_scheduler_auth_context_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    target_compile_definitions(test_task_scheduler_auth_context_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME TaskSchedulerAuthContextFocusedTests COMMAND test_task_scheduler_auth_context_focused)
+    set_tests_properties(TaskSchedulerAuthContextFocusedTests PROPERTIES
+        LABELS "scheduler;auth;audit;request-context;thread-local;sandbox;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  TaskScheduler: RequestContext TLS propagation, audit event user attribution, sandbox_execution flag")
 endif()
 
 # Phase 5 – LEK Manager lifecycle tests
@@ -12066,6 +12088,15 @@ add_network_focused_test(
     "QoSManager: TokenBucket construction/tryConsume/timeout, per-tenant quota, backpressure, stats, callback"
 )
 
+# --- Bandwidth Management and QoS (v1.8.0, Issue #190) ---
+add_network_focused_test(
+    test_bandwidth_management_qos_focused
+    test_bandwidth_management_qos.cpp
+    BandwidthManagementQoSFocusedTests
+    "network;qos;bandwidth;token-bucket;leaky-bucket;priority-queue;fair-queuing;congestion-control;linux-tc;focused;unit"
+    "BandwidthManagementQoS: LeakyBucket shaping, set_bandwidth_limit, set_token_bucket, set_priority, priority queue scheduling, fair-queuing starvation guard, CongestionController AIMD, Linux tc configureTc"
+)
+
 # --- Network Timeout (SocketTimeoutManager) ---
 add_network_focused_test(
     test_network_timeout_focused
@@ -13656,8 +13687,47 @@ else()
     endif()
 endif()
 
+# CapabilityAutoGenerator: Persist Schedule and Document Count State – v1.8.0 Issue #217
+# Covers: constructor state load, schedule gate, YAML serialisation, atomic write, persistState.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_capabilityautogenerator_persist_state.cpp" AND NOT TARGET test_capabilityautogenerator_persist_state_focused)
+    message(STATUS "Adding CapabilityAutoGenerator persist-state focused tests (v1.8.0, Issue #217)")
 
-# VoiceBatchProcessor, VoiceMacroManager, and full VoiceAssistant pipeline.
+    add_executable(test_capabilityautogenerator_persist_state_focused
+        test_capabilityautogenerator_persist_state.cpp
+    )
+
+    target_include_directories(test_capabilityautogenerator_persist_state_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_capabilityautogenerator_persist_state_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_capabilityautogenerator_persist_state_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CapGenPersistStateTests COMMAND test_capabilityautogenerator_persist_state_focused)
+
+    set_tests_properties(CapGenPersistStateTests PROPERTIES
+        LABELS "utils;capability;auto-generator;persist;rocksdb;yaml;schedule;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CapGenPersistState: constructor load, schedule gate, YAML serialise, atomic write, persistState")
+else()
+    if(TARGET test_capabilityautogenerator_persist_state_focused)
+        message(STATUS "CapabilityAutoGenerator persist-state focused tests already registered")
+    else()
+        message(STATUS "CapabilityAutoGenerator persist-state focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_capabilityautogenerator_persist_state.cpp")
+    endif()
+endif()
+
+
 # Requires THEMIS_ENABLE_LLM because voice_assistant.h includes llm/llama_wrapper.h.
 if(THEMIS_ENABLE_LLM)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_assistant.cpp")
@@ -15227,13 +15297,53 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_backend_registry_startup.cpp")
     add_test(NAME BackendRegistryStartupFocusedTests COMMAND test_backend_registry_startup_focused)
 
     set_tests_properties(BackendRegistryStartupFocusedTests PROPERTIES
-        LABELS "acceleration;backend-registry;capability-negotiation;v1.7.0;unit"
+        LABELS "acceleration;backend-registry;capability-negotiation;v1.7.0;unit;thread-safety"
         TIMEOUT 60
     )
 
-    message(STATUS "  BackendRegistry: initializeRuntime, default requirements, capability-driven selection, re-initialization, consistency with selectXBackendFor")
+    message(STATUS "  BackendRegistry: initializeRuntime, default requirements, capability-driven selection, re-initialization, consistency with selectXBackendFor, thread-safety")
 else()
     message(STATUS "BackendRegistry startup focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_backend_registry_startup.cpp")
+endif()
+
+# ============================================================================
+# VLLMResourceManager – CPU/RAM Monitoring Stats Tests
+# Covers: getStats() OS-specific CPU utilisation + RAM monitoring,
+#         canUseGPU() NVML timeout safety, uninitialised guard.
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_vllm_resource_stats.cpp")
+    message(STATUS "Adding VLLMResourceManager stats focused tests")
+
+    add_executable(test_vllm_resource_stats_focused
+        test_vllm_resource_stats.cpp
+    )
+
+    target_include_directories(test_vllm_resource_stats_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_vllm_resource_stats_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_vllm_resource_stats_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME VLLMResourceStatsFocusedTests COMMAND test_vllm_resource_stats_focused)
+
+    set_tests_properties(VLLMResourceStatsFocusedTests PROPERTIES
+        LABELS "acceleration;vllm;resource-manager;cpu-monitoring;ram-monitoring;unit"
+        TIMEOUT 30
+    )
+
+
+    message(STATUS "  VLLMResourceManager: cpu_utilization, ram_used_mb, canUseGPU timeout, uninitialised guard")
+else()
+    message(STATUS "VLLMResourceManager stats focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_vllm_resource_stats.cpp")
 endif()
 
 # ============================================================================

@@ -1,20 +1,20 @@
-#!/usr/bin/env python3
 """
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            chimera_regression_detector.py                     ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:51:57                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:04:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     428                                            ║
+    • Total Lines:     429                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 8dbef46dd  2026-03-14  fix: move shebang to line 1 and fix from __future__ impor... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 0829d54f3  2026-02-28  feat(chimera): automated benchmark CI pipeline with regre... ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -22,6 +22,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
 """
 
+#!/usr/bin/env python3
 from __future__ import annotations
 
 """

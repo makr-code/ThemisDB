@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            module_loader.cpp                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:57:19                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:13:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   83.0/100                                       ║
-    • Total Lines:     1655                                           ║
+    • Quality Score:   80.0/100                                       ║
+    • Total Lines:     1947                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 20d74ea0c  2026-03-01  feat(themis): integrate Zone.Identifier quarantine detect... ║
-    • f2b4fd08c  2026-02-26  fix(audit): correct enum ordering, string JSON serializat... ║
-    • d28b41973  2026-02-26  feat: implement per-plugin audit trail (load, unload, err... ║
-    • 84e913c55  2026-02-23  Integrate ModuleHashVerifier into ModuleLoader (audit fix... ║
+    • e2d71ace5  2026-03-12  fix: address review feedback — thread-safe tests, insert_... ║
+    • db4d733c2  2026-03-12  fix: remove explicit mutex unlock before unregisterModule... ║
+    • c2e0a8ff7  2026-03-12  feat: O(1) module lookup — replace loadedModules_ vector ... ║
+    • 6675793bc  2026-03-11  fix(base): fix data race in watchdog stats access, clean ... ║
+    • 00e3b5daf  2026-03-11  fix(base): address code review feedback - clarify locking... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

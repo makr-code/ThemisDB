@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_retention.cpp                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:02:52                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:23:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     601                                            ║
+    • Total Lines:     730                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • a9f387ce0  2026-03-11  feat(cdc): runtime-configurable change log retention poli... ║
     • a64247126  2026-03-08  Refactor code structure for improved readability and main... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • de729d957  2026-02-24  cdc: expose retention policy configuration in getRetentio... ║

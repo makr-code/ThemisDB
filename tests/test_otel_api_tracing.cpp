@@ -4,14 +4,19 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_otel_api_tracing.cpp                          ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-03-11                                         ║
+  Last Modified:   2026-03-16 04:28:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                       ║
-    • Total Lines:     1514                                            ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1514                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • c7d27e03f  2026-03-11  feat(tracing): instrument all 64 API handlers + 120 new s... ║
+    • 3b9d18c74  2026-03-11  fix(tracing): update line count metadata in test_otel_api... ║
+    • 1b86d845d  2026-03-11  feat(tracing): add OpenTelemetry spans to all major API h... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,17 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ocr_processor.cpp                                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:57:56                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:14:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   97.0/100                                       ║
-    • Total Lines:     414                                            ║
+    • Total Lines:     500                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 01d40ae53  2026-03-11  feat(content): default OCR language-pack path to config/a... ║
+    • 2ae453781  2026-03-11  feat(content): default ocr_processor data_dir to config/a... ║
+    • d83358f4c  2026-03-11  feat(content): add 300-DPI rescaling and adaptive binaris... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 718c75097  2026-02-28  feat(content): Integrate Tesseract OCR processor (content... ║
 ╠═════════════════════════════════════════════════════════════════════╣

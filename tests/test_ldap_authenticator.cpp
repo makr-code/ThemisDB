@@ -3,20 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ldap_authenticator.cpp                        ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:04:54                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:26:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     353                                            ║
+    • Total Lines:     593                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • fc7a85ac8  2026-03-12  fix(auth): address PR review - curl_multi_info_read, void... ║
+    • 57fef95c4  2026-03-12  feat(auth): async/non-blocking LDAP and HTTP authenticati... ║
+    • 0f9b874f4  2026-03-12  fix(auth): address all reviewer comments on LDAP injectio... ║
+    • 83e36bcbd  2026-03-12  security(auth): LDAP DN and filter injection prevention (... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1ce77d0ea  2026-02-24  fix(auth): code audit fixes for LDAP authenticator Window... ║
-    • 79129146f  2026-02-24  feat(auth): implement LDAP/Active Directory direct bind a... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,9 +3,9 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_erasure_coder_opencl.cpp                       ║
-  Version:         1.8.0                                              ║
-  Last Modified:   2026-03-15                                          ║
-  Author:          copilot (Issue #105)                               ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:19:07                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
@@ -14,7 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • Issue #105  2026-03-15  Implement OpenCL encode/decode/batchEncode ║
+    • b1e2d2221  2026-03-15  chore(sharding): update opencl file header metadata (v1.8... ║
+    • b1cdd9490  2026-03-15  fix(sharding): address code review - fix OpenCL buffer er... ║
+    • dc202efce  2026-03-15  feat(sharding): implement OpenCL erasure coder encode/dec... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

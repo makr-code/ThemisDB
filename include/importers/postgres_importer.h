@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            postgres_importer.h                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:50                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:07:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     186                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Total Lines:     435                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 11c3fb7c3  2026-02-28  feat(importers): implement dry-run import preview for Pos... ║
-    • a3d6da5ac  2026-02-24  feat(importers): implement conflict resolution strategies... ║
-    • 625263378  2026-02-23  Resolve code-audit findings: rename dummy→checkpoint_stat... ║
-    • 220fc09b2  2026-02-22  Add streaming import API for large datasets without full ... ║
+    • 9d8c5ce37  2026-03-15  Refactor service mesh API handler to use fully qualified ... ║
+    • 8452353dc  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
+    • b8ff944e1  2026-03-11  feat(importers): PostgreSQL importer v2.0 - Foreign Key P... ║
+    • 8cf8f1d12  2026-03-11  feat(importers): v2.1 - additional constraint types, rela... ║
+    • e4aae2a7f  2026-03-11  feat(importers): PostgreSQL Importer v2.0 - FK preservati... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

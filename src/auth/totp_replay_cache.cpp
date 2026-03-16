@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            totp_replay_cache.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:57:17                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:13:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     273                                            ║
+    • Total Lines:     282                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 6010e0a0d  2026-03-12  fix(auth): address review comments on timing documentatio... ║
+    • b4e979f80  2026-03-12  fix(auth): constant-time comparison for recovery codes an... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

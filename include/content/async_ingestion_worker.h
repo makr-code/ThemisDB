@@ -3,20 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            async_ingestion_worker.h                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:16                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:06:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     418                                            ║
+    • Total Lines:     458                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 6d9fa9a16  2026-03-12  Remove WordPress plugins/docs, update worker ║
+    • 517f27fd7  2026-03-11  feat(content): Add back-pressure metrics for ingestStream... ║
+    • fd07379dd  2026-03-11  feat(content): implement back-pressure in async_ingestion... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • b01dffc8f  2026-02-26  feat(content): Implement chunked streaming ingestion for ... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            distributed_rag_evaluator.h                        ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:09:20                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     231                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 50a648a06  2026-03-09  fix(rag): fix critical bugs found in code audit of Issue ... ║
+    • 2d6b717c7  2026-03-09  feat(rag): distributed RAG evaluation, benchmark harness,... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file distributed_rag_evaluator.h
  * @brief Distributed RAG evaluation across multiple judge models (Issue: #2245)

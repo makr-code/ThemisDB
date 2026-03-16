@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_runner.cpp                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:31                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:17:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     725                                            ║
+    • Total Lines:     857                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 7d170c769  2026-03-01  feat(build): update CMake configuration for benchmarks an... ║
-    • 4f86bf5cd  2026-03-01  feat(query): implement RuntimeReoptimizer for adaptive qu... ║
-    • 8554702d5  2026-02-28  fix(query): code-audit – remove unused includes, fix narr... ║
-    • 099187166  2026-02-26  feat(query): implement SQL dialect compatibility layer (e... ║
+    • acb2238a5  2026-03-14  refactor: clean up CMake configuration and improve test d... ║
+    • 441ccba68  2026-03-13  feat(geo/bench): AC5 – add spatial join performance bench... ║
+    • a183c645f  2026-03-13  fix: address code review - extract collectGeometries help... ║
+    • 3a43c52c9  2026-03-13  feat(geo): add SpatialJoinIterator lazy iterator and AQL ... ║
+    • ab3b22a88  2026-03-09  feat(query): implement query cancellation via request ID ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

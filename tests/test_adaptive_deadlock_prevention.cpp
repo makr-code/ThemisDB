@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_adaptive_deadlock_prevention.cpp              ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:22:14                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     417                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 7be96cdad  2026-03-14  fix(transaction): address PR review feedback on DeadlockP... ║
+    • 0e13468f3  2026-03-13  refactor(transaction): address code review feedback ║
+    • 531f9a095  2026-03-13  feat(transaction): implement Adaptive Deadlock Prevention... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Tests for Adaptive Deadlock Prevention (v1.9.0)
 // Covers DeadlockPredictor standalone behaviour and TransactionManager integration.
 // Copyright (c) 2024 ThemisDB. All rights reserved.

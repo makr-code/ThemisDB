@@ -615,16 +615,17 @@ auto conn = lb.get_connection();
 
 ### Bandwidth Management and QoS
 **Priority:** Medium  
-**Target Version:** v1.8.0
+**Target Version:** v1.8.0  
+**Status:** ✅ Implemented (v1.8.0, Issue #190, PR copilot/add-bandwidth-management-qos)
 
 Add bandwidth management and quality of service (QoS) features.
 
 **Features:**
-- Per-connection bandwidth limits
-- Traffic shaping (token bucket, leaky bucket)
-- Priority queuing (high/medium/low)
-- Fair queuing (prevent starvation)
-- Congestion control integration
+- Per-connection bandwidth limits ✅
+- Traffic shaping (token bucket, leaky bucket) ✅
+- Priority queuing (high/medium/low) ✅
+- Fair queuing (prevent starvation) ✅
+- Congestion control integration ✅
 
 **API:**
 ```cpp
@@ -650,16 +651,24 @@ qos.set_token_bucket(connection_id,
 ```
 
 **Priority Levels:**
-- **CRITICAL:** Interactive queries, low latency required
-- **HIGH:** Transactional operations, OLTP
-- **MEDIUM:** Analytical queries, OLAP
-- **LOW:** Batch operations, backups, replication
+- **CRITICAL:** Interactive queries, low latency required ✅
+- **HIGH:** Transactional operations, OLTP ✅
+- **MEDIUM:** Analytical queries, OLAP ✅
+- **LOW:** Batch operations, backups, replication ✅
 
 **Implementation:**
-- Token bucket algorithm for rate limiting
-- Priority queue for packet scheduling
-- Fair queuing to prevent starvation
-- Integration with Linux tc (traffic control)
+- Token bucket algorithm for rate limiting ✅
+- Leaky bucket algorithm for strict constant-rate shaping ✅
+- Priority queue for packet scheduling ✅
+- Fair queuing to prevent starvation ✅
+- Congestion control integration (AIMD, allowSend() enforces cwnd) ✅
+- Integration with Linux tc (traffic control) ✅
+
+**Files:**
+- `include/network/qos_manager.h` — `LeakyBucket`, `CongestionController`, extended `QoSManager::Config` + `ConnectionStats`
+- `src/network/qos_manager.cpp` — implementations of all new classes and methods
+- `tests/test_bandwidth_management_qos.cpp` — 41 focused tests
+- `.github/workflows/bandwidth-management-qos-ci.yml` — CI workflow
 
 ---
 

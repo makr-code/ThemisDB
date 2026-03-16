@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            session_manager.cpp                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:57:17                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:13:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     297                                            ║
+    • Total Lines:     326                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • b4e979f80  2026-03-12  fix(auth): constant-time comparison for recovery codes an... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 5a1680095  2026-02-24  feat(auth): implement session management and revocation e... ║
     • 14f2c64cf  2026-02-24  fix(auth): address code review - test assertions, whitesp... ║
     • 4994e3c4b  2026-02-24  fix(auth): audit fixes - wire http server, fix enforceSes... ║
-    • 125b23d98  2026-02-24  feat(auth): implement session management and revocation e... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

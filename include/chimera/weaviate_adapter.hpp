@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            weaviate_adapter.hpp                               ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:53:16                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:06:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rtree_cpu_integration.cpp                     ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:01:36                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:21:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     283                                            ║
+    • Total Lines:     411                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 8026e7349  2026-03-13  fix(geo): purge stale per-PK RocksDB keys in SpatialIndex... ║
+    • 10732a3a8  2026-03-12  feat(geo): add SpatialIndexManager::bulkLoad and improve ... ║
     • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 6e8398a0c  2026-02-25  fix(geo): clear R-tree state in dropSpatialIndex and crea... ║
-    • 4e4639844  2026-02-24  feat(geo): integrate R-tree index with CPU backend (Spati... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -4,20 +4,21 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wire_protocol_server.cpp                           ║
   Version:         0.0.3                                              ║
-  Last Modified:   2026-03-11 07:26:44                                ║
+  Last Modified:   2026-03-16 04:19:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     728                                            ║
+    • Total Lines:     1152                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • fix(themis): implement all wire protocol v1 opcode handlers     ║
+    • e7af44ad0  2026-03-11  fix(network): audit pass 2 — add CURSOR_NEXT (0x23), CURS... ║
+    • c47502afd  2026-03-11  feat(network): implement all WireProtocol V1 opcode handl... ║
+    • e6f59e401  2026-03-11  fix(security): sanitize user input in error messages + sy... ║
+    • 74c1c156e  2026-03-11  fix(network): implement complete wire protocol V1 opcode ... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
-    • e3cf67fe0  2026-02-23  feat(themis): add wire_protocol_server.cpp to src/themis ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

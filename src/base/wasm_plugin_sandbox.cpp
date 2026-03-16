@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wasm_plugin_sandbox.cpp                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:57:22                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:13:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     622                                            ║
+    • Total Lines:     652                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 4a1d92451  2026-03-12  fix(base): correctly skip non-function WASM import descri... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • f5a88cea2  2026-02-27  audit: fix non-function import parsing bug, remove unused... ║
     • 7ff4e928f  2026-02-26  feat(base): WASM-based plugin isolation for untrusted code ║

@@ -41,19 +41,17 @@ For detailed feature descriptions and API proposals, see:
 ### `TaskScheduler`: Propagate Authenticated User Context to Audit Events
 **Priority:** High
 **Target Version:** v1.8.0
+**Status:** ✅ Implemented
 
-`task_scheduler.cpp` has 5 TODOs for user context propagation — all audit events hardcode `"system"` as the actor instead of the actual requesting user:
-- Line 452: "Integrate with `AuthenticationContext` to retrieve actual `user_id`"
-- Line 453: "Integrate with `RequestContext` to retrieve actual client IP address"
-- Lines 494, 524, 552, 632: "Get actual user from auth context"
-
-This means audit trails for scheduled task creation/modification/deletion are not attributable to the operator who made the change.
+`task_scheduler.cpp` had several TODOs for user context propagation — audit events hardcoded `"system"` as the actor instead of the actual requesting user.
 
 **Implementation Notes:**
-- `[ ]` Add an `AuthContext` parameter (optional, defaulting to a "system" context) to `TaskScheduler::scheduleTask()`, `cancelTask()`, `updateTask()`, and `runNow()`.
-- `[ ]` Thread-local `RequestContext` injection: define `TaskScheduler::setRequestContext(ctx)` (thread-local) so HTTP handler code can set the context before calling into the scheduler without changing all method signatures.
-- `[ ]` Propagate `AuthContext::user_id` and `AuthContext::client_ip` into `TaskAuditEvent` at lines 494, 524, 552, 632.
-- `[ ]` Line 1146: "Consider sandboxing function execution" — add `TaskScheduler::Config::sandbox_execution` boolean flag; when `true`, wrap user-provided task functions in the `ModuleSandbox` from `src/base/module_sandbox.cpp`.
+- `[x]` Added `TaskScheduler::RequestContext` struct (`user_id`, `client_ip`) to `include/scheduler/task_scheduler.h`.
+- `[x]` Implemented `static setRequestContext(ctx)`, `clearRequestContext()`, `currentUserId(fallback)`, `currentClientIp()` using `thread_local TLSRequestContext` in `src/scheduler/task_scheduler.cpp`.
+- `[x]` `setDefaultAuditContext()` helper updated to read from `currentUserId()` / `currentClientIp()` instead of hardcoded `"system"` / `"localhost"`.
+- `[x]` All remaining `"system"` hardcodings in `logTaskSchedulerEvent()` calls replaced with `TaskScheduler::currentUserId()`.
+- `[x]` `clearRequestContext()` design: HTTP handlers call `setRequestContext({user_id, client_ip})` before scheduler ops and `clearRequestContext()` after; scheduler thread falls back to `"system"`.
+- `[ ]` `sandbox_execution` flag not yet implemented (separate issue).
 
 ---
 

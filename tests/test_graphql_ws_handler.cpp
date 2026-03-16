@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_graphql_ws_handler.cpp                        ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:25:44                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     367                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • e27950bc3  2026-03-10  fix(api): code audit fixes for GraphQLWsHandler ║
+    • 607884671  2026-03-10  feat(api): GraphQL WebSocket subscription handler + Query... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_graphql_ws_handler.cpp
  * @brief Unit tests for GraphQLWsHandler (graphql-transport-ws protocol)

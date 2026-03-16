@@ -3,24 +3,24 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cuda_backend.cpp                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:50                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:12:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                            ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     2167                                           ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   96.0/100                                       ║
+    • Total Lines:     2253                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • e627c556b  2026-03-15  feat(acceleration): BackendRegistry thread-safety, VLLMRe... ║
+    • d64a17619  2026-03-11  fix(acceleration): update cuda_backend.cpp file header me... ║
+    • e2fff830f  2026-03-11  feat(acceleration): wire HNSW graph traversal into CUDAVe... ║
+    • 7e608ea7c  2026-03-11  feat(acceleration): implement CUDAGraphBackend BFS and sh... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • bb7355ba7  2026-02-23  fix(acceleration): add missing CUDAMatrixBackend declarat... ║
-    • 1b73a7e71  2026-02-23  Implement CUDA kernels for HNSW ANN search (cuda/ann_kern... ║
-    • 50d44f370  2026-02-23  feat(acceleration): implement CUDA graph capture for recu... ║
-    • fa818fec0  2026-02-23  feat(acceleration): implement CUDAGeoBackend production m... ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                              ║
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
@@ -2194,6 +2194,11 @@ BackendCapabilities CUDAMatrixBackend::getCapabilities() const {
             caps.deviceName    = std::string(prop.name);
             caps.maxMemoryBytes = prop.totalGlobalMem;
             caps.computeUnits  = prop.multiProcessorCount;
+            // INT8 Tensor Core acceleration requires Turing (SM 7.5+).
+            const int sm = prop.major * 10 + prop.minor;
+            if (sm >= 75) {
+                caps.supportedPrecisions = caps.supportedPrecisions | PrecisionMode::INT8;
+            }
         }
     } else {
         caps.deviceName = "CUDA Device (Not Available)";

@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graphql_api_handler.cpp                            ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-03-09 04:00:12                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-03-16 04:18:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     205                                            ║
+    • Total Lines:     212                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 1b86d845d  2026-03-11  feat(tracing): add OpenTelemetry spans to all major API h... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 15cad19ba  2026-02-22  feat(server): implement dedicated GraphQLApiHandler and e... ║
 ╠═════════════════════════════════════════════════════════════════════╣

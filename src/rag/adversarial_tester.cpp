@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            adversarial_tester.cpp                             ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:17:39                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     660                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 8964e83dc  2026-03-12  Add updater class integration and GitHub Actions for plug... ║
+    • 67ce513a6  2026-03-12  fix(rag): Address adversarial tester review comments ║
+    • babaf2c7e  2026-03-12  feat(rag): Implement Adversarial Robustness Testing (v1.1... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file adversarial_tester.cpp
  * @brief Adversarial Robustness Testing for RAG systems.

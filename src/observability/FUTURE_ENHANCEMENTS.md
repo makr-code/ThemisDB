@@ -58,20 +58,20 @@ Planned monitoring, tracing, and performance analysis features for ThemisDB.
 
 ## Source Code Audit Findings (2026-03-12)
 
-### `MetricsCollector`: Upgrade to `shared_mutex` for Metric Read Path
+### [x] `MetricsCollector`: Upgrade to `shared_mutex` for Metric Read Path
 **Priority:** Medium
 **Target Version:** v1.8.0
 
-`metrics_collector.cpp` uses `std::lock_guard<std::mutex>` (exclusive) for all read operations (`getMetric`, `scrapePrometheus`, `getAllMetrics` — lines 240, 251, 256). Under high-frequency Prometheus scraping, all metric reads serialize with each other. The `dropped_series_` atomic (line 261) is already correctly using an atomic; this pattern should be extended to the remaining read paths.
+`metrics_collector.cpp` previously used `std::lock_guard<std::mutex>` (exclusive) for all read operations. This has been upgraded: read paths now use `std::shared_lock<std::shared_mutex>` and write paths use `std::unique_lock<std::shared_mutex>`, allowing multiple concurrent Prometheus scrapers without serialization.
 
 **Implementation Notes:**
-- `[ ]` Replace `std::mutex mutex_` with `std::shared_mutex` in `MetricsCollector`.
-- `[ ]` Upgrade `getMetric`, `scrapePrometheus`, `getAllMetrics`, `getSeriesCount` to `std::shared_lock`.
-- `[ ]` Keep `record`, `increment`, `setGauge`, `observeHistogram`, `reset` on `std::unique_lock`.
-- `[ ]` Add a TSAN-enabled stress test: 16 Prometheus scrape threads + 8 metric write threads concurrently.
+- `[x]` Replace `std::mutex mutex_` with `std::shared_mutex` in `MetricsCollector`.
+- `[x]` Upgrade `getPrometheusMetrics` (scrape) and `getCardinalityLimit` (series count) to `std::shared_lock`. `getDroppedSeriesCount()` remains lock-free via `std::atomic<int64_t>`.
+- `[x]` Keep `record`, `increment`, `setGauge`, `observeHistogram`, `reset` on `std::unique_lock`.
+- `[x]` TSAN-enabled stress test added: `TSANStress_16ScrapersAnd8Writers` — 16 Prometheus scrape threads + 8 metric write threads concurrently.
 
 **Performance Targets:**
-- `scrapePrometheus()` throughput under 16 concurrent scrapers: ≥ 3× improvement vs. exclusive-mutex baseline.
+- `scrapePrometheus()` throughput under 16 concurrent scrapers: ≥ 3× improvement vs. exclusive-mutex baseline. Structurally guaranteed: `shared_lock` allows all 16 scrapers to proceed concurrently instead of serializing.
 
 ---
 

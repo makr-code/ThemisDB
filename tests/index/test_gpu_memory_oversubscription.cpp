@@ -4,8 +4,19 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_memory_oversubscription.cpp               ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-03-13                                         ║
+  Last Modified:   2026-03-16 04:21:23                                ║
   Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     823                                            ║
+    • Open Issues:     TODOs: 4, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 95f4f2af0  2026-03-13  fix(index): audit – searchBatch oversubscription path + l... ║
+    • be007f370  2026-03-13  refactor(index): address code review - extract prefetchSt... ║
+    • dc534b830  2026-03-13  feat(index): implement GPU memory oversubscription (v1.7.0) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
