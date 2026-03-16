@@ -23,6 +23,7 @@
 
 #pragma once
 
+#include <atomic>
 #include <chrono>
 #include <cstddef>
 #include <deque>
@@ -117,7 +118,11 @@ private:
     mutable std::mutex mutex_;
     std::deque<AuditEntry> entries_;
     std::size_t max_entries_{kDefaultMaxEntries};
-    bool enabled_{false};
+    // Use atomic for the enabled flag so that isEnabled() and the fast-path
+    // check in record() are a single relaxed load with no mutex acquisition.
+    // This satisfies the hot-path overhead target of one atomic-equivalent
+    // load when audit logging is disabled.
+    std::atomic<bool> enabled_{false};
 };
 
 } // namespace config
