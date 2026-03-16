@@ -697,7 +697,9 @@ public:
         // meaningful.  Throw to signal this clearly, consistent with the factory's
         // error-handling convention.  Use exportToFile() instead.
         throw std::runtime_error(
-            "Parquet format cannot be exported to string; use exportToFile() instead.");
+            "Parquet is a binary columnar file format and cannot be meaningfully "
+            "represented as a plain string. Use exportToFile() to write Parquet output "
+            "to disk.");
     }
 
     ExportResult exportWithCallback(
