@@ -7857,7 +7857,9 @@ if(THEMIS_ENABLE_CONTENT)
             ${TEST_LIBS}
             themis_content
             nlohmann_json::nlohmann_json
+            OpenSSL::Crypto
             Threads::Threads
+            $<$<TARGET_EXISTS:yaml-cpp::yaml-cpp>:yaml-cpp::yaml-cpp>
         )
 
         target_compile_definitions(test_content_security_focused PRIVATE
@@ -7867,11 +7869,11 @@ if(THEMIS_ENABLE_CONTENT)
         add_test(NAME ContentSecurityFocusedTests COMMAND test_content_security_focused)
 
         set_tests_properties(ContentSecurityFocusedTests PROPERTIES
-            LABELS "content;security;archive-bomb;validation;focused;unit"
+            LABELS "content;security;archive-bomb;validation;focused;unit;abuse-detection"
             TIMEOUT 60
         )
 
-        message(STATUS "  ContentSecurity: malware signature scan, archive-bomb detection, path traversal rejection")
+        message(STATUS "  ContentSecurity: malware signature scan, archive-bomb detection, path traversal rejection, abuse detection")
     else()
         message(STATUS "Content Security focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_content_security.cpp")
     endif()
