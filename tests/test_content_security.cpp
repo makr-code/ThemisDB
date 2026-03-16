@@ -1055,6 +1055,7 @@ TEST_F(AbuseDetectionIntegrationTest, PhotoDetectorFlagsMatchingImage) {
     EXPECT_TRUE(result.abuse_detected);
     EXPECT_EQ(result.abuse_action, "FLAG");
     EXPECT_EQ(result.abuse_pattern_name, "SUSPICIOUS_IMG");
+    EXPECT_EQ(result.abuse_detector_type, "PhotoDNA");
 }
 
 TEST_F(AbuseDetectionIntegrationTest, PhotoDetectorIgnoresNonImageContent) {

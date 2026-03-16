@@ -499,7 +499,7 @@ SecurityCheckResult ContentSecurityManager::checkAbuse(
             if (det_result.action == AbuseAction::BLOCK && config_.block_on_abuse) {
                 metrics_.abuse_blocked++;
                 result.error = ContentError::error(
-                    ContentErrorCode::CONTENT_POLICY_VIOLATION,
+                    ContentErrorCode::CONTENT_ABUSE_DETECTED,
                     "Content blocked by abuse detector (" +
                         det_result.detector_type + "): " + det_result.reason
                 );
@@ -543,7 +543,7 @@ SecurityCheckResult ContentSecurityManager::checkAbuse(
             if (det_result.action == AbuseAction::BLOCK && config_.block_on_abuse) {
                 metrics_.abuse_blocked++;
                 result.error = ContentError::error(
-                    ContentErrorCode::CONTENT_POLICY_VIOLATION,
+                    ContentErrorCode::CONTENT_ABUSE_DETECTED,
                     "Content blocked by abuse detector (" +
                         det_result.detector_type + "): " + det_result.reason
                 );

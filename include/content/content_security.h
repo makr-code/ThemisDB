@@ -55,7 +55,7 @@ struct ContentSecurityConfig {
     bool redact_pii_in_logs = true;     // Redact PII from log output
     
     // Abuse detection
-    bool enable_abuse_detection = false;  // Stub for future implementation
+    bool enable_abuse_detection = false;  ///< Enable abuse detection via registered IAbuseDetector instances
     bool block_on_abuse = false;
     
     // Error sanitization
