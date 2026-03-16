@@ -107,15 +107,16 @@ This means any GPU plugin with a revoked code-signing certificate will pass secu
 ### Plugin Security: PE Certificate Table Extraction
 **Priority:** Medium
 **Target Version:** v1.8.0
+**Status:** ✅ Implemented
 
-`EnhancedPluginSecurityVerifier::extractSigningCertificate()` in `plugin_security.cpp:1075–1092` detects the PE magic bytes (`0x00004550`) but then hits a comment block reading *"For now: indicate PE format detected but extraction not fully implemented"* and falls through without returning certificate data. The Linux ELF path below it is similarly incomplete. Without this, `verifyAuthenticodeSignature()` (line 1202) receives an empty certificate string and cannot perform the Authenticode check.
+`EnhancedPluginSecurityVerifier::extractEmbeddedCertificate()` in `plugin_security.cpp` iterates the full PE certificate table and returns the first PKCS#7 DER blob. The Linux ELF path parses the `.note.gnu.signature` section or falls back to a sidecar `.sig` file.
 
 **Implementation Notes:**
-- `[ ]` Parse PE optional-header data directories: seek to `e_lfanew + 0x18 + offsetof(OptionalHeader, DataDirectory[4])`, read the `VirtualAddress` and `Size` fields for the Security directory (entry 4, `IMAGE_DIRECTORY_ENTRY_SECURITY`).
-- `[ ]` Map the certificate table: for each `WIN_CERTIFICATE` record in the table, check `wCertificateType == WIN_CERT_TYPE_PKCS_SIGNED_DATA` and extract `bCertificate[dwLength - offsetof(WIN_CERTIFICATE, bCertificate)]` as a DER blob.
-- `[ ]` For ELF plugins on Linux: look for a `.note.gnu.signature` section or a sidecar `plugin.so.sig` file; fall back to returning an empty string (unsigned) rather than leaving the code path unreachable.
-- `[ ]` Return the first valid PKCS#7 DER blob; log a warning if multiple certificates are present.
-- `[ ]` Add a fixture-based unit test with a pre-signed PE test binary to validate extraction end-to-end.
+- `[x]` Parse PE optional-header data directories: seek to `e_lfanew + 0x18 + offsetof(OptionalHeader, DataDirectory[4])`, read the `VirtualAddress` and `Size` fields for the Security directory (entry 4, `IMAGE_DIRECTORY_ENTRY_SECURITY`).
+- `[x]` Map the certificate table: for each `WIN_CERTIFICATE` record in the table, check `wCertificateType == WIN_CERT_TYPE_PKCS_SIGNED_DATA` and extract `bCertificate[dwLength - offsetof(WIN_CERTIFICATE, bCertificate)]` as a DER blob.
+- `[x]` For ELF plugins on Linux: look for a `.note.gnu.signature` section or a sidecar `plugin.so.sig` file; fall back to returning an empty string (unsigned) rather than leaving the code path unreachable.
+- `[x]` Return the first valid PKCS#7 DER blob; log a warning if multiple certificates are present.
+- `[x]` Add a fixture-based unit test with a pre-signed PE test binary to validate extraction end-to-end.
 
 ---
 
