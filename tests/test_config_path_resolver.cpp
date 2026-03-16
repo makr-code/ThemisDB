@@ -28,9 +28,11 @@
 #include "config/config_path_resolver.h"
 #include "config/config_metrics_exporter.h"
 #include "config/config_errors.h"
+#include <atomic>
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
+#include <thread>
 
 namespace themis {
 namespace config {
@@ -1370,6 +1372,53 @@ TEST_F(ConfigAuditLogTest, ShrinkingMaxEntriesEvictsOldestFirst) {
     // The remaining entries should be the 3 most-recently added (evict2, evict3, evict4)
     EXPECT_EQ(entries[0].requested_path, "config/evict2.yaml");
     EXPECT_EQ(entries[2].requested_path, "config/evict4.yaml");
+}
+
+TEST_F(ConfigAuditLogTest, ConcurrentRecordAndSnapshot_ThreadSafety) {
+    // Verify that concurrent record() and getEntries() calls do not crash or
+    // produce inconsistent results under a burst of concurrent writers.
+    ConfigPathResolver::setAuditLogEnabled(true);
+    ConfigPathResolver::setAuditLogMaxEntries(200);
+
+    // Create files up front so resolvers don't race on filesystem operations.
+    for (int i = 0; i < 50; ++i) {
+        createFile(test_dir_ / "config" / ("concurrent" + std::to_string(i) + ".yaml"));
+    }
+
+    const int kWriterThreads = 8;
+    const int kResolvesPerThread = 25;
+    std::vector<std::thread> writers;
+    writers.reserve(kWriterThreads);
+
+    std::filesystem::path saved_cwd = std::filesystem::current_path();
+    std::filesystem::current_path(test_dir_);
+
+    for (int t = 0; t < kWriterThreads; ++t) {
+        writers.emplace_back([&, t]() {
+            for (int i = 0; i < kResolvesPerThread; ++i) {
+                int idx = (t * kResolvesPerThread + i) % 50;
+                ConfigPathResolver::tryResolve("config/concurrent" + std::to_string(idx) + ".yaml");
+            }
+        });
+    }
+
+    // Snapshot reader running concurrently with the writers
+    std::atomic<bool> stop_reader{false};
+    std::thread reader([&]() {
+        while (!stop_reader.load(std::memory_order_relaxed)) {
+            auto entries = ConfigPathResolver::auditLog();
+            EXPECT_LE(entries.size(), 200u);
+        }
+    });
+
+    for (auto& w : writers) w.join();
+    stop_reader.store(true, std::memory_order_relaxed);
+    reader.join();
+
+    std::filesystem::current_path(saved_cwd);
+
+    // At least some entries should have been recorded
+    EXPECT_GT(ConfigPathResolver::auditLog().size(), 0u);
 }
 
 } // namespace test
