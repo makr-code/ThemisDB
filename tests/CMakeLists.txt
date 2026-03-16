@@ -320,6 +320,8 @@ if(NOT THEMIS_ENABLE_CONTENT)
         ".*test_ingestion_manager_adapter\\.cpp$"
         # test_async_ingestion_backpressure uses AsyncIngestionWorker + ContentManager (CON-005)
         ".*test_async_ingestion_backpressure\\.cpp$"
+        # test_async_ingestion_yaml_config uses AsyncIngestionWorker + ConfigPathResolver (Issue #3998)
+        ".*test_async_ingestion_yaml_config\\.cpp$"
     )
 endif()
 
@@ -8333,6 +8335,50 @@ if(THEMIS_ENABLE_CONTENT)
         message(STATUS "  AsyncIngestionWorker: submitStream() blocking, ingestStream() future, shutdown unblocking")
     else()
         message(STATUS "AsyncIngestionWorker back-pressure focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_async_ingestion_backpressure.cpp")
+    endif()
+
+    # -------------------------------------------------------------------------
+    # AsyncIngestionWorker YAML config & user context tests (Issue #3998)
+    # Covers: loadSourcesFromConfig() YAML parsing via ConfigPathResolver +
+    #         ConfigSchemaValidator, worker_threads/queue_depth/batch_size/
+    #         retry_attempts fields, user_context propagation in
+    #         submitSourceJob(), missing-file error handling.
+    # -------------------------------------------------------------------------
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_async_ingestion_yaml_config.cpp")
+        message(STATUS "Adding AsyncIngestionWorker YAML config focused tests (Issue #3998)")
+
+        add_executable(test_async_ingestion_yaml_config_focused
+            test_async_ingestion_yaml_config.cpp
+        )
+
+        target_include_directories(test_async_ingestion_yaml_config_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        target_link_libraries(test_async_ingestion_yaml_config_focused PRIVATE
+            ${TEST_LIBS}
+            themis_content
+            themis_core
+            nlohmann_json::nlohmann_json
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_async_ingestion_yaml_config_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME AsyncIngestionYamlConfigFocusedTests
+            COMMAND test_async_ingestion_yaml_config_focused)
+
+        set_tests_properties(AsyncIngestionYamlConfigFocusedTests PROPERTIES
+            LABELS "content;ingestion;yaml;config;async;focused;unit"
+            TIMEOUT 120
+        )
+
+        message(STATUS "  AsyncIngestionWorker: YAML config loading, user_context propagation")
+    else()
+        message(STATUS "AsyncIngestionWorker YAML config focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_async_ingestion_yaml_config.cpp")
     endif()
 
     # -------------------------------------------------------------------------
