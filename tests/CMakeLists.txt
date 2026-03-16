@@ -4164,6 +4164,44 @@ else()
     message(STATUS "Adaptive Deadlock Prevention tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_deadlock_prevention.cpp")
 endif()
 
+# Distributed Transaction Coordinator (2PC) Focused Tests (v1.9.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_distributed_2pc.cpp")
+    message(STATUS "Adding Distributed Transaction Coordinator (2PC) focused tests")
+
+    add_executable(test_transaction_distributed_2pc_focused
+        test_transaction_distributed_2pc.cpp
+    )
+
+    target_include_directories(test_transaction_distributed_2pc_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_transaction_distributed_2pc_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_transaction_distributed_2pc_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TransactionDistributed2PCFocusedTests
+        COMMAND test_transaction_distributed_2pc_focused)
+
+    set_tests_properties(TransactionDistributed2PCFocusedTests PROPERTIES
+        LABELS "transaction;distributed;2pc;coordinator;v1.9.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Distributed2PC: 2PC coordinator, prepare/commit/abort, timeout, recovery, failure detection")
+else()
+    message(STATUS "Distributed Transaction Coordinator (2PC) tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_distributed_2pc.cpp")
+endif()
+
 # Transaction Isolation Levels Focused Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_isolation_levels.cpp")
     message(STATUS "Adding Transaction Isolation Levels focused tests")

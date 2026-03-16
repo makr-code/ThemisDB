@@ -172,10 +172,17 @@ while (!committed) {
 ---
 
 ### Distributed Transaction Coordinator (2PC)
+**Status: ✅ Implemented** (v1.9.0, Issue: #123)  
 **Priority:** High  
 **Target Version:** v1.9.0
 
 Implement two-phase commit for multi-shard distributed transactions.
+
+**Implemented in:**
+- `include/transaction/distributed_transaction_manager.h`
+- `src/transaction/distributed_transaction_manager.cpp`
+- Tests: `tests/test_transaction_distributed_2pc.cpp` (32 tests, `TransactionDistributed2PCFocusedTests`)
+- CI: `.github/workflows/transaction-distributed-2pc-ci.yml`
 
 **Features:**
 - Coordinator role for distributed transactions
