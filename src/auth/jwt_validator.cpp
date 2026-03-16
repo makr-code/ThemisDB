@@ -589,6 +589,25 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     if (payload.contains("roles")) {
         claims.roles = payload["roles"].get<std::vector<std::string>>();
     }
+    // Parse OAuth2 scope claim: "scope" (space-separated string) or "scp" (array)
+    if (payload.contains("scope") && payload["scope"].is_string()) {
+        std::istringstream iss(payload["scope"].get<std::string>());
+        std::string s;
+        while (iss >> s) {
+            claims.scopes.push_back(s);
+        }
+    } else if (payload.contains("scp")) {
+        if (payload["scp"].is_array()) {
+            for (const auto& s : payload["scp"]) {
+                if (s.is_string()) {
+                    claims.scopes.push_back(s.get<std::string>());
+                }
+            }
+        } else if (payload["scp"].is_string()) {
+            std::istringstream iss(payload["scp"].get<std::string>());
+            std::string s;
+            while (iss >> s) {
+                claims.scopes.push_back(s);
     // Extract OAuth2 scopes from `scope` (space-separated string) or `scp` (array).
     // Some IdPs (Keycloak, Auth0) use `scope`; Azure AD uses `scp`.
     if (payload.contains("scope") && payload["scope"].is_string()) {

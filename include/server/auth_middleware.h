@@ -28,6 +28,7 @@
 
 #include "auth/mtls_authenticator.h"
 
+#include <nlohmann/json.hpp>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -147,6 +148,11 @@ public:
         const std::vector<std::string>& protected_scopes = {}
     );
 
+    /// Configure role-to-scope mapping used by JWT and Kerberos authorization.
+    /// Maps a role name to the set of scopes it grants (e.g., "admin" → {"admin","cache:read"}).
+    /// Calling this overrides any mapping previously loaded from the config file.
+    void setRoleScopeMapping(const std::unordered_map<std::string, std::unordered_set<std::string>>& mapping);
+
     /// Configure allowed tokens (typically loaded from config file)
     void addToken(const TokenConfig& config);
     void removeToken(std::string_view token);
@@ -196,6 +202,10 @@ public:
     /// Check if USB admin authentication is enabled and USB is present
     bool isUSBAdminReady() const;
 
+    // testing helper – injects a pre-built JWKS into the JWT validator so tests
+    // can verify scope enforcement without a live JWKS endpoint.
+    void setJWKSForTesting(const nlohmann::json& jwks);
+
 private:
     mutable std::mutex mutex_;
     std::unordered_map<std::string, TokenConfig> tokens_; // token -> config
@@ -223,6 +233,10 @@ private:
     std::unique_ptr<auth::ApiKeyAuthenticator> api_key_auth_;
     bool api_key_enabled_ = false;
 
+    // Role-to-scope mapping (role name → set of granted scopes).
+    // Populated from config/security/rbac_roles.yaml or via setRoleScopeMapping().
+    std::unordered_map<std::string, std::unordered_set<std::string>> role_scope_map_;
+    bool role_scope_map_loaded_ = false;  // true once a load attempt has been made
     // Role-to-scope mapping: role name → list of scopes that role grants.
     // Used as fallback in JWT and Kerberos authorization when direct scope
     // claims don't contain the required_scope.
@@ -246,6 +260,10 @@ private:
 
     // Helper: try to authorize via API key (combined "key_id.secret" format)
     AuthResult authorizeViaApiKey(std::string_view combined_token, std::string_view required_scope) const;
+
+    // Helper: load role-to-scope mapping from config/security/rbac_roles.yaml.
+    // Must be called with mutex_ held.
+    void loadRoleScopeMapping();
 };
 
 } // namespace themis
