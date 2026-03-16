@@ -1349,3 +1349,28 @@ TEST(CEPStatefulCheckpointTest, CheckpointWithNoPartialMatchesIsClean) {
     engine.shutdown();
     std::filesystem::remove_all(cp_path);
 }
+
+// Regression test: CEPEngine::shutdown() must complete within 100 ms even when
+// metrics_interval is set to a very long value.  This verifies that metricsLoop()
+// uses condition_variable::wait_for (wakes on running_=false) instead of
+// std::this_thread::sleep_for (which would block for the full interval).
+TEST(CEPEngineShutdownTest, ShutdownReturnsWithin100msRegardlessOfMetricsInterval) {
+    auto& engine = CEPEngine::getInstance();
+    if (engine.isInitialized()) engine.shutdown();
+
+    CEPConfig cfg;
+    cfg.worker_threads        = 1;
+    cfg.metrics_enabled       = true;
+    cfg.metrics_interval      = std::chrono::milliseconds(60000); // 60 s – would stall old impl
+    cfg.checkpointing_enabled = false;
+    engine.initialize(cfg);
+
+    auto t0 = std::chrono::steady_clock::now();
+    engine.shutdown();
+    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - t0);
+
+    EXPECT_LE(elapsed.count(), 100)
+        << "CEPEngine::shutdown() took " << elapsed.count()
+        << " ms – metricsLoop() must wake immediately on stop signal";
+}

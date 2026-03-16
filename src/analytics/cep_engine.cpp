@@ -893,126 +893,152 @@ void WindowManager::addEvent(const Event& event) {
 }
 
 void WindowManager::handleTumblingWindow(const Event& event) {
-    std::lock_guard lk(windows_mutex_);
-    auto ts = event.timestamp;
-    if (windows_.empty()) {
-        Window w;
-        w.start = ts;
-        w.end = ts + config_.size;
-        windows_.push_back(std::move(w));
-        ++windows_created_;
+    std::optional<WindowCallbackBatch> batch;
+    {
+        std::lock_guard lk(windows_mutex_);
+        auto ts = event.timestamp;
+        if (windows_.empty()) {
+            Window w;
+            w.start = ts;
+            w.end = ts + config_.size;
+            windows_.push_back(std::move(w));
+            ++windows_created_;
+        }
+        Window& current = windows_.back();
+        if (ts >= current.end) {
+            batch = closeWindow(current);
+            Window nw;
+            nw.start = current.end;
+            nw.end = current.end + config_.size;
+            windows_.push_back(std::move(nw));
+            ++windows_created_;
+            windows_.back().events.push_back(event);
+        } else if (ts < current.start && config_.allowed_lateness.count() > 0) {
+            // Late event
+            ++late_events_;
+        } else {
+            current.events.push_back(event);
+        }
     }
-    Window& current = windows_.back();
-    if (ts >= current.end) {
-        closeWindow(current);
-        Window nw;
-        nw.start = current.end;
-        nw.end = current.end + config_.size;
-        windows_.push_back(std::move(nw));
-        ++windows_created_;
-        windows_.back().events.push_back(event);
-    } else if (ts < current.start && config_.allowed_lateness.count() > 0) {
-        // Late event
-        ++late_events_;
-    } else {
-        current.events.push_back(event);
+    if (batch && callback_) {
+        try { callback_(batch->events, batch->start, batch->end); } catch (...) {}
     }
 }
 
 void WindowManager::handleSlidingWindow(const Event& event) {
-    std::lock_guard lk(windows_mutex_);
-    auto ts = event.timestamp;
-    auto hop = (config_.slide.count() > 0) ? config_.slide : config_.size;
+    std::vector<WindowCallbackBatch> batches;
+    {
+        std::lock_guard lk(windows_mutex_);
+        auto ts = event.timestamp;
+        auto hop = (config_.slide.count() > 0) ? config_.slide : config_.size;
 
-    // Create a new window starting at ts if needed
-    if (windows_.empty() || ts >= windows_.back().start + hop) {
-        Window w;
-        w.start = ts;
-        w.end = ts + config_.size;
-        windows_.push_back(std::move(w));
-        ++windows_created_;
-    }
+        // Create a new window starting at ts if needed
+        if (windows_.empty() || ts >= windows_.back().start + hop) {
+            Window w;
+            w.start = ts;
+            w.end = ts + config_.size;
+            windows_.push_back(std::move(w));
+            ++windows_created_;
+        }
 
-    // Add event to all open windows that contain this timestamp
-    for (auto& w : windows_) {
-        if (!w.closed && ts >= w.start && ts < w.end) {
-            w.events.push_back(event);
+        // Add event to all open windows that contain this timestamp
+        for (auto& w : windows_) {
+            if (!w.closed && ts >= w.start && ts < w.end) {
+                w.events.push_back(event);
+            }
+        }
+
+        // Close expired windows
+        for (auto& w : windows_) {
+            if (!w.closed && ts >= w.end + config_.allowed_lateness) {
+                auto b = closeWindow(w);
+                if (b) batches.push_back(std::move(*b));
+            }
+        }
+
+        // Prune old closed windows
+        while (windows_.size() > 100 && windows_.front().closed) {
+            windows_.pop_front();
         }
     }
-
-    // Close expired windows
-    for (auto& w : windows_) {
-        if (!w.closed && ts >= w.end + config_.allowed_lateness) {
-            closeWindow(w);
-        }
-    }
-
-    // Prune old closed windows
-    while (windows_.size() > 100 && windows_.front().closed) {
-        windows_.pop_front();
+    for (auto& b : batches) {
+        try { callback_(b.events, b.start, b.end); } catch (...) {}
     }
 }
 
 void WindowManager::handleSessionWindow(const Event& event) {
-    std::lock_guard lk(windows_mutex_);
-    std::string key = event.partition_key;
-    auto ts = event.timestamp;
+    std::optional<WindowCallbackBatch> batch;
+    {
+        std::lock_guard lk(windows_mutex_);
+        std::string key = event.partition_key;
+        auto ts = event.timestamp;
 
-    auto it = session_windows_.find(key);
-    if (it == session_windows_.end()) {
-        Window w;
-        w.start = ts;
-        w.end = ts + config_.gap;
-        w.events.push_back(event);
-        session_windows_[key] = std::move(w);
-        ++windows_created_;
-    } else {
-        auto& w = it->second;
-        if (ts > w.end) {
-            // Gap exceeded: close old, start new
-            closeWindow(w);
-            Window nw;
-            nw.start = ts;
-            nw.end = ts + config_.gap;
-            nw.events.push_back(event);
-            it->second = std::move(nw);
+        auto it = session_windows_.find(key);
+        if (it == session_windows_.end()) {
+            Window w;
+            w.start = ts;
+            w.end = ts + config_.gap;
+            w.events.push_back(event);
+            session_windows_[key] = std::move(w);
             ++windows_created_;
         } else {
-            w.events.push_back(event);
-            w.end = ts + config_.gap; // extend
+            auto& w = it->second;
+            if (ts > w.end) {
+                // Gap exceeded: close old, start new
+                batch = closeWindow(w);
+                Window nw;
+                nw.start = ts;
+                nw.end = ts + config_.gap;
+                nw.events.push_back(event);
+                it->second = std::move(nw);
+                ++windows_created_;
+            } else {
+                w.events.push_back(event);
+                w.end = ts + config_.gap; // extend
+            }
         }
+    }
+    if (batch && callback_) {
+        try { callback_(batch->events, batch->start, batch->end); } catch (...) {}
     }
 }
 
 void WindowManager::handleCountWindow(const Event& event) {
-    std::lock_guard lk(windows_mutex_);
-    if (windows_.empty()) {
-        Window w;
-        w.start = event.timestamp;
-        w.end = event.timestamp;
-        windows_.push_back(std::move(w));
-        ++windows_created_;
+    std::optional<WindowCallbackBatch> batch;
+    {
+        std::lock_guard lk(windows_mutex_);
+        if (windows_.empty()) {
+            Window w;
+            w.start = event.timestamp;
+            w.end = event.timestamp;
+            windows_.push_back(std::move(w));
+            ++windows_created_;
+        }
+        Window& current = windows_.back();
+        current.events.push_back(event);
+        current.end = event.timestamp;
+        if (config_.count > 0 && current.events.size() >= config_.count) {
+            batch = closeWindow(current);
+            Window nw;
+            nw.start = event.timestamp;
+            nw.end = event.timestamp;
+            windows_.push_back(std::move(nw));
+            ++windows_created_;
+        }
     }
-    Window& current = windows_.back();
-    current.events.push_back(event);
-    current.end = event.timestamp;
-    if (config_.count > 0 && current.events.size() >= config_.count) {
-        closeWindow(current);
-        Window nw;
-        nw.start = event.timestamp;
-        nw.end = event.timestamp;
-        windows_.push_back(std::move(nw));
-        ++windows_created_;
+    if (batch && callback_) {
+        try { callback_(batch->events, batch->start, batch->end); } catch (...) {}
     }
 }
 
-void WindowManager::closeWindow(Window& w) {
-    if (w.closed) return;
+std::optional<WindowManager::WindowCallbackBatch> WindowManager::closeWindow(Window& w) {
+    if (w.closed) return std::nullopt;
     w.closed = true;
     ++windows_closed_;
     if (callback_ && config_.emit_on_close && !w.events.empty()) {
-        try { callback_(w.events, w.start, w.end); } catch (...) {}
+        return WindowCallbackBatch{std::move(w.events), w.start, w.end};
     }
+    return std::nullopt;
 }
 
 std::vector<Event> WindowManager::getWindowEvents() const {
@@ -1074,27 +1100,43 @@ void WindowManager::timerLoop() {
                            [this] { return !running_.load(); });
         if (!running_) break;
 
-        // Emit on_event for GLOBAL windows periodically
+        // Emit on_event for GLOBAL windows periodically.
+        // Snapshot event vectors under the lock, then dispatch outside so the
+        // lock is not held while executing arbitrary user callbacks.
         if (config_.type == WindowType::GLOBAL && config_.emit_on_event && callback_) {
-            std::lock_guard wlk(windows_mutex_);
-            for (auto& w : windows_) {
-                if (!w.closed && !w.events.empty()) {
-                    try {
-                        callback_(w.events, w.start,
-                                  std::chrono::system_clock::now());
-                    } catch (...) {}
+            std::vector<WindowCallbackBatch> batches;
+            auto now = std::chrono::system_clock::now();
+            {
+                std::lock_guard wlk(windows_mutex_);
+                for (auto& w : windows_) {
+                    if (!w.closed && !w.events.empty()) {
+                        // Copy (not move): the window stays open; events must
+                        // remain in the window for future emissions.
+                        batches.push_back({w.events, w.start, now});
+                    }
                 }
+            }
+            for (auto& b : batches) {
+                try { callback_(b.events, b.start, b.end); } catch (...) {}
             }
         }
 
-        // Close expired session windows
+        // Close expired session windows.
+        // Collect close batches under the lock, dispatch callbacks after.
         if (config_.type == WindowType::SESSION) {
             auto now = std::chrono::system_clock::now();
-            std::lock_guard wlk(windows_mutex_);
-            for (auto& [key, w] : session_windows_) {
-                if (!w.closed && now > w.end + config_.allowed_lateness) {
-                    closeWindow(w);
+            std::vector<WindowCallbackBatch> batches;
+            {
+                std::lock_guard wlk(windows_mutex_);
+                for (auto& [key, w] : session_windows_) {
+                    if (!w.closed && now > w.end + config_.allowed_lateness) {
+                        auto b = closeWindow(w);
+                        if (b) batches.push_back(std::move(*b));
+                    }
                 }
+            }
+            for (auto& b : batches) {
+                try { callback_(b.events, b.start, b.end); } catch (...) {}
             }
         }
     }
@@ -1973,6 +2015,7 @@ void CEPEngine::shutdown() {
     if (!initialized_.load()) return;
     running_ = false;
     cv_.notify_all();
+    metrics_cv_.notify_all();
     for (auto& t : worker_threads_) {
         if (t.joinable()) t.join();
     }
@@ -2401,7 +2444,11 @@ void CEPEngine::processEvent(const std::string& stream_id, const Event& event) {
 
 void CEPEngine::metricsLoop() {
     while (running_) {
-        std::this_thread::sleep_for(config_.metrics_interval);
+        {
+            std::unique_lock lk(metrics_mutex_);
+            metrics_cv_.wait_for(lk, config_.metrics_interval,
+                                 [this] { return !running_.load(); });
+        }
         if (!running_) break;
         auto s = getStats();
         spdlog::debug("CEP metrics: recv={} proc={} drop={} bp={} queue={} alerts={} streams={} rules={}",
