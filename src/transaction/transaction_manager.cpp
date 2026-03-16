@@ -2050,5 +2050,112 @@ std::chrono::milliseconds TransactionManager::recommendTimeout(
     return p->recommendTimeout(keys);
 }
 
+// ── Serializable Snapshot Isolation (SSI) ─────────────────────────────────────
+
+void TransactionManager::setSSIConfig(const SSIConfig& config) {
+    std::lock_guard<std::mutex> lock(ssi_config_mutex_);
+    ssi_config_ = config;
+    // Propagate settings to the shared LockManager.
+    lock_manager_.setPredicateLockingEnabled(config.enable_predicate_locking);
+    lock_manager_.setMaxPredicateLocks(config.enable_predicate_locking
+                                       ? config.max_predicate_locks
+                                       : 0);
+    THEMIS_INFO("SSIConfig updated: enable_predicate_locking={}, max_predicate_locks={}, "
+                "conflict_detection_interval={}ms",
+                config.enable_predicate_locking,
+                config.max_predicate_locks,
+                config.conflict_detection_interval.count());
+}
+
+TransactionManager::SSIConfig TransactionManager::getSSIConfig() const {
+    std::lock_guard<std::mutex> lock(ssi_config_mutex_);
+    return ssi_config_;
+}
+
+std::vector<TransactionManager::SerializationConflict>
+TransactionManager::detectConflicts(TransactionId txn_id) const
+{
+    // Read current config so we can honour enable_predicate_locking.
+    SSIConfig cfg;
+    {
+        std::lock_guard<std::mutex> cfgLock(ssi_config_mutex_);
+        cfg = ssi_config_;
+    }
+
+    std::vector<SerializationConflict> result;
+
+    if (!cfg.enable_predicate_locking) {
+        return result;
+    }
+
+    // Fetch the target transaction.
+    std::shared_ptr<Transaction> target_txn;
+    {
+        std::lock_guard<std::mutex> lock(sessions_mutex_);
+        auto it = active_transactions_.find(txn_id);
+        if (it == active_transactions_.end()) {
+            return result; // transaction not found or already completed
+        }
+        target_txn = it->second;
+    }
+
+    // Only SERIALIZABLE transactions maintain predicate locks.
+    if (target_txn->isolation_ != IsolationLevel::SERIALIZABLE) {
+        return result;
+    }
+
+    // Retrieve all predicate-lock ranges owned by txn_id.
+    auto my_ranges = lock_manager_.getPredicateLockRanges(txn_id);
+    if (my_ranges.empty()) {
+        return result;
+    }
+
+    // Collect other active SERIALIZABLE transactions and their predicate ranges.
+    std::vector<std::pair<TransactionId,
+                          std::vector<std::pair<std::string, std::string>>>>
+        others;
+    {
+        std::lock_guard<std::mutex> lock(sessions_mutex_);
+        for (const auto& [id, txn] : active_transactions_) {
+            if (id != txn_id && txn &&
+                txn->isolation_ == IsolationLevel::SERIALIZABLE)
+            {
+                others.emplace_back(id, lock_manager_.getPredicateLockRanges(id));
+            }
+        }
+    }
+
+    // For each of our ranges, check for overlap with every range of every other
+    // active SERIALIZABLE transaction.  Overlapping predicate ranges signal a
+    // potential read-write conflict: both transactions have read overlapping key
+    // sets, so a write by either could violate serializability.
+    //
+    // Two ranges [s1, e1] and [s2, e2] overlap iff s1 <= e2 && s2 <= e1.
+    for (const auto& [s1, e1] : my_ranges) {
+        for (const auto& [other_id, other_ranges] : others) {
+            for (const auto& [s2, e2] : other_ranges) {
+                if (s1 <= e2 && s2 <= e1) {
+                    SerializationConflict sc;
+                    sc.other_txn_id  = other_id;
+                    sc.key           = s1;  // representative key (start of our range)
+                    sc.conflict_type = "read-write";
+                    sc.message       = "predicate lock [" + s1 + ", " + e1 +
+                                       "] held by txn " + std::to_string(txn_id) +
+                                       " overlaps with predicate lock [" + s2 + ", " +
+                                       e2 + "] held by txn " +
+                                       std::to_string(other_id) +
+                                       "; serialization failure – transaction must be retried";
+                    result.push_back(std::move(sc));
+                    // Report one conflict per (our_range, other_txn) pair to
+                    // avoid flooding the caller with duplicates.
+                    break;
+                }
+            }
+        }
+    }
+
+    return result;
+}
+
 } // namespace themis
 
