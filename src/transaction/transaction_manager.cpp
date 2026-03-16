@@ -2104,95 +2104,53 @@ TransactionManager::detectConflicts(TransactionId txn_id) const
         return result;
     }
 
-    // Use the LockManager to probe for predicate-lock conflicts.
-    // For each predicate lock held by txn_id we check whether any key inside
-    // that range would conflict with a write from another active transaction.
-    // The LockManager exposes checkPredicateConflict() which answers the
-    // complementary question (would *writing* a key conflict with any
-    // predicate lock held by another txn?).  We iterate over every predicate
-    // lock held by txn_id and synthesise a representative conflict by checking
-    // both the start_key and end_key boundaries.
+    // Retrieve all predicate-lock ranges owned by txn_id.
+    auto my_ranges = lock_manager_.getPredicateLockRanges(txn_id);
+    if (my_ranges.empty()) {
+        return result;
+    }
 
-    // Collect active SERIALIZABLE transaction IDs (excluding txn_id itself) to
-    // probe for write-write conflicts.
-    std::vector<TransactionId> other_active_serializable;
+    // Collect other active SERIALIZABLE transactions and their predicate ranges.
+    std::vector<std::pair<TransactionId,
+                          std::vector<std::pair<std::string, std::string>>>>
+        others;
     {
         std::lock_guard<std::mutex> lock(sessions_mutex_);
         for (const auto& [id, txn] : active_transactions_) {
             if (id != txn_id && txn &&
                 txn->isolation_ == IsolationLevel::SERIALIZABLE)
             {
-                other_active_serializable.push_back(id);
+                others.emplace_back(id, lock_manager_.getPredicateLockRanges(id));
             }
         }
     }
 
-    // For each predicate lock held by txn_id, check whether any other active
-    // SERIALIZABLE transaction holds a conflicting predicate lock covering an
-    // overlapping key range.  We use checkPredicateConflict() to simulate the
-    // "would a write to start_key (and end_key) by txn_id conflict with a
-    // predicate lock held by someone else?" question.  Each unique (other_txn,
-    // key) pair is reported once.
-    const size_t predicate_lock_count = lock_manager_.getPredicateLockCount(txn_id);
-    if (predicate_lock_count == 0) {
-        return result;
-    }
-
-    // We check boundary keys of our own predicate ranges against other
-    // transactions' predicate locks by swapping the roles: ask whether
-    // *another* txn writing start_key would conflict with *our* predicate
-    // lock.  Since checkPredicateConflict(writer, key) returns the first txn
-    // whose predicate range covers key (excluding writer itself), we call it
-    // with each other txn as the writer to see if our predicate lock fires.
-
-    for (TransactionId other_id : other_active_serializable) {
-        // The LockManager exposes checkPredicateConflict(writing_txn, key)
-        // which returns non-zero when some *other* txn holds a predicate lock
-        // covering key.  By calling it with other_id as the writer we learn
-        // whether txn_id's predicate locks conflict with other_id's potential
-        // writes.  We don't have direct access to other_id's write-set here,
-        // but we can probe using the predicate ranges owned by txn_id as
-        // representative keys.
-        //
-        // A simpler and fully correct approach: ask whether other_id writing
-        // its own predicate lock boundary keys would conflict with txn_id's
-        // predicate locks.  Because we have no direct predicate-range iterator
-        // on the LockManager, we instead check both directions:
-        //
-        //   Direction 1 (read-write): would other_id *writing* boundary keys
-        //                              of txn_id's predicate ranges fire a
-        //                              conflict against txn_id?  This maps to
-        //                              checkPredicateConflict(other_id, key)
-        //                              returning txn_id.
-        //   Direction 2 (write-write): captured at commit time by the MVCC
-        //                              layer; we skip here to avoid double-
-        //                              reporting.
-        //
-        // We sample the start_key of each predicate lock owned by txn_id.
-        // getPredicateLockCount() only gives us a count; the actual ranges are
-        // internal to the LockManager.  As a proxy, we perform a single
-        // probe per other transaction by checking whether other_id writing a
-        // sentinel key representative of txn_id's lock set would trigger a
-        // conflict flagging txn_id as the holder.  We use an empty string as
-        // a broad probe; if that is not inside any range we report based on
-        // predicate count alone.
-
-        // Probe: would other_id writing "" (an empty-string key) conflict with
-        // one of txn_id's predicate locks?  The LockManager only fires for
-        // keys actually inside a range, so a real match means txn_id has a
-        // predicate lock starting at "" or earlier.
-        TransactionId holder = lock_manager_.checkPredicateConflict(other_id, "");
-        if (holder == txn_id) {
-            SerializationConflict sc;
-            sc.other_txn_id   = other_id;
-            sc.key            = "";
-            sc.conflict_type  = "read-write";
-            sc.message        = "predicate lock held by txn " +
-                                std::to_string(txn_id) +
-                                " conflicts with potential write by txn " +
-                                std::to_string(other_id) +
-                                "; serialization failure – transaction must be retried";
-            result.push_back(std::move(sc));
+    // For each of our ranges, check for overlap with every range of every other
+    // active SERIALIZABLE transaction.  Overlapping predicate ranges signal a
+    // potential read-write conflict: both transactions have read overlapping key
+    // sets, so a write by either could violate serializability.
+    //
+    // Two ranges [s1, e1] and [s2, e2] overlap iff s1 <= e2 && s2 <= e1.
+    for (const auto& [s1, e1] : my_ranges) {
+        for (const auto& [other_id, other_ranges] : others) {
+            for (const auto& [s2, e2] : other_ranges) {
+                if (s1 <= e2 && s2 <= e1) {
+                    SerializationConflict sc;
+                    sc.other_txn_id  = other_id;
+                    sc.key           = s1;  // representative key (start of our range)
+                    sc.conflict_type = "read-write";
+                    sc.message       = "predicate lock [" + s1 + ", " + e1 +
+                                       "] held by txn " + std::to_string(txn_id) +
+                                       " overlaps with predicate lock [" + s2 + ", " +
+                                       e2 + "] held by txn " +
+                                       std::to_string(other_id) +
+                                       "; serialization failure – transaction must be retried";
+                    result.push_back(std::move(sc));
+                    // Report one conflict per (our_range, other_txn) pair to
+                    // avoid flooding the caller with duplicates.
+                    break;
+                }
+            }
         }
     }
 

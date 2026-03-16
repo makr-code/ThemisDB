@@ -593,3 +593,119 @@ TEST_F(SSITest, SerializationConflict_FieldsArePopulated) {
     EXPECT_EQ(sc.conflict_type, "read-write");
     EXPECT_FALSE(sc.message.empty());
 }
+
+// ── AC-12 (extended): detectConflicts returns conflicts when ranges overlap ───
+
+TEST_F(SSITest, DetectConflicts_ReturnsConflict_WhenRangesOverlap) {
+    // T1 holds predicate range ["a", "z"].
+    // T2 holds predicate range ["m", "q"] which overlaps T1's range.
+    // detectConflicts(T1) should detect the overlap with T2.
+
+    auto t1_id = mgr_->beginTransaction(IsolationLevel::SERIALIZABLE);
+    auto t1    = mgr_->getTransaction(t1_id);
+    ASSERT_NE(t1, nullptr);
+    EXPECT_TRUE(t1->trackPredicateRead("a", "z").ok);
+
+    auto t2_id = mgr_->beginTransaction(IsolationLevel::SERIALIZABLE);
+    auto t2    = mgr_->getTransaction(t2_id);
+    ASSERT_NE(t2, nullptr);
+    EXPECT_TRUE(t2->trackPredicateRead("m", "q").ok);
+
+    auto conflicts = mgr_->detectConflicts(t1_id);
+    ASSERT_FALSE(conflicts.empty()) << "Expected at least one conflict";
+
+    // The conflict should reference T2.
+    bool found_t2 = false;
+    for (const auto& c : conflicts) {
+        if (c.other_txn_id == t2_id) {
+            found_t2 = true;
+            EXPECT_EQ(c.conflict_type, "read-write");
+            EXPECT_FALSE(c.message.empty());
+        }
+    }
+    EXPECT_TRUE(found_t2) << "Expected conflict referencing T2";
+
+    mgr_->rollbackTransaction(t2_id);
+    mgr_->rollbackTransaction(t1_id);
+}
+
+TEST_F(SSITest, DetectConflicts_EmptyWhenRangesDoNotOverlap) {
+    // T1 holds ["a", "e"]; T2 holds ["f", "z"] – no overlap.
+    auto t1_id = mgr_->beginTransaction(IsolationLevel::SERIALIZABLE);
+    auto t1    = mgr_->getTransaction(t1_id);
+    ASSERT_NE(t1, nullptr);
+    EXPECT_TRUE(t1->trackPredicateRead("a", "e").ok);
+
+    auto t2_id = mgr_->beginTransaction(IsolationLevel::SERIALIZABLE);
+    auto t2    = mgr_->getTransaction(t2_id);
+    ASSERT_NE(t2, nullptr);
+    EXPECT_TRUE(t2->trackPredicateRead("f", "z").ok);
+
+    auto conflicts = mgr_->detectConflicts(t1_id);
+    EXPECT_TRUE(conflicts.empty())
+        << "Expected no conflict for non-overlapping ranges";
+
+    mgr_->rollbackTransaction(t2_id);
+    mgr_->rollbackTransaction(t1_id);
+}
+
+TEST_F(SSITest, DetectConflicts_SymmetricRanges) {
+    // T1 and T2 both hold the same range ["key:0", "key:9"].
+    // detectConflicts should detect a conflict from both sides.
+    auto t1_id = mgr_->beginTransaction(IsolationLevel::SERIALIZABLE);
+    auto t1    = mgr_->getTransaction(t1_id);
+    ASSERT_NE(t1, nullptr);
+    EXPECT_TRUE(t1->trackPredicateRead("key:0", "key:9").ok);
+
+    auto t2_id = mgr_->beginTransaction(IsolationLevel::SERIALIZABLE);
+    auto t2    = mgr_->getTransaction(t2_id);
+    ASSERT_NE(t2, nullptr);
+    EXPECT_TRUE(t2->trackPredicateRead("key:0", "key:9").ok);
+
+    // Both should see a conflict with the other.
+    auto c1 = mgr_->detectConflicts(t1_id);
+    auto c2 = mgr_->detectConflicts(t2_id);
+    EXPECT_FALSE(c1.empty()) << "T1 should detect conflict with T2";
+    EXPECT_FALSE(c2.empty()) << "T2 should detect conflict with T1";
+
+    mgr_->rollbackTransaction(t2_id);
+    mgr_->rollbackTransaction(t1_id);
+}
+
+// ── LockManager: getPredicateLockRanges ──────────────────────────────────────
+
+TEST(LockManagerPredicateTest, GetPredicateLockRanges_Empty) {
+    LockManager lm;
+    auto ranges = lm.getPredicateLockRanges(1);
+    EXPECT_TRUE(ranges.empty());
+}
+
+TEST(LockManagerPredicateTest, GetPredicateLockRanges_SingleLock) {
+    LockManager lm;
+    lm.acquirePredicateLock(1, "start", "end");
+    auto ranges = lm.getPredicateLockRanges(1);
+    ASSERT_EQ(ranges.size(), 1u);
+    EXPECT_EQ(ranges[0].first,  "start");
+    EXPECT_EQ(ranges[0].second, "end");
+}
+
+TEST(LockManagerPredicateTest, GetPredicateLockRanges_MultipleOwners) {
+    LockManager lm;
+    lm.acquirePredicateLock(1, "a", "e");
+    lm.acquirePredicateLock(2, "f", "z");
+    lm.acquirePredicateLock(1, "g", "h");
+
+    auto ranges1 = lm.getPredicateLockRanges(1);
+    auto ranges2 = lm.getPredicateLockRanges(2);
+
+    EXPECT_EQ(ranges1.size(), 2u); // "a"-"e" and "g"-"h"
+    EXPECT_EQ(ranges2.size(), 1u); // "f"-"z"
+}
+
+TEST(LockManagerPredicateTest, GetPredicateLockRanges_AfterRelease) {
+    LockManager lm;
+    lm.acquirePredicateLock(1, "x", "z");
+    lm.releasePredicateLocks(1);
+    auto ranges = lm.getPredicateLockRanges(1);
+    EXPECT_TRUE(ranges.empty());
+}

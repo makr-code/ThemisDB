@@ -590,4 +590,17 @@ size_t LockManager::getPredicateLockCount(TransactionId txn_id) const
                       }));
 }
 
+std::vector<std::pair<std::string, std::string>>
+LockManager::getPredicateLockRanges(TransactionId txn_id) const
+{
+    std::lock_guard<std::mutex> lk(mutex_);
+    std::vector<std::pair<std::string, std::string>> result;
+    for (const auto& pl : predicate_locks_) {
+        if (pl.txn_id == txn_id) {
+            result.emplace_back(pl.start_key, pl.end_key);
+        }
+    }
+    return result;
+}
+
 } // namespace themis

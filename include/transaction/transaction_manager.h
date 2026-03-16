@@ -263,12 +263,17 @@ public:
         // ── Serializable Snapshot Isolation (SSI) / Predicate Locking ────────
 
         /**
-         * @brief Track a range predicate read for SERIALIZABLE isolation (SSI).
+         * @brief Acquire a SIREAD (predicate) lock for SERIALIZABLE isolation (SSI).
          *
          * Records that this transaction has read all keys in the closed interval
          * [@p start_key, @p end_key].  Any other SERIALIZABLE transaction that
          * subsequently writes a key inside this range will be detected as a
          * serialization conflict and aborted.
+         *
+         * This is the SIREAD ("Serializable Isolation READ") lock described in
+         * the SSI literature.  Unlike 2PL read locks, SIREAD locks do not block
+         * concurrent writers; conflicts are detected lazily at write time, which
+         * makes this approach better than traditional 2PL for read-heavy workloads.
          *
          * No-op when the isolation level is not SERIALIZABLE.
          *

@@ -202,6 +202,14 @@ public:
     /// Return the number of predicate locks currently held by @p txn_id.
     size_t getPredicateLockCount(TransactionId txn_id) const;
 
+    /// Return all predicate-lock ranges held by @p txn_id as (start_key, end_key) pairs.
+    ///
+    /// The returned vector is a snapshot copy; the caller may iterate it without
+    /// holding any lock.  An empty vector is returned when txn_id has no
+    /// predicate locks or when predicate locking is disabled.
+    std::vector<std::pair<std::string, std::string>> getPredicateLockRanges(
+        TransactionId txn_id) const;
+
 private:
     /// One active lock holder for a key.
     struct LockEntry {
