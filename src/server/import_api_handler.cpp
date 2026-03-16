@@ -62,6 +62,12 @@ void ImportApiHandler::registerRoutes(httplib::Server& server) {
             handleStartImport(req, res);
         });
 
+    // POST /api/v1/import/mysql – start async MySQL/MariaDB dump import
+    server.Post("/api/v1/import/mysql",
+        [this](const httplib::Request& req, httplib::Response& res) {
+            handleStartMySQLImport(req, res);
+        });
+
     // POST /api/v1/import/s3 – start async S3 object-storage import
     server.Post("/api/v1/import/s3",
         [this](const httplib::Request& req, httplib::Response& res) {
@@ -148,6 +154,59 @@ void ImportApiHandler::handleStartImport(const httplib::Request& req,
     THEMIS_INFO("ImportApiHandler: async import requested for '{}'", source_path);
 
     auto handle = importer_->importDataAsync(source_path, opts);
+    registry_->add(handle);
+
+    jsonOk(res, handle->toJson());
+}
+
+void ImportApiHandler::handleStartMySQLImport(const httplib::Request& req,
+                                               httplib::Response& res) {
+    auto span = Tracer::startSpan("handleStartMySQLImport");
+
+    // Resolve the MySQL importer plugin from the process-wide registry.
+    // MySQLImporterSchemePlugin registers itself via REGISTER_IMPORTER_PLUGIN
+    // at static-init time in mysql_importer.cpp.
+    auto* plugin = IImporterPluginRegistry::instance().resolve("mysql://host");
+    if (!plugin) {
+        jsonError(res, 501,
+                  "MySQL importer plugin is not registered on this server instance");
+        return;
+    }
+
+    json body;
+    try {
+        body = parseRequestBody(req.body);
+    } catch (const std::exception& e) {
+        jsonError(res, 400, std::string("Invalid JSON body: ") + e.what());
+        return;
+    }
+
+    if (!body.contains("source_path") || !body["source_path"].is_string()) {
+        jsonError(res, 400, "Missing required field: source_path");
+        return;
+    }
+    const std::string source_path = body["source_path"].get<std::string>();
+
+    ImportOptions opts;
+    if (body.contains("options") && body["options"].is_object()) {
+        opts = optionsFromJson(body["options"]);
+    }
+
+    // Build ImportConfig for the plugin (passes any JSON config from options).
+    ImportConfig cfg;
+    cfg.source_uri  = source_path;
+    cfg.json_config = body.contains("config") && body["config"].is_string()
+                      ? body["config"].get<std::string>() : "{}";
+
+    auto importer = plugin->createImporter(cfg);
+    if (!importer) {
+        jsonError(res, 500, "Failed to create MySQL importer instance");
+        return;
+    }
+
+    THEMIS_INFO("ImportApiHandler: async MySQL import requested for '{}'", source_path);
+
+    auto handle = importer->importDataAsync(source_path, opts);
     registry_->add(handle);
 
     jsonOk(res, handle->toJson());
