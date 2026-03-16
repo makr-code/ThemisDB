@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_geo_clustering.cpp                            ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:21:04                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-16 17:34:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     386                                            ║
+    • Total Lines:     440                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -27,6 +27,7 @@
 #include "utils/geo/ewkb.h"
 
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <vector>
 
@@ -383,4 +384,87 @@ TEST(KMeansCluster, DeterministicResult_SameSeed) {
     for (std::size_t i = 0; i < r1.labels.size(); ++i) {
         EXPECT_EQ(r1.labels[i], r2.labels[i]);
     }
+}
+
+// ---------------------------------------------------------------------------
+// Performance: DBSCAN — 10 000 points at 500 m epsilon in ≤ 5 s (AC-9)
+// Reference: Ester et al. (1996), KDD-96, pp. 226–231.
+// ---------------------------------------------------------------------------
+
+TEST(DbscanCluster, Performance_10kPoints_Under5Seconds) {
+    // Generate 10 000 points arranged in a tight 100×100 grid around Berlin
+    // (~13.4 °E, 52.5 °N).  Adjacent cells are ~111 m apart, so virtually
+    // every point has many neighbours within epsilon = 500 m.
+    constexpr int kSide = 100; // 100 × 100 = 10 000 points
+    std::vector<GeometryInfo> pts;
+    pts.reserve(static_cast<std::size_t>(kSide * kSide));
+    for (int row = 0; row < kSide; ++row) {
+        for (int col = 0; col < kSide; ++col) {
+            // 0.001° spacing ≈ 71 m (lon) / 111 m (lat)
+            pts.push_back(makePoint(13.4 + col * 0.001,
+                                    52.5 + row * 0.001));
+        }
+    }
+
+    DbscanConfig cfg;
+    cfg.epsilon_m  = 500.0;
+    cfg.min_points = 3;
+
+    const auto t0     = std::chrono::steady_clock::now();
+    auto       result = dbscanCluster(pts, cfg);
+    const auto t1     = std::chrono::steady_clock::now();
+
+    const double elapsed_s =
+        std::chrono::duration<double>(t1 - t0).count();
+
+    EXPECT_GE(result.num_clusters, 1);
+    EXPECT_EQ(result.labels.size(), static_cast<std::size_t>(kSide * kSide));
+    // Performance target: ≤ 5 s single-threaded (design spec, not a hard CI
+    // gate, but flagged as a test failure to surface regressions).
+    EXPECT_LE(elapsed_s, 5.0)
+        << "DBSCAN on 10 000 points exceeded 5 s target (took "
+        << elapsed_s << " s)";
+}
+
+// ---------------------------------------------------------------------------
+// Performance: k-means — k=10, 100 000 points, 100 iterations in ≤ 2 s (AC-10)
+// Reference: Lloyd (1982), IEEE Trans. Inf. Theory 28(2):129-137.
+// ---------------------------------------------------------------------------
+
+TEST(KMeansCluster, Performance_100kPoints_K10_Under2Seconds) {
+    // Generate 100 000 points spread along 10 well-separated bands (one per
+    // cluster), each 10 000 points wide, offset by 2° in longitude.
+    // This ensures the algorithm produces exactly 10 stable clusters.
+    constexpr int kPointsPerCluster = 10000;
+    constexpr int kK                = 10;
+    std::vector<GeometryInfo> pts;
+    pts.reserve(static_cast<std::size_t>(kPointsPerCluster * kK));
+    for (int c = 0; c < kK; ++c) {
+        const double base_lon = static_cast<double>(c) * 2.0; // 2° separation
+        for (int j = 0; j < kPointsPerCluster; ++j) {
+            // Tiny jitter within ±0.005° (~500 m) to avoid identical points.
+            const double jitter = (j % 100) * 0.0001;
+            pts.push_back(makePoint(base_lon + jitter, 48.0 + jitter));
+        }
+    }
+
+    KMeansConfig cfg;
+    cfg.k              = kK;
+    cfg.max_iterations = 100;
+    cfg.seed           = 0; // deterministic init
+
+    const auto t0     = std::chrono::steady_clock::now();
+    auto       result = kmeansCluster(pts, cfg);
+    const auto t1     = std::chrono::steady_clock::now();
+
+    const double elapsed_s =
+        std::chrono::duration<double>(t1 - t0).count();
+
+    EXPECT_EQ(result.num_clusters, kK);
+    EXPECT_EQ(result.labels.size(),
+              static_cast<std::size_t>(kPointsPerCluster * kK));
+    // Performance target: ≤ 2 s single-threaded (design spec).
+    EXPECT_LE(elapsed_s, 2.0)
+        << "k-means on 100 000 points (k=10, 100 iter) exceeded 2 s target "
+           "(took " << elapsed_s << " s)";
 }
