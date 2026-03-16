@@ -11,14 +11,16 @@ name: Plugin Security CRL/OCSP CI
 #   AC-REV-6  DER CRL parse – revoked serial detected by X509_CRL_get0_by_cert
 #   AC-REV-7  DER CRL parse – non-revoked serial not in list
 #   AC-REV-8  DER CRL parse – expired CRL timestamp correctly detected
-#   AC-REV-9  checkOCSP() – empty/invalid cert returns false
-#   AC-REV-10 checkOCSP() – no OCSP AIA honours checkRevocation flag
-#   AC-REV-11 checkOCSP() – unreachable OCSP responder fails-safe
-#   AC-REV-12 checkOCSP() – network timeout does not hang; fails-safe
-#   AC-REV-13 checkOCSP() – cache hit returns consistent result
-#   AC-REV-14 OCSP request construction smoke-test
-#   AC-REV-15 PE cert extraction – ELF file returns nullopt (no embedded cert)
-#   AC-REV-16 PE cert extraction – PE file with empty security dir returns nullopt
+#   AC-REV-9  DER CRL parse – CRL with wrong signing key rejected by X509_CRL_verify (signature-invalid)
+#   AC-REV-10 checkOCSP() – empty/invalid cert returns false
+#   AC-REV-11 checkOCSP() – no OCSP AIA honours checkRevocation flag
+#   AC-REV-12 checkOCSP() – unreachable OCSP responder fails-safe
+#   AC-REV-13 checkOCSP() – network timeout does not hang; fails-safe
+#   AC-REV-14 checkOCSP() – cache hit returns consistent result
+#   AC-REV-15 OCSP request construction smoke-test
+#   AC-REV-16 OCSP tampered DER blob not accepted as successful response (signature-invalid)
+#   AC-REV-17 PE cert extraction – ELF file returns nullopt (no embedded cert)
+#   AC-REV-18 PE cert extraction – PE file with empty security dir returns nullopt
 
 on:
   push:

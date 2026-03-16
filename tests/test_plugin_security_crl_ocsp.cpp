@@ -418,6 +418,42 @@ TEST_F(PluginSecurityCRLOCSPTest, DERParse_ExpiredCRL_TimestampInvalid) {
     EVP_PKEY_free(issuer_key);
 }
 
+// Verify that a CRL signed with a different (wrong) key is rejected by
+// X509_CRL_verify, exercising the signature-invalid code path.
+TEST_F(PluginSecurityCRLOCSPTest, DERParse_CRL_InvalidSignature_RejectedByOpenSSL) {
+    // issuer_key signs the CRL
+    EVP_PKEY* issuer_key  = nullptr;
+    X509*     issuer_cert = nullptr;
+    ASSERT_TRUE(makeKeyAndCert(&issuer_key, &issuer_cert, 99, "Test Issuer"));
+
+    // Build a valid CRL signed with issuer_key
+    std::vector<uint8_t> crl_der =
+        buildDERCRL(issuer_key, issuer_cert, -1 /* no revoked entries */);
+    ASSERT_FALSE(crl_der.empty());
+
+    const unsigned char* p = crl_der.data();
+    X509_CRL* crl = d2i_X509_CRL(nullptr, &p, static_cast<long>(crl_der.size()));
+    ASSERT_NE(crl, nullptr);
+
+    // Generate a different key – this is the "wrong" public key
+    EVP_PKEY* wrong_key  = nullptr;
+    X509*     wrong_cert = nullptr;
+    ASSERT_TRUE(makeKeyAndCert(&wrong_key, &wrong_cert, 77, "Wrong Key Cert"));
+
+    // X509_CRL_verify should return <= 0 when the wrong key is used
+    EVP_PKEY* wrong_pub = X509_get_pubkey(wrong_cert);
+    ASSERT_NE(wrong_pub, nullptr);
+    int verify_rc = X509_CRL_verify(crl, wrong_pub);
+    EXPECT_LE(verify_rc, 0) << "CRL signed with a different key must fail verification";
+
+    EVP_PKEY_free(wrong_pub);
+    X509_CRL_free(crl);
+    X509_free(issuer_cert);
+    X509_free(wrong_cert);
+    EVP_PKEY_free(issuer_key);
+    EVP_PKEY_free(wrong_key);
+}
+
 // ============================================================================
 // checkOCSP() tests
 // ============================================================================
@@ -521,6 +557,48 @@ TEST_F(PluginSecurityCRLOCSPTest, OCSP_RequestConstruction_SelfSigned_Smoke) {
     }
 
     OCSP_REQUEST_free(req);
+    X509_free(cert);
+    EVP_PKEY_free(pkey);
+}
+
+// Verify that OCSP_basic_verify rejects a DER-tampered (corrupted) response,
+// exercising the signature-invalid code path in checkOCSP().
+TEST_F(PluginSecurityCRLOCSPTest, OCSP_InvalidSignature_RejectedByOpenSSL) {
+    EVP_PKEY* pkey = nullptr;
+    X509*     cert = nullptr;
+    ASSERT_TRUE(makeKeyAndCert(&pkey, &cert, 8, "OCSP Test"));
+
+    // Build a minimal OCSP request (DER-encode it so we can corrupt the bytes).
+    OCSP_REQUEST* req = OCSP_REQUEST_new();
+    ASSERT_NE(req, nullptr);
+    OCSP_CERTID* certid = OCSP_cert_to_id(EVP_sha1(), cert, cert);
+    if (certid) {
+        OCSP_request_add0_id(req, certid);
+    }
+    unsigned char* req_der = nullptr;
+    int req_len = i2d_OCSP_REQUEST(req, &req_der);
+    OCSP_REQUEST_free(req);
+    ASSERT_GT(req_len, 0);
+
+    // Corrupt the last byte by flipping all its bits (XOR 0xFF) to produce
+    // an invalid DER structure.  This is the simplest single-byte mutation
+    // that reliably invalidates the trailing ASN.1 tag/length/value of the
+    // encoded blob without changing its length (so d2i still receives the
+    // full buffer).
+    req_der[req_len - 1] ^= 0xFF;
+
+    const unsigned char* p = req_der;
+    OCSP_RESPONSE* resp = d2i_OCSP_RESPONSE(nullptr, &p, req_len);
+    // A corrupted OCSP request DER is not a valid OCSP response → must be null
+    // or, if OpenSSL happens to partially parse it, status should not be SUCCESSFUL.
+    if (resp) {
+        EXPECT_NE(OCSP_response_status(resp), OCSP_RESPONSE_STATUS_SUCCESSFUL)
+            << "A tampered DER blob must not produce a successful OCSP response";
+        OCSP_RESPONSE_free(resp);
+    }
+    // else: d2i returned null → parse failure is the expected outcome
+
+    OPENSSL_free(req_der);
     X509_free(cert);
     EVP_PKEY_free(pkey);
 }

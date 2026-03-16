@@ -797,7 +797,10 @@ bool PluginSecurityVerifier::checkCRL(const std::string& certificate) {
                     X509_STORE_CTX* chain_ctx = X509_STORE_CTX_new();
                     if (chain_ctx &&
                         X509_STORE_CTX_init(chain_ctx, trust_store, cert, nullptr)) {
-                        X509_verify_cert(chain_ctx);
+                        if (X509_verify_cert(chain_ctx) <= 0) {
+                            THEMIS_WARN("CRL check: certificate chain verification "
+                                        "failed; proceeding without issuer key");
+                        }
                         STACK_OF(X509)* chain =
                             X509_STORE_CTX_get0_chain(chain_ctx);
                         if (chain && sk_X509_num(chain) > 1) {
@@ -935,7 +938,10 @@ bool PluginSecurityVerifier::checkOCSP(const std::string& certificate) {
             X509_STORE_CTX* chain_ctx = X509_STORE_CTX_new();
             if (chain_ctx &&
                 X509_STORE_CTX_init(chain_ctx, trust_store, cert, nullptr)) {
-                X509_verify_cert(chain_ctx);
+                if (X509_verify_cert(chain_ctx) <= 0) {
+                    THEMIS_WARN("OCSP check: certificate chain verification "
+                                "failed; issuer may not be available");
+                }
                 STACK_OF(X509)* chain = X509_STORE_CTX_get0_chain(chain_ctx);
                 // chain[0] = subject cert, chain[1] = issuer
                 if (chain && sk_X509_num(chain) > 1) {
