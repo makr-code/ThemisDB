@@ -16,7 +16,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/gpu-memory-oversubscription-ci.yml'
+      - '.github/workflows/06-infrastructure/gpu/gpu-memory-oversubscription-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -28,7 +28,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/gpu-memory-oversubscription-ci.yml'
+      - '.github/workflows/06-infrastructure/gpu/gpu-memory-oversubscription-ci.yml'
   workflow_dispatch:
 
 concurrency:

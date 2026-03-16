@@ -14,7 +14,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/parallel-query-execution-intra-query-ci.yml'
+      - '.github/workflows/02-feature-modules/adaptive-query/parallel-query-execution-intra-query-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -24,7 +24,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/parallel-query-execution-intra-query-ci.yml'
+      - '.github/workflows/02-feature-modules/adaptive-query/parallel-query-execution-intra-query-ci.yml'
 
 concurrency:
   group: parallel-query-execution-intra-query-${{ github.ref }}

@@ -15,7 +15,7 @@ on:
       - 'tests/chimera/test_retry_policy.cpp'
       - 'adapters/chimera/CMakeLists.txt'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/chimera-error-recovery-retry-ci.yml'
+      - '.github/workflows/02-feature-modules/chimera/chimera-error-recovery-retry-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -24,7 +24,7 @@ on:
       - 'tests/chimera/test_retry_policy.cpp'
       - 'adapters/chimera/CMakeLists.txt'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/chimera-error-recovery-retry-ci.yml'
+      - '.github/workflows/02-feature-modules/chimera/chimera-error-recovery-retry-ci.yml'
   workflow_dispatch:
 
 concurrency:

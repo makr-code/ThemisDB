@@ -15,7 +15,7 @@ on:
       - 'src/index/cuda_hnsw_graph_traversal.cpp'
       - 'include/index/cuda_hnsw_graph_traversal.h'
       - 'tests/test_cuda_hnsw_graph_traversal.cpp'
-      - '.github/workflows/gpu-ci.yml'
+      - '.github/workflows/06-infrastructure/gpu/gpu-ci.yml'
   push:
     branches:
       - main
@@ -32,7 +32,7 @@ on:
       - 'src/index/cuda_hnsw_graph_traversal.cpp'
       - 'include/index/cuda_hnsw_graph_traversal.h'
       - 'tests/test_cuda_hnsw_graph_traversal.cpp'
-      - '.github/workflows/gpu-ci.yml'
+      - '.github/workflows/06-infrastructure/gpu/gpu-ci.yml'
   workflow_dispatch:
 
 concurrency:

@@ -14,7 +14,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/distributed-cluster-updates-ci.yml'
+      - '.github/workflows/06-infrastructure/distributed/distributed-cluster-updates-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -24,7 +24,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/distributed-cluster-updates-ci.yml'
+      - '.github/workflows/06-infrastructure/distributed/distributed-cluster-updates-ci.yml'
   workflow_dispatch:
 
 concurrency:

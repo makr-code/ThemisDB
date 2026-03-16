@@ -23,7 +23,7 @@ on:
       - 'benchmarks/chimera/**'
       - 'benchmarks/baselines/chimera/**'
       - 'tests/chimera/**'
-      - '.github/workflows/chimera-benchmark-ci.yml'
+      - '.github/workflows/02-feature-modules/chimera/chimera-benchmark-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -33,7 +33,7 @@ on:
       - 'benchmarks/chimera/**'
       - 'benchmarks/baselines/chimera/**'
       - 'tests/chimera/**'
-      - '.github/workflows/chimera-benchmark-ci.yml'
+      - '.github/workflows/02-feature-modules/chimera/chimera-benchmark-ci.yml'
   workflow_dispatch:
 
 concurrency:

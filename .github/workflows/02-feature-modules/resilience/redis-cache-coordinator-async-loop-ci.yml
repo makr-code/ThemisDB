@@ -17,7 +17,7 @@ on:
       - 'tests/test_cache_admin_api_handler.cpp'
       - 'cmake/CMakeLists.txt'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/redis-cache-coordinator-async-loop-ci.yml'
+      - '.github/workflows/02-feature-modules/resilience/redis-cache-coordinator-async-loop-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -30,7 +30,7 @@ on:
       - 'tests/test_cache_admin_api_handler.cpp'
       - 'cmake/CMakeLists.txt'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/redis-cache-coordinator-async-loop-ci.yml'
+      - '.github/workflows/02-feature-modules/resilience/redis-cache-coordinator-async-loop-ci.yml'
   workflow_dispatch:
 
 concurrency:

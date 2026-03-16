@@ -12,7 +12,7 @@ on:
       - 'src/transaction/distributed_transaction_manager.cpp'
       - 'tests/test_transaction_distributed_2pc.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/transaction-distributed-2pc-ci.yml'
+      - '.github/workflows/02-feature-modules/transactions/transaction-distributed-2pc-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -20,7 +20,7 @@ on:
       - 'src/transaction/distributed_transaction_manager.cpp'
       - 'tests/test_transaction_distributed_2pc.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/transaction-distributed-2pc-ci.yml'
+      - '.github/workflows/02-feature-modules/transactions/transaction-distributed-2pc-ci.yml'
   workflow_dispatch:
 
 concurrency:

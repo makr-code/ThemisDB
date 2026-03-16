@@ -12,7 +12,7 @@ on:
       - 'src/security/arrow_user_registration_plugin.cpp'
       - 'tests/security/test_arrow_user_registration_plugin.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/arrow-user-registration-plugin-ci.yml'
+      - '.github/workflows/02-feature-modules/security/arrow-user-registration-plugin-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -20,7 +20,7 @@ on:
       - 'src/security/arrow_user_registration_plugin.cpp'
       - 'tests/security/test_arrow_user_registration_plugin.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/arrow-user-registration-plugin-ci.yml'
+      - '.github/workflows/02-feature-modules/security/arrow-user-registration-plugin-ci.yml'
   workflow_dispatch:
 
 concurrency:

@@ -14,7 +14,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/query-jit-compilation-ci.yml'
+      - '.github/workflows/02-feature-modules/adaptive-query/query-jit-compilation-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -24,7 +24,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/query-jit-compilation-ci.yml'
+      - '.github/workflows/02-feature-modules/adaptive-query/query-jit-compilation-ci.yml'
   workflow_dispatch:
 
 concurrency:

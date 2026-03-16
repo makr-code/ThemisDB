@@ -14,7 +14,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/dependency-resolution-engine-ci.yml'
+      - '.github/workflows/02-feature-modules/dependency-resolution-engine-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -24,7 +24,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/dependency-resolution-engine-ci.yml'
+      - '.github/workflows/02-feature-modules/dependency-resolution-engine-ci.yml'
 
 concurrency:
   group: dependency-resolution-engine-${{ github.ref }}

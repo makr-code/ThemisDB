@@ -9,7 +9,7 @@ on:
       - '.github/COPILOT_INSTRUCTIONS.md'
       - '.github/copilot/**'
       - '.github/scripts/validate_copilot_refs.py'
-      - '.github/workflows/validate-ai-guardrails.yml'
+      - '.github/workflows/05-quality/validation/validate-ai-guardrails.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

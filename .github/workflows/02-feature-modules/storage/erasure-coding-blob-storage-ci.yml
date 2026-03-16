@@ -17,7 +17,7 @@ on:
       - 'tests/test_erasure_coding_backend.cpp'
       - 'cmake/CMakeLists.txt'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/erasure-coding-blob-storage-ci.yml'
+      - '.github/workflows/02-feature-modules/storage/erasure-coding-blob-storage-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -30,7 +30,7 @@ on:
       - 'tests/test_erasure_coding_backend.cpp'
       - 'cmake/CMakeLists.txt'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/erasure-coding-blob-storage-ci.yml'
+      - '.github/workflows/02-feature-modules/storage/erasure-coding-blob-storage-ci.yml'
   workflow_dispatch:
 
 concurrency:

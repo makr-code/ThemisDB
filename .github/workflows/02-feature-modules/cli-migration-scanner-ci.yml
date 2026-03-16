@@ -18,7 +18,7 @@ on:
       - 'tests/test_config_migration_scanner.cpp'
       - 'tests/CMakeLists.txt'
       - 'cmake/CMakeLists.txt'
-      - '.github/workflows/cli-migration-scanner-ci.yml'
+      - '.github/workflows/02-feature-modules/cli-migration-scanner-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -32,7 +32,7 @@ on:
       - 'tests/test_config_migration_scanner.cpp'
       - 'tests/CMakeLists.txt'
       - 'cmake/CMakeLists.txt'
-      - '.github/workflows/cli-migration-scanner-ci.yml'
+      - '.github/workflows/02-feature-modules/cli-migration-scanner-ci.yml'
   workflow_dispatch:
 
 concurrency:

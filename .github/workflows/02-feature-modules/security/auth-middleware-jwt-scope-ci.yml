@@ -16,7 +16,7 @@ on:
       - 'config/security/rbac_roles.yaml'
       - 'cmake/CMakeLists.txt'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/auth-middleware-jwt-scope-ci.yml'
+      - '.github/workflows/02-feature-modules/security/auth-middleware-jwt-scope-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -28,7 +28,7 @@ on:
       - 'config/security/rbac_roles.yaml'
       - 'cmake/CMakeLists.txt'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/auth-middleware-jwt-scope-ci.yml'
+      - '.github/workflows/02-feature-modules/security/auth-middleware-jwt-scope-ci.yml'
   workflow_dispatch:
 
 concurrency:

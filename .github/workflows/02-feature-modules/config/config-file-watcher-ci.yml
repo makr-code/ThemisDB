@@ -14,7 +14,7 @@ on:
       - 'src/config/config_path_resolver.h'
       - 'tests/test_config_file_watcher.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/config-file-watcher-ci.yml'
+      - '.github/workflows/02-feature-modules/config/config-file-watcher-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -24,7 +24,7 @@ on:
       - 'src/config/config_path_resolver.h'
       - 'tests/test_config_file_watcher.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/config-file-watcher-ci.yml'
+      - '.github/workflows/02-feature-modules/config/config-file-watcher-ci.yml'
   workflow_dispatch:
 
 concurrency:

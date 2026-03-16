@@ -15,7 +15,7 @@ on:
       - 'src/storage/disk_space_monitor.cpp'
       - 'tests/test_rocksdb_size_calculation.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/rocksdb-size-calculation-ci.yml'
+      - '.github/workflows/02-feature-modules/storage/rocksdb-size-calculation-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -25,7 +25,7 @@ on:
       - 'src/storage/disk_space_monitor.cpp'
       - 'tests/test_rocksdb_size_calculation.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/rocksdb-size-calculation-ci.yml'
+      - '.github/workflows/02-feature-modules/storage/rocksdb-size-calculation-ci.yml'
   workflow_dispatch:
 
 concurrency:

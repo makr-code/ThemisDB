@@ -14,7 +14,7 @@ on:
       - 'cmake/StorageEnhancements.cmake'
       - 'cmake/CMakeLists.txt'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/online-schema-migration-ci.yml'
+      - '.github/workflows/02-feature-modules/storage/online-schema-migration-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -24,7 +24,7 @@ on:
       - 'cmake/StorageEnhancements.cmake'
       - 'cmake/CMakeLists.txt'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/online-schema-migration-ci.yml'
+      - '.github/workflows/02-feature-modules/storage/online-schema-migration-ci.yml'
   workflow_dispatch:
 
 concurrency:

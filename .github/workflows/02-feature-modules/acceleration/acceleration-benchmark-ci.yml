@@ -23,7 +23,7 @@ on:
       - 'benchmarks/performance_regression_detector.py'
       - 'benchmarks/baseline_manager.py'
       - 'benchmarks/baselines/acceleration/**'
-      - '.github/workflows/acceleration-benchmark-ci.yml'
+      - '.github/workflows/02-feature-modules/acceleration/acceleration-benchmark-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -33,7 +33,7 @@ on:
       - 'benchmarks/performance_regression_detector.py'
       - 'benchmarks/baseline_manager.py'
       - 'benchmarks/baselines/acceleration/**'
-      - '.github/workflows/acceleration-benchmark-ci.yml'
+      - '.github/workflows/02-feature-modules/acceleration/acceleration-benchmark-ci.yml'
   workflow_dispatch:
 
 concurrency:

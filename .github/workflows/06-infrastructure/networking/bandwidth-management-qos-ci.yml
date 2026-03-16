@@ -14,7 +14,7 @@ on:
       - 'tests/test_bandwidth_management_qos.cpp'
       - 'tests/test_qos_manager.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/bandwidth-management-qos-ci.yml'
+      - '.github/workflows/06-infrastructure/networking/bandwidth-management-qos-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -23,7 +23,7 @@ on:
       - 'tests/test_bandwidth_management_qos.cpp'
       - 'tests/test_qos_manager.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/bandwidth-management-qos-ci.yml'
+      - '.github/workflows/06-infrastructure/networking/bandwidth-management-qos-ci.yml'
   workflow_dispatch:
 
 concurrency:

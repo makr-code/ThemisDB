@@ -16,7 +16,7 @@ on:
       - 'cmake/LLMIntegration.cmake'
       - 'cmake/CMakeLists.txt'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/classify-bridge-ci.yml'
+      - '.github/workflows/08-maintenance/classify-bridge-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -28,7 +28,7 @@ on:
       - 'cmake/LLMIntegration.cmake'
       - 'cmake/CMakeLists.txt'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/classify-bridge-ci.yml'
+      - '.github/workflows/08-maintenance/classify-bridge-ci.yml'
   workflow_dispatch:
 
 concurrency:

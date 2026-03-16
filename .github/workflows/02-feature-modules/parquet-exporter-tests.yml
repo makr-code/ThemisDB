@@ -16,7 +16,7 @@ on:
       - 'include/exporters/pii_detector.h'
       - 'tests/exporters/test_parquet_exporter.cpp'
       - 'cmake/ModularBuild.cmake'
-      - '.github/workflows/parquet-exporter-tests.yml'
+      - '.github/workflows/02-feature-modules/parquet-exporter-tests.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -30,7 +30,7 @@ on:
       - 'include/exporters/pii_detector.h'
       - 'tests/exporters/test_parquet_exporter.cpp'
       - 'cmake/ModularBuild.cmake'
-      - '.github/workflows/parquet-exporter-tests.yml'
+      - '.github/workflows/02-feature-modules/parquet-exporter-tests.yml'
   workflow_dispatch:
 
 concurrency:

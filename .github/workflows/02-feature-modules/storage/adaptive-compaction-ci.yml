@@ -18,7 +18,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/adaptive-compaction-ci.yml'
+      - '.github/workflows/02-feature-modules/storage/adaptive-compaction-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -30,7 +30,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/adaptive-compaction-ci.yml'
+      - '.github/workflows/02-feature-modules/storage/adaptive-compaction-ci.yml'
   workflow_dispatch:
 
 concurrency:

@@ -19,7 +19,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/geo-spatial-join-ci.yml'
+      - '.github/workflows/02-feature-modules/adaptive-query/geo-spatial-join-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -33,7 +33,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/geo-spatial-join-ci.yml'
+      - '.github/workflows/02-feature-modules/adaptive-query/geo-spatial-join-ci.yml'
   workflow_dispatch:
 
 concurrency:

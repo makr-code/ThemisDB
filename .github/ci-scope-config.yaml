@@ -2,7 +2,7 @@
 #
 # Maps file path patterns to CI scopes.
 # Used by .github/scripts/classify_ci_scope.py and
-# .github/workflows/ci-scope-classifier.yml to determine which workflows
+# .github/workflows/01-core/ci-scope-classifier.yml to determine which workflows
 # are relevant for a given set of changed files.
 #
 # Pattern syntax follows Python's fnmatch (glob-style):
@@ -127,7 +127,7 @@ scopes:
       - 'benchmarks/chimera/**'
       - 'benchmarks/baselines/chimera/**'
       - 'tests/chimera/**'
-      - '.github/workflows/chimera-benchmark-ci.yml'
+      - '.github/workflows/02-feature-modules/chimera/chimera-benchmark-ci.yml'
 
   # ── Grafana dashboard changes ─────────────────────────────────────────────
   has_grafana_changes:

@@ -15,7 +15,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/pki-stub-verification-ci.yml'
+      - '.github/workflows/05-quality/security/pki-stub-verification-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -26,7 +26,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/pki-stub-verification-ci.yml'
+      - '.github/workflows/05-quality/security/pki-stub-verification-ci.yml'
   workflow_dispatch:
 
 concurrency:

@@ -13,7 +13,7 @@ on:
       - 'src/observability/metrics_collector.cpp'
       - 'tests/test_metrics_collector.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/metrics-collector-shared-mutex-ci.yml'
+      - '.github/workflows/06-infrastructure/observability/metrics-collector-shared-mutex-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -21,7 +21,7 @@ on:
       - 'src/observability/metrics_collector.cpp'
       - 'tests/test_metrics_collector.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/metrics-collector-shared-mutex-ci.yml'
+      - '.github/workflows/06-infrastructure/observability/metrics-collector-shared-mutex-ci.yml'
   workflow_dispatch:
 
 concurrency:

@@ -15,7 +15,7 @@ on:
       - 'src/storage/rocksdb_wrapper.cpp'
       - 'tests/test_capabilityautogenerator_persist_state.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/capabilityautogenerator-persist-state-ci.yml'
+      - '.github/workflows/02-feature-modules/capabilityautogenerator-persist-state-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -25,7 +25,7 @@ on:
       - 'src/storage/rocksdb_wrapper.cpp'
       - 'tests/test_capabilityautogenerator_persist_state.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/capabilityautogenerator-persist-state-ci.yml'
+      - '.github/workflows/02-feature-modules/capabilityautogenerator-persist-state-ci.yml'
   workflow_dispatch:
 
 concurrency:

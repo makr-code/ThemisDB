@@ -19,7 +19,7 @@ on:
       - 'include/sharding/gossip_config_manager.h'
       - 'tests/test_shard_rpc_integration.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/shard-rpc-integration-ci.yml'
+      - '.github/workflows/06-infrastructure/distributed/shard-rpc-integration-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -34,7 +34,7 @@ on:
       - 'include/sharding/gossip_config_manager.h'
       - 'tests/test_shard_rpc_integration.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/shard-rpc-integration-ci.yml'
+      - '.github/workflows/06-infrastructure/distributed/shard-rpc-integration-ci.yml'
   workflow_dispatch:
 
 concurrency:

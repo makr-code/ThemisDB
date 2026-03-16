@@ -19,7 +19,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/wire-protocol-optimizations-ci.yml'
+      - '.github/workflows/06-infrastructure/networking/wire-protocol-optimizations-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -33,7 +33,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/wire-protocol-optimizations-ci.yml'
+      - '.github/workflows/06-infrastructure/networking/wire-protocol-optimizations-ci.yml'
   workflow_dispatch:
 
 concurrency:

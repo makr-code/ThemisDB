@@ -15,7 +15,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/binary-delta-patches-ci.yml'
+      - '.github/workflows/02-feature-modules/storage/binary-delta-patches-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -26,7 +26,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/binary-delta-patches-ci.yml'
+      - '.github/workflows/02-feature-modules/storage/binary-delta-patches-ci.yml'
   workflow_dispatch:
 
 concurrency:

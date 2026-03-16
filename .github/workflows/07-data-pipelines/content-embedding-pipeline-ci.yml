@@ -23,7 +23,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/content-embedding-pipeline-ci.yml'
+      - '.github/workflows/07-data-pipelines/content-embedding-pipeline-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -40,7 +40,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/content-embedding-pipeline-ci.yml'
+      - '.github/workflows/07-data-pipelines/content-embedding-pipeline-ci.yml'
   workflow_dispatch:
 
 concurrency:

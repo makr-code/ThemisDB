@@ -10,7 +10,7 @@ on:
       - 'include/query/adaptive_join.h'
       - 'tests/test_adaptive_join_strategies.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/adaptive-join-strategies-ci.yml'
+      - '.github/workflows/02-feature-modules/adaptive-query/adaptive-join-strategies-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -18,7 +18,7 @@ on:
       - 'include/query/adaptive_join.h'
       - 'tests/test_adaptive_join_strategies.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/adaptive-join-strategies-ci.yml'
+      - '.github/workflows/02-feature-modules/adaptive-query/adaptive-join-strategies-ci.yml'
   workflow_dispatch:
 
 concurrency:

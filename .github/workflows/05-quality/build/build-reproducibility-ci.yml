@@ -13,7 +13,7 @@ on:
       - 'tests/test_build_info.cpp'
       - 'cmake/CMakeLists.txt'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/build-reproducibility-ci.yml'
+      - '.github/workflows/05-quality/build/build-reproducibility-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -22,7 +22,7 @@ on:
       - 'tests/test_build_info.cpp'
       - 'cmake/CMakeLists.txt'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/build-reproducibility-ci.yml'
+      - '.github/workflows/05-quality/build/build-reproducibility-ci.yml'
   workflow_dispatch:
 
 concurrency:

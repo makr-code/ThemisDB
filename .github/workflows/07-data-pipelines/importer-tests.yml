@@ -23,7 +23,7 @@ on:
       - 'tools/import_cli.cpp'
       - 'docs/importers_roadmap.md'
       - 'docs/importers_runbook.md'
-      - '.github/workflows/importer-tests.yml'
+      - '.github/workflows/07-data-pipelines/importer-tests.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -44,7 +44,7 @@ on:
       - 'tools/import_cli.cpp'
       - 'docs/importers_roadmap.md'
       - 'docs/importers_runbook.md'
-      - '.github/workflows/importer-tests.yml'
+      - '.github/workflows/07-data-pipelines/importer-tests.yml'
   workflow_dispatch:
 
 concurrency:

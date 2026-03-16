@@ -14,7 +14,7 @@ on:
       - 'tests/test_opencl_erasure_coder_parity.cpp'
       - 'tests/CMakeLists.txt'
       - 'cmake/CMakeLists.txt'
-      - '.github/workflows/opencl-erasure-coder-parity-ci.yml'
+      - '.github/workflows/06-infrastructure/gpu/opencl-erasure-coder-parity-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -24,7 +24,7 @@ on:
       - 'tests/test_opencl_erasure_coder_parity.cpp'
       - 'tests/CMakeLists.txt'
       - 'cmake/CMakeLists.txt'
-      - '.github/workflows/opencl-erasure-coder-parity-ci.yml'
+      - '.github/workflows/06-infrastructure/gpu/opencl-erasure-coder-parity-ci.yml'
   workflow_dispatch:
 
 concurrency:

@@ -29,7 +29,7 @@ on:
       - 'tests/CMakeLists.txt'
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
-      - '.github/workflows/request-tracing-correlation-ids-ci.yml'
+      - '.github/workflows/06-infrastructure/observability/request-tracing-correlation-ids-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -45,7 +45,7 @@ on:
       - 'tests/CMakeLists.txt'
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
-      - '.github/workflows/request-tracing-correlation-ids-ci.yml'
+      - '.github/workflows/06-infrastructure/observability/request-tracing-correlation-ids-ci.yml'
   workflow_dispatch:
 
 concurrency:

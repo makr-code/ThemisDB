@@ -19,7 +19,7 @@ on:
       - 'tests/test_adaptive_shard_rebalancer.cpp'
       - 'cmake/CMakeLists.txt'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/adaptive-shard-rebalancer-ci.yml'
+      - '.github/workflows/02-feature-modules/replication/adaptive-shard-rebalancer-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -34,7 +34,7 @@ on:
       - 'tests/test_adaptive_shard_rebalancer.cpp'
       - 'cmake/CMakeLists.txt'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/adaptive-shard-rebalancer-ci.yml'
+      - '.github/workflows/02-feature-modules/replication/adaptive-shard-rebalancer-ci.yml'
 
 concurrency:
   group: adaptive-shard-rebalancer-${{ github.ref }}

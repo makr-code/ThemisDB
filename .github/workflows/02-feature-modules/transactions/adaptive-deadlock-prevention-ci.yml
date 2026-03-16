@@ -14,7 +14,7 @@ on:
       - 'src/transaction/transaction_manager.cpp'
       - 'tests/test_adaptive_deadlock_prevention.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/adaptive-deadlock-prevention-ci.yml'
+      - '.github/workflows/02-feature-modules/transactions/adaptive-deadlock-prevention-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -24,7 +24,7 @@ on:
       - 'src/transaction/transaction_manager.cpp'
       - 'tests/test_adaptive_deadlock_prevention.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/adaptive-deadlock-prevention-ci.yml'
+      - '.github/workflows/02-feature-modules/transactions/adaptive-deadlock-prevention-ci.yml'
   workflow_dispatch:
 
 concurrency:

@@ -13,7 +13,7 @@ on:
       - 'tests/test_udp_server.cpp'
       - 'cmake/CMakeLists.txt'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/udp-server-ci.yml'
+      - '.github/workflows/06-infrastructure/networking/udp-server-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -22,7 +22,7 @@ on:
       - 'tests/test_udp_server.cpp'
       - 'cmake/CMakeLists.txt'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/udp-server-ci.yml'
+      - '.github/workflows/06-infrastructure/networking/udp-server-ci.yml'
   workflow_dispatch:
 
 concurrency:

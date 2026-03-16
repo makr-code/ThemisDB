@@ -22,7 +22,7 @@ on:
       - 'include/**'
       - 'examples/**'
       - 'tools/primary_docs_indexer.py'
-      - '.github/workflows/primary-docs-index.yml'
+      - '.github/workflows/docs/primary-docs-index.yml'
 
   pull_request:
     types: [opened, synchronize, reopened]
@@ -31,7 +31,7 @@ on:
       - 'include/**'
       - 'examples/**'
       - 'tools/primary_docs_indexer.py'
-      - '.github/workflows/primary-docs-index.yml'
+      - '.github/workflows/docs/primary-docs-index.yml'
 
   workflow_dispatch:
     inputs:

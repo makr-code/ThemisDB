@@ -12,7 +12,7 @@ on:
       - 'include/replication/replication_manager.h'
       - 'tests/test_replication_ha.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/wal-archival-object-storage-ci.yml'
+      - '.github/workflows/07-data-pipelines/wal-archival-object-storage-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -20,7 +20,7 @@ on:
       - 'include/replication/replication_manager.h'
       - 'tests/test_replication_ha.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/wal-archival-object-storage-ci.yml'
+      - '.github/workflows/07-data-pipelines/wal-archival-object-storage-ci.yml'
   workflow_dispatch:
 
 concurrency:

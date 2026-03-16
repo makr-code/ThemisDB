@@ -23,7 +23,7 @@ on:
     paths:
       - 'grafana/**/*.json'
       - 'scripts/validate_grafana_dashboards.py'
-      - '.github/workflows/validate-grafana-dashboards.yml'
+      - '.github/workflows/05-quality/validation/validate-grafana-dashboards.yml'
   push:
     branches:
       - main
@@ -31,7 +31,7 @@ on:
     paths:
       - 'grafana/**/*.json'
       - 'scripts/validate_grafana_dashboards.py'
-      - '.github/workflows/validate-grafana-dashboards.yml'
+      - '.github/workflows/05-quality/validation/validate-grafana-dashboards.yml'
   workflow_dispatch:
 
 concurrency:

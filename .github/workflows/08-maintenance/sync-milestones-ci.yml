@@ -11,14 +11,14 @@ on:
       - 'scripts/sync-milestones-from-roadmap.py'
       - 'tests/test_sync_milestones.py'
       - 'src/**/ROADMAP.md'
-      - '.github/workflows/sync-milestones-ci.yml'
+      - '.github/workflows/08-maintenance/sync-milestones-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
       - 'scripts/sync-milestones-from-roadmap.py'
       - 'tests/test_sync_milestones.py'
       - 'src/**/ROADMAP.md'
-      - '.github/workflows/sync-milestones-ci.yml'
+      - '.github/workflows/08-maintenance/sync-milestones-ci.yml'
   workflow_dispatch:
 
 concurrency:

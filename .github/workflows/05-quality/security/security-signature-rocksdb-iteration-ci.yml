@@ -16,7 +16,7 @@ on:
       - 'include/storage/security_signature.h'
       - 'tests/test_security_signature_rocksdb_iteration.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/security-signature-rocksdb-iteration-ci.yml'
+      - '.github/workflows/05-quality/security/security-signature-rocksdb-iteration-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -27,7 +27,7 @@ on:
       - 'include/storage/security_signature.h'
       - 'tests/test_security_signature_rocksdb_iteration.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/security-signature-rocksdb-iteration-ci.yml'
+      - '.github/workflows/05-quality/security/security-signature-rocksdb-iteration-ci.yml'
   workflow_dispatch:
 
 concurrency:

@@ -32,7 +32,7 @@ on:
       - 'fuzz/harnesses/jwt_rbac_config_harness.cpp'
       - 'fuzz/corpus/jwt/**'
       - 'fuzz/corpus/rbac/**'
-      - '.github/workflows/security-hardening-ci.yml'
+      - '.github/workflows/05-quality/security/security-hardening-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -61,7 +61,7 @@ on:
       - 'fuzz/harnesses/jwt_rbac_config_harness.cpp'
       - 'fuzz/corpus/jwt/**'
       - 'fuzz/corpus/rbac/**'
-      - '.github/workflows/security-hardening-ci.yml'
+      - '.github/workflows/05-quality/security/security-hardening-ci.yml'
   workflow_dispatch:
 
 concurrency:

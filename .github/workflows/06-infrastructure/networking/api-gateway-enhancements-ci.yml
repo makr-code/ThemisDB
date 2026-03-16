@@ -14,7 +14,7 @@ on:
       - 'src/server/smart_routing.cpp'
       - 'tests/test_api_gateway_enhancements.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/api-gateway-enhancements-ci.yml'
+      - '.github/workflows/06-infrastructure/networking/api-gateway-enhancements-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -24,7 +24,7 @@ on:
       - 'src/server/smart_routing.cpp'
       - 'tests/test_api_gateway_enhancements.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/api-gateway-enhancements-ci.yml'
+      - '.github/workflows/06-infrastructure/networking/api-gateway-enhancements-ci.yml'
   workflow_dispatch:
 
 concurrency:

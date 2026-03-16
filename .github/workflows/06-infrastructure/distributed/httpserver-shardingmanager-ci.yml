@@ -16,7 +16,7 @@ on:
       - 'tests/test_http_sharding_admin.cpp'
       - 'cmake/CMakeLists.txt'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/httpserver-shardingmanager-ci.yml'
+      - '.github/workflows/06-infrastructure/distributed/httpserver-shardingmanager-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -28,7 +28,7 @@ on:
       - 'tests/test_http_sharding_admin.cpp'
       - 'cmake/CMakeLists.txt'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/httpserver-shardingmanager-ci.yml'
+      - '.github/workflows/06-infrastructure/distributed/httpserver-shardingmanager-ci.yml'
 
 concurrency:
   group: httpserver-shardingmanager-${{ github.ref }}

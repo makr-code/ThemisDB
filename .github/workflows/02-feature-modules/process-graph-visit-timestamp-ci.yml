@@ -15,7 +15,7 @@ on:
       - 'tests/test_process_graph.cpp'
       - 'cmake/CMakeLists.txt'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/process-graph-visit-timestamp-ci.yml'
+      - '.github/workflows/02-feature-modules/process-graph-visit-timestamp-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -25,7 +25,7 @@ on:
       - 'tests/test_process_graph.cpp'
       - 'cmake/CMakeLists.txt'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/process-graph-visit-timestamp-ci.yml'
+      - '.github/workflows/02-feature-modules/process-graph-visit-timestamp-ci.yml'
   workflow_dispatch:
 
 concurrency:

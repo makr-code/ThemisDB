@@ -14,7 +14,7 @@ on:
       - 'include/storage/rocksdb_wrapper.h'
       - 'tests/test_raid_redundancy.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/blob-redundancy-event-listener-ci.yml'
+      - '.github/workflows/02-feature-modules/storage/blob-redundancy-event-listener-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -24,7 +24,7 @@ on:
       - 'include/storage/rocksdb_wrapper.h'
       - 'tests/test_raid_redundancy.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/blob-redundancy-event-listener-ci.yml'
+      - '.github/workflows/02-feature-modules/storage/blob-redundancy-event-listener-ci.yml'
   workflow_dispatch:
 
 concurrency:

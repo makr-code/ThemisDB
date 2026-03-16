@@ -20,7 +20,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/temporal-spatial-queries-ci.yml'
+      - '.github/workflows/02-feature-modules/adaptive-query/temporal-spatial-queries-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -35,7 +35,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/temporal-spatial-queries-ci.yml'
+      - '.github/workflows/02-feature-modules/adaptive-query/temporal-spatial-queries-ci.yml'
   workflow_dispatch:
 
 concurrency:

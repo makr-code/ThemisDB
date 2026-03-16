@@ -30,7 +30,7 @@ on:
       - 'tools/module_docs_builder.py'
       - 'tools/ci/changelog_updater.py'
       - 'tools/ci/module_docs_issue_reporter.py'
-      - '.github/workflows/module-docs-sync.yml'
+      - '.github/workflows/08-maintenance/module-docs-sync.yml'
 
   workflow_dispatch:
     inputs:

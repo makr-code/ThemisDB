@@ -27,7 +27,7 @@ on:
       - 'tests/test_device_manager.cpp'
       - 'tests/test_backend_registry_startup.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/runtime-device-capability-negotiation-ci.yml'
+      - '.github/workflows/02-feature-modules/acceleration/runtime-device-capability-negotiation-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -38,7 +38,7 @@ on:
       - 'tests/test_device_manager.cpp'
       - 'tests/test_backend_registry_startup.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/runtime-device-capability-negotiation-ci.yml'
+      - '.github/workflows/02-feature-modules/acceleration/runtime-device-capability-negotiation-ci.yml'
   workflow_dispatch:
 
 concurrency:

@@ -21,7 +21,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/transaction-ssi-ci.yml'
+      - '.github/workflows/02-feature-modules/transactions/transaction-ssi-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -36,7 +36,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/transaction-ssi-ci.yml'
+      - '.github/workflows/02-feature-modules/transactions/transaction-ssi-ci.yml'
   workflow_dispatch:
 
 concurrency:

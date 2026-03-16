@@ -12,7 +12,7 @@ on:
       - 'src/replication/replication_manager.cpp'
       - 'tests/test_geo_replication_consistency.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/geo-replication-consistency-ci.yml'
+      - '.github/workflows/02-feature-modules/replication/geo-replication-consistency-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -20,7 +20,7 @@ on:
       - 'src/replication/replication_manager.cpp'
       - 'tests/test_geo_replication_consistency.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/geo-replication-consistency-ci.yml'
+      - '.github/workflows/02-feature-modules/replication/geo-replication-consistency-ci.yml'
   workflow_dispatch:
 
 concurrency:

@@ -16,7 +16,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/index-compression-ci.yml'
+      - '.github/workflows/02-feature-modules/storage/index-compression-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -28,7 +28,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/index-compression-ci.yml'
+      - '.github/workflows/02-feature-modules/storage/index-compression-ci.yml'
   workflow_dispatch:
 
 concurrency:

@@ -10,7 +10,7 @@ on:
       - 'include/ingestion/**'
       - 'tests/test_ingestion_*.cpp'
       - 'tests/test_s3_connector.cpp'
-      - '.github/workflows/ingestion-tests.yml'
+      - '.github/workflows/07-data-pipelines/ingestion-tests.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -18,7 +18,7 @@ on:
       - 'include/ingestion/**'
       - 'tests/test_ingestion_*.cpp'
       - 'tests/test_s3_connector.cpp'
-      - '.github/workflows/ingestion-tests.yml'
+      - '.github/workflows/07-data-pipelines/ingestion-tests.yml'
   workflow_dispatch:
 
 concurrency:

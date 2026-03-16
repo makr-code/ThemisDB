@@ -21,7 +21,7 @@ on:
       - 'include/governance/policy_engine.h'
       - 'src/governance/policy_engine.cpp'
       - 'benchmarks/llm_bench.cpp'
-      - '.github/workflows/llm-openai-compat-ci.yml'
+      - '.github/workflows/02-feature-modules/llm/llm-openai-compat-ci.yml'
   push:
     branches:
       - main
@@ -35,7 +35,7 @@ on:
       - 'include/governance/policy_engine.h'
       - 'src/governance/policy_engine.cpp'
       - 'benchmarks/llm_bench.cpp'
-      - '.github/workflows/llm-openai-compat-ci.yml'
+      - '.github/workflows/02-feature-modules/llm/llm-openai-compat-ci.yml'
   workflow_dispatch:
 
 concurrency:

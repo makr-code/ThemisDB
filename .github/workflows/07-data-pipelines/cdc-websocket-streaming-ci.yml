@@ -20,7 +20,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/cdc-websocket-streaming-ci.yml'
+      - '.github/workflows/07-data-pipelines/cdc-websocket-streaming-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -35,7 +35,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/cdc-websocket-streaming-ci.yml'
+      - '.github/workflows/07-data-pipelines/cdc-websocket-streaming-ci.yml'
   workflow_dispatch:
 
 concurrency:

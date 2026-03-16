@@ -14,7 +14,7 @@ on:
       - 'src/analytics/arrow_export.cpp'
       - 'tests/analytics/test_arrow_export.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/exporterfactory-stub-replacement-ci.yml'
+      - '.github/workflows/02-feature-modules/exporterfactory-stub-replacement-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -23,7 +23,7 @@ on:
       - 'src/analytics/arrow_export.cpp'
       - 'tests/analytics/test_arrow_export.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/exporterfactory-stub-replacement-ci.yml'
+      - '.github/workflows/02-feature-modules/exporterfactory-stub-replacement-ci.yml'
   workflow_dispatch:
 
 concurrency:

@@ -14,7 +14,7 @@ on:
       - 'tools/error_handling_audit.py'
       - 'tools/error_handling_audit.ignore'
       - 'tests/test_error_handling_audit.py'
-      - '.github/workflows/error-handling-audit.yml'
+      - '.github/workflows/05-quality/build/error-handling-audit.yml'
   push:
     branches:
       - main
@@ -30,7 +30,7 @@ on:
       - 'tools/error_handling_audit.py'
       - 'tools/error_handling_audit.ignore'
       - 'tests/test_error_handling_audit.py'
-      - '.github/workflows/error-handling-audit.yml'
+      - '.github/workflows/05-quality/build/error-handling-audit.yml'
   schedule:
     - cron: '0 2 * * *'  # Nightly at 02:00 UTC – full repo-wide error-handling audit
   workflow_dispatch:

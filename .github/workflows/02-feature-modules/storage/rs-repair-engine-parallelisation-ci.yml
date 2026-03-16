@@ -20,7 +20,7 @@ on:
       - 'include/utils/rate_limiter.h'
       - 'tests/test_sharding_repair.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/rs-repair-engine-parallelisation-ci.yml'
+      - '.github/workflows/02-feature-modules/storage/rs-repair-engine-parallelisation-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -35,7 +35,7 @@ on:
       - 'include/utils/rate_limiter.h'
       - 'tests/test_sharding_repair.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/rs-repair-engine-parallelisation-ci.yml'
+      - '.github/workflows/02-feature-modules/storage/rs-repair-engine-parallelisation-ci.yml'
 
 concurrency:
   group: rs-repair-parallelisation-${{ github.ref }}

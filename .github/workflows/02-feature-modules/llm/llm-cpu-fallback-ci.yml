@@ -17,7 +17,7 @@ on:
       - 'include/llm/kernel_fusion.h'
       - 'include/llm/kernel_fusion_cuda.h'
       - 'tests/llm/test_kernel_fusion_cpu_fallback.cpp'
-      - '.github/workflows/llm-cpu-fallback-ci.yml'
+      - '.github/workflows/02-feature-modules/llm/llm-cpu-fallback-ci.yml'
   push:
     branches:
       - main
@@ -28,7 +28,7 @@ on:
       - 'include/llm/kernel_fusion.h'
       - 'include/llm/kernel_fusion_cuda.h'
       - 'tests/llm/test_kernel_fusion_cpu_fallback.cpp'
-      - '.github/workflows/llm-cpu-fallback-ci.yml'
+      - '.github/workflows/02-feature-modules/llm/llm-cpu-fallback-ci.yml'
   workflow_dispatch:
 
 concurrency:

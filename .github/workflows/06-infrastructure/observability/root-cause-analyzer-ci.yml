@@ -10,7 +10,7 @@ on:
       - 'include/observability/root_cause_analyzer.h'
       - 'tests/test_root_cause_analyzer.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/root-cause-analyzer-ci.yml'
+      - '.github/workflows/06-infrastructure/observability/root-cause-analyzer-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -18,7 +18,7 @@ on:
       - 'include/observability/root_cause_analyzer.h'
       - 'tests/test_root_cause_analyzer.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/root-cause-analyzer-ci.yml'
+      - '.github/workflows/06-infrastructure/observability/root-cause-analyzer-ci.yml'
   workflow_dispatch:
 
 concurrency:

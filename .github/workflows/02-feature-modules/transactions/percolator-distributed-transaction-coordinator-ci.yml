@@ -18,7 +18,7 @@ on:
       - 'src/sharding/distributed_transaction.cpp'
       - 'tests/test_cross_shard_coordinator.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/percolator-distributed-transaction-coordinator-ci.yml'
+      - '.github/workflows/02-feature-modules/transactions/percolator-distributed-transaction-coordinator-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -32,7 +32,7 @@ on:
       - 'src/sharding/distributed_transaction.cpp'
       - 'tests/test_cross_shard_coordinator.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/percolator-distributed-transaction-coordinator-ci.yml'
+      - '.github/workflows/02-feature-modules/transactions/percolator-distributed-transaction-coordinator-ci.yml'
   workflow_dispatch:
 
 concurrency:

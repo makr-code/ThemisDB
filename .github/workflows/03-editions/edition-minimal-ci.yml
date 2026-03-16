@@ -10,14 +10,14 @@ on:
       - 'src/**'
       - 'include/**'
       - 'tests/**'
-      - '.github/workflows/edition-minimal-ci.yml'
-      - '.github/workflows/edition-build-ci.yml'
+      - '.github/workflows/03-editions/edition-minimal-ci.yml'
+      - '.github/workflows/03-editions/edition-build-ci.yml'
       - '.github/actions/configure-themis/**'
       - '.github/actions/setup-cpp-build/**'
   # pull_request trigger intentionally removed:
   # Full ThemisDB builds are too heavy for PR feedback loops.
   # PRs run pr-quick-checks.yml (lint + static analysis + audit) instead.
-  # See: .github/workflows/pr-quick-checks.yml
+  # See: .github/workflows/09-pr-gates/pr-quick-checks.yml
   workflow_dispatch:
 
 concurrency:

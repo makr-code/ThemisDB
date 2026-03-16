@@ -12,7 +12,7 @@ on:
       - 'src/scheduler/task_scheduler.cpp'
       - 'tests/test_task_scheduler_auth_context.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/taskscheduler-auth-context-ci.yml'
+      - '.github/workflows/02-feature-modules/taskscheduler-auth-context-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -20,7 +20,7 @@ on:
       - 'src/scheduler/task_scheduler.cpp'
       - 'tests/test_task_scheduler_auth_context.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/taskscheduler-auth-context-ci.yml'
+      - '.github/workflows/02-feature-modules/taskscheduler-auth-context-ci.yml'
 
 concurrency:
   group: taskscheduler-auth-context-${{ github.ref }}

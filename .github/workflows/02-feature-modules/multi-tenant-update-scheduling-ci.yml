@@ -14,7 +14,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/multi-tenant-update-scheduling-ci.yml'
+      - '.github/workflows/02-feature-modules/multi-tenant-update-scheduling-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -24,7 +24,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/multi-tenant-update-scheduling-ci.yml'
+      - '.github/workflows/02-feature-modules/multi-tenant-update-scheduling-ci.yml'
 
 concurrency:
   group: multi-tenant-update-scheduling-${{ github.ref }}

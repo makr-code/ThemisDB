@@ -33,7 +33,7 @@ on:
       - 'include/llm/kernel_fusion_cuda.h'
       - 'include/llm/kernel_fusion.h'
       - 'tests/llm/test_kernel_fusion_cuda.cpp'
-      - '.github/workflows/llm-cuda-gpu-ci.yml'
+      - '.github/workflows/02-feature-modules/llm/llm-cuda-gpu-ci.yml'
   push:
     branches:
       - main
@@ -43,7 +43,7 @@ on:
       - 'include/llm/kernel_fusion_cuda.h'
       - 'include/llm/kernel_fusion.h'
       - 'tests/llm/test_kernel_fusion_cuda.cpp'
-      - '.github/workflows/llm-cuda-gpu-ci.yml'
+      - '.github/workflows/02-feature-modules/llm/llm-cuda-gpu-ci.yml'
   workflow_dispatch:
 
 concurrency:

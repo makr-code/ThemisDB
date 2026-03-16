@@ -17,7 +17,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/transaction-savepoints-ci.yml'
+      - '.github/workflows/02-feature-modules/transactions/transaction-savepoints-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -28,7 +28,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/transaction-savepoints-ci.yml'
+      - '.github/workflows/02-feature-modules/transactions/transaction-savepoints-ci.yml'
   workflow_dispatch:
 
 concurrency:

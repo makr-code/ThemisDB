@@ -19,7 +19,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/lora-certificate-store-ci.yml'
+      - '.github/workflows/05-quality/security/lora-certificate-store-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -33,7 +33,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/lora-certificate-store-ci.yml'
+      - '.github/workflows/05-quality/security/lora-certificate-store-ci.yml'
   workflow_dispatch:
 
 concurrency:

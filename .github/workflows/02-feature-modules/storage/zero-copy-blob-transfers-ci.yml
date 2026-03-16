@@ -13,7 +13,7 @@ on:
       - 'tests/test_zero_copy_blob_transfers.cpp'
       - 'cmake/BlobStorage.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/zero-copy-blob-transfers-ci.yml'
+      - '.github/workflows/02-feature-modules/storage/zero-copy-blob-transfers-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -22,7 +22,7 @@ on:
       - 'tests/test_zero_copy_blob_transfers.cpp'
       - 'cmake/BlobStorage.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/zero-copy-blob-transfers-ci.yml'
+      - '.github/workflows/02-feature-modules/storage/zero-copy-blob-transfers-ci.yml'
   workflow_dispatch:
 
 concurrency:

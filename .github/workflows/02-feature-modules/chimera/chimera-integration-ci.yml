@@ -24,7 +24,7 @@ on:
       - 'adapters/chimera/CMakeLists.txt'
       - 'tests/chimera/**'
       - 'docker/docker-compose.chimera-integration.yml'
-      - '.github/workflows/chimera-integration-ci.yml'
+      - '.github/workflows/02-feature-modules/chimera/chimera-integration-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -38,7 +38,7 @@ on:
       - 'adapters/chimera/CMakeLists.txt'
       - 'tests/chimera/**'
       - 'docker/docker-compose.chimera-integration.yml'
-      - '.github/workflows/chimera-integration-ci.yml'
+      - '.github/workflows/02-feature-modules/chimera/chimera-integration-ci.yml'
   workflow_dispatch:
 
 concurrency:

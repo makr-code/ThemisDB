@@ -19,7 +19,7 @@ on:
       - 'tests/test_remote_registry_client.cpp'
       - 'cmake/MiscellaneousFeatures.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/async-retry-backoff-ci.yml'
+      - '.github/workflows/02-feature-modules/resilience/async-retry-backoff-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -28,7 +28,7 @@ on:
       - 'tests/test_remote_registry_client.cpp'
       - 'cmake/MiscellaneousFeatures.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/async-retry-backoff-ci.yml'
+      - '.github/workflows/02-feature-modules/resilience/async-retry-backoff-ci.yml'
   workflow_dispatch:
 
 concurrency:

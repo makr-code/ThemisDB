@@ -19,7 +19,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/config-deprecation-aggregation-ci.yml'
+      - '.github/workflows/02-feature-modules/config/config-deprecation-aggregation-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -34,7 +34,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/config-deprecation-aggregation-ci.yml'
+      - '.github/workflows/02-feature-modules/config/config-deprecation-aggregation-ci.yml'
   workflow_dispatch:
 
 concurrency:

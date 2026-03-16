@@ -12,7 +12,7 @@ on:
       - 'include/exporters/data_augmentation.h'
       - 'include/exporters/exporter_interface.h'
       - 'tests/exporters/test_data_augmentation.cpp'
-      - '.github/workflows/data-augmentation-tests.yml'
+      - '.github/workflows/08-maintenance/data-augmentation-tests.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -22,7 +22,7 @@ on:
       - 'include/exporters/data_augmentation.h'
       - 'include/exporters/exporter_interface.h'
       - 'tests/exporters/test_data_augmentation.cpp'
-      - '.github/workflows/data-augmentation-tests.yml'
+      - '.github/workflows/08-maintenance/data-augmentation-tests.yml'
   workflow_dispatch:
 
 concurrency:

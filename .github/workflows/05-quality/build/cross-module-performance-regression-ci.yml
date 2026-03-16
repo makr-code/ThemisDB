@@ -31,7 +31,7 @@ on:
       - 'benchmarks/baselines/cross_module/**'
       - 'benchmarks/cross_module_regression_detector.py'
       - 'benchmarks/chimera/chimera_regression_detector.py'
-      - '.github/workflows/cross-module-performance-regression-ci.yml'
+      - '.github/workflows/05-quality/build/cross-module-performance-regression-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -42,7 +42,7 @@ on:
       - 'benchmarks/baselines/cross_module/**'
       - 'benchmarks/cross_module_regression_detector.py'
       - 'benchmarks/chimera/chimera_regression_detector.py'
-      - '.github/workflows/cross-module-performance-regression-ci.yml'
+      - '.github/workflows/05-quality/build/cross-module-performance-regression-ci.yml'
   schedule:
     - cron: '0 3 * * 1'   # Weekly on Monday at 03:00 UTC
   workflow_dispatch:

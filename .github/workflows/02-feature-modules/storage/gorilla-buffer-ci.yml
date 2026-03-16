@@ -16,7 +16,7 @@ on:
       - 'src/timeseries/query_optimizer.cpp'
       - 'tests/test_tsstore_gorilla_buffer.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/gorilla-buffer-ci.yml'
+      - '.github/workflows/02-feature-modules/storage/gorilla-buffer-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -28,7 +28,7 @@ on:
       - 'src/timeseries/query_optimizer.cpp'
       - 'tests/test_tsstore_gorilla_buffer.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/gorilla-buffer-ci.yml'
+      - '.github/workflows/02-feature-modules/storage/gorilla-buffer-ci.yml'
   workflow_dispatch:
 
 concurrency:

@@ -18,7 +18,7 @@ on:
       - 'src/sharding/shard_rpc_client.cpp'
       - 'tests/test_cross_shard_coordinator.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/cross-shard-coordinator-id-compensation-rpc-ci.yml'
+      - '.github/workflows/06-infrastructure/distributed/cross-shard-coordinator-id-compensation-rpc-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -28,7 +28,7 @@ on:
       - 'src/sharding/shard_rpc_client.cpp'
       - 'tests/test_cross_shard_coordinator.cpp'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/cross-shard-coordinator-id-compensation-rpc-ci.yml'
+      - '.github/workflows/06-infrastructure/distributed/cross-shard-coordinator-id-compensation-rpc-ci.yml'
   workflow_dispatch:
 
 concurrency:

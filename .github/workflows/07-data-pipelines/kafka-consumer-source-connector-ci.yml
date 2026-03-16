@@ -16,7 +16,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/kafka-consumer-source-connector-ci.yml'
+      - '.github/workflows/07-data-pipelines/kafka-consumer-source-connector-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -28,7 +28,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/kafka-consumer-source-connector-ci.yml'
+      - '.github/workflows/07-data-pipelines/kafka-consumer-source-connector-ci.yml'
   workflow_dispatch:
 
 concurrency:

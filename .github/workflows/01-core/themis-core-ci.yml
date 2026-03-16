@@ -69,7 +69,7 @@ on:
       - 'include/auth/jwt_validator.h'
       - 'include/security/rbac.h'
       - 'include/security/vault_key_provider.h'
-      - '.github/workflows/themis-core-ci.yml'
+      - '.github/workflows/01-core/themis-core-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -134,7 +134,7 @@ on:
       - 'include/auth/jwt_validator.h'
       - 'include/security/rbac.h'
       - 'include/security/vault_key_provider.h'
-      - '.github/workflows/themis-core-ci.yml'
+      - '.github/workflows/01-core/themis-core-ci.yml'
   workflow_dispatch:   # Allow manual trigger from the Actions UI
 
 concurrency:

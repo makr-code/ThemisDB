@@ -15,7 +15,7 @@ on:
       - 'tests/test_remote_registry_client.cpp'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/async-retry-remote-registry-ci.yml'
+      - '.github/workflows/02-feature-modules/resilience/async-retry-remote-registry-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -25,7 +25,7 @@ on:
       - 'tests/test_remote_registry_client.cpp'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/async-retry-remote-registry-ci.yml'
+      - '.github/workflows/02-feature-modules/resilience/async-retry-remote-registry-ci.yml'
 
 concurrency:
   group: async-retry-remote-registry-${{ github.ref }}

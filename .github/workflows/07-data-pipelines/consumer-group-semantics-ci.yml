@@ -22,7 +22,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/consumer-group-semantics-ci.yml'
+      - '.github/workflows/07-data-pipelines/consumer-group-semantics-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -38,7 +38,7 @@ on:
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
       - 'tests/CMakeLists.txt'
-      - '.github/workflows/consumer-group-semantics-ci.yml'
+      - '.github/workflows/07-data-pipelines/consumer-group-semantics-ci.yml'
   workflow_dispatch:
 
 concurrency:

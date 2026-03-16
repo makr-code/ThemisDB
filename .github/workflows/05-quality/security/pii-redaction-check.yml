@@ -12,7 +12,7 @@ on:
       - 'fuzz/**'
       - 'config/pii_patterns.yaml'
       - '.github/scripts/check_pii_leakage.py'
-      - '.github/workflows/pii-redaction-check.yml'
+      - '.github/workflows/05-quality/security/pii-redaction-check.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -22,7 +22,7 @@ on:
       - 'fuzz/**'
       - 'config/pii_patterns.yaml'
       - '.github/scripts/check_pii_leakage.py'
-      - '.github/workflows/pii-redaction-check.yml'
+      - '.github/workflows/05-quality/security/pii-redaction-check.yml'
   workflow_dispatch:
 
 concurrency:
