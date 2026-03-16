@@ -1,0 +1,537 @@
+/**
+ * @file test_versioned_api_routing.cpp
+ * @brief Focused tests for Versioned API Routing and /v2/ Prefix (v1.8.0)
+ *
+ * Acceptance criteria covered:
+ *   AC-VAR-1  RouteVersionRouter: unversioned paths return redirect target to /v1/
+ *   AC-VAR-2  RouteVersionRouter: already-versioned paths are not redirected
+ *   AC-VAR-3  RouteVersionRouter: exempt paths (health, metrics, graphql) never redirect
+ *   AC-VAR-4  RouteVersionRouter: normalize() strips /v1/ and /v2/ top-level prefixes
+ *   AC-VAR-5  POST /v2/documents accepts application/x-ndjson; max 10,000 docs
+ *   AC-VAR-6  POST /v2/documents rejects wrong Content-Type with 415
+ *   AC-VAR-7  POST /v2/documents returns inserted count in response JSON
+ *   AC-VAR-8  POST /v2/documents auto-generates keys when _key field absent
+ *   AC-VAR-9  POST /v2/documents reports per-line errors for malformed JSON
+ *   AC-VAR-10 AsyncJobRegistry stores job state with default TTL of 1 hour
+ *   AC-VAR-11 AsyncJobApiHandler: POST /v2/jobs returns 202 with job_id
+ *   AC-VAR-12 AsyncJobApiHandler: GET /v2/jobs/{id} returns job status
+ *   AC-VAR-13 AsyncJobApiHandler: DELETE /v2/jobs/{id} cancels a job
+ *   AC-VAR-14 GET /v2/query/stream returns 400 when 'q' parameter is missing
+ *   AC-VAR-15 GET /v2/query/stream returns text/event-stream Content-Type
+ */
+
+#include <gtest/gtest.h>
+
+// Headers for RouteVersionRouter (header-only)
+#include "server/route_version_router.h"
+
+// Headers for EntityApiHandler (bulk NDJSON)
+#include "server/entity_api_handler.h"
+#include "storage/rocksdb_wrapper.h"
+#include "index/secondary_index.h"
+#include "index/graph_index.h"
+#include "index/vector_index.h"
+#include "transaction/transaction_manager.h"
+#include "security/encryption.h"
+#include "security/mock_key_provider.h"
+#include "server/auth_middleware.h"
+
+// Headers for QueryApiHandler (SSE)
+#include "server/query_api_handler.h"
+
+// Headers for AsyncJobApiHandler
+#include "server/async_job_api_handler.h"
+
+#include <nlohmann/json.hpp>
+#include <boost/beast/http.hpp>
+#include <chrono>
+#include <filesystem>
+#include <ctime>
+#include <string>
+#include <thread>
+#include <sstream>
+
+#ifdef _WIN32
+#include <process.h>
+#define getpid _getpid
+#else
+#include <unistd.h>
+#endif
+
+using namespace themis::server;
+using json = nlohmann::json;
+namespace http = boost::beast::http;
+
+// ============================================================================
+// AC-VAR-1 … AC-VAR-4 : RouteVersionRouter
+// ============================================================================
+
+TEST(RouteVersionRouterAC, UnversionedPath_ReturnsRedirectToV1) {
+    RouteVersionRouter vr;
+    auto target = vr.getRedirectTarget("/documents/abc");
+    ASSERT_TRUE(target.has_value());
+    EXPECT_EQ(*target, "/v1/documents/abc");
+}
+
+TEST(RouteVersionRouterAC, UnversionedPathWithQuery_RedirectPreservesQuery) {
+    RouteVersionRouter vr;
+    auto target = vr.getRedirectTarget("/query/aql?limit=5");
+    ASSERT_TRUE(target.has_value());
+    EXPECT_EQ(*target, "/v1/query/aql?limit=5");
+}
+
+TEST(RouteVersionRouterAC, AlreadyVersionedV1_NoRedirect) {
+    RouteVersionRouter vr;
+    EXPECT_FALSE(vr.getRedirectTarget("/v1/documents/abc").has_value());
+}
+
+TEST(RouteVersionRouterAC, AlreadyVersionedV2_NoRedirect) {
+    RouteVersionRouter vr;
+    EXPECT_FALSE(vr.getRedirectTarget("/v2/documents").has_value());
+    EXPECT_FALSE(vr.getRedirectTarget("/v2/query/stream").has_value());
+    EXPECT_FALSE(vr.getRedirectTarget("/v2/jobs/job-123").has_value());
+}
+
+TEST(RouteVersionRouterAC, HealthEndpoint_NoRedirect) {
+    RouteVersionRouter vr;
+    EXPECT_FALSE(vr.getRedirectTarget("/health").has_value());
+    EXPECT_FALSE(vr.getRedirectTarget("/metrics").has_value());
+    EXPECT_FALSE(vr.getRedirectTarget("/ready").has_value());
+}
+
+TEST(RouteVersionRouterAC, GraphQLWebSocket_NoRedirect) {
+    RouteVersionRouter vr;
+    EXPECT_FALSE(vr.getRedirectTarget("/graphql").has_value());
+}
+
+TEST(RouteVersionRouterAC, RootPath_NoRedirect) {
+    RouteVersionRouter vr;
+    EXPECT_FALSE(vr.getRedirectTarget("/").has_value());
+}
+
+TEST(RouteVersionRouterAC, Normalize_V1Path) {
+    RouteVersionRouter vr;
+    auto n = vr.normalize("/v1/documents/abc");
+    EXPECT_EQ(n.version, 1);
+    EXPECT_EQ(n.path,    "/documents/abc");
+}
+
+TEST(RouteVersionRouterAC, Normalize_V2Path) {
+    RouteVersionRouter vr;
+    auto n = vr.normalize("/v2/query/stream");
+    EXPECT_EQ(n.version, 2);
+    EXPECT_EQ(n.path,    "/query/stream");
+}
+
+TEST(RouteVersionRouterAC, Normalize_UnversionedPath) {
+    RouteVersionRouter vr;
+    auto n = vr.normalize("/documents/abc");
+    EXPECT_EQ(n.version, 0);
+    EXPECT_EQ(n.path,    "/documents/abc");
+}
+
+TEST(RouteVersionRouterAC, ExtractVersion_V1) {
+    EXPECT_EQ(RouteVersionRouter::extractVersion("/v1/documents"), 1);
+}
+
+TEST(RouteVersionRouterAC, ExtractVersion_V2) {
+    EXPECT_EQ(RouteVersionRouter::extractVersion("/v2/query/stream"), 2);
+}
+
+TEST(RouteVersionRouterAC, ExtractVersion_Unversioned) {
+    EXPECT_EQ(RouteVersionRouter::extractVersion("/documents"), 0);
+}
+
+TEST(RouteVersionRouterAC, StripPrefix_V1) {
+    EXPECT_EQ(RouteVersionRouter::stripVersionPrefix("/v1/documents/abc"),
+              "/documents/abc");
+}
+
+TEST(RouteVersionRouterAC, StripPrefix_V2) {
+    EXPECT_EQ(RouteVersionRouter::stripVersionPrefix("/v2/query/stream"),
+              "/query/stream");
+}
+
+// ============================================================================
+// AC-VAR-5 … AC-VAR-9 : EntityApiHandler::handleBulkNdjson()
+// ============================================================================
+
+class BulkNdjsonTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        test_db_path_ = std::filesystem::temp_directory_path() /
+            ("themis_bulk_ndjson_" + std::to_string(std::time(nullptr)) +
+             "_" + std::to_string(getpid()));
+        std::filesystem::create_directories(test_db_path_);
+
+        themis::RocksDBWrapper::Config cfg;
+        cfg.db_path = test_db_path_.string();
+        storage_ = std::make_shared<themis::RocksDBWrapper>(cfg);
+        ASSERT_TRUE(storage_->open());
+
+        secondary_index_ = std::make_shared<themis::SecondaryIndexManager>(*storage_);
+        graph_index_     = std::make_shared<themis::GraphIndexManager>(*storage_);
+        vector_index_    = std::make_shared<themis::VectorIndexManager>(*storage_);
+        tx_manager_      = std::make_shared<themis::TransactionManager>(
+            *storage_, *secondary_index_, *graph_index_, *vector_index_);
+
+        key_provider_     = std::make_shared<themis::MockKeyProvider>();
+        field_encryption_ = std::make_shared<themis::FieldEncryption>(key_provider_);
+        auth_             = std::make_shared<themis::AuthMiddleware>();
+    }
+
+    void TearDown() override {
+        tx_manager_.reset();
+        secondary_index_.reset();
+        graph_index_.reset();
+        vector_index_.reset();
+        storage_.reset();
+        std::filesystem::remove_all(test_db_path_);
+    }
+
+    EntityApiHandler makeHandler() {
+        themis::server::EntityApiConfig cfg;
+        return EntityApiHandler(
+            storage_, secondary_index_, graph_index_, tx_manager_,
+            field_encryption_, key_provider_, auth_, cfg);
+    }
+
+    /// Build a POST /v2/documents request with the given NDJSON body.
+    static http::request<http::string_body>
+    makeNdjsonRequest(const std::string& body,
+                      const std::string& content_type = "application/x-ndjson")
+    {
+        http::request<http::string_body> req{http::verb::post, "/v2/documents", 11};
+        req.set(http::field::content_type,  content_type);
+        req.body() = body;
+        req.prepare_payload();
+        return req;
+    }
+
+    std::filesystem::path                        test_db_path_;
+    std::shared_ptr<themis::RocksDBWrapper>      storage_;
+    std::shared_ptr<themis::SecondaryIndexManager> secondary_index_;
+    std::shared_ptr<themis::GraphIndexManager>   graph_index_;
+    std::shared_ptr<themis::VectorIndexManager>  vector_index_;
+    std::shared_ptr<themis::TransactionManager>  tx_manager_;
+    std::shared_ptr<themis::FieldEncryption>     field_encryption_;
+    std::shared_ptr<themis::KeyProvider>         key_provider_;
+    std::shared_ptr<themis::AuthMiddleware>      auth_;
+};
+
+TEST_F(BulkNdjsonTest, AC5_AcceptsNdjsonContentType) {
+    auto handler = makeHandler();
+    std::string body = R"({"_key":"doc1","val":1})" "\n"
+                       R"({"_key":"doc2","val":2})" "\n";
+    auto resp = handler.handleBulkNdjson(makeNdjsonRequest(body));
+    EXPECT_NE(resp.result(), http::status::unsupported_media_type);
+    EXPECT_NE(resp.result(), http::status::bad_request);
+    auto j = json::parse(resp.body());
+    EXPECT_GE(j["inserted"].get<int64_t>(), 0);
+}
+
+TEST_F(BulkNdjsonTest, AC6_WrongContentType_Returns415) {
+    auto handler = makeHandler();
+    auto resp = handler.handleBulkNdjson(
+        makeNdjsonRequest(R"({"_key":"x"})", "application/json"));
+    EXPECT_EQ(resp.result(), http::status::unsupported_media_type);
+}
+
+TEST_F(BulkNdjsonTest, AC7_InsertedCountMatchesValidDocuments) {
+    auto handler = makeHandler();
+    std::string body = R"({"_key":"k1","value":"a"})" "\n"
+                       R"({"_key":"k2","value":"b"})" "\n"
+                       R"({"_key":"k3","value":"c"})" "\n";
+    auto resp = handler.handleBulkNdjson(makeNdjsonRequest(body));
+    auto j = json::parse(resp.body());
+    EXPECT_EQ(j["inserted"].get<int64_t>(), 3);
+    EXPECT_EQ(j["error_count"].get<int64_t>(), 0);
+}
+
+TEST_F(BulkNdjsonTest, AC8_AutoGeneratesKeyWhenAbsent) {
+    auto handler = makeHandler();
+    // Document has no _key or key field → auto-key generated
+    std::string body = R"({"value":"no-key-field"})" "\n";
+    auto resp = handler.handleBulkNdjson(makeNdjsonRequest(body));
+    EXPECT_NE(resp.result(), http::status::bad_request);
+    auto j = json::parse(resp.body());
+    EXPECT_EQ(j["inserted"].get<int64_t>(), 1);
+}
+
+TEST_F(BulkNdjsonTest, AC9_MalformedLineReportedAsError) {
+    auto handler = makeHandler();
+    std::string body = R"({"_key":"good","val":1})" "\n"
+                       "not-valid-json\n"
+                       R"({"_key":"also-good","val":2})" "\n";
+    auto resp = handler.handleBulkNdjson(makeNdjsonRequest(body));
+    auto j = json::parse(resp.body());
+    EXPECT_EQ(j["inserted"].get<int64_t>(), 2);
+    EXPECT_GE(j["error_count"].get<int64_t>(), 1);
+    ASSERT_TRUE(j.contains("errors"));
+    EXPECT_FALSE(j["errors"].empty());
+}
+
+TEST_F(BulkNdjsonTest, AC5_EmptyBody_Returns400) {
+    auto handler = makeHandler();
+    auto resp = handler.handleBulkNdjson(makeNdjsonRequest(""));
+    EXPECT_EQ(resp.result(), http::status::bad_request);
+}
+
+TEST_F(BulkNdjsonTest, AC5_MaxDocsLimit_10000) {
+    // Inserting exactly 10,000 docs should succeed; 10,001 must fail
+    auto handler = makeHandler();
+
+    // Build 10,001 lines
+    std::ostringstream oss;
+    for (int i = 0; i <= 10000; ++i) {
+        oss << R"({"_key":"bulk)" << i << R"(","v":)" << i << "}\n";
+    }
+    auto resp = handler.handleBulkNdjson(makeNdjsonRequest(oss.str()));
+    EXPECT_EQ(resp.result(), http::status::bad_request);
+}
+
+// ============================================================================
+// AC-VAR-10 : AsyncJobRegistry default TTL = 1 hour
+// ============================================================================
+
+TEST(AsyncJobRegistryAC, DefaultTTLIsOneHour) {
+    EXPECT_EQ(AsyncJobRegistry::kDefaultTTL, std::chrono::seconds(3600));
+}
+
+TEST(AsyncJobRegistryAC, ExpiredJobsPruned) {
+    // Registry with 0-second TTL; terminal jobs expire immediately.
+    AsyncJobRegistry reg{std::chrono::seconds(0)};
+
+    auto job        = std::make_shared<AsyncJobRecord>();
+    job->id         = "old-job";
+    job->status     = AsyncJobStatus::COMPLETED;
+    job->created_at = std::chrono::system_clock::now() - std::chrono::seconds(2);
+    job->updated_at = job->created_at;
+
+    // Add a second job to trigger prune inside add()
+    auto trigger    = std::make_shared<AsyncJobRecord>();
+    trigger->id     = "new-job";
+    trigger->status = AsyncJobStatus::PENDING;
+    trigger->created_at = trigger->updated_at = std::chrono::system_clock::now();
+
+    reg.add(job);
+    reg.add(trigger);   // triggers prune
+
+    EXPECT_EQ(reg.get("old-job"), nullptr);
+    EXPECT_NE(reg.get("new-job"), nullptr);
+}
+
+TEST(AsyncJobRegistryAC, NonExpiredJobSurvivesPrune) {
+    // TTL = 1 h — a fresh job should still be present after prune.
+    AsyncJobRegistry reg{std::chrono::seconds(3600)};
+
+    auto job    = std::make_shared<AsyncJobRecord>();
+    job->id     = "live-job";
+    job->status = AsyncJobStatus::COMPLETED;
+    job->created_at = job->updated_at = std::chrono::system_clock::now();
+    reg.add(job);
+
+    reg.prune();
+    EXPECT_NE(reg.get("live-job"), nullptr);
+}
+
+// ============================================================================
+// AC-VAR-11 … AC-VAR-13 : AsyncJobApiHandler
+// ============================================================================
+
+/// Synchronous executor: returns a static JSON result immediately.
+static nlohmann::json syncExecutor(const std::string& /*query*/,
+                                   const std::string& /*auth*/) {
+    return json::array({json{{"_key", "r1"}, {"val", 42}}});
+}
+
+/// Failing executor: always throws.
+static nlohmann::json failingExecutor(const std::string& /*query*/,
+                                      const std::string& /*auth*/) {
+    throw std::runtime_error("simulated AQL error");
+}
+
+static http::request<http::string_body>
+makeSubmitReq(const json& body)
+{
+    http::request<http::string_body> req{http::verb::post, "/v2/jobs", 11};
+    req.set(http::field::content_type,  "application/json");
+    req.set(http::field::authorization, "Bearer test-token");
+    req.body() = body.dump();
+    req.prepare_payload();
+    return req;
+}
+
+static http::request<http::string_body>
+makeStatusReq(const std::string& job_id)
+{
+    http::request<http::string_body> req{http::verb::get, "/v2/jobs/" + job_id, 11};
+    req.set(http::field::authorization, "Bearer test-token");
+    req.prepare_payload();
+    return req;
+}
+
+static http::request<http::string_body>
+makeCancelReq(const std::string& job_id)
+{
+    http::request<http::string_body> req{http::verb::delete_, "/v2/jobs/" + job_id, 11};
+    req.set(http::field::authorization, "Bearer test-token");
+    req.prepare_payload();
+    return req;
+}
+
+TEST(AsyncJobApiHandlerAC, AC11_SubmitReturns202WithJobId) {
+    AsyncJobApiHandler handler{syncExecutor};
+    auto resp = handler.handleSubmit(makeSubmitReq({{"query", "FOR x IN col RETURN x"}}));
+    EXPECT_EQ(resp.result(), http::status::accepted);
+    auto j = json::parse(resp.body());
+    ASSERT_TRUE(j.contains("job_id"));
+    EXPECT_FALSE(j["job_id"].get<std::string>().empty());
+    EXPECT_EQ(j["status"].get<std::string>(), "pending");
+}
+
+TEST(AsyncJobApiHandlerAC, AC11_MissingQuery_Returns400) {
+    AsyncJobApiHandler handler{syncExecutor};
+    auto resp = handler.handleSubmit(makeSubmitReq(json::object()));
+    EXPECT_EQ(resp.result(), http::status::bad_request);
+}
+
+TEST(AsyncJobApiHandlerAC, AC12_GetStatus_EventuallyCompleted) {
+    AsyncJobApiHandler handler{syncExecutor};
+    auto submit_resp = handler.handleSubmit(
+        makeSubmitReq({{"query", "FOR x IN col RETURN x"}}));
+    auto submit_j = json::parse(submit_resp.body());
+    std::string job_id = submit_j["job_id"].get<std::string>();
+
+    // Poll until completed (max 2 s)
+    json status_j;
+    for (int i = 0; i < 20; ++i) {
+        auto status_resp = handler.handleGetStatus(makeStatusReq(job_id));
+        status_j = json::parse(status_resp.body());
+        if (status_j["status"].get<std::string>() == "completed") break;
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+    EXPECT_EQ(status_j["status"].get<std::string>(), "completed");
+}
+
+TEST(AsyncJobApiHandlerAC, AC12_GetStatus_UnknownId_Returns404) {
+    AsyncJobApiHandler handler{syncExecutor};
+    auto resp = handler.handleGetStatus(makeStatusReq("no-such-job"));
+    EXPECT_EQ(resp.result(), http::status::not_found);
+}
+
+TEST(AsyncJobApiHandlerAC, AC13_CancelPendingJob) {
+    // Use a slow executor so the job stays pending/running long enough to cancel.
+    auto slow_executor = [](const std::string&, const std::string&) -> json {
+        std::this_thread::sleep_for(std::chrono::seconds(5));
+        return json::array();
+    };
+    AsyncJobApiHandler handler{slow_executor};
+    auto submit_resp = handler.handleSubmit(
+        makeSubmitReq({{"query", "FOR x IN col RETURN x"}}));
+    auto j = json::parse(submit_resp.body());
+    std::string job_id = j["job_id"].get<std::string>();
+
+    auto cancel_resp = handler.handleCancel(makeCancelReq(job_id));
+    EXPECT_EQ(cancel_resp.result(), http::status::ok);
+    auto cancel_j = json::parse(cancel_resp.body());
+    // Status should be cancelled or still transitioning
+    std::string s = cancel_j["status"].get<std::string>();
+    EXPECT_TRUE(s == "cancelled" || s == "pending" || s == "running");
+}
+
+TEST(AsyncJobApiHandlerAC, AC13_CancelNonExistentJob_Returns404) {
+    AsyncJobApiHandler handler{syncExecutor};
+    auto resp = handler.handleCancel(makeCancelReq("ghost-job"));
+    EXPECT_EQ(resp.result(), http::status::not_found);
+}
+
+// ============================================================================
+// AC-VAR-14 … AC-VAR-15 : QueryApiHandler::handleQueryStreamSse()
+//
+// These tests use a minimal QueryApiHandler constructed with null optional
+// dependencies so that the request validation logic at the top of the handler
+// (missing 'q' param, wrong content-type, etc.) can be exercised without a
+// live storage backend.
+// ============================================================================
+
+static http::request<http::string_body>
+makeSseRequest(const std::string& target)
+{
+    http::request<http::string_body> req{http::verb::get, target, 11};
+    req.set(http::field::authorization, "Bearer test-token");
+    req.prepare_payload();
+    return req;
+}
+
+class QueryStreamSseAcTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        test_db_path_ = std::filesystem::temp_directory_path() /
+            ("themis_sse_ac_" + std::to_string(std::time(nullptr)) +
+             "_" + std::to_string(getpid()));
+        std::filesystem::create_directories(test_db_path_);
+
+        themis::RocksDBWrapper::Config cfg;
+        cfg.db_path = test_db_path_.string();
+        storage_ = std::make_shared<themis::RocksDBWrapper>(cfg);
+        ASSERT_TRUE(storage_->open());
+
+        secondary_index_ = std::make_shared<themis::SecondaryIndexManager>(*storage_);
+        graph_index_     = std::make_shared<themis::GraphIndexManager>(*storage_);
+
+        key_provider_     = std::make_shared<themis::MockKeyProvider>();
+        field_encryption_ = std::make_shared<themis::FieldEncryption>(key_provider_);
+        auth_             = std::make_shared<themis::AuthMiddleware>();
+
+        handler_ = std::make_unique<QueryApiHandler>(
+            storage_,
+            secondary_index_,
+            graph_index_,
+            field_encryption_,
+            key_provider_,
+            /*semantic_cache=*/nullptr,
+            /*llm_store=*/nullptr,
+            /*prompt_manager=*/nullptr,
+            auth_,
+            /*feature_llm_query_enhancement=*/false,
+            /*feature_llm_store=*/false);
+    }
+
+    void TearDown() override {
+        handler_.reset();
+        secondary_index_.reset();
+        graph_index_.reset();
+        storage_.reset();
+        std::filesystem::remove_all(test_db_path_);
+    }
+
+    std::filesystem::path                        test_db_path_;
+    std::shared_ptr<themis::RocksDBWrapper>      storage_;
+    std::shared_ptr<themis::SecondaryIndexManager> secondary_index_;
+    std::shared_ptr<themis::GraphIndexManager>   graph_index_;
+    std::shared_ptr<themis::FieldEncryption>     field_encryption_;
+    std::shared_ptr<themis::KeyProvider>         key_provider_;
+    std::shared_ptr<themis::AuthMiddleware>      auth_;
+    std::unique_ptr<QueryApiHandler>             handler_;
+};
+
+TEST_F(QueryStreamSseAcTest, AC14_MissingQParam_Returns400) {
+    auto resp = handler_->handleQueryStreamSse(makeSseRequest("/v2/query/stream"));
+    EXPECT_EQ(resp.result(), http::status::bad_request);
+}
+
+TEST_F(QueryStreamSseAcTest, AC15_WithQueryParam_ReturnsEventStreamContentType) {
+    // Use a trivially valid AQL that won't match any stored documents
+    auto resp = handler_->handleQueryStreamSse(
+        makeSseRequest("/v2/query/stream?q=FOR+x+IN+nothing+RETURN+x"));
+    // Regardless of whether results are found, the Content-Type must be SSE
+    auto ct = std::string(resp[http::field::content_type]);
+    EXPECT_NE(ct.find("text/event-stream"), std::string::npos);
+}
+
+TEST_F(QueryStreamSseAcTest, AC15_SseResponseContainsDoneEvent) {
+    auto resp = handler_->handleQueryStreamSse(
+        makeSseRequest("/v2/query/stream?q=FOR+x+IN+nothing+RETURN+x"));
+    EXPECT_NE(resp.body().find("event: done"), std::string::npos);
+}

@@ -15913,4 +15913,48 @@ else()
     message(STATUS "TSStore Gorilla Buffer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tsstore_gorilla_buffer.cpp")
 endif()
 
+# ---------------------------------------------------------------------------
+# Versioned API Routing focused tests (v1.8.0)
+# AC-VAR-1..4   RouteVersionRouter redirect / normalize / strip prefix
+# AC-VAR-5..9   POST /v2/documents (handleBulkNdjson): NDJSON accept, 415,
+#               inserted count, auto-key, per-line error reporting, 10 k limit
+# AC-VAR-10     AsyncJobRegistry default TTL = 1 h (3600 s)
+# AC-VAR-11..13 AsyncJobApiHandler: submit 202, status poll, cancel
+# AC-VAR-14..15 GET /v2/query/stream: missing-q 400, text/event-stream CT
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_versioned_api_routing.cpp")
+    message(STATUS "Adding Versioned API Routing focused tests (server, v1.8.0)")
+
+    add_executable(test_versioned_api_routing_focused
+        test_versioned_api_routing.cpp
+    )
+
+    target_include_directories(test_versioned_api_routing_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_versioned_api_routing_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_versioned_api_routing_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME VersionedApiRoutingFocusedTests
+        COMMAND test_versioned_api_routing_focused)
+
+    set_tests_properties(VersionedApiRoutingFocusedTests PROPERTIES
+        LABELS "server;api;versioning;v1.8.0;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  RouteVersionRouter, handleBulkNdjson, handleQueryStreamSse, AsyncJobApiHandler")
+else()
+    message(STATUS "Versioned API Routing focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_versioned_api_routing.cpp")
+endif()
+
 message(STATUS "Tests configured successfully")
