@@ -460,14 +460,17 @@ TEST(DistributedGraphSharedMutexStressTest, ConcurrentReadsAndOneWriter) {
     std::atomic<bool> stop{false};
     std::atomic<int>  read_ops{0};
 
-    // 8 reader threads: continuously call shardIds(), shardCount(), and
-    // resolveShardForVertex() until the writer is done.
+    // 8 reader threads: continuously call kHopNeighbors() (the "execute()" path
+    // that exercises healthyShards() under shared_lock) until the writer is done.
     std::vector<std::thread> readers;
     readers.reserve(8);
     for (int t = 0; t < 8; ++t) {
         readers.emplace_back([&mgr, &stop, &read_ops, t]() {
             while (!stop.load(std::memory_order_relaxed)) {
-                auto ids = mgr.shardIds();
+                // kHopNeighbors calls healthyShards() (shared_lock) then fans out.
+                auto res = mgr.kHopNeighbors("vertex_" + std::to_string(t), 1);
+                (void)res;
+                // Also exercise the simpler read helpers.
                 (void)mgr.shardCount();
                 mgr.resolveShardForVertex("vertex_" + std::to_string(t));
                 ++read_ops;

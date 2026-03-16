@@ -187,9 +187,11 @@ private:
  * Fault tolerance: unhealthy shards (isHealthy() == false) are skipped
  * automatically; the result is still returned from the remaining shards.
  *
- * Thread safety: addShard() / removeShard() must not be called concurrently
- * with shortestPath() or kHopNeighbors().  Query methods themselves are
- * safe to call from multiple threads concurrently.
+ * Thread safety: all public methods are fully thread-safe.  Multiple
+ * threads may call shortestPath(), kHopNeighbors(), shardIds(), shardCount(),
+ * and resolveShardForVertex() concurrently without blocking each other
+ * (shared_lock).  addShard() and removeShard() take an exclusive lock and
+ * will briefly pause concurrent readers while the shard map is modified.
  *
  * Usage:
  * @code
