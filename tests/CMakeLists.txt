@@ -7500,7 +7500,41 @@ else()
     message(STATUS "Plugin Security CRL/OCSP tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_security_crl_ocsp.cpp")
 endif()
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_marketplace_manifest.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_security_pe_cert_extraction.cpp")
+    message(STATUS "Adding Plugin Security PE Certificate Extraction tests")
+
+    add_executable(test_plugin_security_pe_cert_extraction_focused
+        test_plugin_security_pe_cert_extraction.cpp
+    )
+
+    target_include_directories(test_plugin_security_pe_cert_extraction_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_security_pe_cert_extraction_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    target_compile_definitions(test_plugin_security_pe_cert_extraction_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginSecurityPECertExtractionTests
+        COMMAND test_plugin_security_pe_cert_extraction_focused)
+
+    set_tests_properties(PluginSecurityPECertExtractionTests PROPERTIES
+        LABELS "plugins;security;pe;certificate;extraction;focused;unit"
+        TIMEOUT 30
+    )
+
+    message(STATUS "  PluginSecurityPECertExtraction: PE WIN_CERTIFICATE iteration, ELF sidecar, .note.gnu.signature section")
+else()
+    message(STATUS "Plugin Security PE Cert Extraction tests not found")
+endif()
+
     message(STATUS "Adding Plugin Marketplace Manifest focused tests")
 
     add_executable(test_plugin_marketplace_manifest_focused
