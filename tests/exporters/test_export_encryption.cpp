@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_export_encryption.cpp                         ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:01:19                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:20:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     925                                            ║
+    • Total Lines:     1326                                           ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 43a91f179  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
+    • ac6890aa5  2026-03-11  fix(exporters): EXPORT_DENIED severity MEDIUM, authorizat... ║
+    • 2dba94765  2026-03-11  feat(exporters): PolicyEngine export authorization with a... ║
     • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 49aa9b058  2026-03-02  Add modules, extraction retries, and test fixes ║
-    • 016473156  2026-02-28  Code audit: 5 security fixes in export_encryption.cpp + 1... ║
-    • 6cbe0e954  2026-02-28  Implement AES-256-GCM export encryption (Phase 3 security... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

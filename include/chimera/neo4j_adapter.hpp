@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            neo4j_adapter.hpp                                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:53:08                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:06:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     297                                            ║
+    • Quality Score:   99.0/100                                       ║
+    • Total Lines:     306                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 29a0ee06c  2026-03-12  feat(chimera): wire THEMIS_ENABLE_* driver blocks, add Co... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • c12588b7a  2026-02-28  feat(chimera): add Neo4j native graph database adapter ║
     • 31a9305f6  2026-02-28  feat(chimera): Add Pinecone managed vector search adapter ║
     • e481c0e03  2026-02-27  feat(chimera): Add Qdrant native vector database adapter ║
-    • f16d5f90b  2026-02-27  fix(chimera): audit fixes – security tests, performance b... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

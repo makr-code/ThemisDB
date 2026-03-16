@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            module_loader.h                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:39                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:10:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     865                                            ║
+    • Quality Score:   99.0/100                                       ║
+    • Total Lines:     1184                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 20d74ea0c  2026-03-01  feat(themis): integrate Zone.Identifier quarantine detect... ║
-    • 445546674  2026-02-27  Add plugin dependency graph visualization for base module ║
-    • f2b4fd08c  2026-02-26  fix(audit): correct enum ordering, string JSON serializat... ║
-    • d28b41973  2026-02-26  feat: implement per-plugin audit trail (load, unload, err... ║
+    • dea1ebd8b  2026-03-13  fix(base): address PluginBundleLoader review comments (Zi... ║
+    • 2398e2296  2026-03-12  feat(base): implement cross-platform PluginBundle format ... ║
+    • c2e0a8ff7  2026-03-12  feat: O(1) module lookup — replace loadedModules_ vector ... ║
+    • 4d3183301  2026-03-12  fix(themis): address PR review – errorCategory on success... ║
+    • eecc4c71b  2026-03-11  feat(base): implement plugin watchdog for automatic resta... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

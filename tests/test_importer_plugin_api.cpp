@@ -4,22 +4,23 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_importer_plugin_api.cpp                       ║
   Version:         0.0.3                                              ║
-  Last Modified:   2026-03-09 18:09:35                                ║
+  Last Modified:   2026-03-16 04:26:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     512                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Maturity Level:  ⚫ DRAFT                                        ║
+    • Quality Score:   0.0/100                                        ║
+    • Total Lines:     915                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 61                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • b5d3439    2026-03-09  fix(plugins): correct maturity header — tests are complete   ║
+    • fef91d179  2026-03-15  fix(importers): audit fixes — remove duplicate legacy doc... ║
+    • 2019b146f  2026-03-15  feat(importers): Importer Plugin API v1.9.0 — stable C AB... ║
+    • edcfeb984  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
+    • 03b2f7429  2026-03-09  fix(plugins): resolve FUTURE_ENHANCEMENTS inconsistencies... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c9a74cf8c  2026-02-28  fix(importers): code audit — cleanup includes, fix docstr... ║
-    • c6a24a668  2026-02-28  feat(importers): add Plugin API for third-party importer ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
+  Status: 📝 Draft / Stub                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

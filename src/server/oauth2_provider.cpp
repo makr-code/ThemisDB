@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            oauth2_provider.cpp                                ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:18:47                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     579                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 1364ca87e  2026-03-11  fix: address code review – duplicate heading, curl overfl... ║
+    • 0f96c888e  2026-03-11  feat(server): implement OAuth2/OIDC provider (RFC 6749 + ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "server/oauth2_provider.h"
 #include "auth/auth_error.h"
 #include "utils/logger.h"

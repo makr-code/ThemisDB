@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_hnsw_prefilter_minimal.cpp                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:51:42                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:03:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     181                                            ║
+    • Total Lines:     182                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

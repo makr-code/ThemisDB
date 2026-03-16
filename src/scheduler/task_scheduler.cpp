@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            task_scheduler.cpp                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:53                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:18:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   85.0/100                                       ║
-    • Total Lines:     2568                                           ║
-    • Open Issues:     TODOs: 9, Stubs: 0                             ║
+    • Quality Score:   97.0/100                                       ║
+    • Total Lines:     2685                                           ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 592b54382  2026-03-15  fix(scheduler,acceleration): remove stale TODOs, add VLLM... ║
+    • c97360e57  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
+    • 646fb7bd6  2026-03-10  feat(scheduler): build-system audit – register sources, a... ║
+    • 3d8fa9313  2026-03-09  feat(scheduler): dynamic task scaling based on queue dept... ║
     • a64247126  2026-03-08  Refactor code structure for improved readability and main... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c4e738611  2026-03-01  feat(scheduler): add audit logging and avg_execution_time... ║
-    • 387467e7f  2026-03-01  feat(scheduler): implement proper CDC event trigger lifec... ║
-    • 6479a4600  2026-03-01  fix(scheduler): release alert_mutex before blocking I/O, ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -59,6 +59,15 @@
 // - Comprehensive audit logging
 // - Secure task definition storage (encryption at rest)
 // - Sandboxed execution environments
+//
+// ---------------------------------------------------------------------------
+// Note: User authentication context is propagated via thread-local
+// TaskScheduler::RequestContext.  HTTP handlers call
+//   TaskScheduler::setRequestContext({user_id, client_ip});
+// before invoking scheduler operations, and clearRequestContext() afterwards.
+// All audit events use currentUserId() / currentClientIp() accessors which
+// return the thread-local values or "system" / "" as safe fallbacks.
+// ---------------------------------------------------------------------------
 
 namespace themis {
 
@@ -77,9 +86,9 @@ struct TLSRequestContext {
 static thread_local TLSRequestContext tls_request_ctx;
 
 void TaskScheduler::setRequestContext(const RequestContext& ctx) noexcept {
-    tls_request_ctx.user_id   = ctx.user_id;
+    tls_request_ctx.user_id  = ctx.user_id;
     tls_request_ctx.client_ip = ctx.client_ip;
-    tls_request_ctx.set       = true;
+    tls_request_ctx.set      = true;
 }
 
 void TaskScheduler::clearRequestContext() noexcept {
@@ -1454,7 +1463,7 @@ void TaskScheduler::schedulerLoop() {
                         audit_logger_->logTaskSchedulerEvent(
                             utils::SecurityEventType::TASK_CRON_TRIGGERED,
                             id,
-                            "system",
+                            TaskScheduler::currentUserId(), // propagated from thread-local RequestContext
                             details
                         );
                     }
@@ -2430,7 +2439,7 @@ void TaskScheduler::onCDCEvent(std::shared_ptr<ScheduledTask> task,
         audit_logger_->logTaskSchedulerEvent(
             utils::SecurityEventType::TASK_CDC_TRIGGERED,
             task->id,
-            "system",
+            TaskScheduler::currentUserId(), // propagated from thread-local RequestContext
             details
         );
     }

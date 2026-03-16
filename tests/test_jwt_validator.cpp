@@ -3,19 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_jwt_validator.cpp                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:04:50                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:26:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     237                                            ║
+    • Total Lines:     602                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 70a8e3520  2026-02-24  feat(auth): improve unit test coverage threshold to >80% ║
+    • fc7a85ac8  2026-03-12  fix(auth): address PR review - curl_multi_info_read, void... ║
+    • 7f9247181  2026-03-12  fix(auth): address code review - fix member declaration o... ║
+    • 57fef95c4  2026-03-12  feat(auth): async/non-blocking LDAP and HTTP authenticati... ║
+    • 3fea6d6b5  2026-03-12  refactor: clean up includes and remove unused transaction... ║
+    • 1470edf9b  2026-03-12  feat(auth): mandatory JWT issuer and audience validation ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

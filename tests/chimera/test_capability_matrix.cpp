@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_capability_matrix.cpp                         ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:01:06                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:20:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     405                                            ║
+    • Total Lines:     409                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 0701ac8f4  2026-03-12  feat(chimera): implement async/promise-based API (IAsyncD... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 631e66471  2026-03-01  Add Neo4j capability matrix tests to complete adapter cap... ║
     • e7b0a8793  2026-02-28  chimera: add Elasticsearch capability tests to test_capab... ║
     • 10fd73cb8  2026-02-28  audit(chimera): fill all gaps identified in Pinecone adap... ║
-    • 176df4359  2026-02-28  feat(chimera): implement AdapterCapabilityMatrix for cros... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

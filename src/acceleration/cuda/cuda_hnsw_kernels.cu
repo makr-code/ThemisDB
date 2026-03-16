@@ -22,7 +22,10 @@
 static constexpr uint32_t kMaxEf = 512u;
 
 // Maximum k supported by the kernel.
-static constexpr uint32_t kMaxK = 256u;
+// Increased from 256 to 512; result buffers (res_dist, res_id) are sized to
+// kMaxK per thread in local memory (~4 KB/thread).  For k > kMaxK the caller
+// receives a logged warning and results are truncated to kMaxK.
+static constexpr uint32_t kMaxK = 512u;
 
 namespace themis {
 namespace cuda {
@@ -148,7 +151,9 @@ __device__ __forceinline__ bool heapPushCapped(
 //
 // Performs an ef-limited greedy best-first search on the bottom-layer CSR graph.
 // Uses thread-local arrays (in registers / L1 cache) for the candidate list and
-// the result set.  Visited tracking uses the caller-provided per-query bitset.
+// the result set.  Visited tracking uses a 1-bit-per-node bitset stored in the
+// caller-provided per-query device buffer — 8× more memory-efficient than the
+// previous uint8_t-per-node layout.
 //
 // Parameters:
 //   d_vectors     — flat vector matrix [num_nodes × dim], device memory
@@ -163,7 +168,8 @@ __device__ __forceinline__ bool heapPushCapped(
 //   metric        — 0=L2, 1=Cosine, 2=Dot
 //   d_result_ids  — output IDs   [num_queries × k], device memory
 //   d_result_scores — output scores [num_queries × k], device memory
-//   d_visited     — per-query visited bitset [num_queries × num_nodes], device
+//   d_visited     — per-query 1-bit-per-node visited bitset
+//                   [num_queries × ceil(num_nodes/8)] bytes, device memory
 // =============================================================================
 
 __global__ void hnswSearchKernel(
@@ -184,8 +190,11 @@ __global__ void hnswSearchKernel(
     const uint32_t qi = blockIdx.x * blockDim.x + threadIdx.x;
     if (qi >= num_queries) return;
 
+    // Bytes required for the per-query 1-bit-per-node bitset
+    const uint32_t visited_bytes = (num_nodes + 7u) / 8u;
+
     const float*  query    = d_queries + qi * dim;
-    uint8_t*      visited  = d_visited + (size_t)qi * num_nodes;
+    uint8_t*      visited  = d_visited + (size_t)qi * visited_bytes;
     int64_t*      out_ids  = d_result_ids   + (size_t)qi * k;
     float*        out_dists = d_result_scores + (size_t)qi * k;
 
@@ -201,8 +210,8 @@ __global__ void hnswSearchKernel(
     const uint32_t eff_ef = (ef < kMaxEf) ? ef : kMaxEf;
     const uint32_t eff_k  = (k  < kMaxK)  ? k  : kMaxK;
 
-    // ── Initialise visited array ──────────────────────────────────────────────
-    for (uint32_t i = 0; i < num_nodes; ++i) visited[i] = 0;
+    // ── Initialise visited bitset (zero all bytes) ────────────────────────────
+    for (uint32_t i = 0; i < visited_bytes; ++i) visited[i] = 0u;
 
     // ── Entry point: node 0 ───────────────────────────────────────────────────
     if (num_nodes == 0) {
@@ -215,7 +224,8 @@ __global__ void hnswSearchKernel(
 
     int32_t entry = 0;
     float entry_d = deviceDist(query, d_vectors + (size_t)entry * dim, dim, metric);
-    visited[static_cast<uint32_t>(entry)] = 1;
+    // Mark entry node visited (bitset set)
+    visited[static_cast<uint32_t>(entry) >> 3u] |= (1u << (static_cast<uint32_t>(entry) & 7u));
 
     // Insert into both candidate and result heaps
     heapPushCapped(cand_dist, cand_id, &cand_size, static_cast<int>(eff_ef), entry_d, entry);
@@ -250,8 +260,11 @@ __global__ void hnswSearchKernel(
         for (int32_t ni = start; ni < end; ++ni) {
             int32_t nb = d_neighbours[ni];
             if (nb < 0 || static_cast<uint32_t>(nb) >= num_nodes) continue;
-            if (visited[static_cast<uint32_t>(nb)]) continue;
-            visited[static_cast<uint32_t>(nb)] = 1;
+            // Check visited bit
+            uint32_t nb_u = static_cast<uint32_t>(nb);
+            if (visited[nb_u >> 3u] & (1u << (nb_u & 7u))) continue;
+            // Mark visited
+            visited[nb_u >> 3u] |= (1u << (nb_u & 7u));
 
             float nd = deviceDist(query, d_vectors + (size_t)nb * dim, dim, metric);
 
@@ -320,19 +333,30 @@ void launchHnswSearchKernel(
 {
     if (num_queries == 0 || num_nodes == 0 || k == 0) return;
 
-    // Clamp to kernel limits
+    // Clamp to kernel limits; log a warning when k is truncated so that callers
+    // are not silently given fewer results than requested.
     if (ef > kMaxEf) ef = kMaxEf;
-    if (k  > kMaxK)  k  = kMaxK;
+    if (k  > kMaxK) {
+        fprintf(stderr,
+            "[ThemisDB] launchHnswSearchKernel: requested k=%u exceeds "
+            "kMaxK=%u; results truncated to %u. "
+            "For k > %u use a multi-pass host-side strategy.\n",
+            k, kMaxK, kMaxK, kMaxK);
+        k = kMaxK;
+    }
 
-    // Per-query visited bitset — one byte per node
-    const size_t visited_bytes = (size_t)num_queries * num_nodes * sizeof(uint8_t);
+    // Allocate per-query 1-bit-per-node visited bitset.
+    // Memory: num_queries × ceil(num_nodes / 8) bytes
+    //   e.g. 512 queries × 10M nodes → 512 × 1.25 MB ≈ 640 MB  (vs 5 GB before)
+    const size_t visited_bytes_per_query = ((size_t)num_nodes + 7u) / 8u;
+    const size_t visited_bytes = (size_t)num_queries * visited_bytes_per_query;
     uint8_t* d_visited = nullptr;
     cudaError_t merr = cudaMalloc(&d_visited, visited_bytes);
     if (merr != cudaSuccess || d_visited == nullptr) {
         // Cannot proceed without visited storage — leave output zeroed
         return;
     }
-    // Zero-initialise visited array (mandatory for correctness)
+    // Zero-initialise visited bitset (mandatory for correctness)
     cudaMemsetAsync(d_visited, 0, visited_bytes, stream);
 
     constexpr uint32_t kThreadsPerBlock = 128u;

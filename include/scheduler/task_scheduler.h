@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            task_scheduler.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:01                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:09:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     673                                            ║
+    • Total Lines:     749                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • c97360e57  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
+    • 3d8fa9313  2026-03-09  feat(scheduler): dynamic task scaling based on queue dept... ║
     • a64247126  2026-03-08  Refactor code structure for improved readability and main... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 53b4dd4b5  2026-03-01  feat(scheduler): alert on task failure or SLA breach ║
-    • e290e7611  2026-03-01  feat(scheduler): add FIBONACCI_BACKOFF retry strategy ║
-    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -358,6 +358,15 @@ public:
     struct RequestContext {
         std::string user_id;   ///< Authenticated user identifier
         std::string client_ip; ///< Client IP address
+     * ```cpp
+     * TaskScheduler::setRequestContext({auth_result.user_id, client_ip});
+     * scheduler.registerTask(task);
+     * TaskScheduler::clearRequestContext();
+     * ```
+     */
+    struct RequestContext {
+        std::string user_id;    ///< Authenticated user / service account
+        std::string client_ip;  ///< Originating client IP address (may be empty)
     };
 
     /// Set the authentication context for the calling thread.
@@ -374,6 +383,18 @@ public:
     /// Return the client IP from the thread-local request context (empty if not set).
     static std::string currentClientIp() noexcept;
 
+    /// Should be called after the scheduler operation completes to prevent
+    /// context leak to subsequent tasks that run on the same thread.
+    static void clearRequestContext() noexcept;
+
+    /// Return the user_id from the current thread's RequestContext,
+    /// or @p fallback (default: "system") if no context has been set.
+    static std::string currentUserId(const char* fallback = "system") noexcept;
+
+    /// Return the client_ip from the current thread's RequestContext,
+    /// or empty string if no context has been set.
+    static std::string currentClientIp() noexcept;
+    
     /**
      * @brief Construct a task scheduler
      * @param query_engine   Query engine for executing AQL queries

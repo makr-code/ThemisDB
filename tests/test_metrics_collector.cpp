@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_metrics_collector.cpp                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:05:11                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:27:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     743                                            ║
+    • Total Lines:     837                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 692780f01  2026-03-15  feat(observability): upgrade MetricsCollector to shared_m... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -737,6 +738,97 @@ TEST_F(MetricsCollectorTest, ConcurrentResetAndRecord) {
     
     EXPECT_EQ(reset_count, 5);
     SUCCEED(); // No crashes = success
+}
+
+// ============================================================================
+// TSAN Stress Tests (Issue #191 – shared_mutex upgrade)
+// 16 Prometheus scrape threads + 8 metric write threads concurrently.
+// When built with -DTHEMIS_ENABLE_TSAN=ON, ThreadSanitizer will report any
+// data race that remains after the shared_mutex upgrade.
+// ============================================================================
+
+TEST_F(MetricsCollectorTest, TSANStress_16ScrapersAnd8Writers) {
+    auto& collector = MetricsCollector::getInstance();
+
+    // Pre-populate a handful of metrics so scrapers always find non-empty data.
+    for (int i = 0; i < 8; ++i) {
+        collector.recordQuery("warmup", static_cast<double>(i), i * 10);
+        collector.recordCacheHit("warmup_cache");
+        collector.recordMemoryUsage(1024u * 1024u * static_cast<size_t>(i + 1));
+    }
+
+    constexpr int kScrapers        = 16;
+    constexpr int kWriters         = 8;
+    constexpr int kItersPerThread  = 200;
+
+    std::atomic<bool> go{false};
+    // Failure flags – updated atomically so assertions run on the main thread
+    // (GoogleTest EXPECT_* is not thread-safe in worker threads).
+    std::atomic<bool> scraper_saw_empty{false};
+    std::atomic<int>  writer_exceptions{0};
+
+    // --- 16 scraper (reader) threads ---
+    std::vector<std::thread> scrapers;
+    scrapers.reserve(kScrapers);
+    for (int t = 0; t < kScrapers; ++t) {
+        scrapers.emplace_back([&] {
+            while (!go.load(std::memory_order_acquire)) {
+                std::this_thread::yield();
+            }
+            for (int i = 0; i < kItersPerThread; ++i) {
+                std::string out = collector.getPrometheusMetrics();
+                if (out.empty()) {
+                    scraper_saw_empty.store(true, std::memory_order_relaxed);
+                }
+                // Also exercise getCardinalityLimit (shared read path).
+                (void)collector.getCardinalityLimit();
+            }
+        });
+    }
+
+    // --- 8 writer threads ---
+    std::vector<std::thread> writers;
+    writers.reserve(kWriters);
+    for (int t = 0; t < kWriters; ++t) {
+        writers.emplace_back([&, t] {
+            while (!go.load(std::memory_order_acquire)) {
+                std::this_thread::yield();
+            }
+            try {
+                for (int i = 0; i < kItersPerThread; ++i) {
+                    collector.recordQuery("stress_" + std::to_string(t), i * 0.5, i);
+                    collector.recordCacheHit("stress_cache");
+                    collector.recordMemoryUsage(1024u * static_cast<size_t>(t * kItersPerThread + i));
+                    collector.recordCPUUsage(static_cast<double>((t * kItersPerThread + i) % 100));
+                    collector.addCounter("stress_counter_" + std::to_string(t), 1);
+                    collector.setGauge("stress_gauge_" + std::to_string(t),
+                                       static_cast<double>(i));
+                    collector.observeHistogram("stress_hist_" + std::to_string(t),
+                                               static_cast<double>(i));
+                }
+            } catch (...) {
+                writer_exceptions.fetch_add(1, std::memory_order_relaxed);
+            }
+        });
+    }
+
+    // Release all threads simultaneously for maximum contention.
+    go.store(true, std::memory_order_release);
+
+    for (auto& s : scrapers) s.join();
+    for (auto& w : writers)  w.join();
+
+    // All assertions on the main thread.
+    EXPECT_FALSE(scraper_saw_empty.load())
+        << "A scraper thread observed an empty Prometheus output during concurrent stress";
+    EXPECT_EQ(writer_exceptions.load(), 0)
+        << "A writer thread threw an exception during concurrent stress";
+
+    // Verify the final state is consistent.
+    std::string final_metrics = collector.getPrometheusMetrics();
+    EXPECT_FALSE(final_metrics.empty());
+    EXPECT_NE(final_metrics.find("queries_total"), std::string::npos);
+    EXPECT_NE(final_metrics.find("cache_hits_total"), std::string::npos);
 }
 
 // ============================================================================

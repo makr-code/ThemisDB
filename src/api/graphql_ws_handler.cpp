@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            graphql_ws_handler.cpp                             ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:13:10                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     385                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2317d0155  2026-03-10  Changes before error encountered         ║
+    • e27950bc3  2026-03-10  fix(api): code audit fixes for GraphQLWsHandler ║
+    • 607884671  2026-03-10  feat(api): GraphQL WebSocket subscription handler + Query... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #ifdef THEMIS_ENABLE_WEBSOCKET
 
 #include "api/graphql_ws_handler.h"

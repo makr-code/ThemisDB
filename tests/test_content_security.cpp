@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_content_security.cpp                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:03:12                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:24:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,6 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 018e0013e  2026-03-11  audit: close all remaining CON-006 documentation gaps ║
+    • 30cd78e12  2026-03-11  feat(content/security): enforce zip-bomb protection with ... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

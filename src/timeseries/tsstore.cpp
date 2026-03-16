@@ -3,20 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tsstore.cpp                                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:40                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:19:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     987                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1116                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • fef313e1c  2026-02-22  fix(timeseries): wire up OOO metrics and add missing test... ║
-    • e558cffaa  2026-02-22  feat(timeseries): out-of-order write support with configu... ║
+    • cafa45a9d  2026-03-15  fix(audit): upgrade tsstore decode path to GorillaSIMDDec... ║
+    • d9e68edf7  2026-03-15  fix: address code review - INVALID_INPUT status, test acc... ║
+    • 822b0afce  2026-03-15  feat(timeseries): implement TSStore single-point insert b... ║
+    • c7373858e  2026-03-14  fix(timeseries): address all PR review comments on chunk-... ║
+    • e6b1e7c6d  2026-03-14  refactor(timeseries): address code review feedback on chu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

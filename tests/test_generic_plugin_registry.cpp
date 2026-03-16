@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_generic_plugin_registry.cpp                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:03:46                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:24:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     171                                            ║
+    • Total Lines:     245                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • c5a4a6854  2026-03-15  feat(plugins): complete issue audit — unregisterFactory, ... ║
+    • ae40fc781  2026-03-15  feat(plugins): upgrade PluginRegistry global mutex to sha... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • c3452af1e  2026-02-26  feat(plugins): implement SignedPluginRepository with Ed25... ║
 ╠═════════════════════════════════════════════════════════════════════╣

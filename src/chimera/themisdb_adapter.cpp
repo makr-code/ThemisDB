@@ -4,19 +4,21 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            themisdb_adapter.cpp                               ║
   Version:         0.0.35                                             ║
-  Last Modified:   2026-03-12 11:39:41                                ║
+  Last Modified:   2026-03-16 04:14:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     600+                                            ║
+    • Quality Score:   92.0/100                                       ║
+    • Total Lines:     1423                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1aba82430  2026-02-28  fix(chimera): mask credentials in ThemisDBAdapter::connec... ║
-    • e3c17b310  2026-02-26  Implement MongoDB Atlas Vector Search integration: add se... ║
+    • 6b598edc4  2026-03-12  Add ThemisDB Graph Navigation plugin with automatic updater ║
+    • 3760a281c  2026-03-12  fix(chimera): move semantics for ScopedTokenRemover, id-r... ║
+    • 16eb8c2a4  2026-03-12  fix(chimera): address async API review comments (RAII cle... ║
+    • 0701ac8f4  2026-03-12  feat(chimera): implement async/promise-based API (IAsyncD... ║
+    • 3fea6d6b5  2026-03-12  refactor: clean up includes and remove unused transaction... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

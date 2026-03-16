@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_manager.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:57:50                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:14:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     2686                                           ║
+    • Total Lines:     2770                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 67549ed6f  2026-03-15  fix(content): wire ContentPolicy::embedding_model gate in... ║
+    • 0e2644909  2026-03-11  fix(content): thread-safe OCR routing — add shouldTrigger... ║
+    • fbee25556  2026-03-11  feat(content): wire ContentPolicy::ocrEnabled() to MimeDe... ║
+    • 7e6930569  2026-03-11  feat(content): wire OCR integration into content_manager:... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 49aa9b058  2026-03-02  Add modules, extraction retries, and test fixes ║
-    • d96f6838d  2026-02-28  feat(content): add chunking stage gate and VIDEO category... ║
-    • 6508e0611  2026-02-28  feat(content): Harden pipeline orchestration with per-sta... ║
-    • b617bb3a1  2026-02-28  Implement content deduplication via SHA-256 hash before s... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

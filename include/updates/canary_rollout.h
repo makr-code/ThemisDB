@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            canary_rollout.h                                   ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-03-09 03:56:00                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-03-16 04:11:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     311                                            ║
+    • Total Lines:     644                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 16aed6bb0  2026-03-15  refactor: enhance modular build configuration and improve... ║
+    • 57c7d0bd9  2026-03-14  Implement CanaryDeployment with latency/memory/CPU/disk m... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 1121f3d4a  2026-02-22  Audit fixes: double-apply guard, toCanaryConfig bridge, h... ║
     • ca631bad0  2026-02-22  Implement canary rollout mode: CanaryRollout class, confi... ║

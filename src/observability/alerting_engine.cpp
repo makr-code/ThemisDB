@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            alerting_engine.cpp                                ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:16:45                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     497                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 4b2211d98  2026-03-11  fix(observability): code audit fixes — error().message(),... ║
+    • d33d5cf06  2026-03-11  feat(observability): rule-based alerting engine with conf... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "observability/alerting_engine.h"
 #include "utils/logger.h"
 #include "utils/http_client_pool.h"

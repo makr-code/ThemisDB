@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wire_protocol_v2.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:16                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:16:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     735                                            ║
+    • Total Lines:     808                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad81287a1  2026-03-15  fix(wire-protocol-v2): RFC 7540 §6.3/§5.3.1 PRIORITY comp... ║
+    • bb451d1e6  2026-03-15  fix(themis): complete Wire Protocol V2 priority/dependenc... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 33cc1ed9f  2026-02-28  fix: pass decompressed payload to data_handler in V2 DATA... ║
     • 0c973a286  2026-02-26  Refactor and enhance ThemisDB components ║
-    • f5aaf5563  2026-02-26  Fix LZ4/Zstd connection-level compression in Wire Protoco... ║
-    • 40be9015b  2026-02-25  fix(network): code audit — fix aggregate stats, add COMPR... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

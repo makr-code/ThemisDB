@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            prompt_injection_detector.cpp                      ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:17:55                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     413                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • da5848ffb  2026-03-10  fix: apply all 7 code review recommendations + LSN.toStri... ║
+    • a3ec4aa9e  2026-03-10  refactor: update tenant metrics handling and improve modu... ║
+    • 50a648a06  2026-03-09  fix(rag): fix critical bugs found in code audit of Issue ... ║
+    • 2d6b717c7  2026-03-09  feat(rag): distributed RAG evaluation, benchmark harness,... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file prompt_injection_detector.cpp
  * @brief Security: Prompt injection detection and sanitization for RAG context.
