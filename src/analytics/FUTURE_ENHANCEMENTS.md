@@ -70,11 +70,11 @@ formats falls through to a `NOT_SUPPORTED` status when Arrow is absent, but the 
 never instantiates any specialised class regardless.
 
 **Implementation Notes:**
-- `[ ]` Introduce `ArrowIPCExporter`, `ParquetExporter`, and `FeatherExporter` classes that wrap the existing `exportToFileArrow()` logic – remove dead `StubAnalyticsExporter` wrapper
-- `[ ]` Rename `StubAnalyticsExporter` to `JSONCSVExporter` to reflect its actual capability scope
-- `[ ]` `createExporter(ExportFormat)` must switch on `format` and return the correct concrete type; formats unavailable without Arrow must return `std::unexpected` / throw `std::runtime_error` with a clear message instead of silently returning the fallback
-- `[ ]` Add unit test that asserts `createExporter(ExportFormat::FMT_ARROW_PARQUET)` returns a non-stub type when `THEMIS_HAS_ARROW` is defined
-- `[ ]` Suppress the `6 Stubs` annotation in the file header once all stubs are promoted to real implementations
+- `[x]` Introduce `ArrowIPCExporter`, `ParquetExporter`, and `FeatherExporter` classes that wrap the existing `exportToFileArrow()` logic – remove dead `StubAnalyticsExporter` wrapper
+- `[x]` Rename `StubAnalyticsExporter` to `JSONCSVExporter` to reflect its actual capability scope
+- `[x]` `createExporter(ExportFormat)` must switch on `format` and return the correct concrete type; formats unavailable without Arrow must return `std::unexpected` / throw `std::runtime_error` with a clear message instead of silently returning the fallback
+- `[x]` Add unit test that asserts `createExporter(ExportFormat::FMT_ARROW_PARQUET)` returns a non-stub type when `THEMIS_HAS_ARROW` is defined
+- `[x]` Suppress the `6 Stubs` annotation in the file header once all stubs are promoted to real implementations
 
 **Performance Targets:**
 - Parquet export of 1 M rows: ≤ 2 s wall time with snappy compression on a single core
