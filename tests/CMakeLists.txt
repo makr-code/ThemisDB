@@ -15602,6 +15602,59 @@ else()
 endif()
 
 # ============================================================================
+# HardwareAccelerator – Focused Tests (v1.8.0, Issue #85)
+# Covers:
+#   AC-1  HashJoin dispatch      (GPU-sim and CPU paths produce identical results)
+#   AC-2  SortMergeJoin dispatch (results match hash-join for the same input)
+#   AC-3  Aggregate operators    (SUM / COUNT / MIN / MAX / AVG verified)
+#   AC-4  Filter operator        (all comparison operators)
+#   AC-5  Sort operator          (ascending ordering, row preservation)
+#   AC-6  PatternMatch           (prefix, suffix, contains, exact)
+#   AC-7  VectorOp               (dot product correctness)
+#   AC-8  can_accelerate         (true for supported ops, false for Unknown)
+#   AC-9  estimate_speedup       (≥1.0, scales with rows and device)
+#   AC-10 Statistics             (counters incremented; resetStats clears)
+#   AC-11 Config thresholds      (hw_path / cpu_fallback by row-count config)
+#   AC-12 Error handling         (Unknown op_type → ok=false)
+#   AC-13 Empty inputs           (no crash for empty row sets)
+#   AC-14 Thread safety          (concurrent execute() calls are safe)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_performance_hardware_accelerator.cpp")
+    message(STATUS "Adding HardwareAccelerator focused tests (performance module, Issue #85)")
+
+    add_executable(test_performance_hardware_accelerator
+        test_performance_hardware_accelerator.cpp
+        ${CMAKE_SOURCE_DIR}/src/performance/hardware_accelerator.cpp
+    )
+
+    target_include_directories(test_performance_hardware_accelerator PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_performance_hardware_accelerator PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_performance_hardware_accelerator PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME HardwareAcceleratorFocusedTests
+        COMMAND test_performance_hardware_accelerator)
+
+    set_tests_properties(HardwareAcceleratorFocusedTests PROPERTIES
+        LABELS "performance;hardware;gpu;simd;join;aggregate;filter;sort;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  HardwareAccelerator: GPU join dispatch, SIMD aggregate/filter/sort, pattern match, vector ops, statistics")
+else()
+    message(STATUS "HardwareAccelerator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_performance_hardware_accelerator.cpp")
+endif()
+
+# ============================================================================
 # Custom Test Targets
 # LoRA Certificate Store – focused tests (v1.8.0, Issue #75)
 # Covers all four acceptance criteria:

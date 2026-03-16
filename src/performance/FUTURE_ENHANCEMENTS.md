@@ -53,8 +53,10 @@
 
 ---
 
-
+### Hardware-Accelerated Query Execution
+<!-- Status: implemented | validated: 2026-03-16 -->
 **Priority:** High  
+**Status:** ✅ Implemented (v1.8.0, Issue #85)  
 **Target Version:** v1.8.0  
 **Research Basis:** Multiple papers on GPU database acceleration
 
