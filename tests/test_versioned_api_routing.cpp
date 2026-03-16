@@ -47,6 +47,7 @@
 #include <chrono>
 #include <filesystem>
 #include <ctime>
+#include <iomanip>
 #include <string>
 #include <thread>
 #include <sstream>
@@ -534,4 +535,64 @@ TEST_F(QueryStreamSseAcTest, AC15_SseResponseContainsDoneEvent) {
     auto resp = handler_->handleQueryStreamSse(
         makeSseRequest("/v2/query/stream?q=FOR+x+IN+nothing+RETURN+x"));
     EXPECT_NE(resp.body().find("event: done"), std::string::npos);
+}
+
+// ============================================================================
+// AC-VAR-16  Bulk insert performance: 10,000 × 256-byte docs in < 500 ms
+// ============================================================================
+
+TEST_F(BulkNdjsonTest, AC16_BulkInsert10k_Under500ms) {
+    auto handler = makeHandler();
+
+    // Build 10,000 lines; each value padded to reach ~256 bytes total.
+    // A line like {"_key":"bulk0000","value":"<240 chars>"}\n is ~265 bytes.
+    const std::string pad(224, 'x');  // padding to reach ~256-byte per document
+    std::ostringstream oss;
+    for (int i = 0; i < 10000; ++i) {
+        oss << "{\"_key\":\"perf" << std::setw(5) << std::setfill('0') << i
+            << "\",\"value\":\"" << pad << "\"}\n";
+    }
+
+    auto req = makeNdjsonRequest(oss.str());
+
+    auto t0   = std::chrono::steady_clock::now();
+    auto resp = handler.handleBulkNdjson(req);
+    auto t1   = std::chrono::steady_clock::now();
+
+    ASSERT_NE(resp.result(), http::status::bad_request) << resp.body();
+    auto j = json::parse(resp.body());
+    EXPECT_EQ(j["inserted"].get<int64_t>(), 10000);
+
+    auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count();
+    EXPECT_LT(elapsed_ms, 500)
+        << "Bulk insert of 10,000 docs took " << elapsed_ms << " ms (limit: 500 ms)";
+}
+
+// ============================================================================
+// AC-VAR-17  SSE first-byte latency: < 5 ms after query planning
+//
+// "First-byte latency" is measured as the elapsed time from when
+// handleQueryStreamSse() is called to when the response body (with the initial
+// `retry:` preamble) is available.  For an empty result set the handler returns
+// immediately after planning; the limit is 5 ms.
+// ============================================================================
+
+TEST_F(QueryStreamSseAcTest, AC17_SseFirstByteLatency_Under5ms) {
+    // Warm up the handler once so any first-call initialisation overhead
+    // does not pollute the timed measurement.
+    handler_->handleQueryStreamSse(
+        makeSseRequest("/v2/query/stream?q=FOR+x+IN+nothing+RETURN+x"));
+
+    auto t0   = std::chrono::steady_clock::now();
+    auto resp = handler_->handleQueryStreamSse(
+        makeSseRequest("/v2/query/stream?q=FOR+x+IN+nothing+RETURN+x"));
+    auto t1   = std::chrono::steady_clock::now();
+
+    // The response must be valid SSE.
+    auto ct = std::string(resp[http::field::content_type]);
+    EXPECT_NE(ct.find("text/event-stream"), std::string::npos);
+
+    auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count();
+    EXPECT_LT(elapsed_us, 5000)
+        << "SSE first-byte latency was " << elapsed_us << " µs (limit: 5000 µs / 5 ms)";
 }

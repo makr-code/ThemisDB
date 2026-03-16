@@ -47,6 +47,7 @@
 #include "utils/logger.h"
 
 #include <chrono>
+#include <filesystem>
 #include <sstream>
 #include <iomanip>
 #include <stdexcept>
@@ -184,11 +185,14 @@ AsyncJobApiHandler::AsyncJobApiHandler(
         result_cache_ = std::move(result_cache);
     } else {
         // Create a dedicated AdaptiveQueryCache with TTL = 1 hour for job results.
+        // All three tier TTLs are set to 3600 s (1 h) per the AC requirement.
         cache::AdaptiveQueryCache::Config cfg;
         cfg.l1_ttl_seconds = 3600;   // 1 hour, as required by the AC
         cfg.l2_ttl_seconds = 3600;
         cfg.l3_ttl_seconds = 3600;
-        cfg.enable_l3      = false;  // in-memory only; no RocksDB needed for jobs
+        // Use a temp-dir path so the L3 RocksDB does not persist across restarts.
+        cfg.l3_db_path = std::filesystem::temp_directory_path().string() +
+                         "/themis_async_jobs_cache";
         try {
             result_cache_ = std::make_shared<cache::AdaptiveQueryCache>(cfg);
         } catch (const std::exception& ex) {
