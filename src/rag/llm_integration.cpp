@@ -37,6 +37,11 @@
 #include <mutex>
 #include <atomic>
 #include <unordered_set>
+#include <stdexcept>
+
+#ifdef THEMIS_ENABLE_LLM
+#include "llm/llm_plugin_manager.h"
+#endif
 
 namespace themis::rag {
 
@@ -106,8 +111,36 @@ std::string LLMIntegration::generate(
     
     auto engine = getInferenceEngine();
     if (!engine) {
-        THEMIS_WARN("LLMIntegration::generate - No inference engine configured, using stub");
-        return "[LLM Response Placeholder - No Engine Configured]";
+#ifdef THEMIS_ENABLE_LLM
+        // No explicit engine set — delegate to the global LLMPluginManager.
+        // Throws std::runtime_error when no plugin is loaded.
+        try {
+            llm::InferenceRequest req;
+            req.prompt      = prompt;
+            req.max_tokens  = static_cast<int>(options.max_tokens);
+            req.temperature = static_cast<float>(options.temperature);
+            req.model_id    = "default";
+            auto response = llm::LLMPluginManager::instance().generate(req);
+            THEMIS_DEBUG("LLM generation via LLMPluginManager: {} tokens", response.tokens_generated);
+            return response.text;
+        } catch (const std::exception& e) {
+            const std::string err =
+                std::string("LLMIntegration::generate: no inference engine configured and "
+                            "LLMPluginManager is unavailable: ") + e.what();
+            THEMIS_ERROR("{}", err);
+            throw std::runtime_error(err);
+        }
+#else
+        // THEMIS_ENABLE_LLM is OFF and no explicit engine was injected.
+        // Returning a silent placeholder is dangerous in evaluation pipelines;
+        // fail fast with a clear error instead.
+        const std::string err =
+            "LLMIntegration::generate: no inference engine configured. "
+            "Either call LLMIntegration::setInferenceEngine() before use "
+            "or rebuild ThemisDB with THEMIS_ENABLE_LLM=ON.";
+        THEMIS_ERROR("{}", err);
+        throw std::runtime_error(err);
+#endif
     }
     
     try {

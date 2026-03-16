@@ -51,10 +51,10 @@ Both RAG LLM integration points fall back to stubs when no real inference engine
 In mock mode, all evaluations produce fixed scores, making the RAG evaluation pipeline useless in production.
 
 **Implementation Notes:**
-- `[ ]` `LLMIntegration::generate()`: wire to `LlamaResourceManager::generate()` via the same `THEMIS_ENABLE_LLM` guard used by `ingestion/llm_adapter.cpp`; fail fast with a clear error (not a stub) when `THEMIS_ENABLE_LLM=OFF` and a real engine is required.
-- `[ ]` `LLMJudgeIntegration`: accept an `ILLMInferenceEngine*` injection in the constructor; throw `std::invalid_argument` at construction time when `nullptr` is passed if mock mode is disabled via `config_.allow_mock = false`.
-- `[ ]` Add a configuration key `rag.llm_judge.allow_mock` (default `false` in production, `true` in tests) so mock mode is explicitly opt-in.
-- `[ ]` Add unit tests that verify the judge returns real score variance (not constant scores) when a mock engine returning random values is injected.
+- `[x]` `LLMIntegration::generate()`: wire to `LLMPluginManager::instance().generate()` via the same `THEMIS_ENABLE_LLM` guard used by `ingestion/llm_adapter.cpp`; fail fast with a clear error (not a stub) when `THEMIS_ENABLE_LLM=OFF` and a real engine is required.
+- `[x]` `LLMJudgeIntegration`: accept an `ILLMInferenceEngine*` injection in the constructor; throw `std::invalid_argument` at construction time when `nullptr` is passed if mock mode is disabled via `config_.allow_mock = false`.
+- `[x]` Add a configuration key `rag.llm_judge.allow_mock` (default `false` in production, `true` in tests) so mock mode is explicitly opt-in.
+- `[x]` Add unit tests that verify the judge returns real score variance (not constant scores) when a mock engine returning random values is injected.
 
 ---
 

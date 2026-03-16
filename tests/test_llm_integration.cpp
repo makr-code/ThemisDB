@@ -26,6 +26,7 @@
  */
 
 #include <gtest/gtest.h>
+#include <stdexcept>
 #include "rag/llm_integration.h"
 
 using namespace themis::rag;
@@ -100,22 +101,21 @@ TEST_F(LLMIntegrationTest, PromptTemplateWithOutputFormat) {
 // ============================================================================
 
 TEST_F(LLMIntegrationTest, GenerateBasic) {
+    // With no engine configured, generate() fails fast (no silent stub)
+    LLMIntegration::setInferenceEngine(nullptr);
     LLMGenerationOptions options;
     options.temperature = 0.7;
     options.max_tokens = 100;
     
-    std::string response = LLMIntegration::generate("Test prompt", options);
-    
-    // Should return placeholder for now
-    EXPECT_FALSE(response.empty());
+    EXPECT_THROW(LLMIntegration::generate("Test prompt", options), std::runtime_error);
 }
 
 TEST_F(LLMIntegrationTest, GenerateMultipleSamples) {
+    // With no engine configured, each generate() call throws — so generateMultipleSamples throws too
+    LLMIntegration::setInferenceEngine(nullptr);
     LLMGenerationOptions options;
     
-    auto samples = LLMIntegration::generateMultipleSamples("Test", 3, options);
-    
-    EXPECT_EQ(samples.size(), 3);
+    EXPECT_THROW(LLMIntegration::generateMultipleSamples("Test", 3, options), std::runtime_error);
 }
 
 TEST_F(LLMIntegrationTest, ParseEvaluationResponseJSON) {
@@ -288,12 +288,9 @@ TEST_F(LLMIntegrationTest, GenerateWithoutEngine) {
     LLMIntegration::setInferenceEngine(nullptr);
     
     LLMGenerationOptions options;
-    std::string response = LLMIntegration::generate("Test prompt", options);
-    
-    // Should return placeholder when no engine configured
-    EXPECT_FALSE(response.empty());
-    EXPECT_TRUE(response.find("No Engine Configured") != std::string::npos || 
-                response.find("Placeholder") != std::string::npos);
+    // With no engine configured, generate() must fail fast (throw std::runtime_error)
+    // rather than silently returning a placeholder stub.
+    EXPECT_THROW(LLMIntegration::generate("Test prompt", options), std::runtime_error);
 }
 
 TEST_F(LLMIntegrationTest, ImprovedSemanticSimilarity) {
@@ -327,13 +324,8 @@ TEST_F(LLMIntegrationTest, MultipleSamplesWithSeeds) {
     options.seeds = {123, 456, 789};
     options.temperature = 0.7;
     
-    auto samples = LLMIntegration::generateMultipleSamples("Test", 3, options);
-    
-    EXPECT_EQ(samples.size(), 3);
-    // Each sample should be generated (even if they're placeholders without engine)
-    for (const auto& sample : samples) {
-        EXPECT_FALSE(sample.empty());
-    }
+    // With no engine configured, generateMultipleSamples throws on the first sample
+    EXPECT_THROW(LLMIntegration::generateMultipleSamples("Test", 3, options), std::runtime_error);
 }
 
 TEST_F(LLMIntegrationTest, SemanticSimilarityLengthNormalization) {
