@@ -1361,7 +1361,7 @@ TEST(CEPEngineShutdownTest, ShutdownReturnsWithin100msRegardlessOfMetricsInterva
     CEPConfig cfg;
     cfg.worker_threads        = 1;
     cfg.metrics_enabled       = true;
-    cfg.metrics_interval      = std::chrono::milliseconds(60000); // 60 s – would stall old impl
+    cfg.metrics_interval      = std::chrono::milliseconds(60000); // 60 s - would stall old impl
     cfg.checkpointing_enabled = false;
     engine.initialize(cfg);
 

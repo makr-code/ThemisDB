@@ -1,7 +1,7 @@
 name: CEP Lock-Held-Across-Callbacks CI
 
 # Validates the fix for "Lock Held Across User Callbacks in CEPEngine::timerLoop()"
-# (v1.8.0, Issue #41).
+# (v1.8.0, Issue #3869).
 # Covers:
 #   AC-1  timerLoop() snapshots callbacks under lock, dispatches outside
 #   AC-2  WindowCallbackBatch value type for cheap move-based snapshots
@@ -143,4 +143,4 @@ jobs:
           echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "CEP: timerLoop() snapshot-and-dispatch, WindowCallbackBatch, metricsLoop() cv::wait_for, shutdown() ≤ 100 ms." >> "$GITHUB_STEP_SUMMARY"
+          echo "CEP: timerLoop() snapshot-and-dispatch, WindowCallbackBatch, metricsLoop() cv::wait_for, shutdown() <= 100 ms." >> "$GITHUB_STEP_SUMMARY"
