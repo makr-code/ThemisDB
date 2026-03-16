@@ -1409,5 +1409,12 @@ extern "C" {
 // Registers MySQLImporterSchemePlugin with ImporterSchemeRegistry at program
 // startup so that IImporterPluginRegistry::instance().resolve("mysql://…")
 // and resolve("mariadb://…") return this plugin without any manual wiring.
+//
+// The macro is called from within the themis::importers namespace so that
+// the unqualified PluginClass name is valid for C++ token-paste (##).
 
-REGISTER_IMPORTER_PLUGIN(themis::importers::MySQLImporterSchemePlugin)
+namespace themis {
+namespace importers {
+REGISTER_IMPORTER_PLUGIN(MySQLImporterSchemePlugin)
+} // namespace importers
+} // namespace themis

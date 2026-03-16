@@ -110,9 +110,20 @@ TEST(MySQLImporterRegistry, CreateImporterWithEmptyConfigDoesNotThrow) {
 // ===========================================================================
 // Admin import API route helper logic
 // (mirrors ImportApiHandler::handleStartMySQLImport validation)
+//
+// Note: This is an intentionally simplified simulation of the handler's
+// plugin-availability and source_path-presence checks, consistent with the
+// simulateS3RouteValidation pattern in test_importer_async_api.cpp.
+// Full JSON-parsing and importer-creation paths require an HTTP server and
+// are exercised by the live integration test in the CI workflow
+// (mysql-live-integration job in importer-tests.yml).
+// The end-to-end registry reachability is covered by
+// MySQLImporterAdminRoute::PluginIsRegisteredOnThisServer below.
 // ===========================================================================
 
-/// Simulates the plugin-lookup step of handleStartMySQLImport.
+/// Simulates the plugin-availability and source_path-presence guards in
+/// ImportApiHandler::handleStartMySQLImport, mirroring the same approach
+/// used by simulateS3RouteValidation in test_importer_async_api.cpp.
 /// Returns HTTP-like status: 200 OK, 400 Bad Request, 501 Not Implemented.
 static int simulateMySQLRouteValidation(const std::string& source_path,
                                          bool plugin_registered) {

@@ -466,6 +466,9 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     # test_importer_interfaces is built as a dedicated standalone target below
     # to allow running the abstract-interface tests in isolation.
     ".*test_importer_interfaces\\.cpp$"
+    # test_mysql_importer_registry links mysql_importer.cpp + its own logger
+    # stub, so it is built as a dedicated standalone target below.
+    ".*test_mysql_importer_registry\\.cpp$"
     # test_plugin_capability_negotiation is built as a dedicated standalone
     # target below (PluginCapabilityNegotiationTests) to allow running the
     # capability-negotiation tests in isolation.
@@ -6468,6 +6471,50 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_mysql_importer.cpp")
     message(STATUS "  MySQLImporter: type mapping, batch import, incremental, JDBC-compatible config, streaming callbacks")
 else()
     message(STATUS "MySQLImporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_mysql_importer.cpp")
+endif()
+
+# ============================================================================
+# MySQLImporter Registry Tests (standalone binary)
+#
+# Tests that MySQLImporterSchemePlugin registers with IImporterPluginRegistry
+# at static-init time and that POST /api/v1/import/mysql is reachable.
+# Links mysql_importer.cpp so the REGISTER_IMPORTER_PLUGIN static initialiser
+# fires; a no-op logger stub satisfies Logger symbol dependencies.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_mysql_importer_registry.cpp")
+    message(STATUS "Adding MySQLImporter registry tests (standalone binary)")
+
+    add_executable(test_mysql_importer_registry
+        test_mysql_importer_registry.cpp
+        ${CMAKE_SOURCE_DIR}/src/importers/mysql_importer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/mysql_importer_registry_logger_stub.cpp
+    )
+
+    target_include_directories(test_mysql_importer_registry PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_mysql_importer_registry PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_mysql_importer_registry PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MySQLImporterRegistryTests COMMAND test_mysql_importer_registry)
+
+    set_tests_properties(MySQLImporterRegistryTests PROPERTIES
+        LABELS "importers;mysql;mariadb;registry;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  MySQLImporterRegistry: IImporterPluginRegistry static-init, mysql/mariadb scheme resolution, admin API route")
+else()
+    message(STATUS "MySQLImporter registry tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_mysql_importer_registry.cpp")
 endif()
 
 # ============================================================================
