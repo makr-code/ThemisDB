@@ -4,7 +4,17 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_export_api_handler.cpp                        ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-03-11 17:58:00                                ║
+  Last Modified:   2026-03-16 04:24:51                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     200                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • ef1605ac5  2026-03-11  fix(server): ExportApiHandler - 403 Forbidden for ERR_EXP... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,24 +3,24 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_replication_ha.cpp                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:06:38                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:30:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     3836                                           ║
+    • Maturity Level:  🔴 ALPHA                                        ║
+    • Quality Score:   31.0/100                                       ║
+    • Total Lines:     5467                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a0483324b  2026-03-01  feat(crdt): add FLAG_EW and FLAG_DW CRDT types to replica... ║
-    • abe3d4c8a  2026-03-01  feat(replication): update file metadata headers for witne... ║
-    • 42947304a  2026-03-01  Fix witness node quorum counting and leader exclusion in ... ║
-    • 2e7a5d0c7  2026-02-28  feat(replication): witness node support for quorum in 2-n... ║
+    • 387fde93e  2026-03-13  feat(replication): implement MultiTierReplicationManager ... ║
+    • 4a853813e  2026-03-13  fix(replication): audit fixes — honor bidirectional_sync/... ║
+    • 23a0696d1  2026-03-13  feat(replication): implement BidirectionalReplicationMana... ║
+    • 8db855354  2026-03-13  fix(replication): wire IArchivalBackend, fix empty-key by... ║
+    • 006c6a07b  2026-03-13  fix(tests): clarify LCG constant comment in AlreadyCompre... ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
+  Status: 🚧 Early Development                                         ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            maintenance_api_handler.cpp                        ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:18:45                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     189                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 717093f9b  2026-03-12  feat: implement IMaintenanceTaskHandler registry for main... ║
+    • a63629a5c  2026-03-12  feat: Force-Run Endpoint Window Override (v1.1.0) ║
+    • 1b86d845d  2026-03-11  feat(tracing): add OpenTelemetry spans to all major API h... ║
+    • 0eb79f3e4  2026-03-11  feat: add DatabaseMaintenanceOrchestrator with full sched... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file maintenance_api_handler.cpp
  * @brief Implementation of MaintenanceApiHandler.

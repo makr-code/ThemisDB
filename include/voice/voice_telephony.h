@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_telephony.h                                  ║
-  Version:         1.1.0                                              ║
-  Last Modified:   2026-03-09                                         ║
-  Author:          ThemisDB Team                                      ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:11:56                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                       ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     662                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • v1.1.0  2026-03-09  feat(voice): telephony bridge SIP/WebRTC    ║
-                           (Issue #2495)                               ║
+    • d4de81cc0  2026-03-09  feat(voice): telephony bridge SIP/WebRTC integration (Iss... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

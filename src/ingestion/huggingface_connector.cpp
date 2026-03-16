@@ -4,16 +4,18 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            huggingface_connector.cpp                          ║
   Version:         0.0.35                                             ║
-  Last Modified:   2026-03-09 15:27:00                                ║
+  Last Modified:   2026-03-16 04:15:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     637                                            ║
+    • Total Lines:     717                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 0762b7374  2026-03-11  feat(ingestion): add ca_bundle_path to RetryConfig for co... ║
+    • 25f69a572  2026-03-09  feat(ingestion): replace simulated HttpClient in HuggingF... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • eda6e27de  2026-02-28  fix(ingestion): reject_invalid=false mode, schema_violati... ║
     • b40bbc161  2026-02-26  feat(ingestion): OAuth 2.0 token refresh handling in Gene... ║

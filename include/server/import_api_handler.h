@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            import_api_handler.h                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:21                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:10:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     128                                            ║
+    • Total Lines:     160                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 8452353dc  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
+    • e4aae2a7f  2026-03-11  feat(importers): PostgreSQL Importer v2.0 - FK preservati... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • d88671344  2026-02-28  feat(importers): implement web-based import wizard at GET... ║
     • 47845c7e2  2026-02-27  audit: add S3 HTTP route, fix stub annotations, add API t... ║

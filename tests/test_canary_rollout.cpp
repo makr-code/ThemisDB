@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_canary_rollout.cpp                            ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-03-09 04:02:40                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-03-16 04:23:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  ⚫ DRAFT                                        ║
     • Quality Score:   0.0/100                                        ║
-    • Total Lines:     776                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 34                            ║
+    • Total Lines:     1264                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 39                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • f96a06748  2026-03-14  Audit fixes: populate error_count/success_count in metric... ║
+    • 57c7d0bd9  2026-03-14  Implement CanaryDeployment with latency/memory/CPU/disk m... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 1121f3d4a  2026-02-22  Audit fixes: double-apply guard, toCanaryConfig bridge, h... ║
     • ca631bad0  2026-02-22  Implement canary rollout mode: CanaryRollout class, confi... ║

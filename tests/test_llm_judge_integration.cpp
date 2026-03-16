@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_llm_judge_integration.cpp                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:04:59                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:26:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     425                                            ║
+    • Total Lines:     428                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -30,6 +30,9 @@
 #include "rag/rag_judge.h"
 #include <gtest/gtest.h>
 #include <nlohmann/json.hpp>
+#include <algorithm>
+#include <random>
+#include <vector>
 
 using namespace themis::rag::judge;
 using json = nlohmann::json;
@@ -170,9 +173,9 @@ TEST_F(LLMJudgeIntegrationMockModeTest, ErrorMessageProvidesGuidance) {
         error_message = e.what();
     }
     
-    // Error message should provide guidance
+    // Error message should provide guidance about all available options
     EXPECT_NE(error_message.find("setInferenceFunction"), std::string::npos);
-    EXPECT_NE(error_message.find("use_mock_mode"), std::string::npos);
+    EXPECT_NE(error_message.find("allow_mock"), std::string::npos);
 }
 
 // ============================================================================
@@ -195,6 +198,7 @@ TEST_F(LLMJudgeIntegrationConfigTest, ConfigDefaultValues) {
     EXPECT_TRUE(config.use_json_mode);
     EXPECT_FALSE(config.use_mock_mode);
     EXPECT_TRUE(config.warn_on_mock_mode);
+    EXPECT_FALSE(config.allow_mock);  // default false = production mode (fail fast on nullptr)
 }
 
 TEST_F(LLMJudgeIntegrationConfigTest, ConfigCanBeUpdated) {
@@ -425,4 +429,128 @@ TEST_F(LLMJudgeIntegrationDimensionTest, EvaluateCoherence) {
     );
     
     EXPECT_TRUE(result.success);
+}
+
+// ============================================================================
+// ILLMInferenceEngine Injection Tests
+// ============================================================================
+
+class LLMJudgeIntegrationEngineInjectionTest : public ::testing::Test {
+protected:
+    PromptTemplateManager template_manager;
+    EvaluationInput sample_input;
+    
+    void SetUp() override {
+        template_manager = PromptTemplateManager::createDefault();
+        
+        sample_input.query = "What is the capital of Germany?";
+        sample_input.generated_answer = "Berlin is the capital of Germany.";
+        sample_input.documents = {
+            {"doc1", "Berlin is the capital and largest city of Germany.", 0.97, {}}
+        };
+    }
+};
+
+// A deterministic stub that always returns the same fixed score
+struct FixedScoreEngine : ILLMInferenceEngine {
+    explicit FixedScoreEngine(double score) : score_(score) {}
+    std::string generate(const std::string&) override {
+        return R"({"score":)" + std::to_string(score_) + R"(,"confidence":0.9,"reasoning":"fixed"})";
+    }
+    double score_;
+};
+
+// A random-score engine that returns a different score on each call
+struct RandomScoreEngine : ILLMInferenceEngine {
+    explicit RandomScoreEngine(unsigned int seed = 42) : rng_(seed), dist_(1.0, 5.0) {}
+    std::string generate(const std::string&) override {
+        double score = dist_(rng_);
+        return R"({"score":)" + std::to_string(score) + R"(,"confidence":0.8,"reasoning":"random"})";
+    }
+    std::mt19937 rng_;
+    std::uniform_real_distribution<double> dist_;
+};
+
+TEST_F(LLMJudgeIntegrationEngineInjectionTest, ConstructWithNullEngineAndAllowMockFalseThrows) {
+    LLMJudgeIntegration::Config config;
+    config.allow_mock = false;  // production mode — nullptr must be rejected
+    EXPECT_THROW(
+        (LLMJudgeIntegration(nullptr, config)),
+        std::invalid_argument
+    );
+}
+
+TEST_F(LLMJudgeIntegrationEngineInjectionTest, ConstructWithNullEngineAndAllowMockTrueUsesStub) {
+    LLMJudgeIntegration::Config config;
+    config.allow_mock = true;  // test/mock mode — nullptr is acceptable
+    config.warn_on_mock_mode = false;
+    LLMJudgeIntegration integration(nullptr, config);
+    
+    EXPECT_TRUE(integration.isMockMode());
+    
+    // Should not throw — falls back to built-in mock
+    auto result = integration.evaluateWithLLM(
+        EvaluationDimension::FAITHFULNESS,
+        sample_input,
+        template_manager
+    );
+    EXPECT_TRUE(result.success);
+}
+
+TEST_F(LLMJudgeIntegrationEngineInjectionTest, ConstructWithRealEngineProducesExpectedScore) {
+    FixedScoreEngine engine(3.7);
+    LLMJudgeIntegration integration(&engine);
+    
+    EXPECT_FALSE(integration.isMockMode());
+    
+    auto result = integration.evaluateWithLLM(
+        EvaluationDimension::FAITHFULNESS,
+        sample_input,
+        template_manager
+    );
+    
+    ASSERT_TRUE(result.success);
+    ASSERT_TRUE(result.score.has_value());
+    EXPECT_NEAR(*result.score, 3.7, 0.01);
+}
+
+TEST_F(LLMJudgeIntegrationEngineInjectionTest, RandomEngineProducesScoreVariance) {
+    // Verify the judge does NOT return a constant score when the injected engine
+    // returns random values — i.e. real engine responses propagate through.
+    RandomScoreEngine engine(/*seed=*/12345);
+    LLMJudgeIntegration integration(&engine);
+    
+    constexpr int kSamples = 8;
+    std::vector<double> scores;
+    scores.reserve(kSamples);
+    
+    for (int i = 0; i < kSamples; ++i) {
+        auto result = integration.evaluateWithLLM(
+            EvaluationDimension::FAITHFULNESS,
+            sample_input,
+            template_manager
+        );
+        ASSERT_TRUE(result.success);
+        ASSERT_TRUE(result.score.has_value());
+        scores.push_back(*result.score);
+    }
+    
+    // At least two distinct values → engine variance propagates (not constant mock)
+    auto minmax = std::minmax_element(scores.begin(), scores.end());
+    EXPECT_GT(*minmax.second - *minmax.first, 0.0)
+        << "All " << kSamples << " scores were identical (" << scores[0]
+        << "); expected variance from the random-score engine.";
+}
+
+TEST_F(LLMJudgeIntegrationEngineInjectionTest, IsMockModeReturnsFalseForRealEngine) {
+    FixedScoreEngine engine(4.0);
+    LLMJudgeIntegration integration(&engine);
+    EXPECT_FALSE(integration.isMockMode());
+}
+
+TEST_F(LLMJudgeIntegrationEngineInjectionTest, DefaultAllowMockIsFalse) {
+    // Default config has allow_mock = false; nullptr engine must throw
+    LLMJudgeIntegration::Config config;
+    EXPECT_FALSE(config.allow_mock);
+    EXPECT_THROW((LLMJudgeIntegration(nullptr, config)), std::invalid_argument);
 }

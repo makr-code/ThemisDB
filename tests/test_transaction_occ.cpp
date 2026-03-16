@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_transaction_occ.cpp                           ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-03-09 04:07:31                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-03-16 04:31:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     314                                            ║
+    • Total Lines:     319                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 35957f254  2026-03-15  fix(transaction): correct OCC test for version-conflict d... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 9de069695  2026-02-22  feat(transaction): Optimistic Concurrency Control (OCC) w... ║
 ╠═════════════════════════════════════════════════════════════════════╣

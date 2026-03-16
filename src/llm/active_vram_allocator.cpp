@@ -3,10 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            active_vram_allocator.cpp                          ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-03-11                                         ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:16:00                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Resolves: LLM-MISSING-001                                           ║
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     822                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 4aee399a8  2026-03-11  fix(llm): code audit - fix 3 bugs in ActiveVRAMAllocator ... ║
+    • dde33760f  2026-03-11  fix(llm): address code review - use cudaMemcpy for device... ║
+    • 6e1dfd68a  2026-03-11  feat(llm): implement ActiveVRAMAllocator for GPU memory m... ║
+╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */

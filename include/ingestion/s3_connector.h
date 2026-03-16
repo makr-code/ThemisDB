@@ -3,16 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            s3_connector.h                                     ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-03-14                                         ║
-  Author:          Copilot                                            ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:07:36                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
+    • Quality Score:   87.0/100                                       ║
+    • Total Lines:     213                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready (v1.7.0, Issue #178)                    ║
+  Revision History:                                                   ║
+    • 3257ddf75  2026-03-14  fix(ingestion/s3): audit fixes – SDK init guard, .json te... ║
+    • 5703120fe  2026-03-14  feat(ingestion): Add S3-Compatible Object Storage Source ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

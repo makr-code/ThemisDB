@@ -3,19 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            remote_registry_client.h                           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:55:41                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:11:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     243                                            ║
+    • Total Lines:     487                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 27a08eb54  2026-02-27  feat(base): implement remote plugin loading from authenti... ║
+    • 2c1b27b6f  2026-03-15  feat(base): async retry RemoteRegistryClient + LLM RetryP... ║
+    • e56570ab4  2026-03-15  feat(base): add async methods to RemoteRegistryClient; fi... ║
+    • 4e273a130  2026-03-14  feat(base): implement async retry API for RemoteRegistryC... ║
+    • 8b7f5ae1f  2026-03-14  Enforce shared ownership for async calls ║
+    • 986a125f7  2026-03-14  feat(base): replace blocking sleep with std::async back-o... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_database_maintenance_orchestrator.cpp         ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:24:22                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1848                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • b3d8aa4a5  2026-03-15  refactor: streamline performance statistics retrieval and... ║
+    • bbb4578ff  2026-03-12  test(maintenance): fix ConcurrentListSchedules_NoDataRace... ║
+    • 717093f9b  2026-03-12  feat: implement IMaintenanceTaskHandler registry for main... ║
+    • 0a16483a8  2026-03-12  feat(maintenance): upgrade schedules_mutex_ and jobs_mute... ║
+    • b086000c1  2026-03-12  Fix stable ordering test assertion, use deque for O(1) po... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_database_maintenance_orchestrator.cpp
  * @brief Unit tests for DatabaseMaintenanceOrchestrator – CRUD operations,

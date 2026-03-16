@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_otlp_exporter.cpp                             ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:28:18                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     326                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • db1d1e8c2  2026-03-14  feat(api/otlp): add exponential-backoff retry in OtlpExpo... ║
+    • 8ddf5b350  2026-03-10  fix(api): address code review - clean up test, remove sta... ║
+    • e24bce921  2026-03-10  feat(api): add OTLP/HTTP span exporter + wire into Tracin... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_otlp_exporter.cpp
  * @brief Unit tests for OtlpExporter and TracingMiddleware OTLP integration

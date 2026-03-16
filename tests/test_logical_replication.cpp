@@ -4,14 +4,23 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_logical_replication.cpp                       ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-03-13                                         ║
+  Last Modified:   2026-03-16 04:27:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     ~190                                           ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     193                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • ca7fe627c  2026-03-14  document persistence defaults and harden temp dir retries ║
+    • ac49d216f  2026-03-14  adjust row filter warning and temp dir uniqueness ║
+    • d2968d487  2026-03-14  tighten logical replication diagnostics and randomness ║
+    • a5d705aa2  2026-03-14  address review feedback on logical replication safety ║
+    • 902333c15  2026-03-14  harden logical replication persistence and filters ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

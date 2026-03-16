@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_cdc_changefeed_core.cpp                       ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:23:18                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     661                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • c01cf83bc  2026-03-11  fix(cdc): fix DB type mismatch in test_tenant_buffer_mana... ║
+    • cb4d4ce17  2026-03-11  test(cdc): add 66 unit tests for ChangefeedBuffer and Cha... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Test: Changefeed Core and Push Subscription API
 // Covers: SubscriptionFilter::matches(), subscribe(), SubscriptionHandle
 //         (RAII, move, cancel), notifySubscribers() via recordEvent(),

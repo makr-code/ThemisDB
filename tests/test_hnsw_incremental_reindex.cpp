@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_hnsw_incremental_reindex.cpp                  ║
-  Version:         0.0.20                                             ║
-  Last Modified:   2026-03-09 04:04:22                                ║
+  Version:         0.0.21                                             ║
+  Last Modified:   2026-03-16 04:25:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

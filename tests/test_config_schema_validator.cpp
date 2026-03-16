@@ -4,20 +4,21 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_config_schema_validator.cpp                   ║
   Version:         0.0.3                                              ║
-  Last Modified:   2026-03-11                                         ║
+  Last Modified:   2026-03-16 04:23:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1315                                           ║
+    • Total Lines:     1316                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • ec0d1bcbc  2026-03-11  feat(config): add validateFromString API for in-memory validation ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 50f623520  2026-02-25  docs(config): update README/FUTURE_ENHANCEMENTS for Confi... ║
-    • 51bc83fc2  2026-02-24  feat(config): integrate JSON Schema and YAML schema valid... ║
+    • ee59cce51  2026-03-11  docs(config): update ARCHITECTURE.md and header metadata ... ║
+    • ec0d1bcbc  2026-03-11  feat(config): add validateFromString API for in-memory YA... ║
+    • 61be0fd2e  2026-03-11  chore(config): fix stale file headers and add format/uniq... ║
+    • a8886b55e  2026-03-11  feat(config): add loadAsJson(content, is_yaml) overload t... ║
+    • 2e93674fb  2026-03-11  feat(config): add format and uniqueItems JSON Schema keyw... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

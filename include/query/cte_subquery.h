@@ -4,7 +4,7 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cte_subquery.h                                     ║
   Version:         0.0.35                                             ║
-  Last Modified:   2026-03-15 08:15:03                                ║
+  Last Modified:   2026-03-16 04:09:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,6 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 010ee709e  2026-03-15  docs(query): mark CTESubquery Phase 1 stub replacement co... ║
+    • 4730efec6  2026-03-14  feat(query): replace CTESubquery Phase 1 stub with correl... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

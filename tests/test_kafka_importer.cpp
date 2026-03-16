@@ -4,14 +4,19 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_kafka_importer.cpp                            ║
   Version:         0.0.3                                              ║
-  Last Modified:   2026-03-13 18:00:00                                ║
+  Last Modified:   2026-03-16 04:26:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     (updated)                                      ║
+    • Total Lines:     883                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2421634e7  2026-03-13  fix(kafka): rewrite tests to use production KafkaImporter... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 59453d3ae  2026-02-28  feat(importers): Add Kafka consumer importer for real-tim... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

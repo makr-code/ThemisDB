@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_server.h                                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:21                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:10:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1044                                           ║
+    • Total Lines:     1113                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • de101321a  2026-03-01  feat(server): implement gRPC-Web proxy handler for browse... ║
-    • eca826808  2026-03-01  feat(server): implement edge caching integration with CDN... ║
-    • b8533aab4  2026-02-28  feat(scheduler): implement TaskSchedulerApiHandler and we... ║
-    • b501b870f  2026-02-28  feat(metadata): wire ColumnLineageTracker into REST API v... ║
+    • c9b143394  2026-03-15  feat(server): inject live ShardingManager into HttpServer... ║
+    • 2fed5b1c6  2026-03-15  fix(cdc): wire ConsumerGroupManager into WebSocket server... ║
+    • ef1605ac5  2026-03-11  fix(server): ExportApiHandler - 403 Forbidden for ERR_EXP... ║
+    • 0eb79f3e4  2026-03-11  feat: add DatabaseMaintenanceOrchestrator with full sched... ║
+    • 9bdda37cc  2026-03-11  fix(server): add enableSaml()/isSamlEnabled() to HttpServ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

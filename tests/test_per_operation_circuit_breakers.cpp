@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_per_operation_circuit_breakers.cpp            ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:28:27                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     283                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • fd9fb319d  2026-03-13  fix(aql): address code review - fix doc comments, remove ... ║
+    • 705fdc35a  2026-03-13  feat(aql): implement per-operation-type circuit breakers ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_per_operation_circuit_breakers.cpp
  * @brief Unit tests for per-operation-type circuit breakers in LLMAQLHandler

@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_active_vram_allocator.cpp                     ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:21:35                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     656                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • bdd5a732d  2026-03-11  Address code review: deduplicate VRAM auto-detection, fix... ║
+    • 8ff806630  2026-03-11  Fix 3 bugs in gpu_memory_manager: getTotalVRAM semantics,... ║
+    • 4aee399a8  2026-03-11  fix(llm): code audit - fix 3 bugs in ActiveVRAMAllocator ... ║
+    • dde33760f  2026-03-11  fix(llm): address code review - use cudaMemcpy for device... ║
+    • 6e1dfd68a  2026-03-11  feat(llm): implement ActiveVRAMAllocator for GPU memory m... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_active_vram_allocator.cpp
  * @brief Focused tests for ActiveVRAMAllocator (LLM-MISSING-001)

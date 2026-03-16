@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_cdc_changefeed_buffer.cpp                     ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:23:17                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     476                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • cb4d4ce17  2026-03-11  test(cdc): add 66 unit tests for ChangefeedBuffer and Cha... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Test: ChangefeedBuffer Unit Tests
 // Covers: start/stop lifecycle, recordEvent buffering, flush(), flushFor(),
 //         getStats(), setConfig(), compression, async flush, DLQ integration,

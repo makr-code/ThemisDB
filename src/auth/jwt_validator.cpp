@@ -3,20 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            jwt_validator.cpp                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:57:09                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:13:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     625                                            ║
+    • Total Lines:     809                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 99fd7cbfb  2026-03-01  fix(auth): register missing OAuth 2.0/OIDC auth sources i... ║
-    • c8f827534  2026-02-23  feat(auth): add audit logging for all authentication even... ║
+    • c97360e57  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
+    • 3071a3bb7  2026-03-12  fix(auth): address JWT JTI reviewer feedback ║
+    • 6903f5910  2026-03-12  feat(auth): JWT JTI replay prevention warning (v1.2.0) ║
+    • fc7a85ac8  2026-03-12  fix(auth): address PR review - curl_multi_info_read, void... ║
+    • 57fef95c4  2026-03-12  feat(auth): async/non-blocking LDAP and HTTP authenticati... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -606,6 +608,29 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
             std::string s;
             while (iss >> s) {
                 claims.scopes.push_back(s);
+    // Extract OAuth2 scopes from `scope` (space-separated string) or `scp` (array).
+    // Some IdPs (Keycloak, Auth0) use `scope`; Azure AD uses `scp`.
+    if (payload.contains("scope") && payload["scope"].is_string()) {
+        const std::string scope_str = payload["scope"].get<std::string>();
+        std::istringstream iss(scope_str);
+        std::string token_item;
+        while (iss >> token_item) {
+            if (!token_item.empty()) {
+                claims.scopes.push_back(std::move(token_item));
+            }
+        }
+    } else if (payload.contains("scp")) {
+        if (payload["scp"].is_array()) {
+            claims.scopes = payload["scp"].get<std::vector<std::string>>();
+        } else if (payload["scp"].is_string()) {
+            // Some implementations use space-separated string in scp as well
+            const std::string scp_str = payload["scp"].get<std::string>();
+            std::istringstream iss(scp_str);
+            std::string token_item;
+            while (iss >> token_item) {
+                if (!token_item.empty()) {
+                    claims.scopes.push_back(std::move(token_item));
+                }
             }
         }
     }

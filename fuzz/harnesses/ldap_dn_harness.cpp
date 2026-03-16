@@ -1,34 +1,24 @@
 /*
- * ThemisDB - Hybrid Database System
- *
- * File:            ldap_dn_harness.cpp
- * Description:     libFuzzer / AFL++ harness for LDAP DN injection prevention.
- *
- * Fuzz-tests LDAPAuthenticator::buildUserDN() with arbitrary username inputs
- * to verify:
- *   1. No crashes or memory errors on any byte sequence.
- *   2. The returned DN always starts with the template prefix (before {username}).
- *   3. DN special characters in the input never appear unescaped in the output.
- *
- * Build with libFuzzer:
- * @code
- *   clang++ -fsanitize=fuzzer,address,undefined -O1 -g \
- *     -DAFL_FUZZ_BUILD \
- *     -o ldap_dn_harness ldap_dn_harness.cpp \
- *     -I../../include -L../../build/lib \
- *     -lthemisdb_auth -lthemisdb_utils \
- *     -lssl -lcrypto -lspdlog
- * @endcode
- *
- * Build with AFL++:
- * @code
- *   afl-clang-lto++ -fsanitize=address,undefined -O2 -g \
- *     -DAFL_FUZZ_BUILD \
- *     -o ldap_dn_harness ldap_dn_harness.cpp \
- *     -I../../include -L../../build/lib \
- *     -lthemisdb_auth -lthemisdb_utils \
- *     -lssl -lcrypto -lspdlog
- * @endcode
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            ldap_dn_harness.cpp                                ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:04:53                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     239                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 0f9b874f4  2026-03-12  fix(auth): address all reviewer comments on LDAP injectio... ║
+    • 83e36bcbd  2026-03-12  security(auth): LDAP DN and filter injection prevention (... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include <cstdint>

@@ -4,8 +4,19 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_token_estimator.h                              ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-03-13                                         ║
+  Last Modified:   2026-03-16 04:05:24                                ║
   Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     122                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • c28ecfee9  2026-03-13  feat(aql): accurate token-count estimation - TiktokenEsti... ║
+    • d630135fe  2026-03-13  fix(aql): address PR review comments on bounded conversat... ║
+    • d231050f3  2026-03-13  feat(aql): bounded conversation history with context-wind... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

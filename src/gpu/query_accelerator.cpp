@@ -3,24 +3,24 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_accelerator.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:26                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:15:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   66.0/100                                       ║
-    • Total Lines:     681                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 5                             ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   88.0/100                                       ║
+    • Total Lines:     1242                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • e010f4ac7  2026-03-12  fix(gpu): address review feedback on query_accelerator GP... ║
+    • a896955d8  2026-03-12  feat(gpu): replace CPU fallback stubs with real CUDA/HIP ... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • eeb29b53c  2026-02-28  feat(gpu): wire THEMIS_ENABLE_CUDA/CUVS guards in annSear... ║
     • 9cc43d8f2  2026-02-26  feat(gpu): implement GPU-accelerated ANN vector similarit... ║
-    • dfa2c6253  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
-    • 2379d3536  2026-02-25  fix(gpu): remove spurious stats increment and fix data ra... ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ⚠️  Needs Work                                              ║
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

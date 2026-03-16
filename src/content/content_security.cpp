@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_security.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:57:51                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:14:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   90.0/100                                       ║
-    • Total Lines:     428                                            ║
+    • Total Lines:     503                                            ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2737ade5b  2026-03-11  fix(content/security): audit corrections - test rename, z... ║
+    • 1bacdae51  2026-03-11  fix(content/security): add zip-bomb protection in archive... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

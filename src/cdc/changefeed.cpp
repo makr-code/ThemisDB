@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            changefeed.cpp                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:57:28                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:13:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
-    • Total Lines:     902                                            ║
+    • Total Lines:     987                                            ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • a9f387ce0  2026-03-11  feat(cdc): runtime-configurable change log retention poli... ║
+    • 2317d0155  2026-03-10  Changes before error encountered         ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • de9fb43e7  2026-03-01  Implement CDC event filtering by operation type ║
     • 06f59a69f  2026-02-24  fix(cdc): restore missing deleteOldEvents signature; fix ... ║
-    • 7a2028071  2026-02-24  feat(cdc): implement GDPR-aware change log redaction for ... ║
-    • df280b5a0  2026-02-24  feat(cdc): add before/after document snapshots to ChangeE... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

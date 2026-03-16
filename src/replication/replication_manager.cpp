@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            replication_manager.cpp                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:50                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:18:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                       ║
-    • Total Lines:     5117                                           ║
+    • Quality Score:   89.0/100                                       ║
+    • Total Lines:     6212                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a0483324b  2026-03-01  feat(crdt): add FLAG_EW and FLAG_DW CRDT types to replica... ║
-    • abe3d4c8a  2026-03-01  feat(replication): update file metadata headers for witne... ║
-    • fdf7da532  2026-03-01  fix(replication): explicit witness-node rejection in trig... ║
-    • 42947304a  2026-03-01  Fix witness node quorum counting and leader exclusion in ... ║
+    • 42e48dbc3  2026-03-15  fix(replication): audit geo-replication – fix SESSION exp... ║
+    • 7cd7172d7  2026-03-14  feat(replication): add GeoReplicationManager with consist... ║
+    • 4a853813e  2026-03-13  fix(replication): audit fixes — honor bidirectional_sync/... ║
+    • 23a0696d1  2026-03-13  feat(replication): implement BidirectionalReplicationMana... ║
+    • 8db855354  2026-03-13  fix(replication): wire IArchivalBackend, fix empty-key by... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

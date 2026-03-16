@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            token_blacklist.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:57:17                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:13:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     180                                            ║
+    • Total Lines:     214                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 3a23233d6  2026-03-12  fix(auth): address PR review comments on token blacklist ... ║
+    • e93c27150  2026-03-12  feat(auth): implement ITokenBlacklist interface, Bloom fi... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 4318adfb2  2026-03-01  feat(auth): add real-time revocation callback to TokenBla... ║
     • 4b86c62ed  2026-02-24  fix: ROADMAP audit logging status and token_blacklist sta... ║
-    • 5e72bf49f  2026-02-24  Add audit logging to TokenBlacklist and ApiKeyAuthenticat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

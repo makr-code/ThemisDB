@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_server.cpp                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:14                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:18:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   89.0/100                                       ║
-    • Total Lines:     9906                                           ║
-    • Open Issues:     TODOs: 4, Stubs: 0                             ║
+    • Quality Score:   91.0/100                                       ║
+    • Total Lines:     10737                                          ║
+    • Open Issues:     TODOs: 3, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • de101321a  2026-03-01  feat(server): implement gRPC-Web proxy handler for browse... ║
-    • eca826808  2026-03-01  feat(server): implement edge caching integration with CDN... ║
-    • 46cbedd51  2026-03-01  Fix total count to return all matching records for proper... ║
-    • c459420f1  2026-03-01  Add searchable audit log API endpoint GET /api/tasks/{id}... ║
+    • 80ae5c5d3  2026-03-15  fix(storage/audit): remove dead dsm.setRocksDBSize() call... ║
+    • 9f9d86ceb  2026-03-15  feat(storage): implement proper size calculation in Rocks... ║
+    • c9b143394  2026-03-15  feat(server): inject live ShardingManager into HttpServer... ║
+    • 2fed5b1c6  2026-03-15  fix(cdc): wire ConsumerGroupManager into WebSocket server... ║
+    • af1b62452  2026-03-12  fix: address review feedback - null safety, HTTP route fo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

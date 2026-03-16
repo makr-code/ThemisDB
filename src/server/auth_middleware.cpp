@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auth_middleware.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:08                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:18:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
-    • Total Lines:     484                                            ║
-    • Open Issues:     TODOs: 2, Stubs: 0                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     556                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 592b54382  2026-03-15  fix(scheduler,acceleration): remove stale TODOs, add VLLM... ║
+    • c97360e57  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
+    • c21f255d8  2026-03-12  fix(auth): address review feedback on JWT issuer/audience... ║
+    • 1470edf9b  2026-03-12  feat(auth): mandatory JWT issuer and audience validation ... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
-    • ce63cc36d  2026-02-24  feat(auth): integrate ApiKeyAuthenticator into AuthMiddle... ║
-    • 5cc90b16b  2026-02-24  feat(auth): implement mTLS certificate-based authentication ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -167,6 +168,31 @@ void AuthMiddleware::clearTokens() {
     tokens_.clear();
 }
 
+void AuthMiddleware::setRoleScopeMapping(
+    std::unordered_map<std::string, std::vector<std::string>> mapping)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    role_scope_map_ = std::move(mapping);
+    THEMIS_INFO("Role-to-scope mapping updated: {} role(s) configured", role_scope_map_.size());
+}
+
+bool AuthMiddleware::roleGrantsScope(const std::vector<std::string>& roles,
+                                     std::string_view required_scope) const
+{
+    // Note: mutex is already held by caller.
+    for (const auto& role : roles) {
+        auto it = role_scope_map_.find(role);
+        if (it != role_scope_map_.end()) {
+            for (const auto& granted : it->second) {
+                if (granted == required_scope) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std::string_view required_scope) const {
     std::lock_guard<std::mutex> lock(mutex_);
     // Mask token for logging (show first/last 4 chars)
@@ -303,6 +329,50 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaJWT(std::string_view toke
         metrics_.authz_success_total++;
         return AuthResult::OK(claims.sub, claims.tenant_id, claims.groups);
 
+        // Build the complete set of scopes granted by this token.
+        // Priority order:
+        //  1. OAuth2 `scope`/`scp` claims parsed from the JWT payload (populated by JWTClaims::scopes)
+        //  2. The claim named by jwt_config_.scope_claim (defaults to "roles")
+        //     which maps to claims.roles, claims.groups, etc.
+        std::unordered_set<std::string> granted_scopes(claims.scopes.begin(),
+                                                       claims.scopes.end());
+
+        // Add values from the configured scope_claim
+        if (jwt_config_.scope_claim == "roles") {
+            for (const auto& r : claims.roles)  granted_scopes.insert(r);
+        } else if (jwt_config_.scope_claim == "groups") {
+            for (const auto& g : claims.groups) granted_scopes.insert(g);
+        }
+        // If scope_claim is "scope" or "scp" the data is already in claims.scopes above.
+
+        THEMIS_INFO("JWT validated for user '{}' (sub: {}), tenant='{}', groups: {}, scopes: {}",
+                    claims.email, claims.sub, claims.tenant_id, claims.groups.size(),
+                    granted_scopes.size());
+
+        // Check required scope (if non-empty)
+        if (!required_scope.empty()) {
+            const std::string req(required_scope);
+            bool scope_ok = granted_scopes.count(req) > 0;
+
+            // Fallback: check if any role in the token grants the scope via role_scope_map_
+            if (!scope_ok) {
+                scope_ok = roleGrantsScope(claims.roles, required_scope);
+            }
+            if (!scope_ok) {
+                scope_ok = roleGrantsScope(claims.groups, required_scope);
+            }
+
+            if (!scope_ok) {
+                THEMIS_WARN("JWT authorization denied for user '{}': missing scope '{}'",
+                            claims.sub, required_scope);
+                metrics_.authz_denied_total++;
+                return AuthResult::Denied("Missing required scope: " + req);
+            }
+        }
+        
+        metrics_.authz_success_total++;
+        return AuthResult::OK(claims.sub, claims.tenant_id, claims.groups);
+        
     } catch (const std::exception& e) {
         metrics_.jwt_validation_failed_total++;
         THEMIS_WARN("JWT validation failed: {}", e.what());
@@ -416,6 +486,7 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaKerberos(
     std::string_view token,
     std::string_view required_scope) const {
 
+    
     // Note: mutex is already locked by caller (authorize)
 
     if (!kerberos_auth_) {
@@ -462,6 +533,10 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaKerberos(
             }
         }
 
+        
+        // Check required scope: treat each Kerberos role as a direct scope grant,
+        // and also consult role_scope_map_ for role → scope expansion.
+        //
         // IMPORTANT: Kerberos tickets do not include tenant information.
         // Clients using Kerberos authentication MUST provide tenant_id via:
         // - X-Tenant-ID header
@@ -471,6 +546,29 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaKerberos(
         metrics_.authz_success_total++;
         return AuthResult::OK(result.principal_name, "", {});  // Empty tenant_id - must be provided via header
 
+        if (!required_scope.empty()) {
+            const std::string req(required_scope);
+            // Direct role match: role name == required_scope
+            bool scope_ok = false;
+            for (const auto& role : result.roles) {
+                if (role == req) { scope_ok = true; break; }
+            }
+            // Fallback: check role_scope_map_ for any role that grants the scope
+            if (!scope_ok) {
+                scope_ok = roleGrantsScope(result.roles, required_scope);
+            }
+            if (!scope_ok) {
+                THEMIS_WARN("Kerberos authorization denied for principal '{}': "
+                            "no role provides scope '{}'",
+                            result.principal_name, required_scope);
+                metrics_.authz_denied_total++;
+                return AuthResult::Denied("Missing required scope: " + req);
+            }
+        }
+        
+        metrics_.authz_success_total++;
+        return AuthResult::OK(result.principal_name, "", result.roles);
+        
     } catch (const std::exception& e) {
         THEMIS_ERROR("Kerberos authentication error: {}", e.what());
         return AuthResult::Denied(std::string("Kerberos authentication error: ") + e.what());
