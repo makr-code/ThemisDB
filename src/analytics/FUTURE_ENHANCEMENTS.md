@@ -30,7 +30,7 @@ identified issues reference exact file names and function names.
 - `[ ]` AVX-512 and ARM NEON kernel results must be bit-identical (tolerance ≤ 1 ULP) to the scalar baseline on the same input dataset
 - `[ ]` Streaming aggregation peak memory must not exceed 512 MB per active window; enforced via compile-time configurable hard cap
 - `[ ]` IVM delta-application latency must be ≤ 50 ms for batches ≤ 10 000 rows; `applyChanges()` must not hold its exclusive lock for the full batch
-- `[ ]` `ExporterFactory::createExporter(format)` must return a format-specific exporter, not the universal `StubAnalyticsExporter` for every format
+- `[x]` `ExporterFactory::createExporter(format)` must return a format-specific exporter, not the universal `StubAnalyticsExporter` for every format
 - `[ ]` Windows platform build stubs in `olap.cpp` and `process_mining.cpp` must be replaced by real cross-platform implementations before v2.0.0
 - `[ ]` All background loops (`expiryLoop`, `timerLoop`, `workerLoop`, `metricsLoop`) must honour stop signals within ≤ 50 ms via condition variables, not fixed-interval polling
 - `[ ]` No dynamic memory allocation inside SIMD hot loops; intermediate buffers must be pre-allocated in `Impl` structs
@@ -70,11 +70,11 @@ formats falls through to a `NOT_SUPPORTED` status when Arrow is absent, but the 
 never instantiates any specialised class regardless.
 
 **Implementation Notes:**
-- `[ ]` Introduce `ArrowIPCExporter`, `ParquetExporter`, and `FeatherExporter` classes that wrap the existing `exportToFileArrow()` logic – remove dead `StubAnalyticsExporter` wrapper
-- `[ ]` Rename `StubAnalyticsExporter` to `JSONCSVExporter` to reflect its actual capability scope
-- `[ ]` `createExporter(ExportFormat)` must switch on `format` and return the correct concrete type; formats unavailable without Arrow must return `std::unexpected` / throw `std::runtime_error` with a clear message instead of silently returning the fallback
-- `[ ]` Add unit test that asserts `createExporter(ExportFormat::FMT_ARROW_PARQUET)` returns a non-stub type when `THEMIS_HAS_ARROW` is defined
-- `[ ]` Suppress the `6 Stubs` annotation in the file header once all stubs are promoted to real implementations
+- `[x]` Introduce `ArrowIPCExporter`, `ParquetExporter`, and `FeatherExporter` classes that wrap the existing `exportToFileArrow()` logic – remove dead `StubAnalyticsExporter` wrapper
+- `[x]` Rename `StubAnalyticsExporter` to `JSONCSVExporter` to reflect its actual capability scope
+- `[x]` `createExporter(ExportFormat)` must switch on `format` and return the correct concrete type; formats unavailable without Arrow must return `std::unexpected` / throw `std::runtime_error` with a clear message instead of silently returning the fallback
+- `[x]` Add unit test that asserts `createExporter(ExportFormat::FMT_ARROW_PARQUET)` returns a non-stub type when `THEMIS_HAS_ARROW` is defined
+- `[x]` Suppress the `6 Stubs` annotation in the file header once all stubs are promoted to real implementations
 
 **Performance Targets:**
 - Parquet export of 1 M rows: ≤ 2 s wall time with snappy compression on a single core
