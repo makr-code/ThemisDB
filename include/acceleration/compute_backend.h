@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            compute_backend.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:21                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:04:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     594                                            ║
+    • Total Lines:     603                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • e627c556b  2026-03-15  feat(acceleration): BackendRegistry thread-safety, VLLMRe... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • f2fa0c5eb  2026-02-23  fix(acceleration): address code-audit gaps — deviceInfo()... ║
     • 55513f505  2026-02-23  feat(acceleration): add CUDAMatrixBackend declaration and... ║
     • 0d9d8563c  2026-02-23  feat(acceleration): API stability for acceleration backen... ║
-    • 9724334d6  2026-02-23  feat(acceleration): add deterministic tie-breaking and pa... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            jwt_validator.h                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:41                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:05:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     199                                            ║
+    • Total Lines:     241                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 99fd7cbfb  2026-03-01  fix(auth): register missing OAuth 2.0/OIDC auth sources i... ║
-    • c8f827534  2026-02-23  feat(auth): add audit logging for all authentication even... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • c97360e57  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
+    • 3071a3bb7  2026-03-12  fix(auth): address JWT JTI reviewer feedback ║
+    • 6903f5910  2026-03-12  feat(auth): JWT JTI replay prevention warning (v1.2.0) ║
+    • fc7a85ac8  2026-03-12  fix(auth): address PR review - curl_multi_info_read, void... ║
+    • 57fef95c4  2026-03-12  feat(auth): async/non-blocking LDAP and HTTP authenticati... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

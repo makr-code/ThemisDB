@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_vllm_resource_stats.cpp                       ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:32:11                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     146                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 592b54382  2026-03-15  fix(scheduler,acceleration): remove stale TODOs, add VLLM... ║
+    • e627c556b  2026-03-15  feat(acceleration): BackendRegistry thread-safety, VLLMRe... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // =============================================================================
 // VLLMResourceManager::getStats() — CPU / RAM monitoring tests
 //

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            replication_manager.h                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:59                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:09:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1724                                           ║
+    • Total Lines:     2228                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • abe3d4c8a  2026-03-01  feat(replication): update file metadata headers for witne... ║
-    • 072dbcc55  2026-02-27  feat(replication): add witness node support for quorum in... ║
-    • 4fc982b0d  2026-02-25  feat(replication): implement compressed WAL shipping (Zst... ║
-    • 76c3f5b7b  2026-02-25  fix(replication): audit fixes – remove dead session code,... ║
+    • 42e48dbc3  2026-03-15  fix(replication): audit geo-replication – fix SESSION exp... ║
+    • 7cd7172d7  2026-03-14  feat(replication): add GeoReplicationManager with consist... ║
+    • 4a853813e  2026-03-13  fix(replication): audit fixes — honor bidirectional_sync/... ║
+    • 23a0696d1  2026-03-13  feat(replication): implement BidirectionalReplicationMana... ║
+    • 8db855354  2026-03-13  fix(replication): wire IArchivalBackend, fix empty-key by... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

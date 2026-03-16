@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            oauth_device_flow.cpp                              ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-03-09 03:57:12                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-03-16 04:13:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   96.0/100                                       ║
-    • Total Lines:     466                                            ║
+    • Total Lines:     513                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • fc7a85ac8  2026-03-12  fix(auth): address PR review - curl_multi_info_read, void... ║
+    • 57fef95c4  2026-03-12  feat(auth): async/non-blocking LDAP and HTTP authenticati... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 502a332ac  2026-02-24  Refactor modular build configuration, enhance error loggi... ║
     • 8bd556e18  2026-02-24  feat(auth): complete audit logging coverage for SAML, OAu... ║
-    • c19ab9056  2026-02-22  Implement OAuth 2.0 device authorization flow (RFC 8628) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

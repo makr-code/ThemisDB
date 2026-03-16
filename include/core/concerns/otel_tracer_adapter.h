@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            otel_tracer_adapter.h                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:25                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:06:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 522e9ae57  2026-02-24  feat(core): implement OTel tracer adapter flush() via Tra... ║
     • d78d1008b  2026-02-23  feat(core): OpenTelemetry trace and span propagation ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-    • 897f27e99  2026-02-21  feat(core): add OTel tracer adapter tests, fix constructo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

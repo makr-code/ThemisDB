@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            backend_registry.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:49                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:12:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     459                                            ║
+    • Total Lines:     509                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • e627c556b  2026-03-15  feat(acceleration): BackendRegistry thread-safety, VLLMRe... ║
+    • 6afb15844  2026-03-15  feat(acceleration): replace std::cout with structured log... ║
+    • 4b2fdfa0e  2026-03-11  fix(acceleration): Wire OpenGLVectorBackend into BackendR... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • f2fa0c5eb  2026-02-23  fix(acceleration): address code-audit gaps — deviceInfo()... ║
-    • 78597cb45  2026-02-23  feat(acceleration): add OpenCL backend header and registr... ║
-    • 55513f505  2026-02-23  feat(acceleration): add CUDAMatrixBackend declaration and... ║
-    • 33de0a38c  2026-02-23  fix(acceleration): add missing HIPGeoBackend — wire geo_k... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

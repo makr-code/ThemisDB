@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ingestion_manager.h                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:00                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:07:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1641                                           ║
+    • Quality Score:   97.0/100                                       ║
+    • Total Lines:     1947                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 478adf5f9  2026-02-28  security(ingestion): path traversal and API key storage a... ║
-    • 90813ef53  2026-02-28  feat(ingestion): Plugin API for third-party source connec... ║
-    • 16cb82276  2026-02-28  feat(ingestion): dynamic source reconfiguration without r... ║
-    • eda6e27de  2026-02-28  fix(ingestion): reject_invalid=false mode, schema_violati... ║
+    • a7cd4fa78  2026-03-11  feat(ingestion): LLM-driven semantic extraction pipeline ... ║
+    • 0762b7374  2026-03-11  feat(ingestion): add ca_bundle_path to RetryConfig for co... ║
+    • 1585d858e  2026-03-10  feat(ingestion): implement end-to-end ingestion lineage t... ║
+    • 5613cb3bf  2026-03-09  fix(ingestion): remove last write stub; add DocumentWrite... ║
+    • 25f69a572  2026-03-09  feat(ingestion): replace simulated HttpClient in HuggingF... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

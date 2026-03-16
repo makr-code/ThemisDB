@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_bandwidth_management_qos.cpp                  ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:22:57                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     591                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • ee630ecd9  2026-03-15  fix(network): audit gaps – cwnd enforcement in allowSend(... ║
+    • 99da4f4e4  2026-03-15  feat(network): implement Bandwidth Management and QoS (v1... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_bandwidth_management_qos.cpp
  * @brief Focused tests for Bandwidth Management and QoS (v1.8.0, Issue #190)

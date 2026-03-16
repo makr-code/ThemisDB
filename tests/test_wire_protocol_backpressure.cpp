@@ -1,4 +1,27 @@
 /*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_wire_protocol_backpressure.cpp                ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:32:29                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     343                                            ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 74b4817f7  2026-03-11  fix(network): prevent active_connection_count_ underflow ... ║
+    • f1feffbc0  2026-03-11  feat(network): TCP backlog management and backpressure ha... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
  * @file test_wire_protocol_backpressure.cpp
  * @brief Unit tests for TCP backlog management and backpressure handling in
  *        WireProtocolServer.

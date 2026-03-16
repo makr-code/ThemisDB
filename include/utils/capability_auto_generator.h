@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            capability_auto_generator.h                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:04                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:11:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     307                                            ║
+    • Total Lines:     340                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 283ba68aa  2026-03-15  fix(utils): code audit fixes for Issue #217 — persistStat... ║
+    • 6e6268857  2026-03-15  feat(utils): implement CapabilityAutoGenerator state pers... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

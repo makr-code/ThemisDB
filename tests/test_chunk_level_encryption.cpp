@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_chunk_level_encryption.cpp                    ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:23:35                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     561                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 16aed6bb0  2026-03-15  refactor: enhance modular build configuration and improve... ║
+    • c7373858e  2026-03-14  fix(timeseries): address all PR review comments on chunk-... ║
+    • e6b1e7c6d  2026-03-14  refactor(timeseries): address code review feedback on chu... ║
+    • a0ac59009  2026-03-14  feat(timeseries): implement chunk-level AES-256-GCM encry... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_chunk_level_encryption.cpp
  * @brief Unit tests for chunk-level AES-256-GCM encryption in TSStore.

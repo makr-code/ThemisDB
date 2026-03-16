@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_bench.cpp                                      ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:52:03                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:04:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   96.0/100                                       ║
-    • Total Lines:     711                                            ║
+    • Total Lines:     838                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • be24ea91f  2026-03-13  fix(llm): wire PolicyEngine::checkInferencePermission() i... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 5626526f4  2026-02-28  feat(llm): add tokens/sec and latency p99 performance ben... ║
     • f75117981  2026-02-28  feat(llm): speculative decoding for latency reduction - a... ║

@@ -4,14 +4,18 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            export_format_registry.h                           ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-03-10                                         ║
+  Last Modified:   2026-03-16 04:06:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     120                                            ║
+    • Total Lines:     164                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3d3659d8f  2026-03-11  feat(exporters): register format templates in ExportForma... ║
+    • 3db37eb45  2026-03-10  feat(exporters): implement EXP-001 PolicyEngine auth, EXP... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

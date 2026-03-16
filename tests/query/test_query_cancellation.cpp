@@ -4,14 +4,19 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_query_cancellation.cpp                        ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-03-09                                         ║
+  Last Modified:   2026-03-16 04:21:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     261                                            ║
+    • Total Lines:     297                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 6d9fa9a16  2026-03-12  Remove WordPress plugins/docs, update worker ║
+    • edcfeb984  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
+    • ab3b22a88  2026-03-09  feat(query): implement query cancellation via request ID ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

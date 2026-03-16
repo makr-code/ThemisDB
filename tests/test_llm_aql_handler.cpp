@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_llm_aql_handler.cpp                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:04:58                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:26:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     975                                            ║
+    • Total Lines:     1273                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • e7d6bc455  2026-03-13  feat(tests): add focused tests for consistent hash distri... ║
+    • f5c74c7e8  2026-03-13  fix(aql): add mock chat executor injection + AC#5 integra... ║
+    • dc13f3fdb  2026-03-13  feat(aql): implement post-generation AQL validation with ... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • c9bc220bd  2026-02-26  test(aql): add performance benchmarks and highlighter pat... ║
-    • b7a6c0b5b  2026-02-26  test(aql): add integration and injection tests for transl... ║
-    • 20b191f78  2026-02-22  Code audit and bugfix: fix LLMException propagation, miss... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

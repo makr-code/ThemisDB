@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            importer_interface.h                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:46                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:07:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     730                                            ║
+    • Total Lines:     867                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 8452353dc  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
+    • 3bbe81142  2026-03-11  feat(importers): MDM audit fixes – PostgreSQLImporterWith... ║
+    • b8ff944e1  2026-03-11  feat(importers): PostgreSQL importer v2.0 - Foreign Key P... ║
+    • e4aae2a7f  2026-03-11  feat(importers): PostgreSQL Importer v2.0 - FK preservati... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 8638d7889  2026-02-28  fix(importers): code audit fixes for schema validator PR ║
-    • 001179174  2026-02-27  feat(importers): schema auto-detection and validation on ... ║
-    • 47845c7e2  2026-02-27  audit: add S3 HTTP route, fix stub annotations, add API t... ║
-    • aeea5e199  2026-02-26  Add SQLite importer: header, implementation, tests, fixtu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

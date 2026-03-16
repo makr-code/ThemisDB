@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            policy_engine.cpp                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:17                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:14:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   91.0/100                                       ║
-    • Total Lines:     638                                            ║
+    • Total Lines:     703                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • f219a2915  2026-03-13  feat(llm): add PolicyEngine::checkInferencePermission() f... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • d2f3985dc  2026-02-27  fix(governance): simulateDecision routes through OPA; add... ║
     • 99dc8e3f4  2026-02-27  feat(governance): integrate OPA as alternative policy eva... ║
     • 8d2569bdd  2026-02-26  fix(governance): code audit – data race, maskFieldsArray ... ║
-    • ffc2b43f8  2026-02-26  feat(governance): automated data masking for sensitive fi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

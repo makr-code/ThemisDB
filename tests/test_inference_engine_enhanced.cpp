@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_inference_engine_enhanced.cpp                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:04:35                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:26:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     1032                                           ║
+    • Quality Score:   93.0/100                                       ║
+    • Total Lines:     1159                                           ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • c3fa68410  2026-03-11  fix(llm): audit pass 2 - fix generated_text, prompt-key c... ║
+    • 5f9187ff6  2026-03-11  feat(llm): implement KV-cache prewarming with embedding-b... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 23579d0c4  2026-02-28  feat(llm): implement per-model resource quotas (memory, c... ║
     • d581d7dd9  2026-02-26  test(llm): add concurrent and rapid-swap tests for hot-sw... ║
-    • 4987f75d3  2026-02-26  feat(llm): implement model hot-swap without engine restart ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

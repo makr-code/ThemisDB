@@ -3,20 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            oidc_provider.cpp                                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:57:14                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:13:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     312                                            ║
+    • Total Lines:     371                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • fc7a85ac8  2026-03-12  fix(auth): address PR review - curl_multi_info_read, void... ║
+    • 57fef95c4  2026-03-12  feat(auth): async/non-blocking LDAP and HTTP authenticati... ║
+    • 1470edf9b  2026-03-12  feat(auth): mandatory JWT issuer and audience validation ... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • b15aac1a6  2026-02-23  fix(auth): audit fixes – createDeviceFlow lazy-discover, ... ║
-    • 97765fc24  2026-02-23  feat(auth): implement OIDCProvider for JWT/OIDC federated... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_tiered_storage.cpp                            ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:31:36                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     446                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 8c4c0d594  2026-03-13  fix(storage): address review feedback on size-based migra... ║
+    • 066bfcbb2  2026-03-12  feat(storage): add size-based migration policy to TieredS... ║
+    • e561df7fd  2026-03-09  fix(storage): address second code review - read validatio... ║
+    • bea3655f5  2026-03-09  fix(storage): address code review comments - path travers... ║
+    • 492304352  2026-03-09  feat(storage): add GCS blob backend, tiered storage, and ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include <cstdint>
 

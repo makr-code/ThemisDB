@@ -3,8 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            relationship_mapper.h                              ║
-  Version:         2.1.0                                              ║
-  Last Modified:   2026-03-11                                         ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:07:14                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     400                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 9a33042e6  2026-03-11  fix(importers): update version headers to 2.1.0 per code ... ║
+    • 8cf8f1d12  2026-03-11  feat(importers): v2.1 - additional constraint types, rela... ║
+    • 17cc3c607  2026-03-11  fix(importers): address code review findings - regex incl... ║
+    • e4aae2a7f  2026-03-11  feat(importers): PostgreSQL Importer v2.0 - FK preservati... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

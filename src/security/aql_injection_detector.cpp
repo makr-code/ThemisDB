@@ -3,17 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_injection_detector.cpp                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:58                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:18:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     364                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     553                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 43a91f179  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
+    • 7cbf9c7b9  2026-03-12  fix(security): apply reviewer feedback on AQL AST-level v... ║
+    • eb75d79f5  2026-03-12  feat(security): implement AQL AST-level injection validat... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

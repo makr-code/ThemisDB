@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_adaptive_shard_rebalancer.cpp                 ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:22:17                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     460                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • e80b3d54b  2026-03-14  feat(sharding): integrate PredictiveFailureDetector into ... ║
+    • 226748f4e  2026-03-14  fix(sharding): address code review feedback on adaptive s... ║
+    • 33f9fb777  2026-03-14  feat(sharding): implement adaptive shard rebalancer with ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_adaptive_shard_rebalancer.cpp
  * @brief Unit tests for the Adaptive Shard Rebalancer with Load-Based Splitting

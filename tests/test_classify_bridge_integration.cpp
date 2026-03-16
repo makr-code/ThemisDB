@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_classify_bridge_integration.cpp               ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:23:37                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   88.0/100                                       ║
+    • Total Lines:     241                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 8                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3da4977c8  2026-03-14  fix(aql): address classify-bridge PR review comments ║
+    • f62f9c89c  2026-03-14  feat(aql): wire detectIntentWithNativeNLP() to IClassifyF... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_classify_bridge_integration.cpp
  * @brief Integration tests for the IClassifyFn / AQLFunctionClassifyBridge wiring.

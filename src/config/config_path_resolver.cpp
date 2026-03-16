@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_path_resolver.cpp                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:57:48                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:14:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1765                                           ║
+    • Total Lines:     1827                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b801c6da3  2026-02-28  feat(config): reject symlinks outside config root for abs... ║
-    • 45d150cff  2026-02-28  feat(config): complete METADATA_TABLE entries for all 60+... ║
-    • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
-    • ff8381053  2026-02-25  audit: add range validation, currentCacheConfig(), README... ║
+    • 1e2b358f1  2026-03-15  feat(config): SIGHUP hot-reload inotify/kqueue/ReadDirect... ║
+    • 65d0f5d77  2026-03-14  fix(config): consolidate env-var cache helpers into anony... ║
+    • 7a9e3ad1c  2026-03-14  fix: polish config metrics initialization ║
+    • 985dc57d9  2026-03-14  fix: harden config metrics exporter compatibility ║
+    • c74d69b89  2026-03-13  Changes before error encountered         ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

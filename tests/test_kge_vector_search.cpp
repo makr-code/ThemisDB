@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_kge_vector_search.cpp                         ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:26:40                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   93.0/100                                       ║
+    • Total Lines:     285                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 5                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 26e49f8ba  2026-03-11  fix: wire include_guidance in enrichSample; expose findRe... ║
+    • 1e735e3bd  2026-03-11  docs(test): update test_kge_vector_search @file comment t... ║
+    • b060c0cbc  2026-03-11  fix(training): guard findSimilarDocuments against max_res... ║
+    • c5396a31a  2026-03-11  feat(training): wire findSimilarDocuments to VectorIndexM... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 ThemisDB Contributors
 

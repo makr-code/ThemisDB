@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_path_resolver.h                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:57:49                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:14:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     411                                            ║
+    • Total Lines:     474                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 1e2b358f1  2026-03-15  feat(config): SIGHUP hot-reload inotify/kqueue/ReadDirect... ║
+    • c74d69b89  2026-03-13  Changes before error encountered         ║
+    • 967f3dafa  2026-03-13  chore: polish config metrics exporter    ║
+    • 535cee36d  2026-03-13  feat: export config metrics via Prometheus registry ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
-    • ff8381053  2026-02-25  audit: add range validation, currentCacheConfig(), README... ║
-    • 672b2e814  2026-02-25  audit(config): fix all code-audit gaps for issue #1668 - ... ║
-    • f5ecdcef5  2026-02-24  feat(config): add multi-environment config overlay for de... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

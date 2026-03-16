@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auth_middleware.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:08                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:18:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
-    • Total Lines:     484                                            ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     556                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 592b54382  2026-03-15  fix(scheduler,acceleration): remove stale TODOs, add VLLM... ║
+    • c97360e57  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
+    • c21f255d8  2026-03-12  fix(auth): address review feedback on JWT issuer/audience... ║
+    • 1470edf9b  2026-03-12  feat(auth): mandatory JWT issuer and audience validation ... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
-    • ce63cc36d  2026-02-24  feat(auth): integrate ApiKeyAuthenticator into AuthMiddle... ║
-    • 5cc90b16b  2026-02-24  feat(auth): implement mTLS certificate-based authentication ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

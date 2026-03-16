@@ -3,15 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_file_watcher.h                              ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-03-15                                         ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:14:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     ~150                                           ║
+    • Total Lines:     157                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 1e2b358f1  2026-03-15  feat(config): SIGHUP hot-reload inotify/kqueue/ReadDirect... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_backend_registry_startup.cpp                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:02:31                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:22:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     261                                            ║
+    • Total Lines:     342                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • e627c556b  2026-03-15  feat(acceleration): BackendRegistry thread-safety, VLLMRe... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 7db1b389d  2026-02-23  feat(acceleration): add initializeRuntime() for capabilit... ║
 ╠═════════════════════════════════════════════════════════════════════╣

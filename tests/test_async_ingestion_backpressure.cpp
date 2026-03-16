@@ -4,8 +4,20 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_async_ingestion_backpressure.cpp              ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-03-11                                         ║
+  Last Modified:   2026-03-16 04:22:44                                ║
   Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     516                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • ba22b5bb2  2026-03-13  fix(backpressure): stabilize overload metrics test and al... ║
+    • 517f27fd7  2026-03-11  feat(content): Add back-pressure metrics for ingestStream... ║
+    • 738fd4557  2026-03-11  fix(content): audit fixes for back-pressure implementatio... ║
+    • fd07379dd  2026-03-11  feat(content): implement back-pressure in async_ingestion... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
