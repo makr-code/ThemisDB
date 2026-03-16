@@ -31,6 +31,7 @@
 #include <memory>
 #include <unordered_map>
 #include <mutex>
+#include <shared_mutex>
 #include <functional>
 
 namespace themis {
@@ -318,7 +319,7 @@ private:
 
     // Registered shards: shard_id -> executor
     std::unordered_map<std::string, std::shared_ptr<ShardGraphExecutor>> shards_;
-    mutable std::mutex shards_mutex_;
+    mutable std::shared_mutex shards_mutex_;
 
     /// Collect all healthy shard executors (snapshot under lock).
     std::vector<std::pair<std::string, std::shared_ptr<ShardGraphExecutor>>>
