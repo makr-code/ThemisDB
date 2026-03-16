@@ -24,6 +24,7 @@
 #include "config/config_encrypted_store.h"
 
 #include <algorithm>
+#include <atomic>
 #include <string>
 #include <thread>
 #include <vector>
@@ -380,6 +381,39 @@ TEST_F(ConfigEncryptedStoreTest, ConcurrentRotationIsThreadSafe) {
             store_->get(k); // must not throw
         }
     });
+}
+
+TEST_F(ConfigEncryptedStoreTest, ConcurrentReadersDoNotBlockEachOther) {
+    // Populate a key to read.
+    store_->set("shared_key", "shared_value");
+
+    constexpr int kReaders = 16;
+    std::vector<std::thread> threads;
+    threads.reserve(kReaders);
+    std::atomic<bool> start_flag{false};
+    std::atomic<int> readers_done{0};
+
+    for (int t = 0; t < kReaders; ++t) {
+        threads.emplace_back([&]() {
+            while (!start_flag.load(std::memory_order_acquire)) {
+                std::this_thread::yield();
+            }
+            EXPECT_EQ(store_->get("shared_key"), "shared_value");
+            EXPECT_TRUE(store_->contains("shared_key"));
+            EXPECT_GE(store_->size(), 1u);
+            readers_done.fetch_add(1, std::memory_order_relaxed);
+        });
+    }
+
+    start_flag.store(true, std::memory_order_release);
+
+    for (auto& th : threads) {
+        th.join();
+    }
+
+    // All readers must have completed successfully.
+    EXPECT_EQ(readers_done.load(), kReaders);
+    EXPECT_EQ(store_->get("shared_key"), "shared_value");
 }
 
 } // namespace test
