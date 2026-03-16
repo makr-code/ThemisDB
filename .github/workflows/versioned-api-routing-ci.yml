@@ -63,6 +63,9 @@ jobs:
   #   AC-VAR-13  AsyncJobApiHandler: DELETE /v2/jobs/{id} cancels a job
   #   AC-VAR-14  GET /v2/query/stream returns 400 when 'q' param missing
   #   AC-VAR-15  GET /v2/query/stream returns text/event-stream Content-Type
+  #   AC-VAR-16  Bulk insert of 10,000 x 256-byte docs in < 500 ms
+  #   AC-VAR-17  SSE first-byte latency < 5 ms after query planning completes
+  #   AC-VAR-18  AsyncJobApiHandler persists completed job in AdaptiveQueryCache (TTL=1h)
   # ---------------------------------------------------------------------------
   versioned-api-routing-tests:
     needs: ci-scope-classifier

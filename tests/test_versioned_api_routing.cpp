@@ -18,6 +18,9 @@
  *   AC-VAR-13 AsyncJobApiHandler: DELETE /v2/jobs/{id} cancels a job
  *   AC-VAR-14 GET /v2/query/stream returns 400 when 'q' parameter is missing
  *   AC-VAR-15 GET /v2/query/stream returns text/event-stream Content-Type
+ *   AC-VAR-16 Bulk insert of 10,000 × 256-byte documents completes in < 500 ms
+ *   AC-VAR-17 SSE first-byte latency < 5 ms after query planning completes
+ *   AC-VAR-18 AsyncJobApiHandler persists completed job state in AdaptiveQueryCache
  */
 
 #include <gtest/gtest.h>
@@ -41,6 +44,7 @@
 
 // Headers for AsyncJobApiHandler
 #include "server/async_job_api_handler.h"
+#include "cache/adaptive_query_cache.h"
 
 #include <nlohmann/json.hpp>
 #include <boost/beast/http.hpp>
@@ -595,4 +599,48 @@ TEST_F(QueryStreamSseAcTest, AC17_SseFirstByteLatency_Under5ms) {
     auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count();
     EXPECT_LT(elapsed_us, 5000)
         << "SSE first-byte latency was " << elapsed_us << " µs (limit: 5000 µs / 5 ms)";
+}
+
+// ============================================================================
+// AC-VAR-18  AsyncJobApiHandler persists completed job state in AdaptiveQueryCache
+//
+// The handler creates an internal AdaptiveQueryCache (TTL=1h) when none is
+// supplied.  After a job reaches COMPLETED state the cache must contain a
+// cached entry whose `result` JSON includes the "job_id" field so that the
+// entry can be identified as belonging to that job.
+// ============================================================================
+
+TEST(AsyncJobApiHandlerAC, AC18_CompletedJobPersistedInAdaptiveCache) {
+    // Provide a dedicated cache so we can inspect it after the job finishes.
+    cache::AdaptiveQueryCache::Config cfg;
+    cfg.l1_ttl_seconds = 3600;
+    cfg.l2_ttl_seconds = 3600;
+    cfg.l3_ttl_seconds = 3600;
+    auto result_cache = std::make_shared<cache::AdaptiveQueryCache>(cfg);
+
+    AsyncJobApiHandler handler{syncExecutor, nullptr, nullptr, result_cache};
+
+    // Submit a job and collect its ID.
+    auto submit_resp = handler.handleSubmit(
+        makeSubmitReq({{"query", "FOR x IN col RETURN x"}}));
+    ASSERT_EQ(submit_resp.result(), http::status::accepted);
+    auto submit_j = json::parse(submit_resp.body());
+    std::string job_id = submit_j["job_id"].get<std::string>();
+
+    // Poll until the job is completed (max 2 s).
+    for (int i = 0; i < 20; ++i) {
+        auto status_resp = handler.handleGetStatus(makeStatusReq(job_id));
+        auto sj = json::parse(status_resp.body());
+        if (sj["status"].get<std::string>() == "completed") break;
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+
+    // The cache must contain an entry keyed by the job ID.
+    auto entry = result_cache->get(job_id, "async_jobs");
+    ASSERT_TRUE(entry.has_value())
+        << "AdaptiveQueryCache should contain the completed job entry for " << job_id;
+    EXPECT_TRUE(entry->result.contains("job_id"))
+        << "Cached entry result must include 'job_id'";
+    EXPECT_EQ(entry->result["job_id"].get<std::string>(), job_id);
+    EXPECT_EQ(entry->result["status"].get<std::string>(), "completed");
 }

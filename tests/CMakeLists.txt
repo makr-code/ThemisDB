@@ -15921,6 +15921,9 @@ endif()
 # AC-VAR-10     AsyncJobRegistry default TTL = 1 h (3600 s)
 # AC-VAR-11..13 AsyncJobApiHandler: submit 202, status poll, cancel
 # AC-VAR-14..15 GET /v2/query/stream: missing-q 400, text/event-stream CT
+# AC-VAR-16     Bulk insert of 10,000 x 256-byte docs in < 500 ms
+# AC-VAR-17     SSE first-byte latency < 5 ms
+# AC-VAR-18     AsyncJobApiHandler persists completed job in AdaptiveQueryCache
 # ---------------------------------------------------------------------------
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_versioned_api_routing.cpp")
     message(STATUS "Adding Versioned API Routing focused tests (server, v1.8.0)")
