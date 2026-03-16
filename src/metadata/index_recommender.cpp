@@ -24,6 +24,7 @@
 // Copyright (c) 2026 ThemisDB Contributors
 
 #include "metadata/index_recommender.h"
+#include "storage/rocksdb_wrapper.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <set>
@@ -57,6 +58,35 @@ json IndexRecommendation::toJSON() const {
         {"benefit_score", benefit_score},
         {"rationale",     rationale},
     };
+}
+
+// ============================================================================
+// IndexRecommender – constructors / destructor
+// ============================================================================
+
+IndexRecommender::IndexRecommender(
+    RocksDBWrapper* db,
+    std::chrono::milliseconds persist_interval)
+    : db_(db), persist_interval_(persist_interval)
+{
+    loadStats();
+
+    if (db_ && persist_interval_.count() > 0) {
+        stop_persist_.store(false);
+        persist_thread_ = std::thread([this] { persistLoop_(); });
+        spdlog::debug("IndexRecommender: background persist thread started (interval={}ms)",
+                      persist_interval_.count());
+    }
+}
+
+IndexRecommender::~IndexRecommender() {
+    stop_persist_.store(true);
+    persist_cv_.notify_all();
+    if (persist_thread_.joinable()) {
+        persist_thread_.join();
+    }
+    // Final flush on graceful shutdown
+    persistStats();
 }
 
 // ============================================================================
@@ -193,9 +223,27 @@ std::vector<ColumnAccess> IndexRecommender::getAccessStats(std::string_view tabl
 }
 
 void IndexRecommender::reset() {
-    std::lock_guard<std::mutex> lock(mutex_);
-    stats_.clear();
-    total_queries_.store(0);
+    std::vector<std::string> table_names_to_delete;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        for (const auto& [tn, _] : stats_) {
+            table_names_to_delete.push_back(tn);
+        }
+        stats_.clear();
+        total_queries_.store(0);
+    }
+
+    // Remove persisted keys for all cleared tables
+    if (db_) {
+        for (const auto& tn : table_names_to_delete) {
+            std::string key = "meta_idx_stats::" + tn;
+            db_->del(key);
+        }
+        // Also remove the total_queries key
+        db_->del("meta_idx_stats::__total_queries__");
+        spdlog::debug("IndexRecommender: cleared {} persisted table(s) from RocksDB",
+                      table_names_to_delete.size());
+    }
 }
 
 json IndexRecommender::toJSON() const {
@@ -215,6 +263,136 @@ json IndexRecommender::toJSON() const {
 // ============================================================================
 // Private helpers
 // ============================================================================
+
+void IndexRecommender::persistStats() {
+    if (!db_) return;
+
+    // Snapshot stats under the lock, then write outside the lock
+    std::map<std::string, std::map<std::string, ColumnAccess>> snapshot;
+    uint64_t total_q = 0;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        snapshot  = stats_;
+        total_q   = total_queries_.load();
+    }
+
+    try {
+        for (const auto& [table_name, cols] : snapshot) {
+            json arr = json::array();
+            for (const auto& [_, ca] : cols) {
+                arr.push_back(ca.toJSON());
+            }
+            std::string key   = "meta_idx_stats::" + table_name;
+            std::string value = arr.dump();
+            if (!db_->put(key, value)) {
+                spdlog::warn("IndexRecommender: failed to persist stats for table '{}'",
+                             table_name);
+            }
+        }
+
+        // Persist total_queries separately so it survives across restarts
+        std::string tq_key   = "meta_idx_stats::__total_queries__";
+        std::string tq_value = std::to_string(total_q);
+        if (!db_->put(tq_key, tq_value)) {
+            spdlog::warn("IndexRecommender: failed to persist total_queries");
+        }
+
+        spdlog::debug("IndexRecommender: persisted stats for {} table(s) to RocksDB",
+                      snapshot.size());
+    } catch (const std::exception& e) {
+        spdlog::error("IndexRecommender: exception during persistStats: {}", e.what());
+    }
+}
+
+void IndexRecommender::loadStats() {
+    if (!db_) return;
+
+    static constexpr std::string_view PREFIX = "meta_idx_stats::";
+
+    std::string start_key(PREFIX);
+    std::string end_key = start_key;
+    end_key.back()++;  // "meta_idx_stats::" → "meta_idx_stats:;"
+
+    std::vector<std::pair<std::string, std::string>> corrupt_entries;
+
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        db_->iterateRange(start_key, end_key,
+            [&](std::string_view key, std::string_view value) -> bool {
+                if (key.size() <= PREFIX.size()) return true;
+                std::string table_name(key.substr(PREFIX.size()));
+
+                // Skip the total_queries pseudo-table
+                if (table_name == "__total_queries__") {
+                    try {
+                        uint64_t tq = std::stoull(std::string(value));
+                        total_queries_.store(tq);
+                    } catch (const std::exception& e) {
+                        corrupt_entries.emplace_back(table_name, e.what());
+                    }
+                    return true;
+                }
+
+                try {
+                    auto arr = json::parse(value);
+                    if (!arr.is_array()) return true;
+
+                    for (const auto& item : arr) {
+                        ColumnAccess ca;
+                        ca.table_name      = item.value("table_name",      table_name);
+                        ca.column_name     = item.value("column_name",     std::string{});
+                        ca.filter_count    = item.value("filter_count",    uint64_t{0});
+                        ca.sort_count      = item.value("sort_count",      uint64_t{0});
+                        ca.avg_selectivity = item.value("avg_selectivity", 1.0);
+
+                        if (ca.column_name.empty()) continue;
+
+                        // Merge: accumulated counts from persisted state + any in-memory
+                        auto& slot = stats_[table_name][ca.column_name];
+                        if (slot.filter_count == 0 && slot.sort_count == 0) {
+                            // First time seeing this column — adopt persisted values
+                            slot = ca;
+                        } else {
+                            // Column already has in-memory activity; accumulate counts
+                            // and update the running average selectivity
+                            uint64_t combined = slot.filter_count + ca.filter_count;
+                            if (combined > 0) {
+                                slot.avg_selectivity =
+                                    (slot.avg_selectivity * static_cast<double>(slot.filter_count) +
+                                     ca.avg_selectivity  * static_cast<double>(ca.filter_count))
+                                    / static_cast<double>(combined);
+                            }
+                            slot.filter_count += ca.filter_count;
+                            slot.sort_count   += ca.sort_count;
+                            if (slot.table_name.empty())  slot.table_name  = table_name;
+                            if (slot.column_name.empty()) slot.column_name = ca.column_name;
+                        }
+                    }
+                } catch (const std::exception& e) {
+                    corrupt_entries.emplace_back(table_name, e.what());
+                }
+                return true;
+            });
+    }
+
+    for (const auto& [tname, err] : corrupt_entries) {
+        spdlog::warn("IndexRecommender: skipping corrupted stats entry for '{}': {}",
+                     tname, err);
+    }
+
+    spdlog::debug("IndexRecommender: loaded persisted stats for {} table(s)",
+                  stats_.size());
+}
+
+void IndexRecommender::persistLoop_() {
+    while (!stop_persist_.load()) {
+        std::unique_lock<std::mutex> lk(persist_mutex_);
+        persist_cv_.wait_for(lk, persist_interval_,
+                             [this] { return stop_persist_.load(); });
+        if (stop_persist_.load()) break;
+        persistStats();
+    }
+}
 
 double IndexRecommender::computeBenefit(const ColumnAccess& ca) const {
     uint64_t total = total_queries_.load();
