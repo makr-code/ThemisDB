@@ -1401,3 +1401,13 @@ extern "C" {
         delete plugin;
     }
 }
+
+// ============================================================================
+// IImporterPluginRegistry – static-init self-registration
+// ============================================================================
+//
+// Registers MySQLImporterSchemePlugin with ImporterSchemeRegistry at program
+// startup so that IImporterPluginRegistry::instance().resolve("mysql://…")
+// and resolve("mariadb://…") return this plugin without any manual wiring.
+
+REGISTER_IMPORTER_PLUGIN(themis::importers::MySQLImporterSchemePlugin)

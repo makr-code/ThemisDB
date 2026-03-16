@@ -27,6 +27,7 @@
 #pragma once
 
 #include "importers/importer_interface.h"
+#include "importers/importer_interfaces.h"
 #ifdef THEMIS_ENABLE_POSTGRES_WIRE
 #include "importers/postgres_importer.h"
 #endif
@@ -57,6 +58,13 @@ namespace server {
  * ------
  * POST   /api/v1/import/postgresql
  *   Body (JSON): { "source_path": "...", "options": { ... } }
+ *   Response: { "job_id": "...", "status": "running", ... }
+ *
+ * POST   /api/v1/import/mysql
+ *   Body (JSON): { "source_path": "...", "options": { ... } }
+ *   Imports a MySQL/MariaDB mysqldump file.  The handler resolves the MySQL
+ *   importer via IImporterPluginRegistry (requires MySQLImporterSchemePlugin
+ *   to be registered at static-init time in mysql_importer.cpp).
  *   Response: { "job_id": "...", "status": "running", ... }
  *
  * POST   /api/v1/import/s3
@@ -129,6 +137,7 @@ public:
 private:
     // Route handlers
     void handleStartImport      (const httplib::Request& req, httplib::Response& res);
+    void handleStartMySQLImport (const httplib::Request& req, httplib::Response& res);
     void handleStartS3Import    (const httplib::Request& req, httplib::Response& res);
     void handleJobStatus        (const httplib::Request& req, httplib::Response& res);
     void handleCancelJob        (const httplib::Request& req, httplib::Response& res);

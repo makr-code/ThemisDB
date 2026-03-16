@@ -26,6 +26,7 @@
 #pragma once
 
 #include "importers/importer_interface.h"
+#include "importers/importer_interfaces.h"
 #include "plugins/plugin_interface.h"
 #include <atomic>
 #include <cstdint>
@@ -181,6 +182,39 @@ public:
 
 private:
     std::unique_ptr<MySQLImporter> importer_;
+};
+
+} // namespace importers
+} // namespace themis
+
+/**
+ * @brief URI-scheme plugin registering MySQLImporter with ImporterSchemeRegistry.
+ *
+ * Handles "mysql://" and "mariadb://" source URIs.  Registered at static-init
+ * time via REGISTER_IMPORTER_PLUGIN so that the process-wide
+ * IImporterPluginRegistry::instance() can resolve MySQL/MariaDB sources
+ * without any manual wiring.
+ *
+ * The admin import API route POST /api/v1/import/mysql uses this plugin to
+ * create a fresh MySQLImporter for each request.
+ */
+namespace themis {
+namespace importers {
+
+class MySQLImporterSchemePlugin : public IImporterPlugin {
+public:
+    const char* pluginId() const override { return "mysql_plugin"; }
+
+    std::vector<std::string> supportedSchemes() const override {
+        return {"mysql", "mariadb"};
+    }
+
+    std::unique_ptr<IImporter> createImporter(
+            const ImportConfig& config) const override {
+        auto imp = std::make_unique<MySQLImporter>();
+        imp->initialize(config.json_config.empty() ? "{}" : config.json_config);
+        return imp;
+    }
 };
 
 } // namespace importers
