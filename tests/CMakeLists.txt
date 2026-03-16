@@ -11221,6 +11221,7 @@ set(EXPORTER_CORE_SOURCES
     ${CMAKE_SOURCE_DIR}/src/exporters/data_augmentation.cpp
     ${CMAKE_SOURCE_DIR}/src/exporters/export_format_registry.cpp
     ${CMAKE_SOURCE_DIR}/src/exporters/huggingface_hub_client.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/join_exporter.cpp
 )
 
 # Helper function to create an exporters focused test executable.
@@ -11362,7 +11363,15 @@ add_exporter_focused_test(
     "exporters;huggingface;hub;upload;libcurl;focused;unit"
     "HuggingFaceHubClient: token resolution, repo create, retry logic, error surfacing"
 )
-# Cache Interfaces Tests (Issue: #1596 — unit test coverage >80%)
+
+add_exporter_focused_test(
+    test_join_exporter_focused
+    exporters/test_join_exporter.cpp
+    JoinExporterFocusedTests
+    "exporters;join;hash-join;pii;focused;unit"
+    "JoinExporter: cross-collection hash-join, output-field aliasing, PII redaction, memory budget, throughput"
+)
+ (Issue: #1596 — unit test coverage >80%)
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_interfaces.cpp")
