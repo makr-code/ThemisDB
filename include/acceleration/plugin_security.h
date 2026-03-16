@@ -94,6 +94,9 @@ struct PluginSecurityPolicy {
     // Check certificate revocation (CRL/OCSP)
     bool checkRevocation = true;
     
+    // Timeout for CRL/OCSP network requests in seconds (default: 5)
+    int revocation_timeout_seconds = 5;
+    
     // Minimum trust level required
     PluginTrustLevel minTrustLevel = PluginTrustLevel::TRUSTED;
     

@@ -7419,6 +7419,40 @@ else()
     message(STATUS "Plugin Security Implementation focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_security_implementation.cpp")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_security_crl_ocsp.cpp")
+    message(STATUS "Adding Plugin Security CRL/OCSP revocation tests")
+
+    add_executable(test_plugin_security_crl_ocsp_focused
+        test_plugin_security_crl_ocsp.cpp
+    )
+
+    target_include_directories(test_plugin_security_crl_ocsp_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_security_crl_ocsp_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    target_compile_definitions(test_plugin_security_crl_ocsp_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginSecurityCRLOCSPTests COMMAND test_plugin_security_crl_ocsp_focused)
+
+    set_tests_properties(PluginSecurityCRLOCSPTests PROPERTIES
+        LABELS "plugins;security;crl;ocsp;revocation;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PluginSecurityCRLOCSP: CRL fetch+parse, OCSP request/response, revocation cache, PE cert extraction")
+else()
+    message(STATUS "Plugin Security CRL/OCSP tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_security_crl_ocsp.cpp")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_marketplace_manifest.cpp")
     message(STATUS "Adding Plugin Marketplace Manifest focused tests")
 
