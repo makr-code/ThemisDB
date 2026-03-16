@@ -1826,6 +1826,39 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_distributed.cpp")
         TIMEOUT 120
     )
 
+    # Focused target for the shared_mutex upgrade concurrency stress test.
+    add_executable(test_graph_distributed_shared_mutex_focused
+        test_graph_distributed.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/path_constraints.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/distributed_graph.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/parallel_traversal.cpp
+    )
+
+    target_link_libraries(test_graph_distributed_shared_mutex_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graph_distributed_shared_mutex_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    add_test(NAME DistributedGraphSharedMutexFocusedTests
+             COMMAND test_graph_distributed_shared_mutex_focused
+                     --gtest_filter=DistributedGraphSharedMutexStressTest.*)
+
+    set_tests_properties(DistributedGraphSharedMutexFocusedTests PROPERTIES
+        LABELS "graph;distributed;shared_mutex;concurrency;focused;unit"
+        TIMEOUT 60
+    )
+
     message(STATUS "  Distributed Graph: shard-aware query execution, BFS/Dijkstra fan-out, plan generation")
 else()
     message(STATUS "Distributed Graph tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_distributed.cpp")
