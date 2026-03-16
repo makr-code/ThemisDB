@@ -1,0 +1,28 @@
+# ThemisDB AsyncIngestionWorker Configuration
+#
+# This file is loaded by AsyncIngestionWorker::loadSourcesFromConfig() when
+# called with "config/content/async_worker.yaml" (the default worker config).
+#
+# Keys:
+#   worker_threads   - Number of parallel worker threads (default: 2)
+#   queue_depth      - Back-pressure threshold; callers block above this (default: 1000)
+#   batch_size       - Items processed per plugin batch pass (default: 64)
+#   retry_attempts   - Max retries on transient plugin failures (default: 3)
+#   sources          - Optional list of IngestionSource entries to auto-submit
+#
+# Version: 1.0
+# Author:  ThemisDB Team
+
+worker_threads: 2
+queue_depth: 1000
+batch_size: 64
+retry_attempts: 3
+
+# sources:
+#   - source_id: example_hf
+#     plugin_name: huggingface
+#     type: HUGGINGFACE
+#     location: org/dataset
+#     priority: 5
+#     incremental: true
+#     user_context: ""
