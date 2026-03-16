@@ -39,6 +39,12 @@
 namespace themis {
 
 class RocksDBWrapper;
+class StatisticsCollector;
+struct TableStats;
+
+namespace observability {
+class MetricsCollector;
+} // namespace observability
 
 using json = nlohmann::json;
 
@@ -166,6 +172,21 @@ public:
     /// No-op when no RocksDB instance was provided at construction.
     void persistStats();
 
+    /// Attach a StatisticsCollector to enable cost-model benefit scoring.
+    /// When set, `recommend()` uses StatisticsCollector cardinality and
+    /// selectivity data together with a write-amplification penalty to produce
+    /// more accurate benefit scores than the simple heuristic model.
+    /// Pass nullptr to revert to the heuristic model.
+    /// The pointed-to instance MUST outlive this IndexRecommender.
+    void setStatisticsCollector(StatisticsCollector* collector);
+
+    /// Attach a MetricsCollector for emitting recommendation telemetry.
+    /// When set, each call to `recommend()` increments the counter
+    /// `metadata.index_recommendation.generated_total` labelled with the
+    /// table name.  Pass nullptr to stop emitting metrics.
+    /// The pointed-to instance MUST outlive this IndexRecommender.
+    void setMetricsCollector(observability::MetricsCollector* metrics);
+
 private:
     // ========================================================================
     // Internal helpers
@@ -173,6 +194,11 @@ private:
 
     /// Compute the benefit score for a ColumnAccess record.
     double computeBenefit(const ColumnAccess& ca) const;
+
+    /// Compute the benefit score using StatisticsCollector data (cost-model).
+    /// Uses StatisticsCollector column selectivity for a more accurate estimate
+    /// and applies a write-amplification penalty based on table row count.
+    double computeCostModelBenefit(const ColumnAccess& ca, const TableStats& tbl_stats) const;
 
     /// Load access stats from RocksDB into stats_ (called once in constructor).
     void loadStats();
@@ -188,6 +214,10 @@ private:
     std::mutex           persist_mutex_;               ///< Protects condition variable
     std::condition_variable persist_cv_;
     std::thread          persist_thread_;
+
+    // ─── Cost-model + metrics ────────────────────────────────────────────────
+    StatisticsCollector*               stats_collector_{nullptr}; ///< Optional, for cost-model scoring
+    observability::MetricsCollector*   metrics_collector_{nullptr}; ///< Optional, for telemetry
 
     // ─── Access stats ────────────────────────────────────────────────────────
     // table_name -> (column_name -> ColumnAccess)

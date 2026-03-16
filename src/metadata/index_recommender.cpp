@@ -24,9 +24,12 @@
 // Copyright (c) 2026 ThemisDB Contributors
 
 #include "metadata/index_recommender.h"
+#include "metadata/statistics_collector.h"
+#include "observability/metrics_collector.h"
 #include "storage/rocksdb_wrapper.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
+#include <cmath>
 #include <set>
 
 namespace themis {
@@ -93,6 +96,14 @@ IndexRecommender::~IndexRecommender() {
 // IndexRecommender – public API
 // ============================================================================
 
+void IndexRecommender::setStatisticsCollector(StatisticsCollector* collector) {
+    stats_collector_ = collector;
+}
+
+void IndexRecommender::setMetricsCollector(observability::MetricsCollector* metrics) {
+    metrics_collector_ = metrics;
+}
+
 void IndexRecommender::recordAccess(
     std::string_view table_name,
     std::string_view column_name,
@@ -141,8 +152,21 @@ std::vector<IndexRecommendation> IndexRecommender::recommend(
     // Build a set of currently indexed columns for fast lookup
     std::set<std::string> indexed_set(existing_indexes.begin(), existing_indexes.end());
 
+    // Optionally fetch table statistics for the cost-model benefit formula.
+    const TableStats* tbl_stats_ptr = nullptr;
+    std::optional<TableStats> fetched_stats;
+    if (stats_collector_) {
+        auto result = stats_collector_->getStats(table_name);
+        if (result.ok) {
+            fetched_stats = std::move(result.value);
+            tbl_stats_ptr = &fetched_stats.value();
+        }
+    }
+
     for (const auto& [col_name, ca] : t_it->second) {
-        double score = computeBenefit(ca);
+        double score = tbl_stats_ptr
+                        ? computeCostModelBenefit(ca, *tbl_stats_ptr)
+                        : computeBenefit(ca);
         bool   is_indexed = (indexed_set.count(col_name) > 0);
 
         if (!is_indexed && score >= kAddThreshold) {
@@ -180,6 +204,14 @@ std::vector<IndexRecommendation> IndexRecommender::recommend(
     std::sort(recs.begin(), recs.end(), [](const auto& a, const auto& b) {
         return a.benefit_score > b.benefit_score;
     });
+
+    // Emit recommendation telemetry counter if a MetricsCollector is attached.
+    if (metrics_collector_) {
+        metrics_collector_->addCounter(
+            "metadata.index_recommendation.generated_total",
+            1,
+            {{"table", std::string(table_name)}});
+    }
 
     return recs;
 }
@@ -412,6 +444,51 @@ double IndexRecommender::computeBenefit(const ColumnAccess& ca) const {
     // Normalise by total queries so high-traffic tables don't dominate over time
     double score = (weighted_accesses * (1.0 + selectivity_bonus) * 100.0)
                     / static_cast<double>(total);
+
+    return std::min(score, 100.0);
+}
+
+double IndexRecommender::computeCostModelBenefit(
+    const ColumnAccess& ca,
+    const TableStats&   tbl_stats) const
+{
+    uint64_t total = total_queries_.load();
+    if (total == 0 || (ca.filter_count == 0 && ca.sort_count == 0)) {
+        return 0.0;
+    }
+
+    // 1) Access frequency — same weighting as the heuristic model.
+    double weighted_accesses =
+        static_cast<double>(ca.filter_count) * 2.0 +
+        static_cast<double>(ca.sort_count)   * 1.0;
+
+    // 2) Selectivity from StatisticsCollector column stats (more precise than
+    //    the running-average avg_selectivity tracked at query time).
+    double col_selectivity = ca.avg_selectivity;  // fallback to tracked value
+    auto col_it = tbl_stats.column_stats.find(ca.column_name);
+    if (col_it != tbl_stats.column_stats.end()) {
+        col_selectivity = col_it->second.selectivity;
+    }
+    // selectivity_bonus: 1 when very selective (0 rows returned per predicate),
+    // 0 when not selective (all rows match); index is more beneficial on
+    // selective columns.
+    double selectivity_bonus = 1.0 - std::clamp(col_selectivity, 0.0, 1.0);
+
+    // 3) Write-amplification penalty: each write must also update the index.
+    //    Penalty grows logarithmically with table row count, capped at 20%.
+    //    Empty tables incur no penalty; a 10 M-row table has ~20% reduction.
+    double write_amplification = 0.0;
+    if (tbl_stats.row_count > 0) {
+        // log10(1) = 0, log10(10 000 000) = 7 → normalise to [0, 1] at 10 M rows
+        write_amplification =
+            std::min(1.0, std::log10(1.0 + static_cast<double>(tbl_stats.row_count)) / 7.0)
+            * 0.20;
+    }
+
+    // Raw score (0–100) then reduced by the write-amplification factor.
+    double raw_score = (weighted_accesses * (1.0 + selectivity_bonus) * 100.0)
+                       / static_cast<double>(total);
+    double score = raw_score * (1.0 - write_amplification);
 
     return std::min(score, 100.0);
 }

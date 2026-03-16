@@ -12138,7 +12138,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_index_recommender.cpp")
         LABELS "metadata;index;recommendation;query-patterns;advisor;persistence;unit"
         TIMEOUT 60
     )
-    message(STATUS "  IndexRecommender: query-pattern analysis, usage tracking, missing index detection, cost-benefit, RocksDB persistence")
+    message(STATUS "  IndexRecommender: query-pattern analysis, usage tracking, missing index detection, cost-benefit, RocksDB persistence, cost-model scoring, metric emission")
 endif()
 
 # Metadata – DistributedMetadataCatalog focused tests

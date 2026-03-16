@@ -49,8 +49,8 @@
 **Implementation Notes:**
 - `[x]` Persist `stats_` snapshots to RocksDB under key prefix `meta_idx_stats::` on a configurable interval (default 5 min) or on graceful shutdown.
 - `[x]` On `IndexRecommender` construction, load the persisted stats snapshot; merge with any post-restart activity.
-- `[ ]` Replace the threshold-based heuristic in `recommend()` (line 122) with a cost-model estimate: use `StatisticsCollector` cardinality/selectivity to estimate index benefit vs. write amplification.
-- `[ ]` Emit `metadata.index_recommendation.generated_total` metric per recommendation cycle.
+- `[x]` Replace the threshold-based heuristic in `recommend()` (line 122) with a cost-model estimate: use `StatisticsCollector` cardinality/selectivity to estimate index benefit vs. write amplification.
+- `[x]` Emit `metadata.index_recommendation.generated_total` metric per recommendation cycle.
 
 ---
 
