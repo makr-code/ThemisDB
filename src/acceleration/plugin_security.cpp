@@ -1596,8 +1596,9 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(
             }
 
             // Advance to next record, padded to an 8-byte boundary.
-            uint32_t padded = (win_cert_len + 7u) & ~7u;
-            if (padded == 0u || padded < win_cert_len) break;  // overflow guard
+            // Guard against uint32_t overflow before rounding up.
+            if (win_cert_len > 0xFFFFFFF8u) break;
+            const uint32_t padded = (win_cert_len + 7u) & ~7u;
             tbl_pos += padded;
         }
 

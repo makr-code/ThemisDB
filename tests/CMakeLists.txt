@@ -7535,7 +7535,6 @@ else()
     message(STATUS "Plugin Security PE Cert Extraction tests not found")
 endif()
 
-
     message(STATUS "Adding Plugin Marketplace Manifest focused tests")
 
     add_executable(test_plugin_marketplace_manifest_focused

@@ -8,7 +8,7 @@
   Fixture-based tests for EnhancedPluginSecurityVerifier::            ║
   extractEmbeddedCertificate() via the THEMIS_TEST_BUILD accessor.    ║
   Covers PE certificate-table iteration and ELF sidecar extraction.   ║
-  (Issue #129, v1.8.0 milestone)                                      ║
+  (Issue #3960, v1.8.0 milestone)                                     ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
