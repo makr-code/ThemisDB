@@ -46,11 +46,25 @@
 #include <mutex>
 #include <vector>
 
+#ifdef _WIN32
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#include <BaseTsd.h>
+#ifndef THEMIS_SSIZE_T_DEFINED
+typedef SSIZE_T ssize_t;
+#define THEMIS_SSIZE_T_DEFINED
+#endif
+struct iovec {
+    void* iov_base;
+    size_t iov_len;
+};
+#else
 #include <netinet/in.h>
 #include <netinet/tcp.h>
 #include <sys/socket.h>
 #include <sys/uio.h>
 #include <unistd.h>
+#endif
 
 namespace themis {
 namespace network {

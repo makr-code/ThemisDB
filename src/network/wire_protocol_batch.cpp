@@ -19,8 +19,27 @@
 #include <cerrno>
 #include <cstring>
 
+#ifdef _WIN32
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#endif
+
 namespace themis {
 namespace network {
+
+namespace {
+
+inline int setSockOptInt(int fd, int level, int optname, const int* value) {
+#ifdef _WIN32
+    return ::setsockopt(static_cast<SOCKET>(fd), level, optname,
+                        reinterpret_cast<const char*>(value),
+                        static_cast<int>(sizeof(*value)));
+#else
+    return ::setsockopt(fd, level, optname, value, sizeof(*value));
+#endif
+}
+
+} // anonymous namespace
 
 // =============================================================================
 // NagleController
@@ -38,12 +57,11 @@ bool NagleController::setMode(Mode mode) noexcept {
     switch (mode) {
     case Mode::NODELAY: {
         // Enable TCP_NODELAY, disable TCP_CORK.
-        if (::setsockopt(fd_, IPPROTO_TCP, TCP_NODELAY,
-                         &on, sizeof(on)) != 0) return false;
+        if (setSockOptInt(fd_, IPPROTO_TCP, TCP_NODELAY, &on) != 0) return false;
 #ifdef TCP_CORK
-        ::setsockopt(fd_, IPPROTO_TCP, TCP_CORK, &off, sizeof(off));
+        setSockOptInt(fd_, IPPROTO_TCP, TCP_CORK, &off);
 #elif defined(TCP_NOPUSH)
-        ::setsockopt(fd_, IPPROTO_TCP, TCP_NOPUSH, &off, sizeof(off));
+        setSockOptInt(fd_, IPPROTO_TCP, TCP_NOPUSH, &off);
 #endif
         mode_ = Mode::NODELAY;
         return true;
@@ -51,13 +69,11 @@ bool NagleController::setMode(Mode mode) noexcept {
 
     case Mode::CORK: {
         // Disable TCP_NODELAY, enable TCP_CORK/TCP_NOPUSH.
-        ::setsockopt(fd_, IPPROTO_TCP, TCP_NODELAY, &off, sizeof(off));
+        setSockOptInt(fd_, IPPROTO_TCP, TCP_NODELAY, &off);
 #ifdef TCP_CORK
-        if (::setsockopt(fd_, IPPROTO_TCP, TCP_CORK,
-                         &on, sizeof(on)) != 0) return false;
+        if (setSockOptInt(fd_, IPPROTO_TCP, TCP_CORK, &on) != 0) return false;
 #elif defined(TCP_NOPUSH)
-        if (::setsockopt(fd_, IPPROTO_TCP, TCP_NOPUSH,
-                         &on, sizeof(on)) != 0) return false;
+        if (setSockOptInt(fd_, IPPROTO_TCP, TCP_NOPUSH, &on) != 0) return false;
 #else
         // Platform has neither TCP_CORK nor TCP_NOPUSH; cork is a no-op.
         (void)on;
@@ -69,11 +85,11 @@ bool NagleController::setMode(Mode mode) noexcept {
 
     case Mode::DEFAULT: {
         // Clear both flags.
-        ::setsockopt(fd_, IPPROTO_TCP, TCP_NODELAY, &off, sizeof(off));
+        setSockOptInt(fd_, IPPROTO_TCP, TCP_NODELAY, &off);
 #ifdef TCP_CORK
-        ::setsockopt(fd_, IPPROTO_TCP, TCP_CORK, &off, sizeof(off));
+        setSockOptInt(fd_, IPPROTO_TCP, TCP_CORK, &off);
 #elif defined(TCP_NOPUSH)
-        ::setsockopt(fd_, IPPROTO_TCP, TCP_NOPUSH, &off, sizeof(off));
+        setSockOptInt(fd_, IPPROTO_TCP, TCP_NOPUSH, &off);
 #endif
         mode_ = Mode::DEFAULT;
         return true;
@@ -90,10 +106,10 @@ bool NagleController::uncork() noexcept {
     // data held in the kernel's send buffer.
     int off = 0;
 #ifdef TCP_CORK
-    if (::setsockopt(fd_, IPPROTO_TCP, TCP_CORK, &off, sizeof(off)) != 0)
+    if (setSockOptInt(fd_, IPPROTO_TCP, TCP_CORK, &off) != 0)
         return false;
 #elif defined(TCP_NOPUSH)
-    if (::setsockopt(fd_, IPPROTO_TCP, TCP_NOPUSH, &off, sizeof(off)) != 0)
+    if (setSockOptInt(fd_, IPPROTO_TCP, TCP_NOPUSH, &off) != 0)
         return false;
 #else
     // Platform has neither TCP_CORK nor TCP_NOPUSH; cork/uncork is a no-op.
@@ -143,7 +159,21 @@ bool WireProtocolBatcher::add(const void* data, size_t size) {
 ssize_t WireProtocolBatcher::flush() {
     if (iov_count_ == 0) return 0;
 
-    const ssize_t written = ::writev(fd_, iov_, static_cast<int>(iov_count_));
+    ssize_t written = -1;
+#ifdef _WIN32
+    WSABUF bufs[MAX_IOV];
+    for (size_t i = 0; i < iov_count_; ++i) {
+        bufs[i].buf = reinterpret_cast<char*>(iov_[i].iov_base);
+        bufs[i].len = static_cast<ULONG>(iov_[i].iov_len);
+    }
+    DWORD sent = 0;
+    if (::WSASend(static_cast<SOCKET>(fd_), bufs, static_cast<DWORD>(iov_count_),
+                  &sent, 0, nullptr, nullptr) == 0) {
+        written = static_cast<ssize_t>(sent);
+    }
+#else
+    written = ::writev(fd_, iov_, static_cast<int>(iov_count_));
+#endif
 
     if (written >= 0) {
         ++stats_.batches_flushed;

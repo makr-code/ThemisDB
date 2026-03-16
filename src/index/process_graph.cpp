@@ -160,8 +160,9 @@ ProcessGraphVisitLog deserializeVisitTimestamps(const std::string& s) {
             for (const auto& [node, val] : obj.items()) {
                 if (val.is_number_integer()) {
                     int64_t ns = val.get<int64_t>();
-                    log[node] = std::chrono::system_clock::time_point{
-                        std::chrono::nanoseconds{ns}};
+                    const auto dur = std::chrono::duration_cast<std::chrono::system_clock::duration>(
+                        std::chrono::nanoseconds{ns});
+                    log[node] = std::chrono::system_clock::time_point{dur};
                 }
             }
         }

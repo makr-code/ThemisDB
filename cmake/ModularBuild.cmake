@@ -144,6 +144,7 @@ set(THEMIS_BASE_SOURCES
     ../src/utils/timestamp_utils.cpp
     ../src/observability/metrics_collector.cpp
     ../src/config/config_path_resolver.cpp
+    ../src/config/config_file_watcher.cpp
     ../src/config/config_metrics_exporter.cpp
     ../src/config/config_schema_validator.cpp
     ../src/config/config_audit_log.cpp
@@ -254,6 +255,8 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/batch_write_optimizer.cpp
     # ../src/storage/pitr_manager.cpp  # Temporarily disabled - needs transaction module
     ../src/storage/blob_redundancy_manager.cpp
+    ../src/storage/erasure_coding_backend.cpp
+    ../src/storage/erasure_coder_factory.cpp
     ../src/storage/database_connection_manager.cpp
     ../src/storage/disk_space_monitor.cpp
     # WAL for durability and crash recovery
@@ -1214,6 +1217,7 @@ set(THEMIS_INGESTION_SOURCES
     ../src/ingestion/api_connector.cpp
     ../src/ingestion/huggingface_connector.cpp
     ../src/ingestion/kafka_connector.cpp
+    ../src/ingestion/s3_connector.cpp
     ../src/ingestion/object_storage_connector.cpp
     ../src/ingestion/database_connector.cpp
     ../src/ingestion/web_crawler_connector.cpp
@@ -1224,7 +1228,7 @@ set(THEMIS_INGESTION_SOURCES
     ../src/ingestion/deontic_extractor.cpp
     ../src/ingestion/semantic_validator.cpp
     ../src/ingestion/agentic_reference_validator.cpp
-    ../src/ingestion/llm_adapter.cpp
+    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/ingestion/llm_adapter.cpp>
 )
 
 set(THEMIS_NETWORK_SOURCES
@@ -1562,6 +1566,12 @@ function(themis_build_modular)
     if(TARGET CURL::libcurl)
         list(APPEND _themis_base_deps CURL::libcurl)
     endif()
+    if(TARGET prometheus-cpp::core)
+        list(APPEND _themis_base_deps prometheus-cpp::core)
+    endif()
+    if(TARGET prometheus-cpp::pull)
+        list(APPEND _themis_base_deps prometheus-cpp::pull)
+    endif()
     if(TARGET libzip::zip)
         list(APPEND _themis_base_deps libzip::zip)
         list(APPEND _themis_base_compile_defs THEMIS_HAVE_LIBZIP)
@@ -1611,6 +1621,11 @@ function(themis_build_modular)
         OpenSSL::SSL
         OpenSSL::Crypto
     )
+        # Ensure pugixml is found before checking for its targets
+        # (this module may be included before find_package(pugixml) is called in CMakeLists.txt)
+        if(NOT TARGET pugixml::shared AND NOT TARGET pugixml::pugixml)
+            find_package(pugixml CONFIG QUIET)
+        endif()
     if(TARGET TBB::tbb)
         list(APPEND _themis_security_deps TBB::tbb)
     endif()
@@ -1911,9 +1926,16 @@ function(themis_build_modular)
     endif()
 
     # Ingestion module (always included – covers all connector types)
+    set(_themis_ingestion_deps
+        themis_base
+        themis_storage
+    )
+    if(THEMIS_MODULE_LLM)
+        list(APPEND _themis_ingestion_deps themis_llm)
+    endif()
     themis_add_module(ingestion
         SOURCES ${THEMIS_INGESTION_SOURCES}
-        DEPENDENCIES themis_base themis_storage
+        DEPENDENCIES ${_themis_ingestion_deps}
     )
 
     # Cross-module fixups for modular build
