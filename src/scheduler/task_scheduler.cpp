@@ -38,6 +38,7 @@
 #include "utils/cron_parser.h"
 #include "cdc/changefeed.h"
 #include "storage/rocksdb_wrapper.h"
+#include "themis/base/module_sandbox.h"
 #include <sstream>
 #include <fstream>
 #include <iomanip>
@@ -118,14 +119,14 @@ static constexpr const char* DEFAULT_AUDIT_IP = "localhost";
 
 // Helper function to set audit context from thread-local RequestContext
 static void setDefaultAuditContext(scheduler::TaskAuditEvent& event) {
-    event.user_id   = TaskScheduler::currentUserId(DEFAULT_AUDIT_USER);
-    const auto ip   = TaskScheduler::currentClientIp();
+    event.user_id    = TaskScheduler::currentUserId(DEFAULT_AUDIT_USER);
+    const auto ip    = TaskScheduler::currentClientIp();
     event.ip_address = ip.empty() ? DEFAULT_AUDIT_IP : ip;
 }
 
 static void setDefaultAuditContext(scheduler::TaskSecurityEvent& event) {
-    event.user_id   = TaskScheduler::currentUserId(DEFAULT_AUDIT_USER);
-    const auto ip   = TaskScheduler::currentClientIp();
+    event.user_id    = TaskScheduler::currentUserId(DEFAULT_AUDIT_USER);
+    const auto ip    = TaskScheduler::currentClientIp();
     event.ip_address = ip.empty() ? DEFAULT_AUDIT_IP : ip;
 }
 
@@ -495,7 +496,7 @@ std::string TaskScheduler::registerTask(const ScheduledTask& task) {
         event.event_type = scheduler::TaskEventType::TASK_REGISTERED;
         event.trigger_type = getTriggerTypeString(sanitized_task.trigger_type);
         event.success = true;
-        setDefaultAuditContext(event);  // reads thread-local RequestContext (see setRequestContext())
+        setDefaultAuditContext(event);
         event.metadata["cron_expression"] = sanitized_task.cron_expression;
         event.metadata["interval_ms"] = sanitized_task.interval.count();
         
@@ -536,7 +537,7 @@ void TaskScheduler::unregisterTask(const std::string& task_id) {
             audit_logger_->logTaskSchedulerEvent(
                 utils::SecurityEventType::TASK_UNREGISTERED,
                 task_id,
-                TaskScheduler::currentUserId(), // propagated from thread-local RequestContext
+                TaskScheduler::currentUserId(DEFAULT_AUDIT_USER),
                 details
             );
         }
@@ -566,7 +567,7 @@ void TaskScheduler::enableTask(const std::string& task_id) {
             audit_logger_->logTaskSchedulerEvent(
                 utils::SecurityEventType::TASK_ENABLED,
                 task_id,
-                TaskScheduler::currentUserId(), // propagated from thread-local RequestContext
+                TaskScheduler::currentUserId(DEFAULT_AUDIT_USER),
                 details
             );
         }
@@ -594,7 +595,7 @@ void TaskScheduler::disableTask(const std::string& task_id) {
             audit_logger_->logTaskSchedulerEvent(
                 utils::SecurityEventType::TASK_DISABLED,
                 task_id,
-                TaskScheduler::currentUserId(), // propagated from thread-local RequestContext
+                TaskScheduler::currentUserId(DEFAULT_AUDIT_USER),
                 details
             );
         }
@@ -674,7 +675,7 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
         audit_logger_->logTaskSchedulerEvent(
             utils::SecurityEventType::TASK_MANUAL_TRIGGERED,
             task_id,
-            TaskScheduler::currentUserId(), // propagated from thread-local RequestContext
+            TaskScheduler::currentUserId(DEFAULT_AUDIT_USER),
             details
         );
     }
@@ -1187,9 +1188,6 @@ void TaskScheduler::registerFunction(const std::string& name, TaskFunction func)
     //                  name, auth_context ? auth_context->user_id : "unknown");
     //     throw std::runtime_error("Unauthorized: Only system administrators can register functions");
     // }
-    
-    // TODO: Consider sandboxing function execution in future versions
-    // Functions should run with limited privileges and resource constraints
     
     std::lock_guard<std::mutex> lock(tasks_mutex_);
     functions_[name] = func;
@@ -1785,6 +1783,19 @@ nlohmann::json TaskScheduler::executeFunction(const std::string& name, const nlo
     auto it = functions_.find(name);
     if (it == functions_.end()) {
         throw std::runtime_error("Function not found: " + name);
+    }
+
+    if (config_.sandbox_execution) {
+        modules::ModuleSandbox::Config sandbox_cfg;
+        modules::ModuleSandbox sandbox(sandbox_cfg);
+        if (!sandbox.launch(name)) {
+            THEMIS_WARN("Sandbox launch failed for function '{}': {}; executing without sandbox",
+                        name, sandbox.lastError());
+            return it->second(params);
+        }
+        auto result = it->second(params);
+        sandbox.shutdown();
+        return result;
     }
     
     return it->second(params);

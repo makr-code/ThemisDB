@@ -335,6 +335,9 @@ public:
         size_t max_concurrent_tasks_ceil   = 16;    ///< Maximum worker slots (ceiling for scaling)
         size_t scale_up_queue_depth        = 2;     ///< Pending tasks threshold to trigger scale-up
         size_t scale_down_idle_ticks       = 3;     ///< Consecutive idle ticks before scale-down
+
+        // Sandboxed execution
+        bool sandbox_execution = false; ///< When true, wrap user-provided task functions in ModuleSandbox
     };
 
     /**
@@ -346,6 +349,15 @@ public:
      * than the system account.
      *
      * Example usage (HTTP handler):
+     * @code
+     * TaskScheduler::setRequestContext({auth_result.user_id, client_ip});
+     * scheduler.registerTask(task);
+     * TaskScheduler::clearRequestContext();
+     * @endcode
+     */
+    struct RequestContext {
+        std::string user_id;   ///< Authenticated user identifier
+        std::string client_ip; ///< Client IP address
      * ```cpp
      * TaskScheduler::setRequestContext({auth_result.user_id, client_ip});
      * scheduler.registerTask(task);
@@ -363,6 +375,14 @@ public:
     static void setRequestContext(const RequestContext& ctx) noexcept;
 
     /// Clear the authentication context for the calling thread.
+    static void clearRequestContext() noexcept;
+
+    /// Return the user ID from the thread-local request context, or @p fallback.
+    static std::string currentUserId(const char* fallback = "system") noexcept;
+
+    /// Return the client IP from the thread-local request context (empty if not set).
+    static std::string currentClientIp() noexcept;
+
     /// Should be called after the scheduler operation completes to prevent
     /// context leak to subsequent tasks that run on the same thread.
     static void clearRequestContext() noexcept;

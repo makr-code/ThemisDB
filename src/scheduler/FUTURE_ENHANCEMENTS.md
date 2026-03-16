@@ -43,6 +43,8 @@ For detailed feature descriptions and API proposals, see:
 **Target Version:** v1.8.0
 **Status:** ✅ Implemented
 
+`task_scheduler.cpp` had several TODOs for user context propagation — audit events hardcoded `"system"` as the actor instead of the actual requesting user.
+
 **Implementation Notes:**
 - `[x]` Added `TaskScheduler::RequestContext` struct (`user_id`, `client_ip`) to `include/scheduler/task_scheduler.h`.
 - `[x]` Implemented `static setRequestContext(ctx)`, `clearRequestContext()`, `currentUserId(fallback)`, `currentClientIp()` using `thread_local TLSRequestContext` in `src/scheduler/task_scheduler.cpp`.
