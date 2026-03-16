@@ -94,11 +94,11 @@ blocking work.  While `windows_mutex_` is held, no other thread can add events, 
 windows, or read window state.
 
 **Implementation Notes:**
-- `[ ]` In `timerLoop()`, snapshot the callbacks and their arguments under the lock (copy event vectors and timestamps), release `windows_mutex_`, then invoke callbacks on the snapshot — identical to the copy-and-dispatch idiom
-- `[ ]` Introduce a `WindowCallbackBatch` value type that carries `(events_copy, start, now)` to make snapshots cheap via move semantics
-- `[ ]` Apply the same pattern to `closeWindow()` callers that invoke user callbacks while holding partition locks in `cep_engine.cpp` lines 428–440
-- `[ ]` `metricsLoop()` (line 2403) uses bare `std::this_thread::sleep_for(config_.metrics_interval)` — replace with a `condition_variable::wait_for` so the thread wakes immediately on `running_ = false`; current implementation can delay engine shutdown by one full `metrics_interval`
-- `[ ]` Add a regression test that calls `CEPEngine::stop()` and asserts it returns within 100 ms regardless of `metrics_interval` value
+- `[x]` In `timerLoop()`, snapshot the callbacks and their arguments under the lock (copy event vectors and timestamps), release `windows_mutex_`, then invoke callbacks on the snapshot — identical to the copy-and-dispatch idiom
+- `[x]` Introduce a `WindowCallbackBatch` value type that carries `(events_copy, start, now)` to make snapshots cheap via move semantics
+- `[x]` Apply the same pattern to `closeWindow()` callers that invoke user callbacks while holding partition locks in `cep_engine.cpp` lines 428–440
+- `[x]` `metricsLoop()` (line 2403) uses bare `std::this_thread::sleep_for(config_.metrics_interval)` — replace with a `condition_variable::wait_for` so the thread wakes immediately on `running_ = false`; current implementation can delay engine shutdown by one full `metrics_interval`
+- `[x]` Add a regression test that calls `CEPEngine::stop()` and asserts it returns within 100 ms regardless of `metrics_interval` value
 
 **Performance Targets:**
 - `CEPEngine::stop()` must return within ≤ 100 ms on all background threads

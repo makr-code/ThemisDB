@@ -671,6 +671,16 @@ public:
     };
     Stats getStats() const;
 
+    /**
+     * Carries a snapshot of window data for deferred callback dispatch.
+     * Events are moved in to avoid copies when closing windows.
+     */
+    struct WindowCallbackBatch {
+        std::vector<Event> events;
+        std::chrono::system_clock::time_point start;
+        std::chrono::system_clock::time_point end;
+    };
+
 private:
     WindowConfig config_;
     WindowCallback callback_;
@@ -703,7 +713,9 @@ private:
     std::mutex timer_mutex_;
     
     void timerLoop();
-    void closeWindow(Window& window);
+    // Marks window closed and returns a batch for deferred dispatch (lock must
+    // be held by caller; callback is NOT invoked here).
+    std::optional<WindowCallbackBatch> closeWindow(Window& window);
     void handleTumblingWindow(const Event& event);
     void handleSlidingWindow(const Event& event);
     void handleSessionWindow(const Event& event);
@@ -1123,6 +1135,9 @@ private:
     std::thread metrics_thread_;
     std::condition_variable cv_;
     std::mutex mutex_;
+    // Used by metricsLoop() to wake immediately when running_ becomes false.
+    std::condition_variable metrics_cv_;
+    std::mutex metrics_mutex_;
     
     // Processing
     std::queue<std::pair<std::string, Event>> event_queue_;
