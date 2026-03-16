@@ -27,7 +27,7 @@
  *  AC-2  SortMergeJoin dispatch  – results match hash-join for the same input
  *  AC-3  Aggregate operators     – SUM / COUNT / MIN / MAX / AVG verified
  *  AC-4  Filter operator         – all comparison operators verified
- *  AC-5  Sort operator           – ascending and descending ordering
+ *  AC-5  Sort operator           – ascending ordering, row preservation
  *  AC-6  PatternMatch            – prefix, suffix, contains, exact
  *  AC-7  VectorOp (dot product)  – numeric correctness
  *  AC-8  can_accelerate          – true for all supported op types, false for Unknown
@@ -370,6 +370,34 @@ TEST(HardwareAcceleratorFocusedTests, FilterNotEqualOp) {
     auto r = accel.execute(op);
     ASSERT_TRUE(r.ok);
     EXPECT_EQ(r.rows.size(), 4u);  // 1, 2, 4, 5
+}
+
+TEST(HardwareAcceleratorFocusedTests, FilterLessThanOp) {
+    HardwareAccelerator accel;
+    QueryOperator op;
+    op.op_type      = OperatorType::Filter;
+    op.filter_col   = 0;
+    op.filter_value = 3;
+    op.filter_op    = "<";
+    for (uint64_t v : {1u, 2u, 3u, 4u, 5u}) op.rows.push_back({v});
+
+    auto r = accel.execute(op);
+    ASSERT_TRUE(r.ok);
+    EXPECT_EQ(r.rows.size(), 2u);  // 1, 2
+}
+
+TEST(HardwareAcceleratorFocusedTests, FilterGreaterThanOrEqualOp) {
+    HardwareAccelerator accel;
+    QueryOperator op;
+    op.op_type      = OperatorType::Filter;
+    op.filter_col   = 0;
+    op.filter_value = 3;
+    op.filter_op    = ">=";
+    for (uint64_t v : {1u, 2u, 3u, 4u, 5u}) op.rows.push_back({v});
+
+    auto r = accel.execute(op);
+    ASSERT_TRUE(r.ok);
+    EXPECT_EQ(r.rows.size(), 3u);  // 3, 4, 5
 }
 
 // ─── AC-5: Sort operator ──────────────────────────────────────────────────────
