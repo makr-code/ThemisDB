@@ -11371,7 +11371,6 @@ add_exporter_focused_test(
     "exporters;join;hash-join;pii;focused;unit"
     "JoinExporter: cross-collection hash-join, output-field aliasing, PII redaction, memory budget, throughput"
 )
- (Issue: #1596 — unit test coverage >80%)
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_interfaces.cpp")
