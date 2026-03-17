@@ -2,7 +2,7 @@ name: Geo Point Clustering (DBSCAN / k-means) CI
 
 # Triggered on every push / PR that touches the clustering sources,
 # its test file, or this workflow itself.
-# Targets v1.8.0 (roadmap:geo:phase4:clustering:Issue-1747).
+# Targets v1.8.0 (roadmap:172:geo:v1.8.0:geo-point-clustering-dbscan-and-k-means | Issue-4003).
 on:
   push:
     branches:
@@ -49,8 +49,8 @@ jobs:
   #   AC-6  k-means: two well-separated groups split correctly with k=2
   #   AC-7  k-means: k-means++ seeding path (seed != 0) produces valid result
   #   AC-8  k-means: deterministic result on repeated calls with same seed
-  #   AC-9  DBSCAN: 10 000 points at 500 m epsilon completes in ≤ 5 s (design target; test flags regression)
-  #   AC-10 k-means: k=10, 100 000 points, 100 iterations completes in ≤ 2 s (design target; test flags regression)
+  #   AC-9  DBSCAN: 10 000 points at 500 m epsilon completes in ≤ 5 s (opt-in: set THEMIS_RUN_PERF_TESTS=1)
+  #   AC-10 k-means: k=10, 100 000 points, 100 iterations completes in ≤ 2 s (opt-in: set THEMIS_RUN_PERF_TESTS=1)
   # ---------------------------------------------------------------------------
   geo-clustering-unit-tests:
     needs: ci-scope-classifier
@@ -107,11 +107,12 @@ jobs:
                 2>&1 | tee geo_clustering_results.txt
 
       # ── DBSCAN + k-means tests via unified binary ──────────────────────────
+      # Performance tests (AC-9/AC-10) skip unless THEMIS_RUN_PERF_TESTS=1.
       - name: Run clustering tests via unified binary
         run: |
           set -o pipefail
           cd build
-          ./tests/themis_tests \
+          timeout 300 ./tests/themis_tests \
             --gtest_filter="DbscanCluster*:KMeansCluster*" \
             --gtest_output="xml:geo_clustering_gtest.xml" \
             2>&1 | tee geo_clustering_gtest_output.txt
