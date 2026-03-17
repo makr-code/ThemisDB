@@ -426,10 +426,10 @@ key maps, scratch arrays in `ColumnarAggregator::execute()`, `CEPEngine::workerL
 event copies) causes frequent heap allocations in the hot path.
 
 **Implementation Notes:**
-- `[ ]` Introduce `AnalyticsMemoryPool` (arena allocator, initial size 64 MB) in `src/analytics/detail/memory_pool.h` with `allocate(size, align)` and `reset()` — no individual free, reset per query
-- `[ ]` Wire pool into `OLAPEngine::Impl` and `ColumnarAggregator` so intermediate group-key strings and `AggState` maps allocate from the pool; `pool_.reset()` at the start of each `execute()` call
-- `[ ]` For `CEPEngine`, use a lock-free ring buffer (SPSC if single producer, MPSC if multi) for the event queue rather than `std::queue<std::pair<string,Event>>` — eliminates per-event `std::string` copy for the stream_id
-- `[ ]` Ensure the pool is not shared across threads; each `OLAPEngine::Impl` thread gets its own pool or uses thread-local storage
+- `[x]` Introduce `AnalyticsMemoryPool` (arena allocator, initial size 64 MB) in `src/analytics/detail/memory_pool.h` with `allocate(size, align)` and `reset()` — no individual free, reset per query
+- `[x]` Wire pool into `OLAPEngine::Impl` and `ColumnarAggregator` so intermediate group-key strings and `AggState` maps allocate from the pool; `pool_.reset()` at the start of each `execute()` call
+- `[x]` For `CEPEngine`, use a lock-free ring buffer (SPSC if single producer, MPSC if multi) for the event queue rather than `std::queue<std::pair<string,Event>>` — eliminates per-event `std::string` copy for the stream_id
+- `[x]` Ensure the pool is not shared across threads; each `OLAPEngine::Impl` thread gets its own pool or uses thread-local storage
 
 **Performance Targets:**
 - Allocation overhead in `OLAPEngine::execute()`: ≤ 5 % of total query time (currently estimated 15–30 % for GROUP BY with many groups)
@@ -482,7 +482,7 @@ capabilities needed for production deployments.
 ### Phase 1 — Design / API Contracts (2026 Q3)
 - `[ ]` Define `IFormatExporter` hierarchy and finalize `ExporterFactory` dispatch API (section 1)
 - `[ ]` Draft `LRUCache<K,V>` utility header in `src/analytics/detail/lru_cache.h` (sections 7, 17)
-- `[ ]` Define `AnalyticsMemoryPool` API (section 15)
+- `[x]` Define `AnalyticsMemoryPool` API (section 15)
 - `[ ]` Add `session_expiry_check_interval_ms` / `global_window_emit_interval_ms` to `WindowConfig` (section 13)
 - `[ ]` Add `max_cache_entries` to `LLMConfig` (section 7)
 
@@ -510,7 +510,7 @@ capabilities needed for production deployments.
 
 ### Phase 5 — Performance / Hardening (2027 Q2)
 - `[ ]` AVX-512 and ARM NEON kernels with CI parity assertions (section 14)
-- `[ ]` `AnalyticsMemoryPool` integration in OLAP and columnar execution (section 15)
+- `[x]` `AnalyticsMemoryPool` integration in OLAP and columnar execution (section 15)
 - `[ ]` `computePercentile` pass-by-value elimination (section 11)
 - `[ ]` Zero-copy Arrow IPC export (section 17)
 - `[ ]` Forecasting batch prediction and streaming update API (section 16)

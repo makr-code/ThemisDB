@@ -6068,6 +6068,42 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_cep_engine.cpp")
     message(STATUS "  CEPEngine: NFA patterns, EPL parser, window+aggregation, alerts, checkpoint I/O")
 endif()
 
+# Analytics Memory Pool focused tests (AC-AMP-1..15)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_analytics_memory_pool.cpp")
+    message(STATUS "Adding focused analytics memory pool tests")
+
+    add_executable(test_analytics_memory_pool_focused
+        analytics/test_analytics_memory_pool.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/columnar_execution.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/cep_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/olap.cpp
+    )
+
+    target_include_directories(test_analytics_memory_pool_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_analytics_memory_pool_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_analytics_memory_pool_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AnalyticsMemoryPoolFocusedTests COMMAND test_analytics_memory_pool_focused)
+
+    set_tests_properties(AnalyticsMemoryPoolFocusedTests PROPERTIES
+        LABELS "analytics;memory-pool;ring-buffer;arena;focused;unit"
+        TIMEOUT 180
+    )
+
+    message(STATUS "  AnalyticsMemoryPool: arena allocator, MPMC ring buffer, OLAP/columnar/CEP integration")
+endif()
+
 # Arrow Export focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_arrow_export.cpp")
     message(STATUS "Adding focused Arrow export tests")
