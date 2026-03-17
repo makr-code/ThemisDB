@@ -171,7 +171,7 @@ All source code modules now have corresponding documentation directories for Ger
 | Document | Description |
 |----------|-------------|
 | [Changelog](releases/CHANGELOG.md) | Version history and changes |
-| [Roadmap](roadmap/ROADMAP.md) | Future plans and features |
+| [Roadmap](roadmap/roadmap_overview.md) | Future plans and features |
 | [v1.8.0 Release](releases/RELEASE_NOTES_v1.8.0.md) | Latest release notes |
 | [v1.7.0 Release](releases/RELEASE_NOTES_v1.7.0.md) | Previous release |
 | [v1.5.0 Release](releases/RELEASE_NOTES_v1.5.0.md) | Previous release |

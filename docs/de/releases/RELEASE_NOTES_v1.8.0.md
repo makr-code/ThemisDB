@@ -202,7 +202,7 @@ infrastructure.
 
 ### Cache Module — Warmup Parallel Bulk Load (PR #4250, Issue #244)
 
-> **Files:** `include/cache/cache_warmup.h`, `src/cache/cache_warmup.cpp`
+> **Files:** `include/cache/adaptive_query_cache.h`, `src/cache/warmup.cpp`
 
 - Parallel bulk pre-population of the cache during server startup.
 - Configurable worker count and priority hint for warmup operations.
@@ -493,7 +493,7 @@ infrastructure.
 | New / updated test files | 25+ |
 | Total new tests | 280+ |
 | New REST API endpoints | 5 |
-| Modules with concurrency hardening (shared_mutex) | 5 (MetricsCollector, PluginRegistry, DistributedGraphManager, ConfigEncryptedStore, DistributedGraphManager) |
+| Modules with concurrency hardening (shared_mutex) | 5 (MetricsCollector, PluginRegistry, DistributedGraphManager, ConfigEncryptedStore, PolicyManager) |
 | Modules reaching production-ready in v1.8.0 | 4 (transaction/SSI, geo/clustering, governance, acceleration/plugin-security) |
 | GitHub workflow files reorganised | 138 |
 
