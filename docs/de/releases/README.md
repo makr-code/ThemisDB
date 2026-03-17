@@ -1,7 +1,7 @@
 # Releases & Updates Dokumentation
 
-**Stand:** 27. Februar 2026  
-**Aktuelle Version:** 1.5.0  
+**Stand:** 17. März 2026
+**Aktuelle Version:** 1.8.0
 **Kategorie:** Releases & Updates
 
 ---
@@ -14,6 +14,18 @@ ThemisDB Release-Dokumentation enthält:
 - Release-Verteilungsstrategie
 
 ## 🎉 Aktuelle Releases
+
+### v1.8.x Serie (Q2 2026)
+
+| Version | Datum | Fokus | Dokumentation |
+|---------|-------|-------|---------------|
+| **v1.8.0** | TBD | SSI, Versioned API Routing, SAGA Orchestration, Markov Prefetching, ArrowUserRegistration, JWT Scope, CRL/OCSP, HardwareAccelerator, ExporterFactory, Geo Clustering, Wire Protocol V2 | [Release Notes](./RELEASE_NOTES_v1.8.0.md) |
+
+### v1.7.x Serie (Q2 2026)
+
+| Version | Datum | Fokus | Dokumentation |
+|---------|-------|-------|---------------|
+| **v1.7.0** | TBD | Config Hierarchie, Multi-GPU Scaffolding, Git-Like Features, HybridSearch Hardening, FAISS ADC, Docs Audit | [Release Notes](./RELEASE_NOTES_v1.7.0.md) |
 
 ### v1.5.x Serie (Februar 2026)
 
