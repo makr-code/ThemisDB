@@ -69,11 +69,11 @@ auto result = conn.execute_with_retry([&]() {
 
 ### Acceptance Criteria
 
-- [ ] Exponential backoff retry
-- [ ] Circuit breaker pattern
-- [ ] Health check on retry
-- [ ] Configurable retry policies
-- [ ] Error classification (transient vs permanent)
+- [x] Exponential backoff retry
+- [x] Circuit breaker pattern
+- [x] Health check on retry
+- [x] Configurable retry policies
+- [x] Error classification (transient vs permanent)
 
 ### Relationships
 
