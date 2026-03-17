@@ -136,6 +136,9 @@ public:
     const std::vector<std::string>& stringData() const noexcept { return string_data_; }
     const std::vector<bool>&        boolData()   const noexcept { return bool_data_;   }
 
+    /** Null bitmap accessor — empty when no nulls are present. */
+    const std::vector<bool>&        nullBitmap() const noexcept { return null_bitmap_; }
+
     // Typed append
     void appendInt64(int64_t     value, bool is_null = false);
     void appendDouble(double     value, bool is_null = false);

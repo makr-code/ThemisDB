@@ -71,6 +71,15 @@
 
 #include <spdlog/spdlog.h>
 
+// SIMD intrinsics — guarded by feature macros so non-SIMD platforms compile.
+#if defined(__AVX512F__)
+#  include <immintrin.h>
+#elif defined(__AVX2__)
+#  include <immintrin.h>
+#elif defined(__ARM_NEON) || defined(__aarch64__)
+#  include <arm_neon.h>
+#endif
+
 namespace themisdb {
 namespace analytics {
 
@@ -543,6 +552,126 @@ ColumnBatch ProjectOperator::execute(const ColumnBatch& input) const {
 
 namespace {
 
+// ---------------------------------------------------------------------------
+// SIMD-accelerated aggregation helpers for contiguous double arrays.
+//
+// Priority order:
+//   ARM builds  : NEON float64x2_t (2 doubles/cycle)
+//   x86-64      : AVX-512 (8 doubles/cycle) → AVX2 (4 doubles/cycle) → scalar
+//
+// The ARM NEON path uses float64x2_t which is AArch64-only (Cortex-A78 /
+// Apple Silicon).  On ARMv7 without double-precision NEON the path
+// gracefully falls back to scalar via the #else branch.
+// ---------------------------------------------------------------------------
+
+struct SIMDAggResult {
+    double sum     = 0.0;
+    double min_val = std::numeric_limits<double>::max();
+    double max_val = std::numeric_limits<double>::lowest();
+    int64_t count  = 0;  // non-null count
+};
+
+// Aggregate SUM/MIN/MAX over a non-null double array in a single pass.
+static SIMDAggResult simdAggDouble(const double* __restrict__ data, size_t n) noexcept {
+    SIMDAggResult r;
+    if (n == 0) return r;
+    r.count = static_cast<int64_t>(n);
+
+    size_t i = 0;
+
+#if defined(__ARM_NEON) && defined(__aarch64__)
+    // ARM NEON path: float64x2_t — 2 doubles per register, unrolled ×4 = 8/iter
+    float64x2_t vsum0 = vdupq_n_f64(0.0);
+    float64x2_t vsum1 = vdupq_n_f64(0.0);
+    float64x2_t vmin0 = vdupq_n_f64(data[0]);
+    float64x2_t vmin1 = vdupq_n_f64(data[0]);
+    float64x2_t vmax0 = vdupq_n_f64(data[0]);
+    float64x2_t vmax1 = vdupq_n_f64(data[0]);
+
+    for (; i + 7 < n; i += 8) {
+        float64x2_t v0 = vld1q_f64(data + i + 0);
+        float64x2_t v1 = vld1q_f64(data + i + 2);
+        float64x2_t v2 = vld1q_f64(data + i + 4);
+        float64x2_t v3 = vld1q_f64(data + i + 6);
+        vsum0 = vaddq_f64(vsum0, v0);
+        vsum1 = vaddq_f64(vsum1, v1);
+        vsum0 = vaddq_f64(vsum0, v2);
+        vsum1 = vaddq_f64(vsum1, v3);
+        vmin0 = vminq_f64(vmin0, v0); vmin1 = vminq_f64(vmin1, v1);
+        vmin0 = vminq_f64(vmin0, v2); vmin1 = vminq_f64(vmin1, v3);
+        vmax0 = vmaxq_f64(vmax0, v0); vmax1 = vmaxq_f64(vmax1, v1);
+        vmax0 = vmaxq_f64(vmax0, v2); vmax1 = vmaxq_f64(vmax1, v3);
+    }
+    // Handle remaining full pairs
+    for (; i + 1 < n; i += 2) {
+        float64x2_t v = vld1q_f64(data + i);
+        vsum0 = vaddq_f64(vsum0, v);
+        vmin0 = vminq_f64(vmin0, v);
+        vmax0 = vmaxq_f64(vmax0, v);
+    }
+    // Horizontal reduce
+    float64x2_t vsumF = vaddq_f64(vsum0, vsum1);
+    r.sum = vgetq_lane_f64(vsumF, 0) + vgetq_lane_f64(vsumF, 1);
+    float64x2_t vminF = vminq_f64(vmin0, vmin1);
+    r.min_val = std::min(vgetq_lane_f64(vminF, 0), vgetq_lane_f64(vminF, 1));
+    float64x2_t vmaxF = vmaxq_f64(vmax0, vmax1);
+    r.max_val = std::max(vgetq_lane_f64(vmaxF, 0), vgetq_lane_f64(vmaxF, 1));
+
+#elif defined(__AVX512F__)
+    if (n >= 8 && __builtin_cpu_supports("avx512f")) {
+        __m512d vsum = _mm512_setzero_pd();
+        __m512d vmin = _mm512_set1_pd(data[0]);
+        __m512d vmax = _mm512_set1_pd(data[0]);
+        for (; i + 7 < n; i += 8) {
+            __m512d v = _mm512_loadu_pd(data + i);
+            vsum = _mm512_add_pd(vsum, v);
+            vmin = _mm512_min_pd(vmin, v);
+            vmax = _mm512_max_pd(vmax, v);
+        }
+        r.sum     = _mm512_reduce_add_pd(vsum);
+        r.min_val = _mm512_reduce_min_pd(vmin);
+        r.max_val = _mm512_reduce_max_pd(vmax);
+        for (; i < n; ++i) {
+            r.sum += data[i];
+            if (data[i] < r.min_val) r.min_val = data[i];
+            if (data[i] > r.max_val) r.max_val = data[i];
+        }
+        return r;
+    }
+    // fall-through to AVX2 if __builtin_cpu_supports returned false
+    {
+#elif defined(__AVX2__)
+    {
+#endif
+#if defined(__AVX2__) && !defined(__ARM_NEON)
+        __m256d vsum = _mm256_setzero_pd();
+        __m256d vmin = _mm256_set1_pd(data[0]);
+        __m256d vmax = _mm256_set1_pd(data[0]);
+        for (; i + 3 < n; i += 4) {
+            __m256d v = _mm256_loadu_pd(data + i);
+            vsum = _mm256_add_pd(vsum, v);
+            vmin = _mm256_min_pd(vmin, v);
+            vmax = _mm256_max_pd(vmax, v);
+        }
+        double s[4], mn[4], mx[4];
+        _mm256_storeu_pd(s,  vsum);
+        _mm256_storeu_pd(mn, vmin);
+        _mm256_storeu_pd(mx, vmax);
+        r.sum     = s[0]  + s[1]  + s[2]  + s[3];
+        r.min_val = std::min({mn[0], mn[1], mn[2], mn[3]});
+        r.max_val = std::max({mx[0], mx[1], mx[2], mx[3]});
+    }
+#endif
+
+    // Scalar tail (shared by all SIMD paths)
+    for (; i < n; ++i) {
+        r.sum += data[i];
+        if (data[i] < r.min_val) r.min_val = data[i];
+        if (data[i] > r.max_val) r.max_val = data[i];
+    }
+    return r;
+}
+
 struct AggState {
     double   sum           = 0.0;
     double   min_val       = std::numeric_limits<double>::max();
@@ -678,6 +807,25 @@ ColumnBatch AggregateOperator::aggregateAll(const ColumnBatch& input) const {
         }
         auto col = input.getColumn(spec.input_column);
         if (!col) continue;
+
+        // Fast SIMD path for non-null Double columns aggregating SUM/AVG/MIN/MAX.
+        // For nullable columns or non-Double types the per-row path is used.
+        if (col->type() == ColumnType::Double
+            && col->nullBitmap().empty()   // no nulls
+            && (spec.function == AggregateSpec::Function::Sum
+                || spec.function == AggregateSpec::Function::Avg
+                || spec.function == AggregateSpec::Function::Min
+                || spec.function == AggregateSpec::Function::Max)) {
+            const auto& dd = col->doubleData();
+            SIMDAggResult ar = simdAggDouble(dd.data(), dd.size());
+            st.sum           = ar.sum;
+            st.min_val       = ar.min_val;
+            st.max_val       = ar.max_val;
+            st.count         = ar.count;
+            st.count_nonnull = ar.count;
+            continue;
+        }
+
         for (size_t i = 0; i < n; ++i) updateState(st, *col, i);
     }
 
