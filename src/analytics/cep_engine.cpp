@@ -2089,9 +2089,9 @@ bool CEPEngine::submitEvent(const std::string& stream_id, Event event) {
         size_t current_depth = event_queue_->size_approx();
         // Use the ring buffer's effective capacity (rounded to next power-of-two)
         // so the fill ratio is consistent with the actual queue limit.
-        const size_t effective_cap = event_queue_->capacity();
+        const size_t effective_capacity = event_queue_->capacity();
         float fill = static_cast<float>(current_depth) /
-                     static_cast<float>(effective_cap);
+                     static_cast<float>(effective_capacity);
         if (fill >= config_.global_backpressure_threshold) {
             ++backpressure_events_;
             spdlog::debug("CEPEngine: backpressure active ({:.0f}% full)",
@@ -2102,7 +2102,7 @@ bool CEPEngine::submitEvent(const std::string& stream_id, Event event) {
             ++events_dropped_;
             ++backpressure_events_;
             spdlog::warn("CEPEngine: event dropped (ring buffer full, ~{}/{})",
-                         current_depth, effective_cap);
+                         current_depth, effective_capacity);
             return false;
         }
         cv_.notify_one();

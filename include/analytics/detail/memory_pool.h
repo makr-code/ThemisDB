@@ -164,7 +164,12 @@ private:
      */
     static void* try_alloc(uint8_t* base, size_t& cursor,
                             size_t cap, size_t size, size_t align) noexcept {
-        // Align the absolute address, then convert back to an offset.
+        // Compute alignment on the *absolute* address (base + cursor).
+        // Using the absolute address — rather than just the cursor offset —
+        // ensures the returned pointer satisfies the alignment contract for any
+        // power-of-two alignment, even those larger than alignof(std::max_align_t)
+        // (i.e., even if base is only 16-byte aligned, a 128-byte alignment
+        // request is correctly satisfied by padding the absolute address).
         uintptr_t abs     = reinterpret_cast<uintptr_t>(base) + cursor;
         uintptr_t aligned = (abs + static_cast<uintptr_t>(align) - 1)
                           & ~(static_cast<uintptr_t>(align) - 1);
