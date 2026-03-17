@@ -41,9 +41,7 @@ namespace themis {
 
 class AuthMiddleware;
 
-namespace cache {
 class AdaptiveQueryCache;
-} // namespace cache
 
 namespace server {
 
@@ -195,7 +193,7 @@ public:
         AqlExecutor                                        executor,
         std::shared_ptr<AuthMiddleware>                    auth         = nullptr,
         std::shared_ptr<AsyncJobRegistry>                  registry     = nullptr,
-        std::shared_ptr<cache::AdaptiveQueryCache>         result_cache = nullptr);
+        std::shared_ptr<AdaptiveQueryCache>         result_cache = nullptr);
 
     /// Wait for running jobs to finish (up to a short grace period) on
     /// destruction so that background threads do not outlive dependencies.
@@ -242,7 +240,7 @@ private:
     std::shared_ptr<AuthMiddleware>                auth_;
     std::shared_ptr<AsyncJobRegistry>              registry_;
     /// AdaptiveQueryCache used to persist completed job results (TTL = 1 h).
-    std::shared_ptr<cache::AdaptiveQueryCache>     result_cache_;
+    std::shared_ptr<AdaptiveQueryCache>     result_cache_;
 
     // Track live futures so the destructor can join them.
     mutable std::mutex                           futures_mutex_;
