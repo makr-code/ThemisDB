@@ -16047,4 +16047,50 @@ else()
     message(STATUS "TSStore Gorilla Buffer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tsstore_gorilla_buffer.cpp")
 endif()
 
+# ---------------------------------------------------------------------------
+# PredictivePrefetcher Markov ML model focused tests (v1.8.0)
+# Covers all four acceptance criteria:
+#   AC-1  Markov chain + ToD bucketing   (time-of-day weighted candidates)
+#   AC-2  RocksDB persistence            (save/load round-trip via prefetch_model:: prefix)
+#   AC-3  MetricsCollector emission      (cache.prefetch.hit_rate + overhead_bytes)
+#   AC-4  A/B test toggle                (50/50 tenant split, per-group counters)
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_predictive_prefetcher_markov.cpp" AND NOT TARGET test_predictive_prefetcher_markov_focused)
+    message(STATUS "Adding PredictivePrefetcher Markov ML focused tests (cache, v1.8.0)")
+
+    add_executable(test_predictive_prefetcher_markov_focused
+        test_predictive_prefetcher_markov.cpp
+    )
+
+    target_include_directories(test_predictive_prefetcher_markov_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_predictive_prefetcher_markov_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_predictive_prefetcher_markov_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PredictivePrefetcherMarkovTests COMMAND test_predictive_prefetcher_markov_focused)
+
+    set_tests_properties(PredictivePrefetcherMarkovTests PROPERTIES
+        LABELS "cache;prefetch;markov;tod;rocksdb;metrics;ab-test;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PredictivePrefetcherMarkov: ToD bucketing, RocksDB persistence, MetricsCollector, A/B test toggle")
+else()
+    if(TARGET test_predictive_prefetcher_markov_focused)
+        message(STATUS "PredictivePrefetcher Markov focused tests already registered")
+    else()
+        message(STATUS "PredictivePrefetcher Markov focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_predictive_prefetcher_markov.cpp")
+    endif()
+endif()
+
 message(STATUS "Tests configured successfully")

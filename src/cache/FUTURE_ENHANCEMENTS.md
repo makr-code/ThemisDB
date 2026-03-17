@@ -91,10 +91,10 @@ This document covers implementation-specific future enhancements for the Cache m
 `predictive_prefetcher.cpp` uses a simple frequency counter over a fixed candidate window (`config_.max_predictions`) to predict next accesses. There is no sequential-access pattern detection or time-of-day awareness. The model is not persistent across restarts.
 
 **Implementation Notes:**
-- `[ ]` Replace frequency counter with a Markov chain transition matrix (order-1) keyed by the last `N` accessed fingerprints; serialize/deserialize the matrix to RocksDB under prefix `prefetch_model::`.
-- `[ ]` Add time-of-day bucketing (24 one-hour buckets) so prefetch probability is weighted by historical access at the current hour.
-- `[ ]` Emit `cache.prefetch.hit_rate` and `cache.prefetch.overhead_bytes` metrics via `MetricsCollector` to evaluate model effectiveness in production.
-- `[ ]` Add a prefetcher A/B test toggle: route 50 % of tenants to Markov model vs. frequency baseline; compare hit-rate improvement.
+- `[x]` Replace frequency counter with a Markov chain transition matrix (order-1) keyed by the last `N` accessed fingerprints; serialize/deserialize the matrix to RocksDB under prefix `prefetch_model::`.
+- `[x]` Add time-of-day bucketing (24 one-hour buckets) so prefetch probability is weighted by historical access at the current hour.
+- `[x]` Emit `cache.prefetch.hit_rate` and `cache.prefetch.overhead_bytes` metrics via `MetricsCollector` to evaluate model effectiveness in production.
+- `[x]` Add a prefetcher A/B test toggle: route 50 % of tenants to Markov model vs. frequency baseline; compare hit-rate improvement.
 
 **Performance Targets:**
 - Prefetch prediction latency: ≤ 100 µs per call.
