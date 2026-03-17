@@ -564,6 +564,12 @@ namespace {
 // gracefully falls back to scalar via the #else branch.
 // ---------------------------------------------------------------------------
 
+// Cache the AVX-512 runtime support check — avoids repeated CPUID calls in
+// hot aggregation loops.  Initialized once at first use (thread-safe in C++11).
+#if defined(__AVX512F__)
+static const bool kHasAVX512 = __builtin_cpu_supports("avx512f");
+#endif
+
 struct SIMDAggResult {
     double sum     = 0.0;
     double min_val = std::numeric_limits<double>::max();
@@ -618,7 +624,7 @@ static SIMDAggResult simdAggDouble(const double* __restrict__ data, size_t n) no
     r.max_val = std::max(vgetq_lane_f64(vmaxF, 0), vgetq_lane_f64(vmaxF, 1));
 
 #elif defined(__AVX512F__)
-    if (n >= 8 && __builtin_cpu_supports("avx512f")) {
+    if (n >= 8 && kHasAVX512) {
         __m512d vsum = _mm512_setzero_pd();
         __m512d vmin = _mm512_set1_pd(data[0]);
         __m512d vmax = _mm512_set1_pd(data[0]);

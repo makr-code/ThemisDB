@@ -1049,11 +1049,17 @@ double OLAPEngine::computeAggregate(
 // ---------------------------------------------------------------------------
 namespace {
 
+// Cache the AVX-512 runtime support check — avoids repeated CPUID calls in
+// hot aggregation loops.  Initialized once at first use (thread-safe in C++11).
+#if defined(__AVX512F__)
+static const bool kHasAVX512 = __builtin_cpu_supports("avx512f");
+#endif
+
 static double vectorizedSum(const double* __restrict__ data, size_t n) noexcept {
     double total = 0.0;
     size_t i = 0;
 #if defined(__AVX512F__)
-    if (n >= 8 && __builtin_cpu_supports("avx512f")) {
+    if (n >= 8 && kHasAVX512) {
         __m512d vsum = _mm512_setzero_pd();
         for (; i + 7 < n; i += 8)
             vsum = _mm512_add_pd(vsum, _mm512_loadu_pd(data + i));
@@ -1081,7 +1087,7 @@ static double vectorizedMin(const double* __restrict__ data, size_t n) noexcept 
     double result = data[0];
     size_t i = 1;
 #if defined(__AVX512F__)
-    if (n >= 8 && __builtin_cpu_supports("avx512f")) {
+    if (n >= 8 && kHasAVX512) {
         __m512d vmin = _mm512_set1_pd(data[0]);
         i = 0;
         for (; i + 7 < n; i += 8)
@@ -1113,7 +1119,7 @@ static double vectorizedMax(const double* __restrict__ data, size_t n) noexcept 
     double result = data[0];
     size_t i = 1;
 #if defined(__AVX512F__)
-    if (n >= 8 && __builtin_cpu_supports("avx512f")) {
+    if (n >= 8 && kHasAVX512) {
         __m512d vmax = _mm512_set1_pd(data[0]);
         i = 0;
         for (; i + 7 < n; i += 8)

@@ -259,6 +259,13 @@ double computeMean(const std::vector<double>& v) {
 // that a binary compiled with -mavx512f still runs on AVX2-only hardware.
 // ---------------------------------------------------------------------------
 
+// Cache the AVX-512 runtime support check — avoids repeated CPUID calls when
+// yuleWalker() is invoked in a loop (e.g., batch prediction or ARIMA search).
+// Initialized once at first use; thread-safe under C++11 static initialisation.
+#if defined(__AVX512F__)
+static const bool kHasAVX512 = __builtin_cpu_supports("avx512f");
+#endif
+
 #if defined(__AVX2__)
 static double acov0_avx2(const double* __restrict__ y, size_t n,
                          double mean, int lag) noexcept {
@@ -317,7 +324,7 @@ static double acov0_avx512(const double* __restrict__ y, size_t n,
 static double computeAutocovariance(const double* y, size_t n,
                                     double mean, int lag) noexcept {
 #if defined(__AVX512F__)
-    if (n >= 8 && __builtin_cpu_supports("avx512f"))
+    if (n >= 8 && kHasAVX512)
         return acov0_avx512(y, n, mean, lag);
 #endif
 #if defined(__AVX2__)
