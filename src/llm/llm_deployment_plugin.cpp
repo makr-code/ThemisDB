@@ -22,6 +22,8 @@
  */
 
 #include "llm/llm_deployment_plugin.h"
+#include "llm/llm_model_storage.h"
+#include "scheduler/task_scheduler.h"
 #include "utils/logger.h"
 #include "utils/checksum_utils.h"
 #include <fstream>
@@ -112,9 +114,6 @@ std::chrono::system_clock::time_point iso8601ToTime(const std::string& iso) {
 LLMDeploymentPlugin::LLMDeploymentPlugin(const DeploymentConfig& config)
     : config_(config), downloader_(std::make_unique<ModelDownloader>()) {
     
-    // NOTE: BaseEntity storage integration is prepared but disabled until
-    // llm_model_storage.cpp is implemented to avoid linker errors
-    /*
     // Initialize BaseEntity storage if enabled
     if (config_.use_base_entity_storage && config_.db) {
         LLMModelStorage::Config storage_config;
@@ -131,9 +130,6 @@ LLMDeploymentPlugin::LLMDeploymentPlugin(const DeploymentConfig& config)
     } else {
         LOG_INFO("LLM Deployment Plugin: Filesystem-only mode (no BaseEntity storage)");
     }
-    */
-    
-    LOG_INFO("LLM Deployment Plugin: Filesystem-only mode (BaseEntity storage TODO)");
     
     // Create cache directory if it doesn't exist
     if (!fs::exists(config_.cache_directory)) {
@@ -172,7 +168,7 @@ std::optional<ModelStatus> LLMDeploymentPlugin::deployModel(const std::string& m
     audit.operation = "deploy";
     audit.model_id = model_id;
     audit.timestamp = std::chrono::system_clock::now();
-    audit.user = "system"; // TODO(feature): Implement user context tracking for audit compliance
+    audit.user = scheduler::TaskScheduler::currentUserId();
     
     try {
         std::string model_path = getModelPath(model_id);
@@ -270,8 +266,7 @@ std::optional<ModelStatus> LLMDeploymentPlugin::deployModel(const std::string& m
             status.checksum_type = "sha256";
         }
         
-        // Store in BaseEntity storage (RocksDB) - TODO: Uncomment when llm_model_storage.cpp exists
-        /*
+        // Store in BaseEntity storage (RocksDB)
         if (config_.use_base_entity_storage && model_storage_) {
             bool stored = saveModelToStorage(status, model_path);
             if (stored) {
@@ -280,7 +275,6 @@ std::optional<ModelStatus> LLMDeploymentPlugin::deployModel(const std::string& m
                 LOG_WARN("Failed to store model metadata in RocksDB: {}", model_id);
             }
         }
-        */
         
         // Update registry (filesystem fallback)
         auto it = std::find_if(model_registry_.begin(), model_registry_.end(),
@@ -492,7 +486,7 @@ std::optional<ModelStatus> LLMDeploymentPlugin::updateModel(const std::string& m
     audit.operation = "update";
     audit.model_id = model_id;
     audit.timestamp = std::chrono::system_clock::now();
-    audit.user = "system";
+    audit.user = scheduler::TaskScheduler::currentUserId();
     
     // Force re-download
     auto result = deployModel(model_id, true);
@@ -517,7 +511,7 @@ bool LLMDeploymentPlugin::removeModel(const std::string& model_id, bool force) {
     audit.operation = "remove";
     audit.model_id = model_id;
     audit.timestamp = std::chrono::system_clock::now();
-    audit.user = "system";
+    audit.user = scheduler::TaskScheduler::currentUserId();
     
     auto status = getModelStatus(model_id);
     if (!status) {
@@ -912,35 +906,53 @@ std::optional<ModelSource> LLMDeploymentPlugin::findBestSource(const std::string
                   return a.priority > b.priority;
               });
     
-    // Return first source (highest priority)
-    // TODO(enhancement): In the future, this could check if model_id exists
-    // in each source's model list and select the best match
-    LOG_DEBUG("Selected source '{}' (priority {}) for model '{}'",
-              sorted_sources[0].type, sorted_sources[0].priority, model_id);
+    // Return the highest-priority source that can provide the model_id.
+    // For "local" sources, verify the expected file path exists before selecting.
+    for (const auto& source : sorted_sources) {
+        if (source.type == "local") {
+            // Check if the model file exists at the local path
+            fs::path src_path(source.location);
+            if (fs::is_directory(src_path)) {
+                src_path /= modelIdToFilename(model_id);
+            }
+            if (!fs::exists(src_path)) {
+                LOG_DEBUG("Local source '{}' does not contain model '{}', skipping",
+                          source.location, model_id);
+                continue;
+            }
+        }
+        LOG_DEBUG("Selected source '{}' (priority {}) for model '{}'",
+                  source.type, source.priority, model_id);
+        return source;
+    }
+
+    // No source could be validated — return the highest-priority source as a last resort
+    // so that non-local sources (Ollama, HTTP) can still attempt the download.
+    LOG_DEBUG("No pre-validated source found for model '{}'; using highest-priority source '{}' as fallback",
+              model_id, sorted_sources[0].type);
     return sorted_sources[0];
 }
 
-std::string LLMDeploymentPlugin::getModelPath(const std::string& model_id) const {
-    // Sanitize model_id for filesystem
+std::string LLMDeploymentPlugin::modelIdToFilename(const std::string& model_id) {
     std::string filename = model_id;
     std::replace(filename.begin(), filename.end(), ':', '_');
     std::replace(filename.begin(), filename.end(), '/', '_');
-    
-    // Check if filename already has a known model file extension
+
     fs::path temp_path{filename};
     std::string ext = temp_path.extension().string();
     std::transform(ext.begin(), ext.end(), ext.begin(),
                    [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
-    
-    bool has_known_extension = (ext == ".gguf" || ext == ".bin" || 
+
+    bool has_known_extension = (ext == ".gguf" || ext == ".bin" ||
                                 ext == ".safetensors" || ext == ".onnx");
-    
-    // Add .gguf extension if no known extension is present
     if (!has_known_extension) {
         filename += ".gguf";
     }
-    
-    fs::path path = fs::path(config_.cache_directory) / filename;
+    return filename;
+}
+
+std::string LLMDeploymentPlugin::getModelPath(const std::string& model_id) const {
+    fs::path path = fs::path(config_.cache_directory) / modelIdToFilename(model_id);
     return path.string();
 }
 

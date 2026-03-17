@@ -189,7 +189,7 @@ public:
         std::shared_ptr<KeyProvider> key_provider;  // Configurable key provider (Vault/HSM/Mock)
         
         // Collection settings
-        std::string collection_name = "llm_models";
+        std::string collection_name = "llm_model:";  // Key prefix: llm_model::{model_id}
         
         // Security
         bool enable_encryption = false;
