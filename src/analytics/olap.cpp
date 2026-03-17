@@ -25,6 +25,7 @@
  */
 
 #include "analytics/olap.h"
+#include "analytics/detail/memory_pool.h"
 #include "themis/gpu/query_accelerator.h"
 #include <algorithm>
 #include <cmath>
@@ -392,6 +393,10 @@ public:
     // GPU acceleration
     OLAPEngine::Config config;
     std::unique_ptr<themis::gpu::GPUQueryAccelerator> gpu_accelerator;
+
+    // Per-Impl arena allocator for hot GROUP BY paths.
+    // reset() is called at the start of each execute() — not shared across threads.
+    themis::analytics::detail::AnalyticsMemoryPool pool;
 };
 
 OLAPEngine::OLAPEngine() : impl_(std::make_unique<Impl>()) {}
@@ -412,6 +417,10 @@ OLAPEngine::~OLAPEngine() = default;
 OLAPResult OLAPEngine::execute(const OLAPQuery& query) {
     auto start = std::chrono::high_resolution_clock::now();
     
+    // Reset the per-Impl arena so all intermediate GROUP BY buffers
+    // (group-key strings, AggState maps) reuse the same backing memory.
+    impl_->pool.reset();
+
     OLAPResult result;
     
     switch (query.grouping_mode) {
