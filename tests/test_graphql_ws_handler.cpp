@@ -315,6 +315,187 @@ TEST_F(GraphQLWsHandlerTest, ResetClearsState) {
     EXPECT_FALSE(handler->isConnected());
 }
 
+// reset() must not crash even when subscriptions are active (alive-flag path).
+TEST_F(GraphQLWsHandlerTest, ResetWithActiveSubscriptionDoesNotCrash) {
+    doHandshake();
+    const std::string q =
+        "subscription { onChange(collection: \"orders\") { key } }";
+    send({
+        {"type",    "subscribe"},
+        {"id",      "sub1"},
+        {"payload", {{"query", q}}}
+    });
+    EXPECT_EQ(handler->activeSubscriptionCount(), 1u);
+    // reset() sets the alive flag to false before clearing subscriptions.
+    // No crash or assertion should occur.
+    EXPECT_NO_THROW(handler->reset());
+    EXPECT_EQ(handler->activeSubscriptionCount(), 0u);
+    EXPECT_FALSE(handler->isConnected());
+}
+
+// ---------------------------------------------------------------------------
+// Step-2 – schema-level variable type validation
+// ---------------------------------------------------------------------------
+
+// Subscription with a required String variable provided correctly → succeeds.
+TEST_F(GraphQLWsHandlerTest, VariableValidation_RequiredStringProvided) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var1"},
+        {"payload", {
+            {"query",     "subscription Q($col: String!) { onChange(collection: $col) { key } }"},
+            {"variables", {{"col", "orders"}}}
+        }}
+    });
+    // Valid subscription – no error frame expected.
+    EXPECT_TRUE(resp.empty());
+    EXPECT_EQ(handler->activeSubscriptionCount(), 1u);
+}
+
+// Required variable absent → error.
+TEST_F(GraphQLWsHandlerTest, VariableValidation_RequiredVariableMissing) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var2"},
+        {"payload", {
+            {"query",     "subscription Q($col: String!) { onChange(collection: $col) { key } }"},
+            {"variables", json::object()}  // empty – $col not provided
+        }}
+    });
+    ASSERT_EQ(resp.size(), 1u);
+    EXPECT_EQ(resp[0]["type"], "error");
+    EXPECT_EQ(resp[0]["id"],   "sub_var2");
+    EXPECT_EQ(handler->activeSubscriptionCount(), 0u);
+}
+
+// Wrong type – Int variable supplied a string value → error.
+TEST_F(GraphQLWsHandlerTest, VariableValidation_WrongType_IntGivenString) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var3"},
+        {"payload", {
+            {"query",     "subscription Q($limit: Int!) { onChange(collection: \"orders\") { key } }"},
+            {"variables", {{"limit", "not-an-int"}}}
+        }}
+    });
+    ASSERT_EQ(resp.size(), 1u);
+    EXPECT_EQ(resp[0]["type"], "error");
+    EXPECT_EQ(resp[0]["id"],   "sub_var3");
+}
+
+// Wrong type – String variable given an integer value → error.
+TEST_F(GraphQLWsHandlerTest, VariableValidation_WrongType_StringGivenInt) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var4"},
+        {"payload", {
+            {"query",     "subscription Q($col: String!) { onChange(collection: $col) { key } }"},
+            {"variables", {{"col", 42}}}
+        }}
+    });
+    ASSERT_EQ(resp.size(), 1u);
+    EXPECT_EQ(resp[0]["type"], "error");
+    EXPECT_EQ(resp[0]["id"],   "sub_var4");
+}
+
+// Non-null variable set to JSON null → error.
+TEST_F(GraphQLWsHandlerTest, VariableValidation_NonNullSetToNull) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var5"},
+        {"payload", {
+            {"query",     "subscription Q($col: String!) { onChange(collection: $col) { key } }"},
+            {"variables", {{"col", nullptr}}}
+        }}
+    });
+    ASSERT_EQ(resp.size(), 1u);
+    EXPECT_EQ(resp[0]["type"], "error");
+    EXPECT_EQ(resp[0]["id"],   "sub_var5");
+}
+
+// Nullable variable set to JSON null → succeeds (null is allowed).
+TEST_F(GraphQLWsHandlerTest, VariableValidation_NullableSetToNull) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var6"},
+        {"payload", {
+            {"query",     "subscription Q($col: String) { onChange(collection: \"orders\") { key } }"},
+            {"variables", {{"col", nullptr}}}
+        }}
+    });
+    // Nullable variable with null value is valid.
+    EXPECT_TRUE(resp.empty());
+    EXPECT_EQ(handler->activeSubscriptionCount(), 1u);
+}
+
+// 'variables' field is not an object → error.
+TEST_F(GraphQLWsHandlerTest, VariableValidation_VariablesNotObject) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var7"},
+        {"payload", {
+            {"query",     "subscription { onChange(collection: \"orders\") { key } }"},
+            {"variables", json::array({1, 2, 3})}  // array, not object
+        }}
+    });
+    ASSERT_EQ(resp.size(), 1u);
+    EXPECT_EQ(resp[0]["type"], "error");
+    EXPECT_EQ(resp[0]["id"],   "sub_var7");
+}
+
+// Optional variable omitted entirely → succeeds (no default needed).
+TEST_F(GraphQLWsHandlerTest, VariableValidation_OptionalVariableOmitted) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var8"},
+        {"payload", {
+            {"query",     "subscription Q($col: String) { onChange(collection: \"orders\") { key } }"},
+            {"variables", json::object()}  // $col is optional, not provided
+        }}
+    });
+    // Optional absent variable – no error.
+    EXPECT_TRUE(resp.empty());
+    EXPECT_EQ(handler->activeSubscriptionCount(), 1u);
+}
+
+// Boolean variable type validation.
+TEST_F(GraphQLWsHandlerTest, VariableValidation_BooleanType_Valid) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var9"},
+        {"payload", {
+            {"query",     "subscription Q($flag: Boolean!) { onChange(collection: \"orders\") { key } }"},
+            {"variables", {{"flag", true}}}
+        }}
+    });
+    EXPECT_TRUE(resp.empty());
+    EXPECT_EQ(handler->activeSubscriptionCount(), 1u);
+}
+
+TEST_F(GraphQLWsHandlerTest, VariableValidation_BooleanType_WrongType) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var10"},
+        {"payload", {
+            {"query",     "subscription Q($flag: Boolean!) { onChange(collection: \"orders\") { key } }"},
+            {"variables", {{"flag", "yes"}}}  // string, not boolean
+        }}
+    });
+    ASSERT_EQ(resp.size(), 1u);
+    EXPECT_EQ(resp[0]["type"], "error");
+    EXPECT_EQ(resp[0]["id"],   "sub_var10");
+}
+
 // ---------------------------------------------------------------------------
 // Static builder helpers
 // ---------------------------------------------------------------------------

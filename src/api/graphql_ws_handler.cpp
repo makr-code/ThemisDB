@@ -45,6 +45,7 @@ GraphQLWsHandler::GraphQLWsHandler(graphql::Schema schema,
     : schema_(std::move(schema))
     , limits_(limits)
     , changefeed_(changefeed)
+    , alive_(std::make_shared<std::atomic<bool>>(true))
 {}
 
 GraphQLWsHandler::~GraphQLWsHandler() {
@@ -56,6 +57,11 @@ GraphQLWsHandler::~GraphQLWsHandler() {
 // ---------------------------------------------------------------------------
 
 void GraphQLWsHandler::reset() {
+    // Signal any in-flight CDC callbacks to stop before the subscription
+    // handles (and their associated RAII teardown) are destroyed.  This
+    // prevents a use-after-free should the CDC implementation fire the
+    // callback concurrently with the SubscriptionHandle destructor.
+    alive_->store(false, std::memory_order_release);
     std::lock_guard<std::mutex> lock(mutex_);
     subscriptions_.clear();
     connected_.store(false, std::memory_order_relaxed);
@@ -213,6 +219,23 @@ GraphQLWsHandler::handleSubscribe(const std::string& id,
         return {buildError(id, "Only subscription operations are supported on this endpoint")};
     }
 
+    // ── 2. Schema-level variable type validation ──────────────────────────────
+    // (Placed here because it requires the parsed operation.)
+    // Verify that every variable value supplied in the payload matches the
+    // declared VariableDefinition type.  This is the step that was originally
+    // planned but omitted from the sequence, leaving the gap between step 1
+    // and the former step 3.
+    {
+        const json variables = payload.value("variables", json::object());
+        if (!variables.is_object()) {
+            return {buildError(id, "Field 'variables' must be a JSON object when present")};
+        }
+        const std::string var_error = validateVariables(op, variables);
+        if (!var_error.empty()) {
+            return {buildError(id, var_error)};
+        }
+    }
+
     // ── 6. Register the subscription ─────────────────────────────────────────
     // If a Changefeed is available and the operation targets the `onChange` field,
     // wire a push callback so CDC events are delivered as `next` frames.
@@ -223,15 +246,26 @@ GraphQLWsHandler::handleSubscribe(const std::string& id,
             themis::Changefeed::SubscriptionFilter f;
             f.key_prefix = collection + ":";  // keys are "collection:pk"
 
-            // Capture shared state by value: the subscription ID and a raw
-            // pointer to this handler so the callback can queue next frames.
-            // The callback must not outlive this handler; the SubscriptionHandle
-            // (stored in subscriptions_) is cancelled in handleComplete() and reset().
+            // Capture shared state by value: the subscription ID, a raw
+            // pointer to this handler so the callback can queue next frames,
+            // and a shared copy of the lifetime flag.
+            // The alive flag is checked at entry so that if the CDC system
+            // fires this callback after reset() has set the flag to false,
+            // the callback exits without touching 'self' (preventing
+            // use-after-free).
             const std::string sub_id = id;
             GraphQLWsHandler* self = this;
+            auto alive = alive_;  // shared ownership; survives handler destruction
 
             cdc_handle = changefeed_->subscribe(std::move(f),
-                [self, sub_id](const themis::Changefeed::ChangeEvent& ev) {
+                [self, sub_id, alive](const themis::Changefeed::ChangeEvent& ev) {
+                    // Guard against use-after-free: reset() sets this flag to
+                    // false (with release ordering) before destroying the
+                    // subscription handles; we load it with acquire ordering so
+                    // the check is sequenced after reset()'s store.
+                    if (!alive->load(std::memory_order_acquire)) {
+                        return;
+                    }
                     // Build a minimal GraphQL `next` data payload from the CDC event.
                     json data = {
                         {"onChange", {
@@ -401,6 +435,67 @@ std::string GraphQLWsHandler::extractOnChangeCollection(const graphql::Document&
         }
     }
     return {};
+}
+
+// ---------------------------------------------------------------------------
+// validateVariables()
+// ---------------------------------------------------------------------------
+
+/*static*/
+std::string GraphQLWsHandler::validateVariables(const graphql::Operation& op,
+                                                  const nlohmann::json& variables)
+{
+    for (const auto& vdef : op.variables) {
+        const bool provided = variables.contains(vdef.name);
+
+        // 1. Non-null variables without a default value must be supplied.
+        if (vdef.is_non_null && !vdef.default_value && !provided) {
+            return "Variable '$" + vdef.name + "' of required type '" +
+                   vdef.type_name + "!' was not provided";
+        }
+
+        if (!provided) continue;  // Optional and absent – fine.
+
+        const auto& val = variables.at(vdef.name);
+
+        // 2. Non-null variables must not carry a null JSON value.
+        if (val.is_null()) {
+            if (vdef.is_non_null) {
+                return "Variable '$" + vdef.name + "' of non-null type '" +
+                       vdef.type_name + "!' must not be null";
+            }
+            continue;  // Nullable and null – fine.
+        }
+
+        // 3. List-typed variables must be JSON arrays.
+        if (vdef.is_list) {
+            if (!val.is_array()) {
+                return "Variable '$" + vdef.name + "' expected a list (JSON array)";
+            }
+            continue;  // Skip element-level type checking.
+        }
+
+        // 4. Scalar type matching for well-known GraphQL built-in scalars.
+        //    Custom / schema-defined types are not validated here.
+        const std::string& t = vdef.type_name;
+        bool type_ok = true;
+        if (t == "String" || t == "ID") {
+            type_ok = val.is_string();
+        } else if (t == "Int") {
+            type_ok = val.is_number_integer();
+        } else if (t == "Float") {
+            type_ok = val.is_number();  // integers are coercible to Float
+        } else if (t == "Boolean") {
+            type_ok = val.is_boolean();
+        }
+        // For non-scalar / custom input types, we skip validation at this layer.
+
+        if (!type_ok) {
+            return "Variable '$" + vdef.name +
+                   "': value type does not match declared type '" + t + "'";
+        }
+    }
+    return {};  // No errors.
 }
 
 } // namespace api

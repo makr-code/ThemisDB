@@ -29,6 +29,7 @@
 #include "api/graphql.h"
 #include "cdc/changefeed.h"
 #include <boost/beast/http.hpp>
+#include <nlohmann/json.hpp>
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -191,6 +192,28 @@ private:
     std::vector<std::string> handleComplete(const std::string& id);
     std::vector<std::string> handlePing(const std::string& payload_json);
 
+    /// Extract the `onChange` collection argument from a parsed subscription document.
+    static std::string extractOnChangeCollection(const graphql::Document& doc);
+
+    /**
+     * @brief Validate that the JSON @p variables map satisfies the declared
+     *        VariableDefinition types of @p op.
+     *
+     * Checks:
+     * - Non-null variables without defaults must be present.
+     * - Non-null variables must not have a null JSON value.
+     * - Provided scalar variables must match their declared GraphQL type
+     *   (String/ID → string, Int → integer, Float → number, Boolean → boolean).
+     * - List-typed variables must be JSON arrays (or null if nullable).
+     *
+     * @param op        Parsed GraphQL operation whose variable definitions to
+     *                  validate against.
+     * @param variables JSON object of variable values supplied by the client.
+     * @return Empty string on success; human-readable error message otherwise.
+     */
+    static std::string validateVariables(const graphql::Operation& op,
+                                         const nlohmann::json& variables);
+
     // -----------------------------------------------------------------------
     // Members
     // -----------------------------------------------------------------------
@@ -201,6 +224,17 @@ private:
 
     /// True after connection_ack has been sent.
     std::atomic<bool> connected_{false};
+
+    /**
+     * @brief Lifetime flag shared between this handler and all CDC callback lambdas.
+     *
+     * Set to @c false in reset() *before* subscription handles are destroyed,
+     * so any in-flight CDC callback running on another thread will observe the
+     * flag and return early instead of dereferencing `this` (avoiding
+     * use-after-free).  The flag is stored in a @c shared_ptr so the lambda
+     * can outlive the handler without dangling.
+     */
+    std::shared_ptr<std::atomic<bool>> alive_;
 
     /// Per-subscription entry: tracks the CDC subscription handle.
     struct SubscriptionEntry {
@@ -214,9 +248,6 @@ private:
 
     // Frames queued by CDC callbacks for delivery.  Guarded by mutex_.
     std::vector<std::string> pending_frames_;
-
-    /// Extract the `onChange` collection argument from a parsed subscription document.
-    static std::string extractOnChangeCollection(const graphql::Document& doc);
 };
 
 } // namespace api
