@@ -591,18 +591,32 @@ IngestionReport IngestionCoordinator::ingestAll(
     // Step 6 — Commit a checkpoint for every successfully ingested source so
     //           that workers (or a failover coordinator) can resume from the
     //           last committed offset without re-processing already-done work.
+    //           We write a checkpoint for all error-free sources (even those
+    //           that produced 0 documents, e.g. an empty or dry-run source).
     if (checkpoint_store_) {
         for (const auto& src : sources) {
-            // Write a checkpoint only when there were no failures for this source
-            // (i.e. documents_processed > 0 and no errors).
             auto it = final_report.source_stats.find(src.source_id);
-            if (it != final_report.source_stats.end() &&
-                it->second.documents_processed > 0 &&
-                it->second.errors.empty()) {
-                IngestionCheckpoint cp;
-                cp.source_id = src.source_id;
-                cp.cursor    = kCompletedCursor;
-                checkpoint_store_->write(cp);
+            if (it == final_report.source_stats.end() ||
+                !it->second.errors.empty()) {
+                // Source has errors — do NOT write a completion checkpoint.
+                continue;
+            }
+            IngestionCheckpoint cp;
+            cp.source_id       = src.source_id;
+            cp.cursor          = kCompletedCursor;
+            cp.processed_count = it->second.documents_processed;
+
+            if (!checkpoint_store_->write(cp)) {
+                // Checkpoint write failed (e.g. Redis outage, disk full, or
+                // network partition to shared backend).  Record a WARNING so
+                // callers and observability tooling see the failure without
+                // aborting the run.  Investigate backend connectivity and
+                // storage capacity to resolve persistent failures.
+                it->second.addError(
+                    IngestionErrorCode::INTERNAL_ERROR,
+                    IngestionErrorSeverity::WARNING,
+                    "Failed to persist completion checkpoint for source '" +
+                        src.source_id + "': shared backend write returned false");
             }
         }
     }
@@ -633,7 +647,28 @@ IngestionCoordinator::CoordinatorMetrics IngestionCoordinator::getMetrics() cons
 }
 
 // ============================================================================
-// IngestionCoordinator — testing hook
+// IngestionCoordinator — checkpoint store
+// ============================================================================
+
+void IngestionCoordinator::setSharedCheckpointStore(
+    std::shared_ptr<ISharedCheckpointStore> store)
+{
+    if (running_.load()) {
+        throw std::logic_error(
+            "setSharedCheckpointStore() must be called before start(); "
+            "the coordinator is already running.");
+    }
+    checkpoint_store_ = std::move(store);
+}
+
+std::shared_ptr<ISharedCheckpointStore>
+IngestionCoordinator::getSharedCheckpointStore() const
+{
+    return checkpoint_store_;
+}
+
+// ============================================================================
+// IngestionCoordinator — testing hooks
 // ============================================================================
 
 void IngestionCoordinator::setLeaderElectionForTesting(
@@ -645,13 +680,8 @@ void IngestionCoordinator::setLeaderElectionForTesting(
 void IngestionCoordinator::setSharedCheckpointStoreForTesting(
     std::shared_ptr<ISharedCheckpointStore> store)
 {
-    checkpoint_store_ = std::move(store);
-}
-
-std::shared_ptr<ISharedCheckpointStore>
-IngestionCoordinator::getSharedCheckpointStore() const
-{
-    return checkpoint_store_;
+    // Delegate to the production API so the running-guard is enforced here too.
+    setSharedCheckpointStore(std::move(store));
 }
 
 // ============================================================================

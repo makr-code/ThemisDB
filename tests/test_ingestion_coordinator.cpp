@@ -47,6 +47,7 @@
 #include <algorithm>
 #include <atomic>
 #include <chrono>
+#include <cstdlib>
 #include <memory>
 #include <string>
 #include <thread>
@@ -95,6 +96,10 @@ public:
 
         IngestionReport report;
         for (const auto& src : sources) {
+            if (sleep_us_per_source_ > 0) {
+                std::this_thread::sleep_for(
+                    std::chrono::microseconds(sleep_us_per_source_));
+            }
             IngestionStats st;
             st.documents_processed = docs_per_source_;
             report.source_stats[src.source_id] = st;
@@ -106,7 +111,8 @@ public:
     size_t callCount() const { return call_count_.load(); }
     const std::vector<SourceConfig>& receivedSources() const { return received_sources_; }
 
-    size_t docs_per_source_ = 10;
+    size_t docs_per_source_     = 10;
+    unsigned sleep_us_per_source_ = 0;  ///< Artificial latency per source (microseconds)
 
 private:
     std::string node_id_;
@@ -1027,11 +1033,28 @@ TEST(IngestionCoordinatorCheckpointStoreTest, InjectedStoreIsUsed) {
     cfg.db_connection = "test_db";
     IngestionCoordinator coordinator(cfg);
 
-    // Inject a custom store before start().
+    // Use the production API to inject a custom store before start().
     auto custom_store = std::make_shared<InMemorySharedCheckpointStore>();
-    coordinator.setSharedCheckpointStoreForTesting(custom_store);
+    coordinator.setSharedCheckpointStore(custom_store);
 
     EXPECT_EQ(coordinator.getSharedCheckpointStore(), custom_store);
+}
+
+TEST(IngestionCoordinatorCheckpointStoreTest, SetStoreWhileRunningThrows) {
+    IngestionCoordinator::Config cfg;
+    cfg.num_nodes     = 0;
+    cfg.db_connection = "test_db";
+    IngestionCoordinator coordinator(cfg);
+
+    auto mock = std::make_shared<MockWorkerNode>("throw-guard-worker");
+    coordinator.registerNode(mock);
+    coordinator.start();
+
+    auto store = std::make_shared<InMemorySharedCheckpointStore>();
+    EXPECT_THROW(coordinator.setSharedCheckpointStore(store), std::logic_error);
+    EXPECT_THROW(coordinator.setSharedCheckpointStoreForTesting(store), std::logic_error);
+
+    coordinator.stop();
 }
 
 TEST(IngestionCoordinatorCheckpointStoreTest, CheckpointWrittenAfterIngest) {
@@ -1041,7 +1064,7 @@ TEST(IngestionCoordinatorCheckpointStoreTest, CheckpointWrittenAfterIngest) {
     IngestionCoordinator coordinator(cfg);
 
     auto cp_store = std::make_shared<InMemorySharedCheckpointStore>();
-    coordinator.setSharedCheckpointStoreForTesting(cp_store);
+    coordinator.setSharedCheckpointStore(cp_store);
 
     auto worker = std::make_shared<MockWorkerNode>("cp-worker");
     worker->docs_per_source_ = 5;
@@ -1057,6 +1080,30 @@ TEST(IngestionCoordinatorCheckpointStoreTest, CheckpointWrittenAfterIngest) {
         EXPECT_TRUE(cp_store->exists(src.source_id))
             << "No checkpoint found for source: " << src.source_id;
     }
+
+    coordinator.stop();
+}
+
+TEST(IngestionCoordinatorCheckpointStoreTest, CheckpointWrittenForZeroDocSource) {
+    // A source that processes 0 documents but has no errors is still
+    // considered successfully ingested and must receive a checkpoint.
+    IngestionCoordinator::Config cfg;
+    cfg.num_nodes     = 0;
+    cfg.db_connection = "test_db";
+    IngestionCoordinator coordinator(cfg);
+
+    auto cp_store = std::make_shared<InMemorySharedCheckpointStore>();
+    coordinator.setSharedCheckpointStore(cp_store);
+
+    auto worker = std::make_shared<MockWorkerNode>("zero-doc-worker");
+    worker->docs_per_source_ = 0;  // empty source — no documents
+    coordinator.registerNode(worker);
+    coordinator.start();
+
+    auto report = coordinator.ingestAll({makeSource("zero-src-0")});
+
+    EXPECT_TRUE(cp_store->exists("zero-src-0"))
+        << "Checkpoint must be written even for a 0-document successful source";
 
     coordinator.stop();
 }
@@ -1078,12 +1125,16 @@ TEST(IngestionCoordinatorPerfTest, LinearScaling4WorkersVs1Worker) {
                         "AC-COORD-5: ≥ 3.5× aggregate throughput with 4 vs 1 worker node.";
     }
 
-    constexpr size_t kSources        = 400;   // sources per run
-    constexpr size_t kDocsPerSource  = 1000;  // documents each mock worker reports
-    constexpr double kMinSpeedup     = 3.5;   // required throughput ratio
+    // Each mock worker sleeps 50 us per source so that wall-clock times are
+    // dominated by the simulated work rather than scheduler/locking noise.
+    // With 400 sources: 1-worker approx 400x50 us = 20 ms; 4-worker approx 5 ms each.
+    constexpr size_t   kSources           = 400;
+    constexpr size_t   kDocsPerSource     = 1000;
+    constexpr unsigned kSleepUsPerSource  = 50;   // deterministic per-source cost
+    constexpr double   kMinSpeedup        = 3.5;
 
     // ── 1-worker baseline ────────────────────────────────────────────────────
-    double elapsed_1w = 0.0;
+    double elapsed_1w_ms = 0.0;
     {
         IngestionCoordinator::Config cfg;
         cfg.num_nodes     = 0;
@@ -1091,7 +1142,8 @@ TEST(IngestionCoordinatorPerfTest, LinearScaling4WorkersVs1Worker) {
         IngestionCoordinator coord1(cfg);
 
         auto worker = std::make_shared<MockWorkerNode>("perf-1w");
-        worker->docs_per_source_ = kDocsPerSource;
+        worker->docs_per_source_      = kDocsPerSource;
+        worker->sleep_us_per_source_  = kSleepUsPerSource;
         coord1.registerNode(worker);
         coord1.start();
 
@@ -1104,7 +1156,7 @@ TEST(IngestionCoordinatorPerfTest, LinearScaling4WorkersVs1Worker) {
         auto t0 = std::chrono::steady_clock::now();
         auto report = coord1.ingestAll(sources);
         auto t1 = std::chrono::steady_clock::now();
-        elapsed_1w = std::chrono::duration<double>(t1 - t0).count();
+        elapsed_1w_ms = std::chrono::duration<double, std::milli>(t1 - t0).count();
 
         coord1.stop();
 
@@ -1113,7 +1165,7 @@ TEST(IngestionCoordinatorPerfTest, LinearScaling4WorkersVs1Worker) {
     }
 
     // ── 4-worker run ─────────────────────────────────────────────────────────
-    double elapsed_4w = 0.0;
+    double elapsed_4w_ms = 0.0;
     {
         IngestionCoordinator::Config cfg;
         cfg.num_nodes     = 0;
@@ -1123,7 +1175,8 @@ TEST(IngestionCoordinatorPerfTest, LinearScaling4WorkersVs1Worker) {
         for (int w = 0; w < 4; ++w) {
             auto worker = std::make_shared<MockWorkerNode>(
                 "perf-4w-" + std::to_string(w));
-            worker->docs_per_source_ = kDocsPerSource;
+            worker->docs_per_source_     = kDocsPerSource;
+            worker->sleep_us_per_source_ = kSleepUsPerSource;
             coord4.registerNode(worker);
         }
         coord4.start();
@@ -1137,7 +1190,7 @@ TEST(IngestionCoordinatorPerfTest, LinearScaling4WorkersVs1Worker) {
         auto t0 = std::chrono::steady_clock::now();
         auto report = coord4.ingestAll(sources);
         auto t1 = std::chrono::steady_clock::now();
-        elapsed_4w = std::chrono::duration<double>(t1 - t0).count();
+        elapsed_4w_ms = std::chrono::duration<double, std::milli>(t1 - t0).count();
 
         coord4.stop();
 
@@ -1145,18 +1198,23 @@ TEST(IngestionCoordinatorPerfTest, LinearScaling4WorkersVs1Worker) {
             << "4-worker run: unexpected document count";
     }
 
-    ASSERT_GT(elapsed_4w, 0.0);
-    double speedup = elapsed_1w / elapsed_4w;
+    ASSERT_GT(elapsed_4w_ms, 0.0);
+    double speedup = elapsed_1w_ms / elapsed_4w_ms;
 
-    RecordProperty("elapsed_1_worker_s",  elapsed_1w);
-    RecordProperty("elapsed_4_workers_s", elapsed_4w);
-    RecordProperty("speedup_ratio",        speedup);
+    // RecordProperty accepts int or string — use integer milliseconds.
+    RecordProperty("elapsed_1_worker_ms",
+                   static_cast<int>(elapsed_1w_ms));
+    RecordProperty("elapsed_4_workers_ms",
+                   static_cast<int>(elapsed_4w_ms));
+    // Speedup as a fixed-point hundredths integer (e.g. 350 = 3.50x).
+    RecordProperty("speedup_ratio_hundredths",
+                   static_cast<int>(speedup * 100.0 + 0.5));
 
     EXPECT_GE(speedup, kMinSpeedup)
         << "AC-COORD-5 FAILED: 4-worker speedup " << speedup
         << "× is below the required " << kMinSpeedup << "×.  "
-        << "1-worker wall-clock: " << elapsed_1w << " s, "
-        << "4-worker wall-clock: " << elapsed_4w << " s.";
+        << "1-worker wall-clock: " << elapsed_1w_ms << " ms, "
+        << "4-worker wall-clock: " << elapsed_4w_ms << " ms.";
 }
 
 // ============================================================================
@@ -1175,16 +1233,19 @@ TEST(IngestionCoordinatorPerfTest, CoordinatorOverheadAtMost5Percent) {
                         "AC-COORD-6: coordinator overhead ≤ 5% of total ingestion wall-clock.";
     }
 
-    constexpr size_t kSources       = 200;
-    constexpr size_t kDocsPerSource = 500;
-    constexpr double kMaxOverhead   = 0.05;  // 5 %
+    constexpr size_t   kSources           = 200;
+    constexpr size_t   kDocsPerSource     = 500;
+    constexpr unsigned kSleepUsPerSource  = 50;   // deterministic per-source cost
+    constexpr double   kMaxOverhead       = 0.05; // 5 %
 
-    // Use a TimedMockWorkerNode that records how long each ingest call takes.
+    // TimedMockWorkerNode sleeps a fixed amount per source so wall-clock times
+    // are dominated by the simulated work rather than scheduler/lock noise.
     class TimedMockWorkerNode : public IIngestionWorkerNode {
     public:
         explicit TimedMockWorkerNode(const std::string& id,
-                                     size_t docs_per_source)
-            : id_(id), docs_per_source_(docs_per_source) {}
+                                     size_t docs_per_source,
+                                     unsigned sleep_us)
+            : id_(id), docs_per_source_(docs_per_source), sleep_us_(sleep_us) {}
 
         const std::string& nodeId() const override { return id_; }
         bool isAvailable() const override { return true; }
@@ -1197,23 +1258,28 @@ TEST(IngestionCoordinatorPerfTest, CoordinatorOverheadAtMost5Percent) {
             auto t0 = std::chrono::steady_clock::now();
             IngestionReport report;
             for (const auto& src : sources) {
+                if (sleep_us_ > 0) {
+                    std::this_thread::sleep_for(
+                        std::chrono::microseconds(sleep_us_));
+                }
                 IngestionStats st;
                 st.documents_processed = docs_per_source_;
                 report.source_stats[src.source_id] = st;
                 report.total_documents += docs_per_source_;
             }
             auto t1 = std::chrono::steady_clock::now();
-            total_worker_time_ +=
-                std::chrono::duration<double>(t1 - t0).count();
+            total_worker_time_ms_ +=
+                std::chrono::duration<double, std::milli>(t1 - t0).count();
             return report;
         }
 
-        double totalWorkerTime() const { return total_worker_time_; }
+        double totalWorkerTimeMs() const { return total_worker_time_ms_; }
 
     private:
         std::string id_;
         size_t docs_per_source_;
-        double total_worker_time_ = 0.0;
+        unsigned sleep_us_;
+        double total_worker_time_ms_ = 0.0;
     };
 
     IngestionCoordinator::Config cfg;
@@ -1224,7 +1290,7 @@ TEST(IngestionCoordinatorPerfTest, CoordinatorOverheadAtMost5Percent) {
     std::vector<std::shared_ptr<TimedMockWorkerNode>> workers;
     for (int w = 0; w < 4; ++w) {
         auto worker = std::make_shared<TimedMockWorkerNode>(
-            "overhead-w-" + std::to_string(w), kDocsPerSource);
+            "overhead-w-" + std::to_string(w), kDocsPerSource, kSleepUsPerSource);
         workers.push_back(worker);
         coordinator.registerNode(worker);
     }
@@ -1242,35 +1308,40 @@ TEST(IngestionCoordinatorPerfTest, CoordinatorOverheadAtMost5Percent) {
 
     coordinator.stop();
 
-    double wall_clock = std::chrono::duration<double>(wall_t1 - wall_t0).count();
+    double wall_clock_ms =
+        std::chrono::duration<double, std::milli>(wall_t1 - wall_t0).count();
 
-    ASSERT_GT(wall_clock, 0.0);
+    ASSERT_GT(wall_clock_ms, 0.0);
     ASSERT_EQ(report.total_documents, kSources * kDocsPerSource)
         << "Unexpected document count in overhead test";
 
     // Coordinator overhead = wall_clock − max_single_worker_time.
     // Because workers run in parallel, the critical path is the slowest worker.
-    // The coordinator's own cost (partitioning + dispatch + aggregation) is
-    // therefore:  wall_clock - max_worker_time.
-    // The overhead fraction is:  (wall_clock - max_worker_time) / wall_clock.
-    double max_worker_time   = 0.0;
-    double total_worker_time = 0.0;
+    // The coordinator's own cost (partitioning + dispatch + aggregation) is:
+    //   wall_clock_ms - max_worker_time_ms
+    // The overhead fraction is:
+    //   (wall_clock_ms - max_worker_time_ms) / wall_clock_ms
+    double max_worker_ms   = 0.0;
+    double total_worker_ms = 0.0;
     for (const auto& w : workers) {
-        double t = w->totalWorkerTime();
-        total_worker_time += t;
-        max_worker_time    = std::max(max_worker_time, t);
+        double t = w->totalWorkerTimeMs();
+        total_worker_ms += t;
+        max_worker_ms    = std::max(max_worker_ms, t);
     }
-    double overhead_fraction = (wall_clock - max_worker_time) / wall_clock;
+    double overhead_fraction = (wall_clock_ms - max_worker_ms) / wall_clock_ms;
 
-    RecordProperty("wall_clock_s",      wall_clock);
-    RecordProperty("total_worker_time_s", total_worker_time);
-    RecordProperty("max_worker_time_s", max_worker_time);
-    RecordProperty("overhead_fraction", overhead_fraction);
+    // RecordProperty accepts int or string — use integer milliseconds.
+    RecordProperty("wall_clock_ms",      static_cast<int>(wall_clock_ms));
+    RecordProperty("total_worker_ms",    static_cast<int>(total_worker_ms));
+    RecordProperty("max_worker_ms",      static_cast<int>(max_worker_ms));
+    // Overhead as integer basis points (1 bp = 0.01%; 500 bp = 5%).
+    RecordProperty("overhead_basis_points",
+                   static_cast<int>(overhead_fraction * 10000.0 + 0.5));
 
     EXPECT_LE(overhead_fraction, kMaxOverhead)
         << "AC-COORD-6 FAILED: coordinator overhead fraction "
         << (overhead_fraction * 100.0) << "% exceeds the 5% limit.  "
-        << "Wall-clock: " << wall_clock << " s, "
-        << "max worker time: " << max_worker_time << " s.";
+        << "Wall-clock: " << wall_clock_ms << " ms, "
+        << "max worker time: " << max_worker_ms << " ms.";
 }
 

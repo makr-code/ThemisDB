@@ -37,8 +37,9 @@ option optimize_for = SPEED;
 service IngestionWorkerService {
 
     // Submit a set of sources to this worker for ingestion.
-    // The server streams zero or more ProgressEvent messages during processing,
-    // followed by a single IngestResponse when all assigned sources are done.
+    // The server streams zero or more ProgressEvent messages during processing.
+    // The final aggregated result is retrieved by calling GetIngestResult()
+    // once the stream has ended.
     rpc IngestSources(IngestRequest) returns (stream ProgressEvent);
 
     // Retrieve the final aggregated IngestResponse for a previously submitted

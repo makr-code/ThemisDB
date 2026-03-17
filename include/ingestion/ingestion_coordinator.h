@@ -627,6 +627,28 @@ public:
     /** @return Snapshot of coordinator runtime metrics. */
     CoordinatorMetrics getMetrics() const;
 
+    // ── Checkpoint store configuration ──────────────────────────────────────
+
+    /**
+     * @brief Replace the shared checkpoint store.
+     *
+     * Must be called before `start()`.  The default store is an
+     * `InMemorySharedCheckpointStore`, which is sufficient for single-process
+     * deployments.  Multi-host deployments should provide a Redis- or
+     * database-backed implementation before starting the coordinator.
+     *
+     * @throws std::logic_error if called while the coordinator is running.
+     */
+    void setSharedCheckpointStore(std::shared_ptr<ISharedCheckpointStore> store);
+
+    /**
+     * @brief Return the shared checkpoint store currently in use.
+     *
+     * Useful for test assertions (e.g. verifying a checkpoint was written
+     * after ingestion).
+     */
+    std::shared_ptr<ISharedCheckpointStore> getSharedCheckpointStore() const;
+
     // ── Testing hooks ────────────────────────────────────────────────────────
 
     /**
@@ -637,24 +659,15 @@ public:
     void setLeaderElectionForTesting(std::shared_ptr<ILeaderElection> election);
 
     /**
-     * @brief Inject a custom shared checkpoint store (testing / simulation only).
+     * @brief Alias for `setSharedCheckpointStore()` — test code only.
      *
-     * In production the coordinator uses an `InMemorySharedCheckpointStore`
-     * (suitable for single-process deployments).  Multi-host deployments
-     * provide a Redis- or database-backed implementation here.
+     * Prefer `setSharedCheckpointStore()` in production.  This alias is kept
+     * so that existing test code continues to compile.
      *
-     * Must be called before `start()`.
+     * @throws std::logic_error if called while the coordinator is running.
      */
     void setSharedCheckpointStoreForTesting(
         std::shared_ptr<ISharedCheckpointStore> store);
-
-    /**
-     * @brief Return the shared checkpoint store currently in use.
-     *
-     * Useful for test assertions (e.g. verifying a checkpoint was written
-     * after ingestion).
-     */
-    std::shared_ptr<ISharedCheckpointStore> getSharedCheckpointStore() const;
 
 private:
     Config config_;
