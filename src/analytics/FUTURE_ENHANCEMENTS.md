@@ -146,10 +146,10 @@ the full inference duration.  Additionally, line 211 takes `e.health_mu` under t
 `impl_->mu` — nested lock acquisition creates an implicit lock-order dependency.
 
 **Implementation Notes:**
-- `[ ]` Restructure `predict()` to: (1) take `shared_lock` for a brief pointer/ref capture of `*it->second`, (2) release `shared_lock`, (3) run `e.model.predictOne(point)` outside any registry lock, (4) take only `e.health_mu` for the health-metric update
-- `[ ]` Use a `std::shared_ptr<Entry>` inside the registry so callers can retain a reference-counted handle after releasing the registry lock — eliminates the use-after-free risk from concurrent `unregisterModel()`
-- `[ ]` Apply the same pattern to `predictBatch()` (line 244), `explain()` (line 283), and `evaluate()` (line 379) which exhibit the same lock-held-during-compute pattern
-- `[ ]` Add a benchmark: 16 concurrent `predict()` callers on the same model; assert throughput ≥ 10 000 predictions/s per core
+- `[x]` Restructure `predict()` to: (1) take `shared_lock` for a brief pointer/ref capture of `*it->second`, (2) release `shared_lock`, (3) run `e.model.predictOne(point)` outside any registry lock, (4) take only `e.health_mu` for the health-metric update
+- `[x]` Use a `std::shared_ptr<Entry>` inside the registry so callers can retain a reference-counted handle after releasing the registry lock — eliminates the use-after-free risk from concurrent `unregisterModel()`
+- `[x]` Apply the same pattern to `predictBatch()` (line 244), `explain()` (line 283), and `evaluate()` (line 379) which exhibit the same lock-held-during-compute pattern
+- `[x]` Add a benchmark: 16 concurrent `predict()` callers on the same model; assert throughput ≥ 10 000 predictions/s per core
 
 **Performance Targets:**
 - Registry lock-hold per prediction: ≤ 5 µs (pointer capture only)
