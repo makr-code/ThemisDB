@@ -3,18 +3,18 @@
   <p><strong>High-Performance Multi-Model Database with Native AI/LLM Integration</strong></p>
 
   <!-- Row 1: Build & Release -->
-  [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/themis-core-ci.yml/badge.svg?branch=develop)](docs/en/badges/ci-status.md)
-  [![Security CI](https://github.com/makr-code/ThemisDB/actions/workflows/security-hardening-ci.yml/badge.svg?branch=develop)](docs/en/badges/security-ci.md)
+  [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/01-core/themis-core-ci.yml/badge.svg?branch=develop)](docs/en/badges/ci-status.md)
+  [![Security CI](https://github.com/makr-code/ThemisDB/actions/workflows/05-quality/security/security-hardening-ci.yml/badge.svg?branch=develop)](docs/en/badges/security-ci.md)
   [![Version](https://img.shields.io/badge/version-1.5.0--dev-blue)](docs/en/badges/version.md)
   [![License](https://img.shields.io/badge/license-MIT-green)](docs/en/badges/license.md)
   [![Docker Pulls](https://img.shields.io/docker/pulls/themisdb/themisdb)](docs/en/badges/docker.md)
 
   <!-- Row 1b: Edition CI (develop branch) -->
-  [![MINIMAL](https://github.com/makr-code/ThemisDB/actions/workflows/edition-minimal-ci.yml/badge.svg?branch=develop&label=MINIMAL)](docs/en/badges/edition-ci.md)
-  [![COMMUNITY](https://github.com/makr-code/ThemisDB/actions/workflows/edition-community-ci.yml/badge.svg?branch=develop&label=COMMUNITY)](docs/en/badges/edition-ci.md)
-  [![ENTERPRISE](https://github.com/makr-code/ThemisDB/actions/workflows/edition-enterprise-ci.yml/badge.svg?branch=develop&label=ENTERPRISE)](docs/en/badges/edition-ci.md)
-  [![HYPERSCALER](https://github.com/makr-code/ThemisDB/actions/workflows/edition-hyperscaler-ci.yml/badge.svg?branch=develop&label=HYPERSCALER)](docs/en/badges/edition-ci.md)
-  [![MILITARY](https://github.com/makr-code/ThemisDB/actions/workflows/edition-military-ci.yml/badge.svg?branch=develop&label=MILITARY)](docs/en/badges/edition-ci.md)
+  [![MINIMAL](https://github.com/makr-code/ThemisDB/actions/workflows/03-editions/edition-minimal-ci.yml/badge.svg?branch=develop&label=MINIMAL)](docs/en/badges/edition-ci.md)
+  [![COMMUNITY](https://github.com/makr-code/ThemisDB/actions/workflows/03-editions/edition-community-ci.yml/badge.svg?branch=develop&label=COMMUNITY)](docs/en/badges/edition-ci.md)
+  [![ENTERPRISE](https://github.com/makr-code/ThemisDB/actions/workflows/03-editions/edition-enterprise-ci.yml/badge.svg?branch=develop&label=ENTERPRISE)](docs/en/badges/edition-ci.md)
+  [![HYPERSCALER](https://github.com/makr-code/ThemisDB/actions/workflows/03-editions/edition-hyperscaler-ci.yml/badge.svg?branch=develop&label=HYPERSCALER)](docs/en/badges/edition-ci.md)
+  [![MILITARY](https://github.com/makr-code/ThemisDB/actions/workflows/03-editions/edition-military-ci.yml/badge.svg?branch=develop&label=MILITARY)](docs/en/badges/edition-ci.md)
 
   <!-- Row 2: Code Metrics -->
   [![Lines of Code](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/makr-code/ThemisDB/develop/.github/badges/lines-of-code.json&query=%24.message&label=Lines%20of%20Code&color=blue)](https://github.com/makr-code/ThemisDB)
@@ -33,8 +33,8 @@
   <!-- Row 4: Tech Stack -->
   [![C++20](https://img.shields.io/badge/C%2B%2B-20-blue)](docs/en/badges/cpp-standard.md)
   [![Docker Image Size](https://img.shields.io/docker/image-size/themisdb/themisdb/latest)](docs/en/badges/docker-image-size.md)
-  [![GPU CI](https://github.com/makr-code/ThemisDB/actions/workflows/gpu-ci.yml/badge.svg)](docs/en/badges/gpu-ci.md)
-  [![LLM CI](https://github.com/makr-code/ThemisDB/actions/workflows/llm-cpu-fallback-ci.yml/badge.svg)](docs/en/badges/llm-ci.md)
+  [![GPU CI](https://github.com/makr-code/ThemisDB/actions/workflows/06-infrastructure/gpu/gpu-ci.yml/badge.svg)](docs/en/badges/gpu-ci.md)
+  [![LLM CI](https://github.com/makr-code/ThemisDB/actions/workflows/02-feature-modules/llm/llm-cpu-fallback-ci.yml/badge.svg)](docs/en/badges/llm-ci.md)
   [![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-lightgrey)](docs/en/badges/platform.md)
 
   <sub>ℹ️ Each badge links to a short explanation of what it shows and where to find the source of truth. See <a href="docs/en/badges/README.md">docs/en/badges</a> for the full overview.</sub>

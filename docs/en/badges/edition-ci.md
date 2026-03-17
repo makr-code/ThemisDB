@@ -2,17 +2,17 @@
 
 | Badge | Workflow | Edition |
 |-------|----------|---------|
-| [![MINIMAL](https://github.com/makr-code/ThemisDB/actions/workflows/edition-minimal-ci.yml/badge.svg?branch=develop)](https://github.com/makr-code/ThemisDB/actions/workflows/edition-minimal-ci.yml) | `edition-minimal-ci.yml` | MINIMAL |
-| [![COMMUNITY](https://github.com/makr-code/ThemisDB/actions/workflows/edition-community-ci.yml/badge.svg?branch=develop)](https://github.com/makr-code/ThemisDB/actions/workflows/edition-community-ci.yml) | `edition-community-ci.yml` | COMMUNITY |
-| [![ENTERPRISE](https://github.com/makr-code/ThemisDB/actions/workflows/edition-enterprise-ci.yml/badge.svg?branch=develop)](https://github.com/makr-code/ThemisDB/actions/workflows/edition-enterprise-ci.yml) | `edition-enterprise-ci.yml` | ENTERPRISE |
-| [![HYPERSCALER](https://github.com/makr-code/ThemisDB/actions/workflows/edition-hyperscaler-ci.yml/badge.svg?branch=develop)](https://github.com/makr-code/ThemisDB/actions/workflows/edition-hyperscaler-ci.yml) | `edition-hyperscaler-ci.yml` | HYPERSCALER |
-| [![MILITARY](https://github.com/makr-code/ThemisDB/actions/workflows/edition-military-ci.yml/badge.svg?branch=develop)](https://github.com/makr-code/ThemisDB/actions/workflows/edition-military-ci.yml) | `edition-military-ci.yml` | MILITARY |
+| [![MINIMAL](https://github.com/makr-code/ThemisDB/actions/workflows/03-editions/edition-minimal-ci.yml/badge.svg?branch=develop)](https://github.com/makr-code/ThemisDB/actions/workflows/03-editions/edition-minimal-ci.yml) | `03-editions/edition-minimal-ci.yml` | MINIMAL |
+| [![COMMUNITY](https://github.com/makr-code/ThemisDB/actions/workflows/03-editions/edition-community-ci.yml/badge.svg?branch=develop)](https://github.com/makr-code/ThemisDB/actions/workflows/03-editions/edition-community-ci.yml) | `03-editions/edition-community-ci.yml` | COMMUNITY |
+| [![ENTERPRISE](https://github.com/makr-code/ThemisDB/actions/workflows/03-editions/edition-enterprise-ci.yml/badge.svg?branch=develop)](https://github.com/makr-code/ThemisDB/actions/workflows/03-editions/edition-enterprise-ci.yml) | `03-editions/edition-enterprise-ci.yml` | ENTERPRISE |
+| [![HYPERSCALER](https://github.com/makr-code/ThemisDB/actions/workflows/03-editions/edition-hyperscaler-ci.yml/badge.svg?branch=develop)](https://github.com/makr-code/ThemisDB/actions/workflows/03-editions/edition-hyperscaler-ci.yml) | `03-editions/edition-hyperscaler-ci.yml` | HYPERSCALER |
+| [![MILITARY](https://github.com/makr-code/ThemisDB/actions/workflows/03-editions/edition-military-ci.yml/badge.svg?branch=develop)](https://github.com/makr-code/ThemisDB/actions/workflows/03-editions/edition-military-ci.yml) | `03-editions/edition-military-ci.yml` | MILITARY |
 
 ## What they show
 
 Each badge reflects the result of the most recent CI run for that **ThemisDB edition** on the `develop` branch (Linux, `gcc-12`, `Debug` build). The workflows validate that the edition-specific CMake configuration is accepted and that the core test suite passes when the code is compiled with that edition flag.
 
-All five editions share a single reusable workflow ([`edition-build-ci.yml`](../../../.github/workflows/edition-build-ci.yml)) that is called by each edition-specific wrapper workflow.
+All five editions share a single reusable workflow ([`03-editions/edition-build-ci.yml`](../../../.github/workflows/03-editions/edition-build-ci.yml)) that is called by each edition-specific wrapper workflow.
 
 ## CI Mode and feature flags
 
@@ -26,13 +26,13 @@ To enforce that all five edition checks must be green before any PR can be merge
 
 | Status check name | Workflow |
 |-------------------|----------|
-| `MINIMAL · Linux · Debug` | `edition-minimal-ci.yml` / `edition-build-ci.yml` |
-| `COMMUNITY · Linux · Debug` | `edition-community-ci.yml` / `edition-build-ci.yml` |
-| `ENTERPRISE · Linux · Debug` | `edition-enterprise-ci.yml` / `edition-build-ci.yml` |
-| `HYPERSCALER · Linux · Debug` | `edition-hyperscaler-ci.yml` / `edition-build-ci.yml` |
-| `MILITARY · Linux · Debug` | `edition-military-ci.yml` / `edition-build-ci.yml` |
+| `MINIMAL · Linux · Debug` | `03-editions/edition-minimal-ci.yml` / `03-editions/edition-build-ci.yml` |
+| `COMMUNITY · Linux · Debug` | `03-editions/edition-community-ci.yml` / `03-editions/edition-build-ci.yml` |
+| `ENTERPRISE · Linux · Debug` | `03-editions/edition-enterprise-ci.yml` / `03-editions/edition-build-ci.yml` |
+| `HYPERSCALER · Linux · Debug` | `03-editions/edition-hyperscaler-ci.yml` / `03-editions/edition-build-ci.yml` |
+| `MILITARY · Linux · Debug` | `03-editions/edition-military-ci.yml` / `03-editions/edition-build-ci.yml` |
 
-The job `name` in `edition-build-ci.yml` is `${{ inputs.edition }} · Linux · ${{ inputs.build-type }}`, which renders to e.g. `MINIMAL · Linux · Debug`.
+The job `name` in `03-editions/edition-build-ci.yml` is `${{ inputs.edition }} · Linux · ${{ inputs.build-type }}`, which renders to e.g. `MINIMAL · Linux · Debug`.
 
 **Steps to configure (GitHub UI):**
 
@@ -50,6 +50,6 @@ After this configuration, GitHub will block PRs targeting `main` unless all five
 
 | Resource | Link |
 |----------|------|
-| Reusable workflow | [`.github/workflows/edition-build-ci.yml`](../../../.github/workflows/edition-build-ci.yml) |
+| Reusable workflow | [`.github/workflows/03-editions/edition-build-ci.yml`](../../../.github/workflows/03-editions/edition-build-ci.yml) |
 | Edition CMake files | [`cmake/editions/`](../../../cmake/editions/) |
 | All workflow runs | <https://github.com/makr-code/ThemisDB/actions> |
