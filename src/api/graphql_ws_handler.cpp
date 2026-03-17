@@ -223,7 +223,11 @@ GraphQLWsHandler::handleSubscribe(const std::string& id,
     // Verify that every variable value supplied in the payload matches the
     // declared VariableDefinition type (requires the parsed operation from step 3).
     {
-        const json variables = payload.value("variables", json::object());
+        // Treat explicit `"variables": null` the same as omitted (empty object):
+        // many GraphQL clients send null to mean "no variables".
+        const json variables = (payload.contains("variables") && !payload["variables"].is_null())
+                               ? payload["variables"]
+                               : json::object();
         if (!variables.is_object()) {
             return {buildError(id, "Field 'variables' must be a JSON object when present")};
         }

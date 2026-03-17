@@ -44,6 +44,8 @@
 #include <nlohmann/json.hpp>
 #include <string>
 #include <vector>
+#include <atomic>
+#include <thread>
 
 using namespace themis::api;
 using json = nlohmann::json;
@@ -334,6 +336,59 @@ TEST_F(GraphQLWsHandlerTest, ResetWithActiveSubscriptionDoesNotCrash) {
 }
 
 // ---------------------------------------------------------------------------
+// alive_ lifetime flag – direct mechanism tests
+//
+// These tests verify the shared_ptr<atomic<bool>> alive_ flag mechanism that
+// guards CDC callback lambdas against use-after-free.  They use the
+// aliveForTesting() accessor to simulate what a CDC callback lambda does
+// (capture a shared copy of the flag, then check it with acquire ordering),
+// exercising the exact memory-ordering contract that reset() must fulfil.
+// ---------------------------------------------------------------------------
+
+// The alive flag must be true after construction (before reset).
+TEST_F(GraphQLWsHandlerTest, AliveFlag_InitiallyTrue) {
+    EXPECT_TRUE(handler->aliveForTesting()->load(std::memory_order_acquire));
+}
+
+// reset() must set the alive flag to false with release ordering.
+// A captured copy of the flag (as held by a CDC callback lambda) must observe
+// false with acquire ordering — the exact guarantee that prevents the lambda
+// from dereferencing the destroyed handler.
+TEST_F(GraphQLWsHandlerTest, AliveFlag_FalseAfterReset) {
+    // Simulate the CDC lambda: capture a shared copy of the alive flag.
+    auto alive = handler->aliveForTesting();
+    ASSERT_TRUE(alive->load(std::memory_order_acquire));
+
+    handler->reset();
+
+    // The flag must now be false. A CDC callback holding `alive` by value
+    // (shared_ptr) would observe this and return early instead of touching self.
+    EXPECT_FALSE(alive->load(std::memory_order_acquire));
+}
+
+// Simulate the race: a background thread checks the alive flag (as a CDC
+// callback would) after reset() has already set it to false.  The thread
+// must observe false — with the acquire/release ordering guaranteeing
+// visibility — and must not crash.
+TEST_F(GraphQLWsHandlerTest, AliveFlag_CallbackAfterResetObservesFalse) {
+    // Capture shared ownership of the alive flag (mimicking the lambda capture).
+    auto alive = handler->aliveForTesting();
+
+    // Reset the handler first, setting alive_ to false with release ordering.
+    handler->reset();
+
+    // Simulate a CDC callback firing after reset() on a separate thread.
+    // With acquire ordering the callback must see false.
+    bool flag_value_in_callback = true;
+    std::thread t([&alive, &flag_value_in_callback]() {
+        flag_value_in_callback = alive->load(std::memory_order_acquire);
+    });
+    t.join();
+
+    EXPECT_FALSE(flag_value_in_callback);
+}
+
+// ---------------------------------------------------------------------------
 // Step-2 – schema-level variable type validation
 // ---------------------------------------------------------------------------
 
@@ -540,6 +595,23 @@ TEST_F(GraphQLWsHandlerTest, VariableValidation_FloatType_WrongType) {
     ASSERT_EQ(resp.size(), 1u);
     EXPECT_EQ(resp[0]["type"], "error");
     EXPECT_EQ(resp[0]["id"],   "sub_var13");
+}
+
+// Many GraphQL clients send `"variables": null` to mean "no variables".
+// This must be accepted and treated identically to an empty variables object.
+TEST_F(GraphQLWsHandlerTest, VariableValidation_NullVariablesField_AcceptedAsEmpty) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var14"},
+        {"payload", {
+            {"query",     "subscription { onChange(collection: \"orders\") { key } }"},
+            {"variables", nullptr}  // explicit JSON null – many clients send this
+        }}
+    });
+    // null variables must be treated as "no variables" → no error.
+    EXPECT_TRUE(resp.empty());
+    EXPECT_EQ(handler->activeSubscriptionCount(), 1u);
 }
 
 // ---------------------------------------------------------------------------

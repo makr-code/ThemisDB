@@ -184,6 +184,24 @@ public:
      */
     static bool isGraphQLWsPath(std::string_view path);
 
+    // -----------------------------------------------------------------------
+    // Test accessor
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Return the shared alive flag for white-box testing.
+     *
+     * Allows tests to verify that reset() sets the flag to false with the
+     * correct memory ordering before subscription handles are cleared, and
+     * that a captured copy of the flag (as held by a CDC callback lambda)
+     * correctly observes false after reset().
+     *
+     * Not intended for use in production code.
+     */
+    const std::shared_ptr<std::atomic<bool>>& aliveForTesting() const noexcept {
+        return alive_;
+    }
+
 private:
     // -----------------------------------------------------------------------
     // Internal message handlers
