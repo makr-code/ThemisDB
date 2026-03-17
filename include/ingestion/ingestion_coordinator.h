@@ -44,6 +44,83 @@ namespace themis {
 namespace ingestion {
 
 // ============================================================================
+// ISharedCheckpointStore — pluggable shared-backend checkpoint interface
+// ============================================================================
+
+/**
+ * @brief Strategy interface for a cluster-wide checkpoint store.
+ *
+ * All worker nodes in a distributed ingestion run share a single
+ * `ISharedCheckpointStore` so that incremental progress is visible across
+ * nodes and a failover worker can resume from the last committed offset.
+ *
+ * In production this is backed by Redis or the ThemisDB checkpoint
+ * collection.  For single-process deployments the default
+ * `InMemorySharedCheckpointStore` keeps state in a mutex-protected map
+ * so that multiple in-process workers see each other's checkpoints.
+ */
+class ISharedCheckpointStore {
+public:
+    virtual ~ISharedCheckpointStore() = default;
+
+    /**
+     * @brief Atomically write (or overwrite) a checkpoint.
+     * @return true on success
+     */
+    virtual bool write(const IngestionCheckpoint& cp) = 0;
+
+    /**
+     * @brief Read the checkpoint for a source.
+     * @param source_id  Source whose checkpoint to retrieve
+     * @param out        Populated on success
+     * @return true if a checkpoint was found and read successfully
+     */
+    virtual bool read(const std::string& source_id,
+                      IngestionCheckpoint& out) const = 0;
+
+    /**
+     * @brief Remove the checkpoint for a source.
+     * @return true if the checkpoint existed and was deleted
+     */
+    virtual bool clear(const std::string& source_id) = 0;
+
+    /**
+     * @brief Check whether a checkpoint exists for a source.
+     */
+    virtual bool exists(const std::string& source_id) const = 0;
+};
+
+// ============================================================================
+// InMemorySharedCheckpointStore — thread-safe in-process implementation
+// ============================================================================
+
+/**
+ * @brief `ISharedCheckpointStore` backed by a mutex-protected in-memory map.
+ *
+ * Suitable for single-process multi-worker deployments (e.g. tests and the
+ * default `InProcessWorkerNode` mode).  Production deployments inject a Redis-
+ * or database-backed implementation via
+ * `IngestionCoordinator::setSharedCheckpointStoreForTesting()`.
+ *
+ * Thread-safety: fully thread-safe.
+ */
+class InMemorySharedCheckpointStore : public ISharedCheckpointStore {
+public:
+    bool write(const IngestionCheckpoint& cp) override;
+    bool read(const std::string& source_id,
+              IngestionCheckpoint& out) const override;
+    bool clear(const std::string& source_id) override;
+    bool exists(const std::string& source_id) const override;
+
+    /** @return Number of checkpoints currently held in memory. */
+    size_t size() const;
+
+private:
+    mutable std::mutex mutex_;
+    std::unordered_map<std::string, IngestionCheckpoint> store_;
+};
+
+// ============================================================================
 // NodeInfo — lightweight description of a coordinator-managed worker node
 // ============================================================================
 
@@ -559,6 +636,26 @@ public:
      */
     void setLeaderElectionForTesting(std::shared_ptr<ILeaderElection> election);
 
+    /**
+     * @brief Inject a custom shared checkpoint store (testing / simulation only).
+     *
+     * In production the coordinator uses an `InMemorySharedCheckpointStore`
+     * (suitable for single-process deployments).  Multi-host deployments
+     * provide a Redis- or database-backed implementation here.
+     *
+     * Must be called before `start()`.
+     */
+    void setSharedCheckpointStoreForTesting(
+        std::shared_ptr<ISharedCheckpointStore> store);
+
+    /**
+     * @brief Return the shared checkpoint store currently in use.
+     *
+     * Useful for test assertions (e.g. verifying a checkpoint was written
+     * after ingestion).
+     */
+    std::shared_ptr<ISharedCheckpointStore> getSharedCheckpointStore() const;
+
 private:
     Config config_;
     std::atomic<bool> running_{false};
@@ -571,6 +668,9 @@ private:
 
     // Leader election
     std::shared_ptr<ILeaderElection> leader_election_;
+
+    // Shared checkpoint store (visible to all worker nodes)
+    std::shared_ptr<ISharedCheckpointStore> checkpoint_store_;
 
     // Metrics
     mutable std::mutex metrics_mutex_;

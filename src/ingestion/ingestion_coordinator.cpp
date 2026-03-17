@@ -78,6 +78,42 @@ inline std::string vnodeKey(const std::string& node_id, size_t replica) {
 } // anonymous namespace
 
 // ============================================================================
+// InMemorySharedCheckpointStore
+// ============================================================================
+
+bool InMemorySharedCheckpointStore::write(const IngestionCheckpoint& cp) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    store_[cp.source_id] = cp;
+    return true;
+}
+
+bool InMemorySharedCheckpointStore::read(const std::string& source_id,
+                                          IngestionCheckpoint& out) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto it = store_.find(source_id);
+    if (it == store_.end()) {
+        return false;
+    }
+    out = it->second;
+    return true;
+}
+
+bool InMemorySharedCheckpointStore::clear(const std::string& source_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return store_.erase(source_id) > 0;
+}
+
+bool InMemorySharedCheckpointStore::exists(const std::string& source_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return store_.count(source_id) > 0;
+}
+
+size_t InMemorySharedCheckpointStore::size() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return store_.size();
+}
+
+// ============================================================================
 // InProcessLeaderElection
 // ============================================================================
 
@@ -342,6 +378,7 @@ IngestionCoordinator::IngestionCoordinator(const Config& config)
     : config_(config)
     , my_node_id_(makeCoordinatorNodeId())
     , leader_election_(std::make_shared<InProcessLeaderElection>())
+    , checkpoint_store_(std::make_shared<InMemorySharedCheckpointStore>())
 {
     // Default num_nodes = hardware_concurrency / 2, min 1.
     if (config_.num_nodes == 0) {
