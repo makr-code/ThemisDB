@@ -1972,12 +1972,11 @@ void CEPEngine::initialize(const CEPConfig& config) {
     config_ = config;
 
     // Reset runtime state so repeated initialize()/shutdown() cycles in tests
-    // always start from a clean slate.
-    {
-        std::lock_guard lk(queue_mutex_);
-        std::queue<std::pair<std::string, Event>> empty;
-        std::swap(event_queue_, empty);
-    }
+    // always start from a clean slate.  Create a fresh ring buffer sized to
+    // the configured max_queue_depth (default 65536).
+    event_queue_ = std::make_unique<
+        themis::analytics::detail::EventRingBuffer<std::pair<std::string, Event>>>(
+            config.max_queue_depth > 0 ? config.max_queue_depth : 65536);
     {
         std::lock_guard lk(alerts_mutex_);
         alerts_.clear();
@@ -2039,11 +2038,7 @@ void CEPEngine::shutdown() {
         streams_.clear();
         default_stream_.reset();
     }
-    {
-        std::lock_guard lk(queue_mutex_);
-        std::queue<std::pair<std::string, Event>> empty;
-        std::swap(event_queue_, empty);
-    }
+    event_queue_.reset();
     initialized_ = false;
     spdlog::info("CEPEngine shut down");
 }
@@ -2088,33 +2083,42 @@ bool CEPEngine::submitEvent(const std::string& stream_id, Event event) {
     event.processing_time = std::chrono::system_clock::now();
     if (event.event_id.empty()) event.event_id = generateId();
 
+    if (!event_queue_) return false;
+
     if (config_.backpressure_enabled && config_.max_queue_depth > 0) {
-        std::lock_guard lk(queue_mutex_);
-        size_t current_depth = event_queue_.size();
-        // Drop the event when the queue is at or above max capacity
-        if (current_depth >= config_.max_queue_depth) {
-            ++events_dropped_;
-            ++backpressure_events_;
-            spdlog::warn("CEPEngine: event dropped (queue full {}/{})",
-                         current_depth, config_.max_queue_depth);
-            return false;
-        }
-        // Signal backpressure (but still accept) when above the threshold
+        size_t current_depth = event_queue_->size_approx();
+        // Use the ring buffer's effective capacity (rounded to next power-of-two)
+        // so the fill ratio is consistent with the actual queue limit.
+        const size_t effective_capacity = event_queue_->capacity();
         float fill = static_cast<float>(current_depth) /
-                     static_cast<float>(config_.max_queue_depth);
+                     static_cast<float>(effective_capacity);
         if (fill >= config_.global_backpressure_threshold) {
             ++backpressure_events_;
             spdlog::debug("CEPEngine: backpressure active ({:.0f}% full)",
                           fill * 100.0f);
         }
-        event_queue_.push({stream_id, std::move(event)});
+        // Try a lock-free push; drop if ring buffer is full.
+        if (!event_queue_->push({stream_id, std::move(event)})) {
+            ++events_dropped_;
+            ++backpressure_events_;
+            spdlog::warn("CEPEngine: event dropped (ring buffer full, ~{}/{})",
+                         current_depth, effective_capacity);
+            return false;
+        }
         cv_.notify_one();
         return true;
     }
 
-    {
-        std::lock_guard lk(queue_mutex_);
-        event_queue_.push({stream_id, std::move(event)});
+    // Note: even when backpressure_enabled=false the ring buffer has a bounded
+    // capacity (max_queue_depth rounded to the next power of two).  Events are
+    // dropped when the ring is full rather than blocking.  Callers that require
+    // lossless delivery should either enable backpressure or size max_queue_depth
+    // large enough for the expected burst.
+    if (!event_queue_->push({stream_id, std::move(event)})) {
+        ++events_dropped_;
+        spdlog::warn("CEPEngine: event dropped (ring buffer full, capacity={})",
+                     event_queue_->capacity());
+        return false;
     }
     cv_.notify_one();
     return true;
@@ -2233,8 +2237,7 @@ CEPEngine::Stats CEPEngine::getStats() const {
     s.pattern_matches   = pattern_matches_.load();
     s.alerts_generated  = alerts_generated_.load();
     {
-        std::lock_guard lk(queue_mutex_);
-        s.queue_depth = event_queue_.size();
+        s.queue_depth = event_queue_ ? event_queue_->size_approx() : 0;
     }
     {
         std::shared_lock lk(streams_mutex_);
@@ -2415,14 +2418,16 @@ std::vector<std::string> CEPEngine::listCheckpoints() const {
 void CEPEngine::workerLoop() {
     while (running_) {
         std::pair<std::string, Event> item;
-        {
+        // Attempt a lock-free pop from the ring buffer.
+        bool got = event_queue_ && event_queue_->pop(item);
+        if (!got) {
+            // Nothing in the queue — sleep briefly to avoid busy-wait.
             std::unique_lock lk(mutex_);
             cv_.wait_for(lk, std::chrono::milliseconds(100), [this] {
-                return !event_queue_.empty() || !running_.load();
+                return (event_queue_ && !event_queue_->empty()) || !running_.load();
             });
-            if (event_queue_.empty()) continue;
-            item = std::move(event_queue_.front());
-            event_queue_.pop();
+            // Re-try the pop after waking.
+            if (!event_queue_ || !event_queue_->pop(item)) continue;
         }
         processEvent(item.first, item.second);
     }

@@ -62,6 +62,7 @@
 #include <chrono>
 #include <cmath>
 #include <limits>
+#include <memory_resource>
 #include <numeric>
 #include <optional>
 #include <sstream>
@@ -697,19 +698,25 @@ ColumnBatch AggregateOperator::aggregateGroupBy(
 
     size_t n = input.rowCount();
 
-    // Map: group_key -> vector of per-spec AggStates
-    std::unordered_map<std::string, std::vector<AggState>> groups;
-    // Preserve insertion order for deterministic output.
-    std::vector<std::string> key_order;
+    // Reset the per-operator arena so all GROUP BY scratch memory
+    // (group-key strings, AggState vectors) reuses the same backing block.
+    pool_.reset();
+    std::pmr::polymorphic_allocator<std::byte> alloc{&pool_};
+
+    // Map: group_key -> vector of per-spec AggStates — backed by arena.
+    std::pmr::unordered_map<std::pmr::string, std::pmr::vector<AggState>> groups{alloc};
+    // Preserve insertion order for deterministic output — backed by arena.
+    std::pmr::vector<std::pmr::string> key_order{alloc};
 
     for (size_t row = 0; row < n; ++row) {
-        std::string key = makeGroupKey(input, group_cols, row);
+        std::string key_std = makeGroupKey(input, group_cols, row);
+        std::pmr::string key{key_std, alloc};
 
-        auto it = groups.find(key);
-        if (it == groups.end()) {
-            groups.emplace(key, std::vector<AggState>(specs_.size()));
-            key_order.push_back(key);
-            it = groups.find(key);
+        // emplace returns (iterator, bool); avoid a second find() on new groups.
+        auto [it, inserted] = groups.emplace(key,
+            std::pmr::vector<AggState>{specs_.size(), AggState{}, alloc});
+        if (inserted) {
+            key_order.push_back(it->first);  // reference key already in the map
         }
 
         auto& states = it->second;
@@ -741,14 +748,12 @@ ColumnBatch AggregateOperator::aggregateGroupBy(
         if (!src) continue;
         auto out_col = std::make_shared<Column>(gc, src->type());
         out_col->reserve(num_rows);
-        // We need the representative value for each group key.
-        // Re-scan input to find first row for each key (for small result sets).
-        // For performance, we cache it during the aggregation pass above.
-        // Here we use a simpler two-pass approach since group counts are small.
-        std::unordered_map<std::string, size_t> first_row;
+        // Build first-row map (arena-backed) to avoid extra heap allocations.
+        // try_emplace does a single lookup and inserts only when key is absent.
+        std::pmr::unordered_map<std::pmr::string, size_t> first_row{alloc};
         for (size_t row = 0; row < n; ++row) {
-            std::string k = makeGroupKey(input, group_cols, row);
-            if (!first_row.count(k)) first_row[k] = row;
+            std::pmr::string k{makeGroupKey(input, group_cols, row), alloc};
+            first_row.try_emplace(k, row);
         }
         for (const auto& k : key_order) {
             size_t fr = first_row.at(k);

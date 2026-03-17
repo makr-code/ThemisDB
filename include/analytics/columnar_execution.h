@@ -58,6 +58,9 @@
 #include <variant>
 #include <vector>
 
+// Arena allocator used by AggregateOperator for GROUP BY scratch memory.
+#include "analytics/detail/memory_pool.h"
+
 namespace themisdb {
 namespace analytics {
 
@@ -337,6 +340,12 @@ private:
                                   const std::vector<std::string>& group_cols) const;
 
     std::vector<AggregateSpec> specs_;
+
+    // Per-operator arena allocator.  Mutable so const execute() / aggregateGroupBy()
+    // can call pool_.reset() at the start of each GROUP BY pass — no allocations
+    // escape this class, so the logical const-ness of the operator is preserved.
+    mutable themis::analytics::detail::AnalyticsMemoryPool pool_{
+        4ULL * 1024 * 1024};  // 4 MiB initial (GROUP BY scratch, much smaller than OLAP)
 };
 
 // ============================================================================
