@@ -1147,8 +1147,7 @@ private:
     // The ring buffer is re-created if initialize() is called again.
     std::unique_ptr<themis::analytics::detail::EventRingBuffer<
         std::pair<std::string, Event>>> event_queue_;
-    // Kept only for backward-compat size_approx() access in getStats().
-    // NOT used for serialization — that is handled by event_queue_ atomics.
+    // size_approx() is used for backpressure fill-ratio checks and getStats().
     
     void workerLoop();
     void metricsLoop();

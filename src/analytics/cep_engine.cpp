@@ -2087,31 +2087,37 @@ bool CEPEngine::submitEvent(const std::string& stream_id, Event event) {
 
     if (config_.backpressure_enabled && config_.max_queue_depth > 0) {
         size_t current_depth = event_queue_->size_approx();
-        // Signal backpressure (but still accept) when above the threshold
-        if (config_.max_queue_depth > 0) {
-            float fill = static_cast<float>(current_depth) /
-                         static_cast<float>(config_.max_queue_depth);
-            if (fill >= config_.global_backpressure_threshold) {
-                ++backpressure_events_;
-                spdlog::debug("CEPEngine: backpressure active ({:.0f}% full)",
-                              fill * 100.0f);
-            }
+        // Use the ring buffer's effective capacity (rounded to next power-of-two)
+        // so the fill ratio is consistent with the actual queue limit.
+        const size_t effective_cap = event_queue_->capacity();
+        float fill = static_cast<float>(current_depth) /
+                     static_cast<float>(effective_cap);
+        if (fill >= config_.global_backpressure_threshold) {
+            ++backpressure_events_;
+            spdlog::debug("CEPEngine: backpressure active ({:.0f}% full)",
+                          fill * 100.0f);
         }
         // Try a lock-free push; drop if ring buffer is full.
         if (!event_queue_->push({stream_id, std::move(event)})) {
             ++events_dropped_;
             ++backpressure_events_;
             spdlog::warn("CEPEngine: event dropped (ring buffer full, ~{}/{})",
-                         current_depth, config_.max_queue_depth);
+                         current_depth, effective_cap);
             return false;
         }
         cv_.notify_one();
         return true;
     }
 
+    // Note: even when backpressure_enabled=false the ring buffer has a bounded
+    // capacity (max_queue_depth rounded to the next power of two).  Events are
+    // dropped when the ring is full rather than blocking.  Callers that require
+    // lossless delivery should either enable backpressure or size max_queue_depth
+    // large enough for the expected burst.
     if (!event_queue_->push({stream_id, std::move(event)})) {
         ++events_dropped_;
-        spdlog::warn("CEPEngine: event dropped (ring buffer full)");
+        spdlog::warn("CEPEngine: event dropped (ring buffer full, capacity={})",
+                     event_queue_->capacity());
         return false;
     }
     cv_.notify_one();

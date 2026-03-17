@@ -712,12 +712,11 @@ ColumnBatch AggregateOperator::aggregateGroupBy(
         std::string key_std = makeGroupKey(input, group_cols, row);
         std::pmr::string key{key_std, alloc};
 
-        auto it = groups.find(key);
-        if (it == groups.end()) {
-            std::pmr::vector<AggState> states{specs_.size(), AggState{}, alloc};
-            groups.emplace(key, std::move(states));
-            key_order.push_back(key);
-            it = groups.find(key);
+        // emplace returns (iterator, bool); avoid a second find() on new groups.
+        auto [it, inserted] = groups.emplace(key,
+            std::pmr::vector<AggState>{specs_.size(), AggState{}, alloc});
+        if (inserted) {
+            key_order.push_back(it->first);  // reference key already in the map
         }
 
         auto& states = it->second;
@@ -750,10 +749,11 @@ ColumnBatch AggregateOperator::aggregateGroupBy(
         auto out_col = std::make_shared<Column>(gc, src->type());
         out_col->reserve(num_rows);
         // Build first-row map (arena-backed) to avoid extra heap allocations.
+        // try_emplace does a single lookup and inserts only when key is absent.
         std::pmr::unordered_map<std::pmr::string, size_t> first_row{alloc};
         for (size_t row = 0; row < n; ++row) {
             std::pmr::string k{makeGroupKey(input, group_cols, row), alloc};
-            if (!first_row.count(k)) first_row[k] = row;
+            first_row.try_emplace(k, row);
         }
         for (const auto& k : key_order) {
             size_t fr = first_row.at(k);

@@ -33,7 +33,9 @@
 #include <atomic>
 #include <chrono>
 #include <cstddef>
+#include <cstdlib>          // std::getenv
 #include <cstring>
+#include <iostream>         // std::cout
 #include <memory_resource>
 #include <string>
 #include <thread>
