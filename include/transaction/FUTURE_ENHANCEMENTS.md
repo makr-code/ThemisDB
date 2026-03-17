@@ -150,7 +150,12 @@ public:
 ---
 
 ### SAGA Orchestration
+**Status: ✅ Implemented** (v1.8.0)  
 **Target Version:** v1.8.0
+
+Implemented in `include/transaction/saga_orchestrator.h` and
+`src/transaction/saga_orchestrator.cpp`.  Tests in
+`tests/test_saga_orchestrator.cpp`.
 
 Extend saga.h with orchestration:
 

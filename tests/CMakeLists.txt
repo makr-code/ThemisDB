@@ -4164,6 +4164,46 @@ else()
     message(STATUS "SagaOperation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_saga_operation.cpp")
 endif()
 
+# SAGA Orchestrator Focused Tests (v1.8.0)
+# AC-1..25: parallel DAG execution, dependency resolution, retry, timeout,
+#           compensation, templates, metrics, concurrent SAGAs, performance
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_saga_orchestrator.cpp")
+    message(STATUS "Adding SAGA Orchestrator focused tests (transaction, v1.8.0)")
+
+    add_executable(test_saga_orchestrator_focused
+        test_saga_orchestrator.cpp
+        ${CMAKE_SOURCE_DIR}/src/transaction/saga_orchestrator.cpp
+    )
+
+    target_include_directories(test_saga_orchestrator_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_saga_orchestrator_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_saga_orchestrator_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SAGAOrchestratorFocusedTests
+        COMMAND test_saga_orchestrator_focused)
+
+    set_tests_properties(SAGAOrchestratorFocusedTests PROPERTIES
+        LABELS "transaction;saga;orchestrator;dag;parallel;retry;timeout;v1.8.0;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  SAGAOrchestrator: DAG parallel execution, dependency resolution, retry policies, timeout management, compensation, templates, metrics")
+else()
+    message(STATUS "SAGA Orchestrator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_saga_orchestrator.cpp")
+endif()
+
 # Transaction Manager Focused Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_manager.cpp")
     message(STATUS "Adding Transaction Manager focused tests")
@@ -7606,6 +7646,7 @@ else()
     message(STATUS "Plugin Security PE Cert Extraction tests not found")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_marketplace_manifest.cpp")
     message(STATUS "Adding Plugin Marketplace Manifest focused tests")
 
     add_executable(test_plugin_marketplace_manifest_focused
