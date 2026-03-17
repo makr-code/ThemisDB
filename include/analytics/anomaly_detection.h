@@ -40,7 +40,10 @@
  *
  * Thread-safety:
  *   - AnomalyDetector: train() is NOT thread-safe; predict/explain are.
- *   - StreamingAnomalyDetector: fully thread-safe (mutex-protected).
+ *   - StreamingAnomalyDetector: fully thread-safe (shared_mutex-protected).
+ *     process() holds the lock for ≤ 50 µs (window copy only); retrain runs
+ *     asynchronously.  Concurrent predict() calls use shared_lock and proceed
+ *     without blocking each other.
  *
  * Copyright (c) 2025 VCC-URN Project
  * SPDX-License-Identifier: Apache-2.0
@@ -53,10 +56,12 @@
 #include <chrono>
 #include <deque>
 #include <functional>
+#include <future>
 #include <map>
 #include <memory>
 #include <mutex>
 #include <optional>
+#include <shared_mutex>
 #include <string>
 #include <variant>
 #include <vector>
@@ -303,6 +308,8 @@ public:
      * Process a new data point.
      * Returns an AnomalyResult only when the detector is already trained.
      * Returns nullopt while warming up.
+     * Lock-hold is bounded to ≤ 50 µs (window copy only); training runs
+     * asynchronously on a background thread.
      */
     std::optional<AnomalyResult> process(const DataPoint& point);
 
@@ -324,12 +331,17 @@ public:
     const AnomalyDetector& detector() const noexcept { return detector_; }
 
 private:
-    Config                        config_;
-    AnomalyDetector               detector_;
-    mutable std::mutex            mu_;
-    std::deque<DataPoint>         window_;
-    std::vector<AnomalyResult>    anomalies_;
-    size_t                        points_seen_ = 0;
+    /** Copy the current window under a brief shared lock and return it. */
+    std::vector<DataPoint> snapshotWindow() const;
+
+    Config                           config_;
+    AnomalyDetector                  detector_;
+    mutable std::shared_mutex        mu_;
+    std::deque<DataPoint>            window_;
+    std::vector<AnomalyResult>       anomalies_;
+    size_t                           points_seen_ = 0;
+    std::atomic<bool>                retraining_{false};
+    std::future<void>                retrain_future_;
 };
 
 // ============================================================================

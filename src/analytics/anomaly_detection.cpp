@@ -58,9 +58,11 @@
 #include "analytics/anomaly_detection.h"
 
 #include <cmath>
+#include <future>
 #include <limits>
 #include <numeric>
 #include <random>
+#include <shared_mutex>
 #include <sstream>
 #include <stdexcept>
 
@@ -1037,57 +1039,105 @@ StreamingAnomalyDetector::StreamingAnomalyDetector(const Config& config)
 {}
 
 std::optional<AnomalyResult> StreamingAnomalyDetector::process(const DataPoint& point) {
-    std::lock_guard<std::mutex> lk(mu_);
-    ++points_seen_;
+    // ── Phase 1: update window under a brief exclusive lock ───────────────────
+    bool need_initial_train = false;
+    bool need_retrain       = false;
+    {
+        std::unique_lock<std::shared_mutex> lk(mu_);
+        ++points_seen_;
 
-    // Maintain window
-    window_.push_back(point);
-    while (window_.size() > config_.window_size)
-        window_.pop_front();
+        window_.push_back(point);
+        while (window_.size() > config_.window_size)
+            window_.pop_front();
 
-    // Auto-train once we have enough points
-    if (config_.auto_train && !detector_.isTrained()) {
-        if (points_seen_ >= config_.auto_train_after) {
-            std::vector<DataPoint> buf(window_.begin(), window_.end());
-            try {
-                detector_.train(buf);
-            } catch (...) {
-                return std::nullopt;
+        if (config_.auto_train && !detector_.isTrained()) {
+            if (points_seen_ >= config_.auto_train_after) {
+                need_initial_train = true;
+            } else {
+                return std::nullopt;   // still warming up
             }
-        } else {
+        }
+
+        if (config_.retrain_on_window &&
+            detector_.isTrained() &&
+            points_seen_ % config_.window_size == 0) {
+            need_retrain = true;
+        }
+    }
+    // lock released – window update complete
+
+    // ── Phase 2a: initial training (synchronous, but lock-free for the window
+    //              copy; train() runs under a fresh unique_lock) ───────────────
+    if (need_initial_train) {
+        if (!retraining_.exchange(true)) {
+            auto buf = snapshotWindow();   // brief shared_lock
+            try {
+                std::unique_lock<std::shared_mutex> wl(mu_);
+                detector_.train(buf);
+            } catch (...) {}
+            retraining_.store(false, std::memory_order_release);
+        }
+        // If another thread is already training (retraining_ was true), fall
+        // through to the predict phase; isTrained() will still be false so we
+        // return nullopt below.
+    }
+
+    // ── Phase 2b: periodic retrain — fully async so process() is non-blocking ─
+    // Safety: retrain_future_ is only written when retraining_.exchange(true)
+    // returns false, which means exactly one thread enters this block at a time.
+    // The async lambda stores retraining_=false *after* training completes, so
+    // the next retrain only starts after the previous future has finished — the
+    // old future's destructor is therefore always non-blocking at assignment.
+    if (need_retrain && !retraining_.exchange(true)) {
+        auto buf = snapshotWindow();   // brief shared_lock
+        retrain_future_ = std::async(
+            std::launch::async,
+            [this, buf = std::move(buf)]() mutable {
+                try {
+                    std::unique_lock<std::shared_mutex> wl(mu_);
+                    detector_.train(buf);
+                } catch (...) {}
+                retraining_.store(false, std::memory_order_release);
+            });
+    }
+
+    // ── Phase 3: predict under a shared lock (concurrent-reads safe) ─────────
+    std::optional<AnomalyResult> result;
+    {
+        std::shared_lock<std::shared_mutex> rl(mu_);
+        if (!detector_.isTrained()) return std::nullopt;
+        try {
+            result = detector_.predict(point);
+        } catch (...) {
             return std::nullopt;
         }
     }
+    // shared lock released
 
-    // Retrain on window rollover
-    if (config_.retrain_on_window && points_seen_ % config_.window_size == 0) {
-        std::vector<DataPoint> buf(window_.begin(), window_.end());
-        try { detector_.train(buf); } catch (...) {}
+    if (result && result->is_anomaly) {
+        std::unique_lock<std::shared_mutex> wl(mu_);
+        anomalies_.push_back(*result);
     }
+    return result;
+}
 
-    if (!detector_.isTrained()) return std::nullopt;
-
-    try {
-        auto result = detector_.predict(point);
-        if (result.is_anomaly) anomalies_.push_back(result);
-        return result;
-    } catch (...) {
-        return std::nullopt;
-    }
+std::vector<DataPoint> StreamingAnomalyDetector::snapshotWindow() const {
+    std::shared_lock<std::shared_mutex> lk(mu_);
+    return {window_.begin(), window_.end()};
 }
 
 std::vector<AnomalyResult> StreamingAnomalyDetector::getAnomalies() const {
-    std::lock_guard<std::mutex> lk(mu_);
+    std::shared_lock<std::shared_mutex> lk(mu_);
     return anomalies_;
 }
 
 void StreamingAnomalyDetector::clearAnomalies() {
-    std::lock_guard<std::mutex> lk(mu_);
+    std::unique_lock<std::shared_mutex> lk(mu_);
     anomalies_.clear();
 }
 
 StreamingAnomalyDetector::WindowStats StreamingAnomalyDetector::getWindowStats() const {
-    std::lock_guard<std::mutex> lk(mu_);
+    std::shared_lock<std::shared_mutex> lk(mu_);
     WindowStats ws;
     ws.window_size   = window_.size();
     ws.anomaly_count = anomalies_.size();
