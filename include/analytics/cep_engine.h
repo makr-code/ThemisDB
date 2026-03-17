@@ -60,6 +60,9 @@
 #include <any>
 #include <regex>
 
+// Lock-free MPMC ring buffer for the CEP event queue.
+#include "analytics/detail/ring_buffer.h"
+
 namespace themisdb {
 namespace analytics {
 
@@ -1139,9 +1142,13 @@ private:
     std::condition_variable metrics_cv_;
     std::mutex metrics_mutex_;
     
-    // Processing
-    std::queue<std::pair<std::string, Event>> event_queue_;
-    mutable std::mutex queue_mutex_;
+    // Processing — lock-free MPMC ring buffer replaces std::queue + mutex.
+    // Capacity mirrors max_queue_depth from CEPConfig (set during initialize()).
+    // The ring buffer is re-created if initialize() is called again.
+    std::unique_ptr<themis::analytics::detail::EventRingBuffer<
+        std::pair<std::string, Event>>> event_queue_;
+    // Kept only for backward-compat size_approx() access in getStats().
+    // NOT used for serialization — that is handled by event_queue_ atomics.
     
     void workerLoop();
     void metricsLoop();
