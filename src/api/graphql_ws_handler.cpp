@@ -185,7 +185,7 @@ GraphQLWsHandler::handleSubscribe(const std::string& id,
         }
     }
 
-    // ── 3. Parse the payload ─────────────────────────────────────────────────
+    // ── 2. Parse the payload ─────────────────────────────────────────────────
     json payload;
     try {
         payload = json::parse(payload_json);
@@ -198,7 +198,7 @@ GraphQLWsHandler::handleSubscribe(const std::string& id,
         return {buildError(id, "Missing 'query' in subscribe payload")};
     }
 
-    // ── 4. Parse the GraphQL query ───────────────────────────────────────────
+    // ── 3. Parse the GraphQL query ───────────────────────────────────────────
     auto parse_result = graphql::Parser::parse(query, limits_);
     if (!parse_result.success) {
         json errors_arr = json::array();
@@ -208,7 +208,7 @@ GraphQLWsHandler::handleSubscribe(const std::string& id,
         return {buildError(id, "Parse error: " + errors_arr.dump())};
     }
 
-    // ── 5. Validate that at least one operation is a subscription ────────────
+    // ── 4. Validate that at least one operation is a subscription ────────────
     if (parse_result.document.operations.empty()) {
         return {buildError(id, "No operations found in document")};
     }
@@ -219,12 +219,9 @@ GraphQLWsHandler::handleSubscribe(const std::string& id,
         return {buildError(id, "Only subscription operations are supported on this endpoint")};
     }
 
-    // ── 2. Schema-level variable type validation ──────────────────────────────
-    // (Placed here because it requires the parsed operation.)
+    // ── 5. Schema-level variable type validation ──────────────────────────────
     // Verify that every variable value supplied in the payload matches the
-    // declared VariableDefinition type.  This is the step that was originally
-    // planned but omitted from the sequence, leaving the gap between step 1
-    // and the former step 3.
+    // declared VariableDefinition type (requires the parsed operation from step 3).
     {
         const json variables = payload.value("variables", json::object());
         if (!variables.is_object()) {
@@ -292,7 +289,6 @@ GraphQLWsHandler::handleSubscribe(const std::string& id,
     {
         std::lock_guard<std::mutex> lock(mutex_);
         SubscriptionEntry entry;
-        entry.active     = true;
         entry.cdc_handle = std::move(cdc_handle);
         subscriptions_.emplace(id, std::move(entry));
     }

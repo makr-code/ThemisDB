@@ -496,6 +496,52 @@ TEST_F(GraphQLWsHandlerTest, VariableValidation_BooleanType_WrongType) {
     EXPECT_EQ(resp[0]["id"],   "sub_var10");
 }
 
+// Float variable type validation.
+TEST_F(GraphQLWsHandlerTest, VariableValidation_FloatType_Valid) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var11"},
+        {"payload", {
+            {"query",     "subscription Q($threshold: Float!) { onChange(collection: \"orders\") { key } }"},
+            {"variables", {{"threshold", 3.14}}}
+        }}
+    });
+    EXPECT_TRUE(resp.empty());
+    EXPECT_EQ(handler->activeSubscriptionCount(), 1u);
+}
+
+// Float variable also accepts integers (GraphQL coercion rule: Int → Float).
+TEST_F(GraphQLWsHandlerTest, VariableValidation_FloatType_IntCoercion) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var12"},
+        {"payload", {
+            {"query",     "subscription Q($threshold: Float!) { onChange(collection: \"orders\") { key } }"},
+            {"variables", {{"threshold", 42}}}  // integer coercible to Float – allowed
+        }}
+    });
+    EXPECT_TRUE(resp.empty());
+    EXPECT_EQ(handler->activeSubscriptionCount(), 1u);
+}
+
+// Float variable given a string value → error.
+TEST_F(GraphQLWsHandlerTest, VariableValidation_FloatType_WrongType) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var13"},
+        {"payload", {
+            {"query",     "subscription Q($threshold: Float!) { onChange(collection: \"orders\") { key } }"},
+            {"variables", {{"threshold", "not-a-number"}}}
+        }}
+    });
+    ASSERT_EQ(resp.size(), 1u);
+    EXPECT_EQ(resp[0]["type"], "error");
+    EXPECT_EQ(resp[0]["id"],   "sub_var13");
+}
+
 // ---------------------------------------------------------------------------
 // Static builder helpers
 // ---------------------------------------------------------------------------

@@ -100,11 +100,14 @@ public:
 
     ~GraphQLWsHandler();
 
-    // Non-copyable; each instance represents one logical connection.
-    GraphQLWsHandler(const GraphQLWsHandler&) = delete;
+    // Non-copyable and non-movable: each instance owns a shared alive_ flag that
+    // is captured by value in CDC lambda closures.  Allowing moves would leave
+    // the source's alive_ null; the source's destructor would then call reset(),
+    // which dereferences alive_ → null-pointer UB.
+    GraphQLWsHandler(const GraphQLWsHandler&)            = delete;
     GraphQLWsHandler& operator=(const GraphQLWsHandler&) = delete;
-    GraphQLWsHandler(GraphQLWsHandler&&) = default;
-    GraphQLWsHandler& operator=(GraphQLWsHandler&&) = default;
+    GraphQLWsHandler(GraphQLWsHandler&&)                 = delete;
+    GraphQLWsHandler& operator=(GraphQLWsHandler&&)      = delete;
 
     // -----------------------------------------------------------------------
     // Frame processing
@@ -236,9 +239,8 @@ private:
      */
     std::shared_ptr<std::atomic<bool>> alive_;
 
-    /// Per-subscription entry: tracks the CDC subscription handle.
+    /// Per-subscription entry: holds the CDC subscription handle (RAII).
     struct SubscriptionEntry {
-        bool                                active = true;
         themis::Changefeed::SubscriptionHandle cdc_handle;
     };
 
