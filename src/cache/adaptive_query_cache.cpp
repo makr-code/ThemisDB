@@ -2372,7 +2372,7 @@ std::vector<std::string> AdaptiveQueryCache::getPrefetchCandidates(
         // the prefetcher's internal counter is returned by getPrefetchStats().
         // Both are kept in sync here so each API surface is self-consistent.
         enhanced_metrics_.prefetch_candidates_generated++;
-        prefetcher_->recordCandidatesGenerated();
+        prefetcher_->recordCandidatesGenerated(candidates.size(), tenant_id);
     }
     return candidates;
 }

@@ -68,7 +68,7 @@ TEST_F(ToDBucketingTest, CandidatesReturnedWithToDEnabled) {
     EXPECT_EQ(candidates[0], "fp_b");
 }
 
-TEST_F(ToDBucketingTest, StatsContainTimoOfDayFlag) {
+TEST_F(ToDBucketingTest, StatsContainTimeOfDayFlag) {
     PredictivePrefetcher pf(cfg_);
     auto stats = pf.getStats();
     EXPECT_TRUE(stats.contains("time_of_day_weighting"));
@@ -191,12 +191,16 @@ TEST_F(PrefetchMetricsTest, HitRateGaugeUpdatedOnPrefetchHit) {
     PredictivePrefetcher pf(cfg);
 
     // Generate some candidates and record hits.
-    pf.recordCandidatesGenerated();
-    pf.recordCandidatesGenerated();
+    pf.recordCandidatesGenerated(1);
+    pf.recordCandidatesGenerated(1);
     pf.recordPrefetchHit();  // This should emit metrics.
 
     auto stats = pf.getStats();
     EXPECT_NEAR(stats["hit_rate"].get<double>(), 0.5, 0.01);
+
+    // Verify that MetricsCollector received the gauge value.
+    const std::string prometheus = MetricsCollector::getInstance().getPrometheusMetrics();
+    EXPECT_NE(prometheus.find("cache.prefetch.hit_rate"), std::string::npos);
 }
 
 TEST_F(PrefetchMetricsTest, OverheadBytesEmitted) {
@@ -210,6 +214,10 @@ TEST_F(PrefetchMetricsTest, OverheadBytesEmitted) {
 
     auto stats = pf.getStats();
     EXPECT_EQ(stats["overhead_bytes"].get<uint64_t>(), 1536u);
+
+    // Verify that MetricsCollector received the overhead gauge.
+    const std::string prometheus = MetricsCollector::getInstance().getPrometheusMetrics();
+    EXPECT_NE(prometheus.find("cache.prefetch.overhead_bytes"), std::string::npos);
 }
 
 // ============================================================================
@@ -222,11 +230,12 @@ protected:
     std::string db_path_;
 
     void SetUp() override {
-        db_path_ = "/tmp/themis_test_prefetch_persist_" +
-                   std::to_string(std::chrono::system_clock::now()
-                                      .time_since_epoch().count()) +
-                   "_" +
-                   std::to_string(reinterpret_cast<uintptr_t>(this));
+        const std::string suffix =
+            std::to_string(std::chrono::system_clock::now()
+                               .time_since_epoch().count()) +
+            "_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+        db_path_ = (std::filesystem::temp_directory_path() /
+                    ("themis_test_prefetch_persist_" + suffix)).string();
         config_.l3_db_path                    = db_path_;
         config_.l1_max_entries                = 50;
         config_.l2_max_entries                = 100;
@@ -317,9 +326,10 @@ TEST_F(PrefetchPersistenceTest, RecordOverheadBytesForwarded) {
 // ============================================================================
 
 TEST(AdaptiveQueryCachePrefetchConfigTest, ToDBucketingFlagPropagated) {
-    const std::string db_path = "/tmp/themis_test_aqc_tod_" +
-        std::to_string(std::chrono::system_clock::now()
-                           .time_since_epoch().count());
+    const std::string db_path = (std::filesystem::temp_directory_path() /
+        ("themis_test_aqc_tod_" +
+         std::to_string(std::chrono::system_clock::now()
+                            .time_since_epoch().count()))).string();
 
     AdaptiveQueryCache::Config cfg;
     cfg.l3_db_path                    = db_path;
@@ -346,9 +356,10 @@ TEST(AdaptiveQueryCachePrefetchConfigTest, ToDBucketingFlagPropagated) {
 }
 
 TEST(AdaptiveQueryCachePrefetchConfigTest, ABTestFlagPropagated) {
-    const std::string db_path = "/tmp/themis_test_aqc_ab_" +
-        std::to_string(std::chrono::system_clock::now()
-                           .time_since_epoch().count());
+    const std::string db_path = (std::filesystem::temp_directory_path() /
+        ("themis_test_aqc_ab_" +
+         std::to_string(std::chrono::system_clock::now()
+                            .time_since_epoch().count()))).string();
 
     AdaptiveQueryCache::Config cfg;
     cfg.l3_db_path                    = db_path;

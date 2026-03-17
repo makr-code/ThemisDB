@@ -28,7 +28,6 @@
 #include "storage/rocksdb_wrapper.h"
 #include "observability/metrics_collector.h"
 #include <algorithm>
-#include <functional>
 #include <utility>
 
 namespace themis {
@@ -43,14 +42,29 @@ PredictivePrefetcher::PredictivePrefetcher(const Config& config)
 // Internal helpers
 // ---------------------------------------------------------------------------
 
-bool PredictivePrefetcher::useMarkovModel(const std::string& tenant_id) const {
-    if (!config_.enable_ab_test) {
-        // No A/B test: always use time-of-day weighting when enabled.
-        return config_.enable_time_of_day_weighting;
+bool PredictivePrefetcher::useToDWeighting(const std::string& tenant_id) const {
+    if (!config_.enable_time_of_day_weighting) {
+        return false;
     }
-    // A/B split: deterministic hash of tenant_id.
-    // Group 0 → Markov model; group 1 → frequency baseline.
-    return (std::hash<std::string>{}(tenant_id) % 2) == 0;
+    if (!config_.enable_ab_test) {
+        // No A/B test: apply ToD weighting whenever the feature is enabled.
+        return true;
+    }
+    // A/B split: group 0 (stable FNV-1a hash % 2 == 0) uses Markov + ToD;
+    // group 1 uses raw Markov frequency without ToD weighting.
+    return (fnv1aHash(tenant_id) % 2) == 0;
+}
+
+uint64_t PredictivePrefetcher::fnv1aHash(const std::string& s) {
+    // FNV-1a 64-bit – portable, stable across all platforms and compiler versions.
+    constexpr uint64_t kFNVOffsetBasis = 14695981039346656037ULL;
+    constexpr uint64_t kFNVPrime       = 1099511628211ULL;
+    uint64_t hash = kFNVOffsetBasis;
+    for (unsigned char c : s) {
+        hash ^= static_cast<uint64_t>(c);
+        hash *= kFNVPrime;
+    }
+    return hash;
 }
 
 int PredictivePrefetcher::currentHour() {
@@ -153,7 +167,7 @@ std::vector<std::string> PredictivePrefetcher::getPrefetchCandidates(
     }
 
     const auto& successors = it->second;
-    const bool use_tod = useMarkovModel(tenant_id);
+    const bool use_tod = useToDWeighting(tenant_id);
     const int current_hour = use_tod ? currentHour() : 0;
 
     // Calculate total raw transitions from this source key
@@ -210,27 +224,40 @@ std::vector<std::string> PredictivePrefetcher::getPrefetchCandidates(
         result.push_back(std::move(candidates[i].second));
     }
 
-    // Update A/B generation counters
-    if (config_.enable_ab_test) {
+    // Update A/B generation counters (mutable – no const_cast needed)
+    if (config_.enable_ab_test && !result.empty()) {
         if (use_tod) {
-            const_cast<PredictivePrefetcher*>(this)->ab_markov_generated_++;
+            ab_markov_generated_ += result.size();
         } else {
-            const_cast<PredictivePrefetcher*>(this)->ab_baseline_generated_++;
+            ab_baseline_generated_ += result.size();
         }
     }
 
     return result;
 }
 
-void PredictivePrefetcher::recordPrefetchHit() {
+void PredictivePrefetcher::recordPrefetchHit(const std::string& tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     prefetch_hits_++;
+    if (config_.enable_ab_test) {
+        if (useToDWeighting(tenant_id)) {
+            ab_markov_hits_++;
+        } else {
+            ab_baseline_hits_++;
+        }
+    }
     emitMetrics();
 }
 
-void PredictivePrefetcher::recordCandidatesGenerated() {
+void PredictivePrefetcher::recordCandidatesGenerated(size_t count,
+                                                     const std::string& /*tenant_id*/) {
+    // Note: tenant_id is accepted for API symmetry with recordPrefetchHit() so
+    // callers can always forward it.  Per-group generated counts are tracked
+    // directly inside getPrefetchCandidates() where the routing decision is made.
     std::lock_guard<std::mutex> lock(mutex_);
-    candidates_generated_++;
+    candidates_generated_ += count;
+    // Emit here so that the hit_rate gauge stays current even in low-hit regimes.
+    emitMetrics();
 }
 
 void PredictivePrefetcher::recordOverheadBytes(uint64_t bytes) {
@@ -296,22 +323,37 @@ void PredictivePrefetcher::saveModel(RocksDBWrapper* db) {
 
     std::lock_guard<std::mutex> lock(mutex_);
 
+    // Step 1: collect all existing keys under the prefix so we can delete
+    //         stale (from,to) entries that are no longer in the in-memory table.
+    std::vector<std::string> stale_keys;
+    db->scanPrefix(PREFETCH_MODEL_PREFIX,
+        [&](std::string_view key, std::string_view /*value*/) {
+            stale_keys.emplace_back(key);
+        });
+
+    // Step 2: batch-delete all existing prefix keys
+    if (!stale_keys.empty()) {
+        auto batch = db->createWriteBatch();
+        for (const auto& k : stale_keys) {
+            batch->del(k);
+        }
+        batch->commit();
+    }
+
+    // Step 3: write the current in-memory snapshot
     for (const auto& [from, successors] : transitions_) {
         for (const auto& [to, count] : successors) {
-            // Build the RocksDB key
             std::string key = std::string(PREFETCH_MODEL_PREFIX)
                               + from + "::" + to;
 
-            // Build the JSON payload
             nlohmann::json val;
             val["count"] = count;
 
-            // Attach time-of-day histogram if available
             auto tod_from_it = tod_buckets_.find(from);
             if (tod_from_it != tod_buckets_.end()) {
                 auto tod_to_it = tod_from_it->second.find(to);
                 if (tod_to_it != tod_from_it->second.end()) {
-                    val["tod"] = tod_to_it->second;  // array of 24 ints
+                    val["tod"] = tod_to_it->second;
                 }
             }
 
@@ -364,9 +406,14 @@ void PredictivePrefetcher::loadModel(RocksDBWrapper* db) {
             auto& successors = transitions_[from];
             if (successors.size() < config_.max_successors_per_key ||
                 successors.find(to) != successors.end()) {
-                // Merge: take the max of persisted vs. in-memory count
-                successors[to] = std::max(successors[to], count);
-                total_transitions_recorded_ += count;
+                // Merge: take the max of persisted vs. in-memory count and
+                // update total_transitions_recorded_ only by the delta so that
+                // repeated loadModel() calls don't inflate the counter.
+                auto existing_it = successors.find(to);
+                uint32_t old_val = (existing_it != successors.end()) ? existing_it->second : 0;
+                uint32_t new_val = std::max(old_val, count);
+                successors[to] = new_val;
+                total_transitions_recorded_ += (new_val - old_val);
             }
 
             // Restore time-of-day histogram

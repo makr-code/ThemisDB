@@ -145,13 +145,16 @@ public:
     /**
      * @brief Record that prefetch candidates were generated for a key.
      *
-     * Called automatically by getPrefetchCandidates() when at least one
-     * candidate is returned.
+     * Called by getPrefetchCandidates() when at least one candidate is returned.
+     * Also emits the current `cache.prefetch.hit_rate` gauge to MetricsCollector
+     * so the gauge stays fresh even when hits are sparse.
      *
+     * @param count      Number of candidates generated (1..max_predictions).
      * @param tenant_id  Optional tenant identifier; used to attribute the
      *                   generation event to the correct A/B group.
      */
-    void recordCandidatesGenerated(const std::string& tenant_id = "");
+    void recordCandidatesGenerated(size_t count = 1,
+                                   const std::string& tenant_id = "");
 
     /**
      * @brief Track bytes fetched via prefetch that were never subsequently hit.
@@ -230,10 +233,13 @@ private:
     mutable uint64_t ab_baseline_generated_ = 0;
 
     // Internal helpers
-    /// Returns true if the ToD weighting should be applied for this tenant.
+    /// Returns true if ToD weighting should be applied for this tenant.
     /// When enable_ab_test is true: group 0 (fnv1a(tenant_id) % 2 == 0) uses
-    /// ToD; group 1 uses raw Markov frequency (frequency baseline).
+    /// Markov + ToD; group 1 uses raw Markov frequency without ToD weighting.
     bool useToDWeighting(const std::string& tenant_id) const;
+
+    /// Stable FNV-1a hash of a string – used for deterministic A/B routing.
+    static uint64_t fnv1aHash(const std::string& s);
 
     /// Return the current wall-clock hour in [0, 23].
     static int currentHour();
