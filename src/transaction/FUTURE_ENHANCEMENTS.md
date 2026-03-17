@@ -255,6 +255,7 @@ auto commit_status = dist_txn_mgr.commitDistributed(dtxn_id);
 ---
 
 ### SAGA Orchestration Engine
+**Status: ✅ Implemented** (v1.8.0)  
 **Priority:** Medium  
 **Target Version:** v1.8.0
 
