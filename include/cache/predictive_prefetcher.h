@@ -136,16 +136,22 @@ public:
      *
      * Used externally by AdaptiveQueryCache to track effective prefetch hits
      * for metrics purposes.
+     *
+     * @param tenant_id  Optional tenant identifier; used to attribute the hit
+     *                   to the correct A/B group when `enable_ab_test` is true.
      */
-    void recordPrefetchHit();
+    void recordPrefetchHit(const std::string& tenant_id = "");
 
     /**
      * @brief Record that prefetch candidates were generated for a key.
      *
      * Called automatically by getPrefetchCandidates() when at least one
      * candidate is returned.
+     *
+     * @param tenant_id  Optional tenant identifier; used to attribute the
+     *                   generation event to the correct A/B group.
      */
-    void recordCandidatesGenerated();
+    void recordCandidatesGenerated(const std::string& tenant_id = "");
 
     /**
      * @brief Track bytes fetched via prefetch that were never subsequently hit.
@@ -216,15 +222,18 @@ private:
     uint64_t prefetch_hits_ = 0;
     uint64_t overhead_bytes_ = 0;
 
-    // A/B group hit-rate counters (only meaningful when enable_ab_test is true)
-    uint64_t ab_markov_hits_ = 0;
-    uint64_t ab_markov_generated_ = 0;
-    uint64_t ab_baseline_hits_ = 0;
-    uint64_t ab_baseline_generated_ = 0;
+    // A/B group hit-rate counters (only meaningful when enable_ab_test is true).
+    // Declared mutable so they can be updated from the const getPrefetchCandidates().
+    mutable uint64_t ab_markov_hits_ = 0;
+    mutable uint64_t ab_markov_generated_ = 0;
+    mutable uint64_t ab_baseline_hits_ = 0;
+    mutable uint64_t ab_baseline_generated_ = 0;
 
     // Internal helpers
-    /// Returns true if the tenant should use the enhanced Markov model (vs. baseline).
-    bool useMarkovModel(const std::string& tenant_id) const;
+    /// Returns true if the ToD weighting should be applied for this tenant.
+    /// When enable_ab_test is true: group 0 (fnv1a(tenant_id) % 2 == 0) uses
+    /// ToD; group 1 uses raw Markov frequency (frequency baseline).
+    bool useToDWeighting(const std::string& tenant_id) const;
 
     /// Return the current wall-clock hour in [0, 23].
     static int currentHour();
