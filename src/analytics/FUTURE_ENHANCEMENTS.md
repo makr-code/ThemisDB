@@ -174,10 +174,10 @@ entire ONNX `Run()` call, serializing all model inferences regardless of which m
 targeted.
 
 **Implementation Notes:**
-- `[ ]` Replace the double-lock pattern with a single lock acquisition that obtains a `shared_ptr<OrtSession>` reference (or equivalent), then releases the mutex before calling ONNX `Run()`
-- `[ ]` Move the session map from `std::unordered_map<string, unique_ptr<Session>>` to `std::unordered_map<string, shared_ptr<Session>>` so per-model handles can be retained outside the map lock
-- `[ ]` Per-model `std::shared_mutex` (or `std::atomic<bool> loading_`) to serialize concurrent loads of the same model without blocking unrelated models
-- `[ ]` Add test: two threads simultaneously infer on two different models; assert neither blocks the other
+- `[x]` Replace the double-lock pattern with a single lock acquisition that obtains a `shared_ptr<OrtSession>` reference (or equivalent), then releases the mutex before calling ONNX `Run()`
+- `[x]` Move the session map from `std::unordered_map<string, unique_ptr<Session>>` to `std::unordered_map<string, shared_ptr<Session>>` so per-model handles can be retained outside the map lock
+- `[x]` Per-model `std::shared_mutex` (or `std::atomic<bool> loading_`) to serialize concurrent loads of the same model without blocking unrelated models
+- `[x]` Add test: two threads simultaneously infer on two different models; assert neither blocks the other
 
 **Performance Targets:**
 - Lock-hold per inference call: ≤ 5 µs (handle capture only)
