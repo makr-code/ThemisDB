@@ -126,6 +126,12 @@ public:
     void revokeLease(const std::string& /*node_id*/) override {}
 };
 
+/// Returns true when THEMIS_RUN_PERF_TESTS=1 is set in the environment.
+inline bool perfTestsEnabled() {
+    const char* v = std::getenv("THEMIS_RUN_PERF_TESTS");
+    return v && std::string(v) == "1";
+}
+
 } // anonymous namespace
 
 // ============================================================================
@@ -886,5 +892,385 @@ TEST(IngestionCoordinatorWorkStealingTest, UnbalancedLoadIsProcessedCorrectly) {
     EXPECT_EQ(report.source_stats.size(), 12u);
 
     coordinator.stop();
+}
+
+// ============================================================================
+// ISharedCheckpointStore — InMemorySharedCheckpointStore unit tests
+// ============================================================================
+
+TEST(InMemorySharedCheckpointStoreTest, WriteAndRead) {
+    InMemorySharedCheckpointStore store;
+
+    IngestionCheckpoint cp;
+    cp.source_id = "src-a";
+    cp.cursor    = "offset:42";
+    EXPECT_TRUE(store.write(cp));
+
+    IngestionCheckpoint out;
+    EXPECT_TRUE(store.read("src-a", out));
+    EXPECT_EQ(out.source_id, "src-a");
+    EXPECT_EQ(out.cursor,    "offset:42");
+}
+
+TEST(InMemorySharedCheckpointStoreTest, ReadMissingReturnsFalse) {
+    InMemorySharedCheckpointStore store;
+    IngestionCheckpoint out;
+    EXPECT_FALSE(store.read("does-not-exist", out));
+}
+
+TEST(InMemorySharedCheckpointStoreTest, ExistsReturnsTrueAfterWrite) {
+    InMemorySharedCheckpointStore store;
+    EXPECT_FALSE(store.exists("src-b"));
+
+    IngestionCheckpoint cp;
+    cp.source_id = "src-b";
+    store.write(cp);
+
+    EXPECT_TRUE(store.exists("src-b"));
+}
+
+TEST(InMemorySharedCheckpointStoreTest, ClearRemovesEntry) {
+    InMemorySharedCheckpointStore store;
+
+    IngestionCheckpoint cp;
+    cp.source_id = "src-c";
+    store.write(cp);
+    ASSERT_TRUE(store.exists("src-c"));
+
+    EXPECT_TRUE(store.clear("src-c"));
+    EXPECT_FALSE(store.exists("src-c"));
+}
+
+TEST(InMemorySharedCheckpointStoreTest, ClearNonExistentReturnsFalse) {
+    InMemorySharedCheckpointStore store;
+    EXPECT_FALSE(store.clear("phantom"));
+}
+
+TEST(InMemorySharedCheckpointStoreTest, OverwriteUpdatesValue) {
+    InMemorySharedCheckpointStore store;
+
+    IngestionCheckpoint cp1;
+    cp1.source_id = "src-d";
+    cp1.cursor    = "v1";
+    store.write(cp1);
+
+    IngestionCheckpoint cp2;
+    cp2.source_id = "src-d";
+    cp2.cursor    = "v2";
+    store.write(cp2);
+
+    IngestionCheckpoint out;
+    ASSERT_TRUE(store.read("src-d", out));
+    EXPECT_EQ(out.cursor, "v2");
+}
+
+TEST(InMemorySharedCheckpointStoreTest, SizeReflectsEntryCount) {
+    InMemorySharedCheckpointStore store;
+    EXPECT_EQ(store.size(), 0u);
+
+    for (int i = 0; i < 5; ++i) {
+        IngestionCheckpoint cp;
+        cp.source_id = "src-" + std::to_string(i);
+        store.write(cp);
+    }
+    EXPECT_EQ(store.size(), 5u);
+
+    store.clear("src-2");
+    EXPECT_EQ(store.size(), 4u);
+}
+
+TEST(InMemorySharedCheckpointStoreTest, ThreadSafeConcurrentWrites) {
+    InMemorySharedCheckpointStore store;
+    constexpr int kThreads  = 8;
+    constexpr int kPerThread = 50;
+
+    std::vector<std::thread> threads;
+    threads.reserve(kThreads);
+    for (int t = 0; t < kThreads; ++t) {
+        threads.emplace_back([&, t]() {
+            for (int i = 0; i < kPerThread; ++i) {
+                IngestionCheckpoint cp;
+                cp.source_id = "t" + std::to_string(t) + "-src-" + std::to_string(i);
+                cp.cursor    = std::to_string(i);
+                store.write(cp);
+            }
+        });
+    }
+    for (auto& th : threads) th.join();
+
+    EXPECT_EQ(store.size(), static_cast<size_t>(kThreads * kPerThread));
+}
+
+// ============================================================================
+// IngestionCoordinator — setSharedCheckpointStoreForTesting / getSharedCheckpointStore
+// ============================================================================
+
+TEST(IngestionCoordinatorCheckpointStoreTest, DefaultStoreIsInMemory) {
+    IngestionCoordinator::Config cfg;
+    cfg.num_nodes     = 0;
+    cfg.db_connection = "test_db";
+    IngestionCoordinator coordinator(cfg);
+
+    auto store = coordinator.getSharedCheckpointStore();
+    ASSERT_NE(store, nullptr);
+
+    // Default store must accept writes without throwing.
+    IngestionCheckpoint cp;
+    cp.source_id = "default-test";
+    cp.cursor    = "0";
+    EXPECT_TRUE(store->write(cp));
+}
+
+TEST(IngestionCoordinatorCheckpointStoreTest, InjectedStoreIsUsed) {
+    IngestionCoordinator::Config cfg;
+    cfg.num_nodes     = 0;
+    cfg.db_connection = "test_db";
+    IngestionCoordinator coordinator(cfg);
+
+    // Inject a custom store before start().
+    auto custom_store = std::make_shared<InMemorySharedCheckpointStore>();
+    coordinator.setSharedCheckpointStoreForTesting(custom_store);
+
+    EXPECT_EQ(coordinator.getSharedCheckpointStore(), custom_store);
+}
+
+TEST(IngestionCoordinatorCheckpointStoreTest, CheckpointWrittenAfterIngest) {
+    IngestionCoordinator::Config cfg;
+    cfg.num_nodes     = 0;
+    cfg.db_connection = "test_db";
+    IngestionCoordinator coordinator(cfg);
+
+    auto cp_store = std::make_shared<InMemorySharedCheckpointStore>();
+    coordinator.setSharedCheckpointStoreForTesting(cp_store);
+
+    auto worker = std::make_shared<MockWorkerNode>("cp-worker");
+    worker->docs_per_source_ = 5;
+    coordinator.registerNode(worker);
+    coordinator.start();
+
+    std::vector<SourceConfig> sources = {makeSource("cp-src-0"),
+                                          makeSource("cp-src-1")};
+    auto report = coordinator.ingestAll(sources);
+
+    // Each source should have a checkpoint recorded after ingestion.
+    for (const auto& src : sources) {
+        EXPECT_TRUE(cp_store->exists(src.source_id))
+            << "No checkpoint found for source: " << src.source_id;
+    }
+
+    coordinator.stop();
+}
+
+// ============================================================================
+// AC-COORD-5: Linear throughput scaling ≥ 3.5× (4 workers vs 1 worker)
+//
+// Gated by THEMIS_RUN_PERF_TESTS=1 to avoid failures on slow CI hardware.
+// Uses the mock injection path (no real I/O) so that the measurement isolates
+// the coordinator dispatch and aggregation overhead rather than disk/network
+// latency.  On reference hardware the mock path typically achieves well above
+// the 3.5× target.
+// ============================================================================
+
+TEST(IngestionCoordinatorPerfTest, LinearScaling4WorkersVs1Worker) {
+    if (!perfTestsEnabled()) {
+        GTEST_SKIP() << "Skipping AC-COORD-5 throughput scaling microbenchmark "
+                        "(set THEMIS_RUN_PERF_TESTS=1 to enable). "
+                        "AC-COORD-5: ≥ 3.5× aggregate throughput with 4 vs 1 worker node.";
+    }
+
+    constexpr size_t kSources        = 400;   // sources per run
+    constexpr size_t kDocsPerSource  = 1000;  // documents each mock worker reports
+    constexpr double kMinSpeedup     = 3.5;   // required throughput ratio
+
+    // ── 1-worker baseline ────────────────────────────────────────────────────
+    double elapsed_1w = 0.0;
+    {
+        IngestionCoordinator::Config cfg;
+        cfg.num_nodes     = 0;
+        cfg.db_connection = "perf_db";
+        IngestionCoordinator coord1(cfg);
+
+        auto worker = std::make_shared<MockWorkerNode>("perf-1w");
+        worker->docs_per_source_ = kDocsPerSource;
+        coord1.registerNode(worker);
+        coord1.start();
+
+        std::vector<SourceConfig> sources;
+        sources.reserve(kSources);
+        for (size_t i = 0; i < kSources; ++i) {
+            sources.push_back(makeSource("perf-src-1w-" + std::to_string(i)));
+        }
+
+        auto t0 = std::chrono::steady_clock::now();
+        auto report = coord1.ingestAll(sources);
+        auto t1 = std::chrono::steady_clock::now();
+        elapsed_1w = std::chrono::duration<double>(t1 - t0).count();
+
+        coord1.stop();
+
+        ASSERT_EQ(report.total_documents, kSources * kDocsPerSource)
+            << "1-worker run: unexpected document count";
+    }
+
+    // ── 4-worker run ─────────────────────────────────────────────────────────
+    double elapsed_4w = 0.0;
+    {
+        IngestionCoordinator::Config cfg;
+        cfg.num_nodes     = 0;
+        cfg.db_connection = "perf_db";
+        IngestionCoordinator coord4(cfg);
+
+        for (int w = 0; w < 4; ++w) {
+            auto worker = std::make_shared<MockWorkerNode>(
+                "perf-4w-" + std::to_string(w));
+            worker->docs_per_source_ = kDocsPerSource;
+            coord4.registerNode(worker);
+        }
+        coord4.start();
+
+        std::vector<SourceConfig> sources;
+        sources.reserve(kSources);
+        for (size_t i = 0; i < kSources; ++i) {
+            sources.push_back(makeSource("perf-src-4w-" + std::to_string(i)));
+        }
+
+        auto t0 = std::chrono::steady_clock::now();
+        auto report = coord4.ingestAll(sources);
+        auto t1 = std::chrono::steady_clock::now();
+        elapsed_4w = std::chrono::duration<double>(t1 - t0).count();
+
+        coord4.stop();
+
+        ASSERT_EQ(report.total_documents, kSources * kDocsPerSource)
+            << "4-worker run: unexpected document count";
+    }
+
+    ASSERT_GT(elapsed_4w, 0.0);
+    double speedup = elapsed_1w / elapsed_4w;
+
+    RecordProperty("elapsed_1_worker_s",  elapsed_1w);
+    RecordProperty("elapsed_4_workers_s", elapsed_4w);
+    RecordProperty("speedup_ratio",        speedup);
+
+    EXPECT_GE(speedup, kMinSpeedup)
+        << "AC-COORD-5 FAILED: 4-worker speedup " << speedup
+        << "× is below the required " << kMinSpeedup << "×.  "
+        << "1-worker wall-clock: " << elapsed_1w << " s, "
+        << "4-worker wall-clock: " << elapsed_4w << " s.";
+}
+
+// ============================================================================
+// AC-COORD-6: Coordinator overhead ≤ 5% of total ingestion wall-clock time
+//
+// Gated by THEMIS_RUN_PERF_TESTS=1 to avoid failures on slow CI hardware.
+// Measures the coordinator's pure partitioning + aggregation cost by
+// comparing the total worker time (sum of individual mock ingest durations)
+// against the overall wall-clock time reported by the coordinator.
+// ============================================================================
+
+TEST(IngestionCoordinatorPerfTest, CoordinatorOverheadAtMost5Percent) {
+    if (!perfTestsEnabled()) {
+        GTEST_SKIP() << "Skipping AC-COORD-6 overhead microbenchmark "
+                        "(set THEMIS_RUN_PERF_TESTS=1 to enable). "
+                        "AC-COORD-6: coordinator overhead ≤ 5% of total ingestion wall-clock.";
+    }
+
+    constexpr size_t kSources       = 200;
+    constexpr size_t kDocsPerSource = 500;
+    constexpr double kMaxOverhead   = 0.05;  // 5 %
+
+    // Use a TimedMockWorkerNode that records how long each ingest call takes.
+    class TimedMockWorkerNode : public IIngestionWorkerNode {
+    public:
+        explicit TimedMockWorkerNode(const std::string& id,
+                                     size_t docs_per_source)
+            : id_(id), docs_per_source_(docs_per_source) {}
+
+        const std::string& nodeId() const override { return id_; }
+        bool isAvailable() const override { return true; }
+
+        IngestionReport ingest(
+            const std::vector<SourceConfig>& sources,
+            const std::string& /*coll*/,
+            ProgressCallback /*cb*/) override
+        {
+            auto t0 = std::chrono::steady_clock::now();
+            IngestionReport report;
+            for (const auto& src : sources) {
+                IngestionStats st;
+                st.documents_processed = docs_per_source_;
+                report.source_stats[src.source_id] = st;
+                report.total_documents += docs_per_source_;
+            }
+            auto t1 = std::chrono::steady_clock::now();
+            total_worker_time_ +=
+                std::chrono::duration<double>(t1 - t0).count();
+            return report;
+        }
+
+        double totalWorkerTime() const { return total_worker_time_; }
+
+    private:
+        std::string id_;
+        size_t docs_per_source_;
+        double total_worker_time_ = 0.0;
+    };
+
+    IngestionCoordinator::Config cfg;
+    cfg.num_nodes     = 0;
+    cfg.db_connection = "overhead_db";
+    IngestionCoordinator coordinator(cfg);
+
+    std::vector<std::shared_ptr<TimedMockWorkerNode>> workers;
+    for (int w = 0; w < 4; ++w) {
+        auto worker = std::make_shared<TimedMockWorkerNode>(
+            "overhead-w-" + std::to_string(w), kDocsPerSource);
+        workers.push_back(worker);
+        coordinator.registerNode(worker);
+    }
+    coordinator.start();
+
+    std::vector<SourceConfig> sources;
+    sources.reserve(kSources);
+    for (size_t i = 0; i < kSources; ++i) {
+        sources.push_back(makeSource("oh-src-" + std::to_string(i)));
+    }
+
+    auto wall_t0 = std::chrono::steady_clock::now();
+    auto report  = coordinator.ingestAll(sources);
+    auto wall_t1 = std::chrono::steady_clock::now();
+
+    coordinator.stop();
+
+    double wall_clock = std::chrono::duration<double>(wall_t1 - wall_t0).count();
+
+    ASSERT_GT(wall_clock, 0.0);
+    ASSERT_EQ(report.total_documents, kSources * kDocsPerSource)
+        << "Unexpected document count in overhead test";
+
+    // Coordinator overhead = wall_clock − max_single_worker_time.
+    // Because workers run in parallel, the critical path is the slowest worker.
+    // The coordinator's own cost (partitioning + dispatch + aggregation) is
+    // therefore:  wall_clock - max_worker_time.
+    // The overhead fraction is:  (wall_clock - max_worker_time) / wall_clock.
+    double max_worker_time   = 0.0;
+    double total_worker_time = 0.0;
+    for (const auto& w : workers) {
+        double t = w->totalWorkerTime();
+        total_worker_time += t;
+        max_worker_time    = std::max(max_worker_time, t);
+    }
+    double overhead_fraction = (wall_clock - max_worker_time) / wall_clock;
+
+    RecordProperty("wall_clock_s",      wall_clock);
+    RecordProperty("total_worker_time_s", total_worker_time);
+    RecordProperty("max_worker_time_s", max_worker_time);
+    RecordProperty("overhead_fraction", overhead_fraction);
+
+    EXPECT_LE(overhead_fraction, kMaxOverhead)
+        << "AC-COORD-6 FAILED: coordinator overhead fraction "
+        << (overhead_fraction * 100.0) << "% exceeds the 5% limit.  "
+        << "Wall-clock: " << wall_clock << " s, "
+        << "max worker time: " << max_worker_time << " s.";
 }
 

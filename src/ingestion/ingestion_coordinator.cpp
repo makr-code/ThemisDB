@@ -55,6 +55,15 @@ namespace themis {
 namespace ingestion {
 
 // ============================================================================
+// Internal constants
+// ============================================================================
+
+/// Cursor value written to the shared checkpoint store when a source has been
+/// fully ingested by a worker.  Failover workers can use this to skip sources
+/// that have already been completed.
+static constexpr const char* kCompletedCursor = "completed";
+
+// ============================================================================
 // Internal helpers
 // ============================================================================
 
@@ -579,6 +588,25 @@ IngestionReport IngestionCoordinator::ingestAll(
     // Step 5 — Aggregate.
     IngestionReport final_report = aggregateReports(partial_reports);
 
+    // Step 6 — Commit a checkpoint for every successfully ingested source so
+    //           that workers (or a failover coordinator) can resume from the
+    //           last committed offset without re-processing already-done work.
+    if (checkpoint_store_) {
+        for (const auto& src : sources) {
+            // Write a checkpoint only when there were no failures for this source
+            // (i.e. documents_processed > 0 and no errors).
+            auto it = final_report.source_stats.find(src.source_id);
+            if (it != final_report.source_stats.end() &&
+                it->second.documents_processed > 0 &&
+                it->second.errors.empty()) {
+                IngestionCheckpoint cp;
+                cp.source_id = src.source_id;
+                cp.cursor    = kCompletedCursor;
+                checkpoint_store_->write(cp);
+            }
+        }
+    }
+
     double elapsed = std::chrono::duration<double>(
                          std::chrono::steady_clock::now() - run_start)
                          .count();
@@ -612,6 +640,18 @@ void IngestionCoordinator::setLeaderElectionForTesting(
     std::shared_ptr<ILeaderElection> election)
 {
     leader_election_ = std::move(election);
+}
+
+void IngestionCoordinator::setSharedCheckpointStoreForTesting(
+    std::shared_ptr<ISharedCheckpointStore> store)
+{
+    checkpoint_store_ = std::move(store);
+}
+
+std::shared_ptr<ISharedCheckpointStore>
+IngestionCoordinator::getSharedCheckpointStore() const
+{
+    return checkpoint_store_;
 }
 
 // ============================================================================
