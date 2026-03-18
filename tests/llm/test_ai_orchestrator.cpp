@@ -783,3 +783,148 @@ TEST(AuditRegressionTest, TypesInCorrectNamespace) {
                   "ModeSpecLoader must be in themis::llm");
     SUCCEED();
 }
+
+// ============================================================================
+// Agentic mode – tool call parsing (v1.8.0)
+// ============================================================================
+
+// YAML pack with an "agentic" mode and a registered tool.
+static const char* kAgenticYaml = R"yaml(
+apiVersion: themis.ai/v1
+kind: ThemisModePack
+metadata:
+  name: agentic-pack
+  version: "1.0.0"
+default_mode: agentic
+tools:
+  - name: calc_tool
+    description: "Simple calculator tool"
+    timeout_ms: 3000
+    schema: {}
+modes:
+  - id: agentic
+    budgets: {max_tokens: 256, timeout_ms: 5000}
+    tools_allowed: ["calc_tool"]
+)yaml";
+
+// When the LLM response is valid tool-call JSON the orchestrator should
+// dispatch the tool and return its result as response.text.
+TEST(AgenticToolCallTest, ValidToolCallJson_Dispatched) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kAgenticYaml, &res);
+    ASSERT_TRUE(res.ok) << res.errors.front();
+
+    AIOrchestrator orch(pack);
+
+    // Register the tool with a known return value.
+    ToolSpec spec;
+    spec.name = "calc_tool";
+    std::atomic<int> call_count{0};
+    orch.toolRegistry().registerTool(spec,
+        [&call_count](const json& args, const ModeSpec&) -> json {
+            ++call_count;
+            return {{"result", args.value("x", 0) + args.value("y", 0)}};
+        });
+
+    // The orchestrator has no real LLM plugin, so runAsk() returns an echo
+    // of the query.  We set the query to a valid tool-call JSON so that the
+    // agentic pipeline will parse it.
+    OrchestratorContext ctx;
+    ctx.query   = R"({"name":"calc_tool","arguments":{"x":3,"y":4}})";
+    ctx.mode_id = "agentic";
+
+    OrchestratorResult result = orch.run(ctx);
+
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(call_count.load(), 1) << "Tool should have been dispatched exactly once";
+    EXPECT_FALSE(result.metadata.tool_calls_made.empty());
+    EXPECT_EQ(result.metadata.tool_calls_made[0], "calc_tool");
+    // The response text should be the serialised tool result.
+    json tool_out = json::parse(result.text);
+    EXPECT_EQ(tool_out.value("result", -1), 7);
+    // raw_response should carry the tool name and result.
+    EXPECT_EQ(result.raw_response.value("tool_name", ""), "calc_tool");
+}
+
+// When the LLM response is plain text (not JSON) the orchestrator should
+// return it unchanged without throwing.
+TEST(AgenticToolCallTest, PlainTextResponse_NoToolDispatched) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kAgenticYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+
+    ToolSpec spec;
+    spec.name = "calc_tool";
+    std::atomic<int> call_count{0};
+    orch.toolRegistry().registerTool(spec,
+        [&call_count](const json&, const ModeSpec&) -> json {
+            ++call_count;
+            return {{"ok", true}};
+        });
+
+    OrchestratorContext ctx;
+    ctx.query   = "This is a plain text answer, not a tool call.";
+    ctx.mode_id = "agentic";
+
+    OrchestratorResult result = orch.run(ctx);
+
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(call_count.load(), 0) << "No tool should be dispatched for plain text";
+    EXPECT_TRUE(result.metadata.tool_calls_made.empty());
+    // The raw LLM echo text should be preserved.
+    EXPECT_FALSE(result.text.empty());
+}
+
+// Malformed JSON in the response must not crash; the raw text is preserved.
+TEST(AgenticToolCallTest, MalformedJson_GracefulFallback) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kAgenticYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+
+    ToolSpec spec;
+    spec.name = "calc_tool";
+    orch.toolRegistry().registerTool(spec,
+        [](const json&, const ModeSpec&) -> json { return {{"ok", true}}; });
+
+    OrchestratorContext ctx;
+    ctx.query   = "{not valid json at all!!!";
+    ctx.mode_id = "agentic";
+
+    // Must not throw.
+    OrchestratorResult result;
+    EXPECT_NO_THROW(result = orch.run(ctx));
+    EXPECT_TRUE(result.success);
+    EXPECT_TRUE(result.metadata.tool_calls_made.empty());
+}
+
+// Valid JSON that is NOT a tool call (missing "name" key) should be left alone.
+TEST(AgenticToolCallTest, ValidJsonButNotToolCall_NoDispatch) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kAgenticYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+
+    ToolSpec spec;
+    spec.name = "calc_tool";
+    std::atomic<int> call_count{0};
+    orch.toolRegistry().registerTool(spec,
+        [&call_count](const json&, const ModeSpec&) -> json {
+            ++call_count;
+            return {{"ok", true}};
+        });
+
+    OrchestratorContext ctx;
+    ctx.query   = R"({"answer": "42", "confidence": 0.9})";
+    ctx.mode_id = "agentic";
+
+    OrchestratorResult result = orch.run(ctx);
+
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(call_count.load(), 0);
+    EXPECT_TRUE(result.metadata.tool_calls_made.empty());
+}

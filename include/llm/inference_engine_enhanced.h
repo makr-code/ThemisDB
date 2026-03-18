@@ -344,6 +344,37 @@ public:
         const EnhancedInferenceRequest& request,
         std::function<void(const InferenceResponse&)> callback
     );
+
+    /**
+     * @brief Token-streaming callback type (mirrors AsyncInferenceEngine::TokenCallback).
+     *
+     * Called once per decoded token with @p is_final == false, and once more
+     * with an empty token string and @p is_final == true when the stream ends
+     * (normal completion or cancellation).  Must be thread-safe.
+     */
+    using TokenCallback = std::function<void(std::string_view token, bool is_final)>;
+
+    /**
+     * @brief Submit a streaming inference request.
+     *
+     * Wraps the provided @p callback into the batch scheduler's streaming
+     * path: each decoded token is delivered via @p callback with
+     * @p is_final == false; once the stream ends (completion or
+     * InferenceHandle::cancel()) a final call with an empty token and
+     * @p is_final == true is made exactly once.
+     *
+     * Thread-safety: @p callback is invoked from the batch-processing thread;
+     * implementations must be safe for concurrent access from the HTTP layer.
+     *
+     * @param request  Enhanced inference request; any existing
+     *                 base_request.stream_callback is overwritten.
+     * @param callback Per-token callback (see TokenCallback).
+     * @return Handle for result retrieval and cancellation.
+     */
+    InferenceHandle submitStreaming(
+        const EnhancedInferenceRequest& request,
+        TokenCallback                   callback
+    );
     
     // Request management
     bool cancel(const std::string& request_id);
