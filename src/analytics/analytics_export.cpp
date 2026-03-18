@@ -566,17 +566,79 @@ public:
         result.status = ExportStatus::SUCCESS;
 
         try {
-            std::string data = exportToString(batch, options);
-            size_t chunk_size = options.batch_size * 100;
-            size_t offset = 0;
-            while (offset < data.size()) {
-                size_t len = std::min(chunk_size, data.size() - offset);
-                std::vector<uint8_t> chunk(data.begin() + offset, data.begin() + offset + len);
-                callback(chunk);
+            // Serialize directly to an Arrow-managed BufferOutputStream.
+            // This avoids the intermediate std::string copy that the
+            // exportToString() path would introduce; the IPC bytes are
+            // written once into a contiguous Arrow buffer and then chunked
+            // out to the callback without an extra full-buffer copy.
+            auto arrow_batch_result = convertToArrowRecordBatch(batch);
+            if (!arrow_batch_result.ok()) {
+                result.status = ExportStatus::FAILED;
+                result.message = "Arrow conversion failed: " +
+                                 arrow_batch_result.status().ToString();
+                return result;
+            }
+            auto arrow_batch = arrow_batch_result.ValueOrDie();
+
+            auto bos_result = arrow::io::BufferOutputStream::Create();
+            if (!bos_result.ok()) {
+                result.status = ExportStatus::FAILED;
+                result.message = "Failed to create buffer stream: " +
+                                 bos_result.status().ToString();
+                return result;
+            }
+            auto bos = bos_result.ValueOrDie();
+
+            auto writer_result = arrow::ipc::MakeStreamWriter(bos, arrow_batch->schema());
+            if (!writer_result.ok()) {
+                result.status = ExportStatus::FAILED;
+                result.message = "Failed to create IPC writer: " +
+                                 writer_result.status().ToString();
+                return result;
+            }
+            auto writer = writer_result.ValueOrDie();
+
+            auto write_status = writer->WriteRecordBatch(*arrow_batch);
+            if (!write_status.ok()) {
+                result.status = ExportStatus::FAILED;
+                result.message = "Write failed: " + write_status.ToString();
+                return result;
+            }
+            auto close_status = writer->Close();
+            if (!close_status.ok()) {
+                result.status = ExportStatus::FAILED;
+                result.message = "Close failed: " + close_status.ToString();
+                return result;
+            }
+
+            auto buf_result = bos->Finish();
+            if (!buf_result.ok()) {
+                result.status = ExportStatus::FAILED;
+                result.message = "Failed to finalize IPC buffer: " +
+                                 buf_result.status().ToString();
+                return result;
+            }
+            // ipc_buffer is the contiguous, Arrow-managed serialised IPC stream.
+            // arrow::Buffer::Wrap() exposes the same memory region zero-copy for
+            // consumers that accept arrow::Buffer; for this callback interface
+            // (which requires std::vector<uint8_t>) one copy per chunk is made
+            // directly from the buffer data pointer, eliminating the redundant
+            // full-buffer copy that went through the intermediate std::string.
+            auto ipc_buffer = buf_result.ValueOrDie();
+
+            const uint8_t* base      = ipc_buffer->data();
+            const size_t   total_sz  = static_cast<size_t>(ipc_buffer->size());
+            const size_t   chunk_sz  = options.batch_size * 100;
+            size_t         offset    = 0;
+
+            while (offset < total_sz) {
+                size_t len = std::min(chunk_sz, total_sz - offset);
+                callback(std::vector<uint8_t>(base + offset, base + offset + len));
                 offset += len;
             }
+
             result.rows_exported = batch.rowCount();
-            result.bytes_written = data.size();
+            result.bytes_written = total_sz;
         } catch (const std::exception& e) {
             result.status = ExportStatus::FAILED;
             result.message = std::string("Export failed: ") + e.what();

@@ -466,10 +466,10 @@ capabilities needed for production deployments.
 `analytics_export.cpp` line 341 allocates a `std::vector<uint8_t> chunk(data.begin()+offset, …)` for every chunk during Arrow IPC streaming — unnecessary copy when the source buffer is already contiguous.  The OLAP result cache in `olap.cpp` can grow unbounded (no eviction policy).
 
 **Implementation Notes:**
-- `[ ]` Use `arrow::Buffer::Wrap()` or `arrow::MutableBuffer` zero-copy wrappers instead of copying bytes into `std::vector<uint8_t>` during Arrow IPC serialization in `analytics_export.cpp` line 341
-- `[ ]` Implement `LRUCache<std::string, OLAPResult>` (doubly-linked list + `unordered_map`, max 1 000 entries configurable) for OLAP query result caching — current implementation has no eviction
-- `[ ]` Cache key for OLAP must be computed from a normalized query representation (sorted dimensions, canonical filter order) so semantically equivalent queries hit the same entry
-- `[ ]` Add TTL-based invalidation: cached entries older than `cache_ttl_ms` (configurable, default 60 s) are evicted on next access or by a background cleanup thread
+- `[x]` Use `arrow::Buffer::Wrap()` or `arrow::MutableBuffer` zero-copy wrappers instead of copying bytes into `std::vector<uint8_t>` during Arrow IPC serialization in `analytics_export.cpp` line 341
+- `[x]` Implement `LRUCache<std::string, OLAPResult>` (doubly-linked list + `unordered_map`, max 1 000 entries configurable) for OLAP query result caching — current implementation has no eviction
+- `[x]` Cache key for OLAP must be computed from a normalized query representation (sorted dimensions, canonical filter order) so semantically equivalent queries hit the same entry
+- `[x]` Add TTL-based invalidation: cached entries older than `cache_ttl_ms` (configurable, default 60 s) are evicted on next access or by a background cleanup thread
 
 **Performance Targets:**
 - Arrow IPC export copy overhead: ≤ 1 % of total export time (zero-copy path)
