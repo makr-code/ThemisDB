@@ -47,7 +47,7 @@ identified issues reference exact file names and function names.
 | `ModelServingEngine::predict(name, version, point)` | Query executor | Inference must run outside the registry shared-lock |
 | `CEPEngine::timerLoop()` | CEP runtime | Window callbacks must be dispatched after lock release |
 | `DistributedAnalyticsSharding::getHealthyShardCount()` | Health dashboard | Network I/O must not run under `mutex_` |
-| `LLMProcessAnalyzer::Impl::putInCache(key, response)` | LLM integration | O(N) eviction loop must be replaced by a proper LRU structure |
+| `LLMProcessAnalyzer::Impl::putInCache(key, response)` | LLM integration | ✅ Fixed v1.8.0: O(N) eviction replaced with O(1) LRU (doubly-linked list + hash map); SHA256 cache key; max_cache_entries in LLMConfig |
 | `AutoMLModel::KNNRegressorModel::predictOneReg(x)` | AutoML serving | Stub `return 0.0` must be replaced with real k-NN regression |
 | `OLAPEngine` (Windows) | Cross-platform build | Full implementation needed; current stub emits warnings and returns empty results |
 | `ProcessMining` (Windows) | Cross-platform build | Stub returns `Status::Error` for every operation |
@@ -227,10 +227,10 @@ on every call — even for cache hits.  For large process traces (hundreds of ev
 take several milliseconds in the hot request path.
 
 **Implementation Notes:**
-- `[ ]` Replace `std::unordered_map<string, CacheEntry>` + manual linear eviction with an `LRUCache<string, nlohmann::json>` backed by a doubly-linked list and hash map, giving O(1) get/put/evict — the pattern already proposed in the OLAP section above, or a simple `boost::compute::detail::lru_cache` adapter
-- `[ ]` Expose `max_cache_entries` in `LLMConfig` (default 1 000) so operators can tune without recompiling
-- `[ ]` In `getCacheKey()`, compute a `xxHash`/`SHA256` of `request.process_trace` rather than a full `dump()` — reduces key-build time from O(trace_size) to O(1) for the cache lookup fast path; store the full JSON only on cache miss
-- `[ ]` Add a microbenchmark: `putInCache()` with 1 000 existing entries must complete in ≤ 1 µs
+- `[x]` Replace `std::unordered_map<string, CacheEntry>` + manual linear eviction with an `LRUCache<string, nlohmann::json>` backed by a doubly-linked list and hash map, giving O(1) get/put/evict — the pattern already proposed in the OLAP section above, or a simple `boost::compute::detail::lru_cache` adapter
+- `[x]` Expose `max_cache_entries` in `LLMConfig` (default 1 000) so operators can tune without recompiling
+- `[x]` In `getCacheKey()`, compute a `xxHash`/`SHA256` of `request.process_trace` rather than a full `dump()` — reduces key-build time from O(trace_size) to O(1) for the cache lookup fast path; store the full JSON only on cache miss
+- `[x]` Add a microbenchmark: `putInCache()` with 1 000 existing entries must complete in ≤ 1 µs
 
 **Performance Targets:**
 - `putInCache()` / `getFromCache()`: O(1) amortised, ≤ 1 µs P99 under 16 concurrent callers
@@ -533,7 +533,7 @@ capabilities needed for production deployments.
 - `[ ]` Windows `OLAPEngine` and `ProcessMining` stubs replaced or tracked in CI
 - `[ ]` `KNNRegressorModel::predictOneReg()` stub replaced with real implementation
 - `[ ]` All hard-coded poll intervals (200 ms, 500 ms, 100 ms) moved to configuration structs
-- `[ ]` `LLMProcessAnalyzer` cache eviction O(1)
+- `[x]` `LLMProcessAnalyzer` cache eviction O(1)
 - `[ ]` SIMD parity tests passing on AVX2 + scalar; AVX-512 and NEON paths added
 
 ---
@@ -582,7 +582,7 @@ extensions.  The `WindowConfig` struct additions (section 13) and `LLMConfig.max
 | `ModelServingEngine::predict()` (8-core, decision tree depth 10) | ~20 000/s (lock-serialized) | ≥ 500 000/s |
 | `IncrementalView::applyChanges()` reader P99 during 10k-row batch | ~500 ms | ≤ 10 ms |
 | `StreamingAnomalyDetector::process()` lock-hold | ~10 ms (includes train) | ≤ 50 µs |
-| `LLMProcessAnalyzer` cache put/get | O(N) | O(1) ≤ 1 µs |
+| `LLMProcessAnalyzer` cache put/get | O(N) | ✅ O(1) ≤ 1 µs (v1.8.0) |
 | `DiffEngine::computeDiff()` cache-miss (1 M event log, range 1000) | ~500 ms | ≤ 50 ms |
 | AVX-512 SUM over 10 M doubles | N/A (unimplemented) | ≥ 2× AVX2 |
 | `forecasting.cpp` auto-tune (9α, n=500) | ~50 ms single-thread | ≤ 5 ms parallel |

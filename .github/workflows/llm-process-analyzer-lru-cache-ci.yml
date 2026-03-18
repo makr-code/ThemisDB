@@ -1,0 +1,96 @@
+name: LLMProcessAnalyzer LRU Cache CI
+
+# CI job that validates the O(1) LRU cache implementation in LLMProcessAnalyzer.
+# Covers:
+#   - max_cache_entries in LLMConfig (default 1000, operator-configurable)
+#   - O(1) LRU eviction replaces O(N) linear scan
+#   - SHA256-based getCacheKey() produces fixed-size keys
+#   - LRU ordering: least-recently-used entry evicted first
+#   - Existing cache tests still pass (hits, misses, clearCache, etc.)
+#
+# No GPU hardware or external LLM API required — uses the built-in simulated stub.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'src/analytics/llm_process_analyzer.cpp'
+      - 'include/analytics/llm_process_analyzer.h'
+      - 'tests/analytics/test_llm_process_analyzer.cpp'
+      - '.github/workflows/llm-process-analyzer-lru-cache-ci.yml'
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'src/analytics/llm_process_analyzer.cpp'
+      - 'include/analytics/llm_process_analyzer.h'
+      - 'tests/analytics/test_llm_process_analyzer.cpp'
+      - '.github/workflows/llm-process-analyzer-lru-cache-ci.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci-scope-classifier:
+    permissions:
+      contents: read
+    uses: ./.github/workflows/ci-scope-classifier.yml
+
+  llm-process-analyzer-lru-cache:
+    needs: ci-scope-classifier
+    if: needs.ci-scope-classifier.outputs.has_analytics_changes == 'true'
+    name: LLMProcessAnalyzer LRU Cache Tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            cmake ninja-build g++ \
+            libgtest-dev \
+            libssl-dev \
+            pkg-config
+
+      - name: Configure CMake (CPU only, LLM disabled)
+        run: |
+          cmake -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DTHEMIS_ENABLE_LLM=OFF \
+            -DTHEMIS_ENABLE_CUDA=OFF \
+            -DTHEMIS_BUILD_TESTS=ON
+
+      - name: Build LLMProcessAnalyzer tests
+        run: cmake --build build --target themis_tests -j$(nproc)
+
+      - name: Run LLMProcessAnalyzer LRU cache tests
+        run: |
+          cd build
+          ctest --output-on-failure -R "LLMProcessAnalyzer|LLMConfig|CacheStats|SanitizeApiKey"
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🚀 LLMProcessAnalyzer LRU Cache CI" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Build type** | Release (CPU only, CUDA=OFF) |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Test filter** | \`LLMProcessAnalyzer\` + \`LLMConfig\` + \`CacheStats\` + \`SanitizeApiKey\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Validates O(1) LRU eviction (replaces O(N) linear scan), SHA256-based getCacheKey()," >> "$GITHUB_STEP_SUMMARY"
+          echo "max_cache_entries configurability in LLMConfig, and correct LRU ordering semantics." >> "$GITHUB_STEP_SUMMARY"

@@ -90,6 +90,7 @@ struct LLMConfig {
     // Performance
     bool enable_caching = true;
     int cache_ttl_seconds = 3600;
+    int max_cache_entries = 1000;  // Maximum LRU cache entries (0 = use default 1000)
     
     // Limits
     int max_tokens = 2000;
