@@ -251,6 +251,7 @@ A fixed block size of 256 is a reasonable default for NVIDIA sm_86 and AMD RDNA2
 - `[x]` `runtimeInitialized_` converted to `std::atomic<bool>`; read with `memory_order_acquire`, written with `memory_order_release`.
 - `[x]` `selectTyped<T>()` documented with "callers must hold at least a shared lock" comment.
 - `[x]` Thread-safety tests added to `test_backend_registry_startup.cpp`: 16-thread concurrent `getBestVectorBackend`, readers + `getAvailableBackends` writer, `isRuntimeInitialized` concurrency.
+- `[x]` Dedicated thread-safety test file added at `tests/acceleration/test_backend_registry_thread_safety.cpp`: 16 reader threads calling `getBestVectorBackend()` concurrently while a background writer calls `registerBackend()` with a lightweight in-process stub (avoids plugin scanning noise); verifying no crashes. For data-race detection run locally with `-fsanitize=thread`.
 
 ---
 
@@ -396,7 +397,7 @@ For workloads that repeatedly execute the same ANN kernel shape (same `dim`, `nu
 | Unit | >80% new code | Mock `cudaMemcpy` / Vulkan dispatch via dependency-injected function pointers; test `DeviceCapabilityProbe` with mock device list |
 | Integration | All backends registered and falling back to CPU when SDK absent | Run in CI with `THEMIS_ENABLE_CUDA=OFF` and `THEMIS_ENABLE_VULKAN=OFF` to validate CPU fallback path |
 | Performance | Vector bench regression ≤ 5% | `benchmarks/vector_bench.cpp`; run on GPU runner; alert if p99 regresses |
-| Thread-Safety | `BackendRegistry` concurrent access | 16-thread TSan run; concurrent `getBestVectorBackend()` + `autoDetect()` — see BackendRegistry thread-safety feature above |
+| Thread-Safety | `BackendRegistry` concurrent access | 16-thread contention test; concurrent `getBestVectorBackend()` + `registerBackend()` writer (lightweight stub, no plugin I/O) — see BackendRegistry thread-safety feature above; run locally with `-fsanitize=thread` for data-race detection |
 | Security | Plugin revocation (CRL/OCSP) | Fixture-based test with mock HTTP server; cover revoked, unknown, timeout, and invalid-signature paths |
 | Edge-Cases | `kMaxK` overflow, k > 256 HNSW clamping | `tests/acceleration/test_cuda_hnsw_large_k.cpp`; assert result count == requested k for k ∈ {257, 512, 1024} |
 
