@@ -44,6 +44,15 @@
 #include <vector>
 #include <spdlog/spdlog.h>
 
+// SIMD intrinsics headers — guarded so non-SIMD platforms compile cleanly.
+#if defined(__AVX512F__)
+#  include <immintrin.h>
+#elif defined(__AVX2__)
+#  include <immintrin.h>
+#elif defined(__ARM_NEON) || defined(__aarch64__)
+#  include <arm_neon.h>
+#endif
+
 #ifdef ARROW_ENABLED
 #include <arrow/api.h>
 #include <arrow/io/api.h>
@@ -1030,6 +1039,115 @@ double OLAPEngine::computeAggregate(
 // ColumnarStore Implementation
 // ============================================================================
 
+// ---------------------------------------------------------------------------
+// SIMD-accelerated aggregation kernels for contiguous double arrays.
+//
+// Priority: AVX-512 (8 doubles/cycle) → AVX2 (4 doubles/cycle) → scalar.
+// The AVX-512 path is additionally guarded by __builtin_cpu_supports() so
+// that a binary compiled with -mavx512f still runs correctly on hardware
+// that only supports AVX2.
+// ---------------------------------------------------------------------------
+namespace {
+
+// Cache the AVX-512 runtime support check — avoids repeated CPUID calls in
+// hot aggregation loops.  Initialized once at first use (thread-safe in C++11).
+#if defined(__AVX512F__)
+static const bool kHasAVX512 = __builtin_cpu_supports("avx512f");
+#endif
+
+static double vectorizedSum(const double* __restrict__ data, size_t n) noexcept {
+    double total = 0.0;
+    size_t i = 0;
+#if defined(__AVX512F__)
+    if (n >= 8 && kHasAVX512) {
+        __m512d vsum = _mm512_setzero_pd();
+        for (; i + 7 < n; i += 8)
+            vsum = _mm512_add_pd(vsum, _mm512_loadu_pd(data + i));
+        total = _mm512_reduce_add_pd(vsum);
+        for (; i < n; ++i) total += data[i];
+        return total;
+    }
+#endif
+#if defined(__AVX2__)
+    if (n >= 4) {
+        __m256d vsum = _mm256_setzero_pd();
+        for (; i + 3 < n; i += 4)
+            vsum = _mm256_add_pd(vsum, _mm256_loadu_pd(data + i));
+        double lane[4];
+        _mm256_storeu_pd(lane, vsum);
+        total = lane[0] + lane[1] + lane[2] + lane[3];
+    }
+#endif
+    for (; i < n; ++i) total += data[i];
+    return total;
+}
+
+static double vectorizedMin(const double* __restrict__ data, size_t n) noexcept {
+    if (n == 0) return std::numeric_limits<double>::max();
+    double result = data[0];
+    size_t i = 1;
+#if defined(__AVX512F__)
+    if (n >= 8 && kHasAVX512) {
+        __m512d vmin = _mm512_set1_pd(data[0]);
+        i = 0;
+        for (; i + 7 < n; i += 8)
+            vmin = _mm512_min_pd(vmin, _mm512_loadu_pd(data + i));
+        result = _mm512_reduce_min_pd(vmin);
+        for (; i < n; ++i) if (data[i] < result) result = data[i];
+        return result;
+    }
+#endif
+#if defined(__AVX2__)
+    if (n >= 4) {
+        __m256d vmin = _mm256_set1_pd(data[0]);
+        i = 0;
+        for (; i + 3 < n; i += 4)
+            vmin = _mm256_min_pd(vmin, _mm256_loadu_pd(data + i));
+        double lane[4];
+        _mm256_storeu_pd(lane, vmin);
+        result = std::min({lane[0], lane[1], lane[2], lane[3]});
+        for (; i < n; ++i) if (data[i] < result) result = data[i];
+        return result;
+    }
+#endif
+    for (; i < n; ++i) if (data[i] < result) result = data[i];
+    return result;
+}
+
+static double vectorizedMax(const double* __restrict__ data, size_t n) noexcept {
+    if (n == 0) return std::numeric_limits<double>::lowest();
+    double result = data[0];
+    size_t i = 1;
+#if defined(__AVX512F__)
+    if (n >= 8 && kHasAVX512) {
+        __m512d vmax = _mm512_set1_pd(data[0]);
+        i = 0;
+        for (; i + 7 < n; i += 8)
+            vmax = _mm512_max_pd(vmax, _mm512_loadu_pd(data + i));
+        result = _mm512_reduce_max_pd(vmax);
+        for (; i < n; ++i) if (data[i] > result) result = data[i];
+        return result;
+    }
+#endif
+#if defined(__AVX2__)
+    if (n >= 4) {
+        __m256d vmax = _mm256_set1_pd(data[0]);
+        i = 0;
+        for (; i + 3 < n; i += 4)
+            vmax = _mm256_max_pd(vmax, _mm256_loadu_pd(data + i));
+        double lane[4];
+        _mm256_storeu_pd(lane, vmax);
+        result = std::max({lane[0], lane[1], lane[2], lane[3]});
+        for (; i < n; ++i) if (data[i] > result) result = data[i];
+        return result;
+    }
+#endif
+    for (; i < n; ++i) if (data[i] > result) result = data[i];
+    return result;
+}
+
+} // anonymous namespace
+
 class ColumnarStore::Impl {
 public:
     struct Column {
@@ -1040,6 +1158,25 @@ public:
     
     std::unordered_map<std::string, Column> columns;
     size_t row_count = 0;
+
+    // Pre-allocated scratch buffer for SIMD aggregation — avoids heap
+    // allocation inside hot aggregation loops (see vectorizedSum/Min/Max).
+    mutable std::vector<double> simd_buffer;
+
+    // Populate simd_buffer with numeric (double + int64) values from a column.
+    // Returns a pointer/count pair into the buffer for SIMD consumption.
+    static std::pair<const double*, size_t>
+    extractDoubles(const Column& col, std::vector<double>& buf) {
+        buf.clear();
+        buf.reserve(col.data.size());
+        for (const auto& val : col.data) {
+            if (const auto* d = std::get_if<double>(&val))
+                buf.push_back(*d);
+            else if (const auto* i64 = std::get_if<int64_t>(&val))
+                buf.push_back(static_cast<double>(*i64));
+        }
+        return {buf.data(), buf.size()};
+    }
 };
 
 ColumnarStore::ColumnarStore() : impl_(std::make_unique<Impl>()) {}
@@ -1090,61 +1227,36 @@ size_t ColumnarStore::rowCount() const {
 double ColumnarStore::sum(std::string_view column) const {
     auto it = impl_->columns.find(std::string(column));
     if (it == impl_->columns.end()) return 0.0;
-    
-    double result = 0.0;
-    for (const auto& val : it->second.data) {
-        if (auto* d = std::get_if<double>(&val)) {
-            result += *d;
-        } else if (auto* i = std::get_if<int64_t>(&val)) {
-            result += static_cast<double>(*i);
-        }
-    }
-    return result;
+
+    auto [ptr, n] = Impl::extractDoubles(it->second, impl_->simd_buffer);
+    return vectorizedSum(ptr, n);
 }
 
 double ColumnarStore::avg(std::string_view column) const {
     auto it = impl_->columns.find(std::string(column));
     if (it == impl_->columns.end() || it->second.data.empty()) return 0.0;
-    
-    return sum(column) / it->second.data.size();
+
+    auto [ptr, n] = Impl::extractDoubles(it->second, impl_->simd_buffer);
+    if (n == 0) return 0.0;
+    return vectorizedSum(ptr, n) / static_cast<double>(n);
 }
 
 double ColumnarStore::min(std::string_view column) const {
     auto it = impl_->columns.find(std::string(column));
     if (it == impl_->columns.end() || it->second.data.empty()) return 0.0;
-    
-    double result = std::numeric_limits<double>::max();
-    for (const auto& val : it->second.data) {
-        double v = 0.0;
-        if (auto* d = std::get_if<double>(&val)) {
-            v = *d;
-        } else if (auto* i = std::get_if<int64_t>(&val)) {
-            v = static_cast<double>(*i);
-        } else {
-            continue;
-        }
-        result = std::min(result, v);
-    }
-    return result;
+
+    auto [ptr, n] = Impl::extractDoubles(it->second, impl_->simd_buffer);
+    if (n == 0) return 0.0;
+    return vectorizedMin(ptr, n);
 }
 
 double ColumnarStore::max(std::string_view column) const {
     auto it = impl_->columns.find(std::string(column));
     if (it == impl_->columns.end() || it->second.data.empty()) return 0.0;
-    
-    double result = std::numeric_limits<double>::lowest();
-    for (const auto& val : it->second.data) {
-        double v = 0.0;
-        if (auto* d = std::get_if<double>(&val)) {
-            v = *d;
-        } else if (auto* i = std::get_if<int64_t>(&val)) {
-            v = static_cast<double>(*i);
-        } else {
-            continue;
-        }
-        result = std::max(result, v);
-    }
-    return result;
+
+    auto [ptr, n] = Impl::extractDoubles(it->second, impl_->simd_buffer);
+    if (n == 0) return 0.0;
+    return vectorizedMax(ptr, n);
 }
 
 int64_t ColumnarStore::count(std::string_view column) const {

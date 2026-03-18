@@ -71,6 +71,13 @@
 #include <stdexcept>
 #include <unordered_map>
 
+// SIMD intrinsics — guarded so non-SIMD platforms compile cleanly.
+#if defined(__AVX512F__)
+#  include <immintrin.h>
+#elif defined(__AVX2__)
+#  include <immintrin.h>
+#endif
+
 namespace themisdb {
 namespace analytics {
 
@@ -236,6 +243,100 @@ double zScore(double confidence) {
 double computeMean(const std::vector<double>& v) {
     if (v.empty()) return 0.0;
     return std::accumulate(v.begin(), v.end(), 0.0) / static_cast<double>(v.size());
+}
+
+// ---------------------------------------------------------------------------
+// SIMD-accelerated autocovariance kernel for the Yule–Walker equations.
+//
+// acov0_avx2  : AVX2  path — processes 4 doubles/cycle.
+// acov0_avx512: AVX-512 path — processes 8 doubles/cycle (2× AVX2).
+//
+// Both compute sum_{i=lag}^{n-1} (y[i] - mean) * (y[i-lag] - mean),
+// which is the (unnormalized) autocovariance at a given lag.
+// lag == 0 reduces to the sum of squares (variance).
+//
+// The AVX-512 path is additionally protected by __builtin_cpu_supports() so
+// that a binary compiled with -mavx512f still runs on AVX2-only hardware.
+// ---------------------------------------------------------------------------
+
+// Cache the AVX-512 runtime support check — avoids repeated CPUID calls when
+// yuleWalker() is invoked in a loop (e.g., batch prediction or ARIMA search).
+// Initialized once at first use; thread-safe under C++11 static initialisation.
+#if defined(__AVX512F__)
+static const bool kHasAVX512 = __builtin_cpu_supports("avx512f");
+#endif
+
+#if defined(__AVX2__)
+static double acov0_avx2(const double* __restrict__ y, size_t n,
+                         double mean, int lag) noexcept {
+    const size_t start = static_cast<size_t>(lag);
+    double acc = 0.0;
+    size_t i = start;
+
+    __m256d vmean = _mm256_set1_pd(mean);
+    __m256d vacc  = _mm256_setzero_pd();
+
+    for (; i + 3 < n; i += 4) {
+        __m256d vi   = _mm256_loadu_pd(y + i);
+        __m256d vi_k = _mm256_loadu_pd(y + i - start);
+        __m256d di   = _mm256_sub_pd(vi,   vmean);
+        __m256d di_k = _mm256_sub_pd(vi_k, vmean);
+        vacc = _mm256_add_pd(vacc, _mm256_mul_pd(di, di_k));
+    }
+    double lane[4];
+    _mm256_storeu_pd(lane, vacc);
+    acc = lane[0] + lane[1] + lane[2] + lane[3];
+
+    for (; i < n; ++i)
+        acc += (y[i] - mean) * (y[i - start] - mean);
+
+    return acc;
+}
+#endif  // __AVX2__
+
+#if defined(__AVX512F__)
+static double acov0_avx512(const double* __restrict__ y, size_t n,
+                            double mean, int lag) noexcept {
+    const size_t start = static_cast<size_t>(lag);
+    double acc = 0.0;
+    size_t i = start;
+
+    __m512d vmean = _mm512_set1_pd(mean);
+    __m512d vacc  = _mm512_setzero_pd();
+
+    for (; i + 7 < n; i += 8) {
+        __m512d vi   = _mm512_loadu_pd(y + i);
+        __m512d vi_k = _mm512_loadu_pd(y + i - start);
+        __m512d di   = _mm512_sub_pd(vi,   vmean);
+        __m512d di_k = _mm512_sub_pd(vi_k, vmean);
+        vacc = _mm512_add_pd(vacc, _mm512_mul_pd(di, di_k));
+    }
+    acc = _mm512_reduce_add_pd(vacc);
+
+    for (; i < n; ++i)
+        acc += (y[i] - mean) * (y[i - start] - mean);
+
+    return acc;
+}
+#endif  // __AVX512F__
+
+// Dispatch: pick the best available autocovariance kernel at runtime.
+static double computeAutocovariance(const double* y, size_t n,
+                                    double mean, int lag) noexcept {
+#if defined(__AVX512F__)
+    if (n >= 8 && kHasAVX512)
+        return acov0_avx512(y, n, mean, lag);
+#endif
+#if defined(__AVX2__)
+    if (n >= 4)
+        return acov0_avx2(y, n, mean, lag);
+#endif
+    // Scalar fallback
+    const size_t start = static_cast<size_t>(lag);
+    double acc = 0.0;
+    for (size_t i = start; i < n; ++i)
+        acc += (y[i] - mean) * (y[i - start] - mean);
+    return acc;
 }
 
 /// Compute the median of a SORTED vector.
@@ -447,12 +548,11 @@ std::vector<double> yuleWalker(const std::vector<double>& y, int p) {
     if (n == 0 || p <= 0) return {};
 
     double mean_y = computeMean(y);
-    // Autocovariances r[0..p]
+    // Autocovariances r[0..p] — inner loop accelerated by AVX-512 / AVX2.
     std::vector<double> r(static_cast<size_t>(p + 1), 0.0);
     for (int k = 0; k <= p; ++k) {
-        for (size_t i = static_cast<size_t>(k); i < n; ++i)
-            r[static_cast<size_t>(k)] += (y[i] - mean_y) * (y[i - static_cast<size_t>(k)] - mean_y);
-        r[static_cast<size_t>(k)] /= static_cast<double>(n);
+        r[static_cast<size_t>(k)] =
+            computeAutocovariance(y.data(), n, mean_y, k) / static_cast<double>(n);
     }
 
     if (r[0] < 1e-15) return std::vector<double>(static_cast<size_t>(p), 0.0);

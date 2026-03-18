@@ -404,11 +404,11 @@ Yule–Walker autocovariance loop in `forecasting.cpp`.  AVX-512 (2× AVX2 width
 and ARM NEON (Cortex-A78 and Apple Silicon) paths are absent.
 
 **Implementation Notes:**
-- `[ ]` Add `#ifdef __AVX512F__` path in `olap.cpp` `vectorizedSum/Avg/Min/Max` — process 8 `double` per cycle vs AVX2's 4; use `_mm512_reduce_add_pd` for horizontal reduction
-- `[ ]` Add `#ifdef __ARM_NEON` path with `float64x2_t` NEON intrinsics for `ColumnAggregator` in `columnar_execution.cpp` — ARM builds currently fall back to scalar
-- `[ ]` Gate all SIMD paths behind runtime CPUID checks (`__builtin_cpu_supports("avx512f")`) when the binary must run on heterogeneous hardware
-- `[ ]` Extend `forecasting.cpp` Yule–Walker AVX2 inner loop to AVX-512 (8 doubles/cycle) for the `acov0_avx2` function already scaffolded in the existing doc
-- `[ ]` ARM NEON and AVX2 results must produce bit-identical output (within 1 ULP) to the scalar baseline — add a parity assertion in the CI test suite
+- `[x]` Add `#ifdef __AVX512F__` path in `olap.cpp` `vectorizedSum/Avg/Min/Max` — process 8 `double` per cycle vs AVX2's 4; use `_mm512_reduce_add_pd` for horizontal reduction
+- `[x]` Add `#ifdef __ARM_NEON` path with `float64x2_t` NEON intrinsics for `ColumnAggregator` in `columnar_execution.cpp` — ARM builds currently fall back to scalar
+- `[x]` Gate all SIMD paths behind runtime CPUID checks (`__builtin_cpu_supports("avx512f")`) when the binary must run on heterogeneous hardware
+- `[x]` Extend `forecasting.cpp` Yule–Walker AVX2 inner loop to AVX-512 (8 doubles/cycle) for the `acov0_avx2` function already scaffolded in the existing doc
+- `[x]` ARM NEON and AVX2 results must produce bit-identical output (within 1 ULP) to the scalar baseline — add a parity assertion in the CI test suite
 
 **Performance Targets:**
 - AVX-512 SUM over 10 M doubles: ≥ 2× throughput vs AVX2 baseline
