@@ -55,6 +55,8 @@
 
 #include <gtest/gtest.h>
 #include <atomic>
+#include <chrono>
+#include <future>
 #include <thread>
 #include "analytics/ml_serving.h"
 
@@ -455,8 +457,6 @@ TEST(BackendInterfaceTest, PolymorphicCallDoesNotCrash) {
 TEST(ONNXServingBackendTest, ConcurrentInferDifferentModelsNoDeadlock) {
     ONNXServingBackend backend;
 
-    std::atomic<bool> thread1_done{false};
-    std::atomic<bool> thread2_done{false};
     std::atomic<bool> thread1_threw{false};
     std::atomic<bool> thread2_threw{false};
 
@@ -467,29 +467,21 @@ TEST(ONNXServingBackendTest, ConcurrentInferDifferentModelsNoDeadlock) {
         return req;
     };
 
-    std::thread t1([&] {
-        try {
-            (void)backend.infer(make_req("model_alpha"));
-        } catch (...) {
-            thread1_threw = true;
-        }
-        thread1_done = true;
+    // Use futures so a deadlock/regression causes the test to fail with a
+    // clear timeout message rather than hanging the entire test binary.
+    auto f1 = std::async(std::launch::async, [&] {
+        try { (void)backend.infer(make_req("model_alpha")); }
+        catch (...) { thread1_threw = true; }
+    });
+    auto f2 = std::async(std::launch::async, [&] {
+        try { (void)backend.infer(make_req("model_beta")); }
+        catch (...) { thread2_threw = true; }
     });
 
-    std::thread t2([&] {
-        try {
-            (void)backend.infer(make_req("model_beta"));
-        } catch (...) {
-            thread2_threw = true;
-        }
-        thread2_done = true;
-    });
+    constexpr auto kTimeout = std::chrono::seconds(10);
+    ASSERT_EQ(f1.wait_for(kTimeout), std::future_status::ready) << "Thread 1 timed out – possible deadlock";
+    ASSERT_EQ(f2.wait_for(kTimeout), std::future_status::ready) << "Thread 2 timed out – possible deadlock";
 
-    t1.join();
-    t2.join();
-
-    EXPECT_TRUE(thread1_done)  << "Thread 1 did not complete";
-    EXPECT_TRUE(thread2_done)  << "Thread 2 did not complete";
     EXPECT_FALSE(thread1_threw) << "Thread 1 threw an exception";
     EXPECT_FALSE(thread2_threw) << "Thread 2 threw an exception";
 }
@@ -500,30 +492,26 @@ TEST(ONNXServingBackendTest, ConcurrentInferDifferentModelsNoDeadlock) {
 TEST(ONNXServingBackendTest, ConcurrentInferSameModelNoDeadlock) {
     ONNXServingBackend backend;
 
-    std::atomic<bool> thread1_done{false};
-    std::atomic<bool> thread2_done{false};
     std::atomic<bool> any_threw{false};
 
     MLServingRequest req;
     req.model_name = "shared_model";
     req.inputs.push_back(MLTensor{"input", {1, 2}, {0.5f, 1.0f}});
 
-    std::thread t1([&] {
+    // Use futures with a hard timeout so a deadlock surfaces as a test failure
+    // rather than an indefinite hang.
+    auto f1 = std::async(std::launch::async, [&] {
         try { (void)backend.infer(req); }
         catch (...) { any_threw = true; }
-        thread1_done = true;
     });
-
-    std::thread t2([&] {
+    auto f2 = std::async(std::launch::async, [&] {
         try { (void)backend.infer(req); }
         catch (...) { any_threw = true; }
-        thread2_done = true;
     });
 
-    t1.join();
-    t2.join();
+    constexpr auto kTimeout = std::chrono::seconds(10);
+    ASSERT_EQ(f1.wait_for(kTimeout), std::future_status::ready) << "Thread 1 timed out – possible deadlock";
+    ASSERT_EQ(f2.wait_for(kTimeout), std::future_status::ready) << "Thread 2 timed out – possible deadlock";
 
-    EXPECT_TRUE(thread1_done) << "Thread 1 did not complete";
-    EXPECT_TRUE(thread2_done) << "Thread 2 did not complete";
-    EXPECT_FALSE(any_threw)   << "A thread threw an unexpected exception";
+    EXPECT_FALSE(any_threw) << "A thread threw an unexpected exception";
 }

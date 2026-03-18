@@ -175,7 +175,7 @@ targeted.
 
 **Implementation Notes:**
 - `[x]` Replace the double-lock pattern with a single lock acquisition that obtains a `shared_ptr<OrtSession>` reference (or equivalent), then releases the mutex before calling ONNX `Run()`
-- `[x]` Move the session map from `std::unordered_map<string, unique_ptr<Session>>` to `std::unordered_map<string, shared_ptr<Session>>` so per-model handles can be retained outside the map lock
+- `[x]` Move the session map from `std::map<string, unique_ptr<Session>>` to `std::map<string, shared_ptr<Session>>` so per-model handles can be retained outside the map lock
 - `[x]` Per-model `std::shared_mutex` (or `std::atomic<bool> loading_`) to serialize concurrent loads of the same model without blocking unrelated models
 - `[x]` Add test: two threads simultaneously infer on two different models; assert neither blocks the other
 

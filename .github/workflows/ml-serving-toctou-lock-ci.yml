@@ -116,7 +116,7 @@ jobs:
         run: |
           set -o pipefail
           cd build
-          ./tests/test_ml_serving_focused \
+          timeout 60 ./tests/test_ml_serving_focused \
             --gtest_output="xml:ml_serving_toctou_gtest.xml" \
             2>&1 | tee ml_serving_toctou_gtest_output.txt
 
