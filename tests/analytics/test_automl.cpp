@@ -606,7 +606,9 @@ TEST(DefaultAlgorithmsTest, RegressionWithAllAlgorithms) {
  * Requires n >= 2 to produce a meaningful linear spread.
  */
 static std::vector<DataPoint> makeLinear2xData(int n) {
-    assert(n >= 2 && "makeLinear2xData requires at least 2 points");
+    if (n < 2) {
+        throw std::invalid_argument("makeLinear2xData requires at least 2 points");
+    }
     std::vector<DataPoint> data;
     data.reserve(static_cast<size_t>(n));
     for (int i = 0; i < n; ++i) {
@@ -650,7 +652,8 @@ TEST(KNNRegressionTest, PredictOneRegLinearRelation) {
 }
 
 TEST(KNNRegressionTest, PredictOneRegPerformance) {
-    if (!std::getenv("THEMIS_RUN_PERF_TESTS")) {
+    const char* env = std::getenv("THEMIS_RUN_PERF_TESTS");
+    if (!env || std::string(env) != "1") {
         GTEST_SKIP() << "Skipping performance test (set THEMIS_RUN_PERF_TESTS=1 to enable)";
     }
 
@@ -685,7 +688,6 @@ TEST(KNNRegressionTest, PredictOneRegPerformance) {
     auto us  = std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count();
 
     EXPECT_LE(us, 1000)
-        // k defaults to 5 via AutoML random-search hyperparameter (getHP("k", 5))
-        << "KNN predictOneReg (k=5, n=10 000) took " << us
+        << "KNN predictOneReg (n=10 000) took " << us
         << " µs — limit is 1000 µs (1 ms)";
 }

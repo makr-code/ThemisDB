@@ -48,7 +48,7 @@ identified issues reference exact file names and function names.
 | `CEPEngine::timerLoop()` | CEP runtime | Window callbacks must be dispatched after lock release |
 | `DistributedAnalyticsSharding::getHealthyShardCount()` | Health dashboard | Network I/O must not run under `mutex_` |
 | `LLMProcessAnalyzer::Impl::putInCache(key, response)` | LLM integration | ✅ Fixed v1.8.0: O(N) eviction replaced with O(1) LRU (doubly-linked list + hash map); SHA256 cache key; max_cache_entries in LLMConfig |
-| `AutoMLModel::KNNRegressorModel::predictOneReg(x)` | AutoML serving | Stub `return 0.0` must be replaced with real k-NN regression |
+| `AutoMLModel::KNNRegressorModel::predictOneReg(x)` | AutoML serving | ✅ Fixed v1.8.0: weighted inverse-distance mean (1/d²) of k nearest neighbours; unit + perf tests added |
 | `OLAPEngine` (Windows) | Cross-platform build | Full implementation needed; current stub emits warnings and returns empty results |
 | `ProcessMining` (Windows) | Cross-platform build | Stub returns `Status::Error` for every operation |
 
@@ -295,7 +295,8 @@ entire log.
 **Files:** `src/analytics/automl.cpp`
 
 `KNNModel::predictOneReg()` is fully implemented as a weighted inverse-distance mean of the
-`k` nearest neighbours' target values (weight = 1/d² for d > 1e-15, else 1e15).
+`k` nearest neighbours' target values (weight = 1/d² where d² is the squared L2 distance;
+threshold on d² > 1e-15 before applying weight, else w = 1e15).
 The `neighbors()` private helper uses squared L2 distance with `std::nth_element` for O(n)
 nearest-neighbour selection.
 
@@ -488,7 +489,7 @@ capabilities needed for production deployments.
 - `[ ]` Refactor `StreamingAnomalyDetector::process()` to async training (section 3)
 - `[ ]` Refactor `ModelServingEngine::predict()` to inference-outside-lock pattern (section 4)
 - `[ ]` Implement `LRUCache` in `llm_process_analyzer.cpp` (section 7)
-- `[ ]` Implement `KNNRegressorModel::predictOneReg()` (section 10)
+- `[x]` Implement `KNNRegressorModel::predictOneReg()` (section 10)
 - `[ ]` Fix `CEPEngine::timerLoop()` callback-under-lock and `metricsLoop()` shutdown race (section 2)
 
 ### Phase 3 — Error Handling and Edge Cases (2027 Q1)
@@ -503,7 +504,7 @@ capabilities needed for production deployments.
 - `[ ]` OLAP cache eviction test: assert bounded memory growth under 10 000 unique queries
 - `[ ]` `CEPEngine::stop()` latency test: returns within 100 ms regardless of `metrics_interval`
 - `[x]` `IVM` reader-latency test: P99 ≤ 10 ms during 10 000-row batch apply
-- `[ ]` `KNNRegressorModel` regression accuracy test on `y = 2x`
+- `[x]` `KNNRegressorModel` regression accuracy test on `y = 2x`
 
 ### Phase 5 — Performance / Hardening (2027 Q2)
 - `[ ]` AVX-512 and ARM NEON kernels with CI parity assertions (section 14)
@@ -528,7 +529,7 @@ capabilities needed for production deployments.
 - `[ ]` `ModelServingEngine` inference throughput ≥ 10 000 predictions/s on 8 cores
 - `[x]` `IncrementalView` reader P99 ≤ 10 ms under 10 000-row batch writes
 - `[ ]` Windows `OLAPEngine` and `ProcessMining` stubs replaced or tracked in CI
-- `[ ]` `KNNRegressorModel::predictOneReg()` stub replaced with real implementation
+- `[x]` `KNNRegressorModel::predictOneReg()` stub replaced with real implementation
 - `[ ]` All hard-coded poll intervals (200 ms, 500 ms, 100 ms) moved to configuration structs
 - `[x]` `LLMProcessAnalyzer` cache eviction O(1)
 - `[ ]` SIMD parity tests passing on AVX2 + scalar; AVX-512 and NEON paths added
@@ -547,7 +548,7 @@ capabilities needed for production deployments.
 | O(N) LLM cache eviction under lock | `llm_process_analyzer.cpp:105` | Medium | Degrades under high LLM call rates |
 | Network I/O in `getHealthyShardCount()` | `distributed_analytics.cpp:321` | Medium | Blocks shard registry for entire sweep |
 | Cache stampede in `DiffEngine` | `diff_engine.cpp:181` | Medium | Two threads can duplicate expensive changefeed scan |
-| `KNNRegressorModel::predictOneReg()` = 0.0 | `automl.cpp:833` | Medium | Silent wrong predictions for regression tasks |
+| `KNNRegressorModel::predictOneReg()` = 0.0 | `automl.cpp:833` | Medium | ✅ Fixed v1.8.0: weighted inverse-distance mean of k nearest neighbours |
 | 8 unresolved TODOs | `streaming_window.cpp` | Medium | File header reports but does not enumerate them |
 | Windows OLAP/ProcessMining stubs | `olap.cpp:53`, `process_mining.cpp:24` | Low | Not a blocker on Linux; silently fails on Windows |
 | `computePercentile` by-value copy | `cep_engine.cpp:140` | Low | 80 KB copy per percentile on 10k-event windows |
