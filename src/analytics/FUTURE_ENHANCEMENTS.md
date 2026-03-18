@@ -499,13 +499,13 @@ capabilities needed for production deployments.
 - `[ ]` TOCTOU fix for `MLServingEngine::infer()` (section 5)
 - `[ ]` Stampede prevention for `DiffEngine::computeDiff()` (section 9)
 - `[ ]` `DistributedAnalyticsSharding` cached health state (section 8)
-- `[ ]` `IncrementalView::applyChanges()` micro-batch lock release (section 6)
+- `[x]` `IncrementalView::applyChanges()` micro-batch lock release (section 6)
 
 ### Phase 4 — Tests (2027 Q1)
 - `[ ]` Concurrency stress test for `StreamingAnomalyDetector` (8 threads, 100 kHz, P99 ≤ 1 ms)
 - `[ ]` OLAP cache eviction test: assert bounded memory growth under 10 000 unique queries
 - `[ ]` `CEPEngine::stop()` latency test: returns within 100 ms regardless of `metrics_interval`
-- `[ ]` `IVM` reader-latency test: P99 ≤ 10 ms during 10 000-row batch apply
+- `[x]` `IVM` reader-latency test: P99 ≤ 10 ms during 10 000-row batch apply
 - `[ ]` `KNNRegressorModel` regression accuracy test on `y = 2x`
 
 ### Phase 5 — Performance / Hardening (2027 Q2)
@@ -529,7 +529,7 @@ capabilities needed for production deployments.
 - `[ ]` All `std::lock_guard` scopes verified to hold ≤ 1 ms under worst-case production load
 - `[ ]` `CEPEngine::stop()` completes within 100 ms in all code paths
 - `[ ]` `ModelServingEngine` inference throughput ≥ 10 000 predictions/s on 8 cores
-- `[ ]` `IncrementalView` reader P99 ≤ 10 ms under 10 000-row batch writes
+- `[x]` `IncrementalView` reader P99 ≤ 10 ms under 10 000-row batch writes
 - `[ ]` Windows `OLAPEngine` and `ProcessMining` stubs replaced or tracked in CI
 - `[ ]` `KNNRegressorModel::predictOneReg()` stub replaced with real implementation
 - `[ ]` All hard-coded poll intervals (200 ms, 500 ms, 100 ms) moved to configuration structs
