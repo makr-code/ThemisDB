@@ -28,12 +28,16 @@
 #include "analytics/detail/memory_pool.h"
 #include "themis/gpu/query_accelerator.h"
 #include <algorithm>
+#include <atomic>
 #include <cmath>
 #include <cstring>
 #include <numeric>
 #include <chrono>
+#include <list>
+#include <mutex>
 #include <sstream>
 #include <set>
+#include <thread>
 #include <unordered_set>
 #include <map>
 #include <limits>
@@ -408,9 +412,62 @@ public:
     // instances (e.g., in MaterializedView::refresh()) do not eagerly allocate
     // the full 64 MiB backing block.  Not shared across threads.
     std::unique_ptr<themis::analytics::detail::AnalyticsMemoryPool> pool;
+
+    // -------------------------------------------------------------------------
+    // O(1) LRU result cache — doubly-linked list + unordered_map.
+    // Front of list = MRU (most recently used), back = LRU (eviction candidate).
+    // -------------------------------------------------------------------------
+    struct CacheEntry {
+        OLAPResult result;
+        std::chrono::steady_clock::time_point expiry;
+    };
+    using LruList = std::list<std::string>;
+    using LruMap  = std::unordered_map<std::string, std::pair<LruList::iterator, CacheEntry>>;
+
+    mutable LruList     result_lru_list;
+    mutable LruMap      result_lru_map;
+    mutable std::mutex  result_cache_mutex;
+
+    // Background cleanup thread for TTL eviction.
+    std::thread             cleanup_thread;
+    std::atomic<bool>       cleanup_stop{false};
+
+    void startCleanupThread() {
+        if (config.result_cache_max_entries == 0 || config.result_cache_ttl_ms <= 0) return;
+        cleanup_stop.store(false);
+        cleanup_thread = std::thread([this]() {
+            const auto interval = std::chrono::milliseconds(
+                std::max(int64_t(1000), config.result_cache_ttl_ms / 4));
+            while (!cleanup_stop.load()) {
+                std::this_thread::sleep_for(interval);
+                if (cleanup_stop.load()) break;
+                auto now = std::chrono::steady_clock::now();
+                std::lock_guard<std::mutex> lock(result_cache_mutex);
+                for (auto it = result_lru_map.begin(); it != result_lru_map.end(); ) {
+                    if (now >= it->second.second.expiry) {
+                        result_lru_list.erase(it->second.first);
+                        it = result_lru_map.erase(it);
+                    } else {
+                        ++it;
+                    }
+                }
+            }
+        });
+    }
+
+    void stopCleanupThread() {
+        cleanup_stop.store(true);
+        if (cleanup_thread.joinable()) cleanup_thread.join();
+    }
+
+    ~Impl() {
+        stopCleanupThread();
+    }
 };
 
-OLAPEngine::OLAPEngine() : impl_(std::make_unique<Impl>()) {}
+OLAPEngine::OLAPEngine() : impl_(std::make_unique<Impl>()) {
+    impl_->startCleanupThread();
+}
 
 OLAPEngine::OLAPEngine(const Config& config) : impl_(std::make_unique<Impl>()) {
     impl_->config = config;
@@ -421,13 +478,111 @@ OLAPEngine::OLAPEngine(const Config& config) : impl_(std::make_unique<Impl>()) {
         spdlog::info("OLAPEngine: GPU acceleration enabled (device {}, threshold {} rows)",
                      config.gpu_device_id, config.gpu_threshold_rows);
     }
+    impl_->startCleanupThread();
 }
 
 OLAPEngine::~OLAPEngine() = default;
 
+// ---------------------------------------------------------------------------
+// Compute a normalised cache key for an OLAPQuery so that semantically
+// equivalent queries (same dimensions/measures/filters regardless of order)
+// map to the same cache entry.
+// ---------------------------------------------------------------------------
+static std::string computeOLAPCacheKey(const OLAPQuery& query) {
+    std::ostringstream ss;
+    ss << query.collection << '\0';
+
+    // Sorted dimension names
+    std::vector<std::string> dims;
+    dims.reserve(query.dimensions.size());
+    for (const auto& d : query.dimensions) {
+        dims.push_back(d.name + ':' + d.expression + ':' + (d.include_in_grouping ? '1' : '0'));
+    }
+    std::sort(dims.begin(), dims.end());
+    for (const auto& d : dims) ss << d << '\0';
+
+    // Sorted measure descriptors
+    std::vector<std::string> meas;
+    meas.reserve(query.measures.size());
+    for (const auto& m : query.measures) {
+        meas.push_back(m.name + ':' + m.field + ':' + std::to_string(static_cast<int>(m.function)));
+    }
+    std::sort(meas.begin(), meas.end());
+    for (const auto& m : meas) ss << m << '\0';
+
+    // Canonical filter order: sort by serialised representation
+    std::vector<std::string> filter_strs;
+    filter_strs.reserve(query.filters.size());
+    for (const auto& f : query.filters) {
+        std::string fstr = f.field + ':' + std::to_string(static_cast<int>(f.op)) + ':';
+        std::visit([&fstr](const auto& v) {
+            using T = std::decay_t<decltype(v)>;
+            if constexpr (std::is_same_v<T, std::nullptr_t>) {
+                fstr += "null";
+            } else if constexpr (std::is_same_v<T, bool>) {
+                fstr += (v ? "true" : "false");
+            } else if constexpr (std::is_same_v<T, int64_t>) {
+                fstr += std::to_string(v);
+            } else if constexpr (std::is_same_v<T, double>) {
+                fstr += std::to_string(v);
+            } else if constexpr (std::is_same_v<T, std::string>) {
+                fstr += v;
+            } else if constexpr (std::is_same_v<T, std::vector<std::string>>) {
+                for (const auto& s : v) { fstr += s; fstr += ','; }
+            }
+        }, f.value);
+        filter_strs.push_back(std::move(fstr));
+    }
+    std::sort(filter_strs.begin(), filter_strs.end());
+    for (const auto& f : filter_strs) ss << f << '\0';
+
+    // Grouping mode
+    ss << static_cast<int>(query.grouping_mode) << '\0';
+
+    // Limit / offset
+    if (query.limit)  ss << 'L' << *query.limit  << '\0';
+    if (query.offset) ss << 'O' << *query.offset << '\0';
+
+    return ss.str();
+}
+
 OLAPResult OLAPEngine::execute(const OLAPQuery& query) {
     auto start = std::chrono::high_resolution_clock::now();
-    
+
+    const size_t max_entries = impl_->config.result_cache_max_entries;
+    const int64_t ttl_ms     = impl_->config.result_cache_ttl_ms;
+
+    // ------------------------------------------------------------------
+    // 1. LRU cache lookup
+    // ------------------------------------------------------------------
+    std::string cache_key;
+    if (max_entries > 0) {
+        cache_key = computeOLAPCacheKey(query);
+        std::lock_guard<std::mutex> lock(impl_->result_cache_mutex);
+        auto it = impl_->result_lru_map.find(cache_key);
+        if (it != impl_->result_lru_map.end()) {
+            const auto now = std::chrono::steady_clock::now();
+            const bool expired = (ttl_ms > 0) && (now >= it->second.second.expiry);
+            if (!expired) {
+                // Cache hit — promote to MRU front (O(1) splice)
+                impl_->result_lru_list.splice(
+                    impl_->result_lru_list.begin(), impl_->result_lru_list, it->second.first);
+                OLAPResult cached = it->second.second.result;
+                auto end = std::chrono::high_resolution_clock::now();
+                cached.execution_time_ms =
+                    std::chrono::duration<double, std::milli>(end - start).count();
+                return cached;
+            }
+            // Expired: evict now so the fresh result is cached below
+            impl_->result_lru_list.erase(it->second.first);
+            impl_->result_lru_map.erase(it);
+        }
+    }
+
+    // ------------------------------------------------------------------
+    // 2. Execute query
+    // ------------------------------------------------------------------
+
     // Reset the per-Impl arena so all intermediate GROUP BY buffers
     // (group-key strings, AggState maps) reuse the same backing memory.
     // Lazily allocate the pool on the first execute() call.
@@ -455,7 +610,36 @@ OLAPResult OLAPEngine::execute(const OLAPQuery& query) {
     
     auto end = std::chrono::high_resolution_clock::now();
     result.execution_time_ms = std::chrono::duration<double, std::milli>(end - start).count();
-    
+
+    // ------------------------------------------------------------------
+    // 3. Store result in LRU cache
+    // ------------------------------------------------------------------
+    if (max_entries > 0) {
+        const auto expiry = (ttl_ms > 0)
+            ? std::chrono::steady_clock::now() + std::chrono::milliseconds(ttl_ms)
+            : std::chrono::steady_clock::time_point::max();
+
+        std::lock_guard<std::mutex> lock(impl_->result_cache_mutex);
+        auto it = impl_->result_lru_map.find(cache_key);
+        if (it != impl_->result_lru_map.end()) {
+            // Update existing entry and promote to MRU
+            impl_->result_lru_list.splice(
+                impl_->result_lru_list.begin(), impl_->result_lru_list, it->second.first);
+            it->second.second = OLAPEngine::Impl::CacheEntry{result, expiry};
+        } else {
+            impl_->result_lru_list.push_front(cache_key);
+            impl_->result_lru_map[cache_key] = {
+                impl_->result_lru_list.begin(),
+                OLAPEngine::Impl::CacheEntry{result, expiry}};
+        }
+        // Evict LRU tail(s) if over capacity — O(1) per eviction
+        while (impl_->result_lru_map.size() > max_entries) {
+            const std::string& lru_key = impl_->result_lru_list.back();
+            impl_->result_lru_map.erase(lru_key);
+            impl_->result_lru_list.pop_back();
+        }
+    }
+
     return result;
 }
 
