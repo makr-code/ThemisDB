@@ -6224,6 +6224,42 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_arrow_export.cpp")
     message(STATUS "  ArrowExport: RecordBatch, JSON/CSV export, optional Parquet/Feather/IPC, sanitization")
 endif()
 
+# OLAP LRU result cache focused tests (v1.8.0)
+# Validates: O(1) LRU eviction, TTL invalidation, cache-key normalisation,
+# background cleanup thread, configurable max_entries / ttl_ms.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_olap_lru_cache.cpp")
+    message(STATUS "Adding focused OLAP LRU cache tests")
+
+    add_executable(test_olap_lru_cache_focused
+        analytics/test_olap_lru_cache.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/olap.cpp
+    )
+
+    target_include_directories(test_olap_lru_cache_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_olap_lru_cache_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_olap_lru_cache_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME OLAPLRUCacheFocusedTests COMMAND test_olap_lru_cache_focused)
+
+    set_tests_properties(OLAPLRUCacheFocusedTests PROPERTIES
+        LABELS "analytics;olap;lru;cache;ttl;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  OLAPLRUCache: cache hit, LRU eviction, TTL invalidation, key normalisation, background cleanup")
+endif()
+
 # Process Mining pattern-focused tests (file is test_process_mining_llm.cpp but exercises
 # process_pattern_matcher + process_mining only; has no actual LLM library dependency)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_mining_llm.cpp")
