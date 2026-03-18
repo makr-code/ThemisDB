@@ -137,24 +137,28 @@ bool Column::isNull(size_t row) const {
 void Column::appendInt64(int64_t value, bool is_null) {
     int64_data_.push_back(value);
     null_bitmap_.push_back(is_null);
+    if (is_null) has_nulls_ = true;
     ++row_count_;
 }
 
 void Column::appendDouble(double value, bool is_null) {
     double_data_.push_back(value);
     null_bitmap_.push_back(is_null);
+    if (is_null) has_nulls_ = true;
     ++row_count_;
 }
 
 void Column::appendString(std::string value, bool is_null) {
     string_data_.push_back(std::move(value));
     null_bitmap_.push_back(is_null);
+    if (is_null) has_nulls_ = true;
     ++row_count_;
 }
 
 void Column::appendBool(bool value, bool is_null) {
     bool_data_.push_back(value);
     null_bitmap_.push_back(is_null);
+    if (is_null) has_nulls_ = true;
     ++row_count_;
 }
 
@@ -167,6 +171,7 @@ void Column::appendNull() {
         case ColumnType::Null:   break;
     }
     null_bitmap_.push_back(true);
+    has_nulls_ = true;
     ++row_count_;
 }
 
@@ -201,6 +206,7 @@ void Column::clear() {
     string_data_.clear();
     bool_data_.clear();
     null_bitmap_.clear();
+    has_nulls_ = false;
     row_count_ = 0;
 }
 
@@ -817,7 +823,7 @@ ColumnBatch AggregateOperator::aggregateAll(const ColumnBatch& input) const {
         // Fast SIMD path for non-null Double columns aggregating SUM/AVG/MIN/MAX.
         // For nullable columns or non-Double types the per-row path is used.
         if (col->type() == ColumnType::Double
-            && col->nullBitmap().empty()   // no nulls
+            && !col->hasNulls()   // no nulls → SIMD fast path
             && (spec.function == AggregateSpec::Function::Sum
                 || spec.function == AggregateSpec::Function::Avg
                 || spec.function == AggregateSpec::Function::Min

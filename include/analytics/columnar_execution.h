@@ -136,7 +136,15 @@ public:
     const std::vector<std::string>& stringData() const noexcept { return string_data_; }
     const std::vector<bool>&        boolData()   const noexcept { return bool_data_;   }
 
-    /** Null bitmap accessor — empty when no nulls are present. */
+    /** Returns true when at least one null has been appended.
+     *  Use this in SIMD fast-path guards instead of nullBitmap().empty(),
+     *  since null_bitmap_ is always populated regardless of whether any
+     *  row is actually null. */
+    bool                            hasNulls()   const noexcept { return has_nulls_; }
+
+    /** Null bitmap — one entry per row; true == null.
+     *  Always populated (never empty for a non-empty column).
+     *  Call hasNulls() first to check whether any null is present. */
     const std::vector<bool>&        nullBitmap() const noexcept { return null_bitmap_; }
 
     // Typed append
@@ -166,6 +174,7 @@ private:
     std::vector<std::string> string_data_;
     std::vector<bool>       bool_data_;
     std::vector<bool>       null_bitmap_;   // true == null
+    bool                    has_nulls_ = false;  // true iff at least one null was ever appended
     size_t                  row_count_ = 0;
 };
 

@@ -70,6 +70,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # x86-64 builds: AVX2 intrinsics are compiled with Release + THEMIS_ENABLE_AVX2=ON.
+          # AVX-512 path is compiled when -mavx512f is added via extra-cmake-flags;
+          # the runtime kHasAVX512 guard ensures safe execution on non-AVX-512 runners.
           - os: ubuntu-22.04
             compiler: gcc-12
             cc: gcc-12
@@ -78,6 +81,17 @@ jobs:
             compiler: gcc-14
             cc: gcc-14
             cxx: g++-14
+          # ARM64 builds: NEON float64x2_t path is compiled and exercised on
+          # GitHub-hosted ARM64 runners (Neoverse N1 / Graviton3).
+          # THEMIS_ENABLE_AVX2 is irrelevant on AArch64; NEON is always present.
+          - os: ubuntu-22.04-arm
+            compiler: gcc-12-arm
+            cc: gcc
+            cxx: g++
+          - os: ubuntu-24.04-arm
+            compiler: gcc-14-arm
+            cc: gcc
+            cxx: g++
 
     steps:
       - name: Checkout repository
@@ -99,6 +113,7 @@ jobs:
         with:
           cc:  ${{ matrix.cc }}
           cxx: ${{ matrix.cxx }}
+          build-type: Release
 
       # ── Focused columnar execution tests (AC-1..AC-8) ──────────────────────
       - name: Run ColumnarExecutionFocusedTests
