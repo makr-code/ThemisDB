@@ -54,6 +54,10 @@ SagaOrchestratorStatus SAGAOrchestrator::validate(const SAGADefinition& saga) co
         if (!names.insert(step.name).second) {
             return SagaOrchestratorStatus::Error("duplicate step name: " + step.name);
         }
+        if (!step.forward) {
+            return SagaOrchestratorStatus::Error(
+                "step '" + step.name + "' has no forward callable");
+        }
     }
 
     // Validate depends_on references
@@ -108,10 +112,6 @@ SagaOrchestratorStatus SAGAOrchestrator::execute(const SAGADefinition& saga) {
     // Build step map for fast lookup
     StepMap step_map = buildStepMap(saga);
 
-    // Topological sort → wave-based execution
-    // Each "wave" contains steps whose dependencies are all completed.
-    std::vector<std::string> topo_order = topologicalSort(saga);
-
     // Track execution order for compensation (LIFO)
     std::vector<std::string> executed_order;
     executed_order.reserve(saga.steps.size());
@@ -136,7 +136,6 @@ SagaOrchestratorStatus SAGAOrchestrator::execute(const SAGADefinition& saga) {
     }
 
     // Track which steps are done/skipped to resolve downstream deps
-    std::unordered_set<std::string> finished_steps; // completed OR skipped
     bool saga_failed   = false;
     std::string fail_reason;
 
@@ -152,39 +151,40 @@ SagaOrchestratorStatus SAGAOrchestrator::execute(const SAGADefinition& saga) {
 
         if (use_parallel && wave.size() > 1) {
             // ── Parallel wave execution ──────────────────────────────────────
-            std::vector<std::future<bool>> futures;
+            // Each future returns its StepState; status_rec is updated in this
+            // (calling) thread only, eliminating any data race on step_states.
+            std::vector<std::future<StepState>> futures;
             futures.reserve(wave.size());
 
             for (const auto& step_name : wave) {
                 const SAGAStep* step_ptr = step_map.at(step_name);
                 futures.push_back(std::async(std::launch::async,
-                    [this, step_ptr, &status_rec]() -> bool {
-                        return executeStep(*step_ptr, status_rec, config_);
+                    [this, step_ptr, &saga]() -> StepState {
+                        return executeStep(*step_ptr, saga.id, config_);
                     }
                 ));
             }
 
             for (size_t i = 0; i < wave.size(); ++i) {
-                bool ok = futures[i].get();
+                StepState s = futures[i].get();
                 const std::string& sname = wave[i];
-                StepState s = status_rec.step_states.at(sname);
-                if (!ok) {
+                status_rec.step_states[sname] = s;  // safe: calling thread only
+                if (s == StepState::FAILED) {
                     saga_failed = true;
                     fail_reason = "step '" + sname + "' failed";
                 } else {
                     if (s == StepState::COMPLETED) {
                         executed_order.push_back(sname);
                     }
-                    finished_steps.insert(sname);
                 }
             }
         } else {
             // ── Sequential wave execution ────────────────────────────────────
             for (const auto& step_name : wave) {
                 const SAGAStep* step_ptr = step_map.at(step_name);
-                bool ok = executeStep(*step_ptr, status_rec, config_);
-                StepState s = status_rec.step_states.at(step_name);
-                if (!ok) {
+                StepState s = executeStep(*step_ptr, saga.id, config_);
+                status_rec.step_states[step_name] = s;
+                if (s == StepState::FAILED) {
                     saga_failed = true;
                     fail_reason = "step '" + step_name + "' failed";
                     break;
@@ -192,7 +192,6 @@ SagaOrchestratorStatus SAGAOrchestrator::execute(const SAGADefinition& saga) {
                 if (s == StepState::COMPLETED) {
                     executed_order.push_back(step_name);
                 }
-                finished_steps.insert(step_name);
             }
         }
 
@@ -242,6 +241,7 @@ SagaOrchestratorStatus SAGAOrchestrator::execute(const SAGADefinition& saga) {
         {
             std::lock_guard<std::mutex> lk(metrics_mutex_);
             ++metrics_.sagas_compensated;
+            ++metrics_.sagas_failed;
         }
 
         journalWrite(saga.id, "saga_compensated");
@@ -456,9 +456,9 @@ SAGAOrchestrator::buildStepMap(const SAGADefinition& saga) {
 // Internal: executeStep()
 // ─────────────────────────────────────────────────────────────────────────────
 
-bool SAGAOrchestrator::executeStep(const SAGAStep& step,
-                                    SAGAExecutionStatus& status_rec,
-                                    const Config& cfg) {
+StepState SAGAOrchestrator::executeStep(const SAGAStep& step,
+                                         const std::string& saga_id,
+                                         const Config& cfg) {
     // Evaluate condition (conditional branching)
     if (step.condition) {
         bool cond_result = false;
@@ -475,12 +475,10 @@ bool SAGAOrchestrator::executeStep(const SAGAStep& step,
                 std::lock_guard<std::mutex> lk(metrics_mutex_);
                 ++metrics_.total_steps_skipped;
             }
-            status_rec.step_states[step.name] = StepState::SKIPPED;
-            return true; // Skipped counts as success for dependency resolution
+            return StepState::SKIPPED; // Skipped counts as success for dependency resolution
         }
     }
 
-    status_rec.step_states[step.name] = StepState::RUNNING;
     {
         std::lock_guard<std::mutex> lk(metrics_mutex_);
         ++metrics_.total_step_executions;
@@ -513,24 +511,40 @@ bool SAGAOrchestrator::executeStep(const SAGAStep& step,
 
         try {
             if (timeout.count() > 0) {
-                // Execute via std::async to enforce timeout
-                auto future = std::async(std::launch::async, step.forward);
-                if (future.wait_for(timeout) == std::future_status::timeout) {
+                // Use a detached thread + promise so that timeout does not
+                // block in the future destructor (std::launch::async would
+                // block on destruction if the task hasn't finished yet).
+                // NOTE: timeout is best-effort; the step task continues running
+                // detached after a timeout is declared.
+                std::promise<void> prom;
+                auto fut = prom.get_future();
+                std::thread([fwd = step.forward, p = std::move(prom)]() mutable {
+                    try {
+                        fwd();
+                        p.set_value();
+                    } catch (...) {
+                        try { p.set_exception(std::current_exception()); }
+                        catch (...) {} // set_exception() itself can throw if the
+                                       // promise was already satisfied (future_error);
+                                       // swallow to prevent terminate()
+                    }
+                }).detach();
+
+                if (fut.wait_for(timeout) != std::future_status::ready) {
                     last_error = "step '" + step.name + "' timed out after "
                                  + std::to_string(timeout.count()) + "ms";
                     THEMIS_WARN("SAGAOrchestrator: {}", last_error);
                     // Don't retry on timeout by default; treat as terminal
                     break;
                 }
-                future.get(); // re-throws any stored exception
+                fut.get(); // re-throws any stored exception
             } else {
                 step.forward();
             }
 
             // Success
-            status_rec.step_states[step.name] = StepState::COMPLETED;
             THEMIS_DEBUG("SAGAOrchestrator: step '{}' COMPLETED", step.name);
-            return true;
+            return StepState::COMPLETED;
 
         } catch (const std::exception& e) {
             last_error = e.what();
@@ -544,11 +558,9 @@ bool SAGAOrchestrator::executeStep(const SAGAStep& step,
     }
 
     // All attempts exhausted
-    status_rec.step_states[step.name] = StepState::FAILED;
     THEMIS_ERROR("SAGAOrchestrator: step '{}' FAILED: {}", step.name, last_error);
-    journalWrite(status_rec.saga_id, "step_failed",
-                 step.name + ": " + last_error);
-    return false;
+    journalWrite(saga_id, "step_failed", step.name + ": " + last_error);
+    return StepState::FAILED;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -611,20 +623,52 @@ void SAGAOrchestrator::compensateStep(const SAGAStep& step,
 // Internal: journalWrite()
 // ─────────────────────────────────────────────────────────────────────────────
 
+namespace {
+/// Escape a string value for inclusion in a JSON object field.
+std::string jsonEscape(const std::string& s) {
+    std::string out;
+    out.reserve(s.size() + 4);
+    for (unsigned char c : s) {
+        switch (c) {
+            case '"':  out += "\\\""; break;
+            case '\\': out += "\\\\"; break;
+            case '\n': out += "\\n";  break;
+            case '\r': out += "\\r";  break;
+            case '\t': out += "\\t";  break;
+            default:
+                if (c < 0x20) {
+                    // 6 chars for "\uXXXX" + null terminator = 7 bytes; 8 gives alignment
+                    char buf[8];
+                    std::snprintf(buf, sizeof(buf), "\\u%04x", c);
+                    out += buf;
+                } else {
+                    out += static_cast<char>(c);
+                }
+                break;
+        }
+    }
+    return out;
+}
+} // anonymous namespace
+
 void SAGAOrchestrator::journalWrite(const std::string& saga_id,
                                      const std::string& event,
                                      const std::string& detail) {
     if (config_.journal_path.empty()) return;
 
+    // Serialize journal writes: concurrent execute() calls must not interleave
+    // output lines or produce partial JSONL records.
+    std::lock_guard<std::mutex> lk(journal_mutex_);
+
     try {
         std::ofstream ofs(config_.journal_path, std::ios::app);
         if (!ofs.is_open()) return;
 
-        // Minimal JSON line
-        ofs << "{\"saga_id\":\"" << saga_id << "\""
-            << ",\"event\":\"" << event << "\"";
+        // Well-formed JSON line with properly escaped field values
+        ofs << "{\"saga_id\":\"" << jsonEscape(saga_id) << "\""
+            << ",\"event\":\"" << jsonEscape(event) << "\"";
         if (!detail.empty()) {
-            ofs << ",\"detail\":\"" << detail << "\"";
+            ofs << ",\"detail\":\"" << jsonEscape(detail) << "\"";
         }
         ofs << "}\n";
     } catch (...) {

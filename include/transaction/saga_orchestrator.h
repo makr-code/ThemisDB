@@ -91,13 +91,14 @@ struct SAGAStep {
     std::function<bool()> condition;
 
     /// Per-step timeout for the forward action (0 = use orchestrator default).
-    std::chrono::milliseconds timeout{5000};
+    std::chrono::milliseconds timeout{0};
 
     /// Maximum number of retry attempts on exception (0 = no retry).
-    size_t max_retries{3};
+    size_t max_retries{0};
 
     /// Initial delay between retries; doubled on each attempt (capped at 30 s).
-    std::chrono::milliseconds retry_delay{std::chrono::milliseconds(1000)};
+    /// 0 = use orchestrator default (SAGAOrchestratorConfig::default_retry_delay).
+    std::chrono::milliseconds retry_delay{0};
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -309,17 +310,17 @@ public:
     // ── Visual workflow ───────────────────────────────────────────────────────
 
     /**
-     * @brief Render the SAGA dependency graph as an ASCII string.
+     * @brief Render the SAGA dependency graph as a text string.
      *
-     * Each step is shown on its own line with an arrow (→) connecting it to
-     * its direct dependents.  Steps with no dependents are leaf nodes.
+     * Each step is shown on its own line with a unicode arrow (→) connecting
+     * it to its direct dependents.  Steps with no dependents are leaf nodes.
      * Example output:
      * ```
      * SAGA: process_order
      * ─────────────────────────────────────────────
-     * reserve_inventory ─→ charge_payment
-     * validate_customer ─→ charge_payment
-     * charge_payment    ─→ ship_order
+     * reserve_inventory → charge_payment
+     * validate_customer → charge_payment
+     * charge_payment    → ship_order
      * ship_order        (terminal)
      * ─────────────────────────────────────────────
      * ```
@@ -339,6 +340,9 @@ private:
     mutable std::mutex metrics_mutex_;
     Metrics metrics_;
 
+    // Journal mutex: serialises concurrent journalWrite() calls
+    mutable std::mutex journal_mutex_;
+
     // ── Internal helpers ──────────────────────────────────────────────────────
 
     /// Topologically sort steps; returns empty vector on cycle detection.
@@ -351,10 +355,11 @@ private:
     static StepMap buildStepMap(const SAGADefinition& saga);
 
     /// Execute a single step with retry and optional timeout.
-    /// Returns true on success (or SKIPPED), false on failure.
-    bool executeStep(const SAGAStep& step,
-                     SAGAExecutionStatus& status_rec,
-                     const Config& cfg);
+    /// Returns the final StepState (COMPLETED, SKIPPED, or FAILED).
+    /// Thread-safe: does NOT write to status_rec; caller applies the returned state.
+    StepState executeStep(const SAGAStep& step,
+                          const std::string& saga_id,
+                          const Config& cfg);
 
     /// Compensate all completed steps in reverse execution order.
     void compensateAll(const SAGADefinition& saga,

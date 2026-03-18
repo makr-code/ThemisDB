@@ -29,6 +29,7 @@
 #include <filesystem>
 #include <fstream>
 #include <mutex>
+#include <stdexcept>
 #include <string>
 #include <thread>
 #include <vector>
@@ -70,7 +71,6 @@ TEST(SAGAOrchestratorTest, AC1_ParallelStepExecution_IndependentStepsRunConcurre
 
     std::atomic<int> concurrent{0};
     std::atomic<int> max_concurrent{0};
-    std::mutex mu;
 
     auto make_slow_step = [&](const std::string& name) {
         SAGAStep s;
@@ -629,6 +629,12 @@ TEST(SAGAOrchestratorTest, AC15_NoCompensation_StepWithoutCompensateHandledSilen
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST(SAGAOrchestratorTest, AC16_ParallelSpeedup_FasterThanSequential) {
+    // Wall-clock timing test: opt-in only to avoid flakiness under CI load
+    // or sanitizers. Run with THEMIS_RUN_PERF_TESTS=1 to enable.
+    if (!std::getenv("THEMIS_RUN_PERF_TESTS")) {
+        GTEST_SKIP() << "Skipped (set THEMIS_RUN_PERF_TESTS=1 to enable)";
+    }
+
     auto run_saga = [](bool parallel) -> int64_t {
         SAGAOrchestrator::Config cfg;
         cfg.enable_parallel = parallel;
@@ -730,7 +736,13 @@ TEST(SAGAOrchestratorTest, AC18_MultiLevelFanOutFanIn_AllStepsExecuted) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST(SAGAOrchestratorTest, AC19_Journal_WrittenWhenPathConfigured) {
-    const std::string journal_path = "/tmp/saga_test_journal.jsonl";
+    // Build a unique path under the system temp dir using a nanosecond
+    // timestamp + steady-clock counter to avoid collisions in parallel runs.
+    const auto ts = std::chrono::steady_clock::now().time_since_epoch().count();
+    const std::string journal_path =
+        (std::filesystem::temp_directory_path() /
+         ("saga_test_journal_" + std::to_string(ts) + ".jsonl"))
+        .string();
     std::filesystem::remove(journal_path);
 
     SAGAOrchestrator::Config cfg;
@@ -747,6 +759,8 @@ TEST(SAGAOrchestratorTest, AC19_Journal_WrittenWhenPathConfigured) {
     std::getline(ifs, line);
     EXPECT_NE(line.find("saga_started"), std::string::npos);
 
+    // Clean up even if assertions fail (RAII not needed here since we check
+    // remove() in a separate statement that won't throw).
     std::filesystem::remove(journal_path);
 }
 

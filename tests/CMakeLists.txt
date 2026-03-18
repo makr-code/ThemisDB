@@ -16053,6 +16053,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_saga_orchestrator.cpp")
 
     add_executable(test_saga_orchestrator_focused
         test_saga_orchestrator.cpp
+        ${CMAKE_SOURCE_DIR}/src/transaction/saga_orchestrator.cpp
     )
 
     target_include_directories(test_saga_orchestrator_focused PRIVATE
