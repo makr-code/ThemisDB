@@ -16,6 +16,7 @@
 #include <device_launch_parameters.h>
 #include <float.h>
 #include <stdint.h>
+#include <assert.h>  // for host-side assert() used in launchHnswSearchKernel
 
 // Maximum ef value supported by the kernel (candidate list size cap).
 // Queries with ef > kMaxEf are clamped to kMaxEf.
@@ -343,15 +344,10 @@ static uint32_t computeThreadsPerBlock(uint32_t k) {
     const uint32_t smem_per_thread = k * static_cast<uint32_t>(sizeof(float) + sizeof(int32_t));
     if (smem_per_thread == 0) return 128u;
     uint32_t threads = kSharedMemBytes / smem_per_thread;
+    if (threads == 0) return 1u;
     threads = threads < 128u ? threads : 128u;
-    // Round down to nearest power of 2 (≥ 1)
-    if (threads == 0) threads = 1u;
-    else {
-        uint32_t p = 1u;
-        while (p * 2u <= threads) p *= 2u;
-        threads = p;
-    }
-    return threads;
+    // Round down to nearest power of 2 using __builtin_clz (GCC/Clang/nvcc)
+    return 1u << (31u - static_cast<uint32_t>(__builtin_clz(threads)));
 }
 
 // =============================================================================
@@ -381,11 +377,10 @@ void launchHnswSearchKernel(
 
     // ── k > kMaxK: overflow — do NOT silently truncate ────────────────────────
     // Signal the caller via h_overflow so it can choose a multi-pass strategy.
-    // In debug builds trap immediately to catch misuse early.
+    // In debug builds assert immediately to catch misuse early.
     if (k > kMaxK) {
-#if !defined(NDEBUG)
-        __trap();  // Debug guard: k > kMaxK must be handled by the caller
-#endif
+        assert(k <= kMaxK &&
+               "launchHnswSearchKernel: k > kMaxK — caller must use multi-pass");
         if (h_overflow) *h_overflow = true;
         return;
     }

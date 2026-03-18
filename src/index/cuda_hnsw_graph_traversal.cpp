@@ -458,119 +458,124 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
         // results from a different entry node.  Results from all passes are
         // merged on the host and the top-k winners are selected with
         // std::partial_sort.
-        const uint32_t pass_k   = themis::cuda::kHnswKernelMaxK;
-        const uint32_t num_passes = (k + pass_k - 1u) / pass_k;
-
-        // Per-pass device buffers (reused across passes)
-        int64_t* d_pass_ids    = nullptr;
-        float*   d_pass_scores = nullptr;
-        if (cudaMalloc(&d_pass_ids,    num_queries * pass_k * sizeof(int64_t)) != cudaSuccess ||
-            cudaMalloc(&d_pass_scores, num_queries * pass_k * sizeof(float))   != cudaSuccess) {
-            // Allocation failed — fall through to CPU fallback
-            cudaFree(d_pass_ids);
-            cudaFree(d_pass_scores);
-            goto cpu_fallback;
-        }
-
+        bool multi_pass_ok = false;
         {
-            float* d_queries = nullptr;
-            cudaMalloc(&d_queries, num_queries * config_.dim * sizeof(float));
-            cudaMemcpy(d_queries, queries,
-                       num_queries * config_.dim * sizeof(float),
-                       cudaMemcpyHostToDevice);
+            const uint32_t pass_k     = themis::cuda::kHnswKernelMaxK;
+            const uint32_t num_passes = (k + pass_k - 1u) / pass_k;
 
-            // Accumulate all candidates across passes (per query)
-            using Candidate = std::pair<float, int64_t>;  // (score, id)
-            std::vector<std::vector<Candidate>> all_cands(num_queries);
+            // Per-pass device buffers (reused across passes)
+            int64_t* d_pass_ids    = nullptr;
+            float*   d_pass_scores = nullptr;
+            const cudaError_t e1 = cudaMalloc(&d_pass_ids,
+                                              num_queries * pass_k * sizeof(int64_t));
+            const cudaError_t e2 = (e1 == cudaSuccess)
+                                   ? cudaMalloc(&d_pass_scores,
+                                               num_queries * pass_k * sizeof(float))
+                                   : cudaErrorMemoryAllocation;
 
-            for (uint32_t pass = 0; pass < num_passes; ++pass) {
-                // Select entry node: pass 0 uses node 0; subsequent passes use
-                // the node at index (pass * num_nodes / num_passes) to spread
-                // exploration across the graph.
-                const uint32_t entry_node = (pass == 0u)
-                    ? 0u
-                    : static_cast<uint32_t>(
-                          (static_cast<uint64_t>(pass) * num_nodes) / num_passes);
+            if (e1 == cudaSuccess && e2 == cudaSuccess) {
+                float* d_queries = nullptr;
+                cudaMalloc(&d_queries, num_queries * config_.dim * sizeof(float));
+                cudaMemcpy(d_queries, queries,
+                           num_queries * config_.dim * sizeof(float),
+                           cudaMemcpyHostToDevice);
 
-                bool overflow = false;
-                themis::cuda::launchHnswSearchKernel(
-                    impl_->d_vectors, config_.dim,
-                    impl_->d_offsets, impl_->d_neighbours,
-                    num_nodes,
-                    d_queries, static_cast<uint32_t>(num_queries),
-                    pass_k, ef, static_cast<uint8_t>(config_.metric),
-                    entry_node,
-                    d_pass_ids, d_pass_scores,
-                    impl_->stream,
-                    &overflow);
+                // Accumulate all candidates across passes (per query)
+                using Candidate = std::pair<float, int64_t>;  // (score, id)
+                std::vector<std::vector<Candidate>> all_cands(num_queries);
 
-                cudaStreamSynchronize(impl_->stream);
-                if (overflow) continue;  // Should not happen since pass_k ≤ kMaxK
+                for (uint32_t pass = 0; pass < num_passes; ++pass) {
+                    // Select entry node: pass 0 uses node 0; subsequent passes use
+                    // the node at index (pass * num_nodes / num_passes) to spread
+                    // exploration across the graph.
+                    const uint32_t entry_node = (pass == 0u)
+                        ? 0u
+                        : static_cast<uint32_t>(
+                              (static_cast<uint64_t>(pass) * num_nodes) / num_passes);
 
-                std::vector<int64_t> h_ids(num_queries * pass_k);
-                std::vector<float>   h_sc(num_queries * pass_k);
-                cudaMemcpy(h_ids.data(), d_pass_ids,
-                           h_ids.size() * sizeof(int64_t), cudaMemcpyDeviceToHost);
-                cudaMemcpy(h_sc.data(),  d_pass_scores,
-                           h_sc.size()  * sizeof(float),   cudaMemcpyDeviceToHost);
+                    bool overflow = false;
+                    themis::cuda::launchHnswSearchKernel(
+                        impl_->d_vectors, config_.dim,
+                        impl_->d_offsets, impl_->d_neighbours,
+                        num_nodes,
+                        d_queries, static_cast<uint32_t>(num_queries),
+                        pass_k, ef, static_cast<uint8_t>(config_.metric),
+                        entry_node,
+                        d_pass_ids, d_pass_scores,
+                        impl_->stream,
+                        &overflow);
 
-                for (size_t qi = 0; qi < num_queries; ++qi) {
-                    for (uint32_t ri = 0; ri < pass_k; ++ri) {
-                        const int64_t id    = h_ids[qi * pass_k + ri];
-                        const float   score = h_sc [qi * pass_k + ri];
-                        if (id >= 0) {
-                            all_cands[qi].emplace_back(score, id);
+                    cudaStreamSynchronize(impl_->stream);
+                    if (overflow) continue;  // Should not happen since pass_k ≤ kMaxK
+
+                    std::vector<int64_t> h_ids(num_queries * pass_k);
+                    std::vector<float>   h_sc(num_queries * pass_k);
+                    cudaMemcpy(h_ids.data(), d_pass_ids,
+                               h_ids.size() * sizeof(int64_t), cudaMemcpyDeviceToHost);
+                    cudaMemcpy(h_sc.data(),  d_pass_scores,
+                               h_sc.size()  * sizeof(float),   cudaMemcpyDeviceToHost);
+
+                    for (size_t qi = 0; qi < num_queries; ++qi) {
+                        for (uint32_t ri = 0; ri < pass_k; ++ri) {
+                            const int64_t id    = h_ids[qi * pass_k + ri];
+                            const float   score = h_sc [qi * pass_k + ri];
+                            if (id >= 0) {
+                                all_cands[qi].emplace_back(score, id);
+                            }
                         }
                     }
                 }
-            }
 
-            cudaFree(d_queries);
-            cudaFree(d_pass_ids);
-            cudaFree(d_pass_scores);
+                cudaFree(d_queries);
 
-            // Merge: deduplicate by id, then partial_sort to get top-k
-            for (size_t qi = 0; qi < num_queries; ++qi) {
-                auto& cands = all_cands[qi];
-                // Sort by id for deduplication
-                std::sort(cands.begin(), cands.end(),
-                          [](const Candidate& a, const Candidate& b) {
-                              return a.second < b.second;
-                          });
-                cands.erase(std::unique(cands.begin(), cands.end(),
-                                        [](const Candidate& a, const Candidate& b) {
-                                            return a.second == b.second;
-                                        }),
-                            cands.end());
-
-                // Partial-sort by score (ascending) to select top-k
-                const size_t take = std::min(static_cast<size_t>(k), cands.size());
-                if (take > 0 && take < cands.size()) {
-                    std::partial_sort(cands.begin(),
-                                      cands.begin() + static_cast<ptrdiff_t>(take),
-                                      cands.end(),
-                                      [](const Candidate& a, const Candidate& b) {
-                                          return a.first < b.first;
-                                      });
-                } else {
+                // Merge: deduplicate by id, then partial_sort to get top-k
+                for (size_t qi = 0; qi < num_queries; ++qi) {
+                    auto& cands = all_cands[qi];
+                    // Sort by id for deduplication
                     std::sort(cands.begin(), cands.end(),
                               [](const Candidate& a, const Candidate& b) {
-                                  return a.first < b.first;
+                                  return a.second < b.second;
                               });
-                }
-                cands.resize(take);
+                    cands.erase(std::unique(cands.begin(), cands.end(),
+                                            [](const Candidate& a, const Candidate& b) {
+                                                return a.second == b.second;
+                                            }),
+                                cands.end());
 
-                results[qi].reserve(take);
-                for (const auto& c : cands) {
-                    results[qi].push_back({c.second, c.first});
+                    // Partial-sort by score (ascending) to select top-k
+                    const size_t take = std::min(static_cast<size_t>(k), cands.size());
+                    if (take > 0 && take < cands.size()) {
+                        std::partial_sort(cands.begin(),
+                                          cands.begin() + static_cast<ptrdiff_t>(take),
+                                          cands.end(),
+                                          [](const Candidate& a, const Candidate& b) {
+                                              return a.first < b.first;
+                                          });
+                    } else {
+                        std::sort(cands.begin(), cands.end(),
+                                  [](const Candidate& a, const Candidate& b) {
+                                      return a.first < b.first;
+                                  });
+                    }
+                    cands.resize(take);
+
+                    results[qi].reserve(take);
+                    for (const auto& c : cands) {
+                        results[qi].push_back({c.second, c.first});
+                    }
                 }
+                multi_pass_ok = true;
             }
-            return results;
+
+            cudaFree(d_pass_ids);
+            cudaFree(d_pass_scores);
         }
+
+        if (multi_pass_ok) return results;
+        // Fall through to CPU if GPU allocation failed
     }
 #endif
 
-cpu_fallback:
     // CPU fallback — supports any k without restriction
     for (size_t qi = 0; qi < num_queries; ++qi) {
         results[qi] = cpuHnswSearch(impl_->layers, impl_->flat_vectors,
