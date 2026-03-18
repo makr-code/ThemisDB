@@ -533,3 +533,155 @@ TEST_F(ContentSHA256DedupTest, DuplicateMetadataContainsDuplicateOfField) {
         << "Duplicate ingest result must contain 'duplicate_of' key";
     EXPECT_EQ(res2.metadata["duplicate_of"].get<std::string>(), res1.primary_content_id);
 }
+
+// ============================================================================
+// Performance tests (opt-in: set THEMIS_RUN_PERF_TESTS=1)
+// ============================================================================
+
+#include <algorithm>
+#include <chrono>
+#include <cstdlib>
+#include <numeric>
+
+namespace {
+
+/// Build a large BMP blob approximating a 4 MP image (2000 × 2000 px, 24 bpp).
+/// The pixel buffer is a simple gradient to exercise the full BMP decode path.
+std::vector<uint8_t> makeLargeBmp(int width = 2000, int height = 2000) {
+    int row_stride = ((width * 3 + 3) / 4) * 4;
+    int pixel_data_size = height * row_stride;
+    int file_size = 54 + pixel_data_size;
+
+    std::vector<uint8_t> bmp(static_cast<size_t>(file_size), 0);
+
+    bmp[0] = 'B'; bmp[1] = 'M';
+    bmp[2]  = file_size & 0xFF;
+    bmp[3]  = (file_size >> 8)  & 0xFF;
+    bmp[4]  = (file_size >> 16) & 0xFF;
+    bmp[5]  = (file_size >> 24) & 0xFF;
+    bmp[10] = 54;
+    bmp[14] = 40;
+    bmp[18] = width  & 0xFF; bmp[19] = (width  >> 8) & 0xFF;
+    bmp[22] = height & 0xFF; bmp[23] = (height >> 8) & 0xFF;
+    bmp[26] = 1;
+    bmp[28] = 24;
+
+    for (int y = 0; y < height; ++y) {
+        uint8_t row_val = static_cast<uint8_t>(y & 0xFF);
+        for (int x = 0; x < width; ++x) {
+            uint8_t col_val = static_cast<uint8_t>(x & 0xFF);
+            size_t off = 54 + static_cast<size_t>(y) * static_cast<size_t>(row_stride)
+                       + static_cast<size_t>(x) * 3;
+            bmp[off]     = col_val;
+            bmp[off + 1] = row_val;
+            bmp[off + 2] = static_cast<uint8_t>((row_val + col_val) & 0xFF);
+        }
+    }
+    return bmp;
+}
+
+/// Build a text string of approximately `target_bytes` bytes.
+std::string makeTextBlob(size_t target_bytes) {
+    static const std::string words[] = {
+        "the", "quick", "brown", "fox", "jumps", "over", "lazy", "dog",
+        "information", "retrieval", "perceptual", "hashing", "content",
+        "deduplication", "similarity", "detection", "document", "index"
+    };
+    std::string text;
+    text.reserve(target_bytes + 20);
+    size_t idx = 0;
+    while (text.size() < target_bytes) {
+        text += words[idx % (sizeof(words) / sizeof(words[0]))];
+        text += ' ';
+        ++idx;
+    }
+    return text;
+}
+
+} // namespace
+
+/**
+ * @brief pHash performance: 4 MP BMP image must hash in < 5 ms (median over 20 runs).
+ *
+ * Performance target from acceptance criteria (roadmap:168:content:v1.8.0).
+ * Set THEMIS_RUN_PERF_TESTS=1 to enable.
+ */
+TEST(PHashPerf, ComputePHashUnder5ms) {
+    const char* run_perf = std::getenv("THEMIS_RUN_PERF_TESTS");
+    if (!run_perf || std::string(run_perf) != "1") {
+        GTEST_SKIP() << "Skipping pHash perf test (set THEMIS_RUN_PERF_TESTS=1 to enable)";
+    }
+
+    auto bmp = makeLargeBmp(2000, 2000);
+    ASSERT_GT(bmp.size(), static_cast<size_t>(54)) << "BMP blob must be non-trivial";
+
+    const int kIterations = 20;
+    std::vector<int64_t> durations_us;
+    durations_us.reserve(kIterations);
+
+    for (int i = 0; i < kIterations; ++i) {
+        auto t0 = std::chrono::steady_clock::now();
+        std::string h = ImageProcessor::computePHash(bmp);
+        auto t1 = std::chrono::steady_clock::now();
+        ASSERT_EQ(h.size(), 16u) << "Hash must be 16-char hex";
+        durations_us.push_back(
+            std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count());
+    }
+
+    std::sort(durations_us.begin(), durations_us.end());
+    int64_t median_us = durations_us[kIterations / 2];
+
+    EXPECT_LT(median_us, 5000)
+        << "pHash for a 4 MP image must complete in < 5 ms; "
+        << "median was " << median_us << " µs";
+}
+
+/**
+ * @brief MinHash + LSH lookup: warm band index of 100 K entries, 10 KB text, < 1 ms median.
+ *
+ * Performance target from acceptance criteria (roadmap:168:content:v1.8.0).
+ * Set THEMIS_RUN_PERF_TESTS=1 to enable.
+ */
+TEST(MinHashPerf, LookupUnder1msWithWarmIndex) {
+    const char* run_perf = std::getenv("THEMIS_RUN_PERF_TESTS");
+    if (!run_perf || std::string(run_perf) != "1") {
+        GTEST_SKIP() << "Skipping MinHash perf test (set THEMIS_RUN_PERF_TESTS=1 to enable)";
+    }
+
+    // Build warm band index with ~100 K unique entries (~6 250 distinct documents
+    // × kNumBands = 100 K band slots).
+    const size_t kDocuments = 6250;
+    // max_band_entries must comfortably hold kDocuments × kNumBands bands
+    DeduplicationChecker checker(nullptr, kDocuments * DeduplicationChecker::kNumBands * 2);
+
+    for (size_t i = 0; i < kDocuments; ++i) {
+        std::string text = "document_warmup_" + std::to_string(i) + " "
+                         + makeTextBlob(200);  // ~200 B per doc to get distinct shingles
+        auto sig = TextProcessor::computeMinHash(text);
+        checker.registerText("doc_" + std::to_string(i), sig);
+    }
+
+    // Query document: ~10 KB text that is NOT in the index (novel content).
+    std::string query_text = makeTextBlob(10240);
+    auto query_sig = TextProcessor::computeMinHash(query_text);
+
+    const int kIterations = 100;
+    std::vector<int64_t> durations_us;
+    durations_us.reserve(kIterations);
+
+    for (int i = 0; i < kIterations; ++i) {
+        auto t0 = std::chrono::steady_clock::now();
+        auto result = checker.isDuplicateText(query_sig);
+        auto t1 = std::chrono::steady_clock::now();
+        (void)result;
+        durations_us.push_back(
+            std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count());
+    }
+
+    std::sort(durations_us.begin(), durations_us.end());
+    int64_t median_us = durations_us[kIterations / 2];
+
+    EXPECT_LT(median_us, 1000)
+        << "MinHash+LSH lookup must complete in < 1 ms; "
+        << "median was " << median_us << " µs";
+}
