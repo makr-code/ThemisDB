@@ -40,10 +40,11 @@
  *
  * Thread-safety:
  *   - AnomalyDetector: train() is NOT thread-safe; predict/explain are.
- *   - StreamingAnomalyDetector: fully thread-safe (shared_mutex-protected).
- *     process() holds the lock for ≤ 50 µs (window copy only); retrain runs
- *     asynchronously.  Concurrent predict() calls use shared_lock and proceed
- *     without blocking each other.
+ *   - StreamingAnomalyDetector: fully thread-safe.  Two independent mutexes:
+ *     window_mu_ guards the deque/anomaly list; detector_mu_ guards the model.
+ *     train() runs entirely off both locks; only a brief exclusive swap of the
+ *     newly-trained model acquires detector_mu_.  Concurrent predict() calls
+ *     share detector_mu_ and never block each other or window updates.
  *
  * Copyright (c) 2025 VCC-URN Project
  * SPDX-License-Identifier: Apache-2.0
@@ -340,10 +341,13 @@ public:
 private:
     /** Copy the current window under a brief shared lock and return it. */
     std::vector<DataPoint> snapshotWindow() const;
+    /** Build a DetectorConfig from config_ (used when creating a fresh retrain detector). */
+    DetectorConfig makeDetectorConfig() const noexcept;
 
     Config                           config_;
     AnomalyDetector                  detector_;
-    mutable std::shared_mutex        mu_;
+    mutable std::shared_mutex        window_mu_;   ///< guards window_, anomalies_, points_seen_
+    mutable std::shared_mutex        detector_mu_; ///< guards detector_; held only for brief swap
     std::deque<DataPoint>            window_;
     std::vector<AnomalyResult>       anomalies_;
     size_t                           points_seen_ = 0;
