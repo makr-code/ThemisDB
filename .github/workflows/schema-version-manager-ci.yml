@@ -1,0 +1,177 @@
+name: Schema Version Manager CI
+
+# Validates SchemaVersionManager (v1.8.0) – schema versioning, change history,
+# rollback, diff, migration script generation, dry-run validation, and
+# audit-log integration.
+#
+# Acceptance criteria covered:
+#   AC-1  createSchemaVersion() assigns monotonically increasing version numbers
+#         starting at 1; gaps are not permitted.
+#   AC-2  getCurrentVersion() returns TABLE_NOT_FOUND when no version has been
+#         recorded; returns the highest recorded version otherwise.
+#   AC-3  getChangeHistory() returns an empty list (not an error) when no history
+#         exists; returns all recorded changes in ascending version order.
+#   AC-4  rollbackToVersion() applies the historical schema snapshot via
+#         SchemaManager and records the rollback as a new version entry so
+#         history is preserved.
+#   AC-5  diffVersions() reports added, removed, and modified columns between
+#         any two versions.
+#   AC-6  generateMigrationScript() produces correct ALTER TABLE DDL for
+#         ADD COLUMN, DROP COLUMN, and ALTER COLUMN changes.
+#   AC-7  validateMigration() (dry-run) rejects empty name, no columns,
+#         duplicate columns, and schemas identical to the current version;
+#         never persists a version record.
+#   AC-8  setAuditLog() integration: createSchemaVersion() and
+#         rollbackToVersion() emit entries to SchemaAuditLog when one is
+#         attached; no crash when audit_log_ is nullptr.
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'include/metadata/schema_version_manager.h'
+      - 'src/metadata/schema_version_manager.cpp'
+      - 'tests/test_schema_version_manager.cpp'
+      - 'tests/test_schema_version_dryrun.cpp'
+      - 'tests/CMakeLists.txt'
+      - '.github/workflows/schema-version-manager-ci.yml'
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'include/metadata/schema_version_manager.h'
+      - 'src/metadata/schema_version_manager.cpp'
+      - 'tests/test_schema_version_manager.cpp'
+      - 'tests/test_schema_version_dryrun.cpp'
+      - 'tests/CMakeLists.txt'
+      - '.github/workflows/schema-version-manager-ci.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci-scope-classifier:
+    permissions:
+      contents: read
+    uses: ./.github/workflows/ci-scope-classifier.yml
+
+  schema-version-manager-tests:
+    needs: ci-scope-classifier
+    if: needs.ci-scope-classifier.outputs.has_code_changes == 'true'
+    name: Schema version manager tests (${{ matrix.os }} / ${{ matrix.compiler }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+
+    permissions:
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-22.04
+            compiler: gcc-12
+            cc: gcc-12
+            cxx: g++-12
+          - os: ubuntu-24.04
+            compiler: gcc-14
+            cc: gcc-14
+            cxx: g++-14
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up C++ build environment
+        uses: ./.github/actions/setup-cpp-build
+        with:
+          cc:             ${{ matrix.cc }}
+          cxx:            ${{ matrix.cxx }}
+          extra-packages: >-
+            libfmt-dev
+            libspdlog-dev
+            nlohmann-json3-dev
+
+      - name: Configure and build SchemaVersionManager tests
+        uses: ./.github/actions/configure-themis
+        with:
+          cc:  ${{ matrix.cc }}
+          cxx: ${{ matrix.cxx }}
+          build-target: test_schema_version_manager_focused
+
+      - name: Configure and build dry-run tests
+        uses: ./.github/actions/configure-themis
+        with:
+          cc:  ${{ matrix.cc }}
+          cxx: ${{ matrix.cxx }}
+          build-target: test_schema_version_dryrun_focused
+
+      - name: Run SchemaVersionManagerFocusedTests via ctest
+        run: |
+          set -o pipefail
+          cd build
+          ctest -R SchemaVersionManagerFocusedTests \
+                --output-on-failure \
+                --timeout 120 \
+                2>&1 | tee svm_ctest.txt
+
+      - name: Run SchemaVersionDryRunFocusedTests via ctest
+        run: |
+          set -o pipefail
+          cd build
+          ctest -R SchemaVersionDryRunFocusedTests \
+                --output-on-failure \
+                --timeout 120 \
+                2>&1 | tee svm_dryrun_ctest.txt
+
+      - name: Run tests via focused binary (SchemaVersionManager)
+        run: |
+          set -o pipefail
+          cd build
+          ./tests/test_schema_version_manager_focused \
+            --gtest_output="xml:svm_gtest.xml" \
+            2>&1 | tee svm_gtest_output.txt
+
+      - name: Run tests via focused binary (dry-run)
+        run: |
+          set -o pipefail
+          cd build
+          ./tests/test_schema_version_dryrun_focused \
+            --gtest_output="xml:svm_dryrun_gtest.xml" \
+            2>&1 | tee svm_dryrun_gtest_output.txt
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: schema-version-manager-results-${{ matrix.os }}-${{ matrix.compiler }}
+          path: |
+            build/svm_ctest.txt
+            build/svm_gtest.xml
+            build/svm_gtest_output.txt
+            build/svm_dryrun_ctest.txt
+            build/svm_dryrun_gtest.xml
+            build/svm_dryrun_gtest_output.txt
+          retention-days: 14
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 📋 Schema Version Manager CI" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **OS** | \`${{ matrix.os }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Compiler** | \`${{ matrix.compiler }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Validates monotonic version numbering, change history, rollback, diff between" >> "$GITHUB_STEP_SUMMARY"
+          echo "versions, migration script generation (ADD/DROP/ALTER COLUMN), dry-run" >> "$GITHUB_STEP_SUMMARY"
+          echo "validateMigration(), and SchemaAuditLog integration for SchemaVersionManager." >> "$GITHUB_STEP_SUMMARY"
