@@ -172,9 +172,19 @@ public:
     http::response<http::string_body> handlePiiEvict(
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief Attach an SLO monitor whose latency status is included in
+     *        GET /v1/admin/cache/stats responses.
+     *
+     * May be nullptr (default) to omit the "slo" block from the response.
+     * Not thread-safe after construction; call before the handler processes requests.
+     */
+    void setSloMonitor(std::shared_ptr<themis::cache::CacheHitRateSloMonitor> monitor);
+
 private:
     std::shared_ptr<AdaptiveQueryCache> cache_;
     std::shared_ptr<AuthMiddleware> auth_;
+    std::shared_ptr<themis::cache::CacheHitRateSloMonitor> slo_monitor_;
 
     // Returns false and fills `out` with a 401/403 response if auth fails.
     bool checkAuth(const http::request<http::string_body>& req,

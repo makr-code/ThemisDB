@@ -386,3 +386,278 @@ TEST_F(CacheHitRateSloMonitorTest, ConfigValidate_NegativeCooldown) {
     EXPECT_FALSE(config_.validate(&err));
     EXPECT_FALSE(err.empty());
 }
+
+// ---------------------------------------------------------------------------
+// Tests: latency recording and percentile computation
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheHitRateSloMonitorTest, RecordLatency_PercentilesInEvaluationResult) {
+    CacheHitRateSloMonitor monitor(config_, mock_);
+
+    // Record 100 L1 samples all in the 0.5-1ms bucket
+    for (int i = 0; i < 100; ++i) {
+        monitor.recordLatency(CacheHitRateSloMonitor::Tier::L1, 0.7);
+    }
+
+    auto result = monitor.evaluate(makeMetrics(80, 20));
+
+    // p50, p95, p99 should all be non-zero and in the same bucket range
+    EXPECT_GT(result.p50_latency_ms, 0.0);
+    EXPECT_GT(result.p95_latency_ms, 0.0);
+    EXPECT_GT(result.p99_latency_ms, 0.0);
+    // All samples are in the same bucket so all percentiles are equal
+    EXPECT_DOUBLE_EQ(result.p50_latency_ms, result.p99_latency_ms);
+}
+
+TEST_F(CacheHitRateSloMonitorTest, RecordLatency_PerTierAllTiersContribute) {
+    CacheHitRateSloMonitor monitor(config_, mock_);
+
+    // L1 fast (< 0.1ms), L2 medium (1-2ms), L3 slow (10-25ms)
+    for (int i = 0; i < 50; ++i) {
+        monitor.recordLatency(CacheHitRateSloMonitor::Tier::L1, 0.05);
+    }
+    for (int i = 0; i < 40; ++i) {
+        monitor.recordLatency(CacheHitRateSloMonitor::Tier::L2, 1.5);
+    }
+    for (int i = 0; i < 10; ++i) {
+        monitor.recordLatency(CacheHitRateSloMonitor::Tier::L3, 15.0);
+    }
+
+    auto result = monitor.evaluate(makeMetrics(80, 20));
+
+    // p99 should be in the L3 bucket range (10-25ms) since 10% are slow
+    EXPECT_GT(result.p99_latency_ms, result.p50_latency_ms);
+    EXPECT_GT(result.p99_latency_ms, 0.0);
+}
+
+TEST_F(CacheHitRateSloMonitorTest, RecordLatency_ZeroSamples_PercentilesAreZero) {
+    CacheHitRateSloMonitor monitor(config_, mock_);
+
+    auto result = monitor.evaluate(makeMetrics(80, 20));
+
+    EXPECT_DOUBLE_EQ(result.p50_latency_ms, 0.0);
+    EXPECT_DOUBLE_EQ(result.p95_latency_ms, 0.0);
+    EXPECT_DOUBLE_EQ(result.p99_latency_ms, 0.0);
+}
+
+TEST_F(CacheHitRateSloMonitorTest, RecordLatency_NegativeValueClamped) {
+    CacheHitRateSloMonitor monitor(config_, mock_);
+
+    // Should not crash; negative latency clamped to 0
+    EXPECT_NO_THROW(monitor.recordLatency(CacheHitRateSloMonitor::Tier::L1, -5.0));
+
+    auto result = monitor.evaluate(makeMetrics(80, 20));
+    EXPECT_GE(result.p50_latency_ms, 0.0);
+}
+
+// ---------------------------------------------------------------------------
+// Tests: latency SLO alerting
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheHitRateSloMonitorTest, LatencyAlert_WarningFiredWhenP99ExceedsWarnThreshold) {
+    config_.p99_warn_ms     = 10.0;
+    config_.p99_critical_ms = 50.0;
+    config_.alert_cooldown_seconds = 0;
+    CacheHitRateSloMonitor monitor(config_, mock_);
+
+    // p99 in the 10-25ms bucket (~17.5ms) > warn=10ms
+    for (int i = 0; i < 100; ++i) {
+        monitor.recordLatency(CacheHitRateSloMonitor::Tier::L1, 15.0);
+    }
+
+    auto result = monitor.evaluate(makeMetrics(80, 20));
+
+    EXPECT_TRUE(result.latency_alert_fired);
+    EXPECT_EQ(result.latency_level, CacheHitRateSloMonitor::ViolationLevel::WARNING);
+    ASSERT_EQ(mock_->sent_alerts.size(), 1u);
+    EXPECT_EQ(mock_->sent_alerts[0].alert_name, "CacheLatencySloViolation");
+    EXPECT_EQ(mock_->sent_alerts[0].severity, AlertSeverity::WARNING);
+    EXPECT_NE(mock_->sent_alerts[0].labels.at("alertname").find("Latency"), std::string::npos);
+}
+
+TEST_F(CacheHitRateSloMonitorTest, LatencyAlert_CriticalFiredWhenP99ExceedsCriticalThreshold) {
+    config_.p99_warn_ms     = 10.0;
+    config_.p99_critical_ms = 30.0;
+    config_.alert_cooldown_seconds = 0;
+    CacheHitRateSloMonitor monitor(config_, mock_);
+
+    // p99 in 25-50ms bucket (~37.5ms) > critical=30ms
+    for (int i = 0; i < 100; ++i) {
+        monitor.recordLatency(CacheHitRateSloMonitor::Tier::L3, 37.0);
+    }
+
+    auto result = monitor.evaluate(makeMetrics(80, 20));
+
+    EXPECT_TRUE(result.latency_alert_fired);
+    EXPECT_EQ(result.latency_level, CacheHitRateSloMonitor::ViolationLevel::CRITICAL);
+    ASSERT_EQ(mock_->sent_alerts.size(), 1u);
+    EXPECT_EQ(mock_->sent_alerts[0].severity, AlertSeverity::CRITICAL);
+}
+
+TEST_F(CacheHitRateSloMonitorTest, LatencyAlert_NoAlertWhenBelowWarnThreshold) {
+    config_.p99_warn_ms     = 50.0;
+    config_.p99_critical_ms = 100.0;
+    CacheHitRateSloMonitor monitor(config_, mock_);
+
+    // All samples in <0.1ms bucket – p99 well below 50ms threshold
+    for (int i = 0; i < 100; ++i) {
+        monitor.recordLatency(CacheHitRateSloMonitor::Tier::L1, 0.05);
+    }
+
+    auto result = monitor.evaluate(makeMetrics(80, 20));
+
+    EXPECT_FALSE(result.latency_alert_fired);
+    EXPECT_EQ(result.latency_level, CacheHitRateSloMonitor::ViolationLevel::NONE);
+    EXPECT_TRUE(mock_->sent_alerts.empty());
+}
+
+TEST_F(CacheHitRateSloMonitorTest, LatencyAlert_DisabledWhenThresholdsAreZero) {
+    // p99_warn_ms and p99_critical_ms both 0 (default) → no latency alerting
+    CacheHitRateSloMonitor monitor(config_, mock_);
+
+    for (int i = 0; i < 100; ++i) {
+        monitor.recordLatency(CacheHitRateSloMonitor::Tier::L3, 999.0);
+    }
+
+    auto result = monitor.evaluate(makeMetrics(80, 20));
+
+    EXPECT_FALSE(result.latency_alert_fired);
+    EXPECT_EQ(result.latency_level, CacheHitRateSloMonitor::ViolationLevel::NONE);
+    EXPECT_TRUE(mock_->sent_alerts.empty());
+}
+
+TEST_F(CacheHitRateSloMonitorTest, LatencyAlert_ResolvedWhenLatencyRecovers) {
+    config_.p99_warn_ms     = 10.0;
+    config_.p99_critical_ms = 50.0;
+    config_.alert_cooldown_seconds = 0;
+    CacheHitRateSloMonitor monitor(config_, mock_);
+
+    // First: record 100 slow samples (15ms → bucket midpoint 17.5ms > 10ms warn)
+    // p99 = 17.5ms → warning fires.
+    for (int i = 0; i < 100; ++i) {
+        monitor.recordLatency(CacheHitRateSloMonitor::Tier::L1, 15.0);
+    }
+    auto r1 = monitor.evaluate(makeMetrics(80, 20));
+    ASSERT_TRUE(r1.latency_alert_fired);
+    ASSERT_EQ(mock_->sent_alerts.size(), 1u);
+    ASSERT_EQ(r1.latency_level, CacheHitRateSloMonitor::ViolationLevel::WARNING);
+
+    // Now flood the histogram with 9900 fast samples (0.05ms each).
+    // After this the slow 100 samples represent only 1% of total 10000 →
+    // p99 now resolves to the fast bucket (<0.1ms, midpoint 0.05ms) which is
+    // below the 10ms warning threshold.
+    for (int i = 0; i < 9900; ++i) {
+        monitor.recordLatency(CacheHitRateSloMonitor::Tier::L1, 0.05);
+    }
+    auto r2 = monitor.evaluate(makeMetrics(160, 40));
+
+    EXPECT_EQ(r2.latency_level, CacheHitRateSloMonitor::ViolationLevel::NONE);
+    EXPECT_TRUE(r2.latency_alert_resolved);
+    EXPECT_FALSE(mock_->resolved_ids.empty());
+}
+
+TEST_F(CacheHitRateSloMonitorTest, LatencyAlert_AlertIdContainsLatencyLabel) {
+    config_.p99_warn_ms     = 5.0;
+    config_.p99_critical_ms = 20.0;
+    config_.alert_cooldown_seconds = 0;
+    CacheHitRateSloMonitor monitor(config_, mock_);
+
+    for (int i = 0; i < 100; ++i) {
+        monitor.recordLatency(CacheHitRateSloMonitor::Tier::L2, 10.0);
+    }
+    monitor.evaluate(makeMetrics(80, 20));
+
+    ASSERT_EQ(mock_->sent_alerts.size(), 1u);
+    const auto& alert = mock_->sent_alerts[0];
+    EXPECT_NE(alert.alert_id.find("latency"), std::string::npos);
+    EXPECT_FALSE(alert.annotations.at("p99_ms").empty());
+    EXPECT_FALSE(alert.annotations.at("threshold").empty());
+}
+
+// ---------------------------------------------------------------------------
+// Tests: getStatus() latency section
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheHitRateSloMonitorTest, GetStatus_ExposesLatencyPercentiles) {
+    CacheHitRateSloMonitor monitor(config_, mock_);
+
+    for (int i = 0; i < 100; ++i) {
+        monitor.recordLatency(CacheHitRateSloMonitor::Tier::L1, 0.7);
+    }
+    monitor.evaluate(makeMetrics(80, 20));
+
+    auto status = monitor.getStatus();
+    ASSERT_TRUE(status.contains("latency"));
+    EXPECT_DOUBLE_EQ(status["latency"]["p50_ms"].get<double>(),
+                     status["latency"]["l1"]["p50_ms"].get<double>());
+    EXPECT_GE(status["latency"]["p99_ms"].get<double>(), 0.0);
+}
+
+TEST_F(CacheHitRateSloMonitorTest, GetStatus_LatencyPerTierBreakdown) {
+    CacheHitRateSloMonitor monitor(config_, mock_);
+
+    for (int i = 0; i < 50; ++i) {
+        monitor.recordLatency(CacheHitRateSloMonitor::Tier::L1, 0.05);
+    }
+    for (int i = 0; i < 50; ++i) {
+        monitor.recordLatency(CacheHitRateSloMonitor::Tier::L3, 200.0);
+    }
+    monitor.evaluate(makeMetrics(80, 20));
+
+    auto status = monitor.getStatus();
+    ASSERT_TRUE(status.contains("latency"));
+    EXPECT_TRUE(status["latency"].contains("l1"));
+    EXPECT_TRUE(status["latency"].contains("l2"));
+    EXPECT_TRUE(status["latency"].contains("l3"));
+
+    // L3 p99 should be far higher than L1 p99
+    double l1_p99 = status["latency"]["l1"]["p99_ms"].get<double>();
+    double l3_p99 = status["latency"]["l3"]["p99_ms"].get<double>();
+    EXPECT_GT(l3_p99, l1_p99);
+}
+
+// ---------------------------------------------------------------------------
+// Tests: Config::validate() – latency threshold constraints
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheHitRateSloMonitorTest, ConfigValidate_LatencyThresholdsValid) {
+    config_.p99_warn_ms     = 10.0;
+    config_.p99_critical_ms = 50.0;
+    std::string err;
+    EXPECT_TRUE(config_.validate(&err));
+    EXPECT_TRUE(err.empty());
+}
+
+TEST_F(CacheHitRateSloMonitorTest, ConfigValidate_LatencyCriticalMustBeGreaterThanWarn) {
+    config_.p99_warn_ms     = 50.0;
+    config_.p99_critical_ms = 10.0;  // critical < warn – invalid
+    std::string err;
+    EXPECT_FALSE(config_.validate(&err));
+    EXPECT_FALSE(err.empty());
+}
+
+TEST_F(CacheHitRateSloMonitorTest, ConfigValidate_LatencyEqualThresholdsInvalid) {
+    config_.p99_warn_ms     = 20.0;
+    config_.p99_critical_ms = 20.0;  // equal – invalid (critical must be strictly greater)
+    std::string err;
+    EXPECT_FALSE(config_.validate(&err));
+}
+
+TEST_F(CacheHitRateSloMonitorTest, ConfigValidate_LatencyNegativeThresholdInvalid) {
+    config_.p99_warn_ms = -1.0;
+    std::string err;
+    EXPECT_FALSE(config_.validate(&err));
+}
+
+TEST_F(CacheHitRateSloMonitorTest, ConfigValidate_LatencyOnlyOneThresholdSetIsValid) {
+    // Only warn set, critical stays 0 → valid (only warning alerting enabled)
+    config_.p99_warn_ms     = 20.0;
+    config_.p99_critical_ms = 0.0;
+    std::string err;
+    EXPECT_TRUE(config_.validate(&err));
+
+    // Only critical set, warn stays 0 → valid (only critical alerting enabled)
+    config_.p99_warn_ms     = 0.0;
+    config_.p99_critical_ms = 50.0;
+    EXPECT_TRUE(config_.validate(&err));
+}
