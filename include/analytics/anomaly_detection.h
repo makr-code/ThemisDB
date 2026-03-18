@@ -305,6 +305,13 @@ public:
     explicit StreamingAnomalyDetector(const Config& config);
 
     /**
+     * Destructor: sets the stopping flag to prevent new async retrains from
+     * launching, then waits for any in-flight background retrain to finish
+     * before members (`mu_`, `detector_`, etc.) are destroyed.
+     */
+    ~StreamingAnomalyDetector();
+
+    /**
      * Process a new data point.
      * Returns an AnomalyResult only when the detector is already trained.
      * Returns nullopt while warming up.
@@ -341,6 +348,7 @@ private:
     std::vector<AnomalyResult>       anomalies_;
     size_t                           points_seen_ = 0;
     std::atomic<bool>                retraining_{false};
+    std::atomic<bool>                stopping_{false};  ///< set in dtor to prevent new retrains
     std::future<void>                retrain_future_;
 };
 

@@ -1038,6 +1038,16 @@ StreamingAnomalyDetector::StreamingAnomalyDetector(const Config& config)
       }())
 {}
 
+StreamingAnomalyDetector::~StreamingAnomalyDetector() {
+    // Signal the async lambda not to start (or continue) training once this
+    // scope is entered, then wait for any in-flight retrain to finish so that
+    // `mu_` and `detector_` are not accessed after they have been destroyed.
+    stopping_.store(true, std::memory_order_release);
+    if (retrain_future_.valid()) {
+        retrain_future_.wait();
+    }
+}
+
 std::optional<AnomalyResult> StreamingAnomalyDetector::process(const DataPoint& point) {
     // ── Phase 1: update window under a brief exclusive lock ───────────────────
     bool need_initial_train = false;
@@ -1070,11 +1080,13 @@ std::optional<AnomalyResult> StreamingAnomalyDetector::process(const DataPoint& 
     //              copy; train() runs under a fresh unique_lock) ───────────────
     if (need_initial_train) {
         if (!retraining_.exchange(true)) {
-            auto buf = snapshotWindow();   // brief shared_lock
-            try {
-                std::unique_lock<std::shared_mutex> wl(mu_);
-                detector_.train(buf);
-            } catch (...) {}
+            if (!stopping_.load(std::memory_order_acquire)) {
+                auto buf = snapshotWindow();   // brief shared_lock
+                try {
+                    std::unique_lock<std::shared_mutex> wl(mu_);
+                    detector_.train(buf);
+                } catch (...) {}
+            }
             retraining_.store(false, std::memory_order_release);
         }
         // If another thread is already training (retraining_ was true), fall
@@ -1083,22 +1095,43 @@ std::optional<AnomalyResult> StreamingAnomalyDetector::process(const DataPoint& 
     }
 
     // ── Phase 2b: periodic retrain — fully async so process() is non-blocking ─
-    // Safety: retrain_future_ is only written when retraining_.exchange(true)
-    // returns false, which means exactly one thread enters this block at a time.
-    // The async lambda stores retraining_=false *after* training completes, so
-    // the next retrain only starts after the previous future has finished — the
-    // old future's destructor is therefore always non-blocking at assignment.
+    // Exactly one thread enters the CAS (retraining_.exchange(true)==false) at
+    // a time.  Two additional guards make this robust:
+    //   (a) stopping_ check: if the detector is being destroyed, skip the launch
+    //       and reset the flag so the destructor's wait() can complete quickly.
+    //   (b) Future-readiness check: the lambda sets retraining_=false just before
+    //       it returns, so there is a tiny race window where another thread could
+    //       win the CAS and attempt to overwrite retrain_future_ before the old
+    //       task has fully exited.  A non-blocking wait_for(0) detects this and
+    //       skips the retrain cycle instead of blocking in process().
     if (need_retrain && !retraining_.exchange(true)) {
-        auto buf = snapshotWindow();   // brief shared_lock
-        retrain_future_ = std::async(
-            std::launch::async,
-            [this, buf = std::move(buf)]() mutable {
-                try {
-                    std::unique_lock<std::shared_mutex> wl(mu_);
-                    detector_.train(buf);
-                } catch (...) {}
-                retraining_.store(false, std::memory_order_release);
-            });
+        if (stopping_.load(std::memory_order_acquire)) {
+            // Destructor is running; do not launch new work.
+            retraining_.store(false, std::memory_order_release);
+        } else if (retrain_future_.valid() &&
+                   retrain_future_.wait_for(std::chrono::milliseconds(0)) !=
+                       std::future_status::ready) {
+            // Old task hasn't fully exited yet (race window after it set
+            // retraining_=false).  Skip this cycle to avoid blocking.
+            retraining_.store(false, std::memory_order_release);
+        } else {
+            auto buf = snapshotWindow();   // brief shared_lock
+            retrain_future_ = std::async(
+                std::launch::async,
+                [this, buf = std::move(buf)]() mutable {
+                    // Note: even if stopping_ becomes true between the check
+                    // below and acquiring wl, the destructor's
+                    // retrain_future_.wait() ensures this lambda completes
+                    // before any member is destroyed — no use-after-free.
+                    if (!stopping_.load(std::memory_order_acquire)) {
+                        try {
+                            std::unique_lock<std::shared_mutex> wl(mu_);
+                            detector_.train(buf);
+                        } catch (...) {}
+                    }
+                    retraining_.store(false, std::memory_order_release);
+                });
+        }
     }
 
     // ── Phase 3: predict under a shared lock (concurrent-reads safe) ─────────
