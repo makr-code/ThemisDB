@@ -2,12 +2,15 @@
 //
 // Validates that BackendRegistry is safe to use from multiple threads
 // concurrently.  Specifically it checks that 16 reader threads calling
-// getBestVectorBackend() concurrently while a background thread calls
-// autoDetect() produce no crashes and no data races (verified under TSan).
+// getBestVectorBackend() concurrently while a background writer calls
+// registerBackend() produce no crashes and no data races.
 //
 // All public methods that read shared state hold a shared_lock on
-// registryMutex_; autoDetect() ultimately calls registerBackend() which holds
-// a unique_lock.  These tests exercise that invariant directly.
+// registryMutex_; registerBackend() holds a unique_lock.  These tests
+// exercise that invariant directly.
+//
+// NOTE: For deterministic data-race detection run this suite locally under
+// ThreadSanitizer (-fsanitize=thread).  The CI build uses ASan+UBSan only.
 
 #include <gtest/gtest.h>
 #include "acceleration/compute_backend.h"
@@ -18,26 +21,68 @@
 using namespace themis::acceleration;
 
 // =============================================================================
-// 16 reader threads + 1 autoDetect() writer
+// Minimal in-process stub backend
+//
+// Replaces autoDetect() in writer threads so that the write-contention path
+// (registerBackend() unique_lock vs. reader shared_lock) is exercised without
+// triggering any plugin directory scans or stderr noise.
+// =============================================================================
+
+namespace {
+
+struct MinimalCpuVectorStub final : public IVectorBackend {
+    const char*        name()        const noexcept override { return "MinimalCpuVectorStub"; }
+    BackendType        type()        const noexcept override { return BackendType::CPU; }
+    bool               isAvailable() const noexcept override { return true; }
+    bool               initialize()        override { return true; }
+    void               shutdown()          override {}
+
+    BackendCapabilities getCapabilities() const override {
+        BackendCapabilities c;
+        c.supportsVectorOps   = true;
+        c.supportsBatchProcessing = true;
+        c.supportedPrecisions = PrecisionMode::FP32;
+        c.supportedMetrics    = metricBit(DistanceMetric::L2)
+                              | metricBit(DistanceMetric::COSINE)
+                              | metricBit(DistanceMetric::INNER_PRODUCT);
+        c.deviceName = "stub-cpu";
+        return c;
+    }
+
+    std::vector<float> computeDistances(
+        const float*, size_t, size_t, const float*, size_t, bool) override { return {}; }
+
+    std::vector<std::vector<std::pair<uint32_t, float>>> batchKnnSearch(
+        const float*, size_t, size_t, const float*, size_t, size_t, bool) override { return {}; }
+};
+
+} // namespace
+
+// =============================================================================
+// 16 reader threads + 1 lightweight registerBackend() writer
 // =============================================================================
 
 // 16 threads all call getBestVectorBackend() concurrently while a background
-// thread calls autoDetect() repeatedly.  No crash or data race expected.
-// Under ThreadSanitizer (TSan) this test will fail if registryMutex_ is not
-// properly held in all code paths.
-TEST(BackendRegistryThreadSafety, ConcurrentGetBestVector_WhileAutoDetect_NoCrash) {
-    // Ensure the registry is initialised with at least CPU backends before the
-    // concurrent phase so readers have valid data to traverse.
+// thread repeatedly calls registerBackend() with a cheap stub.
+// registerBackend() acquires a unique_lock on registryMutex_;
+// getBestVectorBackend() acquires a shared_lock — this is the write/read
+// contention the mutex must serialise.
+TEST(BackendRegistryThreadSafety, ConcurrentGetBestVector_WhileRegister_NoCrash) {
+    // Ensure the registry is initialised with at least the CPU backend before
+    // the concurrent phase so readers have valid data to traverse.
     BackendRegistry::instance().initializeRuntime();
 
     constexpr int kReaders = 16;
     std::atomic<bool> running{true};
     std::atomic<int>  ok{0};
+    // Start barrier: writer waits until all readers have entered their loop.
+    std::atomic<int>  readersReady{0};
 
     std::vector<std::thread> readers;
     readers.reserve(kReaders);
     for (int i = 0; i < kReaders; ++i) {
-        readers.emplace_back([&running, &ok]() {
+        readers.emplace_back([&running, &ok, &readersReady]() {
+            readersReady.fetch_add(1, std::memory_order_release);
             while (running.load(std::memory_order_relaxed)) {
                 auto* b = BackendRegistry::instance().getBestVectorBackend();
                 if (b != nullptr) {
@@ -48,13 +93,16 @@ TEST(BackendRegistryThreadSafety, ConcurrentGetBestVector_WhileAutoDetect_NoCras
         });
     }
 
-    // Background writer: call autoDetect() several times while readers are
-    // actively iterating backends_.  autoDetect() calls registerBackend()
-    // which acquires a unique_lock — this is the write contention the mutex
-    // must serialise.
-    std::thread writer([&running]() {
+    // Writer: register a lightweight stub 5× while readers are active.
+    // Uses registerBackend() directly — no plugin scanning, no I/O.
+    std::thread writer([&running, &readersReady]() {
+        // Wait until all readers are running to maximise contention.
+        while (readersReady.load(std::memory_order_acquire) < kReaders) {
+            std::this_thread::yield();
+        }
         for (int i = 0; i < 5; ++i) {
-            BackendRegistry::instance().autoDetect();
+            BackendRegistry::instance().registerBackend(
+                std::make_unique<MinimalCpuVectorStub>());
             std::this_thread::yield();
         }
         running.store(false, std::memory_order_release);
@@ -121,23 +169,25 @@ TEST(BackendRegistryThreadSafety, IsRuntimeInitialized_ConcurrentReads_NoCrash) 
 }
 
 // =============================================================================
-// Mixed: getSelectedVectorBackend() + autoDetect()
+// Mixed: getSelectedVectorBackend() + registerBackend() writer
 // =============================================================================
 
 // getSelectedVectorBackend() reads selectedVectorBackend_ under a shared lock
-// while autoDetect() → registerBackend() holds an exclusive lock to modify
-// backends_.  This exercises the exclusive/shared lock interaction on
-// registryMutex_.
-TEST(BackendRegistryThreadSafety, ConcurrentGetSelectedVector_WhileAutoDetect_NoCrash) {
+// while registerBackend() holds an exclusive lock to modify backends_.
+// This exercises the exclusive/shared lock interaction on registryMutex_
+// without invoking autoDetect()'s plugin directory scan.
+TEST(BackendRegistryThreadSafety, ConcurrentGetSelectedVector_WhileRegister_NoCrash) {
     BackendRegistry::instance().initializeRuntime();
 
     constexpr int kReaders = 8;
     std::atomic<bool> running{true};
+    std::atomic<int>  readersReady{0};
 
     std::vector<std::thread> readers;
     readers.reserve(kReaders);
     for (int i = 0; i < kReaders; ++i) {
-        readers.emplace_back([&running]() {
+        readers.emplace_back([&running, &readersReady]() {
+            readersReady.fetch_add(1, std::memory_order_release);
             while (running.load(std::memory_order_relaxed)) {
                 (void)BackendRegistry::instance().getSelectedVectorBackend();
                 (void)BackendRegistry::instance().getSelectedGraphBackend();
@@ -147,9 +197,13 @@ TEST(BackendRegistryThreadSafety, ConcurrentGetSelectedVector_WhileAutoDetect_No
         });
     }
 
-    std::thread writer([&running]() {
+    std::thread writer([&running, &readersReady]() {
+        while (readersReady.load(std::memory_order_acquire) < kReaders) {
+            std::this_thread::yield();
+        }
         for (int i = 0; i < 5; ++i) {
-            BackendRegistry::instance().autoDetect();
+            BackendRegistry::instance().registerBackend(
+                std::make_unique<MinimalCpuVectorStub>());
             std::this_thread::yield();
         }
         running.store(false, std::memory_order_release);

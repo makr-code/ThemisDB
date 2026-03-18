@@ -15702,9 +15702,10 @@ endif()
 
 # ============================================================================
 # BackendRegistry Thread-Safety Tests (Issue #133, v1.8.0)
-# Covers: 16 reader threads + autoDetect() writer, isRuntimeInitialized()
-#         concurrent reads, getSelectedXBackend() + autoDetect() interaction.
-#         Run under TSan to detect data races.
+# Covers: 16 reader threads + registerBackend() writer (lightweight stub),
+#         isRuntimeInitialized() concurrent reads,
+#         getSelectedXBackend() + registerBackend() interaction.
+#         For data-race detection run locally with -fsanitize=thread (TSan).
 # ============================================================================
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_backend_registry_thread_safety.cpp")
     message(STATUS "Adding BackendRegistry thread-safety focused tests (acceleration, Issue #133, v1.8.0)")
@@ -15736,7 +15737,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_backend_registry_thread
         TIMEOUT 120
     )
 
-    message(STATUS "  BackendRegistry: 16-thread getBestVectorBackend + autoDetect writer, isRuntimeInitialized concurrency, getSelectedXBackend concurrency")
+    message(STATUS "  BackendRegistry: 16-thread getBestVectorBackend + registerBackend writer (stub), isRuntimeInitialized concurrency, getSelectedXBackend concurrency")
 else()
     message(STATUS "BackendRegistry thread-safety focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_backend_registry_thread_safety.cpp")
 endif()
