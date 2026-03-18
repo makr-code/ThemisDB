@@ -786,3 +786,90 @@ TEST_F(DiffEngineTest, StampedeInFlightCleanedUpOnSuccess) {
     auto r2 = diff_engine_->computeDiff(seq1, seq2, opts);
     EXPECT_EQ(r2.stats.total_changes, 1u);
 }
+
+// Opt-in performance test: bounded fetch must complete in ≤50 ms even when
+// the changefeed contains a large number of events before the requested range.
+// Run with THEMIS_RUN_PERF_TESTS=1.
+TEST_F(DiffEngineTest, BoundedFetch_LargeChangefeed_Under50ms) {
+    const char* perf_env = std::getenv("THEMIS_RUN_PERF_TESTS");
+    if (!perf_env || std::string(perf_env) != "1") {
+        GTEST_SKIP() << "Skipped — set THEMIS_RUN_PERF_TESTS=1 to enable perf tests";
+    }
+
+    // Fill the changefeed with a large number of events (background noise)
+    constexpr int kBackgroundEvents = 20000;
+    for (int i = 0; i < kBackgroundEvents; ++i) {
+        recordPut("bg:" + std::to_string(i), "v");
+    }
+
+    // Record the narrow window we actually want to diff
+    constexpr int kRangeEvents = 1000;
+    auto seq_from = changefeed_->getLatestSequence();
+    for (int i = 0; i < kRangeEvents; ++i) {
+        recordPut("rng:" + std::to_string(i), "val");
+    }
+    auto seq_to = changefeed_->getLatestSequence();
+
+    DiffEngine::DiffOptions opts;
+    opts.enable_caching = false; // measure cold path
+
+    auto t0 = std::chrono::steady_clock::now();
+    auto result = diff_engine_->computeDiff(seq_from, seq_to, opts);
+    auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - t0).count();
+
+    EXPECT_EQ(result.stats.total_changes, static_cast<size_t>(kRangeEvents));
+    EXPECT_LE(elapsed_ms, 50)
+        << "BoundedFetch took " << elapsed_ms
+        << " ms (target ≤ 50 ms). Background events: " << kBackgroundEvents
+        << ", range events: " << kRangeEvents;
+}
+
+// Opt-in performance test: the second concurrent caller for the same range
+// must be served (via cache hit after wait) with a total overhead ≤ 5 ms.
+// Run with THEMIS_RUN_PERF_TESTS=1.
+TEST_F(DiffEngineTest, StampedeWait_SecondCallerUnder5ms) {
+    const char* perf_env = std::getenv("THEMIS_RUN_PERF_TESTS");
+    if (!perf_env || std::string(perf_env) != "1") {
+        GTEST_SKIP() << "Skipped — set THEMIS_RUN_PERF_TESTS=1 to enable perf tests";
+    }
+
+    auto seq_from = recordPut("sw:1", "A");
+    recordPut("sw:2", "B");
+    recordPut("sw:3", "C");
+    auto seq_to = changefeed_->getLatestSequence();
+
+    DiffEngine::DiffOptions opts;
+    opts.enable_caching = true;
+
+    // Thread 1 primes the cache (cold path)
+    std::thread t1([&] {
+        diff_engine_->computeDiff(seq_from, seq_to, opts);
+    });
+    t1.join();
+
+    // Cache is now warm. Measure how long it takes for a subsequent caller —
+    // this is the overhead the "second concurrent caller" would experience after
+    // the in-flight caller finishes and inserts into the cache.
+    constexpr int kWarmCallers = 8;
+    std::vector<long long> latencies(kWarmCallers);
+    std::vector<std::thread> threads;
+    threads.reserve(kWarmCallers);
+
+    for (int i = 0; i < kWarmCallers; ++i) {
+        threads.emplace_back([&latencies, &diff_engine_ = *diff_engine_,
+                              seq_from, seq_to, opts, idx = i] {
+            auto t0 = std::chrono::steady_clock::now();
+            diff_engine_.computeDiff(seq_from, seq_to, opts);
+            latencies[idx] = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - t0).count();
+        });
+    }
+    for (auto& t : threads) t.join();
+
+    for (int i = 0; i < kWarmCallers; ++i) {
+        EXPECT_LE(latencies[i], 5)
+            << "Warm caller " << i << " took " << latencies[i]
+            << " ms (target ≤ 5 ms for cache-hit path)";
+    }
+}

@@ -297,6 +297,10 @@ private:
     
     /**
      * @brief Evict oldest cache entries if cache is full
+     * @deprecated The eviction logic is now inlined in computeDiff() using the
+     *             copy-evict-then-lock pattern. This function is retained for
+     *             backward-compatibility but is NOT called from the hot path.
+     *             Must NOT be called while holding cache_mutex_.
      */
     void evictOldCacheEntries();
 };
