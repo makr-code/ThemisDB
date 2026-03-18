@@ -30,6 +30,9 @@
 #include <vector>
 #include <optional>
 #include <chrono>
+#include <condition_variable>
+#include <mutex>
+#include <unordered_set>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -136,11 +139,12 @@ public:
     
     ~DiffEngine() = default;
 
-    // Disable copy, allow move
+    // Disable copy; move is implicitly deleted because std::mutex / std::condition_variable
+    // are non-movable — keep = default so the compiler enforces this clearly.
     DiffEngine(const DiffEngine&) = delete;
     DiffEngine& operator=(const DiffEngine&) = delete;
-    DiffEngine(DiffEngine&&) = default;
-    DiffEngine& operator=(DiffEngine&&) = default;
+    DiffEngine(DiffEngine&&) = delete;
+    DiffEngine& operator=(DiffEngine&&) = delete;
 
     /**
      * @brief Compute diff between two sequence numbers
@@ -225,8 +229,24 @@ private:
         DiffResult result;
         std::chrono::system_clock::time_point cached_at;
     };
-    mutable std::map<std::pair<uint64_t, uint64_t>, CachedDiff> diff_cache_;
+
+    // Cache key type: (from_sequence, to_sequence)
+    using CacheKey = std::pair<uint64_t, uint64_t>;
+
+    // Hash functor for CacheKey (std::pair has no default hash)
+    struct CacheKeyHash {
+        std::size_t operator()(const CacheKey& k) const noexcept {
+            std::size_t h1 = std::hash<uint64_t>{}(k.first);
+            std::size_t h2 = std::hash<uint64_t>{}(k.second);
+            // Mix with a large prime to reduce collisions
+            return h1 ^ (h2 * 0x9e3779b97f4a7c15ULL + (h1 << 6) + (h1 >> 2));
+        }
+    };
+
+    mutable std::map<CacheKey, CachedDiff> diff_cache_;
     mutable std::mutex cache_mutex_;
+    mutable std::condition_variable inflight_cv_;
+    mutable std::unordered_set<CacheKey, CacheKeyHash> inflight_keys_;
     static constexpr std::chrono::seconds CACHE_TTL{300}; // 5 minutes
     static constexpr size_t MAX_CACHE_SIZE = 100;
     static constexpr size_t MAX_DIFF_LIMIT = 1000000; // Maximum allowed limit

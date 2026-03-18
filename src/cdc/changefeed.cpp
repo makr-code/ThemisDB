@@ -360,7 +360,7 @@ std::vector<Changefeed::ChangeEvent> Changefeed::listEvents(const ListOptions& o
     it->Seek(start_key);
     
     size_t count = 0;
-    for (; it->Valid() && count < options.limit; it->Next()) {
+    for (; it->Valid(); it->Next()) {
         std::string key = it->key().ToString();
         
         // Stop if we've left the changefeed prefix
@@ -368,9 +368,20 @@ std::vector<Changefeed::ChangeEvent> Changefeed::listEvents(const ListOptions& o
             break;
         }
         
+        // Check limit before parsing
+        if (count >= options.limit) {
+            break;
+        }
+        
         try {
             nlohmann::json j = nlohmann::json::parse(it->value().ToString());
             ChangeEvent event = ChangeEvent::fromJson(j);
+            
+            // Apply to_sequence upper bound — events are stored in sequence order,
+            // so once we exceed to_sequence all subsequent events are also out-of-range.
+            if (options.to_sequence > 0 && event.sequence > options.to_sequence) {
+                break;
+            }
             
             // Apply filters
             bool matches = true;

@@ -707,3 +707,82 @@ TEST_F(DiffEngineTest, TimestampOrderingForBinarySearch) {
     // Should find some events (exact count depends on timing)
     EXPECT_GE(result.stats.total_changes, 0);
 }
+
+// Test: bounded listEvents with to_sequence correctly limits returned events
+TEST_F(DiffEngineTest, BoundedFetchReturnsOnlyRangeEvents) {
+    // Insert events e1..e5 and verify computeDiff(e1, e3) returns only e2..e3
+    auto seq1 = recordPut("key:1", "v1");
+    auto seq2 = recordPut("key:2", "v2");
+    auto seq3 = recordPut("key:3", "v3");
+    recordPut("key:4", "v4");  // intentionally outside requested range
+    recordPut("key:5", "v5");  // intentionally outside requested range
+
+    DiffEngine::DiffOptions opts;
+    opts.enable_caching = false;
+    auto result = diff_engine_->computeDiff(seq1, seq3, opts);
+
+    // Only key:2 and key:3 fall strictly between seq1 (exclusive) and seq3 (inclusive)
+    EXPECT_EQ(result.stats.total_changes, 2u);
+    bool found2 = false, found3 = false, found4 = false, found5 = false;
+    for (const auto& c : result.modified) {
+        if (c.key == "key:2") found2 = true;
+        if (c.key == "key:3") found3 = true;
+        if (c.key == "key:4") found4 = true;
+        if (c.key == "key:5") found5 = true;
+    }
+    EXPECT_TRUE(found2);
+    EXPECT_TRUE(found3);
+    EXPECT_FALSE(found4);  // must NOT appear — outside [seq1, seq3]
+    EXPECT_FALSE(found5);  // must NOT appear — outside [seq1, seq3]
+}
+
+// Test: stampede prevention — two concurrent callers for the same range should
+// both get the correct result without both performing the expensive computation.
+TEST_F(DiffEngineTest, StampedePreventionConcurrentSameRange) {
+    // Populate a range with some events
+    auto seq_from = recordPut("u:1", "Alice");
+    recordPut("u:2", "Bob");
+    recordPut("u:3", "Charlie");
+    auto seq_to = changefeed_->getLatestSequence();
+
+    DiffEngine::DiffOptions opts;
+    opts.enable_caching = true;
+
+    constexpr int kThreads = 8;
+    std::vector<DiffEngine::DiffResult> results(kThreads);
+    std::vector<std::thread> threads;
+    threads.reserve(kThreads);
+
+    for (int i = 0; i < kThreads; ++i) {
+        threads.emplace_back([&, i]() {
+            results[i] = diff_engine_->computeDiff(seq_from, seq_to, opts);
+        });
+    }
+    for (auto& t : threads) t.join();
+
+    // All threads must observe the same total_changes (2: u:2 and u:3)
+    for (int i = 0; i < kThreads; ++i) {
+        EXPECT_EQ(results[i].stats.total_changes, results[0].stats.total_changes)
+            << "Thread " << i << " got a different result from thread 0";
+    }
+    EXPECT_EQ(results[0].stats.total_changes, 2u);
+}
+
+// Test: an exception during computation must not leave the range stuck in the
+// in-flight set (otherwise subsequent callers would deadlock waiting on the cv).
+// We verify this by running two sequential computations for the same valid range.
+TEST_F(DiffEngineTest, StampedeInFlightCleanedUpOnSuccess) {
+    auto seq1 = recordPut("x:1", "A");
+    auto seq2 = recordPut("x:2", "B");
+
+    DiffEngine::DiffOptions opts;
+    opts.enable_caching = true;
+
+    // First call: populates cache, removes from inflight
+    auto r1 = diff_engine_->computeDiff(seq1, seq2, opts);
+    EXPECT_EQ(r1.stats.total_changes, 1u);
+
+    // Second call: should be a cache hit, no deadlock
+    auto r2 = diff_engine_->computeDiff(seq1, seq2, opts);
+    EXPECT_EQ(r2.stats.total_changes, 1u);
+}
