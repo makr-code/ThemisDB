@@ -384,10 +384,10 @@ inside the lock — the same pattern described in section 2 for CEP, but in the 
 window layer.
 
 **Implementation Notes:**
-- `[ ]` Add `session_expiry_check_interval_ms` and `global_window_emit_interval_ms` fields to `WindowConfig` (default 200 ms and 500 ms respectively) — pass them to `wait_for` in `expiryLoop()` and `timerLoop()` instead of literals
-- `[ ]` In `timerLoop()`, collect `(events_copy, start, now)` snapshots into a local vector under `windows_mutex_`, release the lock, then call all callbacks on the snapshot
-- `[ ]` Identify and document all 8 open TODOs in a `KNOWN_ISSUES.md` or inline comments so they are trackable in code review; the file-header counter is not sufficient
-- `[ ]` Add a test asserting that `SessionWindow` emits a result within `gap + expiry_check_interval_ms + 50 ms` of the last event — validates the configurable interval end-to-end
+- `[x]` Add `session_expiry_check_interval_ms` and `global_window_emit_interval_ms` fields to `WindowConfig` (default 200 ms and 500 ms respectively) — pass them to `wait_for` in `expiryLoop()` and `timerLoop()` instead of literals
+- `[x]` In `timerLoop()`, collect `(events_copy, start, now)` snapshots into a local vector under `windows_mutex_`, release the lock, then call all callbacks on the snapshot (already implemented in cep_engine.cpp — snapshot-then-dispatch pattern present before this change; marked complete)
+- `[x]` Identify and document all 8 open TODOs in a `KNOWN_ISSUES.md` or inline comments so they are trackable in code review; the file-header counter is not sufficient
+- `[x]` Add a test asserting that `SessionWindow` emits a result within `gap + expiry_check_interval_ms + 50 ms` of the last event — validates the configurable interval end-to-end
 
 **Performance Targets:**
 - Session expiry detection latency: `gap + config.session_expiry_check_interval_ms ± 20 ms`
@@ -551,7 +551,7 @@ capabilities needed for production deployments.
 | Network I/O in `getHealthyShardCount()` | `distributed_analytics.cpp:321` | Medium | Blocks shard registry for entire sweep |
 | Cache stampede in `DiffEngine` | `diff_engine.cpp:181` | Medium | Two threads can duplicate expensive changefeed scan |
 | `KNNRegressorModel::predictOneReg()` = 0.0 | `automl.cpp:833` | Medium | Silent wrong predictions for regression tasks |
-| 8 unresolved TODOs | `streaming_window.cpp` | Medium | File header reports but does not enumerate them |
+| 8 unresolved TODOs | `streaming_window.cpp` | Medium | Enumerated as inline TODO(v1.8.0) comments in file header (§13 resolved) |
 | Windows OLAP/ProcessMining stubs | `olap.cpp:53`, `process_mining.cpp:24` | Low | Not a blocker on Linux; silently fails on Windows |
 | `computePercentile` by-value copy | `cep_engine.cpp:140` | Low | 80 KB copy per percentile on 10k-event windows |
 

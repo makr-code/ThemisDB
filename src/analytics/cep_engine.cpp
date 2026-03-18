@@ -1104,7 +1104,7 @@ WindowManager::Stats WindowManager::getStats() const {
 void WindowManager::timerLoop() {
     while (running_) {
         std::unique_lock lk(timer_mutex_);
-        timer_cv_.wait_for(lk, std::chrono::milliseconds(500),
+        timer_cv_.wait_for(lk, config_.global_window_emit_interval_ms,
                            [this] { return !running_.load(); });
         if (!running_) break;
 
