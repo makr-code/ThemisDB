@@ -29,7 +29,7 @@ identified issues reference exact file names and function names.
 - `[ ]` `std::lock_guard` / `std::unique_lock` must **never** be held across user callbacks, network I/O, or O(N²) computation – use copy-and-process or upgrade to `std::shared_mutex` patterns
 - `[ ]` AVX-512 and ARM NEON kernel results must be bit-identical (tolerance ≤ 1 ULP) to the scalar baseline on the same input dataset
 - `[ ]` Streaming aggregation peak memory must not exceed 512 MB per active window; enforced via compile-time configurable hard cap
-- `[ ]` IVM delta-application latency must be ≤ 50 ms for batches ≤ 10 000 rows; `applyChanges()` must not hold its exclusive lock for the full batch
+- `[x]` IVM delta-application latency must be ≤ 50 ms for batches ≤ 10 000 rows; `applyChanges()` must not hold its exclusive lock for the full batch
 - `[x]` `ExporterFactory::createExporter(format)` must return a format-specific exporter, not the universal `StubAnalyticsExporter` for every format
 - `[ ]` Windows platform build stubs in `olap.cpp` and `process_mining.cpp` must be replaced by real cross-platform implementations before v2.0.0
 - `[ ]` All background loops (`expiryLoop`, `timerLoop`, `workerLoop`, `metricsLoop`) must honour stop signals within ≤ 50 ms via condition variables, not fixed-interval polling
@@ -201,9 +201,9 @@ spans `passesBaseFilters()`, `applyRow()`, and `pruneEmptyGroup()`, all of which
 `unordered_map` lookups and string parsing.
 
 **Implementation Notes:**
-- `[ ]` In `applyChanges()`, process changes in micro-batches of ≤ 256 rows: acquire `unique_lock`, apply micro-batch, release, yield with `std::this_thread::yield()`, repeat — readers can slip in between micro-batches
-- `[ ]` Pre-compute `passesBaseFilters()` outside the write lock using a read-only snapshot of `def_` (immutable after construction); only `applyRow()` and `pruneEmptyGroup()` need the exclusive lock
-- `[ ]` Add a read-latency regression test: background writer calls `applyChanges(10 000 rows)` while a reader thread calls `query()` in a tight loop; assert reader P99 ≤ 10 ms
+- `[x]` In `applyChanges()`, process changes in micro-batches of ≤ 256 rows: acquire `unique_lock`, apply micro-batch, release, yield with `std::this_thread::yield()`, repeat — readers can slip in between micro-batches
+- `[x]` Pre-compute `passesBaseFilters()` outside the write lock using a read-only snapshot of `def_` (immutable after construction); only `applyRow()` and `pruneEmptyGroup()` need the exclusive lock
+- `[x]` Add a read-latency regression test: background writer calls `applyChanges(10 000 rows)` while a reader thread calls `query()` in a tight loop; assert reader P99 ≤ 10 ms
 
 **Performance Targets:**
 - Reader P99 latency during a 10 000-row batch apply: ≤ 10 ms
@@ -499,13 +499,13 @@ capabilities needed for production deployments.
 - `[ ]` TOCTOU fix for `MLServingEngine::infer()` (section 5)
 - `[ ]` Stampede prevention for `DiffEngine::computeDiff()` (section 9)
 - `[ ]` `DistributedAnalyticsSharding` cached health state (section 8)
-- `[ ]` `IncrementalView::applyChanges()` micro-batch lock release (section 6)
+- `[x]` `IncrementalView::applyChanges()` micro-batch lock release (section 6)
 
 ### Phase 4 — Tests (2027 Q1)
 - `[ ]` Concurrency stress test for `StreamingAnomalyDetector` (8 threads, 100 kHz, P99 ≤ 1 ms)
 - `[ ]` OLAP cache eviction test: assert bounded memory growth under 10 000 unique queries
 - `[ ]` `CEPEngine::stop()` latency test: returns within 100 ms regardless of `metrics_interval`
-- `[ ]` `IVM` reader-latency test: P99 ≤ 10 ms during 10 000-row batch apply
+- `[x]` `IVM` reader-latency test: P99 ≤ 10 ms during 10 000-row batch apply
 - `[ ]` `KNNRegressorModel` regression accuracy test on `y = 2x`
 
 ### Phase 5 — Performance / Hardening (2027 Q2)
@@ -529,7 +529,7 @@ capabilities needed for production deployments.
 - `[ ]` All `std::lock_guard` scopes verified to hold ≤ 1 ms under worst-case production load
 - `[ ]` `CEPEngine::stop()` completes within 100 ms in all code paths
 - `[ ]` `ModelServingEngine` inference throughput ≥ 10 000 predictions/s on 8 cores
-- `[ ]` `IncrementalView` reader P99 ≤ 10 ms under 10 000-row batch writes
+- `[x]` `IncrementalView` reader P99 ≤ 10 ms under 10 000-row batch writes
 - `[ ]` Windows `OLAPEngine` and `ProcessMining` stubs replaced or tracked in CI
 - `[ ]` `KNNRegressorModel::predictOneReg()` stub replaced with real implementation
 - `[ ]` All hard-coded poll intervals (200 ms, 500 ms, 100 ms) moved to configuration structs
