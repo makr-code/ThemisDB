@@ -251,6 +251,7 @@ A fixed block size of 256 is a reasonable default for NVIDIA sm_86 and AMD RDNA2
 - `[x]` `runtimeInitialized_` converted to `std::atomic<bool>`; read with `memory_order_acquire`, written with `memory_order_release`.
 - `[x]` `selectTyped<T>()` documented with "callers must hold at least a shared lock" comment.
 - `[x]` Thread-safety tests added to `test_backend_registry_startup.cpp`: 16-thread concurrent `getBestVectorBackend`, readers + `getAvailableBackends` writer, `isRuntimeInitialized` concurrency.
+- `[x]` Dedicated thread-safety test file added at `tests/acceleration/test_backend_registry_thread_safety.cpp`: 16 reader threads calling `getBestVectorBackend()` concurrently while a background thread calls `autoDetect()`, verifying no crashes under TSan.
 
 ---
 

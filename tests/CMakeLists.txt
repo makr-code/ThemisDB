@@ -15701,6 +15701,47 @@ else()
 endif()
 
 # ============================================================================
+# BackendRegistry Thread-Safety Tests (Issue #133, v1.8.0)
+# Covers: 16 reader threads + autoDetect() writer, isRuntimeInitialized()
+#         concurrent reads, getSelectedXBackend() + autoDetect() interaction.
+#         Run under TSan to detect data races.
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_backend_registry_thread_safety.cpp")
+    message(STATUS "Adding BackendRegistry thread-safety focused tests (acceleration, Issue #133, v1.8.0)")
+
+    add_executable(test_backend_registry_thread_safety_focused
+        acceleration/test_backend_registry_thread_safety.cpp
+    )
+
+    target_include_directories(test_backend_registry_thread_safety_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_backend_registry_thread_safety_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_backend_registry_thread_safety_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME BackendRegistryThreadSafetyFocusedTests
+        COMMAND test_backend_registry_thread_safety_focused)
+
+    set_tests_properties(BackendRegistryThreadSafetyFocusedTests PROPERTIES
+        LABELS "acceleration;backend-registry;thread-safety;v1.8.0;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  BackendRegistry: 16-thread getBestVectorBackend + autoDetect writer, isRuntimeInitialized concurrency, getSelectedXBackend concurrency")
+else()
+    message(STATUS "BackendRegistry thread-safety focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_backend_registry_thread_safety.cpp")
+endif()
+
+# ============================================================================
 # VLLMResourceManager – CPU/RAM Monitoring Stats Tests
 # Covers: getStats() OS-specific CPU utilisation + RAM monitoring,
 #         canUseGPU() NVML timeout safety, uninitialised guard.
