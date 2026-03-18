@@ -171,20 +171,27 @@ This means any GPU plugin with a revoked code-signing certificate will pass secu
 ### CUDA HNSW Kernel: Remove Silent `k > kMaxK` Clamping
 **Priority:** Medium
 **Target Version:** v1.8.0
-**Status:** ✅ Partially implemented (kMaxK increased to 512; explicit warning added)
+**Status:** ✅ Fully implemented (Issue #132)
 
 `cuda/cuda_hnsw_kernels.cu` previously defined `static constexpr uint32_t kMaxK = 256u` and silently truncated results when k > 256 was requested.
 
 **Implementation Notes:**
-- `[x]` kMaxK increased from 256 to 512 in `cuda/cuda_hnsw_kernels.cu`.
-- `[x]` Silent clamp replaced with an explicit `fprintf(stderr, ...)` warning in `launchHnswSearchKernel` when `k > kMaxK`; the warning includes the requested k, the effective k, and a hint about multi-pass strategies.
-- `[ ]` For k > 512 (extreme re-ranking): fall through to a multi-pass strategy — run `kMaxK`-at-a-time passes over graph layers and merge on host using `std::partial_sort`.
-- `[ ]` Surface as `BackendHealthStatus::makeDegraded()` in release builds.
-- `[ ]` Test: add `tests/acceleration/test_cuda_hnsw_large_k.cpp` with k=257, k=512, k=1024 asserting result count equals requested k.
+- `[x]` kMaxK increased from 256 → 512 → **1024** in `cuda/cuda_hnsw_kernels.cu`.
+- `[x]` Silent clamp replaced with an explicit `bool* h_overflow` output flag in `launchHnswSearchKernel`; overflow is set and the kernel is NOT launched when `k > kMaxK` so the caller can take corrective action.
+- `[x]` Result buffers (`res_dist`, `res_id`) moved from fixed-size local arrays to dynamically allocated shared memory via `extern __shared__`; block size is computed at launch time as `min(128, 48KB / (k * 8))` to respect SM shared-memory limits.
+- `[x]` `entry_node` parameter added to the kernel to support multi-pass searches from non-zero starting nodes.
+- `[x]` `computeThreadsPerBlock(k)` helper added to compute the optimal block dimension for a given k.
+- `[x]` For k > 1024 (extreme re-ranking): multi-pass strategy implemented in `CudaHnswTraversalEngine::batchSearch()` — runs `ceil(k / kMaxK)` GPU passes from diverse entry nodes, merges results on host using `std::partial_sort`, deduplicates by node ID.
+- `[x]` Debug guard: `__trap()` fired in debug builds (`!NDEBUG`) if `k > kMaxK` reaches the launcher, ensuring callers do not inadvertently rely on overflow behavior.
+- `[x]` Release builds: overflow condition propagated as `AccelerationErrorCode::InvalidInputShape` via `setError()` in `CUDAVectorBackend::annBatchSearch()` / `batchKnnSearch()`; makes `getHealthStatus()` return `BackendHealthStatus::makeDegraded()` automatically.
+- `[x]` `kHnswSinglePassMaxK = 1024u` constant added to `cuda_backend.cpp` for consistent threshold checks.
+- `[x]` Test: `tests/test_cuda_hnsw_large_k.cpp` with k=257, k=512, k=1024, k=1025 (multi-pass), health-degraded, sort-order, multi-query tests (7 test cases total).
+- `[x]` CI workflow: `.github/workflows/02-feature-modules/acceleration/cuda-hnsw-large-k-ci.yml` triggers on changes to kernel / traversal / backend / test files.
 
 **Performance Targets:**
-- k=256: no regression vs. current implementation.
-- k=512 with local-memory result buffers: < 20 ms for 10K queries × 1M vectors on RTX 3090.
+- k=256: no regression vs. prior implementation (same block size, same shared memory layout).
+- k=1024 with dynamic shared memory: block size reduced to 4 threads/block; total SM usage ≤ 32 KB; functional on all SM 2.0+ devices.
+- k > 1024: multi-pass strategy returns correct result count at the cost of increased latency (documented trade-off; no RTX 3090 target for extreme-k path).
 
 ---
 

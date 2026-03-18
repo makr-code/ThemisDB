@@ -161,6 +161,7 @@ if(NOT THEMIS_ENABLE_GPU)
         ".*test_cpu_gpu_parity\\.cpp$"
         ".*test_cuda_ann_search\\.cpp$"
         ".*test_acceleration_coverage\\.cpp$"
+        ".*test_cuda_hnsw_large_k\\.cpp$"
     )
 endif()
 
@@ -16377,6 +16378,55 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_versioned_api_routing.cpp")
     message(STATUS "  RouteVersionRouter, handleBulkNdjson, handleQueryStreamSse, AsyncJobApiHandler")
 else()
     message(STATUS "Versioned API Routing focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_versioned_api_routing.cpp")
+endif()
+
+# CUDA HNSW Large-k Focused Tests (Issue #132, v1.8.0)
+#
+# Validates:
+#   AC-1  k=257 returns exactly 257 results (no silent truncation)
+#   AC-2  k=512 returns exactly 512 results
+#   AC-3  k=1024 returns exactly 1024 results (new single-pass kMaxK boundary)
+#   AC-4  k=1025 uses multi-pass strategy and returns 1025 results
+#   AC-5  k > 1024 surfaces BackendHealthStatus::makeDegraded() in release builds
+#   AC-6  Results are sorted ascending by score for k=512
+#   AC-7  Multiple queries with k=257 each return k results
+#
+# Uses CudaHnswTraversalEngine which transparently falls back to the CPU path
+# when no CUDA device is available, so no GPU hardware is required.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cuda_hnsw_large_k.cpp")
+    message(STATUS "Adding CUDA HNSW Large-k focused tests (acceleration, Issue #132, v1.8.0)")
+
+    add_executable(test_cuda_hnsw_large_k_focused
+        test_cuda_hnsw_large_k.cpp
+    )
+
+    target_include_directories(test_cuda_hnsw_large_k_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_cuda_hnsw_large_k_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cuda_hnsw_large_k_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CudaHnswLargeKFocusedTests COMMAND test_cuda_hnsw_large_k_focused)
+
+    set_tests_properties(CudaHnswLargeKFocusedTests PROPERTIES
+        LABELS "acceleration;cuda;hnsw;large-k;v1.8.0;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  CudaHnswLargeK: k=257, k=512, k=1024, k=1025 multi-pass, health degraded")
+else()
+    message(STATUS "CUDA HNSW Large-k focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cuda_hnsw_large_k.cpp")
 endif()
 
 message(STATUS "Tests configured successfully")
