@@ -173,9 +173,10 @@ private:
     //   Linux   – v0 = total jiffies, v1 = idle jiffies, v2 = (unused)
     //   Windows – v0 = idle FILETIME, v1 = kernel FILETIME, v2 = user FILETIME
     struct CpuSnapshot {
-        uint64_t v0 = 0;   // Linux: total; Windows: idle
-        uint64_t v1 = 0;   // Linux: idle;  Windows: kernel
-        uint64_t v2 = 0;   // Linux: (unused); Windows: user
+        uint64_t v0 = 0;          // Linux: total; Windows: idle
+        uint64_t v1 = 0;          // Linux: idle;  Windows: kernel
+        uint64_t v2 = 0;          // Linux: (unused); Windows: user
+        double last_cpu_util = 0.0; // last successfully computed utilization [0,100]
         std::chrono::steady_clock::time_point ts;
         bool valid = false;
     };

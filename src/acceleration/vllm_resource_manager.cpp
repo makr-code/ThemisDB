@@ -229,16 +229,32 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
     }
     if (have_t0) {
         uint64_t t1 = 0, i1 = 0;
-        if (readCpuTimes(t1, i1) && t1 > t0) {
-            uint64_t dtotal = t1 - t0;
-            uint64_t didle  = (i1 > i0) ? (i1 - i0) : 0;
-            stats.cpu_utilization = 100.0 * (1.0 - static_cast<double>(didle) /
-                                                    static_cast<double>(dtotal));
-            std::lock_guard<std::mutex> lock(cpu_cache_mutex_);
-            cpu_snapshot_cache_.v0    = t1;
-            cpu_snapshot_cache_.v1    = i1;
-            cpu_snapshot_cache_.ts    = std::chrono::steady_clock::now();
-            cpu_snapshot_cache_.valid = true;
+        if (readCpuTimes(t1, i1)) {
+            uint64_t dtotal = (t1 > t0) ? (t1 - t0) : 0;
+            if (dtotal == 0) {
+                // Same jiffy — counters haven't advanced yet.
+                // Reuse the last computed utilization to avoid returning 0.0.
+                // Still refresh the baseline (v0/v1/ts) so the next call uses
+                // the current read as its starting point and avoids stale deltas.
+                std::lock_guard<std::mutex> lock(cpu_cache_mutex_);
+                if (cpu_snapshot_cache_.valid) {
+                    stats.cpu_utilization = cpu_snapshot_cache_.last_cpu_util;
+                }
+                cpu_snapshot_cache_.v0 = t1;
+                cpu_snapshot_cache_.v1 = i1;
+                cpu_snapshot_cache_.ts = std::chrono::steady_clock::now();
+                // last_cpu_util and valid are unchanged
+            } else {
+                uint64_t didle = (i1 > i0) ? (i1 - i0) : 0;
+                stats.cpu_utilization = 100.0 * (1.0 - static_cast<double>(didle) /
+                                                        static_cast<double>(dtotal));
+                std::lock_guard<std::mutex> lock(cpu_cache_mutex_);
+                cpu_snapshot_cache_.v0           = t1;
+                cpu_snapshot_cache_.v1           = i1;
+                cpu_snapshot_cache_.last_cpu_util = stats.cpu_utilization;
+                cpu_snapshot_cache_.ts           = std::chrono::steady_clock::now();
+                cpu_snapshot_cache_.valid        = true;
+            }
         }
     }
 
@@ -310,16 +326,30 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
                 uint64_t kernel = (kernel1v > base_kernel) ? (kernel1v - base_kernel) : 0;
                 uint64_t user   = (user1v   > base_user)   ? (user1v   - base_user)   : 0;
                 uint64_t total  = kernel + user;   // kernel already includes idle
-                if (total > 0) {
+                if (total == 0) {
+                    // Same resolution tick — reuse last computed utilization.
+                    // Still refresh the baseline (v0/v1/v2/ts) to avoid stale deltas
+                    // on the next call.
+                    std::lock_guard<std::mutex> lock(cpu_cache_mutex_);
+                    if (cpu_snapshot_cache_.valid) {
+                        stats.cpu_utilization = cpu_snapshot_cache_.last_cpu_util;
+                    }
+                    cpu_snapshot_cache_.v0 = idle1v;
+                    cpu_snapshot_cache_.v1 = kernel1v;
+                    cpu_snapshot_cache_.v2 = user1v;
+                    cpu_snapshot_cache_.ts = std::chrono::steady_clock::now();
+                    // last_cpu_util and valid are unchanged
+                } else {
                     stats.cpu_utilization = 100.0 * (1.0 - static_cast<double>(idle) /
                                                            static_cast<double>(total));
+                    std::lock_guard<std::mutex> lock(cpu_cache_mutex_);
+                    cpu_snapshot_cache_.v0           = idle1v;
+                    cpu_snapshot_cache_.v1           = kernel1v;
+                    cpu_snapshot_cache_.v2           = user1v;
+                    cpu_snapshot_cache_.last_cpu_util = stats.cpu_utilization;
+                    cpu_snapshot_cache_.ts           = std::chrono::steady_clock::now();
+                    cpu_snapshot_cache_.valid        = true;
                 }
-                std::lock_guard<std::mutex> lock(cpu_cache_mutex_);
-                cpu_snapshot_cache_.v0    = idle1v;
-                cpu_snapshot_cache_.v1    = kernel1v;
-                cpu_snapshot_cache_.v2    = user1v;
-                cpu_snapshot_cache_.ts    = std::chrono::steady_clock::now();
-                cpu_snapshot_cache_.valid = true;
             }
         }
     }

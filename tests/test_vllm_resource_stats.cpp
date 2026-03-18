@@ -216,10 +216,25 @@ TEST(VLLMResourceStatsTest, CacheHit_CompletesUnder2ms) {
     VLLMResourceManager mgr(makeConfig());
     ASSERT_TRUE(mgr.initialize());
 
-    // Warm the cache: first call always takes ~100 ms for the two-snapshot baseline.
-    mgr.getStats();
+    // Must match kCpuCacheTTL in vllm_resource_manager.cpp.
+    constexpr long kCacheTtlMs = 200;
 
-    // Second call must hit the cache (< 200 ms since warm) and complete in < 2 ms.
+    // Warm the cache: first call always takes ~100 ms for the two-snapshot baseline.
+    const auto warm_start = std::chrono::steady_clock::now();
+    mgr.getStats();
+    const auto warm_elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - warm_start).count();
+
+    // If scheduling delays consumed the entire TTL window during warm-up,
+    // the next call would be a cache miss (~100 ms), making the 2 ms assertion
+    // meaningless.  Skip rather than produce a spurious failure.
+    if (warm_elapsed_ms >= kCacheTtlMs) {
+        GTEST_SKIP() << "Warm-up took " << warm_elapsed_ms
+                     << " ms (>= " << kCacheTtlMs
+                     << " ms TTL) — cache miss expected; skipping perf gate";
+    }
+
+    // Second call must hit the cache and complete in < 2 ms.
     auto t0 = std::chrono::steady_clock::now();
     auto stats = mgr.getStats();
     auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
