@@ -90,6 +90,11 @@ CacheAdminApiHandler::CacheAdminApiHandler(
     : cache_(std::move(cache))
     , auth_(std::move(auth)) {}
 
+void CacheAdminApiHandler::setSloMonitor(
+    std::shared_ptr<themis::cache::CacheHitRateSloMonitor> monitor) {
+    slo_monitor_ = std::move(monitor);
+}
+
 // ---------------------------------------------------------------------------
 // Auth helper
 // ---------------------------------------------------------------------------
@@ -188,6 +193,14 @@ http::response<http::string_body> CacheAdminApiHandler::handleStats(
             {"total_hits", metrics.l1_hits.load() + metrics.l2_hits.load() + metrics.l3_hits.load()},
             {"throttled", metrics.rate_limited_requests.load()}
         };
+
+        // Latency percentiles from the SLO monitor (if one is attached)
+        if (slo_monitor_) {
+            auto status = slo_monitor_->getStatus();
+            if (status.contains("latency")) {
+                body["slo"] = status["latency"];
+            }
+        }
 
         return makeResponse(http::status::ok, body.dump(), req);
     } catch (const std::exception& e) {
