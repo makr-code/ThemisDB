@@ -31,6 +31,7 @@
 #include <optional>
 #include <chrono>
 #include <condition_variable>
+#include <functional>
 #include <mutex>
 #include <unordered_set>
 #include <nlohmann/json.hpp>
@@ -219,6 +220,16 @@ public:
      */
     json getCacheStats() const;
 
+    /**
+     * @brief Testing hook: called once per unique range computation, just before
+     *        listEvents().  May throw to simulate a mid-computation failure.
+     *        Pass an empty function to disable the hook.
+     *        NOT thread-safe — must be set before concurrent callers start.
+     */
+    void setComputeHookForTesting(std::function<void()> hook) {
+        compute_hook_for_testing_ = std::move(hook);
+    }
+
 private:
     Changefeed& changefeed_;
     transaction::SnapshotManager* snapshot_manager_;  // Optional, for tag-based diff
@@ -250,6 +261,9 @@ private:
     static constexpr std::chrono::seconds CACHE_TTL{300}; // 5 minutes
     static constexpr size_t MAX_CACHE_SIZE = 100;
     static constexpr size_t MAX_DIFF_LIMIT = 1000000; // Maximum allowed limit
+
+    // Testing hook — see setComputeHookForTesting()
+    std::function<void()> compute_hook_for_testing_;
     
     /**
      * @brief Process changefeed events and categorize them

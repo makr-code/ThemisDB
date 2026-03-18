@@ -362,35 +362,41 @@ std::vector<Changefeed::ChangeEvent> Changefeed::listEvents(const ListOptions& o
     size_t count = 0;
     for (; it->Valid(); it->Next()) {
         std::string key = it->key().ToString();
-        
+
         // Stop if we've left the changefeed prefix
         if (key.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {
             break;
         }
-        
+
         // Check limit before parsing
         if (count >= options.limit) {
             break;
         }
-        
+
+        // Apply to_sequence upper bound using the RocksDB key (no JSON parse needed).
+        // Keys are formatted as KEY_PREFIX + zero-padded 20-digit sequence, and RocksDB
+        // iterates in lexicographic (== numeric) order, so we can break early here.
+        if (options.to_sequence > 0) {
+            const char* seq_start = key.c_str() + strlen(KEY_PREFIX);
+            char* end_ptr = nullptr;
+            uint64_t key_seq = std::strtoull(seq_start, &end_ptr, 10);
+            if (end_ptr != seq_start && key_seq > options.to_sequence) {
+                break;
+            }
+        }
+
         try {
             nlohmann::json j = nlohmann::json::parse(it->value().ToString());
             ChangeEvent event = ChangeEvent::fromJson(j);
-            
-            // Apply to_sequence upper bound — events are stored in sequence order,
-            // so once we exceed to_sequence all subsequent events are also out-of-range.
-            if (options.to_sequence > 0 && event.sequence > options.to_sequence) {
-                break;
-            }
-            
+
             // Apply filters
             bool matches = true;
-            
+
             if (options.key_prefix.has_value() &&
                 event.key.find(*options.key_prefix) != 0) {
                 matches = false;
             }
-            
+
             // Multi-type filter takes precedence; fall back to legacy single-type filter
             if (!options.event_types.empty()) {
                 if (options.event_types.find(event.type) == options.event_types.end()) {
@@ -400,7 +406,7 @@ std::vector<Changefeed::ChangeEvent> Changefeed::listEvents(const ListOptions& o
                 event.type != *options.event_type) {
                 matches = false;
             }
-            
+
             if (matches) {
                 results.push_back(event);
                 count++;

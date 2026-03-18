@@ -179,7 +179,7 @@ DiffEngine::DiffResult DiffEngine::computeDiff(
     
     const CacheKey cache_key{from_sequence, to_sequence};
     
-    // ── Stampede-prevention: only one goroutine computes a given range ──────
+    // ── Stampede-prevention: only one thread computes a given range ──────────
     if (options.enable_caching) {
         std::unique_lock<std::mutex> lock(cache_mutex_);
         
@@ -201,24 +201,48 @@ DiffEngine::DiffResult DiffEngine::computeDiff(
         inflight_keys_.insert(cache_key);
         // lock released here
     }
-    
+
     // ── Fetch events — bounded range query, no post-filter loop needed ──────
     // Use to_sequence as the upper bound so we only materialise events in the
     // requested window, avoiding an O(N) scan of the entire changefeed.
+    //
+    // Exception safety: if anything between here and Phase 3 throws, the RAII
+    // guard below ensures the in-flight key is removed and waiters are notified.
+    struct InflightGuard {
+        std::mutex& mu;
+        std::condition_variable& cv;
+        std::unordered_set<CacheKey, CacheKeyHash>& keys;
+        CacheKey key;
+        bool enabled;
+        bool armed;
+        ~InflightGuard() noexcept {
+            if (enabled && armed) {
+                { std::lock_guard<std::mutex> lk(mu); keys.erase(key); }
+                cv.notify_all();
+            }
+        }
+    } inflight_guard{cache_mutex_, inflight_cv_, inflight_keys_, cache_key,
+                     options.enable_caching, options.enable_caching};
+
+    // Testing hook — allows tests to inject failures or count actual computations.
+    if (compute_hook_for_testing_) {
+        compute_hook_for_testing_();
+    }
+
     Changefeed::ListOptions list_opts;
     list_opts.from_sequence = from_sequence;                     // exclusive lower bound
     list_opts.to_sequence   = to_sequence;                       // inclusive upper bound
     list_opts.limit         = std::numeric_limits<size_t>::max(); // no count cap within range
-    
+
     auto events = changefeed_.listEvents(list_opts);
-    
+
     spdlog::debug("Found {} events in range [{}, {}]", events.size(), from_sequence, to_sequence);
-    
+
     // Process events
     DiffResult result = processEvents(events, options);
     result.from_sequence = from_sequence;
     result.to_sequence = to_sequence;
-    
+
     // ── Cache result and release in-flight marker ─────────────────────────
     if (options.enable_caching) {
         // Copy-evict-then-lock pattern:
@@ -241,9 +265,11 @@ DiffEngine::DiffResult DiffEngine::computeDiff(
             }
         }
         // Phase 2 — no expensive resource teardown needed for an in-memory cache.
-        
+
         // Phase 3 — re-acquire lock to commit eviction, insertion, and inflight removal
         //           atomically, then signal any waiters outside the lock.
+        //           Disarm the RAII guard first so its destructor does not double-notify.
+        inflight_guard.armed = false;
         {
             std::unique_lock<std::mutex> lock(cache_mutex_);
             if (need_evict) {
