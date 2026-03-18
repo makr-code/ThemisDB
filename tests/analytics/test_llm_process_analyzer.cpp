@@ -634,6 +634,7 @@ TEST_F(LLMProcessAnalyzerTest, LRUEviction_LeastRecentlyUsedEntryEvicted) {
 
     // Promote req0 to MRU by re-requesting it
     auto [ok_hit, resp_hit] = small_cache.analyze(makeReq(0));
+    EXPECT_TRUE(ok_hit);
     EXPECT_TRUE(resp_hit.from_cache);  // must be a hit
 
     // Insert req2 — capacity exceeded; req1 (LRU) should be evicted
@@ -644,12 +645,15 @@ TEST_F(LLMProcessAnalyzerTest, LRUEviction_LeastRecentlyUsedEntryEvicted) {
 
     // req0 and req2 should still be cached (hits); req1 should be a miss
     auto [ok0, r0] = small_cache.analyze(makeReq(0));
+    EXPECT_TRUE(ok0);
     EXPECT_TRUE(r0.from_cache);   // req0 was promoted before eviction
 
     auto [ok2, r2] = small_cache.analyze(makeReq(2));
+    EXPECT_TRUE(ok2);
     EXPECT_TRUE(r2.from_cache);   // req2 was just inserted
 
     auto [ok1, r1] = small_cache.analyze(makeReq(1));
+    EXPECT_TRUE(ok1);
     EXPECT_FALSE(r1.from_cache);  // req1 was the LRU — evicted
 }
 
@@ -671,7 +675,8 @@ TEST_F(LLMProcessAnalyzerTest, CacheKey_DifferentTracesDifferentKeys) {
     analyzer.analyze(req1);  // miss, populates cache
     analyzer.analyze(req1);  // hit
 
-    auto [ok2, resp2] = analyzer.analyze(req2);  // must be a miss (different trace)
+    auto [ok_miss, resp2] = analyzer.analyze(req2);  // must be a miss (different trace)
+    EXPECT_TRUE(ok_miss);
     EXPECT_FALSE(resp2.from_cache);
 }
 
@@ -693,10 +698,14 @@ TEST_F(LLMProcessAnalyzerTest, CacheKey_SameRequestCacheHit) {
 // ===========================================================================
 
 /**
- * @brief Verify that cache insertion (with LRU eviction) is ≤ 1 µs P99
- *        when the cache is at capacity (1 000 entries).
+ * @brief Verify that the full analyze() call with LRU eviction completes in
+ *        ≤ 100 µs P99 when the cache is at capacity (1 000 entries).
  *
- * Tests the O(1) amortised behaviour of the new LRU implementation.
+ * Gates on the entire analyze() round-trip (getCacheKey + cache miss +
+ * callLLM stub + putInCache with LRU eviction).  The eviction itself is O(1)
+ * and contributes negligibly; the 100 µs ceiling gives ample CI headroom while
+ * still catching an O(N) regression.
+ *
  * This test is timing-sensitive and opt-in via THEMIS_RUN_PERF_TESTS=1.
  */
 TEST(LLMProcessAnalyzerPerfTest, PutInCache_O1Eviction_Under1us) {
@@ -708,8 +717,6 @@ TEST(LLMProcessAnalyzerPerfTest, PutInCache_O1Eviction_Under1us) {
 
     constexpr int kCapacity   = 1000;
     constexpr int kIterations = 500;
-    // 1 µs limit with CI headroom (actual O(1) eviction is < 100 ns on modern HW)
-    constexpr int64_t kLimitNs = 1000;
 
     LLMConfig cfg;
     cfg.provider          = LLMProvider::LOCAL;

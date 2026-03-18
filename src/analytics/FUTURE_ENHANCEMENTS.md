@@ -229,7 +229,7 @@ take several milliseconds in the hot request path.
 **Implementation Notes:**
 - `[x]` Replace `std::unordered_map<string, CacheEntry>` + manual linear eviction with an `LRUCache<string, nlohmann::json>` backed by a doubly-linked list and hash map, giving O(1) get/put/evict — the pattern already proposed in the OLAP section above, or a simple `boost::compute::detail::lru_cache` adapter
 - `[x]` Expose `max_cache_entries` in `LLMConfig` (default 1 000) so operators can tune without recompiling
-- `[x]` In `getCacheKey()`, compute a `xxHash`/`SHA256` of `request.process_trace` rather than a full `dump()` — reduces key-build time from O(trace_size) to O(1) for the cache lookup fast path; store the full JSON only on cache miss
+- `[x]` In `getCacheKey()`, compute a SHA256 digest of `request.process_trace.dump()` rather than embedding the full dump string in the key — the key comparison and hash-map lookup are O(1) for fixed-size SHA256 digests; key building is still O(trace_size) once per request, but large JSON blobs no longer live inside the map keys
 - `[x]` Add a microbenchmark: `putInCache()` with 1 000 existing entries must complete in ≤ 1 µs
 
 **Performance Targets:**

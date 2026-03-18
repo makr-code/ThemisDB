@@ -100,11 +100,10 @@ struct LLMProcessAnalyzer::Impl {
             return std::nullopt;
         }
         
-        // Promote to MRU position — O(1)
-        lru_list.erase(it->second.first);
-        lru_list.push_front(key);
-        it->second.first = lru_list.begin();
-        
+        // Promote to MRU front — O(1) via splice (no key copy/realloc)
+        lru_list.splice(lru_list.begin(), lru_list, it->second.first);
+        // it->second.first remains valid and now references the front node
+
         stats.hits++;
         return it->second.second.response;
     }
@@ -116,16 +115,16 @@ struct LLMProcessAnalyzer::Impl {
         auto expiry = std::chrono::steady_clock::now() +
                       std::chrono::seconds(config.cache_ttl_seconds);
 
-        // Remove existing entry (to re-insert at MRU front) — O(1)
+        // If key already exists: splice to MRU front and update value (no key realloc)
         auto it = lru_map.find(key);
         if (it != lru_map.end()) {
-            lru_list.erase(it->second.first);
-            lru_map.erase(it);
+            lru_list.splice(lru_list.begin(), lru_list, it->second.first);
+            it->second.second = CacheEntry{response, expiry};
+        } else {
+            // New key: insert at MRU front
+            lru_list.push_front(key);
+            lru_map[key] = {lru_list.begin(), CacheEntry{response, expiry}};
         }
-
-        // Insert at MRU front — O(1)
-        lru_list.push_front(key);
-        lru_map[key] = {lru_list.begin(), CacheEntry{response, expiry}};
 
         // Evict LRU tail if over capacity — O(1)
         const size_t max_entries = (config.max_cache_entries > 0)
@@ -539,8 +538,12 @@ bool LLMProcessAnalyzer::validateResponse(
 // ============================================================================
 
 std::string LLMProcessAnalyzer::getCacheKey(const LLMRequest& request) const {
-    // Hash JSON fields to a fixed-size key; avoids O(trace_size) string
-    // comparisons in the hash-map hot path (key is always 64 hex chars).
+    // Build a cache key using SHA256 digests of the JSON fields.
+    // Format: "<task_type>:<domain>:<trace_sha256>:<model_sha256>"
+    // The two SHA256 components are each 64 hex chars; the total key length
+    // varies with the length of request.domain (which is typically short).
+    // Hashing the JSON fields avoids embedding potentially large dump() strings
+    // directly in the key and reduces hash-map bucket comparison cost.
     auto sha256hex = [](const std::string& input) -> std::string {
         unsigned char hash[SHA256_DIGEST_LENGTH];
         SHA256(reinterpret_cast<const unsigned char*>(input.data()),
