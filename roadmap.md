@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.0  
-**Last Updated:** 2026-03-12  
+**Last Updated:** 2026-03-18  
 **Scope:** Aggregated roadmap across all 46 modules in `src/`
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
@@ -15,7 +15,7 @@
 ThemisDB is a high-performance multi-model database with native AI/LLM integration. This top-level roadmap aggregates the status and planned work across all 46 source modules. The project follows a phased approach: stabilise core infrastructure first, then harden distributed and AI layers, and finally deliver operational excellence at hyperscale.
 
 **Overall Timeline:** Q1 2026 – Q4 2027  
-**Current Release:** v1.5.0-dev
+**Current Release:** v1.8.0
 
 ---
 
