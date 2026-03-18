@@ -120,11 +120,11 @@ Every concurrent call to `process()` (from any producer thread) blocks for the e
 training duration.
 
 **Implementation Notes:**
-- `[ ]` Extract a private `snapshotWindow()` helper that copies the deque under a brief lock scope and returns a `std::vector<DataPoint>` — lock is released before calling `train()` or `predict()`
-- `[ ]` Gate retrain (`retrain_on_window`) behind an `std::atomic<bool> retraining_` flag and schedule training on a dedicated background thread using `std::async(std::launch::async, …)` to keep `process()` non-blocking
-- `[ ]` `detector_.predict(point)` is stateless once trained — hold only a `std::shared_lock<std::shared_mutex>` during prediction and upgrade to `unique_lock` only when `isTrained()` state changes
-- `[ ]` `getAnomalies()` (line 1080) and `getStats()` (line 1085/1090) each take their own `lock_guard` — these are read-only accessors; use `shared_lock` for them
-- `[ ]` Add a concurrency stress test: 8 producer threads calling `process()` at 100 kHz; assert P99 latency ≤ 1 ms with no deadlocks
+- `[x]` Extract a private `snapshotWindow()` helper that copies the deque under a brief lock scope and returns a `std::vector<DataPoint>` — lock is released before calling `train()` or `predict()`
+- `[x]` Gate retrain (`retrain_on_window`) behind an `std::atomic<bool> retraining_` flag and schedule training on a dedicated background thread using `std::async(std::launch::async, …)` to keep `process()` non-blocking
+- `[x]` `detector_.predict(point)` is stateless once trained — hold only a `std::shared_lock<std::shared_mutex>` during prediction and upgrade to `unique_lock` only when `isTrained()` state changes
+- `[x]` `getAnomalies()` (line 1080) and `getStats()` (line 1085/1090) each take their own `lock_guard` — these are read-only accessors; use `shared_lock` for them
+- `[x]` Add a concurrency stress test: 8 producer threads calling `process()` at 100 kHz; assert P99 latency ≤ 1 ms with no deadlocks
 
 **Performance Targets:**
 - `process()` lock-hold duration: ≤ 50 µs (deque copy only; training async)
