@@ -5720,6 +5720,41 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_anomaly_detection.cpp")
     message(STATUS "  AnomalyDetection: Z-Score, MAD, IQR, IsolationForest, LOF, Ensemble, streaming, serialize")
 endif()
 
+# LLMProcessAnalyzer focused tests — O(1) LRU cache eviction (v1.8.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_llm_process_analyzer.cpp")
+    message(STATUS "Adding focused LLMProcessAnalyzer LRU cache tests")
+
+    add_executable(test_llm_process_analyzer_focused
+        analytics/test_llm_process_analyzer.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/llm_process_analyzer.cpp
+    )
+
+    target_include_directories(test_llm_process_analyzer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_llm_process_analyzer_focused PRIVATE
+        ${TEST_LIBS}
+        OpenSSL::Crypto
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_llm_process_analyzer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME LLMProcessAnalyzerFocusedTests COMMAND test_llm_process_analyzer_focused)
+
+    set_tests_properties(LLMProcessAnalyzerFocusedTests PROPERTIES
+        LABELS "analytics;llm;lru-cache;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  LLMProcessAnalyzer: O(1) LRU eviction, SHA256 cache key, max_cache_entries, LRU ordering")
+endif()
+
 # AutoML focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_automl.cpp")
     message(STATUS "Adding focused AutoML tests")
