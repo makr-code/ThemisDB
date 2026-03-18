@@ -46,7 +46,7 @@ identified issues reference exact file names and function names.
 | `StreamingAnomalyDetector::process(point)` | Real-time alerting | Must perform training outside `mu_` lock |
 | `ModelServingEngine::predict(name, version, point)` | Query executor | Inference must run outside the registry shared-lock |
 | `CEPEngine::timerLoop()` | CEP runtime | Window callbacks must be dispatched after lock release |
-| `DistributedAnalyticsSharding::getHealthyShardCount()` | Health dashboard | Network I/O must not run under `mutex_` |
+| `DistributedAnalyticsSharding::getHealthyShardCount()` | Health dashboard | ✅ Fixed v1.8.0: `cached_healthy` atomic per shard updated by background monitor; `getHealthyShardCount()` reads cached value in O(n) under lock (no network I/O); `getHealthyShardCountAsync()` for live off-lock queries |
 | `LLMProcessAnalyzer::Impl::putInCache(key, response)` | LLM integration | ✅ Fixed v1.8.0: O(N) eviction replaced with O(1) LRU (doubly-linked list + hash map); SHA256 cache key; max_cache_entries in LLMConfig |
 | `AutoMLModel::KNNRegressorModel::predictOneReg(x)` | AutoML serving | Stub `return 0.0` must be replaced with real k-NN regression |
 | `OLAPEngine` (Windows) | Cross-platform build | Full implementation needed; current stub emits warnings and returns empty results |
@@ -251,10 +251,10 @@ sweep blocks `addShard()`, `removeShard()`, `getShardIds()`, and the scatter-gat
 `executeOnAllShards()` for the full network round-trip multiplied by the shard count.
 
 **Implementation Notes:**
-- `[ ]` Introduce a `ShardEntry::cached_healthy` field updated by a background health-monitor thread; `getHealthyShardCount()` reads the cached value under the lock (< 1 µs) instead of doing live checks
-- `[ ]` Background health monitor runs at a configurable `health_check_interval` (default 5 s); uses its own dedicated mutex so it does not contend with the main `mutex_`
-- `[ ]` Expose `getHealthyShardCountAsync() → std::future<size_t>` for callers that explicitly want live health data without blocking the shard registry
-- `[ ]` Add a test: simulate one shard health check that takes 500 ms; assert `addShard()` completes within 5 ms during the health check
+- `[x]` Introduce a `ShardEntry::cached_healthy` field updated by a background health-monitor thread; `getHealthyShardCount()` reads the cached value under the lock (< 1 µs) instead of doing live checks
+- `[x]` Background health monitor runs at a configurable `health_check_interval` (default 5 s); uses its own dedicated mutex so it does not contend with the main `mutex_`
+- `[x]` Expose `getHealthyShardCountAsync() → std::future<size_t>` for callers that explicitly want live health data without blocking the shard registry
+- `[x]` Add a test: simulate one shard health check that takes 500 ms; assert `addShard()` completes within 5 ms during the health check
 
 **Performance Targets:**
 - `getHealthyShardCount()` (cached path): ≤ 2 µs
@@ -498,7 +498,7 @@ capabilities needed for production deployments.
 - `[ ]` Add spdlog warnings to all silent Arrow/Windows `return false` stubs (section 12)
 - `[ ]` TOCTOU fix for `MLServingEngine::infer()` (section 5)
 - `[ ]` Stampede prevention for `DiffEngine::computeDiff()` (section 9)
-- `[ ]` `DistributedAnalyticsSharding` cached health state (section 8)
+- `[x]` `DistributedAnalyticsSharding` cached health state (section 8)
 - `[x]` `IncrementalView::applyChanges()` micro-batch lock release (section 6)
 
 ### Phase 4 — Tests (2027 Q1)
@@ -548,7 +548,7 @@ capabilities needed for production deployments.
 | Inference under registry `shared_lock` | `model_serving.cpp:206` | High | Starves writers during long inference |
 | User callback under `windows_mutex_` | `cep_engine.cpp:1082` | High | Any slow callback freezes the CEP window layer |
 | O(N) LLM cache eviction under lock | `llm_process_analyzer.cpp:105` | Medium | Degrades under high LLM call rates |
-| Network I/O in `getHealthyShardCount()` | `distributed_analytics.cpp:321` | Medium | Blocks shard registry for entire sweep |
+| Network I/O in `getHealthyShardCount()` | `distributed_analytics.cpp:321` | Medium | ✅ Fixed v1.8.0: background monitor + cached_healthy atomic |
 | Cache stampede in `DiffEngine` | `diff_engine.cpp:181` | Medium | Two threads can duplicate expensive changefeed scan |
 | `KNNRegressorModel::predictOneReg()` = 0.0 | `automl.cpp:833` | Medium | Silent wrong predictions for regression tasks |
 | 8 unresolved TODOs | `streaming_window.cpp` | Medium | File header reports but does not enumerate them |
