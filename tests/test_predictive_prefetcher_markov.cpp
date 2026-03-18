@@ -26,20 +26,6 @@ using namespace themis::observability;
 using json = nlohmann::json;
 
 // ============================================================================
-// Helper: Build a PredictivePrefetcher with a populated transition table.
-// ============================================================================
-
-static PredictivePrefetcher buildPrefetcher(PredictivePrefetcher::Config cfg,
-                                             int n_transitions = 3) {
-    PredictivePrefetcher pf(cfg);
-    for (int i = 0; i < n_transitions; ++i) {
-        pf.recordQueryAccess("fp_a");
-        pf.recordQueryAccess("fp_b");
-    }
-    return pf;
-}
-
-// ============================================================================
 // Time-of-day bucketing
 // ============================================================================
 
@@ -143,12 +129,13 @@ TEST_F(ABTestToggleTest, CandidatesAreReturnedForBothGroups) {
         pf.recordQueryAccess("fp_a");
         pf.recordQueryAccess("fp_b");
     }
-    // Use two tenant IDs that hash to different A/B groups.
-    // The test verifies that both groups produce candidates.
+    // "tenant_1": FNV-1a hash % 2 == 1 → A/B group 1 (raw Markov, no ToD).
+    // "tenant_2": FNV-1a hash % 2 == 0 → A/B group 0 (Markov + ToD).
+    // Both groups share the same transition table, so both must return candidates.
     auto cands_t1 = pf.getPrefetchCandidates("fp_a", "tenant_1");
     auto cands_t2 = pf.getPrefetchCandidates("fp_a", "tenant_2");
     // Both should have at least one candidate since the shared transition table
-    // has enough observations.
+    // has enough observations (fp_a → fp_b has 3 transitions ≥ min_transition_count=2).
     EXPECT_FALSE(cands_t1.empty());
     EXPECT_FALSE(cands_t2.empty());
 }
