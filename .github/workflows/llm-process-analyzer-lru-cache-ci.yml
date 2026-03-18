@@ -55,7 +55,7 @@ jobs:
     if: needs.ci-scope-classifier.outputs.has_code_changes == 'true'
     name: LLMProcessAnalyzer LRU cache tests (${{ matrix.os }} / ${{ matrix.compiler }})
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 60
+    timeout-minutes: 20
 
     permissions:
       contents: read
