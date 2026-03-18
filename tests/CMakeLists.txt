@@ -15772,12 +15772,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_vllm_resource_stats.cpp")
     add_test(NAME VLLMResourceStatsFocusedTests COMMAND test_vllm_resource_stats_focused)
 
     set_tests_properties(VLLMResourceStatsFocusedTests PROPERTIES
-        LABELS "acceleration;vllm;resource-manager;cpu-monitoring;ram-monitoring;unit"
+        LABELS "acceleration;vllm;resource-manager;cpu-monitoring;ram-monitoring;multi-gpu;nvml;unit"
         TIMEOUT 30
     )
 
 
-    message(STATUS "  VLLMResourceManager: cpu_utilization, ram_used_mb, canUseGPU timeout, uninitialised guard")
+    message(STATUS "  VLLMResourceManager: cpu_utilization, ram_used_mb, canUseGPU timeout, uninitialised guard, multi-GPU mock-provider tests")
 else()
     message(STATUS "VLLMResourceManager stats focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_vllm_resource_stats.cpp")
 endif()
