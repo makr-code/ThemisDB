@@ -291,21 +291,18 @@ entire log.
 ### 10 · `automl.cpp` — `KNNRegressorModel::predictOneReg()` Stub
 **Priority:** Medium
 **Target Version:** v1.8.0
-**Files:** `src/analytics/automl.cpp` line 833
+**Status:** ✅ Implemented (v1.8.0)
+**Files:** `src/analytics/automl.cpp`
 
-```cpp
-double predictOneReg(const std::vector<double>&) const override { return 0.0; }
-```
-
-`KNNRegressorModel` silently returns `0.0` for all regression predictions.  The classifier
-path (`predictOneClass()`) correctly implements k-NN lookup; only the regression counterpart
-is missing.  Any AutoML pipeline that trains a k-NN model on a regression task will produce
-silent zero predictions without any warning.
+`KNNModel::predictOneReg()` is fully implemented as a weighted inverse-distance mean of the
+`k` nearest neighbours' target values (weight = 1/d² for d > 1e-15, else 1e15).
+The `neighbors()` private helper uses squared L2 distance with `std::nth_element` for O(n)
+nearest-neighbour selection.
 
 **Implementation Notes:**
-- `[ ]` Implement `predictOneReg()` as the mean of the `k_` nearest neighbours' target values, reusing the existing distance-computation logic from the classifier path (`knn()` helper in `anomaly_detection.cpp` or inline equivalent)
-- `[ ]` Add a guard in `AutoML::train()` that logs `spdlog::warn("KNNRegressorModel::predictOneReg: stub returning 0.0 – regression not yet implemented")` as an interim measure until the fix is deployed
-- `[ ]` Add a unit test: train a KNN model on `y = 2x` with 100 training points; `predictOneReg({5.0})` must return a value within ±0.5 of 10.0
+- `[x]` Implement `predictOneReg()` as the weighted mean of the `k_` nearest neighbours' target values, using the existing `neighbors()` helper in `KNNModel`
+- `[x]` Unit test added: train a KNN model on `y = 2x` with 100 training points; `predictOneReg({5.0})` returns a value within ±0.5 of 10.0 (`KNNRegressionTest.PredictOneRegLinearRelation`)
+- `[x]` Opt-in performance test added: `KNNRegressionTest.PredictOneRegPerformance` (enabled via `THEMIS_RUN_PERF_TESTS=1`)
 
 **Performance Targets:**
 - `predictOneReg()` for k=5 on a 10 000-sample training set: ≤ 1 ms
