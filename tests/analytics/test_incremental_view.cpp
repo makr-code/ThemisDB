@@ -815,6 +815,9 @@ TEST(IncrementalViewPerfTest, ReaderP99DuringBatchApply) {
     }
 
     std::atomic<bool> writer_done{false};
+    // reader_ready is set to true once the reader has produced its first sample,
+    // so the writer only starts the large batch after the reader is running.
+    std::atomic<bool> reader_ready{false};
     std::vector<int64_t> latencies_us;
     latencies_us.reserve(50000);
 
@@ -827,8 +830,17 @@ TEST(IncrementalViewPerfTest, ReaderP99DuringBatchApply) {
             auto t1 = std::chrono::steady_clock::now();
             latencies_us.push_back(
                 std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count());
+            // Signal the writer after recording the first sample.
+            reader_ready.store(true, std::memory_order_release);
         }
     });
+
+    // Wait until the reader has entered its loop and produced at least one
+    // latency sample before starting the large write batch, so the writer
+    // cannot finish before the reader has had a chance to observe any contention.
+    while (!reader_ready.load(std::memory_order_acquire)) {
+        std::this_thread::yield();
+    }
 
     // Writer: apply the large batch while the reader runs concurrently.
     view.applyChanges(batch);
