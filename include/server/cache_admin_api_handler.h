@@ -28,6 +28,7 @@
 
 #include "server/auth_middleware.h"
 #include "cache/adaptive_query_cache.h"
+#include "cache/cache_hit_rate_slo_monitor.h"
 
 #include <memory>
 #include <string>
