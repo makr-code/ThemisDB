@@ -153,6 +153,18 @@ This means any GPU plugin with a revoked code-signing certificate will pass secu
 - `[x]` `queryGPUUtilization()` returns the **maximum** utilization across all monitored devices; a single busy GPU blocks new ThemisDB work.
 - `[x]` `shutdownNVML()` clears `nvml_devices_` before calling `nvmlShutdown()`, ensuring all device handles are released first.
 - `[x]` 5 tests in `test_vllm_resource_stats.cpp` validating config fields, multi-device init without CUDA, and single non-zero device index.
+- `[x]` `canUseGPU()` fixed to iterate all `nvml_devices_` (not just the primary alias `nvml_device_`) in the async task, ensuring max-utilisation semantics apply to the busy-check as well as `queryGPUUtilization()`.
+- `[x]` `setGpuUtilizationProviderForTesting()` injection seam added to `VLLMResourceManager`; `canUseGPU()` and `queryGPUUtilization()` call the provider instead of NVML when set.
+- `[x]` 8 mock-provider tests added to `test_vllm_resource_stats.cpp` (CI-only, no GPU hardware required):
+  - `MockProvider_CanUseGPU_ReturnsFalse_At90Percent` — configured device busy
+  - `MockProvider_CanUseGPU_ReturnsTrue_WhenIdle` — configured device idle
+  - `MockProvider_CanUseGPU_ReturnsFalse_WhenConfiguredDeviceAt90_Gpu0Idle` — **core acceptance-criterion test**: device 2 busy, GPU 0 idle
+  - `MockProvider_CanUseGPU_ReturnsFalse_WhenAnyMonitoredDeviceBusy` — multi-device max semantics
+  - `MockProvider_QueryGPUUtilization_ReflectsProvider` — getStats() propagates provider value
+  - `MockProvider_CanUseGPU_ReturnsFalse_WhenNullopt` — nullopt treated as busy
+  - `MockProvider_CanUseGPU_At79Percent_AllowsUse` — boundary below threshold
+  - `MockProvider_CanUseGPU_At80Percent_Blocks` — boundary at threshold
+- `[x]` CI workflow added: `.github/workflows/02-feature-modules/acceleration/vllm-multi-gpu-nvml-monitoring-ci.yml`
 
 ---
 
