@@ -42,6 +42,7 @@
 #include "content/content_plugin_interface.h"
 #include <nlohmann/json.hpp>
 #include <cmath>
+#include <numbers>
 #include <vector>
 #include <random>
 
@@ -478,7 +479,7 @@ static std::vector<uint8_t> generateSinePcm(int duration_ms, float amplitude,
     pcm.reserve(static_cast<size_t>(num_samples) * 2);
     for (int i = 0; i < num_samples; ++i) {
         float val = amplitude *
-            std::sin(2.0f * static_cast<float>(M_PI) * kFrequencyHz * i / sample_rate);
+            std::sin(2.0f * std::numbers::pi_v<float> * kFrequencyHz * i / sample_rate);
         auto s = static_cast<int16_t>(val * 32767.0f);
         pcm.push_back(static_cast<uint8_t>(s & 0xFF));
         pcm.push_back(static_cast<uint8_t>((s >> 8) & 0xFF));

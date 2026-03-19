@@ -2856,7 +2856,7 @@ endif()
 # Voice Assistant Benchmarks (Issue: #2357 — Performance benchmarks: STT latency, TTS speed)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_voice_assistant.cpp")
+if(THEMIS_ENABLE_VOICE_ASSISTANT AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_voice_assistant.cpp")
     message(STATUS "Adding Voice Assistant benchmarks (Issue #2356)")
 
     add_executable(bench_voice_assistant

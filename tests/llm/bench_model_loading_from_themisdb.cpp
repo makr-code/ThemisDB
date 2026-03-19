@@ -40,6 +40,7 @@
 #include "storage/blob_storage_manager.h"
 #include "storage/blob_backend_filesystem.h"
 #include "storage/rocksdb_wrapper.h"
+#include "llm/llama_wrapper.h"
 #include "security/encryption.h"
 #include "security/mock_key_provider.h"
 #include <filesystem>
@@ -111,12 +112,11 @@ public:
         fs::create_directories(db_path);
         fs::create_directories(blob_path);
         
-        db = std::make_shared<RocksDBWrapper>();
-        RocksDBConfig db_config;
+        RocksDBWrapper::Config db_config;
         db_config.db_path = db_path.string();
         db_config.create_if_missing = true;
-        db_config.use_default_cf = true;
-        db->open(db_config);
+        db = std::make_shared<RocksDBWrapper>(db_config);
+        db->open();
         
         BlobStorageConfig blob_config;
         blob_config.enable_filesystem = true;

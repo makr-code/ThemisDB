@@ -4306,31 +4306,33 @@ if(THEMIS_BUILD_TESTS)
         PROPERTIES LABELS "timeseries;encryption;security;integration" TIMEOUT 60
     )
 
-    add_executable(test_cuda_hnsw_graph_traversal
-        ${THEMIS_ROOT_DIR}/tests/test_cuda_hnsw_graph_traversal.cpp
-    )
-    target_link_libraries(test_cuda_hnsw_graph_traversal
-        PRIVATE themis_core GTest::gtest GTest::gtest_main
-    )
-    gtest_discover_tests(test_cuda_hnsw_graph_traversal
-        DISCOVERY_MODE PRE_TEST
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cuda_hnsw_graph_traversal>
-        EXTRA_ARGS --gtest_color=yes
-        CONFIGURATIONS Release Debug
-    )
+    if(THEMIS_ENABLE_CUDA)
+        add_executable(test_cuda_hnsw_graph_traversal
+            ${THEMIS_ROOT_DIR}/tests/test_cuda_hnsw_graph_traversal.cpp
+        )
+        target_link_libraries(test_cuda_hnsw_graph_traversal
+            PRIVATE themis_core GTest::gtest GTest::gtest_main
+        )
+        gtest_discover_tests(test_cuda_hnsw_graph_traversal
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cuda_hnsw_graph_traversal>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
 
-    add_executable(test_cuda_ann_search
-        ${THEMIS_ROOT_DIR}/tests/test_cuda_ann_search.cpp
-    )
-    target_link_libraries(test_cuda_ann_search
-        PRIVATE themis_core GTest::gtest GTest::gtest_main
-    )
-    gtest_discover_tests(test_cuda_ann_search
-        DISCOVERY_MODE PRE_TEST
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cuda_ann_search>
-        EXTRA_ARGS --gtest_color=yes
-        CONFIGURATIONS Release Debug
-    )
+        add_executable(test_cuda_ann_search
+            ${THEMIS_ROOT_DIR}/tests/test_cuda_ann_search.cpp
+        )
+        target_link_libraries(test_cuda_ann_search
+            PRIVATE themis_core GTest::gtest GTest::gtest_main
+        )
+        gtest_discover_tests(test_cuda_ann_search
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cuda_ann_search>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+    endif()
 
     add_executable(test_wasm_runtime_injector
         ${THEMIS_ROOT_DIR}/tests/test_wasm_runtime_injector.cpp
@@ -4580,20 +4582,22 @@ if(THEMIS_BUILD_TESTS)
     )
 
     # RaBitQ ProductQuantizer k-means tests
-    add_executable(test_rabitq_product_quantizer
-        ${THEMIS_ROOT_DIR}/tests/performance/test_rabitq_product_quantizer.cpp
-    )
-    target_link_libraries(test_rabitq_product_quantizer
-        PRIVATE
-            themis_core
-            GTest::gtest
-            GTest::gtest_main
-    )
-    gtest_discover_tests(test_rabitq_product_quantizer
-        DISCOVERY_MODE PRE_TEST
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_rabitq_product_quantizer>
-        EXTRA_ARGS --gtest_color=yes
-    )
+    if(THEMIS_ENABLE_RABITQ)
+        add_executable(test_rabitq_product_quantizer
+            ${THEMIS_ROOT_DIR}/tests/performance/test_rabitq_product_quantizer.cpp
+        )
+        target_link_libraries(test_rabitq_product_quantizer
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_rabitq_product_quantizer
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_rabitq_product_quantizer>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
 
     # Cicada OCC data-install and transaction-protocol tests
     if(THEMIS_ENABLE_CICADA)

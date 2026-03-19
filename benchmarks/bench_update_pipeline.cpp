@@ -114,10 +114,10 @@ static void BM_ReleaseManifest_JsonRoundTrip(benchmark::State& state) {
     const int num_files = static_cast<int>(state.range(0));
 
     ReleaseManifest manifest;
-    manifest.version      = "1.5.0";
-    manifest.release_date = "2026-03-03";
-    manifest.min_version  = "1.4.0";
-    manifest.release_notes = "Performance benchmark release.";
+    manifest.version          = "1.5.0";
+    manifest.release_date     = std::chrono::system_clock::now();
+    manifest.min_upgrade_from = "1.4.0";
+    manifest.release_notes    = "Performance benchmark release.";
 
     for (int i = 0; i < num_files; ++i) {
         ReleaseFile f;

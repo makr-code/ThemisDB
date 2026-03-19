@@ -54,10 +54,6 @@
 typedef SSIZE_T ssize_t;
 #define THEMIS_SSIZE_T_DEFINED
 #endif
-struct iovec {
-    void* iov_base;
-    size_t iov_len;
-};
 #else
 #include <netinet/in.h>
 #include <netinet/tcp.h>
@@ -259,11 +255,16 @@ public:
     int fd() const noexcept { return fd_; }
 
 private:
+    struct BatchIOVec {
+        void*  iov_base;
+        size_t iov_len;
+    };
+
     int    fd_;
     Config cfg_;
 
-    struct iovec iov_[MAX_IOV];
-    size_t       iov_count_    = 0;
+    BatchIOVec iov_[MAX_IOV];
+    size_t     iov_count_    = 0;
     size_t       pending_bytes_ = 0;
 
     BatchStats stats_;

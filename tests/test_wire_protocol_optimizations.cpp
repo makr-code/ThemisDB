@@ -28,15 +28,30 @@
 #include "network/wire_protocol_batch.h"
 #include "network/connection_compression.h"
 
+#ifdef _WIN32
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#else
 #include <arpa/inet.h>
 #include <array>
 #include <cstring>
 #include <fcntl.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#endif
+#include <array>
+#include <cstring>
 #include <vector>
 
 using namespace themis::network;
+
+#ifdef _WIN32
+
+TEST(WireProtocolOptimizations, PosixOnlyOnWindows) {
+    GTEST_SKIP() << "wire_protocol_optimizations tests require POSIX socket APIs";
+}
+
+#else
 
 // =============================================================================
 // Helpers
@@ -554,3 +569,5 @@ TEST(ZstdDictionaryCompressor, MoveSemantics) {
     EXPECT_EQ(moved.dictionaryId(), id);
     EXPECT_FALSE(comp.hasDictionary()); // moved-from
 }
+
+#endif // _WIN32

@@ -477,7 +477,7 @@ protected:
             ev.type  = themis::Changefeed::ChangeEventType::EVENT_PUT;
             ev.key   = "orders:item-" + std::to_string(i);
             ev.value = "{\"qty\":" + std::to_string(i) + "}";
-            changefeed_->recordChange(ev);
+            changefeed_->recordEvent(ev);
         }
     }
 
@@ -571,7 +571,7 @@ TEST_F(CdcWsGroupIntegrationTest, PartitionFilterDeliverOnlyConsumerEvents) {
         ev.type  = themis::Changefeed::ChangeEventType::EVENT_PUT;
         ev.key   = "doc:" + std::to_string(i);
         ev.value = "{}";
-        changefeed_->recordChange(ev);
+        changefeed_->recordEvent(ev);
     }
 
     CdcWebSocketHandler handler(CdcWebSocketHandler::kMaxPendingAck, group_mgr_.get());

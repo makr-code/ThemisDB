@@ -172,7 +172,15 @@ ssize_t WireProtocolBatcher::flush() {
         written = static_cast<ssize_t>(sent);
     }
 #else
-    written = ::writev(fd_, iov_, static_cast<int>(iov_count_));
+    std::vector<iovec> posix_iov;
+    posix_iov.reserve(iov_count_);
+    for (size_t i = 0; i < iov_count_; ++i) {
+        iovec item;
+        item.iov_base = iov_[i].iov_base;
+        item.iov_len = iov_[i].iov_len;
+        posix_iov.push_back(item);
+    }
+    written = ::writev(fd_, posix_iov.data(), static_cast<int>(posix_iov.size()));
 #endif
 
     if (written >= 0) {
