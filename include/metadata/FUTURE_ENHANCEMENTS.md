@@ -127,6 +127,18 @@ public:
     VersionResult<bool> validateMigration(
         std::string_view table_name,
         const SchemaManager::TableSchema& new_schema) const;
+
+    // [x] Retrieve a specific version's schema snapshot
+    VersionResult<SchemaChange> getVersion(
+        std::string_view table_name,
+        uint64_t version) const;
+
+    // [x] Full change history serialised as a JSON array
+    json historyToJSON(std::string_view table_name) const;
+
+    // [x] Attach an audit log; createSchemaVersion / rollbackToVersion emit
+    //     entries when one is attached (nullptr = no-op, safe)
+    void setAuditLog(SchemaAuditLog* audit_log) noexcept;
 };
 
 }

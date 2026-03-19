@@ -73,7 +73,7 @@ jobs:
   ci-scope-classifier:
     permissions:
       contents: read
-    uses: ./.github/workflows/ci-scope-classifier.yml
+    uses: ./.github/workflows/01-core/ci-scope-classifier.yml
 
   schema-version-manager-tests:
     needs: ci-scope-classifier
@@ -110,6 +110,8 @@ jobs:
           cc:             ${{ matrix.cc }}
           cxx:            ${{ matrix.cxx }}
           extra-packages: >-
+            librocksdb-dev
+            libssl-dev
             libfmt-dev
             libspdlog-dev
             nlohmann-json3-dev
