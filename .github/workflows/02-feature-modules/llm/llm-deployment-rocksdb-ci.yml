@@ -82,7 +82,7 @@ jobs:
       - name: Run LLM deployment plugin tests
         run: |
           cd build
-          ctest --output-on-failure -R "LlmDeploymentPlugin"
+          ctest --output-on-failure -R "LLMDeploymentPlugin"
 
       - name: Write job summary
         if: always()
@@ -92,7 +92,7 @@ jobs:
           echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
           echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Build type** | Release (CPU only, CUDA=OFF) |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Test filter** | \`LlmDeploymentPlugin*\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Test filter** | \`LLMDeploymentPlugin*\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"

@@ -76,7 +76,12 @@ struct DeploymentConfig {
     // BaseEntity storage (RocksDB integration)
     bool use_base_entity_storage = true;  // Store models in RocksDB as BaseEntity
     std::shared_ptr<RocksDBWrapper> db;   // RocksDB instance
-    std::string collection_name = "llm_model:";  // Collection name prefix in RocksDB (keys: llm_model::{model_id})
+    // Key prefix for RocksDB entries. Keys are constructed as: key_prefix + model_id
+    // (e.g. default "llm_model::" + "my-model" → "llm_model::my-model").
+    std::string key_prefix = "llm_model::";
+    // Set to true only when a BlobStorageManager is configured; otherwise only
+    // metadata is persisted and model weights remain on the local filesystem.
+    bool store_weights_in_rocksdb = false;
     
     // Model sources (checked in priority order)
     std::vector<ModelSource> sources;

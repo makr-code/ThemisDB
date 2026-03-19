@@ -188,8 +188,9 @@ public:
         std::shared_ptr<storage::SecuritySignatureManager> signature_manager;
         std::shared_ptr<KeyProvider> key_provider;  // Configurable key provider (Vault/HSM/Mock)
         
-        // Collection settings
-        std::string collection_name = "llm_model:";  // Key prefix: llm_model::{model_id}
+        // Storage key prefix
+        // Keys are constructed as: key_prefix + model_id (e.g. "llm_model::my-model")
+        std::string key_prefix = "llm_model::";  // Full RocksDB key prefix
         
         // Security
         bool enable_encryption = false;

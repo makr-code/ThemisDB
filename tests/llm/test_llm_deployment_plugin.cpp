@@ -373,7 +373,7 @@ TEST_F(LLMDeploymentPluginRocksDBTest, DeployModelPersistsMetadataToRocksDB) {
     config.verify_checksums = false;
     config.use_base_entity_storage = true;
     config.db = db_;
-    config.collection_name = "llm_model:";
+    config.key_prefix = "llm_model::";
 
     LLMDeploymentPlugin plugin(config);
 
@@ -385,7 +385,7 @@ TEST_F(LLMDeploymentPluginRocksDBTest, DeployModelPersistsMetadataToRocksDB) {
     // Verify metadata was persisted to RocksDB using LLMModelStorage directly
     LLMModelStorage::Config storage_cfg;
     storage_cfg.db = db_;
-    storage_cfg.collection_name = "llm_model:";
+    storage_cfg.key_prefix = "llm_model::";
     storage_cfg.enable_encryption = false;
     storage_cfg.enable_signatures = false;
     storage_cfg.use_blob_storage = false;
@@ -419,7 +419,7 @@ TEST_F(LLMDeploymentPluginRocksDBTest, DeployModelWithoutStorageDoesNotPersist) 
     // DB was never written; check via storage that nothing was stored
     LLMModelStorage::Config storage_cfg;
     storage_cfg.db = db_;
-    storage_cfg.collection_name = "llm_model:";
+    storage_cfg.key_prefix = "llm_model::";
     storage_cfg.enable_encryption = false;
     storage_cfg.enable_signatures = false;
     storage_cfg.use_blob_storage = false;
@@ -534,7 +534,7 @@ TEST_F(LLMDeploymentPluginSourceTest, LocalSourceWithMissingFileFallsBackToNextS
     }
 
     DeploymentConfig config;
-    config.mode = DeploymentMode::OFFLINE;
+    config.mode = DeploymentMode::AUTO;
     config.cache_directory = test_dir_ + "/cache";
     config.enable_audit_log = false;
     config.verify_checksums = false;
@@ -576,7 +576,7 @@ TEST_F(LLMDeploymentPluginSourceTest, LocalSourceWithExistingFileIsSelected) {
     }
 
     DeploymentConfig config;
-    config.mode = DeploymentMode::OFFLINE;
+    config.mode = DeploymentMode::AUTO;
     config.cache_directory = test_dir_ + "/cache2";
     config.enable_audit_log = false;
     config.verify_checksums = false;

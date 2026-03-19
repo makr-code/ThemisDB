@@ -118,15 +118,15 @@ LLMDeploymentPlugin::LLMDeploymentPlugin(const DeploymentConfig& config)
     if (config_.use_base_entity_storage && config_.db) {
         LLMModelStorage::Config storage_config;
         storage_config.db = config_.db;
-        storage_config.collection_name = config_.collection_name;
+        storage_config.key_prefix = config_.key_prefix;
         storage_config.enable_encryption = false;
         storage_config.enable_signatures = true;
-        storage_config.use_blob_storage = true;
+        storage_config.use_blob_storage = config_.store_weights_in_rocksdb;
         storage_config.inline_threshold_mb = 100;
         
         model_storage_ = std::make_shared<LLMModelStorage>(storage_config);
-        LOG_INFO("LLM Deployment Plugin: BaseEntity storage initialized (collection: {})", 
-                 config_.collection_name);
+        LOG_INFO("LLM Deployment Plugin: BaseEntity storage initialized (key_prefix: {})", 
+                 config_.key_prefix);
     } else {
         LOG_INFO("LLM Deployment Plugin: Filesystem-only mode (no BaseEntity storage)");
     }
@@ -1045,9 +1045,11 @@ bool LLMDeploymentPlugin::saveModelToStorage(const ModelStatus& status, const st
         // Store custom metadata
         metadata.custom_metadata = status.metadata;
         
-        // Optionally load model file data for blob storage
+        // Only load model weights when explicitly configured to do so (store_weights_in_rocksdb).
+        // By default only metadata is persisted; weights remain on the local filesystem.
+        // This prevents RocksDB from being bloated with large model blobs.
         std::optional<std::vector<uint8_t>> model_data;
-        if (config_.use_base_entity_storage && fs::exists(file_path)) {
+        if (config_.store_weights_in_rocksdb && fs::exists(file_path)) {
             size_t file_size = fs::file_size(file_path);
             
             // Only load into memory if below threshold (100MB default)
