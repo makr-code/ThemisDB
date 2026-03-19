@@ -2460,14 +2460,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_replication_coordinator.cpp")
 
     set(_COORD_SOURCES
         test_cache_replication_coordinator.cpp
-        ${CMAKE_SOURCE_DIR}/src/cache/cache_replication_coordinator.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
     )
-    if(THEMIS_ENABLE_GRPC)
-        list(APPEND _COORD_SOURCES
-            ${CMAKE_SOURCE_DIR}/src/cache/grpc_remote_cache_peer.cpp
-        )
-    endif()
 
     add_executable(test_cache_replication_coordinator ${_COORD_SOURCES})
 

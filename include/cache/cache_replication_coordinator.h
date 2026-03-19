@@ -388,6 +388,17 @@ private:
         std::string key;
         std::string tenant_id;
         int         attempts = 0;
+        /// Non-empty on retries: only these specific peers need to be contacted.
+        /// Empty means fanout to all current remote peers.
+        std::vector<std::shared_ptr<IRemoteCachePeer>> target_peers;
+
+        /// Return a copy of this item configured as a retry targeting @p peers.
+        FanoutItem asRetry(std::vector<std::shared_ptr<IRemoteCachePeer>> peers) const {
+            FanoutItem r = *this;
+            r.attempts++;
+            r.target_peers = std::move(peers);
+            return r;
+        }
     };
 
     void fanoutWorker();
@@ -402,7 +413,6 @@ private:
     InProcessCacheCoordinator local_;
 
     mutable std::mutex                                   peers_mutex_;
-    std::vector<std::shared_ptr<IRemoteCachePeer>>       owned_peers_;
     std::vector<std::shared_ptr<IRemoteCachePeer>>       remote_peers_;
 
     // ── Bounded async fanout queue ────────────────────────────────────────────

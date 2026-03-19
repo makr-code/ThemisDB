@@ -195,18 +195,17 @@ void CacheReplicationCoordinator::refreshPeers() {
 
     const auto addresses = cluster_view_->getPeerAddresses();
 
-    std::vector<std::shared_ptr<IRemoteCachePeer>> new_owned;
-    new_owned.reserve(addresses.size());
+    std::vector<std::shared_ptr<IRemoteCachePeer>> new_peers;
+    new_peers.reserve(addresses.size());
     for (const auto& addr : addresses) {
         auto peer = peer_factory_(addr);
         if (peer) {
-            new_owned.emplace_back(std::move(peer));
+            new_peers.emplace_back(std::move(peer));
         }
     }
 
     std::lock_guard<std::mutex> lk(peers_mutex_);
-    owned_peers_  = new_owned;  // shared ownership – safe for concurrent snapshots
-    remote_peers_ = std::move(new_owned);
+    remote_peers_ = std::move(new_peers);
 
     THEMIS_DEBUG("CacheReplicationCoordinator: refreshed {} remote peers",
                  remote_peers_.size());
@@ -309,15 +308,19 @@ void CacheReplicationCoordinator::fanoutWorker() {
 
         // Snapshot the peer list to avoid holding the lock during network I/O.
         // shared_ptr copies keep the objects alive even if refreshPeers() runs
-        // concurrently and replaces owned_peers_.
-        std::vector<std::shared_ptr<IRemoteCachePeer>> peers_snapshot;
-        {
+        // concurrently and replaces remote_peers_.
+        // On retries, item.target_peers contains only the peers that previously
+        // failed so we do not re-deliver to peers that already succeeded.
+        std::vector<std::shared_ptr<IRemoteCachePeer>> peers_to_contact;
+        if (!item.target_peers.empty()) {
+            peers_to_contact = item.target_peers;
+        } else {
             std::lock_guard<std::mutex> pl(peers_mutex_);
-            peers_snapshot = remote_peers_;
+            peers_to_contact = remote_peers_;
         }
 
-        bool any_failed = false;
-        for (const auto& peer : peers_snapshot) {
+        std::vector<std::shared_ptr<IRemoteCachePeer>> failed_peers;
+        for (const auto& peer : peers_to_contact) {
             try {
                 if (item.kind == FanoutItem::Kind::INVALIDATE_KEY) {
                     peer->invalidate(item.key, item.tenant_id);
@@ -331,22 +334,21 @@ void CacheReplicationCoordinator::fanoutWorker() {
             } catch (const std::exception& e) {
                 THEMIS_WARN("[CacheReplicationCoordinator] fanout to peer '{}' failed: {}",
                             peer->address(), e.what());
-                any_failed = true;
+                failed_peers.push_back(peer);
             } catch (...) {
                 THEMIS_WARN("[CacheReplicationCoordinator] fanout to peer '{}' failed "
                             "(unknown exception)", peer->address());
-                any_failed = true;
+                failed_peers.push_back(peer);
             }
         }
 
-        if (any_failed) {
+        if (!failed_peers.empty()) {
             if (item.attempts + 1 < kMaxRetryAttempts) {
-                item.attempts++;
                 {
                     std::lock_guard<std::mutex> ml(metrics_mutex_);
                     ++fanout_retried_;
                 }
-                enqueueFanout(std::move(item));
+                enqueueFanout(item.asRetry(std::move(failed_peers)));
             } else {
                 THEMIS_WARN("[CacheReplicationCoordinator] dropping invalidation for "
                             "key='{}' after {} attempts", item.key, kMaxRetryAttempts);

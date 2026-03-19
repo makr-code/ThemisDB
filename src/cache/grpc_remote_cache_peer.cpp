@@ -103,7 +103,18 @@ void GrpcRemoteCachePeer::sendRpc(const std::string& type,
 
     void* tag = nullptr;
     bool  ok  = false;
-    cq.Next(&tag, &ok);
+    const bool got_event = cq.Next(&tag, &ok);
+
+    if (!got_event || !ok || tag != reinterpret_cast<void*>(1)) {
+        healthy_.store(false, std::memory_order_relaxed);
+        const std::string msg =
+            "[GrpcRemoteCachePeer] completion queue error for '" + type +
+            "' to " + config_.address +
+            " (got_event=" + (got_event ? "true" : "false") +
+            ", ok=" + (ok ? "true" : "false") + ")";
+        THEMIS_WARN("{}", msg);
+        throw std::runtime_error(msg);
+    }
 
     if (status.ok()) {
         healthy_.store(true, std::memory_order_relaxed);

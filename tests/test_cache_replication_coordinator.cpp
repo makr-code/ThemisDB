@@ -308,21 +308,15 @@ TEST(CacheReplicationCoordinatorTest, LocalInvalidationCallbackFires) {
 }
 
 TEST(CacheReplicationCoordinatorTest, SubscriptionsForwardedToLocalCoordinator) {
-    StaticClusterView cv({});
-    CacheReplicationCoordinator coord(&cv);
-
-    std::vector<ReplicationMessage> inv_msgs;
-    coord.subscribeInvalidations([&inv_msgs](const ReplicationMessage& m) {
-        inv_msgs.push_back(m);
-    });
-
-    // Deliver directly via a second coordinator on the same (nullptr) bus.
-    // Since bus is null the coordinator is standalone – deliver to self by
-    // calling publishInvalidation which will call the local subscriber.
-    // Use a real bus so the callback fires.
+    // Verify that subscribeInvalidations() registered on a CacheReplicationCoordinator
+    // is forwarded to its inner InProcessCacheCoordinator delegate, so the callback
+    // fires when a peer on the same local bus publishes an invalidation.
     auto bus = std::make_shared<InProcessCacheCoordinator::Bus>();
+
+    StaticClusterView cv({});
     CacheReplicationCoordinator a(&cv, bus, nullptr);
     CacheReplicationCoordinator b(&cv, bus, nullptr);
+
     std::vector<ReplicationMessage> b_msgs;
     b.subscribeInvalidations([&b_msgs](const ReplicationMessage& m) {
         b_msgs.push_back(m);
@@ -366,24 +360,62 @@ TEST(CacheReplicationCoordinatorTest, FailingPeerIsRetriedUpToMaxAttempts) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST(CacheReplicationCoordinatorTest, QueueDropsWhenFull) {
-    // Use a peer that blocks indefinitely so the queue fills.
-    std::atomic<bool> unblock{false};
+    // Use shared_ptr for sync primitives so BlockingPeer has safe lifetime.
+    auto unblock  = std::make_shared<std::atomic<bool>>(false);
+    auto block_mu = std::make_shared<std::mutex>();
+    auto block_cv = std::make_shared<std::condition_variable>();
+
     StaticClusterView cv({"slow:9000"});
 
-    auto blocking_peer = std::make_unique<MockRemoteCachePeer>("slow:9000");
-    MockRemoteCachePeer* raw = blocking_peer.get();
-    // Override: block on first call so queue fills up.
-    (void)raw;  // raw pointer kept for potential future assertion
+    // The factory returns a peer whose invalidate() blocks until we set unblock.
+    auto factory = [unblock, block_mu, block_cv](const std::string&)
+        -> std::unique_ptr<IRemoteCachePeer>
+    {
+        class BlockingPeer final : public IRemoteCachePeer {
+        public:
+            BlockingPeer(std::shared_ptr<std::atomic<bool>> unblock,
+                         std::shared_ptr<std::mutex>        mu,
+                         std::shared_ptr<std::condition_variable> cv)
+                : unblock_(std::move(unblock)), mu_(std::move(mu)), cv_(std::move(cv)) {}
 
-    // We won't actually use a blocking peer here; instead we directly verify
-    // the stats by publishing more items than kRetryQueueCapacity.
-    // Since the worker drains fast we can't easily fill the queue in a unit
-    // test without slowing it down, so we just verify the metric field exists.
+            void invalidate(const std::string&, const std::string& = "") override {
+                std::unique_lock<std::mutex> lk(*mu_);
+                cv_->wait(lk, [this] { return unblock_->load(); });
+            }
+            void invalidateTenant(const std::string&) override {
+                std::unique_lock<std::mutex> lk(*mu_);
+                cv_->wait(lk, [this] { return unblock_->load(); });
+            }
+            std::string address()   const override { return "slow:9000"; }
+            bool        isHealthy() const override { return true; }
 
-    CacheReplicationCoordinator coord(&cv, nullptr, nullptr);
-    auto stats = coord.getStats();
-    EXPECT_TRUE(stats.contains("fanout_dropped"));
-    EXPECT_EQ(stats["fanout_dropped"].get<uint64_t>(), 0u);
+        private:
+            std::shared_ptr<std::atomic<bool>>       unblock_;
+            std::shared_ptr<std::mutex>              mu_;
+            std::shared_ptr<std::condition_variable> cv_;
+        };
+        return std::make_unique<BlockingPeer>(unblock, block_mu, block_cv);
+    };
+
+    auto coord = std::make_shared<CacheReplicationCoordinator>(
+        &cv, nullptr, factory);
+
+    // Flood the queue with more entries than kRetryQueueCapacity.
+    const std::size_t flood = CacheReplicationCoordinator::kRetryQueueCapacity + 50;
+    for (std::size_t i = 0; i < flood; ++i) {
+        coord->publishInvalidation("key" + std::to_string(i));
+    }
+
+    // At least some entries must have been dropped.
+    auto stats = coord->getStats();
+    EXPECT_GT(stats["fanout_dropped"].get<uint64_t>(), 0u);
+
+    // Unblock the worker thread before destroying the coordinator.
+    {
+        std::lock_guard<std::mutex> lk(*block_mu);
+        unblock->store(true);
+    }
+    block_cv->notify_all();
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
