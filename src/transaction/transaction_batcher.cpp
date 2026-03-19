@@ -136,9 +136,19 @@ TransactionBatcher::effectivePolicyFor(const std::string& table) const
         }
     }
 
-    // When adaptive is enabled, override window with the adaptive window
-    // (unless a per-table window was explicitly set, to honour table overrides).
-    if (config_.enable_adaptive && table.empty()) {
+    // Clamp size invariants after applying per-table overrides.
+    if (ep.max_batch_size < 1) ep.max_batch_size = 1;
+    if (ep.min_batch_size < 1) ep.min_batch_size = 1;
+    if (ep.min_batch_size > ep.max_batch_size)
+        ep.min_batch_size = ep.max_batch_size;
+
+    // Apply adaptive window unless the table has an explicit window override.
+    bool has_table_window = false;
+    if (!table.empty()) {
+        auto it2 = table_policies_.find(table);
+        has_table_window = it2 != table_policies_.end() && it2->second.window.count() > 0;
+    }
+    if (config_.enable_adaptive && !has_table_window) {
         ep.window = adaptive_window_;
     }
 
@@ -165,22 +175,31 @@ TransactionBatcher::submitAsync(std::function<Status()> commit_fn,
         return p.get_future();
     }
 
+    // ── Phase 1: resolve effective policy under config_mutex_ only ───────────
+    std::chrono::microseconds effective_window;
+    size_t effective_max_batch_size;
+    {
+        std::lock_guard<std::mutex> cfg_lk(config_mutex_);
+        auto ep                  = effectivePolicyFor(table_hint);
+        effective_window         = ep.window;
+        effective_max_batch_size = ep.max_batch_size;
+    }
+
     PendingEntry entry;
     entry.commit_fn    = std::move(commit_fn);
     entry.table_hint   = table_hint;
     entry.submitted_at = std::chrono::steady_clock::now();
+    entry.deadline     = entry.submitted_at + effective_window;
 
     auto future = entry.promise.get_future();
 
+    // ── Phase 2: push to queue under queue_mutex_ only (no nested lock) ──────
     bool need_immediate_flush = false;
     {
         std::lock_guard<std::mutex> lk(queue_mutex_);
         queue_.push_back(std::move(entry));
 
-        // Check whether the queue has hit max_batch_size for the table hint.
-        std::lock_guard<std::mutex> cfg_lk(config_mutex_);
-        auto ep = effectivePolicyFor(table_hint);
-        if (queue_.size() >= ep.max_batch_size) {
+        if (queue_.size() >= effective_max_batch_size) {
             need_immediate_flush = true;
             flush_requested_     = true;
         }
@@ -200,22 +219,19 @@ TransactionBatcher::submitAsync(std::function<Status()> commit_fn,
 
 void TransactionBatcher::flush()
 {
-    // Signal an immediate flush and wait until the queue is drained.
+    // Signal an immediate flush.
     {
         std::lock_guard<std::mutex> lk(queue_mutex_);
         flush_requested_ = true;
     }
     queue_cv_.notify_all();
 
-    // Spin-wait until the queue is empty.  This is safe because the flush thread
-    // drains under queue_mutex_ and we poll without holding it.
-    while (true) {
-        {
-            std::lock_guard<std::mutex> lk(queue_mutex_);
-            if (queue_.empty()) break;
-        }
-        std::this_thread::sleep_for(std::chrono::microseconds(100));
-    }
+    // Wait until the queue is empty AND the in-flight batch (if any) has finished.
+    // This ensures all items submitted before flush() was called are fully resolved.
+    std::unique_lock<std::mutex> lk(queue_mutex_);
+    flush_cv_.wait(lk, [this] {
+        return queue_.empty() && !batch_in_progress_;
+    });
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -235,23 +251,42 @@ TransactionBatcher::Stats TransactionBatcher::getStats() const
 void TransactionBatcher::flushLoop()
 {
     while (true) {
-        // ── Determine the window to wait ──────────────────────────────────────
-        std::chrono::microseconds window;
+        // ── Determine the idle-fallback window from config ────────────────────
+        std::chrono::microseconds idle_window;
         {
             std::lock_guard<std::mutex> cfg_lk(config_mutex_);
-            window = config_.enable_adaptive ? adaptive_window_ : config_.window;
+            idle_window = config_.enable_adaptive ? adaptive_window_ : config_.window;
         }
 
-        // ── Wait for the window to expire or an early-flush trigger ──────────
+        // ── Wait until the earliest item deadline, an explicit flush, or stop ─
         {
             std::unique_lock<std::mutex> lk(queue_mutex_);
-            queue_cv_.wait_for(lk, window, [this] {
-                return flush_requested_ || stopping_.load(std::memory_order_acquire);
-            });
+
+            // On each (re)wakeup recompute the nearest deadline so newly-added
+            // items with shorter per-table windows are honoured promptly.
+            auto compute_wake = [&]() -> std::chrono::steady_clock::time_point {
+                auto w = std::chrono::steady_clock::now() + idle_window;
+                for (const auto& e : queue_) {
+                    if (e.deadline < w) w = e.deadline;
+                }
+                return w;
+            };
+
+            auto wake_at = compute_wake();
+
+            // Loop on spurious wakeups so new items can update wake_at.
+            while (!flush_requested_ &&
+                   !stopping_.load(std::memory_order_acquire)) {
+                auto status = queue_cv_.wait_until(lk, wake_at);
+                if (status == std::cv_status::timeout) break;
+                // Notified: recompute in case new items have earlier deadlines.
+                wake_at = compute_wake();
+                if (std::chrono::steady_clock::now() >= wake_at) break;
+            }
             flush_requested_ = false;
         }
 
-        // ── Drain the queue ───────────────────────────────────────────────────
+        // ── Drain the queue into a local batch ───────────────────────────────
         std::vector<PendingEntry> batch;
         {
             std::lock_guard<std::mutex> lk(queue_mutex_);
@@ -259,15 +294,25 @@ void TransactionBatcher::flushLoop()
                 batch.push_back(std::move(queue_.front()));
                 queue_.pop_front();
             }
+            // Mark in-flight BEFORE releasing queue_mutex_ so flush() cannot
+            // observe queue_.empty() && !batch_in_progress_ prematurely.
+            if (!batch.empty()) {
+                batch_in_progress_ = true;
+            }
         }
 
         if (!batch.empty()) {
             executeBatch(batch);
+            {
+                std::lock_guard<std::mutex> lk(queue_mutex_);
+                batch_in_progress_ = false;
+            }
+            flush_cv_.notify_all();
         }
 
         // ── Exit after draining when stopping ────────────────────────────────
         if (stopping_.load(std::memory_order_acquire)) {
-            // Final drain pass to resolve remaining pending items.
+            // Final drain pass to resolve any items added between last drain and now.
             std::vector<PendingEntry> remainder;
             {
                 std::lock_guard<std::mutex> lk(queue_mutex_);
@@ -275,9 +320,17 @@ void TransactionBatcher::flushLoop()
                     remainder.push_back(std::move(queue_.front()));
                     queue_.pop_front();
                 }
+                if (!remainder.empty()) {
+                    batch_in_progress_ = true;
+                }
             }
             if (!remainder.empty()) {
                 executeBatch(remainder);
+                {
+                    std::lock_guard<std::mutex> lk(queue_mutex_);
+                    batch_in_progress_ = false;
+                }
+                flush_cv_.notify_all();
             }
             break;
         }

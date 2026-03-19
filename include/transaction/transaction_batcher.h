@@ -47,14 +47,16 @@ namespace themis {
  *   - Fair FIFO scheduling prevents starvation: items are processed in submission order.
  *   - Per-table BatchPolicy overrides allow different windows and size limits per table.
  *   - Adaptive sizing: when enable_adaptive is true the batcher widens the window
- *     under sustained high throughput and narrows it when the queue is idle.
+ *     under low load (fewer items arriving than min_batch_size) and narrows it
+ *     when the queue approaches max_batch_size, trading latency for throughput.
  *   - flush() forces an immediate drain of all pending items.
  *
  * Thread safety:
  *   - submitAsync() is safe to call concurrently from any number of threads.
  *   - setBatchConfig(), setTablePolicy(), flush(), and getStats() are also thread-safe.
- *   - A single TransactionBatcher instance must not be destroyed while any submitted
- *     future is still unresolved (the destructor blocks until the flush thread exits).
+ *   - The destructor blocks until the flush thread has drained all pending items;
+ *     all submitted futures are guaranteed to be resolved before it returns.
+ *     Do not call submitAsync() or flush() concurrently with destruction.
  *
  * Example — high-throughput ingestion:
  * @code
@@ -124,8 +126,9 @@ public:
         /// Must be >= 1. Default: 10.
         size_t min_batch_size{10};
 
-        /// When true the batcher autonomously widens the window under sustained
-        /// high throughput and narrows it when the queue is idle.
+        /// When true the batcher autonomously widens the window under low load
+        /// (fewer items per batch than min_batch_size) and narrows it when the
+        /// queue approaches max_batch_size, trading latency for throughput.
         bool enable_adaptive{true};
     };
 
@@ -250,10 +253,12 @@ private:
     // ── Internal types ────────────────────────────────────────────────────────
 
     struct PendingEntry {
-        std::function<Status()>             commit_fn;
-        std::promise<Status>                promise;
-        std::string                         table_hint;
+        std::function<Status()>               commit_fn;
+        std::promise<Status>                  promise;
+        std::string                           table_hint;
         std::chrono::steady_clock::time_point submitted_at;
+        /// Absolute time by which this item must be flushed (submitted_at + effective window).
+        std::chrono::steady_clock::time_point deadline;
     };
 
     // ── Helper: resolve effective policy for a given table hint ───────────────
@@ -286,8 +291,12 @@ private:
 
     mutable std::mutex              queue_mutex_;
     std::condition_variable         queue_cv_;
+    /// Notified whenever a batch finishes executing (batch_in_progress_ → false).
+    std::condition_variable         flush_cv_;
     std::deque<PendingEntry>        queue_;
     bool                            flush_requested_{false};
+    /// True while the flush thread holds a local batch and is running executeBatch().
+    bool                            batch_in_progress_{false};
 
     std::thread               flush_thread_;
     std::atomic<bool>         stopping_{false};

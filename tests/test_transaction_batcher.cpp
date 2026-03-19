@@ -36,6 +36,7 @@
 
 #include <atomic>
 #include <chrono>
+#include <cstdlib>
 #include <mutex>
 #include <thread>
 #include <vector>
@@ -162,7 +163,7 @@ TEST_F(TransactionBatcherTest, SingleItem_ResolvesOK) {
 // AC-8  Batch of items all resolve with correct Status
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST_F(TransactionBatcherTest, MultiplItems_AllResolve) {
+TEST_F(TransactionBatcherTest, MultipleItems_AllResolve) {
     const int N = 20;
     std::vector<std::future<TransactionBatcher::Status>> futures;
     std::atomic<int> ran{0};
@@ -487,14 +488,17 @@ TEST_F(TransactionBatcherTest, FIFO_OrderPreservedWithinBatch) {
 TEST(TransactionBatcherAdaptiveTest, Adaptive_AdjustmentsIncrement) {
     TransactionBatcher b;
     TransactionBatcher::BatchConfig cfg;
-    cfg.window         = std::chrono::microseconds(2000);  // 2 ms
-    cfg.max_batch_size = 10;
-    cfg.min_batch_size = 1;
+    // Use a wide starting window so there is room to narrow.
+    cfg.window          = std::chrono::microseconds(50000);  // 50 ms
+    cfg.max_batch_size  = 5;
+    cfg.min_batch_size  = 1;
     cfg.enable_adaptive = true;
     b.setBatchConfig(cfg);
 
-    // Submit enough batches that the adaptive algorithm has data to act on.
-    for (int round = 0; round < 30; ++round) {
+    // Trigger several max_batch_size flushes.  Each batch of 5 no-op commit_fns
+    // executes in microseconds, so throughput >> max_batch_size * 0.9, which
+    // deterministically fires the narrowing path in adaptWindow() on every flush.
+    for (int round = 0; round < 5; ++round) {
         std::vector<std::future<TransactionBatcher::Status>> futures;
         for (int i = 0; i < 5; ++i) {
             futures.push_back(b.submitAsync([]() -> TransactionBatcher::Status {
@@ -504,11 +508,10 @@ TEST(TransactionBatcherAdaptiveTest, Adaptive_AdjustmentsIncrement) {
         for (auto& f : futures) f.get();
     }
 
-    // We can't guarantee the algorithm triggers without real throughput spikes,
-    // but we can verify the stats field is reachable and non-negative.
     auto stats = b.getStats();
-    EXPECT_GE(stats.adaptive_adjustments, 0u);
-    EXPECT_GE(stats.batches_flushed, 1u);
+    // The narrowing path must have fired at least once: window 50ms → 45ms → …
+    EXPECT_GT(stats.adaptive_adjustments, 0u);
+    EXPECT_GE(stats.batches_flushed, 5u);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
