@@ -1363,17 +1363,45 @@ TEST(AsyncInferenceEngineStreamingTest, SubmitStreaming_TokensAndFinalSentinel) 
 }
 
 // Test: AsyncInferenceEngine::submitStreaming cancel triggers is_final=true.
+// Uses a deterministic "started" signal from the mock plugin to avoid timing
+// races and also covers the queued-cancel path (cancel before dequeue).
 TEST(AsyncInferenceEngineStreamingTest, SubmitStreaming_CancelFiresFinalSentinel) {
-    class SlowStreamPlugin : public StreamingMockPlugin {
+    // A plugin that signals when generation begins, then blocks until released.
+    // This lets us cancel deterministically after the worker has dequeued the
+    // request (mid-execution cancel).
+    class SignaledSlowPlugin : public StreamingMockPlugin {
     public:
-        SlowStreamPlugin() : StreamingMockPlugin("slow_async_stream") {}
+        SignaledSlowPlugin()
+            : StreamingMockPlugin("signaled_slow_async"), started(false), blocked(true) {}
+
         InferenceResponse generate(const InferenceRequest& request) override {
-            std::this_thread::sleep_for(std::chrono::milliseconds(300));
+            // Signal that generation has started.
+            {
+                std::lock_guard<std::mutex> lk(mu);
+                started = true;
+            }
+            started_cv.notify_all();
+            // Block until release() is called.
+            {
+                std::unique_lock<std::mutex> lk(mu);
+                started_cv.wait(lk, [this] { return !blocked; });
+            }
             return StreamingMockPlugin::generate(request);
         }
+
+        void release() {
+            std::lock_guard<std::mutex> lk(mu);
+            blocked = false;
+            started_cv.notify_all();
+        }
+
+        std::mutex mu;
+        std::condition_variable started_cv;
+        bool started;
+        bool blocked;
     };
 
-    auto plugin = std::make_shared<SlowStreamPlugin>();
+    auto plugin = std::make_shared<SignaledSlowPlugin>();
 
     AsyncInferenceEngine::Config cfg;
     cfg.num_worker_threads = 1;
@@ -1395,9 +1423,16 @@ TEST(AsyncInferenceEngineStreamingTest, SubmitStreaming_CancelFiresFinalSentinel
             }
         });
 
-    // Allow the worker to pick up the request, then cancel.
-    std::this_thread::sleep_for(std::chrono::milliseconds(30));
+    // Wait until the worker has started executing the plugin.
+    {
+        std::unique_lock<std::mutex> lk(plugin->mu);
+        plugin->started_cv.wait_for(lk, std::chrono::milliseconds(1000),
+                                    [&] { return plugin->started; });
+    }
+
+    // Cancel mid-execution and unblock the plugin.
     handle.cancel();
+    plugin->release();
 
     // Wait deterministically for the final sentinel (up to 500 ms).
     {
@@ -1407,4 +1442,58 @@ TEST(AsyncInferenceEngineStreamingTest, SubmitStreaming_CancelFiresFinalSentinel
     }
 
     EXPECT_EQ(final_count.load(), 1) << "Cancel must trigger exactly one is_final=true callback";
+}
+
+// Test: cancel while request is still queued (before the worker dequeues it)
+// still delivers is_final=true via workerLoop's skip path.
+TEST(AsyncInferenceEngineStreamingTest, SubmitStreaming_QueuedCancelFiresFinalSentinel) {
+    // Use a single-worker engine and block the worker with a first request so
+    // the streaming request stays queued when we cancel it.
+    auto blocking_plugin = std::make_shared<BlockingPlugin>("blocking");
+
+    AsyncInferenceEngine::Config cfg;
+    cfg.num_worker_threads = 1;
+
+    AsyncInferenceEngine engine(blocking_plugin.get(), cfg);
+
+    // Saturate the single worker thread with a blocking request.
+    InferenceRequest blocker_req;
+    blocker_req.prompt = "blocker";
+    engine.submit(blocker_req);  // non-streaming, worker gets stuck
+
+    // Wait until the blocking request is actually being executed.
+    blocking_plugin->waitForInFlight();
+
+    // Now submit the streaming request — it stays in the queue.
+    std::atomic<int> final_count{0};
+    std::mutex fin_mu;
+    std::condition_variable fin_cv;
+
+    InferenceRequest stream_req;
+    stream_req.prompt = "queued streaming request";
+
+    auto handle = engine.submitStreaming(stream_req,
+        [&](std::string_view /*token*/, bool is_final) {
+            if (is_final) {
+                ++final_count;
+                fin_cv.notify_all();
+            }
+        });
+
+    // Cancel while still in queue.
+    handle.cancel();
+
+    // Release the blocking request so the worker can process the next item.
+    blocking_plugin->unblock();
+
+    // The worker will now dequeue the streaming request, detect it is cancelled,
+    // and fire the is_final=true sentinel via workerLoop.
+    {
+        std::unique_lock<std::mutex> lk(fin_mu);
+        fin_cv.wait_for(lk, std::chrono::milliseconds(500),
+                        [&] { return final_count.load() > 0; });
+    }
+
+    EXPECT_EQ(final_count.load(), 1)
+        << "Queued cancel must deliver exactly one is_final=true callback";
 }

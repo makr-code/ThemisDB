@@ -217,6 +217,10 @@ public:
      * The callback is invoked from the worker thread; implementations must
      * be thread-safe.  SSE framing is applied at the HTTP layer – the
      * engine emits raw token strings.
+     *
+     * @note The @p token view is only valid for the duration of the callback
+     *       invocation.  If the value needs to be retained beyond the callback
+     *       return, copy it into a @c std::string before returning.
      */
     using TokenCallback = std::function<void(std::string_view token, bool is_final)>;
 

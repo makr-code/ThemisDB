@@ -351,6 +351,10 @@ public:
      * Called once per decoded token with @p is_final == false, and once more
      * with an empty token string and @p is_final == true when the stream ends
      * (normal completion or cancellation).  Must be thread-safe.
+     *
+     * @note The @p token view is only valid for the duration of the callback
+     *       invocation.  If the value needs to be retained beyond the callback
+     *       return, copy it into a @c std::string before returning.
      */
     using TokenCallback = std::function<void(std::string_view token, bool is_final)>;
 

@@ -704,6 +704,13 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
             spdlog::debug("Skipping cancelled request: {}", 
                          item.request->request_id);
             
+            // Fire the completion callback so that streaming requests
+            // receive the is_final=true sentinel even when the request is
+            // cancelled while still queued (never dispatched to a plugin).
+            if (item.request->callback) {
+                try { item.request->callback(InferenceResponse{}); } catch (...) {}
+            }
+
             // Set exception in promise — guard against double-resolve (timeout
             // monitor may have already resolved it).
             if (item.promise) {

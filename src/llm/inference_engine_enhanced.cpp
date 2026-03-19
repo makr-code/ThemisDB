@@ -937,8 +937,12 @@ void InferenceEngineEnhanced::processBatch(
             // Skip cancelled requests
             if (tracked->cancel_token->load(std::memory_order_acquire)) {
                 spdlog::debug("Skipping cancelled request {}", req.request_id);
-                // Fire the completion callback (handles streaming is_final sentinel).
-                if (tracked->callback) {
+                // Fire the completion callback only for streaming requests so
+                // that their is_final=true sentinel is delivered.  For
+                // non-streaming submitAsync() requests the callback is the
+                // user's completion handler; calling it with an empty response
+                // here would be unexpected and misleading.
+                if (tracked->request.base_request.stream_callback && tracked->callback) {
                     try { tracked->callback(InferenceResponse{}); } catch (...) {}
                 }
                 try {
@@ -1093,6 +1097,12 @@ void InferenceEngineEnhanced::processBatch(
             if (tracked->cancel_token->load(std::memory_order_acquire)) {
                 spdlog::debug("Discarding late response for cancelled/timed-out request {}",
                              req.request_id);
+                // Deliver the is_final=true streaming sentinel so that the
+                // TokenCallback contract is upheld even when cancellation is
+                // detected after inference completes.
+                if (tracked->request.base_request.stream_callback && tracked->callback) {
+                    try { tracked->callback(InferenceResponse{}); } catch (...) {}
+                }
                 std::lock_guard<std::mutex> lock(requests_mutex_);
                 tracked_requests_.erase(req.request_id);
                 continue;

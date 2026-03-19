@@ -64,7 +64,7 @@ This document covers planned enhancements to the LLM module beyond what is track
 `ai_orchestrator.cpp` line 494 has: "TODO(extensible): parse tool calls from `result.text` using `react_agent`". Without tool call parsing, the orchestrator cannot dispatch function calls returned by the LLM, making the ReAct loop incomplete.
 
 **Implementation Notes:**
-- `[x]` Add tool call extraction to `AIOrchestrator::execute()` at line 494: parse the structured JSON block from `result.text` using `nlohmann::json`; dispatch to the registered tool via `AQLReActAgent::dispatchTool()`.
+- `[x]` Add tool call extraction to `AIOrchestrator::runAgentic()`: parse the structured JSON block `{"name":"<tool>","arguments":{...}}` from `result.text` using `nlohmann::json`; dispatch to the registered tool via `ToolRegistry::invokeTool()`.
 - `[x]` Handle malformed tool call JSON gracefully: log a warning and continue with the raw text result rather than crashing.
 
 ---

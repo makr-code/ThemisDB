@@ -37,10 +37,57 @@
 #include <atomic>
 #include <thread>
 #include "llm/ai_orchestrator.h"
+#include "llm/llm_plugin_interface.h"
 
 using namespace themis::llm;
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
+
+// Minimal ILLMPlugin stub that returns the raw prompt text as the response.
+// Used so AIOrchestrator::runAsk() returns a predictable string (the prompt /
+// query itself) without needing a real llama.cpp backend.
+class EchoLLMPlugin : public ILLMPlugin {
+public:
+    bool loadModel(const std::string&, const json&) override { return true; }
+    void unloadModel() override {}
+    std::optional<ModelInfo> getModelInfo() const override {
+        ModelInfo info{};
+        info.model_id   = "echo";
+        info.is_loaded  = true;
+        return info;
+    }
+    bool isModelLoaded() const override { return true; }
+
+    InferenceResponse generate(const InferenceRequest& request) override {
+        InferenceResponse resp;
+        resp.request_id       = request.request_id;
+        resp.model_id         = "echo";
+        // Return the raw prompt so that tests can control result.text by
+        // setting ctx.query to the desired tool-call JSON.
+        resp.text             = request.prompt;
+        // Placeholder token estimate: ~4 characters per token (BPE heuristic).
+        static constexpr int kAvgCharsPerToken = 4;
+        resp.tokens_generated = static_cast<int>(request.prompt.size() / kAvgCharsPerToken);
+        return resp;
+    }
+    InferenceResponse generateRAG(const RAGContext&,
+                                  const InferenceRequest& request) override {
+        return generate(request);
+    }
+    std::vector<float> embed(const std::string& text) override {
+        return std::vector<float>(8, 0.0f);
+    }
+
+    LLMCapabilities getCapabilities() const override { return {}; }
+    json getMemoryStats() const override { return {}; }
+    json getPerformanceStats() const override { return {}; }
+
+    bool loadLoRA(const std::string&, const std::string&, float) override { return true; }
+    bool unloadLoRA(const std::string&) override { return true; }
+    std::vector<LoRAInfo> listLoRAs() const override { return {}; }
+    std::vector<uint8_t> exportLoRA(const std::string&) override { return {}; }
+    bool importLoRA(const std::string&, const std::vector<uint8_t>&) override { return true; }
+};
 
 static const char* kMinimalValidYaml = R"yaml(
 apiVersion: themis.ai/v1
@@ -815,6 +862,9 @@ TEST(AgenticToolCallTest, ValidToolCallJson_Dispatched) {
     ASSERT_TRUE(res.ok) << res.errors.front();
 
     AIOrchestrator orch(pack);
+    // Inject a plugin that echoes the prompt back as response.text so that
+    // the tool-call JSON we put in ctx.query reaches runAgentic() intact.
+    orch.setLLMPlugin(std::make_shared<EchoLLMPlugin>());
 
     // Register the tool with a known return value.
     ToolSpec spec;
@@ -826,9 +876,8 @@ TEST(AgenticToolCallTest, ValidToolCallJson_Dispatched) {
             return {{"result", args.value("x", 0) + args.value("y", 0)}};
         });
 
-    // The orchestrator has no real LLM plugin, so runAsk() returns an echo
-    // of the query.  We set the query to a valid tool-call JSON so that the
-    // agentic pipeline will parse it.
+    // Set the query to a valid tool-call JSON: the EchoLLMPlugin will return
+    // it verbatim so runAgentic() sees it as result.text.
     OrchestratorContext ctx;
     ctx.query   = R"({"name":"calc_tool","arguments":{"x":3,"y":4}})";
     ctx.mode_id = "agentic";
@@ -908,6 +957,8 @@ TEST(AgenticToolCallTest, ValidJsonButNotToolCall_NoDispatch) {
     ASSERT_TRUE(res.ok);
 
     AIOrchestrator orch(pack);
+    // Inject echo plugin so result.text is the raw JSON (not a prefixed echo).
+    orch.setLLMPlugin(std::make_shared<EchoLLMPlugin>());
 
     ToolSpec spec;
     spec.name = "calc_tool";
