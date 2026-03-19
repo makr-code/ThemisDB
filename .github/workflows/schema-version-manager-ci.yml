@@ -1,8 +1,8 @@
 name: Schema Version Manager CI
 
 # Validates SchemaVersionManager (v1.8.0) – schema versioning, change history,
-# rollback, diff, migration script generation, dry-run validation, and
-# audit-log integration.
+# rollback, diff, migration script generation, dry-run validation, audit-log
+# integration, and SchemaConstraints persistence.
 #
 # Acceptance criteria covered:
 #   AC-1  createSchemaVersion() assigns monotonically increasing version numbers
@@ -17,13 +17,19 @@ name: Schema Version Manager CI
 #   AC-5  diffVersions() reports added, removed, and modified columns between
 #         any two versions.
 #   AC-6  generateMigrationScript() produces correct ALTER TABLE DDL for
-#         ADD COLUMN, DROP COLUMN, and ALTER COLUMN changes.
+#         ADD COLUMN, DROP COLUMN, and ALTER COLUMN changes, including type
+#         mapping and NOT NULL / DROP NOT NULL clauses.
 #   AC-7  validateMigration() (dry-run) rejects empty name, no columns,
 #         duplicate columns, and schemas identical to the current version;
 #         never persists a version record.
 #   AC-8  setAuditLog() integration: createSchemaVersion() and
 #         rollbackToVersion() emit entries to SchemaAuditLog when one is
 #         attached; no crash when audit_log_ is nullptr.
+#   AC-9  Full lifecycle regression: forward migration across 5 versions,
+#         multi-step rollback, audit log populated, validateMigration gates
+#         lifecycle.
+#   AC-10 SchemaConstraints persistence: NOT NULL / UNIQUE / CHECK / DEFAULT /
+#         foreign key definitions survive RocksDB round-trip.
 on:
   push:
     branches:
@@ -31,18 +37,30 @@ on:
       - develop
     paths:
       - 'include/metadata/schema_version_manager.h'
+      - 'include/metadata/schema_constraints.h'
       - 'src/metadata/schema_version_manager.cpp'
+      - 'src/metadata/schema_constraints.cpp'
       - 'tests/test_schema_version_manager.cpp'
       - 'tests/test_schema_version_dryrun.cpp'
+      - 'tests/test_schema_migration_script.cpp'
+      - 'tests/test_schema_migration_regression.cpp'
+      - 'tests/test_schema_constraints.cpp'
+      - 'tests/test_schema_constraints_persistence.cpp'
       - 'tests/CMakeLists.txt'
       - '.github/workflows/schema-version-manager-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
       - 'include/metadata/schema_version_manager.h'
+      - 'include/metadata/schema_constraints.h'
       - 'src/metadata/schema_version_manager.cpp'
+      - 'src/metadata/schema_constraints.cpp'
       - 'tests/test_schema_version_manager.cpp'
       - 'tests/test_schema_version_dryrun.cpp'
+      - 'tests/test_schema_migration_script.cpp'
+      - 'tests/test_schema_migration_regression.cpp'
+      - 'tests/test_schema_constraints.cpp'
+      - 'tests/test_schema_constraints_persistence.cpp'
       - 'tests/CMakeLists.txt'
       - '.github/workflows/schema-version-manager-ci.yml'
   workflow_dispatch:
@@ -96,53 +114,79 @@ jobs:
             libspdlog-dev
             nlohmann-json3-dev
 
-      - name: Configure and build SchemaVersionManager tests
+      - name: Build SchemaVersionManager tests
         uses: ./.github/actions/configure-themis
         with:
           cc:  ${{ matrix.cc }}
           cxx: ${{ matrix.cxx }}
           build-target: test_schema_version_manager_focused
 
-      - name: Configure and build dry-run tests
+      - name: Build dry-run / validateMigration tests
         uses: ./.github/actions/configure-themis
         with:
           cc:  ${{ matrix.cc }}
           cxx: ${{ matrix.cxx }}
           build-target: test_schema_version_dryrun_focused
 
-      - name: Run SchemaVersionManagerFocusedTests via ctest
+      - name: Build migration script tests
+        uses: ./.github/actions/configure-themis
+        with:
+          cc:  ${{ matrix.cc }}
+          cxx: ${{ matrix.cxx }}
+          build-target: test_schema_migration_script_focused
+
+      - name: Build migration regression tests
+        uses: ./.github/actions/configure-themis
+        with:
+          cc:  ${{ matrix.cc }}
+          cxx: ${{ matrix.cxx }}
+          build-target: test_schema_migration_regression_focused
+
+      - name: Build SchemaConstraints tests
+        uses: ./.github/actions/configure-themis
+        with:
+          cc:  ${{ matrix.cc }}
+          cxx: ${{ matrix.cxx }}
+          build-target: test_schema_constraints_focused
+
+      - name: Build SchemaConstraints persistence tests
+        uses: ./.github/actions/configure-themis
+        with:
+          cc:  ${{ matrix.cc }}
+          cxx: ${{ matrix.cxx }}
+          build-target: test_schema_constraints_persistence_focused
+
+      - name: Run all Schema Versioning tests via ctest
         run: |
           set -o pipefail
           cd build
-          ctest -R SchemaVersionManagerFocusedTests \
+          ctest -R "SchemaVersionManagerFocusedTests|SchemaVersionDryRunFocusedTests|SchemaMigrationScriptFocusedTests|SchemaMigrationRegressionFocusedTests|SchemaConstraintsFocusedTests|SchemaConstraintsPersistenceFocusedTests" \
                 --output-on-failure \
                 --timeout 120 \
-                2>&1 | tee svm_ctest.txt
+                2>&1 | tee schema_versioning_ctest.txt
 
-      - name: Run SchemaVersionDryRunFocusedTests via ctest
-        run: |
-          set -o pipefail
-          cd build
-          ctest -R SchemaVersionDryRunFocusedTests \
-                --output-on-failure \
-                --timeout 120 \
-                2>&1 | tee svm_dryrun_ctest.txt
-
-      - name: Run tests via focused binary (SchemaVersionManager)
+      - name: Run tests via focused binaries
         run: |
           set -o pipefail
           cd build
           ./tests/test_schema_version_manager_focused \
             --gtest_output="xml:svm_gtest.xml" \
             2>&1 | tee svm_gtest_output.txt
-
-      - name: Run tests via focused binary (dry-run)
-        run: |
-          set -o pipefail
-          cd build
           ./tests/test_schema_version_dryrun_focused \
             --gtest_output="xml:svm_dryrun_gtest.xml" \
             2>&1 | tee svm_dryrun_gtest_output.txt
+          ./tests/test_schema_migration_script_focused \
+            --gtest_output="xml:svm_migration_script_gtest.xml" \
+            2>&1 | tee svm_migration_script_gtest_output.txt
+          ./tests/test_schema_migration_regression_focused \
+            --gtest_output="xml:svm_migration_regression_gtest.xml" \
+            2>&1 | tee svm_migration_regression_gtest_output.txt
+          ./tests/test_schema_constraints_focused \
+            --gtest_output="xml:schema_constraints_gtest.xml" \
+            2>&1 | tee schema_constraints_gtest_output.txt
+          ./tests/test_schema_constraints_persistence_focused \
+            --gtest_output="xml:schema_constraints_persistence_gtest.xml" \
+            2>&1 | tee schema_constraints_persistence_gtest_output.txt
 
       - name: Upload test results
         if: always()
@@ -150,12 +194,19 @@ jobs:
         with:
           name: schema-version-manager-results-${{ matrix.os }}-${{ matrix.compiler }}
           path: |
-            build/svm_ctest.txt
+            build/schema_versioning_ctest.txt
             build/svm_gtest.xml
             build/svm_gtest_output.txt
-            build/svm_dryrun_ctest.txt
             build/svm_dryrun_gtest.xml
             build/svm_dryrun_gtest_output.txt
+            build/svm_migration_script_gtest.xml
+            build/svm_migration_script_gtest_output.txt
+            build/svm_migration_regression_gtest.xml
+            build/svm_migration_regression_gtest_output.txt
+            build/schema_constraints_gtest.xml
+            build/schema_constraints_gtest_output.txt
+            build/schema_constraints_persistence_gtest.xml
+            build/schema_constraints_persistence_gtest_output.txt
           retention-days: 14
 
       - name: Write job summary
@@ -172,6 +223,11 @@ jobs:
           echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "Validates monotonic version numbering, change history, rollback, diff between" >> "$GITHUB_STEP_SUMMARY"
-          echo "versions, migration script generation (ADD/DROP/ALTER COLUMN), dry-run" >> "$GITHUB_STEP_SUMMARY"
-          echo "validateMigration(), and SchemaAuditLog integration for SchemaVersionManager." >> "$GITHUB_STEP_SUMMARY"
+          echo "### Test suites" >> "$GITHUB_STEP_SUMMARY"
+          echo "- SchemaVersionManagerFocusedTests (21 tests): version numbering, history, rollback, diff, JSON, audit log" >> "$GITHUB_STEP_SUMMARY"
+          echo "- SchemaVersionDryRunFocusedTests (9 tests): validateMigration edge cases, no-persist guarantee" >> "$GITHUB_STEP_SUMMARY"
+          echo "- SchemaMigrationScriptFocusedTests (16 tests): ADD/DROP/ALTER COLUMN DDL, type mapping, NOT NULL" >> "$GITHUB_STEP_SUMMARY"
+          echo "- SchemaMigrationRegressionFocusedTests (16 tests): 5-version lifecycle, rollback chains, audit log" >> "$GITHUB_STEP_SUMMARY"
+          echo "- SchemaConstraintsFocusedTests (31 tests): NOT NULL / UNIQUE / CHECK / DEFAULT / FK enforcement" >> "$GITHUB_STEP_SUMMARY"
+          echo "- SchemaConstraintsPersistenceFocusedTests (8 tests): RocksDB round-trip for constraint definitions" >> "$GITHUB_STEP_SUMMARY"
+
