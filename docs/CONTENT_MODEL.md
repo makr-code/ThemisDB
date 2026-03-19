@@ -241,22 +241,20 @@ Der Pull Request durchläuft automatisch:
 ## CI-Validierungs-Pipeline
 
 ```
-PR/Push → docs-pipeline.yml
-          ├── validate (Lint + Links + TOC)
+PR/Push → docs-pipeline.yml                        ← einziger Einstiegspunkt
+          ├── validate (ruft documentation-validation.yml als reusable workflow)
+          │     ├── docs-lint
+          │     ├── link-check (intern)
+          │     ├── external-link-check (main/develop only)
+          │     ├── toc-validation
+          │     ├── metadata-check
+          │     ├── doc-header-check (changed-only)
+          │     ├── drift-detection
+          │     │     └── [develop only] Issues für driftende/stale Sekundärdoku
+          │     └── validation-summary
           ├── build-site (MkDocs ohne PDF)
-          ├── build-pdf (on-demand / Release-Tags)
+          ├── build-pdf (on-demand / Release-Tags, ENABLE_PDF_EXPORT=1)
           └── deploy-pages (main branch)
-
-PR/Push → documentation-validation.yml
-          ├── docs-lint
-          ├── link-check
-          ├── external-link-check (main/develop only)
-          ├── toc-validation
-          ├── metadata-check
-          ├── doc-header-check (changed-only)
-          ├── drift-detection
-          │     └── [develop only] Issues für driftende/stale Sekundärdoku
-          └── validation-summary
 
 Push to main/develop/release/* → primary-docs-index.yml
           └── Update docs/_generated/primary_index.json

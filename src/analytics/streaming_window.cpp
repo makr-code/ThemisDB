@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   85.0/100                                       ║
     • Total Lines:     1153                                           ║
-    • Open Issues:     TODOs: 8, Stubs: 0                             ║
+    • Open Issues:     TODOs: 7, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
@@ -36,9 +36,49 @@
  *  - Watermark advances monotonically on each ingested record
  *  - Shared aggregation computation logic via anonymous namespace helpers
  *  - Session expiry via background thread (SessionWindow only)
+ *
+ * Open TODOs (tracked here per code-review requirements; see also
+ * src/analytics/FUTURE_ENHANCEMENTS.md §13):
+ *
+ * TODO(v1.8.0) #1: WatermarkConfig.idle_timeout (see include/analytics/streaming_window.h,
+ *   struct WatermarkConfig) is defined but never implemented — no timer advances the
+ *   watermark when no events arrive in non-session windows.  Add a background
+ *   idle-timeout path to TumblingWindow and SlidingWindow.
+ *
+ * TODO(v1.8.0) #2: TumblingWindow and SlidingWindow ignore partition_key —
+ *   results do not carry a meaningful partition_key; per-partition aggregation
+ *   is only available in SessionWindow.  Extend InternalWindow to store and
+ *   propagate partition_key.
+ *
+ * TODO(v1.8.0) #3: allow_late_data flag is not respected in the background
+ *   expiryLoop — late results from timer-driven expiry are never marked
+ *   is_late_firing=true nor routed through a separate late-data path.
+ *
+ * TODO(v1.8.0) #4: StreamingWindowPipeline does not expose the configurable
+ *   expiry interval — the pipeline builder constructs SessionWindowConfig
+ *   without forwarding session_expiry_check_interval_ms, so operators using
+ *   the fluent API cannot tune the interval without bypassing the pipeline.
+ *
+ * TODO(v1.8.0) #5: O(N) window lookup in SlidingWindow::ensureWindowsExist —
+ *   the inner loop scans the windows_ deque linearly to detect duplicates.
+ *   Replace with an ordered index keyed on start_us for O(log N) lookup.
+ *
+ * TODO(v1.8.0) #6: RESOLVED — calcPercentile() now accepts a const reference;
+ *   the O(N) copy-per-call-site is eliminated. The single scratch copy occurs
+ *   inside themis::analytics::detail::computePercentile (stats.h).
+ *
+ * TODO(v1.8.0) #7: WindowResult.is_late_firing is set in TumblingWindow and
+ *   SlidingWindow computeResult() paths but SessionWindow::computeResult()
+ *   never sets it.  Audit and propagate consistently.
+ *
+ * TODO(v1.8.0) #8: SlidingWindow::flush() closes all windows at watermark
+ *   MAX but does not emit results for windows whose close was already
+ *   pending (double-close guard is absent); add a `w.closed` check before
+ *   re-emitting in flush() to prevent duplicate results on shutdown.
  */
 
 #include "analytics/streaming_window.h"
+#include "analytics/detail/stats.h"
 
 #include <algorithm>
 #include <cassert>
@@ -105,17 +145,12 @@ std::string rvToString(const RecordValue& v) {
     return "";
 }
 
-double calcPercentile(std::vector<double> vals, double p) {
-    if (vals.empty()) return 0.0;
-    std::sort(vals.begin(), vals.end());
-    if (p <= 0.0)   return vals.front();
-    if (p >= 100.0) return vals.back();
-    double idx  = (p / 100.0) * static_cast<double>(vals.size() - 1);
-    size_t lo   = static_cast<size_t>(idx);
-    size_t hi   = lo + 1;
-    if (hi >= vals.size()) return vals.back();
-    double frac = idx - static_cast<double>(lo);
-    return vals[lo] + frac * (vals[hi] - vals[lo]);
+/** Compute percentile (p in [0,100]) from an unsorted values vector.
+ *  Delegates to themis::analytics::detail::computePercentile (stats.h) —
+ *  fixes TODO(v1.8.0) #6: was taking by value (O(N) copy per call-site).
+ */
+double calcPercentile(const std::vector<double>& vals, double p) {
+    return themis::analytics::detail::computePercentile(vals, p);
 }
 
 /**
@@ -789,7 +824,7 @@ void SessionWindow::expiryLoop() {
     while (running_) {
         {
             std::unique_lock lk(expiry_mutex_);
-            expiry_cv_.wait_for(lk, std::chrono::milliseconds(200),
+            expiry_cv_.wait_for(lk, config_.session_expiry_check_interval_ms,
                                 [this] { return !running_.load(); });
         }
         if (!running_) break;

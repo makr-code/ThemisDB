@@ -42,6 +42,7 @@
  */
 
 #include "analytics/cep_engine.h"
+#include "analytics/detail/stats.h"
 
 #include <algorithm>
 #include <cassert>
@@ -136,18 +137,13 @@ std::string hexDecode(const std::string& hex) {
     return out;
 }
 
-/** Compute percentile (p in [0,100]) from a sorted or unsorted vector */
-double computePercentile(std::vector<double> vals, double p) {
-    if (vals.empty()) return 0.0;
-    std::sort(vals.begin(), vals.end());
-    if (p <= 0.0) return vals.front();
-    if (p >= 100.0) return vals.back();
-    double idx = (p / 100.0) * static_cast<double>(vals.size() - 1);
-    size_t lo = static_cast<size_t>(idx);
-    size_t hi = lo + 1;
-    if (hi >= vals.size()) return vals.back();
-    double frac = idx - static_cast<double>(lo);
-    return vals[lo] + frac * (vals[hi] - vals[lo]);
+/** Compute percentile (p in [0,100]) from a sorted or unsorted vector.
+ *  Delegates to themis::analytics::detail::computePercentile (stats.h) so
+ *  the implementation is shared with streaming_window.cpp — fixes the
+ *  pass-by-value O(N) copy that previously occurred on every call-site.
+ */
+double computePercentile(const std::vector<double>& vals, double p) {
+    return themis::analytics::detail::computePercentile(vals, p);
 }
 
 /** Simple tokenizer used for filter/having expression evaluation */
@@ -1104,7 +1100,7 @@ WindowManager::Stats WindowManager::getStats() const {
 void WindowManager::timerLoop() {
     while (running_) {
         std::unique_lock lk(timer_mutex_);
-        timer_cv_.wait_for(lk, std::chrono::milliseconds(500),
+        timer_cv_.wait_for(lk, config_.global_window_emit_interval_ms,
                            [this] { return !running_.load(); });
         if (!running_) break;
 

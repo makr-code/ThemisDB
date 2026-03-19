@@ -24,6 +24,7 @@
 
 #include "acceleration/vllm_resource_manager.h"
 #include "utils/logger.h"
+#include <functional>
 #include <thread>
 #include <algorithm>
 #include <future>
@@ -109,32 +110,52 @@ void VLLMResourceManager::shutdown() {
 
 bool VLLMResourceManager::canUseGPU() {
 #ifndef THEMIS_ENABLE_CUDA
+    // Test override: allows CI tests to verify GPU-busy logic without real CUDA.
+    if (gpu_util_provider_for_testing_) {
+        auto util = gpu_util_provider_for_testing_();
+        if (!util.has_value()) return false;
+        return util.value() < 80.0;
+    }
     return false;  // CUDA not enabled
 #else
+    // Test override: bypasses NVML for CI/mock environments.
+    if (gpu_util_provider_for_testing_) {
+        auto util = gpu_util_provider_for_testing_();
+        if (!util.has_value()) return false;
+        return util.value() < 80.0;
+    }
+
     // Wrap the NVML query in a background future with a 500 ms deadline.
     // If the NVML driver is wedged the query can hang indefinitely; returning
     // false (safe CPU fallback) is preferable to blocking the caller.
     //
-    // Safety: the future captures a raw copy of nvml_device_ (void*) rather
-    // than `this`, so the background task cannot dereference a destroyed
-    // VLLMResourceManager if the timeout fires.  The future is detached by
-    // storing it in a shared_ptr to ensure the background thread keeps running
-    // (and eventually finishes) even after `canUseGPU()` returns.  The shared
-    // ownership means no use-after-free is possible.
-    void* device_handle = nvml_device_;
-    if (device_handle == nullptr) {
+    // Safety: the future captures a copy of nvml_devices_ (vector of void*)
+    // rather than `this`, so the background task cannot dereference a destroyed
+    // VLLMResourceManager if the timeout fires.  The shared ownership means no
+    // use-after-free is possible.
+    std::vector<void*> device_handles = nvml_devices_;
+    if (device_handles.empty()) {
         return false;  // NVML not initialized
     }
 
     auto shared_future = std::make_shared<std::future<std::optional<double>>>(
         std::async(std::launch::async,
-                   [device_handle]() -> std::optional<double> {
+                   [device_handles]() -> std::optional<double> {
 #if defined(THEMIS_ENABLE_CUDA) && defined(__linux__)
-                       nvmlUtilization_t util;
-                       nvmlDevice_t dev = static_cast<nvmlDevice_t>(device_handle);
-                       if (nvmlDeviceGetUtilizationRates(dev, &util) == NVML_SUCCESS) {
-                           return static_cast<double>(util.gpu);
+                       // Return max utilization across all monitored devices so
+                       // that a single busy GPU blocks new ThemisDB work.
+                       double max_util = 0.0;
+                       bool got_any = false;
+                       for (void* handle : device_handles) {
+                           nvmlUtilization_t util;
+                           nvmlDevice_t dev = static_cast<nvmlDevice_t>(handle);
+                           if (nvmlDeviceGetUtilizationRates(dev, &util) == NVML_SUCCESS) {
+                               double u = static_cast<double>(util.gpu);
+                               max_util = std::max(max_util, u);
+                               got_any = true;
+                           }
                        }
+                       return got_any ? std::optional<double>{max_util} : std::nullopt;
 #endif
                        return std::nullopt;
                    }));
@@ -367,8 +388,9 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
 #endif
     // macOS / unknown: cpu_utilization and ram_used_mb remain 0.0 / 0.
 
-#ifdef THEMIS_ENABLE_CUDA
-    // GPU stats via NVML
+    // GPU stats via NVML (or test provider).
+    // queryGPUUtilization() returns nullopt when neither the test provider nor
+    // a real NVML device is available, so this is safe to call unconditionally.
     auto gpu_util = const_cast<VLLMResourceManager*>(this)->queryGPUUtilization();
     if (gpu_util.has_value()) {
         stats.gpu_available = true;
@@ -380,7 +402,6 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
             stats.vllm_gpu_usage = stats.gpu_utilization;
         }
     }
-#endif
     
     return stats;
 }
@@ -391,6 +412,11 @@ void VLLMResourceManager::setConfig(const Config& config) {
         return;
     }
     config_ = config;
+}
+
+void VLLMResourceManager::setGpuUtilizationProviderForTesting(
+    std::function<std::optional<double>()> provider) {
+    gpu_util_provider_for_testing_ = std::move(provider);
 }
 
 bool VLLMResourceManager::initializeNVML() {
@@ -448,6 +474,11 @@ void VLLMResourceManager::shutdownNVML() {
 }
 
 std::optional<double> VLLMResourceManager::queryGPUUtilization() {
+    // Test override: allows CI tests to verify utilization logic without real CUDA.
+    if (gpu_util_provider_for_testing_) {
+        return gpu_util_provider_for_testing_();
+    }
+
 #if defined(THEMIS_ENABLE_CUDA) && defined(__linux__)
     if (nvml_devices_.empty()) {
         return std::nullopt;
@@ -466,9 +497,7 @@ std::optional<double> VLLMResourceManager::queryGPUUtilization() {
             continue;
         }
         double util = static_cast<double>(utilization.gpu);
-        if (util > max_utilization) {
-            max_utilization = util;
-        }
+        max_utilization = std::max(max_utilization, util);
         got_any = true;
     }
     return got_any ? std::optional<double>{max_utilization} : std::nullopt;

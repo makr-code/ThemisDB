@@ -139,6 +139,8 @@ public:
         size_t prefetch_max_predictions = 3;     // Max candidate fingerprints per prediction
         uint32_t prefetch_min_transition_count = 2; // Min observed transitions for a candidate
         double prefetch_min_confidence = 0.0;    // Min transition confidence (0.0 = disabled)
+        bool prefetch_enable_time_of_day_weighting = false; // Weight predictions by hour-of-day
+        bool prefetch_enable_ab_test = false;    // Route 50% tenants to Markov, 50% to baseline
         // Phase 4: Cache replication for high-availability multi-node deployments
         bool enable_replication = false;         // Enable cache replication via coordinator
         
@@ -535,6 +537,31 @@ public:
      * false.
      */
     nlohmann::json getPrefetchStats() const;
+
+    /**
+     * @brief Account for prefetch overhead bytes (entries fetched but never hit).
+     *
+     * Callers should invoke this when a prefetched cache entry is evicted or
+     * expires without having been accessed.  The accumulated total is exported
+     * via the `cache.prefetch.overhead_bytes` metric.
+     *
+     * @param bytes Estimated byte size of the wasted prefetch.
+     */
+    void recordPrefetchOverheadBytes(uint64_t bytes);
+
+    /**
+     * @brief Persist the prefetch Markov model to the L3 RocksDB instance.
+     *
+     * No-op when the prefetcher is disabled or L3 is unavailable.
+     */
+    void savePrefetchModel();
+
+    /**
+     * @brief Restore the prefetch Markov model from the L3 RocksDB instance.
+     *
+     * No-op when the prefetcher is disabled or L3 is unavailable.
+     */
+    void loadPrefetchModel();
     // Phase 4: Cache Replication for High-Availability
     // ========================================================================
 

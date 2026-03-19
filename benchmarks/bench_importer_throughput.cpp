@@ -68,14 +68,14 @@
 #include <chrono>
 #include <cstdio>
 #include <cstring>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <vector>
 #include <algorithm>  // std::min / std::max
-#include <cstdlib>   // mkstemp
-#include <unistd.h>  // unlink, close
+#include <cstdlib>
 #include <unordered_map>
 #include <nlohmann/json.hpp>
 
@@ -229,23 +229,21 @@ static void writeSQLiteTable(std::ostream& out, const std::string& tname,
 }
 
 /// Create a temporary SQL file with the given content; return its path.
-/// Caller owns the file and must unlink() it when done.
-/// Uses $TMPDIR if set, otherwise falls back to /tmp (POSIX-portable).
+/// Caller owns the file and must delete it when done.
 static std::string writeTempSqlFile(const std::string& content) {
-    const char* tmp_env = std::getenv("TMPDIR");
-    std::string tmp_dir = (tmp_env && *tmp_env) ? tmp_env : "/tmp";
-    std::string tmpl    = tmp_dir + "/bench_importer_XXXXXX.sql";
-    // mkstemps requires a writable buffer
-    std::vector<char> buf(tmpl.begin(), tmpl.end());
-    buf.push_back('\0');
-    int fd = mkstemps(buf.data(), 4);
-    if (fd < 0) {
-        std::perror("mkstemps");
-        return "";
-    }
-    ::write(fd, content.data(), content.size());
-    ::close(fd);
-    return std::string(buf.data());
+    std::error_code ec;
+    const auto tmp_dir = std::filesystem::temp_directory_path(ec);
+    if (ec) return "";
+
+    const auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+    const auto path = tmp_dir / ("bench_importer_" + std::to_string(now) + ".sql");
+
+    std::ofstream out(path, std::ios::binary | std::ios::trunc);
+    if (!out.is_open()) return "";
+    out.write(content.data(), static_cast<std::streamsize>(content.size()));
+    out.close();
+
+    return path.string();
 }
 
 // ---------------------------------------------------------------------------
@@ -339,7 +337,8 @@ static BenchResult runScenario(const BenchConfig& cfg) {
 
     double bytes   = 0.0;
     double elapsed = runBench(tmp, cfg.dry_run, &bytes);
-    ::unlink(tmp.c_str());
+    std::error_code rm_ec;
+    std::filesystem::remove(tmp, rm_ec);
 
     size_t total_rows = cfg.copy_rows + cfg.insert_rows;
     double rps  = (elapsed > 0.0) ? static_cast<double>(total_rows) / elapsed : 0.0;
@@ -403,7 +402,8 @@ static BenchResult runSQLiteScenario(const BenchConfig& cfg) {
 
     double bytes   = 0.0;
     double elapsed = runSQLiteBench(tmp, cfg.dry_run, &bytes);
-    ::unlink(tmp.c_str());
+    std::error_code rm_ec;
+    std::filesystem::remove(tmp, rm_ec);
 
     double rps  = (elapsed > 0.0)
         ? static_cast<double>(cfg.insert_rows) / elapsed : 0.0;
@@ -465,21 +465,21 @@ static void writeMongoJsonArray(std::ostream& out, size_t num_docs) {
     out << "\n]\n";
 }
 
-/// Create a temporary JSON file; returns its path.  Caller must unlink().
+/// Create a temporary JSON file; returns its path.
 static std::string writeTempJsonFile(const std::string& content) {
-    const char* tmp_env = std::getenv("TMPDIR");
-    std::string tmp_dir = (tmp_env && *tmp_env) ? tmp_env : "/tmp";
-    std::string tmpl    = tmp_dir + "/bench_mongo_XXXXXX.json";
-    std::vector<char> buf(tmpl.begin(), tmpl.end());
-    buf.push_back('\0');
-    int fd = mkstemps(buf.data(), 5);
-    if (fd < 0) {
-        std::perror("mkstemps");
-        return "";
-    }
-    ::write(fd, content.data(), content.size());
-    ::close(fd);
-    return std::string(buf.data());
+    std::error_code ec;
+    const auto tmp_dir = std::filesystem::temp_directory_path(ec);
+    if (ec) return "";
+
+    const auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+    const auto path = tmp_dir / ("bench_mongo_" + std::to_string(now) + ".json");
+
+    std::ofstream out(path, std::ios::binary | std::ios::trunc);
+    if (!out.is_open()) return "";
+    out.write(content.data(), static_cast<std::streamsize>(content.size()));
+    out.close();
+
+    return path.string();
 }
 
 /// Run a minimal MongoDB NDJSON/JSON-array parsing pass to measure I/O and
@@ -550,7 +550,8 @@ static BenchResult runMongoScenario(const MongoBenchConfig& cfg) {
 
     double bytes   = 0.0;
     double elapsed = runMongoBench(tmp, cfg.dry_run, cfg.json_array, &bytes);
-    ::unlink(tmp.c_str());
+    std::error_code rm_ec;
+    std::filesystem::remove(tmp, rm_ec);
 
     double rps  = (elapsed > 0.0)
         ? static_cast<double>(cfg.num_docs) / elapsed : 0.0;
@@ -663,7 +664,8 @@ static BenchResult runMySQLScenario(const MySQLBenchConfig& cfg) {
 
     double bytes   = 0.0;
     double elapsed = runMySQLBench(tmp, cfg.dry_run, &bytes);
-    ::unlink(tmp.c_str());
+    std::error_code rm_ec;
+    std::filesystem::remove(tmp, rm_ec);
 
     double rps  = (elapsed > 0.0) ? static_cast<double>(cfg.num_rows) / elapsed : 0.0;
     double gbhr = calcGibPerHour(bytes, elapsed);

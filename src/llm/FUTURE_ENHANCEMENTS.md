@@ -64,8 +64,8 @@ This document covers planned enhancements to the LLM module beyond what is track
 `ai_orchestrator.cpp` line 494 has: "TODO(extensible): parse tool calls from `result.text` using `react_agent`". Without tool call parsing, the orchestrator cannot dispatch function calls returned by the LLM, making the ReAct loop incomplete.
 
 **Implementation Notes:**
-- `[ ]` Add tool call extraction to `AIOrchestrator::execute()` at line 494: parse the structured JSON block from `result.text` using `nlohmann::json`; dispatch to the registered tool via `AQLReActAgent::dispatchTool()`.
-- `[ ]` Handle malformed tool call JSON gracefully: log a warning and continue with the raw text result rather than crashing.
+- `[x]` Add tool call extraction to `AIOrchestrator::runAgentic()`: parse the structured JSON block `{"name":"<tool>","arguments":{...}}` from `result.text` using `nlohmann::json`; dispatch to the registered tool via `ToolRegistry::invokeTool()`.
+- `[x]` Handle malformed tool call JSON gracefully: log a warning and continue with the raw text result rather than crashing.
 
 ---
 
@@ -93,14 +93,19 @@ This document covers planned enhancements to the LLM module beyond what is track
 |-----------|----------|-------|
 | `InferenceRequest::stream_callback` | `AsyncInferenceEngine`, `InferenceEngineEnhanced`, HTTP SSE writers | Serial invocation on the producing worker thread; sink must be thread-safe when sharing state. |
 | `llm::StreamingHandler::{formatSseEvent, formatDoneEvent, formatChunkedData, makeStreamCallback}` | HTTP layer (SSE endpoints, OpenAI compat adapter) | Static, reentrant helpers; atomic index for single-producer streams. |
+| `AsyncInferenceEngine::submitStreaming(InferenceRequest, TokenCallback)` | HTTP SSE layer, interactive chat endpoints | Returns `InferenceHandle`; `TokenCallback` is `std::function<void(std::string_view, bool)>`. |
+| `InferenceEngineEnhanced::submitStreaming(EnhancedInferenceRequest, TokenCallback)` | HTTP SSE layer, batch coordinator | Same `TokenCallback` contract; integrates with batch scheduler. |
 
 #### Implementation Phases
 - **Phase 1 — Design / API Contract**
   - [x] Expose `InferenceRequest::stream_callback` (`include/llm/llm_plugin_interface.h`) as `std::function<void(const std::string&)>`, invoked serially on the worker thread; sinks must be thread-safe when sharing state and must handle abrupt stop (no further callbacks, possibly without a terminal marker) without throwing.
   - [x] Define SSE/chunked framing surface via `StreamingHandler` (JSON escaping, `[DONE]` sentinel, zero-length terminal chunk) to keep engines output-format agnostic.
+  - [x] Add `TokenCallback = std::function<void(std::string_view token, bool is_final)>` to both engine classes; add `submitStreaming()` declarations.
 - **Phase 2 — Core Implementation**
   - [x] Wrap `stream_callback` in `AsyncInferenceEngine::processRequest()` (see `async_inference_engine.cpp`) using the shared `cancel_token` and deadline guard before forwarding tokens; partial sequences are dropped once the guard trips.
   - [x] Provide `StreamingHandler::{formatSseEvent, formatChunkedData, makeStreamCallback}` in `src/llm/streaming_handler.cpp`; `makeStreamCallback()` returns an atomic-indexed lambda for single-producer streams, verified to keep indices monotonic and to tolerate empty token strings without emitting invalid SSE frames.
+  - [x] Implement `AsyncInferenceEngine::submitStreaming()` — wraps `TokenCallback` into the existing `stream_callback` + completion-callback pattern; fires `is_final=true` exactly once (normal or cancellation path).
+  - [x] Implement `InferenceEngineEnhanced::submitStreaming()` — same pattern integrated with the batch scheduler; cancel propagation via shared `cancel_token`.
 - **Phase 3 — Error Handling & Edge Cases**
   - [x] Drop token emission when cancellation/deadlines trigger. On graceful completion producers still emit well-formed terminal `[DONE]`/zero-length chunk markers.
   - [ ] Ensure consumers tolerate missing markers when the transport aborts mid-stream (e.g., client disconnect, network failure, or server-side cancellation during write).
@@ -113,6 +118,7 @@ This document covers planned enhancements to the LLM module beyond what is track
     - Verification: `tests/llm/test_streaming_handler.cpp` and `tests/test_llm_timeout_cancellation.cpp` assert detection and error surfacing under injected disconnects once the RocksDB dependency is resolved in the CI/sandbox build environment.
   - [x] JSON-escape control characters in SSE payloads to prevent malformed event streams.
 - **Phase 4 — Tests**
+  - [x] `tests/test_inference_engine_enhanced.cpp` — `SubmitStreaming_TokensDelivered` and `SubmitStreaming_CancelFiresFinalSentinel` for `InferenceEngineEnhanced`; `AsyncInferenceEngineStreamingTest.SubmitStreaming_TokensAndFinalSentinel` and `AsyncInferenceEngineStreamingTest.SubmitStreaming_CancelFiresFinalSentinel` for `AsyncInferenceEngine`.
   - [I] `tests/llm/test_streaming_handler.cpp` validates SSE framing, JSON escaping, chunked frames, and callback index sequencing (Blocked: themis_tests build currently fails in unrelated `llm_deployment_plugin.cpp` incomplete type error).
   - [I] `tests/test_llm_timeout_cancellation.cpp` exercises streaming cancellation/deadline paths on mock plugins (Blocked: same build failure prevents running suite).
 - **Phase 5 — Performance / Hardening**
@@ -123,6 +129,7 @@ This document covers planned enhancements to the LLM module beyond what is track
   - [x] Ensure OpenAI-compatible adapter and HTTP SSE surfaces consume `StreamingHandler` helpers for consistent wire format.
 
 #### Test Strategy
+- [x] `tests/test_inference_engine_enhanced.cpp` covers `submitStreaming()` for both `InferenceEngineEnhanced` (2 tests) and `AsyncInferenceEngine` (2 tests): token delivery and cancel-fires-final-sentinel.
 - [I] `tests/llm/test_streaming_handler.cpp` exists and exercises SSE formatting, JSON escaping, chunked frames, and callback index sequencing (execution blocked by current themis_tests build failure in `llm_deployment_plugin.cpp`).
 - [I] `tests/test_llm_timeout_cancellation.cpp` exists and covers streaming callbacks under cancellation/deadline pressure (execution blocked by same build failure).
 - [x] OpenAI-compatible adapter streaming paths rely on the same SSE helpers; streaming fixture tests exercise the shared framing surface.
@@ -205,14 +212,14 @@ Implement speculative decoding in `InferenceEngineEnhanced` to reduce latency fo
 Extend `adapter_registry.cpp` and `AdapterLoadBalancer` (`adapter_load_balancer.cpp`) to support loading new LoRA adapters into a running `InferenceEngineEnhanced` without engine restart. Currently adapter sets are fixed at startup; adding a new fine-tuned adapter requires a rolling restart.
 
 **Implementation Notes:**
-- Add `AdapterRegistry::hotLoad(adapter_id, weights_path, metadata)` which loads adapter weights into a pre-allocated VRAM slot managed by `adaptive_vram_allocator.cpp`.
-- Use a read-write lock on the adapter registry: hot-load acquires write lock briefly to register the new adapter; inference requests hold read locks and proceed without interruption.
-- `AdapterLoadBalancer` must handle the case where `hot_load` is in progress and temporarily routes requests for the loading adapter to a fallback (base model or another adapter variant).
-- Add admin API endpoint `POST /llm/adapters/{id}/load` that triggers hot-load; returns a `202 Accepted` with a job ID; status queryable via `GET /llm/adapters/{id}/load-status`.
+- [x] Add `AdapterRegistry::hotLoad(adapter_id, weights_path, metadata)` which loads adapter weights into a pre-allocated VRAM slot managed by `adaptive_vram_allocator.cpp`.
+- [x] Use a read-write lock on the adapter registry: hot-load acquires write lock briefly to register the new adapter; inference requests hold read locks and proceed without interruption.
+- [x] `AdapterLoadBalancer` must handle the case where `hot_load` is in progress and temporarily routes requests for the loading adapter to a fallback (base model or another adapter variant).
+- [x] Add admin API endpoint `POST /llm/adapters/{id}/load` that triggers hot-load; returns a `202 Accepted` with a job ID; status queryable via `GET /llm/adapters/{id}/load-status`.
 
 **Performance Targets:**
-- Hot-load of a 7B-parameter LoRA adapter (16-bit weights, rank 64) ≤ 5 s wall-clock from API call to adapter available for inference.
-- Zero inference requests dropped during hot-load (all requests served via fallback or existing adapters).
+- [x] Hot-load of a 7B-parameter LoRA adapter (16-bit weights, rank 64) ≤ 5 s wall-clock from API call to adapter available for inference.
+- [x] Zero inference requests dropped during hot-load (all requests served via fallback or existing adapters).
 
 ---
 
