@@ -53,7 +53,7 @@ class LLMModelStorage::Impl {
 public:
     explicit Impl(const Config& config) : config_(config) {
         spdlog::info("LLMModelStorage initialized:");
-        spdlog::info("  Collection: {}", config_.collection_name);
+        spdlog::info("  Collection: {}", config_.key_prefix);
         spdlog::info("  Encryption: {}", config_.enable_encryption);
         spdlog::info("  Signatures: {}", config_.enable_signatures);
         spdlog::info("  Blob Storage: {}", config_.use_blob_storage);
@@ -198,7 +198,7 @@ public:
             }
             
             // Store in RocksDB
-            std::string key = config_.collection_name + ":" + metadata.model_id;
+            std::string key = config_.key_prefix + metadata.model_id;
             bool success = config_.db->put(key, data_to_store);
             
             if (success) {
@@ -222,7 +222,7 @@ public:
             }
             
             // Retrieve from RocksDB
-            std::string key = config_.collection_name + ":" + model_id;
+            std::string key = config_.key_prefix + model_id;
             auto data = config_.db->get(key);
             
             if (!data) {
@@ -367,7 +367,7 @@ public:
             }
             
             // Retrieve entity from RocksDB
-            std::string key = config_.collection_name + ":" + model_id;
+            std::string key = config_.key_prefix + model_id;
             auto data = config_.db->get(key);
             
             if (!data) {
@@ -492,7 +492,7 @@ public:
             auto metadata_opt = loadModel(model_id);
             if (metadata_opt && config_.blob_manager) {
                 // Try to delete blob if it exists
-                std::string key = config_.collection_name + ":" + model_id;
+                std::string key = config_.key_prefix + model_id;
                 auto data = config_.db->get(key);
                 if (data) {
                     try {
@@ -528,7 +528,7 @@ public:
             }
             
             // Delete metadata from RocksDB
-            std::string key = config_.collection_name + ":" + model_id;
+            std::string key = config_.key_prefix + model_id;
             // RocksDB wrapper doesn't provide remove() in this version
             // Deletion is handled implicitly or requires alternative approach
             spdlog::debug("Model {} marked for deletion (key: {})", model_id, key);
@@ -552,7 +552,7 @@ public:
             return false;
         }
         
-        std::string key = config_.collection_name + ":" + model_id;
+        std::string key = config_.key_prefix + model_id;
         auto data = config_.db->get(key);
         return data.has_value();
     }
@@ -567,7 +567,7 @@ public:
         // List all keys with collection prefix
         // Note: RocksDB wrapper doesn't provide listKeysWithPrefix in this version
         // This is a placeholder that would need DB iteration support
-        std::string prefix = config_.collection_name + ":";
+        std::string prefix = config_.key_prefix;
         std::vector<std::string> keys;  // Empty - requires DB scan implementation
         
         for (const auto& key : keys) {
@@ -604,7 +604,7 @@ public:
     
     json getStats() const {
         json stats;
-        stats["collection"] = config_.collection_name;
+        stats["collection"] = config_.key_prefix;
         stats["encryption_enabled"] = config_.enable_encryption;
         stats["blob_storage_enabled"] = config_.use_blob_storage;
         
@@ -621,7 +621,7 @@ public:
             return std::nullopt;
         }
         
-        std::string key = config_.collection_name + ":" + model_id;
+        std::string key = config_.key_prefix + model_id;
         auto data = config_.db->get(key);
         
         if (!data) {
@@ -725,7 +725,7 @@ bool LLMModelStorage::addEdge(
     
     try {
         // Store edge as a separate key-value pair
-        std::string edge_key = config_.collection_name + ":edge:" + from_id + ":" + to_id + 
+        std::string edge_key = config_.key_prefix + "edge:" + from_id + ":" + to_id + 
                                ":" + std::to_string(static_cast<int>(edge_type));
         
         json edge_data = {
@@ -762,7 +762,7 @@ std::vector<json> LLMModelStorage::getEdges(
     
     try {
         // List all edge keys and filter by direction
-        std::string edge_prefix = config_.collection_name + ":edge:";
+        std::string edge_prefix = config_.key_prefix + "edge:";
         // Note: RocksDB wrapper doesn't provide listKeysWithPrefix in this version
         std::vector<std::string> keys;  // Empty - requires DB scan implementation
         
@@ -838,7 +838,7 @@ bool LLMModelStorage::storeEmbedding(
     
     try {
         // Store embedding as a separate key-value pair with metadata
-        std::string embedding_key = config_.collection_name + ":embedding:" + model_id;
+        std::string embedding_key = config_.key_prefix + "embedding:" + model_id;
         
         // Create a JSON object with dimension count for validation
         json embedding_json = {
@@ -874,7 +874,7 @@ std::vector<std::pair<std::string, float>> LLMModelStorage::findSimilarModels(
     
     try {
         // Get embedding for the query model
-        std::string embedding_key = config_.collection_name + ":embedding:" + model_id;
+        std::string embedding_key = config_.key_prefix + "embedding:" + model_id;
         auto query_data = config_.db->get(embedding_key);
         
         if (!query_data || query_data->empty()) {
@@ -906,7 +906,7 @@ std::vector<std::pair<std::string, float>> LLMModelStorage::findSimilarModels(
         }
         
         // List all embeddings and compute cosine similarity
-        std::string embedding_prefix = config_.collection_name + ":embedding:";
+        std::string embedding_prefix = config_.key_prefix + "embedding:";
         // Note: RocksDB wrapper doesn't provide listKeysWithPrefix in this version
         std::vector<std::string> keys;  // Empty - requires DB scan implementation
         
