@@ -1541,6 +1541,7 @@ set(THEMIS_CORE_SOURCES
     ../src/transaction/transaction_manager.cpp
     ../src/transaction/saga.cpp
     ../src/transaction/distributed_saga.cpp
+    ../src/transaction/saga_orchestrator.cpp
     ../src/transaction/snapshot_manager.cpp
     ../src/transaction/merge_engine.cpp
     ../src/transaction/branch_manager.cpp
