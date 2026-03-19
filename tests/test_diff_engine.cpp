@@ -736,10 +736,11 @@ TEST_F(DiffEngineTest, BoundedFetchReturnsOnlyRangeEvents) {
     EXPECT_FALSE(found5);  // must NOT appear — outside [seq1, seq3]
 }
 
-// Test: stampede prevention — two concurrent callers for the same range should
-// both get the correct result without both performing the expensive computation.
+// Test: stampede prevention — only one thread should perform the expensive
+// computation for a given range while all others wait on the in-flight CV.
+// The compute hook is used as an observable counter: it is called exactly once
+// per unique range computation (inside the guarded path, after inflight insert).
 TEST_F(DiffEngineTest, StampedePreventionConcurrentSameRange) {
-    // Populate a range with some events
     auto seq_from = recordPut("u:1", "Alice");
     recordPut("u:2", "Bob");
     recordPut("u:3", "Charlie");
@@ -748,7 +749,14 @@ TEST_F(DiffEngineTest, StampedePreventionConcurrentSameRange) {
     DiffEngine::DiffOptions opts;
     opts.enable_caching = true;
 
+    // Hook counts how many threads actually enter the expensive compute path.
+    // With stampede prevention exactly one thread should reach this point.
+    std::atomic<int> compute_count{0};
     constexpr int kThreads = 8;
+    diff_engine_->setComputeHookForTesting([&]() {
+        compute_count.fetch_add(1, std::memory_order_relaxed);
+    });
+
     std::vector<DiffEngine::DiffResult> results(kThreads);
     std::vector<std::thread> threads;
     threads.reserve(kThreads);
@@ -760,7 +768,15 @@ TEST_F(DiffEngineTest, StampedePreventionConcurrentSameRange) {
     }
     for (auto& t : threads) t.join();
 
-    // All threads must observe the same total_changes (2: u:2 and u:3)
+    diff_engine_->setComputeHookForTesting({});  // clear hook
+
+    // Exactly one thread must have performed the expensive computation.
+    const int actual_count = compute_count.load();
+    EXPECT_EQ(actual_count, 1)
+        << "Expected exactly 1 compute; got " << actual_count
+        << " — stampede prevention may not be working";
+
+    // All threads must observe the same correct result (2 events: u:2, u:3)
     for (int i = 0; i < kThreads; ++i) {
         EXPECT_EQ(results[i].stats.total_changes, results[0].stats.total_changes)
             << "Thread " << i << " got a different result from thread 0";
@@ -768,23 +784,52 @@ TEST_F(DiffEngineTest, StampedePreventionConcurrentSameRange) {
     EXPECT_EQ(results[0].stats.total_changes, 2u);
 }
 
-// Test: an exception during computation must not leave the range stuck in the
-// in-flight set (otherwise subsequent callers would deadlock waiting on the cv).
-// We verify this by running two sequential computations for the same valid range.
-TEST_F(DiffEngineTest, StampedeInFlightCleanedUpOnSuccess) {
+// Test: a successful first computation clears the in-flight marker so that
+// subsequent callers get a cache hit without any deadlock.
+TEST_F(DiffEngineTest, StampedeInFlightCleanedUpOnCacheHit) {
     auto seq1 = recordPut("x:1", "A");
     auto seq2 = recordPut("x:2", "B");
 
     DiffEngine::DiffOptions opts;
     opts.enable_caching = true;
 
-    // First call: populates cache, removes from inflight
+    // First call: cold path — populates cache and removes inflight marker.
     auto r1 = diff_engine_->computeDiff(seq1, seq2, opts);
     EXPECT_EQ(r1.stats.total_changes, 1u);
 
-    // Second call: should be a cache hit, no deadlock
+    // Second call: cache hit — no deadlock and no second computation.
+    std::atomic<int> compute_count{0};
+    diff_engine_->setComputeHookForTesting([&]() {
+        compute_count.fetch_add(1, std::memory_order_relaxed);
+    });
     auto r2 = diff_engine_->computeDiff(seq1, seq2, opts);
+    diff_engine_->setComputeHookForTesting({});
+
     EXPECT_EQ(r2.stats.total_changes, 1u);
+    EXPECT_EQ(compute_count.load(), 0) << "Second call should have been a cache hit";
+}
+
+// Test: if an exception is thrown during computation (simulated via the hook),
+// the in-flight marker must be cleared so subsequent callers are not blocked.
+TEST_F(DiffEngineTest, StampedeInFlightCleanedUpOnException) {
+    auto seq1 = recordPut("y:1", "V1");
+    auto seq2 = recordPut("y:2", "V2");
+
+    DiffEngine::DiffOptions opts;
+    opts.enable_caching = true;
+
+    // First call: hook throws — simulates an error inside computeDiff().
+    diff_engine_->setComputeHookForTesting([]() {
+        throw std::runtime_error("simulated failure in computeDiff");
+    });
+    EXPECT_THROW(diff_engine_->computeDiff(seq1, seq2, opts), std::runtime_error);
+    diff_engine_->setComputeHookForTesting({});
+
+    // Second call (no hook): the inflight marker must have been cleared by the
+    // RAII guard, so this call should proceed and return the correct result.
+    // If the marker was leaked the call would block forever.
+    auto r = diff_engine_->computeDiff(seq1, seq2, opts);
+    EXPECT_EQ(r.stats.total_changes, 1u);
 }
 
 // Opt-in performance test: bounded fetch must complete in ≤50 ms even when
@@ -857,10 +902,10 @@ TEST_F(DiffEngineTest, StampedeWait_SecondCallerUnder5ms) {
     threads.reserve(kWarmCallers);
 
     for (int i = 0; i < kWarmCallers; ++i) {
-        threads.emplace_back([&latencies, &diff_engine_ = *diff_engine_,
+        threads.emplace_back([&latencies, &engine = *diff_engine_,
                               seq_from, seq_to, opts, idx = i] {
             auto t0 = std::chrono::steady_clock::now();
-            diff_engine_.computeDiff(seq_from, seq_to, opts);
+            engine.computeDiff(seq_from, seq_to, opts);
             latencies[idx] = std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::steady_clock::now() - t0).count();
         });
