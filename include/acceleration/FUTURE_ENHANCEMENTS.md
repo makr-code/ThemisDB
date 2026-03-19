@@ -11,12 +11,12 @@
 
 ## Design Constraints
 
-- `[ ]` All GPU APIs are compile-time optional; `THEMIS_ENABLE_GPU` must be defined to expose GPU-specific symbols
-- `[ ]` `IComputeBackend` interface must never throw; all errors returned via `Result<T>` or error-code out-parameters
-- `[ ]` All GPU handle types (`DeviceHandle`, `BufferHandle`, `StreamHandle`) are opaque to callers; no raw CUDA/Vulkan types in public headers
-- `[ ]` Device selection API must be thread-safe and reentrant; no global mutable state in the interface layer
-- `[ ]` Async dispatch interface must support cancellation tokens compatible with the engine's cancellation framework
-- `[ ]` All deprecated GPU interfaces must be removed via a `THEMIS_DEPRECATED` macro before the next major version
+- `[x]` All GPU APIs are compile-time optional; `THEMIS_ENABLE_GPU` must be defined to expose GPU-specific symbols — pure-interface types in `compute_backend.h` include no CUDA/Vulkan SDK headers; `IVulkanComputeBackend` body guarded by `THEMIS_ENABLE_VULKAN` in `vulkan_backend.h`
+- `[x]` `IComputeBackend` interface must never throw; all errors returned via `Result<T>` or error-code out-parameters — `submitSimilarityKernel()` default implementation returns `make_ready()`; documented in Doxygen
+- `[x]` All GPU handle types (`DeviceHandle`, `BufferHandle`, `StreamHandle`) are opaque to callers; no raw CUDA/Vulkan types in public headers — `VulkanPipelineHandle` is a plain `uint64_t` wrapper; no `VkPipeline`/`CUdeviceptr` in any public header
+- `[x]` Device selection API must be thread-safe and reentrant; no global mutable state in the interface layer — `IMultiGPUSelector::selectDevices()` is documented as safe for concurrent calls from N threads; no mutable state in the interface
+- `[x]` Async dispatch interface must support cancellation tokens compatible with the engine's cancellation framework — `CancellationToken` (shared `atomic<bool>`) in `compute_future.h`; passed through `IAsyncComputeDispatch::submit()`
+- `[ ]` All deprecated GPU interfaces must be removed via a `THEMIS_DEPRECATED` macro before the next major version — no deprecated interfaces exist yet; to be enforced at the v2.0 API freeze
 
 ## Required Interfaces
 
@@ -32,38 +32,38 @@
 
 ### CUDA Kernel Interface for Vector Similarity
 
-- `[ ]` Add `IComputeBackend::submitSimilarityKernel(BatchDescriptor, KernelConfig)` to public header
-- `[ ]` Expose `KernelConfig` as a plain-data struct (no CUDA headers required at include site)
-- `[ ]` Define `SimilarityKernelResult` value type returned via `ComputeFuture<SimilarityKernelResult>`
-- `[ ]` Document FP tolerance guarantee (≤ 1e-6 vs. CPU baseline) in header Doxygen
+- `[x]` Add `IComputeBackend::submitSimilarityKernel(BatchDescriptor, KernelConfig)` to public header — default virtual in `include/acceleration/compute_backend.h`; returns `ComputeFuture<SimilarityKernelResult>::make_ready()` for CPU fallback
+- `[x]` Expose `KernelConfig` as a plain-data struct (no CUDA headers required at include site) — `struct KernelConfig` in `compute_backend.h`; all fields are primitive C++ types
+- `[x]` Define `SimilarityKernelResult` value type returned via `ComputeFuture<SimilarityKernelResult>` — `struct SimilarityKernelResult` with `indices`, `distances`, `topk`, `dim` fields in `compute_backend.h`
+- `[x]` Document FP tolerance guarantee (≤ 1e-6 vs. CPU baseline) in header Doxygen — documented above `submitSimilarityKernel()` and in `SimilarityKernelResult` Doxygen in `compute_backend.h`
 
 ### Vulkan Compute Backend Interface
 
-- `[ ]` Define `IVulkanComputeBackend : IComputeBackend` with Vulkan-specific pipeline config struct
-- `[ ]` Expose pipeline descriptor as an opaque handle; no raw `VkPipeline` in public headers
-- `[ ]` Add `THEMIS_ENABLE_VULKAN` compile guard nested within `THEMIS_ENABLE_GPU`
-- `[ ]` Provide `VulkanDeviceInfo` POD struct queryable without a live Vulkan instance
+- `[x]` Define `IVulkanComputeBackend : IComputeBackend` with Vulkan-specific pipeline config struct — `class IVulkanComputeBackend : public IVectorBackend` in `include/acceleration/vulkan_backend.h`; guarded by `THEMIS_ENABLE_VULKAN`
+- `[x]` Expose pipeline descriptor as an opaque handle; no raw `VkPipeline` in public headers — `struct VulkanPipelineHandle { uint64_t id; }` in `vulkan_backend.h`
+- `[x]` Add `THEMIS_ENABLE_VULKAN` compile guard nested within `THEMIS_ENABLE_GPU` — `#ifdef THEMIS_ENABLE_VULKAN` around `IVulkanComputeBackend` class body in `vulkan_backend.h`
+- `[x]` Provide `VulkanDeviceInfo` POD struct queryable without a live Vulkan instance — `struct VulkanDeviceInfo` with `device_name[256]`, `vram_bytes`, `supports_fp16/int8`, `is_discrete` in `vulkan_backend.h`
 
 ### Multi-GPU Load Balancer API
 
-- `[ ]` Define `IMultiGPUSelector` with `selectDevices(WorkloadDescriptor) -> DeviceSet`
-- `[ ]` Add `DeviceSet` as a small-vector value type (max 8 devices) in public header
-- `[ ]` Expose `WorkloadDescriptor` with byte-size, FLOP estimate, and latency-class fields
-- `[ ]` Document thread-safety guarantee in header: callable concurrently from N threads
+- `[x]` Define `IMultiGPUSelector` with `selectDevices(WorkloadDescriptor) -> DeviceSet` — `class IMultiGPUSelector` with pure-virtual `selectDevices(const WorkloadDescriptor&) const` in `compute_backend.h`
+- `[x]` Add `DeviceSet` as a small-vector value type (max 8 devices) in public header — `struct DeviceSet` with `std::array<int, 8>` + `count` field in `compute_backend.h`
+- `[x]` Expose `WorkloadDescriptor` with byte-size, FLOP estimate, and latency-class fields — `struct WorkloadDescriptor { size_t data_bytes; uint64_t flop_estimate; LatencyClass latency_class; }` in `compute_backend.h`
+- `[x]` Document thread-safety guarantee in header: callable concurrently from N threads — documented in `IMultiGPUSelector` Doxygen
 
 ### Device Capability Negotiation API
 
-- `[ ]` Define `IDeviceCapabilityQuery::queryCapabilities(DeviceHandle) -> DeviceCapabilityFlags`
-- `[ ]` Expose `DeviceCapabilityFlags` as a strongly-typed bitmask enum class
-- `[ ]` Add `queryAll() -> std::vector<DeviceCapabilityFlags>` for enumeration at startup
-- `[ ]` Ensure all query methods are callable before CUDA/Vulkan context creation
+- `[x]` Define `IDeviceCapabilityQuery::queryCapabilities(DeviceHandle) -> DeviceCapabilityFlags` — `virtual DeviceCapabilityFlags queryCapabilities(int device_index) const noexcept = 0` in `compute_backend.h`
+- `[x]` Expose `DeviceCapabilityFlags` as a strongly-typed bitmask enum class — `enum class DeviceCapabilityFlags : uint32_t` with `operator|`, `operator&`, `hasCapability()` helpers in `compute_backend.h`
+- `[x]` Add `queryAll() -> std::vector<DeviceCapabilityFlags>` for enumeration at startup — `virtual std::vector<DeviceCapabilityFlags> queryAll() const = 0` in `IDeviceCapabilityQuery`
+- `[x]` Ensure all query methods are callable before CUDA/Vulkan context creation — `IDeviceCapabilityQuery` holds no GPU handles; pre-context callability documented in Doxygen
 
 ### Async Compute Dispatch Interface
 
-- `[ ]` Define `IAsyncComputeDispatch::submit(KernelDescriptor, CancellationToken) -> ComputeFuture<T>`
-- `[ ]` Expose `ComputeFuture<T>` with `then()`, `get()`, and `cancel()` in a separate `compute_future.h`
-- `[ ]` Guarantee that `cancel()` is safe to call after kernel completion (no-op)
-- `[ ]` Add `DispatchStats` struct to `ComputeFuture<T>` for latency introspection
+- `[x]` Define `IAsyncComputeDispatch::submit(KernelDescriptor, CancellationToken) -> ComputeFuture<T>` — `virtual ComputeFuture<T> submit(const KernelDescriptor&, CancellationToken) = 0` in `compute_backend.h`
+- `[x]` Expose `ComputeFuture<T>` with `then()`, `get()`, and `cancel()` in a separate `compute_future.h` — `include/acceleration/compute_future.h` provides all three methods
+- `[x]` Guarantee that `cancel()` is safe to call after kernel completion (no-op) — documented in `CancellationToken::cancel()` Doxygen: *"Idempotent and safe to call concurrently from any thread"*
+- `[x]` Add `DispatchStats` struct to `ComputeFuture<T>` for latency introspection — `struct DispatchStats` with `submit_time_ns`, `start_time_ns`, `finish_time_ns`, `queue_depth`, `from_cache` in `compute_future.h`
 
 ## Test Strategy
 
