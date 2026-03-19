@@ -25,6 +25,8 @@
 #pragma once
 
 #include <cstdint>
+#include <chrono>
+#include <mutex>
 #include <functional>
 #include <string>
 #include <memory>
@@ -113,11 +115,11 @@ public:
     explicit VLLMResourceManager(const Config& config);
     ~VLLMResourceManager();
     
-    // Disable copy, allow move
+    // Disable copy and move (std::mutex member is not movable/copyable)
     VLLMResourceManager(const VLLMResourceManager&) = delete;
     VLLMResourceManager& operator=(const VLLMResourceManager&) = delete;
-    VLLMResourceManager(VLLMResourceManager&&) = default;
-    VLLMResourceManager& operator=(VLLMResourceManager&&) = default;
+    VLLMResourceManager(VLLMResourceManager&&) = delete;
+    VLLMResourceManager& operator=(VLLMResourceManager&&) = delete;
     
     /**
      * @brief Initialize resource manager and detect hardware
@@ -180,6 +182,22 @@ public:
 private:
     Config config_;
     bool initialized_ = false;
+    
+    // CPU snapshot cache: avoids a blocking 100 ms sleep when getStats() is called
+    // repeatedly within the 200 ms TTL window.  Three uint64_t fields store the
+    // most recent raw OS counters without requiring platform-specific types:
+    //   Linux   – v0 = total jiffies, v1 = idle jiffies, v2 = (unused)
+    //   Windows – v0 = idle FILETIME, v1 = kernel FILETIME, v2 = user FILETIME
+    struct CpuSnapshot {
+        uint64_t v0 = 0;          // Linux: total; Windows: idle
+        uint64_t v1 = 0;          // Linux: idle;  Windows: kernel
+        uint64_t v2 = 0;          // Linux: (unused); Windows: user
+        double last_cpu_util = 0.0; // last successfully computed utilization [0,100]
+        std::chrono::steady_clock::time_point ts;
+        bool valid = false;
+    };
+    mutable CpuSnapshot cpu_snapshot_cache_;
+    mutable std::mutex  cpu_cache_mutex_;
 
     // Test-only GPU utilization override (see setGpuUtilizationProviderForTesting).
     std::function<std::optional<double>()> gpu_util_provider_for_testing_;
