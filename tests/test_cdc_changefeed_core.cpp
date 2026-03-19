@@ -33,6 +33,7 @@
 #include <filesystem>
 #include <atomic>
 #include <chrono>
+#include <limits>
 #include <set>
 #include <thread>
 #include <vector>
@@ -514,6 +515,48 @@ TEST_F(ChangefeedCoreTest, ListEventsWithFromSequenceAndLimit) {
     ASSERT_EQ(events.size(), 2u);
     EXPECT_EQ(events[0].sequence, seqs[4]);
     EXPECT_EQ(events[1].sequence, seqs[5]);
+}
+
+// ListOptions::to_sequence (inclusive upper bound) must stop iteration before
+// events beyond the requested ceiling are returned.
+TEST_F(ChangefeedCoreTest, ListEventsWithToSequenceBound) {
+    std::vector<uint64_t> seqs;
+    for (int i = 0; i < 6; i++) {
+        auto ev = feed_->recordEvent(makePut("bound_ev_" + std::to_string(i)));
+        seqs.push_back(ev.sequence);
+    }
+
+    // Request events strictly between seqs[1] (exclusive) and seqs[3] (inclusive)
+    Changefeed::ListOptions opts;
+    opts.from_sequence = seqs[1]; // exclusive — starts at seqs[2]
+    opts.to_sequence   = seqs[3]; // inclusive — stops at seqs[3]
+    opts.limit         = std::numeric_limits<size_t>::max();
+    auto events = feed_->listEvents(opts);
+
+    ASSERT_EQ(events.size(), 2u);
+    EXPECT_EQ(events[0].sequence, seqs[2]);
+    EXPECT_EQ(events[1].sequence, seqs[3]);
+}
+
+// to_sequence == 0 means "no upper bound" — all events from from_sequence onward
+// should be returned (up to the limit).
+TEST_F(ChangefeedCoreTest, ListEventsToSequenceZeroMeansUnbounded) {
+    std::vector<uint64_t> seqs;
+    for (int i = 0; i < 4; i++) {
+        auto ev = feed_->recordEvent(makePut("unb_ev_" + std::to_string(i)));
+        seqs.push_back(ev.sequence);
+    }
+
+    Changefeed::ListOptions opts;
+    opts.from_sequence = seqs[0];  // start after first event
+    opts.to_sequence   = 0;        // 0 = no upper bound
+    opts.limit         = std::numeric_limits<size_t>::max();
+    auto events = feed_->listEvents(opts);
+
+    // Should return the last 3 events (seqs[1], seqs[2], seqs[3])
+    ASSERT_EQ(events.size(), 3u);
+    EXPECT_EQ(events[0].sequence, seqs[1]);
+    EXPECT_EQ(events[2].sequence, seqs[3]);
 }
 
 // ===========================================================================

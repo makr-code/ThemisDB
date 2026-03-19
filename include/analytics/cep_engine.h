@@ -60,6 +60,9 @@
 #include <any>
 #include <regex>
 
+// Lock-free MPMC ring buffer for the CEP event queue.
+#include "analytics/detail/ring_buffer.h"
+
 namespace themisdb {
 namespace analytics {
 
@@ -333,6 +336,9 @@ struct WindowConfig {
     bool emit_on_close = true;                   // Emit results when window closes
     bool emit_on_event = false;                  // Emit on every event
     std::chrono::milliseconds allowed_lateness{0}; // Late event tolerance
+    /// How often the timer thread wakes to emit GLOBAL window snapshots and
+    /// close expired SESSION windows.  Smaller values reduce emission latency.
+    std::chrono::milliseconds global_window_emit_interval_ms{500};
 };
 
 /**
@@ -1139,9 +1145,12 @@ private:
     std::condition_variable metrics_cv_;
     std::mutex metrics_mutex_;
     
-    // Processing
-    std::queue<std::pair<std::string, Event>> event_queue_;
-    mutable std::mutex queue_mutex_;
+    // Processing — lock-free MPMC ring buffer replaces std::queue + mutex.
+    // Capacity mirrors max_queue_depth from CEPConfig (set during initialize()).
+    // The ring buffer is re-created if initialize() is called again.
+    std::unique_ptr<themis::analytics::detail::EventRingBuffer<
+        std::pair<std::string, Event>>> event_queue_;
+    // size_approx() is used for backpressure fill-ratio checks and getStats().
     
     void workerLoop();
     void metricsLoop();

@@ -161,6 +161,7 @@ if(NOT THEMIS_ENABLE_GPU)
         ".*test_cpu_gpu_parity\\.cpp$"
         ".*test_cuda_ann_search\\.cpp$"
         ".*test_acceleration_coverage\\.cpp$"
+        ".*test_cuda_hnsw_large_k\\.cpp$"
     )
 endif()
 
@@ -2451,8 +2452,56 @@ else()
 endif()
 
 # ============================================================================
-# Distributed Cache Coordinator Tests (Phase 4 – Redis-compatible protocol)
+# Cache Replication Coordinator Tests (v1.8.0 – network-backed peer discovery)
 # ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_replication_coordinator.cpp")
+    message(STATUS "Adding Cache Replication Coordinator tests (network-backed peer discovery)")
+
+    set(_COORD_SOURCES
+        test_cache_replication_coordinator.cpp
+    )
+
+    add_executable(test_cache_replication_coordinator ${_COORD_SOURCES})
+
+    target_include_directories(test_cache_replication_coordinator PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_cache_replication_coordinator PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+    if(THEMIS_ENABLE_GRPC)
+        target_link_libraries(test_cache_replication_coordinator PRIVATE gRPC::grpc++)
+    endif()
+
+    target_compile_definitions(test_cache_replication_coordinator PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    if(THEMIS_ENABLE_GRPC)
+        target_compile_definitions(test_cache_replication_coordinator PRIVATE
+            THEMIS_ENABLE_GRPC
+        )
+    endif()
+
+    add_test(NAME CacheReplicationCoordinatorTests
+             COMMAND test_cache_replication_coordinator)
+
+    set_tests_properties(CacheReplicationCoordinatorTests PROPERTIES
+        LABELS "cache;replication;network;grpc;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Cache Replication Coordinator: IRemoteCachePeer, IClusterView, async fanout, retry queue")
+else()
+    message(STATUS "Cache Replication Coordinator tests not found")
+endif()
+
+
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cache_coordinator.cpp")
     message(STATUS "Adding Distributed Cache Coordinator tests")
@@ -4164,6 +4213,85 @@ else()
     message(STATUS "SagaOperation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_saga_operation.cpp")
 endif()
 
+# SAGA Orchestrator Focused Tests (v1.8.0)
+# AC-1..25: parallel DAG execution, dependency resolution, retry, timeout,
+#           compensation, templates, metrics, concurrent SAGAs, performance
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_saga_orchestrator.cpp")
+    message(STATUS "Adding SAGA Orchestrator focused tests (transaction, v1.8.0)")
+
+    add_executable(test_saga_orchestrator_focused
+        test_saga_orchestrator.cpp
+        ${CMAKE_SOURCE_DIR}/src/transaction/saga_orchestrator.cpp
+    )
+
+    target_include_directories(test_saga_orchestrator_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_saga_orchestrator_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_saga_orchestrator_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SAGAOrchestratorFocusedTests
+        COMMAND test_saga_orchestrator_focused)
+
+    set_tests_properties(SAGAOrchestratorFocusedTests PROPERTIES
+        LABELS "transaction;saga;orchestrator;dag;parallel;retry;timeout;v1.8.0;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  SAGAOrchestrator: DAG parallel execution, dependency resolution, retry policies, timeout management, compensation, templates, metrics")
+else()
+    message(STATUS "SAGA Orchestrator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_saga_orchestrator.cpp")
+endif()
+
+# Transaction Batcher Focused Tests (v1.8.0)
+# AC-1..26: BatchConfig, window clamping, submitAsync, flush, per-table policies,
+#           adaptive sizing, fair FIFO scheduling, stats, concurrent submitters
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_batcher.cpp")
+    message(STATUS "Adding Transaction Batcher focused tests (transaction, v1.8.0)")
+
+    add_executable(test_transaction_batcher_focused
+        test_transaction_batcher.cpp
+        ${CMAKE_SOURCE_DIR}/src/transaction/transaction_batcher.cpp
+    )
+
+    target_include_directories(test_transaction_batcher_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_transaction_batcher_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_transaction_batcher_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TransactionBatcherFocusedTests
+        COMMAND test_transaction_batcher_focused)
+
+    set_tests_properties(TransactionBatcherFocusedTests PROPERTIES
+        LABELS "transaction;batching;coalescing;write-batching;adaptive;v1.8.0;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  TransactionBatcher: BatchConfig, submitAsync, flush, per-table policies, adaptive sizing, FIFO scheduling, stats, concurrent submitters")
+else()
+    message(STATUS "Transaction Batcher focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_batcher.cpp")
+endif()
+
 # Transaction Manager Focused Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_manager.cpp")
     message(STATUS "Adding Transaction Manager focused tests")
@@ -5679,6 +5807,41 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_anomaly_detection.cpp")
     message(STATUS "  AnomalyDetection: Z-Score, MAD, IQR, IsolationForest, LOF, Ensemble, streaming, serialize")
 endif()
 
+# LLMProcessAnalyzer focused tests — O(1) LRU cache eviction (v1.8.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_llm_process_analyzer.cpp")
+    message(STATUS "Adding focused LLMProcessAnalyzer LRU cache tests")
+
+    add_executable(test_llm_process_analyzer_focused
+        analytics/test_llm_process_analyzer.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/llm_process_analyzer.cpp
+    )
+
+    target_include_directories(test_llm_process_analyzer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_llm_process_analyzer_focused PRIVATE
+        ${TEST_LIBS}
+        OpenSSL::Crypto
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_llm_process_analyzer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME LLMProcessAnalyzerFocusedTests COMMAND test_llm_process_analyzer_focused)
+
+    set_tests_properties(LLMProcessAnalyzerFocusedTests PROPERTIES
+        LABELS "analytics;llm;lru-cache;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  LLMProcessAnalyzer: O(1) LRU eviction, SHA256 cache key, max_cache_entries, LRU ordering")
+endif()
+
 # AutoML focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_automl.cpp")
     message(STATUS "Adding focused AutoML tests")
@@ -6068,6 +6231,42 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_cep_engine.cpp")
     message(STATUS "  CEPEngine: NFA patterns, EPL parser, window+aggregation, alerts, checkpoint I/O")
 endif()
 
+# Analytics Memory Pool focused tests (AC-AMP-1..15)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_analytics_memory_pool.cpp")
+    message(STATUS "Adding focused analytics memory pool tests")
+
+    add_executable(test_analytics_memory_pool_focused
+        analytics/test_analytics_memory_pool.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/columnar_execution.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/cep_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/olap.cpp
+    )
+
+    target_include_directories(test_analytics_memory_pool_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_analytics_memory_pool_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_analytics_memory_pool_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AnalyticsMemoryPoolFocusedTests COMMAND test_analytics_memory_pool_focused)
+
+    set_tests_properties(AnalyticsMemoryPoolFocusedTests PROPERTIES
+        LABELS "analytics;memory-pool;ring-buffer;arena;focused;unit"
+        TIMEOUT 180
+    )
+
+    message(STATUS "  AnalyticsMemoryPool: arena allocator, MPMC ring buffer, OLAP/columnar/CEP integration")
+endif()
+
 # Arrow Export focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_arrow_export.cpp")
     message(STATUS "Adding focused Arrow export tests")
@@ -6110,6 +6309,42 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_arrow_export.cpp")
     )
 
     message(STATUS "  ArrowExport: RecordBatch, JSON/CSV export, optional Parquet/Feather/IPC, sanitization")
+endif()
+
+# OLAP LRU result cache focused tests (v1.8.0)
+# Validates: O(1) LRU eviction, TTL invalidation, cache-key normalisation,
+# background cleanup thread, configurable max_entries / ttl_ms.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_olap_lru_cache.cpp")
+    message(STATUS "Adding focused OLAP LRU cache tests")
+
+    add_executable(test_olap_lru_cache_focused
+        analytics/test_olap_lru_cache.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/olap.cpp
+    )
+
+    target_include_directories(test_olap_lru_cache_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_olap_lru_cache_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_olap_lru_cache_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME OLAPLRUCacheFocusedTests COMMAND test_olap_lru_cache_focused)
+
+    set_tests_properties(OLAPLRUCacheFocusedTests PROPERTIES
+        LABELS "analytics;olap;lru;cache;ttl;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  OLAPLRUCache: cache hit, LRU eviction, TTL invalidation, key normalisation, background cleanup")
 endif()
 
 # Process Mining pattern-focused tests (file is test_process_mining_llm.cpp but exercises
@@ -7570,6 +7805,7 @@ else()
     message(STATUS "Plugin Security PE Cert Extraction tests not found")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_marketplace_manifest.cpp")
     message(STATUS "Adding Plugin Marketplace Manifest focused tests")
 
     add_executable(test_plugin_marketplace_manifest_focused
@@ -8643,6 +8879,87 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_changefeed_sequence_counter.cpp"
     message(STATUS "  CDCSequenceCounter: SequenceIncrementOperator, atomic counter, crash recovery, concurrent uniqueness, >=200K/s throughput")
 else()
     message(STATUS "CDC Sequence Counter tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_changefeed_sequence_counter.cpp")
+endif()
+
+# ============================================================================
+# ChangefeedCore Focused Tests (v1.8.0) — validates Changefeed subscriptions,
+# listEvents() upper-bound (to_sequence), JSON round-trips, watermarks, and
+# concurrent subscribe/record safety.
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_changefeed_core.cpp")
+    message(STATUS "Adding ChangefeedCore focused tests (Issue #9, v1.8.0 stampede fix)")
+
+    add_executable(test_cdc_changefeed_core_focused
+        test_cdc_changefeed_core.cpp
+    )
+
+    target_include_directories(test_cdc_changefeed_core_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_cdc_changefeed_core_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cdc_changefeed_core_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ChangefeedCoreFocusedTests COMMAND test_cdc_changefeed_core_focused)
+
+    set_tests_properties(ChangefeedCoreFocusedTests PROPERTIES
+        LABELS "cdc;changefeed;to-sequence;upper-bound;stampede;v1.8.0;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ChangefeedCore: subscriptions, to_sequence upper-bound, JSON roundtrip, watermarks, concurrent safety")
+else()
+    message(STATUS "ChangefeedCore focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_changefeed_core.cpp")
+endif()
+
+# ============================================================================
+# DiffEngine Focused Tests (v1.8.0) — validates cache-stampede prevention,
+# bounded listEvents() via to_sequence, copy-evict-then-lock eviction, and
+# all original DiffEngine acceptance criteria.
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_diff_engine.cpp")
+    message(STATUS "Adding DiffEngine focused tests (Issue #9, v1.8.0 stampede fix)")
+
+    add_executable(test_diff_engine_focused
+        test_diff_engine.cpp
+    )
+
+    target_include_directories(test_diff_engine_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_diff_engine_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_diff_engine_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DiffEngineFocusedTests COMMAND test_diff_engine_focused)
+
+    set_tests_properties(DiffEngineFocusedTests PROPERTIES
+        LABELS "analytics;diff-engine;cache-stampede;inflight;bounded-fetch;v1.8.0;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  DiffEngine: stampede prevention, bounded fetch, copy-evict-then-lock, all diff scenarios")
+else()
+    message(STATUS "DiffEngine focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_diff_engine.cpp")
 endif()
 
 # ============================================================================
@@ -12326,6 +12643,126 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_catalog.cpp")
     message(STATUS "  DistributedMetadataCatalog: cross-shard catalog synchronisation, shard metadata lookup")
 endif()
 
+# Metadata – SchemaVersionManager focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_version_manager.cpp")
+    message(STATUS "Adding Metadata SchemaVersionManager focused tests")
+    add_executable(test_schema_version_manager_focused test_schema_version_manager.cpp)
+    target_include_directories(test_schema_version_manager_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_schema_version_manager_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_schema_version_manager_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME SchemaVersionManagerFocusedTests COMMAND test_schema_version_manager_focused)
+    set_tests_properties(SchemaVersionManagerFocusedTests PROPERTIES
+        LABELS "metadata;versioning;schema;history;rollback;migration;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  SchemaVersionManager: schema version tracking, change history, rollback, diff, audit log integration")
+endif()
+
+# Metadata – SchemaVersionManager dry-run / validateMigration focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_version_dryrun.cpp")
+    message(STATUS "Adding Metadata SchemaVersionManager dry-run focused tests")
+    add_executable(test_schema_version_dryrun_focused test_schema_version_dryrun.cpp)
+    target_include_directories(test_schema_version_dryrun_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_schema_version_dryrun_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_schema_version_dryrun_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME SchemaVersionDryRunFocusedTests COMMAND test_schema_version_dryrun_focused)
+    set_tests_properties(SchemaVersionDryRunFocusedTests PROPERTIES
+        LABELS "metadata;versioning;schema;dry-run;migration-validation;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  SchemaVersionManager/validateMigration: dry-run validation, duplicate-column detection, no-persist guarantee")
+endif()
+
+# Metadata – generateMigrationScript focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_migration_script.cpp")
+    message(STATUS "Adding Metadata MigrationScript focused tests")
+    add_executable(test_schema_migration_script_focused test_schema_migration_script.cpp)
+    target_include_directories(test_schema_migration_script_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_schema_migration_script_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_schema_migration_script_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME SchemaMigrationScriptFocusedTests COMMAND test_schema_migration_script_focused)
+    set_tests_properties(SchemaMigrationScriptFocusedTests PROPERTIES
+        LABELS "metadata;versioning;migration;ddl;add-column;drop-column;alter-column;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  SchemaMigrationScript: ADD/DROP/ALTER COLUMN DDL generation, type mapping, NOT NULL, reverse migration")
+endif()
+
+# Metadata – schema migration regression focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_migration_regression.cpp")
+    message(STATUS "Adding Metadata MigrationRegression focused tests")
+    add_executable(test_schema_migration_regression_focused test_schema_migration_regression.cpp)
+    target_include_directories(test_schema_migration_regression_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_schema_migration_regression_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_schema_migration_regression_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME SchemaMigrationRegressionFocusedTests COMMAND test_schema_migration_regression_focused)
+    set_tests_properties(SchemaMigrationRegressionFocusedTests PROPERTIES
+        LABELS "metadata;versioning;migration;regression;lifecycle;rollback;validate;unit"
+        TIMEOUT 90
+    )
+    message(STATUS "  SchemaMigrationRegression: forward/rollback across 5 versions, audit log, validateMigration lifecycle")
+endif()
+
+# Metadata – SchemaConstraints focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_constraints.cpp")
+    message(STATUS "Adding Metadata SchemaConstraints focused tests")
+    add_executable(test_schema_constraints_focused test_schema_constraints.cpp)
+    target_include_directories(test_schema_constraints_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_schema_constraints_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_schema_constraints_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME SchemaConstraintsFocusedTests COMMAND test_schema_constraints_focused)
+    set_tests_properties(SchemaConstraintsFocusedTests PROPERTIES
+        LABELS "metadata;schema;constraints;not-null;unique;check;default;foreign-key;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  SchemaConstraints: NOT NULL, UNIQUE, CHECK, DEFAULT, foreign key enforcement")
+endif()
+
+# Metadata – SchemaConstraints persistence focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_constraints_persistence.cpp")
+    message(STATUS "Adding Metadata SchemaConstraints persistence focused tests")
+    add_executable(test_schema_constraints_persistence_focused test_schema_constraints_persistence.cpp)
+    target_include_directories(test_schema_constraints_persistence_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_schema_constraints_persistence_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_schema_constraints_persistence_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME SchemaConstraintsPersistenceFocusedTests COMMAND test_schema_constraints_persistence_focused)
+    set_tests_properties(SchemaConstraintsPersistenceFocusedTests PROPERTIES
+        LABELS "metadata;schema;constraints;persistence;rocksdb;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  SchemaConstraintsPersistence: RocksDB round-trip for constraint definitions, reload after restart")
+endif()
+
 # ============================================================================
 # Network Module – Focused Standalone Test Targets
 # Standalone executables so each network component can be tested in isolation
@@ -15624,6 +16061,48 @@ else()
 endif()
 
 # ============================================================================
+# BackendRegistry Thread-Safety Tests (Issue #133, v1.8.0)
+# Covers: 16 reader threads + registerBackend() writer (lightweight stub),
+#         isRuntimeInitialized() concurrent reads,
+#         getSelectedXBackend() + registerBackend() interaction.
+#         For data-race detection run locally with -fsanitize=thread (TSan).
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_backend_registry_thread_safety.cpp")
+    message(STATUS "Adding BackendRegistry thread-safety focused tests (acceleration, Issue #133, v1.8.0)")
+
+    add_executable(test_backend_registry_thread_safety_focused
+        acceleration/test_backend_registry_thread_safety.cpp
+    )
+
+    target_include_directories(test_backend_registry_thread_safety_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_backend_registry_thread_safety_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_backend_registry_thread_safety_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME BackendRegistryThreadSafetyFocusedTests
+        COMMAND test_backend_registry_thread_safety_focused)
+
+    set_tests_properties(BackendRegistryThreadSafetyFocusedTests PROPERTIES
+        LABELS "acceleration;backend-registry;thread-safety;v1.8.0;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  BackendRegistry: 16-thread getBestVectorBackend + registerBackend writer (stub), isRuntimeInitialized concurrency, getSelectedXBackend concurrency")
+else()
+    message(STATUS "BackendRegistry thread-safety focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_backend_registry_thread_safety.cpp")
+endif()
+
+# ============================================================================
 # VLLMResourceManager – CPU/RAM Monitoring Stats Tests
 # Covers: getStats() OS-specific CPU utilisation + RAM monitoring,
 #         canUseGPU() NVML timeout safety, uninitialised guard.
@@ -15653,12 +16132,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_vllm_resource_stats.cpp")
     add_test(NAME VLLMResourceStatsFocusedTests COMMAND test_vllm_resource_stats_focused)
 
     set_tests_properties(VLLMResourceStatsFocusedTests PROPERTIES
-        LABELS "acceleration;vllm;resource-manager;cpu-monitoring;ram-monitoring;unit"
+        LABELS "acceleration;vllm;resource-manager;cpu-monitoring;ram-monitoring;multi-gpu;nvml;unit"
         TIMEOUT 30
     )
 
 
-    message(STATUS "  VLLMResourceManager: cpu_utilization, ram_used_mb, canUseGPU timeout, uninitialised guard")
+    message(STATUS "  VLLMResourceManager: cpu_utilization, ram_used_mb, canUseGPU timeout, uninitialised guard, multi-GPU mock-provider tests")
 else()
     message(STATUS "VLLMResourceManager stats focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_vllm_resource_stats.cpp")
 endif()
@@ -16211,6 +16690,147 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tsstore_gorilla_buffer.cpp")
     message(STATUS "  TSStore: single-point buffering, gorilla_batch_size, push() BUFFER_FULL, p99 latency")
 else()
     message(STATUS "TSStore Gorilla Buffer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tsstore_gorilla_buffer.cpp")
+endif()
+
+# ---------------------------------------------------------------------------
+# PredictivePrefetcher Markov ML model focused tests (v1.8.0)
+# Covers all four acceptance criteria:
+#   AC-1  Markov chain + ToD bucketing   (time-of-day weighted candidates)
+#   AC-2  RocksDB persistence            (save/load round-trip via prefetch_model:: prefix)
+#   AC-3  MetricsCollector emission      (cache.prefetch.hit_rate + overhead_bytes)
+#   AC-4  A/B test toggle                (50/50 tenant split, per-group counters)
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_predictive_prefetcher_markov.cpp" AND NOT TARGET test_predictive_prefetcher_markov_focused)
+    message(STATUS "Adding PredictivePrefetcher Markov ML focused tests (cache, v1.8.0)")
+
+    add_executable(test_predictive_prefetcher_markov_focused
+        test_predictive_prefetcher_markov.cpp
+    )
+
+    target_include_directories(test_predictive_prefetcher_markov_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_predictive_prefetcher_markov_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_predictive_prefetcher_markov_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PredictivePrefetcherMarkovTests COMMAND test_predictive_prefetcher_markov_focused)
+
+    set_tests_properties(PredictivePrefetcherMarkovTests PROPERTIES
+        LABELS "cache;prefetch;markov;tod;rocksdb;metrics;ab-test;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PredictivePrefetcherMarkov: ToD bucketing, RocksDB persistence, MetricsCollector, A/B test toggle")
+else()
+    if(TARGET test_predictive_prefetcher_markov_focused)
+        message(STATUS "PredictivePrefetcher Markov focused tests already registered")
+    else()
+        message(STATUS "PredictivePrefetcher Markov focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_predictive_prefetcher_markov.cpp")
+    endif()
+endif()
+
+# Versioned API Routing focused tests (v1.8.0)
+# AC-VAR-1..4   RouteVersionRouter redirect / normalize / strip prefix
+# AC-VAR-5..9   POST /v2/documents (handleBulkNdjson): NDJSON accept, 415,
+#               inserted count, auto-key, per-line error reporting, 10 k limit
+# AC-VAR-10     AsyncJobRegistry default TTL = 1 h (3600 s)
+# AC-VAR-11..13 AsyncJobApiHandler: submit 202, status poll, cancel
+# AC-VAR-14..15 GET /v2/query/stream: missing-q 400, text/event-stream CT
+# AC-VAR-16     Bulk insert of 10,000 x 256-byte docs in < 500 ms
+# AC-VAR-17     SSE first-byte latency < 5 ms
+# AC-VAR-18     AsyncJobApiHandler persists completed job in AdaptiveQueryCache
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_versioned_api_routing.cpp")
+    message(STATUS "Adding Versioned API Routing focused tests (server, v1.8.0)")
+
+    add_executable(test_versioned_api_routing_focused
+        test_versioned_api_routing.cpp
+    )
+
+    target_include_directories(test_versioned_api_routing_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_versioned_api_routing_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_versioned_api_routing_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME VersionedApiRoutingFocusedTests
+        COMMAND test_versioned_api_routing_focused)
+
+    set_tests_properties(VersionedApiRoutingFocusedTests PROPERTIES
+        LABELS "server;api;versioning;v1.8.0;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  RouteVersionRouter, handleBulkNdjson, handleQueryStreamSse, AsyncJobApiHandler")
+else()
+    message(STATUS "Versioned API Routing focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_versioned_api_routing.cpp")
+endif()
+
+# CUDA HNSW Large-k Focused Tests (Issue #132, v1.8.0)
+#
+# Validates:
+#   AC-1  k=257 returns exactly 257 results (no silent truncation)
+#   AC-2  k=512 returns exactly 512 results
+#   AC-3  k=1024 returns exactly 1024 results (new single-pass kMaxK boundary)
+#   AC-4  k=1025 uses multi-pass strategy and returns 1025 results
+#   AC-5  k > 1024 surfaces BackendHealthStatus::makeDegraded() in release builds
+#   AC-6  Results are sorted ascending by score for k=512
+#   AC-7  Multiple queries with k=257 each return k results
+#
+# Uses CudaHnswTraversalEngine which transparently falls back to the CPU path
+# when no CUDA device is available, so no GPU hardware is required.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cuda_hnsw_large_k.cpp")
+    message(STATUS "Adding CUDA HNSW Large-k focused tests (acceleration, Issue #132, v1.8.0)")
+
+    add_executable(test_cuda_hnsw_large_k_focused
+        test_cuda_hnsw_large_k.cpp
+    )
+
+    target_include_directories(test_cuda_hnsw_large_k_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_cuda_hnsw_large_k_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cuda_hnsw_large_k_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CudaHnswLargeKFocusedTests COMMAND test_cuda_hnsw_large_k_focused)
+
+    set_tests_properties(CudaHnswLargeKFocusedTests PROPERTIES
+        LABELS "acceleration;cuda;hnsw;large-k;v1.8.0;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  CudaHnswLargeK: k=257, k=512, k=1024, k=1025 multi-pass, health degraded")
+else()
+    message(STATUS "CUDA HNSW Large-k focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cuda_hnsw_large_k.cpp")
 endif()
 
 message(STATUS "Tests configured successfully")

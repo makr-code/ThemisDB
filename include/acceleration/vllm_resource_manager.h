@@ -25,6 +25,7 @@
 #pragma once
 
 #include <cstdint>
+#include <functional>
 #include <string>
 #include <memory>
 #include <optional>
@@ -161,10 +162,28 @@ public:
      */
     void setConfig(const Config& config);
     
+    /**
+     * @brief Inject a GPU utilization provider for testing (bypasses NVML).
+     *
+     * When set, canUseGPU() and queryGPUUtilization() call this function instead
+     * of querying the real NVML stack. Allows CI tests to simulate any GPU
+     * utilization level without physical GPU hardware.
+     *
+     * Pass an empty std::function to clear the override.
+     *
+     * @param provider Returns the simulated GPU utilization (0–100), or nullopt
+     *                 if the GPU cannot be queried (treated as GPU busy).
+     */
+    void setGpuUtilizationProviderForTesting(
+        std::function<std::optional<double>()> provider);
+
 private:
     Config config_;
     bool initialized_ = false;
-    
+
+    // Test-only GPU utilization override (see setGpuUtilizationProviderForTesting).
+    std::function<std::optional<double>()> gpu_util_provider_for_testing_;
+
     // NVML handles for GPU monitoring (opaque pointers to nvmlDevice_t).
     // nvml_devices_ is the authoritative list; nvml_device_ is a convenience
     // alias to nvml_devices_.front() used only by canUseGPU() for the

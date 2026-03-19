@@ -41,11 +41,18 @@
  * Thread-safety:
  *   - registerModel / unregisterModel / loadModel are guarded by an
  *     exclusive lock; they are NOT suitable for high-frequency calls.
- *   - predict / predictBatch / predictProba use a shared lock so
- *     multiple goroutines may infer concurrently without blocking each
- *     other.
- *   - listModels / modelInfo / healthMetrics / isRegistered are
- *     read-only and also use the shared lock.
+ *   - predict / predictBatch / predictProba acquire the registry shared
+ *     lock only for a brief pointer capture step, then release it before
+ *     running inference.  Inference therefore does NOT starve concurrent
+ *     registerModel() / unregisterModel() callers.
+ *   - The registry stores std::shared_ptr<Entry> so that an Entry object
+ *     remains alive (reference-counted) after a concurrent unregisterModel()
+ *     erases its map slot, eliminating use-after-free risk.
+ *   - listModels / modelInfo / isRegistered are read-only and hold the
+ *     shared lock for their full (short) duration.
+ *   - healthMetrics and serializeModel capture a shared_ptr under the
+ *     registry lock and then perform work (metrics snapshot / serialisation)
+ *     outside any registry lock.
  *
  * Copyright (c) 2025 VCC-URN Project
  * SPDX-License-Identifier: Apache-2.0

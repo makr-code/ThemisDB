@@ -233,7 +233,9 @@ public:
 
     /**
      * Apply a batch of change records.
-     * Thread-safe. Acquires the mutex once for the entire batch.
+     * Thread-safe. Processes changes in micro-batches (≤ 256 rows) to allow
+     * concurrent readers to acquire the shared lock between batches.
+     * Base filters are evaluated outside the write lock.
      */
     int applyChanges(const std::vector<ChangeRecord>& changes);
 

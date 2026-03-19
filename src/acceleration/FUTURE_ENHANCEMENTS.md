@@ -153,26 +153,45 @@ This means any GPU plugin with a revoked code-signing certificate will pass secu
 - `[x]` `queryGPUUtilization()` returns the **maximum** utilization across all monitored devices; a single busy GPU blocks new ThemisDB work.
 - `[x]` `shutdownNVML()` clears `nvml_devices_` before calling `nvmlShutdown()`, ensuring all device handles are released first.
 - `[x]` 5 tests in `test_vllm_resource_stats.cpp` validating config fields, multi-device init without CUDA, and single non-zero device index.
+- `[x]` `canUseGPU()` fixed to iterate all `nvml_devices_` (not just the primary alias `nvml_device_`) in the async task, ensuring max-utilisation semantics apply to the busy-check as well as `queryGPUUtilization()`.
+- `[x]` `setGpuUtilizationProviderForTesting()` injection seam added to `VLLMResourceManager`; `canUseGPU()` and `queryGPUUtilization()` call the provider instead of NVML when set.
+- `[x]` 8 mock-provider tests added to `test_vllm_resource_stats.cpp` (CI-only, no GPU hardware required):
+  - `MockProvider_CanUseGPU_ReturnsFalse_At90Percent` — configured device busy
+  - `MockProvider_CanUseGPU_ReturnsTrue_WhenIdle` — configured device idle
+  - `MockProvider_CanUseGPU_ReturnsFalse_WhenConfiguredDeviceAt90_Gpu0Idle` — **core acceptance-criterion test**: device 2 busy, GPU 0 idle
+  - `MockProvider_CanUseGPU_ReturnsFalse_WhenAnyMonitoredDeviceBusy` — multi-device max semantics
+  - `MockProvider_QueryGPUUtilization_ReflectsProvider` — getStats() propagates provider value
+  - `MockProvider_CanUseGPU_ReturnsFalse_WhenNullopt` — nullopt treated as busy
+  - `MockProvider_CanUseGPU_At79Percent_AllowsUse` — boundary below threshold
+  - `MockProvider_CanUseGPU_At80Percent_Blocks` — boundary at threshold
+- `[x]` CI workflow added: `.github/workflows/02-feature-modules/acceleration/vllm-multi-gpu-nvml-monitoring-ci.yml`
 
 ---
 
 ### CUDA HNSW Kernel: Remove Silent `k > kMaxK` Clamping
 **Priority:** Medium
 **Target Version:** v1.8.0
-**Status:** ✅ Partially implemented (kMaxK increased to 512; explicit warning added)
+**Status:** ✅ Fully implemented (Issue #132)
 
 `cuda/cuda_hnsw_kernels.cu` previously defined `static constexpr uint32_t kMaxK = 256u` and silently truncated results when k > 256 was requested.
 
 **Implementation Notes:**
-- `[x]` kMaxK increased from 256 to 512 in `cuda/cuda_hnsw_kernels.cu`.
-- `[x]` Silent clamp replaced with an explicit `fprintf(stderr, ...)` warning in `launchHnswSearchKernel` when `k > kMaxK`; the warning includes the requested k, the effective k, and a hint about multi-pass strategies.
-- `[ ]` For k > 512 (extreme re-ranking): fall through to a multi-pass strategy — run `kMaxK`-at-a-time passes over graph layers and merge on host using `std::partial_sort`.
-- `[ ]` Surface as `BackendHealthStatus::makeDegraded()` in release builds.
-- `[ ]` Test: add `tests/acceleration/test_cuda_hnsw_large_k.cpp` with k=257, k=512, k=1024 asserting result count equals requested k.
+- `[x]` kMaxK increased from 256 → 512 → **1024** in `cuda/cuda_hnsw_kernels.cu`.
+- `[x]` Silent clamp replaced with an explicit `bool* h_overflow` output flag in `launchHnswSearchKernel`; overflow is set and the kernel is NOT launched when `k > kMaxK` so the caller can take corrective action.
+- `[x]` Result buffers (`res_dist`, `res_id`) moved from fixed-size local arrays to dynamically allocated shared memory via `extern __shared__`; block size is computed at launch time as `min(128, 48KB / (k * 8))` to respect SM shared-memory limits.
+- `[x]` `entry_node` parameter added to the kernel to support multi-pass searches from non-zero starting nodes.
+- `[x]` `computeThreadsPerBlock(k)` helper added to compute the optimal block dimension for a given k.
+- `[x]` For k > 1024 (extreme re-ranking): multi-pass strategy implemented in `CudaHnswTraversalEngine::batchSearch()` — runs `ceil(k / kMaxK)` GPU passes from diverse entry nodes, merges results on host using `std::partial_sort`, deduplicates by node ID.
+- `[x]` Debug guard: `__trap()` fired in debug builds (`!NDEBUG`) if `k > kMaxK` reaches the launcher, ensuring callers do not inadvertently rely on overflow behavior.
+- `[x]` Release builds: overflow condition propagated as `AccelerationErrorCode::InvalidInputShape` via `setError()` in `CUDAVectorBackend::annBatchSearch()` / `batchKnnSearch()`; makes `getHealthStatus()` return `BackendHealthStatus::makeDegraded()` automatically.
+- `[x]` `kHnswSinglePassMaxK = 1024u` constant added to `cuda_backend.cpp` for consistent threshold checks.
+- `[x]` Test: `tests/test_cuda_hnsw_large_k.cpp` with k=257, k=512, k=1024, k=1025 (multi-pass), health-degraded, sort-order, multi-query tests (7 test cases total).
+- `[x]` CI workflow: `.github/workflows/02-feature-modules/acceleration/cuda-hnsw-large-k-ci.yml` triggers on changes to kernel / traversal / backend / test files.
 
 **Performance Targets:**
-- k=256: no regression vs. current implementation.
-- k=512 with local-memory result buffers: < 20 ms for 10K queries × 1M vectors on RTX 3090.
+- k=256: no regression vs. prior implementation (same block size, same shared memory layout).
+- k=1024 with dynamic shared memory: block size reduced to 4 threads/block; total SM usage ≤ 32 KB; functional on all SM 2.0+ devices.
+- k > 1024: multi-pass strategy returns correct result count at the cost of increased latency (documented trade-off; no RTX 3090 target for extreme-k path).
 
 ---
 
@@ -251,6 +270,7 @@ A fixed block size of 256 is a reasonable default for NVIDIA sm_86 and AMD RDNA2
 - `[x]` `runtimeInitialized_` converted to `std::atomic<bool>`; read with `memory_order_acquire`, written with `memory_order_release`.
 - `[x]` `selectTyped<T>()` documented with "callers must hold at least a shared lock" comment.
 - `[x]` Thread-safety tests added to `test_backend_registry_startup.cpp`: 16-thread concurrent `getBestVectorBackend`, readers + `getAvailableBackends` writer, `isRuntimeInitialized` concurrency.
+- `[x]` Dedicated thread-safety test file added at `tests/acceleration/test_backend_registry_thread_safety.cpp`: 16 reader threads calling `getBestVectorBackend()` concurrently while a background writer calls `registerBackend()` with a lightweight in-process stub (avoids plugin scanning noise); verifying no crashes. For data-race detection run locally with `-fsanitize=thread`.
 
 ---
 
@@ -396,7 +416,7 @@ For workloads that repeatedly execute the same ANN kernel shape (same `dim`, `nu
 | Unit | >80% new code | Mock `cudaMemcpy` / Vulkan dispatch via dependency-injected function pointers; test `DeviceCapabilityProbe` with mock device list |
 | Integration | All backends registered and falling back to CPU when SDK absent | Run in CI with `THEMIS_ENABLE_CUDA=OFF` and `THEMIS_ENABLE_VULKAN=OFF` to validate CPU fallback path |
 | Performance | Vector bench regression ≤ 5% | `benchmarks/vector_bench.cpp`; run on GPU runner; alert if p99 regresses |
-| Thread-Safety | `BackendRegistry` concurrent access | 16-thread TSan run; concurrent `getBestVectorBackend()` + `autoDetect()` — see BackendRegistry thread-safety feature above |
+| Thread-Safety | `BackendRegistry` concurrent access | 16-thread contention test; concurrent `getBestVectorBackend()` + `registerBackend()` writer (lightweight stub, no plugin I/O) — see BackendRegistry thread-safety feature above; run locally with `-fsanitize=thread` for data-race detection |
 | Security | Plugin revocation (CRL/OCSP) | Fixture-based test with mock HTTP server; cover revoked, unknown, timeout, and invalid-signature paths |
 | Edge-Cases | `kMaxK` overflow, k > 256 HNSW clamping | `tests/acceleration/test_cuda_hnsw_large_k.cpp`; assert result count == requested k for k ∈ {257, 512, 1024} |
 

@@ -1,8 +1,13 @@
 name: Distributed Ingestion Coordinator CI
 
-# Triggered on every push / PR that touches the IngestionCoordinator sources,
-# its test file, the proto definition, or this workflow.
-# Targets v1.8.0 (roadmap:179:ingestion:v1.8.0:distributed-ingestion-coordinator).
+# CI for the Distributed Ingestion Coordinator (Issue #179, target v1.8.0).
+# Validates IngestionCoordinator, ConsistentHashRing, InProcessLeaderElection,
+# WorkStealingPool, and InProcessWorkerNode across GCC 12 and GCC 14.
+#
+# Uses the focused test binary (test_ingestion_coordinator_focused) which
+# compiles only the ingestion coordinator sources and requires no RocksDB
+# or themis_core.
+
 on:
   push:
     branches:
@@ -12,6 +17,8 @@ on:
       - 'include/ingestion/ingestion_coordinator.h'
       - 'src/ingestion/ingestion_coordinator.cpp'
       - 'proto/ingestion_coordinator.proto'
+      - 'include/ingestion/ingestion_manager.h'
+      - 'src/ingestion/ingestion_coordinator.cpp'
       - 'tests/test_ingestion_coordinator.cpp'
       - 'tests/CMakeLists.txt'
       - '.github/workflows/distributed-ingestion-coordinator-ci.yml'
@@ -21,6 +28,8 @@ on:
       - 'include/ingestion/ingestion_coordinator.h'
       - 'src/ingestion/ingestion_coordinator.cpp'
       - 'proto/ingestion_coordinator.proto'
+      - 'include/ingestion/ingestion_manager.h'
+      - 'src/ingestion/ingestion_coordinator.cpp'
       - 'tests/test_ingestion_coordinator.cpp'
       - 'tests/CMakeLists.txt'
       - '.github/workflows/distributed-ingestion-coordinator-ci.yml'
@@ -62,6 +71,10 @@ jobs:
     needs: ci-scope-classifier
     if: needs.ci-scope-classifier.outputs.has_code_changes == 'true'
     name: IngestionCoordinator (${{ matrix.os }} / ${{ matrix.compiler }})
+  ingestion-coordinator-tests:
+    needs: ci-scope-classifier
+    if: needs.ci-scope-classifier.outputs.has_code_changes == 'true'
+    name: Ingestion Coordinator (${{ matrix.os }} / ${{ matrix.compiler }})
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
 
@@ -90,6 +103,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
+          fetch-depth: 0
 
       - name: Set up C++ build environment
         uses: ./.github/actions/setup-cpp-build
@@ -97,6 +111,7 @@ jobs:
           cc:             ${{ matrix.cc }}
           cxx:            ${{ matrix.cxx }}
           extra-packages: libssl-dev librocksdb-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libzstd-dev
+          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev librocksdb-dev libfmt-dev libtbb-dev libspdlog-dev nlohmann-json3-dev
 
       - name: Configure and build
         uses: ./.github/actions/configure-themis
@@ -105,6 +120,10 @@ jobs:
           cxx:          ${{ matrix.cxx }}
           build-target: test_ingestion_coordinator_focused
 
+          cc:  ${{ matrix.cc }}
+          cxx: ${{ matrix.cxx }}
+
+      # ── Focused test target ────────────────────────────────────────────────
       - name: Run IngestionCoordinatorFocusedTests
         run: |
           set -o pipefail
@@ -141,3 +160,5 @@ jobs:
           echo "WorkStealingPool, ISharedCheckpointStore / InMemorySharedCheckpointStore," >> "$GITHUB_STEP_SUMMARY"
           echo "setSharedCheckpointStoreForTesting(), checkpoint-per-source write." >> "$GITHUB_STEP_SUMMARY"
           echo "Performance tests (AC-COORD-5, AC-COORD-6) are opt-in via THEMIS_RUN_PERF_TESTS=1." >> "$GITHUB_STEP_SUMMARY"
+          path: build/ingestion_coordinator_results.txt
+          retention-days: 30

@@ -231,7 +231,7 @@ static void BM_FeedbackCollector_RecordFeedback(benchmark::State& state) {
             "prompt-bench",
             "query " + std::to_string(i),
             "response " + std::to_string(i),
-            FeedbackType::Positive
+            FeedbackType::USER_POSITIVE
         );
         benchmark::DoNotOptimize(id);
         ++i;
@@ -250,7 +250,7 @@ static void BM_FeedbackCollector_GetStats(benchmark::State& state) {
             "prompt-bench",
             "q" + std::to_string(i),
             "r" + std::to_string(i),
-            (i % 3 == 0) ? FeedbackType::Negative : FeedbackType::Positive
+            (i % 3 == 0) ? FeedbackType::USER_NEGATIVE : FeedbackType::USER_POSITIVE
         );
     }
     for (auto _ : state) {

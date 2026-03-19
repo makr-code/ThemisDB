@@ -28,6 +28,7 @@ graph operations across 9 adapters. Build system fully registered; focused test 
 - [x] Neo4j adapter (native graph database) (Issue: #1650)
 - [x] Build system: all 9 adapters registered in `cmake/ChimeraAdapters.cmake` (unconditional – no LLM gate)
 - [x] Focused standalone test targets for all 10 test files in `tests/CMakeLists.txt`
+- [x] Error Recovery and Retry Logic: `RetryPolicy` (exponential backoff, configurable), `CircuitBreaker` (CLOSED/OPEN/HALF_OPEN), `ConnectionWithRetry` decorator (Issue: #17)
 
 ## In Progress 🚧
 - [~] PostgreSQL vendor adapter — simulation mode complete; production wiring to `libpqxx` pending (Issue: #1629)

@@ -126,32 +126,28 @@ WHERE table_name = 'users';
 
 ### Schema Versioning
 **Priority:** Medium  
-**Target Version:** v1.8.0
+**Target Version:** v1.8.0  
+**Status:** ✅ Implemented
 
 Track and manage schema changes over time.
 
 **Features:**
-- Schema version numbers
-- Change history tracking
-- Rollback support
-- Migration scripts
-- Compatibility checking
+- `[x]` Schema version numbers – monotonically increasing counter per table, persisted in RocksDB under `config:schema_version:<table>:current`.
+- `[x]` Change history tracking – `getChangeHistory()` loads all `SchemaChange` records from RocksDB in ascending version order; empty list (not an error) when no history exists.
+- `[x]` Rollback support – `rollbackToVersion()` applies a historical schema snapshot via `SchemaManager::setTableSchema()` and records the rollback as a new version entry to preserve history.
+- `[x]` Migration scripts – `generateMigrationScript()` produces ALTER TABLE DDL (ADD COLUMN, DROP COLUMN, ALTER COLUMN TYPE / SET NOT NULL / DROP NOT NULL) from the diff between any two versions.
+- `[x]` Compatibility checking / dry-run – `validateMigration()` validates a proposed schema without persisting: checks non-empty name, at least one column, no duplicate column names, and that the new schema differs from the current version.
+- `[x]` Audit log integration – `setAuditLog(SchemaAuditLog*)` attaches an optional audit log; `createSchemaVersion()` and `rollbackToVersion()` emit entries when one is set; no crash when `nullptr`.
 
-**Implementation:**
-```cpp
-class SchemaVersionManager {
-public:
-    Result<uint64_t> getCurrentVersion(const std::string& table_name);
-    Result<bool> createSchemaVersion(const std::string& table_name);
-    Result<std::vector<SchemaChange>> getChangeHistory(
-        const std::string& table_name
-    );
-    Result<bool> rollbackToVersion(
-        const std::string& table_name,
-        uint64_t version
-    );
-};
-```
+**Implemented in:**
+- `include/metadata/schema_version_manager.h`
+- `src/metadata/schema_version_manager.cpp`
+
+**Tests:**
+- `tests/test_schema_version_manager.cpp` – `SchemaVersionManagerFocusedTests` (versioning, history, rollback, diff, JSON serialisation, audit integration)
+- `tests/test_schema_version_dryrun.cpp` – `SchemaVersionDryRunFocusedTests` (validateMigration edge cases, no-persist guarantee)
+
+**CI:** `.github/workflows/schema-version-manager-ci.yml`
 
 ---
 
