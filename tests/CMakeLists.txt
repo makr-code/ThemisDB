@@ -12604,6 +12604,126 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_catalog.cpp")
     message(STATUS "  DistributedMetadataCatalog: cross-shard catalog synchronisation, shard metadata lookup")
 endif()
 
+# Metadata – SchemaVersionManager focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_version_manager.cpp")
+    message(STATUS "Adding Metadata SchemaVersionManager focused tests")
+    add_executable(test_schema_version_manager_focused test_schema_version_manager.cpp)
+    target_include_directories(test_schema_version_manager_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_schema_version_manager_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_schema_version_manager_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME SchemaVersionManagerFocusedTests COMMAND test_schema_version_manager_focused)
+    set_tests_properties(SchemaVersionManagerFocusedTests PROPERTIES
+        LABELS "metadata;versioning;schema;history;rollback;migration;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  SchemaVersionManager: schema version tracking, change history, rollback, diff, audit log integration")
+endif()
+
+# Metadata – SchemaVersionManager dry-run / validateMigration focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_version_dryrun.cpp")
+    message(STATUS "Adding Metadata SchemaVersionManager dry-run focused tests")
+    add_executable(test_schema_version_dryrun_focused test_schema_version_dryrun.cpp)
+    target_include_directories(test_schema_version_dryrun_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_schema_version_dryrun_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_schema_version_dryrun_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME SchemaVersionDryRunFocusedTests COMMAND test_schema_version_dryrun_focused)
+    set_tests_properties(SchemaVersionDryRunFocusedTests PROPERTIES
+        LABELS "metadata;versioning;schema;dry-run;migration-validation;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  SchemaVersionManager/validateMigration: dry-run validation, duplicate-column detection, no-persist guarantee")
+endif()
+
+# Metadata – generateMigrationScript focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_migration_script.cpp")
+    message(STATUS "Adding Metadata MigrationScript focused tests")
+    add_executable(test_schema_migration_script_focused test_schema_migration_script.cpp)
+    target_include_directories(test_schema_migration_script_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_schema_migration_script_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_schema_migration_script_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME SchemaMigrationScriptFocusedTests COMMAND test_schema_migration_script_focused)
+    set_tests_properties(SchemaMigrationScriptFocusedTests PROPERTIES
+        LABELS "metadata;versioning;migration;ddl;add-column;drop-column;alter-column;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  SchemaMigrationScript: ADD/DROP/ALTER COLUMN DDL generation, type mapping, NOT NULL, reverse migration")
+endif()
+
+# Metadata – schema migration regression focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_migration_regression.cpp")
+    message(STATUS "Adding Metadata MigrationRegression focused tests")
+    add_executable(test_schema_migration_regression_focused test_schema_migration_regression.cpp)
+    target_include_directories(test_schema_migration_regression_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_schema_migration_regression_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_schema_migration_regression_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME SchemaMigrationRegressionFocusedTests COMMAND test_schema_migration_regression_focused)
+    set_tests_properties(SchemaMigrationRegressionFocusedTests PROPERTIES
+        LABELS "metadata;versioning;migration;regression;lifecycle;rollback;validate;unit"
+        TIMEOUT 90
+    )
+    message(STATUS "  SchemaMigrationRegression: forward/rollback across 5 versions, audit log, validateMigration lifecycle")
+endif()
+
+# Metadata – SchemaConstraints focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_constraints.cpp")
+    message(STATUS "Adding Metadata SchemaConstraints focused tests")
+    add_executable(test_schema_constraints_focused test_schema_constraints.cpp)
+    target_include_directories(test_schema_constraints_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_schema_constraints_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_schema_constraints_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME SchemaConstraintsFocusedTests COMMAND test_schema_constraints_focused)
+    set_tests_properties(SchemaConstraintsFocusedTests PROPERTIES
+        LABELS "metadata;schema;constraints;not-null;unique;check;default;foreign-key;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  SchemaConstraints: NOT NULL, UNIQUE, CHECK, DEFAULT, foreign key enforcement")
+endif()
+
+# Metadata – SchemaConstraints persistence focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_constraints_persistence.cpp")
+    message(STATUS "Adding Metadata SchemaConstraints persistence focused tests")
+    add_executable(test_schema_constraints_persistence_focused test_schema_constraints_persistence.cpp)
+    target_include_directories(test_schema_constraints_persistence_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_schema_constraints_persistence_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_schema_constraints_persistence_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME SchemaConstraintsPersistenceFocusedTests COMMAND test_schema_constraints_persistence_focused)
+    set_tests_properties(SchemaConstraintsPersistenceFocusedTests PROPERTIES
+        LABELS "metadata;schema;constraints;persistence;rocksdb;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  SchemaConstraintsPersistence: RocksDB round-trip for constraint definitions, reload after restart")
+endif()
+
 # ============================================================================
 # Network Module – Focused Standalone Test Targets
 # Standalone executables so each network component can be tested in isolation
