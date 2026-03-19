@@ -4253,6 +4253,45 @@ else()
     message(STATUS "SAGA Orchestrator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_saga_orchestrator.cpp")
 endif()
 
+# Transaction Batcher Focused Tests (v1.8.0)
+# AC-1..26: BatchConfig, window clamping, submitAsync, flush, per-table policies,
+#           adaptive sizing, fair FIFO scheduling, stats, concurrent submitters
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_batcher.cpp")
+    message(STATUS "Adding Transaction Batcher focused tests (transaction, v1.8.0)")
+
+    add_executable(test_transaction_batcher_focused
+        test_transaction_batcher.cpp
+        ${CMAKE_SOURCE_DIR}/src/transaction/transaction_batcher.cpp
+    )
+
+    target_include_directories(test_transaction_batcher_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_transaction_batcher_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_transaction_batcher_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TransactionBatcherFocusedTests
+        COMMAND test_transaction_batcher_focused)
+
+    set_tests_properties(TransactionBatcherFocusedTests PROPERTIES
+        LABELS "transaction;batching;coalescing;write-batching;adaptive;v1.8.0;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  TransactionBatcher: BatchConfig, submitAsync, flush, per-table policies, adaptive sizing, FIFO scheduling, stats, concurrent submitters")
+else()
+    message(STATUS "Transaction Batcher focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_batcher.cpp")
+endif()
+
 # Transaction Manager Focused Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_manager.cpp")
     message(STATUS "Adding Transaction Manager focused tests")
