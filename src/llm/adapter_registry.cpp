@@ -446,13 +446,13 @@ bool AdapterRegistry::hotLoad(
         return false;
     }
 
-    // Register (or update) adapter metadata under the registry lock.
+    // Register (or update) adapter metadata under an exclusive write lock.
     {
         AdapterMetadata meta = metadata;
         meta.adapter_id   = adapter_id;
         meta.storage_path = weights_path;
 
-        std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
+        std::unique_lock<std::shared_mutex> lock(impl_->rw_mu);
         bool existed = impl_->adapters.count(adapter_id) > 0;
         impl_->adapters[adapter_id] = meta;
         spdlog::debug("AdapterRegistry::hotLoad: {} adapter '{}'",
