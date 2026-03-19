@@ -32,6 +32,10 @@
 #include <mutex>
 #include <stdexcept>
 
+#if defined(_WIN32)
+#  include <io.h>
+#endif
+
 // POSIX headers available on Linux and macOS
 #if defined(__linux__) || defined(__APPLE__)
 #  include <fcntl.h>

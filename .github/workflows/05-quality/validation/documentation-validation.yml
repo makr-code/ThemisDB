@@ -32,6 +32,11 @@ on:
       - 'scripts/validate-docs.sh'
       - 'mkdocs.yml'
       - 'mkdocs-nopdf.yml'
+  # Called by docs/docs-pipeline.yml as Stage 1 (validate).
+  # All push/PR events are funnelled through docs-pipeline.yml so this
+  # workflow is never triggered directly by those events, preventing
+  # duplicate runs.
+  workflow_call:
   workflow_dispatch:
 
 concurrency:

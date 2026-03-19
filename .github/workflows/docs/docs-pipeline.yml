@@ -1,7 +1,8 @@
 name: Documentation Pipeline
 
 # Consolidated docs CI path:
-#   1. validate  – lint + links + TOC check
+#   1. validate  – comprehensive lint + links + TOC + header + drift checks
+#                  (delegates to 05-quality/validation/documentation-validation.yml)
 #   2. build-site – mkdocs static site
 #   3. build-pdf  – on-demand or on release tags (ENABLE_PDF_EXPORT)
 #   4. deploy-pages – GitHub Pages (main branch / manual)
@@ -17,6 +18,7 @@ on:
     paths:
       - 'docs/**'
       - 'compendium/**'
+      - 'aql/**'
       - 'mkdocs.yml'
       - 'mkdocs-nopdf.yml'
       - 'requirements-docs.txt'
@@ -33,6 +35,7 @@ on:
     paths:
       - 'docs/**'
       - 'compendium/**'
+      - 'aql/**'
       - 'mkdocs.yml'
       - 'mkdocs-nopdf.yml'
       - 'requirements-docs.txt'
@@ -111,6 +114,20 @@ jobs:
           echo "| TOC | ${{ steps.toc.outcome }} |" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "**Branch:** \`${{ github.ref_name }}\` | **Event:** \`${{ github.event_name }}\`" >> "$GITHUB_STEP_SUMMARY"
+  issues: write   # required by the drift-detection job in documentation-validation.yml
+
+# ---------------------------------------------------------------------------
+# Stage 1 – Validate (comprehensive lint + links + TOC + header + drift)
+# Delegates to the reusable documentation-validation workflow so there is a
+# single source of truth for all validation logic.
+# ---------------------------------------------------------------------------
+jobs:
+  validate:
+    name: Validate (lint + links + TOC + header + drift)
+    uses: ./.github/workflows/05-quality/validation/documentation-validation.yml
+    permissions:
+      contents: read
+      issues: write   # needed by drift-detection job
 
 # ---------------------------------------------------------------------------
 # Stage 2 – Build site (mkdocs, no PDF)

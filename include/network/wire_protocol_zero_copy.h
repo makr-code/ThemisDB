@@ -53,11 +53,26 @@
 #include <system_error>
 #include <vector>
 
+#ifdef _WIN32
+#include <BaseTsd.h>
+#ifndef THEMIS_SSIZE_T_DEFINED
+typedef SSIZE_T ssize_t;
+#define THEMIS_SSIZE_T_DEFINED
+#endif
+struct iovec {
+    void* iov_base;
+    size_t iov_len;
+};
+#ifndef MAP_FAILED
+#define MAP_FAILED nullptr
+#endif
+#else
 #include <sys/mman.h>
 #include <sys/types.h>
 #include <sys/uio.h>
 #include <unistd.h>
 #include <fcntl.h>
+#endif
 
 namespace themis {
 namespace network {

@@ -290,22 +290,20 @@ entire log.
 
 ### 10 · `automl.cpp` — `KNNRegressorModel::predictOneReg()` Stub
 **Priority:** Medium
-**Target Version:** v1.8.0 ✅ Resolved
-**Files:** `src/analytics/automl.cpp` line 833
+**Target Version:** v1.8.0
+**Status:** ✅ Implemented (v1.8.0)
+**Files:** `src/analytics/automl.cpp`
 
-```cpp
-double predictOneReg(const std::vector<double>&) const override { return 0.0; }
-```
-
-`KNNRegressorModel` silently returns `0.0` for all regression predictions.  The classifier
-path (`predictOneClass()`) correctly implements k-NN lookup; only the regression counterpart
-is missing.  Any AutoML pipeline that trains a k-NN model on a regression task will produce
-silent zero predictions without any warning.
+`KNNModel::predictOneReg()` is fully implemented as a weighted inverse-distance mean of the
+`k` nearest neighbours' target values (weight = 1/d² where d² is the squared L2 distance;
+threshold on d² > 1e-15 before applying weight, else w = 1e15).
+The `neighbors()` private helper uses squared L2 distance with `std::nth_element` for O(n)
+nearest-neighbour selection.
 
 **Implementation Notes:**
-- `[x]` Implement `predictOneReg()` as the inverse-distance-weighted mean of the `k_` nearest neighbours' target values — implemented in `KNNModel::predictOneReg()` using `neighbors()` helper
-- `[x]` Note: `LRModel::predictOneReg()` intentionally returns 0.0 (logistic regression is a classifier and has no continuous regression output — this is expected behaviour, not a bug)
-- `[x]` Add a unit test: train a KNN model on `y = 2x` with 100 training points; `predictOneReg({0.5})` must return a value within ±0.5 of 1.0 (added in `tests/analytics/test_automl.cpp` — `KNNRegressorTest`)
+- `[x]` Implement `predictOneReg()` as the weighted mean of the `k_` nearest neighbours' target values, using the existing `neighbors()` helper in `KNNModel`
+- `[x]` Unit test added: train a KNN model on `y = 2x` with 100 training points; `predictOneReg({5.0})` returns a value within ±0.5 of 10.0 (`KNNRegressionTest.PredictOneRegLinearRelation`)
+- `[x]` Opt-in performance test added: `KNNRegressionTest.PredictOneRegPerformance` (enabled via `THEMIS_RUN_PERF_TESTS=1`)
 
 **Performance Targets:**
 - `predictOneReg()` for k=5 on a 10 000-sample training set: ≤ 1 ms
@@ -547,9 +545,9 @@ capabilities needed for production deployments.
 | Inference under registry `shared_lock` | `model_serving.cpp:206` | High | Starves writers during long inference |
 | User callback under `windows_mutex_` | `cep_engine.cpp:1082` | High | Any slow callback freezes the CEP window layer |
 | O(N) LLM cache eviction under lock | `llm_process_analyzer.cpp:105` | Medium | Degrades under high LLM call rates |
-| Network I/O in `getHealthyShardCount()` | `distributed_analytics.cpp:321` | Medium | Blocks shard registry for entire sweep |
+| Network I/O in `getHealthyShardCount()` | `distributed_analytics.cpp:321` | Medium | ✅ Fixed v1.8.0: background monitor + cached_healthy atomic |
 | Cache stampede in `DiffEngine` | `diff_engine.cpp:181` | Medium | Two threads can duplicate expensive changefeed scan |
-| `KNNRegressorModel::predictOneReg()` = 0.0 | `automl.cpp:833` | Medium | Silent wrong predictions for regression tasks |
+| `KNNRegressorModel::predictOneReg()` = 0.0 | `automl.cpp:833` | Medium | ✅ Fixed v1.8.0: weighted inverse-distance mean of k nearest neighbours |
 | 8 unresolved TODOs | `streaming_window.cpp` | Medium | Enumerated as inline TODO(v1.8.0) comments in file header (§13 resolved) |
 | Windows OLAP/ProcessMining stubs | `olap.cpp:53`, `process_mining.cpp:24` | Low | Not a blocker on Linux; silently fails on Windows |
 | `computePercentile` by-value copy | `cep_engine.cpp:140` | Low | 80 KB copy per percentile on 10k-event windows |

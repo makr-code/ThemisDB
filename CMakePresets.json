@@ -105,12 +105,14 @@
     {
       "name": "msvc-ninja-release",
       "displayName": "Build: Windows Release",
-      "configurePreset": "msvc-ninja-release"
+      "configurePreset": "msvc-ninja-release",
+      "jobs": 4
     },
     {
       "name": "msvc-ninja-debug",
       "displayName": "Build: Windows Debug",
-      "configurePreset": "msvc-ninja-debug"
+      "configurePreset": "msvc-ninja-debug",
+      "jobs": 2
     },
     {
       "name": "linux-ninja-release",

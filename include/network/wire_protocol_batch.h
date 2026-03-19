@@ -50,11 +50,21 @@
 #include <mutex>
 #include <vector>
 
+#ifdef _WIN32
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#include <BaseTsd.h>
+#ifndef THEMIS_SSIZE_T_DEFINED
+typedef SSIZE_T ssize_t;
+#define THEMIS_SSIZE_T_DEFINED
+#endif
+#else
 #include <netinet/in.h>
 #include <netinet/tcp.h>
 #include <sys/socket.h>
 #include <sys/uio.h>
 #include <unistd.h>
+#endif
 
 namespace themis {
 namespace network {
@@ -249,11 +259,16 @@ public:
     int fd() const noexcept { return fd_; }
 
 private:
+    struct BatchIOVec {
+        void*  iov_base;
+        size_t iov_len;
+    };
+
     int    fd_;
     Config cfg_;
 
-    struct iovec iov_[MAX_IOV];
-    size_t       iov_count_    = 0;
+    BatchIOVec iov_[MAX_IOV];
+    size_t     iov_count_    = 0;
     size_t       pending_bytes_ = 0;
 
     BatchStats stats_;

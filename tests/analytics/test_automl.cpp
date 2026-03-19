@@ -46,7 +46,10 @@
 #include <gtest/gtest.h>
 #include "analytics/automl.h"
 
+#include <cassert>
+#include <chrono>
 #include <cmath>
+#include <cstdlib>
 #include <set>
 #include <string>
 #include <vector>
@@ -680,4 +683,97 @@ TEST(KNNRegressorTest, PredictAtEndpoints) {
     DataPoint q1; q1.id = "q1"; q1.set("x", 1.0);
     double p1 = std::stod(model.predictOne(q1));
     EXPECT_NEAR(p1, 2.0, 0.5) << "KNN at x=1: expected ~2.0, got " << p1;
+// KNN Regression accuracy: y = 2x  (issue #137 · item 10)
+// ============================================================================
+
+/**
+ * Build a dataset with a single feature x and target y = 2*x.
+ * x is uniformly spread over [0, 10] with `n` points.
+ * Requires n >= 2 to produce a meaningful linear spread.
+ */
+static std::vector<DataPoint> makeLinear2xData(int n) {
+    if (n < 2) {
+        throw std::invalid_argument("makeLinear2xData requires at least 2 points");
+    }
+    std::vector<DataPoint> data;
+    data.reserve(static_cast<size_t>(n));
+    for (int i = 0; i < n; ++i) {
+        DataPoint p;
+        p.id = "knn" + std::to_string(i);
+        double x = static_cast<double>(i) * 10.0 / (n - 1);
+        p.set("x", x);
+        p.fields["y"] = 2.0 * x;
+        data.push_back(std::move(p));
+    }
+    return data;
+}
+
+TEST(KNNRegressionTest, PredictOneRegLinearRelation) {
+    // Train a KNN regressor on y = 2x with 100 points spanning [0, 10].
+    // Querying x = 5.0 must return a value within ±0.5 of the expected 10.0.
+    auto data = makeLinear2xData(100);
+
+    AutoML automl;
+    AutoMLConfig cfg;
+    cfg.target              = "y";
+    cfg.task                = AutoMLTask::REGRESSION;
+    cfg.metric              = AutoMLMetric::RMSE;
+    cfg.algorithms          = {ModelAlgorithm::KNN};
+    cfg.max_trials          = 2;
+    cfg.cv_folds            = 2;
+    cfg.feature_engineering = false;
+    cfg.ensemble            = false;
+    cfg.random_seed         = 42;
+
+    auto model = automl.trainRegressor(data, cfg);
+
+    DataPoint query;
+    query.id = "q";
+    query.set("x", 5.0);
+
+    double pred = std::stod(model.predictOne(query));
+    EXPECT_NEAR(pred, 10.0, 0.5)
+        << "KNN regression on y=2x: predicted " << pred
+        << " but expected ~10.0 for x=5.0";
+}
+
+TEST(KNNRegressionTest, PredictOneRegPerformance) {
+    const char* env = std::getenv("THEMIS_RUN_PERF_TESTS");
+    if (!env || std::string(env) != "1") {
+        GTEST_SKIP() << "Skipping performance test (set THEMIS_RUN_PERF_TESTS=1 to enable)";
+    }
+
+    // Build a 10 000-sample training set: y = 2x, x in [0, 10].
+    auto data = makeLinear2xData(10000);
+
+    AutoML automl;
+    AutoMLConfig cfg;
+    cfg.target              = "y";
+    cfg.task                = AutoMLTask::REGRESSION;
+    cfg.metric              = AutoMLMetric::RMSE;
+    cfg.algorithms          = {ModelAlgorithm::KNN};
+    cfg.max_trials          = 1;
+    cfg.cv_folds            = 2;
+    cfg.feature_engineering = false;
+    cfg.ensemble            = false;
+    cfg.random_seed         = 42;
+
+    auto model = automl.trainRegressor(data, cfg);
+
+    DataPoint query;
+    query.id = "q";
+    query.set("x", 5.0);
+
+    // Warm up
+    model.predictOne(query);
+
+    // Measure a single prediction — must complete in ≤ 1 ms.
+    auto t0  = std::chrono::high_resolution_clock::now();
+    model.predictOne(query);
+    auto t1  = std::chrono::high_resolution_clock::now();
+    auto us  = std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count();
+
+    EXPECT_LE(us, 1000)
+        << "KNN predictOneReg (n=10 000) took " << us
+        << " µs — limit is 1000 µs (1 ms)";
 }
