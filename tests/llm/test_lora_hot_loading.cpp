@@ -309,6 +309,28 @@ TEST_F(LoRAHotLoadingTest, GetLoadedAdapters_InitiallyEmpty) {
     EXPECT_TRUE(engine_->getLoadedLoRAAdapters().empty());
 }
 
+/// AC-5 performance gate: loadLoRAAdapter must complete in ≤ 5 s wall-clock.
+/// Gated on THEMIS_RUN_PERF_TESTS=1 so it is opt-in in CI.
+TEST_F(LoRAHotLoadingTest, HotLoad_WallClock_Under5Seconds) {
+    if (!std::getenv("THEMIS_RUN_PERF_TESTS")) {
+        GTEST_SKIP() << "Set THEMIS_RUN_PERF_TESTS=1 to enable performance gate";
+    }
+
+    auto path = makeMockAdapterFile("perf_7b");
+
+    auto t0 = std::chrono::steady_clock::now();
+    engine_->loadLoRAAdapter("perf-lora", path, 1.0f);
+    auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                          std::chrono::steady_clock::now() - t0)
+                          .count();
+
+    EXPECT_LE(elapsed_ms, 5000)
+        << "Hot-load took " << elapsed_ms << " ms, expected ≤ 5000 ms";
+
+    // Adapter must be registered and pre-loaded on the plugin after the call.
+    EXPECT_TRUE(plugin_->isLoRALoaded("perf-lora"));
+}
+
 /// Calling loadLoRAAdapter before any model is registered still completes,
 /// and the adapter is pre-loaded when a model is registered afterwards.
 TEST(LoRAHotLoadingStandaloneTest, LoadAdapter_BeforeModelRegistered_PreloadedOnLaterModel) {

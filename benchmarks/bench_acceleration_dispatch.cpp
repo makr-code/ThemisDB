@@ -84,7 +84,8 @@ class AnnDispatchBenchFixture : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
         if (!backend_.initialize()) {
-            state.SkipWithError("CPUVectorBackend::initialize() failed");
+            auto& mutable_state = const_cast<benchmark::State&>(state);
+            mutable_state.SkipWithError("CPUVectorBackend::initialize() failed");
             return;
         }
         disp_ = backend_.populateANNDispatch();
@@ -202,7 +203,8 @@ class GeoDispatchBenchFixture : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
         if (!backend_.initialize()) {
-            state.SkipWithError("CPUGeoBackend::initialize() failed");
+            auto& mutable_state = const_cast<benchmark::State&>(state);
+            mutable_state.SkipWithError("CPUGeoBackend::initialize() failed");
             return;
         }
         disp_ = backend_.populateGeoDispatch();

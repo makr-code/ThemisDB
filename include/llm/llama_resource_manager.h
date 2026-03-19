@@ -23,12 +23,17 @@
 
 #pragma once
 
-#include <llama.h>
 #include <memory>
 #include <string>
 #include <vector>
 #include "acceleration/compute_backend.h"
 #include "llm/gpu_memory_manager.h"
+
+// Forward declarations keep this public header independent from llama.cpp include paths.
+struct llama_model;
+struct llama_context;
+struct llama_model_params;
+struct llama_context_params;
 
 namespace themis {
 namespace llm {

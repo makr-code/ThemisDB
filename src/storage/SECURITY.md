@@ -36,7 +36,7 @@
 
 ## Known Limitations
 
-- Erasure coding in `BlobRedundancyManager` is not yet implemented; current redundancy is RAID-1 only
+- Erasure coding in `BlobRedundancyManager` is implemented (PARITY mode via `ErasureCodingBackend`, e.g., Reed-Solomon); default redundancy for critical blobs remains MIRROR unless PARITY is configured
 - `NLPMetadataExtractor` may log document excerpts at DEBUG level — disable in production
 
 ## Dependency Security

@@ -170,10 +170,27 @@ public:
     explicit LLMDeploymentPlugin(const DeploymentConfig& config);
     
     ~LLMDeploymentPlugin() = default;
-    
+
     // ═══════════════════════════════════════════════════════════
-    // Core Deployment Operations
+    // Thread-local request context (JWT user propagation)
     // ═══════════════════════════════════════════════════════════
+
+    /// Authentication context set by HTTP handlers before invoking deployment operations.
+    struct RequestContext {
+        std::string user_id;    ///< Authenticated user / service account
+        std::string client_ip;  ///< Originating client IP address (may be empty)
+    };
+
+    /// Set the authentication context for the calling thread.
+    /// Must be called before any method that performs audit logging.
+    static void setRequestContext(const RequestContext& ctx) noexcept;
+
+    /// Clear the authentication context for the calling thread.
+    static void clearRequestContext() noexcept;
+
+    /// Return the user_id from the thread-local request context, or @p fallback.
+    static std::string currentUserId(const char* fallback = "system") noexcept;
+
     
     /**
      * @brief Deploy a model (download if needed, verify, make available)

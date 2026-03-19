@@ -23,7 +23,6 @@
 
 #include "llm/llm_deployment_plugin.h"
 #include "llm/llm_model_storage.h"
-#include "scheduler/task_scheduler.h"
 #include "utils/logger.h"
 #include "utils/checksum_utils.h"
 #include <fstream>
@@ -108,6 +107,36 @@ std::chrono::system_clock::time_point iso8601ToTime(const std::string& iso) {
 } // anonymous namespace
 
 // ============================================================================
+// Thread-local request context
+// ============================================================================
+
+namespace {
+struct TLSRequestContext {
+    std::string user_id;
+    std::string client_ip;
+    bool is_set = false;
+};
+static thread_local TLSRequestContext tls_deploy_ctx;
+} // namespace
+
+void LLMDeploymentPlugin::setRequestContext(const RequestContext& ctx) noexcept {
+    tls_deploy_ctx.user_id   = ctx.user_id;
+    tls_deploy_ctx.client_ip = ctx.client_ip;
+    tls_deploy_ctx.is_set    = true;
+}
+
+void LLMDeploymentPlugin::clearRequestContext() noexcept {
+    tls_deploy_ctx = {};
+}
+
+std::string LLMDeploymentPlugin::currentUserId(const char* fallback) noexcept {
+    if (tls_deploy_ctx.is_set && !tls_deploy_ctx.user_id.empty()) {
+        return tls_deploy_ctx.user_id;
+    }
+    return fallback ? fallback : "system";
+}
+
+// ============================================================================
 // LLMDeploymentPlugin Implementation
 // ============================================================================
 
@@ -153,7 +182,7 @@ LLMDeploymentPlugin::LLMDeploymentPlugin(const DeploymentConfig& config)
         }
     }
     
-    // Load model registry from filesystem (BaseEntity loading not yet implemented)
+    // Load model registry from filesystem
     loadModelRegistry();
     
     LOG_INFO("LLM Deployment Plugin initialized (mode: {}, cache: {})", 
@@ -168,7 +197,16 @@ std::optional<ModelStatus> LLMDeploymentPlugin::deployModel(const std::string& m
     audit.operation = "deploy";
     audit.model_id = model_id;
     audit.timestamp = std::chrono::system_clock::now();
-    audit.user = scheduler::TaskScheduler::currentUserId();
+    audit.user = currentUserId();
+
+    // Reject empty model identifiers immediately with a clear error
+    if (model_id.empty()) {
+        audit.success = false;
+        audit.error_message = "model_id must not be empty";
+        logAudit(audit);
+        LOG_ERROR("{}", audit.error_message);
+        return std::nullopt;
+    }
     
     try {
         std::string model_path = getModelPath(model_id);
@@ -486,7 +524,7 @@ std::optional<ModelStatus> LLMDeploymentPlugin::updateModel(const std::string& m
     audit.operation = "update";
     audit.model_id = model_id;
     audit.timestamp = std::chrono::system_clock::now();
-    audit.user = scheduler::TaskScheduler::currentUserId();
+    audit.user = currentUserId();
     
     // Force re-download
     auto result = deployModel(model_id, true);
@@ -511,7 +549,7 @@ bool LLMDeploymentPlugin::removeModel(const std::string& model_id, bool force) {
     audit.operation = "remove";
     audit.model_id = model_id;
     audit.timestamp = std::chrono::system_clock::now();
-    audit.user = scheduler::TaskScheduler::currentUserId();
+    audit.user = currentUserId();
     
     auto status = getModelStatus(model_id);
     if (!status) {
@@ -889,6 +927,12 @@ void LLMDeploymentPlugin::loadModelRegistry() {
 }
 
 std::optional<ModelSource> LLMDeploymentPlugin::findBestSource(const std::string& model_id) {
+    // Validate model_id before attempting any source lookup
+    if (model_id.empty()) {
+        LOG_ERROR("findBestSource: model_id must not be empty");
+        return std::nullopt;
+    }
+
     if (config_.sources.empty()) {
         // Default: try Ollama
         ModelSource source;
@@ -906,31 +950,37 @@ std::optional<ModelSource> LLMDeploymentPlugin::findBestSource(const std::string
                   return a.priority > b.priority;
               });
     
-    // Return the highest-priority source that can provide the model_id.
-    // For "local" sources, verify the expected file path exists before selecting.
-    for (const auto& source : sorted_sources) {
-        if (source.type == "local") {
-            // Check if the model file exists at the local path
-            fs::path src_path(source.location);
+    // Iterate sources in priority order; for "local" sources verify the model
+    // file is actually present before committing to that source so callers
+    // receive a clear "model not found" error rather than a confusing copy failure.
+    for (const auto& src : sorted_sources) {
+        if (src.type == "local") {
+            fs::path src_path(src.location);
+            // If the location is a directory, check whether the expected model
+            // file (derived from model_id) exists inside it.
             if (fs::is_directory(src_path)) {
-                src_path /= modelIdToFilename(model_id);
+                std::string sanitized = model_id;
+                std::replace(sanitized.begin(), sanitized.end(), ':', '_');
+                std::replace(sanitized.begin(), sanitized.end(), '/', '_');
+                src_path /= sanitized;
+                // Also try with .gguf extension if no extension present
+                if (!fs::exists(src_path)) {
+                    src_path += ".gguf";
+                }
             }
             if (!fs::exists(src_path)) {
                 LOG_DEBUG("Local source '{}' does not contain model '{}', skipping",
-                          source.location, model_id);
+                          src.location, model_id);
                 continue;
             }
         }
         LOG_DEBUG("Selected source '{}' (priority {}) for model '{}'",
-                  source.type, source.priority, model_id);
-        return source;
+                  src.type, src.priority, model_id);
+        return src;
     }
 
-    // No source could be validated — return the highest-priority source as a last resort
-    // so that non-local sources (Ollama, HTTP) can still attempt the download.
-    LOG_DEBUG("No pre-validated source found for model '{}'; using highest-priority source '{}' as fallback",
-              model_id, sorted_sources[0].type);
-    return sorted_sources[0];
+    LOG_ERROR("No source contains model '{}'; checked {} source(s)", model_id, sorted_sources.size());
+    return std::nullopt;
 }
 
 std::string LLMDeploymentPlugin::modelIdToFilename(const std::string& model_id) {

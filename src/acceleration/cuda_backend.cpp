@@ -161,6 +161,12 @@ void launchGraphBFRelaxKernel(
 namespace themis {
 namespace acceleration {
 
+// Maximum k for a single-pass HNSW kernel invocation.
+// Mirrors kMaxK in src/acceleration/cuda/cuda_hnsw_kernels.cu.
+// For k > kHnswSinglePassMaxK the engine falls through to a multi-pass
+// host-merge strategy; this is considered a degraded operation mode.
+static constexpr uint32_t kHnswSinglePassMaxK = 1024u;
+
 // ============================================================================
 // CUDAVectorBackend Implementation
 // ============================================================================
@@ -372,6 +378,20 @@ CUDAVectorBackend::annBatchSearch(
     }
     if (queries == nullptr || numQueries == 0 || k == 0) return {};
 
+    // In release builds: k > kHnswSinglePassMaxK triggers multi-pass (degraded mode).
+    // Surface this as a degraded health status so callers can detect it via
+    // getHealthStatus().  In debug builds the kernel itself will __trap() before
+    // ever reaching multi-pass, ensuring misuse is caught early.
+#if defined(NDEBUG)
+    if (k > static_cast<size_t>(kHnswSinglePassMaxK)) {
+        setError(ErrorContextHelpers::createValidationError(
+            "CUDA-HNSW", AccelerationErrorCode::InvalidInputShape,
+            "k=" + std::to_string(k) + " exceeds single-pass kMaxK=" +
+            std::to_string(kHnswSinglePassMaxK) +
+            "; multi-pass host-merge strategy active (degraded performance)"));
+    }
+#endif
+
     auto hnswResults = hnswEngine_->batchSearch(
         queries, numQueries, static_cast<uint32_t>(k), ef);
 
@@ -500,6 +520,17 @@ std::vector<std::vector<std::pair<uint32_t, float>>> CUDAVectorBackend::batchKnn
     // stores the graph and vectors on device.  We delegate the search there
     // instead of running the brute-force O(N·d) distance matrix.
     if (hnswEngine_ && hnswEngine_->isBuilt()) {
+        // k > kHnswSinglePassMaxK uses multi-pass strategy; mark as degraded
+        // in release builds so getHealthStatus() surfaces the condition.
+#if defined(NDEBUG)
+        if (k > static_cast<size_t>(kHnswSinglePassMaxK)) {
+            setError(ErrorContextHelpers::createValidationError(
+                "CUDA-HNSW", AccelerationErrorCode::InvalidInputShape,
+                "k=" + std::to_string(k) + " exceeds single-pass kMaxK=" +
+                std::to_string(kHnswSinglePassMaxK) +
+                "; multi-pass host-merge strategy active (degraded performance)"));
+        }
+#endif
         auto hnswResults = hnswEngine_->batchSearch(
             queries, numQueries, static_cast<uint32_t>(k));
         std::vector<std::vector<std::pair<uint32_t, float>>> out;

@@ -91,10 +91,10 @@ This document covers implementation-specific future enhancements for the Cache m
 `predictive_prefetcher.cpp` uses a simple frequency counter over a fixed candidate window (`config_.max_predictions`) to predict next accesses. There is no sequential-access pattern detection or time-of-day awareness. The model is not persistent across restarts.
 
 **Implementation Notes:**
-- `[ ]` Replace frequency counter with a Markov chain transition matrix (order-1) keyed by the last `N` accessed fingerprints; serialize/deserialize the matrix to RocksDB under prefix `prefetch_model::`.
-- `[ ]` Add time-of-day bucketing (24 one-hour buckets) so prefetch probability is weighted by historical access at the current hour.
-- `[ ]` Emit `cache.prefetch.hit_rate` and `cache.prefetch.overhead_bytes` metrics via `MetricsCollector` to evaluate model effectiveness in production.
-- `[ ]` Add a prefetcher A/B test toggle: route 50 % of tenants to Markov model vs. frequency baseline; compare hit-rate improvement.
+- `[x]` Replace frequency counter with a Markov chain transition matrix (order-1) keyed by the last `N` accessed fingerprints; serialize/deserialize the matrix to RocksDB under prefix `prefetch_model::`.
+- `[x]` Add time-of-day bucketing (24 one-hour buckets) so prefetch probability is weighted by historical access at the current hour.
+- `[x]` Emit `cache.prefetch.hit_rate` and `cache.prefetch.overhead_bytes` metrics via `MetricsCollector` to evaluate model effectiveness in production.
+- `[x]` Add a prefetcher A/B test toggle: route 50 % of tenants to Markov model vs. frequency baseline; compare hit-rate improvement.
 
 **Performance Targets:**
 - Prefetch prediction latency: ≤ 100 µs per call.
@@ -122,10 +122,10 @@ This document covers implementation-specific future enhancements for the Cache m
 `cache_replication_coordinator.cpp` uses an in-process `ReplicationBus` where peers are registered via direct pointer sharing (line 73: `for (auto* peer : bus_->peers)`). This only works within a single process. Cross-node cache invalidation (required for clustered deployments) is not implemented.
 
 **Implementation Notes:**
-- `[ ]` Define a `IRemoteCachePeer` interface with `invalidate(key)` and `invalidateTenant(tenant_id)` methods.
-- `[ ]` Implement `GrpcRemoteCachePeer` backed by the existing gRPC transport in `src/network/grpc_transport.cpp`.
-- `[ ]` `CacheReplicationCoordinator` holds a `std::vector<IRemoteCachePeer*>`; populate from cluster membership (Raft or gossip) via a `ClusterView` injection.
-- `[ ]` Fanout invalidation to remote peers asynchronously (fire-and-forget with a bounded retry queue); do not block `put()` on remote acknowledgment.
+- `[x]` Define a `IRemoteCachePeer` interface with `invalidate(key)` and `invalidateTenant(tenant_id)` methods.
+- `[x]` Implement `GrpcRemoteCachePeer` backed by the existing gRPC transport in `src/network/grpc_transport.cpp`.
+- `[x]` `CacheReplicationCoordinator` holds a `std::vector<IRemoteCachePeer*>`; populate from cluster membership (Raft or gossip) via a `ClusterView` injection.
+- `[x]` Fanout invalidation to remote peers asynchronously (fire-and-forget with a bounded retry queue); do not block `put()` on remote acknowledgment.
 
 ---
 

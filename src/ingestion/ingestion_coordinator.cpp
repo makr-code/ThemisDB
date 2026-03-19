@@ -55,6 +55,15 @@ namespace themis {
 namespace ingestion {
 
 // ============================================================================
+// Internal constants
+// ============================================================================
+
+/// Cursor value written to the shared checkpoint store when a source has been
+/// fully ingested by a worker.  Failover workers can use this to skip sources
+/// that have already been completed.
+static constexpr const char* kCompletedCursor = "completed";
+
+// ============================================================================
 // Internal helpers
 // ============================================================================
 
@@ -76,6 +85,42 @@ inline std::string vnodeKey(const std::string& node_id, size_t replica) {
 }
 
 } // anonymous namespace
+
+// ============================================================================
+// InMemorySharedCheckpointStore
+// ============================================================================
+
+bool InMemorySharedCheckpointStore::write(const IngestionCheckpoint& cp) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    store_[cp.source_id] = cp;
+    return true;
+}
+
+bool InMemorySharedCheckpointStore::read(const std::string& source_id,
+                                          IngestionCheckpoint& out) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto it = store_.find(source_id);
+    if (it == store_.end()) {
+        return false;
+    }
+    out = it->second;
+    return true;
+}
+
+bool InMemorySharedCheckpointStore::clear(const std::string& source_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return store_.erase(source_id) > 0;
+}
+
+bool InMemorySharedCheckpointStore::exists(const std::string& source_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return store_.count(source_id) > 0;
+}
+
+size_t InMemorySharedCheckpointStore::size() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return store_.size();
+}
 
 // ============================================================================
 // InProcessLeaderElection
@@ -342,6 +387,7 @@ IngestionCoordinator::IngestionCoordinator(const Config& config)
     : config_(config)
     , my_node_id_(makeCoordinatorNodeId())
     , leader_election_(std::make_shared<InProcessLeaderElection>())
+    , checkpoint_store_(std::make_shared<InMemorySharedCheckpointStore>())
 {
     // Default num_nodes = hardware_concurrency / 2, min 1.
     if (config_.num_nodes == 0) {
@@ -542,6 +588,39 @@ IngestionReport IngestionCoordinator::ingestAll(
     // Step 5 — Aggregate.
     IngestionReport final_report = aggregateReports(partial_reports);
 
+    // Step 6 — Commit a checkpoint for every successfully ingested source so
+    //           that workers (or a failover coordinator) can resume from the
+    //           last committed offset without re-processing already-done work.
+    //           We write a checkpoint for all error-free sources (even those
+    //           that produced 0 documents, e.g. an empty or dry-run source).
+    if (checkpoint_store_) {
+        for (const auto& src : sources) {
+            auto it = final_report.source_stats.find(src.source_id);
+            if (it == final_report.source_stats.end() ||
+                !it->second.errors.empty()) {
+                // Source has errors — do NOT write a completion checkpoint.
+                continue;
+            }
+            IngestionCheckpoint cp;
+            cp.source_id       = src.source_id;
+            cp.cursor          = kCompletedCursor;
+            cp.processed_count = it->second.documents_processed;
+
+            if (!checkpoint_store_->write(cp)) {
+                // Checkpoint write failed (e.g. Redis outage, disk full, or
+                // network partition to shared backend).  Record a WARNING so
+                // callers and observability tooling see the failure without
+                // aborting the run.  Investigate backend connectivity and
+                // storage capacity to resolve persistent failures.
+                it->second.addError(
+                    IngestionErrorCode::INTERNAL_ERROR,
+                    IngestionErrorSeverity::WARNING,
+                    "Failed to persist completion checkpoint for source '" +
+                        src.source_id + "': shared backend write returned false");
+            }
+        }
+    }
+
     double elapsed = std::chrono::duration<double>(
                          std::chrono::steady_clock::now() - run_start)
                          .count();
@@ -568,13 +647,41 @@ IngestionCoordinator::CoordinatorMetrics IngestionCoordinator::getMetrics() cons
 }
 
 // ============================================================================
-// IngestionCoordinator — testing hook
+// IngestionCoordinator — checkpoint store
+// ============================================================================
+
+void IngestionCoordinator::setSharedCheckpointStore(
+    std::shared_ptr<ISharedCheckpointStore> store)
+{
+    if (running_.load()) {
+        throw std::logic_error(
+            "setSharedCheckpointStore() must be called before start(); "
+            "the coordinator is already running.");
+    }
+    checkpoint_store_ = std::move(store);
+}
+
+std::shared_ptr<ISharedCheckpointStore>
+IngestionCoordinator::getSharedCheckpointStore() const
+{
+    return checkpoint_store_;
+}
+
+// ============================================================================
+// IngestionCoordinator — testing hooks
 // ============================================================================
 
 void IngestionCoordinator::setLeaderElectionForTesting(
     std::shared_ptr<ILeaderElection> election)
 {
     leader_election_ = std::move(election);
+}
+
+void IngestionCoordinator::setSharedCheckpointStoreForTesting(
+    std::shared_ptr<ISharedCheckpointStore> store)
+{
+    // Delegate to the production API so the running-guard is enforced here too.
+    setSharedCheckpointStore(std::move(store));
 }
 
 // ============================================================================

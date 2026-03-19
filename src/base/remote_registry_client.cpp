@@ -134,14 +134,24 @@ private:
         std::unique_lock<std::mutex> lock(mutex_);
         while (!stop_token.stop_requested()) {
             if (tasks_.empty()) {
-                cv_.wait(lock, stop_token, [&] { return !tasks_.empty(); });
+                cv_.wait(lock, [&] {
+                    return stop_token.stop_requested() || !tasks_.empty();
+                });
+                if (stop_token.stop_requested()) {
+                    break;
+                }
                 continue;
             }
 
             auto next_when = tasks_.top().when;
-            if (cv_.wait_until(lock, next_when, stop_token, [&] {
-                    return tasks_.top().when != next_when;
+            if (cv_.wait_until(lock, next_when, [&] {
+                    return stop_token.stop_requested() ||
+                           tasks_.empty() ||
+                           tasks_.top().when != next_when;
                 })) {
+                if (stop_token.stop_requested()) {
+                    break;
+                }
                 continue;  // woken up due to new task; re-evaluate
             }
 
@@ -166,7 +176,7 @@ private:
     }
 
     std::mutex mutex_;
-    std::condition_variable cv_;
+    std::condition_variable_any cv_;
     std::priority_queue<Task, std::vector<Task>, TaskCompare> tasks_;
     std::jthread worker_;
 };
@@ -427,27 +437,6 @@ std::future<PluginDownloadResult> RemoteRegistryClient::downloadPluginAsync(
                       [self = shared_from_this(), entry]() {
                           return self->downloadPlugin(entry);
                       });
-// Async wrappers — release the calling thread during retry back-off
-// =============================================================================
-
-std::future<std::vector<RegistryPluginEntry>> RemoteRegistryClient::listPluginsAsync() {
-    auto self = shared_from_this();
-    return std::async(std::launch::async,
-                      [self]() { return self->listPlugins(); });
-}
-
-std::future<std::optional<RegistryPluginEntry>>
-RemoteRegistryClient::fetchPluginAsync(const std::string& name) {
-    auto self = shared_from_this();
-    return std::async(std::launch::async,
-                      [self, name]() { return self->fetchPlugin(name); });
-}
-
-std::future<PluginDownloadResult>
-RemoteRegistryClient::downloadPluginAsync(const RegistryPluginEntry& entry) {
-    auto self = shared_from_this();
-    return std::async(std::launch::async,
-                      [self, entry]() { return self->downloadPlugin(entry); });
 }
 
 // =============================================================================
@@ -880,45 +869,6 @@ RequestStats RemoteRegistryClient::lastRequestStats() const {
     out.sha256       = obj.value("sha256", "");
     out.min_themis_version = obj.value("min_themis_version", "");
     return !out.name.empty() && !out.download_url.empty();
-}
-
-// =============================================================================
-// Async API – non-blocking wrappers around the synchronous public methods
-//
-// Each wrapper captures a shared_ptr to *this (via shared_from_this()) and
-// dispatches the synchronous operation to a fresh thread via
-// std::async(std::launch::async, …).  The calling thread is released
-// immediately: it never blocks during HTTP round-trips or exponential
-// back-off sleeps.
-//
-// Precondition: the RemoteRegistryClient instance must be managed by a
-// std::shared_ptr.  If it is not (stack-allocated or raw-pointer owned),
-// shared_from_this() throws std::bad_weak_ptr before any I/O is initiated.
-// =============================================================================
-
-std::future<std::vector<RegistryPluginEntry>> RemoteRegistryClient::listPluginsAsync() {
-    // Capture a shared_ptr so the client outlives the background thread even
-    // if the caller drops its own reference before the future is awaited.
-    auto self = shared_from_this();
-    return std::async(std::launch::async, [self]() {
-        return self->listPlugins();
-    });
-}
-
-std::future<std::optional<RegistryPluginEntry>>
-RemoteRegistryClient::fetchPluginAsync(const std::string& name) {
-    auto self = shared_from_this();
-    return std::async(std::launch::async, [self, name]() {
-        return self->fetchPlugin(name);
-    });
-}
-
-std::future<PluginDownloadResult>
-RemoteRegistryClient::downloadPluginAsync(const RegistryPluginEntry& entry) {
-    auto self = shared_from_this();
-    return std::async(std::launch::async, [self, entry]() {
-        return self->downloadPlugin(entry);
-    });
 }
 
 } // namespace modules

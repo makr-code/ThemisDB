@@ -25,14 +25,19 @@
  */
 
 #include "analytics/olap.h"
+#include "analytics/detail/memory_pool.h"
 #include "themis/gpu/query_accelerator.h"
 #include <algorithm>
+#include <atomic>
 #include <cmath>
 #include <cstring>
 #include <numeric>
 #include <chrono>
+#include <list>
+#include <mutex>
 #include <sstream>
 #include <set>
+#include <thread>
 #include <unordered_set>
 #include <map>
 #include <limits>
@@ -42,6 +47,15 @@
 #include <unordered_map>
 #include <vector>
 #include <spdlog/spdlog.h>
+
+// SIMD intrinsics headers — guarded so non-SIMD platforms compile cleanly.
+#if defined(__AVX512F__)
+#  include <immintrin.h>
+#elif defined(__AVX2__)
+#  include <immintrin.h>
+#elif defined(__ARM_NEON) || defined(__aarch64__)
+#  include <arm_neon.h>
+#endif
 
 #ifdef ARROW_ENABLED
 #include <arrow/api.h>
@@ -392,9 +406,68 @@ public:
     // GPU acceleration
     OLAPEngine::Config config;
     std::unique_ptr<themis::gpu::GPUQueryAccelerator> gpu_accelerator;
+
+    // Per-Impl arena allocator for hot GROUP BY paths.
+    // Lazily created on the first execute() call so that short-lived OLAPEngine
+    // instances (e.g., in MaterializedView::refresh()) do not eagerly allocate
+    // the full 64 MiB backing block.  Not shared across threads.
+    std::unique_ptr<themis::analytics::detail::AnalyticsMemoryPool> pool;
+
+    // -------------------------------------------------------------------------
+    // O(1) LRU result cache — doubly-linked list + unordered_map.
+    // Front of list = MRU (most recently used), back = LRU (eviction candidate).
+    // -------------------------------------------------------------------------
+    struct CacheEntry {
+        OLAPResult result;
+        std::chrono::steady_clock::time_point expiry;
+    };
+    using LruList = std::list<std::string>;
+    using LruMap  = std::unordered_map<std::string, std::pair<LruList::iterator, CacheEntry>>;
+
+    mutable LruList     result_lru_list;
+    mutable LruMap      result_lru_map;
+    mutable std::mutex  result_cache_mutex;
+
+    // Background cleanup thread for TTL eviction.
+    std::thread             cleanup_thread;
+    std::atomic<bool>       cleanup_stop{false};
+
+    void startCleanupThread() {
+        if (config.result_cache_max_entries == 0 || config.result_cache_ttl_ms <= 0) return;
+        cleanup_stop.store(false);
+        cleanup_thread = std::thread([this]() {
+            const auto interval = std::chrono::milliseconds(
+                std::max(int64_t(1000), config.result_cache_ttl_ms / 4));
+            while (!cleanup_stop.load()) {
+                std::this_thread::sleep_for(interval);
+                if (cleanup_stop.load()) break;
+                auto now = std::chrono::steady_clock::now();
+                std::lock_guard<std::mutex> lock(result_cache_mutex);
+                for (auto it = result_lru_map.begin(); it != result_lru_map.end(); ) {
+                    if (now >= it->second.second.expiry) {
+                        result_lru_list.erase(it->second.first);
+                        it = result_lru_map.erase(it);
+                    } else {
+                        ++it;
+                    }
+                }
+            }
+        });
+    }
+
+    void stopCleanupThread() {
+        cleanup_stop.store(true);
+        if (cleanup_thread.joinable()) cleanup_thread.join();
+    }
+
+    ~Impl() {
+        stopCleanupThread();
+    }
 };
 
-OLAPEngine::OLAPEngine() : impl_(std::make_unique<Impl>()) {}
+OLAPEngine::OLAPEngine() : impl_(std::make_unique<Impl>()) {
+    impl_->startCleanupThread();
+}
 
 OLAPEngine::OLAPEngine(const Config& config) : impl_(std::make_unique<Impl>()) {
     impl_->config = config;
@@ -405,13 +478,119 @@ OLAPEngine::OLAPEngine(const Config& config) : impl_(std::make_unique<Impl>()) {
         spdlog::info("OLAPEngine: GPU acceleration enabled (device {}, threshold {} rows)",
                      config.gpu_device_id, config.gpu_threshold_rows);
     }
+    impl_->startCleanupThread();
 }
 
 OLAPEngine::~OLAPEngine() = default;
 
+// ---------------------------------------------------------------------------
+// Compute a normalised cache key for an OLAPQuery so that semantically
+// equivalent queries (same dimensions/measures/filters regardless of order)
+// map to the same cache entry.
+// ---------------------------------------------------------------------------
+static std::string computeOLAPCacheKey(const OLAPQuery& query) {
+    std::ostringstream ss;
+    ss << query.collection << '\0';
+
+    // Sorted dimension names
+    std::vector<std::string> dims;
+    dims.reserve(query.dimensions.size());
+    for (const auto& d : query.dimensions) {
+        dims.push_back(d.name + ':' + d.expression + ':' + (d.include_in_grouping ? '1' : '0'));
+    }
+    std::sort(dims.begin(), dims.end());
+    for (const auto& d : dims) ss << d << '\0';
+
+    // Sorted measure descriptors
+    std::vector<std::string> meas;
+    meas.reserve(query.measures.size());
+    for (const auto& m : query.measures) {
+        meas.push_back(m.name + ':' + m.field + ':' + std::to_string(static_cast<int>(m.function)));
+    }
+    std::sort(meas.begin(), meas.end());
+    for (const auto& m : meas) ss << m << '\0';
+
+    // Canonical filter order: sort by serialised representation
+    std::vector<std::string> filter_strs;
+    filter_strs.reserve(query.filters.size());
+    for (const auto& f : query.filters) {
+        std::string fstr = f.field + ':' + std::to_string(static_cast<int>(f.op)) + ':';
+        std::visit([&fstr](const auto& v) {
+            using T = std::decay_t<decltype(v)>;
+            if constexpr (std::is_same_v<T, std::nullptr_t>) {
+                fstr += "null";
+            } else if constexpr (std::is_same_v<T, bool>) {
+                fstr += (v ? "true" : "false");
+            } else if constexpr (std::is_same_v<T, int64_t>) {
+                fstr += std::to_string(v);
+            } else if constexpr (std::is_same_v<T, double>) {
+                fstr += std::to_string(v);
+            } else if constexpr (std::is_same_v<T, std::string>) {
+                fstr += v;
+            } else if constexpr (std::is_same_v<T, std::vector<std::string>>) {
+                for (const auto& s : v) { fstr += s; fstr += ','; }
+            }
+        }, f.value);
+        filter_strs.push_back(std::move(fstr));
+    }
+    std::sort(filter_strs.begin(), filter_strs.end());
+    for (const auto& f : filter_strs) ss << f << '\0';
+
+    // Grouping mode
+    ss << static_cast<int>(query.grouping_mode) << '\0';
+
+    // Limit / offset
+    if (query.limit)  ss << 'L' << *query.limit  << '\0';
+    if (query.offset) ss << 'O' << *query.offset << '\0';
+
+    return ss.str();
+}
+
 OLAPResult OLAPEngine::execute(const OLAPQuery& query) {
     auto start = std::chrono::high_resolution_clock::now();
-    
+
+    const size_t max_entries = impl_->config.result_cache_max_entries;
+    const int64_t ttl_ms     = impl_->config.result_cache_ttl_ms;
+
+    // ------------------------------------------------------------------
+    // 1. LRU cache lookup
+    // ------------------------------------------------------------------
+    std::string cache_key;
+    if (max_entries > 0) {
+        cache_key = computeOLAPCacheKey(query);
+        std::lock_guard<std::mutex> lock(impl_->result_cache_mutex);
+        auto it = impl_->result_lru_map.find(cache_key);
+        if (it != impl_->result_lru_map.end()) {
+            const auto now = std::chrono::steady_clock::now();
+            const bool expired = (ttl_ms > 0) && (now >= it->second.second.expiry);
+            if (!expired) {
+                // Cache hit — promote to MRU front (O(1) splice)
+                impl_->result_lru_list.splice(
+                    impl_->result_lru_list.begin(), impl_->result_lru_list, it->second.first);
+                OLAPResult cached = it->second.second.result;
+                auto end = std::chrono::high_resolution_clock::now();
+                cached.execution_time_ms =
+                    std::chrono::duration<double, std::milli>(end - start).count();
+                return cached;
+            }
+            // Expired: evict now so the fresh result is cached below
+            impl_->result_lru_list.erase(it->second.first);
+            impl_->result_lru_map.erase(it);
+        }
+    }
+
+    // ------------------------------------------------------------------
+    // 2. Execute query
+    // ------------------------------------------------------------------
+
+    // Reset the per-Impl arena so all intermediate GROUP BY buffers
+    // (group-key strings, AggState maps) reuse the same backing memory.
+    // Lazily allocate the pool on the first execute() call.
+    if (!impl_->pool) {
+        impl_->pool = std::make_unique<themis::analytics::detail::AnalyticsMemoryPool>();
+    }
+    impl_->pool->reset();
+
     OLAPResult result;
     
     switch (query.grouping_mode) {
@@ -431,7 +610,36 @@ OLAPResult OLAPEngine::execute(const OLAPQuery& query) {
     
     auto end = std::chrono::high_resolution_clock::now();
     result.execution_time_ms = std::chrono::duration<double, std::milli>(end - start).count();
-    
+
+    // ------------------------------------------------------------------
+    // 3. Store result in LRU cache
+    // ------------------------------------------------------------------
+    if (max_entries > 0) {
+        const auto expiry = (ttl_ms > 0)
+            ? std::chrono::steady_clock::now() + std::chrono::milliseconds(ttl_ms)
+            : std::chrono::steady_clock::time_point::max();
+
+        std::lock_guard<std::mutex> lock(impl_->result_cache_mutex);
+        auto it = impl_->result_lru_map.find(cache_key);
+        if (it != impl_->result_lru_map.end()) {
+            // Update existing entry and promote to MRU
+            impl_->result_lru_list.splice(
+                impl_->result_lru_list.begin(), impl_->result_lru_list, it->second.first);
+            it->second.second = OLAPEngine::Impl::CacheEntry{result, expiry};
+        } else {
+            impl_->result_lru_list.push_front(cache_key);
+            impl_->result_lru_map[cache_key] = {
+                impl_->result_lru_list.begin(),
+                OLAPEngine::Impl::CacheEntry{result, expiry}};
+        }
+        // Evict LRU tail(s) if over capacity — O(1) per eviction
+        while (impl_->result_lru_map.size() > max_entries) {
+            const std::string& lru_key = impl_->result_lru_list.back();
+            impl_->result_lru_map.erase(lru_key);
+            impl_->result_lru_list.pop_back();
+        }
+    }
+
     return result;
 }
 
@@ -1015,6 +1223,115 @@ double OLAPEngine::computeAggregate(
 // ColumnarStore Implementation
 // ============================================================================
 
+// ---------------------------------------------------------------------------
+// SIMD-accelerated aggregation kernels for contiguous double arrays.
+//
+// Priority: AVX-512 (8 doubles/cycle) → AVX2 (4 doubles/cycle) → scalar.
+// The AVX-512 path is additionally guarded by __builtin_cpu_supports() so
+// that a binary compiled with -mavx512f still runs correctly on hardware
+// that only supports AVX2.
+// ---------------------------------------------------------------------------
+namespace {
+
+// Cache the AVX-512 runtime support check — avoids repeated CPUID calls in
+// hot aggregation loops.  Initialized once at first use (thread-safe in C++11).
+#if defined(__AVX512F__)
+static const bool kHasAVX512 = __builtin_cpu_supports("avx512f");
+#endif
+
+static double vectorizedSum(const double* __restrict__ data, size_t n) noexcept {
+    double total = 0.0;
+    size_t i = 0;
+#if defined(__AVX512F__)
+    if (n >= 8 && kHasAVX512) {
+        __m512d vsum = _mm512_setzero_pd();
+        for (; i + 7 < n; i += 8)
+            vsum = _mm512_add_pd(vsum, _mm512_loadu_pd(data + i));
+        total = _mm512_reduce_add_pd(vsum);
+        for (; i < n; ++i) total += data[i];
+        return total;
+    }
+#endif
+#if defined(__AVX2__)
+    if (n >= 4) {
+        __m256d vsum = _mm256_setzero_pd();
+        for (; i + 3 < n; i += 4)
+            vsum = _mm256_add_pd(vsum, _mm256_loadu_pd(data + i));
+        double lane[4];
+        _mm256_storeu_pd(lane, vsum);
+        total = lane[0] + lane[1] + lane[2] + lane[3];
+    }
+#endif
+    for (; i < n; ++i) total += data[i];
+    return total;
+}
+
+static double vectorizedMin(const double* __restrict__ data, size_t n) noexcept {
+    if (n == 0) return std::numeric_limits<double>::max();
+    double result = data[0];
+    size_t i = 1;
+#if defined(__AVX512F__)
+    if (n >= 8 && kHasAVX512) {
+        __m512d vmin = _mm512_set1_pd(data[0]);
+        i = 0;
+        for (; i + 7 < n; i += 8)
+            vmin = _mm512_min_pd(vmin, _mm512_loadu_pd(data + i));
+        result = _mm512_reduce_min_pd(vmin);
+        for (; i < n; ++i) if (data[i] < result) result = data[i];
+        return result;
+    }
+#endif
+#if defined(__AVX2__)
+    if (n >= 4) {
+        __m256d vmin = _mm256_set1_pd(data[0]);
+        i = 0;
+        for (; i + 3 < n; i += 4)
+            vmin = _mm256_min_pd(vmin, _mm256_loadu_pd(data + i));
+        double lane[4];
+        _mm256_storeu_pd(lane, vmin);
+        result = std::min({lane[0], lane[1], lane[2], lane[3]});
+        for (; i < n; ++i) if (data[i] < result) result = data[i];
+        return result;
+    }
+#endif
+    for (; i < n; ++i) if (data[i] < result) result = data[i];
+    return result;
+}
+
+static double vectorizedMax(const double* __restrict__ data, size_t n) noexcept {
+    if (n == 0) return std::numeric_limits<double>::lowest();
+    double result = data[0];
+    size_t i = 1;
+#if defined(__AVX512F__)
+    if (n >= 8 && kHasAVX512) {
+        __m512d vmax = _mm512_set1_pd(data[0]);
+        i = 0;
+        for (; i + 7 < n; i += 8)
+            vmax = _mm512_max_pd(vmax, _mm512_loadu_pd(data + i));
+        result = _mm512_reduce_max_pd(vmax);
+        for (; i < n; ++i) if (data[i] > result) result = data[i];
+        return result;
+    }
+#endif
+#if defined(__AVX2__)
+    if (n >= 4) {
+        __m256d vmax = _mm256_set1_pd(data[0]);
+        i = 0;
+        for (; i + 3 < n; i += 4)
+            vmax = _mm256_max_pd(vmax, _mm256_loadu_pd(data + i));
+        double lane[4];
+        _mm256_storeu_pd(lane, vmax);
+        result = std::max({lane[0], lane[1], lane[2], lane[3]});
+        for (; i < n; ++i) if (data[i] > result) result = data[i];
+        return result;
+    }
+#endif
+    for (; i < n; ++i) if (data[i] > result) result = data[i];
+    return result;
+}
+
+} // anonymous namespace
+
 class ColumnarStore::Impl {
 public:
     struct Column {
@@ -1025,6 +1342,25 @@ public:
     
     std::unordered_map<std::string, Column> columns;
     size_t row_count = 0;
+
+    // Pre-allocated scratch buffer for SIMD aggregation — avoids heap
+    // allocation inside hot aggregation loops (see vectorizedSum/Min/Max).
+    mutable std::vector<double> simd_buffer;
+
+    // Populate simd_buffer with numeric (double + int64) values from a column.
+    // Returns a pointer/count pair into the buffer for SIMD consumption.
+    static std::pair<const double*, size_t>
+    extractDoubles(const Column& col, std::vector<double>& buf) {
+        buf.clear();
+        buf.reserve(col.data.size());
+        for (const auto& val : col.data) {
+            if (const auto* d = std::get_if<double>(&val))
+                buf.push_back(*d);
+            else if (const auto* i64 = std::get_if<int64_t>(&val))
+                buf.push_back(static_cast<double>(*i64));
+        }
+        return {buf.data(), buf.size()};
+    }
 };
 
 ColumnarStore::ColumnarStore() : impl_(std::make_unique<Impl>()) {}
@@ -1075,61 +1411,36 @@ size_t ColumnarStore::rowCount() const {
 double ColumnarStore::sum(std::string_view column) const {
     auto it = impl_->columns.find(std::string(column));
     if (it == impl_->columns.end()) return 0.0;
-    
-    double result = 0.0;
-    for (const auto& val : it->second.data) {
-        if (auto* d = std::get_if<double>(&val)) {
-            result += *d;
-        } else if (auto* i = std::get_if<int64_t>(&val)) {
-            result += static_cast<double>(*i);
-        }
-    }
-    return result;
+
+    auto [ptr, n] = Impl::extractDoubles(it->second, impl_->simd_buffer);
+    return vectorizedSum(ptr, n);
 }
 
 double ColumnarStore::avg(std::string_view column) const {
     auto it = impl_->columns.find(std::string(column));
     if (it == impl_->columns.end() || it->second.data.empty()) return 0.0;
-    
-    return sum(column) / it->second.data.size();
+
+    auto [ptr, n] = Impl::extractDoubles(it->second, impl_->simd_buffer);
+    if (n == 0) return 0.0;
+    return vectorizedSum(ptr, n) / static_cast<double>(n);
 }
 
 double ColumnarStore::min(std::string_view column) const {
     auto it = impl_->columns.find(std::string(column));
     if (it == impl_->columns.end() || it->second.data.empty()) return 0.0;
-    
-    double result = std::numeric_limits<double>::max();
-    for (const auto& val : it->second.data) {
-        double v = 0.0;
-        if (auto* d = std::get_if<double>(&val)) {
-            v = *d;
-        } else if (auto* i = std::get_if<int64_t>(&val)) {
-            v = static_cast<double>(*i);
-        } else {
-            continue;
-        }
-        result = std::min(result, v);
-    }
-    return result;
+
+    auto [ptr, n] = Impl::extractDoubles(it->second, impl_->simd_buffer);
+    if (n == 0) return 0.0;
+    return vectorizedMin(ptr, n);
 }
 
 double ColumnarStore::max(std::string_view column) const {
     auto it = impl_->columns.find(std::string(column));
     if (it == impl_->columns.end() || it->second.data.empty()) return 0.0;
-    
-    double result = std::numeric_limits<double>::lowest();
-    for (const auto& val : it->second.data) {
-        double v = 0.0;
-        if (auto* d = std::get_if<double>(&val)) {
-            v = *d;
-        } else if (auto* i = std::get_if<int64_t>(&val)) {
-            v = static_cast<double>(*i);
-        } else {
-            continue;
-        }
-        result = std::max(result, v);
-    }
-    return result;
+
+    auto [ptr, n] = Impl::extractDoubles(it->second, impl_->simd_buffer);
+    if (n == 0) return 0.0;
+    return vectorizedMax(ptr, n);
 }
 
 int64_t ColumnarStore::count(std::string_view column) const {
@@ -1758,7 +2069,8 @@ bool OLAPEngine::exportToParquet(
     const std::string&,
     const std::string&
 ) {
-    return false;  // Arrow not compiled in
+    spdlog::warn("OLAPEngine::exportToParquet: Arrow not compiled in – rebuild with -DTHEMIS_HAS_ARROW=ON");
+    return false;
 }
 
 bool OLAPEngine::exportCollectionToParquet(
@@ -1767,7 +2079,8 @@ bool OLAPEngine::exportCollectionToParquet(
     const std::vector<Filter>&,
     const std::string&
 ) {
-    return false;  // Arrow not compiled in
+    spdlog::warn("OLAPEngine::exportCollectionToParquet: Arrow not compiled in – rebuild with -DTHEMIS_HAS_ARROW=ON");
+    return false;
 }
 #endif // ARROW_ENABLED
 

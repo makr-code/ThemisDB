@@ -143,6 +143,14 @@ private:
     bool checkRequirement(const ComplianceRequirement& req, const PolicyManager& policy_mgr) const;
 };
 
+/// Base interface for all compliance report types.
+/// Concrete report structs derive from this interface to guarantee CSV export support.
+struct IComplianceReport {
+    virtual ~IComplianceReport() = default;
+    /// Serialise the report as a CSV-formatted string.
+    virtual std::string toCSV() const = 0;
+};
+
 /// ComplianceReporter generates various audit reports
 class ComplianceReporter {
 public:
@@ -153,7 +161,7 @@ public:
         PDF
     };
     
-    struct PolicySummaryReport {
+    struct PolicySummaryReport : public IComplianceReport {
         int total_rules = 0;
         int enabled_rules = 0;
         int disabled_rules = 0;
@@ -163,11 +171,11 @@ public:
         int64_t generated_at = 0;
         
         nlohmann::json toJson() const;
-        std::string toCSV() const;
+        std::string toCSV() const override;
         std::string toHTML() const;
     };
     
-    struct ComplianceStatusReport {
+    struct ComplianceStatusReport : public IComplianceReport {
         std::string framework;
         double overall_compliance = 0.0;
         std::vector<std::string> compliant_controls;
@@ -176,11 +184,11 @@ public:
         int64_t generated_at = 0;
         
         nlohmann::json toJson() const;
-        std::string toCSV() const;
+        std::string toCSV() const override;
         std::string toHTML() const;
     };
     
-    struct AccessControlMatrix {
+    struct AccessControlMatrix : public IComplianceReport {
         struct Entry {
             std::string role;
             std::string resource;
@@ -193,11 +201,11 @@ public:
         int64_t generated_at = 0;
         
         nlohmann::json toJson() const;
-        std::string toCSV() const;
+        std::string toCSV() const override;
         std::string toHTML() const;
     };
     
-    struct RiskAssessmentReport {
+    struct RiskAssessmentReport : public IComplianceReport {
         struct RiskItem {
             std::string risk_id;
             std::string severity;                  // low, medium, high, critical
@@ -213,11 +221,11 @@ public:
         int64_t generated_at = 0;
         
         nlohmann::json toJson() const;
-        std::string toCSV() const;
+        std::string toCSV() const override;
         std::string toHTML() const;
     };
     
-    struct ChangeHistoryReport {
+    struct ChangeHistoryReport : public IComplianceReport {
         std::vector<PolicyRuleVersion> changes;
         int total_changes = 0;
         std::unordered_map<std::string, int> changes_by_user;
@@ -225,12 +233,12 @@ public:
         int64_t end_time = 0;
         
         nlohmann::json toJson() const;
-        std::string toCSV() const;
+        std::string toCSV() const override;
         std::string toHTML() const;
     };
 
     /// CCPA/CPRA compliance report produced by generateCcpaReport().
-    struct CcpaReport {
+    struct CcpaReport : public IComplianceReport {
         /// Data categories covered by the active PolicyRules (derived from
         /// classification levels present in the policy set).
         std::vector<std::string> data_categories;
@@ -267,7 +275,7 @@ public:
         int64_t generated_at = 0;
 
         nlohmann::json toJson() const;
-        std::string toCSV() const;
+        std::string toCSV() const override;
     };
 
     /// Generate policy summary report

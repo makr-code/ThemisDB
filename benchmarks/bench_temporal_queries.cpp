@@ -39,6 +39,7 @@
 #include <benchmark/benchmark.h>
 #include "temporal/bi_temporal.h"
 #include "temporal/temporal_types.h"
+#include <memory>
 #include <string>
 
 using namespace themisdb::temporal;
@@ -50,22 +51,22 @@ using namespace themisdb::temporal;
 namespace {
 
 /// Build a table pre-populated with @p n non-overlapping versions for key "k".
-BiTemporalTable makeTableWithVersions(int n) {
-    BiTemporalTable tbl("bench_tbl", "node_a");
+std::unique_ptr<BiTemporalTable> makeTableWithVersions(int n) {
+    auto tbl = std::make_unique<BiTemporalTable>("bench_tbl", "node_a");
     for (int i = 0; i < n; ++i) {
         Timestamp vstart = 1000LL + static_cast<Timestamp>(i) * 100;
         Timestamp vend   = vstart + 100;
-        tbl.insertWithValidTime("k", {{"v", i}}, {vstart, vend});
+        tbl->insertWithValidTime("k", {{"v", i}}, {vstart, vend});
     }
     return tbl;
 }
 
 /// Build a table with @p keys, each with one version.
-BiTemporalTable makeTableWithKeys(int keys) {
-    BiTemporalTable tbl("bench_tbl", "node_a");
+std::unique_ptr<BiTemporalTable> makeTableWithKeys(int keys) {
+    auto tbl = std::make_unique<BiTemporalTable>("bench_tbl", "node_a");
     for (int i = 0; i < keys; ++i) {
-        tbl.insertWithValidTime("k" + std::to_string(i), {{"v", i}},
-                                {1000, 9000});
+        tbl->insertWithValidTime("k" + std::to_string(i), {{"v", i}},
+                                 {1000, 9000});
     }
     return tbl;
 }
@@ -112,7 +113,7 @@ static void BM_BiTemporalTable_QueryBiTemporal(benchmark::State& state) {
     Timestamp sys_now  = now();
 
     for (auto _ : state) {
-        auto rows = tbl.queryBiTemporal("k", sys_now, valid_at);
+        auto rows = tbl->queryBiTemporal("k", sys_now, valid_at);
         benchmark::DoNotOptimize(rows);
     }
 
@@ -136,7 +137,7 @@ static void BM_BiTemporalTable_QueryCurrentByValidTime(benchmark::State& state) 
 
     for (auto _ : state) {
         for (int i = 0; i < keys; ++i) {
-            auto rows = tbl.queryCurrentByValidTime(
+            auto rows = tbl->queryCurrentByValidTime(
                 "k" + std::to_string(i), 5000);
             benchmark::DoNotOptimize(rows);
         }
@@ -163,7 +164,7 @@ static void BM_BiTemporalTable_Update(benchmark::State& state) {
     Timestamp valid_at = 1050;
 
     for (auto _ : state) {
-        bool ok = tbl.updateForValidTime("k", {{"updated", 1}}, valid_at);
+        bool ok = tbl->updateForValidTime("k", {{"updated", 1}}, valid_at);
         benchmark::DoNotOptimize(ok);
     }
 
@@ -207,7 +208,7 @@ static void BM_BiTemporalTable_GetHistory(benchmark::State& state) {
     auto tbl    = makeTableWithVersions(n);
 
     for (auto _ : state) {
-        auto hist = tbl.getHistory("k");
+        auto hist = tbl->getHistory("k");
         benchmark::DoNotOptimize(hist);
     }
 

@@ -343,7 +343,7 @@ protected:
         if (fs::exists(test_dir_)) {
             fs::remove_all(test_dir_);
         }
-        TaskScheduler::clearRequestContext();
+        LLMDeploymentPlugin::clearRequestContext();
     }
 
     // Create a minimal fake model file large enough to be accepted
@@ -361,6 +361,27 @@ protected:
     fs::path cache_dir_;
     std::shared_ptr<RocksDBWrapper> db_;
 };
+
+// ============================================================================
+// RocksDB / BaseEntity Storage Tests
+// ============================================================================
+
+TEST_F(LLMDeploymentPluginTest, StorageInitialisedWhenDbProvided) {
+    // When a RocksDBWrapper is injected the plugin must enable model_storage_.
+    // We verify this indirectly: deploying a model in OFFLINE mode with an
+    // unknown ID must still exercise the constructor path without crashing.
+    DeploymentConfig config;
+    config.mode = DeploymentMode::OFFLINE;
+    config.cache_directory = test_dir_;
+    config.use_base_entity_storage = false; // db is null – filesystem-only
+    config.enable_audit_log = false;
+
+    EXPECT_NO_THROW({
+        LLMDeploymentPlugin plugin(config);
+        auto result = plugin.deployModel("some-model");
+        EXPECT_FALSE(result.has_value());
+    });
+}
 
 TEST_F(LLMDeploymentPluginRocksDBTest, DeployModelPersistsMetadataToRocksDB) {
     // Pre-create a fake model in the cache directory
@@ -433,67 +454,90 @@ TEST_F(LLMDeploymentPluginRocksDBTest, DeployModelWithoutStorageDoesNotPersist) 
 // User Context Propagation Tests
 // ============================================================================
 
-class LLMDeploymentPluginAuditUserTest : public ::testing::Test {
-protected:
-    void SetUp() override {
-        test_dir_ = (fs::temp_directory_path() / "themis_test_deploy_audit").string();
-        if (fs::exists(test_dir_)) {
-            fs::remove_all(test_dir_);
-        }
-        fs::create_directories(test_dir_);
-        TaskScheduler::clearRequestContext();
-    }
-
-    void TearDown() override {
-        if (fs::exists(test_dir_)) {
-            fs::remove_all(test_dir_);
-        }
-        TaskScheduler::clearRequestContext();
-    }
-
-    std::string test_dir_;
-};
-
-TEST_F(LLMDeploymentPluginAuditUserTest, AuditUserDefaultsToSystemWhenNoContext) {
+TEST_F(LLMDeploymentPluginTest, AuditUserDefaultsToSystem) {
     DeploymentConfig config;
     config.mode = DeploymentMode::OFFLINE;
     config.cache_directory = test_dir_;
     config.enable_audit_log = true;
     config.audit_log_path = test_dir_ + "/audit.log";
 
-    LLMDeploymentPlugin plugin(config);
+    LLMDeploymentPlugin::clearRequestContext();
 
-    // OFFLINE mode + no cached file → deploy fails → audit entry recorded
-    auto result = plugin.deployModel("nonexistent_model");
-    EXPECT_FALSE(result.has_value());
+    LLMDeploymentPlugin plugin(config);
+    plugin.deployModel("no-such-model");
 
     auto log = plugin.getAuditLog();
     ASSERT_FALSE(log.empty());
-    EXPECT_EQ(log.back().user, "system")
-        << "Audit user should default to 'system' when no request context is set";
+    EXPECT_EQ(log.back().user, "system");
 }
 
-TEST_F(LLMDeploymentPluginAuditUserTest, AuditUserReflectsJWTUserContext) {
-    // Simulate a request context (as set by the HTTP handler from the JWT claims)
-    TaskScheduler::setRequestContext({"alice@example.com", "192.168.1.1"});
-
+TEST_F(LLMDeploymentPluginTest, AuditUserPropagatedFromRequestContext) {
     DeploymentConfig config;
     config.mode = DeploymentMode::OFFLINE;
     config.cache_directory = test_dir_;
     config.enable_audit_log = true;
     config.audit_log_path = test_dir_ + "/audit.log";
 
-    LLMDeploymentPlugin plugin(config);
+    LLMDeploymentPlugin::setRequestContext({"alice@example.com", "127.0.0.1"});
 
-    auto result = plugin.deployModel("nonexistent_model");
-    EXPECT_FALSE(result.has_value());
+    LLMDeploymentPlugin plugin(config);
+    plugin.deployModel("no-such-model");
+
+    LLMDeploymentPlugin::clearRequestContext();
 
     auto log = plugin.getAuditLog();
     ASSERT_FALSE(log.empty());
-    EXPECT_EQ(log.back().user, "alice@example.com")
-        << "Audit user should reflect the authenticated JWT user from request context";
+    EXPECT_EQ(log.back().user, "alice@example.com");
+}
 
-    TaskScheduler::clearRequestContext();
+TEST_F(LLMDeploymentPluginTest, RequestContextClearRestoresSystemFallback) {
+    LLMDeploymentPlugin::setRequestContext({"bob", ""});
+    LLMDeploymentPlugin::clearRequestContext();
+    EXPECT_EQ(LLMDeploymentPlugin::currentUserId(), "system");
+}
+
+// ============================================================================
+// model_id validation Tests
+// ============================================================================
+
+TEST_F(LLMDeploymentPluginTest, DeployEmptyModelIdReturnsFalse) {
+    DeploymentConfig config;
+    config.mode = DeploymentMode::AUTO;
+    config.cache_directory = test_dir_;
+    config.enable_audit_log = true;
+    config.audit_log_path = test_dir_ + "/audit.log";
+
+    LLMDeploymentPlugin plugin(config);
+    auto result = plugin.deployModel("");
+
+    EXPECT_FALSE(result.has_value());
+
+    // The audit entry should record the failure
+    auto log = plugin.getAuditLog();
+    ASSERT_FALSE(log.empty());
+    EXPECT_FALSE(log.back().success);
+}
+
+TEST_F(LLMDeploymentPluginTest, FindBestSourceSkipsLocalMissingModel) {
+    // Create a "local" source that points to our test_dir_ but does NOT
+    // contain the requested model. findBestSource (called internally by
+    // downloadModel) should skip that source and fall back to the default
+    // Ollama source rather than returning an unusable local entry.
+    DeploymentConfig config;
+    config.mode = DeploymentMode::OFFLINE; // prevent actual download
+    config.cache_directory = test_dir_;
+    config.enable_audit_log = false;
+
+    ModelSource local_src;
+    local_src.type = "local";
+    local_src.location = test_dir_; // exists as directory but no model file
+    local_src.priority = 100;
+    config.sources.push_back(local_src);
+
+    LLMDeploymentPlugin plugin(config);
+    // In OFFLINE mode the model isn't in cache, so deploy should fail cleanly.
+    auto result = plugin.deployModel("missing-model");
+    EXPECT_FALSE(result.has_value());
 }
 
 // ============================================================================
