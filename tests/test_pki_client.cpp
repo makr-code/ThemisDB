@@ -3,20 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_pki_client.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:05:51                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:28:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     178                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 4                             ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   67.0/100                                       ║
+    • Total Lines:     353                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 10                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2680d3d04  2026-03-15  feat(pki): complete stub replacement — PKCS#10 CSR provis... ║
+    • 0f0e5dc3b  2026-03-15  feat(pki): replace fallback stub verification with real P... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
+  Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
@@ -26,6 +28,7 @@
 #include <openssl/evp.h>
 #include <openssl/pem.h>
 #include <openssl/x509.h>
+#include <openssl/x509_vfy.h>
 #include <openssl/rsa.h>
 
 #include <filesystem>
@@ -126,6 +129,7 @@ cleanup:
 
 } // namespace
 
+#ifdef THEMIS_TEST_MODE
 TEST(PKIClientTest, SignVerify_StubMode_Base64Echo) {
     PKIConfig cfg; // no key/cert -> stub mode
     cfg.signature_algorithm = "RSA-SHA256";
@@ -137,6 +141,7 @@ TEST(PKIClientTest, SignVerify_StubMode_Base64Echo) {
     // In stub mode signature is base64(hash); verify should succeed
     EXPECT_TRUE(client.verifyHash(hash, sig));
 }
+#endif // THEMIS_TEST_MODE
 
 TEST(PKIClientTest, SignVerify_RSA_SHA256_Succeeds) {
     // Prepare temp files
@@ -168,6 +173,7 @@ TEST(PKIClientTest, SignVerify_RSA_SHA256_Succeeds) {
     EXPECT_FALSE(client.verifyHash(hash, sig));
 }
 
+#ifdef THEMIS_TEST_MODE
 TEST(PKIClientTest, SignVerify_AlgoMismatch_FallsBackStub) {
     PKIConfig cfg; // no key/cert
     cfg.signature_algorithm = "RSA-SHA512"; // expects 64-byte hash
@@ -178,4 +184,172 @@ TEST(PKIClientTest, SignVerify_AlgoMismatch_FallsBackStub) {
     ASSERT_TRUE(sig.ok);
     // Should verify via stub comparison
     EXPECT_TRUE(client.verifyHash(hash, sig));
+}
+#endif // THEMIS_TEST_MODE
+
+// In production mode (THEMIS_TEST_MODE not defined), signHash without a configured key
+// must return ok=false so that callers are not misled by a fake stub signature.
+TEST(PKIClientTest, SignHash_NoKeyConfigured_ReturnsFailureInProdMode) {
+#ifdef THEMIS_TEST_MODE
+    GTEST_SKIP() << "Stub fallback is active in THEMIS_TEST_MODE; skipping production-mode check.";
+#endif
+    PKIConfig cfg; // no key, no endpoint
+    cfg.signature_algorithm = "RSA-SHA256";
+    VCCPKIClient client(cfg);
+    auto hash = random_bytes(32);
+    auto sig = client.signHash(hash);
+    EXPECT_FALSE(sig.ok) << "signHash without a configured key must fail in production mode";
+}
+
+// In production mode, verifyHash without a configured cert must return false (fail-closed).
+TEST(PKIClientTest, VerifyHash_NoCertConfigured_ReturnsFalseInProdMode) {
+#ifdef THEMIS_TEST_MODE
+    GTEST_SKIP() << "Stub fallback is active in THEMIS_TEST_MODE; skipping production-mode check.";
+#endif
+    PKIConfig cfg; // no cert, no endpoint
+    cfg.signature_algorithm = "RSA-SHA256";
+    VCCPKIClient client(cfg);
+    auto hash = random_bytes(32);
+
+    SignatureResult fake_sig;
+    fake_sig.ok = true;
+    fake_sig.algorithm = "RSA-SHA256";
+    fake_sig.signature_b64 = "dGVzdA=="; // arbitrary base64
+
+    EXPECT_FALSE(client.verifyHash(hash, fake_sig))
+        << "verifyHash without a configured cert must fail-closed in production mode";
+}
+
+// Verify that verifyHash rejects a signature when the certificate chain is invalid
+// (i.e. the cert is self-signed and the trust store does not contain it as a trusted CA).
+TEST(PKIClientTest, VerifyHash_ChainVerify_UntrustedCert_Rejected) {
+    std::filesystem::create_directories("data/test_pki_chain");
+    const std::string key_path  = "data/test_pki_chain/key.pem";
+    const std::string cert_path = "data/test_pki_chain/cert.pem";
+    // Use a different self-signed cert as the (wrong) trust store — chain must be rejected.
+    const std::string other_key  = "data/test_pki_chain/other_key.pem";
+    const std::string other_cert = "data/test_pki_chain/other_cert.pem";
+
+    ASSERT_TRUE(generate_rsa_key_and_self_signed_cert(key_path, cert_path));
+    ASSERT_TRUE(generate_rsa_key_and_self_signed_cert(other_key, other_cert));
+
+    PKIConfig cfg;
+    cfg.key_path         = key_path;
+    cfg.cert_path        = cert_path;
+    cfg.trust_store_path = other_cert; // intentionally wrong CA
+    cfg.signature_algorithm = "RSA-SHA256";
+
+    VCCPKIClient client(cfg);
+    auto hash = random_bytes(32);
+    auto sig  = client.signHash(hash);
+    ASSERT_TRUE(sig.ok) << "Signing with a local key must succeed";
+
+    // Verification must fail because the cert is not trusted by the (wrong) trust store.
+    EXPECT_FALSE(client.verifyHash(hash, sig))
+        << "Certificate chain validation must reject an untrusted certificate";
+}
+
+// Verify that verifyHash accepts a valid chain when the trust store contains the CA cert.
+TEST(PKIClientTest, VerifyHash_ChainVerify_TrustedSelfSignedCert_Accepted) {
+    std::filesystem::create_directories("data/test_pki_chain");
+    const std::string key_path  = "data/test_pki_chain/self_key.pem";
+    const std::string cert_path = "data/test_pki_chain/self_cert.pem";
+
+    ASSERT_TRUE(generate_rsa_key_and_self_signed_cert(key_path, cert_path));
+
+    PKIConfig cfg;
+    cfg.key_path         = key_path;
+    cfg.cert_path        = cert_path;
+    cfg.trust_store_path = cert_path; // self-signed cert is its own CA
+    cfg.signature_algorithm = "RSA-SHA256";
+
+    VCCPKIClient client(cfg);
+    auto hash = random_bytes(32);
+    auto sig  = client.signHash(hash);
+    ASSERT_TRUE(sig.ok);
+
+    EXPECT_TRUE(client.verifyHash(hash, sig))
+        << "Certificate chain validation must accept a self-signed cert trusted by itself";
+}
+
+// ---------------------------------------------------------------------------
+// PKCS#10 CSR generation tests (X509_REQ_* API)
+// ---------------------------------------------------------------------------
+
+// generateCSR() must produce a non-empty, PEM-encoded, self-signed PKCS#10
+// request that can be parsed back by OpenSSL.
+TEST(PKIClientTest, GenerateCSR_WithKey_ProducesValidX509Req) {
+    std::filesystem::create_directories("data/test_pki_csr");
+    const std::string key_path  = "data/test_pki_csr/csr_key.pem";
+    const std::string cert_path = "data/test_pki_csr/csr_cert.pem"; // generated but not used
+
+    ASSERT_TRUE(generate_rsa_key_and_self_signed_cert(key_path, cert_path));
+
+    PKIConfig cfg;
+    cfg.key_path   = key_path;
+    cfg.service_id = "themis-test-service";
+    cfg.signature_algorithm = "RSA-SHA256";
+
+    VCCPKIClient client(cfg);
+    std::string csr_pem = client.generateCSR();
+
+    ASSERT_FALSE(csr_pem.empty()) << "generateCSR() must return a non-empty PEM string";
+    EXPECT_NE(csr_pem.find("-----BEGIN CERTIFICATE REQUEST-----"), std::string::npos)
+        << "CSR PEM must contain CERTIFICATE REQUEST header";
+
+    // Parse the CSR back with OpenSSL to confirm it is well-formed
+    BIO* bio = BIO_new_mem_buf(csr_pem.data(), static_cast<int>(csr_pem.size()));
+    ASSERT_NE(bio, nullptr);
+    X509_REQ* req = PEM_read_bio_X509_REQ(bio, nullptr, nullptr, nullptr);
+    BIO_free(bio);
+    ASSERT_NE(req, nullptr) << "OpenSSL must be able to parse the generated CSR";
+
+    // Verify the CSR self-signature
+    EVP_PKEY* pub = X509_REQ_get_pubkey(req);
+    ASSERT_NE(pub, nullptr);
+    int verify_rc = X509_REQ_verify(req, pub);
+    EVP_PKEY_free(pub);
+    X509_REQ_free(req);
+
+    EXPECT_EQ(verify_rc, 1) << "CSR self-signature must be valid";
+}
+
+// generateCSR() must fail gracefully when no private key is configured.
+TEST(PKIClientTest, GenerateCSR_NoKey_ReturnsEmpty) {
+    PKIConfig cfg; // no key_path
+    cfg.service_id = "themis-test";
+    VCCPKIClient client(cfg);
+    EXPECT_TRUE(client.generateCSR().empty())
+        << "generateCSR() without a configured key must return an empty string";
+}
+
+// When ca_url is configured but the CA server is unavailable, signHash must
+// not fall back to the base64 stub — it must return ok=false (fail-closed).
+TEST(PKIClientTest, SignHash_CaUrlConfigured_UnavailableCA_FailsClosed) {
+    std::filesystem::create_directories("data/test_pki_csr");
+    const std::string key_path  = "data/test_pki_csr/capath_key.pem";
+    const std::string cert_path = "data/test_pki_csr/capath_cert.pem";
+    ASSERT_TRUE(generate_rsa_key_and_self_signed_cert(key_path, cert_path));
+
+    PKIConfig cfg;
+    cfg.key_path   = key_path;
+    // No cert_path — triggers the ca_url provisioning path
+    cfg.ca_url     = "http://127.0.0.1:19999"; // unreachable
+    cfg.service_id = "themis-test";
+    cfg.signature_algorithm = "RSA-SHA256";
+
+    VCCPKIClient client(cfg);
+    auto hash = random_bytes(32);
+    auto sig  = client.signHash(hash);
+
+    // CA is unreachable: provisioned cert will be empty.
+    // Production: ok=false (no THEMIS_TEST_MODE fallback)
+    // Test mode: the THEMIS_TEST_MODE stub kicks in.
+#ifdef THEMIS_TEST_MODE
+    // In test mode the base64 stub is still active — just verify we get a result.
+    EXPECT_TRUE(sig.ok);
+#else
+    EXPECT_FALSE(sig.ok)
+        << "signHash must fail-closed when ca_url is unreachable and no local cert exists";
+#endif
 }

@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lora_api_handler.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:15                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:18:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   92.0/100                                       ║
-    • Total Lines:     1317                                           ║
+    • Total Lines:     1344                                           ║
     • Open Issues:     TODOs: 4, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • a2a0e15fa  2026-03-11  Changes before error encountered         ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -111,8 +112,10 @@ http::response<http::string_body> LoRAApiHandler::handleRequest(
     } else if (target == "/api/v1/llm/lora/adapters" && method == http::verb::get) {
         return handleListAdapters(req);
     } else if (target.starts_with("/api/v1/llm/lora/adapters/") && method == http::verb::get) {
-        // Check if it's a status, provenance, audit, or snapshots request
-        if (target.ends_with("/status")) {
+        // Check if it's a status, provenance, audit, snapshots, or load-status request
+        if (target.ends_with("/load-status")) {
+            return handleHotLoadStatus(req);
+        } else if (target.ends_with("/status")) {
             return handleAdapterStatus(req);
         } else if (target.ends_with("/provenance")) {
             return handleGetProvenance(req);
@@ -660,25 +663,22 @@ http::response<http::string_body> LoRAApiHandler::handleLoadAdapter(
     }
     
     try {
-        auto start_time = std::chrono::steady_clock::now();
-        
-        std::string job_id = orchestrator_->loadAdapter(adapter_id, false);  // sync
-        
-        auto end_time = std::chrono::steady_clock::now();
-        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+        // Trigger hot-load asynchronously; returns a job_id immediately.
+        std::string job_id = orchestrator_->loadAdapter(adapter_id, /*async=*/true);
         
         json response_data = {
             {"adapter_id", adapter_id},
-            {"status", "loaded"},
-            {"load_time_ms", duration.count()}
+            {"job_id",     job_id},
+            {"status",     "loading"}
         };
         
-        return createJsonResponse(response_data);
+        // 202 Accepted: the load is in progress; poll /load-status for completion.
+        return createJsonResponse(response_data, http::status::accepted);
         
     } catch (const std::exception& e) {
         return createErrorResponse(
             http::status::internal_server_error,
-            "Failed to load adapter",
+            "Failed to initiate adapter hot-load",
             e.what()
         );
     }
@@ -763,6 +763,80 @@ http::response<http::string_body> LoRAApiHandler::handleAdapterStatus(
         return createErrorResponse(
             http::status::internal_server_error,
             "Failed to get adapter status",
+            e.what()
+        );
+    }
+}
+
+// ═══════════════════════════════════════════════════════════
+// Hot-Load Status Endpoint
+// ═══════════════════════════════════════════════════════════
+
+http::response<http::string_body> LoRAApiHandler::handleHotLoadStatus(
+    const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleHotLoadStatus");
+
+    std::string_view target = req.target();
+    std::string prefix = "/api/v1/llm/lora/adapters/";
+    std::string suffix = "/load-status";
+
+    if (!target.starts_with(prefix) || !target.ends_with(suffix)) {
+        return createErrorResponse(http::status::bad_request, "Invalid endpoint");
+    }
+
+    std::string adapter_id{target.substr(prefix.length(),
+                                          target.length() - prefix.length() - suffix.length())};
+
+    if (adapter_id.empty()) {
+        return createErrorResponse(http::status::bad_request, "Missing adapter_id");
+    }
+
+    try {
+        // Find the most recent loading job for this adapter.
+        auto jobs = orchestrator_->listJobs();
+        std::optional<llm::lora::LoRAOrchestrator::JobInfo> latest;
+        for (const auto& job : jobs) {
+            if (job.adapter_id == adapter_id &&
+                job.type == llm::lora::LoRAOrchestrator::JobType::Loading) {
+                if (!latest || job.started_at > latest->started_at) {
+                    latest = job;
+                }
+            }
+        }
+
+        if (!latest) {
+            return createErrorResponse(
+                http::status::not_found,
+                "No load job found for adapter",
+                "No hot-load job has been submitted for adapter: " + adapter_id
+            );
+        }
+
+        std::string status_str;
+        switch (latest->status) {
+            case llm::lora::LoRAOrchestrator::JobStatus::Pending:   status_str = "pending";   break;
+            case llm::lora::LoRAOrchestrator::JobStatus::Running:   status_str = "loading";   break;
+            case llm::lora::LoRAOrchestrator::JobStatus::Completed: status_str = "loaded";    break;
+            case llm::lora::LoRAOrchestrator::JobStatus::Failed:    status_str = "failed";    break;
+            case llm::lora::LoRAOrchestrator::JobStatus::Cancelled: status_str = "cancelled"; break;
+        }
+
+        json response_data = {
+            {"adapter_id", adapter_id},
+            {"job_id",     latest->job_id},
+            {"status",     status_str},
+            {"progress",   latest->progress}
+        };
+        if (!latest->error_message.empty()) {
+            response_data["error"] = latest->error_message;
+        }
+
+        return createJsonResponse(response_data);
+
+    } catch (const std::exception& e) {
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "Failed to get hot-load status",
             e.what()
         );
     }

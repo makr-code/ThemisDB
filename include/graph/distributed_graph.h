@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            distributed_graph.h                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:53:44                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:06:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     331                                            ║
+    • Total Lines:     332                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -31,6 +31,7 @@
 #include <memory>
 #include <unordered_map>
 #include <mutex>
+#include <shared_mutex>
 #include <functional>
 
 namespace themis {
@@ -186,9 +187,11 @@ private:
  * Fault tolerance: unhealthy shards (isHealthy() == false) are skipped
  * automatically; the result is still returned from the remaining shards.
  *
- * Thread safety: addShard() / removeShard() must not be called concurrently
- * with shortestPath() or kHopNeighbors().  Query methods themselves are
- * safe to call from multiple threads concurrently.
+ * Thread safety: all public methods are fully thread-safe.  Multiple
+ * threads may call shortestPath(), kHopNeighbors(), shardIds(), shardCount(),
+ * and resolveShardForVertex() concurrently without blocking each other
+ * (shared_lock).  addShard() and removeShard() take an exclusive lock and
+ * will briefly pause concurrent readers while the shard map is modified.
  *
  * Usage:
  * @code
@@ -318,7 +321,7 @@ private:
 
     // Registered shards: shard_id -> executor
     std::unordered_map<std::string, std::shared_ptr<ShardGraphExecutor>> shards_;
-    mutable std::mutex shards_mutex_;
+    mutable std::shared_mutex shards_mutex_;
 
     /// Collect all healthy shard executors (snapshot under lock).
     std::vector<std::pair<std::string, std::shared_ptr<ShardGraphExecutor>>>

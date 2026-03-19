@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_config_path_resolver.cpp                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:03:03                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:23:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1339                                           ║
+    • Total Lines:     1377                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 535cee36d  2026-03-13  feat: export config metrics via Prometheus registry ║
+    • d38f9d8e2  2026-03-13  fix(config): fix broken AC-5 test; add AC-7 benchmark for... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • b801c6da3  2026-02-28  feat(config): reject symlinks outside config root for abs... ║
     • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
-    • ff8381053  2026-02-25  audit: add range validation, currentCacheConfig(), README... ║
-    • 672b2e814  2026-02-25  audit(config): fix all code-audit gaps for issue #1668 - ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -28,9 +28,11 @@
 #include "config/config_path_resolver.h"
 #include "config/config_metrics_exporter.h"
 #include "config/config_errors.h"
+#include <atomic>
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
+#include <thread>
 
 namespace themis {
 namespace config {
@@ -1370,6 +1372,53 @@ TEST_F(ConfigAuditLogTest, ShrinkingMaxEntriesEvictsOldestFirst) {
     // The remaining entries should be the 3 most-recently added (evict2, evict3, evict4)
     EXPECT_EQ(entries[0].requested_path, "config/evict2.yaml");
     EXPECT_EQ(entries[2].requested_path, "config/evict4.yaml");
+}
+
+TEST_F(ConfigAuditLogTest, ConcurrentRecordAndSnapshot_ThreadSafety) {
+    // Verify that concurrent record() and getEntries() calls do not crash or
+    // produce inconsistent results under a burst of concurrent writers.
+    ConfigPathResolver::setAuditLogEnabled(true);
+    ConfigPathResolver::setAuditLogMaxEntries(200);
+
+    // Create files up front so resolvers don't race on filesystem operations.
+    for (int i = 0; i < 50; ++i) {
+        createFile(test_dir_ / "config" / ("concurrent" + std::to_string(i) + ".yaml"));
+    }
+
+    const int kWriterThreads = 8;
+    const int kResolvesPerThread = 25;
+    std::vector<std::thread> writers;
+    writers.reserve(kWriterThreads);
+
+    std::filesystem::path saved_cwd = std::filesystem::current_path();
+    std::filesystem::current_path(test_dir_);
+
+    for (int t = 0; t < kWriterThreads; ++t) {
+        writers.emplace_back([&, t]() {
+            for (int i = 0; i < kResolvesPerThread; ++i) {
+                int idx = (t * kResolvesPerThread + i) % 50;
+                ConfigPathResolver::tryResolve("config/concurrent" + std::to_string(idx) + ".yaml");
+            }
+        });
+    }
+
+    // Snapshot reader running concurrently with the writers
+    std::atomic<bool> stop_reader{false};
+    std::thread reader([&]() {
+        while (!stop_reader.load(std::memory_order_relaxed)) {
+            auto entries = ConfigPathResolver::auditLog();
+            EXPECT_LE(entries.size(), 200u);
+        }
+    });
+
+    for (auto& w : writers) w.join();
+    stop_reader.store(true, std::memory_order_relaxed);
+    reader.join();
+
+    std::filesystem::current_path(saved_cwd);
+
+    // At least some entries should have been recorded
+    EXPECT_GT(ConfigPathResolver::auditLog().size(), 0u);
 }
 
 } // namespace test

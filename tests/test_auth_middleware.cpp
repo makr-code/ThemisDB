@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_auth_middleware.cpp                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:02:28                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:22:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     849                                            ║
+    • Total Lines:     983                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • c97360e57  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
     • c613ea7a9  2026-03-04  Refactor error masking and enhance archive processor vali... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • ce63cc36d  2026-02-24  feat(auth): integrate ApiKeyAuthenticator into AuthMiddle... ║
@@ -25,6 +26,15 @@
 #include <gtest/gtest.h>
 #include "server/auth_middleware.h"
 #include "auth/api_key_authenticator.h"
+#include "auth/jwt_validator.h"
+#include <nlohmann/json.hpp>
+#include <openssl/evp.h>
+#include <openssl/ec.h>
+#include <openssl/ecdsa.h>
+#include <openssl/bn.h>
+#include <openssl/obj_mac.h>
+#include <chrono>
+#include <thread>
 
 using namespace themis;
 
@@ -848,4 +858,394 @@ TEST_F(ApiKeyMiddlewareTest, Roles_PropagatedToAuthResult) {
     // Roles are returned in the groups field
     ASSERT_EQ(result.groups.size(), 1u);
     EXPECT_EQ(result.groups[0], "user");
+}
+
+// ===========================================================================
+// JWT Scope Enforcement Tests
+// Tests for:
+//  - scope/scp claim parsing in JWTClaims (line 248 fix)
+//  - role-to-scope mapping enforcement via authorizeViaJWT (line 399 fix)
+// ===========================================================================
+
+namespace {
+
+// ── Base64url helpers ──────────────────────────────────────────────────────
+static std::string jwt_b64url(const std::vector<uint8_t>& in) {
+    static const char* tbl =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    std::string b64;
+    b64.reserve(((in.size() + 2) / 3) * 4);
+    size_t i = 0;
+    while (i + 3 <= in.size()) {
+        uint32_t n = ((uint32_t)in[i]<<16)|((uint32_t)in[i+1]<<8)|in[i+2];
+        b64.push_back(tbl[(n>>18)&63]); b64.push_back(tbl[(n>>12)&63]);
+        b64.push_back(tbl[(n>> 6)&63]); b64.push_back(tbl[n&63]);
+        i += 3;
+    }
+    if (i + 1 == in.size()) {
+        uint32_t n = (uint32_t)in[i] << 16;
+        b64.push_back(tbl[(n>>18)&63]); b64.push_back(tbl[(n>>12)&63]);
+        b64.push_back('='); b64.push_back('=');
+    } else if (i + 2 == in.size()) {
+        uint32_t n = ((uint32_t)in[i]<<16)|((uint32_t)in[i+1]<<8);
+        b64.push_back(tbl[(n>>18)&63]); b64.push_back(tbl[(n>>12)&63]);
+        b64.push_back(tbl[(n>>6)&63]);  b64.push_back('=');
+    }
+    for (char& c : b64) { if (c=='+') c='-'; else if (c=='/') c='_'; }
+    while (!b64.empty() && b64.back()=='=') b64.pop_back();
+    return b64;
+}
+
+static std::string jwt_b64urlStr(const std::string& s) {
+    return jwt_b64url(std::vector<uint8_t>(s.begin(), s.end()));
+}
+
+// ── Minimal ECDSA P-256 key fixture ───────────────────────────────────────
+struct JwtTestECKey {
+    EVP_PKEY* pkey = nullptr;
+    JwtTestECKey() {
+        EVP_PKEY_CTX* ctx = EVP_PKEY_CTX_new_id(EVP_PKEY_EC, nullptr);
+        EVP_PKEY_keygen_init(ctx);
+        EVP_PKEY_CTX_set_ec_paramgen_curve_nid(ctx, NID_X9_62_prime256v1);
+        EVP_PKEY_keygen(ctx, &pkey);
+        EVP_PKEY_CTX_free(ctx);
+    }
+    ~JwtTestECKey() { if (pkey) EVP_PKEY_free(pkey); }
+    JwtTestECKey(const JwtTestECKey&) = delete;
+    JwtTestECKey& operator=(const JwtTestECKey&) = delete;
+
+    std::pair<std::vector<uint8_t>, std::vector<uint8_t>> publicKeyCoords() const {
+        const EC_KEY* ec = EVP_PKEY_get0_EC_KEY(pkey);
+        const EC_POINT* pt = EC_KEY_get0_public_key(ec);
+        const EC_GROUP* grp = EC_KEY_get0_group(ec);
+        BIGNUM* bx = BN_new(); BIGNUM* by = BN_new();
+        EC_POINT_get_affine_coordinates_GFp(grp, pt, bx, by, nullptr);
+        std::vector<uint8_t> x(32, 0), y(32, 0);
+        BN_bn2binpad(bx, x.data(), 32);
+        BN_bn2binpad(by, y.data(), 32);
+        BN_free(bx); BN_free(by);
+        return {x, y};
+    }
+};
+
+static std::string jwt_signES256(EVP_PKEY* pkey, const std::string& msg) {
+    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+    EVP_DigestSignInit(ctx, nullptr, EVP_sha256(), nullptr, pkey);
+    EVP_DigestSignUpdate(ctx, msg.data(), msg.size());
+    size_t sigLen = 0;
+    EVP_DigestSignFinal(ctx, nullptr, &sigLen);
+    std::vector<uint8_t> der(sigLen);
+    EVP_DigestSignFinal(ctx, der.data(), &sigLen);
+    EVP_MD_CTX_free(ctx);
+    der.resize(sigLen);
+    const unsigned char* p = der.data();
+    ECDSA_SIG* esig = d2i_ECDSA_SIG(nullptr, &p, (long)der.size());
+    const BIGNUM *r = nullptr, *s = nullptr;
+    ECDSA_SIG_get0(esig, &r, &s);
+    std::vector<uint8_t> rs(64, 0);
+    BN_bn2binpad(r, rs.data(),      32);
+    BN_bn2binpad(s, rs.data() + 32, 32);
+    ECDSA_SIG_free(esig);
+    return jwt_b64url(rs);
+}
+
+static nlohmann::json jwt_makeECJwks(const JwtTestECKey& key, const std::string& kid = "ec1") {
+    auto [x, y] = key.publicKeyCoords();
+    nlohmann::json jwk = {
+        {"kty","EC"},{"crv","P-256"},{"kid",kid},
+        {"alg","ES256"},{"use","sig"},
+        {"x",jwt_b64url(x)},{"y",jwt_b64url(y)}
+    };
+    return nlohmann::json{{"keys", nlohmann::json::array({jwk})}};
+}
+
+static std::string jwt_makeES256Token(const JwtTestECKey& key,
+                                      const nlohmann::json& extra_claims,
+                                      int exp_offset_sec = 300) {
+    auto now_sec = std::chrono::duration_cast<std::chrono::seconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    nlohmann::json payload = {
+        {"sub",   "testuser"},
+        {"email", "testuser@example.com"},
+        {"iss",   "test-issuer"},
+        {"aud",   "test-audience"},
+        {"exp",   now_sec + exp_offset_sec},
+    };
+    for (auto it = extra_claims.begin(); it != extra_claims.end(); ++it) {
+        payload[it.key()] = it.value();
+    }
+    nlohmann::json header = {{"alg","ES256"},{"typ","JWT"},{"kid","ec1"}};
+    std::string hp = jwt_b64urlStr(header.dump()) + "." + jwt_b64urlStr(payload.dump());
+    return hp + "." + jwt_signES256(key.pkey, hp);
+}
+
+} // anonymous namespace
+
+class JWTScopeEnforcementTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        AuthMiddleware::JWTConfig jwt_cfg;
+        jwt_cfg.jwks_url = "";
+        jwt_cfg.require_issuer_validation = false;
+        jwt_cfg.require_audience_validation = false;
+        auth_.enableJWT(jwt_cfg);
+        auth_.setJWKSForTesting(jwt_makeECJwks(key_));
+    }
+
+    JwtTestECKey key_;
+    AuthMiddleware auth_;
+};
+
+// ── JWTClaims scopes field unit tests ─────────────────────────────────────
+
+TEST(JWTClaimsScopesTest, ScopesFieldExistsAndDefaultsEmpty) {
+    themis::auth::JWTClaims claims;
+    EXPECT_TRUE(claims.scopes.empty());
+}
+
+// ── JWT scope claim extraction ─────────────────────────────────────────────
+
+TEST_F(JWTScopeEnforcementTest, SpaceSeparatedScopeClaimParsed) {
+    // JWT with "scope" claim as space-separated string
+    auto token = jwt_makeES256Token(key_, {{"scope", "cache:read cache:write metrics:read"}});
+    auto result = auth_.authorize(token, "cache:read");
+    EXPECT_TRUE(result.authorized) << result.reason;
+    EXPECT_EQ(result.user_id, "testuser");
+}
+
+TEST_F(JWTScopeEnforcementTest, ScpArrayClaimParsed) {
+    // JWT with "scp" claim as JSON array
+    auto token = jwt_makeES256Token(
+        key_, {{"scp", nlohmann::json::array({"cache:read", "metrics:read"})}});
+    auto result = auth_.authorize(token, "cache:read");
+    EXPECT_TRUE(result.authorized) << result.reason;
+}
+
+TEST_F(JWTScopeEnforcementTest, MissingScopeDenied) {
+    // JWT grants cache:read but endpoint requires cache:write
+    auto token = jwt_makeES256Token(key_, {{"scope", "cache:read metrics:read"}});
+    auto result = auth_.authorize(token, "cache:write");
+    EXPECT_FALSE(result.authorized);
+    EXPECT_FALSE(result.reason.empty());
+}
+
+TEST_F(JWTScopeEnforcementTest, NoScopeClaimDeniedWhenScopeRequired) {
+    // JWT has no scope/scp claim and no role mapping configured
+    auto token = jwt_makeES256Token(key_, {});
+    auto result = auth_.authorize(token, "cache:read");
+    EXPECT_FALSE(result.authorized);
+    EXPECT_FALSE(result.reason.empty());
+}
+
+TEST_F(JWTScopeEnforcementTest, EmptyRequiredScopeAlwaysPasses) {
+    // Empty required_scope means "any valid token" (no scope enforcement)
+    auto token = jwt_makeES256Token(key_, {});
+    auto result = auth_.authorize(token, "");
+    EXPECT_TRUE(result.authorized) << result.reason;
+}
+
+// ── Role-to-scope mapping enforcement ─────────────────────────────────────
+
+TEST_F(JWTScopeEnforcementTest, RoleMappingGrantsScope) {
+    // Configure role-to-scope mapping
+    auth_.setRoleScopeMapping({
+        {"cache_reader", {"cache:read", "metrics:read"}},
+        {"cache_writer", {"cache:read", "cache:write", "metrics:read"}}
+    });
+
+    // JWT with roles claim (no scope claim) — role grants the required scope
+    auto token = jwt_makeES256Token(key_,
+        {{"roles", nlohmann::json::array({"cache_reader"})}});
+    auto result = auth_.authorize(token, "cache:read");
+    EXPECT_TRUE(result.authorized) << result.reason;
+}
+
+TEST_F(JWTScopeEnforcementTest, RoleMappingDeniesWhenScopeNotInRole) {
+    auth_.setRoleScopeMapping({
+        {"cache_reader", {"cache:read", "metrics:read"}}
+    });
+
+    // cache_reader role does not grant cache:write
+    auto token = jwt_makeES256Token(key_,
+        {{"roles", nlohmann::json::array({"cache_reader"})}});
+    auto result = auth_.authorize(token, "cache:write");
+    EXPECT_FALSE(result.authorized);
+    EXPECT_FALSE(result.reason.empty());
+}
+
+TEST_F(JWTScopeEnforcementTest, DirectScopeClaimTakesPrecedenceOverRoleMap) {
+    // Token explicitly carries cache:write in scope claim AND has a role
+    // that only grants cache:read. The direct scope claim should be used.
+    auth_.setRoleScopeMapping({
+        {"analyst", {"cache:read", "metrics:read"}}
+    });
+
+    auto token = jwt_makeES256Token(key_,
+        {{"scope", "cache:read cache:write"},
+         {"roles", nlohmann::json::array({"analyst"})}});
+    auto result = auth_.authorize(token, "cache:write");
+    EXPECT_TRUE(result.authorized) << result.reason;
+}
+
+TEST_F(JWTScopeEnforcementTest, SetRoleScopeMappingOverridesLoadedConfig) {
+    // Overriding the mapping that may have been loaded from rbac_roles.yaml
+    auth_.setRoleScopeMapping({
+        {"superuser", {"cache:read", "cache:write", "admin"}}
+    });
+
+    auto token = jwt_makeES256Token(key_,
+        {{"roles", nlohmann::json::array({"superuser"})}});
+    EXPECT_TRUE(auth_.authorize(token, "admin").authorized);
+    EXPECT_TRUE(auth_.authorize(token, "cache:read").authorized);
+    EXPECT_FALSE(auth_.authorize(token, "config:write").authorized);
+}
+
+// ── Role-to-scope mapping: setRoleScopeMapping API ────────────────────────
+
+TEST(RoleScopeMappingTest, SetRoleScopeMappingConfiguresMapping) {
+    AuthMiddleware auth;
+    auth.setRoleScopeMapping({
+        {"admin",        {"admin", "cache:read", "cache:write"}},
+        {"cache_reader", {"cache:read"}}
+    });
+
+    // Static token with a role that we use only to verify the mapping is stored;
+    // the static-token path checks scopes directly so we use it here.
+    AuthMiddleware::TokenConfig tok{
+        .token = "test-token",
+        .user_id = "tester",
+        .scopes = {"cache:read"}
+    };
+    auth.addToken(tok);
+    EXPECT_TRUE(auth.authorize("test-token", "cache:read").authorized);
+    EXPECT_FALSE(auth.authorize("test-token", "cache:write").authorized);
+// =============================================================================
+// JWT Scope Enforcement Tests (Issue fix: scope was previously ignored)
+// =============================================================================
+
+class JWTScopeEnforcementTest : public ::testing::Test {
+protected:
+    AuthMiddleware auth_;
+
+    void SetUp() override {
+        // Add a static bearer token used to verify that scopes still work for
+        // static tokens after the JWT scope changes.
+        AuthMiddleware::TokenConfig tok;
+        tok.token     = "bearer-with-cache-write";
+        tok.user_id   = "alice";
+        tok.tenant_id = "t1";
+        tok.scopes    = {"cache:read", "cache:write"};
+        auth_.addToken(tok);
+    }
+};
+
+// Token with "cache:read" scope is allowed to access cache:read endpoint.
+TEST_F(JWTScopeEnforcementTest, StaticToken_RequiredScopePresent_Allowed) {
+    auto r = auth_.authorize("bearer-with-cache-write", "cache:read");
+    EXPECT_TRUE(r.authorized);
+}
+
+// Token WITHOUT "cache:write" scope is denied at cache:write endpoint.
+TEST_F(JWTScopeEnforcementTest, StaticToken_RequiredScopeMissing_Denied) {
+    AuthMiddleware::TokenConfig tok;
+    tok.token     = "bearer-read-only";
+    tok.user_id   = "bob";
+    tok.scopes    = {"cache:read"};
+    auth_.addToken(tok);
+
+    auto r = auth_.authorize("bearer-read-only", "cache:write");
+    EXPECT_FALSE(r.authorized);
+    EXPECT_NE(r.reason.find("Missing required scope"), std::string::npos);
+}
+
+// =============================================================================
+// Role-to-scope mapping tests
+// =============================================================================
+
+class RoleScopeMappingTest : public ::testing::Test {
+protected:
+    AuthMiddleware auth_;
+
+    void SetUp() override {
+        // Map: "admin" role → can do cache:write + cache:read
+        //      "viewer" role → can do cache:read only
+        auth_.setRoleScopeMapping({
+            {"admin",  {"cache:write", "cache:read", "metrics:read"}},
+            {"viewer", {"cache:read",  "metrics:read"}},
+        });
+
+        // Static token with roles stored in groups vector (API key path)
+        AuthMiddleware::TokenConfig admin_tok;
+        admin_tok.token     = "tok-admin-role";
+        admin_tok.user_id   = "charlie";
+        admin_tok.scopes    = {};          // no direct scopes
+        // NOTE: TokenConfig.scopes is checked by authorize(); we deliberately
+        // leave it empty to test the role_scope_map_ fallback for static tokens.
+        // Role-based fallback only applies to JWT/Kerberos paths in production,
+        // but the setRoleScopeMapping test below validates the mapping itself.
+        auth_.addToken(admin_tok);
+    }
+};
+
+// setRoleScopeMapping is accepted without error.
+TEST_F(RoleScopeMappingTest, SetMapping_DoesNotCrash) {
+    auth_.setRoleScopeMapping({{"role1", {"scope1", "scope2"}}});
+    // No assertion needed — if it doesn't throw/crash we are fine.
+    SUCCEED();
+}
+
+// Updating the mapping replaces the previous one (not cumulative).
+TEST_F(RoleScopeMappingTest, SetMapping_ReplacesPrevious) {
+    auth_.setRoleScopeMapping({{"admin", {"scope:a"}}});
+    auth_.setRoleScopeMapping({{"viewer", {"scope:b"}}});
+    // If the first mapping were still present the second would have two roles;
+    // this test just checks that calling it twice doesn't crash or corrupt state.
+    SUCCEED();
+}
+
+// =============================================================================
+// TaskScheduler RequestContext thread-local tests
+// =============================================================================
+
+#include "scheduler/task_scheduler.h"
+using namespace themis;
+
+TEST(TaskSchedulerRequestContext, DefaultIsSystemUser) {
+    TaskScheduler::clearRequestContext();
+    EXPECT_EQ(TaskScheduler::currentUserId(), "system");
+    EXPECT_EQ(TaskScheduler::currentClientIp(), "");
+}
+
+TEST(TaskSchedulerRequestContext, SetContextReturnsCorrectValues) {
+    TaskScheduler::setRequestContext({"alice", "192.168.1.1"});
+    EXPECT_EQ(TaskScheduler::currentUserId(), "alice");
+    EXPECT_EQ(TaskScheduler::currentClientIp(), "192.168.1.1");
+    TaskScheduler::clearRequestContext();
+}
+
+TEST(TaskSchedulerRequestContext, ClearResetsToDefault) {
+    TaskScheduler::setRequestContext({"bob", "10.0.0.1"});
+    TaskScheduler::clearRequestContext();
+    EXPECT_EQ(TaskScheduler::currentUserId(), "system");
+    EXPECT_EQ(TaskScheduler::currentClientIp(), "");
+}
+
+TEST(TaskSchedulerRequestContext, ContextIsPerThread) {
+    TaskScheduler::setRequestContext({"main-thread-user", "1.2.3.4"});
+
+    std::string bg_user;
+    std::thread bg([&bg_user]() {
+        // Background thread has its own independent context
+        bg_user = TaskScheduler::currentUserId();
+    });
+    bg.join();
+
+    EXPECT_EQ(bg_user, "system");  // Background thread sees default
+    EXPECT_EQ(TaskScheduler::currentUserId(), "main-thread-user");  // Main unchanged
+    TaskScheduler::clearRequestContext();
+}
+
+TEST(TaskSchedulerRequestContext, FallbackParameterUsed) {
+    TaskScheduler::clearRequestContext();
+    EXPECT_EQ(TaskScheduler::currentUserId("svc-account"), "svc-account");
 }

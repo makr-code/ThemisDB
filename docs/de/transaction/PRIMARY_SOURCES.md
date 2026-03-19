@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [transaction](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-03-15  
+**Datum:** 2026-03-16  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `include/transaction/FUTURE_ENHANCEMENTS.md`
@@ -45,4 +45,4 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`transactio
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-15*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-16*

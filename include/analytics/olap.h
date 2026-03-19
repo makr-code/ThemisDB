@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            olap.h                                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:33                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:05:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     465                                            ║
+    • Total Lines:     466                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -255,6 +255,13 @@ public:
         size_t gpu_memory_limit = 4ULL * 1024 * 1024 * 1024;  // 4 GB
         /// Minimum row count per group before using the GPU path.
         size_t gpu_threshold_rows = 10'000;
+        /// Maximum number of OLAP query results to keep in the LRU result cache.
+        /// Set to 0 to disable caching entirely.
+        size_t result_cache_max_entries = 1'000;
+        /// Time-to-live for cached OLAP results in milliseconds.
+        /// Entries older than this are evicted on next access.
+        /// Set to 0 for no TTL-based expiry (cache entries live until evicted by LRU).
+        int64_t result_cache_ttl_ms = 60'000;  // 60 seconds
     };
 
     OLAPEngine();

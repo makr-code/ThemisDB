@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            exporter_metrics.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:00                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:14:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -84,6 +84,7 @@ void ExporterMetrics::reset() {
     encryption_plaintext_bytes_ = 0;
     encryption_output_bytes_    = 0;
     encrypted_bytes_written_ = 0;
+    rate_limit_hits_ = 0;
 }
 
 void ExporterMetrics::recordExport(size_t entity_count, size_t bytes_written,
@@ -266,6 +267,14 @@ size_t ExporterMetrics::getEncryptedBytesWritten() const {
     return encrypted_bytes_written_.load();
 }
 
+void ExporterMetrics::recordRateLimitHit() {
+    rate_limit_hits_++;
+}
+
+size_t ExporterMetrics::getRateLimitHits() const {
+    return rate_limit_hits_.load();
+}
+
 json ExporterMetrics::toJson() const {
     json j;
     
@@ -338,6 +347,9 @@ json ExporterMetrics::toJson() const {
     // Encryption: bytes written to encrypted export files
     // (exporter_encrypted_bytes_written_total)
     j["exporter_encrypted_bytes_written_total"] = encrypted_bytes_written_.load();
+
+    // HuggingFace rate-limit hits (exporters.huggingface.rate_limit_hit)
+    j["exporters.huggingface.rate_limit_hit"] = rate_limit_hits_.load();
     
     return j;
 }

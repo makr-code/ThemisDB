@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            sharding_manager_edition.cpp                       ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:31                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:19:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     219                                            ║
+    • Total Lines:     163                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • c9b143394  2026-03-15  feat(server): inject live ShardingManager into HttpServer... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -26,148 +27,89 @@
  * Enforces maximum shard node count based on edition at runtime.
  */
 
-#include <stdint.h>
-#include <string>
-#include <vector>
 #include <memory>
-#include <mutex>
-#include <stdexcept>
-#include "themis/edition.h"
-#include "themis/runtime_license_gate.h"
+#include <algorithm>
+#include "sharding/sharding_manager.h"
 
 namespace themis {
 namespace sharding {
 
-// ============================================================================
-// SHARD NODE CONFIGURATION
-// ============================================================================
+void ShardingManager::AddShardNode(const ShardNodeInfo& node) {
+    std::lock_guard<std::mutex> lock(mutex_);
 
-struct ShardNodeInfo {
-    uint32_t node_id;
-    std::string node_address;
-    std::string node_role;  // PRIMARY, REPLICA, ARBITER
-    bool is_healthy;
-};
-
-// ============================================================================
-// SHARDING MANAGER - EDITION-AWARE
-// ============================================================================
-
-class ShardingManager {
-public:
-    // Singleton instance
-    static ShardingManager& GetInstance() {
-        static ShardingManager instance;
-        return instance;
+    // Edition constraint check
+    if (shard_nodes_.size() >= static_cast<size_t>(GetMaxShardNodes())) {
+        std::string error = "Cannot add shard node. Edition limit reached: ";
+        error += std::to_string(GetMaxShardNodes());
+        error += " nodes maximum (";
+        error += std::string(edition::EDITION_STRING);
+        error += " edition)";
+        throw std::runtime_error(error);
     }
 
-    // Get maximum number of shard nodes allowed in this edition
-    static constexpr int GetMaxShardNodes() {
-        return edition::SHARDING_MAX_NODES;
+    shard_nodes_.push_back(node);
+}
+
+size_t ShardingManager::GetNodeCount() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return shard_nodes_.size();
+}
+
+int ShardingManager::GetRemainingNodeCapacity() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    int max_nodes = GetMaxShardNodes();
+    int current_nodes = static_cast<int>(shard_nodes_.size());
+    return std::max(0, max_nodes - current_nodes);
+}
+
+void ShardingManager::ValidateNodeCount(size_t requested_nodes) {
+    int max_nodes = GetMaxShardNodes();
+    if (static_cast<int>(requested_nodes) > max_nodes) {
+        std::string error = "Requested node count (";
+        error += std::to_string(requested_nodes);
+        error += ") exceeds edition limit (";
+        error += std::to_string(max_nodes);
+        error += "). Edition: ";
+        error += std::string(edition::EDITION_STRING);
+        throw std::runtime_error(error);
     }
+}
 
-    // Check if sharding is available in this edition
-    static constexpr bool IsShardingAvailable() {
-        return GetMaxShardNodes() > 1;
+std::vector<ShardNodeInfo> ShardingManager::GetAllNodes() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return shard_nodes_;
+}
+
+int ShardingManager::GetHealthyNodeCount() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    int count = 0;
+    for (const auto& node : shard_nodes_) {
+        if (node.is_healthy) count++;
     }
+    return count;
+}
 
-    // Add a new shard node to the cluster
-    // Throws exception if would exceed edition limit
-    void AddShardNode(const ShardNodeInfo& node) {
-        std::lock_guard<std::mutex> lock(mutex_);
-
-        // Edition constraint check
-        if (shard_nodes_.size() >= static_cast<size_t>(GetMaxShardNodes())) {
-            std::string error = "Cannot add shard node. Edition limit reached: ";
-            error += std::to_string(GetMaxShardNodes());
-            error += " nodes maximum (";
-            error += std::string(edition::EDITION_STRING);
-            error += " edition)";
-            throw std::runtime_error(error);
-        }
-
-        shard_nodes_.push_back(node);
-    }
-
-    // Get number of currently configured shard nodes
-    size_t GetNodeCount() const {
-        std::lock_guard<std::mutex> lock(mutex_);
-        return shard_nodes_.size();
-    }
-
-    // Get remaining node capacity in this edition
-    int GetRemainingNodeCapacity() const {
-        std::lock_guard<std::mutex> lock(mutex_);
-        int max_nodes = GetMaxShardNodes();
-        int current_nodes = static_cast<int>(shard_nodes_.size());
-        return std::max(0, max_nodes - current_nodes);
-    }
-
-    // Validate node configuration before adding
-    void ValidateNodeCount(size_t requested_nodes) {
-        int max_nodes = GetMaxShardNodes();
-        if (static_cast<int>(requested_nodes) > max_nodes) {
-            std::string error = "Requested node count (";
-            error += std::to_string(requested_nodes);
-            error += ") exceeds edition limit (";
-            error += std::to_string(max_nodes);
-            error += "). Edition: ";
-            error += std::string(edition::EDITION_STRING);
-            throw std::runtime_error(error);
+bool ShardingManager::RemoveShardNode(uint32_t node_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    for (auto it = shard_nodes_.begin(); it != shard_nodes_.end(); ++it) {
+        if (it->node_id == node_id) {
+            shard_nodes_.erase(it);
+            return true;
         }
     }
+    return false;
+}
 
-    // Get all configured shard nodes
-    std::vector<ShardNodeInfo> GetAllNodes() const {
-        std::lock_guard<std::mutex> lock(mutex_);
-        return shard_nodes_;
-    }
-
-    // Check health status of all nodes
-    int GetHealthyNodeCount() const {
-        std::lock_guard<std::mutex> lock(mutex_);
-        int count = 0;
-        for (const auto& node : shard_nodes_) {
-            if (node.is_healthy) count++;
-        }
-        return count;
-    }
-
-    // Remove a shard node from configuration
-    bool RemoveShardNode(uint32_t node_id) {
-        std::lock_guard<std::mutex> lock(mutex_);
-        for (auto it = shard_nodes_.begin(); it != shard_nodes_.end(); ++it) {
-            if (it->node_id == node_id) {
-                shard_nodes_.erase(it);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // Get edition-specific sharding capability information
-    std::string GetShardingCapabilityInfo() const {
-        const auto info = edition::EditionInfo::Get();
-        std::string result = "Edition: ";
-        result += std::string(info.name);
-        result += " | Max Shard Nodes: ";
-        result += std::to_string(info.sharding_max_nodes);
-        result += " | Current Nodes: ";
-        result += std::to_string(GetNodeCount());
-        return result;
-    }
-
-private:
-    ShardingManager() = default;
-    ~ShardingManager() = default;
-
-    // Prevent copying
-    ShardingManager(const ShardingManager&) = delete;
-    ShardingManager& operator=(const ShardingManager&) = delete;
-
-    mutable std::mutex mutex_;
-    std::vector<ShardNodeInfo> shard_nodes_;
-};
+std::string ShardingManager::GetShardingCapabilityInfo() const {
+    const auto info = edition::EditionInfo::Get();
+    std::string result = "Edition: ";
+    result += std::string(info.name);
+    result += " | Max Shard Nodes: ";
+    result += std::to_string(info.sharding_max_nodes);
+    result += " | Current Nodes: ";
+    result += std::to_string(GetNodeCount());
+    return result;
+}
 
 // ============================================================================
 // SHARDING UTILITY FUNCTIONS - EDITION-AWARE

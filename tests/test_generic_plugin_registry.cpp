@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_generic_plugin_registry.cpp                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:03:46                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:24:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     171                                            ║
+    • Total Lines:     245                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • c5a4a6854  2026-03-15  feat(plugins): complete issue audit — unregisterFactory, ... ║
+    • ae40fc781  2026-03-15  feat(plugins): upgrade PluginRegistry global mutex to sha... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • c3452af1e  2026-02-26  feat(plugins): implement SignedPluginRepository with Ed25... ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -31,6 +33,8 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <thread>
+#include <atomic>
 
 using namespace themis::plugins;
 
@@ -169,4 +173,75 @@ TEST_F(GenericPluginRegistryTest, ClearRegistryRemovesAllEntries) {
     PluginRegistry::clearRegistry();
     EXPECT_FALSE(PluginRegistry::hasPlugin<ITestInterface>("a_plugin"));
     EXPECT_TRUE(PluginRegistry::listPlugins<ITestInterface>().empty());
+}
+
+// ============================================================================
+// unregisterFactory
+// ============================================================================
+
+TEST_F(GenericPluginRegistryTest, UnregisterFactoryReturnsTrueWhenFound) {
+    PluginRegistry::registerFactory<ITestInterface>(
+        "u_plugin", []() { return std::make_unique<ConcreteA>(); });
+    EXPECT_TRUE(PluginRegistry::unregisterFactory<ITestInterface>("u_plugin"));
+    EXPECT_FALSE(PluginRegistry::hasPlugin<ITestInterface>("u_plugin"));
+}
+
+TEST_F(GenericPluginRegistryTest, UnregisterFactoryReturnsFalseWhenNotFound) {
+    EXPECT_FALSE(PluginRegistry::unregisterFactory<ITestInterface>("ghost"));
+}
+
+TEST_F(GenericPluginRegistryTest, UnregisterFactoryDoesNotAffectOtherPlugins) {
+    PluginRegistry::registerFactory<ITestInterface>(
+        "keep", []() { return std::make_unique<ConcreteA>(); });
+    PluginRegistry::registerFactory<ITestInterface>(
+        "remove", []() { return std::make_unique<ConcreteA2>(); });
+    EXPECT_TRUE(PluginRegistry::unregisterFactory<ITestInterface>("remove"));
+    EXPECT_TRUE(PluginRegistry::hasPlugin<ITestInterface>("keep"));
+    EXPECT_FALSE(PluginRegistry::hasPlugin<ITestInterface>("remove"));
+}
+
+TEST_F(GenericPluginRegistryTest, UnregisterFactoryDoesNotAffectOtherInterfaces) {
+    PluginRegistry::registerFactory<ITestInterface>(
+        "shared_name", []() { return std::make_unique<ConcreteA>(); });
+    PluginRegistry::registerFactory<ITestInterfaceB>(
+        "shared_name", []() { return std::make_unique<ConcreteB>(); });
+    EXPECT_TRUE(PluginRegistry::unregisterFactory<ITestInterface>("shared_name"));
+    EXPECT_FALSE(PluginRegistry::hasPlugin<ITestInterface>("shared_name"));
+    EXPECT_TRUE(PluginRegistry::hasPlugin<ITestInterfaceB>("shared_name"));
+}
+
+// ============================================================================
+// Concurrent reads: shared_mutex allows multiple simultaneous readers
+// ============================================================================
+
+TEST_F(GenericPluginRegistryTest, ConcurrentReadsDoNotDeadlock) {
+    PluginRegistry::registerFactory<ITestInterface>(
+        "r_plugin", []() { return std::make_unique<ConcreteA>(); });
+
+    constexpr int kReaders = 8;
+    std::atomic<int> ready{0};
+    std::atomic<int> success{0};
+
+    auto reader = [&]() {
+        ready.fetch_add(1, std::memory_order_relaxed);
+        // Spin until all readers are ready to maximize concurrency
+        while (ready.load(std::memory_order_acquire) < kReaders) {}
+
+        bool found = PluginRegistry::hasPlugin<ITestInterface>("r_plugin");
+        auto names = PluginRegistry::listPlugins<ITestInterface>();
+        if (found && !names.empty()) {
+            success.fetch_add(1, std::memory_order_relaxed);
+        }
+    };
+
+    std::vector<std::thread> threads;
+    threads.reserve(kReaders);
+    for (int i = 0; i < kReaders; ++i) {
+        threads.emplace_back(reader);
+    }
+    for (auto& t : threads) {
+        t.join();
+    }
+
+    EXPECT_EQ(kReaders, success.load());
 }

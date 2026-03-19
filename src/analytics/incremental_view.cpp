@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            incremental_view.cpp                               ║
-  Version:         0.0.19                                             ║
-  Last Modified:   2026-03-09 03:56:57                                ║
+  Version:         0.0.20                                             ║
+  Last Modified:   2026-03-16 04:13:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     515                                            ║
+    • Total Lines:     516                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -48,6 +48,7 @@
 #include <limits>
 #include <spdlog/spdlog.h>
 #include <sstream>
+#include <thread>
 
 namespace themisdb {
 namespace analytics {
@@ -281,35 +282,49 @@ void IncrementalView::pruneEmptyGroup(const GroupKey& gk) {
 bool IncrementalView::applyChange(const ChangeRecord& change) {
     if (change.collection != def_.source_collection) return false;
 
+    // Pre-compute filter results outside the write lock.
+    // passesBaseFilters() only reads def_ (immutable after construction) and
+    // the caller-supplied const row — no synchronisation required.
+    bool before_passes = false;
+    bool after_passes  = false;
+    switch (change.type) {
+        case ChangeType::INSERT:
+            after_passes = passesBaseFilters(change.after_row);
+            if (!after_passes) return false;
+            break;
+        case ChangeType::DELETE:
+            before_passes = passesBaseFilters(change.before_row);
+            if (!before_passes) return false;
+            break;
+        case ChangeType::UPDATE:
+            before_passes = passesBaseFilters(change.before_row);
+            after_passes  = passesBaseFilters(change.after_row);
+            if (!before_passes && !after_passes) return false;
+            break;
+    }
+
+    // Only applyRow() and pruneEmptyGroup() mutate shared state and need
+    // the exclusive lock.
     std::unique_lock lk(rw_mutex_);
 
     bool applied = false;
     switch (change.type) {
-        case ChangeType::INSERT: {
-            if (!passesBaseFilters(change.after_row)) break;
+        case ChangeType::INSERT:
             applyRow(change.after_row, +1);
             applied = true;
             break;
-        }
-        case ChangeType::DELETE: {
-            if (!passesBaseFilters(change.before_row)) break;
+        case ChangeType::DELETE:
             applyRow(change.before_row, -1);
             pruneEmptyGroup(makeGroupKey(change.before_row));
             applied = true;
             break;
-        }
-        case ChangeType::UPDATE: {
+        case ChangeType::UPDATE:
             // UPDATE = DELETE before + INSERT after
-            bool before_passes = passesBaseFilters(change.before_row);
-            bool after_passes  = passesBaseFilters(change.after_row);
-
             if (before_passes) applyRow(change.before_row, -1);
             if (after_passes)  applyRow(change.after_row,  +1);
-
             if (before_passes) pruneEmptyGroup(makeGroupKey(change.before_row));
-            applied = before_passes || after_passes;
+            applied = before_passes || after_passes; // at least one is true (early-return guard above)
             break;
-        }
     }
 
     if (applied) {
@@ -321,46 +336,97 @@ bool IncrementalView::applyChange(const ChangeRecord& change) {
 }
 
 int IncrementalView::applyChanges(const std::vector<ChangeRecord>& changes) {
-    int applied = 0;
-    std::unique_lock lk(rw_mutex_);
+    static constexpr size_t kMicroBatchSize = 256;
 
-    for (const auto& change : changes) {
+    // Pre-compute filter results outside the write lock.
+    // passesBaseFilters() only reads def_ (immutable after construction) and
+    // the caller-supplied const rows — no synchronisation required.
+    struct PreFiltered {
+        size_t index;
+        bool   before_passes;
+        bool   after_passes;
+    };
+
+    std::vector<PreFiltered> filtered;
+    filtered.reserve(changes.size());
+
+    for (size_t i = 0; i < changes.size(); ++i) {
+        const auto& change = changes[i];
         if (change.collection != def_.source_collection) continue;
 
-        bool ok = false;
+        bool bp = false, ap = false;
         switch (change.type) {
             case ChangeType::INSERT:
-                if (passesBaseFilters(change.after_row)) {
-                    applyRow(change.after_row, +1);
-                    ok = true;
-                }
+                ap = passesBaseFilters(change.after_row);
+                if (!ap) continue;
                 break;
             case ChangeType::DELETE:
-                if (passesBaseFilters(change.before_row)) {
-                    applyRow(change.before_row, -1);
-                    pruneEmptyGroup(makeGroupKey(change.before_row));
-                    ok = true;
-                }
+                bp = passesBaseFilters(change.before_row);
+                if (!bp) continue;
                 break;
-            case ChangeType::UPDATE: {
-                bool bp = passesBaseFilters(change.before_row);
-                bool ap = passesBaseFilters(change.after_row);
-                if (bp) applyRow(change.before_row, -1);
-                if (ap) applyRow(change.after_row,  +1);
-                if (bp) pruneEmptyGroup(makeGroupKey(change.before_row));
-                ok = bp || ap;
+            case ChangeType::UPDATE:
+                bp = passesBaseFilters(change.before_row);
+                ap = passesBaseFilters(change.after_row);
+                if (!bp && !ap) continue;
                 break;
-            }
         }
-        if (ok) ++applied;
+        filtered.push_back({i, bp, ap});
     }
 
-    if (applied > 0) {
-        dirty_.store(true);
-        last_update_us_.store(nowMicros());
-        change_count_ += static_cast<uint64_t>(applied);
+    int total_applied = 0;
+
+    // Process pre-filtered records in micro-batches of ≤ kMicroBatchSize rows.
+    // The exclusive lock is acquired and released once per micro-batch so that
+    // concurrent readers (query()) can slip in between batches.
+    for (size_t batch_start = 0; batch_start < filtered.size();
+         batch_start += kMicroBatchSize) {
+        const size_t batch_end =
+            std::min(batch_start + kMicroBatchSize, filtered.size());
+        int batch_applied = 0;
+
+        {
+            std::unique_lock lk(rw_mutex_);
+
+            for (size_t j = batch_start; j < batch_end; ++j) {
+                const auto& pf     = filtered[j];
+                const auto& change = changes[pf.index];
+
+                switch (change.type) {
+                    case ChangeType::INSERT:
+                        applyRow(change.after_row, +1);
+                        ++batch_applied;
+                        break;
+                    case ChangeType::DELETE:
+                        applyRow(change.before_row, -1);
+                        pruneEmptyGroup(makeGroupKey(change.before_row));
+                        ++batch_applied;
+                        break;
+                    case ChangeType::UPDATE:
+                        if (pf.before_passes) applyRow(change.before_row, -1);
+                        if (pf.after_passes)  applyRow(change.after_row,  +1);
+                        if (pf.before_passes) pruneEmptyGroup(makeGroupKey(change.before_row));
+                        ++batch_applied;
+                        break;
+                }
+            }
+
+            if (batch_applied > 0) {
+                dirty_.store(true);
+                last_update_us_.store(nowMicros());
+                change_count_ += static_cast<uint64_t>(batch_applied);
+            }
+        } // exclusive lock released here
+
+        total_applied += batch_applied;
+
+        // Yield between micro-batches so concurrent readers can acquire the
+        // shared lock without waiting for the entire batch to complete.
+        if (batch_end < filtered.size()) {
+            std::this_thread::yield();
+        }
     }
-    return applied;
+
+    return total_applied;
 }
 
 ViewQueryResult IncrementalView::query(

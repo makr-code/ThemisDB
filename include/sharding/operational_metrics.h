@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            operational_metrics.h                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:32                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:10:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     378                                            ║
+    • Total Lines:     399                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a280bfd0  2026-03-15  feat: Complete Shard RPC Integration acceptance criteria ... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -253,6 +254,24 @@ public:
      */
     HealthStatus getClusterHealth() const;
     
+    /**
+     * @brief Record a cross-shard RPC call.
+     *
+     * Called by ShardRPCClient for every call attempt so that latency and
+     * outcome distributions are visible in dashboards.
+     *
+     * @param shard_id  Target shard identifier (metric label).
+     * @param method    RPC method name: "prepare", "commit", "abort", etc.
+     * @param outcome   "success", "retryable_error", or "non_retryable_error".
+     * @param latency_us Round-trip latency of this single attempt in microseconds.
+     */
+    void recordRpcCall(
+        const std::string& shard_id,
+        const std::string& method,
+        const std::string& outcome,
+        uint64_t latency_us
+    );
+
     /**
      * @brief Record a request
      * @param shard_id Shard identifier

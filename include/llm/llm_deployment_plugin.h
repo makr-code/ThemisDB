@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_deployment_plugin.h                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:54:07                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:07:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     353                                            ║
+    • Total Lines:     354                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -25,8 +25,7 @@
 
 #include "llm/model_downloader.h"
 #include "llm/llm_plugin_interface.h"
-// NOTE: LLMModelStorage is forward-declared to avoid link dependency until implementation exists
-// #include "llm/llm_model_storage.h"
+#include "llm/llm_model_storage.h"
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
 #include <string>
@@ -40,10 +39,6 @@ namespace themis {
 namespace llm {
 
 using json = nlohmann::json;
-
-// Forward declaration to avoid linker errors until llm_model_storage.cpp is implemented
-class LLMModelStorage;
-struct LLMModelMetadata;
 
 /**
  * @brief Deployment mode for LLM models
@@ -170,10 +165,27 @@ public:
     explicit LLMDeploymentPlugin(const DeploymentConfig& config);
     
     ~LLMDeploymentPlugin() = default;
-    
+
     // ═══════════════════════════════════════════════════════════
-    // Core Deployment Operations
+    // Thread-local request context (JWT user propagation)
     // ═══════════════════════════════════════════════════════════
+
+    /// Authentication context set by HTTP handlers before invoking deployment operations.
+    struct RequestContext {
+        std::string user_id;    ///< Authenticated user / service account
+        std::string client_ip;  ///< Originating client IP address (may be empty)
+    };
+
+    /// Set the authentication context for the calling thread.
+    /// Must be called before any method that performs audit logging.
+    static void setRequestContext(const RequestContext& ctx) noexcept;
+
+    /// Clear the authentication context for the calling thread.
+    static void clearRequestContext() noexcept;
+
+    /// Return the user_id from the thread-local request context, or @p fallback.
+    static std::string currentUserId(const char* fallback = "system") noexcept;
+
     
     /**
      * @brief Deploy a model (download if needed, verify, make available)

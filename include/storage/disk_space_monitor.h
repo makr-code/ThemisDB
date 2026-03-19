@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            disk_space_monitor.h                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:35                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:10:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     321                                            ║
+    • Total Lines:     336                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 9f9d86ceb  2026-03-15  feat(storage): implement proper size calculation in Rocks... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -93,6 +94,7 @@ public:
         SpaceLevel level = SpaceLevel::NORMAL;
         bool writes_blocked = false;
         bool read_only = false;
+        uint64_t rocksdb_size_bytes = 0;  // RocksDB on-disk SST files size (set via setRocksDBSize)
     };
     
     struct MonitorStats {
@@ -188,6 +190,17 @@ public:
      * Use with caution - allows writes even in critical state
      */
     void setReadOnlyOverride(bool read_only);
+    
+    /**
+     * @brief Update the tracked RocksDB on-disk size
+     * 
+     * Called by storage components after computing the SST files size via
+     * RocksDBWrapper::getApproximateSize(). The value is propagated into
+     * SpaceInfo::rocksdb_size_bytes and is returned by getSpaceInfo().
+     *
+     * @param size_bytes Total RocksDB SST on-disk size in bytes
+     */
+    void setRocksDBSize(uint64_t size_bytes);
     
     /**
      * @brief Get recommended action based on space level

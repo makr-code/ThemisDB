@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_compliance_reporting.cpp                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:02:59                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:23:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     951                                            ║
+    • Total Lines:     953                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -950,4 +950,206 @@ TEST_F(ComplianceReportingTest, Integration_ComplexOverlapScenario) {
         }
     }
     EXPECT_TRUE(found_triple_overlap);
+}
+
+// ============================================================================
+// CSV Export Tests (Issue #4004)
+// Verifies column headers, field values, and delimiter escaping for
+// CcpaReport, AccessControlMatrix, ChangeHistoryReport, and the generic
+// exportReport(json, CSV) path.
+// ============================================================================
+
+// ---------------------------------------------------------------------------
+// CcpaReport::toCSV()
+// ---------------------------------------------------------------------------
+
+TEST_F(ComplianceReportingTest, CsvExport_CcpaReport_ColumnHeaders) {
+    ComplianceReporter reporter;
+    auto report = reporter.generateCcpaReport(*policy_mgr, 42);
+    auto csv = report.toCSV();
+
+    EXPECT_FALSE(csv.empty());
+    // Verify the header row is present
+    EXPECT_NE(csv.find("Field"), std::string::npos);
+    EXPECT_NE(csv.find("Value"), std::string::npos);
+}
+
+TEST_F(ComplianceReportingTest, CsvExport_CcpaReport_FieldValues) {
+    ComplianceReporter reporter;
+    auto report = reporter.generateCcpaReport(*policy_mgr, 7);
+    auto csv = report.toCSV();
+
+    EXPECT_NE(csv.find("opt_out_count"), std::string::npos);
+    EXPECT_NE(csv.find("7"), std::string::npos);
+    EXPECT_NE(csv.find("ccpa_compliant_rules"), std::string::npos);
+    EXPECT_NE(csv.find("ccpa_non_compliant_rules"), std::string::npos);
+    EXPECT_NE(csv.find("generated_at"), std::string::npos);
+    EXPECT_NE(csv.find("missing_right_to_know_count"), std::string::npos);
+    EXPECT_NE(csv.find("missing_right_to_delete_count"), std::string::npos);
+    EXPECT_NE(csv.find("missing_opt_out_of_sale_count"), std::string::npos);
+    EXPECT_NE(csv.find("missing_data_portability_count"), std::string::npos);
+    EXPECT_NE(csv.find("third_party_disclosure_count"), std::string::npos);
+}
+
+TEST_F(ComplianceReportingTest, CsvExport_CcpaReport_IsIComplianceReport) {
+    // Verify that CcpaReport satisfies the IComplianceReport interface
+    ComplianceReporter reporter;
+    ComplianceReporter::CcpaReport report = reporter.generateCcpaReport(*policy_mgr, 0);
+    const IComplianceReport& iface = report;
+    auto csv = iface.toCSV();
+    EXPECT_FALSE(csv.empty());
+    EXPECT_NE(csv.find("opt_out_count"), std::string::npos);
+}
+
+// ---------------------------------------------------------------------------
+// AccessControlMatrix::toCSV() — column headers and delimiter escaping
+// ---------------------------------------------------------------------------
+
+TEST_F(ComplianceReportingTest, CsvExport_AccessControlMatrix_ColumnHeaders) {
+    ComplianceReporter reporter;
+    auto matrix = reporter.generateAccessControlMatrix(*policy_mgr);
+    auto csv = matrix.toCSV();
+
+    EXPECT_FALSE(csv.empty());
+    // Mandatory column headers
+    EXPECT_NE(csv.find("Role"), std::string::npos);
+    EXPECT_NE(csv.find("Resource"), std::string::npos);
+    EXPECT_NE(csv.find("Allowed Actions"), std::string::npos);
+    EXPECT_NE(csv.find("Requires Encryption"), std::string::npos);
+    EXPECT_NE(csv.find("Is Audited"), std::string::npos);
+}
+
+TEST_F(ComplianceReportingTest, CsvExport_AccessControlMatrix_DelimiterEscaping) {
+    ComplianceReporter::AccessControlMatrix matrix;
+    // Entry whose allowed_actions list is joined with ';' and wrapped in quotes
+    ComplianceReporter::AccessControlMatrix::Entry e;
+    e.role = "admin";
+    e.resource = "data/users";
+    e.allowed_actions = {"read", "write", "delete"};
+    e.requires_encryption = true;
+    e.is_audited = true;
+    matrix.entries.push_back(e);
+
+    auto csv = matrix.toCSV();
+    // Multiple actions are joined with ';' and wrapped in double-quotes
+    EXPECT_NE(csv.find("\"read;write;delete\""), std::string::npos);
+    // Boolean columns use Yes/No
+    EXPECT_NE(csv.find("Yes"), std::string::npos);
+}
+
+TEST_F(ComplianceReportingTest, CsvExport_AccessControlMatrix_IsIComplianceReport) {
+    ComplianceReporter reporter;
+    ComplianceReporter::AccessControlMatrix matrix = reporter.generateAccessControlMatrix(*policy_mgr);
+    const IComplianceReport& iface = matrix;
+    auto csv = iface.toCSV();
+    EXPECT_FALSE(csv.empty());
+    EXPECT_NE(csv.find("Role"), std::string::npos);
+}
+
+// ---------------------------------------------------------------------------
+// ChangeHistoryReport::toCSV() — column headers and delimiter escaping
+// ---------------------------------------------------------------------------
+
+TEST_F(ComplianceReportingTest, CsvExport_ChangeHistoryReport_ColumnHeaders) {
+    ComplianceReporter reporter;
+    int64_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+    auto report = reporter.generateChangeHistory(*policy_mgr, 0, now + 1000);
+    auto csv = report.toCSV();
+
+    EXPECT_FALSE(csv.empty());
+    EXPECT_NE(csv.find("Version"), std::string::npos);
+    EXPECT_NE(csv.find("Timestamp"), std::string::npos);
+    EXPECT_NE(csv.find("Modified By"), std::string::npos);
+    EXPECT_NE(csv.find("Description"), std::string::npos);
+}
+
+TEST_F(ComplianceReportingTest, CsvExport_ChangeHistoryReport_DelimiterEscaping) {
+    ComplianceReporter::ChangeHistoryReport report;
+
+    // Add a change with a description that contains a comma (requires quoting)
+    PolicyRuleVersion v;
+    v.version = 1;
+    v.timestamp = 1700000000;
+    v.author = "alice";
+    v.change_description = "Updated rule, added encryption requirement";
+    v.rule_id = "rule1";
+    report.changes.push_back(v);
+    report.total_changes = 1;
+    report.changes_by_user["alice"] = 1;
+
+    auto csv = report.toCSV();
+    // Description with a comma must be wrapped in double-quotes
+    EXPECT_NE(csv.find("\"Updated rule, added encryption requirement\""),
+              std::string::npos);
+    EXPECT_NE(csv.find("alice"), std::string::npos);
+    EXPECT_NE(csv.find("Total Changes"), std::string::npos);
+}
+
+TEST_F(ComplianceReportingTest, CsvExport_ChangeHistoryReport_IsIComplianceReport) {
+    ComplianceReporter reporter;
+    int64_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+    ComplianceReporter::ChangeHistoryReport report =
+        reporter.generateChangeHistory(*policy_mgr, 0, now + 1000);
+    const IComplianceReport& iface = report;
+    auto csv = iface.toCSV();
+    EXPECT_FALSE(csv.empty());
+    EXPECT_NE(csv.find("Version"), std::string::npos);
+}
+
+// ---------------------------------------------------------------------------
+// exportReport(json, ReportFormat::CSV) — generic JSON → CSV path
+// ---------------------------------------------------------------------------
+
+TEST_F(ComplianceReportingTest, CsvExport_ExportReportCSV_BasicFields) {
+    ComplianceReporter reporter;
+
+    nlohmann::json test_report;
+    test_report["report_type"] = "risk_assessment";
+    test_report["total_rules"] = 15;
+    test_report["compliance_score"] = 88.5;
+    test_report["generated_at"] = static_cast<int64_t>(
+        std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()));
+
+    auto csv = reporter.exportReport(test_report, ComplianceReporter::ReportFormat::CSV);
+
+    EXPECT_FALSE(csv.empty());
+    // Must contain header row
+    EXPECT_NE(csv.find("Field"), std::string::npos);
+    EXPECT_NE(csv.find("Value"), std::string::npos);
+    // Must contain the scalar fields
+    EXPECT_NE(csv.find("report_type"), std::string::npos);
+    EXPECT_NE(csv.find("risk_assessment"), std::string::npos);
+    EXPECT_NE(csv.find("total_rules"), std::string::npos);
+    EXPECT_NE(csv.find("compliance_score"), std::string::npos);
+    EXPECT_NE(csv.find("generated_at"), std::string::npos);
+}
+
+TEST_F(ComplianceReportingTest, CsvExport_ExportReportCSV_NestedArraysEscaped) {
+    ComplianceReporter reporter;
+
+    nlohmann::json test_report;
+    test_report["framework"] = "GDPR";
+    test_report["controls"] = nlohmann::json::array({"ctrl-1", "ctrl-2", "ctrl-3"});
+
+    auto csv = reporter.exportReport(test_report, ComplianceReporter::ReportFormat::CSV);
+
+    EXPECT_FALSE(csv.empty());
+    EXPECT_NE(csv.find("framework"), std::string::npos);
+    EXPECT_NE(csv.find("GDPR"), std::string::npos);
+    EXPECT_NE(csv.find("controls"), std::string::npos);
+    // The array value must be present (JSON-serialised and quoted because it contains commas)
+    EXPECT_NE(csv.find("ctrl-1"), std::string::npos);
+}
+
+TEST_F(ComplianceReportingTest, CsvExport_ExportReportCSV_CommaInValueIsQuoted) {
+    ComplianceReporter reporter;
+
+    nlohmann::json test_report;
+    test_report["description"] = "Rule A, Rule B";
+
+    auto csv = reporter.exportReport(test_report, ComplianceReporter::ReportFormat::CSV);
+
+    EXPECT_FALSE(csv.empty());
+    // Value with embedded comma must be double-quoted
+    EXPECT_NE(csv.find("\"Rule A, Rule B\""), std::string::npos);
 }

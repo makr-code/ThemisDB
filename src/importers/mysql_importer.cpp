@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mysql_importer.cpp                                 ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-03-09 03:58:36                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-03-16 04:15:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
-    • Total Lines:     1285                                           ║
+    • Total Lines:     1403                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 786e4a8df  2026-03-15  feat(importers): incremental import, MySQL benchmark, Mon... ║
+    • e8972c533  2026-03-15  feat(importers): add MySQL-specific Prometheus metrics an... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 25e8cec73  2026-02-28  Implement JDBC-compatible config for MySQL/MariaDB importer ║
     • 0315f4af6  2026-02-27  refactor(importers): simplify streaming callback pattern ... ║
-    • 7ad9a8ead  2026-02-27  feat(importers): add streaming row callbacks to MySQL and... ║
-    • ac1dacf6a  2026-02-22  Add MySQL/MariaDB importer: header, implementation, tests... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -1401,3 +1401,20 @@ extern "C" {
         delete plugin;
     }
 }
+
+// ============================================================================
+// IImporterPluginRegistry – static-init self-registration
+// ============================================================================
+//
+// Registers MySQLImporterSchemePlugin with ImporterSchemeRegistry at program
+// startup so that IImporterPluginRegistry::instance().resolve("mysql://…")
+// and resolve("mariadb://…") return this plugin without any manual wiring.
+//
+// The macro is called from within the themis::importers namespace so that
+// the unqualified PluginClass name is valid for C++ token-paste (##).
+
+namespace themis {
+namespace importers {
+REGISTER_IMPORTER_PLUGIN(MySQLImporterSchemePlugin)
+} // namespace importers
+} // namespace themis

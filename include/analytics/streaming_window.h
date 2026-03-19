@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            streaming_window.h                                 ║
-  Version:         0.0.19                                             ║
-  Last Modified:   2026-03-09 03:52:33                                ║
+  Version:         0.0.20                                             ║
+  Last Modified:   2026-03-16 04:05:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     662                                            ║
+    • Total Lines:     664                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -225,6 +225,9 @@ struct SlidingWindowConfig {
 struct SessionWindowConfig {
     std::chrono::milliseconds gap{30000};
     WatermarkConfig watermark;
+    /// How often the background expiry thread wakes to check for idle sessions.
+    /// Smaller values reduce session-close latency at the cost of more CPU wakeups.
+    std::chrono::milliseconds session_expiry_check_interval_ms{200};
 };
 
 struct HoppingWindowConfig {

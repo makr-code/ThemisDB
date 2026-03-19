@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cep_engine.h                                       ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:28                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:05:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -59,6 +59,9 @@
 #include <variant>
 #include <any>
 #include <regex>
+
+// Lock-free MPMC ring buffer for the CEP event queue.
+#include "analytics/detail/ring_buffer.h"
 
 namespace themisdb {
 namespace analytics {
@@ -333,6 +336,9 @@ struct WindowConfig {
     bool emit_on_close = true;                   // Emit results when window closes
     bool emit_on_event = false;                  // Emit on every event
     std::chrono::milliseconds allowed_lateness{0}; // Late event tolerance
+    /// How often the timer thread wakes to emit GLOBAL window snapshots and
+    /// close expired SESSION windows.  Smaller values reduce emission latency.
+    std::chrono::milliseconds global_window_emit_interval_ms{500};
 };
 
 /**
@@ -671,6 +677,16 @@ public:
     };
     Stats getStats() const;
 
+    /**
+     * Carries a snapshot of window data for deferred callback dispatch.
+     * Events are moved in to avoid copies when closing windows.
+     */
+    struct WindowCallbackBatch {
+        std::vector<Event> events;
+        std::chrono::system_clock::time_point start;
+        std::chrono::system_clock::time_point end;
+    };
+
 private:
     WindowConfig config_;
     WindowCallback callback_;
@@ -703,7 +719,9 @@ private:
     std::mutex timer_mutex_;
     
     void timerLoop();
-    void closeWindow(Window& window);
+    // Marks window closed and returns a batch for deferred dispatch (lock must
+    // be held by caller; callback is NOT invoked here).
+    std::optional<WindowCallbackBatch> closeWindow(Window& window);
     void handleTumblingWindow(const Event& event);
     void handleSlidingWindow(const Event& event);
     void handleSessionWindow(const Event& event);
@@ -1123,10 +1141,16 @@ private:
     std::thread metrics_thread_;
     std::condition_variable cv_;
     std::mutex mutex_;
+    // Used by metricsLoop() to wake immediately when running_ becomes false.
+    std::condition_variable metrics_cv_;
+    std::mutex metrics_mutex_;
     
-    // Processing
-    std::queue<std::pair<std::string, Event>> event_queue_;
-    mutable std::mutex queue_mutex_;
+    // Processing — lock-free MPMC ring buffer replaces std::queue + mutex.
+    // Capacity mirrors max_queue_depth from CEPConfig (set during initialize()).
+    // The ring buffer is re-created if initialize() is called again.
+    std::unique_ptr<themis::analytics::detail::EventRingBuffer<
+        std::pair<std::string, Event>>> event_queue_;
+    // size_approx() is used for backpressure fill-ratio checks and getStats().
     
     void workerLoop();
     void metricsLoop();

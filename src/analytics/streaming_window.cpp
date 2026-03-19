@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            streaming_window.cpp                               ║
-  Version:         0.0.19                                             ║
-  Last Modified:   2026-03-09 03:57:00                                ║
+  Version:         0.0.20                                             ║
+  Last Modified:   2026-03-16 04:13:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -36,6 +36,45 @@
  *  - Watermark advances monotonically on each ingested record
  *  - Shared aggregation computation logic via anonymous namespace helpers
  *  - Session expiry via background thread (SessionWindow only)
+ *
+ * Open TODOs (tracked here per code-review requirements; see also
+ * src/analytics/FUTURE_ENHANCEMENTS.md §13):
+ *
+ * TODO(v1.8.0) #1: WatermarkConfig.idle_timeout (see include/analytics/streaming_window.h,
+ *   struct WatermarkConfig) is defined but never implemented — no timer advances the
+ *   watermark when no events arrive in non-session windows.  Add a background
+ *   idle-timeout path to TumblingWindow and SlidingWindow.
+ *
+ * TODO(v1.8.0) #2: TumblingWindow and SlidingWindow ignore partition_key —
+ *   results do not carry a meaningful partition_key; per-partition aggregation
+ *   is only available in SessionWindow.  Extend InternalWindow to store and
+ *   propagate partition_key.
+ *
+ * TODO(v1.8.0) #3: allow_late_data flag is not respected in the background
+ *   expiryLoop — late results from timer-driven expiry are never marked
+ *   is_late_firing=true nor routed through a separate late-data path.
+ *
+ * TODO(v1.8.0) #4: StreamingWindowPipeline does not expose the configurable
+ *   expiry interval — the pipeline builder constructs SessionWindowConfig
+ *   without forwarding session_expiry_check_interval_ms, so operators using
+ *   the fluent API cannot tune the interval without bypassing the pipeline.
+ *
+ * TODO(v1.8.0) #5: O(N) window lookup in SlidingWindow::ensureWindowsExist —
+ *   the inner loop scans the windows_ deque linearly to detect duplicates.
+ *   Replace with an ordered index keyed on start_us for O(log N) lookup.
+ *
+ * TODO(v1.8.0) #6: calcPercentile() takes the values vector by value (copy) —
+ *   for large event sets this allocates O(N) heap memory on every percentile
+ *   computation.  Change signature to accept a span or sorted view.
+ *
+ * TODO(v1.8.0) #7: WindowResult.is_late_firing is set in TumblingWindow and
+ *   SlidingWindow computeResult() paths but SessionWindow::computeResult()
+ *   never sets it.  Audit and propagate consistently.
+ *
+ * TODO(v1.8.0) #8: SlidingWindow::flush() closes all windows at watermark
+ *   MAX but does not emit results for windows whose close was already
+ *   pending (double-close guard is absent); add a `w.closed` check before
+ *   re-emitting in flush() to prevent duplicate results on shutdown.
  */
 
 #include "analytics/streaming_window.h"
@@ -789,7 +828,7 @@ void SessionWindow::expiryLoop() {
     while (running_) {
         {
             std::unique_lock lk(expiry_mutex_);
-            expiry_cv_.wait_for(lk, std::chrono::milliseconds(200),
+            expiry_cv_.wait_for(lk, config_.session_expiry_check_interval_ms,
                                 [this] { return !running_.load(); });
         }
         if (!running_) break;

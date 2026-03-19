@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_server.cpp                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:14                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:18:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   89.0/100                                       ║
-    • Total Lines:     9906                                           ║
-    • Open Issues:     TODOs: 4, Stubs: 0                             ║
+    • Quality Score:   91.0/100                                       ║
+    • Total Lines:     10737                                          ║
+    • Open Issues:     TODOs: 3, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • de101321a  2026-03-01  feat(server): implement gRPC-Web proxy handler for browse... ║
-    • eca826808  2026-03-01  feat(server): implement edge caching integration with CDN... ║
-    • 46cbedd51  2026-03-01  Fix total count to return all matching records for proper... ║
-    • c459420f1  2026-03-01  Add searchable audit log API endpoint GET /api/tasks/{id}... ║
+    • 80ae5c5d3  2026-03-15  fix(storage/audit): remove dead dsm.setRocksDBSize() call... ║
+    • 9f9d86ceb  2026-03-15  feat(storage): implement proper size calculation in Rocks... ║
+    • c9b143394  2026-03-15  feat(server): inject live ShardingManager into HttpServer... ║
+    • 2fed5b1c6  2026-03-15  fix(cdc): wire ConsumerGroupManager into WebSocket server... ║
+    • af1b62452  2026-03-12  fix: address review feedback - null safety, HTTP route fo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -49,6 +49,7 @@
 // Include full definitions BEFORE http_server.h to avoid incomplete types
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
+#include "storage/disk_space_monitor.h"
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
 #include "index/vector_index.h"
@@ -121,6 +122,7 @@
 #include "sharding/wal_applier.h"
 #include "sharding/distributed_transaction.h"
 #include "sharding/truetime.h"
+#include "sharding/sharding_manager.h"
 #include "server/distributed_txn_api_handler.h"
 #if !defined(_WIN32)
 #include <time.h>
@@ -594,10 +596,11 @@ HttpServer::HttpServer(
                 THEMIS_INFO("  Bootstrap shard: {}", bootstrap_shard);
             }
             
-            // TODO: Initialize actual ShardingManager here when available
-            // For now, setting a flag to indicate sharding context is active
-            // This prevents AdaptiveIndexManager from hanging on cluster MVCC coordination
-            THEMIS_INFO("Sharding context prepared (cluster discovery ready)");
+            // Initialize actual ShardingManager - use the live singleton instance
+            if (!sharding_manager_) {
+                sharding_manager_ = &themis::sharding::ShardingManager::GetInstance();
+            }
+            THEMIS_INFO("Sharding context prepared (ShardingManager initialized, cluster discovery ready)");
         }
     }
     
@@ -2151,6 +2154,10 @@ namespace {
     AdminCacheTenantStatsGet,       // GET  /v1/admin/cache/tenant/{tenant_id}/stats
     AdminCacheTenantQuotaPatch,     // PATCH /v1/admin/cache/tenant/{tenant_id}/quota
     AdminCachePiiEvictDelete,       // DELETE /v1/admin/cache/pii/{pii_uuid}
+    // Shard Admin endpoints
+    AdminShardsPost,                // POST /v1/admin/shards
+    AdminShardsGet,                 // GET  /v1/admin/shards
+    AdminStorageStatsGet,           // GET  /v1/admin/storage/stats
     // Prompt Template endpoints
     PromptTemplatePost,
     PromptTemplateList,
@@ -2568,6 +2575,9 @@ namespace {
     if (path_only.rfind("/v1/admin/cache/pii/", 0) == 0 && method == http::verb::delete_) return Route::AdminCachePiiEvictDelete;
     if (path_only == "/v1/admin/cache/warmup" && method == http::verb::post) return Route::AdminCacheWarmupPost;
     if (path_only == "/v1/admin/cache/snapshot" && method == http::verb::post) return Route::AdminCacheSnapshotPost;
+    if (path_only == "/v1/admin/shards" && method == http::verb::post) return Route::AdminShardsPost;
+    if (path_only == "/v1/admin/shards" && method == http::verb::get) return Route::AdminShardsGet;
+    if (path_only == "/v1/admin/storage/stats" && method == http::verb::get) return Route::AdminStorageStatsGet;
     if (target == "/prompt_template" && method == http::verb::post) return Route::PromptTemplatePost;
     if (target == "/prompt_template" && method == http::verb::get) return Route::PromptTemplateList;
     if (target.rfind("/prompt_template/", 0) == 0 && method == http::verb::get) return Route::PromptTemplateGet;
@@ -3759,6 +3769,96 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
             }
             break;
+        case Route::AdminShardsPost: {
+            if (!sharding_manager_) {
+                sharding_manager_ = &themis::sharding::ShardingManager::GetInstance();
+            }
+            try {
+                auto body = json::parse(req.body());
+                themis::sharding::ShardNodeInfo node;
+                node.node_id      = body.value("node_id", uint32_t(0));
+                node.node_address = body.value("node_address", std::string{});
+                node.node_role    = body.value("node_role", std::string{"PRIMARY"});
+                node.is_healthy   = body.value("is_healthy", true);
+                if (node.node_address.empty()) {
+                    response = makeErrorResponse(http::status::bad_request, "node_address is required", req);
+                    break;
+                }
+                sharding_manager_->AddShardNode(node);
+                json result = {
+                    {"node_id",      node.node_id},
+                    {"node_address", node.node_address},
+                    {"node_role",    node.node_role},
+                    {"is_healthy",   node.is_healthy}
+                };
+                response = makeResponse(http::status::created, result.dump(), req);
+            } catch (const std::runtime_error& e) {
+                response = makeErrorResponse(http::status::conflict, e.what(), req);
+            } catch (const json::exception& e) {
+                response = makeErrorResponse(http::status::bad_request, std::string("invalid JSON: ") + e.what(), req);
+            }
+            break;
+        }
+        case Route::AdminShardsGet: {
+            if (!sharding_manager_) {
+                sharding_manager_ = &themis::sharding::ShardingManager::GetInstance();
+            }
+            auto nodes = sharding_manager_->GetAllNodes();
+            json shards_arr = json::array();
+            for (const auto& n : nodes) {
+                shards_arr.push_back({
+                    {"node_id",      n.node_id},
+                    {"node_address", n.node_address},
+                    {"node_role",    n.node_role},
+                    {"is_healthy",   n.is_healthy}
+                });
+            }
+            json result = {
+                {"shards",          shards_arr},
+                {"total",           sharding_manager_->GetNodeCount()},
+                {"max_nodes",       themis::sharding::ShardingManager::GetMaxShardNodes()},
+                {"remaining",       sharding_manager_->GetRemainingNodeCapacity()},
+                {"healthy_count",   sharding_manager_->GetHealthyNodeCount()}
+            };
+            response = makeResponse(http::status::ok, result.dump(), req);
+            break;
+        }
+        case Route::AdminStorageStatsGet: {
+            // GET /v1/admin/storage/stats
+            // Returns RocksDB on-disk SST size and OS-level disk space metrics
+            // for the storage path so admin tooling and quota logic can act on
+            // real numbers instead of the previous hard-coded 0.
+            try {
+                uint64_t rocksdb_size = storage_ ? storage_->getApproximateSize() : 0;
+
+                json storage_json = {
+                    {"rocksdb_sst_size_bytes", rocksdb_size}
+                };
+
+                // Include OS-level disk space for the storage path when available.
+                if (storage_) {
+                    const std::string& db_path = storage_->getConfig().db_path;
+                    storage::DiskSpaceMonitor dsm(db_path);
+                    auto space = dsm.checkSpace();
+
+                    storage_json["disk"] = {
+                        {"path",            space.path},
+                        {"total_bytes",     space.total_bytes},
+                        {"used_bytes",      space.used_bytes},
+                        {"free_bytes",      space.free_bytes},
+                        {"available_bytes", space.available_bytes},
+                        {"usage_percent",   space.usage_percent},
+                        {"free_percent",    space.free_percent}
+                    };
+                }
+
+                response = makeResponse(http::status::ok, storage_json.dump(), req);
+            } catch (const std::exception& e) {
+                response = makeErrorResponse(http::status::internal_server_error,
+                    std::string("Failed to get storage stats: ") + e.what(), req);
+            }
+            break;
+        }
         case Route::LlmInteractionPost:
             response = handleLlmInteractionPost(req);
             break;

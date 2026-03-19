@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_graph_distributed.cpp                         ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:04:12                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:25:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     421                                            ║
+    • Total Lines:     422                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -28,9 +28,11 @@
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 
+#include <atomic>
 #include <filesystem>
 #include <memory>
 #include <string>
+#include <thread>
 #include <vector>
 
 namespace fs = std::filesystem;
@@ -419,4 +421,80 @@ TEST(DistributedGraphConfigTest, DefaultConfig) {
     EXPECT_EQ(cfg.consistency, themis::graph::ConsistencyLevel::EVENTUAL);
     EXPECT_EQ(cfg.timeout_ms, 5000u);
     EXPECT_EQ(cfg.max_parallel_shards, 0u);
+}
+
+// ---------------------------------------------------------------------------
+// TSAN stress test: 8 concurrent execute() threads + 1 addShard() thread
+// ---------------------------------------------------------------------------
+
+// Minimal stub executor used only for the concurrency stress test.
+class StubShardExecutor final : public themis::graph::ShardGraphExecutor {
+public:
+    explicit StubShardExecutor(std::string id) : id_(std::move(id)) {}
+    std::string shardId() const override { return id_; }
+    themis::Result<std::vector<std::string>> executeBFS(
+        const std::string&, int,
+        const themis::graph::GraphQueryOptimizer::QueryConstraints&) override {
+        return themis::Ok(std::vector<std::string>{});
+    }
+    themis::Result<themis::GraphIndexManager::PathResult> executeDijkstra(
+        const std::string&, const std::string&,
+        const themis::graph::GraphQueryOptimizer::QueryConstraints&) override {
+        themis::GraphIndexManager::PathResult r;
+        r.totalCost = 0.0;
+        return themis::Ok(r);
+    }
+private:
+    std::string id_;
+};
+
+TEST(DistributedGraphSharedMutexStressTest, ConcurrentReadsAndOneWriter) {
+    themis::graph::DistributedGraphManager mgr;
+
+    // Pre-populate with some shards so readers have work to do.
+    for (int i = 0; i < 4; ++i) {
+        mgr.addShard("shard" + std::to_string(i),
+                     std::make_shared<StubShardExecutor>("shard" + std::to_string(i)));
+    }
+
+    std::atomic<bool> stop{false};
+    std::atomic<int>  read_ops{0};
+
+    // 8 reader threads: continuously call kHopNeighbors() (the "execute()" path
+    // that exercises healthyShards() under shared_lock) until the writer is done.
+    std::vector<std::thread> readers;
+    readers.reserve(8);
+    for (int t = 0; t < 8; ++t) {
+        readers.emplace_back([&mgr, &stop, &read_ops, t]() {
+            while (!stop.load(std::memory_order_relaxed)) {
+                // kHopNeighbors calls healthyShards() (shared_lock) then fans out.
+                auto res = mgr.kHopNeighbors("vertex_" + std::to_string(t), 1);
+                (void)res;
+                // Also exercise the simpler read helpers.
+                (void)mgr.shardCount();
+                mgr.resolveShardForVertex("vertex_" + std::to_string(t));
+                ++read_ops;
+            }
+        });
+    }
+
+    // 1 writer thread: add then remove 8 extra shards.
+    std::thread writer([&mgr]() {
+        for (int i = 4; i < 12; ++i) {
+            std::string sid = "dynamic_shard" + std::to_string(i);
+            mgr.addShard(sid, std::make_shared<StubShardExecutor>(sid));
+            std::this_thread::yield();
+            mgr.removeShard(sid);
+            std::this_thread::yield();
+        }
+    });
+
+    writer.join();
+    stop.store(true, std::memory_order_relaxed);
+    for (auto& r : readers) r.join();
+
+    // At least some read operations were completed.
+    EXPECT_GT(read_ops.load(), 0);
+    // After the writer finishes, only the original 4 shards should remain.
+    EXPECT_EQ(mgr.shardCount(), 4u);
 }

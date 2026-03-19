@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            exporter_metrics.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:30                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:06:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -150,6 +150,13 @@ public:
     /// Encryption: Get total bytes written to encrypted export files
     size_t getEncryptedBytesWritten() const;
 
+    /// HuggingFace: Record an HTTP 429 rate-limit hit
+    /// (exporters.huggingface.rate_limit_hit)
+    void recordRateLimitHit();
+
+    /// HuggingFace: Get total rate-limit hits recorded
+    size_t getRateLimitHits() const;
+
     /// Export metrics as JSON
     nlohmann::json toJson() const;
     
@@ -212,6 +219,9 @@ private:
     // Encryption: bytes written to encrypted export files
     // (exporter_encrypted_bytes_written_total)
     std::atomic<size_t> encrypted_bytes_written_{0};
+
+    // HuggingFace: HTTP 429 rate-limit hits (exporters.huggingface.rate_limit_hit)
+    std::atomic<size_t> rate_limit_hits_{0};
     
     // Helper to update latency histogram
     void updateLatencyHistogram(std::chrono::milliseconds duration);

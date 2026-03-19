@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ai_orchestrator.cpp                           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:01:47                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:21:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     784                                            ║
+    • Total Lines:     785                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -37,10 +37,57 @@
 #include <atomic>
 #include <thread>
 #include "llm/ai_orchestrator.h"
+#include "llm/llm_plugin_interface.h"
 
 using namespace themis::llm;
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
+
+// Minimal ILLMPlugin stub that returns the raw prompt text as the response.
+// Used so AIOrchestrator::runAsk() returns a predictable string (the prompt /
+// query itself) without needing a real llama.cpp backend.
+class EchoLLMPlugin : public ILLMPlugin {
+public:
+    bool loadModel(const std::string&, const json&) override { return true; }
+    void unloadModel() override {}
+    std::optional<ModelInfo> getModelInfo() const override {
+        ModelInfo info{};
+        info.model_id   = "echo";
+        info.is_loaded  = true;
+        return info;
+    }
+    bool isModelLoaded() const override { return true; }
+
+    InferenceResponse generate(const InferenceRequest& request) override {
+        InferenceResponse resp;
+        resp.request_id       = request.request_id;
+        resp.model_id         = "echo";
+        // Return the raw prompt so that tests can control result.text by
+        // setting ctx.query to the desired tool-call JSON.
+        resp.text             = request.prompt;
+        // Placeholder token estimate: ~4 characters per token (BPE heuristic).
+        static constexpr int kAvgCharsPerToken = 4;
+        resp.tokens_generated = static_cast<int>(request.prompt.size() / kAvgCharsPerToken);
+        return resp;
+    }
+    InferenceResponse generateRAG(const RAGContext&,
+                                  const InferenceRequest& request) override {
+        return generate(request);
+    }
+    std::vector<float> embed(const std::string& text) override {
+        return std::vector<float>(8, 0.0f);
+    }
+
+    LLMCapabilities getCapabilities() const override { return {}; }
+    json getMemoryStats() const override { return {}; }
+    json getPerformanceStats() const override { return {}; }
+
+    bool loadLoRA(const std::string&, const std::string&, float) override { return true; }
+    bool unloadLoRA(const std::string&) override { return true; }
+    std::vector<LoRAInfo> listLoRAs() const override { return {}; }
+    std::vector<uint8_t> exportLoRA(const std::string&) override { return {}; }
+    bool importLoRA(const std::string&, const std::vector<uint8_t>&) override { return true; }
+};
 
 static const char* kMinimalValidYaml = R"yaml(
 apiVersion: themis.ai/v1
@@ -782,4 +829,153 @@ TEST(AuditRegressionTest, TypesInCorrectNamespace) {
     static_assert(std::is_class_v<themis::llm::ModeSpecLoader>,
                   "ModeSpecLoader must be in themis::llm");
     SUCCEED();
+}
+
+// ============================================================================
+// Agentic mode – tool call parsing (v1.8.0)
+// ============================================================================
+
+// YAML pack with an "agentic" mode and a registered tool.
+static const char* kAgenticYaml = R"yaml(
+apiVersion: themis.ai/v1
+kind: ThemisModePack
+metadata:
+  name: agentic-pack
+  version: "1.0.0"
+default_mode: agentic
+tools:
+  - name: calc_tool
+    description: "Simple calculator tool"
+    timeout_ms: 3000
+    schema: {}
+modes:
+  - id: agentic
+    budgets: {max_tokens: 256, timeout_ms: 5000}
+    tools_allowed: ["calc_tool"]
+)yaml";
+
+// When the LLM response is valid tool-call JSON the orchestrator should
+// dispatch the tool and return its result as response.text.
+TEST(AgenticToolCallTest, ValidToolCallJson_Dispatched) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kAgenticYaml, &res);
+    ASSERT_TRUE(res.ok) << res.errors.front();
+
+    AIOrchestrator orch(pack);
+    // Inject a plugin that echoes the prompt back as response.text so that
+    // the tool-call JSON we put in ctx.query reaches runAgentic() intact.
+    orch.setLLMPlugin(std::make_shared<EchoLLMPlugin>());
+
+    // Register the tool with a known return value.
+    ToolSpec spec;
+    spec.name = "calc_tool";
+    std::atomic<int> call_count{0};
+    orch.toolRegistry().registerTool(spec,
+        [&call_count](const json& args, const ModeSpec&) -> json {
+            ++call_count;
+            return {{"result", args.value("x", 0) + args.value("y", 0)}};
+        });
+
+    // Set the query to a valid tool-call JSON: the EchoLLMPlugin will return
+    // it verbatim so runAgentic() sees it as result.text.
+    OrchestratorContext ctx;
+    ctx.query   = R"({"name":"calc_tool","arguments":{"x":3,"y":4}})";
+    ctx.mode_id = "agentic";
+
+    OrchestratorResult result = orch.run(ctx);
+
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(call_count.load(), 1) << "Tool should have been dispatched exactly once";
+    EXPECT_FALSE(result.metadata.tool_calls_made.empty());
+    EXPECT_EQ(result.metadata.tool_calls_made[0], "calc_tool");
+    // The response text should be the serialised tool result.
+    json tool_out = json::parse(result.text);
+    EXPECT_EQ(tool_out.value("result", -1), 7);
+    // raw_response should carry the tool name and result.
+    EXPECT_EQ(result.raw_response.value("tool_name", ""), "calc_tool");
+}
+
+// When the LLM response is plain text (not JSON) the orchestrator should
+// return it unchanged without throwing.
+TEST(AgenticToolCallTest, PlainTextResponse_NoToolDispatched) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kAgenticYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+
+    ToolSpec spec;
+    spec.name = "calc_tool";
+    std::atomic<int> call_count{0};
+    orch.toolRegistry().registerTool(spec,
+        [&call_count](const json&, const ModeSpec&) -> json {
+            ++call_count;
+            return {{"ok", true}};
+        });
+
+    OrchestratorContext ctx;
+    ctx.query   = "This is a plain text answer, not a tool call.";
+    ctx.mode_id = "agentic";
+
+    OrchestratorResult result = orch.run(ctx);
+
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(call_count.load(), 0) << "No tool should be dispatched for plain text";
+    EXPECT_TRUE(result.metadata.tool_calls_made.empty());
+    // The raw LLM echo text should be preserved.
+    EXPECT_FALSE(result.text.empty());
+}
+
+// Malformed JSON in the response must not crash; the raw text is preserved.
+TEST(AgenticToolCallTest, MalformedJson_GracefulFallback) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kAgenticYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+
+    ToolSpec spec;
+    spec.name = "calc_tool";
+    orch.toolRegistry().registerTool(spec,
+        [](const json&, const ModeSpec&) -> json { return {{"ok", true}}; });
+
+    OrchestratorContext ctx;
+    ctx.query   = "{not valid json at all!!!";
+    ctx.mode_id = "agentic";
+
+    // Must not throw.
+    OrchestratorResult result;
+    EXPECT_NO_THROW(result = orch.run(ctx));
+    EXPECT_TRUE(result.success);
+    EXPECT_TRUE(result.metadata.tool_calls_made.empty());
+}
+
+// Valid JSON that is NOT a tool call (missing "name" key) should be left alone.
+TEST(AgenticToolCallTest, ValidJsonButNotToolCall_NoDispatch) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kAgenticYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    // Inject echo plugin so result.text is the raw JSON (not a prefixed echo).
+    orch.setLLMPlugin(std::make_shared<EchoLLMPlugin>());
+
+    ToolSpec spec;
+    spec.name = "calc_tool";
+    std::atomic<int> call_count{0};
+    orch.toolRegistry().registerTool(spec,
+        [&call_count](const json&, const ModeSpec&) -> json {
+            ++call_count;
+            return {{"ok", true}};
+        });
+
+    OrchestratorContext ctx;
+    ctx.query   = R"({"answer": "42", "confidence": 0.9})";
+    ctx.mode_id = "agentic";
+
+    OrchestratorResult result = orch.run(ctx);
+
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(call_count.load(), 0);
+    EXPECT_TRUE(result.metadata.tool_calls_made.empty());
 }

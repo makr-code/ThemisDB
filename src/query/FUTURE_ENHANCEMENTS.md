@@ -255,7 +255,8 @@ double estimateJoinCost(JoinAlgorithm algo,
 
 ### Materialized Views & Incremental Maintenance
 **Priority:** Medium  
-**Target Version:** v1.8.0
+**Target Version:** v1.8.0  
+**Status:** ✅ Implemented (Issue #195)
 
 Pre-computed query results with automatic incremental updates.
 

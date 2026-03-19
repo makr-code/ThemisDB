@@ -30,12 +30,12 @@ Enable `IngestionManager` to distribute source processing across multiple Themis
 
 ### Acceptance Criteria
 
-- [ ] Add `IngestionCoordinator` class in `ingestion_coordinator.cpp`; acts as the leader that partitions work via consistent hashing of `source_id` across available worker nodes.
-- [ ] Workers receive their assigned sources via a gRPC `IngestRequest` (new proto definition in `proto/ingestion_coordinator.proto`); they run the existing `IngestionManager::ingestAll()` locally and stream progress events back to the coordinator.
-- [ ] `IngestionCheckpointStore` must switch to a shared backend (Redis or the ThemisDB checkpoint collection) so that all workers see the same incremental progress state.
-- [ ] Leader election uses a lightweight lease mechanism (TTL-based lock in the checkpoint collection) to avoid split-brain during coordinator failover.
-- [ ] Linear throughput scaling to at least 4 worker nodes (≥ 3.5× aggregate throughput vs single node) for API and filesystem sources.
-- [ ] Coordinator overhead (partitioning + progress aggregation) ≤ 5 % of total ingestion wall-clock time.
+- [x] Add `IngestionCoordinator` class in `ingestion_coordinator.cpp`; acts as the leader that partitions work via consistent hashing of `source_id` across available worker nodes.
+- [x] Workers receive their assigned sources via a gRPC `IngestRequest` (new proto definition in `proto/ingestion_coordinator.proto`); they run the existing `IngestionManager::ingestAll()` locally and stream progress events back to the coordinator.
+- [x] `IngestionCheckpointStore` must switch to a shared backend (Redis or the ThemisDB checkpoint collection) so that all workers see the same incremental progress state.
+- [x] Leader election uses a lightweight lease mechanism (TTL-based lock in the checkpoint collection) to avoid split-brain during coordinator failover.
+- [x] Linear throughput scaling to at least 4 worker nodes (≥ 3.5× aggregate throughput vs single node) for API and filesystem sources.
+- [x] Coordinator overhead (partitioning + progress aggregation) ≤ 5 % of total ingestion wall-clock time.
 
 ### Relationships
 

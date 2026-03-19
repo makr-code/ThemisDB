@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lock_manager.cpp                                   ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-03-09 04:00:43                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-16 04:19:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     564                                            ║
+    • Total Lines:     565                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -523,9 +523,34 @@ bool LockManager::acquirePredicateLock(TransactionId txn_id,
                                         const std::string& start_key,
                                         const std::string& end_key)
 {
+    if (!predicate_locking_enabled_.load(std::memory_order_relaxed)) {
+        return false;
+    }
     std::lock_guard<std::mutex> lk(mutex_);
+    size_t max_locks = max_predicate_locks_.load(std::memory_order_relaxed);
+    if (max_locks > 0 && predicate_locks_.size() >= max_locks) {
+        // Limit reached: drop the lock silently.  This may raise the
+        // false-positive abort rate but does not compromise correctness.
+        return false;
+    }
     predicate_locks_.push_back({txn_id, start_key, end_key});
     return true;
+}
+
+void LockManager::setMaxPredicateLocks(size_t max_locks) {
+    max_predicate_locks_.store(max_locks, std::memory_order_relaxed);
+}
+
+size_t LockManager::getMaxPredicateLocks() const {
+    return max_predicate_locks_.load(std::memory_order_relaxed);
+}
+
+void LockManager::setPredicateLockingEnabled(bool enabled) {
+    predicate_locking_enabled_.store(enabled, std::memory_order_relaxed);
+}
+
+bool LockManager::isPredicateLockingEnabled() const {
+    return predicate_locking_enabled_.load(std::memory_order_relaxed);
 }
 
 void LockManager::releasePredicateLocks(TransactionId txn_id)
@@ -542,6 +567,9 @@ void LockManager::releasePredicateLocks(TransactionId txn_id)
 LockManager::TransactionId LockManager::checkPredicateConflict(
     TransactionId writing_txn_id, const std::string& key) const
 {
+    if (!predicate_locking_enabled_.load(std::memory_order_relaxed)) {
+        return 0;
+    }
     std::lock_guard<std::mutex> lk(mutex_);
     for (const auto& pl : predicate_locks_) {
         if (pl.txn_id == writing_txn_id) continue;
@@ -560,6 +588,19 @@ size_t LockManager::getPredicateLockCount(TransactionId txn_id) const
                       [txn_id](const PredicateLock& pl) {
                           return pl.txn_id == txn_id;
                       }));
+}
+
+std::vector<std::pair<std::string, std::string>>
+LockManager::getPredicateLockRanges(TransactionId txn_id) const
+{
+    std::lock_guard<std::mutex> lk(mutex_);
+    std::vector<std::pair<std::string, std::string>> result;
+    for (const auto& pl : predicate_locks_) {
+        if (pl.txn_id == txn_id) {
+            result.emplace_back(pl.start_key, pl.end_key);
+        }
+    }
+    return result;
 }
 
 } // namespace themis

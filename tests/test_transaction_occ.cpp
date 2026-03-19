@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_transaction_occ.cpp                           ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-03-09 04:07:31                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-03-16 04:31:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     314                                            ║
+    • Total Lines:     319                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 35957f254  2026-03-15  fix(transaction): correct OCC test for version-conflict d... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 9de069695  2026-02-22  feat(transaction): Optimistic Concurrency Control (OCC) w... ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -167,11 +168,15 @@ TEST_F(OccTest, OptimisticPutUpdateFailsOnVersionConflict) {
         mgr_->getTransaction(id)->optimisticPut("users", makeEntity("u5"), 0);
         mgr_->commitTransaction(id);
     }
-    // Try to update with stale expected_version=0 (actual is 1)
+    // Try to update with a stale non-zero expected_version (expected=5, actual=1)
+    // This exercises the "OCC version conflict" code path (expected_version != current_version
+    // where both are non-zero).
     auto id = mgr_->beginTransaction();
-    auto st = mgr_->getTransaction(id)->optimisticPut("users", makeEntity("u5", "Bob"), 0);
+    auto st = mgr_->getTransaction(id)->optimisticPut("users", makeEntity("u5", "Bob"), 5);
     EXPECT_FALSE(st.ok);
     EXPECT_NE(st.message.find("OCC version conflict"), std::string::npos) << st.message;
+    EXPECT_NE(st.message.find("expected=5"), std::string::npos) << st.message;
+    EXPECT_NE(st.message.find("actual=1"),   std::string::npos) << st.message;
     mgr_->rollbackTransaction(id);
 }
 

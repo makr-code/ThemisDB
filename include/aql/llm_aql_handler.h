@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_aql_handler.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:39                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:05:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     449                                            ║
+    • Total Lines:     628                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a0dce8967  2026-02-26  feat(aql): API stability guaranteed - version constant, t... ║
-    • 5fcab4ddf  2026-02-26  feat(aql): implement few-shot example library for improve... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-    • 849800c79  2026-02-22  Add streaming natural language responses for long AQL exp... ║
+    • 2e566adfc  2026-03-14  fix(aql): bounded worker pool - fix dangling ref, unbound... ║
+    • db5df3fde  2026-03-14  feat(aql): parallel execution of translateBatchNLToAQL() ... ║
+    • c0fe40af5  2026-03-13  fix(aql/test): correct AC-4 benchmark assertion; remove d... ║
+    • c28ecfee9  2026-03-13  feat(aql): accurate token-count estimation - TiktokenEsti... ║
+    • f5c74c7e8  2026-03-13  fix(aql): add mock chat executor injection + AC#5 integra... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

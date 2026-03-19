@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adapter_load_balancer.h                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:02                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:07:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     159                                            ║
+    • Total Lines:     160                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -127,6 +127,26 @@ public:
     void markGPUUnhealthy(int gpu_device_id);
     void markGPUHealthy(int gpu_device_id);
     bool shouldMigrateFromGPU(int gpu_device_id) const;
+
+    // Hot-load in-progress tracking
+    /// Mark @p adapter_id as currently being hot-loaded.
+    /// Requests for this adapter will be routed to @p fallback_id until
+    /// endHotLoad() is called.  If @p fallback_id is empty the caller is
+    /// responsible for routing (e.g. base model).
+    void beginHotLoad(const std::string& adapter_id,
+                      const std::string& fallback_id = "");
+
+    /// Mark hot-load for @p adapter_id as finished (or failed).
+    void endHotLoad(const std::string& adapter_id);
+
+    /// Returns true while a hot-load is in progress for @p adapter_id.
+    bool isHotLoadInProgress(const std::string& adapter_id) const;
+
+    /// Resolve the adapter to serve for @p adapter_id.
+    /// If a hot-load is in progress returns the registered fallback_id
+    /// (or empty string when no fallback was given); otherwise returns
+    /// @p adapter_id unchanged.
+    std::string resolveAdapter(const std::string& adapter_id) const;
     
 private:
     std::shared_ptr<GPUMemoryManager> memory_manager_;
@@ -140,6 +160,9 @@ private:
     int total_migrations_ = 0;
     int total_evictions_ = 0;
     int64_t last_rebalance_time_ = 0;
+
+    // Hot-load in-progress tracking: adapter_id → fallback_id
+    std::unordered_map<std::string, std::string> hot_loading_adapters_;
     
     // Helper methods
     bool canPlaceOnGPU(int gpu_device_id, size_t vram_bytes) const;

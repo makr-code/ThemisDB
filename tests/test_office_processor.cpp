@@ -4,19 +4,21 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_office_processor.cpp                          ║
   Version:         0.0.35                                             ║
-  Last Modified:   2026-03-11 17:52:00                                ║
+  Last Modified:   2026-03-16 04:28:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     683                                            ║
+    • Total Lines:     738                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • (current)        2026-03-11  feat: LibreOfficeSecurityTest + LegacyOfficeExtractionTest suites (CON-001/CON-007) ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 3b1aefed2  2026-02-26  Audit: add content_office_extracted_total metrics, wire i... ║
+    • 9d8c5ce37  2026-03-15  Refactor service mesh API handler to use fully qualified ... ║
+    • 0e0f8092c  2026-03-11  audit(content): fix EINTR/read-error bugs, add missing te... ║
+    • a8e6e6790  2026-03-11  feat(content): add focused test targets and fix stale doc... ║
+    • 9f7c7b2b2  2026-03-11  test(content/security): add TempDirIsCleanedUpAfterFailur... ║
+    • 964d93ff3  2026-03-11  test(content/security): add LibreOffice subprocess securi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

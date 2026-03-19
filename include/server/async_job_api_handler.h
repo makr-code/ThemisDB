@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            async_job_api_handler.h                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:55:16                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:10:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     242                                            ║
+    • Total Lines:     243                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -40,6 +40,8 @@
 namespace themis {
 
 class AuthMiddleware;
+
+class AdaptiveQueryCache;
 
 namespace server {
 
@@ -179,15 +181,19 @@ public:
                        const std::string& auth_header)>;
 
     /**
-     * @param executor   Callable that executes an AQL query.
-     * @param auth       Optional AuthMiddleware for access control at submission.
-     *                   Pass nullptr to bypass authentication (tests only).
-     * @param registry   Shared job registry (created internally if nullptr).
+     * @param executor     Callable that executes an AQL query.
+     * @param auth         Optional AuthMiddleware for access control at submission.
+     *                     Pass nullptr to bypass authentication (tests only).
+     * @param registry     Shared job registry (created internally if nullptr).
+     * @param result_cache Optional AdaptiveQueryCache for persisting completed job
+     *                     results with TTL = 1 hour, per the AC requirement.
+     *                     Created internally with TTL=3600 s if nullptr.
      */
     explicit AsyncJobApiHandler(
-        AqlExecutor                         executor,
-        std::shared_ptr<AuthMiddleware>     auth     = nullptr,
-        std::shared_ptr<AsyncJobRegistry>   registry = nullptr);
+        AqlExecutor                                        executor,
+        std::shared_ptr<AuthMiddleware>                    auth         = nullptr,
+        std::shared_ptr<AsyncJobRegistry>                  registry     = nullptr,
+        std::shared_ptr<AdaptiveQueryCache>         result_cache = nullptr);
 
     /// Wait for running jobs to finish (up to a short grace period) on
     /// destruction so that background threads do not outlive dependencies.
@@ -230,9 +236,11 @@ private:
     /// Launch `job` on a background thread via `executor_`.
     void launchJob(std::shared_ptr<AsyncJobRecord> job);
 
-    AqlExecutor                       executor_;
-    std::shared_ptr<AuthMiddleware>   auth_;
-    std::shared_ptr<AsyncJobRegistry> registry_;
+    AqlExecutor                                    executor_;
+    std::shared_ptr<AuthMiddleware>                auth_;
+    std::shared_ptr<AsyncJobRegistry>              registry_;
+    /// AdaptiveQueryCache used to persist completed job results (TTL = 1 h).
+    std::shared_ptr<AdaptiveQueryCache>     result_cache_;
 
     // Track live futures so the destructor can join them.
     mutable std::mutex                           futures_mutex_;

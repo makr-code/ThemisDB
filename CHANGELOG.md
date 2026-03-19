@@ -350,6 +350,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Documentation
 
+- **Module-Docs Sync 📚 — 2026-03-16**
+  - 48 Module indexiert; 421 Primary-Markdown-Dateien in `src/` und `include/`
+  - 15 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
+  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
+  - Tool: `tools/module_docs_builder.py` v1.0.0
+  <!-- changelog-updater: module-docs-sync-2026-03-16 -->
+
 - **Module-Docs Sync 📚 — 2026-03-15**
   - 48 Module indexiert; 421 Primary-Markdown-Dateien in `src/` und `include/`
   - 15 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
@@ -558,6 +565,78 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added `docs/architecture/MODULARIZATION_GUIDE.md` with comprehensive usage examples
 - Updated build documentation with modular build instructions
+
+---
+
+## [1.8.0] - TBD
+
+> **Release Aggregation Document:** [`docs/de/releases/RELEASE_NOTES_v1.8.0.md`](docs/de/releases/RELEASE_NOTES_v1.8.0.md)
+> **Aggregation Issue:** [#4300](https://github.com/makr-code/ThemisDB/issues/4300)
+
+### Added
+- **JWT Scope Enforcement** — `JWTClaims.scopes` from OAuth2 `scope`/`scp` claims; `authorizeViaJWT()` / `authorizeViaKerberos()` enforce `required_scope` against `role_scope_map_`; `setRoleScopeMapping()` + `setJWKSForTesting()` API (PR #4279, #4270)
+- **ArrowUserRegistrationPlugin** — Apache Arrow-backed in-memory user store; `bulkSyncFromArrow()` upsert; `authenticateFromArrow()` SHA-256 verification; 13 tests (PR #4280, Issue #99)
+- **CRL / OCSP Certificate Revocation** — `PluginSecurityVerifier::checkCRL()` + `checkOCSP()` with libcurl HTTP, OpenSSL DER parse, per-serial cache; 24 tests (PR #4283, #4292, Issue #38)
+- **Serializable Snapshot Isolation (SSI)** — `IsolationLevel::SerializableSnapshot=4`; `SSIConfig`; `detectConflicts()` range-intersection; predicate lock API; 38 tests (PR #4281, Issue #122)
+- **SAGA Orchestration Engine** — `SAGAOrchestrator` with execute/validate/getStatus/getMetrics/template management; 23 tests
+- **Versioned API Routing** — `RouteVersionRouter` (301 to `/v1/`); `/v2/` bulk NDJSON, SSE streaming, async jobs via `AdaptiveQueryCache`; 37 tests (PR #4285)
+- **PredictivePrefetcher Markov ML** — order-1 Markov chain + 24-bucket ToD weighting; RocksDB persistence; A/B toggle; 14 tests
+- **Cache Warmup Parallel Bulk Load** — concurrent startup pre-population (PR #4250, Issue #244)
+- **Geo Clustering** — `GeoClusteringEngine::dbscanCluster()` + `kmeansCluster()`; 20 tests; perf opt-in via `THEMIS_RUN_PERF_TESTS=1` (Issue #4003)
+- **PolicyManager Hot-Reload** — `reloadPolicies()` with `PolicyValidator`, double-buffer swap, `governance_policy_reload_total` counter; 7 tests
+- **HuggingFace Hub 429 Back-off** — `Retry-After` parse (integer + HTTP-date); `ExporterMetrics::recordRateLimitHit()`; 5 tests
+- **HardwareAccelerator operator completeness** — `FilterLessThanOp` + `FilterGreaterThanOrEqualOp`; 45 tests (PR #4289, Issue #85)
+- **ExporterFactory** — concrete `ArrowIPCExporter`, `ParquetExporter`, `FeatherExporter`, `JSONCSVExporter`; 43+ tests (PR #4284, Issue #3868)
+- **JoinExporter** — cross-collection hash-join export with PII redaction + memory budget (PR #4297)
+- **Wire Protocol V2** — RFC 7540 §6.3 PRIORITY + §5.3.1 cycle detection; all 4 ACs complete (PR #4266, #4267)
+- **SIGHUP Hot-Reload** — inotify / kqueue / ReadDirectoryChangesW cross-platform file watcher; 250 ms debounce (PR #4253)
+- **GpuErasureCoderOpenCL** — OpenCL-accelerated encode/decode/batchEncode (PR #4265, Issue #105)
+- **Intelligent Prefetching System** — access-pattern prefetch scheduler with Markov lookahead (PR #4257, Issue #192)
+- **Materialized Views & Incremental Maintenance** — `MaterializedViewManager` with delta refresh (PR #4258, Issue #195)
+- **UDP Ingestion Server** — fire-and-forget UDP server for metrics/telemetry sinks (PR #4271, Issue #190)
+- **Bandwidth Management / QoS** — token-bucket rate limiting; CRITICAL/HIGH/NORMAL/BULK priority queues; Prometheus metrics (PR #4273, Issue #190)
+- **MySQL / MariaDB Importer** — streaming cursor, type mapping, TLS, connection pooling (PR #4288)
+- **`DistributedGraphManager` read-path shared_mutex** — TSAN-verified concurrent read/write locking (PR #4299)
+- **`ProcessGraphVisitLog`** — per-node visit timestamps for process graph traversal (PR #4254)
+- **`ProvenanceTracker` live engine** — replaces AQL template stubs with real `AQLEngine` connection (PR #4268)
+- **TSStore buffering + SIMD decode** — Gorilla insert buffering; AVX-512/AVX2/NEON/scalar dispatch; ~35% CPU reduction for single-point ingestion (PR #4269)
+- **RAG real LLM engine** — replaces `LLMIntegration` / `LLMJudgeIntegration` stubs (PR #4277)
+- **CapabilityAutoGenerator persistence** — schedule state + YAML output persistence (PR #4275, Issue #217)
+- **`/v1/admin/shards` endpoints** — list, detail, decommission; `OrphanDetector` wired to `DistributedCoordinator` (PR #4259, #4262)
+- **`/v1/admin/storage/stats` endpoint** — RocksDB SST-property-based accurate disk usage (PR #4274, Issue #205)
+- **Multi-GPU NVML device monitoring** — runtime device health via NVML (PR #4270)
+- **`AsyncIngestionWorker` YAML config** — YAML-driven configuration + `user_context` propagation (PR #4296)
+- **Abuse detection** — `abuse_detector.cpp` wired into CMake build (PR #4287)
+- **`SecuritySignatureManager` RocksDB iteration** — full-iteration batch signature verification (PR #4260, Issue #206)
+- **`ManifestDatabase::deleteManifest()`** — removes all associated sidecar files on entry removal (PR #4261)
+- **Transaction Savepoints CI** — full CI coverage for savepoints (PR #4276)
+- **OCC CI + correctness audit** — test accuracy fixes + CI workflow (PR #4264)
+- **`TaskScheduler` user-context propagation** — `user_id` / `auth_method` in all audit events (PR #4278)
+- **`ConfigEncryptedStore` concurrent reads** — `mutex_` upgraded to `std::shared_mutex` (PR #4295)
+- **Config Audit Trail** — atomic hot-path; concurrency regression test (PR #4286)
+- **`MetricsCollector` concurrent reads** — mutex upgraded to `std::shared_mutex` (PR #4272)
+- **`PluginRegistry` concurrent reads** — mutex upgraded to `std::shared_mutex`; WASM scaffold (PR #4256)
+- **CDC sequence counter** — audit complete; `AUDIT.md` updated (PR #4294)
+- **`PKIClient` v1.8.0** — replaces fallback stub verification (PR #4263)
+
+### ⚠️ Breaking Changes
+- **ZSTD compression** — `StreamWriter` replaces zlib (DEFLATE) with ZSTD; update link dependency from `libz` to `libzstd` (PR #4252)
+- **HTTP path routing** — unversioned paths now redirect 301 to `/v1/`; update client paths accordingly (PR #4285)
+- **CI workflow paths** — 138 workflows reorganised into 9 categories; see `.github/WORKFLOW_REGISTRY.md` for mapping (PR #4290)
+
+### Fixed
+- `CEPEngine` deadlock — window lock now released before invoking user callbacks (PR #4291)
+- PE certificate parsing off-by-one in `DataDirectory[4]` size; ELF `.security` sidecar added (PR #4292)
+- OCC conflict detection test correctness (PR #4264)
+- `ProvenanceTracker` AQL template stub (PR #4268)
+- Config Audit Trail concurrent entry drop under load (PR #4286)
+- `SecuritySignatureManager` prefix end-condition in RocksDB iterator (PR #4260)
+- `ManifestDatabase` orphaned sidecar artefacts on delete (PR #4261)
+
+### Changed
+- `BackendRegistry` logging upgraded from `std::cout` to structured logger (PR #4251)
+- `RocksDBWrapper::approximateSize()` uses SST property instead of estimate (PR #4274)
+- `TaskScheduler` audit events include authenticated user identity (PR #4278)
 
 ---
 

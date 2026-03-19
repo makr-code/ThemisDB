@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_graphql_ws_handler.cpp                        ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:25:44                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     367                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • e27950bc3  2026-03-10  fix(api): code audit fixes for GraphQLWsHandler ║
+    • 607884671  2026-03-10  feat(api): GraphQL WebSocket subscription handler + Query... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_graphql_ws_handler.cpp
  * @brief Unit tests for GraphQLWsHandler (graphql-transport-ws protocol)
@@ -21,6 +44,8 @@
 #include <nlohmann/json.hpp>
 #include <string>
 #include <vector>
+#include <atomic>
+#include <thread>
 
 using namespace themis::api;
 using json = nlohmann::json;
@@ -290,6 +315,303 @@ TEST_F(GraphQLWsHandlerTest, ResetClearsState) {
     handler->reset();
     EXPECT_EQ(handler->activeSubscriptionCount(), 0u);
     EXPECT_FALSE(handler->isConnected());
+}
+
+// reset() must not crash even when subscriptions are active (alive-flag path).
+TEST_F(GraphQLWsHandlerTest, ResetWithActiveSubscriptionDoesNotCrash) {
+    doHandshake();
+    const std::string q =
+        "subscription { onChange(collection: \"orders\") { key } }";
+    send({
+        {"type",    "subscribe"},
+        {"id",      "sub1"},
+        {"payload", {{"query", q}}}
+    });
+    EXPECT_EQ(handler->activeSubscriptionCount(), 1u);
+    // reset() sets the alive flag to false before clearing subscriptions.
+    // No crash or assertion should occur.
+    EXPECT_NO_THROW(handler->reset());
+    EXPECT_EQ(handler->activeSubscriptionCount(), 0u);
+    EXPECT_FALSE(handler->isConnected());
+}
+
+// ---------------------------------------------------------------------------
+// alive_ lifetime flag – direct mechanism tests
+//
+// These tests verify the shared_ptr<atomic<bool>> alive_ flag mechanism that
+// guards CDC callback lambdas against use-after-free.  They use the
+// aliveForTesting() accessor to simulate what a CDC callback lambda does
+// (capture a shared copy of the flag, then check it with acquire ordering),
+// exercising the exact memory-ordering contract that reset() must fulfil.
+// ---------------------------------------------------------------------------
+
+// The alive flag must be true after construction (before reset).
+TEST_F(GraphQLWsHandlerTest, AliveFlag_InitiallyTrue) {
+    EXPECT_TRUE(handler->aliveForTesting()->load(std::memory_order_acquire));
+}
+
+// reset() must set the alive flag to false with release ordering.
+// A captured copy of the flag (as held by a CDC callback lambda) must observe
+// false with acquire ordering — the exact guarantee that prevents the lambda
+// from dereferencing the destroyed handler.
+TEST_F(GraphQLWsHandlerTest, AliveFlag_FalseAfterReset) {
+    // Simulate the CDC lambda: capture a shared copy of the alive flag.
+    auto alive = handler->aliveForTesting();
+    ASSERT_TRUE(alive->load(std::memory_order_acquire));
+
+    handler->reset();
+
+    // The flag must now be false. A CDC callback holding `alive` by value
+    // (shared_ptr) would observe this and return early instead of touching self.
+    EXPECT_FALSE(alive->load(std::memory_order_acquire));
+}
+
+// Simulate the race: a background thread checks the alive flag (as a CDC
+// callback would) after reset() has already set it to false.  The thread
+// must observe false — with the acquire/release ordering guaranteeing
+// visibility — and must not crash.
+TEST_F(GraphQLWsHandlerTest, AliveFlag_CallbackAfterResetObservesFalse) {
+    // Capture shared ownership of the alive flag (mimicking the lambda capture).
+    auto alive = handler->aliveForTesting();
+
+    // Reset the handler first, setting alive_ to false with release ordering.
+    handler->reset();
+
+    // Simulate a CDC callback firing after reset() on a separate thread.
+    // With acquire ordering the callback must see false.
+    bool flag_value_in_callback = true;
+    std::thread t([&alive, &flag_value_in_callback]() {
+        flag_value_in_callback = alive->load(std::memory_order_acquire);
+    });
+    t.join();
+
+    EXPECT_FALSE(flag_value_in_callback);
+}
+
+// ---------------------------------------------------------------------------
+// Step-2 – schema-level variable type validation
+// ---------------------------------------------------------------------------
+
+// Subscription with a required String variable provided correctly → succeeds.
+TEST_F(GraphQLWsHandlerTest, VariableValidation_RequiredStringProvided) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var1"},
+        {"payload", {
+            {"query",     "subscription Q($col: String!) { onChange(collection: $col) { key } }"},
+            {"variables", {{"col", "orders"}}}
+        }}
+    });
+    // Valid subscription – no error frame expected.
+    EXPECT_TRUE(resp.empty());
+    EXPECT_EQ(handler->activeSubscriptionCount(), 1u);
+}
+
+// Required variable absent → error.
+TEST_F(GraphQLWsHandlerTest, VariableValidation_RequiredVariableMissing) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var2"},
+        {"payload", {
+            {"query",     "subscription Q($col: String!) { onChange(collection: $col) { key } }"},
+            {"variables", json::object()}  // empty – $col not provided
+        }}
+    });
+    ASSERT_EQ(resp.size(), 1u);
+    EXPECT_EQ(resp[0]["type"], "error");
+    EXPECT_EQ(resp[0]["id"],   "sub_var2");
+    EXPECT_EQ(handler->activeSubscriptionCount(), 0u);
+}
+
+// Wrong type – Int variable supplied a string value → error.
+TEST_F(GraphQLWsHandlerTest, VariableValidation_WrongType_IntGivenString) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var3"},
+        {"payload", {
+            {"query",     "subscription Q($limit: Int!) { onChange(collection: \"orders\") { key } }"},
+            {"variables", {{"limit", "not-an-int"}}}
+        }}
+    });
+    ASSERT_EQ(resp.size(), 1u);
+    EXPECT_EQ(resp[0]["type"], "error");
+    EXPECT_EQ(resp[0]["id"],   "sub_var3");
+}
+
+// Wrong type – String variable given an integer value → error.
+TEST_F(GraphQLWsHandlerTest, VariableValidation_WrongType_StringGivenInt) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var4"},
+        {"payload", {
+            {"query",     "subscription Q($col: String!) { onChange(collection: $col) { key } }"},
+            {"variables", {{"col", 42}}}
+        }}
+    });
+    ASSERT_EQ(resp.size(), 1u);
+    EXPECT_EQ(resp[0]["type"], "error");
+    EXPECT_EQ(resp[0]["id"],   "sub_var4");
+}
+
+// Non-null variable set to JSON null → error.
+TEST_F(GraphQLWsHandlerTest, VariableValidation_NonNullSetToNull) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var5"},
+        {"payload", {
+            {"query",     "subscription Q($col: String!) { onChange(collection: $col) { key } }"},
+            {"variables", {{"col", nullptr}}}
+        }}
+    });
+    ASSERT_EQ(resp.size(), 1u);
+    EXPECT_EQ(resp[0]["type"], "error");
+    EXPECT_EQ(resp[0]["id"],   "sub_var5");
+}
+
+// Nullable variable set to JSON null → succeeds (null is allowed).
+TEST_F(GraphQLWsHandlerTest, VariableValidation_NullableSetToNull) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var6"},
+        {"payload", {
+            {"query",     "subscription Q($col: String) { onChange(collection: \"orders\") { key } }"},
+            {"variables", {{"col", nullptr}}}
+        }}
+    });
+    // Nullable variable with null value is valid.
+    EXPECT_TRUE(resp.empty());
+    EXPECT_EQ(handler->activeSubscriptionCount(), 1u);
+}
+
+// 'variables' field is not an object → error.
+TEST_F(GraphQLWsHandlerTest, VariableValidation_VariablesNotObject) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var7"},
+        {"payload", {
+            {"query",     "subscription { onChange(collection: \"orders\") { key } }"},
+            {"variables", json::array({1, 2, 3})}  // array, not object
+        }}
+    });
+    ASSERT_EQ(resp.size(), 1u);
+    EXPECT_EQ(resp[0]["type"], "error");
+    EXPECT_EQ(resp[0]["id"],   "sub_var7");
+}
+
+// Optional variable omitted entirely → succeeds (no default needed).
+TEST_F(GraphQLWsHandlerTest, VariableValidation_OptionalVariableOmitted) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var8"},
+        {"payload", {
+            {"query",     "subscription Q($col: String) { onChange(collection: \"orders\") { key } }"},
+            {"variables", json::object()}  // $col is optional, not provided
+        }}
+    });
+    // Optional absent variable – no error.
+    EXPECT_TRUE(resp.empty());
+    EXPECT_EQ(handler->activeSubscriptionCount(), 1u);
+}
+
+// Boolean variable type validation.
+TEST_F(GraphQLWsHandlerTest, VariableValidation_BooleanType_Valid) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var9"},
+        {"payload", {
+            {"query",     "subscription Q($flag: Boolean!) { onChange(collection: \"orders\") { key } }"},
+            {"variables", {{"flag", true}}}
+        }}
+    });
+    EXPECT_TRUE(resp.empty());
+    EXPECT_EQ(handler->activeSubscriptionCount(), 1u);
+}
+
+TEST_F(GraphQLWsHandlerTest, VariableValidation_BooleanType_WrongType) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var10"},
+        {"payload", {
+            {"query",     "subscription Q($flag: Boolean!) { onChange(collection: \"orders\") { key } }"},
+            {"variables", {{"flag", "yes"}}}  // string, not boolean
+        }}
+    });
+    ASSERT_EQ(resp.size(), 1u);
+    EXPECT_EQ(resp[0]["type"], "error");
+    EXPECT_EQ(resp[0]["id"],   "sub_var10");
+}
+
+// Float variable type validation.
+TEST_F(GraphQLWsHandlerTest, VariableValidation_FloatType_Valid) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var11"},
+        {"payload", {
+            {"query",     "subscription Q($threshold: Float!) { onChange(collection: \"orders\") { key } }"},
+            {"variables", {{"threshold", 3.14}}}
+        }}
+    });
+    EXPECT_TRUE(resp.empty());
+    EXPECT_EQ(handler->activeSubscriptionCount(), 1u);
+}
+
+// Float variable also accepts integers (GraphQL coercion rule: Int → Float).
+TEST_F(GraphQLWsHandlerTest, VariableValidation_FloatType_IntCoercion) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var12"},
+        {"payload", {
+            {"query",     "subscription Q($threshold: Float!) { onChange(collection: \"orders\") { key } }"},
+            {"variables", {{"threshold", 42}}}  // integer coercible to Float – allowed
+        }}
+    });
+    EXPECT_TRUE(resp.empty());
+    EXPECT_EQ(handler->activeSubscriptionCount(), 1u);
+}
+
+// Float variable given a string value → error.
+TEST_F(GraphQLWsHandlerTest, VariableValidation_FloatType_WrongType) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var13"},
+        {"payload", {
+            {"query",     "subscription Q($threshold: Float!) { onChange(collection: \"orders\") { key } }"},
+            {"variables", {{"threshold", "not-a-number"}}}
+        }}
+    });
+    ASSERT_EQ(resp.size(), 1u);
+    EXPECT_EQ(resp[0]["type"], "error");
+    EXPECT_EQ(resp[0]["id"],   "sub_var13");
+}
+
+// Many GraphQL clients send `"variables": null` to mean "no variables".
+// This must be accepted and treated identically to an empty variables object.
+TEST_F(GraphQLWsHandlerTest, VariableValidation_NullVariablesField_AcceptedAsEmpty) {
+    doHandshake();
+    auto resp = send({
+        {"type",    "subscribe"},
+        {"id",      "sub_var14"},
+        {"payload", {
+            {"query",     "subscription { onChange(collection: \"orders\") { key } }"},
+            {"variables", nullptr}  // explicit JSON null – many clients send this
+        }}
+    });
+    // null variables must be treated as "no variables" → no error.
+    EXPECT_TRUE(resp.empty());
+    EXPECT_EQ(handler->activeSubscriptionCount(), 1u);
 }
 
 // ---------------------------------------------------------------------------

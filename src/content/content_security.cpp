@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_security.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:57:51                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:14:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   90.0/100                                       ║
-    • Total Lines:     428                                            ║
+    • Total Lines:     503                                            ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2737ade5b  2026-03-11  fix(content/security): audit corrections - test rename, z... ║
+    • 1bacdae51  2026-03-11  fix(content/security): add zip-bomb protection in archive... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -22,8 +24,34 @@
 
 #include "content/content_security.h"
 #include "content/content_errors.h"
+#include <openssl/sha.h>
 #include <regex>
 #include <sstream>
+#include <iomanip>
+
+// ============================================================================
+// Helpers (file-local)
+// ============================================================================
+
+namespace {
+
+/// Compute a short SHA-256 hex digest of @p data (first 16 hex chars = 8 bytes).
+std::string contentHash(const std::string& data) {
+    unsigned char digest[SHA256_DIGEST_LENGTH] = {};
+    SHA256(
+        reinterpret_cast<const unsigned char*>(data.data()),
+        data.size(),
+        digest
+    );
+    std::ostringstream oss;
+    for (int i = 0; i < 8; ++i) {
+        oss << std::hex << std::setw(2) << std::setfill('0')
+            << static_cast<int>(digest[i]);
+    }
+    return oss.str();
+}
+
+} // anonymous namespace
 
 namespace themis {
 namespace content {
@@ -88,6 +116,9 @@ json SecurityCheckResult::toJson() const {
     j["pii_types"] = pii_types;
     j["abuse_checked"] = abuse_checked;
     j["abuse_detected"] = abuse_detected;
+    j["abuse_action"] = abuse_action;
+    j["abuse_detector_type"] = abuse_detector_type;
+    j["abuse_pattern_name"] = abuse_pattern_name;
     j["zip_bomb_checked"] = zip_bomb_checked;
     j["zip_bomb_detected"] = zip_bomb_detected;
     return j;
@@ -107,6 +138,18 @@ void ContentSecurityManager::setMalwareFilter(std::shared_ptr<security::MalwareF
 
 void ContentSecurityManager::setPiiDetector(std::shared_ptr<utils::PIIDetector> detector) {
     pii_detector_ = detector;
+}
+
+void ContentSecurityManager::setPhotoAbuseDetector(std::shared_ptr<IAbuseDetector> detector) {
+    photo_abuse_detector_ = detector;
+}
+
+void ContentSecurityManager::setTextAbuseDetector(std::shared_ptr<IAbuseDetector> detector) {
+    text_abuse_detector_ = detector;
+}
+
+void ContentSecurityManager::setAuditLogger(utils::AuditLogger* logger) {
+    audit_logger_ = logger;
 }
 
 SecurityCheckResult ContentSecurityManager::checkContent(
@@ -147,11 +190,14 @@ SecurityCheckResult ContentSecurityManager::checkContent(
         }
     }
     
-    // Check 3: Abuse detection (stub for future implementation)
+    // Check 3: Abuse detection
     if (config_.enable_abuse_detection) {
-        auto abuse_result = checkAbuse(data, content_id);
-        result.abuse_checked = abuse_result.abuse_checked;
-        result.abuse_detected = abuse_result.abuse_detected;
+        auto abuse_result = checkAbuse(data, mime_type, content_id);
+        result.abuse_checked      = abuse_result.abuse_checked;
+        result.abuse_detected     = abuse_result.abuse_detected;
+        result.abuse_action       = abuse_result.abuse_action;
+        result.abuse_detector_type = abuse_result.abuse_detector_type;
+        result.abuse_pattern_name = abuse_result.abuse_pattern_name;
         
         if (abuse_result.error.failed()) {
             result.error = abuse_result.error;
@@ -299,6 +345,7 @@ void ContentSecurityManager::resetMetrics() {
     metrics_.pii_blocked.store(0, std::memory_order_relaxed);
     metrics_.abuse_scans.store(0, std::memory_order_relaxed);
     metrics_.abuse_detected.store(0, std::memory_order_relaxed);
+    metrics_.abuse_blocked.store(0, std::memory_order_relaxed);
     metrics_.errors_sanitized.store(0, std::memory_order_relaxed);
     metrics_.zip_bomb_scans.store(0, std::memory_order_relaxed);
     metrics_.zip_bomb_blocked.store(0, std::memory_order_relaxed);
@@ -408,24 +455,113 @@ SecurityCheckResult ContentSecurityManager::checkPii(
 }
 
 SecurityCheckResult ContentSecurityManager::checkAbuse(
-    const std::string& text,
+    const std::string& data,
+    const std::string& mime_type,
     const std::string& content_id
 ) {
     SecurityCheckResult result;
     result.error = ContentError::ok();
     result.abuse_checked = true;
     result.abuse_detected = false;
+    result.abuse_action = abuseActionToString(AbuseAction::ALLOW);
     
     metrics_.abuse_scans++;
     
-    // Stub implementation for future abuse detection
-    // Could integrate with:
-    // - Profanity filters
-    // - Hate speech detection
-    // - Adult content detection
-    // - Spam detection
+    // Build metadata once; shared across all detectors.
+    AbuseDetectorMetadata meta;
+    meta.content_id   = content_id;
+    meta.mime_type    = mime_type;
+    meta.content_hash = contentHash(data);
     
-    // For now, always return clean
+    // Run the photo-DNA detector first (images only).
+    if (photo_abuse_detector_) {
+        auto det_result = photo_abuse_detector_->detect(data, meta);
+        if (det_result.action != AbuseAction::ALLOW) {
+            metrics_.abuse_detected++;
+            result.abuse_detected     = true;
+            result.abuse_action       = abuseActionToString(det_result.action);
+            result.abuse_detector_type = det_result.detector_type;
+            result.abuse_pattern_name = det_result.pattern_name;
+            
+            // Audit-log the detection event.
+            if (audit_logger_) {
+                audit_logger_->logEvent({
+                    {"event",         "abuse_detection"},
+                    {"content_hash",  meta.content_hash},
+                    {"content_id",    content_id},
+                    {"detector_type", det_result.detector_type},
+                    {"pattern_name",  det_result.pattern_name},
+                    {"action",        result.abuse_action},
+                    {"reason",        det_result.reason}
+                });
+            }
+            
+            if (det_result.action == AbuseAction::BLOCK && config_.block_on_abuse) {
+                metrics_.abuse_blocked++;
+                result.error = ContentError::error(
+                    ContentErrorCode::CONTENT_ABUSE_DETECTED,
+                    "Content blocked by abuse detector (" +
+                        det_result.detector_type + "): " + det_result.reason
+                );
+                result.error.content_id = content_id;
+                result.error.metadata = {
+                    {"detector_type", det_result.detector_type},
+                    {"pattern_name",  det_result.pattern_name},
+                    {"action",        result.abuse_action}
+                };
+                return result;
+            }
+            
+            // FLAG: continue processing; the caller stores the content with the flag.
+            return result;
+        }
+    }
+    
+    // Run the text pattern detector for all content types.
+    if (text_abuse_detector_) {
+        auto det_result = text_abuse_detector_->detect(data, meta);
+        if (det_result.action != AbuseAction::ALLOW) {
+            metrics_.abuse_detected++;
+            result.abuse_detected     = true;
+            result.abuse_action       = abuseActionToString(det_result.action);
+            result.abuse_detector_type = det_result.detector_type;
+            result.abuse_pattern_name = det_result.pattern_name;
+            
+            // Audit-log the detection event.
+            if (audit_logger_) {
+                audit_logger_->logEvent({
+                    {"event",         "abuse_detection"},
+                    {"content_hash",  meta.content_hash},
+                    {"content_id",    content_id},
+                    {"detector_type", det_result.detector_type},
+                    {"pattern_name",  det_result.pattern_name},
+                    {"action",        result.abuse_action},
+                    {"reason",        det_result.reason}
+                });
+            }
+            
+            if (det_result.action == AbuseAction::BLOCK && config_.block_on_abuse) {
+                metrics_.abuse_blocked++;
+                result.error = ContentError::error(
+                    ContentErrorCode::CONTENT_ABUSE_DETECTED,
+                    "Content blocked by abuse detector (" +
+                        det_result.detector_type + "): " + det_result.reason
+                );
+                result.error.content_id = content_id;
+                result.error.metadata = {
+                    {"detector_type", det_result.detector_type},
+                    {"pattern_name",  det_result.pattern_name},
+                    {"action",        result.abuse_action}
+                };
+                return result;
+            }
+            
+            // FLAG: continue processing.
+            return result;
+        }
+    }
+    
+    // No detector matched; content is clean.
     return result;
 }
 
@@ -493,6 +629,7 @@ json ContentSecurityManager::Metrics::toJson() const {
     j["pii_blocked"] = pii_blocked.load();
     j["abuse_scans"] = abuse_scans.load();
     j["abuse_detected"] = abuse_detected.load();
+    j["abuse_blocked"] = abuse_blocked.load();
     j["errors_sanitized"] = errors_sanitized.load();
     j["zip_bomb_scans"] = zip_bomb_scans.load();
     j["zip_bomb_blocked"] = zip_bomb_blocked.load();

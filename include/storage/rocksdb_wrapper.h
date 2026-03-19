@@ -3,20 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rocksdb_wrapper.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:37                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:10:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     645                                            ║
+    • Total Lines:     676                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 8031d339d  2026-03-15  feat(storage): implement RocksDB iteration for SecuritySi... ║
+    • 78f419ea2  2026-03-13  feat(storage): implement BlobRedundancyEventListener for ... ║
+    • 6e0a18187  2026-03-13  fix(storage/nvme): address all review comments – thread s... ║
+    • 48cc2a0a2  2026-03-13  feat(storage): implement NVMe optimizations (io_uring, mu... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • dfa2c6253  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
-    • eb5e037bc  2026-02-25  feat(storage/transaction): harden history/conflict layer ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -500,7 +502,12 @@ public:
     
     /// Scan range [start_key, end_key)
     void scanRange(std::string_view start_key, std::string_view end_key, ScanCallback callback);
-    
+
+    /// Iterate over a key range [start_key, end_key) using a rocksdb::Iterator.
+    /// The callback receives each (key, value) pair in order; returning false
+    /// from the callback stops iteration early.
+    void iterateRange(std::string_view start_key, std::string_view end_key, ScanCallback callback);
+
     /// Full scan (use sparingly!)
     void scanAll(ScanCallback callback);
     

@@ -3,17 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            main_server.cpp                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:07                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:16:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  ⚫ DRAFT                                        ║
     • Quality Score:   11.0/100                                       ║
-    • Total Lines:     2267                                           ║
+    • Total Lines:     2286                                           ║
     • Open Issues:     TODOs: 0, Stubs: 17                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • c9b143394  2026-03-15  feat(server): inject live ShardingManager into HttpServer... ║
+    • 985dc57d9  2026-03-14  fix: harden config metrics exporter compatibility ║
+    • 535cee36d  2026-03-13  feat: export config metrics via Prometheus registry ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 📝 Draft / Stub                                              ║
@@ -63,6 +66,7 @@
 #include "sharding/redundancy_strategy.h"
 #include "sharding/consistent_hash.h"
 #include "sharding/shard_topology.h"
+#include "sharding/sharding_manager.h"
 #include "utils/retention_manager.h"
 #include "utils/audit_logger.h"
 #include "utils/pki_client.h"
@@ -1398,6 +1402,8 @@ int main(int argc, char* argv[]) {
             hash_ring,
             shard_topology
         );
+        // Inject live ShardingManager so /v1/admin/shards/* endpoints are functional
+        g_server->setShardingManager(&themis::sharding::ShardingManager::GetInstance());
 #else
         THEMIS_INFO("HTTP server disabled at build time (THEMIS_ENABLE_HTTP_SERVER=OFF)");
 #endif

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cache_admin_api_handler.cpp                        ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-03-09 04:00:09                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-03-16 04:18:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     614                                            ║
+    • Total Lines:     669                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 9d355f584  2026-03-15  feat(cache): implement warmup parallel bulk load (v1.8.0) ║
+    • a2a0e15fa  2026-03-11  Changes before error encountered         ║
+    • d012eef80  2026-03-10  feat(cache): implement 4 missing items from cache module ... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 6eb47cdea  2026-02-24  feat(cache): implement tenant management API with per-ten... ║
-    • 30ccf1a0f  2026-02-24  feat(cache): implement tenant-level cache statistics dash... ║
-    • 1650fa69b  2026-02-24  feat(cache): add /health endpoint with per-tier status an... ║
-    • 03f3c2a45  2026-02-22  feat(cache): warmup from query log and export snapshot – ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -89,6 +89,11 @@ CacheAdminApiHandler::CacheAdminApiHandler(
     std::shared_ptr<AuthMiddleware> auth)
     : cache_(std::move(cache))
     , auth_(std::move(auth)) {}
+
+void CacheAdminApiHandler::setSloMonitor(
+    std::shared_ptr<themis::cache::CacheHitRateSloMonitor> monitor) {
+    slo_monitor_ = std::move(monitor);
+}
 
 // ---------------------------------------------------------------------------
 // Auth helper
@@ -188,6 +193,14 @@ http::response<http::string_body> CacheAdminApiHandler::handleStats(
             {"total_hits", metrics.l1_hits.load() + metrics.l2_hits.load() + metrics.l3_hits.load()},
             {"throttled", metrics.rate_limited_requests.load()}
         };
+
+        // Latency percentiles from the SLO monitor (if one is attached)
+        if (slo_monitor_) {
+            auto status = slo_monitor_->getStatus();
+            if (status.contains("latency")) {
+                body["slo"] = status["latency"];
+            }
+        }
 
         return makeResponse(http::status::ok, body.dump(), req);
     } catch (const std::exception& e) {

@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            distributed_analytics.cpp                          ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:56:56                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:13:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     615                                            ║
+    • Total Lines:     616                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -284,6 +284,74 @@ struct GroupAccumulator {
 } // anonymous namespace
 
 // ============================================================================
+// DistributedAnalyticsSharding – construction / destruction
+// ============================================================================
+
+DistributedAnalyticsSharding::DistributedAnalyticsSharding() {
+    startHealthMonitor();
+}
+
+DistributedAnalyticsSharding::DistributedAnalyticsSharding(const Config& cfg)
+    : config_(cfg) {
+    startHealthMonitor();
+}
+
+DistributedAnalyticsSharding::~DistributedAnalyticsSharding() {
+    stopping_.store(true, std::memory_order_release);
+    health_monitor_cv_.notify_all();
+    if (health_monitor_thread_.joinable()) {
+        health_monitor_thread_.join();
+    }
+}
+
+// ============================================================================
+// DistributedAnalyticsSharding – background health monitor
+// ============================================================================
+
+void DistributedAnalyticsSharding::startHealthMonitor() {
+    if (config_.health_check_interval.count() > 0) {
+        health_monitor_thread_ =
+            std::thread(&DistributedAnalyticsSharding::runHealthMonitor, this);
+    }
+}
+
+void DistributedAnalyticsSharding::runHealthMonitor() {
+    while (!stopping_.load(std::memory_order_acquire)) {
+        // Wait for the configured interval (or until stopped)
+        {
+            std::unique_lock<std::mutex> lock(health_monitor_mutex_);
+            health_monitor_cv_.wait_for(
+                lock,
+                config_.health_check_interval,
+                [this] { return stopping_.load(std::memory_order_acquire); });
+        }
+
+        if (stopping_.load(std::memory_order_acquire)) break;
+
+        // Snapshot shard list under main mutex (brief)
+        std::vector<ShardEntry> snapshot;
+        {
+            std::lock_guard<std::mutex> main_lock(mutex_);
+            snapshot = shards_;
+        }
+
+        // Run health checks off the main lock
+        for (const auto& e : snapshot) {
+            if (stopping_.load(std::memory_order_acquire)) break;
+            if (e.executor && e.cached_healthy) {
+                bool healthy = false;
+                try {
+                    healthy = e.executor->isHealthy();
+                } catch (...) {
+                    healthy = false;
+                }
+                e.cached_healthy->store(healthy, std::memory_order_release);
+            }
+        }
+    }
+}
+
+// ============================================================================
 // DistributedAnalyticsSharding – shard management
 // ============================================================================
 
@@ -297,7 +365,11 @@ void DistributedAnalyticsSharding::addShard(
             return;
         }
     }
-    shards_.push_back({shard_id, std::move(executor)});
+    ShardEntry entry;
+    entry.shard_id = shard_id;
+    entry.executor = std::move(executor);
+    entry.cached_healthy = std::make_shared<std::atomic<bool>>(true);
+    shards_.push_back(std::move(entry));
 }
 
 void DistributedAnalyticsSharding::removeShard(const std::string& shard_id) {
@@ -317,9 +389,28 @@ size_t DistributedAnalyticsSharding::getHealthyShardCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
     size_t n = 0;
     for (const auto& e : shards_) {
-        if (e.executor && e.executor->isHealthy()) ++n;
+        if (e.cached_healthy && e.cached_healthy->load(std::memory_order_relaxed)) ++n;
     }
     return n;
+}
+
+std::future<size_t> DistributedAnalyticsSharding::getHealthyShardCountAsync() const {
+    // Snapshot shard list under a brief lock
+    std::vector<ShardEntry> snapshot;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        snapshot = shards_;
+    }
+    // Perform live health checks asynchronously, off the registry lock
+    return std::async(
+        std::launch::async,
+        [snapshot = std::move(snapshot)]() -> size_t {
+            size_t n = 0;
+            for (const auto& e : snapshot) {
+                if (e.executor && e.executor->isHealthy()) ++n;
+            }
+            return n;
+        });
 }
 
 std::vector<std::string> DistributedAnalyticsSharding::getShardIds() const {
@@ -515,12 +606,14 @@ OLAPResult DistributedAnalyticsSharding::mergeResults(
 
 DistributedAnalyticsSharding::DistributedResult
 DistributedAnalyticsSharding::executeDistributed(const OLAPQuery& query) {
-    // Snapshot the active shard list under the lock
+    // Snapshot the active shard list under the lock (uses cached health — no I/O)
     std::vector<ShardEntry> active;
     {
         std::lock_guard<std::mutex> lock(mutex_);
         for (const auto& e : shards_) {
-            if (e.executor && e.executor->isHealthy()) {
+            if (e.executor &&
+                e.cached_healthy &&
+                e.cached_healthy->load(std::memory_order_relaxed)) {
                 active.push_back(e);
             }
         }

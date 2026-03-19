@@ -64,12 +64,12 @@ public:
 `content_security.cpp` has **2 confirmed stubs**: line 150 ("Check 3: Abuse detection (stub for future implementation)") and line 421 ("Stub implementation for future abuse detection"). Every content item passes abuse detection unconditionally. Malicious content (CSAM hashes, spam fingerprints) is not detected.
 
 **Implementation Notes:**
-- `[ ]` Define `IAbuseDetector` interface with `detect(content_data, metadata) → AbuseDetectionResult`.
-- `[ ]` Implement `PhotoDNAAbuseDetector` backed by the PhotoDNA SDK (or open-source perceptual hash comparison against a blocklist) for image content; inject into `ContentSecurity` via constructor.
-- `[ ]` Implement `TextAbuseDetector` using a configurable blocklist + regex patterns loaded from `config/security/abuse_patterns.yaml`; support `BLOCK` and `FLAG` actions per pattern.
-- `[ ]` Wire both detectors into `ContentSecurity::check()` at line 150 (the stub location).
-- `[ ]` Add unit tests for both `BLOCK` (content rejected) and `FLAG` (content stored with flag) outcomes.
-- `[ ]` Audit log every detection event via `AuditLogger::logEvent()` with content hash, detector type, and action taken.
+- `[x]` Define `IAbuseDetector` interface with `detect(content_data, metadata) → AbuseDetectionResult`.
+- `[x]` Implement `PhotoDNAAbuseDetector` backed by the PhotoDNA SDK (or open-source perceptual hash comparison against a blocklist) for image content; inject into `ContentSecurity` via constructor.
+- `[x]` Implement `TextAbuseDetector` using a configurable blocklist + regex patterns loaded from `config/security/abuse_patterns.yaml`; support `BLOCK` and `FLAG` actions per pattern.
+- `[x]` Wire both detectors into `ContentSecurity::check()` at line 150 (the stub location).
+- `[x]` Add unit tests for both `BLOCK` (content rejected) and `FLAG` (content stored with flag) outcomes.
+- `[x]` Audit log every detection event via `AuditLogger::logEvent()` with content hash, detector type, and action taken.
 
 ---
 

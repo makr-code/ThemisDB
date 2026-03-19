@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auth_middleware.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:08                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:18:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
-    • Total Lines:     484                                            ║
-    • Open Issues:     TODOs: 2, Stubs: 0                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     556                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 592b54382  2026-03-15  fix(scheduler,acceleration): remove stale TODOs, add VLLM... ║
+    • c97360e57  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
+    • c21f255d8  2026-03-12  fix(auth): address review feedback on JWT issuer/audience... ║
+    • 1470edf9b  2026-03-12  feat(auth): mandatory JWT issuer and audience validation ... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
-    • ce63cc36d  2026-02-24  feat(auth): integrate ApiKeyAuthenticator into AuthMiddle... ║
-    • 5cc90b16b  2026-02-24  feat(auth): implement mTLS certificate-based authentication ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -30,6 +31,8 @@
 #include "auth/api_key_authenticator.h"
 #include "security/usb_admin_authenticator.h"
 #include "utils/logger.h"
+#include "config/config_path_resolver.h"
+#include <yaml-cpp/yaml.h>
 #include <sstream>
 
 namespace themis {
@@ -56,7 +59,11 @@ void AuthMiddleware::enableJWT(const JWTConfig& config) {
     jwt_validator_ = std::make_unique<auth::JWTValidator>(jwt_cfg);
     jwt_config_ = config;
     jwt_enabled_ = true;
-    
+
+    if (!role_scope_map_loaded_) {
+        loadRoleScopeMapping();
+    }
+
     THEMIS_INFO("JWT validation enabled: issuer='{}', audience='{}', scope_claim='{}'",
                 config.expected_issuer, config.expected_audience, config.scope_claim);
 }
@@ -73,7 +80,11 @@ void AuthMiddleware::enableKerberos(const auth::KerberosConfig& config) {
     }
     
     kerberos_enabled_ = true;
-    
+
+    if (!role_scope_map_loaded_) {
+        loadRoleScopeMapping();
+    }
+
     THEMIS_INFO("Kerberos/GSSAPI authentication enabled: service_principal='{}', fallback={}",
                 config.service_principal, config.fallback_to_basic);
 }
@@ -157,6 +168,31 @@ void AuthMiddleware::clearTokens() {
     tokens_.clear();
 }
 
+void AuthMiddleware::setRoleScopeMapping(
+    std::unordered_map<std::string, std::vector<std::string>> mapping)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    role_scope_map_ = std::move(mapping);
+    THEMIS_INFO("Role-to-scope mapping updated: {} role(s) configured", role_scope_map_.size());
+}
+
+bool AuthMiddleware::roleGrantsScope(const std::vector<std::string>& roles,
+                                     std::string_view required_scope) const
+{
+    // Note: mutex is already held by caller.
+    for (const auto& role : roles) {
+        auto it = role_scope_map_.find(role);
+        if (it != role_scope_map_.end()) {
+            for (const auto& granted : it->second) {
+                if (granted == required_scope) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std::string_view required_scope) const {
     std::lock_guard<std::mutex> lock(mutex_);
     // Mask token for logging (show first/last 4 chars)
@@ -230,38 +266,112 @@ AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std
 }
 
 AuthMiddleware::AuthResult AuthMiddleware::authorizeViaJWT(std::string_view token, std::string_view required_scope) const {
-    (void)required_scope;
     // Note: mutex is already locked by caller (authorize)
-    
+
     if (!jwt_validator_) {
         return AuthResult::Denied("JWT validation not configured");
     }
-    
+
     try {
         // Parse and validate JWT
         auto claims = jwt_validator_->parseAndValidate(std::string(token));
-        
+
         metrics_.jwt_validation_success_total++;
-        
-        // Extract scopes from configured claim (e.g., "roles", "groups")
-        std::unordered_set<std::string> scopes;
-        
-        // Check if claim exists and is array
-        // For now, we'll use a simple approach: derive scope from user_id if no scope claim
-        // In production, you'd parse claims.roles or claims.groups properly
-        
-        // Simple mapping: if user has valid JWT, grant basic access
-        // TODO: Enhance with proper scope extraction from JWT claims
-        
-        // For now: check if required_scope is in a hardcoded allowed list or derive from sub
-        // Better: parse jwt_config_.scope_claim from the JWT payload
-        
-        // Placeholder: grant access if JWT is valid (you should enhance this)
-        THEMIS_INFO("JWT validated for user '{}' (sub: {}), tenant='{}', groups: {}", 
-                    claims.email, claims.sub, claims.tenant_id, claims.groups.size());
+
+        THEMIS_INFO("JWT validated for user '{}' (sub: {}), tenant='{}', scopes: {}, groups: {}",
+                    claims.email, claims.sub, claims.tenant_id,
+                    claims.scopes.size(), claims.groups.size());
+
+        // Scope enforcement: check required_scope against JWT-granted scopes and role-to-scope map
+        if (!required_scope.empty()) {
+            bool scope_granted = false;
+
+            // 1. Direct scope claim match (OAuth2 "scope"/"scp" claims parsed into claims.scopes)
+            for (const auto& s : claims.scopes) {
+                if (s == required_scope) {
+                    scope_granted = true;
+                    break;
+                }
+            }
+
+            // 2. Fallback: check role-to-scope mapping for each role in the JWT
+            if (!scope_granted && !role_scope_map_.empty()) {
+                for (const auto& role : claims.roles) {
+                    auto it = role_scope_map_.find(role);
+                    if (it != role_scope_map_.end() &&
+                        it->second.count(std::string(required_scope)) > 0) {
+                        scope_granted = true;
+                        break;
+                    }
+                }
+                // Also treat group memberships as roles
+                if (!scope_granted) {
+                    for (const auto& group : claims.groups) {
+                        auto it = role_scope_map_.find(group);
+                        if (it != role_scope_map_.end() &&
+                            it->second.count(std::string(required_scope)) > 0) {
+                            scope_granted = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (!scope_granted) {
+                metrics_.authz_denied_total++;
+                THEMIS_WARN("JWT authorization denied for user '{}': missing scope '{}'",
+                            claims.sub, required_scope);
+                return AuthResult::Denied(
+                    std::string("JWT missing required scope: ") + std::string(required_scope));
+            }
+        }
+
+        metrics_.authz_success_total++;
+        return AuthResult::OK(claims.sub, claims.tenant_id, claims.groups);
+
+        // Build the complete set of scopes granted by this token.
+        // Priority order:
+        //  1. OAuth2 `scope`/`scp` claims parsed from the JWT payload (populated by JWTClaims::scopes)
+        //  2. The claim named by jwt_config_.scope_claim (defaults to "roles")
+        //     which maps to claims.roles, claims.groups, etc.
+        std::unordered_set<std::string> granted_scopes(claims.scopes.begin(),
+                                                       claims.scopes.end());
+
+        // Add values from the configured scope_claim
+        if (jwt_config_.scope_claim == "roles") {
+            for (const auto& r : claims.roles)  granted_scopes.insert(r);
+        } else if (jwt_config_.scope_claim == "groups") {
+            for (const auto& g : claims.groups) granted_scopes.insert(g);
+        }
+        // If scope_claim is "scope" or "scp" the data is already in claims.scopes above.
+
+        THEMIS_INFO("JWT validated for user '{}' (sub: {}), tenant='{}', groups: {}, scopes: {}",
+                    claims.email, claims.sub, claims.tenant_id, claims.groups.size(),
+                    granted_scopes.size());
+
+        // Check required scope (if non-empty)
+        if (!required_scope.empty()) {
+            const std::string req(required_scope);
+            bool scope_ok = granted_scopes.count(req) > 0;
+
+            // Fallback: check if any role in the token grants the scope via role_scope_map_
+            if (!scope_ok) {
+                scope_ok = roleGrantsScope(claims.roles, required_scope);
+            }
+            if (!scope_ok) {
+                scope_ok = roleGrantsScope(claims.groups, required_scope);
+            }
+
+            if (!scope_ok) {
+                THEMIS_WARN("JWT authorization denied for user '{}': missing scope '{}'",
+                            claims.sub, required_scope);
+                metrics_.authz_denied_total++;
+                return AuthResult::Denied("Missing required scope: " + req);
+            }
+        }
         
         metrics_.authz_success_total++;
-        return AuthResult::OK(claims.sub, claims.tenant_id, claims.groups);  // Pass user_id, tenant_id, and groups from JWT
+        return AuthResult::OK(claims.sub, claims.tenant_id, claims.groups);
         
     } catch (const std::exception& e) {
         metrics_.jwt_validation_failed_total++;
@@ -375,24 +485,23 @@ bool AuthMiddleware::isAdminScope(std::string_view scope) const {
 AuthMiddleware::AuthResult AuthMiddleware::authorizeViaKerberos(
     std::string_view token,
     std::string_view required_scope) const {
-    
-    (void)required_scope;  // For now, Kerberos auth grants access if principal is valid
+
     
     // Note: mutex is already locked by caller (authorize)
-    
+
     if (!kerberos_auth_) {
         return AuthResult::Denied("Kerberos authentication not configured");
     }
-    
+
     try {
         // Authenticate the Kerberos token
         auto result = kerberos_auth_->authenticateToken(std::string(token));
-        
+
         if (!result.success) {
             THEMIS_WARN("Kerberos authentication failed: {}", result.error_message);
             return AuthResult::Denied("Kerberos authentication failed: " + result.error_message);
         }
-        
+
         // Build roles string manually (fmt::join not available in fmt 11.0.2)
         std::string roles_str;
         for (size_t i = 0; i < result.roles.size(); ++i) {
@@ -401,18 +510,64 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaKerberos(
         }
         THEMIS_INFO("Kerberos authentication successful for principal '{}' with roles: [{}]",
                    result.principal_name, roles_str);
+
+        // Check if any of the principal's roles grants the required_scope via role-to-scope mapping
+        if (!required_scope.empty() && !role_scope_map_.empty()) {
+            bool scope_granted = false;
+            for (const auto& role : result.roles) {
+                auto it = role_scope_map_.find(role);
+                if (it != role_scope_map_.end() &&
+                    it->second.count(std::string(required_scope)) > 0) {
+                    scope_granted = true;
+                    break;
+                }
+            }
+            if (!scope_granted) {
+                metrics_.authz_denied_total++;
+                THEMIS_WARN("Kerberos authorization denied for principal '{}': "
+                            "no role grants scope '{}'",
+                            result.principal_name, required_scope);
+                return AuthResult::Denied(
+                    std::string("Kerberos principal missing required scope: ") +
+                    std::string(required_scope));
+            }
+        }
+
         
-        // TODO: Check if any of the roles provide the required_scope
-        // For now, we grant access if authentication succeeds
-        // 
+        // Check required scope: treat each Kerberos role as a direct scope grant,
+        // and also consult role_scope_map_ for role → scope expansion.
+        //
         // IMPORTANT: Kerberos tickets do not include tenant information.
         // Clients using Kerberos authentication MUST provide tenant_id via:
         // - X-Tenant-ID header
         // - Path parameter (/tenants/{tenant_id}/...)
         // The tenant_id will be extracted from the request in the API handler.
-        
+
         metrics_.authz_success_total++;
         return AuthResult::OK(result.principal_name, "", {});  // Empty tenant_id - must be provided via header
+
+        if (!required_scope.empty()) {
+            const std::string req(required_scope);
+            // Direct role match: role name == required_scope
+            bool scope_ok = false;
+            for (const auto& role : result.roles) {
+                if (role == req) { scope_ok = true; break; }
+            }
+            // Fallback: check role_scope_map_ for any role that grants the scope
+            if (!scope_ok) {
+                scope_ok = roleGrantsScope(result.roles, required_scope);
+            }
+            if (!scope_ok) {
+                THEMIS_WARN("Kerberos authorization denied for principal '{}': "
+                            "no role provides scope '{}'",
+                            result.principal_name, required_scope);
+                metrics_.authz_denied_total++;
+                return AuthResult::Denied("Missing required scope: " + req);
+            }
+        }
+        
+        metrics_.authz_success_total++;
+        return AuthResult::OK(result.principal_name, "", result.roles);
         
     } catch (const std::exception& e) {
         THEMIS_ERROR("Kerberos authentication error: {}", e.what());
@@ -485,6 +640,66 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaApiKey(
     } catch (const std::exception& e) {
         THEMIS_ERROR("API key authentication error: {}", e.what());
         return AuthResult::Denied(std::string("API key authentication error: ") + e.what());
+    }
+}
+
+void AuthMiddleware::setRoleScopeMapping(
+    const std::unordered_map<std::string, std::unordered_set<std::string>>& mapping)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    role_scope_map_ = mapping;
+    role_scope_map_loaded_ = true;
+    THEMIS_INFO("Role-to-scope mapping updated: {} roles configured", mapping.size());
+}
+
+void AuthMiddleware::setJWKSForTesting(const nlohmann::json& jwks)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (jwt_validator_) {
+        jwt_validator_->setJWKSForTesting(jwks);
+    }
+}
+
+void AuthMiddleware::loadRoleScopeMapping()
+{
+    // Called with mutex_ held.  Attempt to load config/security/rbac_roles.yaml.
+    role_scope_map_loaded_ = true;  // Mark regardless of outcome to avoid repeated attempts
+
+    auto resolved = config::ConfigPathResolver::tryResolve("config/security/rbac_roles.yaml");
+    if (!resolved.has_value()) {
+        THEMIS_DEBUG("rbac_roles.yaml not found (config/security/rbac_roles.yaml); "
+                     "role-to-scope mapping not loaded — only direct scope claims from JWTs "
+                     "will be enforced until setRoleScopeMapping() is called");
+        return;
+    }
+
+    try {
+        YAML::Node root = YAML::LoadFile(*resolved);
+        if (!root["roles"]) {
+            THEMIS_WARN("rbac_roles.yaml loaded but contains no 'roles' key; "
+                        "role-to-scope mapping will be empty");
+            return;
+        }
+
+        std::unordered_map<std::string, std::unordered_set<std::string>> mapping;
+        for (const auto& entry : root["roles"]) {
+            std::string role_name = entry.first.as<std::string>();
+            std::unordered_set<std::string> scopes;
+            if (entry.second["scopes"]) {
+                for (const auto& s : entry.second["scopes"]) {
+                    scopes.insert(s.as<std::string>());
+                }
+            }
+            mapping[role_name] = std::move(scopes);
+        }
+
+        role_scope_map_ = std::move(mapping);
+        THEMIS_INFO("Loaded role-to-scope mapping from '{}': {} roles",
+                    *resolved, role_scope_map_.size());
+
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Failed to load role-to-scope mapping from '{}': {}",
+                    *resolved, e.what());
     }
 }
 

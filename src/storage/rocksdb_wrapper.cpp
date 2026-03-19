@@ -3,20 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rocksdb_wrapper.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:34                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:19:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     2138                                           ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+    • Quality Score:   97.0/100                                       ║
+    • Total Lines:     2230                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • dfa2c6253  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
-    • eb5e037bc  2026-02-25  feat(storage/transaction): harden history/conflict layer ... ║
+    • 9f9d86ceb  2026-03-15  feat(storage): implement proper size calculation in Rocks... ║
+    • 8031d339d  2026-03-15  feat(storage): implement RocksDB iteration for SecuritySi... ║
+    • cc717dd8c  2026-03-14  fix(storage): address PR review comments for BlobRedundan... ║
+    • 78f419ea2  2026-03-13  feat(storage): implement BlobRedundancyEventListener for ... ║
+    • 48cc2a0a2  2026-03-13  feat(storage): implement NVMe optimizations (io_uring, mu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -1324,6 +1326,35 @@ void RocksDBWrapper::scanRange(std::string_view start_key, std::string_view end_
     }
 }
 
+void RocksDBWrapper::iterateRange(std::string_view start_key, std::string_view end_key, ScanCallback callback) {
+    // Protect iterator lifetime with OperationGuard
+    OperationGuard guard(this);
+    if (!guard) return;
+
+    auto* base_db = guard.get()->GetBaseDB();
+    if (!base_db) {
+        THEMIS_ERROR("iterateRange: base DB is null");
+        return;
+    }
+
+    std::unique_ptr<rocksdb::Iterator> it(base_db->NewIterator(*read_options_));
+    if (!it) {
+        THEMIS_ERROR("iterateRange: failed to create iterator");
+        return;
+    }
+
+    rocksdb::Slice start_slice(start_key.data(), start_key.size());
+    rocksdb::Slice end_slice(end_key.data(), end_key.size());
+
+    for (it->Seek(start_slice); it->Valid() && it->key().compare(end_slice) < 0; it->Next()) {
+        std::string_view key(it->key().data(), it->key().size());
+        std::string_view value(it->value().data(), it->value().size());
+        if (!callback(key, value)) {
+            break;
+        }
+    }
+}
+
 void RocksDBWrapper::scanAll(ScanCallback callback) {
     // RACE CONDITION FIX #3: Protect iterator lifetime with OperationGuard
     OperationGuard guard(this);
@@ -1369,6 +1400,7 @@ std::string RocksDBWrapper::getStats() const {
     uint64_t num_running_flushes = 0;
     uint64_t memtable_size = 0;
     uint64_t cur_size_all_mem_tables = 0;
+    uint64_t total_sst_files_size = 0;
     
     db_->GetIntProperty("rocksdb.block-cache-usage", &block_cache_usage);
     db_->GetIntProperty("rocksdb.block-cache-capacity", &block_cache_capacity);
@@ -1379,6 +1411,7 @@ std::string RocksDBWrapper::getStats() const {
     db_->GetIntProperty("rocksdb.num-running-flushes", &num_running_flushes);
     db_->GetIntProperty("rocksdb.size-all-mem-tables", &memtable_size);
     db_->GetIntProperty("rocksdb.cur-size-all-mem-tables", &cur_size_all_mem_tables);
+    db_->GetIntProperty("rocksdb.total-sst-files-size", &total_sst_files_size);
     
     // Get per-level file counts
     std::string num_files_at_levels;
@@ -1417,6 +1450,7 @@ std::string RocksDBWrapper::getStats() const {
     // Build JSON response
     std::string json = "{\n"
         "  \"rocksdb\": {\n"
+        "    \"total_sst_files_size_bytes\": " + std::to_string(total_sst_files_size) + ",\n"
         "    \"block_cache_usage_bytes\": " + std::to_string(block_cache_usage) + ",\n"
         "    \"block_cache_capacity_bytes\": " + std::to_string(block_cache_capacity) + ",\n"
         "    \"estimate_num_keys\": " + std::to_string(estimate_keys) + ",\n"
@@ -1485,9 +1519,24 @@ void RocksDBWrapper::flush() {
 
 uint64_t RocksDBWrapper::getApproximateSize() const {
     if (!db_) return 0;
-    
-    // TODO: Implement proper size calculation
-    return 0;
+
+    // Use the total-sst-files-size property to get on-disk SST file size.
+    // This covers all levels and matches what compaction/quota logic needs.
+    uint64_t total_sst_size = 0;
+    if (db_->GetIntProperty("rocksdb.total-sst-files-size", &total_sst_size)) {
+        return total_sst_size;
+    }
+
+    // Fallback: estimate the size of the full key range using GetApproximateSizes
+    // when the SST-size property is unavailable (e.g. some older builds).
+    // Use INCLUDE_FILES (bit 0 = 1) to count only on-disk SST file sizes.
+    static constexpr uint8_t kIncludeFiles = 1;  // rocksdb::DB::INCLUDE_FILES
+    rocksdb::Range full_range(
+        rocksdb::Slice("\x00", 1),
+        rocksdb::Slice("\xff\xff\xff\xff\xff\xff\xff\xff", 8));
+    uint64_t approx_size = 0;
+    db_->GetApproximateSizes(&full_range, 1, &approx_size, kIncludeFiles);
+    return approx_size;
 }
 
 uint64_t RocksDBWrapper::getLatestSequenceNumber() const {

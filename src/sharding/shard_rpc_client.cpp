@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            shard_rpc_client.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:31                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:19:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟠 BETA                                         ║
-    • Quality Score:   49.0/100                                       ║
-    • Total Lines:     708                                            ║
+    • Quality Score:   50.0/100                                       ║
+    • Total Lines:     797                                            ║
     • Open Issues:     TODOs: 0, Stubs: 7                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 715714948  2026-03-15  feat(sharding): fix coordinator ID + implement SAGA compe... ║
+    • 2a280bfd0  2026-03-15  feat: Complete Shard RPC Integration acceptance criteria ... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • d8b47ec5e  2026-02-28  Code audit: fix 3 bugs in retry/circuit-breaker integration ║
     • cd1278c92  2026-02-27  Implement circuit breaker integration and retry policy in... ║
@@ -27,6 +29,9 @@
 
 #include "sharding/shard_rpc_client.h"
 #include "sharding/circuit_breaker.h"
+#include "sharding/mtls_connection_pool.h"
+#include "sharding/operational_metrics.h"
+#include "sharding/prometheus_metrics.h"
 #include "utils/logger.h"
 #include "utils/file_utils.h"
 #include <thread>
@@ -64,6 +69,21 @@ struct ShardRPCClient::Impl {
     std::shared_ptr<grpc::Channel> channel;
     std::unique_ptr<themis::sharding::proto::ShardService::Stub> stub;
 #endif
+
+    /// Emit a single-attempt metric to both sinks (if configured).
+    void recordMetrics(const std::string& method,
+                       const std::string& outcome,
+                       uint64_t latency_us) const
+    {
+        const std::string& sid = config.shard_id.empty() ? config.endpoint : config.shard_id;
+        if (config.operational_metrics) {
+            config.operational_metrics->recordRpcCall(sid, method, outcome, latency_us);
+        }
+        if (config.prometheus_metrics) {
+            config.prometheus_metrics->recordRpcCall(
+                sid, method, outcome, static_cast<double>(latency_us) / 1000.0);
+        }
+    }
     
     static CircuitBreaker makeCb(const Config& cfg) {
         CircuitBreaker::Config cb;
@@ -85,6 +105,19 @@ struct ShardRPCClient::Impl {
         // Detect if we should use gRPC or in-process simulation
         // Use in-process if endpoint contains loopback addresses
         use_grpc = !isLoopbackEndpoint(config.endpoint);
+
+        // If a connection pool is supplied, apply the max_pool_connections limit
+        // (propagated from GossipConfigManagerConfig::rpc_max_pool_connections).
+        if (config.connection_pool && config.max_pool_connections > 0) {
+            auto pool = config.connection_pool->getPool(config.endpoint);
+            if (pool) {
+                // Pool configuration is set at construction time; log the
+                // effective value so operators can verify gossip propagation.
+                THEMIS_INFO("ShardRPCClient: using connection pool for {} "
+                            "(max_connections={})",
+                            config.endpoint, config.max_pool_connections);
+            }
+        }
         
 #if THEMIS_HAS_SHARD_GRPC
         if (use_grpc) {
@@ -286,6 +319,34 @@ bool ShardRPCClient::abort(const std::string& txn_id) {
     }
 }
 
+bool ShardRPCClient::compensate(
+    const std::string& txn_id,
+    const nlohmann::json& operation
+) {
+    THEMIS_DEBUG("RPC COMPENSATE to {}: txn={}", impl_->config.endpoint, txn_id);
+
+    try {
+        nlohmann::json params = {
+            {"transaction_id", txn_id},
+            {"operation", operation}
+        };
+
+        auto response = sendRequest("compensate", params);
+
+        if (response.contains("status") && response["status"] == "compensated") {
+            THEMIS_DEBUG("RPC COMPENSATE success");
+            return true;
+        } else {
+            THEMIS_WARN("RPC COMPENSATE failed");
+            return false;
+        }
+
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("RPC COMPENSATE exception: {}", e.what());
+        return false;
+    }
+}
+
 nlohmann::json ShardRPCClient::snapshotRead(
     int64_t snapshot_ts,
     const nlohmann::json& query
@@ -374,6 +435,9 @@ nlohmann::json ShardRPCClient::sendRequestGrpc(
             auto deadline = std::chrono::system_clock::now() + 
                            std::chrono::milliseconds(impl_->config.timeout_ms);
             context.set_deadline(deadline);
+
+            // Per-attempt latency measurement for metrics.
+            const auto t0 = std::chrono::steady_clock::now();
             
             // Route to appropriate gRPC method
             nlohmann::json result;
@@ -383,6 +447,14 @@ nlohmann::json ShardRPCClient::sendRequestGrpc(
                 result = handleCommitGrpc(context, params);
             } else if (method == "abort") {
                 result = handleAbortGrpc(context, params);
+            } else if (method == "compensate") {
+                // SAGA compensation: reuse the abort gRPC path until a dedicated
+                // CompensateTransaction RPC is added to the shard_rpc.proto service
+                // (tracked in Issue #106 / proto migration backlog).
+                result = handleAbortGrpc(context, params);
+                if (result.contains("status") && result["status"] == "aborted") {
+                    result["status"] = "compensated";
+                }
             } else if (method == "snapshot_read") {
                 result = handleSnapshotReadGrpc(context, params);
             } else if (method == "ping") {
@@ -391,15 +463,21 @@ nlohmann::json ShardRPCClient::sendRequestGrpc(
                 throw std::runtime_error("Unknown RPC method: " + method);
             }
 
+            const auto latency_us = static_cast<uint64_t>(
+                std::chrono::duration_cast<std::chrono::microseconds>(
+                    std::chrono::steady_clock::now() - t0).count());
+
             if (impl_->config.enable_circuit_breaker) {
                 impl_->circuit_breaker.recordSuccess();
             }
+            impl_->recordMetrics(method, "success", latency_us);
             return result;
             
         } catch (const NonRetryableRpcError& e) {
             if (impl_->config.enable_circuit_breaker) {
                 impl_->circuit_breaker.recordFailure();
             }
+            impl_->recordMetrics(method, "non_retryable_error", 0u);
             THEMIS_WARN("gRPC {} non-retryable error: {}", method, e.what());
             throw;  // Rethrow immediately without further retry attempts
 
@@ -410,6 +488,7 @@ nlohmann::json ShardRPCClient::sendRequestGrpc(
             if (impl_->config.enable_circuit_breaker) {
                 impl_->circuit_breaker.recordFailure();
             }
+            impl_->recordMetrics(method, "retryable_error", 0u);
 
             THEMIS_WARN("gRPC {} attempt {}/{} failed: {}",
                        method, attempts, impl_->config.max_retries, err_msg);
@@ -638,6 +717,7 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
                         impl_->config.endpoint);
             
             // Simulate network delay
+            const auto t0 = std::chrono::steady_clock::now();
             std::this_thread::sleep_for(
                 std::chrono::milliseconds(10)
             );
@@ -658,6 +738,10 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
                 response = {
                     {"status", "aborted"}
                 };
+            } else if (method == "compensate") {
+                response = {
+                    {"status", "compensated"}
+                };
             } else if (method == "snapshot_read") {
                 response = {
                     {"status", "success"},
@@ -670,10 +754,15 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
             } else {
                 throw std::runtime_error("Unknown RPC method: " + method);
             }
+
+            const auto latency_us = static_cast<uint64_t>(
+                std::chrono::duration_cast<std::chrono::microseconds>(
+                    std::chrono::steady_clock::now() - t0).count());
             
             if (impl_->config.enable_circuit_breaker) {
                 impl_->circuit_breaker.recordSuccess();
             }
+            impl_->recordMetrics(method, "success", latency_us);
             return response;
             
         } catch (const std::exception& e) {
@@ -682,6 +771,7 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
             if (impl_->config.enable_circuit_breaker) {
                 impl_->circuit_breaker.recordFailure();
             }
+            impl_->recordMetrics(method, "retryable_error", 0u);
 
             THEMIS_WARN("RPC {} attempt {}/{} failed: {}",
                        method, attempts, impl_->config.max_retries, e.what());

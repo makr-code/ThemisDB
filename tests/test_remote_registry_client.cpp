@@ -3,20 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_remote_registry_client.cpp                    ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:06:37                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:30:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     372                                            ║
+    • Total Lines:     760                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • bfe82c39d  2026-02-27  fix(base): code-audit fixes for RemoteRegistryClient ║
-    • 27a08eb54  2026-02-27  feat(base): implement remote plugin loading from authenti... ║
+    • 2c1b27b6f  2026-03-15  feat(base): async retry RemoteRegistryClient + LLM RetryP... ║
+    • e56570ab4  2026-03-15  feat(base): add async methods to RemoteRegistryClient; fi... ║
+    • 4e273a130  2026-03-14  feat(base): implement async retry API for RemoteRegistryC... ║
+    • 8b7f5ae1f  2026-03-14  Enforce shared ownership for async calls ║
+    • 0eaab53bf  2026-03-14  Address review feedback                  ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

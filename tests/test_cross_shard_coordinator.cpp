@@ -3,17 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cross_shard_coordinator.cpp                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:03:20                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:24:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     339                                            ║
+    • Total Lines:     620                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 715714948  2026-03-15  feat(sharding): fix coordinator ID + implement SAGA compe... ║
+    • 57edae2d8  2026-03-14  fix: address all PR review comments on Percolator coordin... ║
+    • 2bbac9e44  2026-03-14  feat: implement Percolator-style distributed transaction ... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 8cf91c826  2026-03-01  feat: implement Calvin protocol for deterministic distrib... ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -38,6 +41,7 @@
 #include "sharding/transaction_snapshot.h"
 #include "sharding/truetime.h"
 #include "sharding/orphan_detector.h"
+#include "sharding/shard_rpc_client.h"
 #include <atomic>
 #include <memory>
 #include <thread>
@@ -523,4 +527,97 @@ TEST_F(PercolatorCoordinatorTest, ConcurrentPercolatorTransactions) {
     }
 
     EXPECT_EQ(success_count.load(), kCount);
+}
+
+// ============================================================================
+// Coordinator ID + Compensation RPC Tests (Issue #106)
+// ============================================================================
+
+class CoordinatorIdTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        auto consensus = std::make_shared<MockConsensusModule>();
+        CrossShardTransactionConfig config;
+        config.transaction_log_path =
+            std::string("/tmp/themisdb_coord_id_") + std::to_string(::getpid()) + ".jsonl";
+        config.coordinator_id = "node-42";
+        coordinator_ = std::make_unique<CrossShardTransactionCoordinator>(config, consensus);
+        coordinator_->initialize();
+        coordinator_->start();
+    }
+
+    void TearDown() override {
+        if (coordinator_) {
+            coordinator_->stop();
+        }
+    }
+
+    std::unique_ptr<CrossShardTransactionCoordinator> coordinator_;
+};
+
+// Verify that CrossShardTransactionConfig accepts a coordinator_id field.
+TEST(CoordinatorIdConfigTest, CoordinatorIdDefaultsToEmpty) {
+    CrossShardTransactionConfig cfg;
+    EXPECT_TRUE(cfg.coordinator_id.empty());
+}
+
+TEST(CoordinatorIdConfigTest, CoordinatorIdIsRetained) {
+    CrossShardTransactionConfig cfg;
+    cfg.coordinator_id = "node-42";
+    EXPECT_EQ(cfg.coordinator_id, "node-42");
+}
+
+// A coordinator constructed with a coordinator_id can begin and commit
+// transactions normally (regression: coordinator_id must not break existing flow).
+TEST_F(CoordinatorIdTest, TransactionSucceedsWithCoordinatorId) {
+    ASSERT_TRUE(coordinator_->beginTransaction("txn-coord-id-1",
+        TransactionProtocol::CALVIN, IsolationLevel::SNAPSHOT_ISOLATION));
+    coordinator_->addParticipant("txn-coord-id-1", "shard1", "shard1:8080", {"write:key1"});
+    EXPECT_TRUE(coordinator_->commit("txn-coord-id-1"));
+}
+
+// A coordinator constructed without a coordinator_id still works.
+TEST(CoordinatorIdConfigTest, EmptyCoordinatorIdNoCrash) {
+    auto consensus = std::make_shared<MockConsensusModule>();
+    CrossShardTransactionConfig cfg;
+    cfg.transaction_log_path =
+        std::string("/tmp/themisdb_coord_empty_") + std::to_string(::getpid()) + ".jsonl";
+    // coordinator_id intentionally left empty
+    CrossShardTransactionCoordinator coordinator(cfg, consensus);
+    ASSERT_TRUE(coordinator.initialize());
+    ASSERT_TRUE(coordinator.start());
+    ASSERT_TRUE(coordinator.beginTransaction("txn-no-coord-id",
+        TransactionProtocol::CALVIN, IsolationLevel::SNAPSHOT_ISOLATION));
+    coordinator.addParticipant("txn-no-coord-id", "shard1", "shard1:8080", {"write:key1"});
+    EXPECT_TRUE(coordinator.commit("txn-no-coord-id"));
+    coordinator.stop();
+}
+
+// ============================================================================
+// ShardRPCClient compensate() Tests (Issue #106)
+// ============================================================================
+
+TEST(ShardRpcCompensateTest, CompensateReturnsTrue) {
+    themis::sharding::ShardRPCClient::Config cfg;
+    cfg.endpoint = "shard-test:50051";
+    cfg.timeout_ms = 500;
+    cfg.max_retries = 1;
+    cfg.enable_circuit_breaker = false;
+
+    themis::sharding::ShardRPCClient client(cfg);
+
+    nlohmann::json op = {{"type", "delete"}, {"key", "user:123"}};
+    EXPECT_TRUE(client.compensate("txn-comp-1", op));
+}
+
+TEST(ShardRpcCompensateTest, CompensateWithEmptyOperationSucceeds) {
+    themis::sharding::ShardRPCClient::Config cfg;
+    cfg.endpoint = "shard-test:50051";
+    cfg.timeout_ms = 500;
+    cfg.max_retries = 1;
+    cfg.enable_circuit_breaker = false;
+
+    themis::sharding::ShardRPCClient client(cfg);
+
+    EXPECT_TRUE(client.compensate("txn-comp-2", nlohmann::json::object()));
 }

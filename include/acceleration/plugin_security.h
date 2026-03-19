@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plugin_security.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:25                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:04:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     346                                            ║
+    • Total Lines:     347                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -93,6 +93,9 @@ struct PluginSecurityPolicy {
     
     // Check certificate revocation (CRL/OCSP)
     bool checkRevocation = true;
+    
+    // Timeout for CRL/OCSP network requests in seconds (default: 5)
+    int revocation_timeout_seconds = 5;
     
     // Minimum trust level required
     PluginTrustLevel minTrustLevel = PluginTrustLevel::TRUSTED;
@@ -288,6 +291,15 @@ private:
     std::optional<PluginMetadata> loadPluginMetadataForChainValidation(
         const std::string& plugin_path
     );
+
+public:
+#ifdef THEMIS_TEST_BUILD
+    // Exposes extractEmbeddedCertificate() for white-box unit testing only.
+    std::optional<std::vector<uint8_t>> extractSigningCertificateForTesting(
+        const std::string& plugin_path) {
+        return extractEmbeddedCertificate(plugin_path);
+    }
+#endif
 };
 
 // Audit logging for plugin security events

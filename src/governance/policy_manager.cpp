@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            policy_manager.cpp                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:18                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:14:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     651                                            ║
+    • Total Lines:     652                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -22,11 +22,15 @@
  */
 
 #include "governance/policy_manager.h"
+#include "governance/policy_validator.h"
 #include "utils/logger.h"
+#include "observability/metrics_collector.h"
 
 #include <algorithm>
-#include <fstream>
 #include <chrono>
+#include <fstream>
+#include <functional>
+#include <shared_mutex>
 #include <yaml-cpp/yaml.h>
 
 namespace themis {
@@ -268,40 +272,58 @@ std::vector<PolicyRule> PolicyManager::findApplicableRules(
     const std::string& action,
     const std::vector<std::string>& user_roles
 ) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    // Capture a snapshot of the active policy set without holding the write lock,
+    // so that a concurrent reloadPolicies() swap does not block this read.
+    std::shared_ptr<const PolicySet> snap;
+    {
+        std::shared_lock<std::shared_mutex> rlock(policy_set_mutex_);
+        snap = active_policy_set_;
+    }
+
+    // Use the atomic snapshot when available (hot-reload path); fall back to
+    // the management rules_ map for readers that call findApplicableRules()
+    // before any reloadPolicies() has been executed.
     std::vector<PolicyRule> applicable;
-    
-    for (const auto& [id, rule] : rules_) {
-        if (!rule.appliesTo(resource, action)) {
-            continue;
-        }
-        
-        // Check if user has required roles
-        if (!rule.required_roles.empty()) {
-            bool has_role = false;
-            for (const auto& required_role : rule.required_roles) {
-                for (const auto& user_role : user_roles) {
-                    if (required_role == user_role || required_role == "*") {
-                        has_role = true;
-                        break;
-                    }
-                }
-                if (has_role) break;
-            }
-            if (!has_role) {
+    auto search = [&](const std::unordered_map<std::string, PolicyRule>& rules) {
+        for (const auto& [id, rule] : rules) {
+            if (!rule.appliesTo(resource, action)) {
                 continue;
             }
+
+            // Check if user has required roles
+            if (!rule.required_roles.empty()) {
+                bool has_role = false;
+                for (const auto& required_role : rule.required_roles) {
+                    for (const auto& user_role : user_roles) {
+                        if (required_role == user_role || required_role == "*") {
+                            has_role = true;
+                            break;
+                        }
+                    }
+                    if (has_role) break;
+                }
+                if (!has_role) {
+                    continue;
+                }
+            }
+
+            applicable.push_back(rule);
         }
-        
-        applicable.push_back(rule);
+    };
+
+    if (snap) {
+        search(snap->rules);
+    } else {
+        std::lock_guard<std::mutex> lock(mutex_);
+        search(rules_);
     }
-    
+
     // Sort by priority (highest first)
     std::sort(applicable.begin(), applicable.end(),
               [](const PolicyRule& a, const PolicyRule& b) {
                   return a.priority > b.priority;
               });
-    
+
     return applicable;
 }
 
@@ -646,6 +668,92 @@ std::vector<PolicyRuleVersion> PolicyManager::getAuditTrailByUser(
         }
     }
     return result;
+}
+
+// ========== Hot-Reload: double-buffer implementation ==========
+
+bool PolicyManager::reloadPolicies(const std::string& path, std::string* err) {
+    // 1. Load the new rule set into a staging PolicyManager.
+    //    This keeps the current rules_ untouched until validation succeeds.
+    auto staging = std::make_shared<PolicyManager>();
+    if (!staging->loadRules(path)) {
+        const std::string msg = "reloadPolicies: failed to load rules from " + path;
+        THEMIS_ERROR("{}", msg);
+        if (err) *err = msg;
+        observability::MetricsCollector::getInstance().addCounter(
+            "governance_policy_reload_total", 1, {{"result", "failure"}});
+        return false;
+    }
+
+    // 2. Validate the staged rule set via PolicyValidator.
+    PolicyValidator validator(staging);
+    auto report = validator.validateRuleset();
+    if (report.has_critical_issues) {
+        const std::string msg = "reloadPolicies: validation failed – critical issues detected "
+                                "(score=" + std::to_string(report.validation_score) + ")";
+        THEMIS_ERROR("{}", msg);
+        if (err) *err = msg;
+        observability::MetricsCollector::getInstance().addCounter(
+            "governance_policy_reload_total", 1, {{"result", "failure"}});
+        return false;
+    }
+
+    // 3. Capture the old version hash for the audit entry.
+    std::string old_version;
+    {
+        std::shared_lock<std::shared_mutex> rlock(policy_set_mutex_);
+        if (active_policy_set_) {
+            old_version = active_policy_set_->version_hash;
+        }
+    }
+
+    // 4. Build the new PolicySet snapshot via the public listRules() API.
+    auto new_set = std::make_shared<PolicySet>();
+    for (const auto& rule : staging->listRules()) {
+        new_set->rules[rule.id] = rule;
+    }
+    // Derive a deterministic version identifier from sorted rule IDs.
+    // Note: std::hash is not cryptographically secure; this hash is used
+    // only as a stable version tag for logging and audit entries, not for
+    // integrity verification.
+    std::vector<std::string> ids;
+    ids.reserve(new_set->rules.size());
+    for (const auto& [id, rule] : new_set->rules) ids.push_back(id);
+    std::sort(ids.begin(), ids.end());
+    std::string concat;
+    for (const auto& id : ids) { concat += id; concat += '|'; }
+    new_set->version_hash = std::to_string(std::hash<std::string>{}(concat));
+    new_set->loaded_at = std::chrono::duration_cast<std::chrono::milliseconds>(
+                             std::chrono::system_clock::now().time_since_epoch())
+                             .count();
+
+    // 5. Atomically promote the new PolicySet (double-buffer swap).
+    //    Readers that already hold a shared_ptr snapshot to the old PolicySet
+    //    complete normally; the old set stays alive via ref-count until all
+    //    holders release it.
+    {
+        std::unique_lock<std::shared_mutex> wlock(policy_set_mutex_);
+        active_policy_set_ = new_set;  // implicit conversion to shared_ptr<const PolicySet>
+    }
+    // Also update rules_ so management operations (addRule, etc.) remain consistent.
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        rules_ = new_set->rules;
+    }
+
+    THEMIS_INFO("PolicyManager::reloadPolicies: {} rules loaded "
+                "(old_version={}, new_version={})",
+                new_set->rules.size(), old_version, new_set->version_hash);
+
+    observability::MetricsCollector::getInstance().addCounter(
+        "governance_policy_reload_total", 1, {{"result", "success"}});
+    return true;
+}
+
+std::string PolicyManager::activePolicyVersion() const {
+    std::shared_lock<std::shared_mutex> rlock(policy_set_mutex_);
+    if (!active_policy_set_) return {};
+    return active_policy_set_->version_hash;
 }
 
 } // namespace governance

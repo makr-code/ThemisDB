@@ -44,9 +44,9 @@
 `rocksdb_wrapper.cpp` line 1445: "TODO: Implement proper size calculation". The `RocksDBWrapper::getApproximateSize()` or equivalent method returns 0 or a placeholder, making disk-space monitoring, compaction triggers, and admin API storage metrics unreliable.
 
 **Implementation Notes:**
-- `[ ]` Use `rocksdb::DB::GetApproximateSizes()` API to compute the on-disk SST file sizes for a key range.
-- `[ ]` Alternatively, use `rocksdb::DB::GetIntProperty(rocksdb::DB::Properties::kTotalSstFilesSize)` for total CF size.
-- `[ ]` Wire the result into `DiskSpaceMonitor` and the `/v1/admin/storage/stats` endpoint.
+- `[x]` Use `rocksdb::DB::GetApproximateSizes()` API to compute the on-disk SST file sizes for a key range.
+- `[x]` Alternatively, use `rocksdb::DB::GetIntProperty(rocksdb::DB::Properties::kTotalSstFilesSize)` for total CF size.
+- `[x]` Wire the result into `DiskSpaceMonitor` and the `/v1/admin/storage/stats` endpoint.
 
 ---
 
@@ -57,8 +57,8 @@
 `security_signature_manager.cpp` line 110: "TODO: Implement proper RocksDB iteration when `RocksDBWrapper` supports it". Without iteration, the signature manager cannot verify integrity across all stored records.
 
 **Implementation Notes:**
-- `[ ]` Add `RocksDBWrapper::iterateRange(start_key, end_key, callback)` that uses a `rocksdb::Iterator` under the hood.
-- `[ ]` Wire into `SecuritySignatureManager::verifyAll()` to scan all document keys and verify their signatures in sequence.
+- `[x]` Add `RocksDBWrapper::iterateRange(start_key, end_key, callback)` that uses a `rocksdb::Iterator` under the hood.
+- `[x]` Wire into `SecuritySignatureManager::verifyAll()` to scan all document keys and verify their signatures in sequence.
 
 ---
 

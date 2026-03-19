@@ -172,10 +172,17 @@ while (!committed) {
 ---
 
 ### Distributed Transaction Coordinator (2PC)
+**Status: ✅ Implemented** (v1.9.0, Issue: #123)  
 **Priority:** High  
 **Target Version:** v1.9.0
 
 Implement two-phase commit for multi-shard distributed transactions.
+
+**Implemented in:**
+- `include/transaction/distributed_transaction_manager.h`
+- `src/transaction/distributed_transaction_manager.cpp`
+- Tests: `tests/test_transaction_distributed_2pc.cpp` (32 tests, `TransactionDistributed2PCFocusedTests`)
+- CI: `.github/workflows/transaction-distributed-2pc-ci.yml`
 
 **Features:**
 - Coordinator role for distributed transactions
@@ -248,6 +255,7 @@ auto commit_status = dist_txn_mgr.commitDistributed(dtxn_id);
 ---
 
 ### SAGA Orchestration Engine
+**Status: ✅ Implemented** (v1.8.0)  
 **Priority:** Medium  
 **Target Version:** v1.8.0
 
@@ -471,35 +479,51 @@ if (predictor > 0.8) {
 
 ### Write Batching and Coalescing
 **Priority:** Medium  
-**Target Version:** v1.8.0
+**Target Version:** v1.8.0  
+**Status:** ✅ Implemented
 
 Automatic batching of concurrent small transactions for improved throughput.
 
-**Features:**
-- Automatic transaction grouping
-- Configurable batch window (1-100ms)
-- Fair scheduling (prevent starvation)
-- Per-table/per-key batching policies
-- Adaptive batch sizing
+**Implementation:**
+- `include/transaction/transaction_batcher.h` — `TransactionBatcher` class
+- `src/transaction/transaction_batcher.cpp` — implementation
+- `tests/test_transaction_batcher.cpp` — 26 focused tests (`TransactionBatcherFocusedTests`)
+- `.github/workflows/transaction-write-batching-ci.yml` — CI workflow
 
-**Architecture:**
+**Features (all implemented):**
+- [x] Automatic transaction grouping via background flush thread + `std::deque` queue
+- [x] Configurable batch window (1–100 ms) with clamping in `setBatchConfig()`
+- [x] Fair FIFO scheduling — items processed in submission order, no starvation
+- [x] Per-table/per-key batching policies via `setTablePolicy(table, BatchPolicy)`
+- [x] Adaptive batch sizing — window widened (+10%) under low load, narrowed (-10%) near overflow
+
+**Architecture (as delivered):**
 ```cpp
 class TransactionBatcher {
 public:
     struct BatchConfig {
-        std::chrono::microseconds window{5000};  // 5ms batch window
+        std::chrono::microseconds window{5000};  // 5ms batch window (1–100ms)
         size_t max_batch_size = 1000;
         size_t min_batch_size = 10;
         bool enable_adaptive = true;
     };
-    
+
+    struct BatchPolicy {
+        std::chrono::microseconds window{0};   // 0 = use global
+        size_t max_batch_size{0};              // 0 = use global
+        size_t min_batch_size{0};              // 0 = use global
+    };
+
     void setBatchConfig(const BatchConfig& config);
-    
-    // Submit transaction for batching
-    std::future<Status> submitAsync(Transaction&& txn);
-    
+
+    // Submit a commit callable for batched asynchronous execution
+    std::future<Status> submitAsync(std::function<Status()> commit_fn,
+                                    const std::string& table_hint = "");
+
     // Force flush current batch
     void flush();
+
+    void setTablePolicy(const std::string& table, const BatchPolicy& policy);
 };
 
 // Example: High-throughput ingestion
@@ -511,25 +535,32 @@ batcher.setBatchConfig({
 });
 
 // Submit many small transactions
-std::vector<std::future<Status>> futures;
+std::vector<std::future<TransactionBatcher::Status>> futures;
 for (const auto& user : users) {
-    auto txn = txn_mgr.begin();
-    txn.putEntity("users", user);
-    futures.push_back(batcher.submitAsync(std::move(txn)));
+    futures.push_back(batcher.submitAsync(
+        [&mgr, user]() -> TransactionBatcher::Status {
+            auto id  = mgr.beginTransaction();
+            auto* tx = mgr.getTransaction(id);
+            tx->putEntity("users", user);
+            auto st  = mgr.commitTransaction(id);
+            return st.ok ? TransactionBatcher::Status::OK()
+                         : TransactionBatcher::Status::Error(st.message);
+        },
+        "users"
+    ));
 }
 
 // All transactions batched and committed together
-// 10-100x throughput improvement
-for (auto& future : futures) {
-    auto status = future.get();
+for (auto& f : futures) {
+    auto status = f.get();
 }
 ```
 
 **Performance Gains:**
-- Small transactions: 10-100x throughput improvement
-- Reduced WAL sync overhead
+- Small transactions: 10-100x throughput improvement (amortised WAL sync)
+- Reduced WAL sync overhead via batched commits
 - Better CPU/disk utilization
-- Latency trade-off: +1-10ms per transaction
+- Latency trade-off: +1-10ms per transaction (configurable via `window`)
 
 ---
 

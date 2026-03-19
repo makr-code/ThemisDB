@@ -41,17 +41,16 @@
 ### `AuthMiddleware`: JWT Scope Extraction and Role-to-Scope Mapping
 **Priority:** High
 **Target Version:** v1.8.0
-
-`auth_middleware.cpp` has 2 security-critical TODOs:
-- Line 248: "TODO: Enhance with proper scope extraction from JWT claims" — scopes are not currently read from the JWT `scope` or `scp` claim.
-- Line 399: "TODO: Check if any of the roles provide the required_scope" — role-to-scope mapping is not implemented; any role passes any scope check.
-
-Both together mean scope-based authorization is effectively not enforced.
+**Status:** ✅ Implemented
 
 **Implementation Notes:**
-- `[ ]` At line 248: parse the `scope` (space-separated string) or `scp` (array) claim from the validated JWT payload using `nlohmann::json`; populate `AuthContext::granted_scopes`.
-- `[ ]` At line 399: load the role-to-scope mapping from `config/security/rbac_roles.yaml` via `ConfigPathResolver`; check if any of the token's roles grants the `required_scope`; deny if not found.
-- `[ ]` Add unit tests: JWT with `scope: "cache:read"` passes cache read endpoint; JWT without `cache:write` scope is rejected at cache write endpoint.
+- `[x]` Added `scopes` field to `JWTClaims` in `include/auth/jwt_validator.h`; `parseAndValidate()` in `src/auth/jwt_validator.cpp` now extracts `scope` (space-separated string) and `scp` (array or space-separated string) OAuth2 claims.
+- `[x]` `authorizeViaJWT()` builds a `granted_scopes` set from `JWTClaims::scopes` plus the claim named by `jwt_config_.scope_claim` (defaults to "roles"); checks `required_scope` against it; denies with `"Missing required scope: ..."` if not found.
+- `[x]` `authorizeViaJWT()` falls back to `role_scope_map_` for role→scope expansion.
+- `[x]` `authorizeViaKerberos()` line 405 TODO resolved: checks if any Kerberos role matches `required_scope` directly or via `role_scope_map_`; denies with `authz_denied_total++` if not found.
+- `[x]` Added `AuthMiddleware::setRoleScopeMapping(map)` public API for programmatic role→scope injection.
+- `[x]` Added `roleGrantsScope(roles, required_scope)` private helper.
+- `[x]` Unit tests added in `test_auth_middleware.cpp`: static token with scope passes; static token without scope denied; role mapping not corrupt after double-set; thread safety of new method.
 
 ---
 
@@ -62,8 +61,8 @@ Both together mean scope-based authorization is effectively not enforced.
 `http_server.cpp` line 587: "TODO: Initialize actual `ShardingManager` here when available". Sharding-related admin endpoints (`/v1/admin/shards/*`) are wired but receive a null or stub `ShardingManager`, meaning all shard admin calls silently fail or return empty results.
 
 **Implementation Notes:**
-- `[ ]` Inject the live `ShardingManager*` from the `DatabaseServer` construction path into `HttpServer`; remove the TODO and null-check guard.
-- `[ ]` Add integration test: create 3 shards via HTTP, verify they appear in `GET /v1/admin/shards`.
+- `[x]` Inject the live `ShardingManager*` from the `DatabaseServer` construction path into `HttpServer`; remove the TODO and null-check guard.
+- `[x]` Add integration test: create 3 shards via HTTP, verify they appear in `GET /v1/admin/shards`.
 
 ---
 

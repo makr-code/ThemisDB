@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adapter_load_balancer.cpp                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:50                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:16:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     614                                            ║
+    • Total Lines:     617                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -611,6 +611,41 @@ bool AdapterLoadBalancer::performEviction(const std::string& adapter_id) {
 int64_t AdapterLoadBalancer::getCurrentTimeMs() const {
     return std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
+}
+
+// ============================================================================
+// Hot-load in-progress tracking
+// ============================================================================
+
+void AdapterLoadBalancer::beginHotLoad(const std::string& adapter_id,
+                                        const std::string& fallback_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    hot_loading_adapters_[adapter_id] = fallback_id;
+    spdlog::info("AdapterLoadBalancer: hot-load started for '{}' (fallback='{}')",
+                 adapter_id, fallback_id.empty() ? "<none>" : fallback_id);
+}
+
+void AdapterLoadBalancer::endHotLoad(const std::string& adapter_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    hot_loading_adapters_.erase(adapter_id);
+    spdlog::info("AdapterLoadBalancer: hot-load finished for '{}'", adapter_id);
+}
+
+bool AdapterLoadBalancer::isHotLoadInProgress(const std::string& adapter_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return hot_loading_adapters_.count(adapter_id) > 0;
+}
+
+std::string AdapterLoadBalancer::resolveAdapter(const std::string& adapter_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto it = hot_loading_adapters_.find(adapter_id);
+    if (it != hot_loading_adapters_.end()) {
+        // Hot-load in progress: route to fallback (may be empty = caller uses base model)
+        spdlog::debug("AdapterLoadBalancer: '{}' loading, routing to fallback '{}'",
+                      adapter_id, it->second.empty() ? "<base>" : it->second);
+        return it->second;
+    }
+    return adapter_id;
 }
 
 } // namespace llm

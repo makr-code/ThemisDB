@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            isolation_level.h                                  ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-03-09 03:55:58                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-16 04:11:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     59                                             ║
+    • Total Lines:     62                                             ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -46,11 +46,12 @@ namespace themis {
 ///
 /// Note: value 2 is intentionally reserved (gap between READ_COMMITTED=1 and
 /// REPEATABLE_READ=3) to preserve backward compatibility with the legacy Snapshot=3
-/// alias.
+/// alias.  SerializableSnapshot is an alias for SERIALIZABLE (both equal 4).
 enum class IsolationLevel {
     // Legacy aliases preserved for backward compatibility
-    ReadCommitted  = 1, ///< Same as READ_COMMITTED
-    Snapshot       = 3, ///< Same as REPEATABLE_READ (snapshot isolation)
+    ReadCommitted       = 1, ///< Same as READ_COMMITTED
+    Snapshot            = 3, ///< Same as REPEATABLE_READ (snapshot isolation)
+    SerializableSnapshot = 4, ///< Same as SERIALIZABLE (SSI – predicate locking)
 
     // Standard SQL names
     READ_UNCOMMITTED = 0, ///< Lowest isolation; no extra read locks

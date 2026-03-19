@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_huggingface_exporter.cpp                      ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:01:21                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:20:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     550                                            ║
+    • Total Lines:     557                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 43a91f179  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 929de3a2b  2026-02-23  fix(exporters): 5 audit fixes for HuggingFace exporter ║
     • d57fa8dc7  2026-02-22  feat(exporters): Hugging Face Datasets-compatible export ... ║

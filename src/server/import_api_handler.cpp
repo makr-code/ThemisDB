@@ -3,20 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            import_api_handler.cpp                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:14                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:18:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     342                                            ║
+    • Quality Score:   96.0/100                                       ║
+    • Total Lines:     551                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 8452353dc  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
+    • a2a0e15fa  2026-03-11  Changes before error encountered         ║
+    • e4aae2a7f  2026-03-11  feat(importers): PostgreSQL Importer v2.0 - FK preservati... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • d88671344  2026-02-28  feat(importers): implement web-based import wizard at GET... ║
-    • 47845c7e2  2026-02-27  audit: add S3 HTTP route, fix stub annotations, add API t... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -58,6 +60,12 @@ void ImportApiHandler::registerRoutes(httplib::Server& server) {
     server.Post("/api/v1/import/postgresql",
         [this](const httplib::Request& req, httplib::Response& res) {
             handleStartImport(req, res);
+        });
+
+    // POST /api/v1/import/mysql – start async MySQL/MariaDB dump import
+    server.Post("/api/v1/import/mysql",
+        [this](const httplib::Request& req, httplib::Response& res) {
+            handleStartMySQLImport(req, res);
         });
 
     // POST /api/v1/import/s3 – start async S3 object-storage import
@@ -146,6 +154,59 @@ void ImportApiHandler::handleStartImport(const httplib::Request& req,
     THEMIS_INFO("ImportApiHandler: async import requested for '{}'", source_path);
 
     auto handle = importer_->importDataAsync(source_path, opts);
+    registry_->add(handle);
+
+    jsonOk(res, handle->toJson());
+}
+
+void ImportApiHandler::handleStartMySQLImport(const httplib::Request& req,
+                                               httplib::Response& res) {
+    auto span = Tracer::startSpan("handleStartMySQLImport");
+
+    // Resolve the MySQL importer plugin from the process-wide registry.
+    // MySQLImporterSchemePlugin registers itself via REGISTER_IMPORTER_PLUGIN
+    // at static-init time in mysql_importer.cpp.
+    auto* plugin = IImporterPluginRegistry::instance().resolve("mysql://host");
+    if (!plugin) {
+        jsonError(res, 501,
+                  "MySQL importer plugin is not registered on this server instance");
+        return;
+    }
+
+    json body;
+    try {
+        body = parseRequestBody(req.body);
+    } catch (const std::exception& e) {
+        jsonError(res, 400, std::string("Invalid JSON body: ") + e.what());
+        return;
+    }
+
+    if (!body.contains("source_path") || !body["source_path"].is_string()) {
+        jsonError(res, 400, "Missing required field: source_path");
+        return;
+    }
+    const std::string source_path = body["source_path"].get<std::string>();
+
+    ImportOptions opts;
+    if (body.contains("options") && body["options"].is_object()) {
+        opts = optionsFromJson(body["options"]);
+    }
+
+    // Build ImportConfig for the plugin (passes any JSON config from options).
+    ImportConfig cfg;
+    cfg.source_uri  = source_path;
+    cfg.json_config = body.contains("config") && body["config"].is_string()
+                      ? body["config"].get<std::string>() : "{}";
+
+    auto importer = plugin->createImporter(cfg);
+    if (!importer) {
+        jsonError(res, 500, "Failed to create MySQL importer instance");
+        return;
+    }
+
+    THEMIS_INFO("ImportApiHandler: async MySQL import requested for '{}'", source_path);
+
+    auto handle = importer->importDataAsync(source_path, opts);
     registry_->add(handle);
 
     jsonOk(res, handle->toJson());

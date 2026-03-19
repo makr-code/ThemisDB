@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_huggingface_hub_client.cpp                    ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-11                                         ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:20:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     230                                            ║
+    • Total Lines:     849                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 43a91f179  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
+    • 8452353dc  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
+    • edcfeb984  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
+    • c64ea5aac  2026-03-11  feat(exporters): add hf_token_kek_id for KEK/KMS-protecte... ║
+    • 07dbc3052  2026-03-11  feat(exporters): add memory-streaming upload API for Hugg... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -24,6 +31,7 @@
 #include "governance/policy_engine.h"
 #include "security/key_provider.h"
 #include "utils/audit_logger.h"
+#include "exporters/exporter_metrics.h"
 
 #include <filesystem>
 #include <fstream>
@@ -846,4 +854,71 @@ TEST(HuggingFaceHubClientTest, MemoryShardSpecHoldsDataCorrectly) {
     EXPECT_EQ(shard.relative_path, "data/train-00000-of-00001.jsonl");
     EXPECT_EQ(shard.content.size(), jsonl.size());
     EXPECT_EQ(std::string(shard.content.begin(), shard.content.end()), jsonl);
+}
+
+// ── HTTP 429 / ExporterMetrics rate-limit integration ─────────────────────────
+
+// ExporterMetrics: recordRateLimitHit increments counter.
+TEST(HuggingFaceHubClientTest, ExporterMetrics_RecordRateLimitHit_IncrementsCounter) {
+    ExporterMetrics m;
+    EXPECT_EQ(m.getRateLimitHits(), 0u);
+    m.recordRateLimitHit();
+    EXPECT_EQ(m.getRateLimitHits(), 1u);
+    m.recordRateLimitHit();
+    m.recordRateLimitHit();
+    EXPECT_EQ(m.getRateLimitHits(), 3u);
+}
+
+// ExporterMetrics: reset() clears rate_limit_hits.
+TEST(HuggingFaceHubClientTest, ExporterMetrics_Reset_ClearsRateLimitHits) {
+    ExporterMetrics m;
+    m.recordRateLimitHit();
+    m.recordRateLimitHit();
+    ASSERT_EQ(m.getRateLimitHits(), 2u);
+    m.reset();
+    EXPECT_EQ(m.getRateLimitHits(), 0u);
+}
+
+// ExporterMetrics: toJson includes the rate_limit_hit key.
+TEST(HuggingFaceHubClientTest, ExporterMetrics_ToJson_ContainsRateLimitHitKey) {
+    ExporterMetrics m;
+    m.recordRateLimitHit();
+    const auto j = m.toJson();
+    ASSERT_TRUE(j.contains("exporters.huggingface.rate_limit_hit"))
+        << "toJson() must contain 'exporters.huggingface.rate_limit_hit'";
+    EXPECT_EQ(j["exporters.huggingface.rate_limit_hit"].get<size_t>(), 1u);
+}
+
+// HubUploadConfig: metrics field can be set and accessed.
+TEST(HuggingFaceHubClientTest, HubUploadConfig_MetricsFieldRoundtrip) {
+    auto metrics = std::make_shared<ExporterMetrics>();
+    HubUploadConfig cfg;
+    cfg.repo_id  = "org/repo";
+    cfg.hf_token = "tok";
+    cfg.metrics  = metrics;
+
+    // Construct client to confirm config field is accepted.
+    HuggingFaceHubClient client(cfg);
+    // Record a hit directly on the metrics object.
+    metrics->recordRateLimitHit();
+    EXPECT_EQ(metrics->getRateLimitHits(), 1u);
+}
+
+// When no HF token is configured, upload fails without touching metrics.
+TEST(HuggingFaceHubClientTest, RateLimit_MetricsNotIncrementedOnAuthFailure) {
+    HfTokenGuard guard(nullptr);  // ensure HF_TOKEN is unset
+    auto metrics = std::make_shared<ExporterMetrics>();
+
+    HubUploadConfig cfg;
+    cfg.repo_id  = "org/repo";
+    cfg.hf_token = "";
+    cfg.metrics  = metrics;
+    HuggingFaceHubClient client(cfg);
+
+    const std::string dir = makeDatasetDir();
+    const auto result = client.uploadDataset(dir);
+    EXPECT_FALSE(result.success);
+    // No HTTP calls were made (failed at token validation), so no rate-limit hits.
+    EXPECT_EQ(metrics->getRateLimitHits(), 0u);
+    fs::remove_all(dir);
 }

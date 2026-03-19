@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_distributed_analytics.cpp                     ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:01:00                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:20:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     656                                            ║
+    • Total Lines:     657                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -40,10 +40,14 @@
 #include "analytics/distributed_analytics.h"
 #include "analytics/olap.h"
 
+#include <atomic>
+#include <chrono>
 #include <cmath>
+#include <future>
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <thread>
 #include <vector>
 
 // ============================================================================
@@ -654,4 +658,147 @@ TEST(LocalShardExecutorTest, RoundTrip) {
     // Should not throw
     OLAPResult r = exec.execute("shard_test", q);
     EXPECT_TRUE(r.columns.empty() || !r.columns.empty()); // any result is fine
+}
+
+// ============================================================================
+// Cached health path (background monitor)
+// ============================================================================
+
+TEST(DistributedAnalyticsShardingTest, CachedHealthyShardCount) {
+    // Disable background monitor so we can control cached_healthy manually.
+    DistributedAnalyticsSharding::Config cfg;
+    cfg.health_check_interval = std::chrono::milliseconds{0};
+    DistributedAnalyticsSharding das(cfg);
+
+    class HealthyExec : public ShardQueryExecutor {
+    public:
+        OLAPResult execute(const std::string&, const OLAPQuery&) override { return {}; }
+        bool isHealthy() const override { return true; }
+    };
+    class UnhealthyExec : public ShardQueryExecutor {
+    public:
+        OLAPResult execute(const std::string&, const OLAPQuery&) override { return {}; }
+        bool isHealthy() const override { return false; }
+    };
+
+    das.addShard("h1", std::make_shared<HealthyExec>());
+    das.addShard("h2", std::make_shared<HealthyExec>());
+    das.addShard("u1", std::make_shared<UnhealthyExec>());
+
+    // Shards are initialised with cached_healthy=true; monitor is disabled,
+    // so the cached value is never updated — all three report healthy initially.
+    EXPECT_EQ(das.getHealthyShardCount(), 3u);
+}
+
+// ============================================================================
+// getHealthyShardCountAsync – live health path
+// ============================================================================
+
+TEST(DistributedAnalyticsShardingTest, GetHealthyShardCountAsync) {
+    DistributedAnalyticsSharding::Config cfg;
+    cfg.health_check_interval = std::chrono::milliseconds{0}; // disable monitor
+    DistributedAnalyticsSharding das(cfg);
+
+    class HealthyExec : public ShardQueryExecutor {
+    public:
+        OLAPResult execute(const std::string&, const OLAPQuery&) override { return {}; }
+        bool isHealthy() const override { return true; }
+    };
+    class UnhealthyExec : public ShardQueryExecutor {
+    public:
+        OLAPResult execute(const std::string&, const OLAPQuery&) override { return {}; }
+        bool isHealthy() const override { return false; }
+    };
+
+    das.addShard("h1", std::make_shared<HealthyExec>());
+    das.addShard("h2", std::make_shared<HealthyExec>());
+    das.addShard("u1", std::make_shared<UnhealthyExec>());
+
+    // Async path performs live isHealthy() calls — returns 2 (not 3).
+    std::future<size_t> f = das.getHealthyShardCountAsync();
+    EXPECT_EQ(f.get(), 2u);
+}
+
+// ============================================================================
+// Background monitor updates cached_healthy
+// ============================================================================
+
+TEST(DistributedAnalyticsShardingTest, BackgroundMonitorUpdatesCachedHealth) {
+    // Run monitor every 100 ms so the test stays fast.
+    DistributedAnalyticsSharding::Config cfg;
+    cfg.health_check_interval = std::chrono::milliseconds{100};
+    DistributedAnalyticsSharding das(cfg);
+
+    // Executor whose health can be toggled at runtime.
+    class ToggleExec : public ShardQueryExecutor {
+    public:
+        std::atomic<bool> healthy{true};
+        OLAPResult execute(const std::string&, const OLAPQuery&) override { return {}; }
+        bool isHealthy() const override {
+            return healthy.load(std::memory_order_relaxed);
+        }
+    };
+
+    auto exec = std::make_shared<ToggleExec>();
+    das.addShard("toggle", exec);
+
+    // Initially cached_healthy=true (optimistic default).
+    EXPECT_EQ(das.getHealthyShardCount(), 1u);
+
+    // Mark executor unhealthy and wait for at least two monitor cycles.
+    exec->healthy.store(false, std::memory_order_relaxed);
+    std::this_thread::sleep_for(std::chrono::milliseconds{350});
+
+    // The background monitor should have refreshed the cached value.
+    EXPECT_EQ(das.getHealthyShardCount(), 0u);
+
+    // Re-enable and wait for another monitor cycle.
+    exec->healthy.store(true, std::memory_order_relaxed);
+    std::this_thread::sleep_for(std::chrono::milliseconds{250});
+    EXPECT_EQ(das.getHealthyShardCount(), 1u);
+}
+
+// ============================================================================
+// addShard does not block during a slow health check (lock contention test)
+// ============================================================================
+
+TEST(DistributedAnalyticsShardingTest, AddShardDoesNotBlockDuringHealthCheck) {
+    // Run monitor every 100 ms so it quickly kicks off a health sweep.
+    DistributedAnalyticsSharding::Config cfg;
+    cfg.health_check_interval = std::chrono::milliseconds{100};
+    DistributedAnalyticsSharding das(cfg);
+
+    // Executor whose isHealthy() simulates a slow network ping (500 ms).
+    class SlowHealthExec : public ShardQueryExecutor {
+    public:
+        OLAPResult execute(const std::string&, const OLAPQuery&) override { return {}; }
+        bool isHealthy() const override {
+            std::this_thread::sleep_for(std::chrono::milliseconds{500});
+            return true;
+        }
+    };
+    class NullExec : public ShardQueryExecutor {
+    public:
+        OLAPResult execute(const std::string&, const OLAPQuery&) override { return {}; }
+    };
+
+    das.addShard("slow", std::make_shared<SlowHealthExec>());
+
+    // Wait long enough for the monitor to start its first sweep (> 100 ms
+    // interval) but within the 500 ms window that isHealthy() is running.
+    std::this_thread::sleep_for(std::chrono::milliseconds{200});
+
+    // addShard() must complete quickly — the monitor holds only its own
+    // health_monitor_mutex_, NOT the main mutex_.
+    auto t0 = std::chrono::steady_clock::now();
+    das.addShard("fast", std::make_shared<NullExec>());
+    auto t1 = std::chrono::steady_clock::now();
+
+    double elapsed_ms =
+        std::chrono::duration<double, std::milli>(t1 - t0).count();
+
+    // Generous threshold (50 ms) to absorb CI scheduling jitter;
+    // the old code would block for ~300 ms (remainder of the 500 ms check).
+    EXPECT_LT(elapsed_ms, 50.0)
+        << "addShard() was blocked during health check for " << elapsed_ms << " ms";
 }

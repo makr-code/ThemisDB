@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            error_registry.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:05                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:11:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     296                                            ║
+    • Total Lines:     299                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 3db37eb45  2026-03-10  feat(exporters): implement EXP-001 PolicyEngine auth, EXP... ║
+    • ab3b22a88  2026-03-09  feat(query): implement query cancellation via request ID ... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 18598257e  2026-03-01  feat(plugins): add OciRegistryClient and loadPluginFromOc... ║
     • f0de4a6e8  2026-02-22  feat(plugins): implement hot-reload with state preservati... ║
-    • e558cffaa  2026-02-22  feat(timeseries): out-of-order write support with configu... ║
-    • 45ed81ca1  2026-02-22  Add dedicated plugin dependency error codes and update RO... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -215,7 +215,11 @@ enum class ErrorCode {
     ERR_EXPORT_FORMAT_INVALID = 9308,
     ERR_EXPORT_CONFIG_INVALID = 9309,
     ERR_EXPORT_POLICY_DENIED  = 9310,  ///< PolicyEngine::checkExportPermission() denied the request
-    
+    ERR_EXPORT_JOIN_COLLECTION_NOT_FOUND = 9311,  ///< Left or right collection not found
+    ERR_EXPORT_JOIN_PREDICATE_INVALID    = 9312,  ///< Join predicate could not be parsed
+    ERR_EXPORT_JOIN_AMBIGUOUS_FIELD      = 9313,  ///< Field present in both collections without alias
+    ERR_EXPORT_JOIN_MEMORY_LIMIT         = 9314,  ///< Right-side hash table exceeded memory budget
+
     // Unknown
     ERR_UNKNOWN = 9999
 };

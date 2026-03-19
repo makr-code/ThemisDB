@@ -41,6 +41,19 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
   - Overload state logged once on entry ("Backpressure: connection limit reached")
   - Recovery state logged once when active count drops below `max_connections`
   - Focused unit tests in `tests/test_wire_protocol_backpressure.cpp` (`WireProtocolBackpressureFocusedTests`)
+- [x] Bandwidth Management and QoS (Issue: #190, v1.8.0)
+  - `LeakyBucket` class: constant-rate traffic shaper (capacity + drain rate, overflow detection)
+  - `CongestionController` class: AIMD (slow-start + additive-increase/multiplicative-decrease), SRTT estimation
+  - `QoSManager::Config` extended: `max_bandwidth_mbps`, `per_connection_limit_mbps`, `enable_priority_queuing`, `starvation_guard_threshold`
+  - Snake-case API: `set_priority()`, `set_bandwidth_limit()`, `set_token_bucket()`
+  - Leaky bucket integration: `setLeakyBucket()` / `clearLeakyBucket()`; `allowSend()` enforces conformance
+  - Priority queue scheduling: `enqueueSend()` / `dequeueForSend()` / `getPendingQueueDepth()`
+  - Fair-queuing starvation guard: forces lower-priority service after `starvation_guard_threshold` high-priority dequeues
+  - Congestion control integration: `recordAck()` / `recordLoss()` / `getCongestionWindow()`; `allowSend()` gates on cwnd
+  - Linux tc integration: `configureTc(TcConfig)` sets up HTB qdisc; interface-name injection prevention
+  - `ConnectionStats` extended: `congestion_window`, `congestion_ssthresh`, `smoothed_rtt_us`
+  - Focused unit tests in `tests/test_bandwidth_management_qos.cpp` (`BandwidthManagementQoSFocusedTests`, 41 tests)
+  - CI: `.github/workflows/bandwidth-management-qos-ci.yml`
 
 ## In Progress 🚧
 - [x] UDP-based fast-path for read-only queries (Target: Q3 2026) (Issue: #1962) (PR: #3098)
@@ -141,6 +154,7 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [x] Focused standalone test targets added for network components in `tests/CMakeLists.txt` (2026-03-10):
   - `WireProtocolV1HandlersFocusedTests` (`test_wire_protocol_v1_handlers.cpp`) — Config defaults, auth decision logic, response contracts
   - `QoSManagerFocusedTests`, `NetworkTimeoutFocusedTests`, `WireProtocolConnectionPoolFocusedTests`
+  - `BandwidthManagementQoSFocusedTests` (`test_bandwidth_management_qos.cpp`, 2026-03-15) — LeakyBucket, CongestionController, priority queuing, fair queuing, Linux tc
   - `WireProtocolPerformanceFocusedTests`, `UDPFastPathFocusedTests`, `GeoTopologyRouterFocusedTests`
   - `WireProtocolV2FocusedTests`, `WireProtocolWebSocketFocusedTests` (THEMIS_ENABLE_WEBSOCKET)
   - `QuicTransportFocusedTests` (THEMIS_ENABLE_HTTP3), `GrpcTransportFocusedTests` (THEMIS_ENABLE_GRPC)

@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_audit_log.cpp                               ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:57:46                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:14:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     83                                             ║
+    • Total Lines:     84                                             ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -27,18 +27,15 @@ namespace themis {
 namespace config {
 
 void ConfigAuditLog::enable() {
-    std::lock_guard<std::mutex> lock(mutex_);
-    enabled_ = true;
+    enabled_.store(true, std::memory_order_relaxed);
 }
 
 void ConfigAuditLog::disable() {
-    std::lock_guard<std::mutex> lock(mutex_);
-    enabled_ = false;
+    enabled_.store(false, std::memory_order_relaxed);
 }
 
 bool ConfigAuditLog::isEnabled() const {
-    std::lock_guard<std::mutex> lock(mutex_);
-    return enabled_;
+    return enabled_.load(std::memory_order_relaxed);
 }
 
 void ConfigAuditLog::setMaxEntries(std::size_t max) {
@@ -55,10 +52,11 @@ std::size_t ConfigAuditLog::maxEntries() const {
 }
 
 void ConfigAuditLog::record(AuditEntry entry) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    if (!enabled_) {
+    // Fast path: single atomic load avoids mutex acquisition when disabled.
+    if (!enabled_.load(std::memory_order_relaxed)) {
         return;
     }
+    std::lock_guard<std::mutex> lock(mutex_);
     entries_.push_back(std::move(entry));
     while (entries_.size() > max_entries_) {
         entries_.pop_front();

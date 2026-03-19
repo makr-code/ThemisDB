@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            async_inference_engine.cpp                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:51                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:16:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   89.0/100                                       ║
-    • Total Lines:     877                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+    • Quality Score:   91.0/100                                       ║
+    • Total Lines:     921                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 334ca1434  2026-03-11  fix: selectAdapterForRequest traffic routing; DocsAssista... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • d0fa9e609  2026-02-28  feat(llm): implement prompt injection mitigation and secu... ║
     • 2a2c0cc88  2026-02-28  fix(llm): propagate per-request timeouts to caller's futu... ║
     • 5626526f4  2026-02-28  feat(llm): add tokens/sec and latency p99 performance ben... ║
-    • 4987f75d3  2026-02-26  feat(llm): implement model hot-swap without engine restart ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -352,6 +352,134 @@ std::string AsyncInferenceEngine::submitAsync(
     return async_req->request_id;
 }
 
+InferenceHandle AsyncInferenceEngine::submitStreaming(
+    const InferenceRequest&   request,
+    TokenCallback             callback,
+    int                       priority,
+    std::chrono::milliseconds timeout
+) {
+    auto submit_time = std::chrono::steady_clock::now();
+
+    auto async_req          = std::make_shared<AsyncInferenceRequest>();
+    async_req->request      = request;
+    async_req->priority     = priority;
+    async_req->request_id   = generateRequestId();
+
+    if (timeout.count() > 0) {
+        async_req->deadline = submit_time + timeout;
+    }
+
+    // Wrap the TokenCallback so each decoded token is delivered with
+    // is_final=false, and the final sentinel (is_final=true, empty token)
+    // is fired exactly once regardless of whether the stream ends normally
+    // or via cancellation.
+    auto fired_final    = std::make_shared<std::atomic<bool>>(false);
+    auto cancel_token   = async_req->cancel_token;    // shared ownership
+    auto cb             = std::make_shared<TokenCallback>(std::move(callback));
+
+    async_req->request.stream_callback =
+        [cb, cancel_token, fired_final](const std::string& token) {
+            if (cancel_token->load(std::memory_order_acquire)) {
+                // Cancellation detected: fire the final sentinel once.
+                bool expected = false;
+                if (fired_final->compare_exchange_strong(
+                        expected, true, std::memory_order_acq_rel)) {
+                    (*cb)(std::string_view{}, /*is_final=*/true);
+                }
+                return;
+            }
+            (*cb)(std::string_view{token}, /*is_final=*/false);
+        };
+
+    // Completion callback: fires the final sentinel after all tokens have
+    // been delivered (covers the non-cancelled path).
+    async_req->callback =
+        [cb, fired_final](const InferenceResponse&) {
+            bool expected = false;
+            if (fired_final->compare_exchange_strong(
+                    expected, true, std::memory_order_acq_rel)) {
+                (*cb)(std::string_view{}, /*is_final=*/true);
+            }
+        };
+
+    // Track for cancellation / timeout monitoring.
+    {
+        std::lock_guard<std::mutex> tracking_lock(tracking_mutex_);
+        active_requests_[async_req->request_id] = async_req;
+    }
+
+    std::shared_future<InferenceResponse> future;
+
+    if (shared_pool_) {
+        auto promise          = std::make_shared<std::promise<InferenceResponse>>();
+        async_req->shared_promise = promise;
+        future = promise->get_future().share();
+
+        bool queued = shared_pool_->submit(
+            [this, async_req, promise, submit_time]() {
+                if (async_req->cancel_token->load(std::memory_order_acquire)) {
+                    if (async_req->callback) {
+                        async_req->callback(InferenceResponse{});
+                    }
+                    try {
+                        promise->set_exception(std::make_exception_ptr(
+                            std::runtime_error("Request cancelled")));
+                    } catch (...) {}
+                    std::lock_guard<std::mutex> lock(tracking_mutex_);
+                    active_requests_.erase(async_req->request_id);
+                    return;
+                }
+                try {
+                    auto response = processRequest(*async_req, submit_time);
+                    stats_.total_completed++;
+                    if (async_req->callback) async_req->callback(response);
+                    try { promise->set_value(response); } catch (...) {}
+                } catch (...) {
+                    try { promise->set_exception(std::current_exception()); } catch (...) {}
+                }
+                std::lock_guard<std::mutex> lock(tracking_mutex_);
+                active_requests_.erase(async_req->request_id);
+            },
+            priority
+        );
+
+        if (!queued) {
+            stats_.total_rejected++;
+            std::lock_guard<std::mutex> lock(tracking_mutex_);
+            active_requests_.erase(async_req->request_id);
+            throw std::runtime_error("SharedWorkerPool queue full, streaming request rejected");
+        }
+        stats_.total_submitted++;
+    } else {
+        auto local_promise        = std::make_shared<std::promise<InferenceResponse>>();
+        async_req->shared_promise = local_promise;
+        future = local_promise->get_future().share();
+
+        std::unique_lock<std::mutex> lock(queue_mutex_);
+        if (request_queue_.size() >= config_.max_queue_size) {
+            if (!handleBackpressure(lock)) {
+                stats_.total_rejected++;
+                std::lock_guard<std::mutex> tl(tracking_mutex_);
+                active_requests_.erase(async_req->request_id);
+                throw std::runtime_error("Request queue full, streaming request rejected");
+            }
+        }
+
+        RequestQueueItem item;
+        item.request = async_req;
+        item.promise = std::move(local_promise);
+        request_queue_.push_back(std::move(item));
+        std::push_heap(request_queue_.begin(), request_queue_.end());
+        stats_.total_submitted++;
+        queue_cv_.notify_one();
+    }
+
+    spdlog::debug("Submitted streaming inference request {} (priority={}, via_pool={})",
+                  async_req->request_id, priority, (shared_pool_ != nullptr));
+
+    return InferenceHandle(async_req->request_id, future, async_req->cancel_token);
+}
+
 InferenceHandle AsyncInferenceEngine::submitRAG(
     const RAGContext& rag_context,
     const InferenceRequest& request,
@@ -576,6 +704,13 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
             spdlog::debug("Skipping cancelled request: {}", 
                          item.request->request_id);
             
+            // Fire the completion callback so that streaming requests
+            // receive the is_final=true sentinel even when the request is
+            // cancelled while still queued (never dispatched to a plugin).
+            if (item.request->callback) {
+                try { item.request->callback(InferenceResponse{}); } catch (...) {}
+            }
+
             // Set exception in promise — guard against double-resolve (timeout
             // monitor may have already resolved it).
             if (item.promise) {

@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            distributed_coordinator.cpp                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:26                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:19:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     546                                            ║
+    • Total Lines:     580                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • eed24c44d  2026-03-15  feat: Wire OrphanDetector to DistributedCoordinator trans... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -544,6 +545,37 @@ void DistributedCoordinator::transferLeadership(const std::string& new_leader) {
     // In production: send leadership transfer message to new_leader
     // Then step down
     stepDown();
+}
+
+// Transaction visibility
+
+void DistributedCoordinator::setTransactionCoordinator(
+    themisdb::sharding::CrossShardTransactionCoordinator* txn_coordinator)
+{
+    std::lock_guard<std::shared_mutex> lock(txn_coordinator_mutex_);
+    txn_coordinator_ = txn_coordinator;
+    THEMIS_INFO("DistributedCoordinator: transaction coordinator {}",
+                txn_coordinator ? "registered" : "detached");
+}
+
+std::vector<themisdb::sharding::CrossShardTransaction>
+DistributedCoordinator::listInFlightTransactions() const
+{
+    std::shared_lock<std::shared_mutex> lock(txn_coordinator_mutex_);
+    if (!txn_coordinator_) {
+        return {};
+    }
+    return txn_coordinator_->getActiveTransactions();
+}
+
+std::optional<themisdb::sharding::CrossShardTransaction>
+DistributedCoordinator::getTransaction(const std::string& txn_id) const
+{
+    std::shared_lock<std::shared_mutex> lock(txn_coordinator_mutex_);
+    if (!txn_coordinator_) {
+        return std::nullopt;
+    }
+    return txn_coordinator_->getTransaction(txn_id);
 }
 
 } // namespace themis::sharding

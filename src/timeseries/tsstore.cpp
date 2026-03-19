@@ -3,20 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tsstore.cpp                                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:40                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:19:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     987                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1116                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • fef313e1c  2026-02-22  fix(timeseries): wire up OOO metrics and add missing test... ║
-    • e558cffaa  2026-02-22  feat(timeseries): out-of-order write support with configu... ║
+    • cafa45a9d  2026-03-15  fix(audit): upgrade tsstore decode path to GorillaSIMDDec... ║
+    • d9e68edf7  2026-03-15  fix: address code review - INVALID_INPUT status, test acc... ║
+    • 822b0afce  2026-03-15  feat(timeseries): implement TSStore single-point insert b... ║
+    • c7373858e  2026-03-14  fix(timeseries): address all PR review comments on chunk-... ║
+    • e6b1e7c6d  2026-03-14  refactor(timeseries): address code review feedback on chu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -25,9 +27,11 @@
 #include "timeseries/tsstore.h"
 #include "timeseries/timeseries_metrics.h"
 #include "timeseries/encrypted_chunk_store.h"
+#include "timeseries/ts_auto_buffer.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "timeseries/gorilla.h"
+#include "timeseries/gorilla_simd.h"
 #include "timeseries/query_optimizer.h"
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/transaction.h>
@@ -204,15 +208,27 @@ Result<void> TSStore::putDataPoint(const DataPoint& point) {
         }
     }
     
-    // STORAGE METHOD: Singular RocksDB Entity
-    // Single data points are always stored as individual RocksDB entities,
-    // regardless of the compression configuration.
-    // Key format: ts:{metric}:{entity}:{timestamp_ms}
-    // Value format: JSON with full DataPoint information
-    // 
-    // For Gorilla compression, we'd need to buffer points and flush in chunks.
-    // TODO: Implement buffering strategy for single-point inserts with Gorilla
-    // Use putDataPoints() for batch inserts with Gorilla compression.
+    // STORAGE METHOD: Singular RocksDB Entity (or buffered Gorilla when auto_buffer_ is set)
+    // When a TSAutoBuffer is attached and Gorilla compression is enabled, single-point
+    // inserts are routed through the buffer so they can be Gorilla-encoded in batches
+    // (gorilla_batch_size, default 128).  This resolves the IoT write pattern problem
+    // where individual inserts would otherwise bypass compression entirely.
+    // Falls back to direct RocksDB write when:
+    //   • no auto_buffer_ is configured, or
+    //   • auto_buffer_->push() returns BUFFER_FULL (non-blocking backpressure signal), or
+    //   • compression is not Gorilla.
+    if (config_.compression == CompressionType::Gorilla && auto_buffer_ != nullptr) {
+        auto status = auto_buffer_->push(point);
+        if (status == TSAutoBuffer::PushStatus::OK) {
+            THEMIS_DEBUG("Buffered single-point via TSAutoBuffer: metric={}, entity={}, ts={}",
+                         point.metric, point.entity, point.timestamp_ms);
+            return OkVoid();
+        }
+        // INVALID_INPUT is unreachable here (metric/entity validated above).
+        // BUFFER_FULL: fall through to direct uncompressed write as graceful degradation.
+        THEMIS_WARN("TSAutoBuffer BUFFER_FULL for metric={}, falling back to direct write",
+                    point.metric);
+    }
     
     std::string key = makeKey(point.metric, point.entity, point.timestamp_ms);
     std::string value = point.toJson().dump();
@@ -595,18 +611,21 @@ TSStore::query(const QueryOptions& options) const {
                     raw_data = enc_chunk_store_->decryptChunk(series_id, raw_data, chunk_range);
                 }
 
-                // Decode Gorilla-compressed data
-                GorillaDecoder decoder(raw_data);
+                // Decode Gorilla-compressed data.
+                // Use GorillaSIMDDecoder which dispatches at runtime to the best
+                // available SIMD path (AVX2 on x86-64, NEON on AArch64) and falls
+                // back to the scalar GorillaDecoder on other platforms.
+                GorillaSIMDDecoder decoder(raw_data);
+                std::vector<std::pair<int64_t, double>> chunk_points;
+                chunk_points.reserve(128); // typical gorilla_batch_size
+                decoder.decodeAll(chunk_points);
 
                 // Extract tags/metadata from chunk
                 nlohmann::json tags = chunk_meta.value("tags", nlohmann::json::object());
                 nlohmann::json metadata = chunk_meta.value("metadata", nlohmann::json::object());
                 
-                // Decode all points from chunk
-                while (auto point_opt = decoder.next()) {
-                    auto [timestamp_ms, value] = *point_opt;
-                    
-                    // Check timestamp bounds
+                // Apply time-range filter and tag filter to decoded points
+                for (const auto& [timestamp_ms, value] : chunk_points) {
                     if (timestamp_ms < options.from_timestamp_ms || timestamp_ms > options.to_timestamp_ms) {
                         continue;
                     }

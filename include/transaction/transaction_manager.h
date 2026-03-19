@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            transaction_manager.h                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:58                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:11:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1127                                           ║
+    • Total Lines:     1190                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 7be96cdad  2026-03-14  fix(transaction): address PR review feedback on DeadlockP... ║
+    • 531f9a095  2026-03-13  feat(transaction): implement Adaptive Deadlock Prevention... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 935e2696e  2026-03-01  feat(transaction): implement time-travel queries against ... ║
     • f770f4a5b  2026-02-28  refactor(transaction): address code review feedback ║
-    • 14942b3a7  2026-02-28  feat(transaction): implement per-tenant transaction isola... ║
-    • e7f8e6a5e  2026-02-28  feat(transaction): add OCC performance benchmarks and fix... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -263,12 +263,17 @@ public:
         // ── Serializable Snapshot Isolation (SSI) / Predicate Locking ────────
 
         /**
-         * @brief Track a range predicate read for SERIALIZABLE isolation (SSI).
+         * @brief Acquire a SIREAD (predicate) lock for SERIALIZABLE isolation (SSI).
          *
          * Records that this transaction has read all keys in the closed interval
          * [@p start_key, @p end_key].  Any other SERIALIZABLE transaction that
          * subsequently writes a key inside this range will be detected as a
          * serialization conflict and aborted.
+         *
+         * This is the SIREAD ("Serializable Isolation READ") lock described in
+         * the SSI literature.  Unlike 2PL read locks, SIREAD locks do not block
+         * concurrent writers; conflicts are detected lazily at write time, which
+         * makes this approach better than traditional 2PL for read-heavy workloads.
          *
          * No-op when the isolation level is not SERIALIZABLE.
          *
@@ -1082,6 +1087,86 @@ public:
         std::string_view table,
         std::string_view pk) const;
 
+    // ── Serializable Snapshot Isolation (SSI) configuration ──────────────────
+
+    /**
+     * @brief Tuning parameters for Serializable Snapshot Isolation (SSI).
+     *
+     * These settings control the predicate-lock subsystem used by
+     * SERIALIZABLE transactions.  Adjust them to balance memory usage, false-
+     * positive abort rate, and conflict-detection latency.
+     */
+    struct SSIConfig {
+        /// Enable or disable predicate lock tracking.  When false, SERIALIZABLE
+        /// transactions behave identically to REPEATABLE_READ (snapshot isolation
+        /// only; write-skew anomalies are not detected).
+        bool enable_predicate_locking = true;
+
+        /// Maximum total number of predicate locks that may be held
+        /// simultaneously across all active transactions.  Once the limit is
+        /// reached, new acquirePredicateLock() calls are silently dropped,
+        /// which may increase the false-positive abort rate.
+        size_t max_predicate_locks = 10000;
+
+        /// How often the background conflict-detection sweep (if any) is
+        /// triggered.  Currently informational; no background sweep is
+        /// implemented – conflict detection is performed inline at write time.
+        std::chrono::milliseconds conflict_detection_interval{100};
+    };
+
+    /**
+     * @brief Update the SSI configuration.
+     *
+     * Thread-safe.  New values take effect immediately for all subsequent
+     * predicate-lock operations; existing in-flight locks are unaffected.
+     *
+     * @param config  New SSI tuning parameters.
+     */
+    void setSSIConfig(const SSIConfig& config);
+
+    /**
+     * @brief Return the currently active SSI configuration.
+     */
+    SSIConfig getSSIConfig() const;
+
+    /**
+     * @brief Describes a single read-write or write-write serialization
+     *        conflict detected for a SERIALIZABLE transaction.
+     */
+    struct SerializationConflict {
+        /// The transaction ID of the other transaction involved in the conflict.
+        TransactionId other_txn_id{0};
+
+        /// The storage key that triggered the conflict.
+        std::string key;
+
+        /// Human-readable description of the conflict kind.
+        ///  "read-write"  – this transaction's read range overlaps a write by
+        ///                  @p other_txn_id (phantom / write-skew risk).
+        ///  "write-write" – both transactions wrote the same key concurrently
+        ///                  (lost-update risk).
+        std::string conflict_type;
+
+        /// Human-readable explanation.
+        std::string message;
+    };
+
+    /**
+     * @brief Enumerate predicate-lock conflicts for a SERIALIZABLE transaction.
+     *
+     * Scans every predicate lock held by @p txn_id against the predicate locks
+     * held by all other active SERIALIZABLE transactions and returns one
+     * SerializationConflict entry for each key range that would produce a
+     * serialization failure.
+     *
+     * Returns an empty vector for non-SERIALIZABLE transactions or when
+     * predicate locking is disabled.
+     *
+     * @param txn_id  Transaction to analyse.
+     * @return        List of detected conflicts; empty when none exist.
+     */
+    std::vector<SerializationConflict> detectConflicts(TransactionId txn_id) const;
+
 private:
     RocksDBWrapper& db_;
     SecondaryIndexManager& secIdx_;
@@ -1185,6 +1270,10 @@ private:
     /// Stored atomically so setDeadlockPredictor() can be called concurrently
     /// with predict/recommend helpers without introducing a data race.
     std::atomic<DeadlockPredictor*> deadlock_predictor_{nullptr};
+
+    // SSI configuration – protected by ssi_config_mutex_
+    mutable std::mutex ssi_config_mutex_;
+    SSIConfig ssi_config_;
 };
 
 } // namespace themis

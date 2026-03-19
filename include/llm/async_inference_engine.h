@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            async_inference_engine.h                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:03                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:07:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -204,6 +204,50 @@ public:
         const InferenceRequest& request,
         std::function<void(const InferenceResponse&)> callback,
         int priority = 0,
+        std::chrono::milliseconds timeout = std::chrono::milliseconds(0)
+    );
+
+    /**
+     * @brief Token-streaming callback type.
+     *
+     * Called once per decoded token during streaming inference.  When
+     * @p is_final is true the token string is empty and no further calls
+     * will be made for this request (normal completion or cancellation).
+     *
+     * The callback is invoked from the worker thread; implementations must
+     * be thread-safe.  SSE framing is applied at the HTTP layer – the
+     * engine emits raw token strings.
+     *
+     * @note The @p token view is only valid for the duration of the callback
+     *       invocation.  If the value needs to be retained beyond the callback
+     *       return, copy it into a @c std::string before returning.
+     */
+    using TokenCallback = std::function<void(std::string_view token, bool is_final)>;
+
+    /**
+     * @brief Submit a streaming inference request.
+     *
+     * Submits the request to the worker queue and returns an InferenceHandle
+     * immediately.  The @p callback is invoked from the worker thread for
+     * each generated token (@p is_final == false) and once more with an
+     * empty token string and @p is_final == true when the stream ends
+     * (either on normal completion or on cancellation via
+     * InferenceHandle::cancel()).
+     *
+     * Thread-safety: @p callback must be safe to call from a worker thread
+     * concurrently with the HTTP layer consuming the tokens.
+     *
+     * @param request  Inference request; any existing stream_callback is
+     *                 overwritten by the internal wrapper.
+     * @param callback Per-token callback (see TokenCallback).
+     * @param priority Higher = more urgent (default: 0).
+     * @param timeout  Per-request timeout; zero means no timeout (default: 0).
+     * @return Handle for result retrieval and cancellation.
+     */
+    InferenceHandle submitStreaming(
+        const InferenceRequest& request,
+        TokenCallback           callback,
+        int                     priority = 0,
         std::chrono::milliseconds timeout = std::chrono::milliseconds(0)
     );
     

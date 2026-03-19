@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            async_job_api_handler.cpp                          ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:00:08                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:18:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     464                                            ║
+    • Total Lines:     470                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • a56ed533e  2026-03-11  fix(tracing): remove spans from helper/utility methods (o... ║
+    • a2a0e15fa  2026-03-11  Changes before error encountered         ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • baa1f73a1  2026-02-24  fix(api): code audit fixes for async job API ║
     • e182799cd  2026-02-23  feat(api): async job API for long-running AQL queries ║
@@ -41,12 +43,20 @@
 
 #include "server/async_job_api_handler.h"
 #include "server/auth_middleware.h"
+#include "cache/adaptive_query_cache.h"
 #include "utils/logger.h"
 
 #include <chrono>
+#include <filesystem>
 #include <sstream>
 #include <iomanip>
 #include <stdexcept>
+#ifdef _WIN32
+#include <process.h>
+#define getpid _getpid
+#else
+#include <unistd.h>
+#endif
 #include "utils/tracing.h"
 
 namespace themis {
@@ -168,14 +178,42 @@ void AsyncJobRegistry::prune() {
 // ============================================================================
 
 AsyncJobApiHandler::AsyncJobApiHandler(
-    AqlExecutor                         executor,
-    std::shared_ptr<AuthMiddleware>     auth,
-    std::shared_ptr<AsyncJobRegistry>   registry)
+    AqlExecutor                                        executor,
+    std::shared_ptr<AuthMiddleware>                    auth,
+    std::shared_ptr<AsyncJobRegistry>                  registry,
+    std::shared_ptr<AdaptiveQueryCache>                result_cache)
     : executor_(std::move(executor))
     , auth_(std::move(auth))
     , registry_(registry ? std::move(registry)
                           : std::make_shared<AsyncJobRegistry>())
-{}
+{
+    if (result_cache) {
+        result_cache_ = std::move(result_cache);
+    } else {
+        // Create a dedicated AdaptiveQueryCache with TTL = 1 hour for job results.
+        // All three tier TTLs are set to 3600 s (1 h) per the AC requirement.
+        AdaptiveQueryCache::Config cfg;
+        cfg.l1_ttl_seconds = 3600;   // 1 hour, as required by the AC
+        cfg.l2_ttl_seconds = 3600;
+        cfg.l3_ttl_seconds = 3600;
+        // Use a temp-dir path unique to this process so the L3 RocksDB does not
+        // persist across restarts and parallel test instances do not collide.
+        try {
+            // Combine PID with full steady_clock nanosecond count for uniqueness;
+            // no modulo so the full range is used even when multiple instances
+            // start within the same second.
+            const auto ns = static_cast<unsigned long long>(
+                std::chrono::steady_clock::now().time_since_epoch().count());
+            cfg.l3_db_path = std::filesystem::temp_directory_path().string() +
+                             "/themis_async_jobs_cache_" +
+                             std::to_string(static_cast<long long>(::getpid())) +
+                             "_" + std::to_string(ns);
+            result_cache_ = std::make_shared<AdaptiveQueryCache>(cfg);
+        } catch (const std::exception& ex) {
+            THEMIS_WARN("AsyncJobApiHandler: failed to create result cache: {}", ex.what());
+        }
+    }
+}
 
 AsyncJobApiHandler::~AsyncJobApiHandler() {
     // Give in-flight jobs a short window to complete so background threads
@@ -241,11 +279,12 @@ http::response<http::string_body> AsyncJobApiHandler::makeJsonResponse(
 
 void AsyncJobApiHandler::launchJob(std::shared_ptr<AsyncJobRecord> job) {
     // Capture strong refs so the lambda keeps them alive beyond the handler.
-    auto registry = registry_;
-    auto executor = executor_;
+    auto registry     = registry_;
+    auto executor     = executor_;
+    auto result_cache = result_cache_;
 
     auto fut = std::async(std::launch::async,
-        [job, registry, executor]() mutable {
+        [job, registry, executor, result_cache]() mutable {
             // Transition: PENDING → RUNNING (under per-record lock)
             {
                 std::lock_guard<std::mutex> rlock(job->mu);
@@ -272,7 +311,15 @@ void AsyncJobApiHandler::launchJob(std::shared_ptr<AsyncJobRecord> job) {
                         job->status = AsyncJobStatus::COMPLETED;
                     }
                     job->updated_at = std::chrono::system_clock::now();
-                    final_status = asyncJobStatusToString(job->status);
+                    final_status    = asyncJobStatusToString(job->status);
+                }
+                // Snapshot the job state outside the lock so toJson() does not
+                // re-acquire job->mu (which would self-deadlock).
+                nlohmann::json job_snapshot = job->toJson();
+                // Persist completed/cancelled state in AdaptiveQueryCache (TTL=1h).
+                if (result_cache) {
+                    result_cache->put(job->id, {{"job_id", job->id}}, job_snapshot,
+                                      "async_jobs");
                 }
                 THEMIS_DEBUG("AsyncJob {} finished with status {}", job->id, final_status);
             } catch (const std::exception& ex) {
@@ -284,12 +331,27 @@ void AsyncJobApiHandler::launchJob(std::shared_ptr<AsyncJobRecord> job) {
                     job->updated_at = std::chrono::system_clock::now();
                     final_status    = asyncJobStatusToString(job->status);
                 }
+                // Snapshot outside the lock to avoid re-locking job->mu.
+                nlohmann::json job_snapshot = job->toJson();
+                // Persist failed state in AdaptiveQueryCache (TTL=1h).
+                if (result_cache) {
+                    result_cache->put(job->id, {{"job_id", job->id}}, job_snapshot,
+                                      "async_jobs");
+                }
                 THEMIS_DEBUG("AsyncJob {} finished with status {}", job->id, final_status);
             } catch (...) {
-                std::lock_guard<std::mutex> rlock(job->mu);
-                job->error      = "unknown error during async AQL execution";
-                job->status     = AsyncJobStatus::FAILED;
-                job->updated_at = std::chrono::system_clock::now();
+                {
+                    std::lock_guard<std::mutex> rlock(job->mu);
+                    job->error      = "unknown error during async AQL execution";
+                    job->status     = AsyncJobStatus::FAILED;
+                    job->updated_at = std::chrono::system_clock::now();
+                }
+                // Snapshot outside the lock to avoid re-locking job->mu.
+                nlohmann::json job_snapshot = job->toJson();
+                if (result_cache) {
+                    result_cache->put(job->id, {{"job_id", job->id}}, job_snapshot,
+                                      "async_jobs");
+                }
                 THEMIS_DEBUG("AsyncJob {} finished with status failed", job->id);
             }
         });

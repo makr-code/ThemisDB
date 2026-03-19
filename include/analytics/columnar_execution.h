@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            columnar_execution.h                               ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:52:29                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:05:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     498                                            ║
+    • Total Lines:     499                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -57,6 +57,9 @@
 #include <unordered_map>
 #include <variant>
 #include <vector>
+
+// Arena allocator used by AggregateOperator for GROUP BY scratch memory.
+#include "analytics/detail/memory_pool.h"
 
 namespace themisdb {
 namespace analytics {
@@ -133,6 +136,17 @@ public:
     const std::vector<std::string>& stringData() const noexcept { return string_data_; }
     const std::vector<bool>&        boolData()   const noexcept { return bool_data_;   }
 
+    /** Returns true when at least one null has been appended.
+     *  Use this in SIMD fast-path guards instead of nullBitmap().empty(),
+     *  since null_bitmap_ is always populated regardless of whether any
+     *  row is actually null. */
+    bool                            hasNulls()   const noexcept { return has_nulls_; }
+
+    /** Null bitmap — one entry per row; true == null.
+     *  Always populated (never empty for a non-empty column).
+     *  Call hasNulls() first to check whether any null is present. */
+    const std::vector<bool>&        nullBitmap() const noexcept { return null_bitmap_; }
+
     // Typed append
     void appendInt64(int64_t     value, bool is_null = false);
     void appendDouble(double     value, bool is_null = false);
@@ -160,6 +174,7 @@ private:
     std::vector<std::string> string_data_;
     std::vector<bool>       bool_data_;
     std::vector<bool>       null_bitmap_;   // true == null
+    bool                    has_nulls_ = false;  // true iff at least one null was ever appended
     size_t                  row_count_ = 0;
 };
 
@@ -337,6 +352,12 @@ private:
                                   const std::vector<std::string>& group_cols) const;
 
     std::vector<AggregateSpec> specs_;
+
+    // Per-operator arena allocator.  Mutable so const execute() / aggregateGroupBy()
+    // can call pool_.reset() at the start of each GROUP BY pass — no allocations
+    // escape this class, so the logical const-ness of the operator is preserved.
+    mutable themis::analytics::detail::AnalyticsMemoryPool pool_{
+        4ULL * 1024 * 1024};  // 4 MiB initial (GROUP BY scratch, much smaller than OLAP)
 };
 
 // ============================================================================

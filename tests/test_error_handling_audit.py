@@ -1,27 +1,28 @@
-from __future__ import annotations
-
 """
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_error_handling_audit.py                       ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:03:40                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:24:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     444                                            ║
+    • Total Lines:     447                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 4e8e0763c  2026-03-09  fix: move from __future__ import annotations to top of te... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 67305c306  2026-02-23  feat: add repository-wide error-handling audit tool and C... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
 """
+
+from __future__ import annotations
 
 #!/usr/bin/env python3
 """

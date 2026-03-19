@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_audit_log.h                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:57:46                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:14:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     123                                            ║
+    • Total Lines:     124                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -23,6 +23,7 @@
 
 #pragma once
 
+#include <atomic>
 #include <chrono>
 #include <cstddef>
 #include <deque>
@@ -117,7 +118,11 @@ private:
     mutable std::mutex mutex_;
     std::deque<AuditEntry> entries_;
     std::size_t max_entries_{kDefaultMaxEntries};
-    bool enabled_{false};
+    // Use atomic for the enabled flag so that isEnabled() and the fast-path
+    // check in record() are a single relaxed load with no mutex acquisition.
+    // This satisfies the hot-path overhead target of one atomic-equivalent
+    // load when audit logging is disabled.
+    std::atomic<bool> enabled_{false};
 };
 
 } // namespace config

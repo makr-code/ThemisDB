@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_importer_throughput.cpp                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:51:43                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:03:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     597                                            ║
+    • Quality Score:   82.0/100                                       ║
+    • Total Lines:     1117                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • d3edcb49c  2026-03-15  fix(importers): fix empty tuple_str fallback in test delt... ║
+    • 786e4a8df  2026-03-15  feat(importers): incremental import, MySQL benchmark, Mon... ║
+    • ceb71780f  2026-03-15  audit(importers): add ImportConfig conflict field tests (... ║
+    • 2421634e7  2026-03-13  fix(kafka): rewrite tests to use production KafkaImporter... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c379caa7c  2026-02-28  feat(importers): add GB/hr throughput metric to importer ... ║
-    • 784e73625  2026-02-28  feat(importers): implement MongoDB importer benchmarks an... ║
-    • ede9d25a2  2026-02-26  Audit pass: add plugin manifest, SQLite benchmarks, updat... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

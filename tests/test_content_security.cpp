@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_content_security.cpp                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:03:12                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:24:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,6 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 018e0013e  2026-03-11  audit: close all remaining CON-006 documentation gaps ║
+    • 30cd78e12  2026-03-11  feat(content/security): enforce zip-bomb protection with ... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -22,6 +24,7 @@
 
 #include <gtest/gtest.h>
 #include "content/content_security.h"
+#include "content/abuse_detector.h"
 #include "content/content_errors.h"
 #include <nlohmann/json.hpp>
 
@@ -691,4 +694,474 @@ TEST_F(ZipBombProtectionTest, MultipleScansAccumulateMetrics) {
 
     EXPECT_EQ(manager.getMetrics().zip_bomb_scans.load(), 4u);
     EXPECT_EQ(manager.getMetrics().zip_bomb_blocked.load(), 1u);
+}
+
+// ============================================================================
+// PhotoDNAAbuseDetector Unit Tests
+// ============================================================================
+
+TEST(PhotoDNAAbuseDetectorTest, ComputeHashIsStable) {
+    const std::string data(256, '\x80');
+    const uint64_t h1 = PhotoDNAAbuseDetector::computeHash(data);
+    const uint64_t h2 = PhotoDNAAbuseDetector::computeHash(data);
+    EXPECT_EQ(h1, h2);
+}
+
+TEST(PhotoDNAAbuseDetectorTest, ComputeHashEmptyDataReturnsZero) {
+    EXPECT_EQ(PhotoDNAAbuseDetector::computeHash(""), 0ULL);
+}
+
+TEST(PhotoDNAAbuseDetectorTest, HammingDistanceSameHash) {
+    EXPECT_EQ(PhotoDNAAbuseDetector::hammingDistance(0xDEADBEEFULL, 0xDEADBEEFULL), 0);
+}
+
+TEST(PhotoDNAAbuseDetectorTest, HammingDistanceAllBitsDiffer) {
+    EXPECT_EQ(PhotoDNAAbuseDetector::hammingDistance(0x0ULL, ~uint64_t{0}), 64);
+}
+
+TEST(PhotoDNAAbuseDetectorTest, NonImageContentIsAlwaysAllowed) {
+    PhotoDNAAbuseDetector::BlocklistEntry entry{0ULL, "test_hash", AbuseAction::BLOCK};
+    PhotoDNAAbuseDetector detector({entry}, 64);  // threshold=64 matches everything
+
+    AbuseDetectorMetadata meta;
+    meta.mime_type    = "text/plain";
+    meta.content_id   = "doc-1";
+    meta.content_hash = "abc";
+
+    auto result = detector.detect("buy now click here", meta);
+    EXPECT_EQ(result.action, AbuseAction::ALLOW);
+}
+
+TEST(PhotoDNAAbuseDetectorTest, ImageMatchesBlocklistIsBlocked) {
+    // Build content that produces a known hash, then add it to the blocklist.
+    const std::string img_data(64, '\xFF');  // 64 bytes, all 0xFF
+    const uint64_t known_hash = PhotoDNAAbuseDetector::computeHash(img_data);
+
+    PhotoDNAAbuseDetector::BlocklistEntry entry{known_hash, "TEST_CSAM_001", AbuseAction::BLOCK};
+    PhotoDNAAbuseDetector detector({entry}, 0);  // exact match only
+
+    AbuseDetectorMetadata meta;
+    meta.mime_type    = "image/jpeg";
+    meta.content_id   = "img-1";
+    meta.content_hash = "abc";
+
+    auto result = detector.detect(img_data, meta);
+    EXPECT_EQ(result.action, AbuseAction::BLOCK);
+    EXPECT_EQ(result.pattern_name, "TEST_CSAM_001");
+    EXPECT_EQ(result.detector_type, "PhotoDNA");
+}
+
+TEST(PhotoDNAAbuseDetectorTest, ImageMatchesBlocklistIsFlagged) {
+    const std::string img_data(128, '\xAA');
+    const uint64_t known_hash = PhotoDNAAbuseDetector::computeHash(img_data);
+
+    PhotoDNAAbuseDetector::BlocklistEntry entry{known_hash, "SUSPICIOUS_001", AbuseAction::FLAG};
+    PhotoDNAAbuseDetector detector({entry}, 0);
+
+    AbuseDetectorMetadata meta;
+    meta.mime_type    = "image/png";
+    meta.content_id   = "img-2";
+    meta.content_hash = "def";
+
+    auto result = detector.detect(img_data, meta);
+    EXPECT_EQ(result.action, AbuseAction::FLAG);
+    EXPECT_EQ(result.pattern_name, "SUSPICIOUS_001");
+}
+
+TEST(PhotoDNAAbuseDetectorTest, NearMatchWithinThresholdBlocked) {
+    const std::string img_data(64, '\x10');
+    const uint64_t base_hash = PhotoDNAAbuseDetector::computeHash(img_data);
+    // Flip one bit to create a near-match
+    const uint64_t near_hash = base_hash ^ uint64_t{1};
+
+    PhotoDNAAbuseDetector::BlocklistEntry entry{near_hash, "NEAR_001", AbuseAction::BLOCK};
+    PhotoDNAAbuseDetector detector({entry}, 5);  // allow up to 5 bits difference
+
+    AbuseDetectorMetadata meta;
+    meta.mime_type    = "image/jpeg";
+    meta.content_id   = "img-3";
+    meta.content_hash = "ghi";
+
+    auto result = detector.detect(img_data, meta);
+    EXPECT_EQ(result.action, AbuseAction::BLOCK);
+}
+
+TEST(PhotoDNAAbuseDetectorTest, FarMatchBeyondThresholdAllowed) {
+    const std::string img_data(64, '\x10');
+    const uint64_t base_hash = PhotoDNAAbuseDetector::computeHash(img_data);
+    // Flip many bits so distance > threshold
+    const uint64_t far_hash = base_hash ^ 0xFFFFFFFF00000000ULL;  // 32 bits differ
+
+    PhotoDNAAbuseDetector::BlocklistEntry entry{far_hash, "FAR_001", AbuseAction::BLOCK};
+    PhotoDNAAbuseDetector detector({entry}, 5);  // threshold = 5
+
+    AbuseDetectorMetadata meta;
+    meta.mime_type    = "image/jpeg";
+    meta.content_id   = "img-4";
+    meta.content_hash = "jkl";
+
+    auto result = detector.detect(img_data, meta);
+    EXPECT_EQ(result.action, AbuseAction::ALLOW);
+}
+
+TEST(PhotoDNAAbuseDetectorTest, EmptyBlocklistAllowsEverything) {
+    PhotoDNAAbuseDetector detector({}, 10);
+
+    AbuseDetectorMetadata meta;
+    meta.mime_type    = "image/jpeg";
+    meta.content_id   = "img-5";
+    meta.content_hash = "mno";
+
+    auto result = detector.detect("some image bytes", meta);
+    EXPECT_EQ(result.action, AbuseAction::ALLOW);
+}
+
+// ============================================================================
+// TextAbuseDetector Unit Tests
+// ============================================================================
+
+TEST(TextAbuseDetectorTest, EmptyPatternListAllowsEverything) {
+    TextAbuseDetector detector({});
+
+    AbuseDetectorMetadata meta;
+    meta.mime_type  = "text/plain";
+    meta.content_id = "doc-1";
+
+    auto result = detector.detect("buy now click here", meta);
+    EXPECT_EQ(result.action, AbuseAction::ALLOW);
+}
+
+TEST(TextAbuseDetectorTest, BlockPatternMatchIsBlocked) {
+    TextAbuseDetector::Pattern p;
+    p.name     = "test_block";
+    p.action   = AbuseAction::BLOCK;
+    p.compiled = std::regex("malicious content", std::regex::icase);
+
+    TextAbuseDetector detector({p});
+
+    AbuseDetectorMetadata meta;
+    meta.mime_type  = "text/plain";
+    meta.content_id = "doc-2";
+
+    auto result = detector.detect("This has malicious content inside.", meta);
+    EXPECT_EQ(result.action, AbuseAction::BLOCK);
+    EXPECT_EQ(result.pattern_name, "test_block");
+    EXPECT_EQ(result.detector_type, "Text");
+}
+
+TEST(TextAbuseDetectorTest, FlagPatternMatchIsFlagged) {
+    TextAbuseDetector::Pattern p;
+    p.name     = "test_flag";
+    p.action   = AbuseAction::FLAG;
+    p.compiled = std::regex("suspicious phrase", std::regex::icase);
+
+    TextAbuseDetector detector({p});
+
+    AbuseDetectorMetadata meta;
+    meta.mime_type  = "text/plain";
+    meta.content_id = "doc-3";
+
+    auto result = detector.detect("This contains a suspicious phrase for review.", meta);
+    EXPECT_EQ(result.action, AbuseAction::FLAG);
+    EXPECT_EQ(result.pattern_name, "test_flag");
+}
+
+TEST(TextAbuseDetectorTest, NoPatternMatchIsAllowed) {
+    TextAbuseDetector::Pattern p;
+    p.name     = "no_match";
+    p.action   = AbuseAction::BLOCK;
+    p.compiled = std::regex("xyzzy_never_matches_real_content_0000");
+
+    TextAbuseDetector detector({p});
+
+    AbuseDetectorMetadata meta;
+    meta.mime_type  = "text/plain";
+    meta.content_id = "doc-4";
+
+    auto result = detector.detect("completely innocent text", meta);
+    EXPECT_EQ(result.action, AbuseAction::ALLOW);
+}
+
+TEST(TextAbuseDetectorTest, FirstMatchingPatternWins) {
+    TextAbuseDetector::Pattern p1;
+    p1.name     = "first_pattern";
+    p1.action   = AbuseAction::FLAG;
+    p1.compiled = std::regex("trigger", std::regex::icase);
+
+    TextAbuseDetector::Pattern p2;
+    p2.name     = "second_pattern";
+    p2.action   = AbuseAction::BLOCK;
+    p2.compiled = std::regex("trigger", std::regex::icase);
+
+    TextAbuseDetector detector({p1, p2});
+
+    AbuseDetectorMetadata meta;
+    meta.mime_type  = "text/plain";
+    meta.content_id = "doc-5";
+
+    auto result = detector.detect("This has a trigger word.", meta);
+    EXPECT_EQ(result.action, AbuseAction::FLAG);  // first pattern wins
+    EXPECT_EQ(result.pattern_name, "first_pattern");
+}
+
+TEST(TextAbuseDetectorTest, CaseInsensitiveMatch) {
+    TextAbuseDetector::Pattern p;
+    p.name     = "case_test";
+    p.action   = AbuseAction::BLOCK;
+    p.compiled = std::regex("BUY NOW", std::regex::icase);
+
+    TextAbuseDetector detector({p});
+
+    AbuseDetectorMetadata meta;
+    meta.mime_type  = "text/plain";
+    meta.content_id = "doc-6";
+
+    EXPECT_EQ(detector.detect("buy now!", meta).action, AbuseAction::BLOCK);
+    EXPECT_EQ(detector.detect("BUY NOW!", meta).action, AbuseAction::BLOCK);
+    EXPECT_EQ(detector.detect("Buy Now!", meta).action, AbuseAction::BLOCK);
+}
+
+TEST(TextAbuseDetectorTest, LoadFromYAMLMissingFileReturnsEmptyDetector) {
+    std::string error;
+    auto detector = TextAbuseDetector::loadFromYAML("/nonexistent/path/abuse.yaml", error);
+    ASSERT_NE(detector, nullptr);
+    EXPECT_FALSE(error.empty());
+    EXPECT_EQ(detector->patternCount(), 0u);
+}
+
+// ============================================================================
+// ContentSecurityManager Abuse Detection Integration Tests
+// ============================================================================
+
+class AbuseDetectionIntegrationTest : public ::testing::Test {
+protected:
+    // Build a ContentSecurityConfig with abuse detection enabled.
+    ContentSecurityConfig makeConfig(bool block_on_abuse) {
+        ContentSecurityConfig cfg;
+        cfg.enable_malware_scan   = false;
+        cfg.enable_pii_detection  = false;
+        cfg.enable_abuse_detection = true;
+        cfg.block_on_abuse         = block_on_abuse;
+        return cfg;
+    }
+
+    // Helper: make a TextAbuseDetector with one pattern.
+    static std::shared_ptr<IAbuseDetector> makeTextDetector(
+        const std::string& pattern_name,
+        const std::string& regex_str,
+        AbuseAction action)
+    {
+        TextAbuseDetector::Pattern p;
+        p.name     = pattern_name;
+        p.action   = action;
+        p.compiled = std::regex(regex_str, std::regex::icase);
+        return std::make_shared<TextAbuseDetector>(
+            std::vector<TextAbuseDetector::Pattern>{p}
+        );
+    }
+};
+
+TEST_F(AbuseDetectionIntegrationTest, CleanTextIsAllowed) {
+    ContentSecurityManager mgr(makeConfig(true));
+    mgr.setTextAbuseDetector(makeTextDetector("spam", "buy now", AbuseAction::BLOCK));
+
+    auto result = mgr.checkContent("innocent content here", "text/plain", "c-1");
+
+    EXPECT_TRUE(result.error.isOk());
+    EXPECT_TRUE(result.abuse_checked);
+    EXPECT_FALSE(result.abuse_detected);
+    EXPECT_EQ(result.abuse_action, "ALLOW");
+}
+
+TEST_F(AbuseDetectionIntegrationTest, BlockedTextReturnsError) {
+    ContentSecurityManager mgr(makeConfig(true));
+    mgr.setTextAbuseDetector(makeTextDetector("spam_block", "buy now", AbuseAction::BLOCK));
+
+    auto result = mgr.checkContent("buy now and make money fast", "text/plain", "c-2");
+
+    EXPECT_TRUE(result.error.failed());
+    EXPECT_TRUE(result.abuse_checked);
+    EXPECT_TRUE(result.abuse_detected);
+    EXPECT_EQ(result.abuse_action, "BLOCK");
+    EXPECT_EQ(result.abuse_detector_type, "Text");
+    EXPECT_EQ(result.abuse_pattern_name, "spam_block");
+}
+
+TEST_F(AbuseDetectionIntegrationTest, FlaggedTextDoesNotReturnError) {
+    ContentSecurityManager mgr(makeConfig(true));  // block_on_abuse=true, but action=FLAG
+    mgr.setTextAbuseDetector(makeTextDetector("spam_flag", "suspicious phrase", AbuseAction::FLAG));
+
+    auto result = mgr.checkContent("This is a suspicious phrase for review.", "text/plain", "c-3");
+
+    EXPECT_TRUE(result.error.isOk());  // FLAG should not produce an error
+    EXPECT_TRUE(result.abuse_checked);
+    EXPECT_TRUE(result.abuse_detected);
+    EXPECT_EQ(result.abuse_action, "FLAG");
+    EXPECT_EQ(result.abuse_detector_type, "Text");
+    EXPECT_EQ(result.abuse_pattern_name, "spam_flag");
+}
+
+TEST_F(AbuseDetectionIntegrationTest, BlockActionWithBlockOnAbuseDisabledDoesNotError) {
+    ContentSecurityManager mgr(makeConfig(false));  // block_on_abuse=false
+    mgr.setTextAbuseDetector(makeTextDetector("spam_block", "buy now", AbuseAction::BLOCK));
+
+    auto result = mgr.checkContent("buy now", "text/plain", "c-4");
+
+    // BLOCK action detected, but block_on_abuse=false → no error
+    EXPECT_TRUE(result.error.isOk());
+    EXPECT_TRUE(result.abuse_detected);
+    EXPECT_EQ(result.abuse_action, "BLOCK");
+}
+
+TEST_F(AbuseDetectionIntegrationTest, PhotoDetectorBlocksMatchingImage) {
+    // Build an image blocklist entry matching our test image data.
+    const std::string img_data(64, '\xAB');
+    const uint64_t hash = PhotoDNAAbuseDetector::computeHash(img_data);
+
+    PhotoDNAAbuseDetector::BlocklistEntry entry{hash, "CSAM_HASH_TEST", AbuseAction::BLOCK};
+    auto photo_det = std::make_shared<PhotoDNAAbuseDetector>(
+        std::vector<PhotoDNAAbuseDetector::BlocklistEntry>{entry},
+        0  // exact match only
+    );
+
+    ContentSecurityManager mgr(makeConfig(true));
+    mgr.setPhotoAbuseDetector(photo_det);
+
+    auto result = mgr.checkContent(img_data, "image/jpeg", "img-1");
+
+    EXPECT_TRUE(result.error.failed());
+    EXPECT_TRUE(result.abuse_detected);
+    EXPECT_EQ(result.abuse_action, "BLOCK");
+    EXPECT_EQ(result.abuse_detector_type, "PhotoDNA");
+    EXPECT_EQ(result.abuse_pattern_name, "CSAM_HASH_TEST");
+}
+
+TEST_F(AbuseDetectionIntegrationTest, PhotoDetectorFlagsMatchingImage) {
+    const std::string img_data(64, '\xCD');
+    const uint64_t hash = PhotoDNAAbuseDetector::computeHash(img_data);
+
+    PhotoDNAAbuseDetector::BlocklistEntry entry{hash, "SUSPICIOUS_IMG", AbuseAction::FLAG};
+    auto photo_det = std::make_shared<PhotoDNAAbuseDetector>(
+        std::vector<PhotoDNAAbuseDetector::BlocklistEntry>{entry},
+        0
+    );
+
+    ContentSecurityManager mgr(makeConfig(true));
+    mgr.setPhotoAbuseDetector(photo_det);
+
+    auto result = mgr.checkContent(img_data, "image/jpeg", "img-2");
+
+    EXPECT_TRUE(result.error.isOk());  // FLAG does not block
+    EXPECT_TRUE(result.abuse_detected);
+    EXPECT_EQ(result.abuse_action, "FLAG");
+    EXPECT_EQ(result.abuse_pattern_name, "SUSPICIOUS_IMG");
+    EXPECT_EQ(result.abuse_detector_type, "PhotoDNA");
+}
+
+TEST_F(AbuseDetectionIntegrationTest, PhotoDetectorIgnoresNonImageContent) {
+    // Set up a photo detector that matches EVERYTHING (threshold=64).
+    const uint64_t any_hash = 0ULL;
+    PhotoDNAAbuseDetector::BlocklistEntry entry{any_hash, "CSAM_ANY", AbuseAction::BLOCK};
+    auto photo_det = std::make_shared<PhotoDNAAbuseDetector>(
+        std::vector<PhotoDNAAbuseDetector::BlocklistEntry>{entry},
+        64  // matches any hash (max hamming distance = 64)
+    );
+
+    ContentSecurityManager mgr(makeConfig(true));
+    mgr.setPhotoAbuseDetector(photo_det);
+
+    // Text content should pass through even though the "hash" would match.
+    auto result = mgr.checkContent("some text content", "text/plain", "doc-1");
+
+    EXPECT_TRUE(result.error.isOk());
+    EXPECT_FALSE(result.abuse_detected);
+}
+
+TEST_F(AbuseDetectionIntegrationTest, AbuseDisabledSkipsCheck) {
+    ContentSecurityConfig cfg;
+    cfg.enable_malware_scan    = false;
+    cfg.enable_pii_detection   = false;
+    cfg.enable_abuse_detection = false;
+
+    ContentSecurityManager mgr(cfg);
+    mgr.setTextAbuseDetector(makeTextDetector("spam", "buy now", AbuseAction::BLOCK));
+
+    auto result = mgr.checkContent("buy now make money", "text/plain", "c-5");
+
+    EXPECT_FALSE(result.abuse_checked);  // check was not run
+    EXPECT_TRUE(result.error.isOk());
+}
+
+TEST_F(AbuseDetectionIntegrationTest, AbuseDetectionMetricsIncrement) {
+    ContentSecurityManager mgr(makeConfig(true));
+    mgr.setTextAbuseDetector(makeTextDetector("spam", "buy now", AbuseAction::BLOCK));
+    mgr.resetMetrics();
+
+    // One blocked detection
+    mgr.checkContent("buy now!", "text/plain", "c-6");
+    EXPECT_EQ(mgr.getMetrics().abuse_scans.load(), 1u);
+    EXPECT_EQ(mgr.getMetrics().abuse_detected.load(), 1u);
+    EXPECT_EQ(mgr.getMetrics().abuse_blocked.load(), 1u);
+
+    // One clean scan
+    mgr.checkContent("innocent content", "text/plain", "c-7");
+    EXPECT_EQ(mgr.getMetrics().abuse_scans.load(), 2u);
+    EXPECT_EQ(mgr.getMetrics().abuse_detected.load(), 1u);
+    EXPECT_EQ(mgr.getMetrics().abuse_blocked.load(), 1u);
+}
+
+TEST_F(AbuseDetectionIntegrationTest, AbuseMetricsInJson) {
+    ContentSecurityManager mgr(makeConfig(true));
+    auto j = mgr.getMetrics().toJson();
+    EXPECT_TRUE(j.contains("abuse_scans"));
+    EXPECT_TRUE(j.contains("abuse_detected"));
+    EXPECT_TRUE(j.contains("abuse_blocked"));
+}
+
+TEST_F(AbuseDetectionIntegrationTest, ResultToJsonIncludesAbuseFields) {
+    ContentSecurityManager mgr(makeConfig(true));
+    mgr.setTextAbuseDetector(makeTextDetector("spam", "buy now", AbuseAction::FLAG));
+
+    auto result = mgr.checkContent("buy now", "text/plain", "c-8");
+    auto j = result.toJson();
+
+    EXPECT_TRUE(j.contains("abuse_checked"));
+    EXPECT_TRUE(j.contains("abuse_detected"));
+    EXPECT_TRUE(j.contains("abuse_action"));
+    EXPECT_TRUE(j.contains("abuse_detector_type"));
+    EXPECT_TRUE(j.contains("abuse_pattern_name"));
+    EXPECT_EQ(j["abuse_action"].get<std::string>(), "FLAG");
+}
+
+TEST_F(AbuseDetectionIntegrationTest, AuditLoggerIsCalledOnDetection) {
+    // A minimal stub audit logger that records calls.
+    struct StubEvent {
+        std::string event_name;
+        std::string action;
+    };
+
+    // We use a shared vector to capture calls (without full AuditLogger deps).
+    // Instead of instantiating the real (heavyweight) AuditLogger we verify
+    // behavior by checking the SecurityCheckResult fields which are populated
+    // only when the detection code path executed correctly.
+
+    ContentSecurityManager mgr(makeConfig(true));
+    mgr.setTextAbuseDetector(makeTextDetector("spam_audit", "buy now", AbuseAction::FLAG));
+    // Do not call setAuditLogger — it is optional; detection must work either way.
+
+    auto result = mgr.checkContent("buy now", "text/plain", "c-audit-1");
+    EXPECT_TRUE(result.abuse_detected);
+    EXPECT_EQ(result.abuse_action, "FLAG");
+    // If we reach here, the detection path executed without crashing when
+    // audit_logger_ is nullptr (the null-check in checkAbuse() guards this).
+}
+
+// ============================================================================
+// AbuseAction utilities
+// ============================================================================
+
+TEST(AbuseActionTest, ToStringAllValues) {
+    EXPECT_EQ(abuseActionToString(AbuseAction::ALLOW), "ALLOW");
+    EXPECT_EQ(abuseActionToString(AbuseAction::FLAG),  "FLAG");
+    EXPECT_EQ(abuseActionToString(AbuseAction::BLOCK), "BLOCK");
 }

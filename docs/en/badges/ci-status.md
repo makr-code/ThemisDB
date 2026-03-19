@@ -1,6 +1,6 @@
 # CI Status Badge
 
-[![CI](https://github.com/makr-code/ThemisDB/actions/workflows/themis-core-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/themis-core-ci.yml)
+[![CI](https://github.com/makr-code/ThemisDB/actions/workflows/01-core/themis-core-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/01-core/themis-core-ci.yml)
 
 ## What it shows
 
@@ -16,7 +16,7 @@ The result of the most recent run of the **Themis Core Framework CI** workflow o
 
 | Source | URL |
 |--------|-----|
-| Workflow file | [`.github/workflows/themis-core-ci.yml`](../../../.github/workflows/themis-core-ci.yml) |
+| Workflow file | [`.github/workflows/01-core/themis-core-ci.yml`](../../../.github/workflows/01-core/themis-core-ci.yml) |
 | All workflow runs | <https://github.com/makr-code/ThemisDB/actions> |
 
 ## How contributors can verify

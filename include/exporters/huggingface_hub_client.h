@@ -4,14 +4,20 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            huggingface_hub_client.h                           ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-03-10                                         ║
+  Last Modified:   2026-03-16 04:06:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     145                                            ║
+    • Total Lines:     249                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • c64ea5aac  2026-03-11  feat(exporters): add hf_token_kek_id for KEK/KMS-protecte... ║
+    • 07dbc3052  2026-03-11  feat(exporters): add memory-streaming upload API for Hugg... ║
+    • e7c18a826  2026-03-11  feat(exporters): HuggingFace Hub upload with PolicyEngine... ║
+    • 3db37eb45  2026-03-10  feat(exporters): implement EXP-001 PolicyEngine auth, EXP... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -38,6 +44,9 @@ class AuditLogger;
 } // namespace themis
 
 namespace themis::exporters {
+
+// Forward declare ExporterMetrics to avoid heavy header inclusion.
+class ExporterMetrics;
 
 /// Result returned by HuggingFaceHubClient::uploadDataset().
 struct HubUploadResult {
@@ -118,6 +127,12 @@ struct HubUploadConfig {
     /// User identity forwarded to PolicyEngine and the audit log.
     /// Treated as anonymous when empty.
     std::string requesting_user;
+
+    /// Optional ExporterMetrics instance for recording rate-limit events.
+    /// When non-null, a `exporters.huggingface.rate_limit_hit` metric is
+    /// incremented each time the Hub returns HTTP 429.
+    /// Null = no metrics emitted (backward-compatible default).
+    std::shared_ptr<ExporterMetrics> metrics;
 };
 
 /// A single in-memory shard for use with HuggingFaceHubClient::uploadShards().
@@ -225,12 +240,15 @@ private:
 
     /// PUT raw bytes to Hub LFS / file-upload endpoint via libcurl read
     /// callback (no filesystem access).  Returns HTTP status code.
+    /// If `retry_after_out` is non-null and the server returns a
+    /// `Retry-After` response header, its raw value is written there.
     int httpPutBytes(
         const std::string& url,
         const char* data,
         std::size_t size,
         const std::string& bearer_token,
-        std::function<void(double)> progress_cb) const;
+        std::function<void(double)> progress_cb,
+        std::string* retry_after_out = nullptr) const;
 
     /// PUT file content to Hub LFS / file-upload endpoint.
     /// Reads the file from disk then delegates to httpPutBytes().
@@ -239,7 +257,8 @@ private:
         const std::string& url,
         const std::string& file_path,
         const std::string& bearer_token,
-        std::function<void(double)> progress_cb) const;
+        std::function<void(double)> progress_cb,
+        std::string* retry_after_out = nullptr) const;
 
     /// Ensure the Hub repo exists; creates it when create_repo=true.
     /// Returns the repo's full path or an error string in the result.

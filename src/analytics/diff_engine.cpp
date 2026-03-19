@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            diff_engine.cpp                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:56                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:13:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   90.0/100                                       ║
-    • Total Lines:     571                                            ║
+    • Total Lines:     574                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -24,6 +24,7 @@
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>
 #include <algorithm>
+#include <limits>
 #include <stdexcept>
 
 namespace themis {
@@ -176,50 +177,111 @@ DiffEngine::DiffResult DiffEngine::computeDiff(
     
     spdlog::debug("Computing diff: from_seq={} to_seq={}", from_sequence, to_sequence);
     
-    // Check cache first
+    const CacheKey cache_key{from_sequence, to_sequence};
+    
+    // ── Stampede-prevention: only one thread computes a given range ──────────
     if (options.enable_caching) {
-        std::lock_guard<std::mutex> lock(cache_mutex_);
-        auto cache_key = std::make_pair(from_sequence, to_sequence);
+        std::unique_lock<std::mutex> lock(cache_mutex_);
+        
+        // Wait while the same range is already being computed by another caller.
+        // After waking, check the cache first — the in-flight caller will have
+        // populated it before removing the key from inflight_keys_.
+        while (inflight_keys_.count(cache_key)) {
+            inflight_cv_.wait(lock);
+        }
+        
+        // Check cache (possibly populated by the caller we just waited for)
         auto it = diff_cache_.find(cache_key);
         if (it != diff_cache_.end() && isCacheValid(it->second)) {
             spdlog::debug("Cache hit for diff range [{}, {}]", from_sequence, to_sequence);
             return it->second.result;
         }
+        
+        // Mark this range as in-flight so subsequent concurrent callers wait
+        inflight_keys_.insert(cache_key);
+        // lock released here
     }
-    
-    // Fetch events from changefeed
+
+    // ── Fetch events — bounded range query, no post-filter loop needed ──────
+    // Use to_sequence as the upper bound so we only materialise events in the
+    // requested window, avoiding an O(N) scan of the entire changefeed.
+    //
+    // Exception safety: if anything between here and Phase 3 throws, the RAII
+    // guard below ensures the in-flight key is removed and waiters are notified.
+    struct InflightGuard {
+        std::mutex& mu;
+        std::condition_variable& cv;
+        std::unordered_set<CacheKey, CacheKeyHash>& keys;
+        CacheKey key;
+        bool enabled;
+        bool armed;
+        ~InflightGuard() noexcept {
+            if (enabled && armed) {
+                { std::lock_guard<std::mutex> lk(mu); keys.erase(key); }
+                cv.notify_all();
+            }
+        }
+    } inflight_guard{cache_mutex_, inflight_cv_, inflight_keys_, cache_key,
+                     options.enable_caching, options.enable_caching};
+
+    // Testing hook — allows tests to inject failures or count actual computations.
+    if (compute_hook_for_testing_) {
+        compute_hook_for_testing_();
+    }
+
     Changefeed::ListOptions list_opts;
-    list_opts.from_sequence = from_sequence;
-    list_opts.limit = 0; // No limit, get all events
-    
-    auto all_events = changefeed_.listEvents(list_opts);
-    
-    // Filter to the sequence range
-    std::vector<Changefeed::ChangeEvent> events;
-    for (const auto& event : all_events) {
-        if (event.sequence > from_sequence && event.sequence <= to_sequence) {
-            events.push_back(event);
-        }
-        if (event.sequence > to_sequence) {
-            break;
-        }
-    }
-    
+    list_opts.from_sequence = from_sequence;                     // exclusive lower bound
+    list_opts.to_sequence   = to_sequence;                       // inclusive upper bound
+    list_opts.limit         = std::numeric_limits<size_t>::max(); // no count cap within range
+
+    auto events = changefeed_.listEvents(list_opts);
+
     spdlog::debug("Found {} events in range [{}, {}]", events.size(), from_sequence, to_sequence);
-    
+
     // Process events
     DiffResult result = processEvents(events, options);
     result.from_sequence = from_sequence;
     result.to_sequence = to_sequence;
-    
-    // Cache result
+
+    // ── Cache result and release in-flight marker ─────────────────────────
     if (options.enable_caching) {
-        std::lock_guard<std::mutex> lock(cache_mutex_);
-        if (diff_cache_.size() >= MAX_CACHE_SIZE) {
-            evictOldCacheEntries();
+        // Copy-evict-then-lock pattern:
+        //   Phase 1 — identify the oldest key under a brief lock (no expensive
+        //              work done here, just a key copy).
+        CacheKey evict_key{0, 0};
+        bool need_evict = false;
+        {
+            std::lock_guard<std::mutex> lock(cache_mutex_);
+            need_evict = (diff_cache_.size() >= MAX_CACHE_SIZE);
+            if (need_evict) {
+                // Find the oldest entry — O(N) scan kept brief; only the key is copied.
+                auto oldest = diff_cache_.begin();
+                for (auto it = std::next(diff_cache_.begin()); it != diff_cache_.end(); ++it) {
+                    if (it->second.cached_at < oldest->second.cached_at) {
+                        oldest = it;
+                    }
+                }
+                evict_key = oldest->first;
+            }
         }
-        auto cache_key = std::make_pair(from_sequence, to_sequence);
-        diff_cache_[cache_key] = {result, std::chrono::system_clock::now()};
+        // Phase 2 — no expensive resource teardown needed for an in-memory cache.
+
+        // Phase 3 — re-acquire lock to commit eviction, insertion, and inflight removal
+        //           atomically, then signal any waiters outside the lock.
+        //           Disarm the RAII guard first so its destructor does not double-notify.
+        inflight_guard.armed = false;
+        {
+            std::unique_lock<std::mutex> lock(cache_mutex_);
+            if (need_evict) {
+                spdlog::debug("Evicting oldest cache entry: range [{}, {}]",
+                              evict_key.first, evict_key.second);
+                diff_cache_.erase(evict_key);
+            }
+            diff_cache_[cache_key] = {result, std::chrono::system_clock::now()};
+            inflight_keys_.erase(cache_key);
+        }
+        // Notify outside the lock to avoid waking threads only to re-block on it
+        inflight_cv_.notify_all();
     }
     
     return result;
@@ -554,6 +616,10 @@ bool DiffEngine::isCacheValid(const CachedDiff& cached) const {
 }
 
 // Evict oldest cache entries
+// NOTE: This function must NOT be called while holding cache_mutex_.
+// The copy-evict-then-lock pattern is implemented directly in computeDiff().
+// This function is retained for external callers (e.g. clearCache stress tests)
+// but is not used in the hot path.
 void DiffEngine::evictOldCacheEntries() {
     if (diff_cache_.empty()) return;
     

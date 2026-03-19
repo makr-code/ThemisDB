@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            nccl_vector_backend.cpp                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:52                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:12:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   86.0/100                                       ║
-    • Total Lines:     527                                            ║
+    • Total Lines:     616                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 73d8f8a8d  2026-03-15  feat(acceleration): implement GPU hardware support gaps -... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -21,10 +22,14 @@
  */
 
 #include "acceleration/nccl_vector_backend.h"
+#include <cfloat>
 #include <iostream>
+#include <algorithm>
 #include <chrono>
+#include <numeric>
 #include <stdexcept>
 #include <cstring>
+#include <vector>
 
 #ifdef THEMIS_ENABLE_NCCL
 #include <nccl.h>
@@ -432,12 +437,94 @@ bool NCCLVectorBackend::mergeTopK(const uint32_t* localIndices, const float* loc
         return true;
     }
     
-    // Distributed mergeTopK is not yet implemented. Avoid claiming success.
-    std::cerr << "NCCLVectorBackend::mergeTopK: distributed merge (worldSize = "
-              << worldSize << ") is not implemented yet." << std::endl;
-    (void)root;   // suppress unused parameter warning until implemented
-    (void)stream; // suppress unused parameter warning until implemented
-    return false;
+    // Distributed mergeTopK via ncclAllGather + host-side partial sort + ncclBcast.
+    //
+    // Strategy:
+    //   1. AllGather — every rank sends its localK (indices, distances) to all
+    //      other ranks, producing a gathered buffer of worldSize × localK candidates.
+    //   2. Host-side merge — copy gathered buffers to host and run std::partial_sort
+    //      over all worldSize × localK candidates to select the global top-k.
+    //   3. Broadcast — broadcast the merged top-k from `root` to all ranks so that
+    //      each rank ends up with identical global results in its output buffers.
+    //
+    // Performance note: the host-side D2H+sort+H2D+Bcast path incurs latency.
+    // For latency-critical paths at small worldSize the overhead is acceptable;
+    // a fully device-side bitonic sort is possible as a future optimisation.
+
+    pImpl->startTiming();
+
+    const size_t totalK = static_cast<size_t>(worldSize) * localK;
+
+    // ── Step 1: Allocate gathered device buffers ───────────────────────────────
+    uint32_t* d_gathered_indices  = nullptr;
+    float*    d_gathered_distances = nullptr;
+    CUDA_CHECK(cudaMalloc(&d_gathered_indices,  totalK * sizeof(uint32_t)));
+    CUDA_CHECK(cudaMalloc(&d_gathered_distances, totalK * sizeof(float)));
+
+    // ── Step 2: AllGather — collect per-rank localK results ───────────────────
+    // Both collectives are issued inside a single NCCL group to allow pipelining.
+    ncclGroupStart();
+    NCCL_CHECK(ncclAllGather(
+        localIndices, d_gathered_indices, localK, ncclUint32,
+        pImpl->comm, static_cast<cudaStream_t>(stream)));
+    NCCL_CHECK(ncclAllGather(
+        localDistances, d_gathered_distances, localK, ncclFloat,
+        pImpl->comm, static_cast<cudaStream_t>(stream)));
+    ncclGroupEnd();
+    CUDA_CHECK(cudaStreamSynchronize(static_cast<cudaStream_t>(stream)));
+
+    // ── Step 3: Host-side merge ────────────────────────────────────────────────
+    std::vector<uint32_t> h_indices(totalK);
+    std::vector<float>    h_distances(totalK);
+    CUDA_CHECK(cudaMemcpy(h_indices.data(),   d_gathered_indices,
+                          totalK * sizeof(uint32_t), cudaMemcpyDeviceToHost));
+    CUDA_CHECK(cudaMemcpy(h_distances.data(), d_gathered_distances,
+                          totalK * sizeof(float),    cudaMemcpyDeviceToHost));
+
+    {
+        cudaError_t e1 = cudaFree(d_gathered_indices);
+        cudaError_t e2 = cudaFree(d_gathered_distances);
+        if (e1 != cudaSuccess || e2 != cudaSuccess) {
+            std::cerr << "CUDA error freeing gathered buffers in mergeTopK" << std::endl;
+            return false;
+        }
+    }
+
+    // Select the global top-k by partial-sort on distance
+    std::vector<size_t> order(totalK);
+    std::iota(order.begin(), order.end(), 0u);
+    const size_t select_k = (k < totalK) ? k : totalK;
+    std::partial_sort(order.begin(), order.begin() + select_k, order.end(),
+                      [&](size_t a, size_t b) {
+                          return h_distances[a] < h_distances[b];
+                      });
+
+    std::vector<uint32_t> h_global_indices(k, static_cast<uint32_t>(-1));
+    std::vector<float>    h_global_distances(k, FLT_MAX);
+    for (size_t i = 0; i < select_k; ++i) {
+        h_global_indices[i]   = h_indices[order[i]];
+        h_global_distances[i] = h_distances[order[i]];
+    }
+
+    // Copy merged results to each rank's output device buffers
+    CUDA_CHECK(cudaMemcpy(globalIndices,   h_global_indices.data(),
+                          k * sizeof(uint32_t), cudaMemcpyHostToDevice));
+    CUDA_CHECK(cudaMemcpy(globalDistances, h_global_distances.data(),
+                          k * sizeof(float),    cudaMemcpyHostToDevice));
+
+    // ── Step 4: Broadcast from root so all ranks have identical output ────────
+    // (Technically redundant since AllGather gives every rank the same data and
+    //  all ranks ran the same deterministic merge, but honors the `root` API
+    //  contract and guards against any non-determinism in partial_sort ties.)
+    ncclGroupStart();
+    NCCL_CHECK(ncclBcast(globalIndices,   k, ncclUint32, root,
+                         pImpl->comm, static_cast<cudaStream_t>(stream)));
+    NCCL_CHECK(ncclBcast(globalDistances, k, ncclFloat,  root,
+                         pImpl->comm, static_cast<cudaStream_t>(stream)));
+    ncclGroupEnd();
+
+    pImpl->recordCollective();
+    return true;
 }
 
 NCCLVectorBackend::Statistics NCCLVectorBackend::getStatistics() const {

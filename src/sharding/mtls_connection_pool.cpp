@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mtls_connection_pool.cpp                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:29                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:19:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     424                                            ║
+    • Total Lines:     445                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a280bfd0  2026-03-15  feat: Complete Shard RPC Integration acceptance criteria ... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -407,6 +408,24 @@ MTLSConnectionPoolManager::GlobalStatistics MTLSConnectionPoolManager::getStatis
     }
     
     return stats;
+}
+
+void MTLSConnectionPoolManager::onCertificateRotated() {
+    // Drain idle connections so all new requests re-establish TLS with the
+    // refreshed certificate.  In-flight active connections are left untouched
+    // (they will be closed naturally when their users release them, after which
+    // the pool will create fresh connections with the new cert).
+    std::shared_lock<std::shared_mutex> lock(pools_mutex_);
+
+    std::cout << "MTLSConnectionPoolManager: certificate rotated – draining idle "
+              << "connections across " << pools_.size() << " endpoint pools" << std::endl;
+
+    for (auto& [endpoint, pool] : pools_) {
+        // closeAll() drains idle connections while active ones remain open.
+        // The next getConnection() call will create a new TLS connection which
+        // will pick up the rotated certificate from disk.
+        pool->closeAll();
+    }
 }
 
 void MTLSConnectionPoolManager::shutdown() {

@@ -16,13 +16,23 @@
 #include <device_launch_parameters.h>
 #include <float.h>
 #include <stdint.h>
+#include <assert.h>  // for host-side assert() used in launchHnswSearchKernel
 
 // Maximum ef value supported by the kernel (candidate list size cap).
 // Queries with ef > kMaxEf are clamped to kMaxEf.
 static constexpr uint32_t kMaxEf = 512u;
 
-// Maximum k supported by the kernel.
-static constexpr uint32_t kMaxK = 256u;
+// Maximum k supported by a single-pass kernel launch.
+// Result buffers (res_dist, res_id) are allocated in dynamically-sized shared
+// memory so their size is determined at runtime rather than compile time.
+// For k > kMaxK the launcher does NOT clamp silently; instead it sets the
+// caller-supplied overflow flag and leaves outputs untouched.  The caller is
+// expected to fall back to a multi-pass strategy (see launchHnswSearchKernel).
+static constexpr uint32_t kMaxK = 1024u;
+
+// Available shared memory per block (conservative default; 48 KB is the
+// minimum guaranteed by SM 2.0+ and covers RTX-class GPUs up to sm_90).
+static constexpr uint32_t kSharedMemBytes = 49152u;
 
 namespace themis {
 namespace cuda {
@@ -148,7 +158,14 @@ __device__ __forceinline__ bool heapPushCapped(
 //
 // Performs an ef-limited greedy best-first search on the bottom-layer CSR graph.
 // Uses thread-local arrays (in registers / L1 cache) for the candidate list and
-// the result set.  Visited tracking uses the caller-provided per-query bitset.
+// dynamically allocated shared memory for the per-thread result set so that the
+// result buffer size matches the requested k at runtime rather than being fixed
+// at the compile-time kMaxK constant.  Visited tracking uses a 1-bit-per-node
+// bitset stored in the caller-provided per-query device buffer.
+//
+// Dynamic shared memory layout (per block, passed as third <<<>>> argument):
+//   [blockDim.x * k * sizeof(float)]   — res_dist slices, one per thread
+//   [blockDim.x * k * sizeof(int32_t)] — res_id   slices, one per thread
 //
 // Parameters:
 //   d_vectors     — flat vector matrix [num_nodes × dim], device memory
@@ -158,12 +175,15 @@ __device__ __forceinline__ bool heapPushCapped(
 //   num_nodes     — number of nodes in the bottom layer
 //   d_queries     — query matrix [num_queries × dim], device memory
 //   num_queries   — number of queries
-//   k             — number of results per query
+//   k             — number of results per query (≤ kMaxK)
 //   ef            — search-time candidate list size
 //   metric        — 0=L2, 1=Cosine, 2=Dot
+//   entry_node    — starting node for the graph traversal (0 = default;
+//                   set to a non-zero node for multi-pass searches)
 //   d_result_ids  — output IDs   [num_queries × k], device memory
 //   d_result_scores — output scores [num_queries × k], device memory
-//   d_visited     — per-query visited bitset [num_queries × num_nodes], device
+//   d_visited     — per-query 1-bit-per-node visited bitset
+//                   [num_queries × ceil(num_nodes/8)] bytes, device memory
 // =============================================================================
 
 __global__ void hnswSearchKernel(
@@ -177,34 +197,47 @@ __global__ void hnswSearchKernel(
     uint32_t       k,
     uint32_t       ef,
     uint8_t        metric,
+    uint32_t       entry_node,
     int64_t*       __restrict__ d_result_ids,
     float*         __restrict__ d_result_scores,
     uint8_t*       __restrict__ d_visited
 ) {
+    // ── Dynamic shared memory: per-thread result buffers ─────────────────────
+    // Layout: [ blockDim.x * k floats ] [ blockDim.x * k int32_t ]
+    extern __shared__ float s_res_dist_base[];
+    int32_t* s_res_id_base = (int32_t*)(s_res_dist_base + blockDim.x * k);
+
+    float*   res_dist = s_res_dist_base + threadIdx.x * k;
+    int32_t* res_id   = s_res_id_base   + threadIdx.x * k;
+
     const uint32_t qi = blockIdx.x * blockDim.x + threadIdx.x;
     if (qi >= num_queries) return;
 
+    // Bytes required for the per-query 1-bit-per-node bitset
+    const uint32_t visited_bytes = (num_nodes + 7u) / 8u;
+
     const float*  query    = d_queries + qi * dim;
-    uint8_t*      visited  = d_visited + (size_t)qi * num_nodes;
+    uint8_t*      visited  = d_visited + (size_t)qi * visited_bytes;
     int64_t*      out_ids  = d_result_ids   + (size_t)qi * k;
     float*        out_dists = d_result_scores + (size_t)qi * k;
 
-    // ── Arrays for candidate list and result set (stack/register allocation) ──
+    // ── Arrays for candidate list (thread-local, register/L1 cache) ──────────
     // Cap at kMaxEf to keep register pressure bounded.
     float   cand_dist[kMaxEf];
     int32_t cand_id  [kMaxEf];
-    float   res_dist [kMaxK];
-    int32_t res_id   [kMaxK];
     int     cand_size = 0;
     int     res_size  = 0;
 
     const uint32_t eff_ef = (ef < kMaxEf) ? ef : kMaxEf;
     const uint32_t eff_k  = (k  < kMaxK)  ? k  : kMaxK;
 
-    // ── Initialise visited array ──────────────────────────────────────────────
-    for (uint32_t i = 0; i < num_nodes; ++i) visited[i] = 0;
+    // ── Clamp entry_node to valid range ──────────────────────────────────────
+    const uint32_t safe_entry = (entry_node < num_nodes) ? entry_node : 0u;
 
-    // ── Entry point: node 0 ───────────────────────────────────────────────────
+    // ── Initialise visited bitset (zero all bytes) ────────────────────────────
+    for (uint32_t i = 0; i < visited_bytes; ++i) visited[i] = 0u;
+
+    // ── Entry point ──────────────────────────────────────────────────────────
     if (num_nodes == 0) {
         for (uint32_t i = 0; i < eff_k; ++i) {
             out_ids[i]   = -1;
@@ -213,9 +246,10 @@ __global__ void hnswSearchKernel(
         return;
     }
 
-    int32_t entry = 0;
+    int32_t entry = static_cast<int32_t>(safe_entry);
     float entry_d = deviceDist(query, d_vectors + (size_t)entry * dim, dim, metric);
-    visited[static_cast<uint32_t>(entry)] = 1;
+    // Mark entry node visited (bitset set)
+    visited[static_cast<uint32_t>(entry) >> 3u] |= (1u << (static_cast<uint32_t>(entry) & 7u));
 
     // Insert into both candidate and result heaps
     heapPushCapped(cand_dist, cand_id, &cand_size, static_cast<int>(eff_ef), entry_d, entry);
@@ -250,8 +284,11 @@ __global__ void hnswSearchKernel(
         for (int32_t ni = start; ni < end; ++ni) {
             int32_t nb = d_neighbours[ni];
             if (nb < 0 || static_cast<uint32_t>(nb) >= num_nodes) continue;
-            if (visited[static_cast<uint32_t>(nb)]) continue;
-            visited[static_cast<uint32_t>(nb)] = 1;
+            // Check visited bit
+            uint32_t nb_u = static_cast<uint32_t>(nb);
+            if (visited[nb_u >> 3u] & (1u << (nb_u & 7u))) continue;
+            // Mark visited
+            visited[nb_u >> 3u] |= (1u << (nb_u & 7u));
 
             float nd = deviceDist(query, d_vectors + (size_t)nb * dim, dim, metric);
 
@@ -267,9 +304,9 @@ __global__ void hnswSearchKernel(
     }
 
     // ── Extract top-k from result set (sort ascending) ────────────────────────
-    // res_dist/res_id are a max-heap; extract in sorted order by repeated pop.
-    // We need the k smallest, but res is a max-heap of size eff_ef.
-    // Simplest: selection sort on the result array (small sizes, eff_ef ≤ 512).
+    // res_dist/res_id are in dynamic shared memory (per-thread slice).
+    // We need the k smallest; res is a max-heap of up to eff_ef entries.
+    // Use insertion sort (small sizes, eff_ef ≤ kMaxEf = 512).
     const uint32_t out_count = (static_cast<uint32_t>(res_size) < eff_k)
                                ? static_cast<uint32_t>(res_size) : eff_k;
 
@@ -300,6 +337,20 @@ __global__ void hnswSearchKernel(
 }
 
 // =============================================================================
+// Helper: compute threads-per-block for a given k such that the dynamic
+// shared memory required for the result buffers fits within kSharedMemBytes.
+// =============================================================================
+static uint32_t computeThreadsPerBlock(uint32_t k) {
+    const uint32_t smem_per_thread = k * static_cast<uint32_t>(sizeof(float) + sizeof(int32_t));
+    if (smem_per_thread == 0) return 128u;
+    uint32_t threads = kSharedMemBytes / smem_per_thread;
+    if (threads == 0) return 1u;
+    threads = threads < 128u ? threads : 128u;
+    // Round down to nearest power of 2 using __builtin_clz (GCC/Clang/nvcc)
+    return 1u << (31u - static_cast<uint32_t>(__builtin_clz(threads)));
+}
+
+// =============================================================================
 // Public launcher (C++ linkage, called from cuda_hnsw_graph_traversal.cpp)
 // =============================================================================
 
@@ -314,35 +365,57 @@ void launchHnswSearchKernel(
     uint32_t       k,
     uint32_t       ef,
     uint8_t        metric,
+    uint32_t       entry_node,
     int64_t*       d_result_ids,
     float*         d_result_scores,
-    cudaStream_t   stream)
+    cudaStream_t   stream,
+    bool*          h_overflow)
 {
     if (num_queries == 0 || num_nodes == 0 || k == 0) return;
 
-    // Clamp to kernel limits
     if (ef > kMaxEf) ef = kMaxEf;
-    if (k  > kMaxK)  k  = kMaxK;
 
-    // Per-query visited bitset — one byte per node
-    const size_t visited_bytes = (size_t)num_queries * num_nodes * sizeof(uint8_t);
+    // ── k > kMaxK: overflow — do NOT silently truncate ────────────────────────
+    // Signal the caller via h_overflow so it can choose a multi-pass strategy.
+    // In debug builds assert immediately to catch misuse early.
+    if (k > kMaxK) {
+        assert(k <= kMaxK &&
+               "launchHnswSearchKernel: k > kMaxK — caller must use multi-pass");
+        if (h_overflow) *h_overflow = true;
+        return;
+    }
+
+    if (h_overflow) *h_overflow = false;
+
+    // ── Compute block size so result-buffer shared memory fits in SM limits ───
+    // Required per block: kThreadsPerBlock * k * (sizeof(float) + sizeof(int32_t))
+    const uint32_t kThreadsPerBlock = computeThreadsPerBlock(k);
+    const size_t   smem_bytes       = static_cast<size_t>(kThreadsPerBlock) *
+                                      static_cast<size_t>(k) *
+                                      (sizeof(float) + sizeof(int32_t));
+
+    // Allocate per-query 1-bit-per-node visited bitset.
+    // Memory: num_queries × ceil(num_nodes / 8) bytes
+    //   e.g. 512 queries × 10M nodes → 512 × 1.25 MB ≈ 640 MB  (vs 5 GB before)
+    const size_t visited_bytes_per_query = ((size_t)num_nodes + 7u) / 8u;
+    const size_t visited_bytes = (size_t)num_queries * visited_bytes_per_query;
     uint8_t* d_visited = nullptr;
     cudaError_t merr = cudaMalloc(&d_visited, visited_bytes);
     if (merr != cudaSuccess || d_visited == nullptr) {
         // Cannot proceed without visited storage — leave output zeroed
         return;
     }
-    // Zero-initialise visited array (mandatory for correctness)
+    // Zero-initialise visited bitset (mandatory for correctness)
     cudaMemsetAsync(d_visited, 0, visited_bytes, stream);
 
-    constexpr uint32_t kThreadsPerBlock = 128u;
     const uint32_t numBlocks = (num_queries + kThreadsPerBlock - 1u) / kThreadsPerBlock;
 
-    hnswSearchKernel<<<numBlocks, kThreadsPerBlock, 0, stream>>>(
+    hnswSearchKernel<<<numBlocks, kThreadsPerBlock, smem_bytes, stream>>>(
         d_vectors, dim,
         d_offsets, d_neighbours, num_nodes,
         d_queries, num_queries,
         k, ef, metric,
+        entry_node,
         d_result_ids, d_result_scores,
         d_visited);
 

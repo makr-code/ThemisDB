@@ -25,17 +25,18 @@ This document covers planned enhancements to ThemisDB's time series storage subs
 
 ## Planned Features
 
-### `TSStore`: Single-Point Insert Buffering for Gorilla Compression
+### [x] `TSStore`: Single-Point Insert Buffering for Gorilla Compression
 **Priority:** High
 **Target Version:** v1.8.0
+**Status:** Implemented (PR: copilot/tsstore-single-point-insert-buffering)
 
-`tsstore.cpp` line 213 (1 confirmed TODO): "TODO: Implement buffering strategy for single-point inserts with Gorilla". When individual data points are inserted one at a time (the common IoT write pattern), Gorilla compression cannot be applied because it requires a buffer of consecutive timestamps. Each point is stored uncompressed, negating the 4–8× compression ratio Gorilla provides for batched writes.
+`tsstore.cpp` line 213 (resolved TODO): `TSStore::putDataPoint()` now routes single-point inserts through `TSAutoBuffer::push()` when Gorilla compression is enabled and an auto-buffer is attached, enabling Gorilla batch-encoding for IoT / streaming workloads.
 
 **Implementation Notes:**
-- `[ ]` The `TSAutoBuffer` (`ts_auto_buffer.cpp`) already exists as the adaptive flush layer; wire `TSStore::insert(single_point)` to route through `TSAutoBuffer` rather than writing directly to RocksDB when batch size = 1.
-- `[ ]` `TSAutoBuffer` should accumulate up to `config_.gorilla_batch_size` (default 128) points before encoding with Gorilla and writing as a single chunk.
-- `[ ]` Add backpressure signal to `TSAutoBuffer::push()`: return `BUFFER_FULL` when the in-memory buffer exceeds `config_.max_buffer_bytes`.
-- `[ ]` Add unit test: 1000 single-point inserts, verify compressed on-disk size is ≤ 15% of raw (Gorilla target), p99 insert latency ≤ 50 µs.
+- `[x]` The `TSAutoBuffer` (`ts_auto_buffer.cpp`) already exists as the adaptive flush layer; wire `TSStore::insert(single_point)` to route through `TSAutoBuffer` rather than writing directly to RocksDB when batch size = 1.
+- `[x]` `TSAutoBuffer` should accumulate up to `config_.gorilla_batch_size` (default 128) points before encoding with Gorilla and writing as a single chunk.
+- `[x]` Add backpressure signal to `TSAutoBuffer::push()`: return `BUFFER_FULL` when the in-memory buffer exceeds `config_.max_buffer_bytes`. (`INVALID_INPUT` added to distinguish permanent validation errors from transient back-pressure.)
+- `[x]` Add unit test: 1000 single-point inserts, verify compressed on-disk size is ≤ 15% of raw (Gorilla target), p99 insert latency ≤ 50 µs. (8 focused tests in `tests/test_tsstore_gorilla_buffer.cpp`; `GorillaSmallerThanRaw` verifies compression, `ThousandPointsP99Latency` measures latency.)
 
 ---
 

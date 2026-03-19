@@ -4,13 +4,18 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            negative_keyword_filter.h                          ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-03-09                                         ║
+  Last Modified:   2026-03-16 04:09:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
+    • Total Lines:     199                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 90be68e12  2026-03-09  fix(search): address code review - configurable scan limi... ║
+    • e9b769e55  2026-03-09  feat(search): implement NegativeKeywordFilter for NOT ope... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

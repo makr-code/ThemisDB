@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            changefeed.h                                       ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:56                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:05:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     319                                            ║
+    • Total Lines:     442                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • a9f387ce0  2026-03-11  feat(cdc): runtime-configurable change log retention poli... ║
+    • 2317d0155  2026-03-10  Changes before error encountered         ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • de9fb43e7  2026-03-01  Implement CDC event filtering by operation type ║
     • 288df1bc2  2026-02-26  fix(cdc): fix GCC compilation error - use RetentionPolicy... ║
-    • 7a2028071  2026-02-24  feat(cdc): implement GDPR-aware change log redaction for ... ║
-    • df280b5a0  2026-02-24  feat(cdc): add before/after document snapshots to ChangeE... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -46,6 +46,7 @@
 namespace rocksdb {
     class TransactionDB;
     class ColumnFamilyHandle;
+    class MergeOperator;
 }
 
 namespace themis {
@@ -100,8 +101,9 @@ public:
     };
 
     struct ListOptions {
-        uint64_t from_sequence = 0;       // Start after this sequence
-        size_t limit = 100;               // Max events to return
+        uint64_t from_sequence = 0;       // Start after this sequence (exclusive)
+        uint64_t to_sequence = 0;         // Stop at this sequence (inclusive, 0 = no upper bound)
+        size_t limit = 100;               // Max events to return (std::numeric_limits<size_t>::max() = no limit)
         uint32_t long_poll_ms = 0;        // Long-poll timeout (0 = immediate)
         std::optional<std::string> key_prefix; // Filter by key prefix
         std::optional<ChangeEventType> event_type;   // Filter by single event type (legacy; use event_types for multi-type)
@@ -134,6 +136,24 @@ public:
         size_t total_size_bytes;
         Watermarks watermarks;  // Watermark information
     };
+
+    /**
+     * @brief Create a RocksDB merge operator for atomic sequence increments.
+     *
+     * Callers that open the changefeed RocksDB column family should set this
+     * operator via @c ColumnFamilyOptions::merge_operator before opening the DB:
+     * @code
+     *   rocksdb::Options opts;
+     *   opts.merge_operator = Changefeed::makeSequenceMergeOperator();
+     * @endcode
+     * Without it, @c Merge() calls will be buffered but @c Get() on
+     * @c SEQUENCE_KEY after a restart will fail.  The in-process atomic counter
+     * (`sequence_counter_`) provides correctness within a single process
+     * lifetime regardless.
+     *
+     * @return Shared pointer to a @c SequenceIncrementOperator instance.
+     */
+    static std::shared_ptr<rocksdb::MergeOperator> makeSequenceMergeOperator();
 
     /**
      * @brief Construct Changefeed
@@ -409,12 +429,26 @@ private:
 
     std::string makeKey(uint64_t sequence) const;
     uint64_t nextSequence();
+
+    // Load the initial sequence counter value from RocksDB at construction.
+    // Handles both the binary little-endian uint64 format (new) and the legacy
+    // decimal-string format (old).  Falls back to scanning events when the DB
+    // key cannot be read (e.g. unresolved Merge operands without a registered
+    // merge operator).
+    uint64_t loadInitialSequence() const;
+
+    // Scan all stored changefeed events and return the maximum sequence number.
+    // Used as a crash-recovery fallback when loadInitialSequence() cannot read
+    // SEQUENCE_KEY directly.
+    uint64_t scanMaxSequence() const;
     
     // Helper to wait for new events (for long-poll)
     bool waitForEvents(uint64_t from_sequence, uint32_t timeout_ms) const;
     
-    // Mutex to protect sequence generation (prevents race conditions in read-modify-write)
-    mutable std::mutex sequence_mutex_;
+    // In-process atomic sequence counter.  Updated by fetch_add on every
+    // nextSequence() call; persisted to RocksDB via Merge() for crash recovery.
+    // Eliminates the need for sequence_mutex_ and a Get+Put round-trip per event.
+    std::atomic<uint64_t> sequence_counter_{0};
     
     // Retention cleanup thread
     std::atomic<bool> retention_thread_running_{false};

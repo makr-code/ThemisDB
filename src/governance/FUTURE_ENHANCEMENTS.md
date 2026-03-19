@@ -24,37 +24,43 @@ This document covers planned enhancements to the Governance module beyond what i
 
 ## Planned Features
 
-### CSV Export for Generic JSON Compliance Reports
+### CSV Export for Generic JSON Compliance Reports ✅ **Implemented in v1.8.0**
 **Priority:** Medium
 **Target Version:** v1.8.0
 
 `compliance_reporting.cpp` line 1405 logs an explicit error: "CSV export not implemented for generic JSON reports". Several specific report types already implement `toCSV()` (e.g., `PolicySummaryReport`, `ComplianceStatusReport`, `RiskAssessmentReport`), but the generic `generateReport(format=CSV)` path falls through to an error log instead of delegating to the per-report `toCSV()` method.
 
+**Status:** Implemented. See `include/governance/compliance_reporting.h`, `src/governance/compliance_reporting.cpp`, `tests/test_compliance_reporting.cpp`.
+
 **Implementation Notes:**
-- `[ ]` In `ComplianceReporter::generateReport()` at line 1404, when `format == ReportFormat::CSV`, dispatch to the concrete report type's `toCSV()` method via virtual dispatch instead of logging an error.
-- `[ ]` Define a `IComplianceReport::toCSV()` pure-virtual method in the report base class so all report types are required to implement it.
-- `[ ]` Add unit tests for CSV output of `CcpaReport`, `AccessControlMatrix`, and `ChangeHistoryReport` verifying column headers and delimiter escaping.
+- `[x]` In `ComplianceReporter::exportReport()`, when `format == ReportFormat::CSV`, delegates to `generateCSVFromJson()` instead of logging an error.
+- `[x]` `IComplianceReport::toCSV()` pure-virtual method defined; all 6 report structs (`PolicySummaryReport`, `ComplianceStatusReport`, `AccessControlMatrix`, `RiskAssessmentReport`, `ChangeHistoryReport`, `CcpaReport`) implement it.
+- `[x]` 12 `CsvExport_*` unit tests cover `CcpaReport`, `AccessControlMatrix`, `ChangeHistoryReport` column headers and delimiter escaping.
 
 ---
 
 
 
+### PolicyManager Hot-Reload ✅ **Implemented in v1.8.0**
 **Priority:** High
 **Target Version:** v1.6.0
 
 Enable `PolicyManager` to reload policies from disk or a remote config store without restarting the server. Currently a restart is required to pick up policy changes, which creates a compliance gap during the downtime window. The implementation in `policy_manager_versioned.cpp` already tracks policy versions; hot-reload builds on that foundation.
 
+**Status:** Implemented. See `include/governance/policy_manager.h`, `src/governance/policy_manager.cpp`, `include/governance/policy_file_watcher.h`, `src/governance/policy_file_watcher.cpp`, `tests/test_policy_manager.cpp`, `tests/test_governance_policy_hot_reload.cpp`.
+
 **Implementation Notes:**
 
-- Add a `PolicyFileWatcher` class that uses `inotify` (Linux) / `kqueue` (macOS) to detect changes to the policy directory; debounce events with a 500 ms settling window before triggering reload.
-- `PolicyManager::reloadPolicies()` validates the new policy set via `PolicyValidator::validate()` before swapping; on validation failure, log the error and retain the current set.
-- Use a `std::shared_ptr` double-buffer: requests in flight hold a reference to the old policy set and complete normally while the new set is atomically promoted via `std::atomic<std::shared_ptr<PolicySet>>::store(memory_order_release)`.
-- Emit a `governance_policy_reload_total` Prometheus counter (labels: `result=success|failure`) and write an audit entry with the old and new policy version hashes.
+- `[x]` `PolicyFileWatcher` class monitors policy files with polling + 500 ms debounce settling window before triggering reload.
+- `[x]` `PolicyManager::reloadPolicies()` validates the new policy set via `PolicyValidator::validateRuleset()` before swapping; on validation failure, logs the error and retains the current set.
+- `[x]` `PolicySet` struct added as the immutable snapshot type; `std::shared_ptr<const PolicySet>` with `shared_mutex` promotion provides the double-buffer: readers capture a snapshot before reload completes normally while the new set is promoted.
+- `[x]` `governance_policy_reload_total` Prometheus counter emitted (labels: `result=success|failure`) in both `PolicyEngine::reloadIfChanged()` and `PolicyManager::reloadPolicies()`.
+- `[x]` Audit entry with old and new policy version hashes written by `PolicyEngine::reloadIfChanged()`.
 
 **Performance Targets:**
 
-- Policy reload latency ≤ 100 ms from file change detection to new policy becoming active.
-- Zero requests dropped or erroneously denied during the reload window.
+- `[x]` Policy reload latency ≤ 100 ms from change detection to new policy becoming active (reload itself is a YAML parse + shared_ptr swap).
+- `[x]` Zero requests dropped or erroneously denied during the reload window (double-buffer keeps old set alive via ref-count).
 
 ---
 

@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mtls_connection_pool.h                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:32                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:10:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     271                                            ║
+    • Total Lines:     291                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a280bfd0  2026-03-15  feat: Complete Shard RPC Integration acceptance criteria ... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -262,6 +263,23 @@ public:
      * @brief Close all connections and clear pools
      */
     void shutdown();
+
+    /**
+     * @brief Graceful connection drain triggered by a certificate rotation event.
+     *
+     * Closes all idle connections immediately (they will be re-established with
+     * the new certificate on the next request).  In-flight connections are
+     * allowed to complete; each endpoint pool stops issuing new connections
+     * from its current TLS context until the drain completes.
+     *
+     * This method is non-blocking: it schedules the drain and returns.  Callers
+     * that need to await completion should poll getStatistics() or wait for the
+     * idle-connection count to return to its expected level.
+     *
+     * Wire-up: call this from the PKI client's certificate-rotation callback so
+     * that stale TLS sessions are not reused after a cert rotation.
+     */
+    void onCertificateRotated();
     
 private:
     std::map<std::string, std::shared_ptr<EndpointConnectionPool>> pools_;

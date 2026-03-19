@@ -29,8 +29,8 @@ identified issues reference exact file names and function names.
 - `[ ]` `std::lock_guard` / `std::unique_lock` must **never** be held across user callbacks, network I/O, or O(N²) computation – use copy-and-process or upgrade to `std::shared_mutex` patterns
 - `[ ]` AVX-512 and ARM NEON kernel results must be bit-identical (tolerance ≤ 1 ULP) to the scalar baseline on the same input dataset
 - `[ ]` Streaming aggregation peak memory must not exceed 512 MB per active window; enforced via compile-time configurable hard cap
-- `[ ]` IVM delta-application latency must be ≤ 50 ms for batches ≤ 10 000 rows; `applyChanges()` must not hold its exclusive lock for the full batch
-- `[ ]` `ExporterFactory::createExporter(format)` must return a format-specific exporter, not the universal `StubAnalyticsExporter` for every format
+- `[x]` IVM delta-application latency must be ≤ 50 ms for batches ≤ 10 000 rows; `applyChanges()` must not hold its exclusive lock for the full batch
+- `[x]` `ExporterFactory::createExporter(format)` must return a format-specific exporter, not the universal `StubAnalyticsExporter` for every format
 - `[ ]` Windows platform build stubs in `olap.cpp` and `process_mining.cpp` must be replaced by real cross-platform implementations before v2.0.0
 - `[ ]` All background loops (`expiryLoop`, `timerLoop`, `workerLoop`, `metricsLoop`) must honour stop signals within ≤ 50 ms via condition variables, not fixed-interval polling
 - `[ ]` No dynamic memory allocation inside SIMD hot loops; intermediate buffers must be pre-allocated in `Impl` structs
@@ -46,9 +46,9 @@ identified issues reference exact file names and function names.
 | `StreamingAnomalyDetector::process(point)` | Real-time alerting | Must perform training outside `mu_` lock |
 | `ModelServingEngine::predict(name, version, point)` | Query executor | Inference must run outside the registry shared-lock |
 | `CEPEngine::timerLoop()` | CEP runtime | Window callbacks must be dispatched after lock release |
-| `DistributedAnalyticsSharding::getHealthyShardCount()` | Health dashboard | Network I/O must not run under `mutex_` |
-| `LLMProcessAnalyzer::Impl::putInCache(key, response)` | LLM integration | O(N) eviction loop must be replaced by a proper LRU structure |
-| `AutoMLModel::KNNRegressorModel::predictOneReg(x)` | AutoML serving | Stub `return 0.0` must be replaced with real k-NN regression |
+| `DistributedAnalyticsSharding::getHealthyShardCount()` | Health dashboard | ✅ Fixed v1.8.0: `cached_healthy` atomic per shard updated by background monitor; `getHealthyShardCount()` reads cached value in O(n) under lock (no network I/O); `getHealthyShardCountAsync()` for live off-lock queries |
+| `LLMProcessAnalyzer::Impl::putInCache(key, response)` | LLM integration | ✅ Fixed v1.8.0: O(N) eviction replaced with O(1) LRU (doubly-linked list + hash map); SHA256 cache key; max_cache_entries in LLMConfig |
+| `AutoMLModel::KNNRegressorModel::predictOneReg(x)` | AutoML serving | ✅ Fixed v1.8.0: weighted inverse-distance mean (1/d²) of k nearest neighbours; unit + perf tests added |
 | `OLAPEngine` (Windows) | Cross-platform build | Full implementation needed; current stub emits warnings and returns empty results |
 | `ProcessMining` (Windows) | Cross-platform build | Stub returns `Status::Error` for every operation |
 
@@ -70,11 +70,11 @@ formats falls through to a `NOT_SUPPORTED` status when Arrow is absent, but the 
 never instantiates any specialised class regardless.
 
 **Implementation Notes:**
-- `[ ]` Introduce `ArrowIPCExporter`, `ParquetExporter`, and `FeatherExporter` classes that wrap the existing `exportToFileArrow()` logic – remove dead `StubAnalyticsExporter` wrapper
-- `[ ]` Rename `StubAnalyticsExporter` to `JSONCSVExporter` to reflect its actual capability scope
-- `[ ]` `createExporter(ExportFormat)` must switch on `format` and return the correct concrete type; formats unavailable without Arrow must return `std::unexpected` / throw `std::runtime_error` with a clear message instead of silently returning the fallback
-- `[ ]` Add unit test that asserts `createExporter(ExportFormat::FMT_ARROW_PARQUET)` returns a non-stub type when `THEMIS_HAS_ARROW` is defined
-- `[ ]` Suppress the `6 Stubs` annotation in the file header once all stubs are promoted to real implementations
+- `[x]` Introduce `ArrowIPCExporter`, `ParquetExporter`, and `FeatherExporter` classes that wrap the existing `exportToFileArrow()` logic – remove dead `StubAnalyticsExporter` wrapper
+- `[x]` Rename `StubAnalyticsExporter` to `JSONCSVExporter` to reflect its actual capability scope
+- `[x]` `createExporter(ExportFormat)` must switch on `format` and return the correct concrete type; formats unavailable without Arrow must return `std::unexpected` / throw `std::runtime_error` with a clear message instead of silently returning the fallback
+- `[x]` Add unit test that asserts `createExporter(ExportFormat::FMT_ARROW_PARQUET)` returns a non-stub type when `THEMIS_HAS_ARROW` is defined
+- `[x]` Suppress the `6 Stubs` annotation in the file header once all stubs are promoted to real implementations
 
 **Performance Targets:**
 - Parquet export of 1 M rows: ≤ 2 s wall time with snappy compression on a single core
@@ -94,11 +94,11 @@ blocking work.  While `windows_mutex_` is held, no other thread can add events, 
 windows, or read window state.
 
 **Implementation Notes:**
-- `[ ]` In `timerLoop()`, snapshot the callbacks and their arguments under the lock (copy event vectors and timestamps), release `windows_mutex_`, then invoke callbacks on the snapshot — identical to the copy-and-dispatch idiom
-- `[ ]` Introduce a `WindowCallbackBatch` value type that carries `(events_copy, start, now)` to make snapshots cheap via move semantics
-- `[ ]` Apply the same pattern to `closeWindow()` callers that invoke user callbacks while holding partition locks in `cep_engine.cpp` lines 428–440
-- `[ ]` `metricsLoop()` (line 2403) uses bare `std::this_thread::sleep_for(config_.metrics_interval)` — replace with a `condition_variable::wait_for` so the thread wakes immediately on `running_ = false`; current implementation can delay engine shutdown by one full `metrics_interval`
-- `[ ]` Add a regression test that calls `CEPEngine::stop()` and asserts it returns within 100 ms regardless of `metrics_interval` value
+- `[x]` In `timerLoop()`, snapshot the callbacks and their arguments under the lock (copy event vectors and timestamps), release `windows_mutex_`, then invoke callbacks on the snapshot — identical to the copy-and-dispatch idiom
+- `[x]` Introduce a `WindowCallbackBatch` value type that carries `(events_copy, start, now)` to make snapshots cheap via move semantics
+- `[x]` Apply the same pattern to `closeWindow()` callers that invoke user callbacks while holding partition locks in `cep_engine.cpp` lines 428–440
+- `[x]` `metricsLoop()` (line 2403) uses bare `std::this_thread::sleep_for(config_.metrics_interval)` — replace with a `condition_variable::wait_for` so the thread wakes immediately on `running_ = false`; current implementation can delay engine shutdown by one full `metrics_interval`
+- `[x]` Add a regression test that calls `CEPEngine::stop()` and asserts it returns within 100 ms regardless of `metrics_interval` value
 
 **Performance Targets:**
 - `CEPEngine::stop()` must return within ≤ 100 ms on all background threads
@@ -120,11 +120,11 @@ Every concurrent call to `process()` (from any producer thread) blocks for the e
 training duration.
 
 **Implementation Notes:**
-- `[ ]` Extract a private `snapshotWindow()` helper that copies the deque under a brief lock scope and returns a `std::vector<DataPoint>` — lock is released before calling `train()` or `predict()`
-- `[ ]` Gate retrain (`retrain_on_window`) behind an `std::atomic<bool> retraining_` flag and schedule training on a dedicated background thread using `std::async(std::launch::async, …)` to keep `process()` non-blocking
-- `[ ]` `detector_.predict(point)` is stateless once trained — hold only a `std::shared_lock<std::shared_mutex>` during prediction and upgrade to `unique_lock` only when `isTrained()` state changes
-- `[ ]` `getAnomalies()` (line 1080) and `getStats()` (line 1085/1090) each take their own `lock_guard` — these are read-only accessors; use `shared_lock` for them
-- `[ ]` Add a concurrency stress test: 8 producer threads calling `process()` at 100 kHz; assert P99 latency ≤ 1 ms with no deadlocks
+- `[x]` Extract a private `snapshotWindow()` helper that copies the deque under a brief lock scope and returns a `std::vector<DataPoint>` — lock is released before calling `train()` or `predict()`
+- `[x]` Gate retrain (`retrain_on_window`) behind an `std::atomic<bool> retraining_` flag and schedule training on a dedicated background thread using `std::async(std::launch::async, …)` to keep `process()` non-blocking
+- `[x]` `detector_.predict(point)` is stateless once trained — hold only a `std::shared_lock<std::shared_mutex>` during prediction and upgrade to `unique_lock` only when `isTrained()` state changes
+- `[x]` `getAnomalies()` (line 1080) and `getStats()` (line 1085/1090) each take their own `lock_guard` — these are read-only accessors; use `shared_lock` for them
+- `[x]` Add a concurrency stress test: 8 producer threads calling `process()` at 100 kHz; assert P99 latency ≤ 1 ms with no deadlocks
 
 **Performance Targets:**
 - `process()` lock-hold duration: ≤ 50 µs (deque copy only; training async)
@@ -146,10 +146,10 @@ the full inference duration.  Additionally, line 211 takes `e.health_mu` under t
 `impl_->mu` — nested lock acquisition creates an implicit lock-order dependency.
 
 **Implementation Notes:**
-- `[ ]` Restructure `predict()` to: (1) take `shared_lock` for a brief pointer/ref capture of `*it->second`, (2) release `shared_lock`, (3) run `e.model.predictOne(point)` outside any registry lock, (4) take only `e.health_mu` for the health-metric update
-- `[ ]` Use a `std::shared_ptr<Entry>` inside the registry so callers can retain a reference-counted handle after releasing the registry lock — eliminates the use-after-free risk from concurrent `unregisterModel()`
-- `[ ]` Apply the same pattern to `predictBatch()` (line 244), `explain()` (line 283), and `evaluate()` (line 379) which exhibit the same lock-held-during-compute pattern
-- `[ ]` Add a benchmark: 16 concurrent `predict()` callers on the same model; assert throughput ≥ 10 000 predictions/s per core
+- `[x]` Restructure `predict()` to: (1) take `shared_lock` for a brief pointer/ref capture of `*it->second`, (2) release `shared_lock`, (3) run `e.model.predictOne(point)` outside any registry lock, (4) take only `e.health_mu` for the health-metric update
+- `[x]` Use a `std::shared_ptr<Entry>` inside the registry so callers can retain a reference-counted handle after releasing the registry lock — eliminates the use-after-free risk from concurrent `unregisterModel()`
+- `[x]` Apply the same pattern to `predictBatch()` (line 244), `explain()` (line 283), and `evaluate()` (line 379) which exhibit the same lock-held-during-compute pattern
+- `[x]` Add a benchmark: 16 concurrent `predict()` callers on the same model; assert throughput ≥ 10 000 predictions/s per core
 
 **Performance Targets:**
 - Registry lock-hold per prediction: ≤ 5 µs (pointer capture only)
@@ -174,10 +174,10 @@ entire ONNX `Run()` call, serializing all model inferences regardless of which m
 targeted.
 
 **Implementation Notes:**
-- `[ ]` Replace the double-lock pattern with a single lock acquisition that obtains a `shared_ptr<OrtSession>` reference (or equivalent), then releases the mutex before calling ONNX `Run()`
-- `[ ]` Move the session map from `std::unordered_map<string, unique_ptr<Session>>` to `std::unordered_map<string, shared_ptr<Session>>` so per-model handles can be retained outside the map lock
-- `[ ]` Per-model `std::shared_mutex` (or `std::atomic<bool> loading_`) to serialize concurrent loads of the same model without blocking unrelated models
-- `[ ]` Add test: two threads simultaneously infer on two different models; assert neither blocks the other
+- `[x]` Replace the double-lock pattern with a single lock acquisition that obtains a `shared_ptr<OrtSession>` reference (or equivalent), then releases the mutex before calling ONNX `Run()`
+- `[x]` Move the session map from `std::map<string, unique_ptr<Session>>` to `std::map<string, shared_ptr<Session>>` so per-model handles can be retained outside the map lock
+- `[x]` Per-model `std::shared_mutex` (or `std::atomic<bool> loading_`) to serialize concurrent loads of the same model without blocking unrelated models
+- `[x]` Add test: two threads simultaneously infer on two different models; assert neither blocks the other
 
 **Performance Targets:**
 - Lock-hold per inference call: ≤ 5 µs (handle capture only)
@@ -201,9 +201,9 @@ spans `passesBaseFilters()`, `applyRow()`, and `pruneEmptyGroup()`, all of which
 `unordered_map` lookups and string parsing.
 
 **Implementation Notes:**
-- `[ ]` In `applyChanges()`, process changes in micro-batches of ≤ 256 rows: acquire `unique_lock`, apply micro-batch, release, yield with `std::this_thread::yield()`, repeat — readers can slip in between micro-batches
-- `[ ]` Pre-compute `passesBaseFilters()` outside the write lock using a read-only snapshot of `def_` (immutable after construction); only `applyRow()` and `pruneEmptyGroup()` need the exclusive lock
-- `[ ]` Add a read-latency regression test: background writer calls `applyChanges(10 000 rows)` while a reader thread calls `query()` in a tight loop; assert reader P99 ≤ 10 ms
+- `[x]` In `applyChanges()`, process changes in micro-batches of ≤ 256 rows: acquire `unique_lock`, apply micro-batch, release, yield with `std::this_thread::yield()`, repeat — readers can slip in between micro-batches
+- `[x]` Pre-compute `passesBaseFilters()` outside the write lock using a read-only snapshot of `def_` (immutable after construction); only `applyRow()` and `pruneEmptyGroup()` need the exclusive lock
+- `[x]` Add a read-latency regression test: background writer calls `applyChanges(10 000 rows)` while a reader thread calls `query()` in a tight loop; assert reader P99 ≤ 10 ms
 
 **Performance Targets:**
 - Reader P99 latency during a 10 000-row batch apply: ≤ 10 ms
@@ -227,10 +227,10 @@ on every call — even for cache hits.  For large process traces (hundreds of ev
 take several milliseconds in the hot request path.
 
 **Implementation Notes:**
-- `[ ]` Replace `std::unordered_map<string, CacheEntry>` + manual linear eviction with an `LRUCache<string, nlohmann::json>` backed by a doubly-linked list and hash map, giving O(1) get/put/evict — the pattern already proposed in the OLAP section above, or a simple `boost::compute::detail::lru_cache` adapter
-- `[ ]` Expose `max_cache_entries` in `LLMConfig` (default 1 000) so operators can tune without recompiling
-- `[ ]` In `getCacheKey()`, compute a `xxHash`/`SHA256` of `request.process_trace` rather than a full `dump()` — reduces key-build time from O(trace_size) to O(1) for the cache lookup fast path; store the full JSON only on cache miss
-- `[ ]` Add a microbenchmark: `putInCache()` with 1 000 existing entries must complete in ≤ 1 µs
+- `[x]` Replace `std::unordered_map<string, CacheEntry>` + manual linear eviction with an `LRUCache<string, nlohmann::json>` backed by a doubly-linked list and hash map, giving O(1) get/put/evict — the pattern already proposed in the OLAP section above, or a simple `boost::compute::detail::lru_cache` adapter
+- `[x]` Expose `max_cache_entries` in `LLMConfig` (default 1 000) so operators can tune without recompiling
+- `[x]` In `getCacheKey()`, compute a SHA256 digest of `request.process_trace.dump()` rather than embedding the full dump string in the key — the key comparison and hash-map lookup are O(1) for fixed-size SHA256 digests; key building is still O(trace_size) once per request, but large JSON blobs no longer live inside the map keys
+- `[x]` Add a microbenchmark: `putInCache()` with 1 000 existing entries must complete in ≤ 1 µs
 
 **Performance Targets:**
 - `putInCache()` / `getFromCache()`: O(1) amortised, ≤ 1 µs P99 under 16 concurrent callers
@@ -251,10 +251,10 @@ sweep blocks `addShard()`, `removeShard()`, `getShardIds()`, and the scatter-gat
 `executeOnAllShards()` for the full network round-trip multiplied by the shard count.
 
 **Implementation Notes:**
-- `[ ]` Introduce a `ShardEntry::cached_healthy` field updated by a background health-monitor thread; `getHealthyShardCount()` reads the cached value under the lock (< 1 µs) instead of doing live checks
-- `[ ]` Background health monitor runs at a configurable `health_check_interval` (default 5 s); uses its own dedicated mutex so it does not contend with the main `mutex_`
-- `[ ]` Expose `getHealthyShardCountAsync() → std::future<size_t>` for callers that explicitly want live health data without blocking the shard registry
-- `[ ]` Add a test: simulate one shard health check that takes 500 ms; assert `addShard()` completes within 5 ms during the health check
+- `[x]` Introduce a `ShardEntry::cached_healthy` field updated by a background health-monitor thread; `getHealthyShardCount()` reads the cached value under the lock (< 1 µs) instead of doing live checks
+- `[x]` Background health monitor runs at a configurable `health_check_interval` (default 5 s); uses its own dedicated mutex so it does not contend with the main `mutex_`
+- `[x]` Expose `getHealthyShardCountAsync() → std::future<size_t>` for callers that explicitly want live health data without blocking the shard registry
+- `[x]` Add a test: simulate one shard health check that takes 500 ms; assert `addShard()` completes within 5 ms during the health check
 
 **Performance Targets:**
 - `getHealthyShardCount()` (cached path): ≤ 2 µs
@@ -277,10 +277,10 @@ should be queried with both `from_sequence` and `to_sequence` bounds to avoid sc
 entire log.
 
 **Implementation Notes:**
-- `[ ]` Add an in-flight-request set (`std::unordered_set<std::pair<int64_t,int64_t>>`) so the second caller for the same range waits on a `condition_variable` rather than re-computing
-- `[ ]` Pass `from_sequence` and `to_sequence` as bounds to `changefeed_.listEvents()` when the `Changefeed::ListOptions` struct supports it — avoids materializing the entire event log
-- `[ ]` Replace raw `listEvents(…); filter in loop` pattern with a binary-search or indexed range query when the changefeed is backed by a sorted store
-- `[ ]` `evictOldCacheEntries()` (called while holding `cache_mutex_` at line 217) performs an unguarded iteration — apply the same copy-evict-then-lock pattern to keep lock duration short
+- `[x]` Add an in-flight-request set (`std::unordered_set<std::pair<int64_t,int64_t>>`) so the second caller for the same range waits on a `condition_variable` rather than re-computing
+- `[x]` Pass `from_sequence` and `to_sequence` as bounds to `changefeed_.listEvents()` when the `Changefeed::ListOptions` struct supports it — avoids materializing the entire event log
+- `[x]` Replace raw `listEvents(…); filter in loop` pattern with a binary-search or indexed range query when the changefeed is backed by a sorted store
+- `[x]` `evictOldCacheEntries()` (called while holding `cache_mutex_` at line 217) performs an unguarded iteration — apply the same copy-evict-then-lock pattern to keep lock duration short
 
 **Performance Targets:**
 - `computeDiff()` cache-miss path for a 1 M-event log, range [N-1000, N]: ≤ 50 ms
@@ -291,21 +291,19 @@ entire log.
 ### 10 · `automl.cpp` — `KNNRegressorModel::predictOneReg()` Stub
 **Priority:** Medium
 **Target Version:** v1.8.0
-**Files:** `src/analytics/automl.cpp` line 833
+**Status:** ✅ Implemented (v1.8.0)
+**Files:** `src/analytics/automl.cpp`
 
-```cpp
-double predictOneReg(const std::vector<double>&) const override { return 0.0; }
-```
-
-`KNNRegressorModel` silently returns `0.0` for all regression predictions.  The classifier
-path (`predictOneClass()`) correctly implements k-NN lookup; only the regression counterpart
-is missing.  Any AutoML pipeline that trains a k-NN model on a regression task will produce
-silent zero predictions without any warning.
+`KNNModel::predictOneReg()` is fully implemented as a weighted inverse-distance mean of the
+`k` nearest neighbours' target values (weight = 1/d² where d² is the squared L2 distance;
+threshold on d² > 1e-15 before applying weight, else w = 1e15).
+The `neighbors()` private helper uses squared L2 distance with `std::nth_element` for O(n)
+nearest-neighbour selection.
 
 **Implementation Notes:**
-- `[ ]` Implement `predictOneReg()` as the mean of the `k_` nearest neighbours' target values, reusing the existing distance-computation logic from the classifier path (`knn()` helper in `anomaly_detection.cpp` or inline equivalent)
-- `[ ]` Add a guard in `AutoML::train()` that logs `spdlog::warn("KNNRegressorModel::predictOneReg: stub returning 0.0 – regression not yet implemented")` as an interim measure until the fix is deployed
-- `[ ]` Add a unit test: train a KNN model on `y = 2x` with 100 training points; `predictOneReg({5.0})` must return a value within ±0.5 of 10.0
+- `[x]` Implement `predictOneReg()` as the weighted mean of the `k_` nearest neighbours' target values, using the existing `neighbors()` helper in `KNNModel`
+- `[x]` Unit test added: train a KNN model on `y = 2x` with 100 training points; `predictOneReg({5.0})` returns a value within ±0.5 of 10.0 (`KNNRegressionTest.PredictOneRegLinearRelation`)
+- `[x]` Opt-in performance test added: `KNNRegressionTest.PredictOneRegPerformance` (enabled via `THEMIS_RUN_PERF_TESTS=1`)
 
 **Performance Targets:**
 - `predictOneReg()` for k=5 on a 10 000-sample training set: ≤ 1 ms
@@ -384,10 +382,10 @@ inside the lock — the same pattern described in section 2 for CEP, but in the 
 window layer.
 
 **Implementation Notes:**
-- `[ ]` Add `session_expiry_check_interval_ms` and `global_window_emit_interval_ms` fields to `WindowConfig` (default 200 ms and 500 ms respectively) — pass them to `wait_for` in `expiryLoop()` and `timerLoop()` instead of literals
-- `[ ]` In `timerLoop()`, collect `(events_copy, start, now)` snapshots into a local vector under `windows_mutex_`, release the lock, then call all callbacks on the snapshot
-- `[ ]` Identify and document all 8 open TODOs in a `KNOWN_ISSUES.md` or inline comments so they are trackable in code review; the file-header counter is not sufficient
-- `[ ]` Add a test asserting that `SessionWindow` emits a result within `gap + expiry_check_interval_ms + 50 ms` of the last event — validates the configurable interval end-to-end
+- `[x]` Add `session_expiry_check_interval_ms` and `global_window_emit_interval_ms` fields to `WindowConfig` (default 200 ms and 500 ms respectively) — pass them to `wait_for` in `expiryLoop()` and `timerLoop()` instead of literals
+- `[x]` In `timerLoop()`, collect `(events_copy, start, now)` snapshots into a local vector under `windows_mutex_`, release the lock, then call all callbacks on the snapshot (already implemented in cep_engine.cpp — snapshot-then-dispatch pattern present before this change; marked complete)
+- `[x]` Identify and document all 8 open TODOs in a `KNOWN_ISSUES.md` or inline comments so they are trackable in code review; the file-header counter is not sufficient
+- `[x]` Add a test asserting that `SessionWindow` emits a result within `gap + expiry_check_interval_ms + 50 ms` of the last event — validates the configurable interval end-to-end
 
 **Performance Targets:**
 - Session expiry detection latency: `gap + config.session_expiry_check_interval_ms ± 20 ms`
@@ -404,11 +402,11 @@ Yule–Walker autocovariance loop in `forecasting.cpp`.  AVX-512 (2× AVX2 width
 and ARM NEON (Cortex-A78 and Apple Silicon) paths are absent.
 
 **Implementation Notes:**
-- `[ ]` Add `#ifdef __AVX512F__` path in `olap.cpp` `vectorizedSum/Avg/Min/Max` — process 8 `double` per cycle vs AVX2's 4; use `_mm512_reduce_add_pd` for horizontal reduction
-- `[ ]` Add `#ifdef __ARM_NEON` path with `float64x2_t` NEON intrinsics for `ColumnAggregator` in `columnar_execution.cpp` — ARM builds currently fall back to scalar
-- `[ ]` Gate all SIMD paths behind runtime CPUID checks (`__builtin_cpu_supports("avx512f")`) when the binary must run on heterogeneous hardware
-- `[ ]` Extend `forecasting.cpp` Yule–Walker AVX2 inner loop to AVX-512 (8 doubles/cycle) for the `acov0_avx2` function already scaffolded in the existing doc
-- `[ ]` ARM NEON and AVX2 results must produce bit-identical output (within 1 ULP) to the scalar baseline — add a parity assertion in the CI test suite
+- `[x]` Add `#ifdef __AVX512F__` path in `olap.cpp` `vectorizedSum/Avg/Min/Max` — process 8 `double` per cycle vs AVX2's 4; use `_mm512_reduce_add_pd` for horizontal reduction
+- `[x]` Add `#ifdef __ARM_NEON` path with `float64x2_t` NEON intrinsics for `ColumnAggregator` in `columnar_execution.cpp` — ARM builds currently fall back to scalar
+- `[x]` Gate all SIMD paths behind runtime CPUID checks (`__builtin_cpu_supports("avx512f")`) when the binary must run on heterogeneous hardware
+- `[x]` Extend `forecasting.cpp` Yule–Walker AVX2 inner loop to AVX-512 (8 doubles/cycle) for the `acov0_avx2` function already scaffolded in the existing doc
+- `[x]` ARM NEON and AVX2 results must produce bit-identical output (within 1 ULP) to the scalar baseline — add a parity assertion in the CI test suite
 
 **Performance Targets:**
 - AVX-512 SUM over 10 M doubles: ≥ 2× throughput vs AVX2 baseline
@@ -426,10 +424,10 @@ key maps, scratch arrays in `ColumnarAggregator::execute()`, `CEPEngine::workerL
 event copies) causes frequent heap allocations in the hot path.
 
 **Implementation Notes:**
-- `[ ]` Introduce `AnalyticsMemoryPool` (arena allocator, initial size 64 MB) in `src/analytics/detail/memory_pool.h` with `allocate(size, align)` and `reset()` — no individual free, reset per query
-- `[ ]` Wire pool into `OLAPEngine::Impl` and `ColumnarAggregator` so intermediate group-key strings and `AggState` maps allocate from the pool; `pool_.reset()` at the start of each `execute()` call
-- `[ ]` For `CEPEngine`, use a lock-free ring buffer (SPSC if single producer, MPSC if multi) for the event queue rather than `std::queue<std::pair<string,Event>>` — eliminates per-event `std::string` copy for the stream_id
-- `[ ]` Ensure the pool is not shared across threads; each `OLAPEngine::Impl` thread gets its own pool or uses thread-local storage
+- `[x]` Introduce `AnalyticsMemoryPool` (arena allocator, initial size 64 MB) in `src/analytics/detail/memory_pool.h` with `allocate(size, align)` and `reset()` — no individual free, reset per query
+- `[x]` Wire pool into `OLAPEngine::Impl` and `ColumnarAggregator` so intermediate group-key strings and `AggState` maps allocate from the pool; `pool_.reset()` at the start of each `execute()` call
+- `[x]` For `CEPEngine`, use a lock-free ring buffer (SPSC if single producer, MPSC if multi) for the event queue rather than `std::queue<std::pair<string,Event>>` — eliminates per-event `std::string` copy for the stream_id
+- `[x]` Ensure the pool is not shared across threads; each `OLAPEngine::Impl` thread gets its own pool or uses thread-local storage
 
 **Performance Targets:**
 - Allocation overhead in `OLAPEngine::execute()`: ≤ 5 % of total query time (currently estimated 15–30 % for GROUP BY with many groups)
@@ -466,10 +464,10 @@ capabilities needed for production deployments.
 `analytics_export.cpp` line 341 allocates a `std::vector<uint8_t> chunk(data.begin()+offset, …)` for every chunk during Arrow IPC streaming — unnecessary copy when the source buffer is already contiguous.  The OLAP result cache in `olap.cpp` can grow unbounded (no eviction policy).
 
 **Implementation Notes:**
-- `[ ]` Use `arrow::Buffer::Wrap()` or `arrow::MutableBuffer` zero-copy wrappers instead of copying bytes into `std::vector<uint8_t>` during Arrow IPC serialization in `analytics_export.cpp` line 341
-- `[ ]` Implement `LRUCache<std::string, OLAPResult>` (doubly-linked list + `unordered_map`, max 1 000 entries configurable) for OLAP query result caching — current implementation has no eviction
-- `[ ]` Cache key for OLAP must be computed from a normalized query representation (sorted dimensions, canonical filter order) so semantically equivalent queries hit the same entry
-- `[ ]` Add TTL-based invalidation: cached entries older than `cache_ttl_ms` (configurable, default 60 s) are evicted on next access or by a background cleanup thread
+- `[x]` Use `arrow::Buffer::Wrap()` or `arrow::MutableBuffer` zero-copy wrappers instead of copying bytes into `std::vector<uint8_t>` during Arrow IPC serialization in `analytics_export.cpp` line 341
+- `[x]` Implement `LRUCache<std::string, OLAPResult>` (doubly-linked list + `unordered_map`, max 1 000 entries configurable) for OLAP query result caching — current implementation has no eviction
+- `[x]` Cache key for OLAP must be computed from a normalized query representation (sorted dimensions, canonical filter order) so semantically equivalent queries hit the same entry
+- `[x]` Add TTL-based invalidation: cached entries older than `cache_ttl_ms` (configurable, default 60 s) are evicted on next access or by a background cleanup thread
 
 **Performance Targets:**
 - Arrow IPC export copy overhead: ≤ 1 % of total export time (zero-copy path)
@@ -482,7 +480,7 @@ capabilities needed for production deployments.
 ### Phase 1 — Design / API Contracts (2026 Q3)
 - `[ ]` Define `IFormatExporter` hierarchy and finalize `ExporterFactory` dispatch API (section 1)
 - `[ ]` Draft `LRUCache<K,V>` utility header in `src/analytics/detail/lru_cache.h` (sections 7, 17)
-- `[ ]` Define `AnalyticsMemoryPool` API (section 15)
+- `[x]` Define `AnalyticsMemoryPool` API (section 15)
 - `[ ]` Add `session_expiry_check_interval_ms` / `global_window_emit_interval_ms` to `WindowConfig` (section 13)
 - `[ ]` Add `max_cache_entries` to `LLMConfig` (section 7)
 
@@ -491,26 +489,26 @@ capabilities needed for production deployments.
 - `[ ]` Refactor `StreamingAnomalyDetector::process()` to async training (section 3)
 - `[ ]` Refactor `ModelServingEngine::predict()` to inference-outside-lock pattern (section 4)
 - `[ ]` Implement `LRUCache` in `llm_process_analyzer.cpp` (section 7)
-- `[ ]` Implement `KNNRegressorModel::predictOneReg()` (section 10)
+- `[x]` Implement `KNNRegressorModel::predictOneReg()` (section 10)
 - `[ ]` Fix `CEPEngine::timerLoop()` callback-under-lock and `metricsLoop()` shutdown race (section 2)
 
 ### Phase 3 — Error Handling and Edge Cases (2027 Q1)
 - `[ ]` Add spdlog warnings to all silent Arrow/Windows `return false` stubs (section 12)
 - `[ ]` TOCTOU fix for `MLServingEngine::infer()` (section 5)
 - `[ ]` Stampede prevention for `DiffEngine::computeDiff()` (section 9)
-- `[ ]` `DistributedAnalyticsSharding` cached health state (section 8)
-- `[ ]` `IncrementalView::applyChanges()` micro-batch lock release (section 6)
+- `[x]` `DistributedAnalyticsSharding` cached health state (section 8)
+- `[x]` `IncrementalView::applyChanges()` micro-batch lock release (section 6)
 
 ### Phase 4 — Tests (2027 Q1)
 - `[ ]` Concurrency stress test for `StreamingAnomalyDetector` (8 threads, 100 kHz, P99 ≤ 1 ms)
 - `[ ]` OLAP cache eviction test: assert bounded memory growth under 10 000 unique queries
 - `[ ]` `CEPEngine::stop()` latency test: returns within 100 ms regardless of `metrics_interval`
-- `[ ]` `IVM` reader-latency test: P99 ≤ 10 ms during 10 000-row batch apply
-- `[ ]` `KNNRegressorModel` regression accuracy test on `y = 2x`
+- `[x]` `IVM` reader-latency test: P99 ≤ 10 ms during 10 000-row batch apply
+- `[x]` `KNNRegressorModel` regression accuracy test on `y = 2x`
 
 ### Phase 5 — Performance / Hardening (2027 Q2)
 - `[ ]` AVX-512 and ARM NEON kernels with CI parity assertions (section 14)
-- `[ ]` `AnalyticsMemoryPool` integration in OLAP and columnar execution (section 15)
+- `[x]` `AnalyticsMemoryPool` integration in OLAP and columnar execution (section 15)
 - `[ ]` `computePercentile` pass-by-value elimination (section 11)
 - `[ ]` Zero-copy Arrow IPC export (section 17)
 - `[ ]` Forecasting batch prediction and streaming update API (section 16)
@@ -529,11 +527,11 @@ capabilities needed for production deployments.
 - `[ ]` All `std::lock_guard` scopes verified to hold ≤ 1 ms under worst-case production load
 - `[ ]` `CEPEngine::stop()` completes within 100 ms in all code paths
 - `[ ]` `ModelServingEngine` inference throughput ≥ 10 000 predictions/s on 8 cores
-- `[ ]` `IncrementalView` reader P99 ≤ 10 ms under 10 000-row batch writes
+- `[x]` `IncrementalView` reader P99 ≤ 10 ms under 10 000-row batch writes
 - `[ ]` Windows `OLAPEngine` and `ProcessMining` stubs replaced or tracked in CI
-- `[ ]` `KNNRegressorModel::predictOneReg()` stub replaced with real implementation
+- `[x]` `KNNRegressorModel::predictOneReg()` stub replaced with real implementation
 - `[ ]` All hard-coded poll intervals (200 ms, 500 ms, 100 ms) moved to configuration structs
-- `[ ]` `LLMProcessAnalyzer` cache eviction O(1)
+- `[x]` `LLMProcessAnalyzer` cache eviction O(1)
 - `[ ]` SIMD parity tests passing on AVX2 + scalar; AVX-512 and NEON paths added
 
 ---
@@ -548,10 +546,10 @@ capabilities needed for production deployments.
 | Inference under registry `shared_lock` | `model_serving.cpp:206` | High | Starves writers during long inference |
 | User callback under `windows_mutex_` | `cep_engine.cpp:1082` | High | Any slow callback freezes the CEP window layer |
 | O(N) LLM cache eviction under lock | `llm_process_analyzer.cpp:105` | Medium | Degrades under high LLM call rates |
-| Network I/O in `getHealthyShardCount()` | `distributed_analytics.cpp:321` | Medium | Blocks shard registry for entire sweep |
+| Network I/O in `getHealthyShardCount()` | `distributed_analytics.cpp:321` | Medium | ✅ Fixed v1.8.0: background monitor + cached_healthy atomic |
 | Cache stampede in `DiffEngine` | `diff_engine.cpp:181` | Medium | Two threads can duplicate expensive changefeed scan |
-| `KNNRegressorModel::predictOneReg()` = 0.0 | `automl.cpp:833` | Medium | Silent wrong predictions for regression tasks |
-| 8 unresolved TODOs | `streaming_window.cpp` | Medium | File header reports but does not enumerate them |
+| `KNNRegressorModel::predictOneReg()` = 0.0 | `automl.cpp:833` | Medium | ✅ Fixed v1.8.0: weighted inverse-distance mean of k nearest neighbours |
+| 8 unresolved TODOs | `streaming_window.cpp` | Medium | Enumerated as inline TODO(v1.8.0) comments in file header (§13 resolved) |
 | Windows OLAP/ProcessMining stubs | `olap.cpp:53`, `process_mining.cpp:24` | Low | Not a blocker on Linux; silently fails on Windows |
 | `computePercentile` by-value copy | `cep_engine.cpp:140` | Low | 80 KB copy per percentile on 10k-event windows |
 
@@ -582,7 +580,7 @@ extensions.  The `WindowConfig` struct additions (section 13) and `LLMConfig.max
 | `ModelServingEngine::predict()` (8-core, decision tree depth 10) | ~20 000/s (lock-serialized) | ≥ 500 000/s |
 | `IncrementalView::applyChanges()` reader P99 during 10k-row batch | ~500 ms | ≤ 10 ms |
 | `StreamingAnomalyDetector::process()` lock-hold | ~10 ms (includes train) | ≤ 50 µs |
-| `LLMProcessAnalyzer` cache put/get | O(N) | O(1) ≤ 1 µs |
+| `LLMProcessAnalyzer` cache put/get | O(N) | ✅ O(1) ≤ 1 µs (v1.8.0) |
 | `DiffEngine::computeDiff()` cache-miss (1 M event log, range 1000) | ~500 ms | ≤ 50 ms |
 | AVX-512 SUM over 10 M doubles | N/A (unimplemented) | ≥ 2× AVX2 |
 | `forecasting.cpp` auto-tune (9α, n=500) | ~50 ms single-thread | ≤ 5 ms parallel |

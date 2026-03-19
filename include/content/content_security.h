@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_security.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:17                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:06:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     225                                            ║
+    • Total Lines:     256                                            ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2737ade5b  2026-03-11  fix(content/security): audit corrections - test rename, z... ║
+    • 1bacdae51  2026-03-11  fix(content/security): add zip-bomb protection in archive... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -24,8 +26,10 @@
 #pragma once
 
 #include "content/content_errors.h"
+#include "content/abuse_detector.h"
 #include "security/malware_scanner.h"
 #include "utils/pii_detector.h"
+#include "utils/audit_logger.h"
 #include <string>
 #include <memory>
 #include <atomic>
@@ -51,7 +55,7 @@ struct ContentSecurityConfig {
     bool redact_pii_in_logs = true;     // Redact PII from log output
     
     // Abuse detection
-    bool enable_abuse_detection = false;  // Stub for future implementation
+    bool enable_abuse_detection = false;  ///< Enable abuse detection via registered IAbuseDetector instances
     bool block_on_abuse = false;
     
     // Error sanitization
@@ -85,6 +89,9 @@ struct SecurityCheckResult {
     
     bool abuse_checked = false;
     bool abuse_detected = false;
+    std::string abuse_action;        ///< "ALLOW", "FLAG", or "BLOCK"
+    std::string abuse_detector_type; ///< which detector matched (e.g. "PhotoDNA", "Text")
+    std::string abuse_pattern_name;  ///< name of the matched pattern/hash (empty if ALLOW)
     
     bool zip_bomb_checked = false;
     bool zip_bomb_detected = false;
@@ -99,13 +106,16 @@ struct SecurityCheckResult {
  * Integrates:
  * - Malware scanning (via MalwareFilterManager)
  * - PII detection (via PIIDetector)
- * - Content abuse detection (stub)
+ * - Content abuse detection (PhotoDNA + text pattern detectors)
  * - Error sanitization
  * 
  * Usage:
  *   ContentSecurityManager security(config);
  *   security.setMalwareFilter(malware_filter);
  *   security.setPiiDetector(pii_detector);
+ *   security.setPhotoAbuseDetector(photo_detector);
+ *   security.setTextAbuseDetector(text_detector);
+ *   security.setAuditLogger(audit_logger);  // optional; non-owning
  *   
  *   auto result = security.checkContent(data, mime_type, content_id);
  *   if (result.error.failed()) {
@@ -127,6 +137,24 @@ public:
      * @brief Set PII detector
      */
     void setPiiDetector(std::shared_ptr<utils::PIIDetector> detector);
+    
+    /**
+     * @brief Set perceptual-hash abuse detector for image content (PhotoDNA)
+     */
+    void setPhotoAbuseDetector(std::shared_ptr<IAbuseDetector> detector);
+    
+    /**
+     * @brief Set text pattern abuse detector
+     */
+    void setTextAbuseDetector(std::shared_ptr<IAbuseDetector> detector);
+    
+    /**
+     * @brief Attach an audit logger for abuse detection events.
+     *
+     * Non-owning; the caller is responsible for keeping the logger alive.
+     * Pass nullptr to detach.
+     */
+    void setAuditLogger(utils::AuditLogger* logger);
     
     /**
      * @brief Check content security
@@ -215,6 +243,7 @@ public:
         std::atomic<uint64_t> pii_blocked{0};
         std::atomic<uint64_t> abuse_scans{0};
         std::atomic<uint64_t> abuse_detected{0};
+        std::atomic<uint64_t> abuse_blocked{0};
         std::atomic<uint64_t> errors_sanitized{0};
         std::atomic<uint64_t> zip_bomb_scans{0};
         std::atomic<uint64_t> zip_bomb_blocked{0};
@@ -228,6 +257,9 @@ private:
     ContentSecurityConfig config_;
     std::shared_ptr<security::MalwareFilterManager> malware_filter_;
     std::shared_ptr<utils::PIIDetector> pii_detector_;
+    std::shared_ptr<IAbuseDetector> photo_abuse_detector_;
+    std::shared_ptr<IAbuseDetector> text_abuse_detector_;
+    utils::AuditLogger* audit_logger_ = nullptr;
     mutable Metrics metrics_;
     
     // Helper methods
@@ -244,7 +276,8 @@ private:
     );
     
     SecurityCheckResult checkAbuse(
-        const std::string& text,
+        const std::string& data,
+        const std::string& mime_type,
         const std::string& content_id
     );
     

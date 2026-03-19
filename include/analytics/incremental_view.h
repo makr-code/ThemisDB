@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            incremental_view.h                                 ║
-  Version:         0.0.19                                             ║
-  Last Modified:   2026-03-09 03:52:31                                ║
+  Version:         0.0.20                                             ║
+  Last Modified:   2026-03-16 04:05:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     458                                            ║
+    • Total Lines:     459                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -233,7 +233,9 @@ public:
 
     /**
      * Apply a batch of change records.
-     * Thread-safe. Acquires the mutex once for the entire batch.
+     * Thread-safe. Processes changes in micro-batches (≤ 256 rows) to allow
+     * concurrent readers to acquire the shared lock between batches.
+     * Base filters are evaluated outside the write lock.
      */
     int applyChanges(const std::vector<ChangeRecord>& changes);
 

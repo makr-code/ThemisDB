@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_manager.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:57:50                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:14:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     2686                                           ║
+    • Total Lines:     2770                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 67549ed6f  2026-03-15  fix(content): wire ContentPolicy::embedding_model gate in... ║
+    • 0e2644909  2026-03-11  fix(content): thread-safe OCR routing — add shouldTrigger... ║
+    • fbee25556  2026-03-11  feat(content): wire ContentPolicy::ocrEnabled() to MimeDe... ║
+    • 7e6930569  2026-03-11  feat(content): wire OCR integration into content_manager:... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 49aa9b058  2026-03-02  Add modules, extraction retries, and test fixes ║
-    • d96f6838d  2026-02-28  feat(content): add chunking stage gate and VIDEO category... ║
-    • 6508e0611  2026-02-28  feat(content): Harden pipeline orchestration with per-sta... ║
-    • b617bb3a1  2026-02-28  Implement content deduplication via SHA-256 hash before s... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -2054,14 +2054,21 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
         processor_chain_config_.getEffectiveConfig(detected_mime, category);
 
     // ---- Perceptual deduplication (opt-in via ContentPolicy::enable_deduplication) ----
+    // Callers pass `config["enable_deduplication"] = policy.enable_deduplication`.
+    // The default is false (opt-in, not opt-out): dedup is skipped unless the caller
+    // explicitly enables it.  ProcessorChainConfig can still disable it globally per
+    // MIME/category by setting deduplication.enabled=false; both conditions must be
+    // true for dedup to run.
     // Compute pHash (image) or MinHash (text) once; reuse for both the duplicate
     // check and the post-storage registration to avoid redundant computation.
+    const bool dedup_policy_enabled =
+        config.value("enable_deduplication", false) && stage_cfg.deduplication.enabled;
     const bool dedup_is_image = (category == ContentCategory::IMAGE);
     const bool dedup_is_text  = (category == ContentCategory::TEXT);
     std::string cached_phash;
     std::vector<uint32_t> cached_minhash;
 
-    if (stage_cfg.deduplication.enabled && dedup_checker_ && (dedup_is_image || dedup_is_text)) {
+    if (dedup_policy_enabled && dedup_checker_ && (dedup_is_image || dedup_is_text)) {
         metrics_.dedup_checks_total.fetch_add(1);
 
         std::optional<DuplicateOf> dup;
@@ -2368,7 +2375,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
 
     // Register with the deduplication index after successful storage.
     // Reuse cached_phash / cached_minhash computed above (no redundant DCT/hash).
-    if (stage_cfg.deduplication.enabled && dedup_checker_ && (dedup_is_image || dedup_is_text)) {
+    if (dedup_policy_enabled && dedup_checker_ && (dedup_is_image || dedup_is_text)) {
         if (dedup_is_image && !cached_phash.empty()) {
             dedup_checker_->registerImage(content_id, cached_phash);
             meta.extracted_metadata["phash_hex"] = cached_phash;

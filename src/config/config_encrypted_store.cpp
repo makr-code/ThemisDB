@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            config_encrypted_store.cpp                         ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:14:11                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     437                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 6690594e5  2026-03-11  feat(config): encrypted config storage with AES-256-GCM a... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "config/config_encrypted_store.h"
 
 #include <nlohmann/json.hpp>
@@ -119,12 +141,12 @@ void ConfigEncryptedStore::set(const std::string& config_key,
     if (config_key.empty()) {
         throw std::invalid_argument("ConfigEncryptedStore::set: config_key must not be empty");
     }
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     store_[config_key] = encryptValue(plaintext);
 }
 
 std::string ConfigEncryptedStore::get(const std::string& config_key) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     auto it = store_.find(config_key);
     if (it == store_.end()) {
         throw ConfigKeyNotFoundException(config_key);
@@ -134,7 +156,7 @@ std::string ConfigEncryptedStore::get(const std::string& config_key) const {
 
 std::optional<std::string> ConfigEncryptedStore::tryGet(
     const std::string& config_key) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     auto it = store_.find(config_key);
     if (it == store_.end()) {
         return std::nullopt;
@@ -147,17 +169,17 @@ std::optional<std::string> ConfigEncryptedStore::tryGet(
 }
 
 bool ConfigEncryptedStore::remove(const std::string& config_key) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     return store_.erase(config_key) > 0;
 }
 
 bool ConfigEncryptedStore::contains(const std::string& config_key) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     return store_.count(config_key) > 0;
 }
 
 std::vector<std::string> ConfigEncryptedStore::keys() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     std::vector<std::string> result;
     result.reserve(store_.size());
     for (const auto& kv : store_) {
@@ -167,12 +189,12 @@ std::vector<std::string> ConfigEncryptedStore::keys() const {
 }
 
 std::size_t ConfigEncryptedStore::size() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     return store_.size();
 }
 
 void ConfigEncryptedStore::clear() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     store_.clear();
 }
 
@@ -181,7 +203,7 @@ void ConfigEncryptedStore::clear() {
 // ---------------------------------------------------------------------------
 
 uint32_t ConfigEncryptedStore::rotateKey() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
 
     // Generate new key material.
     KeyMaterial new_key;
@@ -221,7 +243,7 @@ uint32_t ConfigEncryptedStore::rotateKey() {
 }
 
 uint32_t ConfigEncryptedStore::currentKeyVersion() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     return key_.version;
 }
 
@@ -230,7 +252,7 @@ uint32_t ConfigEncryptedStore::currentKeyVersion() const {
 // ---------------------------------------------------------------------------
 
 std::string ConfigEncryptedStore::serialize() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
 
     nlohmann::json j;
     j["key_version"]  = key_.version;
@@ -265,7 +287,7 @@ void ConfigEncryptedStore::deserialize(const std::string& json_str) {
                 ConfigEncryptedBlob::fromJson(it.value().get<std::string>());
         }
 
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::unique_lock<std::shared_mutex> lock(mutex_);
         // Zero out old key before replacing.
         std::fill(key_.key_bytes.begin(), key_.key_bytes.end(),
                   static_cast<uint8_t>(0));

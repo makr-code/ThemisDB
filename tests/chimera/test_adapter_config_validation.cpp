@@ -1,4 +1,27 @@
 /*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_adapter_config_validation.cpp                 ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:20:35                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     379                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 66c21bb7c  2026-03-12  fix(chimera): address review feedback on AdapterConfig va... ║
+    • a3a9d7e09  2026-03-12  feat(chimera): implement AdapterConfig validation (v1.2.0) ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
  * @file test_adapter_config_validation.cpp
  * @brief Unit tests for AdapterConfig validation (chimera suite)
  *

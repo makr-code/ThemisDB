@@ -4,16 +4,18 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            export_api_handler.cpp                             ║
   Version:         0.0.35                                             ║
-  Last Modified:   2026-03-11 17:58:00                                ║
+  Last Modified:   2026-03-16 04:18:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     435                                            ║
+    • Total Lines:     470                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ef1605ac5  2026-03-11  fix(server): ExportApiHandler - 403 Forbidden for ERR_EXP... ║
+    • 1b86d845d  2026-03-11  feat(tracing): add OpenTelemetry spans to all major API h... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • dcf2eb787  2026-02-27  feat(exporters): audit fixes - AQL filter validation in A... ║
 ╠═════════════════════════════════════════════════════════════════════╣

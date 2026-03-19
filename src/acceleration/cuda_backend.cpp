@@ -3,24 +3,24 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cuda_backend.cpp                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:50                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:12:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                            ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     2167                                           ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   96.0/100                                       ║
+    • Total Lines:     2253                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • e627c556b  2026-03-15  feat(acceleration): BackendRegistry thread-safety, VLLMRe... ║
+    • d64a17619  2026-03-11  fix(acceleration): update cuda_backend.cpp file header me... ║
+    • e2fff830f  2026-03-11  feat(acceleration): wire HNSW graph traversal into CUDAVe... ║
+    • 7e608ea7c  2026-03-11  feat(acceleration): implement CUDAGraphBackend BFS and sh... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • bb7355ba7  2026-02-23  fix(acceleration): add missing CUDAMatrixBackend declarat... ║
-    • 1b73a7e71  2026-02-23  Implement CUDA kernels for HNSW ANN search (cuda/ann_kern... ║
-    • 50d44f370  2026-02-23  feat(acceleration): implement CUDA graph capture for recu... ║
-    • fa818fec0  2026-02-23  feat(acceleration): implement CUDAGeoBackend production m... ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                              ║
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
@@ -160,6 +160,12 @@ void launchGraphBFRelaxKernel(
 
 namespace themis {
 namespace acceleration {
+
+// Maximum k for a single-pass HNSW kernel invocation.
+// Mirrors kMaxK in src/acceleration/cuda/cuda_hnsw_kernels.cu.
+// For k > kHnswSinglePassMaxK the engine falls through to a multi-pass
+// host-merge strategy; this is considered a degraded operation mode.
+static constexpr uint32_t kHnswSinglePassMaxK = 1024u;
 
 // ============================================================================
 // CUDAVectorBackend Implementation
@@ -372,6 +378,20 @@ CUDAVectorBackend::annBatchSearch(
     }
     if (queries == nullptr || numQueries == 0 || k == 0) return {};
 
+    // In release builds: k > kHnswSinglePassMaxK triggers multi-pass (degraded mode).
+    // Surface this as a degraded health status so callers can detect it via
+    // getHealthStatus().  In debug builds the kernel itself will __trap() before
+    // ever reaching multi-pass, ensuring misuse is caught early.
+#if defined(NDEBUG)
+    if (k > static_cast<size_t>(kHnswSinglePassMaxK)) {
+        setError(ErrorContextHelpers::createValidationError(
+            "CUDA-HNSW", AccelerationErrorCode::InvalidInputShape,
+            "k=" + std::to_string(k) + " exceeds single-pass kMaxK=" +
+            std::to_string(kHnswSinglePassMaxK) +
+            "; multi-pass host-merge strategy active (degraded performance)"));
+    }
+#endif
+
     auto hnswResults = hnswEngine_->batchSearch(
         queries, numQueries, static_cast<uint32_t>(k), ef);
 
@@ -500,6 +520,17 @@ std::vector<std::vector<std::pair<uint32_t, float>>> CUDAVectorBackend::batchKnn
     // stores the graph and vectors on device.  We delegate the search there
     // instead of running the brute-force O(N·d) distance matrix.
     if (hnswEngine_ && hnswEngine_->isBuilt()) {
+        // k > kHnswSinglePassMaxK uses multi-pass strategy; mark as degraded
+        // in release builds so getHealthStatus() surfaces the condition.
+#if defined(NDEBUG)
+        if (k > static_cast<size_t>(kHnswSinglePassMaxK)) {
+            setError(ErrorContextHelpers::createValidationError(
+                "CUDA-HNSW", AccelerationErrorCode::InvalidInputShape,
+                "k=" + std::to_string(k) + " exceeds single-pass kMaxK=" +
+                std::to_string(kHnswSinglePassMaxK) +
+                "; multi-pass host-merge strategy active (degraded performance)"));
+        }
+#endif
         auto hnswResults = hnswEngine_->batchSearch(
             queries, numQueries, static_cast<uint32_t>(k));
         std::vector<std::vector<std::pair<uint32_t, float>>> out;
@@ -2194,6 +2225,11 @@ BackendCapabilities CUDAMatrixBackend::getCapabilities() const {
             caps.deviceName    = std::string(prop.name);
             caps.maxMemoryBytes = prop.totalGlobalMem;
             caps.computeUnits  = prop.multiProcessorCount;
+            // INT8 Tensor Core acceleration requires Turing (SM 7.5+).
+            const int sm = prop.major * 10 + prop.minor;
+            if (sm >= 75) {
+                caps.supportedPrecisions = caps.supportedPrecisions | PrecisionMode::INT8;
+            }
         }
     } else {
         caps.deviceName = "CUDA Device (Not Available)";

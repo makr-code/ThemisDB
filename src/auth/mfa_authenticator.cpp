@@ -3,20 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mfa_authenticator.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:57:10                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:13:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   96.0/100                                       ║
-    • Total Lines:     351                                            ║
+    • Total Lines:     402                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 47778fbd5  2026-03-12  fix(auth): suppress spurious drift warning for valid time... ║
+    • 94bb63df8  2026-03-12  feat(auth): TOTP/MFA configurable window enforcement and ... ║
+    • b4e979f80  2026-03-12  fix(auth): constant-time comparison for recovery codes an... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 9e2379475  2026-02-24  audit: resolve Stubs:1 metadata in mfa_authenticator.h/.c... ║
-    • c8f827534  2026-02-23  feat(auth): add audit logging for all authentication even... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

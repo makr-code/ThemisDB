@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            distributed_graph.cpp                              ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:58:31                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:15:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     380                                            ║
+    • Total Lines:     381                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -32,6 +32,7 @@
 #include <functional>
 #include <future>
 #include <limits>
+#include <shared_mutex>
 #include <spdlog/spdlog.h>
 #include <thread>
 #include <unordered_set>
@@ -97,17 +98,17 @@ DistributedGraphManager::DistributedGraphManager(const DistributedGraphConfig& c
 
 void DistributedGraphManager::addShard(const std::string& shard_id,
                                        std::shared_ptr<ShardGraphExecutor> executor) {
-    std::lock_guard<std::mutex> lock(shards_mutex_);
+    std::unique_lock<std::shared_mutex> lock(shards_mutex_);
     shards_[shard_id] = std::move(executor);
 }
 
 void DistributedGraphManager::removeShard(const std::string& shard_id) {
-    std::lock_guard<std::mutex> lock(shards_mutex_);
+    std::unique_lock<std::shared_mutex> lock(shards_mutex_);
     shards_.erase(shard_id);
 }
 
 std::vector<std::string> DistributedGraphManager::shardIds() const {
-    std::lock_guard<std::mutex> lock(shards_mutex_);
+    std::shared_lock<std::shared_mutex> lock(shards_mutex_);
     std::vector<std::string> ids;
     ids.reserve(shards_.size());
     for (const auto& [id, _] : shards_) {
@@ -117,13 +118,13 @@ std::vector<std::string> DistributedGraphManager::shardIds() const {
 }
 
 size_t DistributedGraphManager::shardCount() const {
-    std::lock_guard<std::mutex> lock(shards_mutex_);
+    std::shared_lock<std::shared_mutex> lock(shards_mutex_);
     return shards_.size();
 }
 
 std::vector<std::pair<std::string, std::shared_ptr<ShardGraphExecutor>>>
 DistributedGraphManager::healthyShards() const {
-    std::lock_guard<std::mutex> lock(shards_mutex_);
+    std::shared_lock<std::shared_mutex> lock(shards_mutex_);
     std::vector<std::pair<std::string, std::shared_ptr<ShardGraphExecutor>>> result;
     result.reserve(shards_.size());
     for (const auto& [id, exec] : shards_) {
@@ -159,7 +160,7 @@ DistributedGraphManager::parseVertexId(std::string_view qualified_id) {
 std::string DistributedGraphManager::resolveShardForVertex(
     const std::string& local_vertex_id) const {
 
-    std::lock_guard<std::mutex> lock(shards_mutex_);
+    std::shared_lock<std::shared_mutex> lock(shards_mutex_);
     if (shards_.empty()) return "";
 
     // Collect shard IDs in a stable order for deterministic hashing.

@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ml_serving.cpp                                     ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:56:59                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-16 04:13:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
-    • Total Lines:     637                                            ║
+    • Total Lines:     644                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • edcfeb984  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 197b8b5b1  2026-02-24  feat(analytics): integrate ONNX Runtime and TensorFlow Se... ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -37,7 +38,10 @@
 #include "analytics/ml_serving.h"
 #include <algorithm>
 #include <chrono>
+#include <mutex>
+#include <shared_mutex>
 #include <stdexcept>
+#include <thread>
 #include <spdlog/spdlog.h>
 
 // ─── ONNX Runtime ─────────────────────────────────────────────────────────
@@ -103,9 +107,15 @@ struct ONNXServingBackend::Impl {
     ONNXBackendConfig          config;
     Ort::Env                   env;
     Ort::SessionOptions        session_opts;
-    // Per-model sessions, protected by a shared mutex.
-    std::map<std::string, std::unique_ptr<Ort::Session>> sessions;
-    mutable std::mutex         sessions_mutex;
+    // Per-model sessions stored as shared_ptr so handles can be retained
+    // outside the map lock while ONNX Run() executes concurrently.
+    std::map<std::string, std::shared_ptr<Ort::Session>> sessions;
+    mutable std::shared_mutex  sessions_mutex;   // shared=read, exclusive=write
+
+    // Per-model loading mutexes: serialise concurrent loads of the *same*
+    // model without blocking inferences for unrelated models.
+    std::map<std::string, std::shared_ptr<std::mutex>> model_load_mutexes;
+    std::mutex                 model_load_mutexes_lock;
 
     explicit Impl(const ONNXBackendConfig& cfg)
         : config(cfg)
@@ -130,22 +140,85 @@ struct ONNXServingBackend::Impl {
         }
     }
 
-    // Load a session for the given model name (lazy, called under lock).
-    bool loadSession(const std::string& model_name) {
+    // Returns a shared_ptr to the session for model_name, loading it lazily.
+    // Must be called WITHOUT holding sessions_mutex.
+    //
+    // Design:
+    //  1. Fast path   – shared_lock on sessions_mutex; return if already loaded.
+    //  2. Load path   – per-model mutex serialises concurrent loads of the same
+    //                   model; unrelated models are never blocked.
+    //  3. Double-check after acquiring the per-model lock (another thread may
+    //                   have already finished loading).
+    //  4. Actual load – I/O happens only under the per-model lock, NOT under
+    //                   sessions_mutex.
+    //  5. Store       – exclusive write lock on sessions_mutex to insert.
+    //
+    // Note: model_load_mutexes grows proportionally to the number of distinct
+    // model names ever requested (typically a small, bounded set).
+    std::shared_ptr<Ort::Session> getOrLoadSession(const std::string& model_name) {
+        // Fast path: session already loaded.
+        {
+            std::shared_lock<std::shared_mutex> sessions_read_lock(sessions_mutex);
+            auto it = sessions.find(model_name);
+            if (it != sessions.end()) {
+                return it->second;
+            }
+        }
+
+        // Slow path: need to load. Obtain a per-model mutex so that concurrent
+        // requests for the *same* model queue behind each other while requests
+        // for *different* models proceed in parallel.
+        std::shared_ptr<std::mutex> load_mutex;
+        {
+            std::lock_guard<std::mutex> mlk(model_load_mutexes_lock);
+            auto& entry = model_load_mutexes[model_name];
+            if (!entry) entry = std::make_shared<std::mutex>();
+            load_mutex = entry;
+        }
+
+        std::lock_guard<std::mutex> load_lock(*load_mutex);
+
+        // Double-check: another thread may have finished loading while we
+        // waited on the per-model mutex.
+        {
+            std::shared_lock<std::shared_mutex> sessions_read_lock(sessions_mutex);
+            auto it = sessions.find(model_name);
+            if (it != sessions.end()) {
+                return it->second;
+            }
+        }
+
+        // Actually load the model (potentially slow I/O – held only under the
+        // per-model lock, not under sessions_mutex).
+        auto session = loadSession(model_name);
+        if (!session) {
+            return nullptr;
+        }
+
+        // Store in the session map under an exclusive write lock.
+        {
+            std::unique_lock<std::shared_mutex> sessions_write_lock(sessions_mutex);
+            sessions[model_name] = session;
+        }
+        return session;
+    }
+
+    // Load a session for the given model name.
+    // Returns nullptr on failure. Must be called WITHOUT holding sessions_mutex.
+    std::shared_ptr<Ort::Session> loadSession(const std::string& model_name) {
         auto model_path = config.model_directory + "/" + model_name + ".onnx";
         try {
 #ifdef _WIN32
             std::wstring wpath(model_path.begin(), model_path.end());
-            auto session = std::make_unique<Ort::Session>(env, wpath.c_str(), session_opts);
+            auto session = std::make_shared<Ort::Session>(env, wpath.c_str(), session_opts);
 #else
-            auto session = std::make_unique<Ort::Session>(env, model_path.c_str(), session_opts);
+            auto session = std::make_shared<Ort::Session>(env, model_path.c_str(), session_opts);
 #endif
-            sessions[model_name] = std::move(session);
             spdlog::info("MLServing[ONNX]: loaded model '{}'", model_name);
-            return true;
+            return session;
         } catch (const Ort::Exception& e) {
             spdlog::error("MLServing[ONNX]: failed to load '{}': {}", model_name, e.what());
-            return false;
+            return nullptr;
         }
     }
 };
@@ -173,22 +246,19 @@ MLServingResponse ONNXServingBackend::infer(const MLServingRequest& req) {
         return resp;
     }
 
-    // Ensure session is loaded
-    {
-        std::lock_guard<std::mutex> lock(impl_->sessions_mutex);
-        if (impl_->sessions.find(req.model_name) == impl_->sessions.end()) {
-            if (!impl_->loadSession(req.model_name)) {
-                resp.status        = MLServingStatus::UNAVAILABLE;
-                resp.error_message = "Model '" + req.model_name + "' could not be loaded";
-                resp.latency_ms    = sw.elapsedMs();
-                return resp;
-            }
-        }
+    // Obtain a shared_ptr to the session in a single brief critical section.
+    // sessions_mutex is released before ONNX Run() so independent-model
+    // inferences can proceed concurrently (fixes 5a TOCTOU + 5b global lock).
+    auto session_ptr = impl_->getOrLoadSession(req.model_name);
+    if (!session_ptr) {
+        resp.status        = MLServingStatus::UNAVAILABLE;
+        resp.error_message = "Model '" + req.model_name + "' could not be loaded";
+        resp.latency_ms    = sw.elapsedMs();
+        return resp;
     }
 
     try {
-        std::lock_guard<std::mutex> lock(impl_->sessions_mutex);
-        auto& session = *impl_->sessions.at(req.model_name);
+        auto& session = *session_ptr;  // held via shared_ptr – no global lock needed
 
         Ort::AllocatorWithDefaultOptions allocator;
 

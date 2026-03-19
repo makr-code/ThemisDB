@@ -122,10 +122,10 @@ This document covers implementation-specific future enhancements for the Cache m
 `cache_replication_coordinator.cpp` uses an in-process `ReplicationBus` where peers are registered via direct pointer sharing (line 73: `for (auto* peer : bus_->peers)`). This only works within a single process. Cross-node cache invalidation (required for clustered deployments) is not implemented.
 
 **Implementation Notes:**
-- `[ ]` Define a `IRemoteCachePeer` interface with `invalidate(key)` and `invalidateTenant(tenant_id)` methods.
-- `[ ]` Implement `GrpcRemoteCachePeer` backed by the existing gRPC transport in `src/network/grpc_transport.cpp`.
-- `[ ]` `CacheReplicationCoordinator` holds a `std::vector<IRemoteCachePeer*>`; populate from cluster membership (Raft or gossip) via a `ClusterView` injection.
-- `[ ]` Fanout invalidation to remote peers asynchronously (fire-and-forget with a bounded retry queue); do not block `put()` on remote acknowledgment.
+- `[x]` Define a `IRemoteCachePeer` interface with `invalidate(key)` and `invalidateTenant(tenant_id)` methods.
+- `[x]` Implement `GrpcRemoteCachePeer` backed by the existing gRPC transport in `src/network/grpc_transport.cpp`.
+- `[x]` `CacheReplicationCoordinator` holds a `std::vector<IRemoteCachePeer*>`; populate from cluster membership (Raft or gossip) via a `ClusterView` injection.
+- `[x]` Fanout invalidation to remote peers asynchronously (fire-and-forget with a bounded retry queue); do not block `put()` on remote acknowledgment.
 
 ---
 

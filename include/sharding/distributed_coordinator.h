@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            distributed_coordinator.h                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:29                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:10:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     231                                            ║
+    • Total Lines:     265                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • eed24c44d  2026-03-15  feat: Wire OrphanDetector to DistributedCoordinator trans... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 49cd5bf58  2026-02-22  Implement distributed task coordination across nodes (Pha... ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -25,8 +26,10 @@
 
 #include "sharding/gossip_config_manager.h"
 #include "sharding/shard_topology.h"
+#include "sharding/cross_shard_transaction.h"
 #include <nlohmann/json.hpp>
 #include <atomic>
+#include <optional>
 #include <shared_mutex>
 #include <thread>
 #include <chrono>
@@ -165,7 +168,34 @@ public:
     // Statistics
     Statistics getStatistics() const;
     nlohmann::json getStatisticsJson() const;
-    
+
+    // Transaction visibility – wired to a CrossShardTransactionCoordinator
+    // so that OrphanDetector can query in-flight transactions via this class.
+
+    /**
+     * Register the transaction coordinator whose in-flight transactions this
+     * DistributedCoordinator will expose.  The caller must ensure the
+     * coordinator outlives this object (or call with nullptr to detach).
+     */
+    void setTransactionCoordinator(
+        themisdb::sharding::CrossShardTransactionCoordinator* txn_coordinator);
+
+    /**
+     * Return all transactions that are currently active / in-flight according
+     * to the registered CrossShardTransactionCoordinator.
+     * Returns an empty vector when no coordinator has been registered.
+     */
+    std::vector<themisdb::sharding::CrossShardTransaction>
+    listInFlightTransactions() const;
+
+    /**
+     * Look up a specific transaction by ID in the registered coordinator.
+     * Returns std::nullopt when no coordinator is registered or the
+     * transaction does not exist.
+     */
+    std::optional<themisdb::sharding::CrossShardTransaction>
+    getTransaction(const std::string& txn_id) const;
+
 private:
     std::string local_shard_id_;
     std::shared_ptr<ShardTopology> topology_;
@@ -198,7 +228,11 @@ private:
     
     // Statistics
     Statistics stats_;
-    
+
+    // Optional wired transaction coordinator (non-owning pointer).
+    themisdb::sharding::CrossShardTransactionCoordinator* txn_coordinator_{nullptr};
+    mutable std::shared_mutex txn_coordinator_mutex_;
+
     // Election logic (Raft-inspired but gossip-based)
     void electionLoop();
     void heartbeatLoop();

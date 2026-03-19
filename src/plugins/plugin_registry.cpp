@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plugin_registry.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:28                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:17:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     59                                             ║
+    • Total Lines:     61                                             ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ae40fc781  2026-03-15  feat(plugins): upgrade PluginRegistry global mutex to sha... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • c3452af1e  2026-02-26  feat(plugins): implement SignedPluginRepository with Ed25... ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -24,6 +25,7 @@
 #include "plugins/plugin_registry.h"
 #include <map>
 #include <mutex>
+#include <shared_mutex>
 
 namespace themis {
 namespace plugins {
@@ -46,13 +48,13 @@ PluginRegistry::Registry& PluginRegistry::getTypeRegistry(const std::type_info& 
     return type_registries[type_hash];
 }
 
-std::mutex& PluginRegistry::getMutex() {
-    static std::mutex mutex;
+std::shared_mutex& PluginRegistry::getMutex() {
+    static std::shared_mutex mutex;
     return mutex;
 }
 
 void PluginRegistry::clearRegistry() {
-    std::lock_guard<std::mutex> lock(getMutex());
+    std::unique_lock<std::shared_mutex> lock(getMutex());
     getTypeRegistries().clear();
 }
 

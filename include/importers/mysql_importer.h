@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mysql_importer.h                                   ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-03-09 03:53:49                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-03-16 04:07:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     170                                            ║
+    • Total Lines:     186                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 786e4a8df  2026-03-15  feat(importers): incremental import, MySQL benchmark, Mon... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 25e8cec73  2026-02-28  Implement JDBC-compatible config for MySQL/MariaDB importer ║
     • ac1dacf6a  2026-02-22  Add MySQL/MariaDB importer: header, implementation, tests... ║
@@ -25,6 +26,7 @@
 #pragma once
 
 #include "importers/importer_interface.h"
+#include "importers/importer_interfaces.h"
 #include "plugins/plugin_interface.h"
 #include <atomic>
 #include <cstdint>
@@ -180,6 +182,39 @@ public:
 
 private:
     std::unique_ptr<MySQLImporter> importer_;
+};
+
+} // namespace importers
+} // namespace themis
+
+/**
+ * @brief URI-scheme plugin registering MySQLImporter with ImporterSchemeRegistry.
+ *
+ * Handles "mysql://" and "mariadb://" source URIs.  Registered at static-init
+ * time via REGISTER_IMPORTER_PLUGIN so that the process-wide
+ * IImporterPluginRegistry::instance() can resolve MySQL/MariaDB sources
+ * without any manual wiring.
+ *
+ * The admin import API route POST /api/v1/import/mysql uses this plugin to
+ * create a fresh MySQLImporter for each request.
+ */
+namespace themis {
+namespace importers {
+
+class MySQLImporterSchemePlugin : public IImporterPlugin {
+public:
+    const char* pluginId() const override { return "mysql_plugin"; }
+
+    std::vector<std::string> supportedSchemes() const override {
+        return {"mysql", "mariadb"};
+    }
+
+    std::unique_ptr<IImporter> createImporter(
+            const ImportConfig& config) const override {
+        auto imp = std::make_unique<MySQLImporter>();
+        imp->initialize(config.json_config.empty() ? "{}" : config.json_config);
+        return imp;
+    }
 };
 
 } // namespace importers

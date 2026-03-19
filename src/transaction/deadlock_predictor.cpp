@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            deadlock_predictor.cpp                             ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:19:50                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     347                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 7fc70aef2  2026-03-14  fix(transaction): correct eviction logic in recordDeadlock() ║
+    • 7be96cdad  2026-03-14  fix(transaction): address PR review feedback on DeadlockP... ║
+    • 0e13468f3  2026-03-13  refactor(transaction): address code review feedback ║
+    • 531f9a095  2026-03-13  feat(transaction): implement Adaptive Deadlock Prevention... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "transaction/deadlock_predictor.h"
 
 #include <algorithm>

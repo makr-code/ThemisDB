@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            operational_metrics.cpp                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:29                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-16 04:19:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     608                                            ║
+    • Total Lines:     625                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a280bfd0  2026-03-15  feat: Complete Shard RPC Integration acceptance criteria ... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -403,6 +404,20 @@ HealthStatus OperationalMetrics::getClusterHealth() const {
     }
     
     return HealthStatus::HEALTHY;
+}
+
+void OperationalMetrics::recordRpcCall(
+    const std::string& shard_id,
+    const std::string& method,
+    const std::string& outcome,
+    uint64_t latency_us
+) {
+    // Map outcome string to success flag for the generic recordRequest path.
+    const bool success = (outcome == "success");
+    // RPC calls are always cross-shard writes from the perspective of the
+    // generic request counter (they carry mutation intent).
+    recordRequest(shard_id, latency_us, success, /*is_write=*/true);
+    (void)method; // label carried by PrometheusMetrics; suppresses unused-var warning
 }
 
 void OperationalMetrics::recordRequest(
