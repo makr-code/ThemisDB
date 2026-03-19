@@ -40,7 +40,7 @@ jobs:
   ci-scope-classifier:
     permissions:
       contents: read
-    uses: ./.github/workflows/ci-scope-classifier.yml
+    uses: ./.github/workflows/01-core/ci-scope-classifier.yml
 
   csv-export-compliance-tests:
     needs: ci-scope-classifier
