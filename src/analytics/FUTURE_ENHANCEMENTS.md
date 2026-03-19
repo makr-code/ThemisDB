@@ -277,10 +277,10 @@ should be queried with both `from_sequence` and `to_sequence` bounds to avoid sc
 entire log.
 
 **Implementation Notes:**
-- `[ ]` Add an in-flight-request set (`std::unordered_set<std::pair<int64_t,int64_t>>`) so the second caller for the same range waits on a `condition_variable` rather than re-computing
-- `[ ]` Pass `from_sequence` and `to_sequence` as bounds to `changefeed_.listEvents()` when the `Changefeed::ListOptions` struct supports it — avoids materializing the entire event log
-- `[ ]` Replace raw `listEvents(…); filter in loop` pattern with a binary-search or indexed range query when the changefeed is backed by a sorted store
-- `[ ]` `evictOldCacheEntries()` (called while holding `cache_mutex_` at line 217) performs an unguarded iteration — apply the same copy-evict-then-lock pattern to keep lock duration short
+- `[x]` Add an in-flight-request set (`std::unordered_set<std::pair<int64_t,int64_t>>`) so the second caller for the same range waits on a `condition_variable` rather than re-computing
+- `[x]` Pass `from_sequence` and `to_sequence` as bounds to `changefeed_.listEvents()` when the `Changefeed::ListOptions` struct supports it — avoids materializing the entire event log
+- `[x]` Replace raw `listEvents(…); filter in loop` pattern with a binary-search or indexed range query when the changefeed is backed by a sorted store
+- `[x]` `evictOldCacheEntries()` (called while holding `cache_mutex_` at line 217) performs an unguarded iteration — apply the same copy-evict-then-lock pattern to keep lock duration short
 
 **Performance Targets:**
 - `computeDiff()` cache-miss path for a 1 M-event log, range [N-1000, N]: ≤ 50 ms

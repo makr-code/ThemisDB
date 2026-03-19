@@ -101,8 +101,9 @@ public:
     };
 
     struct ListOptions {
-        uint64_t from_sequence = 0;       // Start after this sequence
-        size_t limit = 100;               // Max events to return
+        uint64_t from_sequence = 0;       // Start after this sequence (exclusive)
+        uint64_t to_sequence = 0;         // Stop at this sequence (inclusive, 0 = no upper bound)
+        size_t limit = 100;               // Max events to return (std::numeric_limits<size_t>::max() = no limit)
         uint32_t long_poll_ms = 0;        // Long-poll timeout (0 = immediate)
         std::optional<std::string> key_prefix; // Filter by key prefix
         std::optional<ChangeEventType> event_type;   // Filter by single event type (legacy; use event_types for multi-type)

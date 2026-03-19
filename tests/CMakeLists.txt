@@ -8795,6 +8795,87 @@ else()
 endif()
 
 # ============================================================================
+# ChangefeedCore Focused Tests (v1.8.0) — validates Changefeed subscriptions,
+# listEvents() upper-bound (to_sequence), JSON round-trips, watermarks, and
+# concurrent subscribe/record safety.
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_changefeed_core.cpp")
+    message(STATUS "Adding ChangefeedCore focused tests (Issue #9, v1.8.0 stampede fix)")
+
+    add_executable(test_cdc_changefeed_core_focused
+        test_cdc_changefeed_core.cpp
+    )
+
+    target_include_directories(test_cdc_changefeed_core_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_cdc_changefeed_core_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cdc_changefeed_core_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ChangefeedCoreFocusedTests COMMAND test_cdc_changefeed_core_focused)
+
+    set_tests_properties(ChangefeedCoreFocusedTests PROPERTIES
+        LABELS "cdc;changefeed;to-sequence;upper-bound;stampede;v1.8.0;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ChangefeedCore: subscriptions, to_sequence upper-bound, JSON roundtrip, watermarks, concurrent safety")
+else()
+    message(STATUS "ChangefeedCore focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_changefeed_core.cpp")
+endif()
+
+# ============================================================================
+# DiffEngine Focused Tests (v1.8.0) — validates cache-stampede prevention,
+# bounded listEvents() via to_sequence, copy-evict-then-lock eviction, and
+# all original DiffEngine acceptance criteria.
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_diff_engine.cpp")
+    message(STATUS "Adding DiffEngine focused tests (Issue #9, v1.8.0 stampede fix)")
+
+    add_executable(test_diff_engine_focused
+        test_diff_engine.cpp
+    )
+
+    target_include_directories(test_diff_engine_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_diff_engine_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_diff_engine_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DiffEngineFocusedTests COMMAND test_diff_engine_focused)
+
+    set_tests_properties(DiffEngineFocusedTests PROPERTIES
+        LABELS "analytics;diff-engine;cache-stampede;inflight;bounded-fetch;v1.8.0;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  DiffEngine: stampede prevention, bounded fetch, copy-evict-then-lock, all diff scenarios")
+else()
+    message(STATUS "DiffEngine focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_diff_engine.cpp")
+endif()
+
+# ============================================================================
 # CDC WebSocket Handler Tests (standalone – validates the /v2/cdc/stream
 # named-subscription protocol: subscribe/unsubscribe/ack frames,
 # back-pressure metric cdc_ws_overflow_total, and pollEvents delivery)
