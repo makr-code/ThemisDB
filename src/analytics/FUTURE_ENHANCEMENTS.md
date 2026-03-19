@@ -46,9 +46,9 @@ identified issues reference exact file names and function names.
 | `StreamingAnomalyDetector::process(point)` | Real-time alerting | Must perform training outside `mu_` lock |
 | `ModelServingEngine::predict(name, version, point)` | Query executor | Inference must run outside the registry shared-lock |
 | `CEPEngine::timerLoop()` | CEP runtime | Window callbacks must be dispatched after lock release |
-| `DistributedAnalyticsSharding::getHealthyShardCount()` | Health dashboard | ✅ Fixed v1.8.0: `cached_healthy` atomic per shard updated by background monitor; `getHealthyShardCount()` reads cached value in O(n) under lock (no network I/O); `getHealthyShardCountAsync()` for live off-lock queries |
+| `DistributedAnalyticsSharding::getHealthyShardCount()` | Health dashboard | Network I/O must not run under `mutex_` |
 | `LLMProcessAnalyzer::Impl::putInCache(key, response)` | LLM integration | ✅ Fixed v1.8.0: O(N) eviction replaced with O(1) LRU (doubly-linked list + hash map); SHA256 cache key; max_cache_entries in LLMConfig |
-| `AutoMLModel::KNNRegressorModel::predictOneReg(x)` | AutoML serving | ✅ Fixed v1.8.0: weighted inverse-distance mean (1/d²) of k nearest neighbours; unit + perf tests added |
+| `AutoMLModel::KNNRegressorModel::predictOneReg(x)` | AutoML serving | Stub `return 0.0` must be replaced with real k-NN regression |
 | `OLAPEngine` (Windows) | Cross-platform build | Full implementation needed; current stub emits warnings and returns empty results |
 | `ProcessMining` (Windows) | Cross-platform build | Stub returns `Status::Error` for every operation |
 
