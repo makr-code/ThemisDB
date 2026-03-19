@@ -598,21 +598,54 @@ TEST_F(ContentSHA256DedupTest, PerceptualDedupSkippedWhenPolicyDisabled) {
 }
 
 /**
- * @brief Verify that ContentPolicy::enable_deduplication defaults to false
- * (no dedup key in config → falls back to ProcessorChainConfig stage default).
- * When no checker is attached, no dedup happens regardless of config.
+ * @brief Verify that when `enable_deduplication` is absent from config (default),
+ * perceptual dedup is NOT performed even when a DeduplicationChecker is attached.
+ *
+ * This validates the "default off" requirement of AC-4: callers must opt in
+ * explicitly by passing config["enable_deduplication"]=true.
  */
-TEST_F(ContentSHA256DedupTest, PerceptualDedupDefaultsToOffWithoutChecker) {
-    // No checker attached — dedup must never fire.
-    ASSERT_EQ(mgr_->getDeduplicationChecker(), nullptr);
+TEST_F(ContentSHA256DedupTest, PerceptualDedupDefaultsToOffWhenKeyAbsent) {
+    // Attach a live checker so the only thing preventing dedup is the absent key.
+    auto checker = std::make_shared<DeduplicationChecker>(storage_);
+    mgr_->setDeduplicationChecker(checker);
 
-    const std::string blob = "some text content for default-off dedup test";
-    auto res1 = mgr_->ingestRawBlob(blob, "a.txt", "text/plain");
-    auto res2 = mgr_->ingestRawBlob(blob + " ", "b.txt", "text/plain");
+    // Build a small synthetic BMP so computePHash would succeed if invoked.
+    auto makeBmpBlob = [](uint8_t r, uint8_t g, uint8_t b) {
+        int w = 8, h = 8;
+        int row_stride = ((w * 3 + 3) / 4) * 4;
+        int file_size  = 54 + h * row_stride;
+        std::vector<uint8_t> bmp(static_cast<size_t>(file_size), 0);
+        bmp[0] = 'B'; bmp[1] = 'M';
+        bmp[2] = file_size & 0xFF; bmp[3] = (file_size >> 8) & 0xFF;
+        bmp[10] = 54; bmp[14] = 40;
+        bmp[18] = static_cast<uint8_t>(w); bmp[22] = static_cast<uint8_t>(h);
+        bmp[26] = 1; bmp[28] = 24;
+        for (int y = 0; y < h; ++y)
+            for (int x = 0; x < w; ++x) {
+                size_t off = 54 + static_cast<size_t>(y) * static_cast<size_t>(row_stride)
+                           + static_cast<size_t>(x) * 3;
+                bmp[off] = b; bmp[off+1] = g; bmp[off+2] = r;
+            }
+        return std::string(bmp.begin(), bmp.end());
+    };
+
+    std::string bmp_blob = makeBmpBlob(100, 150, 200);
+
+    // First ingest with enable_deduplication=true to register the image.
+    json cfg_on;
+    cfg_on["enable_deduplication"] = true;
+    auto res1 = mgr_->ingestRawBlob(bmp_blob, "img.bmp", "image/bmp", "", cfg_on);
     ASSERT_TRUE(res1.success);
+
+    // Second ingest with NO enable_deduplication key at all (default off).
+    // Should receive a fresh content ID — dedup must NOT fire.
+    auto res2 = mgr_->ingestRawBlob(bmp_blob, "img2.bmp", "image/bmp");
     ASSERT_TRUE(res2.success);
     EXPECT_FALSE(res2.metadata.contains("duplicate_of"))
-        << "Dedup must not fire when no DeduplicationChecker is attached";
+        << "Dedup must be off by default when enable_deduplication key is absent";
+    // SHA-256 exact-dup check will fire for identical bytes, so res2 may return the
+    // same id via the exact-dup path — that is intentional and separate from perceptual
+    // dedup.  What matters is no "duplicate_of" key from the perceptual path.
 }
 
 // ============================================================================

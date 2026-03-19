@@ -2055,11 +2055,14 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
 
     // ---- Perceptual deduplication (opt-in via ContentPolicy::enable_deduplication) ----
     // Callers pass `config["enable_deduplication"] = policy.enable_deduplication`.
-    // When the key is absent, falls back to the ProcessorChainConfig stage flag so
-    // that existing callers that do not set this key are unaffected.
+    // The default is false (opt-in, not opt-out): dedup is skipped unless the caller
+    // explicitly enables it.  ProcessorChainConfig can still disable it globally per
+    // MIME/category by setting deduplication.enabled=false; both conditions must be
+    // true for dedup to run.
     // Compute pHash (image) or MinHash (text) once; reuse for both the duplicate
     // check and the post-storage registration to avoid redundant computation.
-    const bool dedup_policy_enabled = config.value("enable_deduplication", stage_cfg.deduplication.enabled);
+    const bool dedup_policy_enabled =
+        config.value("enable_deduplication", false) && stage_cfg.deduplication.enabled;
     const bool dedup_is_image = (category == ContentCategory::IMAGE);
     const bool dedup_is_text  = (category == ContentCategory::TEXT);
     std::string cached_phash;
