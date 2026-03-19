@@ -25,6 +25,7 @@
  */
 
 #include "exporters/huggingface_hub_client.h"
+#include "exporters/exporter_metrics.h"
 #include "governance/policy_engine.h"
 #include "governance/model_governance.h"
 #include "security/key_provider.h"
@@ -41,6 +42,7 @@
 #include <chrono>
 #include <cstdlib>
 #include <cstring>
+#include <ctime>
 #include <filesystem>
 #include <fstream>
 #include <sstream>
@@ -106,9 +108,87 @@ static size_t memoryReadCb(char* dest, size_t sz, size_t nmemb, void* userp) {
     return to_copy;
 }
 
+/// libcurl CURLOPT_HEADERFUNCTION callback; accumulates raw response headers.
+static size_t headerCaptureCb(char* buffer, size_t size, size_t nitems, void* userp) {
+    auto* hdrs = static_cast<std::string*>(userp);
+    hdrs->append(buffer, size * nitems);
+    return size * nitems;
+}
+
 } // anonymous namespace
 
 #endif // CURL_ENABLED
+
+namespace {
+
+/// Extract the value of the `Retry-After` response header from a raw
+/// header block captured by headerCaptureCb().  Returns an empty string
+/// when the header is absent.
+static std::string extractRetryAfterHeader(const std::string& raw_headers) {
+    // Walk line by line (headers end with \r\n or \n).
+    std::istringstream stream(raw_headers);
+    std::string line;
+    while (std::getline(stream, line)) {
+        // Trim trailing \r
+        if (!line.empty() && line.back() == '\r') line.pop_back();
+        // Case-insensitive prefix match for "retry-after:"
+        const std::string key = "retry-after:";
+        if (line.size() >= key.size()) {
+            std::string lower_line = line.substr(0, key.size());
+            std::transform(lower_line.begin(), lower_line.end(), lower_line.begin(),
+                           [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+            if (lower_line == key) {
+                std::string value = line.substr(key.size());
+                // Trim leading whitespace
+                const auto first = value.find_first_not_of(" \t");
+                if (first != std::string::npos) value = value.substr(first);
+                return value;
+            }
+        }
+    }
+    return {};
+}
+
+/// Parse a `Retry-After` header value and return the number of seconds to
+/// wait.  Accepts:
+///   - Plain integer seconds (e.g., "120")
+///   - HTTP-date (e.g., "Fri, 31 Dec 1999 23:59:59 GMT")
+/// Returns 0 when the value cannot be parsed.
+static long parseRetryAfterSeconds(const std::string& value) {
+    if (value.empty()) return 0;
+
+    // Try integer first.
+    try {
+        std::size_t pos = 0;
+        const long secs = std::stol(value, &pos);
+        // Ensure the whole token is numeric (skip trailing whitespace).
+        const auto tail = value.find_first_not_of(" \t", pos);
+        if (tail == std::string::npos && secs >= 0) {
+            return secs;
+        }
+    } catch (const std::exception&) {
+        // Not an integer; fall through to date parsing.
+    }
+
+    // Try HTTP-date via strptime (POSIX).
+    // Supported format: "Day, DD Mon YYYY HH:MM:SS GMT"
+#ifndef _WIN32
+    struct tm tm_val{};
+    const char* parsed = strptime(value.c_str(), "%a, %d %b %Y %H:%M:%S %Z", &tm_val);
+    if (parsed != nullptr) {
+        const time_t retry_time = timegm(&tm_val);
+        const time_t now        = std::time(nullptr);
+        if (retry_time > now) {
+            return static_cast<long>(retry_time - now);
+        }
+        return 0;  // Date is in the past; retry immediately.
+    }
+#endif
+
+    return 0;  // Unrecognised format; caller uses default.
+}
+
+} // anonymous namespace
 
 // ── HuggingFaceHubClient ────────────────────────────────────────────────────
 
@@ -192,10 +272,12 @@ int HuggingFaceHubClient::httpPutBytes(
     const char* data,
     std::size_t size,
     const std::string& bearer_token,
-    std::function<void(double)> progress_cb) const
+    std::function<void(double)> progress_cb,
+    std::string* retry_after_out) const
 {
 #ifndef CURL_ENABLED
     (void)url; (void)data; (void)size; (void)bearer_token; (void)progress_cb;
+    (void)retry_after_out;
     return 0;
 #else
     CURL* curl = curl_easy_init();
@@ -203,6 +285,7 @@ int HuggingFaceHubClient::httpPutBytes(
 
     CurlMemoryReadState read_state{data, size, 0};
     std::string response;
+    std::string raw_headers;
     struct curl_slist* headers = nullptr;
     const std::string auth_hdr = "Authorization: Bearer " + bearer_token;
     headers = curl_slist_append(headers, auth_hdr.c_str());
@@ -218,6 +301,8 @@ int HuggingFaceHubClient::httpPutBytes(
     curl_easy_setopt(curl, CURLOPT_INFILESIZE_LARGE, static_cast<curl_off_t>(size));
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION,    writeStringCb);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA,        &response);
+    curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION,   headerCaptureCb);
+    curl_easy_setopt(curl, CURLOPT_HEADERDATA,       &raw_headers);
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION,   1L);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT,          config_.timeout_seconds);
 
@@ -237,6 +322,9 @@ int HuggingFaceHubClient::httpPutBytes(
         THEMIS_WARN("HuggingFaceHubClient: PUT {} failed: {}", url, curl_easy_strerror(res));
         return 0;
     }
+    if (retry_after_out) {
+        *retry_after_out = extractRetryAfterHeader(raw_headers);
+    }
     return static_cast<int>(http_code);
 #endif
 }
@@ -245,10 +333,12 @@ int HuggingFaceHubClient::httpPutFile(
     const std::string& url,
     const std::string& file_path,
     const std::string& bearer_token,
-    std::function<void(double)> progress_cb) const
+    std::function<void(double)> progress_cb,
+    std::string* retry_after_out) const
 {
 #ifndef CURL_ENABLED
     (void)url; (void)file_path; (void)bearer_token; (void)progress_cb;
+    (void)retry_after_out;
     return 0;
 #else
     std::ifstream f(file_path, std::ios::binary | std::ios::ate);
@@ -260,7 +350,8 @@ int HuggingFaceHubClient::httpPutFile(
     f.read(buf.data(), file_size);
     f.close();
 
-    return httpPutBytes(url, buf.data(), buf.size(), bearer_token, progress_cb);
+    return httpPutBytes(url, buf.data(), buf.size(), bearer_token, progress_cb,
+                        retry_after_out);
 #endif
 }
 
@@ -425,12 +516,14 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(
             + "/" + rel;
 
         bool file_ok = false;
+        bool rate_limited = false;
         for (int attempt = 0; attempt <= config_.max_retries; ++attempt) {
-            if (attempt > 0) {
+            if (attempt > 0 && !rate_limited) {
                 const int delay_ms = config_.retry_delay_ms * (1 << (attempt - 1));
                 std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
                 THEMIS_WARN("HuggingFaceHubClient: retry {} for file {}", attempt, rel);
             }
+            rate_limited = false;
 
             const double frac_start = static_cast<double>(uploaded) / static_cast<double>(total_files);
             const double frac_range = 1.0 / static_cast<double>(total_files);
@@ -442,7 +535,9 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(
                 };
             }
 
-            const int http_status = httpPutFile(upload_url, file_path, token, file_progress);
+            std::string retry_after_hdr;
+            const int http_status = httpPutFile(upload_url, file_path, token, file_progress,
+                                                &retry_after_hdr);
 
             if (http_status == 200 || http_status == 201) {
                 file_ok = true;
@@ -468,6 +563,22 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(
                                              too_large, "error");
                 }
                 return too_large;
+            }
+            if (http_status == 429) {
+                if (config_.metrics) {
+                    config_.metrics->recordRateLimitHit();
+                }
+                long sleep_secs = parseRetryAfterSeconds(retry_after_hdr);
+                if (sleep_secs <= 0) {
+                    sleep_secs = (config_.retry_delay_ms > 0)
+                                     ? (config_.retry_delay_ms / 1000 + 1) : 1;
+                }
+                sleep_secs = std::min(sleep_secs, config_.timeout_seconds);
+                THEMIS_WARN("HuggingFaceHubClient: HTTP 429 for {}; Retry-After='{}';"
+                            " sleeping {}s", rel, retry_after_hdr, sleep_secs);
+                std::this_thread::sleep_for(std::chrono::seconds(sleep_secs));
+                rate_limited = true;
+                continue;
             }
             // Transient error → retry
         }
@@ -579,12 +690,14 @@ HubUploadResult HuggingFaceHubClient::uploadShards(
             + "/" + rel;
 
         bool shard_ok = false;
+        bool rate_limited = false;
         for (int attempt = 0; attempt <= config_.max_retries; ++attempt) {
-            if (attempt > 0) {
+            if (attempt > 0 && !rate_limited) {
                 const int delay_ms = config_.retry_delay_ms * (1 << (attempt - 1));
                 std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
                 THEMIS_WARN("HuggingFaceHubClient: retry {} for shard {}", attempt, rel);
             }
+            rate_limited = false;
 
             const double frac_start =
                 static_cast<double>(uploaded) / static_cast<double>(total_shards);
@@ -597,9 +710,10 @@ HubUploadResult HuggingFaceHubClient::uploadShards(
                 };
             }
 
+            std::string retry_after_hdr;
             const int http_status = httpPutBytes(
                 upload_url, shard.content.data(), shard.content.size(),
-                token, shard_progress);
+                token, shard_progress, &retry_after_hdr);
 
             if (http_status == 200 || http_status == 201) {
                 shard_ok = true;
@@ -626,6 +740,22 @@ HubUploadResult HuggingFaceHubClient::uploadShards(
                                              too_large, "error");
                 }
                 return too_large;
+            }
+            if (http_status == 429) {
+                if (config_.metrics) {
+                    config_.metrics->recordRateLimitHit();
+                }
+                long sleep_secs = parseRetryAfterSeconds(retry_after_hdr);
+                if (sleep_secs <= 0) {
+                    sleep_secs = (config_.retry_delay_ms > 0)
+                                     ? (config_.retry_delay_ms / 1000 + 1) : 1;
+                }
+                sleep_secs = std::min(sleep_secs, config_.timeout_seconds);
+                THEMIS_WARN("HuggingFaceHubClient: HTTP 429 for shard {}; Retry-After='{}';"
+                            " sleeping {}s", rel, retry_after_hdr, sleep_secs);
+                std::this_thread::sleep_for(std::chrono::seconds(sleep_secs));
+                rate_limited = true;
+                continue;
             }
             // Transient error → retry
         }

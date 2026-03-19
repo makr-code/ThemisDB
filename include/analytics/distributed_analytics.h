@@ -64,9 +64,14 @@
 
 #include "analytics/olap.h"
 
+#include <atomic>
+#include <chrono>
+#include <condition_variable>
+#include <future>
 #include <memory>
 #include <mutex>
 #include <string>
+#include <thread>
 #include <vector>
 
 namespace themisdb {
@@ -171,6 +176,10 @@ public:
 
         /// Timeout per shard in milliseconds. 0 = no timeout.
         uint32_t shard_timeout_ms = 30000;
+
+        /// Interval between background health-monitor sweeps.
+        /// Default: 5 s.  Set to zero to disable the background monitor.
+        std::chrono::milliseconds health_check_interval{5000};
     };
 
     /**
@@ -194,11 +203,12 @@ public:
     };
 
     // ------------------------------------------------------------------
-    // Construction
+    // Construction / destruction
     // ------------------------------------------------------------------
 
-    DistributedAnalyticsSharding() = default;
-    explicit DistributedAnalyticsSharding(const Config& cfg) : config_(cfg) {}
+    DistributedAnalyticsSharding();
+    explicit DistributedAnalyticsSharding(const Config& cfg);
+    ~DistributedAnalyticsSharding();
 
     // ------------------------------------------------------------------
     // Shard management
@@ -219,8 +229,21 @@ public:
     /** Total number of registered shards. */
     size_t getShardCount() const;
 
-    /** Number of registered shards whose executor reports isHealthy(). */
+    /**
+     * Number of registered shards whose background health monitor last
+     * reported as healthy.  Reads a cached atomic flag — does not perform
+     * any network I/O; completes in ≤ 2 µs.
+     */
     size_t getHealthyShardCount() const;
+
+    /**
+     * Asynchronously query live health for all registered shards.
+     *
+     * Unlike getHealthyShardCount(), this performs real isHealthy() calls
+     * without holding the shard registry lock, so it never blocks addShard()
+     * or removeShard().  The result is delivered via the returned future.
+     */
+    std::future<size_t> getHealthyShardCountAsync() const;
 
     /** Returns all registered shard IDs. */
     std::vector<std::string> getShardIds() const;
@@ -278,6 +301,12 @@ private:
         const std::vector<themis::analytics::Dimension>& dims,
         int64_t grouping_id);
 
+    /** Start the background health-monitor thread (if interval > 0). */
+    void startHealthMonitor();
+
+    /** Entry-point for the background health-monitor thread. */
+    void runHealthMonitor();
+
     // ---------------------------------------------------------------
     // State
     // ---------------------------------------------------------------
@@ -288,9 +317,19 @@ private:
     struct ShardEntry {
         std::string shard_id;
         std::shared_ptr<ShardQueryExecutor> executor;
+        /// Cached health flag updated by the background monitor.
+        /// Initialised to true (optimistic) when a shard is first added.
+        std::shared_ptr<std::atomic<bool>> cached_healthy =
+            std::make_shared<std::atomic<bool>>(true);
     };
 
     std::vector<ShardEntry> shards_;
+
+    // Background health-monitor
+    std::atomic<bool>       stopping_{false};
+    std::mutex              health_monitor_mutex_;
+    std::condition_variable health_monitor_cv_;
+    std::thread             health_monitor_thread_;
 };
 
 } // namespace analytics

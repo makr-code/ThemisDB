@@ -428,9 +428,80 @@ std::string InferenceEngineEnhanced::submitAsync(
     return request.request_id;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Request Management
-// ═══════════════════════════════════════════════════════════
+InferenceHandle InferenceEngineEnhanced::submitStreaming(
+    const EnhancedInferenceRequest& request,
+    TokenCallback                   callback
+) {
+    auto tracked     = std::make_shared<TrackedRequest>();
+    tracked->request = request;
+    tracked->deadline = std::chrono::steady_clock::now() + request.timeout;
+    // cancel_token is default-initialised to false in TrackedRequest
+
+    // Wrap the TokenCallback so each decoded token is delivered with
+    // is_final=false, and the final sentinel (is_final=true, empty token)
+    // is fired exactly once regardless of whether the stream ends normally
+    // or via cancellation.
+    auto fired_final  = std::make_shared<std::atomic<bool>>(false);
+    auto cancel_token = tracked->cancel_token;   // shared ownership
+    auto cb           = std::make_shared<TokenCallback>(std::move(callback));
+
+    tracked->request.base_request.stream_callback =
+        [cb, cancel_token, fired_final](const std::string& token) {
+            if (cancel_token->load(std::memory_order_acquire)) {
+                bool expected = false;
+                if (fired_final->compare_exchange_strong(
+                        expected, true, std::memory_order_acq_rel)) {
+                    (*cb)(std::string_view{}, /*is_final=*/true);
+                }
+                return;
+            }
+            (*cb)(std::string_view{token}, /*is_final=*/false);
+        };
+
+    // Completion callback: fires the final sentinel when the batch step
+    // completes (covers the non-cancelled path).
+    tracked->callback =
+        [cb, fired_final](const InferenceResponse&) {
+            bool expected = false;
+            if (fired_final->compare_exchange_strong(
+                    expected, true, std::memory_order_acq_rel)) {
+                (*cb)(std::string_view{}, /*is_final=*/true);
+            }
+        };
+
+    auto future = tracked->promise.get_future().share();
+
+    {
+        std::unique_lock<std::mutex> lock(queue_mutex_);
+
+        if (request_queue_.size() >= config_.max_queue_size) {
+            {
+                std::lock_guard<std::mutex> stats_lock(stats_mutex_);
+                stats_.rejected_requests++;
+            }
+            throw std::runtime_error("Request queue full");
+        }
+
+        request_queue_.push(tracked);
+
+        {
+            std::lock_guard<std::mutex> req_lock(requests_mutex_);
+            tracked_requests_[request.request_id] = tracked;
+        }
+
+        {
+            std::lock_guard<std::mutex> stats_lock(stats_mutex_);
+            stats_.total_requests++;
+            stats_.current_queue_size = request_queue_.size();
+        }
+    }
+
+    queue_cv_.notify_one();
+
+    // Share the cancel token with the handle so InferenceHandle::cancel()
+    // propagates directly to this tracked request.
+    return InferenceHandle(request.request_id, future, tracked->cancel_token);
+}
 
 bool InferenceEngineEnhanced::cancel(const std::string& request_id) {
     std::lock_guard<std::mutex> lock(requests_mutex_);
@@ -866,6 +937,14 @@ void InferenceEngineEnhanced::processBatch(
             // Skip cancelled requests
             if (tracked->cancel_token->load(std::memory_order_acquire)) {
                 spdlog::debug("Skipping cancelled request {}", req.request_id);
+                // Fire the completion callback only for streaming requests so
+                // that their is_final=true sentinel is delivered.  For
+                // non-streaming submitAsync() requests the callback is the
+                // user's completion handler; calling it with an empty response
+                // here would be unexpected and misleading.
+                if (tracked->request.base_request.stream_callback && tracked->callback) {
+                    try { tracked->callback(InferenceResponse{}); } catch (...) {}
+                }
                 try {
                     tracked->promise.set_exception(
                         std::make_exception_ptr(
@@ -1018,6 +1097,12 @@ void InferenceEngineEnhanced::processBatch(
             if (tracked->cancel_token->load(std::memory_order_acquire)) {
                 spdlog::debug("Discarding late response for cancelled/timed-out request {}",
                              req.request_id);
+                // Deliver the is_final=true streaming sentinel so that the
+                // TokenCallback contract is upheld even when cancellation is
+                // detected after inference completes.
+                if (tracked->request.base_request.stream_callback && tracked->callback) {
+                    try { tracked->callback(InferenceResponse{}); } catch (...) {}
+                }
                 std::lock_guard<std::mutex> lock(requests_mutex_);
                 tracked_requests_.erase(req.request_id);
                 continue;

@@ -332,17 +332,18 @@ For enterprise deployments that use Kafka as a message bus, add a CDC-to-Kafka b
 ### Changefeed Sequence Counter: RocksDB Merge Operator
 **Priority:** Medium
 **Target Version:** v1.8.0
+**Status:** ✅ Implemented (v1.8.0, PR #4294)
 
-`Changefeed::nextSequence()` in `changefeed.cpp` (line 146, marked with an explicit `// TODO: Consider using RocksDB merge operator for better performance`) uses a mutex + Read-Modify-Write (`Get` then `Put`) round-trip to the RocksDB column family on every change event. Under high write throughput each event serializes through `sequence_mutex_` and issues two synchronous RocksDB operations.
+`Changefeed::nextSequence()` previously used a mutex + Read-Modify-Write (`Get` then `Put`) round-trip to RocksDB on every change event. The implementation has been replaced with a lock-free atomic counter backed by a RocksDB `AssociativeMergeOperator` for crash-safe persistence.
 
 **Implementation Notes:**
-- `[ ]` Implement a `SequenceIncrementOperator` (subclass of `rocksdb::AssociativeMergeOperator`) that atomically increments a little-endian uint64 stored under `SEQUENCE_KEY`.
-- `[ ]` Register the merge operator on the changefeed column family via `ColumnFamilyOptions::merge_operator` at DB open time in `Changefeed::open()`.
-- `[ ]` Replace the `Get` + `Put` in `nextSequence()` with a single `Merge()` call; remove `sequence_mutex_`.
-- `[ ]` The returned sequence is still required; fetch via `GetForUpdate` with snapshot isolation, or maintain an in-process atomic counter with periodic RocksDB persistence for crash recovery.
+- `[x]` Implemented `SequenceIncrementOperator` (subclass of `rocksdb::AssociativeMergeOperator`) that atomically increments a little-endian uint64 stored under `SEQUENCE_KEY`. Handles both binary uint64 and legacy decimal-string base values for backward compatibility.
+- `[x]` Exposed `Changefeed::makeSequenceMergeOperator()` static factory so callers register the operator via `ColumnFamilyOptions::merge_operator` before opening the changefeed DB. (No `Changefeed::open()` exists; the constructor accepts a pre-opened `TransactionDB*`.)
+- `[x]` Replaced the `Get` + `Put` in `nextSequence()` with a single `Merge()` call; `sequence_mutex_` removed. In-process `std::atomic<uint64_t> sequence_counter_` provides lock-free, O(1) sequence assignment.
+- `[x]` In-process atomic counter initialised from `loadInitialSequence()` on construction (reads `SEQUENCE_KEY`; falls back to `scanMaxSequence()` if unresolved Merge operands are present). Every `nextSequence()` call issues a `Merge(+1)` for crash-safe persistence.
 
 **Performance Targets:**
-- Sequence generation throughput: ≥ 200 K/s (from ~50 K/s with mutex+Get+Put) under 8 writer threads.
+- Sequence generation throughput: ≥ 200 K/s (from ~50 K/s with mutex+Get+Put) under 8 writer threads. ✅ Validated by `SequenceCounterTest.ThroughputAtLeast200KPerSecUnder8Threads`.
 
 ---
 

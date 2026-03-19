@@ -215,7 +215,11 @@ enum class ErrorCode {
     ERR_EXPORT_FORMAT_INVALID = 9308,
     ERR_EXPORT_CONFIG_INVALID = 9309,
     ERR_EXPORT_POLICY_DENIED  = 9310,  ///< PolicyEngine::checkExportPermission() denied the request
-    
+    ERR_EXPORT_JOIN_COLLECTION_NOT_FOUND = 9311,  ///< Left or right collection not found
+    ERR_EXPORT_JOIN_PREDICATE_INVALID    = 9312,  ///< Join predicate could not be parsed
+    ERR_EXPORT_JOIN_AMBIGUOUS_FIELD      = 9313,  ///< Field present in both collections without alias
+    ERR_EXPORT_JOIN_MEMORY_LIMIT         = 9314,  ///< Right-side hash table exceeded memory budget
+
     // Unknown
     ERR_UNKNOWN = 9999
 };

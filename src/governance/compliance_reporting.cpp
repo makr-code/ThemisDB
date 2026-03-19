@@ -1123,6 +1123,50 @@ std::string escapePDFString(const std::string& s) {
     return result;
 }
 
+/// Escape a value for CSV: wrap in double-quotes if it contains commas, quotes, or newlines.
+std::string csvEscape(const std::string& val) {
+    bool needs_quoting = val.find_first_of(",\"\n\r") != std::string::npos;
+    if (!needs_quoting) return val;
+    std::string out;
+    out.reserve(val.size() + 2);
+    out += '"';
+    for (char c : val) {
+        if (c == '"') out += '"'; // RFC 4180: escape double-quote by doubling
+        out += c;
+    }
+    out += '"';
+    return out;
+}
+
+/// Convert a JSON scalar value to a plain string for CSV output.
+std::string jsonScalarToString(const nlohmann::json& v) {
+    if (v.is_string()) return v.get<std::string>();
+    if (v.is_null())   return "";
+    return v.dump();
+}
+
+/// Generate a CSV document from a compliance report JSON.
+/// Top-level object keys are emitted as rows: Field,Value.
+/// Nested objects/arrays are JSON-serialised into the value column.
+std::string generateCSVFromJson(const nlohmann::json& report) {
+    std::ostringstream csv;
+    csv << "Field,Value\n";
+    if (report.is_object()) {
+        for (const auto& [key, val] : report.items()) {
+            csv << csvEscape(key) << ",";
+            if (val.is_object() || val.is_array()) {
+                csv << csvEscape(val.dump());
+            } else {
+                csv << csvEscape(jsonScalarToString(val));
+            }
+            csv << "\n";
+        }
+    } else {
+        csv << "data," << csvEscape(report.dump()) << "\n";
+    }
+    return csv.str();
+}
+
 /// Recursively render a JSON value to HTML
 void jsonToHtml(std::ostringstream& html, const nlohmann::json& j, int depth = 0) {
     if (j.is_object()) {
@@ -1402,8 +1446,8 @@ std::string ComplianceReporter::exportReport(
             return report.dump(2);
 
         case ReportFormat::CSV:
-            THEMIS_ERROR("CSV export not implemented for generic JSON reports");
-            return "";
+            THEMIS_INFO("Generating CSV compliance report");
+            return generateCSVFromJson(report);
 
         case ReportFormat::HTML: {
             THEMIS_INFO("Generating HTML compliance report");

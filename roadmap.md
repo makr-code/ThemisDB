@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.0  
-**Last Updated:** 2026-03-12  
+**Last Updated:** 2026-03-18  
 **Scope:** Aggregated roadmap across all 46 modules in `src/`
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
@@ -15,7 +15,7 @@
 ThemisDB is a high-performance multi-model database with native AI/LLM integration. This top-level roadmap aggregates the status and planned work across all 46 source modules. The project follows a phased approach: stabilise core infrastructure first, then harden distributed and AI layers, and finally deliver operational excellence at hyperscale.
 
 **Overall Timeline:** Q1 2026 – Q4 2027  
-**Current Release:** v1.5.0-dev
+**Current Release:** v1.8.0
 
 ---
 
@@ -131,6 +131,44 @@ Key PRs and features included in v1.7.0:
 | [#84](https://github.com/makr-code/ThemisDB/issues/84) | observability | Root Cause Analyzer — `RootCauseAnalyzer` with `analyzeIssue`, `findCorrelations`, `buildCausalGraph` |
 
 **Breaking change:** `themis` module initialisation code migrated from `src/utils/` / `src/base/` to `src/themis/`.
+
+---
+
+## Milestone: v1.8.0
+
+> **Release Aggregation Document:** [`docs/de/releases/RELEASE_NOTES_v1.8.0.md`](docs/de/releases/RELEASE_NOTES_v1.8.0.md)
+> **Issues:** [#4300](https://github.com/makr-code/ThemisDB/issues/4300)
+
+Key PRs and features included in v1.8.0:
+
+| PR / Feature | Module | Purpose |
+|---|--------|---------|
+| [#4279](https://github.com/makr-code/ThemisDB/pull/4279), [#4270](https://github.com/makr-code/ThemisDB/pull/4270) | auth | JWT scope enforcement — `JWTClaims.scopes`, `role_scope_map_`, OAuth2 `scope`/`scp` |
+| [#4280](https://github.com/makr-code/ThemisDB/pull/4280) | security | `ArrowUserRegistrationPlugin` — Apache Arrow-backed user store, SHA-256 auth (Issue #99) |
+| [#4283](https://github.com/makr-code/ThemisDB/pull/4283), [#4292](https://github.com/makr-code/ThemisDB/pull/4292) | acceleration | CRL / OCSP certificate revocation in `PluginSecurityVerifier` (Issue #38) |
+| [#4281](https://github.com/makr-code/ThemisDB/pull/4281) | transaction | Serializable Snapshot Isolation — `IsolationLevel::SerializableSnapshot`, 38 tests (Issue #122) |
+| SAGA | transaction | SAGA Orchestration Engine — execute/validate/getStatus/template management, 23 tests |
+| [#4285](https://github.com/makr-code/ThemisDB/pull/4285) | server | Versioned API Routing — `RouteVersionRouter`, `/v1/` + `/v2/` (bulk NDJSON, SSE, async jobs), 37 tests |
+| PredictivePrefetcher | cache | Markov-chain + 24-bucket ToD weighting, RocksDB persistence, A/B toggle, 14 tests |
+| [#4250](https://github.com/makr-code/ThemisDB/pull/4250) | cache | Warmup Parallel Bulk Load (Issue #244) |
+| Geo Clustering | geo | DBSCAN + K-means clustering engine, 20 tests (Issue #4003) |
+| [#4299](https://github.com/makr-code/ThemisDB/pull/4299) | graph | `DistributedGraphManager` read-path `std::shared_mutex` upgrade |
+| PolicyManager | governance | Hot-reload with `reloadPolicies()`, double-buffer swap, `PolicyValidator`, 7 tests |
+| HuggingFace Hub | exporters | 429 back-off, `Retry-After` parsing, `ExporterMetrics`, 5 tests |
+| [#4289](https://github.com/makr-code/ThemisDB/pull/4289) | performance | `HardwareAccelerator` — AC-4 filter operator completeness, 45 tests (Issue #85) |
+| [#4284](https://github.com/makr-code/ThemisDB/pull/4284) | analytics | `ExporterFactory` — concrete Arrow / Parquet / Feather / JSON exporters (Issue #3868) |
+| [#4297](https://github.com/makr-code/ThemisDB/pull/4297) | analytics | `JoinExporter` — cross-collection hash-join with PII redaction |
+| [#4291](https://github.com/makr-code/ThemisDB/pull/4291) | analytics | `CEPEngine` deadlock fix — release window lock before user callbacks |
+| [#4266](https://github.com/makr-code/ThemisDB/pull/4266), [#4267](https://github.com/makr-code/ThemisDB/pull/4267) | themis | Wire Protocol V2 — RFC 7540 §6.3 / §5.3.1 full compliance |
+| [#4253](https://github.com/makr-code/ThemisDB/pull/4253) | config | SIGHUP hot-reload — inotify / kqueue / ReadDirectoryChangesW |
+| [#4265](https://github.com/makr-code/ThemisDB/pull/4265) | sharding | `GpuErasureCoderOpenCL` encode/decode/batchEncode (Issue #105) |
+| [#4257](https://github.com/makr-code/ThemisDB/pull/4257) | performance | Intelligent Prefetching System (Issue #192) |
+| [#4258](https://github.com/makr-code/ThemisDB/pull/4258) | query | Materialized Views & Incremental Maintenance (Issue #195) |
+| [#4271](https://github.com/makr-code/ThemisDB/pull/4271), [#4273](https://github.com/makr-code/ThemisDB/pull/4273) | network | UDP ingestion server + Bandwidth Management / QoS (Issue #190) |
+| [#4288](https://github.com/makr-code/ThemisDB/pull/4288) | importers | MySQL / MariaDB importer |
+| [#4290](https://github.com/makr-code/ThemisDB/pull/4290) | ci | GitHub Actions 138-workflow reorganisation into 9 functional categories |
+
+**Breaking changes:** ZSTD replaces zlib in `StreamWriter`; unversioned HTTP paths redirect 301 to `/v1/`; CI workflow files relocated (see `.github/WORKFLOW_REGISTRY.md`).
 
 ---
 

@@ -1746,6 +1746,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_metrics.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_logger.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_security.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/abuse_detector.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_fs.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/version_manager.cpp>
     $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<BOOL:${THEMIS_ENABLE_OFFICE}>>:../src/content/office_processor.cpp>
@@ -1774,6 +1775,7 @@ set(THEMIS_CORE_SOURCES
     ../src/cache/predictive_prefetcher.cpp
     ../src/cache/cache_replication.cpp
     ../src/cache/cache_replication_coordinator.cpp
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/cache/grpc_remote_cache_peer.cpp>
     ../src/cache/distributed_cache_coordinator.cpp
     # ../src/cache/redis_cache_coordinator.cpp   # Legacy hiredis impl; conflicts with distributed_cache_coordinator
     
@@ -2674,7 +2676,7 @@ if(THEMIS_BUILD_MODULAR)
     if(THEMIS_ENABLE_GRPC)
         find_package(gRPC CONFIG)
         find_package(Protobuf CONFIG)
-        if(gRPC_FOUND AND Protobuf_FOUND AND COMMAND protobuf_generate)
+        if(gRPC_FOUND AND Protobuf_FOUND)
             set(SHARD_PROTO ${THEMIS_ROOT_DIR}/proto/sharding/shard_rpc.proto)
             set(SHARD_PROTO_GEN_DIR ${CMAKE_BINARY_DIR}/proto_generated)
             file(MAKE_DIRECTORY ${SHARD_PROTO_GEN_DIR})
@@ -2715,7 +2717,7 @@ if(THEMIS_BUILD_MODULAR)
 
             message(STATUS "themis_shard_proto library created for inter-shard communication (modular build)")
         else()
-            message(WARNING "gRPC/Protobuf not found or protobuf_generate() unavailable - shard RPC stubs will not be generated")
+            message(WARNING "gRPC/Protobuf not found - shard RPC stubs will not be generated")
         endif()
     endif()
     
@@ -2768,11 +2770,20 @@ if(THEMIS_CORE_SHARED)
 endif()
 add_library(themis_core ${_THEMIS_CORE_LIBTYPE} ${THEMIS_CORE_SOURCES})
 
-# Enable Unity Build to reduce object file count (fixes MSVC LNK1189 with 65535 objects limit)
-set_target_properties(themis_core PROPERTIES
-    UNITY_BUILD ON
-    UNITY_BUILD_BATCH_SIZE 20
-)
+# Enable Unity Build only on MSVC to reduce object file count
+# (fixes MSVC LNK1189 with 65535 objects limit).
+# On non-MSVC (e.g. Linux/GCC), unity builds can trigger ODR/redefinition
+# collisions across large translation units.
+if(MSVC)
+    set_target_properties(themis_core PROPERTIES
+        UNITY_BUILD ON
+        UNITY_BUILD_BATCH_SIZE 20
+    )
+else()
+    set_target_properties(themis_core PROPERTIES
+        UNITY_BUILD OFF
+    )
+endif()
 
 # Base include directories for core headers
 # Needed to resolve includes like "sharding/...", "llm/...", etc.
@@ -3526,6 +3537,48 @@ if(THEMIS_ENABLE_GRPC)
             target_link_libraries(themis_core PUBLIC themis_shard_proto)
         endif()
 
+        if(NOT THEMIS_BUILD_MODULAR AND NOT TARGET themis_shard_proto)
+            set(SHARD_PROTO ${THEMIS_ROOT_DIR}/proto/sharding/shard_rpc.proto)
+            set(SHARD_PROTO_GEN_DIR ${CMAKE_BINARY_DIR}/proto_generated)
+            file(MAKE_DIRECTORY ${SHARD_PROTO_GEN_DIR})
+
+            set(SHARD_PROTO_SRCS
+                ${SHARD_PROTO_GEN_DIR}/shard_rpc.pb.cc
+                ${SHARD_PROTO_GEN_DIR}/shard_rpc.grpc.pb.cc
+            )
+            set(SHARD_PROTO_HDRS
+                ${SHARD_PROTO_GEN_DIR}/shard_rpc.pb.h
+                ${SHARD_PROTO_GEN_DIR}/shard_rpc.grpc.pb.h
+            )
+
+            add_custom_command(
+                OUTPUT ${SHARD_PROTO_SRCS} ${SHARD_PROTO_HDRS}
+                COMMAND $<TARGET_FILE:protobuf::protoc>
+                ARGS --cpp_out ${SHARD_PROTO_GEN_DIR}
+                     --grpc_out ${SHARD_PROTO_GEN_DIR}
+                     --plugin=protoc-gen-grpc=$<TARGET_FILE:gRPC::grpc_cpp_plugin>
+                     -I ${THEMIS_ROOT_DIR}/proto/sharding
+                     ${SHARD_PROTO}
+                DEPENDS ${SHARD_PROTO} protobuf::protoc gRPC::grpc_cpp_plugin
+                COMMENT "Generating protobuf and gRPC sources for shard_rpc.proto"
+                VERBATIM
+            )
+
+            add_library(themis_shard_proto STATIC ${SHARD_PROTO_SRCS} ${SHARD_PROTO_HDRS})
+            target_include_directories(themis_shard_proto PUBLIC ${SHARD_PROTO_GEN_DIR})
+            target_link_libraries(themis_shard_proto PUBLIC gRPC::grpc++ protobuf::libprotobuf)
+
+            if(MSVC)
+                target_compile_options(themis_shard_proto PRIVATE /wd4996 /wd4018 /wd4244 /wd4267)
+            else()
+                target_compile_options(themis_shard_proto PRIVATE -Wno-unused-parameter -Wno-deprecated-declarations -Wno-conversion)
+            endif()
+
+            add_dependencies(themis_core themis_shard_proto)
+            target_link_libraries(themis_core PUBLIC themis_shard_proto)
+            message(STATUS "themis_shard_proto library created for inter-shard communication (monolithic build)")
+        endif()
+
         # ── ThemisDB API proto (client-facing gRPC surface, api module) ──────
         # Generates C++ stubs from proto/themisdb.proto.
         # The library `themis_api_proto` is linked into themis_core so that
@@ -4256,31 +4309,33 @@ if(THEMIS_BUILD_TESTS)
         PROPERTIES LABELS "timeseries;encryption;security;integration" TIMEOUT 60
     )
 
-    add_executable(test_cuda_hnsw_graph_traversal
-        ${THEMIS_ROOT_DIR}/tests/test_cuda_hnsw_graph_traversal.cpp
-    )
-    target_link_libraries(test_cuda_hnsw_graph_traversal
-        PRIVATE themis_core GTest::gtest GTest::gtest_main
-    )
-    gtest_discover_tests(test_cuda_hnsw_graph_traversal
-        DISCOVERY_MODE PRE_TEST
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cuda_hnsw_graph_traversal>
-        EXTRA_ARGS --gtest_color=yes
-        CONFIGURATIONS Release Debug
-    )
+    if(THEMIS_ENABLE_CUDA)
+        add_executable(test_cuda_hnsw_graph_traversal
+            ${THEMIS_ROOT_DIR}/tests/test_cuda_hnsw_graph_traversal.cpp
+        )
+        target_link_libraries(test_cuda_hnsw_graph_traversal
+            PRIVATE themis_core GTest::gtest GTest::gtest_main
+        )
+        gtest_discover_tests(test_cuda_hnsw_graph_traversal
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cuda_hnsw_graph_traversal>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
 
-    add_executable(test_cuda_ann_search
-        ${THEMIS_ROOT_DIR}/tests/test_cuda_ann_search.cpp
-    )
-    target_link_libraries(test_cuda_ann_search
-        PRIVATE themis_core GTest::gtest GTest::gtest_main
-    )
-    gtest_discover_tests(test_cuda_ann_search
-        DISCOVERY_MODE PRE_TEST
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cuda_ann_search>
-        EXTRA_ARGS --gtest_color=yes
-        CONFIGURATIONS Release Debug
-    )
+        add_executable(test_cuda_ann_search
+            ${THEMIS_ROOT_DIR}/tests/test_cuda_ann_search.cpp
+        )
+        target_link_libraries(test_cuda_ann_search
+            PRIVATE themis_core GTest::gtest GTest::gtest_main
+        )
+        gtest_discover_tests(test_cuda_ann_search
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cuda_ann_search>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+    endif()
 
     add_executable(test_wasm_runtime_injector
         ${THEMIS_ROOT_DIR}/tests/test_wasm_runtime_injector.cpp
@@ -4530,20 +4585,22 @@ if(THEMIS_BUILD_TESTS)
     )
 
     # RaBitQ ProductQuantizer k-means tests
-    add_executable(test_rabitq_product_quantizer
-        ${THEMIS_ROOT_DIR}/tests/performance/test_rabitq_product_quantizer.cpp
-    )
-    target_link_libraries(test_rabitq_product_quantizer
-        PRIVATE
-            themis_core
-            GTest::gtest
-            GTest::gtest_main
-    )
-    gtest_discover_tests(test_rabitq_product_quantizer
-        DISCOVERY_MODE PRE_TEST
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_rabitq_product_quantizer>
-        EXTRA_ARGS --gtest_color=yes
-    )
+    if(THEMIS_ENABLE_RABITQ)
+        add_executable(test_rabitq_product_quantizer
+            ${THEMIS_ROOT_DIR}/tests/performance/test_rabitq_product_quantizer.cpp
+        )
+        target_link_libraries(test_rabitq_product_quantizer
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_rabitq_product_quantizer
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_rabitq_product_quantizer>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
 
     # Cicada OCC data-install and transaction-protocol tests
     if(THEMIS_ENABLE_CICADA)

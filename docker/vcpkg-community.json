@@ -27,6 +27,7 @@
     "zstd",
     "lz4",
     "snappy",
+    "msgpack",
     "mimalloc"
   ]
 }

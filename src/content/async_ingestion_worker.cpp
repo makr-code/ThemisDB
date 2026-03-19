@@ -39,6 +39,8 @@
 #include "content/ingestion_plugin.h"
 #include "content/content_manager.h"
 #include "utils/logger.h"
+#include "config/config_path_resolver.h"
+#include "config/config_schema_validator.h"
 #include <chrono>
 #include <random>
 #include <sstream>
@@ -951,7 +953,8 @@ std::shared_ptr<IngestionPlugin> AsyncIngestionWorker::getPlugin(
 
 std::string AsyncIngestionWorker::submitSourceJob(
     const IngestionSource& source,
-    const json& additional_config
+    const json& additional_config,
+    const std::string& user_context
 ) {
     if (!running_.load()) {
         throw std::runtime_error("Worker not running");
@@ -979,7 +982,7 @@ std::string AsyncIngestionWorker::submitSourceJob(
     job.config = source.config;
     job.config["source"] = source.toJson();
     job.config.merge_patch(additional_config);
-    job.user_context = "";  // TODO: Add user context support
+    job.user_context = user_context;
     job.created_at = getCurrentTimeMs();
     job.started_at = 0;
     job.completed_at = 0;
@@ -1020,12 +1023,49 @@ std::string AsyncIngestionWorker::submitSourceJob(
 }
 
 void AsyncIngestionWorker::loadSourcesFromConfig(const std::string& config_path) {
-    // TODO: Implement YAML config loading
-    // This is left as a future enhancement
-    throw std::runtime_error(
-        "loadSourcesFromConfig not yet implemented. "
-        "Use submitSourceJob() directly for now."
-    );
+    // Resolve the config path (supports legacy path remapping and env overlays)
+    std::string resolved_path = themis::config::ConfigPathResolver::resolve(config_path);
+
+    // Load and parse the YAML config file
+    nlohmann::json cfg = themis::config::ConfigSchemaValidator::loadAsJson(resolved_path);
+
+    // Apply optional worker pool settings from the config
+    if (cfg.contains("worker_threads") && cfg["worker_threads"].is_number_unsigned()) {
+        config_.worker_thread_count = cfg["worker_threads"].get<size_t>();
+    }
+    if (cfg.contains("queue_depth") && cfg["queue_depth"].is_number_unsigned()) {
+        config_.max_queue_depth = cfg["queue_depth"].get<size_t>();
+    }
+    if (cfg.contains("batch_size") && cfg["batch_size"].is_number_unsigned()) {
+        config_.batch_size = cfg["batch_size"].get<size_t>();
+    }
+    if (cfg.contains("retry_attempts") && cfg["retry_attempts"].is_number_integer()) {
+        config_.retry_attempts = cfg["retry_attempts"].get<int>();
+    }
+
+    // Submit each source listed under the "sources" key
+    if (!cfg.contains("sources") || !cfg["sources"].is_array()) {
+        if (config_.verbose_logging) {
+            THEMIS_INFO("loadSourcesFromConfig: no sources array in {}", resolved_path);
+        }
+        return;
+    }
+
+    int submitted = 0;
+    for (const auto& src_json : cfg["sources"]) {
+        try {
+            auto source = IngestionSource::fromJson(src_json);
+            std::string user_ctx = src_json.value("user_context", "");
+            submitSourceJob(source, json::object(), user_ctx);
+            ++submitted;
+        } catch (const std::exception& e) {
+            THEMIS_WARN("loadSourcesFromConfig: failed to submit source from {}: {}",
+                resolved_path, e.what());
+        }
+    }
+
+    THEMIS_INFO("loadSourcesFromConfig: submitted {} source job(s) from {}",
+        submitted, resolved_path);
 }
 
 void AsyncIngestionWorker::processPluginJob(IngestionJob& job) {

@@ -291,6 +291,15 @@ private:
     std::optional<PluginMetadata> loadPluginMetadataForChainValidation(
         const std::string& plugin_path
     );
+
+public:
+#ifdef THEMIS_TEST_BUILD
+    // Exposes extractEmbeddedCertificate() for white-box unit testing only.
+    std::optional<std::vector<uint8_t>> extractSigningCertificateForTesting(
+        const std::string& plugin_path) {
+        return extractEmbeddedCertificate(plugin_path);
+    }
+#endif
 };
 
 // Audit logging for plugin security events
