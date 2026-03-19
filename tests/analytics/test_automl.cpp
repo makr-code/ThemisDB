@@ -597,6 +597,92 @@ TEST(DefaultAlgorithmsTest, RegressionWithAllAlgorithms) {
 }
 
 // ============================================================================
+// KNN Regressor accuracy: y = 2*x (section 10, FUTURE_ENHANCEMENTS.md)
+// Verifies KNNModel::predictOneReg() is not the 0.0 stub and produces
+// predictions within ±0.5 of the true value for a simple linear function.
+// ============================================================================
+
+/**
+ * Build a simple 1-D regression dataset: y = 2 * x, x in [0, 1].
+ * The KNN regressor (inverse-distance-weighted mean of k=5 nearest
+ * neighbours) must predict a value close to 2 * query_x.
+ */
+static std::vector<DataPoint> makeLinearData(int n) {
+    std::vector<DataPoint> pts;
+    pts.reserve(static_cast<size_t>(n));
+    for (int i = 0; i < n; ++i) {
+        DataPoint p;
+        p.id = "lin" + std::to_string(i);
+        double x = static_cast<double>(i) / static_cast<double>(n - 1);
+        p.set("x", x);
+        p.fields["y"] = 2.0 * x;
+        pts.push_back(std::move(p));
+    }
+    return pts;
+}
+
+TEST(KNNRegressorTest, PredictOneRegNotStub) {
+    // Train KNN-only regressor on y = 2x with 100 points.
+    auto train = makeLinearData(100);
+
+    AutoML automl;
+    AutoMLConfig cfg;
+    cfg.target               = "y";
+    cfg.task                 = AutoMLTask::REGRESSION;
+    cfg.metric               = AutoMLMetric::R2;
+    cfg.max_time_minutes     = 1;
+    cfg.max_trials           = 5;
+    cfg.cv_folds             = 2;
+    cfg.feature_engineering  = false;
+    cfg.ensemble             = false;
+    cfg.algorithms           = {ModelAlgorithm::KNN};
+    cfg.random_seed          = 42;
+
+    AutoMLModel model = automl.trainRegressor(train, cfg);
+    ASSERT_EQ(model.task(), AutoMLTask::REGRESSION);
+
+    // Query point: x = 0.5, expected y ≈ 1.0.
+    DataPoint query;
+    query.id = "q";
+    query.set("x", 0.5);
+
+    const std::string pred_str = model.predictOne(query);
+    ASSERT_NO_THROW(std::stod(pred_str));
+    const double pred = std::stod(pred_str);
+
+    // Must not be the 0.0 stub and must be within ±0.5 of the true value.
+    EXPECT_NE(pred, 0.0) << "KNNModel::predictOneReg() appears to be the 0.0 stub";
+    EXPECT_NEAR(pred, 1.0, 0.5)
+        << "KNN prediction for x=0.5 (expected y≈1.0) was " << pred;
+}
+
+TEST(KNNRegressorTest, PredictAtEndpoints) {
+    auto train = makeLinearData(100);
+
+    AutoML automl;
+    AutoMLConfig cfg;
+    cfg.target               = "y";
+    cfg.task                 = AutoMLTask::REGRESSION;
+    cfg.metric               = AutoMLMetric::R2;
+    cfg.max_time_minutes     = 1;
+    cfg.max_trials           = 5;
+    cfg.cv_folds             = 2;
+    cfg.feature_engineering  = false;
+    cfg.ensemble             = false;
+    cfg.algorithms           = {ModelAlgorithm::KNN};
+    cfg.random_seed          = 42;
+
+    AutoMLModel model = automl.trainRegressor(train, cfg);
+
+    // At x=0.0, expected y ≈ 0.0.
+    DataPoint q0; q0.id = "q0"; q0.set("x", 0.0);
+    double p0 = std::stod(model.predictOne(q0));
+    EXPECT_NEAR(p0, 0.0, 0.5) << "KNN at x=0: expected ~0.0, got " << p0;
+
+    // At x=1.0, expected y ≈ 2.0.
+    DataPoint q1; q1.id = "q1"; q1.set("x", 1.0);
+    double p1 = std::stod(model.predictOne(q1));
+    EXPECT_NEAR(p1, 2.0, 0.5) << "KNN at x=1: expected ~2.0, got " << p1;
 // KNN Regression accuracy: y = 2x  (issue #137 · item 10)
 // ============================================================================
 

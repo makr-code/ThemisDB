@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   85.0/100                                       ║
     • Total Lines:     1153                                           ║
-    • Open Issues:     TODOs: 8, Stubs: 0                             ║
+    • Open Issues:     TODOs: 7, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
@@ -63,9 +63,9 @@
  *   the inner loop scans the windows_ deque linearly to detect duplicates.
  *   Replace with an ordered index keyed on start_us for O(log N) lookup.
  *
- * TODO(v1.8.0) #6: calcPercentile() takes the values vector by value (copy) —
- *   for large event sets this allocates O(N) heap memory on every percentile
- *   computation.  Change signature to accept a span or sorted view.
+ * TODO(v1.8.0) #6: RESOLVED — calcPercentile() now accepts a const reference;
+ *   the O(N) copy-per-call-site is eliminated. The single scratch copy occurs
+ *   inside themis::analytics::detail::computePercentile (stats.h).
  *
  * TODO(v1.8.0) #7: WindowResult.is_late_firing is set in TumblingWindow and
  *   SlidingWindow computeResult() paths but SessionWindow::computeResult()
@@ -78,6 +78,7 @@
  */
 
 #include "analytics/streaming_window.h"
+#include "analytics/detail/stats.h"
 
 #include <algorithm>
 #include <cassert>
@@ -144,17 +145,12 @@ std::string rvToString(const RecordValue& v) {
     return "";
 }
 
-double calcPercentile(std::vector<double> vals, double p) {
-    if (vals.empty()) return 0.0;
-    std::sort(vals.begin(), vals.end());
-    if (p <= 0.0)   return vals.front();
-    if (p >= 100.0) return vals.back();
-    double idx  = (p / 100.0) * static_cast<double>(vals.size() - 1);
-    size_t lo   = static_cast<size_t>(idx);
-    size_t hi   = lo + 1;
-    if (hi >= vals.size()) return vals.back();
-    double frac = idx - static_cast<double>(lo);
-    return vals[lo] + frac * (vals[hi] - vals[lo]);
+/** Compute percentile (p in [0,100]) from an unsorted values vector.
+ *  Delegates to themis::analytics::detail::computePercentile (stats.h) —
+ *  fixes TODO(v1.8.0) #6: was taking by value (O(N) copy per call-site).
+ */
+double calcPercentile(const std::vector<double>& vals, double p) {
+    return themis::analytics::detail::computePercentile(vals, p);
 }
 
 /**

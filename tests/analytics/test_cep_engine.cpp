@@ -1374,3 +1374,48 @@ TEST(CEPEngineShutdownTest, ShutdownReturnsWithin100msRegardlessOfMetricsInterva
         << "CEPEngine::shutdown() took " << elapsed.count()
         << " ms – metricsLoop() must wake immediately on stop signal";
 }
+
+// Verifies that CEPEngine::shutdown() completes within 100 ms even when
+// multiple worker threads are active and events are being submitted
+// concurrently.  This is the Phase 4 stop-latency acceptance test
+// (FUTURE_ENHANCEMENTS.md §2 / Production Readiness Checklist).
+//
+// Gated on THEMIS_RUN_PERF_TESTS=1 because it relies on wall-clock timing.
+TEST(CEPEngineShutdownTest, StopLatencyWithActiveWorkers) {
+#ifndef THEMIS_RUN_PERF_TESTS
+    GTEST_SKIP() << "timing test – set THEMIS_RUN_PERF_TESTS=1 to run";
+#endif
+
+    auto& engine = CEPEngine::getInstance();
+    if (engine.isInitialized()) engine.shutdown();
+
+    CEPConfig cfg;
+    cfg.worker_threads        = 4;
+    cfg.metrics_enabled       = true;
+    cfg.metrics_interval      = std::chrono::milliseconds(30000); // 30 s long interval
+    cfg.checkpointing_enabled = false;
+    engine.initialize(cfg);
+
+    // Flood the engine with events from a background thread while we time
+    // the shutdown – workers must drain and exit promptly.
+    std::atomic<bool> keep_submitting{true};
+    std::thread producer([&]() {
+        while (keep_submitting.load(std::memory_order_relaxed)) {
+            engine.submitEvent(makeEvent("LOAD"));
+        }
+    });
+
+    // Let the producer run briefly so the worker queues are active.
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    keep_submitting.store(false, std::memory_order_relaxed);
+    producer.join();
+
+    auto t0 = std::chrono::steady_clock::now();
+    engine.shutdown();
+    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - t0);
+
+    EXPECT_LE(elapsed.count(), 100)
+        << "CEPEngine::shutdown() with 4 worker threads took " << elapsed.count()
+        << " ms – workers must honour stop signal within 100 ms";
+}
