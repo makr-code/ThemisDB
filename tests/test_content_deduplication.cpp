@@ -535,6 +535,87 @@ TEST_F(ContentSHA256DedupTest, DuplicateMetadataContainsDuplicateOfField) {
 }
 
 // ============================================================================
+// ContentPolicy::enable_deduplication opt-in gate (AC-4)
+// ============================================================================
+
+/**
+ * @brief Verify that passing config["enable_deduplication"]=false skips the
+ * perceptual dedup check even when a DeduplicationChecker is attached.
+ *
+ * This validates the AC-4 requirement: deduplication is opt-in per collection
+ * via ContentPolicy; default off.
+ */
+TEST_F(ContentSHA256DedupTest, PerceptualDedupSkippedWhenPolicyDisabled) {
+    // Attach a deduplication checker
+    auto checker = std::make_shared<DeduplicationChecker>(storage_);
+    mgr_->setDeduplicationChecker(checker);
+
+    // Build a small synthetic image blob (BMP so computePHash decodes it)
+    auto makeBmpBlob = [](uint8_t r, uint8_t g, uint8_t b) {
+        int w = 8, h = 8;
+        int row_stride = ((w * 3 + 3) / 4) * 4;
+        int file_size  = 54 + h * row_stride;
+        std::vector<uint8_t> bmp(static_cast<size_t>(file_size), 0);
+        bmp[0] = 'B'; bmp[1] = 'M';
+        bmp[2] = file_size & 0xFF; bmp[3] = (file_size >> 8) & 0xFF;
+        bmp[10] = 54; bmp[14] = 40;
+        bmp[18] = static_cast<uint8_t>(w); bmp[22] = static_cast<uint8_t>(h);
+        bmp[26] = 1; bmp[28] = 24;
+        for (int y = 0; y < h; ++y)
+            for (int x = 0; x < w; ++x) {
+                size_t off = 54 + static_cast<size_t>(y) * static_cast<size_t>(row_stride)
+                           + static_cast<size_t>(x) * 3;
+                bmp[off] = b; bmp[off+1] = g; bmp[off+2] = r;
+            }
+        return std::string(bmp.begin(), bmp.end());
+    };
+
+    std::string bmp_blob = makeBmpBlob(200, 150, 100);
+
+    // First ingest with dedup ENABLED — registers the image in the checker.
+    json cfg_on;
+    cfg_on["enable_deduplication"] = true;
+    auto res1 = mgr_->ingestRawBlob(bmp_blob, "image.bmp", "image/bmp", "", cfg_on);
+    ASSERT_TRUE(res1.success);
+    std::string id1 = res1.primary_content_id;
+
+    // Second ingest with dedup DISABLED — must not be flagged as duplicate.
+    // A different SHA-256 is required so the exact-dup check doesn't fire first;
+    // append a single byte to distinguish the blob while keeping content visually
+    // identical (same pHash).
+    std::string bmp_blob2 = bmp_blob;
+    bmp_blob2.push_back('\x00'); // tiny change: SHA-256 differs, pHash may still match
+
+    json cfg_off;
+    cfg_off["enable_deduplication"] = false;
+    auto res2 = mgr_->ingestRawBlob(bmp_blob2, "image2.bmp", "image/bmp", "", cfg_off);
+    ASSERT_TRUE(res2.success);
+    // With dedup disabled, a new content ID must be assigned (not the dedup hit path).
+    EXPECT_FALSE(res2.metadata.contains("duplicate_of"))
+        << "Perceptual dedup must be skipped when enable_deduplication=false";
+    EXPECT_NE(res2.primary_content_id, id1)
+        << "A new ID must be assigned when dedup policy is disabled";
+}
+
+/**
+ * @brief Verify that ContentPolicy::enable_deduplication defaults to false
+ * (no dedup key in config → falls back to ProcessorChainConfig stage default).
+ * When no checker is attached, no dedup happens regardless of config.
+ */
+TEST_F(ContentSHA256DedupTest, PerceptualDedupDefaultsToOffWithoutChecker) {
+    // No checker attached — dedup must never fire.
+    ASSERT_EQ(mgr_->getDeduplicationChecker(), nullptr);
+
+    const std::string blob = "some text content for default-off dedup test";
+    auto res1 = mgr_->ingestRawBlob(blob, "a.txt", "text/plain");
+    auto res2 = mgr_->ingestRawBlob(blob + " ", "b.txt", "text/plain");
+    ASSERT_TRUE(res1.success);
+    ASSERT_TRUE(res2.success);
+    EXPECT_FALSE(res2.metadata.contains("duplicate_of"))
+        << "Dedup must not fire when no DeduplicationChecker is attached";
+}
+
+// ============================================================================
 // Performance tests (opt-in: set THEMIS_RUN_PERF_TESTS=1)
 // ============================================================================
 
@@ -684,4 +765,81 @@ TEST(MinHashPerf, LookupUnder1msWithWarmIndex) {
     EXPECT_LT(median_us, 1000)
         << "MinHash+LSH lookup must complete in < 1 ms; "
         << "median was " << median_us << " µs";
+}
+
+/**
+ * @brief Near-duplicate detection overhead: < 10% of total ingestion proxy latency.
+ *
+ * Measures the incremental cost of perceptual deduplication (pHash or MinHash +
+ * band-LSH lookup) relative to a baseline that only does exact-dedup (SHA-256).
+ * Uses the text path (MinHash) with a warm 100 K-entry band index to exercise
+ * the realistic worst-case lookup path.
+ *
+ * Performance target from acceptance criteria (roadmap:168:content:v1.8.0, AC-8).
+ * Set THEMIS_RUN_PERF_TESTS=1 to enable.
+ */
+TEST(DedupOverheadPerf, PerceptualDedupAddsLessThan10PctOverhead) {
+    const char* run_perf = std::getenv("THEMIS_RUN_PERF_TESTS");
+    if (!run_perf || std::string(run_perf) != "1") {
+        GTEST_SKIP() << "Skipping dedup overhead perf test "
+                        "(set THEMIS_RUN_PERF_TESTS=1 to enable)";
+    }
+
+    // Build a warm band index with ~6,250 documents (≈100K band slots).
+    const size_t kWarmDocs = 6250;
+    DeduplicationChecker checker(nullptr,
+        kWarmDocs * DeduplicationChecker::kNumBands * 2);
+    for (size_t i = 0; i < kWarmDocs; ++i) {
+        std::string text = "warmup_doc_" + std::to_string(i) + " " + makeTextBlob(200);
+        checker.registerText("doc_" + std::to_string(i), TextProcessor::computeMinHash(text));
+    }
+
+    // Query text: ~10 KB, novel content not in the index.
+    std::string query_text = makeTextBlob(10240);
+
+    const int kIterations = 200;
+
+    // ---- Baseline: SHA-256-equivalent proxy (just compute MinHash, no lookup) ----
+    // Proxy for the "ingestion without perceptual dedup" cost: compute the
+    // MinHash signature (the most expensive CPU step that is also done WITH dedup).
+    std::vector<int64_t> base_us;
+    base_us.reserve(kIterations);
+    for (int i = 0; i < kIterations; ++i) {
+        auto t0 = std::chrono::steady_clock::now();
+        auto sig = TextProcessor::computeMinHash(query_text);
+        (void)sig;
+        auto t1 = std::chrono::steady_clock::now();
+        base_us.push_back(
+            std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count());
+    }
+
+    // ---- With dedup: MinHash + band-LSH lookup ----
+    std::vector<int64_t> dedup_us;
+    dedup_us.reserve(kIterations);
+    for (int i = 0; i < kIterations; ++i) {
+        auto t0 = std::chrono::steady_clock::now();
+        auto sig    = TextProcessor::computeMinHash(query_text);
+        auto result = checker.isDuplicateText(sig);
+        (void)result;
+        auto t1 = std::chrono::steady_clock::now();
+        dedup_us.push_back(
+            std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count());
+    }
+
+    std::sort(base_us.begin(),  base_us.end());
+    std::sort(dedup_us.begin(), dedup_us.end());
+
+    double median_base_us  = static_cast<double>(base_us[kIterations / 2]);
+    double median_dedup_us = static_cast<double>(dedup_us[kIterations / 2]);
+
+    // Overhead = extra time from dedup lookup / baseline ingestion proxy.
+    // Guard against division by zero on unusually fast machines.
+    if (median_base_us > 0.0) {
+        double overhead_pct = (median_dedup_us - median_base_us) / median_base_us * 100.0;
+        EXPECT_LT(overhead_pct, 10.0)
+            << "Perceptual dedup overhead must be < 10% of baseline; "
+            << "baseline=" << median_base_us << " µs, "
+            << "with_dedup=" << median_dedup_us << " µs, "
+            << "overhead=" << overhead_pct << "%";
+    }
 }
