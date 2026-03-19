@@ -2452,8 +2452,56 @@ else()
 endif()
 
 # ============================================================================
-# Distributed Cache Coordinator Tests (Phase 4 – Redis-compatible protocol)
+# Cache Replication Coordinator Tests (v1.8.0 – network-backed peer discovery)
 # ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_replication_coordinator.cpp")
+    message(STATUS "Adding Cache Replication Coordinator tests (network-backed peer discovery)")
+
+    set(_COORD_SOURCES
+        test_cache_replication_coordinator.cpp
+    )
+
+    add_executable(test_cache_replication_coordinator ${_COORD_SOURCES})
+
+    target_include_directories(test_cache_replication_coordinator PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_cache_replication_coordinator PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+    if(THEMIS_ENABLE_GRPC)
+        target_link_libraries(test_cache_replication_coordinator PRIVATE gRPC::grpc++)
+    endif()
+
+    target_compile_definitions(test_cache_replication_coordinator PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    if(THEMIS_ENABLE_GRPC)
+        target_compile_definitions(test_cache_replication_coordinator PRIVATE
+            THEMIS_ENABLE_GRPC
+        )
+    endif()
+
+    add_test(NAME CacheReplicationCoordinatorTests
+             COMMAND test_cache_replication_coordinator)
+
+    set_tests_properties(CacheReplicationCoordinatorTests PROPERTIES
+        LABELS "cache;replication;network;grpc;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Cache Replication Coordinator: IRemoteCachePeer, IClusterView, async fanout, retry queue")
+else()
+    message(STATUS "Cache Replication Coordinator tests not found")
+endif()
+
+
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cache_coordinator.cpp")
     message(STATUS "Adding Distributed Cache Coordinator tests")
