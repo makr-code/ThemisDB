@@ -352,7 +352,7 @@ without any log message or exception.
 **Implementation Notes:**
 - `[ ]` Audit `OLAPEngine` for Windows-specific blockers (likely POSIX `mmap`, `pread`, or specific SIMD intrinsics); use `#ifdef _WIN32` guards only around the affected primitives rather than replacing the entire class
 - `[ ]` Add CMake CI job for Windows (MSVC 2022 + vcpkg) that builds and runs the OLAP unit tests to prevent silent regressions
-- `[x]` `exportToParquet()` / `exportCollectionToParquet()` now emit `spdlog::error(...)` when Arrow is not compiled in — `olap.cpp` Windows stubs already use `spdlog::error`
+- `[x]` `exportToParquet()` / `exportCollectionToParquet()` now emit `spdlog::warn(...)` when Arrow is not compiled in (`olap.cpp` `#else` block); `throwArrowUnavailable()` in `analytics_export.cpp` also emits `spdlog::warn` before throwing
 - `[x]` `ProcessMining` Windows stub now calls `spdlog::error(...)` before returning `Status::Error` — operators see a log entry when the capability is absent
 - `[ ]` Track Windows-stub coverage in the file-header `Stubs:` counter and add a CI check that fails if the stub count is > 0 on non-Windows builds
 

@@ -961,6 +961,7 @@ public:
 
 #ifndef THEMIS_HAS_ARROW
 [[noreturn]] static void throwArrowUnavailable(const char* format_name) {
+    spdlog::warn("ExporterFactory: {} export is not available – rebuild with -DTHEMIS_HAS_ARROW=ON", format_name);
     throw std::runtime_error(
         std::string(format_name) +
         " export is not available. "
