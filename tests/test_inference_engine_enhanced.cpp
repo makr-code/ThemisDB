@@ -32,6 +32,10 @@
 #include <chrono>
 #include <spdlog/spdlog.h>
 #include <atomic>
+#include <array>
+#include <condition_variable>
+#include <mutex>
+#include <string_view>
 
 using namespace themis::llm;
 
@@ -1157,4 +1161,250 @@ TEST_F(InferenceEngineEnhancedTest, UpdateCacheEmbeddingBasedHit) {
                  resp1.text.substr(0, 40), resp2.text.substr(0, 40));
 
     engine.shutdown();
+}
+
+// ═══════════════════════════════════════════════════════════
+// Streaming Mock Plugin
+//
+// Fires stream_callback for each word-token in the response,
+// then returns the complete response (for the InferenceHandle).
+// ═══════════════════════════════════════════════════════════
+class StreamingMockPlugin : public ILLMPlugin {
+public:
+    explicit StreamingMockPlugin(const std::string& model_id)
+        : model_id_(model_id) {}
+
+    bool loadModel(const std::string&, const json&) override { return true; }
+    void unloadModel() override {}
+    std::optional<ModelInfo> getModelInfo() const override {
+        ModelInfo info{};
+        info.model_id = model_id_;
+        info.is_loaded = true;
+        return info;
+    }
+    bool isModelLoaded() const override { return true; }
+
+    InferenceResponse generate(const InferenceRequest& request) override {
+        // Simulate streaming: fire one callback per word.
+        static constexpr std::array<const char*, 4> kTokens = {"hello", " ", "world", "!"};
+        if (request.stream_callback) {
+            for (const auto& tok : kTokens) {
+                request.stream_callback(tok);
+            }
+        }
+        InferenceResponse resp;
+        resp.request_id        = request.request_id;
+        resp.model_id          = model_id_;
+        resp.text              = "hello world!";
+        resp.tokens_generated  = static_cast<int>(kTokens.size());
+        resp.inference_time_ms = 5.0f;
+        return resp;
+    }
+
+    InferenceResponse generateRAG(const RAGContext&, const InferenceRequest& req) override {
+        return generate(req);
+    }
+
+    std::vector<float> embed(const std::string& /*text*/) override {
+        return std::vector<float>(8, 0.0f);
+    }
+
+    LLMCapabilities getCapabilities() const override {
+        LLMCapabilities caps{};
+        caps.supports_streaming = true;
+        return caps;
+    }
+    json getMemoryStats() const override { return {}; }
+    json getPerformanceStats() const override { return {}; }
+
+    bool loadLoRA(const std::string&, const std::string&, float) override { return true; }
+    bool unloadLoRA(const std::string&) override { return true; }
+    std::vector<LoRAInfo> listLoRAs() const override { return {}; }
+    std::vector<uint8_t> exportLoRA(const std::string&) override { return {}; }
+    bool importLoRA(const std::string&, const std::vector<uint8_t>&) override { return true; }
+
+private:
+    std::string model_id_;
+};
+
+// ═══════════════════════════════════════════════════════════
+// submitStreaming tests – InferenceEngineEnhanced
+// ═══════════════════════════════════════════════════════════
+
+// Test: tokens arrive incrementally (is_final=false) and the final sentinel
+// (is_final=true, empty token) arrives exactly once.
+TEST_F(InferenceEngineEnhancedTest, SubmitStreaming_TokensDelivered) {
+    InferenceEngineEnhanced engine(config_);
+    auto plugin = std::make_shared<StreamingMockPlugin>("stream_model");
+    engine.registerModel("stream_model", plugin);
+    engine.start();
+
+    std::vector<std::string> received_tokens;
+    std::atomic<int> final_count{0};
+    std::mutex mu;
+
+    InferenceEngineEnhanced::EnhancedInferenceRequest req;
+    req.request_id         = "stream_req_1";
+    req.base_request.prompt = "Hello";
+
+    auto handle = engine.submitStreaming(req,
+        [&](std::string_view token, bool is_final) {
+            std::lock_guard<std::mutex> lk(mu);
+            if (is_final) {
+                ++final_count;
+            } else {
+                received_tokens.emplace_back(token);
+            }
+        });
+
+    // Wait for completion.
+    auto resp = handle.get();
+
+    EXPECT_FALSE(resp.text.empty());
+    {
+        std::lock_guard<std::mutex> lk(mu);
+        EXPECT_FALSE(received_tokens.empty()) << "Expected at least one token callback";
+        EXPECT_EQ(final_count.load(), 1) << "Final sentinel must fire exactly once";
+    }
+
+    engine.shutdown();
+}
+
+// Test: cancellation via InferenceHandle::cancel() fires the final sentinel.
+TEST_F(InferenceEngineEnhancedTest, SubmitStreaming_CancelFiresFinalSentinel) {
+    // Use a slow mock so we can cancel before it finishes.
+    InferenceEngineEnhanced::Config slow_cfg = config_;
+    slow_cfg.num_worker_threads = 1;
+    InferenceEngineEnhanced engine(slow_cfg);
+
+    // A plugin that blocks so we can cancel mid-request.
+    class SlowStreamingPlugin : public StreamingMockPlugin {
+    public:
+        SlowStreamingPlugin() : StreamingMockPlugin("slow_stream") {}
+        InferenceResponse generate(const InferenceRequest& request) override {
+            std::this_thread::sleep_for(std::chrono::milliseconds(200));
+            return StreamingMockPlugin::generate(request);
+        }
+    };
+
+    engine.registerModel("slow_stream", std::make_shared<SlowStreamingPlugin>());
+    engine.start();
+
+    std::atomic<int> final_count{0};
+    std::mutex fin_mu;
+    std::condition_variable fin_cv;
+
+    InferenceEngineEnhanced::EnhancedInferenceRequest req;
+    req.request_id          = "cancel_stream_1";
+    req.base_request.prompt = "test";
+    req.timeout             = std::chrono::milliseconds(2000);
+
+    auto handle = engine.submitStreaming(req,
+        [&](std::string_view /*token*/, bool is_final) {
+            if (is_final) {
+                ++final_count;
+                fin_cv.notify_all();
+            }
+        });
+
+    // Cancel immediately.
+    handle.cancel();
+
+    // Wait deterministically for the final sentinel (up to 500 ms).
+    {
+        std::unique_lock<std::mutex> lk(fin_mu);
+        fin_cv.wait_for(lk, std::chrono::milliseconds(500),
+                        [&] { return final_count.load() > 0; });
+    }
+
+    EXPECT_EQ(final_count.load(), 1) << "Cancel must trigger exactly one is_final=true callback";
+
+    engine.shutdown();
+}
+
+// ═══════════════════════════════════════════════════════════
+// submitStreaming tests – AsyncInferenceEngine
+// ═══════════════════════════════════════════════════════════
+
+// Test: AsyncInferenceEngine::submitStreaming delivers tokens and a final sentinel.
+TEST(AsyncInferenceEngineStreamingTest, SubmitStreaming_TokensAndFinalSentinel) {
+    auto plugin = std::make_shared<StreamingMockPlugin>("async_stream");
+
+    AsyncInferenceEngine::Config cfg;
+    cfg.num_worker_threads = 1;
+
+    AsyncInferenceEngine engine(plugin.get(), cfg);
+
+    std::vector<std::string> tokens;
+    std::atomic<int> final_count{0};
+    std::mutex mu;
+
+    InferenceRequest req;
+    req.prompt = "Streaming test";
+
+    auto handle = engine.submitStreaming(req,
+        [&](std::string_view token, bool is_final) {
+            std::lock_guard<std::mutex> lk(mu);
+            if (is_final) {
+                ++final_count;
+            } else {
+                tokens.emplace_back(token);
+            }
+        });
+
+    auto resp = handle.get();
+    EXPECT_FALSE(resp.text.empty());
+
+    {
+        std::lock_guard<std::mutex> lk(mu);
+        EXPECT_FALSE(tokens.empty()) << "Expected at least one token callback";
+        EXPECT_EQ(final_count.load(), 1) << "Final sentinel must fire exactly once";
+    }
+}
+
+// Test: AsyncInferenceEngine::submitStreaming cancel triggers is_final=true.
+TEST(AsyncInferenceEngineStreamingTest, SubmitStreaming_CancelFiresFinalSentinel) {
+    class SlowStreamPlugin : public StreamingMockPlugin {
+    public:
+        SlowStreamPlugin() : StreamingMockPlugin("slow_async_stream") {}
+        InferenceResponse generate(const InferenceRequest& request) override {
+            std::this_thread::sleep_for(std::chrono::milliseconds(300));
+            return StreamingMockPlugin::generate(request);
+        }
+    };
+
+    auto plugin = std::make_shared<SlowStreamPlugin>();
+
+    AsyncInferenceEngine::Config cfg;
+    cfg.num_worker_threads = 1;
+
+    AsyncInferenceEngine engine(plugin.get(), cfg);
+
+    std::atomic<int> final_count{0};
+    std::mutex fin_mu;
+    std::condition_variable fin_cv;
+
+    InferenceRequest req;
+    req.prompt = "Cancel test";
+
+    auto handle = engine.submitStreaming(req,
+        [&](std::string_view /*token*/, bool is_final) {
+            if (is_final) {
+                ++final_count;
+                fin_cv.notify_all();
+            }
+        });
+
+    // Allow the worker to pick up the request, then cancel.
+    std::this_thread::sleep_for(std::chrono::milliseconds(30));
+    handle.cancel();
+
+    // Wait deterministically for the final sentinel (up to 500 ms).
+    {
+        std::unique_lock<std::mutex> lk(fin_mu);
+        fin_cv.wait_for(lk, std::chrono::milliseconds(500),
+                        [&] { return final_count.load() > 0; });
+    }
+
+    EXPECT_EQ(final_count.load(), 1) << "Cancel must trigger exactly one is_final=true callback";
 }
