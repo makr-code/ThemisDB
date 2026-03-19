@@ -38,9 +38,10 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Global transaction manager for multi-region ACID guarantees with TrueTime 2PC (Issue: #2327)
 - [x] Adaptive Deadlock Prevention – `DeadlockPredictor` with probability scoring, lock-order recommendation, and adaptive timeouts (Target: v1.9.0)
 - [x] Distributed Transaction Coordinator (2PC) – `DistributedTransactionManager` with parallel prepare/commit phases, WAL-backed coordinator crash recovery, timeout-based abort, and failure detection (Target: v1.9.0) (Issue: #123)
+- [x] Write Batching and Coalescing – `TransactionBatcher` with configurable batch window (1–100 ms), per-table/per-key policies, fair FIFO scheduling, adaptive batch sizing, and aggregate stats (Target: v1.8.0)
 
 ## In Progress 🚧
-> All Phase 3, Phase 4, Phase 5, and Phase 6 items are now complete.
+> All Phase 3, Phase 4, Phase 5, Phase 6, and Phase 7 items are now complete.
 
 
 ## Planned Features 📋
@@ -61,6 +62,12 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
   — implemented in `include/transaction/deadlock_predictor.h`, `src/transaction/deadlock_predictor.cpp`;
   integrated into `TransactionManager` via `setDeadlockPredictor` / `predictDeadlockProbability` /
   `recommendLockOrder` / `recommendTimeout`; tests in `tests/test_adaptive_deadlock_prevention.cpp`
+- [x] Write Batching and Coalescing (Target: v1.8.0)
+  — implemented in `include/transaction/transaction_batcher.h`, `src/transaction/transaction_batcher.cpp`;
+  standalone `TransactionBatcher` with background flush thread, `submitAsync(commit_fn, table_hint)`,
+  `flush()`, per-table `BatchPolicy`, adaptive window, and `Stats`; 26 tests in
+  `tests/test_transaction_batcher.cpp` (`TransactionBatcherFocusedTests`);
+  CI: `.github/workflows/transaction-write-batching-ci.yml`
 
 ## Implementation Phases
 
@@ -129,18 +136,38 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Tests: `tests/test_transaction_distributed_2pc.cpp` (32 tests, `TransactionDistributed2PCFocusedTests`)
 - [x] CI: `.github/workflows/transaction-distributed-2pc-ci.yml`
 
+### Phase 7: Write Batching and Coalescing (Status: Completed ✅)
+- [x] `TransactionBatcher` – automatic batching of concurrent commit operations for high-throughput ingestion (Target: v1.8.0)
+  — implemented in `include/transaction/transaction_batcher.h`, `src/transaction/transaction_batcher.cpp`
+- [x] `BatchConfig` – configurable `window` (1–100 ms), `max_batch_size`, `min_batch_size`, `enable_adaptive`
+- [x] `setBatchConfig()` / `getBatchConfig()` – validated and clamped configuration API
+- [x] `submitAsync(commit_fn, table_hint)` – non-blocking submission returning `std::future<Status>`
+- [x] `flush()` – force-drain all pending items immediately (blocks until queue is empty)
+- [x] Background flush thread with condition_variable for efficient timed wait
+- [x] Immediate flush when pending queue reaches `max_batch_size` (throughput protection)
+- [x] Exception safety: all exceptions thrown by commit_fn are caught and returned as `Status::Error`
+- [x] FIFO ordering: items processed in submission order within each batch (fair scheduling, no starvation)
+- [x] Per-table `BatchPolicy` – `setTablePolicy(table, policy)` / `getTablePolicy(table)` with zero-field inheritance from global config
+- [x] Adaptive window adjustment: widens under low load (+10%), narrows under near-overflow load (-10%)
+- [x] `Stats` – `batches_flushed`, `transactions_committed`, `transactions_failed`, `avg_batch_size`, `avg_latency_ms`, `adaptive_adjustments`
+- [x] Destructor drains remaining items before exiting (prevents lost commits on shutdown)
+- [x] Thread-safe: `submitAsync`, `setBatchConfig`, `setTablePolicy`, `flush`, `getStats` all safe for concurrent callers
+- [x] Tests: `tests/test_transaction_batcher.cpp` (26 tests, `TransactionBatcherFocusedTests`)
+- [x] CI: `.github/workflows/transaction-write-batching-ci.yml`
+
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (Verified: Q1 2026) — Primary: `tests/test_savepoints.cpp` (20 savepoint tests); bulk API: `tests/test_transaction_bulk.cpp` (12 tests); SagaOperation: `tests/test_saga_operation.cpp` (8 tests covering `indexPutWithCompensation`, `graphAddWithCompensation`, `putEntityWithCompensation`, `deleteEntityWithCompensation`, `vectorAddWithCompensation`); supplementary: `tests/test_transaction_isolation_levels.cpp`, `tests/test_transaction_manager.cpp`, `tests/test_postgres_transactions.cpp`; standalone focused targets: `TransactionManagerFocusedTests`, `TransactionIsolationLevelsFocusedTests`, `SAGALoggerFocusedTests`, `SAGACompactorFocusedTests`, `ShardingTransactionWALFocusedTests`, `MultiShardTransactionFocusedTests`, `DistributedTransactionsFocusedTests`, `PostgresTransactionFocusedTests`, `AQLMultiStatementTransactionFocusedTests`, `DbTransactionIsolationFocusedTests`, `TransactionDistributed2PCFocusedTests`
+- [x] Unit tests coverage > 80% (Verified: Q1 2026) — Primary: `tests/test_savepoints.cpp` (20 savepoint tests); bulk API: `tests/test_transaction_bulk.cpp` (12 tests); SagaOperation: `tests/test_saga_operation.cpp` (8 tests covering `indexPutWithCompensation`, `graphAddWithCompensation`, `putEntityWithCompensation`, `deleteEntityWithCompensation`, `vectorAddWithCompensation`); supplementary: `tests/test_transaction_isolation_levels.cpp`, `tests/test_transaction_manager.cpp`, `tests/test_postgres_transactions.cpp`; standalone focused targets: `TransactionManagerFocusedTests`, `TransactionIsolationLevelsFocusedTests`, `SAGALoggerFocusedTests`, `SAGACompactorFocusedTests`, `ShardingTransactionWALFocusedTests`, `MultiShardTransactionFocusedTests`, `DistributedTransactionsFocusedTests`, `PostgresTransactionFocusedTests`, `AQLMultiStatementTransactionFocusedTests`, `DbTransactionIsolationFocusedTests`, `TransactionDistributed2PCFocusedTests`, `TransactionBatcherFocusedTests`
 - [x] Integration tests (commit, rollback, SAGA compensation, deadlock detection) — savepoint+SAGA integration covered in `test_savepoints.cpp`; bulk API atomicity in `test_transaction_bulk.cpp`; DistributedSAGA in `test_distributed_saga.cpp` (631 lines, DAG execution, retry, compensation ordering, metrics); concurrent SAGA in `test_saga_concurrent_execution.cpp`; 2PC coordinator in `test_transaction_distributed_2pc.cpp` (concurrent transactions, partial commit rollback, prepare timeout)
 - [x] Performance benchmarks (TPS, lock contention, MVCC overhead) — `OccOptimisticPut`, `OccReadVersionAndUpdate`, `OccOptimisticErase`, `SavepointCreateAndRollback`, `SavepointNested`, `SavepointRelease` in `benchmarks/bench_transaction_throughput.cpp`
 - [x] Security audit (transaction isolation boundary, SAGA compensating action safety) — isolation boundary enforced via `LockManager` (EXCLUSIVE locks block SHARED readers; shrinking-phase enforcement prevents new lock acquisitions after first release, tested in `TransactionIsolationLevelsFocusedTests`); SAGA compensation safety verified via idempotent compensating functions in `test_saga_operation.cpp` and `test_distributed_saga.cpp`
-- [x] Documentation complete — named savepoint API documented in `src/transaction/README.md`; bulk API documented in `include/transaction/transaction_manager.h`; time-travel query API documented in `include/transaction/transaction_manager.h`; 2PC coordinator API documented in `include/transaction/distributed_transaction_manager.h`; `FUTURE_ENHANCEMENTS.md` updated; `ROADMAP.md` updated
-- [x] API stability guaranteed — `TransactionManager` public API stable from v1.x; savepoint API added as non-breaking extension; `DistributedTransactionManager` API stable from v1.9.0
+- [x] Documentation complete — named savepoint API documented in `src/transaction/README.md`; bulk API documented in `include/transaction/transaction_manager.h`; time-travel query API documented in `include/transaction/transaction_manager.h`; 2PC coordinator API documented in `include/transaction/distributed_transaction_manager.h`; `TransactionBatcher` API documented in `include/transaction/transaction_batcher.h`; `FUTURE_ENHANCEMENTS.md` updated; `ROADMAP.md` updated
+- [x] API stability guaranteed — `TransactionManager` public API stable from v1.x; savepoint API added as non-breaking extension; `DistributedTransactionManager` API stable from v1.9.0; `TransactionBatcher` API stable from v1.8.0
 
 ## Known Issues & Limitations
 - Individual `Transaction` objects are NOT thread-safe; use from a single thread.
 - Serializable isolation is implemented via predicate locking (SSI); SERIALIZABLE transactions acquire predicate locks on read ranges and detect write conflicts at write time.
 - Cross-shard 2PC is available at three levels: `themis::sharding::TwoPhaseCommitCoordinator` (v1.5.0, sharding-layer), `themis::storage::DistributedTransactionManager` (v1.7.0, storage-layer), and `themis::transaction::DistributedTransactionManager` (v1.9.0, transaction-domain — this implementation).
+- `TransactionBatcher` uses a type-erased `std::function<Status()>` as the commit unit, allowing full flexibility at the cost of one virtual dispatch per submitted item.
 
 ## Breaking Changes
 - `TransactionManager` public API is stable from v1.x.

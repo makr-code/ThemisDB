@@ -69,9 +69,10 @@ using json = nlohmann::json;
  * - GET    /api/v1/llm/lora/adapters - List adapters with filters
  * 
  * Adapter Lifecycle:
- * - POST   /api/v1/llm/lora/adapters/{adapter_id}/load - Load adapter
+ * - POST   /api/v1/llm/lora/adapters/{adapter_id}/load - Hot-load adapter (returns 202 Accepted + job_id)
  * - POST   /api/v1/llm/lora/adapters/{adapter_id}/unload - Unload adapter
  * - GET    /api/v1/llm/lora/adapters/{adapter_id}/status - Get adapter status
+ * - GET    /api/v1/llm/lora/adapters/{adapter_id}/load-status - Get hot-load job status
  * 
  * Inference:
  * - POST   /api/v1/llm/lora/query - Query with LoRA adapter
@@ -158,6 +159,11 @@ private:
         const http::request<http::string_body>& req);
     
     http::response<http::string_body> handleAdapterStatus(
+        const http::request<http::string_body>& req);
+
+    /// GET /api/v1/llm/lora/adapters/{id}/load-status
+    /// Returns the status of the latest hot-load job for the adapter.
+    http::response<http::string_body> handleHotLoadStatus(
         const http::request<http::string_body>& req);
     
     // Cross-shard sync endpoint

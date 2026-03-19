@@ -225,6 +225,9 @@ struct SlidingWindowConfig {
 struct SessionWindowConfig {
     std::chrono::milliseconds gap{30000};
     WatermarkConfig watermark;
+    /// How often the background expiry thread wakes to check for idle sessions.
+    /// Smaller values reduce session-close latency at the cost of more CPU wakeups.
+    std::chrono::milliseconds session_expiry_check_interval_ms{200};
 };
 
 struct HoppingWindowConfig {

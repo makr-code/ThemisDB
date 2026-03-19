@@ -336,6 +336,9 @@ struct WindowConfig {
     bool emit_on_close = true;                   // Emit results when window closes
     bool emit_on_event = false;                  // Emit on every event
     std::chrono::milliseconds allowed_lateness{0}; // Late event tolerance
+    /// How often the timer thread wakes to emit GLOBAL window snapshots and
+    /// close expired SESSION windows.  Smaller values reduce emission latency.
+    std::chrono::milliseconds global_window_emit_interval_ms{500};
 };
 
 /**

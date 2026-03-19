@@ -83,17 +83,62 @@ public:
 
 ### Schema Version API
 **Priority:** Medium  
-**Target Version:** v1.8.0
+**Target Version:** v1.8.0  
+**Status:** ✅ Implemented
+
+The `SchemaVersionManager` API is shipped in `include/metadata/schema_version_manager.h`.
+The stub interface below is superseded by the full implementation.
 
 ```cpp
-// metadata/schema_version.h
+// include/metadata/schema_version_manager.h
 namespace themis {
 
 class SchemaVersionManager {
 public:
-    Result<uint64_t> getCurrentVersion(const std::string& table_name);
-    Result<std::vector<SchemaChange>> getHistory(const std::string& table_name);
-    Result<bool> rollbackToVersion(const std::string& table_name, uint64_t version);
+    // [x] Snapshot current schema and store as a new version
+    VersionResult<uint64_t> createSchemaVersion(
+        std::string_view table_name,
+        std::string_view author      = "",
+        std::string_view description = "");
+
+    // [x] Get highest version number for a table
+    VersionResult<uint64_t> getCurrentVersion(std::string_view table_name) const;
+
+    // [x] Full change history in ascending version order
+    VersionResult<std::vector<SchemaChange>> getChangeHistory(
+        std::string_view table_name) const;
+
+    // [x] Apply historical schema snapshot + record rollback as a new version
+    VersionResult<bool> rollbackToVersion(
+        std::string_view table_name, uint64_t version,
+        std::string_view author = "");
+
+    // [x] JSON diff (added / removed / modified columns) between two versions
+    VersionResult<json> diffVersions(
+        std::string_view table_name,
+        uint64_t version_a, uint64_t version_b) const;
+
+    // [x] DDL migration script (ADD/DROP/ALTER COLUMN) from diff
+    VersionResult<std::string> generateMigrationScript(
+        std::string_view table_name,
+        uint64_t version_from, uint64_t version_to) const;
+
+    // [x] Dry-run: validate proposed schema without persisting
+    VersionResult<bool> validateMigration(
+        std::string_view table_name,
+        const SchemaManager::TableSchema& new_schema) const;
+
+    // [x] Retrieve a specific version's schema snapshot
+    VersionResult<SchemaChange> getVersion(
+        std::string_view table_name,
+        uint64_t version) const;
+
+    // [x] Full change history serialised as a JSON array
+    json historyToJSON(std::string_view table_name) const;
+
+    // [x] Attach an audit log; createSchemaVersion / rollbackToVersion emit
+    //     entries when one is attached (nullptr = no-op, safe)
+    void setAuditLog(SchemaAuditLog* audit_log) noexcept;
 };
 
 }
