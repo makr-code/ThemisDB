@@ -1,7 +1,8 @@
 name: Documentation Pipeline
 
 # Consolidated docs CI path:
-#   1. validate  – lint + links + TOC check
+#   1. validate  – comprehensive lint + links + TOC + header + drift checks
+#                  (delegates to 05-quality/validation/documentation-validation.yml)
 #   2. build-site – mkdocs static site
 #   3. build-pdf  – on-demand or on release tags (ENABLE_PDF_EXPORT)
 #   4. deploy-pages – GitHub Pages (main branch / manual)
@@ -17,6 +18,7 @@ on:
     paths:
       - 'docs/**'
       - 'compendium/**'
+      - 'aql/**'
       - 'mkdocs.yml'
       - 'mkdocs-nopdf.yml'
       - 'requirements-docs.txt'
@@ -33,6 +35,7 @@ on:
     paths:
       - 'docs/**'
       - 'compendium/**'
+      - 'aql/**'
       - 'mkdocs.yml'
       - 'mkdocs-nopdf.yml'
       - 'requirements-docs.txt'
@@ -61,56 +64,20 @@ concurrency:
 
 permissions:
   contents: read
+  issues: write   # required by the drift-detection job in documentation-validation.yml
 
 # ---------------------------------------------------------------------------
-# Stage 1 – Validate (lint + links + TOC)
-# Runs on every PR and push so problems are caught early.
+# Stage 1 – Validate (comprehensive lint + links + TOC + header + drift)
+# Delegates to the reusable documentation-validation workflow so there is a
+# single source of truth for all validation logic.
 # ---------------------------------------------------------------------------
 jobs:
   validate:
-    name: Validate (lint + links + TOC)
-    runs-on: ubuntu-latest
-
+    name: Validate (lint + links + TOC + header + drift)
+    uses: ./.github/workflows/05-quality/validation/documentation-validation.yml
     permissions:
       contents: read
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-          cache: pip
-
-      - name: Install validation dependencies
-        run: pip install pyyaml requests
-
-      - name: Lint documentation
-        id: lint
-        run: python3 scripts/docs-lint.py
-
-      - name: Check internal links
-        id: link-check
-        run: python3 scripts/link-check.py --internal-only
-
-      - name: Validate TOC
-        id: toc
-        run: python3 scripts/toc-check.py
-
-      - name: Write job summary
-        if: always()
-        run: |
-          echo "## 📋 Docs Validation" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Check | Status |" >> "$GITHUB_STEP_SUMMARY"
-          echo "|-------|--------|" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Lint | ${{ steps.lint.outcome }} |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Internal links | ${{ steps.link-check.outcome }} |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| TOC | ${{ steps.toc.outcome }} |" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "**Branch:** \`${{ github.ref_name }}\` | **Event:** \`${{ github.event_name }}\`" >> "$GITHUB_STEP_SUMMARY"
+      issues: write   # needed by drift-detection job
 
 # ---------------------------------------------------------------------------
 # Stage 2 – Build site (mkdocs, no PDF)
