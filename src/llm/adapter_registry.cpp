@@ -35,6 +35,7 @@
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <mutex>
+#include <shared_mutex>
 #include <unordered_map>
 #include <chrono>
 
@@ -46,7 +47,7 @@ namespace llm {
 // ============================================================================
 
 struct AdapterRegistry::Impl {
-    mutable std::mutex mu;
+    mutable std::shared_mutex rw_mu;
     // Primary store: adapter_id → metadata
     std::unordered_map<std::string, AdapterMetadata> adapters;
     // Signature store: adapter_id → AdapterSignature
@@ -99,7 +100,7 @@ bool AdapterRegistry::registerAdapter(const AdapterMetadata& metadata) {
         spdlog::error("AdapterRegistry::registerAdapter: adapter_id must not be empty");
         return false;
     }
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::unique_lock<std::shared_mutex> lock(impl_->rw_mu);
     if (impl_->adapters.count(metadata.adapter_id)) {
         spdlog::warn("AdapterRegistry::registerAdapter: adapter '{}' already registered",
                      metadata.adapter_id);
@@ -111,7 +112,7 @@ bool AdapterRegistry::registerAdapter(const AdapterMetadata& metadata) {
 }
 
 std::optional<AdapterMetadata> AdapterRegistry::getAdapter(const std::string& adapter_id) {
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     auto it = impl_->adapters.find(adapter_id);
     if (it == impl_->adapters.end()) {
         return std::nullopt;
@@ -124,7 +125,7 @@ bool AdapterRegistry::updateAdapter(const AdapterMetadata& metadata) {
         spdlog::error("AdapterRegistry::updateAdapter: adapter_id must not be empty");
         return false;
     }
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::unique_lock<std::shared_mutex> lock(impl_->rw_mu);
     auto it = impl_->adapters.find(metadata.adapter_id);
     if (it == impl_->adapters.end()) {
         spdlog::warn("AdapterRegistry::updateAdapter: adapter '{}' not found",
@@ -137,7 +138,7 @@ bool AdapterRegistry::updateAdapter(const AdapterMetadata& metadata) {
 }
 
 bool AdapterRegistry::deleteAdapter(const std::string& adapter_id) {
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::unique_lock<std::shared_mutex> lock(impl_->rw_mu);
     auto erased = impl_->adapters.erase(adapter_id);
     if (erased == 0) {
         spdlog::warn("AdapterRegistry::deleteAdapter: adapter '{}' not found", adapter_id);
@@ -149,7 +150,7 @@ bool AdapterRegistry::deleteAdapter(const std::string& adapter_id) {
 }
 
 std::vector<AdapterMetadata> AdapterRegistry::listAdapters() {
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     std::vector<AdapterMetadata> result;
     result.reserve(impl_->adapters.size());
     for (const auto& [id, meta] : impl_->adapters) {
@@ -161,7 +162,7 @@ std::vector<AdapterMetadata> AdapterRegistry::listAdapters() {
 std::vector<AdapterMetadata> AdapterRegistry::listAdaptersByBaseModel(
     const std::string& base_model
 ) {
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     std::vector<AdapterMetadata> result;
     for (const auto& [id, meta] : impl_->adapters) {
         if (meta.base_model_name == base_model) {
@@ -174,7 +175,7 @@ std::vector<AdapterMetadata> AdapterRegistry::listAdaptersByBaseModel(
 std::vector<AdapterMetadata> AdapterRegistry::listAdaptersByDomain(
     const std::string& domain
 ) {
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     std::vector<AdapterMetadata> result;
     for (const auto& [id, meta] : impl_->adapters) {
         if (meta.domain == domain) {
@@ -232,7 +233,7 @@ bool AdapterRegistry::signAdapter(const std::string& adapter_id,
     // placeholder token that makes `verifySignature()` deterministic for
     // testing purposes.  A production implementation must replace this with
     // an actual Ed25519 signature over `content_hash` using `private_key`.
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::unique_lock<std::shared_mutex> lock(impl_->rw_mu);
     if (!impl_->adapters.count(adapter_id)) {
         spdlog::warn("AdapterRegistry::signAdapter: adapter '{}' not found", adapter_id);
         return false;
@@ -266,7 +267,7 @@ bool AdapterRegistry::signAdapter(const std::string& adapter_id,
 }
 
 bool AdapterRegistry::verifySignature(const std::string& adapter_id) {
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     auto it = impl_->signatures.find(adapter_id);
     if (it == impl_->signatures.end()) {
         spdlog::debug("AdapterRegistry::verifySignature: no signature for '{}'", adapter_id);
@@ -282,7 +283,7 @@ bool AdapterRegistry::verifySignature(const std::string& adapter_id) {
 }
 
 std::optional<AdapterSignature> AdapterRegistry::getSignature(const std::string& adapter_id) {
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     auto it = impl_->signatures.find(adapter_id);
     if (it == impl_->signatures.end()) {
         return std::nullopt;
@@ -312,7 +313,7 @@ std::optional<AdapterMetadata> AdapterRegistry::getVersion(
     // Use a delimiter-aware prefix check to avoid matching "model_v2" when
     // searching for base id "model" (without a following ':' delimiter).
     std::string prefix = adapter_base_id + ":";
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     for (const auto& [id, meta] : impl_->adapters) {
         if ((meta.adapter_id == adapter_base_id || meta.adapter_id.rfind(prefix, 0) == 0) &&
             meta.version == version) {
@@ -327,7 +328,7 @@ std::vector<AdapterMetadata> AdapterRegistry::listVersions(
 ) {
     // Same delimiter-aware prefix check used in getVersion().
     std::string prefix = adapter_base_id + ":";
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     std::vector<AdapterMetadata> versions;
     for (const auto& [id, meta] : impl_->adapters) {
         if (meta.adapter_id == adapter_base_id || meta.adapter_id.rfind(prefix, 0) == 0) {
@@ -349,7 +350,7 @@ std::vector<AdapterMetadata> AdapterRegistry::listVersions(
 std::vector<AdapterMetadata> AdapterRegistry::searchAdapters(
     const SearchCriteria& criteria
 ) {
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     std::vector<AdapterMetadata> result;
 
     for (const auto& [id, meta] : impl_->adapters) {
@@ -368,7 +369,7 @@ std::vector<AdapterMetadata> AdapterRegistry::searchAdapters(
 // ============================================================================
 
 AdapterRegistry::RegistryStats AdapterRegistry::getStats() const {
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     RegistryStats stats;
     stats.total_adapters = impl_->adapters.size();
     stats.signed_adapters = impl_->signatures.size();
@@ -396,7 +397,7 @@ bool AdapterRegistry::attachProvenance(const std::string& adapter_id,
                                         const lora::LoRAProvenanceRecord& record) {
     // Verify the adapter exists before accepting provenance
     {
-        std::lock_guard<std::mutex> lock(impl_->mu);
+        std::unique_lock<std::shared_mutex> lock(impl_->rw_mu);
         if (!impl_->adapters.count(adapter_id)) {
             spdlog::warn("AdapterRegistry::attachProvenance: adapter '{}' not found",
                          adapter_id);
@@ -445,13 +446,13 @@ bool AdapterRegistry::hotLoad(
         return false;
     }
 
-    // Register (or update) adapter metadata under the registry lock.
+    // Register (or update) adapter metadata under an exclusive write lock.
     {
         AdapterMetadata meta = metadata;
         meta.adapter_id   = adapter_id;
         meta.storage_path = weights_path;
 
-        std::lock_guard<std::mutex> lock(impl_->mu);
+        std::unique_lock<std::shared_mutex> lock(impl_->rw_mu);
         bool existed = impl_->adapters.count(adapter_id) > 0;
         impl_->adapters[adapter_id] = meta;
         spdlog::debug("AdapterRegistry::hotLoad: {} adapter '{}'",
@@ -462,7 +463,7 @@ bool AdapterRegistry::hotLoad(
     // callback itself calls back into the registry.
     std::vector<HotLoadCallback> callbacks;
     {
-        std::lock_guard<std::mutex> lock(impl_->mu);
+        std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
         callbacks = impl_->hot_load_callbacks;
     }
 
@@ -482,7 +483,7 @@ void AdapterRegistry::addHotLoadObserver(HotLoadCallback callback) {
         spdlog::warn("AdapterRegistry::addHotLoadObserver: null callback ignored");
         return;
     }
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::unique_lock<std::shared_mutex> lock(impl_->rw_mu);
     impl_->hot_load_callbacks.push_back(std::move(callback));
     spdlog::debug("AdapterRegistry: hot-load observer registered (total: {})",
                   impl_->hot_load_callbacks.size());

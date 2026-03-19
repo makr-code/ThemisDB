@@ -1489,8 +1489,9 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(
     std::vector<uint8_t> header(64);
     file.read(reinterpret_cast<char*>(header.data()),
               static_cast<std::streamsize>(header.size()));
+    const std::streamsize header_bytes = file.gcount();
 
-    if (file.gcount() < 4) {
+    if (header_bytes < 4) {
         return std::nullopt;
     }
 
@@ -1563,42 +1564,221 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(
             return std::nullopt;
         }
 
-        // WIN_CERTIFICATE header: DWORD dwLength, WORD wRevision,
-        //                         WORD wCertificateType
-        uint32_t win_cert_len  = 0;
-        uint16_t win_cert_rev  = 0;
-        uint16_t win_cert_type = 0;
-        file.read(reinterpret_cast<char*>(&win_cert_len),  sizeof(win_cert_len));
-        file.read(reinterpret_cast<char*>(&win_cert_rev),  sizeof(win_cert_rev));
-        file.read(reinterpret_cast<char*>(&win_cert_type), sizeof(win_cert_type));
-
-        if (!file.good() || win_cert_len < 8u || win_cert_len > sec_size) {
-            return std::nullopt;
-        }
-
+        // Iterate all WIN_CERTIFICATE records in the certificate table.
+        // Each record is padded to an 8-byte boundary.
         // WIN_CERT_TYPE_PKCS_SIGNED_DATA = 0x0002 (Authenticode PKCS#7)
-        if (win_cert_type != 0x0002u) {
+        std::vector<std::vector<uint8_t>> pkcs7_blobs;
+        uint32_t tbl_pos     = sec_rva;
+        const uint32_t tbl_end = sec_rva + sec_size;
+
+        while (tbl_pos + 8u <= tbl_end) {
+            file.seekg(static_cast<std::streamoff>(tbl_pos));
+            uint32_t win_cert_len  = 0;
+            uint16_t win_cert_rev  = 0;
+            uint16_t win_cert_type = 0;
+            file.read(reinterpret_cast<char*>(&win_cert_len),  sizeof(win_cert_len));
+            file.read(reinterpret_cast<char*>(&win_cert_rev),  sizeof(win_cert_rev));
+            file.read(reinterpret_cast<char*>(&win_cert_type), sizeof(win_cert_type));
+
+            if (!file.good() || win_cert_len < 8u ||
+                    win_cert_len > (tbl_end - tbl_pos)) {
+                break;
+            }
+
+            if (win_cert_type == 0x0002u) {
+                uint32_t data_len = win_cert_len - 8u;
+                std::vector<uint8_t> blob(data_len);
+                file.read(reinterpret_cast<char*>(blob.data()),
+                          static_cast<std::streamsize>(data_len));
+                if (static_cast<uint32_t>(file.gcount()) == data_len) {
+                    pkcs7_blobs.push_back(std::move(blob));
+                }
+            }
+
+            // Advance to next record, padded to an 8-byte boundary.
+            // Guard against uint32_t overflow before rounding up.
+            if (win_cert_len > 0xFFFFFFF8u) break;
+            const uint32_t padded = (win_cert_len + 7u) & ~7u;
+            tbl_pos += padded;
+        }
+
+        if (pkcs7_blobs.empty()) {
             return std::nullopt;
         }
 
-        uint32_t data_len = win_cert_len - 8u;
-        std::vector<uint8_t> cert_data(data_len);
-        file.read(reinterpret_cast<char*>(cert_data.data()),
-                  static_cast<std::streamsize>(data_len));
-        if (static_cast<uint32_t>(file.gcount()) != data_len) {
-            return std::nullopt;
+        if (pkcs7_blobs.size() > 1u) {
+            THEMIS_WARN("extractEmbeddedCertificate: {} PKCS#7 certificates found "
+                        "in PE certificate table; using the first one.",
+                        pkcs7_blobs.size());
         }
 
-        return cert_data;
+        return std::move(pkcs7_blobs[0]);
     }
     // -----------------------------------------------------------------------
-    // ELF format (Linux SO) — certificates are in external .sig files or
-    // custom sections; return nullopt for sections, fall through to nullopt.
+    // ELF format (Linux SO) — try the .note.gnu.signature section first,
+    // then fall back to a sidecar <plugin_path>.sig file.
     // -----------------------------------------------------------------------
     else if (header[0] == 0x7F && header[1] == 'E' &&
              header[2] == 'L'  && header[3] == 'F') {
-        // Certificates in ELF are typically stored alongside the binary
-        // (e.g. .cert sidecar); no standard embedded table to extract.
+        // ELF class (e_ident[4]): 1 = 32-bit, 2 = 64-bit
+        // ELF data encoding (e_ident[5]): 1 = LE, 2 = BE
+        const bool elf64 = (header[4] == 2u);
+        const bool le    = (header[5] == 1u);
+
+        if (le && header_bytes >= static_cast<std::streamsize>(elf64 ? 64 : 52)) {
+            // Helper lambdas: read little-endian integers from a byte buffer.
+            auto readLE16 = [](const uint8_t* p) -> uint16_t {
+                return static_cast<uint16_t>(p[0]) |
+                       (static_cast<uint16_t>(p[1]) << 8);
+            };
+            auto readLE32 = [](const uint8_t* p) -> uint32_t {
+                return static_cast<uint32_t>(p[0])        |
+                       (static_cast<uint32_t>(p[1]) << 8)  |
+                       (static_cast<uint32_t>(p[2]) << 16) |
+                       (static_cast<uint32_t>(p[3]) << 24);
+            };
+            auto readLE64 = [](const uint8_t* p) -> uint64_t {
+                return static_cast<uint64_t>(p[0])        |
+                       (static_cast<uint64_t>(p[1]) << 8)  |
+                       (static_cast<uint64_t>(p[2]) << 16) |
+                       (static_cast<uint64_t>(p[3]) << 24) |
+                       (static_cast<uint64_t>(p[4]) << 32) |
+                       (static_cast<uint64_t>(p[5]) << 40) |
+                       (static_cast<uint64_t>(p[6]) << 48) |
+                       (static_cast<uint64_t>(p[7]) << 56);
+            };
+
+            // Extract section-header table metadata from the already-loaded
+            // ELF header bytes.
+            uint64_t shoff     = 0;
+            uint16_t shentsize = 0;
+            uint16_t shnum     = 0;
+            uint16_t shstrndx  = 0;
+
+            if (elf64) {
+                // ELF64: e_shoff@40, e_shentsize@58, e_shnum@60, e_shstrndx@62
+                shoff     = readLE64(header.data() + 40);
+                shentsize = readLE16(header.data() + 58);
+                shnum     = readLE16(header.data() + 60);
+                shstrndx  = readLE16(header.data() + 62);
+            } else {
+                // ELF32: e_shoff@32, e_shentsize@46, e_shnum@48, e_shstrndx@50
+                shoff     = readLE32(header.data() + 32);
+                shentsize = readLE16(header.data() + 46);
+                shnum     = readLE16(header.data() + 48);
+                shstrndx  = readLE16(header.data() + 50);
+            }
+
+            constexpr uint32_t kMaxSections = 4096u;
+            constexpr uint64_t kMaxSigSize  = 64u * 1024u;
+
+            if (shoff > 0 && shentsize > 0 && shnum > 0 &&
+                    shnum <= kMaxSections && shstrndx < shnum) {
+                // Locate the section-name string table (shstrndx).
+                uint64_t strtab_off  = 0;
+                uint64_t strtab_size = 0;
+                file.seekg(static_cast<std::streamoff>(
+                    shoff + static_cast<uint64_t>(shstrndx) * shentsize));
+                if (file.good()) {
+                    if (elf64) {
+                        // Elf64_Shdr: sh_name(4)+sh_type(4)+sh_flags(8)+
+                        //             sh_addr(8)+sh_offset(8)+sh_size(8)
+                        uint8_t shdr[64] = {};
+                        file.read(reinterpret_cast<char*>(shdr), 64);
+                        if (file.gcount() == 64) {
+                            strtab_off  = readLE64(shdr + 24);
+                            strtab_size = readLE64(shdr + 32);
+                        }
+                    } else {
+                        // Elf32_Shdr: sh_name(4)+sh_type(4)+sh_flags(4)+
+                        //             sh_addr(4)+sh_offset(4)+sh_size(4)
+                        uint8_t shdr[40] = {};
+                        file.read(reinterpret_cast<char*>(shdr), 40);
+                        if (file.gcount() == 40) {
+                            strtab_off  = readLE32(shdr + 16);
+                            strtab_size = readLE32(shdr + 20);
+                        }
+                    }
+                }
+
+                if (strtab_off > 0 && strtab_size > 0 &&
+                        strtab_size <= 65536u) {
+                    // Load the section-name string table.
+                    std::vector<char> strtab(strtab_size + 1u, '\0');
+                    file.seekg(static_cast<std::streamoff>(strtab_off));
+                    file.read(strtab.data(),
+                              static_cast<std::streamsize>(strtab_size));
+                    if (file.gcount() ==
+                            static_cast<std::streamsize>(strtab_size)) {
+                        // Scan all section headers for .note.gnu.signature.
+                        for (uint16_t i = 0; i < shnum; ++i) {
+                            file.seekg(static_cast<std::streamoff>(
+                                shoff + static_cast<uint64_t>(i) * shentsize));
+                            if (!file.good()) break;
+
+                            uint32_t sh_name = 0;
+                            uint64_t sh_off  = 0;
+                            uint64_t sh_size = 0;
+
+                            if (elf64) {
+                                uint8_t shdr[64] = {};
+                                file.read(reinterpret_cast<char*>(shdr), 64);
+                                if (file.gcount() != 64) break;
+                                sh_name = readLE32(shdr + 0);
+                                sh_off  = readLE64(shdr + 24);
+                                sh_size = readLE64(shdr + 32);
+                            } else {
+                                uint8_t shdr[40] = {};
+                                file.read(reinterpret_cast<char*>(shdr), 40);
+                                if (file.gcount() != 40) break;
+                                sh_name = readLE32(shdr + 0);
+                                sh_off  = readLE32(shdr + 16);
+                                sh_size = readLE32(shdr + 20);
+                            }
+
+                            if (sh_name >= strtab_size) continue;
+                            const char* sec_name = strtab.data() + sh_name;
+
+                            if (std::strcmp(sec_name, ".note.gnu.signature") == 0 &&
+                                    sh_size > 0 && sh_size <= kMaxSigSize) {
+                                std::vector<uint8_t> sig_data(
+                                    static_cast<size_t>(sh_size));
+                                file.seekg(static_cast<std::streamoff>(sh_off));
+                                file.read(
+                                    reinterpret_cast<char*>(sig_data.data()),
+                                    static_cast<std::streamsize>(sh_size));
+                                if (static_cast<uint64_t>(file.gcount()) ==
+                                        sh_size) {
+                                    return sig_data;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Fall back: check for a sidecar <plugin_path>.sig file.
+        {
+            const std::string sig_path = plugin_path + ".sig";
+            std::ifstream sig_file(sig_path, std::ios::binary);
+            if (sig_file.good()) {
+                sig_file.seekg(0, std::ios::end);
+                const std::streamoff sig_sz = sig_file.tellg();
+                sig_file.seekg(0, std::ios::beg);
+                constexpr std::streamoff kMaxSigFileSize = 64LL * 1024LL;
+                if (sig_sz > 0 && sig_sz <= kMaxSigFileSize) {
+                    std::vector<uint8_t> sig_data(
+                        static_cast<size_t>(sig_sz));
+                    sig_file.read(
+                        reinterpret_cast<char*>(sig_data.data()), sig_sz);
+                    if (sig_file.gcount() == sig_sz) {
+                        return sig_data;
+                    }
+                }
+            }
+        }
     }
     // -----------------------------------------------------------------------
     // Mach-O format (macOS dylib) — code signatures are in

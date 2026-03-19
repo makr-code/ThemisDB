@@ -1,7 +1,7 @@
 # ThemisDB — Security & Compliance Audit Record
 
-**Last Updated:** 2026-03-12  
-**Version:** 1.0  
+**Last Updated:** 2026-03-18  
+**Version:** 1.1  
 **Scope:** All 46 modules in `src/**`
 
 > For module-level audits see each module's `src/<module>/AUDIT.md`.  
@@ -38,51 +38,51 @@ This document is the **root-level security and compliance audit record** for The
 
 | Module | Last Audit | Status | Findings | Notes |
 |--------|-----------|--------|----------|-------|
-| **acceleration** | 2026-02 | 🟡 | CUDA/Vulkan kernel hardening pending (Issue #1394) | [src/acceleration/AUDIT.md](src/acceleration/AUDIT.md) |
-| **analytics** | 2026-01 | ✅ | None | [src/analytics/AUDIT.md](src/analytics/AUDIT.md) |
+| **acceleration** | 2026-03 | 🟡 | CUDA/Vulkan kernel hardening pending (Issue #1394); CRL/OCSP revocation added (PR #4283) | [src/acceleration/AUDIT.md](src/acceleration/AUDIT.md) |
+| **analytics** | 2026-03 | ✅ | `ExporterFactory` + `JoinExporter` concrete exporters; `CEPEngine` deadlock fix (PR #4291) | [src/analytics/AUDIT.md](src/analytics/AUDIT.md) |
 | **api** | 2026-01 | ✅ | None | [src/api/AUDIT.md](src/api/AUDIT.md) |
-| **aql** | 2026-01 | ✅ | None | [src/aql/AUDIT.md](src/aql/AUDIT.md) |
-| **auth** | 2026-01 | ✅ | None | [src/auth/AUDIT.md](src/auth/AUDIT.md) |
-| **base** | 2026-01 | ✅ | None | [src/base/AUDIT.md](src/base/AUDIT.md) |
-| **cache** | 2026-01 | ✅ | None | [src/cache/AUDIT.md](src/cache/AUDIT.md) |
-| **cdc** | 2026-01 | ✅ | None | [src/cdc/AUDIT.md](src/cdc/AUDIT.md) |
+| **aql** | 2026-03 | ✅ | Grammar and parser docs synced with implementation (v1.7.0 audit, PR #3479/#3481) | [src/aql/AUDIT.md](src/aql/AUDIT.md) |
+| **auth** | 2026-03 | ✅ | JWT scope enforcement (`JWTClaims.scopes`, `role_scope_map_`, OAuth2 `scope`/`scp`) added (PR #4279) | [src/auth/AUDIT.md](src/auth/AUDIT.md) |
+| **base** | 2026-03 | ✅ | 6 undocumented production-ready components added; hot-reload status corrected (v1.7.0 audit, PR #3475) | [src/base/AUDIT.md](src/base/AUDIT.md) |
+| **cache** | 2026-03 | ✅ | `PredictivePrefetcher` Markov-chain ML; warmup parallel bulk load (PR #4250) | [src/cache/AUDIT.md](src/cache/AUDIT.md) |
+| **cdc** | 2026-03 | ✅ | Sequence counter tasks completed; outbox + WebSocket transport verified (v1.7.0 audit, PR #3472, #4294) | [src/cdc/AUDIT.md](src/cdc/AUDIT.md) |
 | **chimera** | 2026-01 | ✅ | None | [src/chimera/AUDIT.md](src/chimera/AUDIT.md) |
-| **config** | 2026-01 | ✅ | Path traversal & symlink escape protection verified | [src/config/AUDIT.md](src/config/AUDIT.md) |
+| **config** | 2026-03 | ✅ | Path traversal & symlink escape protection verified; SIGHUP hot-reload (inotify/kqueue/ReadDirectoryChangesW); `ConfigEncryptedStore` upgraded to `shared_mutex`; Config Audit Trail atomic hot-path (PR #4253, #4286, #4295) | [src/config/AUDIT.md](src/config/AUDIT.md) |
 | **content** | 2026-01 | 🟡 | PDF/OCR third-party libraries not yet integrated | [src/content/AUDIT.md](src/content/AUDIT.md) |
 | **core** | 2026-01 | ✅ | None | [src/core/AUDIT.md](src/core/AUDIT.md) |
 | **exporters** | 2026-01 | ✅ | None | [src/exporters/AUDIT.md](src/exporters/AUDIT.md) |
 | **geo** | 2026-01 | ✅ | None | [src/geo/AUDIT.md](src/geo/AUDIT.md) |
 | **governance** | 2026-01 | ✅ | None | [src/governance/AUDIT.md](src/governance/AUDIT.md) |
 | **gpu** | 2026-01 | ✅ | None | [src/gpu/AUDIT.md](src/gpu/AUDIT.md) |
-| **graph** | 2026-01 | ✅ | None | [src/graph/AUDIT.md](src/graph/AUDIT.md) |
-| **importers** | 2026-01 | ✅ | None | [src/importers/AUDIT.md](src/importers/AUDIT.md) |
+| **graph** | 2026-03 | ✅ | `DistributedGraphManager` read-path upgraded to `std::shared_mutex` (PR #4299) | [src/graph/AUDIT.md](src/graph/AUDIT.md) |
+| **importers** | 2026-03 | ✅ | MySQL/MariaDB importer added (PR #4288) | [src/importers/AUDIT.md](src/importers/AUDIT.md) |
 | **index** | 2026-01 | ✅ | None | [src/index/AUDIT.md](src/index/AUDIT.md) |
-| **ingestion** | 2026-01 | 🟡 | OAuth 2.0 token refresh in connectors unclear (Issue #2408) | [src/ingestion/AUDIT.md](src/ingestion/AUDIT.md) |
+| **ingestion** | 2026-03 | 🟡 | OAuth 2.0 token refresh in connectors unclear (Issue #2408); YAML config loading + `user_context` propagation added (PR #4296) | [src/ingestion/AUDIT.md](src/ingestion/AUDIT.md) |
 | **llm** | 2026-01 | ✅ | None | [src/llm/AUDIT.md](src/llm/AUDIT.md) |
 | **maintenance** | 2026-03-12 | ✅ | RBAC roles enforced; all mutations audit-logged | [src/maintenance/AUDIT.md](src/maintenance/AUDIT.md) |
 | **metadata** | 2026-01 | ✅ | None | [src/metadata/AUDIT.md](src/metadata/AUDIT.md) |
-| **network** | 2026-01 | ✅ | None | [src/network/AUDIT.md](src/network/AUDIT.md) |
-| **observability** | 2026-01 | ✅ | None | [src/observability/AUDIT.md](src/observability/AUDIT.md) |
-| **performance** | 2026-01 | ✅ | None | [src/performance/AUDIT.md](src/performance/AUDIT.md) |
-| **plugins** | 2026-01 | ✅ | None | [src/plugins/AUDIT.md](src/plugins/AUDIT.md) |
+| **network** | 2026-03 | ✅ | UDP ingestion server + Bandwidth Management / QoS added (PR #4271, #4273) | [src/network/AUDIT.md](src/network/AUDIT.md) |
+| **observability** | 2026-03 | ✅ | `MetricsCollector` upgraded to `std::shared_mutex`; `ProvenanceTracker` live engine connection (PR #4272, #4268) | [src/observability/AUDIT.md](src/observability/AUDIT.md) |
+| **performance** | 2026-03 | ✅ | `HardwareAccelerator` AC-4 filter operator completeness; Intelligent Prefetching System (PR #4289, #4257) | [src/performance/AUDIT.md](src/performance/AUDIT.md) |
+| **plugins** | 2026-03 | ✅ | `PluginRegistry` global mutex upgraded to `std::shared_mutex`; WASM kernel scaffold added (PR #4256) | [src/plugins/AUDIT.md](src/plugins/AUDIT.md) |
 | **process** | 2026-03-12 | 🟡 | BPMN/EPK/YAML parser security audit scheduled (Target: Q2 2026) | [src/process/AUDIT.md](src/process/AUDIT.md) |
 | **prompt_engineering** | 2026-01 | ✅ | Injection detection (10+ patterns) verified | [src/prompt_engineering/AUDIT.md](src/prompt_engineering/AUDIT.md) |
-| **query** | 2026-01 | ✅ | None | [src/query/AUDIT.md](src/query/AUDIT.md) |
-| **rag** | 2026-01 | ✅ | None | [src/rag/AUDIT.md](src/rag/AUDIT.md) |
+| **query** | 2026-03 | ✅ | Materialized Views & Incremental Maintenance added (PR #4258) | [src/query/AUDIT.md](src/query/AUDIT.md) |
+| **rag** | 2026-03 | ✅ | `LLMIntegration` / `LLMJudgeIntegration` stub/mock mode replaced with real engine (PR #4277) | [src/rag/AUDIT.md](src/rag/AUDIT.md) |
 | **replication** | 2026-01 | ✅ | None | [src/replication/AUDIT.md](src/replication/AUDIT.md) |
-| **scheduler** | 2026-01 | ✅ | None | [src/scheduler/AUDIT.md](src/scheduler/AUDIT.md) |
+| **scheduler** | 2026-03 | ✅ | `TaskScheduler` authenticated user context propagated to audit events (PR #4278) | [src/scheduler/AUDIT.md](src/scheduler/AUDIT.md) |
 | **search** | 2026-01 | ✅ | None | [src/search/AUDIT.md](src/search/AUDIT.md) |
-| **security** | 2026-02 | ✅ | PKCS#11 real provider, HSM stub gating, RFC 3161 TSA verified | [src/security/AUDIT.md](src/security/AUDIT.md) |
-| **server** | 2026-01 | ✅ | None | [src/server/AUDIT.md](src/server/AUDIT.md) |
-| **sharding** | 2026-01 | 🟡 | Advanced distributed observability metrics incomplete | [src/sharding/AUDIT.md](src/sharding/AUDIT.md) |
-| **storage** | 2026-02 | ✅ | 7 critical / 8 medium RocksDB security fixes (v1.3.4) | [src/storage/AUDIT.md](src/storage/AUDIT.md) |
+| **security** | 2026-03 | ✅ | `ArrowUserRegistrationPlugin` (SHA-256 auth, Apache Arrow-backed user store); PKIClient stub replaced; PII streaming pipeline complete (PR #4280, #4263) | [src/security/AUDIT.md](src/security/AUDIT.md) |
+| **server** | 2026-03 | ✅ | Versioned API Routing (`/v1/` + `/v2/`); `/v1/admin/shards` endpoints injected (PR #4285, #4262) | [src/server/AUDIT.md](src/server/AUDIT.md) |
+| **sharding** | 2026-03 | 🟡 | Advanced distributed observability metrics incomplete; `GpuErasureCoderOpenCL` encode/decode added; `OrphanDetector` wired (PR #4265, #4259) | [src/sharding/AUDIT.md](src/sharding/AUDIT.md) |
+| **storage** | 2026-03 | ✅ | `SecuritySignatureManager` full RocksDB iteration; proper SST size reporting (PR #4260, #4274) | [src/storage/AUDIT.md](src/storage/AUDIT.md) |
 | **temporal** | 2026-01 | ✅ | None | [src/temporal/AUDIT.md](src/temporal/AUDIT.md) |
-| **themis** | 2026-01 | ✅ | X.509/GPG module signature verification | [src/themis/AUDIT.md](src/themis/AUDIT.md) |
-| **timeseries** | 2026-01 | ✅ | None | [src/timeseries/AUDIT.md](src/timeseries/AUDIT.md) |
+| **themis** | 2026-03 | ✅ | Wire Protocol V2 — RFC 7540 §6.3 / §5.3.1 full compliance (PR #4266, #4267) | [src/themis/AUDIT.md](src/themis/AUDIT.md) |
+| **timeseries** | 2026-03 | ✅ | `TSStore` single-point insert buffering + SIMD Gorilla decode dispatch (PR #4269) | [src/timeseries/AUDIT.md](src/timeseries/AUDIT.md) |
 | **training** | 2026-01 | ✅ | None | [src/training/AUDIT.md](src/training/AUDIT.md) |
-| **transaction** | 2026-01 | ✅ | None | [src/transaction/AUDIT.md](src/transaction/AUDIT.md) |
-| **updates** | 2026-02 | ✅ | Token masking, HTTPS-only, SHA-256 + RSA-4096 manifest signing | [src/updates/AUDIT.md](src/updates/AUDIT.md) |
-| **utils** | 2026-01 | ✅ | None | [src/utils/AUDIT.md](src/utils/AUDIT.md) |
+| **transaction** | 2026-03 | ✅ | Serializable Snapshot Isolation (`IsolationLevel::SerializableSnapshot`, 38 tests); SAGA Orchestration Engine; Transaction Savepoints CI (PR #4281, #4276) | [src/transaction/AUDIT.md](src/transaction/AUDIT.md) |
+| **updates** | 2026-03 | ✅ | Token masking, HTTPS-only, SHA-256 + RSA-4096 manifest signing; `ManifestDatabase::deleteManifest()` cleanup (PR #4261) | [src/updates/AUDIT.md](src/updates/AUDIT.md) |
+| **utils** | 2026-03 | ✅ | `CapabilityAutoGenerator` — persist schedule state + YAML capability output (PR #4275) | [src/utils/AUDIT.md](src/utils/AUDIT.md) |
 | **voice** | 2026-01 | ✅ | None | [src/voice/AUDIT.md](src/voice/AUDIT.md) |
 
 ---
@@ -173,6 +173,47 @@ Reports are saved to `audit-results-<timestamp>/comprehensive-audit-report.md`.
 **Maintenance Module (new):**
 - ✅ `DatabaseMaintenanceOrchestrator` — all mutations audit-logged via `AuditLogger`
 - ✅ RBAC roles `maintenance:read`, `maintenance:write`, `maintenance:admin` enforced
+
+### v1.7.0 (2026-Q1)
+
+**Documentation & Quality Audit (PRs #3472–#3484):**
+- ✅ Full 44-module documentation audit and sync — stale references removed, undocumented components added
+- ✅ Documentation validation CI workflow (`docs/DOCUMENTATION_VALIDATION.md`) — 5 jobs: link-check, markdown-lint, spell-check, structure-check, summary
+- ✅ Auth docs corrected: Kerberos/TOTP status aligned, non-existent file references replaced
+- ✅ Acceleration docs corrected: full ~30-file directory layout documented, GPU backend selection flow corrected
+
+**Observability:**
+- ✅ `RootCauseAnalyzer` — `analyzeIssue`, `findCorrelations`, `buildCausalGraph` (Issue #84)
+
+### v1.8.0 (2026-Q2)
+
+**Authentication & Authorization:**
+- ✅ JWT scope enforcement — `JWTClaims.scopes`, `role_scope_map_`, OAuth2 `scope`/`scp` claim extraction (PR [#4279](https://github.com/makr-code/ThemisDB/pull/4279))
+- ✅ `ArrowUserRegistrationPlugin` — Apache Arrow-backed user store, SHA-256 password authentication (PR [#4280](https://github.com/makr-code/ThemisDB/pull/4280))
+
+**PKI & Certificate Management:**
+- ✅ CRL / OCSP certificate revocation checking in `PluginSecurityVerifier` (PR [#4283](https://github.com/makr-code/ThemisDB/pull/4283))
+- ✅ `PKIClient` v1.8.0 — fallback stub replaced with real implementation; PII streaming pipeline complete (PR [#4263](https://github.com/makr-code/ThemisDB/pull/4263))
+
+**Audit Trail & User Context:**
+- ✅ `TaskScheduler` — authenticated user context propagated to audit events via `currentUserId()` (PR [#4278](https://github.com/makr-code/ThemisDB/pull/4278))
+- ✅ `LLMDeploymentPlugin` — audit entries use `scheduler::TaskScheduler::currentUserId()` with "system" fallback
+- ✅ Config Audit Trail — atomic hot-path write path with concurrency tests (PR [#4286](https://github.com/makr-code/ThemisDB/pull/4286))
+
+**Concurrency & Lock Safety:**
+- ✅ `ConfigEncryptedStore` mutex upgraded to `std::shared_mutex` for safe concurrent reads (PR [#4295](https://github.com/makr-code/ThemisDB/pull/4295))
+- ✅ `PluginRegistry` global mutex upgraded to `std::shared_mutex` (PR [#4256](https://github.com/makr-code/ThemisDB/pull/4256))
+- ✅ `MetricsCollector` mutex upgraded to `std::shared_mutex` for concurrent Prometheus read path (PR [#4272](https://github.com/makr-code/ThemisDB/pull/4272))
+- ✅ `DistributedGraphManager` read-path upgraded to `std::shared_mutex` (PR [#4299](https://github.com/makr-code/ThemisDB/pull/4299))
+- ✅ `CEPEngine` deadlock fix — window lock released before invoking user callbacks (PR [#4291](https://github.com/makr-code/ThemisDB/pull/4291))
+
+**Serializable Isolation:**
+- ✅ Serializable Snapshot Isolation (SSI) — `IsolationLevel::SerializableSnapshot`, 38 tests (PR [#4281](https://github.com/makr-code/ThemisDB/pull/4281))
+- ✅ SAGA Orchestration Engine — execute/validate/getStatus/template management, 23 tests
+
+**API Security:**
+- ✅ Versioned API Routing — `RouteVersionRouter`, `/v1/` + `/v2/` surface; unversioned paths 301-redirect (PR [#4285](https://github.com/makr-code/ThemisDB/pull/4285))
+- ✅ SIGHUP hot-reload for config — inotify / kqueue / ReadDirectoryChangesW (PR [#4253](https://github.com/makr-code/ThemisDB/pull/4253))
 
 ---
 

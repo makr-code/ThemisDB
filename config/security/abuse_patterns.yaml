@@ -1,0 +1,63 @@
+# Abuse Detection Patterns Configuration
+# Used by TextAbuseDetector (content/abuse_detector.h)
+# Patterns are evaluated in order; the first match wins.
+# Actions: BLOCK (reject content) or FLAG (store with review flag)
+#
+# v1.8.0 — roadmap:61:content:abuse-detection-stub-replacement
+
+version: "1.0"
+
+patterns:
+
+  # ─── BLOCK-level patterns ────────────────────────────────────────────────
+
+  - name: "csam_text_indicator"
+    description: "Keywords strongly indicative of CSAM-related text"
+    regex: '\b(child\s+porn(?:ography)?|csam|child\s+sexual\s+abuse\s+material)\b'
+    flags: ["icase"]
+    action: "BLOCK"
+    enabled: true
+
+  - name: "hate_speech_incitement"
+    description: "Explicit incitement to violence based on protected characteristics"
+    regex: '\b(kill\s+all\s+(?:jews|muslims|blacks|whites|christians|gays|trans)\b|death\s+to\s+\w+\s+people)'
+    flags: ["icase"]
+    action: "BLOCK"
+    enabled: true
+
+  - name: "terrorism_recruitment"
+    description: "Terrorist recruitment or coordination language"
+    regex: '\b(join\s+(?:isis|isil|al[-\s]?qaeda|boko\s+haram)|jihad\s+against\s+\w+|martyr\s+operation)\b'
+    flags: ["icase"]
+    action: "BLOCK"
+    enabled: true
+
+  # ─── FLAG-level patterns ──────────────────────────────────────────────────
+
+  - name: "spam_promotion"
+    description: "Classic spam / promotional keywords"
+    regex: '\b(buy\s+now|click\s+here|free\s+money|make\s+money\s+fast|work\s+from\s+home\s+earn|guaranteed\s+income)\b'
+    flags: ["icase"]
+    action: "FLAG"
+    enabled: true
+
+  - name: "phishing_indicators"
+    description: "Common phishing language patterns"
+    regex: '\b(verify\s+your\s+(?:account|password|identity)\s+immediately|your\s+account\s+(?:has\s+been\s+)?(?:suspended|compromised)|click\s+the\s+link\s+below\s+to\s+(?:reset|verify|confirm))\b'
+    flags: ["icase"]
+    action: "FLAG"
+    enabled: true
+
+  - name: "adult_content_explicit"
+    description: "Explicit adult content keywords"
+    regex: '\b(hardcore\s+porn|explicit\s+sex(?:ual)?\s+content|xxx\s+(?:video|image|photo))\b'
+    flags: ["icase"]
+    action: "FLAG"
+    enabled: true
+
+  - name: "drug_marketplace"
+    description: "Illicit drug marketplace language"
+    regex: '\b(buy\s+(?:cocaine|heroin|meth(?:amphetamine)?|fentanyl|crack)\s+online|(?:cocaine|heroin|meth)\s+for\s+sale|order\s+drugs\s+discreetly)\b'
+    flags: ["icase"]
+    action: "FLAG"
+    enabled: true

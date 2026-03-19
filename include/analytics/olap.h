@@ -255,6 +255,13 @@ public:
         size_t gpu_memory_limit = 4ULL * 1024 * 1024 * 1024;  // 4 GB
         /// Minimum row count per group before using the GPU path.
         size_t gpu_threshold_rows = 10'000;
+        /// Maximum number of OLAP query results to keep in the LRU result cache.
+        /// Set to 0 to disable caching entirely.
+        size_t result_cache_max_entries = 1'000;
+        /// Time-to-live for cached OLAP results in milliseconds.
+        /// Entries older than this are evicted on next access.
+        /// Set to 0 for no TTL-based expiry (cache entries live until evicted by LRU).
+        int64_t result_cache_ttl_ms = 60'000;  // 60 seconds
     };
 
     OLAPEngine();

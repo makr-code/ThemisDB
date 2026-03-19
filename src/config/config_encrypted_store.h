@@ -26,6 +26,7 @@
 #include <functional>
 #include <memory>
 #include <mutex>
+#include <shared_mutex>
 #include <optional>
 #include <stdexcept>
 #include <string>
@@ -290,7 +291,7 @@ private:
 
     // ---- state ----
 
-    mutable std::mutex                                     mutex_;
+    mutable std::shared_mutex                              mutex_;
     KeyMaterial                                            key_;
     std::unordered_map<std::string, ConfigEncryptedBlob>   store_;
 };

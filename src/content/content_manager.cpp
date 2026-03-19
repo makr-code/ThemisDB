@@ -2054,14 +2054,21 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
         processor_chain_config_.getEffectiveConfig(detected_mime, category);
 
     // ---- Perceptual deduplication (opt-in via ContentPolicy::enable_deduplication) ----
+    // Callers pass `config["enable_deduplication"] = policy.enable_deduplication`.
+    // The default is false (opt-in, not opt-out): dedup is skipped unless the caller
+    // explicitly enables it.  ProcessorChainConfig can still disable it globally per
+    // MIME/category by setting deduplication.enabled=false; both conditions must be
+    // true for dedup to run.
     // Compute pHash (image) or MinHash (text) once; reuse for both the duplicate
     // check and the post-storage registration to avoid redundant computation.
+    const bool dedup_policy_enabled =
+        config.value("enable_deduplication", false) && stage_cfg.deduplication.enabled;
     const bool dedup_is_image = (category == ContentCategory::IMAGE);
     const bool dedup_is_text  = (category == ContentCategory::TEXT);
     std::string cached_phash;
     std::vector<uint32_t> cached_minhash;
 
-    if (stage_cfg.deduplication.enabled && dedup_checker_ && (dedup_is_image || dedup_is_text)) {
+    if (dedup_policy_enabled && dedup_checker_ && (dedup_is_image || dedup_is_text)) {
         metrics_.dedup_checks_total.fetch_add(1);
 
         std::optional<DuplicateOf> dup;
@@ -2368,7 +2375,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
 
     // Register with the deduplication index after successful storage.
     // Reuse cached_phash / cached_minhash computed above (no redundant DCT/hash).
-    if (stage_cfg.deduplication.enabled && dedup_checker_ && (dedup_is_image || dedup_is_text)) {
+    if (dedup_policy_enabled && dedup_checker_ && (dedup_is_image || dedup_is_text)) {
         if (dedup_is_image && !cached_phash.empty()) {
             dedup_checker_->registerImage(content_id, cached_phash);
             meta.extracted_metadata["phash_hex"] = cached_phash;

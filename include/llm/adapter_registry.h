@@ -33,6 +33,7 @@
 #include <map>
 #include <memory>
 #include <functional>
+#include <shared_mutex>
 #include <nlohmann/json.hpp>
 
 namespace themis {

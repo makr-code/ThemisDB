@@ -30,10 +30,21 @@
 #include <vector>
 #include <map>
 #include <atomic>
+#include <chrono>
+#include <condition_variable>
 #include <mutex>
+#include <thread>
 #include <nlohmann/json.hpp>
 
 namespace themis {
+
+class RocksDBWrapper;
+class StatisticsCollector;
+struct TableStats;
+
+namespace observability {
+class MetricsCollector;
+} // namespace observability
 
 using json = nlohmann::json;
 
@@ -93,8 +104,23 @@ public:
     /// Benefit score below which a DROP recommendation is generated
     static constexpr double kDropThreshold = 5.0;
 
+    /// Default constructor — in-memory only (no persistence).
     IndexRecommender() = default;
-    ~IndexRecommender() = default;
+
+    /// Persistence-enabled constructor.
+    /// @param db               RocksDB instance for loading and persisting access stats.
+    ///                         Pass nullptr for in-memory-only mode (same as default ctor).
+    ///                         The pointed-to instance MUST outlive this IndexRecommender.
+    /// @param persist_interval Background thread flush interval.
+    ///                         Defaults to 5 minutes.  Pass 0 to disable the background thread
+    ///                         (stats are still flushed on destruction and reset()).
+    explicit IndexRecommender(
+        RocksDBWrapper* db,
+        std::chrono::milliseconds persist_interval = std::chrono::seconds(300)
+    );
+
+    /// Destructor — stops the background persist thread and flushes stats to RocksDB.
+    ~IndexRecommender();
 
     // Disable copy
     IndexRecommender(const IndexRecommender&) = delete;
@@ -142,6 +168,25 @@ public:
     /// Serialise all access stats to JSON.
     json toJSON() const;
 
+    /// Flush all in-memory access stats to RocksDB immediately.
+    /// No-op when no RocksDB instance was provided at construction.
+    void persistStats();
+
+    /// Attach a StatisticsCollector to enable cost-model benefit scoring.
+    /// When set, `recommend()` uses StatisticsCollector cardinality and
+    /// selectivity data together with a write-amplification penalty to produce
+    /// more accurate benefit scores than the simple heuristic model.
+    /// Pass nullptr to revert to the heuristic model.
+    /// The pointed-to instance MUST outlive this IndexRecommender.
+    void setStatisticsCollector(StatisticsCollector* collector);
+
+    /// Attach a MetricsCollector for emitting recommendation telemetry.
+    /// When set, each call to `recommend()` increments the counter
+    /// `metadata.index_recommendation.generated_total` labelled with the
+    /// table name.  Pass nullptr to stop emitting metrics.
+    /// The pointed-to instance MUST outlive this IndexRecommender.
+    void setMetricsCollector(observability::MetricsCollector* metrics);
+
 private:
     // ========================================================================
     // Internal helpers
@@ -150,6 +195,31 @@ private:
     /// Compute the benefit score for a ColumnAccess record.
     double computeBenefit(const ColumnAccess& ca) const;
 
+    /// Compute the benefit score using StatisticsCollector data (cost-model).
+    /// Uses StatisticsCollector column selectivity for a more accurate estimate
+    /// and applies a write-amplification penalty based on table row count.
+    double computeCostModelBenefit(const ColumnAccess& ca, const TableStats& tbl_stats) const;
+
+    /// Load access stats from RocksDB into stats_ (called once in constructor).
+    void loadStats();
+
+    /// Background persist loop — wakes every persist_interval_ and calls persistStats().
+    void persistLoop_();
+
+    // ─── Persistence ────────────────────────────────────────────────────────
+    RocksDBWrapper*           db_{nullptr};           ///< Optional RocksDB backend
+    std::chrono::milliseconds persist_interval_{0};   ///< 0 = no background thread
+
+    std::atomic<bool>    stop_persist_{false};
+    std::mutex           persist_mutex_;               ///< Protects condition variable
+    std::condition_variable persist_cv_;
+    std::thread          persist_thread_;
+
+    // ─── Cost-model + metrics ────────────────────────────────────────────────
+    StatisticsCollector*               stats_collector_{nullptr}; ///< Optional, for cost-model scoring
+    observability::MetricsCollector*   metrics_collector_{nullptr}; ///< Optional, for telemetry
+
+    // ─── Access stats ────────────────────────────────────────────────────────
     // table_name -> (column_name -> ColumnAccess)
     mutable std::mutex                                     mutex_;
     std::map<std::string, std::map<std::string, ColumnAccess>> stats_;

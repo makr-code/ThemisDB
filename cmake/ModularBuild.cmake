@@ -755,6 +755,7 @@ set(THEMIS_TRANSACTION_SOURCES
     ../src/transaction/branch_manager.cpp
     ../src/transaction/merge_engine.cpp
     ../src/transaction/deadlock_predictor.cpp
+    ../src/transaction/transaction_batcher.cpp
     ../src/analytics/diff_engine.cpp
     
     # Temporal conflict resolution and production-readiness modules
@@ -1175,6 +1176,7 @@ set(THEMIS_CONTENT_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/cad_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_logger.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_security.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/abuse_detector.cpp>
     $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<NOT:$<BOOL:${THEMIS_ENABLE_VOICE_ASSISTANT}>>>:../src/content/stt_processor.cpp>
     $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<NOT:$<BOOL:${THEMIS_ENABLE_VOICE_ASSISTANT}>>>:../src/content/tts_processor.cpp>
     $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/content/content_manager_llm.cpp>
@@ -1884,6 +1886,9 @@ function(themis_build_modular)
             themis_storage
             themis_security
         )
+        if(TARGET yaml-cpp::yaml-cpp)
+            list(APPEND _themis_content_deps yaml-cpp::yaml-cpp)
+        endif()
         if(THEMIS_MODULE_GRAPH)
             list(APPEND _themis_content_deps themis_graph)
         endif()

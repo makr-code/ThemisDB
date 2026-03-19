@@ -631,3 +631,222 @@ TEST(EdgeCaseTest, AllMethodsOnLargeSeries) {
         }
     }
 }
+
+// ============================================================================
+// SIMD parity tests — Yule–Walker autocovariance (AVX-512 / AVX2 vs scalar)
+//
+// The autocovariance inner loop in yuleWalker() is accelerated by
+// computeAutocovariance() (AVX-512 → AVX2 → scalar dispatch).
+// These tests verify that the SIMD path produces identical AR coefficients
+// (and hence forecasts) as a plain scalar reference implementation.
+// Both the SIMD and scalar paths operate on the same input data, and the
+// scalar reference replicates exactly the yuleWalker algorithm from
+// forecasting.cpp using a simple C for-loop instead of SIMD intrinsics.
+// ============================================================================
+
+namespace {
+
+// Build a pure AR(1) series with known coefficient ≈ 0.8.
+static TimeSeries makeAR1Series(int n, double phi = 0.8,
+                                 int64_t interval_ms = 1000) {
+    TimeSeries ts;
+    double y = 0.0;
+    for (int i = 0; i < n; ++i) {
+        // Deterministic "noise" to avoid random seed dependency in CI
+        double noise = static_cast<double>((i * 7 + 13) % 11) * 0.05 - 0.25;
+        y = phi * y + noise;
+        ts.push(static_cast<int64_t>(i) * interval_ms, y);
+    }
+    return ts;
+}
+
+// ---------------------------------------------------------------------------
+// Scalar reference implementations for parity verification
+// These mirror the algorithm in forecasting.cpp but use plain C for-loops
+// instead of SIMD intrinsics.  A bit-faithful SIMD implementation must
+// produce results within the same floating-point tolerance.
+// ---------------------------------------------------------------------------
+
+static double scalarMean(const std::vector<double>& v) {
+    double s = 0.0;
+    for (double x : v) s += x;
+    return s / static_cast<double>(v.size());
+}
+
+// Scalar autocovariance: Σ (y[i] - mean)(y[i-lag] - mean) for i=[lag, n).
+// Mirrors the body of acov0_avx2 / acov0_avx512 / scalar fallback in
+// forecasting.cpp::computeAutocovariance().
+static double scalarAcov(const std::vector<double>& y, double mean, int lag) {
+    const size_t start = static_cast<size_t>(lag);
+    const size_t n     = y.size();
+    double acc = 0.0;
+    for (size_t i = start; i < n; ++i)
+        acc += (y[i] - mean) * (y[i - start] - mean);
+    return acc;
+}
+
+// Scalar Yule–Walker using Levinson–Durbin.
+// Mirrors yuleWalker() in forecasting.cpp, replacing computeAutocovariance()
+// with scalarAcov() above.
+static std::vector<double> scalarYuleWalker(const std::vector<double>& yc, int p) {
+    size_t n = yc.size();
+    if (n < static_cast<size_t>(p) + 1)
+        return std::vector<double>(static_cast<size_t>(p), 0.0);
+
+    double mean_yc = scalarMean(yc);
+
+    std::vector<double> r(static_cast<size_t>(p) + 1);
+    for (int k = 0; k <= p; ++k)
+        r[static_cast<size_t>(k)] =
+            scalarAcov(yc, mean_yc, k) / static_cast<double>(n);
+
+    if (r[0] < 1e-15)
+        return std::vector<double>(static_cast<size_t>(p), 0.0);
+
+    std::vector<double> phi(static_cast<size_t>(p), 0.0);
+    std::vector<double> phi_prev(static_cast<size_t>(p), 0.0);
+    double err = r[0];
+    for (int k = 1; k <= p; ++k) {
+        double lambda = r[static_cast<size_t>(k)];
+        for (int j = 1; j < k; ++j)
+            lambda -= phi_prev[static_cast<size_t>(j - 1)]
+                    * r[static_cast<size_t>(k - j)];
+        lambda /= err;
+        phi.assign(static_cast<size_t>(p), 0.0);
+        phi[static_cast<size_t>(k - 1)] = lambda;
+        for (int j = 1; j < k; ++j)
+            phi[static_cast<size_t>(j - 1)] =
+                phi_prev[static_cast<size_t>(j - 1)]
+                - lambda * phi_prev[static_cast<size_t>(k - j - 1)];
+        err *= (1.0 - lambda * lambda);
+        phi_prev = phi;
+    }
+    return phi_prev;
+}
+
+// Relative + absolute tolerance guard: loose enough for different FP summation
+// orders (SIMD vs scalar), tight enough to catch algorithmic errors.
+static double relTol(double ref, double rel = 1e-9, double abs_floor = 1e-300) {
+    return std::abs(ref) * rel + abs_floor;
+}
+
+// Scalar AR(p) one-step-ahead forecast replicating fitARIMA + predictARIMA
+// for d=0, q=0.  Returns the expected value of the next observation given
+// the fitted scalar AR coefficients.
+static double scalarARIMAForecast1(const std::vector<double>& y, int p) {
+    double mean_y = scalarMean(y);
+    size_t n = y.size();
+
+    std::vector<double> yc(n);
+    for (size_t i = 0; i < n; ++i) yc[i] = y[i] - mean_y;
+
+    std::vector<double> phi = scalarYuleWalker(yc, p);
+    size_t ap = phi.size();
+
+    double ar_contrib = 0.0;
+    for (size_t j = 0; j < ap; ++j)
+        ar_contrib += phi[j] * yc[n - 1 - j];
+
+    return mean_y + ar_contrib;
+}
+
+}  // anonymous namespace
+
+// ---------------------------------------------------------------------------
+// Parity: AR(1) — scalar reference vs SIMD production path
+//
+// The scalar reference (scalarARIMAForecast1) computes the one-step forecast
+// using a plain C for-loop for all autocovariance sums.  The production ARIMA
+// model internally calls computeAutocovariance() which dispatches to AVX-512,
+// AVX2, or scalar depending on the CPU.
+// A bit-faithful SIMD implementation must produce a forecast within a tight
+// relative tolerance (1 part in 10^9) of the scalar result.
+// ---------------------------------------------------------------------------
+TEST(SIMDParityTest, ARIMA_AR1_ScalarVsSIMD) {
+    auto ts = makeAR1Series(512);
+    std::vector<double> y = ts.values();
+
+    // Scalar reference: pure C loop autocovariance + Levinson–Durbin
+    double scalar_forecast = scalarARIMAForecast1(y, 1);
+
+    // Production path: internally uses SIMD computeAutocovariance
+    ForecastConfig cfg;
+    cfg.ar_order = 1;
+    ForecastModel model(ForecastMethod::ARIMA);
+    model.fit(ts, cfg);
+    auto fp = model.predict(1);
+
+    ASSERT_FALSE(fp.empty());
+    EXPECT_FALSE(std::isnan(fp[0].value));
+    EXPECT_FALSE(std::isinf(fp[0].value));
+
+    // Tolerance: 1e-9 relative — tight enough to catch algorithmic errors,
+    // loose enough to allow different FP summation order between SIMD paths.
+    double tol = relTol(scalar_forecast);
+    EXPECT_NEAR(scalar_forecast, fp[0].value, tol)
+        << "ARIMA AR(1) SIMD forecast diverges from scalar reference";
+}
+
+// Parity: AR(2) on 1 000-sample series — exercises the AVX-512 inner loop
+// (≥8 doubles/cycle).  The fitted AR coefficients derived from scalar and SIMD
+// autocovariance must produce identical one-step forecasts within 1 part in 10^9.
+TEST(SIMDParityTest, ARIMA_AR2_ScalarVsSIMD) {
+    // AR(2): y[i] ≈ 0.7*y[i-1] - 0.2*y[i-2] + deterministic noise
+    TimeSeries ts;
+    double y0 = 0.0, y1 = 0.0;
+    for (int i = 0; i < 1000; ++i) {
+        double noise = static_cast<double>((i * 11 + 7) % 13) * 0.03 - 0.18;
+        double y2 = 0.7 * y1 - 0.2 * y0 + noise;
+        ts.push(static_cast<int64_t>(i) * 1000LL, y2);
+        y0 = y1; y1 = y2;
+    }
+    std::vector<double> y = ts.values();
+
+    // Scalar reference
+    double scalar_forecast = scalarARIMAForecast1(y, 2);
+
+    // Production SIMD path
+    ForecastConfig cfg;
+    cfg.ar_order = 2;
+    ForecastModel model(ForecastMethod::ARIMA);
+    model.fit(ts, cfg);
+    auto fp = model.predict(1);
+
+    ASSERT_FALSE(fp.empty());
+    EXPECT_FALSE(std::isnan(fp[0].value))
+        << "ARIMA AR(2) forecast is NaN — SIMD autocovariance may be wrong";
+    EXPECT_FALSE(std::isinf(fp[0].value))
+        << "ARIMA AR(2) forecast is Inf — SIMD autocovariance may overflow";
+    EXPECT_LT(std::abs(fp[0].value), 1000.0)
+        << "ARIMA forecast diverged — AR coefficients out of range";
+
+    double tol = relTol(scalar_forecast);
+    EXPECT_NEAR(scalar_forecast, fp[0].value, tol)
+        << "ARIMA AR(2) SIMD forecast diverges from scalar reference";
+}
+
+// Parity: scalar and SIMD autocovariance agree on a flat series (all zeros).
+// This exercises the edge case r[0] < 1e-15 guard in yuleWalker — both paths
+// must return AR coefficients = 0 and a finite (mean) forecast.
+TEST(SIMDParityTest, ARIMA_FlatSeries_NoNaN) {
+    TimeSeries ts;
+    for (int i = 0; i < 50; ++i) ts.push(static_cast<int64_t>(i) * 1000LL, 0.0);
+    std::vector<double> y = ts.values();
+
+    // Scalar reference: mean is 0, phi = 0, forecast = 0.
+    double scalar_forecast = scalarARIMAForecast1(y, 2);
+    EXPECT_DOUBLE_EQ(scalar_forecast, 0.0);
+
+    ForecastConfig cfg;
+    cfg.ar_order = 2;
+    ForecastModel model(ForecastMethod::ARIMA);
+    model.fit(ts, cfg);
+    auto forecast = model.predict(3);
+
+    for (const auto& fp : forecast) {
+        EXPECT_FALSE(std::isnan(fp.value));
+        EXPECT_FALSE(std::isinf(fp.value));
+        // Both scalar and SIMD must yield 0 (all-zeros series, mean = 0)
+        EXPECT_DOUBLE_EQ(fp.value, scalar_forecast);
+    }
+}

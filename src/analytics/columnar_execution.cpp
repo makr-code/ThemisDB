@@ -62,6 +62,7 @@
 #include <chrono>
 #include <cmath>
 #include <limits>
+#include <memory_resource>
 #include <numeric>
 #include <optional>
 #include <sstream>
@@ -69,6 +70,15 @@
 #include <unordered_set>
 
 #include <spdlog/spdlog.h>
+
+// SIMD intrinsics — guarded by feature macros so non-SIMD platforms compile.
+#if defined(__AVX512F__)
+#  include <immintrin.h>
+#elif defined(__AVX2__)
+#  include <immintrin.h>
+#elif defined(__ARM_NEON) || defined(__aarch64__)
+#  include <arm_neon.h>
+#endif
 
 namespace themisdb {
 namespace analytics {
@@ -127,24 +137,28 @@ bool Column::isNull(size_t row) const {
 void Column::appendInt64(int64_t value, bool is_null) {
     int64_data_.push_back(value);
     null_bitmap_.push_back(is_null);
+    if (is_null) has_nulls_ = true;
     ++row_count_;
 }
 
 void Column::appendDouble(double value, bool is_null) {
     double_data_.push_back(value);
     null_bitmap_.push_back(is_null);
+    if (is_null) has_nulls_ = true;
     ++row_count_;
 }
 
 void Column::appendString(std::string value, bool is_null) {
     string_data_.push_back(std::move(value));
     null_bitmap_.push_back(is_null);
+    if (is_null) has_nulls_ = true;
     ++row_count_;
 }
 
 void Column::appendBool(bool value, bool is_null) {
     bool_data_.push_back(value);
     null_bitmap_.push_back(is_null);
+    if (is_null) has_nulls_ = true;
     ++row_count_;
 }
 
@@ -157,6 +171,7 @@ void Column::appendNull() {
         case ColumnType::Null:   break;
     }
     null_bitmap_.push_back(true);
+    has_nulls_ = true;
     ++row_count_;
 }
 
@@ -191,6 +206,7 @@ void Column::clear() {
     string_data_.clear();
     bool_data_.clear();
     null_bitmap_.clear();
+    has_nulls_ = false;
     row_count_ = 0;
 }
 
@@ -542,6 +558,132 @@ ColumnBatch ProjectOperator::execute(const ColumnBatch& input) const {
 
 namespace {
 
+// ---------------------------------------------------------------------------
+// SIMD-accelerated aggregation helpers for contiguous double arrays.
+//
+// Priority order:
+//   ARM builds  : NEON float64x2_t (2 doubles/cycle)
+//   x86-64      : AVX-512 (8 doubles/cycle) → AVX2 (4 doubles/cycle) → scalar
+//
+// The ARM NEON path uses float64x2_t which is AArch64-only (Cortex-A78 /
+// Apple Silicon).  On ARMv7 without double-precision NEON the path
+// gracefully falls back to scalar via the #else branch.
+// ---------------------------------------------------------------------------
+
+// Cache the AVX-512 runtime support check — avoids repeated CPUID calls in
+// hot aggregation loops.  Initialized once at first use (thread-safe in C++11).
+#if defined(__AVX512F__)
+static const bool kHasAVX512 = __builtin_cpu_supports("avx512f");
+#endif
+
+struct SIMDAggResult {
+    double sum     = 0.0;
+    double min_val = std::numeric_limits<double>::max();
+    double max_val = std::numeric_limits<double>::lowest();
+    int64_t count  = 0;  // non-null count
+};
+
+// Aggregate SUM/MIN/MAX over a non-null double array in a single pass.
+static SIMDAggResult simdAggDouble(const double* __restrict__ data, size_t n) noexcept {
+    SIMDAggResult r;
+    if (n == 0) return r;
+    r.count = static_cast<int64_t>(n);
+
+    size_t i = 0;
+
+#if defined(__ARM_NEON) && defined(__aarch64__)
+    // ARM NEON path: float64x2_t — 2 doubles per register, unrolled ×4 = 8/iter
+    float64x2_t vsum0 = vdupq_n_f64(0.0);
+    float64x2_t vsum1 = vdupq_n_f64(0.0);
+    float64x2_t vmin0 = vdupq_n_f64(data[0]);
+    float64x2_t vmin1 = vdupq_n_f64(data[0]);
+    float64x2_t vmax0 = vdupq_n_f64(data[0]);
+    float64x2_t vmax1 = vdupq_n_f64(data[0]);
+
+    for (; i + 7 < n; i += 8) {
+        float64x2_t v0 = vld1q_f64(data + i + 0);
+        float64x2_t v1 = vld1q_f64(data + i + 2);
+        float64x2_t v2 = vld1q_f64(data + i + 4);
+        float64x2_t v3 = vld1q_f64(data + i + 6);
+        vsum0 = vaddq_f64(vsum0, v0);
+        vsum1 = vaddq_f64(vsum1, v1);
+        vsum0 = vaddq_f64(vsum0, v2);
+        vsum1 = vaddq_f64(vsum1, v3);
+        vmin0 = vminq_f64(vmin0, v0); vmin1 = vminq_f64(vmin1, v1);
+        vmin0 = vminq_f64(vmin0, v2); vmin1 = vminq_f64(vmin1, v3);
+        vmax0 = vmaxq_f64(vmax0, v0); vmax1 = vmaxq_f64(vmax1, v1);
+        vmax0 = vmaxq_f64(vmax0, v2); vmax1 = vmaxq_f64(vmax1, v3);
+    }
+    // Handle remaining full pairs
+    for (; i + 1 < n; i += 2) {
+        float64x2_t v = vld1q_f64(data + i);
+        vsum0 = vaddq_f64(vsum0, v);
+        vmin0 = vminq_f64(vmin0, v);
+        vmax0 = vmaxq_f64(vmax0, v);
+    }
+    // Horizontal reduce
+    float64x2_t vsumF = vaddq_f64(vsum0, vsum1);
+    r.sum = vgetq_lane_f64(vsumF, 0) + vgetq_lane_f64(vsumF, 1);
+    float64x2_t vminF = vminq_f64(vmin0, vmin1);
+    r.min_val = std::min(vgetq_lane_f64(vminF, 0), vgetq_lane_f64(vminF, 1));
+    float64x2_t vmaxF = vmaxq_f64(vmax0, vmax1);
+    r.max_val = std::max(vgetq_lane_f64(vmaxF, 0), vgetq_lane_f64(vmaxF, 1));
+
+#elif defined(__AVX512F__)
+    if (n >= 8 && kHasAVX512) {
+        __m512d vsum = _mm512_setzero_pd();
+        __m512d vmin = _mm512_set1_pd(data[0]);
+        __m512d vmax = _mm512_set1_pd(data[0]);
+        for (; i + 7 < n; i += 8) {
+            __m512d v = _mm512_loadu_pd(data + i);
+            vsum = _mm512_add_pd(vsum, v);
+            vmin = _mm512_min_pd(vmin, v);
+            vmax = _mm512_max_pd(vmax, v);
+        }
+        r.sum     = _mm512_reduce_add_pd(vsum);
+        r.min_val = _mm512_reduce_min_pd(vmin);
+        r.max_val = _mm512_reduce_max_pd(vmax);
+        for (; i < n; ++i) {
+            r.sum += data[i];
+            if (data[i] < r.min_val) r.min_val = data[i];
+            if (data[i] > r.max_val) r.max_val = data[i];
+        }
+        return r;
+    }
+    // fall-through to AVX2 if __builtin_cpu_supports returned false
+    {
+#elif defined(__AVX2__)
+    {
+#endif
+#if defined(__AVX2__) && !defined(__ARM_NEON)
+        __m256d vsum = _mm256_setzero_pd();
+        __m256d vmin = _mm256_set1_pd(data[0]);
+        __m256d vmax = _mm256_set1_pd(data[0]);
+        for (; i + 3 < n; i += 4) {
+            __m256d v = _mm256_loadu_pd(data + i);
+            vsum = _mm256_add_pd(vsum, v);
+            vmin = _mm256_min_pd(vmin, v);
+            vmax = _mm256_max_pd(vmax, v);
+        }
+        double s[4], mn[4], mx[4];
+        _mm256_storeu_pd(s,  vsum);
+        _mm256_storeu_pd(mn, vmin);
+        _mm256_storeu_pd(mx, vmax);
+        r.sum     = s[0]  + s[1]  + s[2]  + s[3];
+        r.min_val = std::min({mn[0], mn[1], mn[2], mn[3]});
+        r.max_val = std::max({mx[0], mx[1], mx[2], mx[3]});
+    }
+#endif
+
+    // Scalar tail (shared by all SIMD paths)
+    for (; i < n; ++i) {
+        r.sum += data[i];
+        if (data[i] < r.min_val) r.min_val = data[i];
+        if (data[i] > r.max_val) r.max_val = data[i];
+    }
+    return r;
+}
+
 struct AggState {
     double   sum           = 0.0;
     double   min_val       = std::numeric_limits<double>::max();
@@ -677,6 +819,25 @@ ColumnBatch AggregateOperator::aggregateAll(const ColumnBatch& input) const {
         }
         auto col = input.getColumn(spec.input_column);
         if (!col) continue;
+
+        // Fast SIMD path for non-null Double columns aggregating SUM/AVG/MIN/MAX.
+        // For nullable columns or non-Double types the per-row path is used.
+        if (col->type() == ColumnType::Double
+            && !col->hasNulls()   // no nulls → SIMD fast path
+            && (spec.function == AggregateSpec::Function::Sum
+                || spec.function == AggregateSpec::Function::Avg
+                || spec.function == AggregateSpec::Function::Min
+                || spec.function == AggregateSpec::Function::Max)) {
+            const auto& dd = col->doubleData();
+            SIMDAggResult ar = simdAggDouble(dd.data(), dd.size());
+            st.sum           = ar.sum;
+            st.min_val       = ar.min_val;
+            st.max_val       = ar.max_val;
+            st.count         = ar.count;
+            st.count_nonnull = ar.count;
+            continue;
+        }
+
         for (size_t i = 0; i < n; ++i) updateState(st, *col, i);
     }
 
@@ -697,19 +858,25 @@ ColumnBatch AggregateOperator::aggregateGroupBy(
 
     size_t n = input.rowCount();
 
-    // Map: group_key -> vector of per-spec AggStates
-    std::unordered_map<std::string, std::vector<AggState>> groups;
-    // Preserve insertion order for deterministic output.
-    std::vector<std::string> key_order;
+    // Reset the per-operator arena so all GROUP BY scratch memory
+    // (group-key strings, AggState vectors) reuses the same backing block.
+    pool_.reset();
+    std::pmr::polymorphic_allocator<std::byte> alloc{&pool_};
+
+    // Map: group_key -> vector of per-spec AggStates — backed by arena.
+    std::pmr::unordered_map<std::pmr::string, std::pmr::vector<AggState>> groups{alloc};
+    // Preserve insertion order for deterministic output — backed by arena.
+    std::pmr::vector<std::pmr::string> key_order{alloc};
 
     for (size_t row = 0; row < n; ++row) {
-        std::string key = makeGroupKey(input, group_cols, row);
+        std::string key_std = makeGroupKey(input, group_cols, row);
+        std::pmr::string key{key_std, alloc};
 
-        auto it = groups.find(key);
-        if (it == groups.end()) {
-            groups.emplace(key, std::vector<AggState>(specs_.size()));
-            key_order.push_back(key);
-            it = groups.find(key);
+        // emplace returns (iterator, bool); avoid a second find() on new groups.
+        auto [it, inserted] = groups.emplace(key,
+            std::pmr::vector<AggState>{specs_.size(), AggState{}, alloc});
+        if (inserted) {
+            key_order.push_back(it->first);  // reference key already in the map
         }
 
         auto& states = it->second;
@@ -741,14 +908,12 @@ ColumnBatch AggregateOperator::aggregateGroupBy(
         if (!src) continue;
         auto out_col = std::make_shared<Column>(gc, src->type());
         out_col->reserve(num_rows);
-        // We need the representative value for each group key.
-        // Re-scan input to find first row for each key (for small result sets).
-        // For performance, we cache it during the aggregation pass above.
-        // Here we use a simpler two-pass approach since group counts are small.
-        std::unordered_map<std::string, size_t> first_row;
+        // Build first-row map (arena-backed) to avoid extra heap allocations.
+        // try_emplace does a single lookup and inserts only when key is absent.
+        std::pmr::unordered_map<std::pmr::string, size_t> first_row{alloc};
         for (size_t row = 0; row < n; ++row) {
-            std::string k = makeGroupKey(input, group_cols, row);
-            if (!first_row.count(k)) first_row[k] = row;
+            std::pmr::string k{makeGroupKey(input, group_cols, row), alloc};
+            first_row.try_emplace(k, row);
         }
         for (const auto& k : key_order) {
             size_t fr = first_row.at(k);

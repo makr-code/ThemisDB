@@ -118,6 +118,8 @@ struct AsyncIngestionConfig {
     bool enable_auto_cleanup = true;      // Auto-cleanup completed jobs
     int64_t job_retention_ms = 3600000;   // Keep completed jobs for 1 hour
     bool verbose_logging = false;
+    size_t batch_size = 64;              // Number of items processed per batch
+    int retry_attempts = 3;              // Max retries on transient failures
 };
 
 /**
@@ -373,11 +375,13 @@ public:
      * 
      * @param source Source configuration
      * @param additional_config Optional additional configuration
+     * @param user_context Optional user context for audit attribution
      * @return Job ID for tracking
      */
     std::string submitSourceJob(
         const IngestionSource& source,
-        const json& additional_config = json::object()
+        const json& additional_config = json::object(),
+        const std::string& user_context = ""
     );
     
     /**

@@ -1745,6 +1745,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_metrics.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_logger.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_security.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/abuse_detector.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_fs.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/version_manager.cpp>
     $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<BOOL:${THEMIS_ENABLE_OFFICE}>>:../src/content/office_processor.cpp>
@@ -1773,6 +1774,7 @@ set(THEMIS_CORE_SOURCES
     ../src/cache/predictive_prefetcher.cpp
     ../src/cache/cache_replication.cpp
     ../src/cache/cache_replication_coordinator.cpp
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/cache/grpc_remote_cache_peer.cpp>
     ../src/cache/distributed_cache_coordinator.cpp
     # ../src/cache/redis_cache_coordinator.cpp   # Legacy hiredis impl; conflicts with distributed_cache_coordinator
     

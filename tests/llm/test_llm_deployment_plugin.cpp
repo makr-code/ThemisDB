@@ -307,6 +307,117 @@ models:
     fs::remove(config_path);
 }
 
+// ============================================================================
+// RocksDB / BaseEntity Storage Tests
+// ============================================================================
+
+TEST_F(LLMDeploymentPluginTest, StorageInitialisedWhenDbProvided) {
+    // When a RocksDBWrapper is injected the plugin must enable model_storage_.
+    // We verify this indirectly: deploying a model in OFFLINE mode with an
+    // unknown ID must still exercise the constructor path without crashing.
+    DeploymentConfig config;
+    config.mode = DeploymentMode::OFFLINE;
+    config.cache_directory = test_dir_;
+    config.use_base_entity_storage = false; // db is null – filesystem-only
+    config.enable_audit_log = false;
+
+    EXPECT_NO_THROW({
+        LLMDeploymentPlugin plugin(config);
+        auto result = plugin.deployModel("some-model");
+        EXPECT_FALSE(result.has_value());
+    });
+}
+
+// ============================================================================
+// User Context Propagation Tests
+// ============================================================================
+
+TEST_F(LLMDeploymentPluginTest, AuditUserDefaultsToSystem) {
+    DeploymentConfig config;
+    config.mode = DeploymentMode::OFFLINE;
+    config.cache_directory = test_dir_;
+    config.enable_audit_log = true;
+    config.audit_log_path = test_dir_ + "/audit.log";
+
+    LLMDeploymentPlugin::clearRequestContext();
+
+    LLMDeploymentPlugin plugin(config);
+    plugin.deployModel("no-such-model");
+
+    auto log = plugin.getAuditLog();
+    ASSERT_FALSE(log.empty());
+    EXPECT_EQ(log.back().user, "system");
+}
+
+TEST_F(LLMDeploymentPluginTest, AuditUserPropagatedFromRequestContext) {
+    DeploymentConfig config;
+    config.mode = DeploymentMode::OFFLINE;
+    config.cache_directory = test_dir_;
+    config.enable_audit_log = true;
+    config.audit_log_path = test_dir_ + "/audit.log";
+
+    LLMDeploymentPlugin::setRequestContext({"alice@example.com", "127.0.0.1"});
+
+    LLMDeploymentPlugin plugin(config);
+    plugin.deployModel("no-such-model");
+
+    LLMDeploymentPlugin::clearRequestContext();
+
+    auto log = plugin.getAuditLog();
+    ASSERT_FALSE(log.empty());
+    EXPECT_EQ(log.back().user, "alice@example.com");
+}
+
+TEST_F(LLMDeploymentPluginTest, RequestContextClearRestoresSystemFallback) {
+    LLMDeploymentPlugin::setRequestContext({"bob", ""});
+    LLMDeploymentPlugin::clearRequestContext();
+    EXPECT_EQ(LLMDeploymentPlugin::currentUserId(), "system");
+}
+
+// ============================================================================
+// model_id validation Tests
+// ============================================================================
+
+TEST_F(LLMDeploymentPluginTest, DeployEmptyModelIdReturnsFalse) {
+    DeploymentConfig config;
+    config.mode = DeploymentMode::AUTO;
+    config.cache_directory = test_dir_;
+    config.enable_audit_log = true;
+    config.audit_log_path = test_dir_ + "/audit.log";
+
+    LLMDeploymentPlugin plugin(config);
+    auto result = plugin.deployModel("");
+
+    EXPECT_FALSE(result.has_value());
+
+    // The audit entry should record the failure
+    auto log = plugin.getAuditLog();
+    ASSERT_FALSE(log.empty());
+    EXPECT_FALSE(log.back().success);
+}
+
+TEST_F(LLMDeploymentPluginTest, FindBestSourceSkipsLocalMissingModel) {
+    // Create a "local" source that points to our test_dir_ but does NOT
+    // contain the requested model. findBestSource (called internally by
+    // downloadModel) should skip that source and fall back to the default
+    // Ollama source rather than returning an unusable local entry.
+    DeploymentConfig config;
+    config.mode = DeploymentMode::OFFLINE; // prevent actual download
+    config.cache_directory = test_dir_;
+    config.enable_audit_log = false;
+
+    ModelSource local_src;
+    local_src.type = "local";
+    local_src.location = test_dir_; // exists as directory but no model file
+    local_src.priority = 100;
+    config.sources.push_back(local_src);
+
+    LLMDeploymentPlugin plugin(config);
+    // In OFFLINE mode the model isn't in cache, so deploy should fail cleanly.
+    auto result = plugin.deployModel("missing-model");
+    EXPECT_FALSE(result.has_value());
+}
+
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

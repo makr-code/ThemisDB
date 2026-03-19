@@ -26,10 +26,12 @@
 #include <sstream>
 #include <iomanip>
 #include <chrono>
+#include <list>
 #include <unordered_map>
 #include <mutex>
 #include <thread>
 #include <cmath>
+#include <openssl/sha.h>
 #include <spdlog/spdlog.h>
 
 namespace themis {
@@ -58,13 +60,21 @@ std::string sanitizeApiKey(const std::string& api_key) {
 struct LLMProcessAnalyzer::Impl {
     LLMConfig config;
     
-    // Response cache
+    // Response cache entry
     struct CacheEntry {
         nlohmann::json response;
         std::chrono::steady_clock::time_point expiry;
     };
-    mutable std::unordered_map<std::string, CacheEntry> cache;
-    mutable std::mutex cache_mutex;
+
+    // O(1) LRU cache: front of list = MRU, back = LRU
+    // list stores keys in access order; map provides O(1) lookup + list iterator
+    using LruList = std::list<std::string>;
+    using LruMap  = std::unordered_map<
+        std::string, std::pair<LruList::iterator, CacheEntry>>;
+
+    mutable LruList     lru_list;
+    mutable LruMap      lru_map;
+    mutable std::mutex  cache_mutex;
     
     // Statistics
     mutable CacheStats stats;
@@ -75,42 +85,55 @@ struct LLMProcessAnalyzer::Impl {
         if (!config.enable_caching) return std::nullopt;
         
         std::lock_guard<std::mutex> lock(cache_mutex);
-        auto it = cache.find(key);
-        if (it == cache.end()) {
+        auto it = lru_map.find(key);
+        if (it == lru_map.end()) {
             stats.misses++;
             return std::nullopt;
         }
         
         auto now = std::chrono::steady_clock::now();
-        if (now > it->second.expiry) {
-            cache.erase(it);
+        if (now > it->second.second.expiry) {
+            lru_list.erase(it->second.first);
+            lru_map.erase(it);
             stats.misses++;
             stats.evictions++;
             return std::nullopt;
         }
         
+        // Promote to MRU front — O(1) via splice (no key copy/realloc)
+        lru_list.splice(lru_list.begin(), lru_list, it->second.first);
+        // it->second.first remains valid and now references the front node
+
         stats.hits++;
-        return it->second.response;
+        return it->second.second.response;
     }
     
     void putInCache(const std::string& key, const nlohmann::json& response) {
         if (!config.enable_caching) return;
         
         std::lock_guard<std::mutex> lock(cache_mutex);
-        auto expiry = std::chrono::steady_clock::now() + 
+        auto expiry = std::chrono::steady_clock::now() +
                       std::chrono::seconds(config.cache_ttl_seconds);
-        cache[key] = CacheEntry{response, expiry};
-        
-        // Simple LRU eviction if too large
-        if (cache.size() > 1000) {
-            // Evict oldest entries
-            auto oldest = cache.begin();
-            for (auto it = cache.begin(); it != cache.end(); ++it) {
-                if (it->second.expiry < oldest->second.expiry) {
-                    oldest = it;
-                }
-            }
-            cache.erase(oldest);
+
+        // If key already exists: splice to MRU front and update value (no key realloc)
+        auto it = lru_map.find(key);
+        if (it != lru_map.end()) {
+            lru_list.splice(lru_list.begin(), lru_list, it->second.first);
+            it->second.second = CacheEntry{response, expiry};
+        } else {
+            // New key: insert at MRU front
+            lru_list.push_front(key);
+            lru_map[key] = {lru_list.begin(), CacheEntry{response, expiry}};
+        }
+
+        // Evict LRU tail if over capacity — O(1)
+        const size_t max_entries = (config.max_cache_entries > 0)
+            ? static_cast<size_t>(config.max_cache_entries)
+            : 1000u;
+        if (lru_map.size() > max_entries) {
+            const std::string& lru_key = lru_list.back();
+            lru_map.erase(lru_key);
+            lru_list.pop_back();
             stats.evictions++;
         }
     }
@@ -515,12 +538,29 @@ bool LLMProcessAnalyzer::validateResponse(
 // ============================================================================
 
 std::string LLMProcessAnalyzer::getCacheKey(const LLMRequest& request) const {
-    std::stringstream ss;
-    ss << static_cast<int>(request.task_type) << ":"
-       << request.domain << ":"
-       << request.process_trace.dump() << ":"
-       << request.ideal_model.dump();
-    return ss.str();
+    // Build a cache key using SHA256 digests of the JSON fields.
+    // Format: "<task_type>:<domain>:<trace_sha256>:<model_sha256>"
+    // The two SHA256 components are each 64 hex chars; the total key length
+    // varies with the length of request.domain (which is typically short).
+    // Hashing the JSON fields avoids embedding potentially large dump() strings
+    // directly in the key and reduces hash-map bucket comparison cost.
+    auto sha256hex = [](const std::string& input) -> std::string {
+        unsigned char hash[SHA256_DIGEST_LENGTH];
+        SHA256(reinterpret_cast<const unsigned char*>(input.data()),
+               input.size(), hash);
+        std::ostringstream oss;
+        for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
+            oss << std::hex << std::setw(2) << std::setfill('0')
+                << static_cast<int>(hash[i]);
+        }
+        return oss.str();
+    };
+
+    const std::string trace_hash = sha256hex(request.process_trace.dump());
+    const std::string model_hash = sha256hex(request.ideal_model.dump());
+
+    return std::to_string(static_cast<int>(request.task_type)) + ":" +
+           request.domain + ":" + trace_hash + ":" + model_hash;
 }
 
 LLMProcessAnalyzer::CacheStats LLMProcessAnalyzer::getCacheStats() const {
@@ -530,7 +570,8 @@ LLMProcessAnalyzer::CacheStats LLMProcessAnalyzer::getCacheStats() const {
 
 void LLMProcessAnalyzer::clearCache() {
     std::lock_guard<std::mutex> lock(pImpl->cache_mutex);
-    pImpl->cache.clear();
+    pImpl->lru_list.clear();
+    pImpl->lru_map.clear();
     pImpl->stats = CacheStats{};
 }
 

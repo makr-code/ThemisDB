@@ -485,15 +485,51 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
 
 OrchestratorResult AIOrchestrator::runAgentic(const OrchestratorContext& ctx,
                                                const ModeSpec&            mode) const {
-    // Scaffold: agentic mode executes ask pipeline first, then checks for
-    // tool calls in the response (ReAct-style).  Full tool-loop is an
-    // extension point; wire in a real tool executor here.
+    // Agentic mode: run the ask pipeline first, then parse any tool call from
+    // the response text and dispatch it via the tool registry (ReAct-style).
     OrchestratorResult result = runAsk(ctx, mode);
     result.metadata.mode_id   = mode.id; // keep correct mode label
 
-    // TODO(extensible): parse tool calls from result.text using react_agent
-    //                   grammar and invoke them via impl_->tool_registry.
-    spdlog::debug("[AIOrchestrator] agentic mode: tool-loop extension point reached");
+    // Parse tool calls from result.text.
+    // Expected JSON format: {"name": "<tool>", "arguments": {<args>}}
+    // On malformed JSON or missing fields: log a warning and return the raw text.
+    try {
+        json tool_call_json = json::parse(result.text);
+        if (tool_call_json.contains("name") && tool_call_json["name"].is_string()) {
+            std::string tool_name = tool_call_json["name"].get<std::string>();
+            json        tool_args = tool_call_json.value("arguments", json::object());
+
+            spdlog::debug("[AIOrchestrator] agentic mode: dispatching tool call '{}'",
+                          tool_name);
+
+            auto t_tool = std::chrono::steady_clock::now();
+            json tool_result = impl_->tool_registry.invokeTool(tool_name, tool_args, mode);
+            auto t_tool_end  = std::chrono::steady_clock::now();
+
+            result.metadata.tool_calls_made.push_back(tool_name);
+            auto tool_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                               t_tool_end - t_tool).count();
+            result.metadata.latency.tool_calls_ms += tool_ms;
+            result.metadata.latency.total_ms      += tool_ms;
+
+            // Replace response text with the serialised tool result and annotate
+            // the raw_response so callers can distinguish tool-call results.
+            result.text                       = tool_result.dump();
+            result.raw_response["tool_name"]  = tool_name;
+            result.raw_response["tool_result"] = tool_result;
+        } else {
+            spdlog::debug("[AIOrchestrator] agentic mode: response is valid JSON "
+                          "but does not contain a tool call");
+        }
+    } catch (const json::parse_error&) {
+        // result.text is plain text, not a JSON tool call – nothing to dispatch.
+        spdlog::debug("[AIOrchestrator] agentic mode: response is not JSON, "
+                      "no tool call to parse");
+    } catch (const std::exception& e) {
+        // Tool dispatch failed; log a warning and preserve the raw LLM response.
+        spdlog::warn("[AIOrchestrator] agentic mode: tool call handling failed: {}",
+                     e.what());
+    }
 
     return result;
 }
