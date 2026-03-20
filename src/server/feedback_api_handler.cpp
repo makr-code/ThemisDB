@@ -24,7 +24,6 @@
 #include "server/feedback_api_handler.h"
 #include "utils/logger.h"
 #include <spdlog/spdlog.h>
-#include <boost/url.hpp>
 #include "utils/tracing.h"
 
 namespace themis {
