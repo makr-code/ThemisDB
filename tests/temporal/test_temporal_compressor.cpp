@@ -119,3 +119,31 @@ TEST_F(TemporalCompressorTest, CompressHistory_SkipsRecentVersions) {
     auto stats = compressor.compressHistory(table, {0, kMaxTimestamp}, cfg);
     EXPECT_GT(stats.versions_skipped, 0u);
 }
+
+// ── Additional edge-case tests ────────────────────────────────────────────────
+
+TEST_F(TemporalCompressorTest, CompressHistory_DictionaryAlgo_ProcessesVersions) {
+    auto table = SystemVersionedTable::createVersionedTable("dict_tbl");
+    table.insert("key1", {{"status", "active"},   {"region", "EU"}});
+    table.upsert("key1", {{"status", "inactive"}, {"region", "EU"}});
+    table.upsert("key1", {{"status", "active"},   {"region", "US"}});
+
+    CompressionConfig cfg;
+    cfg.algorithm = CompressionAlgorithm::DICTIONARY;
+    cfg.compress_immediately = true;
+
+    auto stats = compressor.compressHistory(table, {0, kMaxTimestamp}, cfg);
+    EXPECT_GT(stats.versions_compressed, 0u);
+}
+
+TEST_F(TemporalCompressorTest, CompressHistory_CompressImmediately_DoesNotSkip) {
+    auto table = SystemVersionedTable::createVersionedTable("imm_tbl");
+    table.insert("key1", {{"name", "Charlie"}, {"value", 42}});
+
+    CompressionConfig cfg;
+    cfg.algorithm = CompressionAlgorithm::DELTA;
+    cfg.compress_immediately = true;
+
+    auto stats = compressor.compressHistory(table, {0, kMaxTimestamp}, cfg);
+    EXPECT_EQ(stats.versions_skipped, 0u);
+}

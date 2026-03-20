@@ -24,6 +24,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+#include <atomic>
 #include <gtest/gtest.h>
 #include "temporal/temporal_cdc.h"
 
@@ -196,4 +197,53 @@ TEST_F(TemporalCDCTest, RingBuffer_Overflow_OldestEvicted) {
 
     EXPECT_EQ(small_cdc.logSize(), 4u);
     EXPECT_EQ(small_cdc.totalPublished(), 9u);
+}
+
+// ── Additional edge-case tests ────────────────────────────────────────────────
+
+TEST_F(TemporalCDCTest, SubscriptionCount_MultipleSubscriptions_IsCorrect) {
+    cdc.subscribeToChanges("tbl", [](const ChangeEvent&) {});
+    cdc.subscribeToChanges("tbl", [](const ChangeEvent&) {});
+    cdc.subscribeToChanges("tbl", [](const ChangeEvent&) {});
+    EXPECT_EQ(cdc.subscriptionCount(), 3u);
+}
+
+TEST_F(TemporalCDCTest, Unsubscribe_ReducesCount) {
+    auto id1 = cdc.subscribeToChanges("tbl", [](const ChangeEvent&) {});
+    cdc.subscribeToChanges("tbl", [](const ChangeEvent&) {});
+    cdc.subscribeToChanges("tbl", [](const ChangeEvent&) {});
+    ASSERT_EQ(cdc.subscriptionCount(), 3u);
+    cdc.unsubscribe(id1);
+    EXPECT_EQ(cdc.subscriptionCount(), 2u);
+}
+
+TEST_F(TemporalCDCTest, PublishEvent_MultipleSubscribers_AllReceive) {
+    std::atomic<int> counter{0};
+    cdc.subscribeToChanges("orders", [&](const ChangeEvent&) { ++counter; });
+    cdc.subscribeToChanges("orders", [&](const ChangeEvent&) { ++counter; });
+    cdc.subscribeToChanges("orders", [&](const ChangeEvent&) { ++counter; });
+
+    cdc.publishEvent(makeEvent("orders", ChangeType::INSERT, "ord1", 1000));
+    EXPECT_EQ(counter.load(), 3);
+}
+
+TEST_F(TemporalCDCTest, ReplayChanges_TimeRangeFilter_ExcludesOutOfRange) {
+    cdc.publishEvent(makeEvent("employees", ChangeType::INSERT, "emp1", 100));
+    auto events = cdc.replayChanges("employees", {200, 300});
+    EXPECT_TRUE(events.empty());
+}
+
+TEST_F(TemporalCDCTest, ClearLog_SubscriptionsIntact) {
+    int delivered = 0;
+    cdc.subscribeToChanges("tbl", [&](const ChangeEvent&) { ++delivered; });
+    cdc.publishEvent(makeEvent("tbl", ChangeType::INSERT, "e1", 1000));
+    ASSERT_EQ(cdc.logSize(), 1u);
+
+    cdc.clearLog();
+    EXPECT_EQ(cdc.logSize(), 0u);
+
+    // Subscription must still be active
+    cdc.publishEvent(makeEvent("tbl", ChangeType::INSERT, "e2", 2000));
+    EXPECT_EQ(delivered, 2);
+    EXPECT_EQ(cdc.logSize(), 1u);
 }

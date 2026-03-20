@@ -174,3 +174,31 @@ TEST_F(IntervalTreeIndexTest, Stats_TracksCounts) {
 TEST_F(IntervalTreeIndexTest, Name_ReturnsGivenName) {
     EXPECT_EQ(tree.name(), "test_tree");
 }
+
+// ── Additional edge-case tests ────────────────────────────────────────────────
+
+TEST_F(IntervalTreeIndexTest, QueryOverlap_TouchingBoundary_ReturnsEmpty) {
+    // [100,200) and [200,300): half-open intervals — they touch but do not overlap
+    tree.insert(makeEntry("k1", 100, 200));
+    auto results = tree.queryOverlap(200, 300);
+    EXPECT_TRUE(results.empty());
+}
+
+TEST_F(IntervalTreeIndexTest, Insert_DuplicateKey_DifferentRange_SizeIncreasesByTwo) {
+    tree.insert(makeEntry("dup", 100, 200));
+    tree.insert(makeEntry("dup", 300, 400));
+    EXPECT_EQ(tree.size(), 2u);
+}
+
+TEST_F(IntervalTreeIndexTest, QueryPoint_ManyIntervals_ReturnsAllContaining) {
+    // 10 non-overlapping intervals [i*100, (i+1)*100) for i in 0..9
+    for (int i = 0; i < 10; ++i) {
+        tree.insert(makeEntry("k" + std::to_string(i),
+                              static_cast<Timestamp>(i * 100),
+                              static_cast<Timestamp>((i + 1) * 100)));
+    }
+    // Query exactly in the middle of interval #5 → [500,600)
+    auto results = tree.queryPoint(550);
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_EQ(results[0].key, "k5");
+}
