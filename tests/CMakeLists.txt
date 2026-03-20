@@ -491,6 +491,17 @@ message(STATUS "Building ${TEST_SOURCE_COUNT} test files after feature gating")
 
 add_executable(themis_tests ${ALL_TEST_SOURCES})
 
+# Ensure focused tests in the aggregated themis_tests target have their
+# corresponding production implementations linked in modular builds.
+target_sources(themis_tests PRIVATE
+    ${CMAKE_SOURCE_DIR}/src/exporters/join_exporter.cpp
+    ${CMAKE_SOURCE_DIR}/src/performance/adaptive_query_compiler.cpp
+    ${CMAKE_SOURCE_DIR}/src/performance/intelligent_prefetcher.cpp
+    ${CMAKE_SOURCE_DIR}/src/performance/hardware_accelerator.cpp
+    ${CMAKE_SOURCE_DIR}/src/transaction/distributed_transaction_manager.cpp
+    ${CMAKE_SOURCE_DIR}/src/network/udp_server.cpp
+)
+
 # Enforce feature-gated exclusions on the resolved target source list as a
 # defensive step (handles late target_sources() additions in this file).
 get_target_property(_themis_tests_sources themis_tests SOURCES)
@@ -2478,6 +2489,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_replication_coordinator.cpp")
 
     set(_COORD_SOURCES
         test_cache_replication_coordinator.cpp
+        ${CMAKE_SOURCE_DIR}/src/cache/cache_replication_coordinator.cpp
+        ${CMAKE_SOURCE_DIR}/src/cache/grpc_remote_cache_peer.cpp
     )
 
     add_executable(test_cache_replication_coordinator ${_COORD_SOURCES})

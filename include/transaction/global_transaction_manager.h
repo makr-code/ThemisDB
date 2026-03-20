@@ -216,9 +216,14 @@ public:
      * @param config          Optional configuration (WAL, timeouts, …)
      */
     explicit GlobalTransactionManager(
-        const std::string&                         coordinator_id,
+        const std::string&                          coordinator_id,
+        std::shared_ptr<themis::sharding::TrueTime> truetime
+    );
+
+    explicit GlobalTransactionManager(
+        const std::string&                          coordinator_id,
         std::shared_ptr<themis::sharding::TrueTime> truetime,
-        const Config&                               config = {}
+        const Config&                               config
     );
 
     ~GlobalTransactionManager() = default;

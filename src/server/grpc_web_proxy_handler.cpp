@@ -117,6 +117,10 @@ std::string GrpcWebProxyHandler::encodeGrpcWebResponse(
 // Constructor
 // ─────────────────────────────────────────────────────────────────────────────
 
+GrpcWebProxyHandler::GrpcWebProxyHandler()
+    : GrpcWebProxyHandler(Config{})
+{}
+
 GrpcWebProxyHandler::GrpcWebProxyHandler(Config config)
     : config_(std::move(config))
 {}

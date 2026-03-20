@@ -317,8 +317,9 @@ size_t ChangefeedBuffer::flushBuffer(Changefeed::ChangeEventType event_type, Eve
                     if (config_.exponential_backoff && retry_count > 1) {
                         // Cap exponential backoff to prevent overflow (max 30 seconds)
                         int exponent = std::min(retry_count - 1, 8);  // 2^8 = 256
+                        long long exponential_backoff_ms = static_cast<long long>(config_.retry_backoff_ms.count()) * (1LL << exponent);
                         backoff = std::chrono::milliseconds(
-                            std::min(config_.retry_backoff_ms.count() * (1 << exponent), 30000LL)
+                            std::min(exponential_backoff_ms, 30000LL)
                         );
                     }
                     

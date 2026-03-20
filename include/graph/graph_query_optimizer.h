@@ -604,7 +604,13 @@ public:
     Result<std::shared_ptr<query::ResultStream<std::string>>> streamBFS(
         std::string_view start_vertex,
         int max_depth,
-        const QueryConstraints& constraints = {},
+        query::StreamConfig stream_config = {}
+    );
+
+    Result<std::shared_ptr<query::ResultStream<std::string>>> streamBFS(
+        std::string_view start_vertex,
+        int max_depth,
+        const QueryConstraints& constraints,
         query::StreamConfig stream_config = {}
     );
 
@@ -625,7 +631,13 @@ public:
     Result<std::shared_ptr<query::ResultStream<std::string>>> streamDFS(
         std::string_view start_vertex,
         int max_depth,
-        const QueryConstraints& constraints = {},
+        query::StreamConfig stream_config = {}
+    );
+
+    Result<std::shared_ptr<query::ResultStream<std::string>>> streamDFS(
+        std::string_view start_vertex,
+        int max_depth,
+        const QueryConstraints& constraints,
         query::StreamConfig stream_config = {}
     );
 
@@ -678,7 +690,13 @@ public:
     Result<SubgraphIsomorphismResult> executeSubgraphIsomorphism(
         const std::vector<std::string>& pattern_vertices,
         const std::vector<std::pair<std::string, std::string>>& pattern_edges,
-        const QueryConstraints& constraints = QueryConstraints{},
+        ExecutionStats* stats = nullptr
+    );
+
+    Result<SubgraphIsomorphismResult> executeSubgraphIsomorphism(
+        const std::vector<std::string>& pattern_vertices,
+        const std::vector<std::pair<std::string, std::string>>& pattern_edges,
+        const QueryConstraints& constraints,
         ExecutionStats* stats = nullptr
     );
 

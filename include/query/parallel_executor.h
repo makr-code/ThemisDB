@@ -178,7 +178,8 @@ public:
     // Construction
     // ========================================================================
 
-    explicit ParallelExecutor(ParallelConfig config = {});
+    ParallelExecutor();
+    explicit ParallelExecutor(ParallelConfig config);
 
     const ParallelConfig& getConfig() const noexcept { return config_; }
     void setConfig(const ParallelConfig& cfg) {

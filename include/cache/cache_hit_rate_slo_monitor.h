@@ -221,7 +221,9 @@ public:
      * are dispatched.
      */
     explicit CacheHitRateSloMonitor(
-        const Config& config = Config(),
+        std::shared_ptr<observability::Alertmanager> alertmanager = nullptr);
+    CacheHitRateSloMonitor(
+        const Config& config,
         std::shared_ptr<observability::Alertmanager> alertmanager = nullptr);
 
     ~CacheHitRateSloMonitor() = default;

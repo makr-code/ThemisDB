@@ -141,8 +141,12 @@ public:
      * @return Merged MultiSourceResult, or an error if sources is empty.
      */
     Result<MultiSourceResult> multiSourceBFS(
+        const std::vector<std::string>& sources
+    );
+
+    Result<MultiSourceResult> multiSourceBFS(
         const std::vector<std::string>& sources,
-        const Config& config = {}
+        const Config& config
     );
 
     /**
@@ -156,8 +160,12 @@ public:
      * @return Merged MultiSourceResult, or an error if sources is empty.
      */
     Result<MultiSourceResult> multiSourceDFS(
+        const std::vector<std::string>& sources
+    );
+
+    Result<MultiSourceResult> multiSourceDFS(
         const std::vector<std::string>& sources,
-        const Config& config = {}
+        const Config& config
     );
 
 private:

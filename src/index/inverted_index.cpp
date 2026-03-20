@@ -101,8 +101,13 @@ std::string InvertedIndex::makeRevKey(std::string_view table,
 // ============================================================================
 
 InvertedIndex::Status InvertedIndex::create(std::string_view table,
+                                            std::string_view column) {
+    return create(table, column, Config{});
+}
+
+InvertedIndex::Status InvertedIndex::create(std::string_view table,
                                             std::string_view column,
-                                            const Config& config) {
+                                            Config config) {
     if (table.empty() || column.empty())
         return Status::Error("InvertedIndex::create: table/column must not be empty");
     if (table.find(':') != std::string_view::npos ||

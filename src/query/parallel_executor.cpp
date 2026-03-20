@@ -55,6 +55,9 @@ void ParallelExecutor::validateConfig(ParallelConfig& cfg) noexcept {
     if (cfg.morsel_size  == 0) cfg.morsel_size  = 1;
 }
 
+ParallelExecutor::ParallelExecutor()
+    : ParallelExecutor(ParallelConfig{}) {}
+
 ParallelExecutor::ParallelExecutor(ParallelConfig config)
     : config_(std::move(config)) {
     validateConfig(config_);

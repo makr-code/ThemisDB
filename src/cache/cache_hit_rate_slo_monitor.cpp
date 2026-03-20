@@ -33,6 +33,10 @@ namespace cache {
 // ---------------------------------------------------------------------------
 
 CacheHitRateSloMonitor::CacheHitRateSloMonitor(
+    std::shared_ptr<observability::Alertmanager> alertmanager)
+    : CacheHitRateSloMonitor(Config{}, std::move(alertmanager)) {}
+
+CacheHitRateSloMonitor::CacheHitRateSloMonitor(
     const Config& config,
     std::shared_ptr<observability::Alertmanager> alertmanager)
     : config_(config)

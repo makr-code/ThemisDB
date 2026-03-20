@@ -41,6 +41,14 @@ namespace themis::transaction {
 
 GlobalTransactionManager::GlobalTransactionManager(
     const std::string&                              coordinator_id,
+    std::shared_ptr<themis::sharding::TrueTime>     truetime
+)
+    : GlobalTransactionManager(coordinator_id, std::move(truetime), Config{})
+{
+}
+
+GlobalTransactionManager::GlobalTransactionManager(
+    const std::string&                              coordinator_id,
     std::shared_ptr<themis::sharding::TrueTime>     truetime,
     const Config&                                   config
 )

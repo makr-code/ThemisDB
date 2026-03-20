@@ -90,8 +90,9 @@ public:
     // -----------------------------------------------------------------------
 
     /** Create (or overwrite) the index metadata for table/column. */
+    Status create(std::string_view table, std::string_view column);
     Status create(std::string_view table, std::string_view column,
-                  const Config& config = {});
+                  Config config);
 
     /** Remove the index metadata key (posting data is NOT purged here).
      *  Call deindex() for each document before dropping to avoid orphaned keys. */

@@ -98,12 +98,16 @@ public:
      * @param config_path  Optional path to pii_patterns.yaml passed to PIIDetector.
      */
     explicit QueryMaskingPolicy(
-        Config config = {},
+        const std::string& config_path = "config/pii_patterns.yaml");
+    QueryMaskingPolicy(
+        Config config,
         const std::string& config_path = "config/pii_patterns.yaml");
 
     /// Factory: create with default configuration.
     static std::shared_ptr<QueryMaskingPolicy> create(
-        Config config = {},
+        const std::string& config_path = "config/pii_patterns.yaml");
+    static std::shared_ptr<QueryMaskingPolicy> create(
+        Config config,
         const std::string& config_path = "config/pii_patterns.yaml");
 
     // -------------------------------------------------------------------------

@@ -38,6 +38,7 @@
 
 using namespace themis::llm;
 using namespace themis::scheduler;
+using namespace themis;
 namespace fs = std::filesystem;
 
 class LLMDeploymentPluginTest : public ::testing::Test {

@@ -1103,6 +1103,14 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
 Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::streamBFS(
     std::string_view start_vertex,
     int max_depth,
+    query::StreamConfig stream_config) {
+
+    return streamBFS(start_vertex, max_depth, QueryConstraints{}, stream_config);
+}
+
+Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::streamBFS(
+    std::string_view start_vertex,
+    int max_depth,
     const QueryConstraints& constraints,
     query::StreamConfig stream_config) {
 
@@ -1114,6 +1122,14 @@ Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::s
 
     return Ok(std::make_shared<query::ResultStream<std::string>>(
         std::move(*bfs_result), stream_config));
+}
+
+Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::streamDFS(
+    std::string_view start_vertex,
+    int max_depth,
+    query::StreamConfig stream_config) {
+
+    return streamDFS(start_vertex, max_depth, QueryConstraints{}, stream_config);
 }
 
 Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::streamDFS(
@@ -1613,6 +1629,19 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeBidirectional(
 // ---------------------------------------------------------------------------
 // Subgraph Isomorphism (VF2-style backtracking)
 // ---------------------------------------------------------------------------
+
+Result<GraphQueryOptimizer::SubgraphIsomorphismResult>
+GraphQueryOptimizer::executeSubgraphIsomorphism(
+    const std::vector<std::string>& pattern_vertices,
+    const std::vector<std::pair<std::string, std::string>>& pattern_edges,
+    ExecutionStats* stats) {
+
+    return executeSubgraphIsomorphism(
+        pattern_vertices,
+        pattern_edges,
+        QueryConstraints{},
+        stats);
+}
 
 Result<GraphQueryOptimizer::SubgraphIsomorphismResult>
 GraphQueryOptimizer::executeSubgraphIsomorphism(

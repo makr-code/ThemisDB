@@ -401,7 +401,7 @@ void RedisCacheCoordinator::subscribeLoop() {
                 // Emit reconnect metric
                 try {
                     auto& mc = observability::MetricsCollector::getInstance();
-                    mc.incrementCounter("cache.redis.reconnect");
+                    mc.addCounter("cache.redis.reconnect", 1);
                 } catch (const std::exception& ex) {
                     THEMIS_DEBUG("RedisCacheCoordinator: metric emit failed: {}", ex.what());
                 } catch (...) {}
@@ -482,7 +482,7 @@ void RedisCacheCoordinator::subscribeLoop() {
             // Emit reconnect metric
             try {
                 auto& mc = observability::MetricsCollector::getInstance();
-                mc.incrementCounter("cache.redis.reconnect");
+                mc.addCounter("cache.redis.reconnect", 1);
             } catch (const std::exception& ex) {
                 THEMIS_DEBUG("RedisCacheCoordinator: metric emit failed: {}", ex.what());
             } catch (...) {}

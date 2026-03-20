@@ -41,6 +41,11 @@ namespace updates {
 // InPlaceSchemaMigrator
 // ============================================================================
 
+InPlaceSchemaMigrator::InPlaceSchemaMigrator()
+    : InPlaceSchemaMigrator(Config{})
+{
+}
+
 InPlaceSchemaMigrator::InPlaceSchemaMigrator(const Config& config)
     : config_(config) {}
 

@@ -172,7 +172,8 @@ TEST_F(PIIStreamDetectorTest, DetectOnEmptyChunkReturnsNoPII) {
 
 TEST_F(PIIStreamDetectorTest, DetectFindsEmailAddress) {
     std::string text = "Please contact alice@example.com for more info.";
-    std::vector<std::byte> chunk(text.begin(), text.end());
+    std::vector<std::byte> chunk(reinterpret_cast<const std::byte*>(text.data()),
+                                 reinterpret_cast<const std::byte*>(text.data() + text.size()));
     auto result = detector_->detect({chunk.data(), chunk.size()});
     EXPECT_TRUE(result.containsPII);
     EXPECT_GE(result.spanCount, 1u);
@@ -187,7 +188,8 @@ TEST_F(PIIStreamDetectorTest, DetectFindsEmailAddress) {
 TEST_F(PIIStreamDetectorTest, OutputNeverContainsRawValues) {
     // PIIDetectionResult must not expose raw PII values.
     std::string text = "alice@example.com";
-    std::vector<std::byte> chunk(text.begin(), text.end());
+    std::vector<std::byte> chunk(reinterpret_cast<const std::byte*>(text.data()),
+                                 reinterpret_cast<const std::byte*>(text.data() + text.size()));
     auto result = detector_->detect({chunk.data(), chunk.size()});
     // Verify the result struct has no raw-value field (structural check).
     EXPECT_TRUE(result.containsPII);
@@ -200,8 +202,10 @@ TEST_F(PIIStreamDetectorTest, Statelessness_ConcurrentCallsDoNotInterfere) {
     // Run many concurrent detect() calls; each should be independent.
     std::string textA = "alice@example.com";
     std::string textB = "no pii here at all";
-    std::vector<std::byte> chunkA(textA.begin(), textA.end());
-    std::vector<std::byte> chunkB(textB.begin(), textB.end());
+    std::vector<std::byte> chunkA(reinterpret_cast<const std::byte*>(textA.data()),
+                                  reinterpret_cast<const std::byte*>(textA.data() + textA.size()));
+    std::vector<std::byte> chunkB(reinterpret_cast<const std::byte*>(textB.data()),
+                                  reinterpret_cast<const std::byte*>(textB.data() + textB.size()));
 
     std::vector<std::future<PIIDetectionResult>> futures;
     for (int i = 0; i < 16; ++i) {
@@ -225,7 +229,8 @@ TEST_F(PIIStreamDetectorTest, Statelessness_ConcurrentCallsDoNotInterfere) {
 
 TEST_F(PIIStreamDetectorTest, PseudonymiseReturnsReducedOutput) {
     std::string text = "Contact alice@example.com today.";
-    std::vector<std::byte> chunk(text.begin(), text.end());
+    std::vector<std::byte> chunk(reinterpret_cast<const std::byte*>(text.data()),
+                                 reinterpret_cast<const std::byte*>(text.data() + text.size()));
     auto sanitised = detector_->pseudonymise({chunk.data(), chunk.size()});
     EXPECT_GE(sanitised.replacementCount, 1u);
     // The sanitised data must not be empty.

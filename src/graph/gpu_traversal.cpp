@@ -322,6 +322,12 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runDFS(
 // ---------------------------------------------------------------------------
 
 Result<GPUGraphTraversal::TraversalResult> GPUGraphTraversal::bfs(
+    const std::string& start_vertex) {
+
+    return bfs(start_vertex, Config{});
+}
+
+Result<GPUGraphTraversal::TraversalResult> GPUGraphTraversal::bfs(
     const std::string& start_vertex,
     const Config& config) {
 
@@ -346,6 +352,12 @@ Result<GPUGraphTraversal::TraversalResult> GPUGraphTraversal::bfs(
 // ---------------------------------------------------------------------------
 // Public DFS
 // ---------------------------------------------------------------------------
+
+Result<GPUGraphTraversal::TraversalResult> GPUGraphTraversal::dfs(
+    const std::string& start_vertex) {
+
+    return dfs(start_vertex, Config{});
+}
 
 Result<GPUGraphTraversal::TraversalResult> GPUGraphTraversal::dfs(
     const std::string& start_vertex,

@@ -110,7 +110,8 @@ public:
      *
      * @param config Proxy configuration.
      */
-    explicit GrpcWebProxyHandler(Config config = Config{});
+    GrpcWebProxyHandler();
+    explicit GrpcWebProxyHandler(Config config);
 
     ~GrpcWebProxyHandler() = default;
 

@@ -25,6 +25,7 @@
 #include "prompt_engineering/prompt_injection_detector.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
+#include <utility>
 
 namespace themis {
 namespace prompt_engineering {
@@ -46,8 +47,11 @@ nlohmann::json PromptInjectionDetector::DetectionResult::toJson() const {
 // PromptInjectionDetector
 // ---------------------------------------------------------------------------
 
-PromptInjectionDetector::PromptInjectionDetector(const Config& config)
-    : config_(config) {
+PromptInjectionDetector::PromptInjectionDetector()
+    : PromptInjectionDetector(Config{}) {}
+
+PromptInjectionDetector::PromptInjectionDetector(Config config)
+    : config_(std::move(config)) {
     initializePatterns();
 }
 

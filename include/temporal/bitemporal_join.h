@@ -158,8 +158,11 @@ public:
      * @param config Join configuration (mode, point-in-time, etc.).
      */
     BiTemporalJoin(std::vector<BiTemporalRow> left,
-                   std::vector<BiTemporalRow> right,
-                   Config                     config = {});
+                   std::vector<BiTemporalRow> right);
+
+    explicit BiTemporalJoin(std::vector<BiTemporalRow> left,
+                            std::vector<BiTemporalRow> right,
+                            Config                     config);
 
     /**
      * @brief Execute the join and return all matching result rows.

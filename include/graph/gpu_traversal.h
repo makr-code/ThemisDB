@@ -163,8 +163,12 @@ public:
      * @return TraversalResult or an error (e.g. unknown vertex).
      */
     Result<TraversalResult> bfs(
-        const std::string& start_vertex,
-        const Config& config = {}
+      const std::string& start_vertex
+    );
+
+    Result<TraversalResult> bfs(
+      const std::string& start_vertex,
+      const Config& config
     );
 
     /**
@@ -178,8 +182,12 @@ public:
      * @return TraversalResult or an error (e.g. unknown vertex).
      */
     Result<TraversalResult> dfs(
-        const std::string& start_vertex,
-        const Config& config = {}
+      const std::string& start_vertex
+    );
+
+    Result<TraversalResult> dfs(
+      const std::string& start_vertex,
+      const Config& config
     );
 
     // -----------------------------------------------------------------------

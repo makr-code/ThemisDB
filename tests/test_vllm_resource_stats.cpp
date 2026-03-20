@@ -257,11 +257,11 @@ TEST(VLLMResourceStatsTest, CacheHit_CompletesUnder2ms) {
 
 // Helper: build an initialised manager with a given gpu_device_index.
 // (Retained for future tests requiring a fully-initialized manager.)
-[[maybe_unused]] static VLLMResourceManager makeInitializedMgr(uint32_t device_index = 0) {
+[[maybe_unused]] static std::unique_ptr<VLLMResourceManager> makeInitializedMgr(uint32_t device_index = 0) {
     VLLMResourceManager::Config cfg = makeConfig();
     cfg.gpu_device_index = device_index;
-    VLLMResourceManager mgr(cfg);
-    mgr.initialize();
+    auto mgr = std::make_unique<VLLMResourceManager>(cfg);
+    mgr->initialize();
     return mgr;
 }
 

@@ -285,6 +285,12 @@ ParallelTraversal::MultiSourceResult ParallelTraversal::mergeResults(
 // ---------------------------------------------------------------------------
 
 Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceBFS(
+    const std::vector<std::string>& sources) {
+
+    return multiSourceBFS(sources, Config{});
+}
+
+Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceBFS(
     const std::vector<std::string>& sources,
     const Config& config) {
 
@@ -335,6 +341,12 @@ Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceBFS(
 // ---------------------------------------------------------------------------
 // Public: multiSourceDFS
 // ---------------------------------------------------------------------------
+
+Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceDFS(
+    const std::vector<std::string>& sources) {
+
+    return multiSourceDFS(sources, Config{});
+}
 
 Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceDFS(
     const std::vector<std::string>& sources,

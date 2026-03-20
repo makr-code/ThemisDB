@@ -33,6 +33,12 @@ namespace temporal {
 // ─────────────────────────────────────────────────────────────────────────────
 
 BiTemporalJoin::BiTemporalJoin(std::vector<BiTemporalRow> left,
+                                std::vector<BiTemporalRow> right)
+    : BiTemporalJoin(std::move(left), std::move(right), Config{})
+{
+}
+
+BiTemporalJoin::BiTemporalJoin(std::vector<BiTemporalRow> left,
                                 std::vector<BiTemporalRow> right,
                                 Config                     config)
     : left_(std::move(left)), right_(std::move(right)), config_(std::move(config))

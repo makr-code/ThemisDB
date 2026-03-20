@@ -84,7 +84,8 @@ public:
         nlohmann::json toJson() const;
     };
 
-    explicit PromptInjectionDetector(const Config& config = {});
+    PromptInjectionDetector();
+    explicit PromptInjectionDetector(Config config);
     ~PromptInjectionDetector() = default;
 
     /**

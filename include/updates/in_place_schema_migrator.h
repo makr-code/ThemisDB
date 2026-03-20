@@ -141,7 +141,8 @@ public:
         bool strict_additive = true;
     };
 
-    explicit InPlaceSchemaMigrator(const Config& config = {});
+    InPlaceSchemaMigrator();
+    explicit InPlaceSchemaMigrator(const Config& config);
     ~InPlaceSchemaMigrator() = default;
 
     // Non-copyable, movable

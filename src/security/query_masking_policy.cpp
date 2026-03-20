@@ -34,6 +34,10 @@ namespace security {
 // Construction
 // ---------------------------------------------------------------------------
 
+QueryMaskingPolicy::QueryMaskingPolicy(const std::string& config_path)
+    : QueryMaskingPolicy(Config{}, config_path)
+{}
+
 QueryMaskingPolicy::QueryMaskingPolicy(Config config, const std::string& config_path)
     : config_(std::move(config))
 {
@@ -46,6 +50,12 @@ QueryMaskingPolicy::QueryMaskingPolicy(Config config, const std::string& config_
     }
     spdlog::info("QueryMaskingPolicy: Initialised (enabled={}, auto_detect={}, mask_by_field_name={})",
                  config_.enabled, config_.auto_detect_pii, config_.mask_by_field_name);
+}
+
+std::shared_ptr<QueryMaskingPolicy> QueryMaskingPolicy::create(
+    const std::string& config_path)
+{
+    return std::make_shared<QueryMaskingPolicy>(config_path);
 }
 
 std::shared_ptr<QueryMaskingPolicy> QueryMaskingPolicy::create(

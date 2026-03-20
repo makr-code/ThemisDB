@@ -53,7 +53,9 @@
 #endif
 
 // ZIP handling with libzip
+#ifdef THEMIS_HAVE_LIBZIP
 #include <zip.h>
+#endif
 
 namespace fs = std::filesystem;
 
@@ -203,26 +205,27 @@ std::optional<ArchiveMetadata> ArchiveProcessor::extractMetadata(
     metadata.file_count = 0;
     
     if (format == ArchiveFormat::ZIP) {
+#ifdef THEMIS_HAVE_LIBZIP
         // Use libzip to extract metadata
         // Create temporary file for zip_open
         auto temp_dir = fs::temp_directory_path();
         auto temp_file = temp_dir / ("themis_tmp_" + generateRandomString(16) + ".zip");
-        
+
         if (!writeBlobToFile(temp_file.string(), blob)) {
             fs::remove(temp_file);
             return std::nullopt;
         }
-        
+
         int err = 0;
         zip_t* za = zip_open(temp_file.string().c_str(), ZIP_RDONLY, &err);
         if (!za) {
             fs::remove(temp_file);
             return std::nullopt;
         }
-        
+
         zip_int64_t num_entries = zip_get_num_entries(za, 0);
         metadata.member_count = static_cast<size_t>(num_entries);
-        
+
         for (zip_int64_t i = 0; i < num_entries; ++i) {
             zip_stat_t stat;
             if (zip_stat_index(za, i, 0, &stat) == 0) {
@@ -232,32 +235,35 @@ std::optional<ArchiveMetadata> ArchiveProcessor::extractMetadata(
                 member.compressed_size = stat.comp_size;
                 member.is_directory = member.path.ends_with("/");
                 member.is_encrypted = (stat.encryption_method != ZIP_EM_NONE);
-                
+
                 if (member.is_directory) {
                     metadata.directory_count++;
                 } else {
                     metadata.file_count++;
                 }
-                
+
                 if (member.is_encrypted) {
                     metadata.is_encrypted = true;
                 }
-                
+
                 metadata.total_uncompressed_size += member.uncompressed_size;
                 metadata.members.push_back(std::move(member));
             }
         }
-        
+
         // Get archive comment if any
         const char* comment = zip_get_archive_comment(za, nullptr, 0);
         if (comment) {
             metadata.comment = comment;
         }
-        
+
         zip_close(za);
         fs::remove(temp_file);
-        
+
         return metadata;
+#else
+        return std::nullopt;
+#endif
     }
     
     // For TAR and other formats, we would need additional libraries or manual parsing
@@ -373,15 +379,22 @@ bool ArchiveProcessor::validateArchive(const ArchiveMetadata& metadata, std::str
 ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string& blob, const std::string& password) {
     ArchiveExtractionResult result;
     result.success = false;
+
+#ifndef THEMIS_HAVE_LIBZIP
+    (void)blob;
+    (void)password;
+    result.error_message = "ZIP extraction unavailable: libzip not found at build time";
+    return result;
+#else
     result.temp_directory = generateTempDirectory();
-    
+
     // Write blob to temporary file
     auto temp_zip = fs::path(result.temp_directory) / "archive.zip";
     if (!writeBlobToFile(temp_zip.string(), blob)) {
         result.error_message = "Failed to write archive to temporary file";
         return result;
     }
-    
+
     int err = 0;
     zip_t* za = zip_open(temp_zip.string().c_str(), ZIP_RDONLY, &err);
     if (!za) {
@@ -391,12 +404,12 @@ ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string& blob, co
         fs::remove(temp_zip);
         return result;
     }
-    
+
     // Set password if provided
     if (!password.empty()) {
         zip_set_default_password(za, password.c_str());
     }
-    
+
     zip_int64_t num_entries = zip_get_num_entries(za, 0);
 
     // Enforce file count limit before extraction starts (fast path)
@@ -410,20 +423,20 @@ ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string& blob, co
     }
 
     uint64_t total_bytes_written = 0;  // Track decompressed bytes during extraction
-    
+
     for (zip_int64_t i = 0; i < num_entries; ++i) {
         zip_stat_t stat;
         if (zip_stat_index(za, i, 0, &stat) != 0) {
             continue;
         }
-        
+
         std::string member_path = stat.name ? stat.name : "";
         if (member_path.empty()) continue;
-        
+
         // Sanitize path
         std::string safe_path = sanitizePath(member_path);
         if (safe_path.empty()) continue;
-        
+
         auto extract_path = fs::path(result.temp_directory) / safe_path;
 
         // Prevent path traversal: ensure the resolved path stays inside temp_directory
@@ -435,30 +448,30 @@ ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string& blob, co
             // Resolved path escapes temp directory – skip silently
             continue;
         }
-        
+
         // Check if it's a directory
         if (member_path.ends_with("/")) {
             fs::create_directories(extract_path);
             continue;
         }
-        
+
         // Create parent directories
         if (extract_path.has_parent_path()) {
             fs::create_directories(extract_path.parent_path());
         }
-        
+
         // Extract file
         zip_file_t* zf = zip_fopen_index(za, i, 0);
         if (!zf) {
             continue;  // Skip files that can't be opened (might be encrypted without password)
         }
-        
+
         std::ofstream out_file(extract_path, std::ios::binary);
         if (!out_file) {
             zip_fclose(zf);
             continue;
         }
-        
+
         // Read and write in chunks; enforce per-file and total size limits in real-time
         char buffer[8192];
         zip_int64_t bytes_read;
@@ -481,7 +494,7 @@ ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string& blob, co
 
             out_file.write(buffer, bytes_read);
         }
-        
+
         zip_fclose(zf);
         out_file.close();
 
@@ -493,17 +506,18 @@ ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string& blob, co
             result.error_message = size_error_msg;
             return result;
         }
-        
+
         if (bytes_read == 0) {  // Successfully extracted
             result.extracted_files.push_back(extract_path.string());
         }
     }
-    
+
     zip_close(za);
     fs::remove(temp_zip);
-    
+
     result.success = true;
     return result;
+#endif
 }
 
 ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string& blob, ArchiveFormat format) {

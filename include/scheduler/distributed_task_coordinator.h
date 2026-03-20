@@ -132,9 +132,13 @@ public:
      * @throws std::invalid_argument if either scheduler or coordinator is null.
      */
     explicit DistributedTaskCoordinator(
+      TaskScheduler* scheduler,
+      sharding::DistributedCoordinator* coordinator);
+
+    DistributedTaskCoordinator(
         TaskScheduler* scheduler,
         sharding::DistributedCoordinator* coordinator,
-        const Config& config = {});
+      const Config& config);
 
     ~DistributedTaskCoordinator();
 

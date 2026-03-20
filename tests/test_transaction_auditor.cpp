@@ -33,6 +33,7 @@
 #include <gtest/gtest.h>
 #include "transaction/transaction_auditor.h"
 
+#include <array>
 #include <atomic>
 #include <chrono>
 #include <thread>
