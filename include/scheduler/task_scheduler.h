@@ -344,25 +344,9 @@ public:
      * @brief Per-request authentication context propagated via thread-local storage.
      *
      * HTTP handler code sets this on the handler thread before calling scheduler
-     * operations.  The scheduler reads it when constructing audit events so that
+     * operations. The scheduler reads it when constructing audit events so that
      * audit trails correctly attribute operations to the requesting operator rather
      * than the system account.
-     *
-     * Example usage (HTTP handler):
-     * @code
-     * TaskScheduler::setRequestContext({auth_result.user_id, client_ip});
-     * scheduler.registerTask(task);
-     * TaskScheduler::clearRequestContext();
-     * @endcode
-     */
-    struct RequestContext {
-        std::string user_id;   ///< Authenticated user identifier
-        std::string client_ip; ///< Client IP address
-     * ```cpp
-     * TaskScheduler::setRequestContext({auth_result.user_id, client_ip});
-     * scheduler.registerTask(task);
-     * TaskScheduler::clearRequestContext();
-     * ```
      */
     struct RequestContext {
         std::string user_id;    ///< Authenticated user / service account
@@ -381,18 +365,6 @@ public:
     static std::string currentUserId(const char* fallback = "system") noexcept;
 
     /// Return the client IP from the thread-local request context (empty if not set).
-    static std::string currentClientIp() noexcept;
-
-    /// Should be called after the scheduler operation completes to prevent
-    /// context leak to subsequent tasks that run on the same thread.
-    static void clearRequestContext() noexcept;
-
-    /// Return the user_id from the current thread's RequestContext,
-    /// or @p fallback (default: "system") if no context has been set.
-    static std::string currentUserId(const char* fallback = "system") noexcept;
-
-    /// Return the client_ip from the current thread's RequestContext,
-    /// or empty string if no context has been set.
     static std::string currentClientIp() noexcept;
     
     /**

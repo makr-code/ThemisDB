@@ -38,6 +38,7 @@
 #include "timeseries/query_optimizer.h"
 #include "storage/rocksdb_wrapper.h"
 #include <rocksdb/db.h>
+#include <rocksdb/utilities/transaction_db.h>
 #include <algorithm>
 #include <chrono>
 #include <filesystem>

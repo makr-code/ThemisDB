@@ -32,6 +32,7 @@
 #include "security/usb_admin_authenticator.h"
 #include "utils/logger.h"
 #include "config/config_path_resolver.h"
+#include <algorithm>
 #include <yaml-cpp/yaml.h>
 #include <sstream>
 
@@ -299,7 +300,7 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaJWT(std::string_view toke
                 for (const auto& role : claims.roles) {
                     auto it = role_scope_map_.find(role);
                     if (it != role_scope_map_.end() &&
-                        it->second.count(std::string(required_scope)) > 0) {
+                        std::find(it->second.begin(), it->second.end(), required_scope) != it->second.end()) {
                         scope_granted = true;
                         break;
                     }
@@ -309,7 +310,7 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaJWT(std::string_view toke
                     for (const auto& group : claims.groups) {
                         auto it = role_scope_map_.find(group);
                         if (it != role_scope_map_.end() &&
-                            it->second.count(std::string(required_scope)) > 0) {
+                            std::find(it->second.begin(), it->second.end(), required_scope) != it->second.end()) {
                             scope_granted = true;
                             break;
                         }
@@ -517,7 +518,7 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaKerberos(
             for (const auto& role : result.roles) {
                 auto it = role_scope_map_.find(role);
                 if (it != role_scope_map_.end() &&
-                    it->second.count(std::string(required_scope)) > 0) {
+                    std::find(it->second.begin(), it->second.end(), required_scope) != it->second.end()) {
                     scope_granted = true;
                     break;
                 }
@@ -643,15 +644,6 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaApiKey(
     }
 }
 
-void AuthMiddleware::setRoleScopeMapping(
-    const std::unordered_map<std::string, std::unordered_set<std::string>>& mapping)
-{
-    std::lock_guard<std::mutex> lock(mutex_);
-    role_scope_map_ = mapping;
-    role_scope_map_loaded_ = true;
-    THEMIS_INFO("Role-to-scope mapping updated: {} roles configured", mapping.size());
-}
-
 void AuthMiddleware::setJWKSForTesting(const nlohmann::json& jwks)
 {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -681,13 +673,13 @@ void AuthMiddleware::loadRoleScopeMapping()
             return;
         }
 
-        std::unordered_map<std::string, std::unordered_set<std::string>> mapping;
+        std::unordered_map<std::string, std::vector<std::string>> mapping;
         for (const auto& entry : root["roles"]) {
             std::string role_name = entry.first.as<std::string>();
-            std::unordered_set<std::string> scopes;
+            std::vector<std::string> scopes;
             if (entry.second["scopes"]) {
                 for (const auto& s : entry.second["scopes"]) {
-                    scopes.insert(s.as<std::string>());
+                    scopes.push_back(s.as<std::string>());
                 }
             }
             mapping[role_name] = std::move(scopes);

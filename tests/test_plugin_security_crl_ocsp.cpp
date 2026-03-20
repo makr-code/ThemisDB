@@ -611,7 +611,7 @@ TEST_F(PluginSecurityCRLOCSPTest, PE_NoPEHeader_ReturnsNullopt) {
     std::filesystem::path fake = test_dir_ / "not_a_pe.so";
     {
         std::ofstream f(fake, std::ios::binary);
-        f << "\x7FELF" << std::string(60, '\0');
+        f << "\x7F" "ELF" << std::string(60, '\0');
     }
     PluginSecurityPolicy policy;
     EnhancedPluginSecurityVerifier verifier(policy);

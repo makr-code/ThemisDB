@@ -44,14 +44,6 @@ static OLAPQuery makeSimpleQuery(const std::string& collection = "sales") {
     return q;
 }
 
-// Build an engine with in-memory data seeded for "sales" collection.
-static OLAPEngine makeEngineWithData(const OLAPEngine::Config& cfg = {}) {
-    OLAPEngine engine(cfg);
-    // Populate the internal collections map via the public insertRow API
-    // by constructing a simple query that forces a cache miss on first call.
-    return engine;
-}
-
 // ---------------------------------------------------------------------------
 // AC-1: Cache hit on second identical query
 // ---------------------------------------------------------------------------

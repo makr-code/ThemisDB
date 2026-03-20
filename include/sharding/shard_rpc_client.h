@@ -38,9 +38,16 @@
 namespace themis::sharding {
 
 // Forward declarations
-class OperationalMetrics;
 class PrometheusMetrics;
 class MTLSConnectionPoolManager;
+
+} // namespace themis::sharding
+
+namespace themisdb::sharding {
+class OperationalMetrics;
+}
+
+namespace themis::sharding {
 
 /**
  * @brief Exception thrown for non-retryable RPC errors.
@@ -113,7 +120,7 @@ public:
         int circuit_breaker_recovery_ms = 5000;      // Milliseconds before half-open probe (default 5 s)
 
         // Metrics (optional, non-owning pointers; nullptr disables the respective metric sink)
-        OperationalMetrics* operational_metrics = nullptr;
+        themisdb::sharding::OperationalMetrics* operational_metrics = nullptr;
         PrometheusMetrics*  prometheus_metrics  = nullptr;
     };
     

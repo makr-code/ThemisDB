@@ -101,6 +101,14 @@ constexpr uint8_t kUdpServerFlagAckRequested = 0x01;
 // OpCodes and status codes
 // ─────────────────────────────────────────────────────────────────────────────
 
+// Windows headers may define EVENT as a macro; clear it so enum value names remain valid.
+#ifdef EVENT
+#undef EVENT
+#endif
+#ifdef ERROR
+#undef ERROR
+#endif
+
 /// Write-oriented opcodes accepted by the UDP ingestion server.
 enum class UdpServerOpCode : uint8_t {
     METRIC = 0x01,  ///< Single metric data point

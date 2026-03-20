@@ -95,7 +95,7 @@ public:
     /// Adaptive sampler: automatically adjusts the sample probability based on
     /// the current span creation rate to keep throughput near @p config.max_spans_per_second.
     /// Copies of this strategy share the same rate-measurement state.
-    static SamplingStrategy adaptive(const AdaptiveConfig& config = {});
+    static SamplingStrategy adaptive(AdaptiveConfig config = AdaptiveConfig{});
 
     /// Returns true if a new span with the given parent-sampled flag should be recorded.
     bool shouldSample(bool parent_sampled = true) const;

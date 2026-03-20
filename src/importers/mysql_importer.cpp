@@ -37,6 +37,10 @@
 #include <cinttypes>
 #include <cstdio>
 
+#ifdef ERROR
+#undef ERROR
+#endif
+
 namespace themis {
 namespace importers {
 

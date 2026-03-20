@@ -24,6 +24,7 @@
 #include "sharding/shard_topology.h"
 #include "sharding/mtls_client.h"
 #include "sharding/prometheus_metrics.h"
+#include "shard_rpc.pb.h"
 #include <random>
 #include <algorithm>
 #include <sstream>

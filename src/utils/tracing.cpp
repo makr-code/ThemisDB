@@ -68,7 +68,7 @@ namespace themis {
 // SamplingStrategy
 // ─────────────────────────────────────────────────────────────────────────────
 
-SamplingStrategy SamplingStrategy::adaptive(const AdaptiveConfig& config) {
+SamplingStrategy SamplingStrategy::adaptive(AdaptiveConfig config) {
     SamplingStrategy s(Type::ADAPTIVE, config.min_rate);
     s.adaptive_config_ = config;
     s.adaptive_state_  = std::make_shared<AdaptiveState>();

@@ -33,7 +33,17 @@
 #include <functional>
 #include <chrono>
 #include <thread>
-#include "shard_rpc.pb.h"
+
+namespace themis {
+namespace sharding {
+namespace proto {
+class VectorClock;
+class ConfigUpdate;
+class ResourceSnapshot;
+class GossipMessage;
+} // namespace proto
+} // namespace sharding
+} // namespace themis
 
 namespace themis {
 namespace sharding {

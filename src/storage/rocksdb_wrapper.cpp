@@ -1529,8 +1529,9 @@ uint64_t RocksDBWrapper::getApproximateSize() const {
 
     // Fallback: estimate the size of the full key range using GetApproximateSizes
     // when the SST-size property is unavailable (e.g. some older builds).
-    // Use INCLUDE_FILES (bit 0 = 1) to count only on-disk SST file sizes.
-    static constexpr uint8_t kIncludeFiles = 1;  // rocksdb::DB::INCLUDE_FILES
+    // Use INCLUDE_FILES to count only on-disk SST file sizes.
+    static constexpr auto kIncludeFiles =
+        rocksdb::DB::SizeApproximationFlags::INCLUDE_FILES;
     rocksdb::Range full_range(
         rocksdb::Slice("\x00", 1),
         rocksdb::Slice("\xff\xff\xff\xff\xff\xff\xff\xff", 8));

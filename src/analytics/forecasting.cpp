@@ -267,7 +267,7 @@ static const bool kHasAVX512 = __builtin_cpu_supports("avx512f");
 #endif
 
 #if defined(__AVX2__)
-static double acov0_avx2(const double* __restrict__ y, size_t n,
+static double acov0_avx2(const double* y, size_t n,
                          double mean, int lag) noexcept {
     const size_t start = static_cast<size_t>(lag);
     double acc = 0.0;
@@ -295,7 +295,7 @@ static double acov0_avx2(const double* __restrict__ y, size_t n,
 #endif  // __AVX2__
 
 #if defined(__AVX512F__)
-static double acov0_avx512(const double* __restrict__ y, size_t n,
+static double acov0_avx512(const double* y, size_t n,
                             double mean, int lag) noexcept {
     const size_t start = static_cast<size_t>(lag);
     double acc = 0.0;

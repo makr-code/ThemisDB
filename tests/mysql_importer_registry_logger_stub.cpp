@@ -11,6 +11,10 @@
 
 #include "utils/logger.h"
 
+#ifdef ERROR
+#undef ERROR
+#endif
+
 namespace themis {
 namespace utils {
 

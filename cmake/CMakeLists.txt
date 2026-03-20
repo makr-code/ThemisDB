@@ -4684,20 +4684,23 @@ if(THEMIS_BUILD_TESTS)
     )
 
     # io_uring zero-copy I/O tests (Phase 4 – DPDK/io_uring network path, Issue #2217)
-    add_executable(test_io_uring_zero_copy
-        ${THEMIS_ROOT_DIR}/tests/performance/phase4/test_io_uring_zero_copy.cpp
-    )
-    target_link_libraries(test_io_uring_zero_copy
-        PRIVATE
-            themis_core
-            GTest::gtest
-            GTest::gtest_main
-    )
-    gtest_discover_tests(test_io_uring_zero_copy
-        DISCOVERY_MODE PRE_TEST
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_io_uring_zero_copy>
-        EXTRA_ARGS --gtest_color=yes
-    )
+    if(THEMIS_ENABLE_IO_URING)
+        add_executable(test_io_uring_zero_copy
+            ${THEMIS_ROOT_DIR}/tests/performance/phase4/test_io_uring_zero_copy.cpp
+        ${THEMIS_ROOT_DIR}/src/performance/phase4/io_uring_zero_copy.cpp
+        )
+        target_link_libraries(test_io_uring_zero_copy
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_io_uring_zero_copy
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_io_uring_zero_copy>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
 
     # GPU Graph Cache, Query Accelerator, and Stream Manager Tests
     # (Issue: #1801 — CUDA graph capture for recurring query execution patterns)

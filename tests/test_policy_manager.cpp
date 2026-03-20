@@ -866,7 +866,7 @@ TEST_F(PolicyManagerReloadTest, ReloadPolicies_EmitsPrometheusCounter) {
 
     ASSERT_TRUE(mgr->reloadPolicies(path));
 
-    const auto metrics = observability::MetricsCollector::getInstance().getPrometheusMetrics();
+    const auto metrics = themis::observability::MetricsCollector::getInstance().getPrometheusMetrics();
     EXPECT_NE(metrics.find("governance_policy_reload_total"), std::string::npos);
 }
 

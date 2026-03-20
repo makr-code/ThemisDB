@@ -584,7 +584,7 @@ struct SIMDAggResult {
 };
 
 // Aggregate SUM/MIN/MAX over a non-null double array in a single pass.
-static SIMDAggResult simdAggDouble(const double* __restrict__ data, size_t n) noexcept {
+static SIMDAggResult simdAggDouble(const double* data, size_t n) noexcept {
     SIMDAggResult r;
     if (n == 0) return r;
     r.count = static_cast<int64_t>(n);

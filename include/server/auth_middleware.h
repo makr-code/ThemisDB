@@ -148,11 +148,6 @@ public:
         const std::vector<std::string>& protected_scopes = {}
     );
 
-    /// Configure role-to-scope mapping used by JWT and Kerberos authorization.
-    /// Maps a role name to the set of scopes it grants (e.g., "admin" → {"admin","cache:read"}).
-    /// Calling this overrides any mapping previously loaded from the config file.
-    void setRoleScopeMapping(const std::unordered_map<std::string, std::unordered_set<std::string>>& mapping);
-
     /// Configure allowed tokens (typically loaded from config file)
     void addToken(const TokenConfig& config);
     void removeToken(std::string_view token);
@@ -233,14 +228,11 @@ private:
     std::unique_ptr<auth::ApiKeyAuthenticator> api_key_auth_;
     bool api_key_enabled_ = false;
 
-    // Role-to-scope mapping (role name → set of granted scopes).
-    // Populated from config/security/rbac_roles.yaml or via setRoleScopeMapping().
-    std::unordered_map<std::string, std::unordered_set<std::string>> role_scope_map_;
-    bool role_scope_map_loaded_ = false;  // true once a load attempt has been made
     // Role-to-scope mapping: role name → list of scopes that role grants.
     // Used as fallback in JWT and Kerberos authorization when direct scope
     // claims don't contain the required_scope.
     std::unordered_map<std::string, std::vector<std::string>> role_scope_map_;
+    bool role_scope_map_loaded_ = false;  // true once a load attempt has been made
 
     // Helper: check if scope is an admin scope requiring USB
     bool isAdminScope(std::string_view scope) const;

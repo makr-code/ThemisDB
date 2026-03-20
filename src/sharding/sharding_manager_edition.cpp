@@ -30,6 +30,7 @@
 #include <memory>
 #include <algorithm>
 #include "sharding/sharding_manager.h"
+#include "themis/runtime_license_gate.h"
 
 namespace themis {
 namespace sharding {
