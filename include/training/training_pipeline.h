@@ -198,6 +198,85 @@ using PipelineCallback = std::function<void(const std::string& stage,
                                             size_t step,
                                             const std::string& message)>;
 
+// ============================================================================
+// Hyperparameter search (Phase 2 – automated rank / lr sweep)
+// ============================================================================
+
+/**
+ * @brief Configuration for an automated hyperparameter search sweep.
+ *
+ * The search performs a Cartesian grid of (rank, lr) trials using a
+ * deterministic, seeded random trial ordering.  It is budget-aware:
+ * when `budget_seconds` elapses the best result seen so far is returned.
+ *
+ * Example usage:
+ * @code
+ * HyperparamSearchConfig cfg;
+ * cfg.rank_candidates = {4, 8, 16};
+ * cfg.lr_candidates   = {1e-4f, 3e-4f, 1e-3f};
+ * cfg.max_trials      = 6;
+ * cfg.budget_seconds  = 120.0;
+ *
+ * auto result = pipeline.runHyperparamSearch(cfg);
+ * std::cout << "Best rank=" << result.best_rank
+ *           << " lr=" << result.best_lr
+ *           << " val_loss=" << result.best_val_loss << "\n";
+ * @endcode
+ */
+struct HyperparamSearchConfig {
+    std::vector<int>   rank_candidates;    ///< LoRA rank values to try
+    std::vector<float> lr_candidates;      ///< Learning-rate values to try
+    size_t             max_trials         = 9;    ///< Hard cap on number of trials
+    double             budget_seconds     = 0.0;  ///< Wall-clock budget (0 = unlimited)
+    float              validation_split   = 0.1f; ///< Validation fraction for each trial
+    unsigned int       seed               = 42u;  ///< RNG seed for deterministic ordering
+
+    HyperparamSearchConfig() = default;
+};
+
+/**
+ * @brief Result for a single hyperparameter search trial.
+ */
+struct HyperparamTrialResult {
+    int    rank      = 0;
+    float  lr        = 0.0f;
+    double val_loss  = 0.0;
+    bool   success   = false;
+
+    HyperparamTrialResult() = default;
+};
+
+/**
+ * @brief Aggregated result of a hyperparameter search sweep.
+ *
+ * After a successful search the best configuration is automatically applied
+ * to the pipeline's internal trainer (rank, alpha, learning_rate, validation_split).
+ */
+struct HyperparamResult {
+    int    best_rank     = 0;
+    float  best_lr       = 0.0f;
+    double best_val_loss = 0.0;
+    bool   success       = false;
+    size_t trials_run    = 0;
+    double elapsed_seconds = 0.0;
+    std::string summary;
+
+    /** @brief Per-trial log; one entry per executed trial. */
+    std::vector<HyperparamTrialResult> trial_log;
+
+    HyperparamResult() = default;
+};
+
+/**
+ * @brief Per-trial progress callback for hyperparameter search.
+ *
+ * Called once after each trial completes.
+ * @param trial_index  Zero-based index of the completed trial.
+ * @param result       Result for that trial.
+ */
+using HyperparamSearchCallback =
+    std::function<void(size_t trial_index, const HyperparamTrialResult& result)>;
+
 /**
  * @brief Full training pipeline configuration (Phase 7)
  */
@@ -351,6 +430,30 @@ public:
      * @brief Get the last pipeline execution statistics
      */
     PipelineStats getLastStats() const;
+
+    /**
+     * @brief Run an automated hyperparameter search over rank × lr combinations.
+     *
+     * Generates the Cartesian product of `config.rank_candidates` and
+     * `config.lr_candidates`, shuffles the trial list with `config.seed` for
+     * deterministic ordering, then executes up to `config.max_trials` trials.
+     * Each trial clones the pipeline's trainer config with the trial's rank and
+     * learning rate and runs a single-pass training simulation.
+     *
+     * When `config.budget_seconds > 0` the search stops early once the wall-clock
+     * budget is exceeded and returns the best result seen so far.
+     *
+     * On success, the best (rank, lr) pair is automatically applied to the
+     * pipeline's internal trainer configuration so subsequent calls to
+     * `run()` or `runTraining()` use the optimised hyperparameters.
+     *
+     * @param config    Search configuration (candidates, budget, seed).
+     * @param callback  Optional per-trial callback.
+     * @return Search result with best rank, lr, val_loss, and trial log.
+     */
+    HyperparamResult runHyperparamSearch(
+        const HyperparamSearchConfig& config,
+        HyperparamSearchCallback callback = nullptr);
 
 private:
     class Impl;
