@@ -696,6 +696,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/utils/ner_detection_engine.cpp
     ../src/utils/pii_detector.cpp
     ../src/utils/pii_stream_scanner.cpp
+    ../src/utils/utils_adapters.cpp
     ../src/utils/retention_manager.cpp
     ../src/utils/pki_client.cpp
     
