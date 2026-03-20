@@ -1906,6 +1906,7 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/sampled_logger.cpp           # Sampling-based logger to avoid log flooding
     ../src/utils/timestamp_utils.cpp          # Timestamp formatting and conversion utilities
     ../src/utils/rate_limiter.cpp             # Token-bucket rate limiter (utils namespace)
+    ../src/utils/utils_adapters.cpp           # Concrete adapters for utils abstract interfaces
     
     # Updates (hot-reload)
     ../src/updates/release_manifest.cpp

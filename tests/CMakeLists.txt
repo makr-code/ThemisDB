@@ -4667,6 +4667,37 @@ else()
     message(STATUS "UtilsRateLimiter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_utils_rate_limiter.cpp")
 endif()
 
+# UtilsInterfaces Focused Tests (utils_interfaces.h + utils_adapters.h contract tests)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_utils_interfaces.cpp")
+    message(STATUS "Adding UtilsInterfaces focused tests")
+
+    add_executable(test_utils_interfaces_focused
+        test_utils_interfaces.cpp
+    )
+
+    target_link_libraries(test_utils_interfaces_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_utils_interfaces_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_TEST_MODE=1
+    )
+
+    add_test(NAME UtilsInterfacesFocusedTests COMMAND test_utils_interfaces_focused)
+
+    set_tests_properties(UtilsInterfacesFocusedTests PROPERTIES
+        LABELS "utils;interfaces;adapters;pii;audit;hkdf;sampler;pipeline;saga;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  UtilsInterfaces: IStreamingPIIDetector, IHashChainAuditLog, IHKDFKeyCache, IStructuredLogSampler, ISAGALogCompactor, IUtilsPipeline")
+else()
+    message(STATUS "UtilsInterfaces focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_utils_interfaces.cpp")
+endif()
+
 # RateLimiterV2 Focused Tests (TokenBucketRateLimiter + PerClientRateLimiter + Redis fallback)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rate_limiter_v2.cpp")
     message(STATUS "Adding RateLimiterV2 focused tests")
