@@ -33,6 +33,8 @@
 #include <sstream>
 #include <map>
 #include <cmath>
+#include <cstdint>
+#include <limits>
 
 namespace themis {
 namespace training {
@@ -385,6 +387,129 @@ public:
         calibrator_.addSample(category, confidence, correct);
     }
 
+    // -------------------------------------------------------------------------
+    // Phase 2: Automated hyperparameter search (rank × lr grid sweep)
+    // -------------------------------------------------------------------------
+    HyperparamResult runHyperparamSearch(const HyperparamSearchConfig& cfg,
+                                         HyperparamSearchCallback callback) {
+        HyperparamResult result;
+        if (cfg.rank_candidates.empty() || cfg.lr_candidates.empty()) {
+            result.summary = "No candidates provided; skipping search";
+            result.success = false;
+            return result;
+        }
+
+        auto search_start = std::chrono::steady_clock::now();
+
+        // Build the Cartesian product of (rank, lr) trial pairs
+        struct TrialPoint { int rank; float lr; };
+        std::vector<TrialPoint> trials;
+        trials.reserve(cfg.rank_candidates.size() * cfg.lr_candidates.size());
+        for (int r : cfg.rank_candidates) {
+            for (float lr : cfg.lr_candidates) {
+                trials.push_back({r, lr});
+            }
+        }
+
+        // Deterministic shuffle using the caller-supplied seed
+        // Fisher-Yates with a simple LCG to avoid a heavy RNG dependency
+        auto shuffle_lcg = [](std::vector<TrialPoint>& v, unsigned int seed) {
+            uint64_t state = static_cast<uint64_t>(seed) * 6364136223846793005ULL + 1442695040888963407ULL;
+            for (size_t i = v.size() - 1; i > 0; --i) {
+                state = state * 6364136223846793005ULL + 1442695040888963407ULL;
+                size_t j = static_cast<size_t>(state >> 33) % (i + 1);
+                std::swap(v[i], v[j]);
+            }
+        };
+        shuffle_lcg(trials, cfg.seed);
+
+        // Cap at max_trials
+        if (cfg.max_trials > 0 && trials.size() > cfg.max_trials) {
+            trials.resize(cfg.max_trials);
+        }
+
+        double best_val_loss = std::numeric_limits<double>::max();
+        int    best_rank = trials.empty() ? 0 : trials[0].rank;
+        float  best_lr   = trials.empty() ? 0.0f : trials[0].lr;
+
+        for (size_t i = 0; i < trials.size(); ++i) {
+            // Budget check: stop if wall-clock budget is exceeded
+            if (cfg.budget_seconds > 0.0) {
+                auto now = std::chrono::steady_clock::now();
+                double elapsed = std::chrono::duration<double>(now - search_start).count();
+                if (elapsed >= cfg.budget_seconds) {
+                    break;
+                }
+            }
+
+            const auto& trial = trials[i];
+
+            // Clone the base trainer config with trial hyperparameters
+            IncrementalTrainingConfig trial_cfg = config_.trainer_config;
+            trial_cfg.rank             = trial.rank;
+            trial_cfg.alpha            = static_cast<float>(trial.rank) * 2.0f;  // conventional: alpha = 2 * rank
+            trial_cfg.learning_rate    = trial.lr;
+            trial_cfg.validation_split = cfg.validation_split;
+
+            HyperparamTrialResult trial_result;
+            trial_result.rank = trial.rank;
+            trial_result.lr   = trial.lr;
+
+            try {
+                IncrementalLoRATrainer trial_trainer(trial_cfg, db_connection_);
+                TrainingResult tr = trial_trainer.train(TrainingMode::INITIAL);
+                trial_result.val_loss = tr.validation_loss;
+                trial_result.success  = tr.success;
+            } catch (const std::exception&) {
+                trial_result.val_loss = std::numeric_limits<double>::max();
+                trial_result.success  = false;
+            }
+
+            result.trial_log.push_back(trial_result);
+
+            if (trial_result.success && trial_result.val_loss < best_val_loss) {
+                best_val_loss = trial_result.val_loss;
+                best_rank     = trial.rank;
+                best_lr       = trial.lr;
+            }
+
+            if (callback) {
+                callback(i, trial_result);
+            }
+        }
+
+        result.trials_run    = result.trial_log.size();
+        result.best_rank     = best_rank;
+        result.best_lr       = best_lr;
+        result.best_val_loss = (best_val_loss == std::numeric_limits<double>::max())
+                               ? 0.0 : best_val_loss;
+        result.success       = result.trials_run > 0;
+
+        auto search_end = std::chrono::steady_clock::now();
+        result.elapsed_seconds =
+            std::chrono::duration<double>(search_end - search_start).count();
+
+        // Summarise
+        std::ostringstream oss;
+        oss << "Searched " << result.trials_run << " trials"
+            << "; best rank=" << best_rank
+            << " lr=" << best_lr
+            << " val_loss=" << result.best_val_loss;
+        result.summary = oss.str();
+
+        // Auto-apply the best hyperparameters to the pipeline's own trainer
+        if (result.success) {
+            config_.trainer_config.rank          = best_rank;
+            config_.trainer_config.alpha         = static_cast<float>(best_rank) * 2.0f;
+            config_.trainer_config.learning_rate = best_lr;
+            // Recreate the trainer with the updated config
+            trainer_ = std::make_unique<IncrementalLoRATrainer>(
+                config_.trainer_config, db_connection_);
+        }
+
+        return result;
+    }
+
 private:
     PipelineConfig                          config_;
     std::string                             db_connection_;
@@ -470,6 +595,12 @@ void TrainingPipeline::scheduleRetraining(size_t interval_hours, PipelineCallbac
 
 PipelineStats TrainingPipeline::getLastStats() const {
     return impl_->getLastStats();
+}
+
+HyperparamResult TrainingPipeline::runHyperparamSearch(
+        const HyperparamSearchConfig& config,
+        HyperparamSearchCallback callback) {
+    return impl_->runHyperparamSearch(config, std::move(callback));
 }
 
 // ============================================================================

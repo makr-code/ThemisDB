@@ -38,7 +38,7 @@ v1.x – Domain-specific AI fine-tuning toolchain for legal text. LegalAutoLabel
 - [x] `LoRACheckpointManager` integration in `IncrementalLoRATrainer` (Target: Q2 2026) — `IncrementalTrainingConfig.checkpoint_dir` field; when set, each `saveCheckpoint()` call delegates to `LoRACheckpointManager::save()` for atomic writes, SHA-256 integrity, and rolling-window rotation (3 checkpoints default)
 
 ## In Progress 🚧
-- [~] Automated hyperparameter search (LoRA rank, learning rate sweep) (Target: Q2 2026)
+- [x] Automated hyperparameter search (LoRA rank, learning rate sweep) (Target: Q2 2026) — `HyperparamSearchConfig`, `HyperparamResult`, `HyperparamTrialResult`, `HyperparamSearchCallback` in `training_pipeline.h`; `runHyperparamSearch()` in `training_pipeline.cpp`; 9 tests in `tests/test_training_pipeline_e2e.cpp`
   - Subsystems: `src/training/training_pipeline.cpp` (new `HyperparamSearch` inner class), `ConfidenceCalibrator`
   - Inputs: `HyperparamSearchConfig{rank_candidates, lr_candidates, max_trials, budget_seconds}`; validation split fraction
   - Outputs: `HyperparamResult{best_rank, best_lr, best_val_loss, trial_log}`; best config auto-applied to pipeline
@@ -90,7 +90,7 @@ v1.x – Domain-specific AI fine-tuning toolchain for legal text. LegalAutoLabel
 ### Phase 2: Adapter Management & Multi-Domain (Status: In Progress 🚧)
 - [?] Adapter version management: atomic deploy/rollback with integrity verification (Target: Q2 2026)
 - [?] Multi-domain support beyond German legal text (medical, financial) (Target: Q2 2026)
-- [?] Automated hyperparameter search (LoRA rank and learning rate sweep) (Target: Q2 2026)
+- [x] Automated hyperparameter search (LoRA rank and learning rate sweep) (Target: Q2 2026)
 - [?] Adapter serving integration with the LLM inference layer (Target: Q3 2026)
 
 ### Phase 3: Multi-Modality & Provenance (Status: Completed ✅)
