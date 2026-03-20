@@ -62,7 +62,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **sharding** | 🟡 Beta — Consensus and repair engine complete; advanced observability in progress | [src/sharding/ROADMAP.md](src/sharding/ROADMAP.md) |
 | **storage** | 🟡 Beta — RocksDB MVCC complete; production hardening in progress | [src/storage/ROADMAP.md](src/storage/ROADMAP.md) |
 | **temporal** | 🟡 Beta — Core conflict resolution complete; production hardening in progress | [src/temporal/ROADMAP.md](src/temporal/ROADMAP.md) |
-| **themis** | 🟡 Beta — Module loading and edition management complete; v1.7.0 migration planned | [src/themis/ROADMAP.md](src/themis/ROADMAP.md) |
+| **themis** | ✅ Production-ready — All core components migrated to `src/themis/`; Wire Protocol V2 delivered; integration tests added (v1.8.0) | [src/themis/ROADMAP.md](src/themis/ROADMAP.md) |
 | **timeseries** | ✅ Production-ready | [src/timeseries/ROADMAP.md](src/timeseries/ROADMAP.md) |
 | **training** | ✅ Production-ready (v1.x) | [src/training/ROADMAP.md](src/training/ROADMAP.md) |
 | **transaction** | ✅ Production-ready | [src/transaction/ROADMAP.md](src/transaction/ROADMAP.md) |

@@ -1472,6 +1472,24 @@ set_tests_properties(PluginWatchdogFocusedTests PROPERTIES
     TIMEOUT 60
 )
 
+# Themis integration tests (subset of AllTests)
+# Covers cross-component interactions:
+#   - License lifecycle × edition gate (active / expired / grace / status transitions)
+#   - Compile-time gate + runtime gate consistency across RuntimeLicenseGate and EditionManager
+#   - License expiry edge cases (grace period, multiple invalid statuses, contact email in error)
+#   - Dynamic feature override lifecycle (set → query → clear → re-query)
+#   - Build info consistency: module list, version summary, edition string
+#   - Module hash verifier round-trip and tamper detection via manifest
+#   - Build manifest export + verify round-trip
+#   - Full gate stack: compile-time → runtime-license → admin-override precedence
+#   (from test_themis_integration.cpp)
+add_test(NAME ThemisIntegrationTests
+    COMMAND themis_tests --gtest_filter=ThemisIntegrationTest.*)
+set_tests_properties(ThemisIntegrationTests PROPERTIES
+    LABELS "themis;integration;edition;license;module;hash;build-info"
+    TIMEOUT 120
+)
+
 # RemoteRegistryClient focused tests (subset of AllTests, Issue #155)
 # Covers: RegistryConfig defaults/assignment, max_total_retry_time_ms cap,
 #         RegistryPluginEntry defaults/assignment, PluginDownloadResult defaults,
