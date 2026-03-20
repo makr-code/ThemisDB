@@ -8,10 +8,11 @@ The Updates module provides ThemisDB's comprehensive update and migration system
 
 | Interface / File | Role |
 |-----------------|------|
-| `schema_migrator.cpp` | Schema migration execution and versioned rollback |
-| `update_manager.cpp` | Data update orchestration and release verification |
-| `version_tracker.cpp` | Schema and data version tracking |
-| `migration_registry.cpp` | Migration script registry and dependency ordering |
+| `in_place_schema_migrator.cpp` | In-place schema migration without data copy; preview, apply, rollback |
+| `coordinated_update_manager.cpp` | Multi-node update orchestration with replication-safe sequencing |
+| `cluster_update_manager.cpp` | Cluster-wide rolling update with leader-last ordering and health checks |
+| `update_history_logger.cpp` | Schema and data version tracking; who updated what and when |
+| `dependency_resolver.cpp` | Migration dependency ordering; topological sort and conflict resolution |
 
 ## Scope
 

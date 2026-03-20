@@ -245,6 +245,7 @@ public:
 ---
 
 ### Transaction Auditing
+**Status: ✅ Implemented** (v1.8.0)  
 **Target Version:** v1.8.0
 
 New header: `transaction_auditor.h`

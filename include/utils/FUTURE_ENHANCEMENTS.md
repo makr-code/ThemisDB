@@ -11,12 +11,12 @@
 
 ## Design Constraints
 
-- `[ ]` `IStreamingPIIDetector` is **stateless per-call**; no state is retained between `detect()` invocations; safe to call concurrently from multiple threads
-- `[ ]` `IHashChainAuditLog` is **append-only**; no delete or update methods exist on the public interface
-- `[ ]` `IHKDFKeyCache` enforces TTL **before** any key reuse; expired keys are evicted and re-derived, never served stale
-- `[ ]` `IStructuredLogSampler` sampling decision methods are `noexcept`; log sampling must never throw or abort a caller
-- `[ ]` `ISAGALogCompactor` compaction is **async and non-blocking**; `compact()` returns immediately and compaction proceeds in the background
-- `[ ]` Security events (audit log entries tagged `EventClass::Security`) are **never** subject to sampling; `IStructuredLogSampler` must always pass them through
+- `[x]` `IStreamingPIIDetector` is **stateless per-call**; no state is retained between `detect()` invocations; safe to call concurrently from multiple threads
+- `[x]` `IHashChainAuditLog` is **append-only**; no delete or update methods exist on the public interface
+- `[x]` `IHKDFKeyCache` enforces TTL **before** any key reuse; expired keys are evicted and re-derived, never served stale
+- `[x]` `IStructuredLogSampler` sampling decision methods are `noexcept`; log sampling must never throw or abort a caller
+- `[x]` `ISAGALogCompactor` compaction is **async and non-blocking**; `compact()` returns immediately and compaction proceeds in the background
+- `[x]` Security events (audit log entries tagged `EventClass::Security`) are **never** subject to sampling; `IStructuredLogSampler` must always pass them through
 
 ## Required Interfaces
 
@@ -33,43 +33,43 @@
 
 ### Streaming PII Detection and Pseudonymisation API
 
-- `[ ]` Define `IStreamingPIIDetector` with `detect(std::span<const std::byte> chunk) -> PIIDetectionResult`
-- `[ ]` `PIIDetectionResult` carries `containsPII` (bool), `categories` (`std::vector<PIICategory>`), `spanCount` — no original values
-- `[ ]` Add `pseudonymise(std::span<const std::byte> chunk) -> SanitisedChunk` replacing detected PII spans with deterministic pseudonyms
-- `[ ]` `SanitisedChunk` carries `sanitisedData` (byte span), `replacementCount`, `pseudonymMap` (opaque handle, not raw values)
-- `[ ]` Interface exposes `supportedCategories() -> std::span<const PIICategory>` for capability discovery
+- `[x]` Define `IStreamingPIIDetector` with `detect(std::span<const std::byte> chunk) -> PIIDetectionResult`
+- `[x]` `PIIDetectionResult` carries `containsPII` (bool), `categories` (`std::vector<PIICategory>`), `spanCount` — no original values
+- `[x]` Add `pseudonymise(std::span<const std::byte> chunk) -> SanitisedChunk` replacing detected PII spans with deterministic pseudonyms
+- `[x]` `SanitisedChunk` carries `sanitisedData` (byte span), `replacementCount`, `pseudonymMap` (opaque handle, not raw values)
+- `[x]` Interface exposes `supportedCategories() -> std::span<const PIICategory>` for capability discovery
 
 ### Hash-Chain Tamper-Evident Audit Log Interface
 
-- `[ ]` Define `IHashChainAuditLog` with `append(const AuditEvent&) -> EntryId`; each entry's hash includes the previous entry hash
-- `[ ]` Add `verifyChain(EntryId from, EntryId to) -> ChainVerifyResult` — verifies HMAC-SHA-256 chain integrity over a range
-- `[ ]` `ChainVerifyResult` carries `valid` (bool), `firstTamperedEntry` (optional `EntryId`), `verifiedCount`
-- `[ ]` Add `query(const AuditQuery&) -> AuditCursor` for paginated forward-only iteration; cursor is read-only and invalidated by new appends
-- `[ ]` Audit log exposes `entryCount() -> size_t` and `lastEntryId() -> EntryId` for health monitoring
+- `[x]` Define `IHashChainAuditLog` with `append(const AuditEvent&) -> EntryId`; each entry's hash includes the previous entry hash
+- `[x]` Add `verifyChain(EntryId from, EntryId to) -> ChainVerifyResult` — verifies HMAC-SHA-256 chain integrity over a range
+- `[x]` `ChainVerifyResult` carries `valid` (bool), `firstTamperedEntry` (optional `EntryId`), `verifiedCount`
+- `[x]` Add `query(const AuditQuery&) -> AuditCursor` for paginated forward-only iteration; cursor is read-only and invalidated by new appends
+- `[x]` Audit log exposes `entryCount() -> size_t` and `lastEntryId() -> EntryId` for health monitoring
 
 ### HKDF Key Derivation Cache API
 
-- `[ ]` Define `IHKDFKeyCache` with `derive(const KeyContext&) -> KeyHandle` — returns cached key if TTL has not expired, else re-derives
-- `[ ]` `KeyHandle` is move-only RAII; destructor zeroes key material in memory before release
-- `[ ]` Add `evict(const KeyContext&)` for explicit cache invalidation and `evictAll()` for emergency key cache flush
-- `[ ]` Expose `ttl(const KeyContext&) -> std::chrono::milliseconds` returning remaining lifetime; returns `0` for expired or absent keys
-- `[ ]` Cache exposes `cacheSize() -> size_t` and `maxCacheSize() -> size_t` for capacity monitoring; no method exposes raw key bytes
+- `[x]` Define `IHKDFKeyCache` with `derive(const KeyContext&) -> KeyHandle` — returns cached key if TTL has not expired, else re-derives
+- `[x]` `KeyHandle` is move-only RAII; destructor zeroes key material in memory before release
+- `[x]` Add `evict(const KeyContext&)` for explicit cache invalidation and `evictAll()` for emergency key cache flush
+- `[x]` Expose `ttl(const KeyContext&) -> std::chrono::milliseconds` returning remaining lifetime; returns `0` for expired or absent keys
+- `[x]` Cache exposes `cacheSize() -> size_t` and `maxCacheSize() -> size_t` for capacity monitoring; no method exposes raw key bytes
 
 ### Structured Log Sampling and Rate-Limiting Interface
 
-- `[ ]` Define `IStructuredLogSampler` with `shouldSample(const LogEntry&) noexcept -> bool`
-- `[ ]` Security events (`LogEntry::eventClass == EventClass::Security`) must always return `true`; this is a hard contract guaranteed by the interface
-- `[ ]` Add `recordDecision(const LogEntry&, bool sampled) noexcept` for feedback to adaptive rate-limiting algorithms
-- `[ ]` Expose `currentRate() -> double noexcept` (fraction 0.0–1.0) and `setTargetRate(double) noexcept`
-- `[ ]` Sampler exposes `sampledCount() -> size_t noexcept` and `droppedCount() -> size_t noexcept` for observability
+- `[x]` Define `IStructuredLogSampler` with `shouldSample(const LogEntry&) noexcept -> bool`
+- `[x]` Security events (`LogEntry::eventClass == EventClass::Security`) must always return `true`; this is a hard contract guaranteed by the interface
+- `[x]` Add `recordDecision(const LogEntry&, bool sampled) noexcept` for feedback to adaptive rate-limiting algorithms
+- `[x]` Expose `currentRate() -> double noexcept` (fraction 0.0–1.0) and `setTargetRate(double) noexcept`
+- `[x]` Sampler exposes `sampledCount() -> size_t noexcept` and `droppedCount() -> size_t noexcept` for observability
 
 ### SAGA Logger Compaction API
 
-- `[ ]` Define `ISAGALogCompactor` with `compact(SegmentRange) -> std::future<CompactionResult>` — returns immediately, compacts in background
-- `[ ]` `CompactionResult` carries `compactedSegments` (count), `bytesSaved`, `retainedEntries`, `durationMs`
-- `[ ]` Add `replay(SegmentId) -> ReplayIterator` for forward-only, read-only iteration over a compacted segment
-- `[ ]` `ReplayIterator` exposes `hasNext() -> bool`, `next() -> SAGALogEntry`, and `reset()` — no random access
-- `[ ]` Compaction explicitly preserves all committed SAGA entries; the interface documents that `compact()` never drops committed state
+- `[x]` Define `ISAGALogCompactor` with `compact(SegmentRange) -> std::future<CompactionResult>` — returns immediately, compacts in background
+- `[x]` `CompactionResult` carries `compactedSegments` (count), `bytesSaved`, `retainedEntries`, `durationMs`
+- `[x]` Add `replay(SegmentId) -> ReplayIterator` for forward-only, read-only iteration over a compacted segment
+- `[x]` `ReplayIterator` exposes `hasNext() -> bool`, `next() -> SAGALogEntry`, and `reset()` — no random access
+- `[x]` Compaction explicitly preserves all committed SAGA entries; the interface documents that `compact()` never drops committed state
 
 ## Test Strategy
 

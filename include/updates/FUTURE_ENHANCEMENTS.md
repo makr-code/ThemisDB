@@ -1,3 +1,6 @@
+<!-- Status: current | validated: 2026-03-20 -->
+<!-- Links: ../src/updates/README.md · ../src/updates/ROADMAP.md · ../src/updates/FUTURE_ENHANCEMENTS.md -->
+
 # Updates Module Headers - Future Enhancements
 
 ## Scope

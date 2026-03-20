@@ -421,6 +421,47 @@ public:
         Status bulkEraseEntities(std::string_view table,
                                  const std::vector<std::string>& pks);
 
+        // ── Read-Only Transaction Optimization ───────────────────────────────
+
+        /**
+         * @brief Mark this transaction as read-only.
+         *
+         * When @p read_only is true, any subsequent write operation (putEntity,
+         * eraseEntity, addEdge, deleteEdge, addVector, updateVector, removeVector,
+         * optimisticPut, optimisticErase, bulkPutEntities, bulkEraseEntities)
+         * will immediately return an error without modifying the write set.
+         * commit() on a read-only transaction is a no-op that releases the
+         * underlying snapshot without writing to the WAL.
+         *
+         * Calling setReadOnly(true) is rejected when the transaction already
+         * has writes in its write set (hasWrites() == true), because the
+         * read-only commit fast-path would silently discard those writes.
+         *
+         * @param read_only  true to enable read-only mode, false to disable.
+         * @return Status::OK() on success; error if the transaction is not
+         *         active, or if read_only=true but writes already exist.
+         */
+        Status setReadOnly(bool read_only = true);
+
+        /**
+         * @brief Return true if this transaction is in read-only mode.
+         *
+         * Read-only mode may be set explicitly via setReadOnly(true), or
+         * automatically detected after commit() when no writes were performed.
+         */
+        bool isReadOnly() const { return read_only_; }
+
+        /**
+         * @brief Return true if this transaction has accumulated any write
+         *        operations since it started (or since the last savepoint
+         *        rollback that undid all writes).
+         *
+         * Based on the write-set tracked for explain(); each putEntity,
+         * eraseEntity, addEdge, deleteEdge, addVector, optimisticPut, etc.
+         * contributes at least one entry.
+         */
+        bool hasWrites() const { return !write_set_.empty(); }
+
         // SAGA support
         Saga& getSaga() { return *saga_; }
         const Saga& getSaga() const { return *saga_; }
@@ -518,6 +559,9 @@ public:
         std::vector<SavepointEntry> savepoints_; ///< named savepoints in creation order
 
         std::vector<ExplainWriteEntry> write_set_; ///< write-set accumulated for explain()
+
+        /// When true, write operations are rejected and commit() is a no-op.
+        bool read_only_{false};
 
         /// Tenant namespace for this transaction.  Empty = global / default namespace.
         std::string tenant_id_;

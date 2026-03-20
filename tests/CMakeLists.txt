@@ -1472,6 +1472,24 @@ set_tests_properties(PluginWatchdogFocusedTests PROPERTIES
     TIMEOUT 60
 )
 
+# Themis integration tests (subset of AllTests)
+# Covers cross-component interactions:
+#   - License lifecycle × edition gate (active / expired / grace / status transitions)
+#   - Compile-time gate + runtime gate consistency across RuntimeLicenseGate and EditionManager
+#   - License expiry edge cases (grace period, multiple invalid statuses, contact email in error)
+#   - Dynamic feature override lifecycle (set → query → clear → re-query)
+#   - Build info consistency: module list, version summary, edition string
+#   - Module hash verifier round-trip and tamper detection via manifest
+#   - Build manifest export + verify round-trip
+#   - Full gate stack: compile-time → runtime-license → admin-override precedence
+#   (from test_themis_integration.cpp)
+add_test(NAME ThemisIntegrationTests
+    COMMAND themis_tests --gtest_filter=ThemisIntegrationTest.*)
+set_tests_properties(ThemisIntegrationTests PROPERTIES
+    LABELS "themis;integration;edition;license;module;hash;build-info"
+    TIMEOUT 120
+)
+
 # RemoteRegistryClient focused tests (subset of AllTests, Issue #155)
 # Covers: RegistryConfig defaults/assignment, max_total_retry_time_ms cap,
 #         RegistryPluginEntry defaults/assignment, PluginDownloadResult defaults,
@@ -4292,6 +4310,45 @@ else()
     message(STATUS "Transaction Batcher focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_batcher.cpp")
 endif()
 
+# Transaction Auditor Focused Tests (v1.8.0)
+# AC-1..25: enableAuditing, record, queryAuditLog (filters, limit, sort),
+#           size, clear, exportToKafka/S3, concurrent record()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_auditor.cpp")
+    message(STATUS "Adding Transaction Auditor focused tests (transaction, v1.8.0)")
+
+    add_executable(test_transaction_auditor_focused
+        test_transaction_auditor.cpp
+        ${CMAKE_SOURCE_DIR}/src/transaction/transaction_auditor.cpp
+    )
+
+    target_include_directories(test_transaction_auditor_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_transaction_auditor_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_transaction_auditor_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TransactionAuditorFocusedTests
+        COMMAND test_transaction_auditor_focused)
+
+    set_tests_properties(TransactionAuditorFocusedTests PROPERTIES
+        LABELS "transaction;audit;audit-trail;v1.8.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  TransactionAuditor: enableAuditing, record, queryAuditLog, size, clear, exportToKafka/S3, concurrent")
+else()
+    message(STATUS "Transaction Auditor focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_auditor.cpp")
+endif()
+
 # Transaction Manager Focused Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_manager.cpp")
     message(STATUS "Adding Transaction Manager focused tests")
@@ -4647,6 +4704,37 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_utils_rate_limiter.cpp")
     message(STATUS "  UtilsRateLimiter: try_acquire, acquire blocking, set_rate, available")
 else()
     message(STATUS "UtilsRateLimiter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_utils_rate_limiter.cpp")
+endif()
+
+# UtilsInterfaces Focused Tests (utils_interfaces.h + utils_adapters.h contract tests)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_utils_interfaces.cpp")
+    message(STATUS "Adding UtilsInterfaces focused tests")
+
+    add_executable(test_utils_interfaces_focused
+        test_utils_interfaces.cpp
+    )
+
+    target_link_libraries(test_utils_interfaces_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_utils_interfaces_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_TEST_MODE=1
+    )
+
+    add_test(NAME UtilsInterfacesFocusedTests COMMAND test_utils_interfaces_focused)
+
+    set_tests_properties(UtilsInterfacesFocusedTests PROPERTIES
+        LABELS "utils;interfaces;adapters;pii;audit;hkdf;sampler;pipeline;saga;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  UtilsInterfaces: IStreamingPIIDetector, IHashChainAuditLog, IHKDFKeyCache, IStructuredLogSampler, ISAGALogCompactor, IUtilsPipeline")
+else()
+    message(STATUS "UtilsInterfaces focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_utils_interfaces.cpp")
 endif()
 
 # RateLimiterV2 Focused Tests (TokenBucketRateLimiter + PerClientRateLimiter + Redis fallback)

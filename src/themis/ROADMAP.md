@@ -26,13 +26,13 @@ v1.8.0 – Wire Protocol V2 delivered (Phase 5): `V2Server` + `V2Session` with H
 - [x] Wire Protocol V2: `V2Server` + `V2Session` with HTTP/2-style multiplexing, server push, flow control, priority/dependency management (RFC 7540 §6.3/§5.3.1 compliant: stream_id=0 → GOAWAY, self-dependency → RST_STREAM), LZ4/Zstd compression; public header `include/themis/network/wire_protocol_v2.hpp`; 52 focused tests (WireProtocolV2FocusedTests); CI: `.github/workflows/wire-protocol-v2-ci.yml` (v1.8.0)
 
 ## In Progress 🚧
-- [~] `license_info.cpp` – implemented in `src/utils/`; pending migration to `src/themis/` (Target: Q2 2026, v1.7.0)
+- [x] `license_info.cpp` – migrated to `src/themis/` (zero stubs; replaces `src/utils/license_info.cpp` in both monolithic and modular builds) (Target: Q2 2026, v1.7.0)
 - [x] `module_loader.cpp` – migrated to `src/themis/` with platform-specific split (module_loader_win32.cpp, module_loader_linux.cpp, module_security.cpp) (Issue: #module-loader-implementation)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-See "In Progress" section above for `license_info.cpp` migration status. `module_loader.cpp` migration is complete (v1.7.0).
+All migration work is complete (v1.7.0): `license_info.cpp` and `module_loader.cpp` are in `src/themis/`.
 
 ### Long-term (6-12 months)
 - [I] Full modularization of monolithic build (split into loadable `.so` / `.dll` modules) (Issue: #2472)
@@ -87,14 +87,14 @@ See "In Progress" section above for `license_info.cpp` migration status. `module
 - [x] Unit tests for module loader core (tests/test_module_loader.cpp; CTest: ModuleLoaderFocusedTests)
 - [x] Unit tests for build info / reproducibility (tests/test_build_info.cpp; CTest: BuildInfoTests) – covers getBuildConfiguration(), getReproducibilityInfo(), exportBuildManifest(), verifyBuildManifest()
 - [x] Unit tests for Wire Protocol V2 (tests/test_wire_protocol_v2.cpp; CTest: WireProtocolV2FocusedTests) – 52 tests covering multiplexing, server push, flow control, priority/dependency management, RFC 7540 compliance guards, compression flags, state machine; CI: wire-protocol-v2-ci.yml
-- [?] Integration tests (module load, license validation, build info)
+- [x] Integration tests (license lifecycle × edition gate, module hash verifier + build-info cross-component, dynamic override lifecycle, full gate stack; tests/test_themis_integration.cpp; CTest: ThemisIntegrationTests)
 - [?] Performance benchmarks (module load time, license check overhead)
 - [?] Security audit (signature verification, constant-time license comparison)
 - [x] Documentation complete (ARCHITECTURE.md, README.md, ROADMAP.md, FUTURE_ENHANCEMENTS.md, Known Issues section)
 - [x] API stability guaranteed (public header include/themis/network/wire_protocol_server.hpp frozen for v1.x)
 
 ## Known Issues & Limitations
-- The `src/themis/` directory now contains all ten implementation files: `build_info.cpp`, `wire_protocol_server.cpp`, `module_dependency_resolver.cpp`, `edition_manager.cpp`, `module_hash_verifier.cpp`, `module_signature_verifier.cpp`, `module_loader.cpp`, `module_loader_win32.cpp`, `module_loader_linux.cpp`, and `module_security.cpp`. Only `license_info.cpp` remains in `src/utils/`, pending migration (see Planned Features).
+- The `src/themis/` directory now contains all eleven implementation files: `build_info.cpp`, `wire_protocol_server.cpp`, `module_dependency_resolver.cpp`, `edition_manager.cpp`, `module_hash_verifier.cpp`, `module_signature_verifier.cpp`, `module_loader.cpp`, `module_loader_win32.cpp`, `module_loader_linux.cpp`, `module_security.cpp`, and `license_info.cpp`.
 - `WireProtocolServer::sessions_` is never pruned when a session disconnects; the
   map grows monotonically and `active_sessions()` never decreases. Fixing this
   requires adding a disconnect-callback member to `WireProtocolSession`, which
@@ -106,8 +106,7 @@ See "In Progress" section above for `license_info.cpp` migration status. `module
 - `WireProtocolSession::write_buffer_` is shared across `send_error`, `send_ok`, and
   `async_write_response`. Concurrent calls from multiple threads are unsafe; within
   a single-threaded `io_context` event loop the design is correct.
-- LZ4 compress/decompress stubs return empty vectors; full implementation deferred
-  until the LZ4 dependency is unconditionally available across all build targets.
+- LZ4 compress/decompress are fully implemented in the network module (v1.7.0+). The earlier note about empty-vector stubs is no longer applicable; see `src/network/ROADMAP.md` for network-layer compression status.
 - `OpCode::PING` and `OpCode::PONG` share the same wire value (`0xFE`) in the
   frozen header; this is a pre-existing design decision.
 - Modularization is blocked on the v1.7.0 architectural refactor.

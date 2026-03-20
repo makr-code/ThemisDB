@@ -1,6 +1,6 @@
 [docs](../../index.md) > [de](../index.md) > [updates](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-03-16  
-**Status:** draft  
+**Datum:** 2026-03-20  
+**Status:** current  
 **Primary (Quelle der Wahrheit):**
 - `include/updates/FUTURE_ENHANCEMENTS.md`
 - `include/updates/README.md`
