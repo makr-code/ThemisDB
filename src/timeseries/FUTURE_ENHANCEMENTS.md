@@ -158,8 +158,11 @@ Add AES-256-GCM encryption to individual time series chunks in `tsstore.cpp` usi
 
 ## Security / Reliability
 
+- [x] The Gorilla SIMD decoder must validate chunk magic bytes and version headers before decoding to prevent corrupt chunk data from causing undefined behaviour in the SIMD path.
+  - `GorillaEncoder::finish()` prepends a 3-byte header: `kGorillaMagic0` (0x47 'G'), `kGorillaMagic1` (0x4F 'O'), `kGorillaCurrentVersion` (0x01).
+  - `GorillaDecoder` and `GorillaSIMDDecoder::decodeAll()` detect the header; unsupported version → `hasError()=true`, return 0 points.
+  - Legacy chunks (no header) are decoded transparently (backward-compatible).
 - [ ] Chunk-level AES-256-GCM encryption keys must be managed exclusively through `utils/lek_manager.cpp`; hard-coded or environment-variable keys are prohibited.
 - [ ] `retention.cpp` chunk deletion must be atomic at the chunk boundary and logged to `utils/audit_logger.cpp`; partially deleted chunks must be detected and repaired on startup.
-- [ ] The Gorilla SIMD decoder must validate chunk magic bytes and version headers before decoding to prevent corrupt chunk data from causing undefined behaviour in the SIMD path.
 - [?] Determine whether time series data containing legal event timestamps must be retained for a minimum period regardless of configured retention policy (regulatory constraint).
 - [x] `TSAutoBuffer` must not silently drop data under extreme backpressure: producers block on `backpressure_cv_` and receive `ERR_API_RESOURCE_EXHAUSTED` when the buffer is stopped during the wait. Non-adaptive mode still accepts data up to `max_memory_bytes` then forces a flush.

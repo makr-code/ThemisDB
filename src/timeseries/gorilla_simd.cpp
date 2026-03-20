@@ -306,8 +306,30 @@ GorillaSIMDDecoder::GorillaSIMDDecoder(std::vector<uint8_t> data)
 size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& out) {
     if (data_.empty()) return 0;
 
+    // Detect and validate the Gorilla chunk header (3 bytes: magic0, magic1, version).
+    // Legacy chunks (encoded before v1) have no header; fall through to decode as-is.
+    const uint8_t* payload_ptr  = data_.data();
+    size_t         payload_size = data_.size();
+
+    if (data_.size() >= 3 &&
+            data_[0] == kGorillaMagic0 &&
+            data_[1] == kGorillaMagic1) {
+        if (data_[2] != kGorillaCurrentVersion) {
+            error_ = true;
+            return 0;  // Unsupported chunk format version
+        }
+        payload_ptr  += 3;
+        payload_size -= 3;
+    }
+
+    if (payload_size == 0) return 0;
+
+    // Build a header-stripped vector for parse_gorilla_chunk (which needs a
+    // std::vector<uint8_t> reference via BitReader).
+    const std::vector<uint8_t> payload(payload_ptr, payload_ptr + payload_size);
+
     // Phase 1: parse the compressed bit-stream into intermediate arrays.
-    GorillaParsed parsed = parse_gorilla_chunk(data_);
+    GorillaParsed parsed = parse_gorilla_chunk(payload);
     error_ = parsed.error;
 
     const size_t subsequent = parsed.dods.size();  // == parsed.xorvals.size()

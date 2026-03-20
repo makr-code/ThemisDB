@@ -66,7 +66,7 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
   - Tests: 12 unit/integration tests in `tests/test_prometheus_remote_write.cpp`
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% — 49+ new tests added (test_downsampling, test_ts_adaptive_flush, test_prometheus_remote_write); focused standalone targets: `DownsamplingFocusedTests`, `TSAdaptiveFlushFocusedTests`, `PrometheusRemoteWriteFocusedTests`
+- [x] Unit tests coverage > 80% — 49+ new tests added (test_downsampling, test_ts_adaptive_flush, test_prometheus_remote_write, test_tsstore_out_of_order); focused standalone targets: `DownsamplingFocusedTests`, `TSAdaptiveFlushFocusedTests`, `PrometheusRemoteWriteFocusedTests`, `TSStoreOutOfOrderFocusedTests`
 - [x] Integration tests (compression round-trip, retention enforcement, aggregation accuracy)
 - [?] Performance benchmarks (ingestion rate, query latency, compression ratio)
 - [?] Security audit (time series key namespace isolation per tenant)
@@ -80,4 +80,4 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
 
 ## Breaking Changes
 - TSStore public API is stable from v1.x.
-- Gorilla compressed wire format is versioned; v2 format (with dictionary encoding) planned for v2.0.
+- Gorilla compressed wire format is versioned: v1 chunks are prefixed with a 3-byte header (`kGorillaMagic0`, `kGorillaMagic1`, `kGorillaCurrentVersion`). Legacy chunks (no header) are still decoded transparently. v2 format (with dictionary encoding) planned for v2.0.
