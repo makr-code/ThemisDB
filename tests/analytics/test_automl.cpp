@@ -683,6 +683,8 @@ TEST(KNNRegressorTest, PredictAtEndpoints) {
     DataPoint q1; q1.id = "q1"; q1.set("x", 1.0);
     double p1 = std::stod(model.predictOne(q1));
     EXPECT_NEAR(p1, 2.0, 0.5) << "KNN at x=1: expected ~2.0, got " << p1;
+}
+
 // KNN Regression accuracy: y = 2x  (issue #137 · item 10)
 // ============================================================================
 

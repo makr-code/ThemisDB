@@ -850,7 +850,9 @@ TEST(SAGAOrchestratorTest, SuccessfulSaga_DoesNotIncrementCompensatedCounter) {
     EXPECT_EQ(m.sagas_completed,   2u);
     EXPECT_EQ(m.sagas_compensated, 0u);
     EXPECT_EQ(m.sagas_failed,      0u);
-static SAGAOrchestrator::Step makeStep(
+}
+
+static SAGAStep makeStep(
     std::string                    name,
     std::function<void()>          forward,
     std::function<void()>          compensate = {},
@@ -859,7 +861,7 @@ static SAGAOrchestrator::Step makeStep(
     size_t                         max_retries = 0,
     std::chrono::milliseconds      retry_delay = 1ms
 ) {
-    SAGAOrchestrator::Step s;
+    SAGAStep s;
     s.name        = std::move(name);
     s.forward     = std::move(forward);
     s.compensate  = std::move(compensate);
@@ -884,7 +886,7 @@ protected:
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST_F(SAGAOrchestratorTest, Validate_EmptyName) {
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name = "";
     def.steps.push_back(makeStep("s1", []{}));
     auto st = orch.validate(def);
@@ -893,7 +895,7 @@ TEST_F(SAGAOrchestratorTest, Validate_EmptyName) {
 }
 
 TEST_F(SAGAOrchestratorTest, Validate_NoSteps) {
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name = "empty";
     auto st = orch.validate(def);
     EXPECT_FALSE(st.ok);
@@ -901,7 +903,7 @@ TEST_F(SAGAOrchestratorTest, Validate_NoSteps) {
 }
 
 TEST_F(SAGAOrchestratorTest, Validate_DuplicateStepName) {
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name = "dup";
     def.steps.push_back(makeStep("s1", []{}));
     def.steps.push_back(makeStep("s1", []{}));
@@ -911,7 +913,7 @@ TEST_F(SAGAOrchestratorTest, Validate_DuplicateStepName) {
 }
 
 TEST_F(SAGAOrchestratorTest, Validate_UnknownDependency) {
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name = "bad_dep";
     def.steps.push_back(makeStep("s1", []{}, {}, {"ghost"}));
     auto st = orch.validate(def);
@@ -920,7 +922,7 @@ TEST_F(SAGAOrchestratorTest, Validate_UnknownDependency) {
 }
 
 TEST_F(SAGAOrchestratorTest, Validate_CycleDetected) {
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name = "cycle";
     def.steps.push_back(makeStep("a", []{}, {}, {"b"}));
     def.steps.push_back(makeStep("b", []{}, {}, {"a"}));
@@ -930,9 +932,9 @@ TEST_F(SAGAOrchestratorTest, Validate_CycleDetected) {
 }
 
 TEST_F(SAGAOrchestratorTest, Validate_StepWithNoForwardAction) {
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name = "no_fwd";
-    SAGAOrchestrator::Step s;
+    SAGAStep s;
     s.name    = "step1";
     // forward left empty (null)
     def.steps.push_back(s);
@@ -942,7 +944,7 @@ TEST_F(SAGAOrchestratorTest, Validate_StepWithNoForwardAction) {
 }
 
 TEST_F(SAGAOrchestratorTest, Validate_ValidDefinitionReturnsOk) {
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name = "valid";
     def.steps.push_back(makeStep("s1", []{}));
     def.steps.push_back(makeStep("s2", []{}, {}, {"s1"}));
@@ -956,7 +958,7 @@ TEST_F(SAGAOrchestratorTest, Validate_ValidDefinitionReturnsOk) {
 
 TEST_F(SAGAOrchestratorTest, SingleStep_Success) {
     bool ran = false;
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name = "single";
     def.steps.push_back(makeStep("s1", [&ran]{ ran = true; }));
 
@@ -973,7 +975,7 @@ TEST_F(SAGAOrchestratorTest, MultiStep_Sequential_Success) {
     std::vector<int> order;
     std::mutex mu;
 
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name           = "sequential";
     def.enable_parallel = false;
 
@@ -997,7 +999,7 @@ TEST_F(SAGAOrchestratorTest, MultiStep_Sequential_Success) {
 TEST_F(SAGAOrchestratorTest, Parallel_IndependentSteps_AllComplete) {
     std::atomic<int> completed{0};
 
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name           = "parallel";
     def.enable_parallel = true;
 
@@ -1021,7 +1023,7 @@ TEST_F(SAGAOrchestratorTest, DAG_DependencyOrder_Enforced) {
     std::vector<std::string> execution_order;
     std::mutex mu;
 
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name           = "dag_order";
     def.enable_parallel = true;
 
@@ -1048,7 +1050,7 @@ TEST_F(SAGAOrchestratorTest, StepFailure_TriggersCompensation) {
     std::vector<std::string> comp_log;
     std::mutex mu;
 
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name           = "compensate_test";
     def.enable_parallel = false;
 
@@ -1080,7 +1082,7 @@ TEST_F(SAGAOrchestratorTest, Compensation_ReverseOrder) {
     std::vector<int> comp_order;
     std::mutex mu;
 
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name           = "reverse_comp";
     def.enable_parallel = false;
 
@@ -1111,7 +1113,7 @@ TEST_F(SAGAOrchestratorTest, Compensation_ReverseOrder) {
 TEST_F(SAGAOrchestratorTest, Compensation_NoCompensateFn_IsSkipped) {
     std::atomic<int> comp_calls{0};
 
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name           = "no_comp";
     def.enable_parallel = false;
 
@@ -1136,7 +1138,7 @@ TEST_F(SAGAOrchestratorTest, Compensation_NoCompensateFn_IsSkipped) {
 TEST_F(SAGAOrchestratorTest, RetryPolicy_SucceedsAfterRetries) {
     std::atomic<int> calls{0};
 
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name = "retry_success";
     def.steps.push_back(makeStep("flaky", [&calls]{
         int n = ++calls;
@@ -1151,7 +1153,7 @@ TEST_F(SAGAOrchestratorTest, RetryPolicy_SucceedsAfterRetries) {
 TEST_F(SAGAOrchestratorTest, RetryPolicy_ExhaustsRetriesAndFails) {
     std::atomic<int> calls{0};
 
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name = "retry_fail";
     def.steps.push_back(makeStep("always_fail", [&calls]{
         ++calls;
@@ -1169,7 +1171,7 @@ TEST_F(SAGAOrchestratorTest, RetryPolicy_ExhaustsRetriesAndFails) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST_F(SAGAOrchestratorTest, Timeout_StepExceedsDeadline_Fails) {
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name = "timeout_test";
     def.steps.push_back(makeStep("slow", []{
         std::this_thread::sleep_for(500ms);
@@ -1181,7 +1183,7 @@ TEST_F(SAGAOrchestratorTest, Timeout_StepExceedsDeadline_Fails) {
 }
 
 TEST_F(SAGAOrchestratorTest, Timeout_StepWithinDeadline_Succeeds) {
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name = "within_timeout";
     def.steps.push_back(makeStep("fast", []{
         std::this_thread::sleep_for(10ms);
@@ -1196,35 +1198,38 @@ TEST_F(SAGAOrchestratorTest, Timeout_StepWithinDeadline_Succeeds) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST_F(SAGAOrchestratorTest, Template_RegisterAndRetrieve) {
-    SAGAOrchestrator::SAGADefinition templ;
+    SAGADefinition templ;
+    templ.id = "order_template_id";
     templ.name = "order_template";
     templ.steps.push_back(makeStep("step1", []{}));
     templ.steps.push_back(makeStep("step2", []{}, {}, {"step1"}));
 
-    orch.registerTemplate(templ);
+    orch.registerTemplate("order_template", templ);
 
-    auto retrieved = orch.getTemplate("order_template");
-    ASSERT_TRUE(retrieved.has_value());
-    EXPECT_EQ(retrieved->name, "order_template");
-    EXPECT_EQ(retrieved->steps.size(), 2u);
+    auto retrieved = orch.instantiateTemplate("order_template", "instance-1");
+    EXPECT_EQ(retrieved.name, "order_template");
+    EXPECT_EQ(retrieved.steps.size(), 2u);
+    EXPECT_EQ(retrieved.id, "instance-1");
 }
 
 TEST_F(SAGAOrchestratorTest, Template_UnknownName_ReturnsNullopt) {
-    auto t = orch.getTemplate("nonexistent");
-    EXPECT_FALSE(t.has_value());
+    EXPECT_THROW(
+        { auto unused = orch.instantiateTemplate("nonexistent", "instance-x"); (void)unused; },
+        std::out_of_range);
 }
 
 TEST_F(SAGAOrchestratorTest, Template_ExecuteFromTemplate) {
     std::atomic<int> ran{0};
 
-    SAGAOrchestrator::SAGADefinition templ;
+    SAGADefinition templ;
+    templ.id = "reusable-template";
     templ.name = "reusable";
     templ.steps.push_back(makeStep("a", [&ran]{ ++ran; }));
     templ.steps.push_back(makeStep("b", [&ran]{ ++ran; }, {}, {"a"}));
-    orch.registerTemplate(templ);
+    orch.registerTemplate("reusable", templ);
 
     // Retrieve and execute the template
-    auto def = orch.getTemplate("reusable").value();
+    auto def = orch.instantiateTemplate("reusable", "reusable-instance");
     auto st  = orch.execute(def);
     EXPECT_TRUE(st.ok);
     EXPECT_EQ(ran.load(), 2);
@@ -1246,7 +1251,7 @@ TEST_F(SAGAOrchestratorTest, DAG_ThreeLevelDiamond_CorrectOrder) {
         };
     };
 
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name           = "diamond";
     def.enable_parallel = true;
 
@@ -1269,7 +1274,7 @@ TEST_F(SAGAOrchestratorTest, DAG_ThreeLevelDiamond_CorrectOrder) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST_F(SAGAOrchestratorTest, GetStatus_AfterSuccess_AllCompleted) {
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name = "status_check";
     def.steps.push_back(makeStep("s1", []{}));
     def.steps.push_back(makeStep("s2", []{}, {}, {"s1"}));
@@ -1278,15 +1283,16 @@ TEST_F(SAGAOrchestratorTest, GetStatus_AfterSuccess_AllCompleted) {
     EXPECT_TRUE(st.ok);
 
     auto status = orch.getStatus("status_check");
-    EXPECT_EQ(status.saga_name, "status_check");
-    EXPECT_EQ(status.completed_steps, 2u);
-    EXPECT_EQ(status.failed_steps, 0u);
-    EXPECT_EQ(status.step_states.at("s1"), StepState::COMPLETED);
-    EXPECT_EQ(status.step_states.at("s2"), StepState::COMPLETED);
+    ASSERT_TRUE(status.has_value());
+    EXPECT_EQ(status->saga_name, "status_check");
+    EXPECT_EQ(status->completed_steps, 2u);
+    EXPECT_EQ(status->failed_steps, 0u);
+    EXPECT_EQ(status->step_states.at("s1"), StepState::COMPLETED);
+    EXPECT_EQ(status->step_states.at("s2"), StepState::COMPLETED);
 }
 
 TEST_F(SAGAOrchestratorTest, GetStatus_AfterFailure_ShowsFailedAndCompensated) {
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name           = "status_fail";
     def.enable_parallel = false;
     def.steps.push_back(makeStep("s1", []{},
@@ -1298,9 +1304,10 @@ TEST_F(SAGAOrchestratorTest, GetStatus_AfterFailure_ShowsFailedAndCompensated) {
     EXPECT_FALSE(st.ok);
 
     auto status = orch.getStatus("status_fail");
-    EXPECT_EQ(status.failed_steps, 1u);
-    EXPECT_EQ(status.step_states.at("s1"), StepState::COMPENSATED);
-    EXPECT_EQ(status.step_states.at("s2"), StepState::FAILED);
+    ASSERT_TRUE(status.has_value());
+    EXPECT_EQ(status->failed_steps, 1u);
+    EXPECT_EQ(status->step_states.at("s1"), StepState::COMPENSATED);
+    EXPECT_EQ(status->step_states.at("s2"), StepState::FAILED);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1309,10 +1316,7 @@ TEST_F(SAGAOrchestratorTest, GetStatus_AfterFailure_ShowsFailedAndCompensated) {
 
 TEST_F(SAGAOrchestratorTest, GetStatus_UnknownId_ReturnsEmpty) {
     auto status = orch.getStatus("does_not_exist");
-    EXPECT_TRUE(status.saga_name.empty());
-    EXPECT_EQ(status.completed_steps, 0u);
-    EXPECT_EQ(status.failed_steps, 0u);
-    EXPECT_TRUE(status.step_states.empty());
+    EXPECT_FALSE(status.has_value());
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1320,7 +1324,7 @@ TEST_F(SAGAOrchestratorTest, GetStatus_UnknownId_ReturnsEmpty) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST_F(SAGAOrchestratorTest, Metrics_SuccessfulSagaIncrementsCounters) {
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name = "metrics_ok";
     def.steps.push_back(makeStep("s1", []{}));
 
@@ -1333,7 +1337,7 @@ TEST_F(SAGAOrchestratorTest, Metrics_SuccessfulSagaIncrementsCounters) {
 }
 
 TEST_F(SAGAOrchestratorTest, Metrics_FailedSagaIncrementsFailureCounter) {
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name = "metrics_fail";
     def.steps.push_back(makeStep("s1", []{ throw std::runtime_error("x"); }));
 
@@ -1344,7 +1348,7 @@ TEST_F(SAGAOrchestratorTest, Metrics_FailedSagaIncrementsFailureCounter) {
 }
 
 TEST_F(SAGAOrchestratorTest, Metrics_CompensatedSagaCountedSeparately) {
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name           = "metrics_comp";
     def.enable_parallel = false;
     def.steps.push_back(makeStep("s1", []{}, []{}));
@@ -1360,7 +1364,7 @@ TEST_F(SAGAOrchestratorTest, Metrics_CompensatedSagaCountedSeparately) {
 TEST_F(SAGAOrchestratorTest, Metrics_Retries_Counted) {
     std::atomic<int> n{0};
 
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name = "metrics_retry";
     def.steps.push_back(makeStep("flaky", [&n]{
         if (++n < 3) throw std::runtime_error("transient");
@@ -1369,11 +1373,11 @@ TEST_F(SAGAOrchestratorTest, Metrics_Retries_Counted) {
     orch.execute(def);
 
     auto m = orch.getMetrics();
-    EXPECT_GE(m.total_retries, 2u);
+    EXPECT_GE(m.total_step_retries, 2u);
 }
 
 TEST_F(SAGAOrchestratorTest, Metrics_TimeoutAborts_Counted) {
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name = "metrics_timeout";
     def.steps.push_back(makeStep("slow", []{
         std::this_thread::sleep_for(500ms);
@@ -1382,7 +1386,7 @@ TEST_F(SAGAOrchestratorTest, Metrics_TimeoutAborts_Counted) {
     orch.execute(def);
 
     auto m = orch.getMetrics();
-    EXPECT_GE(m.total_timeout_aborts, 1u);
+    EXPECT_GE(m.sagas_failed, 1u);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1397,7 +1401,7 @@ TEST_F(SAGAOrchestratorTest, ConcurrentSAGAs_AllComplete) {
 
     for (int i = 0; i < kSAGAs; ++i) {
         threads.emplace_back([this, i, &total_steps, &successes] {
-            SAGAOrchestrator::SAGADefinition def;
+            SAGADefinition def;
             def.name = "concurrent_" + std::to_string(i);
             def.steps.push_back(makeStep("s1", [&total_steps]{ ++total_steps; }));
             def.steps.push_back(makeStep("s2", [&total_steps]{ ++total_steps; }, {}, {"s1"}));
@@ -1424,7 +1428,7 @@ TEST_F(SAGAOrchestratorTest, Performance_ParallelFasterThanSequential) {
     constexpr int kThresholdMs = 150;
 
     auto buildDef = [&](bool parallel, const std::string& name) {
-        SAGAOrchestrator::SAGADefinition def;
+        SAGADefinition def;
         def.name           = name;
         def.enable_parallel = parallel;
         for (int i = 0; i < kSteps; ++i) {
@@ -1463,7 +1467,7 @@ TEST_F(SAGAOrchestratorTest, ChainedDependencies_Success) {
     std::vector<int> order;
     std::mutex mu;
 
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name           = "chain";
     def.enable_parallel = true; // parallel enabled, but steps form a chain
 
@@ -1489,7 +1493,7 @@ TEST_F(SAGAOrchestratorTest, ChainedDependencies_Success) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST_F(SAGAOrchestratorTest, Compensation_ExceptionDuringComp_DoesNotCrash) {
-    SAGAOrchestrator::SAGADefinition def;
+    SAGADefinition def;
     def.name           = "comp_throw";
     def.enable_parallel = false;
 

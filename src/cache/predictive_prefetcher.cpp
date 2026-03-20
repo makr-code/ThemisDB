@@ -329,6 +329,7 @@ void PredictivePrefetcher::saveModel(RocksDBWrapper* db) {
     db->scanPrefix(PREFETCH_MODEL_PREFIX,
         [&](std::string_view key, std::string_view /*value*/) {
             stale_keys.emplace_back(key);
+            return true;
         });
 
     // Step 2: batch-delete all existing prefix keys
@@ -376,21 +377,21 @@ void PredictivePrefetcher::loadModel(RocksDBWrapper* db) {
 
             // Split on "::" separator
             const auto sep_pos = pair_str.find("::");
-            if (sep_pos == std::string::npos) return;
+            if (sep_pos == std::string::npos) return true;
 
             std::string from = pair_str.substr(0, sep_pos);
             std::string to   = pair_str.substr(sep_pos + 2);
 
-            if (from.empty() || to.empty()) return;
+            if (from.empty() || to.empty()) return true;
 
             nlohmann::json val;
             try {
                 val = nlohmann::json::parse(raw_value);
             } catch (...) {
-                return;
+                return true;
             }
 
-            if (!val.contains("count")) return;
+            if (!val.contains("count")) return true;
             uint32_t count = val["count"].get<uint32_t>();
 
             // Ensure source key entry exists (no FIFO eviction during load)
@@ -399,7 +400,7 @@ void PredictivePrefetcher::loadModel(RocksDBWrapper* db) {
                     ordered_keys_.push_back(from);
                     transitions_[from] = {};
                 } else {
-                    return;  // Table full; skip
+                    return true;  // Table full; skip
                 }
             }
 
@@ -424,6 +425,7 @@ void PredictivePrefetcher::loadModel(RocksDBWrapper* db) {
                     arr[h] = std::max(arr[h], val["tod"][h].get<uint32_t>());
                 }
             }
+            return true;
         });
 }
 

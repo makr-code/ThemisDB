@@ -218,6 +218,43 @@ struct BackendHealthStatus {
     }
 };
 
+/**
+ * @brief Result returned by `IComputeBackend::submitSimilarityKernel()`.
+ *
+ * FP tolerance guarantee: results produced by hardware-accelerated paths must
+ * agree with the CPU baseline within <= 1e-6 relative error for FP32 inputs.
+ */
+struct SimilarityKernelResult {
+    // Per-query top-k results as (corpus_id, distance) pairs, sorted ascending
+    // by distance. Outer index = query index; inner index = rank.
+    std::vector<std::vector<std::pair<uint32_t, float>>> results;
+
+    DistanceMetric metric_used    = DistanceMetric::L2;
+    PrecisionMode  precision_used = PrecisionMode::FP32;
+    bool           used_hw_path   = false;
+    double         speedup_vs_cpu = 1.0;
+};
+
+// Input descriptor for a batched similarity kernel invocation.
+struct BatchDescriptor {
+    const float* queries     = nullptr;
+    size_t       num_queries = 0;
+    size_t       dim         = 0;
+    const float* vectors     = nullptr;
+    size_t       num_vectors = 0;
+    size_t       k           = 1;
+};
+
+// Plain-data runtime configuration for a compute kernel dispatch.
+struct KernelConfig {
+    uint32_t       block_size = 256;
+    uint32_t       grid_size  = 0;
+    uint32_t       shared_mem = 0;
+    DistanceMetric metric     = DistanceMetric::L2;
+    PrecisionMode  precision  = PrecisionMode::FP32;
+    bool           async_exec = false;
+};
+
 // Base interface for compute backends
 class IComputeBackend {
 public:
@@ -814,14 +851,7 @@ struct WorkloadDescriptor {
  * All pointers are host pointers for CPU backends; GPU backends are
  * responsible for any required host-to-device transfers.
  */
-struct BatchDescriptor {
-    const float* queries     = nullptr;  ///< Row-major [num_queries × dim] (host)
-    size_t       num_queries = 0;        ///< Number of query vectors
-    size_t       dim         = 0;        ///< Vector dimensionality
-    const float* vectors     = nullptr;  ///< Row-major [num_vectors × dim] (host)
-    size_t       num_vectors = 0;        ///< Number of corpus vectors
-    size_t       k           = 1;        ///< Top-k neighbours per query
-};
+// BatchDescriptor is defined before IComputeBackend.
 
 // =============================================================================
 // KernelConfig — plain-data runtime parameters for a compute kernel
@@ -836,14 +866,7 @@ struct BatchDescriptor {
  * Backend implementations translate this struct into the corresponding
  * device-specific launch parameters (e.g. `dim3 blockDim` for CUDA).
  */
-struct KernelConfig {
-    uint32_t       block_size  = 256;               ///< CUDA threads-per-block (ignored on CPU)
-    uint32_t       grid_size   = 0;                 ///< CUDA blocks (0 = auto-select)
-    uint32_t       shared_mem  = 0;                 ///< Shared memory in bytes per block
-    DistanceMetric metric      = DistanceMetric::L2; ///< Distance metric for similarity kernels
-    PrecisionMode  precision   = PrecisionMode::FP32; ///< Arithmetic precision
-    bool           async_exec  = false;             ///< Submit without blocking (async path)
-};
+// KernelConfig is defined before IComputeBackend.
 
 // =============================================================================
 // KernelDescriptor — combined batch + config + optional named kernel
@@ -866,22 +889,7 @@ struct KernelDescriptor {
 // SimilarityKernelResult — return value of submitSimilarityKernel()
 // =============================================================================
 
-/**
- * @brief Result returned by `IComputeBackend::submitSimilarityKernel()`.
- *
- * FP tolerance guarantee: results produced by hardware-accelerated paths must
- * agree with the CPU baseline within ≤ 1e-6 relative error for FP32 inputs.
- */
-struct SimilarityKernelResult {
-    /// Per-query top-k results as (corpus_id, distance) pairs, sorted ascending
-    /// by distance.  Outer index = query index; inner index = rank.
-    std::vector<std::vector<std::pair<uint32_t, float>>> results;
-
-    DistanceMetric  metric_used      = DistanceMetric::L2;
-    PrecisionMode   precision_used   = PrecisionMode::FP32;
-    bool            used_hw_path     = false;  ///< True when a GPU kernel was used
-    double          speedup_vs_cpu   = 1.0;    ///< Estimated speedup vs scalar CPU baseline
-};
+// SimilarityKernelResult is defined before IComputeBackend.
 
 // =============================================================================
 // IComputeBackend::submitSimilarityKernel() — default virtual method

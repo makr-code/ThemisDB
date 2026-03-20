@@ -224,20 +224,26 @@ endif()
 # This allows the compiler to optimize across translation units
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
-    # Check if IPO/LTO is supported
-    include(CheckIPOSupported)
-    check_ipo_supported(RESULT ipo_supported OUTPUT ipo_error)
-    
-    if(ipo_supported)
-        # Enable IPO/LTO for all targets
-        set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
-
-        # Let CMake handle compiler/linker-specific IPO flags per target.
-        # This avoids global /GL injection that conflicts with targets which
-        # must disable IPO (e.g. WINDOWS_EXPORT_ALL_SYMBOLS def generation).
-        message(STATUS "IPO/LTO enabled via CMAKE_INTERPROCEDURAL_OPTIMIZATION")
+    # On Windows, IPO probing links a test binary and requires initialized MSVC
+    # LIB paths. Skip probing when LIB is unavailable (e.g. plain shells).
+    if(WIN32 AND "$ENV{LIB}" STREQUAL "")
+        message(WARNING "IPO/LTO skipped on Windows: LIB environment is not initialized")
     else()
-        message(WARNING "IPO/LTO not supported: ${ipo_error}")
+        # Check if IPO/LTO is supported
+        include(CheckIPOSupported)
+        check_ipo_supported(RESULT ipo_supported OUTPUT ipo_error)
+
+        if(ipo_supported)
+            # Enable IPO/LTO for all targets
+            set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+
+            # Let CMake handle compiler/linker-specific IPO flags per target.
+            # This avoids global /GL injection that conflicts with targets which
+            # must disable IPO (e.g. WINDOWS_EXPORT_ALL_SYMBOLS def generation).
+            message(STATUS "IPO/LTO enabled via CMAKE_INTERPROCEDURAL_OPTIMIZATION")
+        else()
+            message(WARNING "IPO/LTO not supported: ${ipo_error}")
+        endif()
     endif()
 else()
     message(STATUS "IPO/LTO skipped (only enabled in Release mode)")

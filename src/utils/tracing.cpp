@@ -68,6 +68,10 @@ namespace themis {
 // SamplingStrategy
 // ─────────────────────────────────────────────────────────────────────────────
 
+SamplingStrategy SamplingStrategy::adaptive() {
+    return adaptive(AdaptiveConfig{});
+}
+
 SamplingStrategy SamplingStrategy::adaptive(AdaptiveConfig config) {
     SamplingStrategy s(Type::ADAPTIVE, config.min_rate);
     s.adaptive_config_ = config;

@@ -16692,24 +16692,7 @@ else()
     message(STATUS "TSStore Gorilla Buffer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tsstore_gorilla_buffer.cpp")
 endif()
 
-# SAGA Orchestration Engine Focused Tests (Issue #4043, v1.8.0)
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_saga_orchestrator.cpp")
-    message(STATUS "Adding SAGA Orchestration Engine focused tests")
-
-    add_executable(test_saga_orchestrator_focused
-        test_saga_orchestrator.cpp
-        ${CMAKE_SOURCE_DIR}/src/transaction/saga_orchestrator.cpp
-    )
-
-    target_include_directories(test_saga_orchestrator_focused PRIVATE
-# ---------------------------------------------------------------------------
 # PredictivePrefetcher Markov ML model focused tests (v1.8.0)
-# Covers all four acceptance criteria:
-#   AC-1  Markov chain + ToD bucketing   (time-of-day weighted candidates)
-#   AC-2  RocksDB persistence            (save/load round-trip via prefetch_model:: prefix)
-#   AC-3  MetricsCollector emission      (cache.prefetch.hit_rate + overhead_bytes)
-#   AC-4  A/B test toggle                (50/50 tenant split, per-group counters)
-# ---------------------------------------------------------------------------
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_predictive_prefetcher_markov.cpp" AND NOT TARGET test_predictive_prefetcher_markov_focused)
     message(STATUS "Adding PredictivePrefetcher Markov ML focused tests (cache, v1.8.0)")
 
@@ -16749,16 +16732,6 @@ else()
 endif()
 
 # Versioned API Routing focused tests (v1.8.0)
-# AC-VAR-1..4   RouteVersionRouter redirect / normalize / strip prefix
-# AC-VAR-5..9   POST /v2/documents (handleBulkNdjson): NDJSON accept, 415,
-#               inserted count, auto-key, per-line error reporting, 10 k limit
-# AC-VAR-10     AsyncJobRegistry default TTL = 1 h (3600 s)
-# AC-VAR-11..13 AsyncJobApiHandler: submit 202, status poll, cancel
-# AC-VAR-14..15 GET /v2/query/stream: missing-q 400, text/event-stream CT
-# AC-VAR-16     Bulk insert of 10,000 x 256-byte docs in < 500 ms
-# AC-VAR-17     SSE first-byte latency < 5 ms
-# AC-VAR-18     AsyncJobApiHandler persists completed job in AdaptiveQueryCache
-# ---------------------------------------------------------------------------
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_versioned_api_routing.cpp")
     message(STATUS "Adding Versioned API Routing focused tests (server, v1.8.0)")
 
@@ -16794,21 +16767,7 @@ else()
     message(STATUS "Versioned API Routing focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_versioned_api_routing.cpp")
 endif()
 
-# CUDA HNSW Large-k Focused Tests (Issue #132, v1.8.0)
-#
-# Validates:
-#   AC-1  k=257 returns exactly 257 results (no silent truncation)
-#   AC-2  k=512 returns exactly 512 results
-#   AC-3  k=1024 returns exactly 1024 results (new single-pass kMaxK boundary)
-#   AC-4  k=1025 uses multi-pass strategy and returns 1025 results
-#   AC-5  k > 1024 surfaces BackendHealthStatus::makeDegraded() in release builds
-#   AC-6  Results are sorted ascending by score for k=512
-#   AC-7  Multiple queries with k=257 each return k results
-#
-# Uses CudaHnswTraversalEngine which transparently falls back to the CPU path
-# when no CUDA device is available, so no GPU hardware is required.
-# ============================================================================
-
+# CUDA HNSW Large-k focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cuda_hnsw_large_k.cpp")
     message(STATUS "Adding CUDA HNSW Large-k focused tests (acceleration, Issue #132, v1.8.0)")
 
@@ -16837,34 +16796,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cuda_hnsw_large_k.cpp")
         LABELS "acceleration;cuda;hnsw;large-k;v1.8.0;focused;unit"
         TIMEOUT 120
     )
-
-    message(STATUS "  CudaHnswLargeK: k=257, k=512, k=1024, k=1025 multi-pass, health degraded")
 else()
     message(STATUS "CUDA HNSW Large-k focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cuda_hnsw_large_k.cpp")
 endif()
 
-# ============================================================================
-# Compute Interface Extensions Focused Tests
-# (include/acceleration/FUTURE_ENHANCEMENTS.md items — v1.8.0)
-# Tests DeviceCapabilityFlags, DeviceSet, CancellationToken, DispatchStats,
-# ComputeFuture<T>, IDeviceCapabilityQuery, IMultiGPUSelector (32-thread
-# safety), IKernelRegistry, IAsyncComputeDispatch, IVulkanComputeBackend
-# PODs, submitSimilarityKernel() CPU fallback.
-#   AC-1  DeviceCapabilityFlags bitmask operations and KNOWN_VALID_MASK
-#   AC-2  DeviceSet capacity, push(), range-for
-#   AC-3  CancellationToken copy-shares flag; concurrent cancel safe
-#   AC-4  DispatchStats kernel_latency_ns() / total_latency_ns()
-#   AC-5  ComputeFuture make_ready, make_exceptional, async producer
-#   AC-6  ComputeFuture cancel after completion (no-op)
-#   AC-7  ComputeFuture then() continuation invokable
-#   AC-8  Mock IDeviceCapabilityQuery: invalid index → NONE
-#   AC-9  IMultiGPUSelector thread-safety: 32 concurrent threads
-#   AC-10 IKernelRegistry register/resolve/deregister
-#   AC-11 IAsyncComputeDispatch mock returns valid future
-#   AC-12 submitSimilarityKernel() L2 CPU fallback returns sorted results
-#   AC-13 VulkanPipelineHandle/Config/DeviceInfo default values
-#   AC-14 Trivial-copyability static assertions for POD types
-# ============================================================================
+# Compute interfaces focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_compute_interfaces.cpp")
     message(STATUS "Adding ComputeInterfaces focused tests (acceleration interface extensions, v1.8.0)")
 
@@ -16877,28 +16813,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_compute_interfaces.cpp")
         ${CMAKE_SOURCE_DIR}/src
     )
 
-    target_link_libraries(test_saga_orchestrator_focused PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_saga_orchestrator_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME SAGAOrchestratorFocusedTests
-        COMMAND test_saga_orchestrator_focused)
-
-    set_tests_properties(SAGAOrchestratorFocusedTests PROPERTIES
-        LABELS "transaction;saga;orchestrator;parallel;dag;v1.8.0;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  SAGAOrchestrator: parallel DAG execution, conditional branching, retry, timeout, templates, workflow designer")
-else()
-    message(STATUS "SAGA Orchestrator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_saga_orchestrator.cpp")
     target_link_libraries(test_compute_interfaces_focused PRIVATE
         ${TEST_LIBS}
         themis_core

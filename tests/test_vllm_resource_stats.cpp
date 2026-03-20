@@ -245,6 +245,8 @@ TEST(VLLMResourceStatsTest, CacheHit_CompletesUnder2ms) {
         << elapsed_us << " µs)";
     EXPECT_GE(stats.cpu_utilization, 0.0);
     EXPECT_LE(stats.cpu_utilization, 100.0);
+}
+
 // Mock-NVML provider tests — verify canUseGPU() / queryGPUUtilization()
 // decision logic without real GPU hardware (runs in CI).
 //
