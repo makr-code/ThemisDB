@@ -39,6 +39,8 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Adaptive Deadlock Prevention – `DeadlockPredictor` with probability scoring, lock-order recommendation, and adaptive timeouts (Target: v1.9.0)
 - [x] Distributed Transaction Coordinator (2PC) – `DistributedTransactionManager` with parallel prepare/commit phases, WAL-backed coordinator crash recovery, timeout-based abort, and failure detection (Target: v1.9.0) (Issue: #123)
 - [x] Write Batching and Coalescing – `TransactionBatcher` with configurable batch window (1–100 ms), per-table/per-key policies, fair FIFO scheduling, adaptive batch sizing, and aggregate stats (Target: v1.8.0)
+- [x] Read-Only Transaction Optimization – `Transaction::setReadOnly()`, `isReadOnly()`, `hasWrites()` with write-guard on all mutation paths and no-op WAL commit fast-path (Target: v1.8.0)
+- [x] Transaction Audit Trail – `TransactionAuditor` with append-only in-memory log, `enableAuditing()`, `record()`, `queryAuditLog()` (filters: user_id, start/end time, limit), `size()`, `clear()`, thread-safe concurrent recording; `exportToKafka()` / `exportToS3()` stubs (Target: v1.8.0)
 
 ## In Progress 🚧
 > All Phase 3, Phase 4, Phase 5, Phase 6, and Phase 7 items are now complete.
@@ -68,6 +70,19 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
   `flush()`, per-table `BatchPolicy`, adaptive window, and `Stats`; 26 tests in
   `tests/test_transaction_batcher.cpp` (`TransactionBatcherFocusedTests`);
   CI: `.github/workflows/transaction-write-batching-ci.yml`
+- [x] Read-Only Transaction Optimization (Target: v1.8.0)
+  — implemented in `include/transaction/transaction_manager.h`, `src/transaction/transaction_manager.cpp`;
+  `Transaction::setReadOnly(bool)`, `isReadOnly()`, `hasWrites()` with write-guard on all mutation
+  paths (`putEntity`, `eraseEntity`, `addEdge`, `deleteEdge`, `addVector`, `updateVector`, `removeVector`,
+  `optimisticPut`, `optimisticErase`, `bulkPutEntities`, `bulkEraseEntities`) and a no-op WAL commit
+  fast-path for read-only transactions.
+- [x] Transaction Audit Trail (Target: v1.8.0)
+  — implemented in `include/transaction/transaction_auditor.h`, `src/transaction/transaction_auditor.cpp`;
+  standalone `TransactionAuditor` with `enableAuditing()`, `record()`, `queryAuditLog()` (filters:
+  user_id, start/end time, limit; sorted most-recent-first), `size()`, `clear()`, and thread-safe
+  concurrent recording; `exportToKafka()` / `exportToS3()` placeholder stubs; 25 tests in
+  `tests/test_transaction_auditor.cpp` (`TransactionAuditorFocusedTests`);
+  CI: `.github/workflows/transaction-audit-trail-ci.yml`
 
 ## Implementation Phases
 
@@ -155,13 +170,33 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Tests: `tests/test_transaction_batcher.cpp` (26 tests, `TransactionBatcherFocusedTests`)
 - [x] CI: `.github/workflows/transaction-write-batching-ci.yml`
 
+### Phase 8: Read-Only Optimization & Transaction Audit Trail (Status: Completed ✅)
+- [x] `Transaction::setReadOnly(bool)` – mark a transaction as read-only; returns error if writes already exist (Target: v1.8.0)
+  — implemented in `include/transaction/transaction_manager.h`, `src/transaction/transaction_manager.cpp`
+- [x] `Transaction::isReadOnly()` – returns the current read-only flag
+- [x] `Transaction::hasWrites()` – returns true when the write set is non-empty
+- [x] Write-guard on all mutation paths: `putEntity`, `eraseEntity`, `addEdge`, `deleteEdge`, `addVector`, `updateVector`, `removeVector`, `optimisticPut`, `optimisticErase`, `bulkPutEntities`, `bulkEraseEntities` all reject writes when `read_only_` is set
+- [x] Read-only fast-path in `commit()`: releases the RocksDB snapshot without writing to the WAL when `read_only_` is true
+- [x] `TransactionAuditor` – standalone, thread-safe, append-only in-memory transaction audit log (Target: v1.8.0)
+  — implemented in `include/transaction/transaction_auditor.h`, `src/transaction/transaction_auditor.cpp`
+- [x] `AuditRecord` – full transaction record: txn_id, user_id, session_id, timestamp, isolation level, operations, result, duration_us
+- [x] `Operation` – per-mutation record: type (PUT/DELETE/ADD_EDGE/DELETE_EDGE/ADD_VECTOR), table, key, old_value, new_value
+- [x] `enableAuditing(bool)` / `isEnabled()` – toggle and query auditing state
+- [x] `record(AuditRecord)` – append-only record under mutex; no-op when auditing is disabled
+- [x] `queryAuditLog(user_id, start_time, end_time, limit)` – filtered query, sorted most-recent-first, capped at limit (default 1000; 0 = all)
+- [x] `size()` / `clear()` – count and reset operations for the in-memory log
+- [x] `exportToKafka(topic)` / `exportToS3(bucket, prefix)` – placeholder stubs returning `Status::Error` (future integration)
+- [x] Thread-safe: `enableAuditing`, `record`, `queryAuditLog`, `size`, `clear` all safe for concurrent callers
+- [x] Tests: `tests/test_transaction_auditor.cpp` (25 tests, `TransactionAuditorFocusedTests`)
+- [x] CI: `.github/workflows/transaction-audit-trail-ci.yml`
+
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (Verified: Q1 2026) — Primary: `tests/test_savepoints.cpp` (20 savepoint tests); bulk API: `tests/test_transaction_bulk.cpp` (12 tests); SagaOperation: `tests/test_saga_operation.cpp` (8 tests covering `indexPutWithCompensation`, `graphAddWithCompensation`, `putEntityWithCompensation`, `deleteEntityWithCompensation`, `vectorAddWithCompensation`); supplementary: `tests/test_transaction_isolation_levels.cpp`, `tests/test_transaction_manager.cpp`, `tests/test_postgres_transactions.cpp`; standalone focused targets: `TransactionManagerFocusedTests`, `TransactionIsolationLevelsFocusedTests`, `SAGALoggerFocusedTests`, `SAGACompactorFocusedTests`, `ShardingTransactionWALFocusedTests`, `MultiShardTransactionFocusedTests`, `DistributedTransactionsFocusedTests`, `PostgresTransactionFocusedTests`, `AQLMultiStatementTransactionFocusedTests`, `DbTransactionIsolationFocusedTests`, `TransactionDistributed2PCFocusedTests`, `TransactionBatcherFocusedTests`
+- [x] Unit tests coverage > 80% (Verified: Q1 2026) — Primary: `tests/test_savepoints.cpp` (20 savepoint tests); bulk API: `tests/test_transaction_bulk.cpp` (12 tests); SagaOperation: `tests/test_saga_operation.cpp` (8 tests covering `indexPutWithCompensation`, `graphAddWithCompensation`, `putEntityWithCompensation`, `deleteEntityWithCompensation`, `vectorAddWithCompensation`); supplementary: `tests/test_transaction_isolation_levels.cpp`, `tests/test_transaction_manager.cpp`, `tests/test_postgres_transactions.cpp`; standalone focused targets: `TransactionManagerFocusedTests`, `TransactionIsolationLevelsFocusedTests`, `SAGALoggerFocusedTests`, `SAGACompactorFocusedTests`, `ShardingTransactionWALFocusedTests`, `MultiShardTransactionFocusedTests`, `DistributedTransactionsFocusedTests`, `PostgresTransactionFocusedTests`, `AQLMultiStatementTransactionFocusedTests`, `DbTransactionIsolationFocusedTests`, `TransactionDistributed2PCFocusedTests`, `TransactionBatcherFocusedTests`, `TransactionAuditorFocusedTests`
 - [x] Integration tests (commit, rollback, SAGA compensation, deadlock detection) — savepoint+SAGA integration covered in `test_savepoints.cpp`; bulk API atomicity in `test_transaction_bulk.cpp`; DistributedSAGA in `test_distributed_saga.cpp` (631 lines, DAG execution, retry, compensation ordering, metrics); concurrent SAGA in `test_saga_concurrent_execution.cpp`; 2PC coordinator in `test_transaction_distributed_2pc.cpp` (concurrent transactions, partial commit rollback, prepare timeout)
 - [x] Performance benchmarks (TPS, lock contention, MVCC overhead) — `OccOptimisticPut`, `OccReadVersionAndUpdate`, `OccOptimisticErase`, `SavepointCreateAndRollback`, `SavepointNested`, `SavepointRelease` in `benchmarks/bench_transaction_throughput.cpp`
 - [x] Security audit (transaction isolation boundary, SAGA compensating action safety) — isolation boundary enforced via `LockManager` (EXCLUSIVE locks block SHARED readers; shrinking-phase enforcement prevents new lock acquisitions after first release, tested in `TransactionIsolationLevelsFocusedTests`); SAGA compensation safety verified via idempotent compensating functions in `test_saga_operation.cpp` and `test_distributed_saga.cpp`
-- [x] Documentation complete — named savepoint API documented in `src/transaction/README.md`; bulk API documented in `include/transaction/transaction_manager.h`; time-travel query API documented in `include/transaction/transaction_manager.h`; 2PC coordinator API documented in `include/transaction/distributed_transaction_manager.h`; `TransactionBatcher` API documented in `include/transaction/transaction_batcher.h`; `FUTURE_ENHANCEMENTS.md` updated; `ROADMAP.md` updated
-- [x] API stability guaranteed — `TransactionManager` public API stable from v1.x; savepoint API added as non-breaking extension; `DistributedTransactionManager` API stable from v1.9.0; `TransactionBatcher` API stable from v1.8.0
+- [x] Documentation complete — named savepoint API documented in `src/transaction/README.md`; bulk API documented in `include/transaction/transaction_manager.h`; time-travel query API documented in `include/transaction/transaction_manager.h`; 2PC coordinator API documented in `include/transaction/distributed_transaction_manager.h`; `TransactionBatcher` API documented in `include/transaction/transaction_batcher.h`; `TransactionAuditor` API documented in `include/transaction/transaction_auditor.h`; read-only optimization documented in `include/transaction/transaction_manager.h`; `FUTURE_ENHANCEMENTS.md` updated; `ROADMAP.md` updated
+- [x] API stability guaranteed — `TransactionManager` public API stable from v1.x; savepoint API added as non-breaking extension; `DistributedTransactionManager` API stable from v1.9.0; `TransactionBatcher` API stable from v1.8.0; `TransactionAuditor` API stable from v1.8.0; read-only optimization API stable from v1.8.0
 
 ## Known Issues & Limitations
 - Individual `Transaction` objects are NOT thread-safe; use from a single thread.
