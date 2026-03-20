@@ -1838,6 +1838,9 @@ set(THEMIS_CORE_SOURCES
     ../src/temporal/snapshot_manager.cpp
     ../src/temporal/retention_manager.cpp
     ../src/temporal/bitemporal_join.cpp
+    ../src/temporal/interval_tree_index.cpp
+    ../src/temporal/temporal_compressor.cpp
+    ../src/temporal/temporal_cdc.cpp
     
     ../src/timeseries/timeseries.cpp
     ../src/timeseries/timeseries_metrics.cpp
@@ -4281,6 +4284,76 @@ if(THEMIS_BUILD_TESTS)
                 TIMEOUT 60
         )
         message(STATUS "  TemporalSnapshotManager: versioning, GC (TTL + max-count), metadata, isolation")
+    endif()
+
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_interval_tree_index.cpp")
+        add_executable(test_interval_tree_index
+            ${THEMIS_ROOT_DIR}/tests/temporal/test_interval_tree_index.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/interval_tree_index.cpp
+        )
+        target_include_directories(test_interval_tree_index
+            PRIVATE ${THEMIS_ROOT_DIR}/include
+        )
+        target_link_libraries(test_interval_tree_index
+            PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
+        )
+        gtest_discover_tests(test_interval_tree_index
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_interval_tree_index>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+            PROPERTIES
+                LABELS "temporal;interval-tree;unit"
+                TIMEOUT 60
+        )
+        message(STATUS "  IntervalTreeIndex: augmented interval tree, O(log n + k) overlap queries")
+    endif()
+
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_compressor.cpp")
+        add_executable(test_temporal_compressor
+            ${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_compressor.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/temporal_compressor.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/system_versioned_table.cpp
+        )
+        target_include_directories(test_temporal_compressor
+            PRIVATE ${THEMIS_ROOT_DIR}/include
+        )
+        target_link_libraries(test_temporal_compressor
+            PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
+        )
+        gtest_discover_tests(test_temporal_compressor
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_compressor>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+            PROPERTIES
+                LABELS "temporal;compressor;unit"
+                TIMEOUT 60
+        )
+        message(STATUS "  TemporalCompressor: delta/ZSTD/Gorilla/dictionary compression")
+    endif()
+
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_cdc.cpp")
+        add_executable(test_temporal_cdc
+            ${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_cdc.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/temporal_cdc.cpp
+        )
+        target_include_directories(test_temporal_cdc
+            PRIVATE ${THEMIS_ROOT_DIR}/include
+        )
+        target_link_libraries(test_temporal_cdc
+            PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
+        )
+        gtest_discover_tests(test_temporal_cdc
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_cdc>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+            PROPERTIES
+                LABELS "temporal;cdc;unit"
+                TIMEOUT 60
+        )
+        message(STATUS "  TemporalCDC: subscribe/publish/replay change data capture")
     endif()
 
     add_executable(test_ts_auto_buffer_adaptive

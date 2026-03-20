@@ -773,6 +773,9 @@ set(THEMIS_TRANSACTION_SOURCES
     ../src/temporal/snapshot_manager.cpp
     ../src/temporal/temporal_aggregator.cpp
     ../src/temporal/bitemporal_join.cpp
+    ../src/temporal/interval_tree_index.cpp
+    ../src/temporal/temporal_compressor.cpp
+    ../src/temporal/temporal_cdc.cpp
     
     # Replication
     ../src/replication/replication_manager.cpp
