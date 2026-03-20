@@ -565,6 +565,7 @@ for (auto& f : futures) {
 ---
 
 ### Read-Only Transaction Optimization
+**Status: ✅ Implemented** (v1.8.0)  
 **Priority:** Low  
 **Target Version:** v1.8.0
 
@@ -683,6 +684,7 @@ saga_coordinator.executeDistributed(saga);
 ---
 
 ### Transaction Audit Trail
+**Status: ✅ Implemented** (v1.8.0)  
 **Priority:** Medium  
 **Target Version:** v1.8.0
 

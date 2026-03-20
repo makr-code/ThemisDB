@@ -4310,6 +4310,45 @@ else()
     message(STATUS "Transaction Batcher focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_batcher.cpp")
 endif()
 
+# Transaction Auditor Focused Tests (v1.8.0)
+# AC-1..25: enableAuditing, record, queryAuditLog (filters, limit, sort),
+#           size, clear, exportToKafka/S3, concurrent record()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_auditor.cpp")
+    message(STATUS "Adding Transaction Auditor focused tests (transaction, v1.8.0)")
+
+    add_executable(test_transaction_auditor_focused
+        test_transaction_auditor.cpp
+        ${CMAKE_SOURCE_DIR}/src/transaction/transaction_auditor.cpp
+    )
+
+    target_include_directories(test_transaction_auditor_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_transaction_auditor_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_transaction_auditor_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TransactionAuditorFocusedTests
+        COMMAND test_transaction_auditor_focused)
+
+    set_tests_properties(TransactionAuditorFocusedTests PROPERTIES
+        LABELS "transaction;audit;audit-trail;v1.8.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  TransactionAuditor: enableAuditing, record, queryAuditLog, size, clear, exportToKafka/S3, concurrent")
+else()
+    message(STATUS "Transaction Auditor focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_auditor.cpp")
+endif()
+
 # Transaction Manager Focused Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_manager.cpp")
     message(STATUS "Adding Transaction Manager focused tests")

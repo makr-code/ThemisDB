@@ -980,9 +980,24 @@ TransactionManager::Transaction& TransactionManager::Transaction::operator=(Tran
     return *this;
 }
 
+// ---------------------------------------------------------------------------
+// Read-Only Transaction Optimization
+// ---------------------------------------------------------------------------
+
+TransactionManager::Status TransactionManager::Transaction::setReadOnly(bool read_only)
+{
+    if (!mvcc_txn_ || !mvcc_txn_->isActive())
+        return Status::Error("setReadOnly: keine aktive Transaktion");
+    if (read_only && !write_set_.empty())
+        return Status::Error("setReadOnly: cannot set read-only flag after writes have been made");
+    read_only_ = read_only;
+    return Status::OK();
+}
+
 TransactionManager::Status TransactionManager::Transaction::putEntity(std::string_view table, const BaseEntity& entity) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("putEntity: keine aktive Transaktion");
     if (isTimedOut()) return Status::Error("putEntity: transaction timed out");
+    if (read_only_) return Status::Error("putEntity: transaction is read-only");
     
     // Serialize entity
     auto serialized = entity.serialize();
@@ -1027,6 +1042,7 @@ TransactionManager::Status TransactionManager::Transaction::putEntity(std::strin
 TransactionManager::Status TransactionManager::Transaction::eraseEntity(std::string_view table, std::string_view pk) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("eraseEntity: keine aktive Transaktion");
     if (isTimedOut()) return Status::Error("eraseEntity: transaction timed out");
+    if (read_only_) return Status::Error("eraseEntity: transaction is read-only");
     
     std::string key = makeNamespacedKey(std::string("entity:") + std::string(table) + ":" + std::string(pk));
 
@@ -1069,6 +1085,7 @@ TransactionManager::Status TransactionManager::Transaction::eraseEntity(std::str
 TransactionManager::Status TransactionManager::Transaction::addEdge(const BaseEntity& edgeEntity) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("addEdge: keine aktive Transaktion");
     if (isTimedOut()) return Status::Error("addEdge: transaction timed out");
+    if (read_only_) return Status::Error("addEdge: transaction is read-only");
     
     // Graph edges stored with MVCC
     std::string edge_key = makeNamespacedKey("graph:edge:" + edgeEntity.getPrimaryKey());
@@ -1096,6 +1113,7 @@ TransactionManager::Status TransactionManager::Transaction::addEdge(const BaseEn
 TransactionManager::Status TransactionManager::Transaction::deleteEdge(std::string_view edgeId) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("deleteEdge: keine aktive Transaktion");
     if (isTimedOut()) return Status::Error("deleteEdge: transaction timed out");
+    if (read_only_) return Status::Error("deleteEdge: transaction is read-only");
     
     std::string edge_key = makeNamespacedKey("graph:edge:" + std::string(edgeId));
 
@@ -1120,6 +1138,7 @@ TransactionManager::Status TransactionManager::Transaction::deleteEdge(std::stri
 TransactionManager::Status TransactionManager::Transaction::addVector(const BaseEntity& entity, std::string_view vectorField) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("addVector: keine aktive Transaktion");
     if (isTimedOut()) return Status::Error("addVector: transaction timed out");
+    if (read_only_) return Status::Error("addVector: transaction is read-only");
     
     std::string pk = entity.getPrimaryKey();
 
@@ -1158,6 +1177,7 @@ TransactionManager::Status TransactionManager::Transaction::addVector(const Base
 TransactionManager::Status TransactionManager::Transaction::updateVector(const BaseEntity& entity, std::string_view vectorField) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("updateVector: keine aktive Transaktion");
     if (isTimedOut()) return Status::Error("updateVector: transaction timed out");
+    if (read_only_) return Status::Error("updateVector: transaction is read-only");
     
     // Capture old vector BEFORE the write.  If we read after the put(), the MVCC
     // read-your-own-writes buffer would return the new value instead of the original.
@@ -1210,6 +1230,7 @@ TransactionManager::Status TransactionManager::Transaction::updateVector(const B
 TransactionManager::Status TransactionManager::Transaction::removeVector(std::string_view pk) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("removeVector: keine aktive Transaktion");
     if (isTimedOut()) return Status::Error("removeVector: transaction timed out");
+    if (read_only_) return Status::Error("removeVector: transaction is read-only");
     
     // Capture old vector BEFORE the delete.  If we read after del(), the MVCC
     // read-your-own-writes buffer would return nothing instead of the original value.
@@ -1313,6 +1334,8 @@ TransactionManager::Status TransactionManager::Transaction::optimisticPut(
         return Status::Error("optimisticPut: keine aktive Transaktion");
     if (isTimedOut())
         return Status::Error("optimisticPut: transaction timed out");
+    if (read_only_)
+        return Status::Error("optimisticPut: transaction is read-only");
 
     const std::string pk    = entity.getPrimaryKey();
     const std::string verKey = makeNamespacedKey(versionKey(table, pk));
@@ -1368,6 +1391,8 @@ TransactionManager::Status TransactionManager::Transaction::optimisticErase(
         return Status::Error("optimisticErase: keine aktive Transaktion");
     if (isTimedOut())
         return Status::Error("optimisticErase: transaction timed out");
+    if (read_only_)
+        return Status::Error("optimisticErase: transaction is read-only");
 
     const std::string verKey = makeNamespacedKey(versionKey(table, pk));
 
@@ -1423,6 +1448,8 @@ TransactionManager::Status TransactionManager::Transaction::bulkPutEntities(
         return Status::Error("bulkPutEntities: keine aktive Transaktion");
     if (isTimedOut())
         return Status::Error("bulkPutEntities: transaction timed out");
+    if (read_only_)
+        return Status::Error("bulkPutEntities: transaction is read-only");
     if (entities.empty())
         return Status::OK();
 
@@ -1465,6 +1492,8 @@ TransactionManager::Status TransactionManager::Transaction::bulkEraseEntities(
         return Status::Error("bulkEraseEntities: keine aktive Transaktion");
     if (isTimedOut())
         return Status::Error("bulkEraseEntities: transaction timed out");
+    if (read_only_)
+        return Status::Error("bulkEraseEntities: transaction is read-only");
     if (pks.empty())
         return Status::OK();
 
@@ -1554,6 +1583,15 @@ TransactionManager::Status TransactionManager::Transaction::commit() {
         saga_->compensate();
         if (lock_manager_) lock_manager_->releasePredicateLocks(id_);
         return Status::Error("commit: transaction timed out");
+    }
+
+    // Read-only fast path: release the snapshot without writing to the WAL.
+    if (read_only_) {
+        THEMIS_DEBUG("Transaction {} is read-only — skipping WAL write on commit (duration: {} ms)",
+                     id_, getDurationMs());
+        mvcc_txn_->rollback(); // releases the RocksDB snapshot; no data is written
+        if (lock_manager_) lock_manager_->releasePredicateLocks(id_);
+        return Status::OK();
     }
     
     THEMIS_DEBUG("Committing MVCC transaction {} with {} SAGA steps (duration: {} ms)", 

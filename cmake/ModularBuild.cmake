@@ -761,6 +761,7 @@ set(THEMIS_TRANSACTION_SOURCES
     ../src/transaction/merge_engine.cpp
     ../src/transaction/deadlock_predictor.cpp
     ../src/transaction/transaction_batcher.cpp
+    ../src/transaction/transaction_auditor.cpp
     ../src/analytics/diff_engine.cpp
     
     # Temporal conflict resolution and production-readiness modules
