@@ -1,6 +1,6 @@
 # Storage Module — Fehlende / Unvollständige Implementierungen
 
-<!-- Status: current | validated: 2026-03-11 -->
+<!-- Status: current | validated: 2026-03-20 -->
 <!-- Primärdokumentation: ../../../src/storage/ -->
 
 Dieser Report dokumentiert Funktionen, die in `src/storage/ROADMAP.md`,
@@ -8,7 +8,7 @@ Dieser Report dokumentiert Funktionen, die in `src/storage/ROADMAP.md`,
 beschrieben werden, jedoch bei der Reality-Check-Prüfung als **nicht vollständig
 umgesetzt** befunden wurden.
 
-Prüfstand: 2026-03-11 | Branch: `copilot/implement-backup-manager-scheduling`
+Prüfstand: 2026-03-20 | Branch: `copilot/update-documentation-sync-storage`
 
 ---
 
@@ -25,73 +25,70 @@ Prüfstand: 2026-03-11 | Branch: `copilot/implement-backup-manager-scheduling`
 
 ---
 
-## 2. BlobRedundancyManager — RocksDB EventListener-Integration nicht implementiert
+## 2. BlobRedundancyManager — RocksDB EventListener-Integration ✅ BEHOBEN
 
 | Feld | Wert |
 |---|---|
 | **Claim-Quelle** | `src/storage/blob_redundancy_manager.cpp` (Methode `createRocksDBListener()`) |
 | **Erwartet** | Liefert einen `rocksdb::EventListener`, der bei SSTable-Flush/-Compaction-Events automatisch Blob-Replikation auslöst |
-| **Beobachtet** | `createRocksDBListener()` gibt sofort `ERR_STORAGE_REDUNDANCY_FAILED` mit *"RocksDB listener not implemented"* zurück. Keine EventListener-Implementierung vorhanden |
-| **Evidence (geprüfte Pfade)** | `src/storage/blob_redundancy_manager.cpp` Zeile 768 |
-| **ROADMAP-Status** | Nicht als separater ROADMAP-Eintrag |
-| **Issue-Titelvorschlag** | `[storage] Implement BlobRedundancyManager RocksDB EventListener integration` |
-| **Label-Vorschläge** | `type:feature`, `priority:low`, `area:storage`, `status:open` |
+| **Status** | ✅ **Behoben** |
+| **Behobene Befunde** | `createRocksDBListener()` gibt jetzt einen funktionierenden `RocksDBBlobListener` zurück (Zeile 882). `notifySSTFileDeleted()` markiert betroffene Locations als unhealthy. CI: `blob-redundancy-event-listener-ci.yml`. Tests: `tests/test_raid_redundancy.cpp` (BlobRedundancyEventListenerFocusedTests). |
+| **Evidence** | `src/storage/blob_redundancy_manager.cpp` Zeilen 878–886 |
+| **Behoben durch** | GitHub Copilot |
 
 ---
 
-## 3. RocksDBWrapper — `getApproximateSize()` gibt immer 0 zurück
+## 3. RocksDBWrapper — `getApproximateSize()` ✅ BEHOBEN
 
 | Feld | Wert |
 |---|---|
 | **Claim-Quelle** | `src/storage/rocksdb_wrapper.cpp` Zeile 1445 (TODO-Kommentar) |
 | **Erwartet** | `getApproximateSize()` liefert eine sinnvolle Schätzung der RocksDB-Datenbankgröße (für Monitoring und Quota-Enforcement) |
-| **Beobachtet** | Methode gibt immer `0` zurück; enthält `// TODO: Implement proper size calculation` |
-| **Evidence (geprüfte Pfade)** | `src/storage/rocksdb_wrapper.cpp` Zeilen 1443–1450 |
-| **ROADMAP-Status** | Nicht als separater ROADMAP-Eintrag; Datei-Header meldet `TODOs: 1` |
-| **Issue-Titelvorschlag** | `[storage] Implement RocksDBWrapper::getApproximateSize using RocksDB SizeApproximation API` |
-| **Label-Vorschläge** | `type:bug`, `priority:low`, `area:storage`, `status:open` |
+| **Status** | ✅ **Behoben** |
+| **Behobene Befunde** | `getApproximateSize()` nutzt jetzt `rocksdb.total-sst-files-size`-Property (primär) mit Fallback auf `GetApproximateSizes(INCLUDE_FILES)`. CI: `rocksdb-size-calculation-ci.yml`. Tests: `tests/test_rocksdb_size_calculation.cpp` (RocksDBSizeCalculationFocusedTests). |
+| **Evidence** | `src/storage/rocksdb_wrapper.cpp` Zeilen 1520–1542 |
+| **Behoben durch** | GitHub Copilot |
 
 ---
 
-## 4. SecuritySignatureManager — RocksDB-Iteration als In-Memory-Fallback
+## 4. SecuritySignatureManager — RocksDB-Iteration ✅ BEHOBEN
 
 | Feld | Wert |
 |---|---|
 | **Claim-Quelle** | `src/storage/security_signature_manager.cpp` Zeile 110 (TODO-Kommentar) |
 | **Erwartet** | `SecuritySignatureManager` iteriert über alle RocksDB-Einträge und prüft/listet Signaturen |
-| **Beobachtet** | RocksDB-Iteration nicht implementiert; aktueller Pfad endet am TODO-Kommentar *"Implement proper RocksDB iteration when RocksDBWrapper supports it"* und gibt leere Ergebnisse zurück |
-| **Evidence (geprüfte Pfade)** | `src/storage/security_signature_manager.cpp` Zeilen 105–115 |
-| **ROADMAP-Status** | Nicht als separater ROADMAP-Eintrag; Datei-Header meldet `TODOs: 1` |
-| **Issue-Titelvorschlag** | `[storage] Implement SecuritySignatureManager RocksDB-wide signature iteration` |
-| **Label-Vorschläge** | `type:bug`, `priority:medium`, `area:storage`, `area:security`, `status:open` |
+| **Claim-Quelle** | `src/storage/security_signature_manager.cpp` Zeile 110 (TODO-Kommentar) |
+| **Erwartet** | `SecuritySignatureManager` iteriert über alle RocksDB-Einträge und prüft/listet Signaturen |
+| **Status** | ✅ **Behoben** |
+| **Behobene Befunde** | `listAllSignatures()` iteriert jetzt via `db_->iterateRange(start_key, end_key, ...)` über den vollständigen Signatur-Schlüsselbereich. In-Memory-Fallback bleibt für Tests ohne echte DB. CI: `security-signature-rocksdb-iteration-ci.yml`. Tests: `tests/test_security_signature_rocksdb_iteration.cpp`. |
+| **Evidence** | `src/storage/security_signature_manager.cpp` Zeilen 105–135 |
+| **Behoben durch** | GitHub Copilot |
 
 ---
 
-## 5. BlobRedundancyManager — Erasure Coding nicht implementiert (ROADMAP v1.7.0)
+## 5. BlobRedundancyManager — Erasure Coding ✅ BEHOBEN
 
 | Feld | Wert |
 |---|---|
 | **Claim-Quelle** | `src/storage/ROADMAP.md` §"Planned Features – Short-term" |
-| **Erwartet** | `RedundancyMode::ERASURE_CODING` mit Reed-Solomon(k,m); `k=4, m=2` Default (1,5× Speicher-Overhead vs. 3× bei RAID-1) |
-| **Beobachtet** | Nur RAID-1-Mirror implementiert (`BlobRedundancyManager`); kein `erasure_coding.cpp`, kein RS-Encode/Decode, kein `ERASURE_CODING`-Enum-Wert |
-| **Evidence (geprüfte Pfade)** | `src/storage/blob_redundancy_manager.cpp` (kein Erasure-Coding-Pfad); `include/storage/blob_redundancy_manager.h` (kein `ERASURE_CODING`-Enum) |
-| **ROADMAP-Status** | `[ ]` geplant für v1.7.0 |
-| **Issue-Titelvorschlag** | `[storage] Implement Reed-Solomon erasure coding in BlobRedundancyManager (v1.7.0)` |
-| **Label-Vorschläge** | `type:feature`, `priority:medium`, `area:storage`, `milestone:v1.7.0` |
+| **Erwartet** | Reed-Solomon(k,m) Erasure Coding in `BlobRedundancyManager` |
+| **Status** | ✅ **Behoben** |
+| **Behobene Befunde** | `RedundancyMode::PARITY` mit `ErasureCodingBackend` (RS(k,m)) implementiert. Unterstützt RS(10,4), RS(6,3), RS(4,2) und beliebige (k,m)-Konfigurationen. `ErasureCodingBackend` in `src/storage/erasure_coding_backend.cpp`. CI: `erasure-coding-blob-storage-ci.yml`. Tests: `tests/test_erasure_coding_backend.cpp` (ErasureCodingFocusedTests). |
+| **Evidence** | `src/storage/blob_redundancy_manager.cpp` Zeilen 485–615; `include/storage/erasure_coding_backend.h` |
+| **Behoben durch** | GitHub Copilot |
 
 ---
 
-## 6. Distributed Transactions (2PC) nicht implementiert (ROADMAP v1.7.0)
+## 6. Distributed Transactions (2PC) ✅ BEHOBEN
 
 | Feld | Wert |
 |---|---|
 | **Claim-Quelle** | `src/storage/ROADMAP.md` §"Planned Features – Long-term" |
-| **Erwartet** | `DistributedTransactionManager` mit Two-Phase-Commit (2PC) und Raft-Koordination für Cross-Shard-Atomarität |
-| **Beobachtet** | Kein `distributed_transaction_manager.cpp` vorhanden; `TransactionRetryManager` deckt nur lokale Retry-Logik ab |
-| **Evidence (geprüfte Pfade)** | `src/storage/` (kein `distributed_transaction_manager.*`); `include/storage/` (kein entsprechender Header) |
-| **ROADMAP-Status** | `[ ]` geplant für v1.7.0 |
-| **Issue-Titelvorschlag** | `[storage] Implement DistributedTransactionManager with 2PC and Raft coordination (v1.7.0)` |
-| **Label-Vorschläge** | `type:feature`, `priority:high`, `area:storage`, `area:transaction`, `milestone:v1.7.0` |
+| **Erwartet** | `DistributedTransactionManager` mit Two-Phase-Commit (2PC) für Cross-Shard-Atomarität |
+| **Status** | ✅ **Behoben** |
+| **Behobene Befunde** | `DistributedTransactionManager` + `IDistributedShardParticipant` + `DistributedTransaction` implementiert in `src/storage/distributed_transaction_manager.cpp`. `ManagerSharedState` shared ownership für thread-sicheren Lebenszyklus. 27 Unit-Tests in `tests/test_distributed_transactions.cpp`. |
+| **Evidence** | `src/storage/distributed_transaction_manager.cpp`; `include/storage/distributed_transaction_manager.h` |
+| **Behoben durch** | GitHub Copilot |
 
 ---
 
@@ -128,17 +125,18 @@ Prüfstand: 2026-03-11 | Branch: `copilot/implement-backup-manager-scheduling`
 | # | Feature | Quelle | Kritikalität | Status |
 |---|---|---|---|---|
 | 1 | BackupManager Scheduling / Cloud-Upload | backup_manager.cpp | **Mittel** | ✅ Behoben (2026-03-11) |
-| 2 | BlobRedundancyManager RocksDB EventListener | blob_redundancy_manager.cpp:768 | Niedrig | Stub |
-| 3 | RocksDBWrapper::getApproximateSize() | rocksdb_wrapper.cpp:1445 | Niedrig | TODO / gibt 0 |
-| 4 | SecuritySignatureManager RocksDB-Iteration | security_signature_manager.cpp:110 | Mittel | TODO |
-| 5 | Erasure Coding in BlobRedundancyManager | ROADMAP v1.7.0 | Mittel | `[ ]` geplant |
-| 6 | Distributed 2PC Transactions | ROADMAP v1.7.0 | **Hoch** | `[ ]` geplant |
-| 7 | ColumnarFormat Parquet-Export | ROADMAP v2.0.0 | Niedrig | `[ ]` geplant |
-| 8 | ColumnarFormat AVX2 SIMD | ROADMAP v2.0.0 | Niedrig | `[ ]` geplant |
-| 9 | 9 Source-Dateien fehlten im CMake-Build | cmake/CMakeLists.txt, cmake/ModularBuild.cmake | **Hoch** | ✅ Behoben in diesem PR |
+| 2 | BlobRedundancyManager RocksDB EventListener | blob_redundancy_manager.cpp | Niedrig | ✅ Behoben |
+| 3 | RocksDBWrapper::getApproximateSize() | rocksdb_wrapper.cpp | Niedrig | ✅ Behoben |
+| 4 | SecuritySignatureManager RocksDB-Iteration | security_signature_manager.cpp | Mittel | ✅ Behoben |
+| 5 | Erasure Coding in BlobRedundancyManager | ROADMAP v1.7.0 | Mittel | ✅ Behoben (ErasureCodingBackend PARITY mode) |
+| 6 | Distributed 2PC Transactions | ROADMAP v1.7.0 | **Hoch** | ✅ Behoben (DistributedTransactionManager) |
+| 7 | ColumnarFormat Parquet-Export | ROADMAP v2.0.0 | Niedrig | `[ ]` geplant (v2.0.0) |
+| 8 | ColumnarFormat AVX2 SIMD | ROADMAP v2.0.0 | Niedrig | `[ ]` geplant (v2.0.0) |
+| 9 | 9 Source-Dateien fehlten im CMake-Build | cmake/CMakeLists.txt, cmake/ModularBuild.cmake | **Hoch** | ✅ Behoben |
+| 10 | NVMe Optimierungen (NVMeManager) | ROADMAP v1.6.0 | Mittel | ✅ Behoben (nvme_manager.cpp, CI: nvme-manager-ci.yml) |
 
-*Alle anderen ROADMAP-Einträge (Phase 1–4 sowie Tiered Storage und GCS Backend) sind durch
-vorhandene Implementierungsdateien auf `develop` belegt.*
+*Alle ROADMAP-Einträge für Phase 1–6 (v1.x–v1.8.0) sind vollständig implementiert.
+Verbleibende offene Punkte betreffen ausschließlich v2.0.0-Features (Parquet-Export, AVX2 SIMD).*
 
 ---
 
