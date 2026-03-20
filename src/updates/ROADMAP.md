@@ -1,4 +1,5 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- validated: 2026-03-20 | Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 # Updates Module Roadmap
 
@@ -26,7 +27,7 @@ v1.7.0 – Production-ready zero-downtime update and migration system. HotReload
   - API: `setVersion`, `setStages`, `setErrorRateThreshold`, `setLatencyThreshold`, `deploy`, `onStageComplete`, `onRollback`, `reportLatency`, `reportMemoryUsage`, `reportCpuUsage`, `reportDiskIO`, `recordCustomMetric`, `enableABTesting`, `isCanaryRequest`, `isControlRequest`, `isNodeInCanaryGroup`, `getMetricsSnapshot`
   - Metrics: `LatencyStats` (p50/p95/p99), `CanaryMetricsSnapshot` (all telemetry), `ABTestConfig`
   - Tests: 50 focused tests added to `tests/test_canary_rollout.cpp` (84 total)
-  - CI: `.github/workflows/canary-deployments-ci.yml`
+  - CI: `.github/workflows/04-release/canary-deployments-ci.yml`
 - [x] In-place schema migration without data copy for additive changes (Issue: #2480)
 - [x] Schema migration testing framework (apply to staging before production) (Issue: #2487)
 - [x] Migration dry-run with detailed change preview (Issue: #2481)
@@ -41,19 +42,27 @@ v1.7.0 – Production-ready zero-downtime update and migration system. HotReload
   - Injectable providers for full testability (no real filesystem/sysinfo required)
   - Completes in ≤ 2 s; disk check enforces ≥ 2× bundle size of free space
   - Tests: 35+ unit tests in `tests/test_preflight_health_check.cpp`
-- [x] Build system audit: all 15 src/updates/*.cpp registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake; standalone focused test targets exist for the 9 most independently testable modules
-- [x] 9 standalone focused test targets added to tests/CMakeLists.txt (UpdatesProduction, BlueGreen, CanaryRollout, BinaryDeltaPatches, CoordinatedUpdateManager, InPlaceSchemaMigrator, NotificationWebhook, PreflightHealthCheck, SchemaMigrationTester, ParallelFileDownloads)
-- [x] CI/CD workflow for automatic patch generation: .github/workflows/binary-delta-patches-ci.yml
+- [x] Build system audit: all 16 src/updates/*.cpp registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake; standalone focused test targets exist for all independently testable modules
+- [x] 10 standalone focused test targets added to tests/CMakeLists.txt (UpdatesProduction, BlueGreen, CanaryRollout, BinaryDeltaPatches, CoordinatedUpdateManager, InPlaceSchemaMigrator, NotificationWebhook, PreflightHealthCheck, SchemaMigrationTester, ParallelFileDownloads)
+- [x] CI/CD workflow for automatic patch generation: `.github/workflows/02-feature-modules/storage/binary-delta-patches-ci.yml`
 - [x] Parallel file downloads – configurable concurrency, bandwidth throttling, priority queue, resume support (Issue: #128)
   - Implemented: `include/updates/parallel_downloader.h`, `src/updates/parallel_downloader.cpp`
   - API: `DownloadTask`, `DownloadResult`, `DownloadBatchStats`, `ParallelDownloader`
   - Tests: 29 focused tests in `tests/test_parallel_file_downloads.cpp`
-  - CI: `.github/workflows/parallel-file-downloads-ci.yml`
+  - CI: `.github/workflows/02-feature-modules/storage/parallel-file-downloads-ci.yml`
 - [x] Dependency resolution engine – topological sort, cycle detection, version constraints, conflict resolution, backfill (Issue: #216)
   - Implemented: `include/updates/dependency_resolver.h`, `src/updates/dependency_resolver.cpp`
   - API: `Dependency`, `UpdateStep`, `DependencyConflict`, `ResolutionResult`, `DependencyResolver`
   - Tests: 49 focused tests in `tests/test_dependency_resolution_engine.cpp`
-  - CI: `.github/workflows/dependency-resolution-engine-ci.yml`
+  - CI: `.github/workflows/02-feature-modules/dependency-resolution-engine-ci.yml`
+- [x] ManifestDatabase::deleteManifest() – deletes associated binary files after RocksDB entry commit; tombstone guard prevents orphaned files on crash (v1.8.0)
+  - Implemented: `src/updates/manifest_database.cpp` (tombstone key + filesystem::remove per associated file)
+  - Tests: `tests/test_manifest_database_file_deletion.cpp`
+  - CI: `.github/workflows/02-feature-modules/storage/manifest-database-file-deletion-ci.yml`
+- [x] Cluster-wide rolling update via `ClusterUpdateManager` – leader-last ordering, health checks per node, automatic rollback on failure, cancellation (v1.7.0)
+  - Implemented: `include/updates/cluster_update_manager.h`, `src/updates/cluster_update_manager.cpp`
+  - Tests: `tests/test_distributed_cluster_updates.cpp`
+  - CI: `.github/workflows/06-infrastructure/distributed/distributed-cluster-updates-ci.yml`
 
 ## In Progress 🚧
 <!-- No items currently in progress -->
@@ -68,7 +77,7 @@ v1.7.0 – Production-ready zero-downtime update and migration system. HotReload
   - Implemented: `include/updates/tenant_update_scheduler.h`, `src/updates/tenant_update_scheduler.cpp`
   - API: `MaintenanceWindow`, `BlackoutPeriod`, `UpdatePolicy`, `UpdatePriority`, `TenantUpdateStatus`, `TenantUpdateScheduler`
   - Tests: 37 focused tests in `tests/test_multi_tenant_update_scheduling.cpp`
-  - CI: `.github/workflows/multi-tenant-update-scheduling-ci.yml`
+  - CI: `.github/workflows/02-feature-modules/multi-tenant-update-scheduling-ci.yml`
 
 ### Long-term (6-12 months)
 - [!] Kubernetes operator integration (rolling update coordination) (Issue: #2483)
@@ -127,7 +136,7 @@ v1.7.0 – Production-ready zero-downtime update and migration system. HotReload
 - [x] Security audit (path traversal in update bundles fixed; `isSafePath` guard in `applyDelta`; InPlaceSchemaMigrator: metadata-only, no data access, no path operations; PreflightHealthChecker: injectable providers, no privilege escalation; ParallelDownloader: hash verification, corrupt file auto-removal)
 - [x] Documentation complete (full API documentation in `delta_update_engine.h`, `in_place_schema_migrator.h`, `notification_webhook.h`, `preflight_health_check.h`, `parallel_downloader.h`)
 - [x] API stability guaranteed (all new APIs are additive; no existing API changed)
-- [x] Automatic patch generation in CI/CD (.github/workflows/binary-delta-patches-ci.yml validates the generatePatch() API and CI/CD generation use-cases)
+- [x] Automatic patch generation in CI/CD (`.github/workflows/02-feature-modules/storage/binary-delta-patches-ci.yml` validates the generatePatch() API and CI/CD generation use-cases)
 
 ## Known Issues & Limitations
 - HotReloadEngine is single-threaded; concurrent updates are not allowed.
