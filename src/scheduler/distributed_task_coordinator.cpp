@@ -36,6 +36,22 @@ namespace themis {
 
 DistributedTaskCoordinator::DistributedTaskCoordinator(
     TaskScheduler* scheduler,
+    sharding::DistributedCoordinator* coordinator)
+{
+    const Config default_config{};
+    if (!scheduler) {
+        throw std::invalid_argument("DistributedTaskCoordinator: scheduler cannot be null");
+    }
+    if (!coordinator) {
+        throw std::invalid_argument("DistributedTaskCoordinator: coordinator cannot be null");
+    }
+    scheduler_ = scheduler;
+    coordinator_ = coordinator;
+    config_ = default_config;
+}
+
+DistributedTaskCoordinator::DistributedTaskCoordinator(
+    TaskScheduler* scheduler,
     sharding::DistributedCoordinator* coordinator,
     const Config& config)
     : scheduler_(scheduler),
