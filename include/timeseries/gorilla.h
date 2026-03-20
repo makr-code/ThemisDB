@@ -47,6 +47,16 @@ namespace themis {
  * - Implementation: Custom implementation for ThemisDB based on algorithm description
  */
 
+// ── Gorilla chunk header constants ──────────────────────────────────────────
+// New chunks (v1+) are prefixed with a 3-byte header to allow decoders to
+// validate the data before attempting to parse the bit-stream.  Legacy chunks
+// (written before v1) have no header; both GorillaDecoder and GorillaSIMDDecoder
+// detect the header by checking the magic bytes and fall back to the headerless
+// decode path when the magic is absent.
+static constexpr uint8_t kGorillaMagic0       = 0x47;  // 'G'
+static constexpr uint8_t kGorillaMagic1       = 0x4F;  // 'O'
+static constexpr uint8_t kGorillaCurrentVersion = 0x01; // format version 1
+
 class BitWriter {
 public:
     void writeBit(bool bit);
@@ -111,9 +121,18 @@ private:
     uint64_t prev_vbits_ {0};
     int prev_leading_ {64};
     int prev_trailing_ {64};
-    BitReader br_;
+    // error_ and decoded_count_ are declared BEFORE data_ and br_ so that
+    // gorilla_strip_header() (called during data_ initialisation) can safely
+    // write to error_ via the reference it receives.
     bool error_ {false};
     size_t decoded_count_ {0};
+    std::vector<uint8_t> data_; // owned, header-stripped payload (declared after error_)
+    BitReader br_;
+
+    // Strips the 3-byte chunk header if present; sets error_out=true on
+    // unsupported version.  Returns the payload (header-stripped or original).
+    static std::vector<uint8_t> gorilla_strip_header(
+            const std::vector<uint8_t>& data, bool& error_out);
 };
 
 } // namespace themis

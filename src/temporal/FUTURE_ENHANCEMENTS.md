@@ -504,9 +504,27 @@ REFERENCES employees (employee_id, PERIOD FOR valid_time);
 
 ---
 
-### Temporal Change Data Capture (CDC)
+### ~~Interval-Tree Index~~ ✅ Implemented (v1.6.0)
+**Priority:** High  
+**Target Version:** v1.4.0  
+**Status:** Delivered in `src/temporal/interval_tree_index.cpp` + `include/temporal/interval_tree_index.h`
+
+Augmented BST-based interval tree providing O(log n) insert/remove and O(log n + k) overlap detection for valid-time period predicates and period-aware foreign-key enforcement.
+
+**Delivered Features:**
+- ✅ Max-end tracking per node for O(log n + k) overlap queries
+- ✅ Half-open interval semantics `[start, end)`
+- ✅ `insert()`, `remove()`, `removeKey()`, `clear()` operations
+- ✅ `queryPoint(t)`, `queryOverlap(from, to)`, `queryKey(key, range)` queries
+- ✅ `stats()` snapshot for observability (total entries, query counters, tree height)
+- ✅ Thread-safe via `std::mutex`
+
+---
+
+### ~~Temporal Change Data Capture (CDC)~~ ✅ Implemented (v1.6.0)
 **Priority:** Medium  
-**Target Version:** v1.4.0
+**Target Version:** v1.4.0  
+**Status:** Delivered in `src/temporal/temporal_cdc.cpp` + `include/temporal/temporal_cdc.h`
 
 Stream temporal change events for real-time processing.
 
@@ -517,41 +535,22 @@ Stream temporal change events for real-time processing.
 - Integration with event systems (Kafka, etc.)
 - Replay historical changes
 
-**Implementation:**
+**Actual implementation — see `include/temporal/temporal_cdc.h`:**
 ```cpp
-class TemporalCDC {
-public:
-    enum class ChangeType {
-        INSERT,
-        UPDATE,
-        DELETE,
-        VERSION_CREATED
-    };
-    
-    struct ChangeEvent {
-        ChangeType type;
-        std::string table_name;
-        std::string entity_id;
-        Document before_value;
-        Document after_value;
-        std::chrono::system_clock::time_point transaction_time;
-        std::chrono::system_clock::time_point valid_from;
-        std::chrono::system_clock::time_point valid_to;
-        std::string user_id;
-    };
-    
-    // Subscribe to change stream
-    Result<std::string> subscribeToChanges(
-        const std::string& table_name,
-        std::function<void(const ChangeEvent&)> callback
-    );
-    
-    // Replay historical changes
-    Result<std::vector<ChangeEvent>> replayChanges(
-        const std::string& table_name,
-        const TimeRange& range
-    );
-};
+std::string subscribeToChanges(
+    const std::string& table_name,
+    std::function<void(const ChangeEvent&)> callback);
+
+bool unsubscribe(const std::string& sub_id);
+void publishEvent(const ChangeEvent& event);
+
+std::vector<ChangeEvent> replayChanges(
+    const std::string& table_name,
+    const TimeRange& range) const;
+
+size_t logSize() const;
+uint64_t totalPublished() const noexcept;
+void clearLog();
 ```
 
 ---
@@ -655,9 +654,10 @@ struct SnapshotHandle {
 
 ---
 
-### Temporal Data Compression
+### ~~Temporal Data Compression~~ ✅ Implemented (v1.6.0)
 **Priority:** Medium  
-**Target Version:** v1.3.0
+**Target Version:** v1.3.0  
+**Status:** Delivered in `src/temporal/temporal_compressor.cpp` + `include/temporal/temporal_compressor.h`
 
 Efficient compression for historical data.
 
@@ -687,14 +687,17 @@ public:
     };
     
     // Compress historical versions
-    Result<CompressionStats> compressHistory(
-        const std::string& table_name,
+    CompressionStats compressHistory(
+        const SystemVersionedTable& table,
         const TimeRange& range,
         const CompressionConfig& config
     );
 };
 
 struct CompressionStats {
+    size_t versions_processed;
+    size_t versions_compressed;
+    size_t versions_skipped;
     size_t original_size_bytes;
     size_t compressed_size_bytes;
     double compression_ratio;
@@ -882,6 +885,6 @@ For detailed guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.md).
 
 ---
 
-*Last Updated: February 2026*  
-*Module Version: v1.0.0*  
-*Next Review: v1.1.0 Release*
+*Last Updated: March 2026*  
+*Module Version: v1.6.0*  
+*Next Review: v1.7.0 Release*

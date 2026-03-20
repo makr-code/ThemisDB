@@ -82,13 +82,13 @@
 - [I] `PERIOD FOR SYSTEM_TIME` / `PERIOD FOR APPLICATION_TIME` DDL in AQL parser (deferred → Phase 3b)
 - [I] `FOR SYSTEM_TIME AS OF` / `FOR APPLICATION_TIME` temporal clause parsing (deferred → Phase 3b)
 
-### Phase 4: Advanced Retention, Compression & CDC (Status: Planned 📋)
+### Phase 4: Advanced Retention, Compression & CDC (Status: Partial ⚙️)
 - [I] Archive-to-cold-storage retention variant (`s3://` or filesystem archive before purge)
 - [I] Storage-based retention (cap history to N GB per table)
-- [I] Delta and Gorilla compression for historical versions
-- [I] Temporal CDC: `ChangeEvent` stream (INSERT / UPDATE / DELETE / VERSION_CREATED) with Kafka integration
+- [x] Delta and Gorilla compression for historical versions
+- [x] Temporal CDC: `ChangeEvent` stream (INSERT / UPDATE / DELETE / VERSION_CREATED) with Kafka integration
 - [I] Temporal foreign keys CASCADE/RESTRICT at SQL layer
-- [I] Interval-tree index for `O(log n + k)` overlap detection
+- [x] Interval-tree index for `O(log n + k)` overlap detection
 
 ### Phase 5: Tooling & Migration (Status: Planned 📋)
 - [I] `TemporalMigrator`: analyze, migrate, and verify existing tables to system-versioned
@@ -107,8 +107,8 @@
 ## Known Issues & Limitations
 - SQL `PERIOD FOR` DDL syntax is not yet supported; application-time periods must be managed via the C++ API.
 - No automatic SQL-level retention syntax (`ALTER TABLE … SET RETENTION_PERIOD`); retention policies must be set programmatically via `RetentionManager::setPolicy()`.
-- History table compression is not yet implemented; historical data storage overhead is proportional to version count.
-- Temporal CDC (streaming change events) is not yet available.
+- History table compression is implemented via TemporalCompressor (DELTA, ZSTD, Gorilla, DICTIONARY algorithms).
+- Temporal CDC is available via TemporalCDC (in-process pub/sub with bounded ring-buffer; external Kafka integration deferred to Phase 5).
 
 ## Breaking Changes
 - The `TemporalConflictResolver` and `SystemVersionedTable` C++ APIs are stable at v1.0 and will not change without a major version bump.

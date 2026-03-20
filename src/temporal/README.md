@@ -22,10 +22,15 @@ Implements temporal and bitemporal data management for ThemisDB, enabling transa
 - `temporal_conflict_resolver.cpp` — HLC-based conflict resolution for concurrent edits
 - `snapshot_manager.cpp` — temporal snapshot creation, querying, and release
 - `retention_manager.cpp` — automated expiry of old versions based on retention policy
+- `interval_tree_index.cpp` — augmented interval tree, O(log n + k) overlap detection for valid-time period predicates
+- `temporal_compressor.cpp` — DELTA/ZSTD/Gorilla/dictionary compression for historical version payloads
+- `temporal_cdc.cpp` — versioned change data capture; typed ChangeEvent (INSERT/UPDATE/DELETE/VERSION_CREATED), pub/sub subscriptions, ring-buffer replay
 
 ## Current Delivery Status
 
 **Maturity:** 🟢 Production-Ready — Transaction-time and valid-time tracking, time-travel queries, bitemporal joins, SEQUENCED/NON-SEQUENCED query semantics, temporal aggregations, conflict resolution, snapshot management, and retention policies are all fully implemented and production-ready. SQL `PERIOD FOR` DDL syntax is not yet supported.
+
+Phase 4 (v1.5.0): IntervalTreeIndex, TemporalCompressor, and TemporalCDC are implemented and production-ready.
 
 ## Components
 
@@ -35,6 +40,9 @@ Implements temporal and bitemporal data management for ThemisDB, enabling transa
 - Time-travel query engine: Query data as it existed at specific points in time
 - Temporal joins and aggregations: Join and aggregate across time dimensions
 - Retention policies: Automated historical data cleanup
+- IntervalTreeIndex: Augmented BST-based interval tree for efficient valid-time overlap detection
+- TemporalCompressor: Compresses historical version payloads using DELTA, ZSTD, Gorilla, and DICTIONARY algorithms
+- TemporalCDC: Version-aware change data capture; subscribe to table change streams and replay events by time range
 
 ## Features
 
@@ -79,7 +87,10 @@ TemporalModule
 ├─→ TemporalAggregator      (tumbling and sliding window aggregations)
 ├─→ TemporalConflictResolver (HLC-based conflict resolution with five policies)
 ├─→ TemporalSnapshotManager (consistent multi-table point-in-time snapshots)
-└─→ RetentionManager        (time-based and count-based history cleanup)
+├─→ RetentionManager        (time-based and count-based history cleanup)
+├─→ IntervalTreeIndex       (augmented BST for O(log n + k) overlap detection)
+├─→ TemporalCompressor      (DELTA/ZSTD/Gorilla/dictionary compression for history)
+└─→ TemporalCDC             (pub/sub change data capture with ring-buffer replay)
 ```
 
 ## Use Cases
@@ -229,6 +240,7 @@ For detailed implementation documentation, see:
 - **v1.2.0**: BiTemporalTable (system time + valid time), TemporalIndex (period B-tree), TemporalQueryEngine (`AS OF`, `FROM...TO`, `BETWEEN...AND`)
 - **v1.3.0**: RetentionManager (time-based and count-based policies), TemporalAggregator (tumbling/sliding window), TemporalSnapshotManager
 - **v1.4.0**: Bitemporal joins (`joinBiTemporal`), SEQUENCED/NON-SEQUENCED query semantics (`queryWithSemantics`)
+- **v1.5.0**: IntervalTreeIndex (augmented BST, max-end tracking, O(log n + k) overlap queries), TemporalCompressor (DELTA/ZSTD/Gorilla/dictionary compression), TemporalCDC (pub/sub change events with ring-buffer replay)
 
 ## See Also
 

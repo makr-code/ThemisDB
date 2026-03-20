@@ -11317,6 +11317,47 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_prometheus_remote_write.cpp")
     message(STATUS "  PrometheusRemoteWrite: snappy decode, protobuf label mapping, HTTP 204/400/501 paths")
 endif()
 
+# ---------------------------------------------------------------------------
+# TSStore Out-of-Order Write focused tests (v1.8.0, Issue #1976)
+# AC: default window=0 accepts all, in-window OOO accepted, outside-window
+#     rejected with ERR_TIMESERIES_LATE_ARRIVAL, per-series watermarks,
+#     batch inserts, Gorilla+OOO, stats accumulation
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tsstore_out_of_order.cpp")
+    message(STATUS "Adding TSStore Out-of-Order write focused tests")
+
+    add_executable(test_tsstore_out_of_order_focused
+        test_tsstore_out_of_order.cpp
+    )
+
+    target_include_directories(test_tsstore_out_of_order_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_tsstore_out_of_order_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_tsstore_out_of_order_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TSStoreOutOfOrderFocusedTests
+        COMMAND test_tsstore_out_of_order_focused)
+
+    set_tests_properties(TSStoreOutOfOrderFocusedTests PROPERTIES
+        LABELS "timeseries;tsstore;out-of-order;late-arrival;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  TSStoreOOO: late_arrival_window_ms, watermark per-series, batch+Gorilla, stats")
+else()
+    message(STATUS "TSStore Out-of-Order focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tsstore_out_of_order.cpp")
+endif()
+
 # ============================================================================
 # Geo Module – Focused Standalone Test Targets
 # Each geo test is a standalone executable so it can be run independently
