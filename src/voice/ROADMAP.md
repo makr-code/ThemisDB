@@ -77,6 +77,7 @@ v1.1.0 – Production-ready voice assistant system. VoiceAssistant orchestrator 
 - [I] Documentation complete (Issue: #2359)
 - [x] API stability guaranteed (Issue: #2360) — VoiceAssistant session API stable from v1.x; new v1.1.0 APIs (telephony, biometric, browser streaming) marked stable
 - [x] Standalone focused test targets registered in `tests/CMakeLists.txt`: `VoiceProductionFocusedTests`, `VoiceCoverageFocusedTests`, `VoiceAssistantFocusedTests` (LLM-gated), `VoiceBrowserStreamingFocusedTests`, `VoiceTelephonyFocusedTests`
+- [x] CI workflow registered — `.github/workflows/voice-module-ci.yml` (VoiceProductionFocusedTests, VoiceCoverageFocusedTests, VoiceBrowserStreamingFocusedTests, VoiceTelephonyFocusedTests)
 
 ## Known Issues & Limitations
 - Streaming STT operates in sliding-window mode (3 s window, 1 s step); true sample-by-sample streaming requires Whisper.cpp `THEMIS_ENABLE_WHISPER` build flag.
