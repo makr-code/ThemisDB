@@ -24,10 +24,14 @@
 #if defined(_WIN32) && defined(THEMIS_PROCESS_MINING_WINDOWS_STUB)
 #include "analytics/process_mining.h"
 #include "utils/logger.h"
+#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace {
 inline ProcessMining::Status unsupported() {
+    spdlog::error("ProcessMining: operation unavailable — "
+                  "Windows stub build (THEMIS_PROCESS_MINING_WINDOWS_STUB). "
+                  "Rebuild without the stub flag to enable process mining.");
     return ProcessMining::Status::Error("Process mining is not supported on Windows builds");
 }
 } // namespace

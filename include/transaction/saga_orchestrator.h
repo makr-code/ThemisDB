@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            saga_orchestrator.h                                ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-03-17                                         ║
-  Author:          Copilot                                            ║
+  Version:         1.8.0                                              ║
+  Last Modified:   2026-03-16                                         ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     ~250                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Quality Score:   100.0/100                                       ║
+    • Total Lines:     ~350                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                              ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -23,6 +23,7 @@
 #include <chrono>
 #include <functional>
 #include <map>
+#include <memory>
 #include <mutex>
 #include <optional>
 #include <set>
@@ -36,27 +37,128 @@ namespace themis {
 // Result type
 // ─────────────────────────────────────────────────────────────────────────────
 
-/// Lightweight result type returned by SAGAOrchestrator operations.
-struct SAGAStatus {
+struct SagaOrchestratorStatus {
     bool        ok{true};
     std::string message;
 
-    static SAGAStatus OK()                  { return {}; }
-    static SAGAStatus Error(std::string msg){ return {false, std::move(msg)}; }
+    static SagaOrchestratorStatus OK()                       { return {}; }
+    static SagaOrchestratorStatus Error(std::string msg)     { return {false, std::move(msg)}; }
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Per-step state
+// Per-step runtime state
 // ─────────────────────────────────────────────────────────────────────────────
 
-/// Lifecycle state of a single step during SAGA execution.
 enum class StepState {
-    PENDING,      ///< Not yet started
-    RUNNING,      ///< Forward action in progress
-    COMPLETED,    ///< Forward action succeeded
-    FAILED,       ///< Forward action failed and exhausted retries
-    COMPENSATING, ///< Compensation action in progress
-    COMPENSATED   ///< Compensation action completed
+    PENDING,       ///< Not yet started
+    RUNNING,       ///< Forward action executing
+    COMPLETED,     ///< Forward action succeeded
+    FAILED,        ///< Forward action failed after all retries
+    SKIPPED,       ///< Condition evaluated to false; step was not executed
+    COMPENSATING,  ///< Compensation action executing
+    COMPENSATED    ///< Compensation action succeeded
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Step definition
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief A single step in a SAGAOrchestrator workflow.
+ *
+ * Unlike DistributedSagaCoordinator (which uses DistributedSagaStatus returns),
+ * SAGAOrchestrator steps use void callables and signal failure via exceptions.
+ * This matches the simpler local-service orchestration use case where throwing
+ * std::exception (or a derived class) is the standard error signal.
+ */
+struct SAGAStep {
+    /// Unique name within the SAGA definition.
+    std::string name;
+
+    /// Forward action: performs the step's work.  Throws on failure.
+    std::function<void()> forward;
+
+    /// Compensating action: undoes the step on rollback.
+    /// May be empty (nullptr) for idempotent / non-reversible steps.
+    std::function<void()> compensate;
+
+    /// Names of steps that must COMPLETE before this step can start.
+    std::set<std::string> depends_on;
+
+    /// Optional guard: if provided, the step is only executed when this
+    /// callable returns true.  When it returns false the step is SKIPPED
+    /// (no forward, no compensation).
+    std::function<bool()> condition;
+
+    /// Per-step timeout for the forward action (0 = use orchestrator default).
+    std::chrono::milliseconds timeout{0};
+
+    /// Maximum number of retry attempts on exception (0 = no retry).
+    size_t max_retries{0};
+
+    /// Initial delay between retries; doubled on each attempt (capped at 30 s).
+    /// 0 = use orchestrator default (SAGAOrchestratorConfig::default_retry_delay).
+    std::chrono::milliseconds retry_delay{0};
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SAGA definition
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief A complete SAGA workflow definition.
+ */
+struct SAGADefinition {
+    /// Unique identifier for this SAGA instance (used as key for getStatus).
+    std::string id;
+
+    /// Human-readable name.
+    std::string name;
+
+    /// Steps to execute. Steps may declare dependencies via depends_on.
+    std::vector<SAGAStep> steps;
+
+    /// Arbitrary string context shared across steps (read-only; orchestrator
+    /// does not interpret this map).
+    std::map<std::string, std::string> context;
+
+    /// Enable parallel execution of independent steps (default: true).
+    bool enable_parallel{true};
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Execution status (returned by getStatus / accessible after execute)
+// ─────────────────────────────────────────────────────────────────────────────
+
+struct SAGAExecutionStatus {
+    std::string                          saga_id;
+    std::string                          saga_name;
+    std::map<std::string, StepState>     step_states;
+    size_t                               completed_steps{0};
+    size_t                               failed_steps{0};
+    size_t                               pending_steps{0};
+    size_t                               skipped_steps{0};
+    int64_t                              total_duration_ms{0};
+    std::string                          failure_reason;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Orchestrator configuration
+// ─────────────────────────────────────────────────────────────────────────────
+
+struct SAGAOrchestratorConfig {
+    /// Enable parallel execution of independent steps (default: true).
+    /// Individual SAGADefinition::enable_parallel overrides this per-saga.
+    bool enable_parallel{true};
+
+    /// Default forward timeout used when SAGAStep::timeout == 0.
+    std::chrono::milliseconds default_timeout{std::chrono::milliseconds(5000)};
+
+    /// Default retry delay used when SAGAStep::retry_delay == 0.
+    std::chrono::milliseconds default_retry_delay{std::chrono::milliseconds(1000)};
+
+    /// Path for optional journal (empty = disabled).
+    std::string journal_path;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -64,239 +166,215 @@ enum class StepState {
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * @brief Orchestrates SAGA transactions with DAG-based parallel execution.
+ * @brief Advanced SAGA orchestrator with parallel DAG execution, conditional
+ *        branching, per-step retry policies, timeout management, and SAGA
+ *        template support.
  *
- * SAGAOrchestrator provides advanced SAGA coordination with:
- *   - Parallel step execution based on a dependency graph (DAG)
- *   - Per-step retry policies with configurable backoff
- *   - Per-step and global timeout enforcement
- *   - Automatic compensation (rollback) on failure in reverse execution order
- *   - Named templates for reusable SAGA definitions
- *   - Execution status tracking and aggregate metrics
+ * ## Key differences from DistributedSagaCoordinator
+ * - Steps use `void()` callables (throw on error) — suitable for local service
+ *   calls where C++ exceptions are the idiomatic error channel.
+ * - Provides SAGA **templates**: register a named SAGADefinition skeleton and
+ *   instantiate it later with per-instance context overrides.
+ * - Provides a text-based **workflow visualizer** that renders the DAG as ASCII
+ *   art (useful for logging, debugging, and configuration review).
+ * - Exposes `getStatus()` keyed on saga_id for post-execution inspection.
  *
- * Thread safety: a single SAGAOrchestrator instance may execute multiple
- * independent SAGAs concurrently.  Each execute() call is independently
- * synchronized.
+ * ## Thread safety
+ * Multiple concurrent `execute()` calls against the same orchestrator instance
+ * are safe.  Template registration is also thread-safe.
  *
- * Example — parallel order processing:
- * @code
- *   SAGAOrchestrator::SAGADefinition def;
- *   def.name = "process_order";
- *   def.enable_parallel = true;
+ * ## Usage
+ * ```cpp
+ * SAGAOrchestrator orchestrator;
  *
- *   def.steps.push_back({"reserve_inventory",
- *       []{ inventory.reserve(); },
- *       []{ inventory.release(); },
- *       {}});                         // no dependencies → runs in parallel
+ * SAGADefinition order_saga;
+ * order_saga.id   = "order-123";
+ * order_saga.name = "process_order";
+ * order_saga.enable_parallel = true;
  *
- *   def.steps.push_back({"validate_customer",
- *       []{ customer.validate(); },
- *       []{ },
- *       {}});
+ * order_saga.steps.push_back({
+ *     "reserve_inventory",
+ *     []{ inventory.reserve(); },
+ *     []{ inventory.release(); },
+ *     {}                              // no dependencies
+ * });
  *
- *   def.steps.push_back({"charge_payment",
- *       []{ payment.charge(); },
- *       []{ payment.refund(); },
- *       {"reserve_inventory", "validate_customer"}});  // depends on both above
+ * order_saga.steps.push_back({
+ *     "validate_customer",
+ *     []{ customer.validate(); },
+ *     {},                             // no compensation
+ *     {}
+ * });
  *
- *   SAGAOrchestrator orchestrator;
- *   auto status = orchestrator.execute(def);
- * @endcode
+ * order_saga.steps.push_back({
+ *     "charge_payment",
+ *     []{ payment.charge(); },
+ *     []{ payment.refund(); },
+ *     {"reserve_inventory", "validate_customer"}  // depends on both
+ * });
+ *
+ * auto status = orchestrator.execute(order_saga);
+ * if (!status.ok) { handle_failure(status.message); }
+ * ```
  */
 class SAGAOrchestrator {
 public:
-    // ── Step definition ───────────────────────────────────────────────────────
+    using Config = SAGAOrchestratorConfig;
 
-    /**
-     * @brief A single orchestrated SAGA step.
-     *
-     * A step describes:
-     *   - A unique name within the SAGA definition.
-     *   - A forward action that performs the step's work.
-     *   - An optional compensating action that undoes the step on rollback.
-     *   - An optional set of step names that must complete before this step starts.
-     *   - Per-step retry and timeout configuration.
-     */
-    struct Step {
-        /// Unique name within the SAGA definition.
-        std::string name;
-
-        /// Forward action: executes the step's work.
-        std::function<void()> forward;
-
-        /// Compensating action: undoes the step on rollback.  May be empty
-        /// (treated as a no-op).
-        std::function<void()> compensate;
-
-        /// Names of steps that must complete before this step starts.
-        std::set<std::string> depends_on;
-
-        /// Maximum wall-clock time allowed for the forward action.
-        std::chrono::milliseconds timeout{5000};
-
-        /// Maximum number of retry attempts on transient failure (0 = no retry).
-        size_t max_retries{3};
-
-        /// Initial delay between retries; doubled on each attempt (exponential
-        /// backoff) up to a maximum of 30 seconds.
-        std::chrono::milliseconds retry_delay{1000};
-    };
-
-    // ── SAGA definition ───────────────────────────────────────────────────────
-
-    /**
-     * @brief A complete SAGA definition.
-     *
-     * Groups a set of steps under a single name.  Steps may declare
-     * dependencies on one another; the orchestrator uses a topological sort
-     * to determine execution order and runs dependency-free groups in parallel
-     * when enable_parallel is true.
-     */
-    struct SAGADefinition {
-        /// Descriptive name for the SAGA (used as the saga_id when not
-        /// overridden via execute()).
-        std::string name;
-
-        /// Steps to execute.
-        std::vector<Step> steps;
-
-        /// Execute independent steps in parallel (default: true).
-        bool enable_parallel{true};
-    };
-
-    // ── Execution status ──────────────────────────────────────────────────────
-
-    /**
-     * @brief Snapshot of per-step states for a SAGA execution.
-     */
-    struct ExecutionStatus {
-        /// Saga name (from SAGADefinition::name or a unique execution ID).
-        std::string saga_name;
-
-        /// Current state for each step, keyed by step name.
-        std::map<std::string, StepState> step_states;
-
-        /// Number of steps that have reached StepState::COMPLETED.
-        size_t completed_steps{0};
-
-        /// Number of steps that have reached StepState::FAILED.
-        size_t failed_steps{0};
-
-        /// Number of steps still in StepState::PENDING.
-        size_t pending_steps{0};
-    };
-
-    // ── Aggregate metrics ─────────────────────────────────────────────────────
-
-    /// Aggregate execution metrics across all SAGAs run by this orchestrator.
-    struct Metrics {
-        uint64_t sagas_started{0};
-        uint64_t sagas_completed{0};
-        uint64_t sagas_compensated{0};
-        uint64_t sagas_failed{0};
-        uint64_t total_step_executions{0};
-        uint64_t total_compensations{0};
-        uint64_t total_retries{0};
-        uint64_t total_timeout_aborts{0};
-    };
-
-    // ── Constructor / Destructor ──────────────────────────────────────────────
-
-    SAGAOrchestrator()  = default;
+    explicit SAGAOrchestrator(Config config = {});
     ~SAGAOrchestrator() = default;
 
-    // Non-copyable, movable
     SAGAOrchestrator(const SAGAOrchestrator&)            = delete;
     SAGAOrchestrator& operator=(const SAGAOrchestrator&) = delete;
     SAGAOrchestrator(SAGAOrchestrator&&)                 = default;
     SAGAOrchestrator& operator=(SAGAOrchestrator&&)      = default;
 
-    // ── Core API ──────────────────────────────────────────────────────────────
+    // ── Core execution API ────────────────────────────────────────────────────
 
     /**
-     * @brief Validate and execute a SAGA.
+     * @brief Execute a SAGA definition synchronously.
      *
-     * Blocks until the SAGA either completes successfully or finishes
-     * compensating after a failure.
+     * Steps are run in dependency order (topological sort). Independent steps
+     * run in parallel when enable_parallel is true.  On any step failure,
+     * all completed steps are compensated in reverse execution order.
      *
-     * @param saga SAGA definition to execute.
-     * @return SAGAStatus::OK() on success; SAGAStatus::Error(...) on failure.
+     * @return OK() on full success, Error(...) with description on failure.
      */
-    SAGAStatus execute(const SAGADefinition& saga);
-
-    /**
-     * @brief Retrieve execution status for a previously executed SAGA.
-     *
-     * @param saga_id SAGA name (or unique execution ID).
-     * @return ExecutionStatus snapshot, or a zero-filled struct if unknown.
-     */
-    ExecutionStatus getStatus(const std::string& saga_id) const;
+    SagaOrchestratorStatus execute(const SAGADefinition& saga);
 
     /**
      * @brief Validate a SAGA definition without executing it.
      *
      * Checks that all depends_on names exist and that there are no dependency
      * cycles.
-     *
-     * @return SAGAStatus::OK() on success; SAGAStatus::Error(...) with a
-     *         description on failure.
      */
-    SAGAStatus validate(const SAGADefinition& saga) const;
+    SagaOrchestratorStatus validate(const SAGADefinition& saga) const;
+
+    // ── Status / Metrics ──────────────────────────────────────────────────────
 
     /**
-     * @brief Register a named SAGA template for later reuse.
+     * @brief Retrieve the execution status for a previously executed SAGA.
      *
-     * Templates are stored by SAGADefinition::name.  When execute() is
-     * called with a definition whose name matches a registered template, the
-     * template's default configuration is used as a fallback.
-     *
-     * @param templ SAGA definition to register as a template.
+     * @return Status record, or std::nullopt if saga_id is unknown.
      */
-    void registerTemplate(SAGADefinition templ);
+    std::optional<SAGAExecutionStatus> getStatus(const std::string& saga_id) const;
 
     /**
-     * @brief Retrieve a previously registered template by name.
-     *
-     * @return The template, or std::nullopt if not found.
+     * @brief Aggregate orchestrator metrics.
      */
-    std::optional<SAGADefinition> getTemplate(const std::string& name) const;
+    struct Metrics {
+        uint64_t sagas_started{0};
+        uint64_t sagas_completed{0};
+        uint64_t sagas_compensated{0};
+        uint64_t sagas_failed{0};
+        uint64_t total_step_executions{0};
+        uint64_t total_step_retries{0};
+        uint64_t total_compensations{0};
+        uint64_t total_steps_skipped{0};
+    };
 
-    /// Return a copy of the current aggregate metrics.
     Metrics getMetrics() const;
 
+    // ── Template support ──────────────────────────────────────────────────────
+
+    /**
+     * @brief Register a named SAGA template.
+     *
+     * Templates are skeleton SAGADefinitions whose callables capture shared
+     * infrastructure (service handles, etc.).  Callers instantiate a template
+     * by name, supplying an instance-specific `id` and context overrides.
+     *
+     * @param template_name  Key used to retrieve the template.
+     * @param tmpl           SAGA definition to store as a template.
+     */
+    void registerTemplate(const std::string& template_name, SAGADefinition tmpl);
+
+    /**
+     * @brief Instantiate a previously registered template.
+     *
+     * Copies the template, sets the instance id, and merges the provided
+     * context overrides (overrides take precedence over template defaults).
+     *
+     * @param template_name     Name of the registered template.
+     * @param instance_id       Unique ID for the new SAGA instance.
+     * @param context_overrides Key-value pairs merged into template context.
+     * @return Instantiated SAGADefinition ready to pass to execute().
+     * @throws std::out_of_range if template_name is not registered.
+     */
+    SAGADefinition instantiateTemplate(
+        const std::string& template_name,
+        const std::string& instance_id,
+        std::map<std::string, std::string> context_overrides = {}
+    ) const;
+
+    // ── Visual workflow ───────────────────────────────────────────────────────
+
+    /**
+     * @brief Render the SAGA dependency graph as a text string.
+     *
+     * Each step is shown on its own line with a unicode arrow (→) connecting
+     * it to its direct dependents.  Steps with no dependents are leaf nodes.
+     * Example output:
+     * ```
+     * SAGA: process_order
+     * ─────────────────────────────────────────────
+     * reserve_inventory → charge_payment
+     * validate_customer → charge_payment
+     * charge_payment    → ship_order
+     * ship_order        (terminal)
+     * ─────────────────────────────────────────────
+     * ```
+     */
+    std::string renderWorkflow(const SAGADefinition& saga) const;
+
 private:
-    // ── State ─────────────────────────────────────────────────────────────────
+    Config config_;
 
     mutable std::mutex status_mutex_;
-    std::map<std::string, ExecutionStatus> statuses_;
+    std::unordered_map<std::string, SAGAExecutionStatus> statuses_;
 
+    mutable std::mutex templates_mutex_;
+    std::unordered_map<std::string, SAGADefinition> templates_;
+
+    // Aggregate metrics (lock-protected for thread safety)
     mutable std::mutex metrics_mutex_;
     Metrics metrics_;
 
-    mutable std::mutex templates_mutex_;
-    std::map<std::string, SAGADefinition> templates_;
+    // Journal mutex: serialises concurrent journalWrite() calls
+    mutable std::mutex journal_mutex_;
 
     // ── Internal helpers ──────────────────────────────────────────────────────
 
-    /// Build execution waves (groups of steps that can run in parallel at the
-    /// same dependency depth).  Returns empty outer vector on cycle detection.
-    std::vector<std::vector<std::string>> buildWaves(
-        const SAGADefinition& saga) const;
+    /// Topologically sort steps; returns empty vector on cycle detection.
+    std::vector<std::string> topologicalSort(const SAGADefinition& saga) const;
 
-    /// Execute a single step with retry and timeout enforcement.
-    /// @param retry_count  Out-param incremented on each retry attempt.
-    SAGAStatus executeStep(const Step& step, size_t& retry_count);
+    // Map type for fast step lookup
+    using StepMap = std::unordered_map<std::string, const SAGAStep*>;
 
-    /// Compensate all steps in @p executed_order in reverse order.
-    void compensateSteps(
-        const std::map<std::string, const Step*>& step_map,
-        const std::vector<std::string>&           executed_order,
-        ExecutionStatus&                          status);
+    /// Build map: step_name → pointer into saga.steps.
+    static StepMap buildStepMap(const SAGADefinition& saga);
 
-    /// Update the per-step state in the in-memory status store.
-    void updateStepState(const std::string& saga_id,
-                         const std::string& step_name,
-                         StepState          state);
+    /// Execute a single step with retry and optional timeout.
+    /// Returns the final StepState (COMPLETED, SKIPPED, or FAILED).
+    /// Thread-safe: does NOT write to status_rec; caller applies the returned state.
+    StepState executeStep(const SAGAStep& step,
+                          const std::string& saga_id,
+                          const Config& cfg);
+
+    /// Compensate all completed steps in reverse execution order.
+    void compensateAll(const SAGADefinition& saga,
+                       const StepMap& step_map,
+                       const std::vector<std::string>& executed_order,
+                       SAGAExecutionStatus& status_rec);
+
+    /// Compensate a single step (best-effort; does not throw).
+    void compensateStep(const SAGAStep& step,
+                        SAGAExecutionStatus& status_rec);
+
+    /// Append a JSON line to the optional journal file.
+    void journalWrite(const std::string& saga_id,
+                      const std::string& event,
+                      const std::string& detail = {});
 };
 
 } // namespace themis

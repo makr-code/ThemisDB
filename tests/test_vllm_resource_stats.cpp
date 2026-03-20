@@ -30,6 +30,9 @@
 // =============================================================================
 
 #include <gtest/gtest.h>
+#include <chrono>
+#include <cstdlib>
+#include <string>
 #include "acceleration/vllm_resource_manager.h"
 
 using namespace themis::acceleration;
@@ -169,6 +172,79 @@ TEST(VLLMResourceStatsTest, SingleDeviceIndex_InitializeSucceeds_WithoutCUDA) {
 }
 
 // ---------------------------------------------------------------------------
+// CPU snapshot cache: rapid successive calls return valid data
+// ---------------------------------------------------------------------------
+
+TEST(VLLMResourceStatsTest, RapidSuccessiveCalls_ReturnValidData) {
+#if !defined(__linux__) && !defined(_WIN32)
+    GTEST_SKIP() << "CPU monitoring implemented for Linux and Windows only";
+#endif
+
+    VLLMResourceManager mgr(makeConfig());
+    ASSERT_TRUE(mgr.initialize());
+
+    // First call: warms the cache (takes ~100 ms for the two-snapshot baseline).
+    auto stats1 = mgr.getStats();
+    EXPECT_GE(stats1.cpu_utilization, 0.0);
+    EXPECT_LE(stats1.cpu_utilization, 100.0);
+
+    // Rapid second call: uses the cached snapshot.  Result must still be valid.
+    auto stats2 = mgr.getStats();
+    EXPECT_GE(stats2.cpu_utilization, 0.0)  << "cache-hit cpu_utilization must be >= 0";
+    EXPECT_LE(stats2.cpu_utilization, 100.0) << "cache-hit cpu_utilization must be <= 100";
+    EXPECT_GT(stats2.ram_used_mb, static_cast<size_t>(0))
+        << "cache-hit ram_used_mb should still be > 0";
+}
+
+// ---------------------------------------------------------------------------
+// Performance test: cache-hit getStats() must complete in < 2 ms.
+// Opt-in via THEMIS_RUN_PERF_TESTS=1 to avoid CI flakiness.
+// ---------------------------------------------------------------------------
+
+TEST(VLLMResourceStatsTest, CacheHit_CompletesUnder2ms) {
+#if !defined(__linux__) && !defined(_WIN32)
+    GTEST_SKIP() << "CPU monitoring implemented for Linux and Windows only";
+#endif
+
+    {
+        const char* env = std::getenv("THEMIS_RUN_PERF_TESTS");
+        if (!env || std::string(env) != "1") {
+            GTEST_SKIP() << "Set THEMIS_RUN_PERF_TESTS=1 to run performance tests";
+        }
+    }
+
+    VLLMResourceManager mgr(makeConfig());
+    ASSERT_TRUE(mgr.initialize());
+
+    // Must match kCpuCacheTTL in vllm_resource_manager.cpp.
+    constexpr long kCacheTtlMs = 200;
+
+    // Warm the cache: first call always takes ~100 ms for the two-snapshot baseline.
+    const auto warm_start = std::chrono::steady_clock::now();
+    mgr.getStats();
+    const auto warm_elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - warm_start).count();
+
+    // If scheduling delays consumed the entire TTL window during warm-up,
+    // the next call would be a cache miss (~100 ms), making the 2 ms assertion
+    // meaningless.  Skip rather than produce a spurious failure.
+    if (warm_elapsed_ms >= kCacheTtlMs) {
+        GTEST_SKIP() << "Warm-up took " << warm_elapsed_ms
+                     << " ms (>= " << kCacheTtlMs
+                     << " ms TTL) — cache miss expected; skipping perf gate";
+    }
+
+    // Second call must hit the cache and complete in < 2 ms.
+    auto t0 = std::chrono::steady_clock::now();
+    auto stats = mgr.getStats();
+    auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
+        std::chrono::steady_clock::now() - t0).count();
+
+    EXPECT_LT(elapsed_us, 2000)
+        << "Cache-hit getStats() must complete in < 2 ms (got "
+        << elapsed_us << " µs)";
+    EXPECT_GE(stats.cpu_utilization, 0.0);
+    EXPECT_LE(stats.cpu_utilization, 100.0);
 // Mock-NVML provider tests — verify canUseGPU() / queryGPUUtilization()
 // decision logic without real GPU hardware (runs in CI).
 //

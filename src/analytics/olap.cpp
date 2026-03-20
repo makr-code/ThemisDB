@@ -2069,7 +2069,8 @@ bool OLAPEngine::exportToParquet(
     const std::string&,
     const std::string&
 ) {
-    return false;  // Arrow not compiled in
+    spdlog::warn("OLAPEngine::exportToParquet: Arrow not compiled in – rebuild with -DTHEMIS_HAS_ARROW=ON");
+    return false;
 }
 
 bool OLAPEngine::exportCollectionToParquet(
@@ -2078,7 +2079,8 @@ bool OLAPEngine::exportCollectionToParquet(
     const std::vector<Filter>&,
     const std::string&
 ) {
-    return false;  // Arrow not compiled in
+    spdlog::warn("OLAPEngine::exportCollectionToParquet: Arrow not compiled in – rebuild with -DTHEMIS_HAS_ARROW=ON");
+    return false;
 }
 #endif // ARROW_ENABLED
 

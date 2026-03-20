@@ -76,7 +76,12 @@ struct DeploymentConfig {
     // BaseEntity storage (RocksDB integration)
     bool use_base_entity_storage = true;  // Store models in RocksDB as BaseEntity
     std::shared_ptr<RocksDBWrapper> db;   // RocksDB instance
-    std::string collection_name = "llm_models";  // Collection name in RocksDB
+    // Key prefix for RocksDB entries. Keys are constructed as: key_prefix + model_id
+    // (e.g. default "llm_model::" + "my-model" → "llm_model::my-model").
+    std::string key_prefix = "llm_model::";
+    // Set to true only when a BlobStorageManager is configured; otherwise only
+    // metadata is persisted and model weights remain on the local filesystem.
+    bool store_weights_in_rocksdb = false;
     
     // Model sources (checked in priority order)
     std::vector<ModelSource> sources;
@@ -351,6 +356,9 @@ private:
     void loadModelRegistry();
     std::optional<ModelSource> findBestSource(const std::string& model_id);
     std::string getModelPath(const std::string& model_id) const;
+    /// Converts a model_id into a sanitised filename (colons/slashes → '_', '.gguf' appended
+    /// when no recognised extension is present). Shared by getModelPath() and findBestSource().
+    static std::string modelIdToFilename(const std::string& model_id);
     bool verifyChecksum(const std::string& file_path, 
                         const std::string& expected_checksum,
                         const std::string& checksum_type);

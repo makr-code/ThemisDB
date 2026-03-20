@@ -25,6 +25,7 @@ Each paper that serves as a foundation for a ThemisDB algorithm, data structure,
 | [APE — Zhou et al. (2022)](../LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS.md#51-automatic-prompt-engineer-ape) | `src/prompt_engineering/` | v1.4.0-alpha+ | ✅ Implemented |
 | [Matryoshka Representation Learning — Kusupati et al. (2022)](../LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS.md#34-matryoshka-representation-learning) | `src/vector/` | v1.4.1+ | ⏳ Planned |
 | [Scaling Laws — Kaplan et al. (2020)](../LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS.md#22-scaling-laws) | `src/llm/` (model selection) | v1.3.0+ | ✅ Implemented |
+| [Graph-Process Schema and Hybrid Vector+Graph Retrieval — ThemisDB (2026)](process_graph_vector_ai_2026.md) | `src/graph/`, `src/vector/`, `src/rag/`, `src/llm/` | v1.9.0+ | 🔄 Partially Implemented |
 
 > For full IEEE citations and implementation details, see [LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS.md](../LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS.md).
 

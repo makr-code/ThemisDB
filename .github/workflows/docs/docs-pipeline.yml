@@ -64,6 +64,56 @@ concurrency:
 
 permissions:
   contents: read
+
+# ---------------------------------------------------------------------------
+# Stage 1 – Validate (lint + links + TOC)
+# Runs on every PR and push so problems are caught early.
+# ---------------------------------------------------------------------------
+jobs:
+  validate:
+    name: Validate (lint + links + TOC)
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install validation dependencies
+        run: pip install pyyaml requests
+
+      - name: Lint documentation
+        id: lint
+        run: python3 scripts/docs-lint.py
+
+      - name: Check internal links
+        id: link-check
+        run: python3 scripts/link-check.py --internal-only
+
+      - name: Validate TOC
+        id: toc
+        run: python3 scripts/toc-check.py
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 📋 Docs Validation" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Check | Status |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-------|--------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Lint | ${{ steps.lint.outcome }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Internal links | ${{ steps.link-check.outcome }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| TOC | ${{ steps.toc.outcome }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Branch:** \`${{ github.ref_name }}\` | **Event:** \`${{ github.event_name }}\`" >> "$GITHUB_STEP_SUMMARY"
   issues: write   # required by the drift-detection job in documentation-validation.yml
 
 # ---------------------------------------------------------------------------

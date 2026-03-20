@@ -16692,7 +16692,62 @@ else()
     message(STATUS "TSStore Gorilla Buffer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tsstore_gorilla_buffer.cpp")
 endif()
 
+# SAGA Orchestration Engine Focused Tests (Issue #4043, v1.8.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_saga_orchestrator.cpp")
+    message(STATUS "Adding SAGA Orchestration Engine focused tests")
+
+    add_executable(test_saga_orchestrator_focused
+        test_saga_orchestrator.cpp
+        ${CMAKE_SOURCE_DIR}/src/transaction/saga_orchestrator.cpp
+    )
+
+    target_include_directories(test_saga_orchestrator_focused PRIVATE
 # ---------------------------------------------------------------------------
+# PredictivePrefetcher Markov ML model focused tests (v1.8.0)
+# Covers all four acceptance criteria:
+#   AC-1  Markov chain + ToD bucketing   (time-of-day weighted candidates)
+#   AC-2  RocksDB persistence            (save/load round-trip via prefetch_model:: prefix)
+#   AC-3  MetricsCollector emission      (cache.prefetch.hit_rate + overhead_bytes)
+#   AC-4  A/B test toggle                (50/50 tenant split, per-group counters)
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_predictive_prefetcher_markov.cpp" AND NOT TARGET test_predictive_prefetcher_markov_focused)
+    message(STATUS "Adding PredictivePrefetcher Markov ML focused tests (cache, v1.8.0)")
+
+    add_executable(test_predictive_prefetcher_markov_focused
+        test_predictive_prefetcher_markov.cpp
+    )
+
+    target_include_directories(test_predictive_prefetcher_markov_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_predictive_prefetcher_markov_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_predictive_prefetcher_markov_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PredictivePrefetcherMarkovTests COMMAND test_predictive_prefetcher_markov_focused)
+
+    set_tests_properties(PredictivePrefetcherMarkovTests PROPERTIES
+        LABELS "cache;prefetch;markov;tod;rocksdb;metrics;ab-test;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PredictivePrefetcherMarkov: ToD bucketing, RocksDB persistence, MetricsCollector, A/B test toggle")
+else()
+    if(TARGET test_predictive_prefetcher_markov_focused)
+        message(STATUS "PredictivePrefetcher Markov focused tests already registered")
+    else()
+        message(STATUS "PredictivePrefetcher Markov focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_predictive_prefetcher_markov.cpp")
+    endif()
+endif()
+
 # Versioned API Routing focused tests (v1.8.0)
 # AC-VAR-1..4   RouteVersionRouter redirect / normalize / strip prefix
 # AC-VAR-5..9   POST /v2/documents (handleBulkNdjson): NDJSON accept, 415,
@@ -16786,6 +16841,84 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cuda_hnsw_large_k.cpp")
     message(STATUS "  CudaHnswLargeK: k=257, k=512, k=1024, k=1025 multi-pass, health degraded")
 else()
     message(STATUS "CUDA HNSW Large-k focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cuda_hnsw_large_k.cpp")
+endif()
+
+# ============================================================================
+# Compute Interface Extensions Focused Tests
+# (include/acceleration/FUTURE_ENHANCEMENTS.md items — v1.8.0)
+# Tests DeviceCapabilityFlags, DeviceSet, CancellationToken, DispatchStats,
+# ComputeFuture<T>, IDeviceCapabilityQuery, IMultiGPUSelector (32-thread
+# safety), IKernelRegistry, IAsyncComputeDispatch, IVulkanComputeBackend
+# PODs, submitSimilarityKernel() CPU fallback.
+#   AC-1  DeviceCapabilityFlags bitmask operations and KNOWN_VALID_MASK
+#   AC-2  DeviceSet capacity, push(), range-for
+#   AC-3  CancellationToken copy-shares flag; concurrent cancel safe
+#   AC-4  DispatchStats kernel_latency_ns() / total_latency_ns()
+#   AC-5  ComputeFuture make_ready, make_exceptional, async producer
+#   AC-6  ComputeFuture cancel after completion (no-op)
+#   AC-7  ComputeFuture then() continuation invokable
+#   AC-8  Mock IDeviceCapabilityQuery: invalid index → NONE
+#   AC-9  IMultiGPUSelector thread-safety: 32 concurrent threads
+#   AC-10 IKernelRegistry register/resolve/deregister
+#   AC-11 IAsyncComputeDispatch mock returns valid future
+#   AC-12 submitSimilarityKernel() L2 CPU fallback returns sorted results
+#   AC-13 VulkanPipelineHandle/Config/DeviceInfo default values
+#   AC-14 Trivial-copyability static assertions for POD types
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_compute_interfaces.cpp")
+    message(STATUS "Adding ComputeInterfaces focused tests (acceleration interface extensions, v1.8.0)")
+
+    add_executable(test_compute_interfaces_focused
+        test_compute_interfaces.cpp
+    )
+
+    target_include_directories(test_compute_interfaces_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_saga_orchestrator_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_saga_orchestrator_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SAGAOrchestratorFocusedTests
+        COMMAND test_saga_orchestrator_focused)
+
+    set_tests_properties(SAGAOrchestratorFocusedTests PROPERTIES
+        LABELS "transaction;saga;orchestrator;parallel;dag;v1.8.0;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  SAGAOrchestrator: parallel DAG execution, conditional branching, retry, timeout, templates, workflow designer")
+else()
+    message(STATUS "SAGA Orchestrator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_saga_orchestrator.cpp")
+    target_link_libraries(test_compute_interfaces_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_compute_interfaces_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ComputeInterfacesFocusedTests COMMAND test_compute_interfaces_focused)
+
+    set_tests_properties(ComputeInterfacesFocusedTests PROPERTIES
+        LABELS "acceleration;interfaces;compute-future;device-capability;multi-gpu;v1.8.0;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ComputeInterfaces: DeviceCapabilityFlags, DeviceSet, ComputeFuture, IDeviceCapabilityQuery, IMultiGPUSelector(32-thread), IKernelRegistry, IAsyncComputeDispatch, IVulkanComputeBackend PODs")
+else()
+    message(STATUS "Compute interface focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_compute_interfaces.cpp")
 endif()
 
 message(STATUS "Tests configured successfully")
