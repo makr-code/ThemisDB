@@ -1,7 +1,7 @@
 # Temporal Module — Architecture Guide
 
-**Version:** 1.1  
-**Last Updated:** 2026-03-10  
+**Version:** 1.2  
+**Last Updated:** 2026-03-20  
 **Module Path:** `src/temporal/`
 
 ---
@@ -45,6 +45,9 @@ streams) by providing ISO SQL:2011-compatible temporal tables for structured rec
 | `temporal_conflict_resolver.cpp` | HLC-based conflict resolution for concurrent edits |
 | `snapshot_manager.cpp` | Temporal snapshot creation and restoration |
 | `retention_manager.cpp` | Automated expiry of old versions based on retention policy |
+| `interval_tree_index.cpp` | Augmented BST interval tree; O(log n + k) overlap detection for valid-time period predicates |
+| `temporal_compressor.cpp` | DELTA/ZSTD/Gorilla/dictionary compression for historical version payloads |
+| `temporal_cdc.cpp` | Versioned CDC engine; typed ChangeEvent pub/sub with bounded ring-buffer replay |
 
 ### 3.2 Component Diagram
 
@@ -70,6 +73,13 @@ streams) by providing ISO SQL:2011-compatible temporal tables for structured rec
 │                 SystemVersionedTable / BiTemporal               │
 │  on write: record (sys_start=now, sys_end=∞, val_start, val_end) │
 │  on update: close old version (sys_end=now), open new version   │
+└──────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────┐
+│                    Phase 4 Components                            │
+│ interval_tree_index.cpp → max-end augmented BST, overlap queries │
+│ temporal_compressor.cpp → DELTA/ZSTD/Gorilla/dictionary compress │
+│ temporal_cdc.cpp        → ChangeEvent pub/sub, ring-buffer replay│
 └──────────────────────────────────────────────────────────────────┘
 ```
 
@@ -142,6 +152,8 @@ Two concurrent updates to same record (distributed nodes):
 | Temporal index | B-tree on period ranges avoids full scan for time-bounded queries |
 | HLC monotonicity | Monotonically increasing timestamps; no clock skew handling needed |
 | Retention pruning | Expired versions deleted in background; no read-time overhead |
+| Interval tree | O(log n + k) overlap queries instead of O(n) full scan for period predicates |
+| History compression | TemporalCompressor reduces storage overhead 3–10× for historical version payloads |
 
 ---
 
@@ -179,9 +191,9 @@ Two concurrent updates to same record (distributed nodes):
 
 - SQL `PERIOD FOR` DDL syntax is not yet supported; application-time periods must be managed via the C++ API (`BiTemporalTable`).
 - No automatic SQL-level retention syntax (`ALTER TABLE … SET RETENTION_PERIOD`); retention policies must be set programmatically via `RetentionManager::setPolicy()`.
-- History table compression is not yet implemented; historical data storage overhead is proportional to version count.
-- Temporal CDC (streaming change events) is not yet available.
-- Temporal foreign keys with period-aware referential integrity are not yet implemented.
+- History table compression is implemented via `TemporalCompressor` (DELTA, ZSTD, Gorilla, DICTIONARY algorithms; see `temporal_compressor.cpp`).
+- Temporal CDC is available via `TemporalCDC` (in-process pub/sub with bounded ring-buffer; Kafka integration deferred to Phase 5).
+- Temporal foreign keys with period-aware referential integrity are implemented via `TemporalForeignKey::validate()` (C++ layer); CASCADE/RESTRICT at SQL layer deferred to Phase 5.
 
 ---
 
