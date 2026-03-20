@@ -230,6 +230,25 @@ public:
     size_t purgeHistoricalVersions(
         const std::function<bool(const VersionedDocument&)>& predicate);
 
+    /**
+     * Replace the `data` payload of an existing historical version in-place.
+     *
+     * Identifies the version by `key` and the exact `sys_start` timestamp.
+     * Only closed (non-current) versions may be replaced; attempting to
+     * replace a current version returns false.
+     *
+     * This method is intended for use by TemporalCompressor to substitute
+     * a compressed payload without altering the version's time metadata.
+     *
+     * @param key        Row key.
+     * @param sys_start  sys_time.start of the target version.
+     * @param new_data   Replacement payload (may be compressed).
+     * @return           true if the version was found and replaced.
+     */
+    bool replaceHistoricalPayload(const std::string& key,
+                                  Timestamp sys_start,
+                                  const Document& new_data);
+
     // ── Retention ─────────────────────────────────────────────────────────────
 
     /**

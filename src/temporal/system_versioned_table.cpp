@@ -465,6 +465,33 @@ size_t SystemVersionedTable::enforceRetentionPolicy() {
 }
 
 // ============================================================================
+// Payload replacement (used by TemporalCompressor)
+// ============================================================================
+
+bool SystemVersionedTable::replaceHistoricalPayload(const std::string& key,
+                                                     Timestamp sys_start,
+                                                     const Document& new_data) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto it = rows_.find(key);
+    if (it == rows_.end()) {
+        return false;
+    }
+
+    for (auto& v : it->second) {
+        if (v.sys_time.start == sys_start) {
+            if (v.isCurrent()) {
+                // Never replace the payload of the live current version
+                return false;
+            }
+            v.data = new_data;
+            return true;
+        }
+    }
+    return false;
+}
+
+// ============================================================================
 // Private helpers
 // ============================================================================
 
