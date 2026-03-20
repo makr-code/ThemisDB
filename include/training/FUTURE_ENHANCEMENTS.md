@@ -11,12 +11,12 @@
 
 ## Design Constraints
 
-- `[ ]` `ITrainingPipeline` is **async throughout**; no blocking calls on the public interface; all long-running operations return `std::future` or accept completion callbacks
-- `[ ]` LoRA checkpoints are content-addressed (SHA-256); checkpoint identifiers are derived from content and cannot be forged
-- `[ ]` `ISampleProvenanceTracker` is **append-only**; provenance records cannot be deleted or modified after write
-- `[ ]` `IConfidenceCalibrator` adjusts calibration thresholds only; it must never modify model weights or gradient state
-- `[ ]` Lineage query API is **read-only**; all mutation paths are absent from the public lineage interface
-- `[ ]` Knowledge graph enrichment queries are cached; the cache key is a deterministic hash of the query parameters
+- `[x]` `ITrainingPipeline` is **async throughout**; no blocking calls on the public interface; all long-running operations return `std::future` or accept completion callbacks
+- `[x]` LoRA checkpoints are content-addressed (SHA-256); checkpoint identifiers are derived from content and cannot be forged
+- `[x]` `ISampleProvenanceTracker` is **append-only**; provenance records cannot be deleted or modified after write
+- `[x]` `IConfidenceCalibrator` adjusts calibration thresholds only; it must never modify model weights or gradient state
+- `[x]` Lineage query API is **read-only**; all mutation paths are absent from the public lineage interface
+- `[x]` Knowledge graph enrichment queries are cached; the cache key is a deterministic hash of the query parameters
 
 ## Required Interfaces
 
@@ -33,38 +33,38 @@
 
 ### LoRA Checkpoint Manager Interface
 
-- `[ ]` Define `ILoRACheckpointManager` with `save(const LoRAWeights&) -> CheckpointId` returning a SHA-256-derived content address
-- `[ ]` Add `load(CheckpointId) -> std::future<LoRAWeights>` — async to support large checkpoint retrieval from remote stores
-- `[ ]` Add `verify(CheckpointId) -> bool` to re-derive the content hash and confirm integrity; returns `false` for tampered checkpoints
-- `[ ]` Expose `listCheckpoints(ModelId) -> std::vector<CheckpointDescriptor>` with `id`, `createdAt`, `sizeBytes`, `signatureValid`
+- `[x]` Define `ILoRACheckpointManager` with `save(const LoRAWeights&) -> CheckpointId` returning a SHA-256-derived content address
+- `[x]` Add `load(CheckpointId) -> std::future<LoRAWeights>` — async to support large checkpoint retrieval from remote stores
+- `[x]` Add `verify(CheckpointId) -> bool` to re-derive the content hash and confirm integrity; returns `false` for tampered checkpoints
+- `[x]` Expose `listCheckpoints(ModelId) -> std::vector<CheckpointDescriptor>` with `id`, `createdAt`, `sizeBytes`, `signatureValid`
 
 ### Sample Provenance and Lineage Tracking API
 
-- `[ ]` Define `ISampleProvenanceTracker` with `record(const SampleProvenance&)` — append-only, no update or delete
-- `[ ]` `SampleProvenance` carries `sampleId`, `sourceUri` (opaque, not raw content), `collectedAt`, `preprocessingSteps`, `datasetVersion`
-- `[ ]` Add `queryLineage(SampleId) -> LineageGraph` returning a DAG of transformations from raw source to training-ready sample
-- `[ ]` Tracker exposes `totalRecords() -> size_t` and `storageEstimateBytes() -> size_t` for capacity planning; no raw content accessors
+- `[x]` Define `ISampleProvenanceTracker` with `record(const SampleProvenance&)` — append-only, no update or delete
+- `[x]` `SampleProvenance` carries `sampleId`, `sourceUri` (opaque, not raw content), `collectedAt`, `preprocessingSteps`, `datasetVersion`
+- `[x]` Add `queryLineage(SampleId) -> LineageGraph` returning a DAG of transformations from raw source to training-ready sample
+- `[x]` Tracker exposes `totalRecords() -> size_t` and `storageEstimateBytes() -> size_t` for capacity planning; no raw content accessors
 
 ### Knowledge Graph Enrichment Query Cache
 
-- `[ ]` Define `IKGEnrichmentInterface` with `enrich(const EntityRef&) -> EnrichmentResult` — results served from cache when available
-- `[ ]` `EnrichmentResult` carries `entityId`, `relations` (`std::vector<KGRelation>`), `confidence`, `cacheHit`
-- `[ ]` Add `invalidateCache(const EntityRef&)` for targeted cache invalidation and `clearCache()` for full eviction
-- `[ ]` Cache key is derived deterministically from `EntityRef` fields; the interface exposes `cacheStats() -> CacheStats` with hit/miss/eviction counts
+- `[x]` Define `IKGEnrichmentInterface` with `enrich(const EntityRef&) -> EnrichmentResult` — results served from cache when available
+- `[x]` `EnrichmentResult` carries `entityId`, `relations` (`std::vector<KGRelation>`), `confidence`, `cacheHit`
+- `[x]` Add `invalidateCache(const EntityRef&)` for targeted cache invalidation and `clearCache()` for full eviction
+- `[x]` Cache key is derived deterministically from `EntityRef` fields; the interface exposes `cacheStats() -> CacheStats` with hit/miss/eviction counts
 
 ### Confidence-Threshold Auto-Calibration Interface
 
-- `[ ]` Define `IConfidenceCalibrator` with `calibrate(const CalibrationDataset&) -> std::future<CalibrationResult>`
-- `[ ]` `CalibrationResult` carries `updatedThresholds` (`ThresholdMap`), `calibrationError`, `samplesUsed`
-- `[ ]` Add `currentThresholds() -> const ThresholdMap&` and `applyThresholds(const ThresholdMap&)` — both operate on threshold state only, never on model weights
-- `[ ]` Calibrator exposes `resetToDefaults()` to restore factory thresholds without affecting any persisted model artefact
+- `[x]` Define `IConfidenceCalibrator` with `calibrate(const CalibrationDataset&) -> std::future<CalibrationResult>`
+- `[x]` `CalibrationResult` carries `updatedThresholds` (`ThresholdMap`), `calibrationError`, `samplesUsed`
+- `[x]` Add `currentThresholds() -> const ThresholdMap&` and `applyThresholds(const ThresholdMap&)` — both operate on threshold state only, never on model weights
+- `[x]` Calibrator exposes `resetToDefaults()` to restore factory thresholds without affecting any persisted model artefact
 
 ### Training Pipeline Orchestration API
 
-- `[ ]` Define `ITrainingPipeline` with `submit(TrainingJob) -> std::future<TrainingResult>` — fully async, non-blocking
-- `[ ]` `TrainingJob` carries `datasetRef`, `modelConfig`, `loraConfig` (optional), `provenanceTracker` (optional injection point)
-- `[ ]` Add `cancel(JobId) -> CancelResult` (best-effort, returns `Cancelled` or `AlreadyCompleted`)
-- `[ ]` Expose `status(JobId) -> JobStatus` with states: `Queued`, `Running`, `Completed`, `Failed`, `Cancelled`
+- `[x]` Define `ITrainingPipeline` with `submit(TrainingJob) -> std::future<TrainingResult>` — fully async, non-blocking
+- `[x]` `TrainingJob` carries `datasetRef`, `modelConfig`, `loraConfig` (optional), `provenanceTracker` (optional injection point)
+- `[x]` Add `cancel(JobId) -> CancelResult` (best-effort, returns `Cancelled` or `AlreadyCompleted`)
+- `[x]` Expose `status(JobId) -> JobStatus` with states: `Queued`, `Running`, `Completed`, `Failed`, `Cancelled`
 
 ## Test Strategy
 

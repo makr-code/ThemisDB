@@ -485,6 +485,136 @@ TEST_F(TrainingPipelineE2ETest, RunCalibration_WithCheckpointManager_PersistsMan
 }
 
 // ============================================================================
+// Phase 2: HyperparamSearch – runHyperparamSearch()
+// ============================================================================
+
+TEST_F(TrainingPipelineE2ETest, HyperparamSearch_EmptyCandidates_ReturnsFailure) {
+    TrainingPipeline pipeline(config_, db_conn_);
+    HyperparamSearchConfig cfg;
+    // rank_candidates and lr_candidates are both empty by default
+    auto result = pipeline.runHyperparamSearch(cfg);
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.trials_run, 0u);
+}
+
+TEST_F(TrainingPipelineE2ETest, HyperparamSearch_EmptyRankCandidates_ReturnsFailure) {
+    TrainingPipeline pipeline(config_, db_conn_);
+    HyperparamSearchConfig cfg;
+    cfg.rank_candidates = {};
+    cfg.lr_candidates   = {1e-4f, 3e-4f};
+    auto result = pipeline.runHyperparamSearch(cfg);
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.trials_run, 0u);
+}
+
+TEST_F(TrainingPipelineE2ETest, HyperparamSearch_EmptyLrCandidates_ReturnsFailure) {
+    TrainingPipeline pipeline(config_, db_conn_);
+    HyperparamSearchConfig cfg;
+    cfg.rank_candidates = {4, 8};
+    cfg.lr_candidates   = {};
+    auto result = pipeline.runHyperparamSearch(cfg);
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.trials_run, 0u);
+}
+
+TEST_F(TrainingPipelineE2ETest, HyperparamSearch_SingleTrial_RunsAndReturns) {
+    TrainingPipeline pipeline(config_, db_conn_);
+    HyperparamSearchConfig cfg;
+    cfg.rank_candidates = {4};
+    cfg.lr_candidates   = {1e-4f};
+    cfg.max_trials      = 1;
+    auto result = pipeline.runHyperparamSearch(cfg);
+    // May succeed or fail depending on DB connection, but must run exactly 1 trial
+    EXPECT_EQ(result.trials_run, 1u);
+    EXPECT_EQ(result.trial_log.size(), 1u);
+    EXPECT_EQ(result.trial_log[0].rank, 4);
+    EXPECT_FLOAT_EQ(result.trial_log[0].lr, 1e-4f);
+}
+
+TEST_F(TrainingPipelineE2ETest, HyperparamSearch_MaxTrialsLimitsCandidates) {
+    TrainingPipeline pipeline(config_, db_conn_);
+    HyperparamSearchConfig cfg;
+    cfg.rank_candidates = {4, 8, 16};
+    cfg.lr_candidates   = {1e-4f, 3e-4f, 1e-3f};
+    cfg.max_trials      = 3;  // 9 combos, capped to 3
+    auto result = pipeline.runHyperparamSearch(cfg);
+    EXPECT_LE(result.trials_run, 3u);
+    EXPECT_LE(result.trial_log.size(), 3u);
+}
+
+TEST_F(TrainingPipelineE2ETest, HyperparamSearch_DeterministicOrdering_SameSeedSameTrials) {
+    TrainingPipeline pipeline(config_, db_conn_);
+    HyperparamSearchConfig cfg;
+    cfg.rank_candidates = {4, 8};
+    cfg.lr_candidates   = {1e-4f, 3e-4f};
+    cfg.max_trials      = 2;
+    cfg.seed            = 99u;
+
+    auto result1 = pipeline.runHyperparamSearch(cfg);
+    auto result2 = pipeline.runHyperparamSearch(cfg);
+
+    ASSERT_EQ(result1.trial_log.size(), result2.trial_log.size());
+    for (size_t i = 0; i < result1.trial_log.size(); ++i) {
+        EXPECT_EQ(result1.trial_log[i].rank, result2.trial_log[i].rank);
+        EXPECT_FLOAT_EQ(result1.trial_log[i].lr, result2.trial_log[i].lr);
+    }
+}
+
+TEST_F(TrainingPipelineE2ETest, HyperparamSearch_CallbackFiredForEachTrial) {
+    TrainingPipeline pipeline(config_, db_conn_);
+    HyperparamSearchConfig cfg;
+    cfg.rank_candidates = {4, 8};
+    cfg.lr_candidates   = {1e-4f};
+    cfg.max_trials      = 2;
+
+    std::vector<size_t> callback_indices;
+    auto cb = [&](size_t idx, const HyperparamTrialResult&) {
+        callback_indices.push_back(idx);
+    };
+
+    auto result = pipeline.runHyperparamSearch(cfg, cb);
+    EXPECT_EQ(callback_indices.size(), result.trials_run);
+    for (size_t i = 0; i < callback_indices.size(); ++i) {
+        EXPECT_EQ(callback_indices[i], i);
+    }
+}
+
+TEST_F(TrainingPipelineE2ETest, HyperparamSearch_BudgetZero_RunsAllTrials) {
+    TrainingPipeline pipeline(config_, db_conn_);
+    HyperparamSearchConfig cfg;
+    cfg.rank_candidates = {4, 8};
+    cfg.lr_candidates   = {1e-4f};
+    cfg.max_trials      = 9;
+    cfg.budget_seconds  = 0.0;  // unlimited
+    auto result = pipeline.runHyperparamSearch(cfg);
+    // With 2 rank × 1 lr = 2 combos, all trials should run
+    EXPECT_EQ(result.trials_run, 2u);
+}
+
+TEST_F(TrainingPipelineE2ETest, HyperparamSearch_ElapsedSecondsPositive) {
+    TrainingPipeline pipeline(config_, db_conn_);
+    HyperparamSearchConfig cfg;
+    cfg.rank_candidates = {4};
+    cfg.lr_candidates   = {1e-4f};
+    cfg.max_trials      = 1;
+    auto result = pipeline.runHyperparamSearch(cfg);
+    EXPECT_GE(result.elapsed_seconds, 0.0);
+}
+
+TEST_F(TrainingPipelineE2ETest, HyperparamSearch_BestRankAndLrPopulated) {
+    TrainingPipeline pipeline(config_, db_conn_);
+    HyperparamSearchConfig cfg;
+    cfg.rank_candidates = {4, 8};
+    cfg.lr_candidates   = {1e-4f, 3e-4f};
+    cfg.max_trials      = 4;
+    auto result = pipeline.runHyperparamSearch(cfg);
+    if (result.trials_run > 0) {
+        EXPECT_GT(result.best_rank, 0);
+        EXPECT_GT(result.best_lr, 0.0f);
+    }
+}
+
+// ============================================================================
 // Phase 3: LoRACheckpointManager calibration JSON API
 // ============================================================================
 
