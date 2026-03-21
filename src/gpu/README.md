@@ -138,6 +138,8 @@ metric writes, and audit-log appends are safe.
 - **v1.3.0**: ROCm/HIP backend parity (`rocm_backend.cpp`): HIP stream lifecycle,
   device memory (`hipMalloc`/`hipFree`/`hipMemset`), launcher BackendFn with CPU
   fallback; `GPUStreamManager` default backend now wires through `ROCmBackend`
+- **v1.8.0**: Public header documentation: added `include/themis/gpu/README.md`
+  documenting all 28 GPU public headers with key types, APIs, and usage examples
 
 ## See Also
 

@@ -107,7 +107,7 @@
 - [x] Integration tests (device discovery, circuit breaker, memory allocation, load balancer)
 - [x] Performance benchmarks (GPU vs CPU throughput, memory allocation latency)
 - [x] Security audit (kernel whitelist, capability gate, tenant isolation)
-- [x] Documentation complete (GPU runbook, roadmap, admin API)
+- [x] Documentation complete (GPU runbook, roadmap, admin API, `include/themis/gpu/README.md` with all 28 header descriptions)
 - [x] API stability guaranteed for GPUModule facade and query accelerator
 - [x] All 30 `src/gpu/*.cpp` source files registered in `cmake/EditionFeatures.cmake` (all GPU-enabled editions) and `cmake/ModularBuild.cmake` (4 unconditionally + 26 gated on `THEMIS_ENABLE_GPU` in modular geo sources)
 - [x] All GPU test files re-included in `tests/CMakeLists.txt`; 18 dedicated focused test targets added in `cmake/CMakeLists.txt`
