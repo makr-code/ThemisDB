@@ -2229,6 +2229,10 @@ set(THEMIS_CORE_SOURCES
     ../src/observability/advanced_metrics.cpp
     # Observability: OpenTelemetry Full Integration (v1.6.0)
     ../src/observability/opentelemetry_tracer.cpp
+    # Observability: ML-based anomaly detection on metrics time-series (v1.7.0, Issue #2097)
+    ../src/observability/ml_anomaly_detector.cpp
+    # Observability: automated root cause identification for performance issues (v1.7.0, Issue #84)
+    ../src/observability/root_cause_analyzer.cpp
 
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
