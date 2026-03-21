@@ -13566,6 +13566,14 @@ add_prompt_focused_test(
     "PromptEngineeringIntegration: facade combining all subsystems, before/after execution hooks"
 )
 
+add_prompt_focused_test(
+    test_context_window_manager_focused
+    test_context_window_manager.cpp
+    ContextWindowBudgetManagerFocusedTests
+    "prompt_engineering;context_window;token_budget;budget_enforcement;unit"
+    "ContextWindowBudgetManager: token counting, greedy chunk selection, budget enforcement, PromptBudgetExceededError"
+)
+
 # ============================================================================
 # Custom Test Targets
 # ============================================================================

@@ -81,7 +81,7 @@ Build a regression harness around `prompt_evaluator.cpp` that runs on every temp
 
 ---
 
-### [ ] RAG Context Window Budget Manager
+### [x] RAG Context Window Budget Manager
 **Priority:** High
 **Target Version:** v0.9.0
 
