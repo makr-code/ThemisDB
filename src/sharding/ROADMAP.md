@@ -14,7 +14,7 @@
 | ShardRepairEngine (Reed-Solomon, anti-entropy) | ✅ Production-ready |
 | Prometheus metrics + Admin API | ✅ Production-ready |
 | Build system audit (all .cpp registered in CMake) | ✅ Complete (March 2026) |
-| Focused standalone test targets (24 targets) | ✅ Complete (March 2026) |
+| Focused standalone test targets (31 targets) | ✅ Complete (March 2026) |
 | RPC integration (cross-shard read/write) | 🚧 In Progress |
 | Persistent Paxos acceptor state | 🚧 In Progress |
 | Consistent-hashing metadata shards | 🔲 Planned |
@@ -61,6 +61,10 @@ Sharding is a database architecture pattern that involves breaking a database in
 - [x] 24 focused standalone test targets added in `tests/CMakeLists.txt` covering all 23 sharding test files
 - [x] `test_shard_durability` and `test_slo_monitor` promoted from excluded to focused standalone targets
 - [x] 7 additional focused targets added for `test_adaptive_shard_router`, `test_cross_shard_coordinator`, `test_cross_shard_distribution`, `test_metadata_shard`, `test_multi_shard_transactions`, `test_pki_shard_certificate`, `test_raft_shard_manager`
+- [x] 7 more focused targets registered: `test_sharding_chaos`, `test_sharding_e2e`, `test_sharding_gossip`, `test_sharding_integration`, `test_sharding_interfaces`, `test_sharding_operational_metrics`, `test_sharding_uncovered`
+- [x] `circuit_breaker.cpp` state-transition logging implemented via `spdlog::info`
+- [x] `OrphanDetector` wired to `DistributedCoordinator` (listed as done in FUTURE_ENHANCEMENTS.md)
+- [x] CI workflow added: `.github/workflows/06-infrastructure/distributed/sharding-focused-tests-ci.yml`
 
 ### Phase 3: RPC Integration & Persistent State (Status: In Progress 🚧)
 - [?] Full RPC integration for cross-shard read/write operations (`sharding/rpc/`) (Target: Q2 2026)
@@ -73,7 +77,7 @@ Sharding is a database architecture pattern that involves breaking a database in
 - [?] Adaptive rebalancer driven by per-shard access-pattern telemetry
 - [~] Reed-Solomon repair parallelisation across repair workers (v1.6.0 — parallel scan bands, IOPS throttle, GPU flag)
 - [?] Raft snapshot compaction to bound log growth
-- [?] Chaos-engineering test suite (shard partition, node failure injection)
+- [x] Chaos-engineering test suite (shard partition, node failure injection) — `test_sharding_chaos_focused` registered
 
 ### Phase 5: Hardware Migration Support (Status: Beta 🟡)
 - [x] `HardwareMigrationManager` — safe endpoint replacement without altering hash-ring positions

@@ -15752,6 +15752,162 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_repair.cpp")
     message(STATUS "  RSRepairParallelisation: parallel scan bands, SLO progress, IOPS throttle, GPU flag")
 endif()
 
+# ── Sharding Chaos Engineering focused tests ─────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_chaos.cpp")
+    message(STATUS "Adding Sharding: Chaos Engineering focused tests")
+    add_executable(test_sharding_chaos_focused test_sharding_chaos.cpp)
+    target_include_directories(test_sharding_chaos_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_sharding_chaos_focused PRIVATE ${TEST_LIBS} spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_sharding_chaos_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ShardingChaosFocusedTests COMMAND test_sharding_chaos_focused)
+    set_tests_properties(ShardingChaosFocusedTests PROPERTIES
+        LABELS "sharding;chaos;resilience;partition;split-brain;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  ShardingChaos: network partitions, cascading failures, split-brain, random failure injection")
+endif()
+
+# ── Sharding E2E focused tests ────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_e2e.cpp")
+    message(STATUS "Adding Sharding: E2E focused tests")
+    add_executable(test_sharding_e2e_focused test_sharding_e2e.cpp)
+    target_include_directories(test_sharding_e2e_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_sharding_e2e_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    target_compile_definitions(test_sharding_e2e_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ShardingE2EFocusedTests COMMAND test_sharding_e2e_focused)
+    set_tests_properties(ShardingE2EFocusedTests PROPERTIES
+        LABELS "sharding;e2e;crud;scatter-gather;cross-shard;migration;focused;integration"
+        TIMEOUT 120
+    )
+    message(STATUS "  ShardingE2E: CRUD workflow, scatter-gather, cross-shard joins, migration simulation")
+endif()
+
+# ── Sharding Gossip focused tests ─────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_gossip.cpp")
+    message(STATUS "Adding Sharding: Gossip Protocol focused tests")
+    add_executable(test_sharding_gossip_focused test_sharding_gossip.cpp)
+    target_include_directories(test_sharding_gossip_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_sharding_gossip_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_sharding_gossip_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ShardingGossipFocusedTests COMMAND test_sharding_gossip_focused)
+    set_tests_properties(ShardingGossipFocusedTests PROPERTIES
+        LABELS "sharding;gossip;consensus;protocol;focused;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  ShardingGossip: GossipConfig defaults, enabled flag")
+endif()
+
+# ── Sharding Integration focused tests ───────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_integration.cpp")
+    message(STATUS "Adding Sharding: Integration focused tests")
+    add_executable(test_sharding_integration_focused test_sharding_integration.cpp)
+    target_include_directories(test_sharding_integration_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_sharding_integration_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    target_compile_definitions(test_sharding_integration_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ShardingIntegrationFocusedTests COMMAND test_sharding_integration_focused)
+    set_tests_properties(ShardingIntegrationFocusedTests PROPERTIES
+        LABELS "sharding;integration;urn;consistent-hash;router;remote-executor;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  ShardingIntegration: URN resolver, consistent hash, shard router, remote executor")
+endif()
+
+# ── Sharding Interfaces focused tests ────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_interfaces.cpp")
+    message(STATUS "Adding Sharding: Public Interfaces focused tests")
+    add_executable(test_sharding_interfaces_focused test_sharding_interfaces.cpp)
+    target_include_directories(test_sharding_interfaces_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_sharding_interfaces_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    target_compile_definitions(test_sharding_interfaces_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ShardingInterfacesFocusedTests COMMAND test_sharding_interfaces_focused)
+    set_tests_properties(ShardingInterfacesFocusedTests PROPERTIES
+        LABELS "sharding;interfaces;router;rebalancer;coordinator;snapshot;hash-ring;focused;unit"
+        TIMEOUT 90
+    )
+    message(STATUS "  ShardingInterfaces: IShardRouter, IAdaptiveRebalancer, IDistributedTxCoordinator, IRaftSnapshotManager, IConsistentHashRing, ICrossShardQueryRouter")
+endif()
+
+# ── Sharding Operational Metrics focused tests ───────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_operational_metrics.cpp")
+    message(STATUS "Adding Sharding: Operational Metrics focused tests")
+    add_executable(test_sharding_operational_metrics_focused test_sharding_operational_metrics.cpp)
+    target_include_directories(test_sharding_operational_metrics_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_sharding_operational_metrics_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_sharding_operational_metrics_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ShardingOperationalMetricsFocusedTests COMMAND test_sharding_operational_metrics_focused)
+    set_tests_properties(ShardingOperationalMetricsFocusedTests PROPERTIES
+        LABELS "sharding;observability;metrics;health;focused;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  ShardingOperationalMetrics: per-shard metrics, cluster health, network traffic, resource usage")
+endif()
+
+# ── Sharding Uncovered (OrphanDetector + ShardLoadDetector) focused tests ────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_uncovered.cpp")
+    message(STATUS "Adding Sharding: Uncovered Components focused tests")
+    add_executable(test_sharding_uncovered_focused test_sharding_uncovered.cpp)
+    target_include_directories(test_sharding_uncovered_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_sharding_uncovered_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_sharding_uncovered_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ShardingUncoveredFocusedTests COMMAND test_sharding_uncovered_focused)
+    set_tests_properties(ShardingUncoveredFocusedTests PROPERTIES
+        LABELS "sharding;orphan-detector;load-detector;focused;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  ShardingUncovered: OrphanDetector, ShardLoadDetector")
+endif()
+
 # Process Modeling Module focused tests
 # Covers: BpmnSerializer, EpkSerializer, VccVpbImporter, LlmProcessDescriptor,
 #         ProcessModelManager, ProcessLinker, ProcessGraphRag

@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
     • Total Lines:     265                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
@@ -23,6 +23,7 @@
 
 #include "sharding/circuit_breaker.h"
 #include <algorithm>
+#include <spdlog/spdlog.h>
 
 namespace themis::sharding {
 
@@ -149,9 +150,7 @@ void CircuitBreaker::transitionTo(State new_state) {
     State old_state = state_.load();
     if (old_state != new_state) {
         state_.store(new_state);
-        // TODO: Log state transition for monitoring
-        // THEMIS_INFO("Circuit breaker: {} → {}", 
-        //             stateToString(old_state), stateToString(new_state));
+        spdlog::info("CircuitBreaker: {} → {}", stateToString(old_state), stateToString(new_state));
     }
 }
 
