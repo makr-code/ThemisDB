@@ -12,6 +12,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Extended binary MIME detection (XLSX, ODT, RTF)
 - Distributed checkpoint store (etcd-backed)
 
+## [1.5.1] — 2026-03-21
+### Added
+- `tests/test_ingestion_llm_adapter.cpp` registered as `IngestionLlmAdapterFocusedTests` in `tests/CMakeLists.txt` (Phase 1 + Phase 2 unit tests for `LegalLlmAdapter`)
+- CI workflow `.github/workflows/ingestion-llm-adapter-ci.yml` — runs `IngestionLlmAdapterFocusedTests` on ubuntu-22.04 (gcc-12, clang-15) and ubuntu-24.04 (gcc-14)
+
 ## [1.5.0] — 2026-03-12
 ### Added
 - LLM-driven deontic extraction for legal texts (`DeonticExtractor`, `SemanticValidator`, `AgenticReferenceValidator`)

@@ -142,6 +142,7 @@ v1.5.x – Production-grade data intake layer. All connectors (FileSystem, Huggi
 - [x] Documentation: `docs/guides/legal-text-ingestion.md`, `examples/legal-ingestion-example.md`
 
 **Phase 2 (Planned 📋 — Target: Q3 2026):**
+- [x] `LegalLlmAdapter` unit tests registered: `tests/test_ingestion_llm_adapter.cpp` → `IngestionLlmAdapterFocusedTests`; CI: `ingestion-llm-adapter-ci.yml`
 - [ ] LoRA adapter training pipeline for German legal texts (BImSchG, StGB, DSGVO)
 - [ ] Mistral 7B integration via llama.cpp (injectable via `DeonticExtractor::setExtractorFn()`)
 - [ ] SpaCy `de_legal_ner` custom model for `DeonticExtractor::extractEntities()`
