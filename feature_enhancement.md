@@ -9111,6 +9111,12 @@
 
 ---
 
+### `include/prompt_engineering/context_window_manager.h` (v0.0.1)
+
+**Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
+
+---
+
 ### `include/query/adaptive_join.h` (v0.0.1)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
@@ -23320,6 +23326,12 @@
 ---
 
 ### `src/prompt_engineering/system_prompt_manager.cpp` (v0.0.1)
+
+**Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
+
+---
+
+### `src/prompt_engineering/context_window_manager.cpp` (v0.0.1)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
