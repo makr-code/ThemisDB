@@ -1,10 +1,10 @@
 # LLM Module — Architecture Guide
 
-<!-- Status: current | validated: 2026-03-09 | Primary: src/llm/ | Secondary: docs/de/llm/ -->
+<!-- Status: current | validated: 2026-03-21 | Primary: src/llm/ | Secondary: docs/de/llm/ -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../docs/de/llm/README.md -->
 
-**Version:** 1.1  
-**Last Updated:** 2026-03-09  
+**Version:** 1.2  
+**Last Updated:** 2026-03-21  
 **Module Path:** `src/llm/`
 
 ---
@@ -68,6 +68,7 @@ constitutional reasoning, AI decision auditing, and full Prometheus/Grafana obse
 | `kernel_fusion.cpp` / `kernel_fusion.cu` | GPU kernel fusion for inference |
 | `mixed_precision_inference.cpp` | FP16/BF16/INT8/INT4 inference |
 | `adaptive_vram_allocator.cpp` | Dynamic VRAM allocation across requests |
+| `active_vram_allocator.cpp` | GPU VRAM allocation with OOM recovery (LRU eviction, CPU spilling) |
 | `gpu_memory_manager.cpp` | GPU memory lifecycle for LLM inference |
 | `gpu_safe_fail.cpp` | LLM-specific GPU safe-fail wrapper |
 | `multi_gpu_memory_coordinator.cpp` | Multi-GPU memory coordination |
@@ -101,6 +102,10 @@ constitutional reasoning, AI decision auditing, and full Prometheus/Grafana obse
 | `model_metadata_cache.cpp` | Cached model metadata |
 | `grafana_metrics.cpp` | Grafana/Prometheus metrics for LLM operations |
 | `mcp_tool_bridge.cpp` | MCP (Model Context Protocol) tool bridge |
+| `model_router.cpp` | Regex- and tag-based request routing to backend models |
+| `speculative_decoder.cpp` | Speculative decoding: draft-model token generation and verifier acceptance |
+| `openai_compat_adapter.cpp` | OpenAI-compatible `/v1/chat/completions` REST adapter |
+| `model_quantization_pipeline.cpp` | Model quantization pipeline (GGUF, AWQ, GPTQ) |
 | `distributed_training_coordinator.cpp` | Distributed training coordination |
 | `aql_train_parser.cpp` | AQL training data parser |
 | `docs_assistant.cpp` | Documentation-aware assistant |

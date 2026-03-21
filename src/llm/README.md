@@ -1,6 +1,6 @@
 # LLM Module
 
-<!-- Status: current | validated: 2026-03-09 | Primary: src/llm/ | Secondary: docs/de/llm/ -->
+<!-- Status: current | validated: 2026-03-21 | Primary: src/llm/ | Secondary: docs/de/llm/ -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../docs/de/llm/README.md -->
 
 LLM interaction storage and chain-of-thought feature implementation for ThemisDB.
@@ -26,7 +26,7 @@ Implements LLM interaction storage and chain-of-thought features for ThemisDB. P
 
 **Maturity:** 🟢 Production-ready (v1.16.0) — Both inference engines operational; streaming SSE output, OpenAI-compatible adapter, speculative decoding, LoRA hot-loading, model quantization pipeline, and request deduplication cache are all complete.
 
-<!-- Status: current | validated: 2026-03-09 | commit: 04e9e7d -->
+<!-- Status: current | validated: 2026-03-21 | commit: 04e9e7d -->
 
 ## Architecture Overview
 
@@ -145,8 +145,6 @@ if (grammar.isValid()) {
 
 **See Also:**
 - `docs/GRAMMAR_IMPLEMENTATION_COMPLETE.md` - Full grammar documentation
-- `docs/LLM_IMPLEMENTATION_COMPLETE.md` - LLM implementation status (100%)
-- `docs/LLM_CORE_STATUS_MASTER.md` - Master status document
 
 ## Features
 
@@ -158,8 +156,10 @@ if (grammar.isValid()) {
 ## Documentation
 
 For LLM documentation, see:
-- [LLM Interaction Store](../../docs/src/llm/llm_interaction_store.cpp.md)
-- [Chain of Thought Storage](../../docs/chain_of_thought_storage.md)
+- [LLM Architecture](ARCHITECTURE.md)
+- [LLM Roadmap](ROADMAP.md)
+- [Future Enhancements](FUTURE_ENHANCEMENTS.md)
+- [LLM docs (English)](../../docs/llm/)
 
 ## Scientific References
 
