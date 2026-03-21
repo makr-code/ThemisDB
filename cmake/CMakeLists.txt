@@ -1827,6 +1827,7 @@ set(THEMIS_CORE_SOURCES
     ../src/replication/raft_v2.cpp
     ../src/replication/schema_cdc.cpp
     ../src/replication/multi_tier_replication.cpp
+    ../src/replication/logical_replication.cpp
     
     # Temporal versioning and query engine
     ../src/temporal/temporal_conflict_resolver.cpp

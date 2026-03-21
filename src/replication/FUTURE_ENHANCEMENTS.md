@@ -61,7 +61,7 @@
 - [x] Integrate with external systems (Kafka, Elasticsearch, Snowflake)
 - [x] Use output plugins for different formats (JSON, Protobuf, Avro)
 - [x] Maintain replication slots persistently
-- [ ] Support parallel decoding for high throughput
+- [x] Support parallel decoding for high throughput
 
 #### Design Constraints
 - Row-filter evaluation must remain O(1) per change using lightweight predicate parsing.

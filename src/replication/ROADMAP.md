@@ -27,7 +27,7 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Compressed WAL shipping (Zstd) for bandwidth reduction (Issue: #2444)
 - [x] Automated lag-based read traffic shifting (Issue: #2251)
 - [x] Cross-cluster logical replication (publish/subscribe model) (Issue: #2440)
-- [x] LogicalReplicationManager — schema-aware logical slots with per-collection filters, row predicates, DDL streaming, and cross-version transforms (Issue: #95)
+- [x] LogicalReplicationManager — schema-aware logical slots with per-collection filters, row predicates, DDL streaming, cross-version transforms, and parallel decoding for high throughput (Issue: #95)
 - [x] Kubernetes operator for automated topology management (Issue: #2257)
 - [x] Parallel replication — multi-threaded WAL application on followers with dependency tracking (v1.6.0)
 
@@ -152,8 +152,11 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Conflict-free Replicated Data Types (CRDT) library expansion
 
 ### Phase 4.5: Build System Audit (Status: Completed ✅ — March 2026)
-- [x] All `src/replication/*.cpp` files verified registered in `cmake/CMakeLists.txt`
+- [x] All `src/replication/*.cpp` files verified registered in `cmake/CMakeLists.txt` (including `logical_replication.cpp`)
 - [x] 3 focused standalone test targets added in `tests/CMakeLists.txt`: ReplicationHA, ReplicationNewFeatures, ReplicationTopologyApiHandler
+- [x] `logical_replication.cpp` added to `THEMIS_CORE_SOURCES` in `cmake/CMakeLists.txt` (was only in `ModularBuild.cmake`)
+- [x] 4 parallel-decoding tests added to `tests/test_logical_replication.cpp` (AC-6–AC-9)
+- [x] CI workflow added: `.github/workflows/02-feature-modules/replication/logical-replication-parallel-decoding-ci.yml`
 
 ### Phase 5: Parallel Replication (Status: Completed ✅ — v1.6.0)
 - [x] `ParallelReplicationWorker` class in `include/replication/replication_manager.h` + `src/replication/replication_manager.cpp`

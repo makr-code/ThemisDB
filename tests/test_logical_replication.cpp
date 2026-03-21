@@ -200,3 +200,123 @@ TEST(LogicalReplicationManagerTest, InitialSyncSkipsConflictingChanges) {
     EXPECT_EQ(changes[1].collection, "users");
     EXPECT_EQ(changes[1].new_data["_id"], "u2");
 }
+
+// ---------------------------------------------------------------------------
+// Parallel decoding tests
+// ---------------------------------------------------------------------------
+
+TEST(LogicalReplicationManagerTest, ParallelDecodingDispatchesToAllSlots) {
+    TempDir td;
+    auto wal = std::make_shared<WALManager>(makeConfig(td.path));
+
+    LogicalReplicationManager::Config cfg;
+    cfg.wal_directory = td.path;
+    cfg.parallel_decoding = true;
+    LogicalReplicationManager mgr(wal, cfg);
+
+    // Create three independent slots — parallel path requires slots_copy.size() > 1
+    mgr.createSlot("slot_a", "json", {});
+    mgr.createSlot("slot_b", "json", {});
+    mgr.createSlot("slot_c", "json", {});
+
+    WALEntry entry{};
+    entry.sequence_number = 1;
+    entry.operation = "INSERT";
+    entry.collection = "products";
+    entry.document_id = "p-1";
+    entry.data = R"({"sku":"ABC"})";
+    mgr.onWALEntryApplied(entry);
+
+    // Every slot must have received the change
+    auto a = mgr.readChanges("slot_a", 10);
+    auto b = mgr.readChanges("slot_b", 10);
+    auto c = mgr.readChanges("slot_c", 10);
+    ASSERT_EQ(a.size(), 1u);
+    ASSERT_EQ(b.size(), 1u);
+    ASSERT_EQ(c.size(), 1u);
+    EXPECT_EQ(a[0].collection, "products");
+    EXPECT_EQ(b[0].collection, "products");
+    EXPECT_EQ(c[0].collection, "products");
+}
+
+TEST(LogicalReplicationManagerTest, ParallelDecodingAccumulatesStats) {
+    TempDir td;
+    auto wal = std::make_shared<WALManager>(makeConfig(td.path));
+
+    LogicalReplicationManager::Config cfg;
+    cfg.wal_directory = td.path;
+    cfg.parallel_decoding = true;
+    LogicalReplicationManager mgr(wal, cfg);
+
+    mgr.createSlot("slot_x", "json", {});
+    mgr.createSlot("slot_y", "json", {});
+
+    // Apply two WAL entries so that stats are non-trivial
+    for (int i = 1; i <= 2; ++i) {
+        WALEntry e{};
+        e.sequence_number = static_cast<uint64_t>(i);
+        e.operation = "UPDATE";
+        e.collection = "orders";
+        e.document_id = "o-" + std::to_string(i);
+        e.data = R"({"status":"shipped"})";
+        mgr.onWALEntryApplied(e);
+    }
+
+    // 2 entries × 2 slots = 4 changes_enqueued
+    auto stats = mgr.getStats();
+    EXPECT_EQ(stats.changes_enqueued, 4u);
+    EXPECT_EQ(stats.filtered_out, 0u);
+}
+
+TEST(LogicalReplicationManagerTest, ParallelDecodingFallsBackToSequentialWithSingleSlot) {
+    TempDir td;
+    auto wal = std::make_shared<WALManager>(makeConfig(td.path));
+
+    LogicalReplicationManager::Config cfg;
+    cfg.wal_directory = td.path;
+    cfg.parallel_decoding = true;  // parallel enabled but only one slot → sequential path
+    LogicalReplicationManager mgr(wal, cfg);
+
+    mgr.createSlot("only_slot", "json", {});
+
+    WALEntry e{};
+    e.sequence_number = 42;
+    e.operation = "DELETE";
+    e.collection = "sessions";
+    e.document_id = "s-99";
+    e.data = "{}";
+    mgr.onWALEntryApplied(e);
+
+    auto changes = mgr.readChanges("only_slot", 10);
+    ASSERT_EQ(changes.size(), 1u);
+    EXPECT_EQ(changes[0].type, LogicalChange::Type::DELETE);
+}
+
+TEST(LogicalReplicationManagerTest, DisabledParallelDecodingUsesSequentialPath) {
+    TempDir td;
+    auto wal = std::make_shared<WALManager>(makeConfig(td.path));
+
+    LogicalReplicationManager::Config cfg;
+    cfg.wal_directory = td.path;
+    cfg.parallel_decoding = false;  // explicitly disabled
+    LogicalReplicationManager mgr(wal, cfg);
+
+    mgr.createSlot("seq_slot_1", "json", {});
+    mgr.createSlot("seq_slot_2", "json", {});
+
+    WALEntry e{};
+    e.sequence_number = 10;
+    e.operation = "INSERT";
+    e.collection = "logs";
+    e.document_id = "l-1";
+    e.data = R"({"level":"info"})";
+    mgr.onWALEntryApplied(e);
+
+    // Both slots must still receive the change via the sequential path
+    auto c1 = mgr.readChanges("seq_slot_1", 10);
+    auto c2 = mgr.readChanges("seq_slot_2", 10);
+    ASSERT_EQ(c1.size(), 1u);
+    ASSERT_EQ(c2.size(), 1u);
+    EXPECT_EQ(c1[0].collection, "logs");
+    EXPECT_EQ(c2[0].collection, "logs");
+}
