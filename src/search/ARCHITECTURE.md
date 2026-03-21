@@ -1,9 +1,9 @@
 # Search Module — Architecture Guide
 
-<!-- Status: current | validated: 2026-03-10 | commit: a14cdb2 -->
+<!-- Status: current | validated: 2026-03-11 | commit: a14cdb2 -->
 
-**Version:** 1.1  
-**Last Updated:** 2026-03-10  
+**Version:** 1.2  
+**Last Updated:** 2026-03-11  
 **Module Path:** `src/search/`
 
 ---
@@ -13,7 +13,8 @@
 The Search module provides ThemisDB's full-text and hybrid search capabilities: inverted
 index management, BM25 relevance scoring, hybrid vector+keyword fusion via Reciprocal Rank
 Fusion (RRF), faceted search, fuzzy matching, query expansion, LLM-based query rewriting,
-and LLM re-ranking.
+LLM re-ranking, result highlighting, negative keyword filtering, and distributed search
+across multiple shards.
 
 ---
 
@@ -39,6 +40,7 @@ and LLM re-ranking.
 | File | Role |
 |---|---|
 | `hybrid_search.cpp` | RRF-based fusion of BM25 + vector search |
+| `distributed_hybrid_search.cpp` | Distributed hybrid search across shards with cross-shard RRF merging and mTLS |
 | `autocomplete.cpp` | Prefix/fuzzy autocompletion |
 | `faceted_search.cpp` | Faceted filtering: bucket aggregations over search results |
 | `fuzzy_matcher.cpp` | Edit distance and phonetic matching (Soundex, Metaphone) |
@@ -66,11 +68,19 @@ and LLM re-ranking.
 └──────────────────────────┬──────────────────────────────────────┘
                            │
 ┌──────────────────────────▼──────────────────────────────────────┐
+│          DistributedHybridSearch (v2.3.0, optional)             │
+│  Fan-out to remote shards via RemoteExecutor (mTLS)             │
+│  Cross-shard RRF merge → merged top-k                          │
+└──────────────────────────┬──────────────────────────────────────┘
+                           │ (local node)
+┌──────────────────────────▼──────────────────────────────────────┐
 │                    HybridSearch                                  │
 │                                                                  │
 │  ┌────────────────────────────────────────────────────────────┐ │
 │  │ LlmQueryRewriter (optional): rewrite query for recall      │ │
 │  └────────────────────────────────────────────────────────────┘ │
+│                                                                  │
+│  NegativeKeywordFilter: parse -NOT terms from raw query (v2.2.0)│
 │                                                                  │
 │  ┌─────────────────────────┐  ┌──────────────────────────────┐  │
 │  │  BM25 Search             │  │  Vector Search               │  │
@@ -81,9 +91,15 @@ and LLM re-ranking.
 │                                                                  │
 │  Reciprocal Rank Fusion → merged result list                    │
 │                                                                  │
+│  NegativeKeywordFilter: remove excluded-term documents (v2.2.0) │
+│                                                                  │
 │  ┌────────────────────────────────────────────────────────────┐ │
 │  │ LlmReranker (optional): re-rank top-N with LLM feedback    │ │
 │  └────────────────────────────────────────────────────────────┘ │
+│                                                                  │
+│  PersonalizedRanker (optional): boost by user history (v2.0.0) │
+│                                                                  │
+│  SearchHighlighter: apply <mark> tags + snippets (v2.1.0)      │
 └──────────────────────────────────────────────────────────────────┘
 ```
 
@@ -189,10 +205,11 @@ HybridSearch(query="database performance tuning", k=10)
 
 ## 11. Known Limitations & Future Work
 
-- Multi-modal search (text + image) is experimental.
-- Learning-to-Rank requires training data and a fitted model; not included out of the box.
+- Multi-modal search (TEXT/IMAGE/AUDIO/CUSTOM) is production-ready via `MultiModalSearch` (v1.5.0); new modalities require a caller-supplied embedding backend.
+- Learning-to-Rank uses an online linear model; higher-capacity models (LambdaMART, MLP) require offline batch training.
 - Phonetic search uses Soundex/Metaphone; language-specific stemming is in the utils module.
-- Synonym expansion requires a loaded synonym dictionary.
+- Synonym expansion requires a loaded synonym dictionary; no automatic synonym discovery.
+- `DistributedHybridSearch` is NOT thread-safe; concurrent `search()` calls must be serialised externally.
 
 ---
 
