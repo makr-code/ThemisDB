@@ -5549,6 +5549,176 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_compliance_reporting.cpp")
     message(STATUS "  Compliance Reporting: CoverageAnalyzer, ComplianceGapDetector, ComplianceReporter (JSON/CSV/HTML/PDF)")
 endif()
 
+# Governance – CCPA/CPRA data subject rights rule evaluators focused tests (Issue: #1761 / #1778)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ccpa_rules.cpp")
+    message(STATUS "Adding CCPA Rules focused tests (Issue #1761 / #1778)")
+    add_executable(test_ccpa_rules_focused test_ccpa_rules.cpp)
+    target_link_libraries(test_ccpa_rules_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    target_compile_definitions(test_ccpa_rules_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME CcpaRulesFocusedTests COMMAND test_ccpa_rules_focused)
+    set_tests_properties(CcpaRulesFocusedTests PROPERTIES
+        LABELS "governance;ccpa;cpra;compliance;data-subject-rights;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  CCPA Rules: RightToKnow, RightToDelete, OptOutOfSale, DataPortability, CcpaRuleSet opt-out registry")
+endif()
+
+# Governance – cross-tenant policy inheritance focused tests (Issue: #1772 / #1778)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_tenant_policy_inheritance.cpp")
+    message(STATUS "Adding Cross-Tenant Policy Inheritance focused tests (Issue #1772 / #1778)")
+    add_executable(test_cross_tenant_policy_inheritance_focused test_cross_tenant_policy_inheritance.cpp)
+    target_link_libraries(test_cross_tenant_policy_inheritance_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(test_cross_tenant_policy_inheritance_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME CrossTenantPolicyInheritanceFocusedTests COMMAND test_cross_tenant_policy_inheritance_focused)
+    set_tests_properties(CrossTenantPolicyInheritanceFocusedTests PROPERTIES
+        LABELS "governance;cross-tenant;policy-inheritance;hierarchy;cycle-detection;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  Cross-Tenant Policy Inheritance: hierarchy registration, cycle detection, most-restrictive-wins merge, effective policy evaluation")
+endif()
+
+# Governance – data lineage tracking focused tests (Issue: #1765 / #1778)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_data_lineage.cpp")
+    message(STATUS "Adding Data Lineage focused tests (Issue #1765 / #1778)")
+    add_executable(test_data_lineage_focused test_data_lineage.cpp)
+    target_link_libraries(test_data_lineage_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    target_compile_definitions(test_data_lineage_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME DataLineageFocusedTests COMMAND test_data_lineage_focused)
+    set_tests_properties(DataLineageFocusedTests PROPERTIES
+        LABELS "governance;data-lineage;lineage-tracking;audit;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  Data Lineage: record/query lineage events, MODEL_TRAINING events, DataLineageTracker")
+endif()
+
+# Governance – automated data masking focused tests (Issue: #1773 / #1778)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_data_masker.cpp")
+    message(STATUS "Adding Data Masker focused tests (Issue #1773 / #1778)")
+    add_executable(test_data_masker_focused test_data_masker.cpp)
+    target_link_libraries(test_data_masker_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    target_compile_definitions(test_data_masker_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME DataMaskerFocusedTests COMMAND test_data_masker_focused)
+    set_tests_properties(DataMaskerFocusedTests PROPERTIES
+        LABELS "governance;data-masking;redact;tokenize;truncate;hash;field-masking;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  Data Masker: REDACT/TOKENIZE/TRUNCATE/HASH strategies, FieldMaskingPolicy, HMAC pseudonym stability, Prometheus counter")
+endif()
+
+# Governance – PCI-DSS data isolation rules focused tests (Issue: #1770 / #1778)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_pci_dss_rules.cpp")
+    message(STATUS "Adding PCI-DSS Rules focused tests (Issue #1770 / #1778)")
+    add_executable(test_pci_dss_rules_focused test_pci_dss_rules.cpp)
+    target_link_libraries(test_pci_dss_rules_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(test_pci_dss_rules_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME PciDssRulesFocusedTests COMMAND test_pci_dss_rules_focused)
+    set_tests_properties(PciDssRulesFocusedTests PROPERTIES
+        LABELS "governance;pci-dss;compliance;data-isolation;cardholder-data;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  PCI-DSS Rules: cardholder data isolation, encryption requirements, PciDssRuleSet evaluation")
+endif()
+
+# Governance – policy review workflow focused tests (Issue: #1778)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_policy_review.cpp")
+    message(STATUS "Adding Policy Review focused tests (Issue #1778)")
+    add_executable(test_policy_review_focused test_policy_review.cpp)
+    target_link_libraries(test_policy_review_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(test_policy_review_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME PolicyReviewFocusedTests COMMAND test_policy_review_focused)
+    set_tests_properties(PolicyReviewFocusedTests PROPERTIES
+        LABELS "governance;policy-review;workflow;draft;approve;reject;unit"
+        TIMEOUT 90
+    )
+    message(STATUS "  Policy Review: draft→review→approve/reject workflow, PolicyReview lifecycle, history tracking")
+endif()
+
+# Governance – policy template library focused tests (Issue: #1778)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_policy_template.cpp")
+    message(STATUS "Adding Policy Template focused tests (Issue #1778)")
+    add_executable(test_policy_template_focused test_policy_template.cpp)
+    target_link_libraries(test_policy_template_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    target_compile_definitions(test_policy_template_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME PolicyTemplateFocusedTests COMMAND test_policy_template_focused)
+    set_tests_properties(PolicyTemplateFocusedTests PROPERTIES
+        LABELS "governance;policy-template;gdpr;hipaa;soc2;least-privilege;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  Policy Template: GDPR/HIPAA/SOC2/least-privilege built-in templates, PolicyTemplateManager")
+endif()
+
+# Governance – policy versioning and conflict detection focused tests (Issue: #1780 / #1782)
+if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_policy_versioning.cpp")
+    message(STATUS "Adding Policy Versioning focused tests (Issue #1780 / #1782)")
+    add_executable(test_policy_versioning_focused test_policy_versioning.cpp)
+    target_link_libraries(test_policy_versioning_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    if(TARGET Boost::system)
+        target_link_libraries(test_policy_versioning_focused PRIVATE Boost::system)
+    endif()
+    target_compile_definitions(test_policy_versioning_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME PolicyVersioningFocusedTests COMMAND test_policy_versioning_focused)
+    set_tests_properties(PolicyVersioningFocusedTests PROPERTIES
+        LABELS "governance;policy-versioning;rollback;conflict-detection;history;unit"
+        TIMEOUT 90
+    )
+    message(STATUS "  Policy Versioning: version history, rollback, conflict detection (contradictory/overlapping/circular), GET /policies/conflicts endpoint")
+endif()
+
+# Governance – SOC 2 Trust Services Controls focused tests (Issue: #1769 / #1778)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_soc2_controls.cpp")
+    message(STATUS "Adding SOC 2 Controls focused tests (Issue #1769 / #1778)")
+    add_executable(test_soc2_controls_focused test_soc2_controls.cpp)
+    target_link_libraries(test_soc2_controls_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(test_soc2_controls_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME Soc2ControlsFocusedTests COMMAND test_soc2_controls_focused)
+    set_tests_properties(Soc2ControlsFocusedTests PROPERTIES
+        LABELS "governance;soc2;trust-services;cc6.1;cc7.2;cc8.1;a1.1;c1.1;pi1.2;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  SOC 2 Controls: CC6.1/CC7.2/CC8.1/A1.1/C1.1/PI1.2 controls, evidence collection, Soc2Controls")
+endif()
+
 # Scheduler – TaskScheduler auth context propagation focused tests (Issue #98 v1.8.0)
 if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_task_scheduler_auth_context.cpp")
     message(STATUS "Adding TaskScheduler Auth Context focused tests (Issue #98)")
