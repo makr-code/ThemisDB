@@ -79,12 +79,12 @@
 - [ ] CUDA kernels for ST_BUFFER, ST_UNION, ST_DIFFERENCE on GPU (Target: v2.2.0)
 - [I] Spherical WGS-84 ellipsoid geometry support (Issue: #1744, Target: v2.5.0)
 
-### Phase 6: Documentation & Acceptance (Status: In Progress)
+### Phase 6: Documentation & Acceptance (Status: Completed)
 - [x] GPU backend runbook (`docs/gpu_runbooks.md#6`)
 - [x] ROADMAP.md, ARCHITECTURE.md, FUTURE_ENHANCEMENTS.md complete
 - [x] API stability guaranteed for spatial query API
 - [x] Security audit (no code execution from geometry inputs)
-- [ ] English documentation in `docs/en/geo/` (Target: v2.2.0)
+- [x] English documentation in `docs/en/geo/` (Issue: #1749, v2.2.0)
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% — 20 focused test targets in `tests/geo/` (Issue: #1754)
