@@ -1,10 +1,10 @@
 # Network Module — Architecture Guide
 
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-03-21 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/network/README.md -->
 
-**Version:** 1.1  
-**Last Updated:** 2026-03-09  
+**Version:** 1.2  
+**Last Updated:** 2026-03-21  
 **Module Path:** `src/network/`
 
 ---
@@ -17,9 +17,12 @@ socket timeout management, Quality-of-Service (QoS) management, and protocol buf
 
 In addition to the core TCP wire protocol, the module provides WebSocket upgrade
 (port 8766, `wire_protocol_server_ws.cpp`), Wire Protocol V2 multiplexing
-(`wire_protocol_v2.cpp`), UDP fast-path (port 8769, `udp_fast_path.cpp`), QUIC/HTTP3
-transport (port 8770, `quic_transport.cpp`), gRPC native transport (port 8771,
-`grpc_transport.cpp`), geo-topology routing, and Istio/Envoy service mesh integration.
+(`wire_protocol_v2.cpp`), UDP fast-path (port 8769, `udp_fast_path.cpp`), UDP ingestion
+server (port 8768, `udp_server.cpp`), QUIC/HTTP3 transport (port 8770, `quic_transport.cpp`),
+gRPC native transport (port 8771, `grpc_transport.cpp`), Raft-coordinated load balancing
+(port 8774, `raft_load_balancer.cpp`), geo-topology routing, Istio/Envoy service mesh
+integration, dictionary-trained Zstd compression (`connection_compression.cpp`), and
+zero-copy/batch-write optimizations (`wire_protocol_zero_copy.cpp`, `wire_protocol_batch.cpp`).
 
 The wire protocol is an alternative to HTTP/REST — it is a binary framing protocol
 optimized for low-latency, high-throughput client connections. HTTP/REST and the gRPC
@@ -56,11 +59,17 @@ bidirectional streaming).
 | `wire_protocol_performance.cpp` | Performance monitoring for the wire protocol |
 | `wire_protocol_server_ws.cpp` | WebSocket upgrade on port 8766 (`THEMIS_ENABLE_WEBSOCKET`) |
 | `wire_protocol_v2.cpp` | Wire protocol v2: multi-stream, flow control, server push |
+| `wire_protocol_batch.cpp` | Batch write processor: `WireProtocolBatcher` (writev coalescing) + `NagleController` (TCP_CORK/TCP_NOPUSH) |
+| `wire_protocol_zero_copy.cpp` | Zero-copy serialization: `ZeroCopyFrameBuilder` + `MemoryMappedPayload` (mmap/sendfile) |
 | `qos_manager.cpp` | QoS: traffic classification, bandwidth quotas, priority queuing |
 | `socket_timeout_manager.cpp` | Socket timeout enforcement, circuit breaker |
+| `adaptive_circuit_breaker.cpp` | Adaptive circuit breaker with load-adaptive threshold tuning |
+| `connection_compression.cpp` | `ZstdDictionaryCompressor` — dictionary-trained Zstd for wire payloads |
 | `udp_fast_path.cpp` | UDP read-only fast-path (port 8769) |
+| `udp_server.cpp` | UDP ingestion server (port 8768): fire-and-forget metrics/logs/events |
 | `quic_transport.cpp` | QUIC/HTTP3 transport (port 8770, `THEMIS_ENABLE_HTTP3`) |
 | `grpc_transport.cpp` | gRPC native transport (port 8771, `THEMIS_ENABLE_GRPC`) |
+| `raft_load_balancer.cpp` | Raft-coordinated load balancer (port 8774): leader election, health-based routing, consistent hashing |
 | `geo_topology_router.cpp` | Network topology-aware routing for geo-distributed clusters |
 | `service_mesh.cpp` | Istio/Envoy probe server (`THEMIS_ENABLE_SERVICE_MESH`) |
 | `envoy_xds.cpp` | Envoy xDS v3 REST polling client (`THEMIS_ENABLE_SERVICE_MESH`) |
@@ -216,18 +225,14 @@ Replication / sharding: connect to peer node
 
 ## 11. Known Limitations & Future Work
 
-- Core wire protocol v1 operation handlers (HELLO, AUTH, GET, PUT, DELETE, QUERY,
-  VECTOR_SEARCH, GEO_QUERY) are implemented as stubs returning error responses;
-  dispatch to the storage/index layer is pending (9 TODO comments in
-  `wire_protocol_server.cpp` lines 866–904).
-- Authentication (`handleAuthRequest`) is a stub; `authenticated_` is never set to `true`
-  through the wire protocol path. BPMN handlers that guard on `authenticated_.load()`
-  will always return 401.
 - WebSocket binary frame dispatch is not yet implemented; clients must use text/JSON frames.
-- UDP fast-path (port 8769) is fully implemented but still `[~]` in ROADMAP (pending
-  final integration tests and production validation).
 - DPDK kernel-bypass is not implemented; `io_uring` is guarded by `THEMIS_ENABLE_IO_URING`
   and off by default.
+- IPv6 CIDR-based policies are not yet implemented in `ZeroTrustPolicyEnforcer`; IPv6
+  clients are accepted but not subject to CIDR-level allow/deny rules.
+- Integration tests combining TLS handshake + WebSocket upgrade are pending (NET-OPEN-02).
+- `RaftLoadBalancer` simulates Raft consensus in-process; full distributed Raft over the
+  network (multi-node leader election) is planned for a future milestone.
 
 ---
 
