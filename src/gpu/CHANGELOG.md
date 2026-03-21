@@ -1,10 +1,16 @@
-<!-- Status: current | validated: 2026-03-12 -->
+<!-- Status: current | validated: 2026-03-21 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog — GPU Module
 
 All notable changes to the GPU module are documented here.  
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+
+## [1.8.0] — 2026-03-21
+### Added
+- Public header documentation: `include/themis/gpu/README.md` — comprehensive
+  documentation for all 28 GPU public headers including key types, APIs, usage
+  examples, edition feature gate table, and cross-reference links
 
 ## [Unreleased]
 *(All planned features are implemented — see `FUTURE_ENHANCEMENTS.md` for long-horizon items.)*
