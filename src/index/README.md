@@ -13,25 +13,32 @@ The Index module provides high-performance indexing infrastructure for ThemisDB,
 | `adaptive_index.cpp` | Automatic index recommendation based on query patterns |
 | `graph_index_manager.cpp` | Graph adjacency list indexing and traversal support |
 | `secondary_index.cpp` | B-tree, range, sparse, and composite secondary indexes |
+| `inverted_index.cpp` | Full-text inverted index with BM25 scoring and positional posting lists |
+| `learned_index.cpp` | ML-based learned index structures (RMI, B-tree replacement) |
+| `tiered_index_manager.cpp` | Hot/warm/cold tier index migration with automatic promotion/demotion |
+| `index_compression.cpp` | Index compression: delta, prefix, Bloom filter, dictionary, RLE |
 
 ## Scope
 
 **In Scope:**
 - Vector indexing (HNSW, GPU-accelerated similarity search)
-- Secondary indexes (B-tree, range, sparse, composite)
+- Secondary indexes (B-tree, range, sparse, composite, partial/filtered)
 - Graph indexing (adjacency lists, BFS/DFS traversal)
 - Spatial indexing (R-tree for geospatial queries, Z-order curves)
-- Adaptive indexing (automatic index recommendations)
+- Full-text search (InvertedIndex with BM25 scoring and positional posting lists)
+- Adaptive indexing (automatic index recommendations, workload replay advisor)
 - GPU acceleration (Vulkan, CUDA, HIP support)
 - Quantization for memory efficiency (Product Quantization, Binary Quantization, Residual Quantization)
 - Multi-distance metrics (L2, Cosine, Dot Product)
 - Advanced features (GNN embeddings, temporal graphs, rotary embeddings)
+- Tiered index migration (hot/warm/cold storage tiers)
+- Index compression (delta encoding, prefix compression, dictionary encoding, RLE, Bloom filters)
+- Learned indexes (ML-based RMI structures for ordered-key lookup)
 
 **Out of Scope:**
 - Query parsing and execution (handled by query module)
 - Data persistence (handled by storage module)
 - Network protocols and APIs (handled by server module)
-- Full-text search (planned for future release)
 
 ## Key Components
 
@@ -849,7 +856,7 @@ for (const auto& result : nearby) {
   - macOS: MoltenVK
 - **CUDA**: NVIDIA GPU acceleration (optional)
   - Requires: CUDA Toolkit 11.0+
-- **HIP**: AMD GPU acceleration (optional, planned)
+- **HIP**: AMD GPU acceleration (optional)
   - Requires: ROCm 5.0+
 
 ### Build Configuration
@@ -926,16 +933,14 @@ find_package(CUDAToolkit QUIET)
    - Workaround: Batch processing, multi-GPU sharding
 
 ### Secondary Index
-1. **No Full-Text Search**: Only equality and range queries
-   - Planned: Full-text index in v1.7.0
-2. **Composite Index Ordering**: Fixed column order for prefix scans
+1. **Composite Index Ordering**: Fixed column order for prefix scans
    - Workaround: Create multiple indexes for different orderings
-3. **Unique Constraint Race**: Possible with concurrent writes
+2. **Unique Constraint Race**: Possible with concurrent writes
    - Workaround: Use pessimistic transactions
 
 ### Graph Index
 1. **No Distributed Traversal**: Single-node only
-   - Planned: Distributed graph queries in v1.7.0
+   - Workaround: Use distributed vector index sharding for ANN workloads
 2. **Limited Cycle Detection**: Expensive on large graphs
    - Workaround: Set max_depth parameter
 3. **Memory Usage**: In-memory cache for topology
@@ -947,29 +952,38 @@ find_package(CUDAToolkit QUIET)
 2. **Global Bounds**: Must know bounds in advance
    - Workaround: Use conservative bounds, update periodically
 3. **LineString/Polygon**: Limited to MBR approximation
-   - Planned: Exact geometry intersection in v1.7.0
+   - Workaround: Post-filter results with exact geometry checks
 
 ## Status
 
-**Current Version:** v1.5.0+
+**Current Version:** v1.7.0+
 
 **Maturity:**
 - Vector Index: ✅ **Production Ready** (v1.3.0+)
   - HNSW: Stable, well-tested
-  - GPU Acceleration: Beta (Vulkan v2.2)
+  - GPU Acceleration: Stable (Vulkan/CUDA/HIP)
   - FAISS Integration: Stable (v1.5.0+)
+  - DiskANN / ScaNN: Stable (v1.6.0+)
+  - Multi-GPU distributed search: Stable (v1.6.0+)
 - Secondary Index: ✅ **Production Ready** (v1.0.0+)
+  - Index Compression: Stable (v1.7.0+)
+- Full-Text Index: ✅ **Production Ready** (v1.5.0+)
+  - BM25 scoring: Stable
+  - Positional posting lists: Stable
 - Graph Index: ✅ **Production Ready** (v1.2.0+)
 - Spatial Index: ⚠️ **Beta** (v1.4.0+)
   - R-tree: Stable
   - GeoJSON: Stable
   - Full geometry operations: In progress
-- Adaptive Index: ⚠️ **Beta** (v1.5.0+)
-  - Pattern tracking: Stable
-  - Recommendations: Beta
+- Adaptive Index: ✅ **Production Ready** (v1.5.0+)
+  - Workload replay advisor: Stable (v1.6.0+)
+- Tiered Index Manager: ✅ **Production Ready** (v1.6.0+)
+- Learned Indexes: ✅ **Production Ready** (v1.7.0+)
 
 **Recent Changes:**
-- v1.5.0: FAISS integration, IVF+PQ, ADC tables, Product Quantization
+- v1.7.0: Index compression (delta, prefix, dictionary, RLE, Bloom filters), learned index structures
+- v1.6.0: Tiered index migration (hot/warm/cold), DiskANN/ScaNN, multi-GPU distributed index, workload replay advisor, HNSW incremental re-indexing
+- v1.5.0: Full-text inverted index (BM25), FAISS integration, IVF+PQ, ADC tables, Product Quantization
 - v1.4.2: Residual Quantization, Learned Quantization
 - v1.4.0: Spatial index (R-tree), Z-order curves
 - v1.3.0: GPU acceleration (Vulkan), rotary embeddings
