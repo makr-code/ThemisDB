@@ -238,6 +238,68 @@ The following high-priority features were delivered in v1.5.0:
 
 ---
 
+## Delivered in v2.1.0
+
+### SearchHighlighter (`include/search/search_highlighter.h`)
+- Highlight and snippet generation for matched search terms (Issue #2457)
+- `highlight(text, terms, config)` — wraps every occurrence of each query term in configurable
+  open/close tags (default `<mark>…</mark>`); case-insensitive matching controlled by `Config::case_insensitive`
+- `snippet(text, terms, config)` — extracts the best passage from a document; uses a sliding-window
+  scorer (`bestWindowOffset()`) to find the position covering the most matches; pads excerpt with
+  configurable ellipsis (`Config::ellipsis`) at boundaries
+- `tokenize(text, lowercase)` static helper — punctuation-aware tokeniser; optional case folding
+- `applyHighlight(text, offsets, open, close)` static helper — applies a sorted list of (start, len)
+  match offsets in a single linear pass, without overlapping or duplicated tags
+- `bestWindowOffset(text, terms, window_size)` static helper — sliding-window scorer returning the
+  character offset where the most query terms appear within a window of `window_size` characters
+- Fully stateless after construction; `highlight()` and `snippet()` are `noexcept`
+- Config fields: `highlight_open`, `highlight_close`, `ellipsis`, `min_window`, `max_snippet_len`,
+  `case_insensitive`
+- Tests: `tests/test_search_highlighter.cpp`
+
+---
+
+## Delivered in v2.2.0
+
+### NegativeKeywordFilter (`include/search/negative_keyword_filter.h`)
+- `NOT` / minus-prefix operator for search queries (Issue #2003)
+- `ParsedQuery` struct: `positive_query` (remaining text) + `negative_terms` (excluded words)
+- `parseQuery(raw_query)` static helper — extracts minus-prefixed (`-term`) and `NOT`-keyword
+  tokens from the raw user query, returning positive and negative parts separately; supports
+  mixed syntax (`"machine learning -neural NOT crash"`)
+- `filter(table, column, candidate_pks, negative_terms)` — looks up posting lists for each
+  negative term in the secondary index, collects all document PKs that contain any excluded term,
+  and returns the candidate PK list with those documents removed
+- `Config::max_scan` — per-term scan limit to bound resource usage (default 10 000)
+- Null-index safety: `filter()` returns an error `Status` and the original `candidate_pks`
+  unchanged when constructed with a null `SecondaryIndexManager` pointer
+- Thread safety: `NegativeKeywordFilter` holds only a non-owning pointer to the index; concurrent
+  calls to `filter()` are safe as long as the underlying index is not modified concurrently
+- Tests: `tests/test_negative_keyword_filter.cpp`
+
+---
+
+## Delivered in v2.3.0
+
+### DistributedHybridSearch (`include/search/distributed_hybrid_search.h`)
+- Distributed hybrid search across multiple ThemisDB shards with cross-shard RRF result
+  merging (Issue #2280)
+- Extends local `HybridSearch`: runs a local search, then dispatches the same query in parallel
+  to every healthy remote shard via `RemoteExecutor::post()` (REST, mTLS-secured)
+- Cross-shard Reciprocal Rank Fusion: per-shard ranked lists are merged globally; ties broken
+  by `hybrid_score`; top-k globally merged results returned
+- `ShardResult` struct: per-shard results and HTTP status
+- `Config::skip_failed_shards` (default `true`) — unreachable / timed-out shards are silently
+  skipped; degraded results are still returned from surviving shards
+- `Config::search_endpoint` — override for the HTTP POST path on remote shards
+  (default `/api/v1/search/hybrid`); request body: `{"query":"…","k":<int>,"vector_query":[…]}`
+- `SearchStats::shards_queried` / `shards_failed` observability fields
+- mTLS authentication: all inter-node traffic routed through the injected `RemoteExecutor`
+- Thread safety: NOT thread-safe; concurrent `search()` calls must be serialised externally
+- Tests: `tests/test_distributed_hybrid_search.cpp`
+
+---
+
 ### Query Expansion and Rewriting
 **Priority:** High  
 **Status:** ✅ Delivered in v1.5.0 — see `include/search/query_expander.h`
