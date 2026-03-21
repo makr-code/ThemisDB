@@ -65,10 +65,10 @@ Planned security features and improvements for ThemisDB.
 All Arrow-based user management operations silently no-op.
 
 **Implementation Notes:**
-- `[ ]` Wire `arrow::RecordBatch` deserialization for user records using the Apache Arrow C++ library (already a dependency via `src/exporters/arrow_ipc_exporter.cpp`).
-- `[ ]` Implement `bulkSyncFromArrow(arrow::RecordBatch)`: upsert users from a record batch with columns `user_id`, `password_hash`, `roles`, `email`.
-- `[ ]` Implement `authenticateFromArrow(user_id, credentials)`: look up user record from the Arrow-backed store.
-- `[ ]` Add unit tests: bulk sync of 1000 users via Arrow record batch; verify authentication works for synced users.
+- `[x]` Wire `arrow::RecordBatch` deserialization for user records using the Apache Arrow C++ library (already a dependency via `src/exporters/arrow_ipc_exporter.cpp`).
+- `[x]` Implement `bulkSyncFromArrow(arrow::RecordBatch)`: upsert users from a record batch with columns `user_id`, `password_hash`, `roles`, `email`.
+- `[x]` Implement `authenticateFromArrow(user_id, credentials)`: look up user record from the Arrow-backed store.
+- `[x]` Add unit tests: bulk sync of 1000 users via Arrow record batch; verify authentication works for synced users.
 
 ---
 
@@ -83,9 +83,9 @@ All Arrow-based user management operations silently no-op.
 - `[x]` Walk the AST to detect disallowed operation/function nodes in expressions (e.g., `EXECUTE`, `EXEC`, `SYSTEM`, `SHELL`, `XP_CMDSHELL`, `SP_EXECUTESQL`, `WAITFOR`, `BENCHMARK`, `SLEEP`, `LOAD_FILE`).
 - `[x]` Fall back to regex-based detection if AST parsing fails (defense in depth).
 - `[x]` Add unit tests: queries that bypass regex but contain disallowed operation/function nodes in the AST are detected.
-- `[ ]` Extend AST validation to detect DDL/write operations in read-only contexts.
-- `[ ]` Extend AST validation to flag unbounded `FOR` loops that do not contain a `LIMIT` clause.
-- `[ ]` Add unit tests: queries with DDL in read-only contexts and unbounded `FOR` loops without `LIMIT` are rejected once AST validation is extended.
+- `[x]` Extend AST validation to detect DDL/write operations in read-only contexts.
+- `[x]` Extend AST validation to flag unbounded `FOR` loops that do not contain a `LIMIT` clause.
+- `[x]` Add unit tests: queries with DDL in read-only contexts and unbounded `FOR` loops without `LIMIT` are rejected once AST validation is extended.
 
 ---
 
