@@ -103,17 +103,18 @@ v1.5.0 – All four implementation phases complete and production-ready:
 - [x] Integration with external schedulers (Kubernetes CronJob, Airflow)
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% — `tests/test_task_scheduler.cpp`, `tests/test_task_scheduler_dynamic_scaling.cpp`, `tests/test_task_scheduler_triggers.cpp`, `tests/test_task_scheduler_siem_integration.cpp`, `tests/test_task_scheduler_api_handler.cpp`, `tests/test_distributed_task_coordinator.cpp`, `tests/test_task_audit.cpp`, `tests/test_task_result_store.cpp`, `tests/test_external_scheduler_adapter.cpp`
+- [x] Unit tests coverage > 80% — `tests/test_task_scheduler.cpp`, `tests/test_task_scheduler_dynamic_scaling.cpp`, `tests/test_task_scheduler_triggers.cpp`, `tests/test_task_scheduler_siem_integration.cpp`, `tests/test_task_scheduler_api_handler.cpp`, `tests/test_distributed_task_coordinator.cpp`, `tests/test_task_audit.cpp`, `tests/test_task_result_store.cpp`, `tests/test_external_scheduler_adapter.cpp`, `tests/test_task_scheduler_auth_context.cpp`
 - [x] Integration tests (task persistence, retention lifecycle) — `tests/test_scheduler_integration.cpp`
 - [x] Chaos / stress tests — `tests/test_chaos_scheduler.cpp`
 - [x] Performance benchmarks (scheduler overhead, retention throughput) — `benchmarks/bench_task_scheduler.cpp`
-- [x] Security audit (AQL injection prevention, resource limit enforcement) — AQL injection detection via `security/aql_injection_detector.h`; resource limit enforcement via `timeout` and `max_retries` per task
+- [x] Security audit (AQL injection prevention, resource limit enforcement) — AQL injection detection via `security/aql_injection_detector.h`; resource limit enforcement via `timeout` and `max_retries` per task; `sandbox_execution` flag wraps functions in `ModuleSandbox` for OS-level isolation
 - [x] Documentation complete — `include/scheduler/README.md`, `src/scheduler/ARCHITECTURE.md`, `src/scheduler/README.md`, `src/scheduler/FUTURE_ENHANCEMENTS.md`
 - [x] API stability guaranteed — `TaskScheduler` public API stable from v1.x; backward-compatible constructor overloads
 - [x] Build system audit complete — all 9 `src/scheduler/*.cpp` + `src/server/task_scheduler_api_handler.cpp` registered in `cmake/CMakeLists.txt` and `cmake/ModularBuild.cmake` under `THEMIS_ENABLE_HTTP_SERVER`
-- [x] Focused test targets registered — 11 standalone test targets (`TaskSchedulerFocusedTests`, `TaskSchedulerDynamicScalingFocusedTests`, `TaskSchedulerTriggersFocusedTests`, `TaskSchedulerSIEMIntegrationFocusedTests`, `TaskSchedulerApiHandlerFocusedTests`, `SchedulerIntegrationFocusedTests`, `DistributedTaskCoordinatorFocusedTests`, `TaskAuditFocusedTests`, `TaskResultStoreFocusedTests`, `ExternalSchedulerAdapterFocusedTests`, `ChaosSchedulerFocusedTests`) in `tests/CMakeLists.txt`; all scheduler tests excluded from monolithic binary when `THEMIS_ENABLE_HTTP_SERVER=OFF`
+- [x] Focused test targets registered — 12 standalone test targets (`TaskSchedulerFocusedTests`, `TaskSchedulerDynamicScalingFocusedTests`, `TaskSchedulerTriggersFocusedTests`, `TaskSchedulerSIEMIntegrationFocusedTests`, `TaskSchedulerApiHandlerFocusedTests`, `SchedulerIntegrationFocusedTests`, `DistributedTaskCoordinatorFocusedTests`, `TaskAuditFocusedTests`, `TaskResultStoreFocusedTests`, `ExternalSchedulerAdapterFocusedTests`, `ChaosSchedulerFocusedTests`, `TaskSchedulerAuthContextFocusedTests`) in `tests/CMakeLists.txt`; all scheduler tests excluded from monolithic binary when `THEMIS_ENABLE_HTTP_SERVER=OFF`
 - [x] Priority-based dispatch ordering — `schedulerLoop()` sorts `tasks_to_execute` by `priority` (HIGH → NORMAL → LOW) before dispatch
 - [x] Grafana dashboard — `config/grafana/dashboards/themisdb-scheduler-dashboard.json` covering all `themis_scheduler_*` Prometheus metrics
+- [x] Authenticated user context propagation — `RequestContext` TLS API propagates `user_id`/`client_ip` to all audit events; CI: `taskscheduler-auth-context-ci.yml`
 
 ## Known Issues & Limitations
 - Distributed coordination is implemented via `DistributedTaskCoordinator`; requires `DistributedCoordinator` (sharding module) for leader election.

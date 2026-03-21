@@ -44,6 +44,8 @@ The Scheduler module provides ThemisDB's task scheduling and automation implemen
 - **Dynamic concurrency scaling** based on queue depth
 - **Integration with external schedulers** (Kubernetes CronJob, Apache Airflow)
 - **CDC event-driven task triggers**
+- **Authenticated user context propagation** (`RequestContext` TLS API; audit events carry actual `user_id`/`client_ip` instead of hardcoded `"system"`)
+- **Sandbox execution** (`sandbox_execution` config flag wraps task functions in `ModuleSandbox` for OS-level resource isolation)
 
 **Out of Scope:**
 - Authentication/authorization logic (handled by auth module)

@@ -51,7 +51,7 @@ For detailed feature descriptions and API proposals, see:
 - `[x]` `setDefaultAuditContext()` helper updated to read from `currentUserId()` / `currentClientIp()` instead of hardcoded `"system"` / `"localhost"`.
 - `[x]` All remaining `"system"` hardcodings in `logTaskSchedulerEvent()` calls replaced with `TaskScheduler::currentUserId()`.
 - `[x]` `clearRequestContext()` design: HTTP handlers call `setRequestContext({user_id, client_ip})` before scheduler ops and `clearRequestContext()` after; scheduler thread falls back to `"system"`.
-- `[ ]` `sandbox_execution` flag not yet implemented (separate issue).
+- `[x]` `sandbox_execution` config flag implemented: when `true`, wraps user-provided task functions in `modules::ModuleSandbox` (cgroups v2 memory/CPU limits, seccomp-bpf syscall filtering on Linux; graceful fallback when sandbox launch fails).
 
 ---
 
