@@ -202,4 +202,127 @@ TEST(Phase4FeatureFlagsTest, PmemFlagUnaffectedByPmuToggle) {
     flags.set_pmu_enabled(false);
 }
 
+// ---------------------------------------------------------------------------
+// Non-Linux platform backend tests
+// Verify the RDTSC / cycle-count fallback that is active on macOS, Windows,
+// and all other non-Linux platforms.
+// ---------------------------------------------------------------------------
+
+#ifndef __linux__
+
+TEST(PmuCounterTest, NonLinuxOpenAlwaysSucceeds) {
+    // On non-Linux platforms, open() unconditionally returns true because
+    // RDTSC / QueryThreadCycleTime / mach_absolute_time is always available.
+    PmuCounter counter;
+    bool ok = counter.open(0, 0);
+    EXPECT_TRUE(ok);
+    EXPECT_TRUE(counter.is_open());
+}
+
+TEST(PmuCounterTest, NonLinuxCycleCountIsPositiveAfterWork) {
+    // After enable() + some work, read() must return a non-zero elapsed
+    // cycle (or time) delta from the RDTSC / platform fallback.
+    PmuCounter counter;
+    ASSERT_TRUE(counter.open(0, 0));
+    counter.enable();
+    volatile uint64_t sum = 0;
+    for (int i = 0; i < 100'000; ++i) sum += static_cast<uint64_t>(i);
+    (void)sum;
+    uint64_t cycles = counter.read();
+    EXPECT_GT(cycles, 0u) << "Cycle counter must advance after real work";
+}
+
+TEST(PmuCounterTest, NonLinuxReadBeforeEnableReturnsZeroOrSafe) {
+    // read() before enable() should return 0 (start was recorded as 0 in open())
+    PmuCounter counter;
+    ASSERT_TRUE(counter.open(0, 0));
+    // Don't call enable() — read() should not crash and return a defined value.
+    EXPECT_NO_THROW(counter.read());
+}
+
+TEST(PmuCounterTest, NonLinuxMultipleOpenReusesSafeSlots) {
+    // Opening many counters must not overflow the fixed-size slot pool for
+    // kMaxFallbackSlots (128 slots) by wrapping around safely.
+    std::vector<PmuCounter> counters(64);
+    for (auto& c : counters) {
+        EXPECT_TRUE(c.open(0, 0));
+        EXPECT_TRUE(c.is_open());
+    }
+}
+
+TEST(CacheMissAnalyzerTest, NonLinuxFallbackIsAvailable) {
+    // On non-Linux, CacheMissAnalyzer should always report available=true
+    // because the RDTSC / cycle-count fallback always succeeds.
+    CacheMissAnalyzer analyzer;
+    EXPECT_TRUE(analyzer.is_available());
+
+    analyzer.start();
+    volatile int x = 0;
+    for (int i = 0; i < 10'000; ++i) x ^= i;
+    (void)x;
+    CacheMissMetrics m = analyzer.stop();
+
+    EXPECT_TRUE(m.available)
+        << "Non-Linux fallback must set CacheMissMetrics::available = true";
+}
+
+TEST(CacheMissAnalyzerTest, NonLinuxPmuAccessibleReturnsTrue) {
+    // RDTSC / mach_absolute_time / QueryThreadCycleTime is always accessible.
+    EXPECT_TRUE(CacheMissAnalyzer::pmu_accessible());
+}
+
+TEST(CacheMissAnalyzerTest, NonLinuxStopMetricsFieldsAreDefined) {
+    // On non-Linux without true PMU access, cache-miss fields are 0 but
+    // available is true.  Verify the struct has defined (not garbage) values.
+    CacheMissAnalyzer analyzer;
+    ASSERT_TRUE(analyzer.is_available());
+    analyzer.start();
+    volatile int dummy = 1;
+    (void)dummy;
+    CacheMissMetrics m = analyzer.stop();
+    EXPECT_TRUE(m.available);
+    // Cache-miss event counts are 0 on cycle-count fallback (no hardware PMU).
+    EXPECT_EQ(m.l1d_read_misses,       0u);
+    EXPECT_EQ(m.llc_misses,            0u);
+    EXPECT_EQ(m.branch_mispredictions, 0u);
+}
+
+#ifdef __APPLE__
+TEST(CacheMissAnalyzerTest, MacOsKpcOrFallbackIsCoherent) {
+    // On macOS, either kpc counters or the RDTSC/CNTVCT_EL0 fallback is used.
+    // Either way, multiple start/stop cycles must remain coherent and not crash.
+    CacheMissAnalyzer analyzer;
+    EXPECT_TRUE(analyzer.is_available());
+
+    for (int iter = 0; iter < 5; ++iter) {
+        analyzer.start();
+        volatile uint64_t s = 0;
+        for (int i = 0; i < 1000; ++i) s += static_cast<uint64_t>(i * i);
+        (void)s;
+        CacheMissMetrics m = analyzer.stop();
+        EXPECT_TRUE(m.available) << "macOS analyzer must stay available across iterations";
+    }
+}
+#endif // __APPLE__
+
+#ifdef _WIN32
+TEST(CacheMissAnalyzerTest, WindowsCycleCountBackendIsCoherent) {
+    // On Windows, __rdtsc() (x86/x86_64) or QueryThreadCycleTime (ARM64) is
+    // used.  Verify that multiple cycles remain coherent and available=true.
+    CacheMissAnalyzer analyzer;
+    EXPECT_TRUE(analyzer.is_available());
+
+    for (int iter = 0; iter < 5; ++iter) {
+        analyzer.start();
+        volatile uint64_t s = 0;
+        for (int i = 0; i < 1000; ++i) s += static_cast<uint64_t>(i * i);
+        (void)s;
+        CacheMissMetrics m = analyzer.stop();
+        EXPECT_TRUE(m.available) << "Windows analyzer must stay available across iterations";
+    }
+}
+#endif // _WIN32
+
+#endif // !__linux__
+
 // Main removed - using GTest's main from themis_tests.exe

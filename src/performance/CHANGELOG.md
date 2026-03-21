@@ -1,7 +1,16 @@
-<!-- Status: current | validated: 2026-03-12 -->
+<!-- Status: current | validated: 2026-03-21 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog — Performance Module
+
+## [1.9.0] — PMU Non-Linux Platform Coverage
+
+### Added
+- **macOS kpc PMU backend** (`phase4/pmu_counters.cpp`, `#ifdef __APPLE__`): Dynamically loads `kperf` framework; configures `kKpcClassConfigurable` counters for L1d cache refill, LLC miss, and branch misprediction (Intel and Apple Silicon ARM64 event selectors). Falls back to RDTSC / `CNTVCT_EL0` when kpc access is denied (sandbox, missing entitlement). `CacheMissAnalyzer::pmu_accessible()` returns `true` via RDTSC fallback even without kpc.
+- **Windows cycle-count backend** (`phase4/pmu_counters.cpp`, `#ifdef _WIN32`): Uses `__rdtsc()` on x86/x86_64 and `QueryThreadCycleTime` on ARM64 Windows. `PmuCounter::open()` always returns `true`; `CacheMissMetrics::available = true`. True cache-miss PMU events via ETW hardware counter session are deferred (require admin).
+- **Generic RDTSC / CNTVCT_EL0 / clock_gettime fallback** (all other non-Linux platforms): `PmuCounter::open()` always returns `true`; `PmuCounter::read()` returns elapsed cycles. Replaces the previous pure-zero stubs so the performance measurement infrastructure is functional on all developer workstations.
+
+---
 
 ## [1.0.0] — All Phases Complete
 > All implementation phases are complete. The module is production-ready.
