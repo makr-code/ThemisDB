@@ -26,7 +26,11 @@ The Network headers define the public interfaces for ThemisDB's high-performance
 - gRPC native transport (port 8771, guarded by `THEMIS_ENABLE_GRPC`)
 - Geo topology router for geo-distributed cluster routing
 - Service mesh integration (Istio/Envoy sidecar, guarded by `THEMIS_ENABLE_SERVICE_MESH`)
-- Connection-level compression helpers (LZ4, Zstd — `connection_compression.h`)
+- Connection-level compression helpers (LZ4, Zstd — `connection_compression.h`); dictionary-trained Zstd (`ZstdDictionaryCompressor`)
+- Batch write processor (`wire_protocol_batch.h`): `WireProtocolBatcher` + `NagleController`
+- Zero-copy serialization (`wire_protocol_zero_copy.h`): `ZeroCopyFrameBuilder` + `MemoryMappedPayload`
+- UDP ingestion server (`udp_server.h`, port 8768): fire-and-forget metrics/logs/events
+- Raft-coordinated load balancer (`raft_load_balancer.h`, port 8774): multi-strategy routing with leader election
 
 **Out of Scope:**
 - HTTP/REST API server (handled by api module headers)
@@ -771,8 +775,8 @@ timeout_manager.setAlertCallback([](SocketHealthState state, const std::string& 
 1. **Boost.Asio Dependency:** Requires Boost 1.70+ (async I/O library)
 2. **OpenSSL Dependency:** Required for TLS/mTLS (no alternative crypto backend)
 3. **IPv6 Support:** `Config::enable_ipv6 = true` enables IPv6 binding; `Config::ipv6_dual_stack = true` (default) accepts both IPv4-mapped and native IPv6 clients on a single socket via `IPV6_V6ONLY=0`.
-4. **Platform-Specific Code:** Some features (TCP keepalive) have platform differences
-5. **No UDP/QUIC:** TCP-only currently
+4. **Platform-Specific Code:** Some features (TCP keepalive, TCP_CORK, TCP_NOPUSH) have platform differences
+5. **RaftLoadBalancer (Known Issue):** Simulates Raft consensus in-process (no real network RPC between nodes); full distributed multi-node Raft is planned for a future milestone. See `ROADMAP.md` for details.
 
 ---
 
@@ -785,6 +789,7 @@ timeout_manager.setAlertCallback([](SocketHealthState state, const std::string& 
 - **v1.4.0** - Added rate limiting and security features
 - **v1.5.0** - Added timeseries protocol helpers
 - **v1.6.0** - Added BPMN process orchestration support
+- **v1.8.0** - Added UDP ingestion server (`udp_server.h`), Raft load balancer (`raft_load_balancer.h`), batch write processor (`wire_protocol_batch.h`), zero-copy serialization (`wire_protocol_zero_copy.h`), dictionary compression (`connection_compression.h` extended with `ZstdDictionaryCompressor`)
 - **v1.9.0** - Added IPv6 dual-stack support (`Config::enable_ipv6`, `Config::ipv6_dual_stack`)
 
 ---

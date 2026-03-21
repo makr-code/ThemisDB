@@ -1,11 +1,11 @@
 # Network Module Roadmap
 
-<!-- Status: current | validated: 2026-03-10 -->
+<!-- Status: current | validated: 2026-03-21 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · docs/de/network/README.md -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-v1.x – Production-grade networking layer. Binary wire protocol server, connection pooling, TLS/mTLS, circuit breaker, and rate limiting are fully implemented.
+v1.8.0 – Production-grade networking layer. All transport paths (TCP, WebSocket, UDP fast-path, UDP ingestion, QUIC/HTTP3, gRPC), wire protocol optimizations (batch writes, zero-copy, dictionary compression), and Raft-coordinated load balancing are fully implemented. Note: `RaftLoadBalancer` simulates Raft consensus in-process; full distributed multi-node Raft is planned for a future milestone.
 
 ## Completed ✅
 - [x] WireProtocolServer – high-performance binary TCP server (port 8766)
@@ -54,6 +54,40 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
   - `ConnectionStats` extended: `congestion_window`, `congestion_ssthresh`, `smoothed_rtt_us`
   - Focused unit tests in `tests/test_bandwidth_management_qos.cpp` (`BandwidthManagementQoSFocusedTests`, 41 tests)
   - CI: `.github/workflows/bandwidth-management-qos-ci.yml`
+- [x] Wire protocol performance optimizations — batch writes, zero-copy serialization, dictionary compression (v1.8.0)
+  - `WireProtocolBatcher` in `include/network/wire_protocol_batch.h` / `src/network/wire_protocol_batch.cpp`
+    - Accumulates outbound frames in an iovec list and flushes via a single `writev(2)` call
+    - `NagleController`: per-socket `TCP_CORK` (Linux) / `TCP_NOPUSH` (BSD/macOS) helper; also exposes `TCP_NODELAY`
+    - `BatchStats` for observability (frames coalesced, syscalls saved)
+    - Performance target: ~10× reduction in syscall count for small-message workloads
+  - `ZeroCopyFrameBuilder` + `MemoryMappedPayload` in `include/network/wire_protocol_zero_copy.h` / `src/network/wire_protocol_zero_copy.cpp`
+    - `ZeroCopyFrameBuilder`: assembles frame header + caller-owned payload in a single `writev(2)` — no intermediate heap allocation
+    - `MemoryMappedPayload`: memory-maps a file or anonymous region; kernel transfers directly from page cache to NIC (true zero-copy)
+    - Performance target: <1 ms (p99) round-trip for payloads ≤ 64 KiB; <10 MB overhead per 1 000 connections
+  - `ZstdDictionaryCompressor` in `include/network/connection_compression.h` / `src/network/connection_compression.cpp`
+    - Dictionary-trained Zstd compression for payloads with shared structure (JSON keys, Protobuf field tags)
+    - Wire format: `[dict_id: uint32_t LE][original_size: uint32_t LE][compressed_data...]`
+    - Falls back to generic Zstd compression if training fails or dict is too small
+    - Config: `compression_level` (1–22), `min_compress_bytes` (256), `dict_max_size` (112 KiB default)
+  - Unit tests in `tests/test_wire_protocol_optimizations.cpp` (`WireProtocolOptimizations`, 39 tests)
+- [x] UDP ingestion server for high-throughput write operations (v1.8.0, Issue: #FEATURE)
+  - `UDPServer` class in `include/network/udp_server.h` / `src/network/udp_server.cpp`
+  - Port 8768 (dedicated; separate from read-only UDP fast-path on port 8769)
+  - Fire-and-forget UDP transport for metrics, logs, events, and batched payloads
+  - Packet format: `[magic: 0x54 0x4D][version: 0x01][opcode][seq_num: uint32_t BE][flags][payload_len: uint16_t BE][payload...]`
+  - Opcodes: `METRIC (0x01)`, `LOG (0x02)`, `EVENT (0x03)`, `BATCH (0x04)`, `PING (0xFE)`
+  - Optional ACK when `FLAGS_ACK_REQUESTED` is set; per-source-IP deduplication via sequence number
+  - Unit tests in `tests/test_udp_server.cpp` (59 tests: magic bytes, opcodes, header constants, config defaults)
+- [x] Raft-coordinated load balancer for distributed query routing (v1.8.0, Issue: #78)
+  - `RaftLoadBalancer` class in `include/network/raft_load_balancer.h` / `src/network/raft_load_balancer.cpp`
+  - Intra-cluster Raft communication on port 8774 (`Config::raft_port`)
+  - Supported strategies: `ROUND_ROBIN`, `LEAST_CONNECTIONS`, `WEIGHTED_ROUND_ROBIN`, `HEALTH_BASED`, `CONSISTENT_HASH`
+  - Raft leader propagates backend weight/health updates to followers via consensus log
+  - Health-based automatic failover: unhealthy backends excluded, re-admitted on recovery
+  - Consistent hashing for sticky routing (session affinity / cache locality)
+  - Cross-datacenter preference: routes to local datacenter first, falls back to remote on failure
+  - `Stats`: `total_requests`, `total_failures`, `failover_events`, `rebalance_events`
+  - Unit tests in `tests/test_raft_load_balancer.cpp` (`RaftLoadBalancerTest`, 26 tests)
 
 ## In Progress 🚧
 - [x] UDP-based fast-path for read-only queries (Target: Q3 2026) (Issue: #1962) (PR: #3098)
@@ -192,9 +226,21 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [?] Integration tests (TLS handshake with WS upgrade, rate-limit enforcement for WS)
 - [?] Performance benchmarks (connections/sec via WS vs. native binary)
 - [?] Full binary frame dispatch over WebSocket (text/JSON frames fully functional)
+- [x] Unit tests added for UDP ingestion server (`test_udp_server.cpp`, 59 tests, 2026-03-15)
+  - Magic bytes, version/opcode constants, header/ACK sizes, config defaults, stats initialization
+- [x] Unit tests added for wire protocol optimizations (`test_wire_protocol_optimizations.cpp`, 39 tests, 2026-03-14)
+  - `ZeroCopyFrameBuilder`: header-only frame, frame+payload, size check, stats tracking
+  - `MemoryMappedPayload`: anonymous mapping, write/read, zero-size throws, move semantics, file mapping
+  - `NagleController`: default mode, TCP_NODELAY, TCP_CORK, uncork restores mode, invalid fd
+  - `WireProtocolBatcher`: coalescing correctness, flush, stats
+  - `ZstdDictionaryCompressor`: train+compress+decompress round-trip, fallback without dict
+- [x] Unit tests added for RaftLoadBalancer (`test_raft_load_balancer.cpp`, 26 tests, 2026-03-15)
+  - Leader election, health-based failover, dynamic weight updates, cross-datacenter routing
+  - All 5 strategies: ROUND_ROBIN, LEAST_CONNECTIONS, WEIGHTED_ROUND_ROBIN, HEALTH_BASED, CONSISTENT_HASH
+  - Add/remove/duplicate-add backend, stats tracking, strategy switching at runtime
 
 ## Known Issues & Limitations
-- Wire Protocol V1 opcode handlers (HELLO, AUTH, GET, PUT, DELETE) are now fully implemented
+- Wire Protocol V1 opcode handlers (HELLO, AUTH, GET, PUT, DELETE) are fully implemented
   (resolved 2026-03-10, see `NETWORK-MISSING-001`/`NETWORK-MISSING-002`).
   QUERY_AQL and GEO_QUERY return structured errors directing clients to the HTTP REST API;
   VECTOR_SEARCH dispatches to `VectorIndexManager::searchKnn`.
@@ -203,12 +249,14 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - WebSocket upgrade support is implemented; binary frames over WebSocket are not yet
   dispatched (clients receive a structured error and should use text/JSON frames or
   the native TCP binary connection).
-- UDP fast-path is implemented (`UDPFastPath`, port 8769); QUIC transport is implemented (`QuicTransport`, port 8770).
+- UDP fast-path is implemented (`UDPFastPath`, port 8769); UDP ingestion server is implemented (`UDPServer`, port 8768); QUIC transport is implemented (`QuicTransport`, port 8770).
 - gRPC native transport is implemented (`GrpcTransport`, port 8771); this module provides
   the transport layer only — the gRPC service layer lives in the server/api modules.
-- Service mesh integration is in progress (`ServiceMeshIntegration`, port 8082);
+- Service mesh integration is implemented (`ServiceMeshIntegration`, port 8082);
   see `include/network/service_mesh.h` / `src/network/service_mesh.cpp`.
   Guarded by `THEMIS_ENABLE_SERVICE_MESH`.
+- `RaftLoadBalancer` simulates Raft consensus in-process (leader election + follower replication
+  without real network RPC); full distributed multi-node Raft is planned for a future milestone.
 
 ## Breaking Changes
 - Wire protocol frame format is versioned; v2 frame format planned with extended metadata fields.
