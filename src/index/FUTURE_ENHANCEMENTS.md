@@ -60,9 +60,10 @@ Both paths fall through to the CPU implementation, making GPU-accelerated ANN se
 
 ---
 
-
+### Full-Text Search Index
 **Priority:** High  
-**Target Version:** v1.7.0
+**Target Version:** v1.7.0  
+**Status:** ✅ Implemented (v1.5.0)
 
 Add inverted index for full-text search with stemming, stop words, and relevance ranking.
 
