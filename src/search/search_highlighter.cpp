@@ -35,6 +35,9 @@ namespace themis {
 // Construction
 // ─────────────────────────────────────────────────────────────────────────────
 
+SearchHighlighter::SearchHighlighter()
+    : SearchHighlighter(Config{}) {}
+
 SearchHighlighter::SearchHighlighter(Config config)
     : config_(std::move(config)) {}
 

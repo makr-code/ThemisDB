@@ -37,6 +37,12 @@ namespace themis {
 DistributedHybridSearch::DistributedHybridSearch(
     HybridSearch* local_search,
     themis::sharding::URNResolver* resolver,
+    themis::sharding::RemoteExecutor* executor
+) : DistributedHybridSearch(local_search, resolver, executor, Config{}) {}
+
+DistributedHybridSearch::DistributedHybridSearch(
+    HybridSearch* local_search,
+    themis::sharding::URNResolver* resolver,
     themis::sharding::RemoteExecutor* executor,
     const Config& config
 ) : local_search_(local_search),

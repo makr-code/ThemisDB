@@ -79,7 +79,8 @@ public:
         bool        case_insensitive = true;
     };
 
-    explicit SearchHighlighter(Config config = {});
+    SearchHighlighter();
+    explicit SearchHighlighter(Config config);
 
     // ── Primary public API ────────────────────────────────────────────────────
 

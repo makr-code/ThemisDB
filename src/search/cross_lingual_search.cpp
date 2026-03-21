@@ -33,6 +33,9 @@ namespace themis {
 // Construction
 // ============================================================================
 
+CrossLingualSearch::CrossLingualSearch(VectorIndexManager* vec_index)
+    : CrossLingualSearch(vec_index, Config{}) {}
+
 CrossLingualSearch::CrossLingualSearch(VectorIndexManager* vec_index,
                                        const Config& config)
     : vec_index_(vec_index), config_(config) {

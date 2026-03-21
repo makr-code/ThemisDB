@@ -61,6 +61,9 @@ size_t MigrationTestResult::failedCount() const {
 // SchemaMigrationTester
 // ============================================================================
 
+SchemaMigrationTester::SchemaMigrationTester()
+    : SchemaMigrationTester(Config{}) {}
+
 SchemaMigrationTester::SchemaMigrationTester(const Config& config)
     : config_(config) {}
 

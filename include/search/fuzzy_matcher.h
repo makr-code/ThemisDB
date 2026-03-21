@@ -82,7 +82,8 @@ public:
      * @param config  Fuzzy search configuration.
      * @throws std::invalid_argument on invalid Config.
      */
-    explicit FuzzyMatcher(SecondaryIndexManager* index, const Config& config = Config{});
+    explicit FuzzyMatcher(SecondaryIndexManager* index);
+    FuzzyMatcher(SecondaryIndexManager* index, const Config& config);
 
     // -----------------------------------------------------------------------
     // Search

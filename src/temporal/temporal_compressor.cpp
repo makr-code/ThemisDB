@@ -40,7 +40,7 @@ namespace temporal {
 // Base64 helpers (RFC 4648 – no line wrapping)
 // ============================================================================
 
-static constexpr std::array<char, 65> kBase64Chars =
+static constexpr const char kBase64Chars[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 std::string TemporalCompressor::base64Encode(const std::string& input) {

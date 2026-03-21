@@ -56,7 +56,7 @@ TEST_F(TemporalCompressorTest, AlgorithmName_Dictionary) {
 // ── compressHistory on empty table ────────────────────────────────────────────
 
 TEST_F(TemporalCompressorTest, CompressHistory_EmptyTable_ReturnsZeroStats) {
-    auto table = SystemVersionedTable::createVersionedTable("empty_tbl");
+    auto table = SystemVersionedTable::createVersionedTable("empty_tbl", {});
     CompressionConfig cfg;
     cfg.compress_immediately = true;
 
@@ -76,7 +76,7 @@ TEST_F(TemporalCompressorTest, Decompress_NonCompressedDoc_ReturnsSame) {
 // ── compressHistory with DELTA algorithm ──────────────────────────────────────
 
 TEST_F(TemporalCompressorTest, CompressHistory_DeltaAlgo_ProcessesVersions) {
-    auto table = SystemVersionedTable::createVersionedTable("delta_tbl");
+    auto table = SystemVersionedTable::createVersionedTable("delta_tbl", {});
     table.insert("key1", {{"name", "Alice"}, {"age", 30}});
     table.upsert("key1", {{"name", "Alice"}, {"age", 31}});
     table.upsert("key1", {{"name", "Alice"}, {"age", 32}});
@@ -92,7 +92,7 @@ TEST_F(TemporalCompressorTest, CompressHistory_DeltaAlgo_ProcessesVersions) {
 // ── compressHistory with ZSTD algorithm ───────────────────────────────────────
 
 TEST_F(TemporalCompressorTest, CompressHistory_ZstdAlgo_ProcessesVersions) {
-    auto table = SystemVersionedTable::createVersionedTable("zstd_tbl");
+    auto table = SystemVersionedTable::createVersionedTable("zstd_tbl", {});
     table.insert("key1", {{"value", "hello world"}, {"count", 1}});
     table.upsert("key1", {{"value", "hello world updated"}, {"count", 2}});
     table.upsert("key1", {{"value", "hello world again"}, {"count", 3}});
@@ -108,7 +108,7 @@ TEST_F(TemporalCompressorTest, CompressHistory_ZstdAlgo_ProcessesVersions) {
 // ── compressHistory skips recent versions when delay applies ──────────────────
 
 TEST_F(TemporalCompressorTest, CompressHistory_SkipsRecentVersions) {
-    auto table = SystemVersionedTable::createVersionedTable("recent_tbl");
+    auto table = SystemVersionedTable::createVersionedTable("recent_tbl", {});
     table.insert("key1", {{"name", "Bob"}, {"score", 100}});
 
     CompressionConfig cfg;
@@ -123,7 +123,7 @@ TEST_F(TemporalCompressorTest, CompressHistory_SkipsRecentVersions) {
 // ── Additional edge-case tests ────────────────────────────────────────────────
 
 TEST_F(TemporalCompressorTest, CompressHistory_DictionaryAlgo_ProcessesVersions) {
-    auto table = SystemVersionedTable::createVersionedTable("dict_tbl");
+    auto table = SystemVersionedTable::createVersionedTable("dict_tbl", {});
     table.insert("key1", {{"status", "active"},   {"region", "EU"}});
     table.upsert("key1", {{"status", "inactive"}, {"region", "EU"}});
     table.upsert("key1", {{"status", "active"},   {"region", "US"}});
@@ -137,7 +137,7 @@ TEST_F(TemporalCompressorTest, CompressHistory_DictionaryAlgo_ProcessesVersions)
 }
 
 TEST_F(TemporalCompressorTest, CompressHistory_CompressImmediately_DoesNotSkip) {
-    auto table = SystemVersionedTable::createVersionedTable("imm_tbl");
+    auto table = SystemVersionedTable::createVersionedTable("imm_tbl", {});
     table.insert("key1", {{"name", "Charlie"}, {"value", 42}});
 
     CompressionConfig cfg;
@@ -147,3 +147,4 @@ TEST_F(TemporalCompressorTest, CompressHistory_CompressImmediately_DoesNotSkip) 
     auto stats = compressor.compressHistory(table, {0, kMaxTimestamp}, cfg);
     EXPECT_EQ(stats.versions_skipped, 0u);
 }
+

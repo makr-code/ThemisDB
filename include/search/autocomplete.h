@@ -93,8 +93,10 @@ public:
      * @throws std::invalid_argument if max_suggestions == 0 or min_prefix_length == 0.
      */
     explicit AutocompleteEngine(SecondaryIndexManager* index,
-                                 SearchAnalytics* analytics = nullptr,
-                                 const Config& config = Config{});
+                  SearchAnalytics* analytics = nullptr);
+    AutocompleteEngine(SecondaryIndexManager* index,
+               SearchAnalytics* analytics,
+               const Config& config);
 
     // -----------------------------------------------------------------------
     // Core suggestion methods

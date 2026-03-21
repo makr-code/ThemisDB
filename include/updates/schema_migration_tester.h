@@ -131,7 +131,8 @@ public:
         bool cleanup_staging_on_failure = false;
     };
 
-    explicit SchemaMigrationTester(const Config& config = {});
+    SchemaMigrationTester();
+    explicit SchemaMigrationTester(const Config& config);
     ~SchemaMigrationTester() = default;
 
     // Non-copyable

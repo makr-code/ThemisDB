@@ -36,6 +36,9 @@ namespace themis {
 // Construction
 // ============================================================================
 
+FuzzyMatcher::FuzzyMatcher(SecondaryIndexManager* index)
+    : FuzzyMatcher(index, Config{}) {}
+
 FuzzyMatcher::FuzzyMatcher(SecondaryIndexManager* index, const Config& config)
     : index_(index), config_(config) {
     if (config_.max_distance < 0) {

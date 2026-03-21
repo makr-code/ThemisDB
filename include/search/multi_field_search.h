@@ -111,8 +111,9 @@ public:
      * @param config  Engine configuration.
      * @throws std::invalid_argument on invalid config.
      */
-    explicit MultiFieldBoostedSearch(SecondaryIndexManager* index,
-                                     const Config& config = Config{});
+    explicit MultiFieldBoostedSearch(SecondaryIndexManager* index);
+    MultiFieldBoostedSearch(SecondaryIndexManager* index,
+                const Config& config);
 
     // -----------------------------------------------------------------------
     // Search

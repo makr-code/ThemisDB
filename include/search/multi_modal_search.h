@@ -107,8 +107,10 @@ public:
      * @throws std::invalid_argument on invalid config.
      */
     explicit MultiModalSearch(SecondaryIndexManager* sec_index,
-                               VectorIndexManager* vec_index,
-                               const Config& config = Config{});
+                              VectorIndexManager* vec_index);
+    MultiModalSearch(SecondaryIndexManager* sec_index,
+                     VectorIndexManager* vec_index,
+                     const Config& config);
 
     // -----------------------------------------------------------------------
     // Search

@@ -223,6 +223,14 @@ public:
     /** Clear the in-process event log.  Active subscriptions are unaffected. */
     void clearLog();
 
+    // ── Public Helpers ────────────────────────────────────────────────────────
+
+    /** Convert ChangeType enum to string representation. */
+    static std::string changeTypeName(ChangeType ct);
+
+    /** Convert string to ChangeType enum. */
+    static ChangeType changeTypeFromString(const std::string& s);
+
 private:
     // ── Subscription entry ────────────────────────────────────────────────────
 
@@ -242,11 +250,6 @@ private:
 
     mutable std::mutex mutex_;
     std::atomic<uint64_t> next_sub_id_{0};
-
-    // ── Helpers ───────────────────────────────────────────────────────────────
-
-    static std::string changeTypeName(ChangeType ct);
-    static ChangeType  changeTypeFromString(const std::string& s);
 };
 
 } // namespace temporal

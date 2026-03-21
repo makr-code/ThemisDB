@@ -26,6 +26,8 @@
     "zlib",
     "zstd",
     "lz4",
+    "libzip",
+    "pugixml",
     "snappy",
     "msgpack",
     "mimalloc"

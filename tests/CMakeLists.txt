@@ -1828,6 +1828,10 @@ endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_distributed.cpp")
     message(STATUS "Adding Distributed Graph tests")
 
+    # Work around intermittent Windows file-lock issues for these binaries
+    # by emitting them into a dedicated output directory.
+    set(_GRAPH_DISTRIBUTED_RUNTIME_DIR "${CMAKE_BINARY_DIR}/cmake/tests_graph_distributed")
+
     add_executable(test_graph_distributed
         test_graph_distributed.cpp
         ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
@@ -1849,6 +1853,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_distributed.cpp")
     target_compile_definitions(test_graph_distributed PRIVATE
         THEMIS_TEST_BUILD=1
         THEMIS_GRAPH_EXPORTS
+    )
+
+    set_target_properties(test_graph_distributed PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}"
     )
 
     add_test(NAME DistributedGraphTests COMMAND test_graph_distributed)
@@ -1880,6 +1888,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_distributed.cpp")
     target_compile_definitions(test_graph_distributed_shared_mutex_focused PRIVATE
         THEMIS_TEST_BUILD=1
         THEMIS_GRAPH_EXPORTS
+    )
+
+    set_target_properties(test_graph_distributed_shared_mutex_focused PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}"
     )
 
     add_test(NAME DistributedGraphSharedMutexFocusedTests
@@ -2491,6 +2503,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_replication_coordinator.cpp")
         test_cache_replication_coordinator.cpp
         ${CMAKE_SOURCE_DIR}/src/cache/cache_replication_coordinator.cpp
         ${CMAKE_SOURCE_DIR}/src/cache/grpc_remote_cache_peer.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
     )
 
     add_executable(test_cache_replication_coordinator ${_COORD_SOURCES})

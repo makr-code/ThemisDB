@@ -71,7 +71,12 @@ public:
         bool require_special = true;
     };
     
-    explicit EmbeddedUserRegistrationPlugin(const Config& config = Config{})
+    EmbeddedUserRegistrationPlugin()
+        : EmbeddedUserRegistrationPlugin(Config{})
+    {
+    }
+
+    explicit EmbeddedUserRegistrationPlugin(const Config& config)
         : config_(config)
     {
         THEMIS_INFO("EmbeddedUserRegistrationPlugin initialized (EMBEDDED MODE - use external auth for production)");

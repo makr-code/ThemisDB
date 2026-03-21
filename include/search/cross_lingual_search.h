@@ -146,8 +146,9 @@ public:
      * @param config     Engine configuration.
      * @throws std::invalid_argument when config contains invalid values.
      */
-    explicit CrossLingualSearch(VectorIndexManager* vec_index,
-                                const Config& config = Config{});
+    explicit CrossLingualSearch(VectorIndexManager* vec_index);
+    CrossLingualSearch(VectorIndexManager* vec_index,
+                       const Config& config);
 
     // -----------------------------------------------------------------------
     // Language map

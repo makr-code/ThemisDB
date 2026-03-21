@@ -34,6 +34,10 @@ namespace themis {
 // ============================================================================
 
 AutocompleteEngine::AutocompleteEngine(SecondaryIndexManager* index,
+                                       SearchAnalytics* analytics)
+    : AutocompleteEngine(index, analytics, Config{}) {}
+
+AutocompleteEngine::AutocompleteEngine(SecondaryIndexManager* index,
                                         SearchAnalytics* analytics,
                                         const Config& config)
     : index_(index), analytics_(analytics), config_(config) {

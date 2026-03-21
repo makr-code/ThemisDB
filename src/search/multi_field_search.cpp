@@ -34,6 +34,9 @@ namespace themis {
 // Construction
 // ============================================================================
 
+MultiFieldBoostedSearch::MultiFieldBoostedSearch(SecondaryIndexManager* index)
+    : MultiFieldBoostedSearch(index, Config{}) {}
+
 MultiFieldBoostedSearch::MultiFieldBoostedSearch(SecondaryIndexManager* index,
                                                  const Config& config)
     : index_(index), config_(config) {

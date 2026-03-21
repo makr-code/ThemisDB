@@ -35,6 +35,9 @@ namespace themis {
 // Construction
 // ============================================================================
 
+NegativeKeywordFilter::NegativeKeywordFilter(SecondaryIndexManager* index)
+    : NegativeKeywordFilter(index, Config{}) {}
+
 NegativeKeywordFilter::NegativeKeywordFilter(SecondaryIndexManager* index,
                                              const Config& config)
     : index_(index), config_(config) {}

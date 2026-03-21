@@ -157,8 +157,14 @@ public:
     explicit DistributedHybridSearch(
         HybridSearch* local_search,
         themis::sharding::URNResolver* resolver,
+        themis::sharding::RemoteExecutor* executor
+    );
+
+    DistributedHybridSearch(
+        HybridSearch* local_search,
+        themis::sharding::URNResolver* resolver,
         themis::sharding::RemoteExecutor* executor,
-        const Config& config = Config{}
+        const Config& config
     );
 
     // -----------------------------------------------------------------------

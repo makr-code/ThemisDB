@@ -124,8 +124,9 @@ public:
      *               all filter() calls return an error in that case.
      * @param config Engine configuration.
      */
-    explicit NegativeKeywordFilter(SecondaryIndexManager* index = nullptr,
-                                   const Config& config = Config{});
+    explicit NegativeKeywordFilter(SecondaryIndexManager* index = nullptr);
+    NegativeKeywordFilter(SecondaryIndexManager* index,
+                const Config& config);
 
     // -----------------------------------------------------------------------
     // Static helpers

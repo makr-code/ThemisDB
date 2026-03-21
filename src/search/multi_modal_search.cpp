@@ -33,6 +33,10 @@ namespace themis {
 // ============================================================================
 
 MultiModalSearch::MultiModalSearch(SecondaryIndexManager* sec_index,
+                                   VectorIndexManager* vec_index)
+    : MultiModalSearch(sec_index, vec_index, Config{}) {}
+
+MultiModalSearch::MultiModalSearch(SecondaryIndexManager* sec_index,
                                     VectorIndexManager*    vec_index,
                                     const Config& config)
     : sec_index_(sec_index), vec_index_(vec_index), config_(config) {

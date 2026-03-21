@@ -196,13 +196,5 @@ void TemporalCDC::clearLog() {
     log_.clear();
 }
 
-// ============================================================================
-// Friend declaration helper (used by ChangeEvent::toJson/fromJson)
-// ============================================================================
-
-std::string TemporalCDC::changeTypeName_public(ChangeType ct) {
-    return changeTypeName(ct);
-}
-
 } // namespace temporal
 } // namespace themisdb
