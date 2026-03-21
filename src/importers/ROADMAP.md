@@ -60,7 +60,7 @@ implemented on top of the production-ready v1.x multi-source import pipeline.
 - [x] Kafka consumer importer for real-time streaming ingestion (`importers/kafka_importer.cpp`) (Issue: #1843)
 - [x] Oracle Database importer (`importers/oracle_importer.cpp`) (Issue: #1844)
 - [I] Microsoft SQL Server importer (Issue: #1845)
-- [~] GUI-based import wizard (web UI) (Issue: #1847)
+- [x] GUI-based import wizard (web UI) (`importers/gui_import_wizard.cpp`) (Issue: #1847)
 
 ## Implementation Phases
 
@@ -122,7 +122,7 @@ implemented on top of the production-ready v1.x multi-source import pipeline.
 - [x] Integration tests against live PostgreSQL (Issue: #1858)
 - [I] Performance benchmarks (rows/sec, GB/hr) (Issue: #1859)
 - [I] Security audit (SQL injection, credential handling) (Issue: #1860)
-- [I] Documentation complete (Issue: #1861)
+- [x] Documentation complete (Issue: #1861)
 - [I] API stability guaranteed (Issue: #1862)
 
 ## Known Issues & Limitations
@@ -130,44 +130,12 @@ implemented on top of the production-ready v1.x multi-source import pipeline.
 - Kafka importer requires `THEMIS_ENABLE_KAFKA` and librdkafka at link time; compiles cleanly without it but every `importData()` call returns an error.
 - Binary/blob field types may require manual mapping.
 - No distributed parallel import across multiple nodes.
-- GUI-based import wizard is planned but not yet implemented (Issue: #1847).
 - Microsoft SQL Server importer is planned (Issue: #1845).
 
 ## Breaking Changes
 - Importer plugin API will be stabilised in v1.5.0; breaking changes expected before that milestone.
 - v2.0: `getSourceSchema()` now returns a `foreign_keys` array in each table entry (previously absent). Consumers that relied on the exact key set must be updated.
 - v2.0: Entity JSON now contains `_foreign_keys` metadata key when the source table has FK constraints and `preserve_foreign_keys=true`. Consumers must handle or ignore this new key.
-
-
-## Completed ✅ (additional)
-- [x] MySQL / MariaDB importer (`importers/mysql_importer.cpp`) with JDBC-compatible config (Issue: #1835)
-- [x] MongoDB importer for document collections (Issue: #1836)
-- [x] SQLite importer (`importers/sqlite_importer.cpp`) (Issue: #1838)
-- [x] CSV / TSV / Parquet flat-file importer (`importers/flatfile_importer.cpp`) with schema auto-detection (Issue: #1839)
-- [x] Kafka consumer importer for real-time streaming ingestion (`importers/kafka_importer.cpp`) (Issue: #1843)
-- [x] Oracle Database importer (`importers/oracle_importer.cpp`) (Issue: #1844)
-- [I] Import progress reporting with streaming callbacks (Target: Q3 2026) (Issue: #1864)
-
-## Planned Features 📋
-
-### Short-term (Next 3-6 months)
-- [x] SQLite importer (`importers/sqlite_importer.cpp`) (Issue: #1838)
-- [x] CSV / TSV / Parquet flat-file importer (`importers/flatfile_importer.cpp`) (Issue: #1839)
-- [x] Schema auto-detection and validation on import (Issue: #1856)
-
-### Long-term (6-12 months)
-- [x] Kafka consumer importer for real-time streaming ingestion (`importers/kafka_importer.cpp`) (Issue: #1843)
-- [x] Oracle Database importer (`importers/oracle_importer.cpp`) (Issue: #1844)
-- [I] Microsoft SQL Server importer (Issue: #1845)
-- [~] GUI-based import wizard (web UI) (Issue: #1847)
-- [ ] Performance benchmarks: schema inference vs. manual mapping (Target: Q3 2026)
-
-### Long-term (6-12 months)
-- [ ] Live libpq connection in `postgres_cdc.cpp` (requires `THEMIS_ENABLE_CDC`) (Target: Q3 2026)
-- [ ] FedProx aggregation algorithm in `federated_learning.cpp` (Target: Q4 2026)
-- [ ] Ethereum smart contract for `blockchain_integrity.cpp` production anchor (Target: Q4 2026)
-- [ ] Quantum-Safe Cryptography (NIST PQC CRYSTALS-Kyber) for audit trail signatures (Target: 2027)
-- [ ] Zero-Knowledge Proofs for privacy-preserving data validation (Target: 2027)
 
 ## Implementation Phases
 
@@ -271,7 +239,6 @@ implemented on top of the production-ready v1.x multi-source import pipeline.
 - Binary/blob field types may require manual mapping.
 - `postgres_cdc.cpp` LogicalDecoder provides the interface contract; the live libpq replication stream requires `THEMIS_ENABLE_CDC`.
 - `blockchain_integrity.cpp` uses `std::hash` by default; enable `THEMIS_ENABLE_OPENSSL` for FIPS 140-2 compliant SHA-256.
-- GUI-based import wizard is planned but not yet implemented (Issue: #1847).
 - Microsoft SQL Server importer is planned (Issue: #1845).
 
 ## Breaking Changes
