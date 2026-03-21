@@ -11,12 +11,12 @@
 
 ## Design Constraints
 
-- [ ] Streaming retrieval uses `ResultStream<Document>` as the base interface; polling and callback variants are both derived from it
-- [ ] Evaluation API is async; `JudgeEnsemble::evaluate()` returns `EvaluationFuture` and must not block the caller
-- [ ] Re-ranking hook is optional and stateless; it receives a `const` candidate list and returns a re-ordered copy
-- [ ] Citation API returns structured `CitationRef` objects; raw document content is never included in citation data
-- [ ] Agentic RAG interface must not hold mutable shared state between hops; each hop receives explicit context by value
-- [ ] All public RAG interfaces are `noexcept`-safe at the boundary; exceptions are caught and converted to `Result<T>`
+- [x] Streaming retrieval uses `ResultStream<Document>` as the base interface; polling and callback variants are both derived from it
+- [x] Evaluation API is async; `JudgeEnsemble::evaluate()` returns `EvaluationFuture` and must not block the caller
+- [x] Re-ranking hook is optional and stateless; it receives a `const` candidate list and returns a re-ordered copy
+- [x] Citation API returns structured `CitationRef` objects; raw document content is never included in citation data
+- [x] Agentic RAG interface must not hold mutable shared state between hops; each hop receives explicit context by value
+- [x] All public RAG interfaces are `noexcept`-safe at the boundary; exceptions are caught and converted to `Result<T>`
 
 ## Required Interfaces
 
