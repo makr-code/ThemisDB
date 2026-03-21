@@ -14,14 +14,14 @@
 
 ## Design Constraints
 
-- [ ] Fast evaluation mode must complete end-to-end in ≤ 100 ms at p99 (single judge, no LLM call)
-- [ ] Balanced mode must complete in ≤ 500 ms at p99; Thorough mode ≤ 2 s at p99
-- [ ] All evaluator scores must be normalised to the [0.0, 1.0] float range; no breaking changes to scoring API
-- [ ] `StreamingRetriever` must fill the context window incrementally without blocking the generator thread
-- [ ] Cross-encoder re-ranker must degrade gracefully to heuristic scoring when the ONNX model is not loaded
-- [ ] `HybridRetriever` RRF weights must be runtime-configurable without index rebuild
-- [ ] `ClaimExtractor` must fall back to sentence-boundary heuristics when the LLM judge is unavailable
-- [ ] Agentic RAG loop must enforce a configurable maximum iteration count (default: 5) to prevent infinite loops
+- [x] Fast evaluation mode must complete end-to-end in ≤ 100 ms at p99 (single judge, no LLM call)
+- [x] Balanced mode must complete in ≤ 500 ms at p99; Thorough mode ≤ 2 s at p99
+- [x] All evaluator scores must be normalised to the [0.0, 1.0] float range; no breaking changes to scoring API
+- [x] `StreamingRetriever` must fill the context window incrementally without blocking the generator thread
+- [x] Cross-encoder re-ranker must degrade gracefully to heuristic scoring when the ONNX model is not loaded
+- [x] `HybridRetriever` RRF weights must be runtime-configurable without index rebuild
+- [x] `ClaimExtractor` must fall back to sentence-boundary heuristics when the LLM judge is unavailable
+- [x] Agentic RAG loop must enforce a configurable maximum iteration count (default: 5) to prevent infinite loops
 
 ## Required Interfaces
 
