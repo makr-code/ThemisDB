@@ -103,7 +103,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
   - Tests (production-ready): `tests/test_post_quantum_crypto.cpp` — 40 test cases; throughput ≥ 2 000 ops/s
 - [x] Systematic attack vector test suite (`tests/security/attack-vectors/`)
   - `crypto/test_crypto_attack_vectors.cpp` — IV/nonce reuse, tag tampering, bit-flip, key confusion, PQ key confusion, signature forgery
-  - `injection/test_injection_attack_vectors.cpp` — AQL injection: comment markers, dangerous ops, boolean-blind, union, stacked queries, case bypass, oversized params
+  - `injection/test_injection_attack_vectors.cpp` — AQL injection: comment markers, dangerous ops, boolean-blind, union, stacked queries, case bypass, oversized params; read-only context DDL/write rejection; unbounded FOR loop detection
   - `authentication/test_authentication_attack_vectors.cpp` — RBAC: privilege escalation, permission boundary, lateral movement, deleted/unknown roles, role injection, multi-role combinations
 - [x] USB admin authenticator: HMAC-SHA256 challenge-response with replay protection (`src/security/usb_admin_authenticator.cpp`)
   - `createChallenge()` now uses OpenSSL CSPRNG and registers challenges with timestamps
@@ -158,7 +158,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 ## Known Issues & Limitations
 - HSM integration uses RSA-OAEP (SHA-256 / MGF1-SHA-256) for DEK wrapping via PKCS#11 C_Encrypt/C_Decrypt.
 - FIPS 140-2 mode requires a FIPS-validated OpenSSL build; not bundled by default.
-- AQL injection detection uses pattern matching; AST-level semantic analysis deferred to v1.6.0+.
+- AQL injection detection uses both regex and AST-level analysis. The `validateForReadOnlyContext()` method rejects DDL/write operations via regex (`containsWriteOrDDLOperations()`), then falls through to `validateAQLAST()` for general injection pattern detection as defence-in-depth. `validateUnboundedForLoops()` rejects unbounded FOR loops without LIMIT clause.
 - Zero-trust `ZeroTrustPolicyEnforcer` supports IPv4 CIDR policies only; IPv6 support planned for a follow-up.
 - USB admin challenge-response uses HMAC-SHA256 with the license key as the HMAC secret; consider migrating to Ed25519 signatures with a dedicated per-USB key pair in a future iteration.
 
