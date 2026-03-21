@@ -3,7 +3,7 @@
 # Server Module Roadmap
 
 ## Current Status
-v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, PostgreSQL wire protocol, gRPC, and MCP server are implemented with 40+ specialized REST endpoints.
+v1.7.0 – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, PostgreSQL wire protocol, gRPC, and MCP server are implemented with 40+ specialized REST endpoints. gRPC-Web TypeScript client auto-generation (`scripts/gen_grpc_web_ts.py`) added in v1.7.0.
 
 ## Completed ✅
 - [x] HTTPServer – multi-protocol async I/O server (HTTP/1.1, HTTP/2, HTTP/3)
@@ -36,9 +36,10 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [x] gRPC-web proxy for browser clients (`server/grpc_web_proxy_handler.cpp`) (Issue: #2303)
 - [x] Edge caching integration (CDN cache-control header management) (`server/cdn_cache_middleware.cpp`) (Issue: #2305)
 - [x] Service mesh sidecar proxy mode (Envoy xDS compatibility) (`network/service_mesh.cpp`, `server/service_mesh_api_handler.cpp`) (Issue: #2306)
+- [x] gRPC-Web TypeScript client auto-generation (`scripts/gen_grpc_web_ts.py`) (v1.7.0) ✅
 
 ## In Progress 🚧
-*(none currently in progress – all Phase 1–4 items completed)*
+*(none currently in progress – all Phase 1–6 items completed)*
 
 ## Planned Features 📋
 
@@ -62,12 +63,12 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
   - Errors: quorum loss → gateway continues with last-known config + emits `CRITICAL` alert; split-brain → reject writes to config until quorum restored
   - Tests: 41 unit tests in `tests/test_distributed_gateway.cpp` covering config replication, consistent-hash routing, session affinity, quorum handling
   - Perf: config propagation ≤ 100 ms across 5 nodes on LAN; no additional per-request latency vs single-node gateway
-- [ ] gRPC-Web TypeScript client auto-generation (Target: v1.7.0)
-  - Files: new `scripts/gen_grpc_web_ts.py`; reads existing `.proto` files under `protos/`
-  - Behavior: generates typed TypeScript stubs for all public gRPC services; emits `@themisdb/client-grpc-web` npm package
-  - Errors: proto syntax error → generator exits with non-zero code and line-level error message; missing import → clear diagnostic
-  - Tests: unit (generator parses protos, emits valid TS), integration (generated client calls live `GrpcWebProxyHandler`)
-  - Perf: generation completes in ≤ 5 s for current proto set (< 50 files)
+- [x] gRPC-Web TypeScript client auto-generation (Target: v1.7.0) ✅ implemented
+  - Files: `scripts/gen_grpc_web_ts.py`; reads `.proto` files under `proto/`
+  - Behavior: generates typed TypeScript interfaces, enums, and service client classes; emits `@themisdb/client-grpc-web` npm package with `package.json`, `tsconfig.json`, `src/messages.ts`, `src/index.ts`, and per-service `src/<Service>.ts` files; CLI supports `--proto-dir`, `--out-dir`, `--package-name`, `--version`, `--dry-run`; streaming methods emit `Observable<T>` via RxJS; unary methods emit `Promise<T>`
+  - Errors: proto parse error → non-zero exit + `<path>:<lineno>: <message>` diagnostic; missing proto dir → exit 1; proto2 files skipped with diagnostic
+  - Tests: 89 unit tests in `tests/test_gen_grpc_web_ts.py` covering parser (service, streaming RPCs, enums, map fields, repeated/optional, block comments, imports), type mapping, code generation (messages.ts, per-service, index.ts, package.json, tsconfig.json), file-writing pipeline, CLI flags, and integration against all repo proto files
+  - Perf: generation completes in ≤ 5 s for current proto set (validated in `TestRealProtoFiles::test_generation_completes_fast`)
 - [x] WebAssembly API handlers (user-defined handlers in WASI sandbox) (Target: v2.1.0) ✅ implemented
   - Files: `server/wasm_handler_registry.cpp` + `include/server/wasm_handler_registry.h`; depends on `themis/base/wasm_plugin_sandbox.h`
   - Behavior: tenant uploads `.wasm` binary; handler registered at `POST /api/v1/functions/{id}/wasm`; invoked per request in isolated WASI sandbox with CPU-time limit (default 500 ms) and memory cap (default 64 MB)
@@ -131,7 +132,15 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [x] Service mesh sidecar proxy mode (Envoy xDS compatibility) (`network/service_mesh.cpp`, `server/service_mesh_api_handler.cpp`)
 - [x] HTTP/3 datagram support for real-time low-latency streams
 
-### Phase 5: Distributed Tracing (Status: Completed ✅)
+### Phase 6: gRPC-Web TypeScript Client Generation (Status: Completed ✅)
+- [x] gRPC-Web TypeScript client auto-generation (`scripts/gen_grpc_web_ts.py`) (March 2026)
+  — Reads all `.proto` files from `proto/`; emits `@themisdb/client-grpc-web` npm package
+  — TypeScript interfaces for all proto messages (194 across 6 files); enums; per-service client classes (7 services)
+  — Streaming methods → `Observable<T>` (RxJS); unary methods → `Promise<T>`
+  — CLI: `--proto-dir`, `--out-dir`, `--package-name`, `--version`, `--dry-run`
+  — Tests: `tests/test_gen_grpc_web_ts.py` (89 tests) covering parser, type mapping, codegen, file I/O, CLI, and real-proto integration
+
+
 - [x] OpenTelemetry `Tracer::startSpan()` instrumentation for all 64 API handler files (`utils/tracing.h`) (March 2026)
   — Covers: llm, voice, lora, monitoring, cache_admin, distributed_txn, task_scheduler, pii, audit, session, branch, pitr, diff, merge, mvcc, snapshot, import, pki, profiling, geo_topology, policy_*, async_job, hot_reload, wal, serverless_function, service_mesh, update, bpmn, compliance_reporting, prompt, prompt_engineering, replication_topology, review_scheduling, udf, retention, keys, classification, error, saga, feedback, reports and all previously-instrumented handlers
   — Tests: `tests/test_otel_api_tracing.cpp` (162 tests; 120+ tests added March 2026)
