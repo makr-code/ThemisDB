@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-03-12 -->
+<!-- Status: current | validated: 2026-03-21 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog — Importers Module
@@ -8,11 +8,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-- Federated learning-based schema drift detection
-- Expanded GraphQL federation source support
+- Microsoft SQL Server importer (Issue: #1845)
+- FedProx aggregation algorithm in `federated_learning.cpp`
+- Ethereum smart contract production anchor for `blockchain_integrity.cpp`
+- Quantum-safe cryptography (NIST PQC CRYSTALS-Kyber) for audit trail signatures
+- Zero-Knowledge Proofs for privacy-preserving data validation
 - Kafka consumer group rebalance-aware import
+- Performance benchmarks: schema inference vs. manual mapping
 
-## [1.5.0] — 2026-03-xx
+## [1.5.0] — 2026-03-16
 ### Added
 - GUI import wizard with step-by-step source configuration and preview
 - MDM audit trail with immutable append-only log per entity lifecycle event
