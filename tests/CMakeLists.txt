@@ -12614,6 +12614,14 @@ add_ingestion_focused_test(
     "ingestion;legal;deontic;semantic;extraction;focused;unit"
     "LegalExtraction: DeonticExtractor, SemanticValidator, AgenticReferenceValidator, LegalIngestionConfig, IngestionManager legal pipeline"
 )
+
+add_ingestion_focused_test(
+    test_ingestion_llm_adapter_focused
+    test_ingestion_llm_adapter.cpp
+    IngestionLlmAdapterFocusedTests
+    "ingestion;llm;deontic;legal;adapter;phase2;focused;unit"
+    "IngestionLlmAdapter: LegalLlmAdapter config, Phase 1 regex fallback, JSON response parsing, Phase 2 health-check (THEMIS_ENABLE_LLM), integration skip-if-no-model"
+)
 # Metadata Module – Focused Test Targets
 # ============================================================================
 
