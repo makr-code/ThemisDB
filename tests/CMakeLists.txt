@@ -13986,6 +13986,42 @@ else()
     message(STATUS "LogAggregator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_log_aggregator.cpp")
 endif()
 
+# MLAnomalyDetector focused tests (v1.7.0 — ML-based anomaly detection on metrics, Issue #2097)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ml_anomaly_detector.cpp")
+    message(STATUS "Adding Observability: MLAnomalyDetector focused tests (v1.7.0, Issue #2097)")
+
+    add_executable(test_ml_anomaly_detector_focused
+        test_ml_anomaly_detector.cpp
+    )
+
+    target_include_directories(test_ml_anomaly_detector_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_ml_anomaly_detector_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ml_anomaly_detector_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MLAnomalyDetectorFocusedTests COMMAND test_ml_anomaly_detector_focused)
+
+    set_tests_properties(MLAnomalyDetectorFocusedTests PROPERTIES
+        LABELS "observability;anomaly-detection;ml;isolation-forest;forecast;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  MLAnomalyDetector: train, detectAnomalies, explainAnomaly, change-point, DBSCAN noise, seasonal (PROPHET), ARIMA")
+else()
+    message(STATUS "MLAnomalyDetector focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ml_anomaly_detector.cpp")
+endif()
+
 # RootCauseAnalyzer focused tests (v1.7.0 — automated root cause identification, Issue #84)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_root_cause_analyzer.cpp")
     message(STATUS "Adding Observability: RootCauseAnalyzer focused tests (v1.7.0, Issue #84)")
