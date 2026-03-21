@@ -64,8 +64,8 @@ to an equivalent CPU path when no device is available.
 `orphan_detector.cpp` lines 50 and 67 have: "TODO: Access coordinator's transactions" and "TODO: Get transaction from coordinator". The orphan detector cannot inspect the coordinator's in-flight transaction list, making orphan detection non-functional.
 
 **Implementation Notes:**
-- `[ ]` Inject `DistributedCoordinator*` into `OrphanDetector` constructor; call `coordinator->listInFlightTransactions()` at line 50 to get the authoritative transaction list.
-- `[ ]` At line 67: call `coordinator->getTransaction(txn_id)` to fetch transaction metadata.
+- `[x]` Inject `DistributedCoordinator*` into `OrphanDetector` constructor; call `coordinator->listInFlightTransactions()` at line 50 to get the authoritative transaction list.
+- `[x]` At line 67: call `coordinator->getTransaction(txn_id)` to fetch transaction metadata.
 
 ---
 
