@@ -3,10 +3,12 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-v1.5.x – Full-featured, production-ready metadata layer. All Phase 1–3 items are complete.
+v1.6.0 – Full-featured, production-ready metadata layer with RBAC security interfaces.
+All Phase 1–4 items are complete.
 Schema introspection, statistics with equi-height histograms, changefeed notifications, adaptive
 TTL, audit log, consistency checker, ER diagram export, external catalog integration (Apache Atlas,
-DataHub), column lineage, distributed catalog, and the Schema API REST endpoint are all shipped.
+DataHub), column lineage, distributed catalog, the Schema API REST endpoint, and the pluggable
+RBAC/access-control and observer interfaces are all shipped.
 
 ## Completed ✅
 - [x] SchemaManager – automatic table discovery via RocksDB key scanning
@@ -68,15 +70,34 @@ DataHub), column lineage, distributed catalog, and the Schema API REST endpoint 
 - [x] Schema audit log – durable per-table audit trail (`schema_audit_log.cpp`)
 - [x] Schema consistency checker – background health scan (`schema_consistency_checker.cpp`)
 
+### Phase 4: Security & Extensibility Interfaces (Status: Completed ✅)
+- [x] `IMetadataSecurityProvider`: pluggable RBAC / access-control interface for all metadata operations
+  (`include/metadata/imetadata_security_provider.h`)
+- [x] `NoOpMetadataSecurityProvider`: default permit-all implementation (zero overhead)
+- [x] `InMemoryRbacMetadataSecurityProvider`: thread-safe in-memory RBAC with grant/revoke/revokeAll,
+  wildcard `"*"` resource, ADMIN-implies-all, `MetadataAccessDeniedException`
+- [x] `IMetadataChangeListener`: observer interface for schema change events with six event types
+  (`include/metadata/imetadata_change_listener.h`)
+- [x] `RecordingMetadataChangeListener`: thread-safe in-memory recording listener with callback,
+  FIFO ordering, `lastEvent()`, `clear()`
+- [x] `MetadataChangeEvent`: structured event with `toJSON()` serialisation
+- [x] `IMetadataExportPolicy`: pluggable export-policy interface for external catalog integration
+  (`include/metadata/imetadata_export_policy.h`)
+- [x] `AlwaysExportPolicy`, `NeverExportPolicy`, `FilteredExportPolicy` implementations
+- [x] 49 acceptance-criteria tests across three focused executables
+- [x] CI workflow `metadata-interfaces-ci.yml` (ubuntu-22.04 + ubuntu-24.04)
+
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (test_schema_manager, test_statistics_collector, test_information_schema,
   test_schema_version_manager, test_schema_constraints, test_schema_changefeed,
   test_schema_audit_log, test_schema_consistency_checker, test_column_lineage,
   test_catalog_exporter, test_er_diagram_exporter, test_distributed_catalog,
-  test_index_recommender, test_statistics_auto_refresh, …)
+  test_index_recommender, test_statistics_auto_refresh,
+  test_metadata_security_provider, test_metadata_change_listener,
+  test_metadata_export_policy, …)
 - [x] Integration tests (test_information_schema, test_schema_changefeed, test_schema_api_lineage)
 - [x] Performance benchmarks (cache hit rate, scan latency) – `benchmarks/bench_metadata_cache.cpp` (META-MISSING-001)
-- [?] Security audit (metadata access control, information disclosure) – planned for v1.6.0
+- [x] Security audit (metadata access control, information disclosure) – `IMetadataSecurityProvider` + `InMemoryRbacMetadataSecurityProvider` (META-MISSING-002, v1.6.0)
 - [x] Documentation complete (README.md in src/metadata/ and include/metadata/, ARCHITECTURE.md,
   FUTURE_ENHANCEMENTS.md)
 - [x] API stability guaranteed (SchemaManager public API stable from v1.x; no breaking changes planned)

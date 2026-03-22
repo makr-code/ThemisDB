@@ -146,6 +146,25 @@ public:
 
 ---
 
+### Security & Extensibility Interfaces
+**Priority:** High  
+**Target Version:** v1.6.0  
+**Status:** ✅ Implemented
+
+Three pluggable interface headers shipped in `include/metadata/`:
+
+- `imetadata_security_provider.h` — `IMetadataSecurityProvider` with `NoOpMetadataSecurityProvider`
+  and `InMemoryRbacMetadataSecurityProvider` (grant/revoke/revokeAll, wildcard `"*"`, ADMIN-implies-all,
+  `MetadataAccessDeniedException`; thread-safe; 11 acceptance-criteria tests).
+- `imetadata_change_listener.h` — `IMetadataChangeListener` observer with `RecordingMetadataChangeListener`
+  (FIFO, `lastEvent()`, callback, `clear()`; `MetadataChangeEvent::toJSON()`; thread-safe; 10 tests).
+- `imetadata_export_policy.h` — `IMetadataExportPolicy` with `AlwaysExportPolicy`, `NeverExportPolicy`,
+  and `FilteredExportPolicy` (exclusion list, configurable delay; thread-safe; 11 tests).
+
+CI: `metadata-interfaces-ci.yml` (32 tests total on ubuntu-22.04 gcc-12 + ubuntu-24.04 gcc-14).
+
+---
+
 ## Test Strategy
 
 - Unit tests for `StatisticsCollector`: verify stats are updated asynchronously and do not block concurrent writes
@@ -166,7 +185,9 @@ public:
 
 ## Security / Reliability
 
-- Schema change API enforces admin privilege check at header API entry; non-admin calls return `Error::PermissionDenied`
+- ✅ **Implemented (v1.6.0)**: `IMetadataSecurityProvider` (`imetadata_security_provider.h`) provides
+  pluggable RBAC; `InMemoryRbacMetadataSecurityProvider` enforces per-principal, per-operation,
+  per-resource access control with `MetadataAccessDeniedException`.
 - Statistics data structures never include row values or column data; only aggregate counts and distributions
 - `SchemaManager` catalog mutations are journaled; a crash during a schema change results in automatic rollback on restart
 - `InformationSchema` read path is isolated from write path; no lock contention with schema changes

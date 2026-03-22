@@ -13341,6 +13341,60 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_constraints_persistence.cpp")
     message(STATUS "  SchemaConstraintsPersistence: RocksDB round-trip for constraint definitions, reload after restart")
 endif()
 
+# Metadata – IMetadataSecurityProvider focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_metadata_security_provider.cpp")
+    message(STATUS "Adding Metadata SecurityProvider focused tests")
+    add_executable(test_metadata_security_provider_focused test_metadata_security_provider.cpp)
+    target_include_directories(test_metadata_security_provider_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_metadata_security_provider_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+    target_compile_definitions(test_metadata_security_provider_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME MetadataSecurityProviderFocusedTests COMMAND test_metadata_security_provider_focused)
+    set_tests_properties(MetadataSecurityProviderFocusedTests PROPERTIES
+        LABELS "metadata;security;rbac;access-control;information-disclosure;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  MetadataSecurityProvider: NoOp allows all, RBAC grant/revoke/revokeAll, wildcard resource, ADMIN implies all, assertPermission throws, thread-safety")
+endif()
+
+# Metadata – IMetadataChangeListener focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_metadata_change_listener.cpp")
+    message(STATUS "Adding Metadata ChangeListener focused tests")
+    add_executable(test_metadata_change_listener_focused test_metadata_change_listener.cpp)
+    target_include_directories(test_metadata_change_listener_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_metadata_change_listener_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+    target_compile_definitions(test_metadata_change_listener_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME MetadataChangeListenerFocusedTests COMMAND test_metadata_change_listener_focused)
+    set_tests_properties(MetadataChangeListenerFocusedTests PROPERTIES
+        LABELS "metadata;observer;change-listener;schema-events;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  MetadataChangeListener: FIFO ordering, lastEvent, clear, callback dispatch, setCallback, thread-safety, toJSON")
+endif()
+
+# Metadata – IMetadataExportPolicy focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_metadata_export_policy.cpp")
+    message(STATUS "Adding Metadata ExportPolicy focused tests")
+    add_executable(test_metadata_export_policy_focused test_metadata_export_policy.cpp)
+    target_include_directories(test_metadata_export_policy_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_metadata_export_policy_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+    target_compile_definitions(test_metadata_export_policy_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME MetadataExportPolicyFocusedTests COMMAND test_metadata_export_policy_focused)
+    set_tests_properties(MetadataExportPolicyFocusedTests PROPERTIES
+        LABELS "metadata;export;policy;atlas;datahub;external-catalog;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  MetadataExportPolicy: Always/Never/Filtered, exclusion list, exportDelay, removeExclusion, thread-safety")
+endif()
+
 # ============================================================================
 # Network Module – Focused Standalone Test Targets
 # Standalone executables so each network component can be tested in isolation

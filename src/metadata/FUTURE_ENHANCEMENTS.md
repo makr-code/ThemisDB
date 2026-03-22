@@ -213,7 +213,10 @@ Analyze query patterns and recommend indexes.
 
 ## Security / Reliability
 
-- Metadata API endpoints must enforce the same RBAC permissions as data APIs; unauthenticated access to INFORMATION_SCHEMA must be denied
+- ✅ **Implemented (v1.6.0)**: Pluggable RBAC / access-control interface — `IMetadataSecurityProvider`
+  (`include/metadata/imetadata_security_provider.h`) with `NoOpMetadataSecurityProvider` (default;
+  permits all) and `InMemoryRbacMetadataSecurityProvider` (thread-safe RBAC: grant/revoke/revokeAll,
+  wildcard `"*"` resource, ADMIN-implies-all, `MetadataAccessDeniedException`).
 - Column statistics must not expose sample data values; only aggregate statistics (min, max, NDV, histogram bucket boundaries) are stored
 - Schema version history stored in-memory must be bounded (default: last 1,000 versions) to prevent unbounded memory growth across long-running instances
 - External catalog integration (Apache Atlas, DataHub) must be disabled by default and require explicit opt-in configuration; credentials must not be logged
@@ -248,5 +251,5 @@ The following references underpin the planned enhancements and design decisions 
 ---
 
 *Last Updated: March 2026*  
-*Module Version: v1.5.0*  
-*Next Review: v1.6.0 Release*
+*Module Version: v1.6.0*  
+*Next Review: v1.9.0 Release*

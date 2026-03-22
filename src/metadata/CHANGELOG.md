@@ -10,8 +10,39 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Auto-generated OpenAPI schema export (Target: v2.0.0 / Q3 2027)
 - Explicit compatibility-mode policy for schema migrations (Target: v1.9.0 / Q1 2027)
-- Security audit and RBAC hardening for INFORMATION_SCHEMA (Target: v1.6.0)
 - Apache Atlas and DataHub integration stability improvements
+
+## [1.6.0] — 2026-03-22
+### Added
+- `IMetadataSecurityProvider`: pluggable RBAC / access-control interface for all metadata
+  operations (READ_SCHEMA, WRITE_SCHEMA, READ_STATISTICS, WRITE_STATISTICS, READ_LINEAGE,
+  WRITE_LINEAGE, READ_AUDIT_LOG, ADMIN). Shipped with two implementations:
+  - `NoOpMetadataSecurityProvider` — permits everything (default; zero overhead).
+  - `InMemoryRbacMetadataSecurityProvider` — thread-safe in-memory RBAC with grant/revoke/
+    revokeAll; wildcard resource `"*"` and ADMIN-implies-all semantics. Throws
+    `MetadataAccessDeniedException` on denial.
+- `IMetadataChangeListener`: observer interface for schema and metadata change events
+  (`TABLE_CREATED`, `TABLE_MODIFIED`, `TABLE_DROPPED`, `CONSTRAINT_ADDED`,
+  `CONSTRAINT_DROPPED`, `STATISTICS_UPDATED`). Shipped with
+  `RecordingMetadataChangeListener` — thread-safe in-memory recording implementation with
+  optional callback, FIFO ordering, `lastEvent()`, and `clear()`.
+- `MetadataChangeEvent`: structured event type with change_type, table_name, actor,
+  detail, timestamp, and `toJSON()` serialisation.
+- `IMetadataExportPolicy`: pluggable policy controlling which tables are pushed to external
+  catalogs (Apache Atlas, DataHub) and with what delay. Shipped with three implementations:
+  - `AlwaysExportPolicy` — exports everything immediately (default).
+  - `NeverExportPolicy` — suppresses all exports (offline / test mode).
+  - `FilteredExportPolicy` — thread-safe exclusion list with configurable uniform delay.
+- Focused test suite: 49 acceptance-criteria tests across three test executables
+  (`test_metadata_security_provider_focused`, `test_metadata_change_listener_focused`,
+  `test_metadata_export_policy_focused`).
+- CI workflow `metadata-interfaces-ci.yml` covering all 49 tests on ubuntu-22.04
+  (gcc-12) and ubuntu-24.04 (gcc-14).
+
+### Changed
+- Production Readiness Checklist: security audit item moved from `[?]` to `[x]` —
+  addressed by `IMetadataSecurityProvider` and `InMemoryRbacMetadataSecurityProvider`
+  (closes META-MISSING-002).
 
 ## [1.5.2] — 2026-03-12
 ### Fixed

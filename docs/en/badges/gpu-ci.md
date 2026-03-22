@@ -1,6 +1,6 @@
 # GPU CI Badge
 
-[![GPU CI](https://github.com/makr-code/ThemisDB/actions/workflows/06-infrastructure/gpu/gpu-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/06-infrastructure/gpu/gpu-ci.yml)
+[![GPU CI](https://github.com/makr-code/ThemisDB/actions/workflows/06-infrastructure/gpu/gpu-ci.yml/badge.svg?branch=develop)](https://github.com/makr-code/ThemisDB/actions/workflows/06-infrastructure/gpu/gpu-ci.yml)
 
 ## What it shows
 
