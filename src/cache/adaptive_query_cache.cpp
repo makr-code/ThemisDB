@@ -37,6 +37,7 @@
 #include <iomanip>
 #include <fstream>
 #include <thread>
+#include <shared_mutex>
 #include <openssl/sha.h>
 #include <regex>
 
@@ -206,61 +207,71 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
     
     int64_t now_ms = getCurrentTimeMs();
     
-    // Try L1 (HOT) - fastest path
+    // Try L1 (HOT) - lock-free concurrent reads via shared_lock
     {
-        std::lock_guard<std::mutex> lock(l1_mutex_);
+        std::shared_lock<std::shared_mutex> lock(l1_mutex_);
         auto it = l1_cache_.find(key);
         if (it != l1_cache_.end()) {
-            auto& entry = it->second;
-            
-            // Check expiration
-            if (isExpired(entry.created_at_ms, entry.ttl_seconds)) {
-                l1_eviction_strategy_->onRemove(key);
-                l1_cache_.erase(it);
-                stats_.evictions++;
-                enhanced_metrics_.evictions++;
+            L1Entry* ptr = it->second.get();
+
+            // Check expiry flag first (set by a previous reader via CAS)
+            if (ptr->expired_flag.load(std::memory_order_relaxed)) {
+                // Entry already marked for lazy cleanup; fall through to L2
+            } else if (isExpired(ptr->created_at_ms.load(std::memory_order_relaxed),
+                                 ptr->ttl_seconds.load(std::memory_order_relaxed))) {
+                // Mark entry for lazy cleanup via CAS; only the first winner records the metric
+                bool expected = false;
+                if (ptr->expired_flag.compare_exchange_strong(
+                        expected, true, std::memory_order_relaxed)) {
+                    stats_.evictions++;
+                    enhanced_metrics_.evictions++;
+                }
+                // Fall through to L2
             } else {
-                // Cache hit!
-                entry.last_accessed_ms = now_ms;
-                entry.access_count++;
-                l1_eviction_strategy_->onAccess(key);
-                
+                // Cache hit – update metadata lock-free
+                ptr->last_accessed_ms.store(now_ms, std::memory_order_relaxed);
+                int64_t new_count = ptr->access_count.fetch_add(1, std::memory_order_relaxed) + 1;
+
                 // Phase 3: Adaptive TTL tuning via sliding 5-minute window
                 if (config_.enable_adaptive_ttl) {
-                    if (now_ms - entry.window_start_ms >= ADAPTIVE_TTL_WINDOW_MS) {
-                        // Window elapsed: apply cold-key policy on previous window count
-                        if (entry.window_start_ms > 0 && entry.window_count <= 1) {
-                            int old_ttl = entry.ttl_seconds;
-                            entry.ttl_seconds = std::max(
-                                static_cast<int>(entry.ttl_seconds * 0.5),
-                                config_.adaptive_ttl_min_seconds);
-                            if (entry.ttl_seconds < old_ttl) {
-                                enhanced_metrics_.ttl_shortened_total++;
+                    int64_t ws = ptr->window_start_ms.load(std::memory_order_relaxed);
+                    if (now_ms - ws >= ADAPTIVE_TTL_WINDOW_MS) {
+                        // Window elapsed – attempt to claim the reset via CAS on window_start_ms
+                        if (ptr->window_start_ms.compare_exchange_strong(
+                                ws, now_ms, std::memory_order_relaxed)) {
+                            uint32_t wc = ptr->window_count.exchange(1, std::memory_order_relaxed);
+                            if (ws > 0 && wc <= 1) {
+                                int old_ttl = ptr->ttl_seconds.load(std::memory_order_relaxed);
+                                int new_ttl = std::max(static_cast<int>(old_ttl * 0.5),
+                                                       config_.adaptive_ttl_min_seconds);
+                                if (ptr->ttl_seconds.compare_exchange_strong(
+                                        old_ttl, new_ttl, std::memory_order_relaxed)) {
+                                    enhanced_metrics_.ttl_shortened_total++;
+                                }
                             }
+                            ptr->created_at_ms.store(now_ms, std::memory_order_relaxed);
                         }
-                        entry.window_start_ms = now_ms;
-                        entry.window_count = 1;
                     } else {
-                        entry.window_count++;
-                        // Hot-key policy: extend TTL when heavily accessed in window
-                        if (entry.window_count >= 10) {
-                            int old_ttl = entry.ttl_seconds;
-                            entry.ttl_seconds = std::min(
-                                static_cast<int>(entry.ttl_seconds * 1.5),
-                                config_.adaptive_ttl_max_seconds);
-                            if (entry.ttl_seconds > old_ttl) {
+                        uint32_t wc = ptr->window_count.fetch_add(1, std::memory_order_relaxed) + 1;
+                        if (wc >= 10) {
+                            int old_ttl = ptr->ttl_seconds.load(std::memory_order_relaxed);
+                            int new_ttl = std::min(static_cast<int>(old_ttl * 1.5),
+                                                   config_.adaptive_ttl_max_seconds);
+                            if (ptr->ttl_seconds.compare_exchange_strong(
+                                    old_ttl, new_ttl, std::memory_order_relaxed)) {
                                 enhanced_metrics_.ttl_extended_total++;
                             }
                         } else {
-                            entry.ttl_seconds = calculateAdaptiveTTL(entry.access_count);
+                            int new_ttl = calculateAdaptiveTTL(new_count);
+                            ptr->ttl_seconds.store(new_ttl, std::memory_order_relaxed);
                         }
+                        ptr->created_at_ms.store(now_ms, std::memory_order_relaxed);
                     }
-                    entry.created_at_ms = now_ms;  // Reset TTL window on each access
                 }
-                
+
                 stats_.l1_hits++;
                 enhanced_metrics_.l1_hits++;
-                
+
                 // Phase 3: Track per-tenant hit
                 if (config_.enable_tenant_isolation && !tenant_id.empty()) {
                     std::lock_guard<std::mutex> tlock(tenant_mutex_);
@@ -271,19 +282,19 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                 if (prefetcher_) {
                     prefetcher_->recordQueryAccess(fingerprint, tenant_id);
                 }
-                
-                // Return entry
-                CacheEntry result;
-                result.query_fingerprint = fingerprint;
-                result.result = entry.result;
-                result.level = CacheLevel::HOT;
-                result.created_at_ms = entry.created_at_ms;
-                result.last_accessed_ms = entry.last_accessed_ms;
-                result.access_count = entry.access_count;
-                result.ttl_seconds = entry.ttl_seconds;
-                
+
+                // Build result (copy result under shared_lock – result field is read-only after insert)
+                CacheEntry cache_result;
+                cache_result.query_fingerprint = fingerprint;
+                cache_result.result            = ptr->result;
+                cache_result.level             = CacheLevel::HOT;
+                cache_result.created_at_ms     = ptr->created_at_ms.load(std::memory_order_relaxed);
+                cache_result.last_accessed_ms  = ptr->last_accessed_ms.load(std::memory_order_relaxed);
+                cache_result.access_count      = ptr->access_count.load(std::memory_order_relaxed);
+                cache_result.ttl_seconds       = ptr->ttl_seconds.load(std::memory_order_relaxed);
+
                 THEMIS_DEBUG("L1 cache hit: fingerprint={}", fingerprint.substr(0, 16));
-                return result;
+                return cache_result;
             }
         }
     }
@@ -362,22 +373,25 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                     
                     // Promote to L1 if accessed frequently
                     if (entry.access_count >= 3 && decompressed.size() < config_.l1_max_entry_size) {
-                        L1Entry l1_entry;
-                        l1_entry.result = result;
-                        l1_entry.created_at_ms = entry.created_at_ms;
-                        l1_entry.last_accessed_ms = now_ms;
-                        l1_entry.access_count = entry.access_count;
-                        l1_entry.ttl_seconds = entry.ttl_seconds;
-                        l1_entry.window_start_ms = entry.window_start_ms;
-                        l1_entry.window_count = entry.window_count;
+                        auto l1_entry = std::make_unique<L1Entry>();
+                        l1_entry->result = result;
+                        l1_entry->created_at_ms.store(entry.created_at_ms, std::memory_order_relaxed);
+                        l1_entry->last_accessed_ms.store(now_ms, std::memory_order_relaxed);
+                        l1_entry->access_count.store(entry.access_count, std::memory_order_relaxed);
+                        l1_entry->ttl_seconds.store(entry.ttl_seconds, std::memory_order_relaxed);
+                        l1_entry->window_start_ms.store(entry.window_start_ms, std::memory_order_relaxed);
+                        l1_entry->window_count.store(entry.window_count, std::memory_order_relaxed);
                         
-                        std::lock_guard<std::mutex> l1_lock(l1_mutex_);
+                        std::unique_lock<std::shared_mutex> l1_lock(l1_mutex_);
                         if (l1_cache_.size() >= config_.l1_max_entries) {
                             evictLRU(CacheLevel::HOT);
                         }
                         l2_eviction_strategy_->onRemove(key);
                         l1_cache_[key] = std::move(l1_entry);
-                        l1_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
+                        {
+                            std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);
+                            l1_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
+                        }
                         l2_cache_.erase(it);
                         stats_.promotions++;
                         enhanced_metrics_.promotions++;
@@ -629,20 +643,23 @@ bool AdaptiveQueryCache::put(
         bool any_written = false;
 
         if (result_size < config_.l1_max_entry_size) {
-            std::lock_guard<std::mutex> l1_lock(l1_mutex_);
+            std::unique_lock<std::shared_mutex> l1_lock(l1_mutex_);
             if (l1_cache_.size() >= config_.l1_max_entries) {
                 evictLRU(CacheLevel::HOT);
             }
-            L1Entry l1_entry;
-            l1_entry.result = result;
-            l1_entry.created_at_ms = now_ms;
-            l1_entry.last_accessed_ms = now_ms;
-            l1_entry.access_count = 1;
-            l1_entry.ttl_seconds = config_.enable_adaptive_ttl ? calculateAdaptiveTTL(0) : config_.l1_ttl_seconds;
-            l1_entry.window_start_ms = now_ms;
-            l1_entry.window_count = 0;
+            auto l1_entry = std::make_unique<L1Entry>();
+            l1_entry->result = result;
+            l1_entry->created_at_ms.store(now_ms, std::memory_order_relaxed);
+            l1_entry->last_accessed_ms.store(now_ms, std::memory_order_relaxed);
+            l1_entry->access_count.store(1, std::memory_order_relaxed);
+            l1_entry->ttl_seconds.store(config_.enable_adaptive_ttl ? calculateAdaptiveTTL(0) : config_.l1_ttl_seconds, std::memory_order_relaxed);
+            l1_entry->window_start_ms.store(now_ms, std::memory_order_relaxed);
+            l1_entry->window_count.store(0, std::memory_order_relaxed);
             l1_cache_[key] = std::move(l1_entry);
-            l1_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
+            {
+                std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);
+                l1_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
+            }
             any_written = true;
         }
 
@@ -740,20 +757,23 @@ bool AdaptiveQueryCache::put(
 
     if (level == CacheLevel::HOT && result_size < config_.l1_max_entry_size) {
         {
-            std::lock_guard<std::mutex> lock(l1_mutex_);
+            std::unique_lock<std::shared_mutex> lock(l1_mutex_);
             if (l1_cache_.size() >= config_.l1_max_entries) {
                 evictLRU(CacheLevel::HOT);
             }
-            L1Entry entry;
-            entry.result = result;
-            entry.created_at_ms = now_ms;
-            entry.last_accessed_ms = now_ms;
-            entry.access_count = 1;
-            entry.ttl_seconds = ttl_seconds;
-            entry.window_start_ms = now_ms;
-            entry.window_count = 0;
+            auto entry = std::make_unique<L1Entry>();
+            entry->result = result;
+            entry->created_at_ms.store(now_ms, std::memory_order_relaxed);
+            entry->last_accessed_ms.store(now_ms, std::memory_order_relaxed);
+            entry->access_count.store(1, std::memory_order_relaxed);
+            entry->ttl_seconds.store(ttl_seconds, std::memory_order_relaxed);
+            entry->window_start_ms.store(now_ms, std::memory_order_relaxed);
+            entry->window_count.store(0, std::memory_order_relaxed);
             l1_cache_[key] = std::move(entry);
-            l1_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
+            {
+                std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);
+                l1_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
+            }
             enhanced_metrics_.total_bytes_cached += result_size;
         }
         if (config_.enable_tenant_isolation && !tenant_id.empty()) {
@@ -883,7 +903,8 @@ size_t AdaptiveQueryCache::invalidate(const std::string& pattern) {
     
     // Invalidate L1
     {
-        std::lock_guard<std::mutex> lock(l1_mutex_);
+        std::unique_lock<std::shared_mutex> lock(l1_mutex_);
+        std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);
         for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {
             if (std::regex_search(it->first, re)) {
                 l1_eviction_strategy_->onRemove(it->first);
@@ -990,9 +1011,12 @@ size_t AdaptiveQueryCache::invalidate(const std::string& pattern) {
 
 void AdaptiveQueryCache::clear() {
     {
-        std::lock_guard<std::mutex> lock(l1_mutex_);
+        std::unique_lock<std::shared_mutex> lock(l1_mutex_);
         l1_cache_.clear();
-        l1_eviction_strategy_->clear();
+        {
+            std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);
+            l1_eviction_strategy_->clear();
+        }
     }
     
     {
@@ -1043,9 +1067,11 @@ uint64_t AdaptiveQueryCache::clearExpired() {
     
     // Clear expired L1 entries
     {
-        std::lock_guard<std::mutex> lock(l1_mutex_);
+        std::unique_lock<std::shared_mutex> lock(l1_mutex_);
+        std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);
         for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {
-            if (isExpired(it->second.created_at_ms, it->second.ttl_seconds)) {
+            if (isExpired(it->second->created_at_ms.load(std::memory_order_relaxed),
+                          it->second->ttl_seconds.load(std::memory_order_relaxed))) {
                 l1_eviction_strategy_->onRemove(it->first);
                 it = l1_cache_.erase(it);
                 count++;
@@ -1194,27 +1220,53 @@ AdaptiveQueryCache::CacheLevel AdaptiveQueryCache::selectCacheLevel(size_t resul
 
 void AdaptiveQueryCache::evictLRU(CacheLevel level) {
     if (level == CacheLevel::HOT) {
+        // First: purge any entries already marked expired
+        for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {
+            if (it->second->expired_flag.load(std::memory_order_relaxed)) {
+                {
+                    std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);
+                    l1_eviction_strategy_->onRemove(it->first);
+                }
+                it = l1_cache_.erase(it);
+                stats_.evictions++;
+                enhanced_metrics_.evictions++;
+            } else {
+                ++it;
+            }
+        }
         if (l1_cache_.empty()) return;
 
         // Use the configured eviction strategy to select the victim key
-        auto victim = l1_eviction_strategy_->selectVictim();
+        std::optional<std::string> victim;
+        {
+            std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);
+            victim = l1_eviction_strategy_->selectVictim();
+        }
         if (victim && l1_cache_.count(*victim)) {
-            l1_eviction_strategy_->onRemove(*victim);
+            {
+                std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);
+                l1_eviction_strategy_->onRemove(*victim);
+            }
             l1_cache_.erase(*victim);
         } else {
-            // Fallback: score-based scan (strategy out of sync or returned nothing)
+            // Fallback: score-based scan using per-entry atomic counters
             auto lru_it = l1_cache_.begin();
-            double min_score = calculateLRUScore(lru_it->second.last_accessed_ms,
-                                                 lru_it->second.access_count);
+            double min_score = calculateLRUScore(
+                lru_it->second->last_accessed_ms.load(std::memory_order_relaxed),
+                lru_it->second->access_count.load(std::memory_order_relaxed));
             for (auto it = l1_cache_.begin(); it != l1_cache_.end(); ++it) {
-                double score = calculateLRUScore(it->second.last_accessed_ms,
-                                                it->second.access_count);
+                double score = calculateLRUScore(
+                    it->second->last_accessed_ms.load(std::memory_order_relaxed),
+                    it->second->access_count.load(std::memory_order_relaxed));
                 if (score < min_score) {
                     min_score = score;
                     lru_it = it;
                 }
             }
-            l1_eviction_strategy_->onRemove(lru_it->first);
+            {
+                std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);
+                l1_eviction_strategy_->onRemove(lru_it->first);
+            }
             l1_cache_.erase(lru_it);
         }
         stats_.evictions++;
@@ -1507,12 +1559,15 @@ nlohmann::json AdaptiveQueryCache::getStatsByTier() const {
     
     // L1 statistics
     {
-        std::lock_guard<std::mutex> lock(l1_mutex_);
+        std::shared_lock<std::shared_mutex> lock(l1_mutex_);
         stats["l1"]["entries"] = l1_cache_.size();
         stats["l1"]["max_entries"] = config_.l1_max_entries;
         stats["l1"]["utilization"] = static_cast<double>(l1_cache_.size()) / config_.l1_max_entries;
         stats["l1"]["hits"] = enhanced_metrics_.l1_hits.load();
-        stats["l1"]["eviction_policy"] = std::string(l1_eviction_strategy_->getName());
+        {
+            std::lock_guard<std::mutex> evl(l1_eviction_mutex_);
+            stats["l1"]["eviction_policy"] = std::string(l1_eviction_strategy_->getName());
+        }
     }
     
     // L2 statistics
@@ -1554,7 +1609,7 @@ nlohmann::json AdaptiveQueryCache::getHealthStatus() const {
 
     // L1 tier
     {
-        std::lock_guard<std::mutex> lock(l1_mutex_);
+        std::shared_lock<std::shared_mutex> lock(l1_mutex_);
         size_t entries = l1_cache_.size();
         double util = static_cast<double>(entries) / config_.l1_max_entries;
         std::string tier_status = (util > 0.9) ? "DEGRADED" : "OK";
