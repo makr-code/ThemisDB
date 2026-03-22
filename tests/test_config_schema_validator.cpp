@@ -1312,6 +1312,108 @@ TEST_F(ConfigSchemaValidatorTest, FormatUnknownIsAccepted) {
     EXPECT_TRUE(result.valid) << result.formatErrors();
 }
 
+// ============================================================================
+// not keyword
+// ============================================================================
+
+TEST_F(ConfigSchemaValidatorTest, NotKeyword_PassWhenValueDoesNotMatchSubSchema) {
+    // A string value does not match {type: "integer"}, so "not" passes.
+    auto path = writeFile("cfg.json", R"({"value": "hello"})");
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "value": { "not": { "type": "integer" } }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
+TEST_F(ConfigSchemaValidatorTest, NotKeyword_FailWhenValueMatchesSubSchema) {
+    // An integer value matches {type: "integer"}, so "not" fails.
+    auto path = writeFile("cfg.json", R"({"value": 42})");
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "value": { "not": { "type": "integer" } }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_FALSE(result.valid);
+    EXPECT_FALSE(result.errors.empty());
+}
+
+TEST_F(ConfigSchemaValidatorTest, NotKeyword_PassWithEnumSubSchema) {
+    // Value "c" is not in ["a","b"], so "not" of {enum: ["a","b"]} passes.
+    auto path = writeFile("cfg.json", R"({"value": "c"})");
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "value": { "not": { "enum": ["a", "b"] } }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
+TEST_F(ConfigSchemaValidatorTest, NotKeyword_FailWithEnumSubSchema) {
+    // Value "a" is in ["a","b"], so "not" of {enum: ["a","b"]} fails.
+    auto path = writeFile("cfg.json", R"({"value": "a"})");
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "value": { "not": { "enum": ["a", "b"] } }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_FALSE(result.valid);
+    EXPECT_FALSE(result.errors.empty());
+}
+
+TEST_F(ConfigSchemaValidatorTest, NotKeyword_TopLevelNotPass) {
+    // Top-level "not": value is a string, not an integer — passes.
+    auto path = writeFile("cfg.json", R"("hello")");
+    nlohmann::json schema = R"({ "not": { "type": "integer" } })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
+TEST_F(ConfigSchemaValidatorTest, NotKeyword_TopLevelNotFail) {
+    // Top-level "not": value is an integer — fails.
+    auto path = writeFile("cfg.json", R"(123)");
+    nlohmann::json schema = R"({ "not": { "type": "integer" } })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_FALSE(result.valid);
+}
+
+TEST_F(ConfigSchemaValidatorTest, NotKeyword_NotWithComplexSubSchema) {
+    // "not" sub-schema with type + minimum: value 5 matches {type:integer,
+    // minimum:1}, so "not" fails.
+    auto path = writeFile("cfg.json", R"({"port": 5})");
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "port": { "not": { "type": "integer", "minimum": 1 } }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_FALSE(result.valid);
+}
+
+TEST_F(ConfigSchemaValidatorTest, NotKeyword_NotWithComplexSubSchemaPass) {
+    // Value 0 does not match {type:integer, minimum:1} (minimum fails), so
+    // "not" passes.
+    auto path = writeFile("cfg.json", R"({"port": 0})");
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "port": { "not": { "type": "integer", "minimum": 1 } }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
 } // namespace test
 } // namespace config
 } // namespace themis

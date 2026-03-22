@@ -45,7 +45,7 @@ namespace config {
  *   - minimum, maximum, exclusiveMinimum, exclusiveMaximum (number/integer)
  *   - minItems, maxItems, items, uniqueItems (array)
  *   - enum, const
- *   - allOf, anyOf, oneOf (schema composition)
+ *   - allOf, anyOf, oneOf, not (schema composition)
  *   - $ref with local $defs / definitions lookup (JSON Pointer, RFC 6901 subset)
  *
  * YAML files are loaded via yaml-cpp and converted to an internal JSON
@@ -242,6 +242,13 @@ private:
                               ValidationResult& result,
                               const nlohmann::json& root_schema,
                               std::vector<std::string>& visited_refs);
+
+    static void validateNot(const nlohmann::json& value,
+                            const nlohmann::json& not_schema,
+                            const std::string& json_path,
+                            ValidationResult& result,
+                            const nlohmann::json& root_schema,
+                            std::vector<std::string>& visited_refs);
 
     // Check whether a JSON value matches the given JSON Schema type string.
     static bool matchesType(const nlohmann::json& value, const std::string& type);
