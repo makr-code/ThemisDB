@@ -13,12 +13,12 @@ on:
           - apply
           - backfill
       priority:
-        description: Optional priority filter
+        description: 'Optional priority filter (select "all" for no filter)'
         required: false
-        default: ""
+        default: all
         type: choice
         options:
-          - ""
+          - all
           - critical
           - high
           - medium
@@ -65,7 +65,7 @@ jobs:
         shell: bash
         run: |
           FLAGS=(--mode "${{ github.event.inputs.mode }}")
-          if [ -n "${{ github.event.inputs.priority }}" ]; then
+          if [ -n "${{ github.event.inputs.priority }}" ] && [ "${{ github.event.inputs.priority }}" != "all" ]; then
             FLAGS+=(--priority "${{ github.event.inputs.priority }}")
           fi
           if [ -n "${{ github.event.inputs.module }}" ]; then
