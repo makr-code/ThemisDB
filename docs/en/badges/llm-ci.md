@@ -1,6 +1,6 @@
 # LLM CI Badge
 
-[![LLM CI](https://github.com/makr-code/ThemisDB/actions/workflows/02-feature-modules/llm/llm-cpu-fallback-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/02-feature-modules/llm/llm-cpu-fallback-ci.yml)
+[![LLM CI](https://github.com/makr-code/ThemisDB/actions/workflows/02-feature-modules/llm/llm-cpu-fallback-ci.yml/badge.svg?branch=develop)](https://github.com/makr-code/ThemisDB/actions/workflows/02-feature-modules/llm/llm-cpu-fallback-ci.yml)
 
 ## What it shows
 

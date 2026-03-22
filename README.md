@@ -33,8 +33,8 @@
   <!-- Row 4: Tech Stack -->
   [![C++20](https://img.shields.io/badge/C%2B%2B-20-blue)](docs/en/badges/cpp-standard.md)
   [![Docker Image Size](https://img.shields.io/docker/image-size/themisdb/themisdb/latest)](docs/en/badges/docker-image-size.md)
-  [![GPU CI](https://github.com/makr-code/ThemisDB/actions/workflows/06-infrastructure/gpu/gpu-ci.yml/badge.svg)](docs/en/badges/gpu-ci.md)
-  [![LLM CI](https://github.com/makr-code/ThemisDB/actions/workflows/02-feature-modules/llm/llm-cpu-fallback-ci.yml/badge.svg)](docs/en/badges/llm-ci.md)
+  [![GPU CI](https://github.com/makr-code/ThemisDB/actions/workflows/06-infrastructure/gpu/gpu-ci.yml/badge.svg?branch=develop)](docs/en/badges/gpu-ci.md)
+  [![LLM CI](https://github.com/makr-code/ThemisDB/actions/workflows/02-feature-modules/llm/llm-cpu-fallback-ci.yml/badge.svg?branch=develop)](docs/en/badges/llm-ci.md)
   [![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-lightgrey)](docs/en/badges/platform.md)
 
   <sub>ℹ️ Each badge links to a short explanation of what it shows and where to find the source of truth. See <a href="docs/en/badges/README.md">docs/en/badges</a> for the full overview.</sub>
