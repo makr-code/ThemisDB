@@ -532,7 +532,8 @@ We welcome contributions in the following areas:
 - [ ] Documentation improvements and examples
 
 ### Medium Complexity
-- [ ] Redis cache adapter implementation
+- [x] Redis cache adapter implementation ✅ Implemented (v1.6.0)
+- [x] In-memory and environment-variable secrets providers ✅ Implemented (v1.8.0)
 - [ ] Contextual logging framework
 - [ ] Span pool for tracer optimization
 - [ ] Configuration hot-reload

@@ -98,6 +98,22 @@ public:
 - All virtual calls optimized away by compiler
 - Useful for performance-critical paths
 
+#### Secrets Implementations
+
+**InMemorySecrets** (`inmemory_secrets.h`)
+- Thread-safe map-backed `ISecrets` implementation
+- Pre-populated at construction via `std::map<std::string, std::string>`
+- `setSecret(name, value)` / `removeSecret(name)` for runtime updates
+- `listSecretNames()` returns sorted names
+- Use for unit tests and config-file-based credential injection
+
+**EnvSecretsProvider** (`inmemory_secrets.h`)
+- Reads credentials from environment variables
+- Configurable prefix (default: `THEMIS_SECRET_`)
+- Secret name mapped to env-var key: upper-cased, dots/dashes → underscores
+- `registerName()` for selective `listSecretNames()` enumeration
+- Use in single-process deployments where secrets are injected via the OS environment
+
 #### Cache Implementations
 
 **InMemoryCacheImpl** (`inmemory_cache_impl.h`)
@@ -170,11 +186,17 @@ concern via string fields — no code changes required:
 | `loggerAdapter` | `"spdlog"` | `"spdlog"`, `"noop"` |
 | `tracerAdapter` | `""` (auto) | `"otel"`, `"noop"`, `""` |
 | `metricsAdapter` | `""` (auto) | `"prometheus"`, `"noop"`, `""` |
-| `cacheAdapter` | `"inmemory"` | `"inmemory"`, `"noop"` |
+| `cacheAdapter` | `"inmemory"` | `"inmemory"`, `"redis"`, `"noop"` |
+| `secretsAdapter` | `"noop"` | `"noop"`, `"inmemory"`, `"env"` |
 
 Auto-selection: empty `tracerAdapter` resolves to `"otel"` when
 `tracingEnabled=true`, otherwise `"noop"`. Same rule for `metricsAdapter`.
 An explicit non-empty adapter value always overrides the boolean flag.
+
+**Secrets adapter behaviour:**
+- `"noop"` — NoOpSecrets; always returns `nullopt` (default, minimal builds).
+- `"inmemory"` — InMemorySecrets backed by `Config::initialSecrets`.
+- `"env"` — EnvSecretsProvider using `Config::secretsEnvPrefix` (default: `"THEMIS_SECRET_"`).
 
 ### Initialization Headers
 
