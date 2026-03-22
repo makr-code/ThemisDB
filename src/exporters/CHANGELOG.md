@@ -7,7 +7,19 @@ All notable changes to the Exporters module are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
-- Cross-collection join export for complex training datasets (Issue #1722)
+
+## [1.8.0] — 2026-03-22
+### Added
+- Cross-collection hash-join export: `JoinExporter` + `JoinExportConfig` in `src/exporters/join_exporter.cpp` / `include/exporters/join_exporter.h` (Issue #1722)
+  - Inner join semantics with in-memory right-side hash table keyed on `right_key_field`
+  - `output_fields` selection and `"src_name:alias"` renaming; qualified `left.<field>` / `right.<field>` references resolve ambiguous names
+  - AQL `join_predicate` filtering applied on the merged record
+  - Right-side memory budget (`right_side_memory_limit_bytes`, default 1 GiB) enforced via `ERR_EXPORT_JOIN_MEMORY_LIMIT`
+  - Error codes: `ERR_EXPORT_JOIN_AMBIGUOUS_FIELD` (9313), `ERR_EXPORT_JOIN_PREDICATE_INVALID` (9312), `ERR_EXPORT_JOIN_MEMORY_LIMIT` (9314)
+  - PII detection and redaction on merged serialised JSON
+  - Throughput ≥ 50 000 merged docs/sec
+  - `JoinExporter` registered in `ExportFormatRegistry` as `"join"` and `"join_jsonl"` (13 → 15 built-in formats)
+  - 676-line test suite in `tests/exporters/test_join_exporter.cpp`; CI: `.github/workflows/join-exporter-ci.yml`
 
 ## [1.7.0] — 2026-03-09
 ### Added
