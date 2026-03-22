@@ -38,6 +38,8 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 - [x] `$ref` and `$defs` resolution in `ConfigSchemaValidator` — document-internal `$ref` with JSON Pointer (RFC 6901) walk; supports `$defs` (Draft 2019-09) and `definitions` (Draft 4/6/7); cycle detection; SSRF guard rejects external URI refs (Issue: #3742)
 - [x] `format` and `uniqueItems` validators in `ConfigSchemaValidator` — `format` enforces `date`, `date-time`, `email`, `uri`, `ipv4`, `ipv6` patterns; `uniqueItems` rejects arrays with duplicate elements; 20 dedicated tests; usage examples in `src/config/README.md` (Milestone: v2.0.0)
 - [x] In-memory YAML/JSON validation via `ConfigSchemaValidator::validateFromString(content, is_yaml, schema)` — validates an in-memory YAML or JSON string against a JSON Schema without requiring a file; `loadAsJson(content, is_yaml)` string overload for inline parsing; parse errors reported as `ValidationResult` errors; 10 dedicated tests (Milestone: v2.0.0)
+- [x] `not` keyword support in `ConfigSchemaValidator` — asserts that a value does NOT validate against the specified sub-schema; 8 dedicated tests covering type, enum, complex, and top-level `not` schemas (Milestone: v2.0.0)
+- [x] `ConfigEncryptedStore` read-path lock upgrade — replaced `std::mutex` (exclusive) with `std::shared_mutex`; `get`, `tryGet`, `contains`, `keys`, `size`, `currentKeyVersion`, `serialize` now use `std::shared_lock` allowing concurrent reads; write operations (`set`, `remove`, `clear`, `rotateKey`, `deserialize`) retain `std::unique_lock`; re-encryption under `rotateKey` holds `unique_lock` for full duration to maintain atomicity (Issue: resolved in v1.8.0)
 
 ## Implementation Phases
 
@@ -70,8 +72,12 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 - [x] 200 ms debounce settling window prevents spurious flushes during editor save-then-rename sequences
 - [x] Focused tests in `tests/test_config_file_watcher.cpp`; CI in `.github/workflows/config-file-watcher-ci.yml`
 
+### Phase 6: Schema Composition Completeness and Encrypted Store Concurrency (Status: Completed – v1.8.0)
+- [x] `ConfigSchemaValidator` `not` keyword: validates that a value does NOT match the provided sub-schema; 8 dedicated tests in `tests/test_config_schema_validator.cpp`
+- [x] `ConfigEncryptedStore` read-path lock upgrade: `std::mutex` replaced with `std::shared_mutex`; concurrent readers via `std::shared_lock`; writes retain `std::unique_lock`; CI in `.github/workflows/config-encrypted-store-lock-upgrade-ci.yml`
+
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% — achieved via `tests/test_config_path_resolver.cpp` (1 339 lines), `tests/test_config_coverage.cpp` (777 lines), `tests/test_config_migration_scanner.cpp` (708 lines), `tests/test_config_schema_validator.cpp` (1 193 lines, including `$ref`/`$defs` tests and `loadAsJson` string-overload tests), `tests/test_config_metrics_scrape.cpp` (metrics scrape latency < 1 ms gate), `tests/test_config_encrypted_store.cpp` (encryption, key rotation, serialisation, thread safety) (Issue: #1674)
+- [x] Unit tests coverage > 80% — achieved via `tests/test_config_path_resolver.cpp` (1 339 lines), `tests/test_config_coverage.cpp` (777 lines), `tests/test_config_migration_scanner.cpp` (708 lines), `tests/test_config_schema_validator.cpp` (1 300+ lines, including `$ref`/`$defs` tests, `loadAsJson` string-overload tests, and `not` keyword tests), `tests/test_config_metrics_scrape.cpp` (metrics scrape latency < 1 ms gate), `tests/test_config_encrypted_store.cpp` (encryption, key rotation, serialisation, thread safety, concurrent readers) (Issue: #1674)
 - [x] Integration tests (path resolution, LRU cache, fallback, metadata)
 - [x] Performance benchmarks (cache hit rate, resolution latency) — `benchmarks/bench_config_path_resolver.cpp` (401 lines, commit 90c733a50) (Issue: #1675); migration scanner throughput (10K files < 5 s) — `benchmarks/bench_config_migration_scanner.cpp` (BM_ScanTree_10K)
 - [x] Security audit (path traversal prevention, symlink escape hardening)
