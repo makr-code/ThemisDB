@@ -1,5 +1,5 @@
 # CDC Module - Future Header Enhancements
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-03-22 -->
 <!-- Links: ../../src/cdc/README.md · ../../src/cdc/ARCHITECTURE.md · ../../src/cdc/FUTURE_ENHANCEMENTS.md · docs/de/cdc/ -->
 
 ## Scope
@@ -31,42 +31,42 @@
 | `IDeliveryGuaranteeConfig` | `ICDCListener` factory, `OutboxProcessor` | Configures at-least-once vs. exactly-once delivery semantics per listener registration |
 | `ICDCBackpressureSignal` | `ICDCListener` implementations, `BackpressureManager` | Advisory signal; consumer calls `signalBackpressure()` and `clearBackpressure()` |
 
-## Planned Features
+## Implemented Features ✅ (v1.8.0)
 
-### CDC Pause/Resume Control API
+### CDC Pause/Resume Control API ✅ Implemented (v1.8.0)
 
-- `[ ]` Define `ICDCPauseControl::pause() -> Result<void>` and `resume() -> Result<void>` in public header
-- `[ ]` Add `isPaused() -> bool` as a thread-safe query method; must not block
-- `[ ]` Expose `PauseReason` as a strongly-typed enum class: `AdminRequest`, `Backpressure`, `SchemaEvolution`
-- `[ ]` Document that events arriving during pause are buffered up to a configured `maxBufferBytes` limit; overflow triggers `Result::error(BufferFull)`
+- `[x]` Define `ICDCPauseControl::pause() -> Result<void>` and `resume() -> Result<void>` in public header
+- `[x]` Add `isPaused() -> bool` as a thread-safe query method; must not block
+- `[x]` Expose `PauseReason` as a strongly-typed enum class: `AdminRequest`, `Backpressure`, `SchemaEvolution`
+- `[x]` Document that events arriving during pause are buffered up to a configured `maxBufferBytes` limit; overflow triggers `Result::error(BufferFull)`
 
-### Backpressure Signaling Interface
+### Backpressure Signaling Interface ✅ Implemented (v1.8.0)
 
-- `[ ]` Define `ICDCBackpressureSignal` with `signalBackpressure(BackpressureLevel)` and `clearBackpressure()`
-- `[ ]` Expose `BackpressureLevel` as a strongly-typed enum class: `Low`, `Medium`, `High`, `Critical`
-- `[ ]` Add `currentLevel() -> BackpressureLevel` as a non-blocking query method
-- `[ ]` Document that `Critical` level triggers automatic `ICDCPauseControl::pause()` if configured to do so
+- `[x]` Define `ICDCBackpressureSignal` with `signalBackpressure(BackpressureLevel)` and `clearBackpressure()`
+- `[x]` Expose `BackpressureLevel` as a strongly-typed enum class: `Low`, `Medium`, `High`, `Critical`
+- `[x]` Add `currentLevel() -> BackpressureLevel` as a non-blocking query method
+- `[x]` Document that `Critical` level triggers automatic `ICDCPauseControl::pause()` if configured to do so
 
-### Multi-Source Fan-In API
+### Multi-Source Fan-In API ✅ Implemented (v1.8.0)
 
-- `[ ]` Define `ICDCFanIn` with `addSource(CollectionId, ICDCListener&)` and `removeSource(CollectionId)`
-- `[ ]` Expose `FanInEvent` as a tagged-event value type that carries the originating `CollectionId`
-- `[ ]` Add `ICDCFanIn::setMergePolicy(IFanInMergePolicy&)` to configure conflict resolution across sources
-- `[ ]` Document ordering guarantee: events from the same source collection are delivered in order; cross-collection ordering is best-effort
+- `[x]` Define `ICDCFanIn` with `addSource(CollectionId, ICDCListener&)` and `removeSource(CollectionId)`
+- `[x]` Expose `FanInEvent` as a tagged-event value type that carries the originating `CollectionId`
+- `[x]` Add `ICDCFanIn::setMergePolicy(IFanInMergePolicy&)` to configure conflict resolution across sources
+- `[x]` Document ordering guarantee: events from the same source collection are delivered in order; cross-collection ordering is best-effort
 
-### Schema Evolution Hook
+### Schema Evolution Hook ✅ Implemented (v1.8.0)
 
-- `[ ]` Define `ICDCEventSchema::onSchemaEvolution(SchemaEvolutionDescriptor, ISchemaEvolutionCallback&)`
-- `[ ]` Expose `SchemaEvolutionDescriptor` with old/new schema versions, migration strategy enum, and affected field list
-- `[ ]` Add `ISchemaEvolutionCallback::onCompatible()` and `onIncompatible(SchemaConflict)` as pure-virtual methods
-- `[ ]` Document that incompatible schema evolution triggers an automatic `ICDCPauseControl::pause()` until resolved
+- `[x]` Define `ICDCEventSchema::onSchemaEvolution(SchemaEvolutionDescriptor, ISchemaEvolutionCallback&)`
+- `[x]` Expose `SchemaEvolutionDescriptor` with old/new schema versions, migration strategy enum, and affected field list
+- `[x]` Add `ISchemaEvolutionCallback::onCompatible()` and `onIncompatible(SchemaConflict)` as pure-virtual methods
+- `[x]` Document that incompatible schema evolution triggers an automatic `ICDCPauseControl::pause()` until resolved
 
-### Delivery Guarantee Configuration
+### Delivery Guarantee Configuration ✅ Implemented (v1.8.0)
 
-- `[ ]` Define `IDeliveryGuaranteeConfig` with `setMode(DeliveryMode)` and `setAckTimeout(std::chrono::milliseconds)`
-- `[ ]` Expose `DeliveryMode` as a strongly-typed enum class: `AtLeastOnce`, `ExactlyOnce`
-- `[ ]` Add `setDeduplicationWindow(std::chrono::milliseconds)` for exactly-once dedup window configuration
-- `[ ]` Document that `ExactlyOnce` mode requires the listener to implement `IIdempotentCDCListener`; missing impl is a compile-time error
+- `[x]` Define `IDeliveryGuaranteeConfig` with `setMode(DeliveryMode)` and `setAckTimeout(std::chrono::milliseconds)`
+- `[x]` Expose `DeliveryMode` as a strongly-typed enum class: `AtLeastOnce`, `ExactlyOnce`
+- `[x]` Add `setDeduplicationWindow(std::chrono::milliseconds)` for exactly-once dedup window configuration
+- `[x]` Document that `ExactlyOnce` mode requires the listener to implement `IIdempotentCDCListener`; missing impl is a compile-time error
 
 ## Test Strategy
 
