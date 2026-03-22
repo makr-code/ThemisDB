@@ -1,7 +1,7 @@
 # API Module — Architecture Guide
 
-**Version:** 1.0  
-**Last Updated:** 2026-02-24  
+**Version:** 1.1  
+**Last Updated:** 2026-03-22  
 **Module Path:** `src/api/`
 
 ---
@@ -34,10 +34,12 @@ that adding a new protocol requires touching only `src/api/`, not the query or s
 | File | Role |
 |---|---|
 | `grpc_server.cpp` | gRPC server initialization and service registration |
-| `themisdb_grpc_service.cpp` | gRPC service implementation (protocol buffer bridge) |
+| `themisdb_grpc_service.cpp` | gRPC service implementation (protocol buffer bridge); RPC stubs pending `ThemisDBGrpcServiceFactory` injection |
 | `ws_handler.cpp` | WebSocket upgrade handler and frame dispatcher for `/v2/changes` and `/v2/cdc/stream` |
 | `graphql.cpp` | GraphQL schema, resolver dispatch, LRU query-plan cache, and subscription support |
+| `graphql_ws_handler.cpp` | GraphQL over WebSocket subscription transport (`graphql-transport-ws` protocol); CDC callback use-after-free protection via `alive_` atomic flag |
 | `tracing_middleware.cpp` | `X-Correlation-ID` propagation and thread-local request context injection |
+| `otlp_exporter.cpp` | OpenTelemetry OTLP/HTTP async span queue exporter; background flush with exponential-backoff retry |
 | `geo_index_hooks.cpp` | GeoJSON validation and spatial-index write/delete hooks |
 
 > **Note:** `http_server.cpp` in this directory is a **deprecated placeholder** and is not compiled.
