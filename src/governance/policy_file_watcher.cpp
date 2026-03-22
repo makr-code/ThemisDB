@@ -32,6 +32,10 @@
 namespace themis {
 namespace governance {
 
+PolicyFileWatcher::PolicyFileWatcher(PolicyEngine& engine)
+    : PolicyFileWatcher(engine, Config{})
+{}
+
 PolicyFileWatcher::PolicyFileWatcher(PolicyEngine& engine, Config config)
     : engine_(engine)
     , config_(std::move(config))

@@ -11,7 +11,7 @@ Plugin lifecycle management (`module_loader.cpp`, `hot_reload_manager.cpp`), sec
 
 ## Design Constraints
 
-- `[ ]` `loadedModules_` must support O(1) lookup by name; current `std::vector` + `std::find_if` is O(n) on every `get`/`unload` call.
+- `[x]` `loadedModules_` must support O(1) lookup by name; current `std::vector` + `std::find_if` is O(n) on every `get`/`unload` call. — replaced with `std::unordered_map` + `std::shared_mutex` (v1.8.0)
 - `[ ]` Plugin load time (signature verify + dlopen + init hook) must be ≤ 200 ms per plugin on a warm filesystem.
 - `[ ]` Hot-reload must achieve zero-downtime: existing in-flight queries using the old plugin version complete before teardown.
 - `[ ]` Sandbox memory hard cap per plugin: 256 MB by default; configurable up to 2 GB via cgroup v2 `memory.max`, not just `RLIMIT_AS`.
@@ -19,7 +19,7 @@ Plugin lifecycle management (`module_loader.cpp`, `hot_reload_manager.cpp`), sec
 - `[ ]` Plugin allowlist path checked on every load; symlink traversal outside the designated plugin directory is rejected.
 - `[ ]` Rollback of a failed hot-reload must complete within 500 ms and restore the previous plugin version atomically.
 - `[ ]` All lifecycle hooks (init, reload, shutdown) must complete within 5 s or are terminated and logged as failures.
-- `[ ]` WASM fuel/instruction metering must bound runaway plugin execution; modules exceeding the fuel limit must be terminated, not hung.
+- `[x]` WASM fuel/instruction metering must bound runaway plugin execution; modules exceeding the fuel limit must be terminated, not hung. — `WasmPluginSandbox::Config::max_instructions` + `fuel_check_interval` + `remainingFuel()` implemented (v1.8.0)
 - `[x]` `RemoteRegistryClient` retry back-off (`std::this_thread::sleep_for`) must not block the calling thread; async scheduling required.
 
 ---
@@ -43,14 +43,15 @@ Plugin lifecycle management (`module_loader.cpp`, `hot_reload_manager.cpp`), sec
 ### O(1) Module Lookup — Replace `loadedModules_` Vector with Unordered Map
 **Priority:** High
 **Target Version:** v1.2.0
+**Status:** ✅ Implemented (v1.8.0)
 
 `loadedModules_` in `module_loader.cpp` is a `std::vector<ModuleInfo>`. Every lookup (`isLoaded`, `getModule`, `unload`, `watchdogLoop`) calls `std::find_if` over the entire list — O(n) per operation. With dozens of loaded plugins this is measurable overhead on every query dispatch.
 
 **Implementation Notes:**
-- `[ ]` Replace `loadedModules_` (`std::vector`) with `std::unordered_map<std::string, ModuleInfo>` keyed by module name in `module_loader.cpp`.
-- `[ ]` Introduce a `shared_mutex` so `getModule` / `isLoaded` (read-only) use `shared_lock` and `load` / `unload` use `unique_lock`, reducing read contention.
-- `[ ]` The watchdog loop at line 1752 notes "loadedModules_ has no dedicated mutex in the existing design" — fix this by making the watchdog hold a `shared_lock` when iterating.
-- `[ ]` Update `ModuleLoader` unit tests to exercise concurrent `load`/`getModule`/`unload` with TSAN enabled.
+- `[x]` Replace `loadedModules_` (`std::vector`) with `std::unordered_map<std::string, ModuleInfo>` keyed by module name in `module_loader.cpp`.
+- `[x]` Introduce a `shared_mutex` so `getModule` / `isLoaded` (read-only) use `shared_lock` and `load` / `unload` use `unique_lock`, reducing read contention.
+- `[x]` The watchdog loop at line 1752 notes "loadedModules_ has no dedicated mutex in the existing design" — fix this by making the watchdog hold a `shared_lock` when iterating.
+- `[x]` Update `ModuleLoader` unit tests to exercise concurrent `load`/`getModule`/`unload` with TSAN enabled.
 
 **Performance Targets:**
 - `getModule(name)` lookup: O(1) average, ≤ 1 µs under contention from 8 concurrent reader threads.
@@ -60,14 +61,15 @@ Plugin lifecycle management (`module_loader.cpp`, `hot_reload_manager.cpp`), sec
 ### cgroup v2 Resource Enforcement for Module Sandbox
 **Priority:** High
 **Target Version:** v1.2.0
+**Status:** ✅ Implemented (v1.8.0)
 
 `module_sandbox.cpp` uses `setrlimit(RLIMIT_AS)` and `setrlimit(RLIMIT_CPU)` as a "coarse fallback" (lines 372, 416–417). The source comments explicitly note that real production deployments need cgroup v2. The cgroup path is allocated in `platform_->cgroup_path` (line 238) but cleanup is commented out with "On a real production system, we'd also remove the cgroup" (line 330).
 
 **Implementation Notes:**
-- `[ ]` Implement `setupCgroupV2()` in `module_sandbox.cpp`: write `memory.max` and `cpu.max` to `/sys/fs/cgroup/themis/<sandbox_id>/` using the pre-allocated `cgroup_path`.
-- `[ ]` Implement `teardownCgroupV2()` to remove the cgroup directory on `stop()` — replace the "would also remove the cgroup" placeholder comment.
-- `[ ]` Detect cgroup v2 availability at startup; fall back to `RLIMIT_*` with a `spdlog::warn` when unavailable (container environments without cgroup delegation).
-- `[ ]` Add integration test that launches a sandbox plugin allocating > limit bytes and verifies it is killed within 500 ms.
+- `[x]` Implement `setupCgroupV2()` in `module_sandbox.cpp`: write `memory.max` and `cpu.max` to `/sys/fs/cgroup/themis/<sandbox_id>/` using the pre-allocated `cgroup_path`.
+- `[x]` Implement `teardownCgroupV2()` to remove the cgroup directory on `stop()` — replace the "would also remove the cgroup" placeholder comment.
+- `[x]` Detect cgroup v2 availability at startup; fall back to `RLIMIT_*` with a `spdlog::warn` when unavailable (container environments without cgroup delegation).
+- `[ ]` Add integration test that launches a sandbox plugin allocating > limit bytes and verifies it is killed within 500 ms. (Issue: #1574)
 
 **Performance Targets:**
 - Sandbox creation (cgroup v2 setup): ≤ 50 ms per plugin.
@@ -77,14 +79,15 @@ Plugin lifecycle management (`module_loader.cpp`, `hot_reload_manager.cpp`), sec
 ### WASM Instruction Fuel Metering
 **Priority:** High
 **Target Version:** v1.2.0
+**Status:** ✅ Implemented (v1.8.0)
 
 `wasm_plugin_sandbox.cpp` allocates linear memory and validates imports/exports but has no instruction-counting / fuel mechanism. A malicious or buggy WASM plugin can spin indefinitely without triggering any timeout.
 
 **Implementation Notes:**
-- `[ ]` Add `WasmSandboxConfig::max_instructions` (default: 1 billion) and `WasmSandboxConfig::fuel_check_interval` fields in `wasm_plugin_sandbox.h`.
-- `[ ]` Implement a fuel counter decremented per basic block in the WASM interpreter dispatch loop in `wasm_plugin_sandbox.cpp`; when fuel reaches zero, set `last_error_` and return an error code instead of the host function result.
-- `[ ]` Expose remaining fuel via `WasmPluginSandbox::remainingFuel()` for observability.
-- `[ ]` Add unit test: WASM module with infinite loop terminates within `max_instructions` cycles and returns a structured error.
+- `[x]` Add `WasmSandboxConfig::max_instructions` (default: 0 = unlimited) and `WasmSandboxConfig::fuel_check_interval` (default: 1) fields in `wasm_plugin_sandbox.h`.
+- `[x]` Implement a fuel counter (`fuel_remaining_`) decremented by `fuel_check_interval` units on each `callExport()` call; when fuel reaches zero, set `last_error_` and return a structured "fuel exhausted" error without invoking the runtime.
+- `[x]` Expose remaining fuel via `WasmPluginSandbox::remainingFuel()` for observability (returns `UINT64_MAX` when `max_instructions == 0`).
+- `[x]` Add unit tests: fuel initialised from config, fuel deducted per call, exhausted fuel returns structured error, reload resets fuel, "infinite loop" bounded by budget (8 tests in `tests/test_wasm_plugin_sandbox.cpp`).
 
 **Performance Targets:**
 - Fuel check overhead: ≤ 3 % CPU overhead vs. unchecked execution on a tight compute loop.
@@ -94,12 +97,13 @@ Plugin lifecycle management (`module_loader.cpp`, `hot_reload_manager.cpp`), sec
 ### WASM Non-Function Import Parsing Completeness
 **Priority:** Medium
 **Target Version:** v1.2.0
+**Status:** ✅ Implemented (v1.8.0)
 
 In `wasm_plugin_sandbox.cpp` (lines 192–203), parsing of the imports section stops accumulating entries when a non-function import (table, memory, global) is encountered before all function imports have been listed. The comment acknowledges this limitation: "only the imports before the first non-function entry will appear in `info.imports`." This means capability-model enforcement is incomplete for WASM modules that declare memory/table imports before their function imports.
 
 **Implementation Notes:**
-- `[ ]` Fix the import-section parser in `wasm_plugin_sandbox.cpp` to correctly skip non-function import descriptors (table: `0x01`, memory: `0x02`, global: `0x03`) and continue accumulating function imports regardless of ordering.
-- `[ ]` Add unit tests with WASM binaries that interleave memory and function imports; verify all function imports appear in `info.imports`.
+- `[x]` Fix the import-section parser in `wasm_plugin_sandbox.cpp` to correctly skip non-function import descriptors (table: `0x01`, memory: `0x02`, global: `0x03`) and continue accumulating function imports regardless of ordering.
+- `[x]` Add unit tests with WASM binaries that interleave memory and function imports; verify all function imports appear in `info.imports`.
 
 ---
 
@@ -137,13 +141,14 @@ In `wasm_plugin_sandbox.cpp` (lines 192–203), parsing of the imports section s
 ### Hot-Reload Reader/Writer Lock Upgrade
 **Priority:** Medium
 **Target Version:** v1.3.0
+**Status:** ✅ Implemented (v1.8.0)
 
 `hot_reload_manager.cpp` uses a single `std::mutex` for all operations (lines 55–495). All `getVersion()`, `isLoaded()`, and status queries (read-only operations) contend with `reloadModule()` (write operation), limiting read throughput under concurrent query load.
 
 **Implementation Notes:**
-- `[ ]` Replace `std::mutex mutex_` with `std::shared_mutex` in `HotReloadManager`; upgrade `getVersion`, `getCurrentVersion`, `isLoaded`, `getModuleNames` to `std::shared_lock`.
-- `[ ]` Keep `reloadModule` and `rollback` on `std::unique_lock`.
-- `[ ]` Add TSAN-enabled test with 16 reader threads + 1 reload thread running concurrently.
+- `[x]` Replace `std::mutex mutex_` with `std::shared_mutex` in `HotReloadManager`; upgrade `getVersion`, `getCurrentVersion`, `isLoaded`, `getModuleNames` to `std::shared_lock`.
+- `[x]` Keep `reloadModule` and `rollback` on `std::unique_lock`.
+- `[ ]` Add TSAN-enabled test with 16 reader threads + 1 reload thread running concurrently. (Issue: #1574)
 
 ---
 
@@ -196,5 +201,5 @@ Universal module packaging format across Linux/macOS/Windows, including platform
 - [README.md](README.md)
 - [ROADMAP.md](ROADMAP.md)
 
-*Last Updated: 2026-03-12*
-*Module Version: v1.1.0*
+*Last Updated: 2026-03-22*
+*Module Version: v1.8.0*

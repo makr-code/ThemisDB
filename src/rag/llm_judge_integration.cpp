@@ -33,6 +33,10 @@
 
 namespace themis::rag::judge {
 
+LLMJudgeIntegration::LLMJudgeIntegration(ILLMInferenceEngine* engine)
+    : LLMJudgeIntegration(engine, Config{}) {
+}
+
 LLMJudgeIntegration::LLMJudgeIntegration(ILLMInferenceEngine* engine, const Config& config)
     : config_(config), mock_mode_warning_shown_(false) {
     if (engine == nullptr && !config_.allow_mock) {

@@ -147,7 +147,14 @@ public:
      */
     explicit TwoPhaseCommitParticipant(
         const std::string&          shard_id,
-        const Config&               config = {},
+        ValidateAndLockCallback     validate = nullptr,
+        ApplyOperationsCallback     apply    = nullptr,
+        ReleaseLockCallback         release  = nullptr
+    );
+
+    explicit TwoPhaseCommitParticipant(
+        const std::string&          shard_id,
+        const Config&               config,
         ValidateAndLockCallback     validate = nullptr,
         ApplyOperationsCallback     apply    = nullptr,
         ReleaseLockCallback         release  = nullptr

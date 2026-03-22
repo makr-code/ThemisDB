@@ -221,8 +221,12 @@ public:
         // Record metrics
         auto end_time = std::chrono::steady_clock::now();
         double duration = std::chrono::duration<double>(end_time - start_time).count();
+    #ifdef THEMIS_HAS_PROMETHEUS
         recordSyncMetrics(success, duration, bytes);
         updateMetricsGauges();
+    #else
+        (void)duration;
+    #endif
         
         return success;
     }

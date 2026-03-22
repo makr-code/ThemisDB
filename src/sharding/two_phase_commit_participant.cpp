@@ -36,6 +36,15 @@ namespace themis::sharding {
 
 TwoPhaseCommitParticipant::TwoPhaseCommitParticipant(
     const std::string&          shard_id,
+    ValidateAndLockCallback     validate,
+    ApplyOperationsCallback     apply,
+    ReleaseLockCallback         release
+)
+    : TwoPhaseCommitParticipant(shard_id, Config{}, std::move(validate), std::move(apply), std::move(release))
+{}
+
+TwoPhaseCommitParticipant::TwoPhaseCommitParticipant(
+    const std::string&          shard_id,
     const Config&               config,
     ValidateAndLockCallback     validate,
     ApplyOperationsCallback     apply,

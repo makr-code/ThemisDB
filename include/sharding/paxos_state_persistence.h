@@ -138,9 +138,12 @@ public:
         size_t  max_wal_entries    = 10000; ///< Trigger snapshot after N WAL entries
     };
 
-    PaxosStatePersistence(PaxosWAL*              wal,
-                          PaxosSnapshotManager*  snapshot_mgr,
-                          Config                 config = {});
+    PaxosStatePersistence(PaxosWAL*             wal,
+                          PaxosSnapshotManager* snapshot_mgr);
+
+    PaxosStatePersistence(PaxosWAL*             wal,
+                          PaxosSnapshotManager* snapshot_mgr,
+                          const Config&         config);
     ~PaxosStatePersistence() = default;
 
     // Non-copyable

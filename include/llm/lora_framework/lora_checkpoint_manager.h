@@ -125,7 +125,8 @@ public:
         std::chrono::seconds auto_save_interval{0}; ///< 0 = disabled; >0 = background auto-save period
     };
 
-    explicit LoRACheckpointManager(Config config = {});
+    LoRACheckpointManager();
+    explicit LoRACheckpointManager(Config config);
     ~LoRACheckpointManager();
 
     // Non-copyable

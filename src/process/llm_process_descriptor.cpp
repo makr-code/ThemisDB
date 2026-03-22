@@ -81,6 +81,11 @@ json LlmProcessDescriptor::edgeToJson_(const json& edge_doc) {
 // generate
 // ---------------------------------------------------------------------------
 
+json LlmProcessDescriptor::generate(const ProcessModelRecord& record)
+{
+    return generate(record, Config{});
+}
+
 json LlmProcessDescriptor::generate(
     const ProcessModelRecord& record,
     const Config& cfg)

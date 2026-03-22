@@ -699,8 +699,6 @@ bool CacheMissAnalyzer::pmu_accessible() noexcept {
 
 #endif // platform
 
-#endif // __linux__
-
 #else // !THEMIS_ENABLE_PMU_COUNTERS
 
 // Stubs when PMU counters are disabled at compile time

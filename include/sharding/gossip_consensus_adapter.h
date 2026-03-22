@@ -29,6 +29,7 @@
 #include "sharding/consensus_module.h"
 #include "sharding/gossip_protocol.h"
 #include "sharding/distributed_coordinator.h"
+#include <condition_variable>
 #include <memory>
 #include <mutex>
 

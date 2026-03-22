@@ -71,7 +71,8 @@ public:
      *                Must outlive this watcher.
      * @param config  Watcher configuration.
      */
-    explicit PolicyFileWatcher(PolicyEngine& engine, Config config = {});
+    explicit PolicyFileWatcher(PolicyEngine& engine);
+    explicit PolicyFileWatcher(PolicyEngine& engine, Config config);
 
     ~PolicyFileWatcher();
 

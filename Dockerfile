@@ -238,11 +238,12 @@ COPY --from=llama /opt/llama.cpp /opt/llama.cpp
 # Build ThemisDB with CMake (matching Windows presets)
 RUN set -eux; \
     TRIPLET=$(cat /tmp/triplet.txt); \
+    EDITION_UPPER=$(echo "${THEMIS_EDITION}" | tr '[:lower:]' '[:upper:]'); \
     \
     echo "=========================================="; \
-    echo "Building ThemisDB ${THEMIS_EDITION}"; \
+    echo "Building ThemisDB ${EDITION_UPPER}"; \
     echo "=========================================="; \
-    echo "Edition:        ${THEMIS_EDITION}"; \
+    echo "Edition:        ${EDITION_UPPER}"; \
     echo "LLM:            ${ENABLE_LLM}"; \
     echo "GPU:            ${ENABLE_GPU}"; \
     echo "CPU-only:       ${FORCE_CPU_ONLY}"; \
@@ -259,7 +260,7 @@ RUN set -eux; \
         -DVCPKG_TARGET_TRIPLET=${TRIPLET} \
         -DVCPKG_INSTALLED_DIR=/build/vcpkg_installed \
         -DVCPKG_MANIFEST_MODE=OFF \
-        -DTHEMIS_EDITION=${THEMIS_EDITION} \
+        -DTHEMIS_EDITION=${EDITION_UPPER} \
         -DTHEMIS_ENABLE_LLM=${ENABLE_LLM} \
         -DTHEMIS_ENABLE_GPU=${ENABLE_GPU} \
         -DTHEMIS_ENABLE_VULKAN=$([ "${FORCE_CPU_ONLY}" = "ON" ] && echo "OFF" || echo "${ENABLE_GPU}") \
@@ -271,7 +272,7 @@ RUN set -eux; \
         -DCMAKE_EXPORT_COMPILE_COMMANDS=ON && \
     \
     # Build themis_server
-    echo "Building themis_server..."; \
+    echo "Building themis_server..." && \
     ninja -C build -j$(nproc) themis_server && \
     \
     # Verify binary
@@ -313,6 +314,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         libssl3t64 \
         zlib1g \
         libstdc++6 \
+        libgomp1 \
         curl \
         gocryptfs \
         fuse \

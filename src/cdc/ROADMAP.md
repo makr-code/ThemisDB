@@ -1,10 +1,10 @@
 # CDC (Change Data Capture) Module Roadmap
-<!-- Status: current | validated: 2026-03-10 -->
+<!-- Status: current | validated: 2026-03-22 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · include/cdc/FUTURE_ENHANCEMENTS.md · docs/de/cdc/ -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Production** — Real-time change notifications, SSE-based event streaming, WebSocket transport, consumer group semantics, and Kafka producer integration are all implemented. Build system audit completed (2026-03-10): all CDC source files are now registered in `cmake/CMakeLists.txt` and `cmake/ModularBuild.cmake`; standalone focused test targets added for `CDCAdminFocusedTests` and `TenantBufferManagerFocusedTests`.
+**Production** — Real-time change notifications, SSE-based event streaming, WebSocket transport, consumer group semantics, and Kafka producer integration are all implemented. Build system audit completed (2026-03-10): all CDC source files are now registered in `cmake/CMakeLists.txt` and `cmake/ModularBuild.cmake`. Five new public interface headers (`ICDCPauseControl`, `ICDCBackpressureSignal`, `ICDCFanIn`, `ICDCEventSchema`, `IDeliveryGuaranteeConfig`) with concrete in-memory implementations and 5 focused test executables added (v1.8.0, 2026-03-22).
 
 ## Completed ✅
 - [x] Changefeed implementation for real-time change tracking — `changefeed.cpp`, `include/cdc/changefeed.h`
@@ -28,6 +28,11 @@
 - [x] CDC-based materialized view maintenance (Issue: #1617) — `cdc_materialized_view.cpp`, `include/cdc/cdc_materialized_view.h`; `CDCMaterializedViewMaintainer`
 - [x] Change stream compression for high-volume feeds (Issue: #1618) — `include/cdc/change_stream_compressor.h`
 - [x] Outbox pattern support for transactional change publishing (`cdc/outbox.cpp`) (Issue: #1612) — `outbox.cpp`, `include/cdc/outbox.h`; `OutboxWriter`, `OutboxRelay`; 16 unit tests in `tests/test_cdc_outbox.cpp`
+- [x] CDC Pause/Resume Control API — `include/cdc/icdc_pause_control.h`; `ICDCPauseControl` + `InMemoryPauseControl`; `PauseReason` enum; buffered event accumulation during pause
+- [x] Backpressure Signaling Interface — `include/cdc/icdc_backpressure_signal.h`; `ICDCBackpressureSignal` + `InMemoryBackpressureSignal`; `BackpressureLevel` enum; auto-pause at Critical level
+- [x] Multi-Source Fan-In API — `include/cdc/icdc_fan_in.h`; `ICDCFanIn` + `InMemoryFanIn`; `FanInEvent` tagged with `CollectionId`; pluggable `IFanInMergePolicy`
+- [x] Schema Evolution Hook — `include/cdc/icdc_event_schema.h`; `ICDCEventSchema` + `InMemoryEventSchemaRegistry`; `SchemaEvolutionDescriptor`; `ISchemaEvolutionCallback`
+- [x] Delivery Guarantee Configuration — `include/cdc/idelivery_guarantee_config.h`; `IDeliveryGuaranteeConfig` + `InMemoryDeliveryGuaranteeConfig`; `DeliveryMode` enum; rolling dedup hash window for ExactlyOnce mode
 
 ## In Progress 🚧
 *(none currently in progress)*
@@ -68,6 +73,14 @@
 - [x] Register `consumer_group.cpp`, `delivery_tracker.cpp`, `outbox.cpp`, and `ws_transport.cpp` in `cmake/ModularBuild.cmake` THEMIS_STORAGE_SOURCES — previously only in `CMakeLists.txt`
 - [x] Add all CDC source files to `_themis_test_extra_sources` in `tests/CMakeLists.txt` (including `delivery_tracker.cpp` and `ws_transport.cpp`)
 - [x] Add standalone focused test targets `CDCAdminFocusedTests` and `TenantBufferManagerFocusedTests` in `tests/CMakeLists.txt`
+
+### Phase 5: Public Interface Headers (Status: Completed ✅)
+- [x] Implement `include/cdc/icdc_pause_control.h` — `ICDCPauseControl` abstract interface with `pause(PauseReason)`, `resume()`, `isPaused()`, `drainBufferedEvents()`; `InMemoryPauseControl` concrete implementation; `PauseReason` enum (`AdminRequest`, `Backpressure`, `SchemaEvolution`)
+- [x] Implement `include/cdc/icdc_backpressure_signal.h` — `ICDCBackpressureSignal` abstract interface with `signalBackpressure(BackpressureLevel)`, `clearBackpressure()`, `currentLevel()`; `InMemoryBackpressureSignal` with optional auto-pause via registered `ICDCPauseControl` handle; `BackpressureLevel` enum
+- [x] Implement `include/cdc/icdc_fan_in.h` — `ICDCFanIn` abstract interface with `addSource()`, `removeSource()`, `listEvents()`, `setMergePolicy()`; `FanInEvent` value type; `IFanInMergePolicy` interface; `TimestampMergePolicy` and `SequenceMergePolicy` built-in policies; `InMemoryFanIn` concrete implementation
+- [x] Implement `include/cdc/icdc_event_schema.h` — `ICDCEventSchema` abstract interface with `registerSchema()`, `getSchema()`, `onSchemaEvolution()`; `SchemaEvolutionDescriptor` (old/new version, `MigrationStrategy` enum, affected fields); `ISchemaEvolutionCallback` pure-virtual interface; `InMemoryEventSchemaRegistry` concrete implementation
+- [x] Implement `include/cdc/idelivery_guarantee_config.h` — `IDeliveryGuaranteeConfig` abstract interface with `setMode()`, `setAckTimeout()`, `setDeduplicationWindow()`, `isDuplicate()`; `DeliveryMode` enum (`AtLeastOnce`, `ExactlyOnce`); rolling dedup hash window; `InMemoryDeliveryGuaranteeConfig` concrete implementation
+- [x] Add 5 focused test executables in `tests/CMakeLists.txt` with CI workflow `cdc-interfaces-ci.yml`
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (Issue: #1623) — `test_cdc_changefeed_buffer.cpp` (ChangefeedBuffer direct tests) and `test_cdc_changefeed_core.cpp` (subscribe API, SubscriptionHandle/Filter, listEvents variants, getStats, clear, JSON roundtrip) added; closes Issue #1623

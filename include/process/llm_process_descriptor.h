@@ -111,8 +111,12 @@ public:
      * @return JSON descriptor object ready for LLM consumption.
      */
     static nlohmann::json generate(
-        const ProcessModelRecord& record,
-        const Config&             cfg = {}
+      const ProcessModelRecord& record
+    );
+
+    static nlohmann::json generate(
+      const ProcessModelRecord& record,
+      const Config&             cfg
     );
 
     /**

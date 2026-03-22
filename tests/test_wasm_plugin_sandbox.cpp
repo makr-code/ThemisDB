@@ -691,3 +691,155 @@ TEST(WasmPluginSandbox, LoadFromNonExistentFile) {
     EXPECT_FALSE(sb.lastError().empty());
     EXPECT_FALSE(sb.isLoaded());
 }
+
+// =============================================================================
+// WasmPluginSandbox – fuel / instruction metering
+// =============================================================================
+
+// remainingFuel() returns UINT64_MAX when max_instructions == 0 (unlimited).
+TEST(WasmPluginSandboxFuel, UnlimitedFuelByDefault) {
+    WasmPluginSandbox sb;
+    ASSERT_TRUE(sb.loadFromBytes(minimalWasm()));
+    EXPECT_EQ(sb.remainingFuel(), UINT64_MAX);
+}
+
+// remainingFuel() is initialised from max_instructions at load time.
+TEST(WasmPluginSandboxFuel, FuelInitialisedFromConfig) {
+    WasmPluginSandbox::Config cfg;
+    cfg.max_instructions = 100;
+    WasmPluginSandbox sb(cfg);
+    ASSERT_TRUE(sb.loadFromBytes(minimalWasm()));
+    EXPECT_EQ(sb.remainingFuel(), 100u);
+}
+
+// Each callExport() with a runtime deducts fuel_check_interval units.
+TEST(WasmPluginSandboxFuel, FuelDeductedPerCall) {
+    WasmPluginSandbox::Config cfg;
+    cfg.max_instructions   = 10;
+    cfg.fuel_check_interval = 3; // 3 units deducted per call
+    WasmPluginSandbox sb(cfg);
+    auto* raw = new MockWasmRuntime();
+    sb.setRuntime(std::unique_ptr<WasmRuntime>(raw));
+    ASSERT_TRUE(sb.loadFromBytes(minimalWasm()));
+    ASSERT_EQ(sb.remainingFuel(), 10u);
+
+    auto r1 = sb.callExport("fn", {});
+    EXPECT_TRUE(r1.success);
+    EXPECT_EQ(sb.remainingFuel(), 7u); // 10 - 3
+
+    auto r2 = sb.callExport("fn", {});
+    EXPECT_TRUE(r2.success);
+    EXPECT_EQ(sb.remainingFuel(), 4u); // 7 - 3
+
+    auto r3 = sb.callExport("fn", {});
+    EXPECT_TRUE(r3.success);
+    EXPECT_EQ(sb.remainingFuel(), 1u); // 4 - 3
+}
+
+// When fuel reaches zero, callExport() returns a structured error.
+TEST(WasmPluginSandboxFuel, ExhaustedFuelReturnsError) {
+    WasmPluginSandbox::Config cfg;
+    cfg.max_instructions   = 2;
+    cfg.fuel_check_interval = 1;
+    WasmPluginSandbox sb(cfg);
+    auto* raw = new MockWasmRuntime();
+    sb.setRuntime(std::unique_ptr<WasmRuntime>(raw));
+    ASSERT_TRUE(sb.loadFromBytes(minimalWasm()));
+
+    EXPECT_TRUE(sb.callExport("fn", {}).success); // fuel: 2 -> 1
+    EXPECT_TRUE(sb.callExport("fn", {}).success); // fuel: 1 -> 0
+
+    // Budget now exhausted – next call must fail with a descriptive error.
+    auto result = sb.callExport("fn", {});
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error.empty());
+    EXPECT_NE(result.error.find("fuel exhausted"), std::string::npos);
+    EXPECT_EQ(sb.remainingFuel(), 0u);
+}
+
+// Fuel-exhausted call is counted in stats as a trap.
+TEST(WasmPluginSandboxFuel, ExhaustedFuelCountedAsTrap) {
+    WasmPluginSandbox::Config cfg;
+    cfg.max_instructions   = 1;
+    cfg.fuel_check_interval = 1;
+    WasmPluginSandbox sb(cfg);
+    auto* raw = new MockWasmRuntime();
+    sb.setRuntime(std::unique_ptr<WasmRuntime>(raw));
+    ASSERT_TRUE(sb.loadFromBytes(minimalWasm()));
+
+    sb.callExport("fn", {}); // consumes last fuel unit
+
+    sb.callExport("fn", {}); // fuel-exhausted: should trap
+    EXPECT_GE(sb.stats().calls_trapped, 1u);
+}
+
+// Simulated "infinite loop": a mock that would run forever is safely
+// stopped after max_instructions / fuel_check_interval call attempts.
+TEST(WasmPluginSandboxFuel, InfiniteLoopBoundedByFuelBudget) {
+    WasmPluginSandbox::Config cfg;
+    cfg.max_instructions   = 5;
+    cfg.fuel_check_interval = 1;
+    WasmPluginSandbox sb(cfg);
+    auto* raw = new MockWasmRuntime();
+    sb.setRuntime(std::unique_ptr<WasmRuntime>(raw));
+    ASSERT_TRUE(sb.loadFromBytes(minimalWasm()));
+
+    // Drive the "infinite loop": keep calling until we get a fuel error.
+    int successful = 0;
+    WasmCallResult last;
+    for (int i = 0; i < 100; ++i) {
+        last = sb.callExport("loop", {});
+        if (!last.success) break;
+        ++successful;
+    }
+
+    // Must have been stopped exactly at the budget boundary.
+    EXPECT_EQ(successful, static_cast<int>(cfg.max_instructions));
+    EXPECT_FALSE(last.success);
+    EXPECT_NE(last.error.find("fuel exhausted"), std::string::npos);
+    EXPECT_EQ(sb.remainingFuel(), 0u);
+}
+
+// Reload resets the fuel counter to the configured budget.
+TEST(WasmPluginSandboxFuel, ReloadResetsFuel) {
+    WasmPluginSandbox::Config cfg;
+    cfg.max_instructions   = 3;
+    cfg.fuel_check_interval = 1;
+    WasmPluginSandbox sb(cfg);
+    auto* raw = new MockWasmRuntime();
+    sb.setRuntime(std::unique_ptr<WasmRuntime>(raw));
+    ASSERT_TRUE(sb.loadFromBytes(minimalWasm()));
+
+    // Exhaust the budget.
+    sb.callExport("fn", {});
+    sb.callExport("fn", {});
+    sb.callExport("fn", {});
+    EXPECT_EQ(sb.remainingFuel(), 0u);
+    EXPECT_FALSE(sb.callExport("fn", {}).success); // exhausted
+
+    // Reload with the same config must restore fuel to 3.
+    sb.setRuntime(std::make_unique<MockWasmRuntime>());
+    ASSERT_TRUE(sb.loadFromBytes(minimalWasm()));
+    EXPECT_EQ(sb.remainingFuel(), 3u);
+    EXPECT_TRUE(sb.callExport("fn", {}).success);
+}
+
+// fuel_check_interval larger than remaining fuel clamps to zero gracefully.
+TEST(WasmPluginSandboxFuel, LargeIntervalClampsToZero) {
+    WasmPluginSandbox::Config cfg;
+    cfg.max_instructions   = 5;
+    cfg.fuel_check_interval = 10; // single call costs more than the total budget
+    WasmPluginSandbox sb(cfg);
+    auto* raw = new MockWasmRuntime();
+    sb.setRuntime(std::unique_ptr<WasmRuntime>(raw));
+    ASSERT_TRUE(sb.loadFromBytes(minimalWasm()));
+
+    // First call: deducts min(10, 5) = clamps remaining to 0.
+    auto r1 = sb.callExport("fn", {});
+    EXPECT_TRUE(r1.success);           // call goes through (fuel was > 0 before)
+    EXPECT_EQ(sb.remainingFuel(), 0u); // now exhausted
+
+    // Second call must be rejected.
+    auto r2 = sb.callExport("fn", {});
+    EXPECT_FALSE(r2.success);
+}

@@ -124,10 +124,11 @@ public:
      * @param estimator Optional token estimator; defaults to
      *                  CharDivisionEstimator (4 chars per token).
      */
+    explicit AQLConversationContext(LLMAQLHandler& handler);
     explicit AQLConversationContext(
-        LLMAQLHandler& handler,
-        Config config = {},
-        std::unique_ptr<TokenEstimator> estimator = nullptr
+      LLMAQLHandler& handler,
+      Config config,
+      std::unique_ptr<TokenEstimator> estimator = nullptr
     );
     ~AQLConversationContext();
 

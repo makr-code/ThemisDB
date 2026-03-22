@@ -360,6 +360,10 @@ std::vector<uint8_t> TOTPSecretEncryption::generateRandomBytes(size_t size) {
 // TOTPSecretRotationManager Implementation
 // ============================================================================
 
+TOTPSecretRotationManager::TOTPSecretRotationManager()
+    : TOTPSecretRotationManager(RotationConfig{})
+{}
+
 TOTPSecretRotationManager::TOTPSecretRotationManager(const RotationConfig& config)
     : config_(config)
 {

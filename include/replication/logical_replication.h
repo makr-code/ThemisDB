@@ -112,7 +112,8 @@ public:
         uint64_t slots_loaded = 0;
     };
 
-    LogicalReplicationManager(std::shared_ptr<WALManager> wal, Config config = {});
+    explicit LogicalReplicationManager(std::shared_ptr<WALManager> wal);
+    LogicalReplicationManager(std::shared_ptr<WALManager> wal, Config config);
     ~LogicalReplicationManager() override = default;
 
     // ------------------------------------------------------------------
@@ -120,10 +121,22 @@ public:
     // ------------------------------------------------------------------
     LogicalReplicationSlot createSlot(
         const std::string& slot_name,
+        const std::string& output_plugin);
+    LogicalReplicationSlot createSlot(
+        const std::string& slot_name,
         const std::string& output_plugin,
-        const ReplicationFilter& filter = {},
-        bool perform_initial_sync = true,
-        std::vector<LogicalChange> initial_snapshot = {});
+        const ReplicationFilter& filter);
+    LogicalReplicationSlot createSlot(
+        const std::string& slot_name,
+        const std::string& output_plugin,
+        const ReplicationFilter& filter,
+        bool perform_initial_sync);
+    LogicalReplicationSlot createSlot(
+        const std::string& slot_name,
+        const std::string& output_plugin,
+        const ReplicationFilter& filter,
+        bool perform_initial_sync,
+        std::vector<LogicalChange> initial_snapshot);
 
     void advanceSlot(const std::string& slot_name, uint64_t lsn);
     std::vector<LogicalReplicationSlot> listSlots() const;

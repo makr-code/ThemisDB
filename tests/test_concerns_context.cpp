@@ -1372,14 +1372,14 @@ TEST(ConcernsContextSecretsConfigTest, InvalidSecretsAdapterThrows) {
 
 TEST(ConfigValidatorSecretsTest, ValidSecretsAdaptersPass) {
     for (const auto& adapter : std::vector<std::string>{"noop", "inmemory", "env"}) {
-        auto result = ConfigValidator::validateAdapterConfig(
+        auto result = themis::core::ConfigValidator::validateAdapterConfig(
             "noop", "", "", "noop", "noop", "noop", "noop", adapter);
         EXPECT_TRUE(result.valid) << "Expected valid for secretsAdapter=" << adapter;
     }
 }
 
 TEST(ConfigValidatorSecretsTest, InvalidSecretsAdapterFails) {
-    auto result = ConfigValidator::validateAdapterConfig(
+    auto result = themis::core::ConfigValidator::validateAdapterConfig(
         "noop", "", "", "noop", "noop", "noop", "noop", "vault");
     EXPECT_FALSE(result.valid);
     ASSERT_FALSE(result.errors.empty());
@@ -1388,7 +1388,7 @@ TEST(ConfigValidatorSecretsTest, InvalidSecretsAdapterFails) {
 
 TEST(ConfigValidatorSecretsTest, DefaultSecretsAdapterIsNoop) {
     // When 8th argument is omitted it defaults to "noop" — must pass validation
-    auto result = ConfigValidator::validateAdapterConfig(
+    auto result = themis::core::ConfigValidator::validateAdapterConfig(
         "noop", "", "", "noop", "noop", "noop", "noop");
     EXPECT_TRUE(result.valid);
 }

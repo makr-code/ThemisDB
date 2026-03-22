@@ -201,6 +201,9 @@ public:
 // Constructor / Destructor
 // ============================================================================
 
+AQLConversationContext::AQLConversationContext(LLMAQLHandler& handler)
+    : AQLConversationContext(handler, Config{}, nullptr) {}
+
 AQLConversationContext::AQLConversationContext(LLMAQLHandler& handler,
                                                Config config,
                                                std::unique_ptr<TokenEstimator> estimator)

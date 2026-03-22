@@ -189,8 +189,10 @@ public:
      * @param config       Verifier configuration.
      * @param token_verifier Optional token validation callback.
      */
-    explicit ZeroTrustAuthVerifier(
-        const Config& config = Config(),
+    ZeroTrustAuthVerifier();
+    explicit ZeroTrustAuthVerifier(TokenVerifier token_verifier);
+    ZeroTrustAuthVerifier(
+        const Config& config,
         TokenVerifier token_verifier = nullptr);
 
     /**

@@ -66,6 +66,7 @@ json SloStatus::toJson() const {
 // SloReporter – construction/destruction
 // ---------------------------------------------------------------------------
 
+SloReporter::SloReporter() : SloReporter(Config{}) {}
 SloReporter::SloReporter(const Config& config) : config_(config) {}
 SloReporter::~SloReporter() = default;
 

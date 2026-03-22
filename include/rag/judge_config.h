@@ -31,6 +31,7 @@
 #include <unordered_map>
 #include <memory>
 #include <optional>
+#include <vector>
 
 namespace themis::rag::judge {
 

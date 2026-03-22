@@ -54,4 +54,13 @@ if(THEMIS_ENABLE_GPU)
         ../src/gpu/vulkan_backend.cpp
         ../src/gpu/p2p_transfer.cpp
     )
+else()
+    # CPU-only builds still require these symbols because geo/gpu backend stubs
+    # reuse the shared safe-fail and audit infrastructure.
+    list(APPEND THEMIS_CORE_SOURCES
+        ../src/gpu/device_discovery.cpp
+        ../src/gpu/safe_fail.cpp
+        ../src/gpu/audit_log.cpp
+        ../src/gpu/metrics.cpp
+    )
 endif()

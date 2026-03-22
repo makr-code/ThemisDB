@@ -92,6 +92,10 @@ void RedisTokenBlacklist::disconnect() {
 // Constructor / Destructor
 // ============================================================================
 
+RedisTokenBlacklist::RedisTokenBlacklist()
+    : RedisTokenBlacklist(Config{})
+{}
+
 RedisTokenBlacklist::RedisTokenBlacklist(const Config& config)
     : config_(config)
 {

@@ -29,6 +29,7 @@
 #include <chrono>
 #include <unordered_map>
 #include <queue>
+#include <thread>
 
 namespace themis {
 namespace llm {

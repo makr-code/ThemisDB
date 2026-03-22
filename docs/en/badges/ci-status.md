@@ -1,6 +1,7 @@
 # CI Status Badge
 
-[![CI](https://github.com/makr-code/ThemisDB/actions/workflows/01-core/themis-core-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/01-core/themis-core-ci.yml)
+[![CI develop](https://github.com/makr-code/ThemisDB/actions/workflows/01-core/themis-core-ci.yml/badge.svg?branch=develop)](https://github.com/makr-code/ThemisDB/actions/workflows/01-core/themis-core-ci.yml?query=branch%3Adevelop)
+[![CI main](https://github.com/makr-code/ThemisDB/actions/workflows/01-core/themis-core-ci.yml/badge.svg?branch=main)](https://github.com/makr-code/ThemisDB/actions/workflows/01-core/themis-core-ci.yml?query=branch%3Amain)
 
 ## What it shows
 

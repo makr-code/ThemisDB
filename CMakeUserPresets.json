@@ -8,6 +8,10 @@
       "description": "Default VS Code preset - MSVC + Ninja Release with tests and vcpkg",
       "hidden": false,
       "inherits": "msvc-ninja-release",
+      "environment": {
+        "VCPKG_MAX_CONCURRENCY": "1",
+        "CMAKE_BUILD_PARALLEL_LEVEL": "1"
+      },
       "cacheVariables": {
         "THEMIS_BUILD_TESTS": "ON",
         "THEMIS_ENABLE_LLM": "ON",
@@ -20,6 +24,10 @@
       "description": "VS Code preset for debug builds with vcpkg",
       "hidden": false,
       "inherits": "msvc-ninja-debug",
+      "environment": {
+        "VCPKG_MAX_CONCURRENCY": "1",
+        "CMAKE_BUILD_PARALLEL_LEVEL": "1"
+      },
       "cacheVariables": {
         "THEMIS_BUILD_TESTS": "ON",
         "THEMIS_ENABLE_LLM": "ON",
@@ -74,6 +82,28 @@
       "jobs": 2
     },
     {
+      "name": "graph-tests-debug",
+      "displayName": "Graph Tests: Debug (focused)",
+      "description": "Debug build of only the two distributed-graph test executables",
+      "configurePreset": "vscode-windows-debug",
+      "targets": [
+        "test_graph_distributed",
+        "test_graph_distributed_shared_mutex_focused"
+      ],
+      "jobs": 4
+    },
+    {
+      "name": "graph-tests-release",
+      "displayName": "Graph Tests: Release (focused)",
+      "description": "Release build of only the two distributed-graph test executables",
+      "configurePreset": "vscode-windows-release",
+      "targets": [
+        "test_graph_distributed",
+        "test_graph_distributed_shared_mutex_focused"
+      ],
+      "jobs": 4
+    },
+    {
       "name": "hyperscaler-full-build",
       "configurePreset": "hyperscaler-full-build",
       "targets": [],
@@ -93,6 +123,33 @@
       "name": "vscode-gpu-tests",
       "displayName": "VS Code: GPU Tests",
       "configurePreset": "vscode-windows-release",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "graph-tests-debug",
+      "displayName": "Graph Tests: Debug",
+      "configurePreset": "vscode-windows-debug",
+      "filter": {
+        "include": {
+          "label": "graph"
+        }
+      },
+      "output": {
+        "outputOnFailure": true,
+        "verbosity": "verbose"
+      }
+    },
+    {
+      "name": "graph-tests-release",
+      "displayName": "Graph Tests: Release",
+      "configurePreset": "vscode-windows-release",
+      "filter": {
+        "include": {
+          "label": "graph"
+        }
+      },
       "output": {
         "outputOnFailure": true
       }

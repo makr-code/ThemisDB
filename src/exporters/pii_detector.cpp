@@ -28,6 +28,8 @@
 
 namespace themis::exporters {
 
+PIIDetector::PIIDetector() : PIIDetector(Config{}) {}
+
 PIIDetector::PIIDetector(const Config& config) : config_(config) {
     initPatterns();
 }

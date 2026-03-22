@@ -117,8 +117,11 @@ public:
      */
     explicit JWTKeyRotationManager(
         JWTValidator& validator,
-        TokenBlacklist* blacklist = nullptr,
-        const Config& config = Config{});
+        TokenBlacklist* blacklist = nullptr);
+    JWTKeyRotationManager(
+        JWTValidator& validator,
+        TokenBlacklist* blacklist,
+        const Config& config);
 
     // Non-copyable
     JWTKeyRotationManager(const JWTKeyRotationManager&) = delete;

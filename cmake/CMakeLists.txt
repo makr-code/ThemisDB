@@ -92,13 +92,14 @@ else()
     message(WARNING "Archive processing will not be available")
 endif()
 
+# pugixml is used by SAML/XML parsing and Office processing.
+find_package(pugixml CONFIG)
+if(NOT pugixml_FOUND)
+    find_package(pugixml)
+endif()
+
 # Office support requires both libzip and pugixml
 if(THEMIS_ENABLE_OFFICE)
-    find_package(pugixml CONFIG)
-    if(NOT pugixml_FOUND)
-        find_package(pugixml)
-    endif()
-    
     if(libzip_FOUND AND pugixml_FOUND)
         message(STATUS "Office support enabled - libzip and pugixml found")
         add_compile_definitions(THEMIS_ENABLE_OFFICE)
@@ -1535,6 +1536,7 @@ set(THEMIS_CORE_SOURCES
     ../src/config/config_path_resolver.cpp
     ../src/config/config_metrics_exporter.cpp
     ../src/config/config_schema_validator.cpp
+    ../src/config/config_file_watcher.cpp
     ../src/config/config_audit_log.cpp
     ../src/config/config_encrypted_store.cpp
     
@@ -1617,6 +1619,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/transaction_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/distributed_txn_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/auth_middleware.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/request_validation_middleware.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_auth_config.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_security_audit.cpp>
     $<$<BOOL:${THEMIS_ENABLE_SSE}>:../src/server/sse_connection_manager.cpp>
@@ -1681,6 +1684,13 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_gateway.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/distributed_gateway.cpp>
     ../src/server/update_api_handler.cpp
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/maintenance_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/geo_topology_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/mvcc_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/serverless_function_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/async_job_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/maintenance/database_maintenance_orchestrator.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/maintenance/maintenance_schedule_store.cpp>
     ../src/server/hot_reload_api_handler.cpp
     ../src/server/export_api_handler.cpp
     $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/server/feedback_api_handler.cpp>
@@ -1769,6 +1779,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/multimodal_chunker.cpp>
     
     ../src/cache/semantic_cache.cpp
+    ../src/cache/adaptive_query_cache.cpp
     ../src/cache/embedding_cache.cpp
     ../src/cache/bounded_lru_cache.cpp
     ../src/cache/warmup.cpp
@@ -2264,6 +2275,7 @@ set(THEMIS_CORE_SOURCES
     ../src/exporters/huggingface_exporter.cpp
     ../src/exporters/data_augmentation.cpp
     ../src/exporters/export_format_registry.cpp
+    ../src/exporters/join_exporter.cpp
     ../src/exporters/huggingface_hub_client.cpp
     ../src/importers/postgres_importer.cpp
     ../src/importers/mysql_importer.cpp
@@ -2628,6 +2640,8 @@ if(NOT THEMIS_ENABLE_LLM)
     list(APPEND THEMIS_CORE_SOURCES
     ../src/llm/llm_interaction_store.cpp
     ../src/llm/prompt_manager.cpp
+    ../src/llm/embedded_llm_stub.cpp
+    ../src/llm/ethical_guidelines_manager.cpp
     # Citation highlighting has no LLM dependency; always include so non-LLM
     # builds can use and test the CitationHighlighter class.
     ../src/rag/citation_highlighter.cpp
@@ -3173,8 +3187,8 @@ if(libzip_FOUND)
     endif()
 endif()
 
-# Link pugixml (for office processing) if enabled
-if(THEMIS_ENABLE_OFFICE AND pugixml_FOUND)
+# Link pugixml (required for XML/SAML parsing, also used by Office processing)
+if(pugixml_FOUND)
     # pugixml should export as pugixml::pugixml or pugixml::static
     if(TARGET pugixml::pugixml)
         target_link_libraries(themis_core PUBLIC pugixml::pugixml)
@@ -3185,8 +3199,12 @@ if(THEMIS_ENABLE_OFFICE AND pugixml_FOUND)
     else()
         message(WARNING "pugixml target not found - please check pugixml installation")
     endif()
-    
-    message(STATUS "Office support linked: libzip and pugixml")
+
+    if(THEMIS_ENABLE_OFFICE)
+        message(STATUS "Office support linked: libzip and pugixml")
+    else()
+        message(STATUS "pugixml linked for core XML/SAML support")
+    endif()
 endif()
 
 # Link poppler-cpp (for PDF layout-preserving extraction) if enabled

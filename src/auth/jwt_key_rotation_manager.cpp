@@ -33,6 +33,12 @@ namespace auth {
 
 JWTKeyRotationManager::JWTKeyRotationManager(
     JWTValidator& validator,
+    TokenBlacklist* blacklist)
+    : JWTKeyRotationManager(validator, blacklist, Config{})
+{}
+
+JWTKeyRotationManager::JWTKeyRotationManager(
+    JWTValidator& validator,
     TokenBlacklist* blacklist,
     const Config& config)
     : validator_(validator)

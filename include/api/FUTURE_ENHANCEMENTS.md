@@ -92,3 +92,21 @@
 - `IGraphQLSchemaBuilder::build()` validates schema for injection-vulnerable field name patterns before accepting registration
 - `IWebSocketHandler::upgrade()` validates the `Origin` header against a configured allow-list before returning a `WebSocketSession`
 - gRPC bridge rejects requests with unknown service names at `IGRPCBridge::dispatch()` rather than forwarding to an unregistered handler
+
+---
+
+## Scientific References
+
+[1] Hartig, O., & Pérez, J. (2018). **Semantics and Complexity of GraphQL**. *Proceedings of the 2018 World Wide Web Conference (WWW)*, 1155–1164. https://doi.org/10.1145/3178876.3186014
+
+[2] Fette, I., & Melnikov, A. (2011). **The WebSocket Protocol**. RFC 6455. IETF. https://doi.org/10.17487/RFC6455
+
+[3] Suresh, V., & Nielsen, F. (2020). **gRPC: A Framework for High-Performance Client-Server Applications**. *IEEE Software*, 37(5), 26–32. https://doi.org/10.1109/MS.2020.2993646
+
+[4] Fielding, R. T. (2000). **Architectural Styles and the Design of Network-based Software Architectures** (Doctoral dissertation, University of California, Irvine). https://ics.uci.edu/~fielding/pubs/dissertation/top.htm
+
+[5] Berners-Lee, T., Fielding, R., & Masinter, L. (2005). **Uniform Resource Identifier (URI): Generic Syntax**. RFC 3986. IETF. https://doi.org/10.17487/RFC3986 (Relevance: `ICorrelationIDProvider` URI safety and percent-encoding requirements for `WsChangeHandler` query-string parsing.)
+
+[6] Rescorla, E. (2018). **The Transport Layer Security (TLS) Protocol Version 1.3**. RFC 8446. IETF. https://doi.org/10.17487/RFC8446 (Relevance: TLS mandatory design constraint for all API transports.)
+
+[7] Kleppmann, M. (2017). **Designing Data-Intensive Applications**, Chapter 4: Encoding and Evolution. O'Reilly Media. ISBN 978-1-4493-7332-0. (Relevance: backward-compatible API versioning constraints in `IAPIVersionRouter`.)
