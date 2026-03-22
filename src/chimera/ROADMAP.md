@@ -27,8 +27,11 @@ graph operations across 9 adapters. Build system fully registered; focused test 
 - [x] Weaviate adapter (native vector database)
 - [x] Neo4j adapter (native graph database) (Issue: #1650)
 - [x] Build system: all 9 adapters registered in `cmake/ChimeraAdapters.cmake` (unconditional – no LLM gate)
-- [x] Focused standalone test targets for all 10 test files in `tests/CMakeLists.txt`
+- [x] Focused standalone test targets for all 14 test files in `tests/CMakeLists.txt`
 - [x] Error Recovery and Retry Logic: `RetryPolicy` (exponential backoff, configurable), `CircuitBreaker` (CLOSED/OPEN/HALF_OPEN), `ConnectionWithRetry` decorator (Issue: #17)
+- [x] Async/Promise-Based API: `IAsyncDatabaseAdapter` with `execute_query_async()`, `batch_insert_async()`, `search_vectors_async()`, `cancel_async()` (v1.8.0)
+- [x] Batch Operation Enhancements: `BatchOptions`, `BatchResult`, `batch_insert_advanced()`, `batch_insert_documents_advanced()` (v1.8.0)
+- [x] AdapterConfig Validation: `validate()`, `get_validation_errors()`, `parse_connection_string()` (v1.8.0)
 
 ## In Progress 🚧
 - [~] PostgreSQL vendor adapter — simulation mode complete; production wiring to `libpqxx` pending (Issue: #1629)
@@ -76,8 +79,14 @@ graph operations across 9 adapters. Build system fully registered; focused test 
 - [x] Adapter capability matrix (which operations each system supports)
 - [I] Benchmark result aggregation and reporting dashboard (Issue: #1649)
 
+### Phase 4: Advanced Features & Developer Experience (Status: Completed ✅)
+- [x] Async/Promise-Based API: `IAsyncDatabaseAdapter` with `execute_query_async()`, `batch_insert_async()`, `search_vectors_async()`, `cancel_async()`; `ASYNC_OPERATIONS` capability flag; `ThemisDBAdapter` full implementation with thread-pool dispatch and cancellation tokens (`database_adapter.hpp`, `themisdb_adapter.hpp`)
+- [x] Batch Operation Enhancements: `BatchOptions` (chunk_size, stop_on_error, progress_callback, batch_callback) and `BatchResult` (aggregated stats + per-chunk results); default implementations in `IRelationalAdapter` and `IDocumentAdapter` (`database_adapter.hpp`)
+- [x] AdapterConfig Validation: `validate()` with structured `Result<bool>` error codes, `get_validation_errors()` returning all constraint violations, `parse_connection_string()` decomposing URLs into `ParsedConnectionString` (`database_adapter.hpp`)
+- [x] Error Recovery and Retry Logic: `RetryPolicy` (exponential backoff, configurable is_transient predicate), `CircuitBreaker` (CLOSED/OPEN/HALF_OPEN state machine), `ConnectionWithRetry<T>` decorator template (`retry_policy.hpp`)
+
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% line coverage — 10 focused test executables covering all 9 adapters, >500 test cases across all adapter test files
+- [x] Unit tests coverage > 80% line coverage — 14 focused test executables covering all 9 adapters, retry policy, batch operations, async API, and AdapterConfig validation; >500 test cases across all adapter test files
 - [x] Integration tests (adapter factory, ThemisDB, MongoDB, PostgreSQL, Elasticsearch, Pinecone, Qdrant, Weaviate, Neo4j)
 - [P] Performance benchmarks (adapter overhead measurement) (Issue: #1652)
 - [P] Security audit (connection credential handling) (Issue: #1653)
