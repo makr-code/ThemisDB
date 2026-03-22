@@ -74,6 +74,9 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] Signed plugin repository with key pinning — TLS SPKI pinning via `RegistryConfig::pinned_public_key` + `CURLOPT_PINNEDPUBLICKEY`; Ed25519 application-layer key pinning in `SignedPluginRepository` (`plugins/signed_plugin_repository.h`)
 - [~] WASM-based plugin isolation for untrusted code — **Partial**: infrastructure complete; WASM runtime injection into `ModuleSandbox` implemented (v1.8.0, Issue: #1572); concrete backend (Wasmtime/WasmEdge) registration still required for production execution
 
+### Phase 4: Fuel Metering & Observability (Status: Completed ✅)
+- [x] WASM instruction fuel metering — `WasmPluginSandbox::Config::max_instructions` (total budget, 0 = unlimited) and `fuel_check_interval` (units deducted per `callExport()`) added; `fuel_remaining_` counter initialized at load and decremented per call; fuel-exhausted calls return structured error without invoking runtime; `remainingFuel()` exposes current budget; 8 unit tests in `tests/test_wasm_plugin_sandbox.cpp` (v1.8.0)
+
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (Issue: #1573) — `test_base_entity.cpp` (383 LOC), `test_base_interfaces.cpp` (678 LOC); focused standalone targets: `BaseEntityFocusedTests`, `BaseInterfacesFocusedTests`
 - [I] Integration tests (Issue: #1574)

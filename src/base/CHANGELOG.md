@@ -12,6 +12,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Performance benchmarks for module load and hot-reload cycles (Issue #1575, Target Q2 2026)
 - Concrete WasmRuntime integration (Wasmtime or WasmEdge) — infrastructure ready, backend registration required (Target Q3 2026)
 
+## [1.8.0] — 2026-03-22
+### Added
+- WASM instruction fuel metering: `WasmPluginSandbox::Config::max_instructions` (total budget, 0 = unlimited) and `Config::fuel_check_interval` (units deducted per `callExport()`, default 1); `fuel_remaining_` counter is initialized at `loadFromBytes()` / `loadFromFile()` and decremented on each `callExport()` invocation; when the budget reaches zero, `callExport()` returns a structured "fuel exhausted" error without invoking the runtime, safely bounding runaway plugin execution
+- `WasmPluginSandbox::remainingFuel()` — observability accessor returning the current fuel counter (`UINT64_MAX` when `max_instructions == 0`)
+- 8 new unit tests for fuel metering in `tests/test_wasm_plugin_sandbox.cpp`: unlimited fuel by default, fuel initialised from config, fuel deducted per call, exhausted fuel returns structured error, fuel counted as trap in stats, infinite-loop bounded by budget, reload resets fuel, large interval clamped to zero
+
 ## [1.7.0] — 2026-03-09
 ### Added
 - Plugin health monitoring watchdog with automatic restart: `ModuleLoader::startWatchdog()`/`stopWatchdog()`, `configureWatchdog(WatchdogConfig)`, exponential backoff, per-module restart metrics via `WatchdogModuleStats` (Issue #2373)

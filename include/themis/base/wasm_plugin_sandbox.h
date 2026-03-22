@@ -253,6 +253,24 @@ public:
         /// from bytes directly).
         std::string wasm_path;
 
+        /// Total instruction fuel budget for this sandbox (0 = unlimited).
+        ///
+        /// Each callExport() invocation deducts @ref fuel_check_interval units
+        /// from the budget. When the budget reaches zero, callExport() returns a
+        /// structured fuel-exhaustion error without invoking the runtime, bounding
+        /// runaway plugin execution. Reset the budget by reloading the module.
+        uint64_t max_instructions = 0;
+
+        /// Fuel units consumed per callExport() invocation (default: 1).
+        ///
+        /// In a real WASM interpreter this would correspond to how often fuel is
+        /// decremented in the bytecode dispatch loop. At the sandbox boundary
+        /// level it sets the granularity of the per-call fuel deduction.
+        ///
+        /// @note A value of 0 is treated as 1 (minimum cost of one unit per
+        ///       call) to avoid infinite free calls when a budget is set.
+        uint64_t fuel_check_interval = 1;
+
         static Config defaults() { return {}; }
     };
 
@@ -382,6 +400,19 @@ public:
 
     Stats stats() const noexcept { return stats_; }
 
+    // ── Fuel / instruction metering ────────────────────────────────────────
+
+    /**
+     * @brief Return the number of fuel units remaining in the sandbox budget.
+     *
+     * When @ref Config::max_instructions is 0 (unlimited), this always returns
+     * `UINT64_MAX`. After a fuel-exhaustion error the value is 0.
+     *
+     * Fuel is reset to @ref Config::max_instructions when a new module is loaded
+     * via loadFromBytes() / loadFromFile().
+     */
+    uint64_t remainingFuel() const noexcept;
+
 private:
     Config                           config_;
     std::unique_ptr<WasmRuntime>     runtime_;
@@ -395,6 +426,7 @@ private:
     std::vector<std::string>         load_warnings_;
     Stats                            stats_{};
     std::unique_ptr<ModuleSandbox>   os_sandbox_;
+    uint64_t                         fuel_remaining_     = 0; ///< Remaining fuel units (UINT64_MAX when unlimited)
 
     // ── Helpers ──────────────────────────────────────────────────────────
     bool validateWasmHeader(const std::vector<uint8_t>& bytes);
