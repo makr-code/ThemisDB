@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-03-12 -->
+<!-- Status: current | validated: 2026-03-22 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/cdc/ -->
 
 # CDC Module - Future Enhancements
@@ -252,6 +252,65 @@ compression ratio > 1, resetStats, setConfig, all event fields preserved, DELETE
 round-trip.
 
 ---
+
+## Implemented Features (v1.8.0 additions)
+
+### CDC Pause/Resume Control API ✅ Implemented (v1.8.0)
+
+`ICDCPauseControl` (`include/cdc/icdc_pause_control.h`) provides atomic stream suspension and resumption for CDC change feeds. `InMemoryPauseControl` is the thread-safe concrete implementation.
+
+- `pause(PauseReason) -> bool` — atomically suspend event delivery; buffered events accumulate in-memory up to `maxBufferBytes`; returns `false` if already paused
+- `resume() -> std::vector<Changefeed::ChangeEvent>` — resume delivery and drain buffered events
+- `isPaused() -> bool` — non-blocking query; safe to call from any thread
+- `drainBufferedEvents()` — drain without resuming (for graceful shutdown)
+- `PauseReason` enum: `AdminRequest`, `Backpressure`, `SchemaEvolution`
+- All methods thread-safe via `std::mutex`; 229 lines; tested by `CDCPauseControlFocusedTests`
+
+### Backpressure Signaling Interface ✅ Implemented (v1.8.0)
+
+`ICDCBackpressureSignal` (`include/cdc/icdc_backpressure_signal.h`) provides advisory flow-control for CDC consumers. `InMemoryBackpressureSignal` is the concrete implementation.
+
+- `signalBackpressure(BackpressureLevel)` — update the current pressure level; fires optional level-change callback
+- `clearBackpressure()` — reset to `BackpressureLevel::None`
+- `currentLevel() -> BackpressureLevel` — non-blocking query via `std::atomic`
+- `setPauseControl(ICDCPauseControl*)` — register a pause handle for auto-pause at `Critical` level
+- `setLevelCallback(std::function<void(BackpressureLevel)>)` — hook for monitoring integrations
+- `BackpressureLevel` enum: `None`, `Low`, `Medium`, `High`, `Critical`
+- All methods thread-safe; tested by `CDCBackpressureSignalFocusedTests`
+
+### Multi-Source Fan-In API ✅ Implemented (v1.8.0)
+
+`ICDCFanIn` (`include/cdc/icdc_fan_in.h`) provides a unified view of events from multiple named `Changefeed` instances. `InMemoryFanIn` is the concrete implementation.
+
+- `addSource(CollectionId, Changefeed&)` / `removeSource(CollectionId)` — register/deregister named feeds
+- `listEvents(FanInOptions)` — merge events from all (or subset of) registered feeds; order determined by the active `IFanInMergePolicy`
+- `setMergePolicy(IFanInMergePolicy&)` — plug in a custom merge/ordering strategy
+- `FanInEvent` value type — wraps `Changefeed::ChangeEvent` + originating `CollectionId`
+- `IFanInMergePolicy` abstract interface; built-in: `TimestampMergePolicy` (wall-clock, ascending) and `SequenceMergePolicy` (global sequence counter)
+- Thread-safe (snapshot under lock before querying individual feeds); tested by `CDCFanInFocusedTests`
+
+### Schema Evolution Hook ✅ Implemented (v1.8.0)
+
+`ICDCEventSchema` (`include/cdc/icdc_event_schema.h`) provides schema-aware CDC event delivery with schema evolution notifications. `InMemoryEventSchemaRegistry` is the concrete implementation.
+
+- `registerSchema(collection, schema_json, SchemaFormat)` — register a schema for a collection
+- `getSchema(collection) -> std::optional<std::string>` — retrieve the current schema
+- `onSchemaEvolution(collection, SchemaEvolutionDescriptor, ISchemaEvolutionCallback&)` — notify listener of schema change
+- `SchemaEvolutionDescriptor` — carries old/new schema version strings, `MigrationStrategy` enum (`BACKWARD`, `FORWARD`, `FULL`, `NONE`), and affected field list
+- `ISchemaEvolutionCallback` pure-virtual: `onCompatible(SchemaEvolutionDescriptor)`, `onIncompatible(SchemaEvolutionDescriptor)`
+- `SchemaFormat` enum: `JSON`, `AVRO`, `PROTOBUF`
+- All methods thread-safe; tested by `CDCEventSchemaFocusedTests`
+
+### Delivery Guarantee Configuration ✅ Implemented (v1.8.0)
+
+`IDeliveryGuaranteeConfig` (`include/cdc/idelivery_guarantee_config.h`) configures per-listener delivery semantics. `InMemoryDeliveryGuaranteeConfig` is the concrete implementation with a rolling dedup hash window.
+
+- `setMode(DeliveryMode)` — `AtLeastOnce` or `ExactlyOnce`
+- `setAckTimeout(std::chrono::milliseconds)` — redelivery window for unacknowledged events
+- `setDeduplicationWindow(std::chrono::milliseconds)` — rolling window for `ExactlyOnce` dedup
+- `isDuplicate(event_id) -> bool` — O(1) check via `std::unordered_set` with window expiry
+- `DeliveryMode` enum: `AtLeastOnce`, `ExactlyOnce`
+- Thread-safe; tested by `CDCDeliveryGuaranteeConfigFocusedTests`
 
 ## Planned Features
 

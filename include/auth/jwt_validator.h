@@ -194,9 +194,28 @@ private:
     bool verifySignatureRS256(const std::string& header_payload,
                               const std::vector<uint8_t>& signature,
                               const nlohmann::json& jwk);
+    /**
+     * @brief Verify an RSA JWT signature for the given algorithm (RS256/RS384/RS512).
+     *
+     * Supports SHA-256 (RS256), SHA-384 (RS384), and SHA-512 (RS512) digest algorithms.
+     */
+    bool verifySignatureRSA(const std::string& header_payload,
+                            const std::vector<uint8_t>& signature,
+                            const nlohmann::json& jwk,
+                            const std::string& alg);
     bool verifySignatureES256(const std::string& header_payload,
                               const std::vector<uint8_t>& signature,
                               const nlohmann::json& jwk);
+    /**
+     * @brief Verify an ECDSA JWT signature for the given algorithm (ES256/ES384/ES512).
+     *
+     * Dispatches to the appropriate curve (P-256, P-384, P-521) and hash (SHA-256,
+     * SHA-384, SHA-512) based on the algorithm label.
+     */
+    bool verifySignatureEC(const std::string& header_payload,
+                           const std::vector<uint8_t>& signature,
+                           const nlohmann::json& jwk,
+                           const std::string& alg);
     /**
      * @brief Verify an EdDSA (Ed25519) JWT signature.
      *

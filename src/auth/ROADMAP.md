@@ -34,6 +34,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] Certificate-based mutual TLS (mTLS) authentication (Issue: #2370)
 - [x] Federated identity across multiple realms (Issue: #1540)
 - [x] Zero-trust access model with continuous verification (Issue: #1541)
+- [x] EC Curve P-384 (ES384) and P-521 (ES512) JWT algorithm support
 
 ## In Progress 🚧
 *(none currently in progress)*
@@ -72,19 +73,26 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] Configurable password policy enforcement
 - [x] Audit logging for all authentication events
 - [x] Certificate-based mutual TLS (mTLS) authentication (`auth/mtls_authenticator.cpp`)
+
+### Phase 4: RFC 7518 Algorithm Completeness (Status: Completed ✅)
+- [x] EC Curve P-384 (ES384 / SHA-384) JWT algorithm (`auth/jwt_validator.cpp`)
+- [x] EC Curve P-521 (ES512 / SHA-512) JWT algorithm (`auth/jwt_validator.cpp`)
+- [x] RSA RS384 (SHA-384) JWT algorithm (`auth/jwt_validator.cpp`)
+- [x] RSA RS512 (SHA-512) JWT algorithm (`auth/jwt_validator.cpp`)
+- [x] Comprehensive test coverage: `tests/test_jwt_ec_curves_comprehensive.cpp`
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (Issue: #1550)
 - [x] Integration tests (JWT, Kerberos, MFA flows)
-- [x] Focused standalone test targets registered in `tests/CMakeLists.txt` (30 test executables: JWT, API-key, MFA, TOTP, OAuth, SAML, mTLS, WebAuthn, session, zero-trust, anomaly detection)
+- [x] Focused standalone test targets registered in `tests/CMakeLists.txt` (31 test executables: JWT, API-key, MFA, TOTP, OAuth, SAML, mTLS, WebAuthn, session, zero-trust, anomaly detection, EC curves)
 - [x] Performance benchmarks (token validation latency) (Issue: #1551)
 - [x] Security audit (JWT validation, Kerberos keytab handling)
 - [x] Documentation complete (configuration, flows, examples)
 - [x] API stability guaranteed for JWT, Kerberos, and MFA
+- [x] Full RFC 7518 (JWA) algorithm coverage: RS256/RS384/RS512, ES256/ES384/ES512, EdDSA
 
 ## Known Issues & Limitations
 - Fine-grained ABAC with OPA/Rego policy expressions is not yet implemented; the current `PolicyEngine` evaluates structured JSON-based policies but does not integrate an OPA runtime (Issue: #1538, Target: Q3 2026).
 - LDAP direct bind requires OpenLDAP (libldap) on Linux or WinLDAP on Windows; build with -DTHEMIS_ENABLE_LDAP=ON (default).
-
 ## Breaking Changes
 - ABAC engine (`PolicyEngine`) API is additive to existing RBAC and backward-compatible.
 - mTLS (`MtlsAuthenticator`) requires TLS layer configuration changes; see auth/mtls_authenticator.h for details.

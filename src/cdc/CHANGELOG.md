@@ -9,6 +9,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 *(All planned features are implemented — see `FUTURE_ENHANCEMENTS.md` for long-horizon items.)*
 
+## [1.8.0] — 2026-03-22
+### Added
+- Five new public CDC interface headers in `include/cdc/`:
+  - `ICDCPauseControl` (`icdc_pause_control.h`): atomic stream pause/resume with `PauseReason` enum (`AdminRequest`, `Backpressure`, `SchemaEvolution`), buffered event accumulation during pause, and `InMemoryPauseControl` concrete implementation
+  - `ICDCBackpressureSignal` (`icdc_backpressure_signal.h`): advisory flow-control with `BackpressureLevel` enum (`None`/`Low`/`Medium`/`High`/`Critical`), `setLevelCallback()`, and `InMemoryBackpressureSignal` concrete implementation; Critical level triggers automatic pause when a `ICDCPauseControl` handle is registered
+  - `ICDCFanIn` (`icdc_fan_in.h`): multi-source fan-in with `FanInEvent` (tagged with `CollectionId`), pluggable `IFanInMergePolicy` (timestamp-order + sequence-order policies), and `InMemoryFanIn` concrete implementation
+  - `ICDCEventSchema` (`icdc_event_schema.h`): schema-aware event delivery with `SchemaEvolutionDescriptor` (old/new schema version, `MigrationStrategy` enum, affected fields), `ISchemaEvolutionCallback` (`onCompatible`/`onIncompatible`), and `InMemoryEventSchemaRegistry` concrete implementation
+  - `IDeliveryGuaranteeConfig` (`idelivery_guarantee_config.h`): per-listener delivery semantics with `DeliveryMode` enum (`AtLeastOnce`/`ExactlyOnce`), `setDeduplicationWindow()`, and `InMemoryDeliveryGuaranteeConfig` concrete implementation with rolling dedup hash window
+- Five focused test executables (≈1 300 lines total):
+  - `CDCPauseControlFocusedTests` (`tests/test_cdc_pause_control.cpp`)
+  - `CDCBackpressureSignalFocusedTests` (`tests/test_cdc_backpressure_signal.cpp`)
+  - `CDCFanInFocusedTests` (`tests/test_cdc_fan_in.cpp`)
+  - `CDCEventSchemaFocusedTests` (`tests/test_cdc_event_schema.cpp`)
+  - `CDCDeliveryGuaranteeConfigFocusedTests` (`tests/test_cdc_delivery_guarantee_config.cpp`)
+- CI workflow `cdc-interfaces-ci.yml` covering all five focused test targets
+
 ## [1.7.0] — 2026-03-10
 ### Added
 - Build system audit: all CDC source files registered in `cmake/CMakeLists.txt` and `cmake/ModularBuild.cmake`; standalone focused test targets `CDCAdminFocusedTests` and `TenantBufferManagerFocusedTests`

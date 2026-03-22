@@ -9,6 +9,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 - Fine-grained ABAC with OPA policy expressions — PR open (Issue #1538)
 
+## [1.8.0] — 2026-03-22
+### Added
+- EC Curve P-384 (ES384 / SHA-384) JWT algorithm support (`auth/jwt_validator.cpp`) — Feature #9
+- EC Curve P-521 (ES512 / SHA-512) JWT algorithm support (`auth/jwt_validator.cpp`) — Feature #9
+- RSA RS384 (SHA-384) and RS512 (SHA-512) JWT algorithm support (`auth/jwt_validator.cpp`) — Feature #9
+- `verifySignatureEC()` dispatcher in `jwt_validator.cpp` handles ES256/ES384/ES512 parameterically (curve NID, coordinate size, digest)
+- `verifySignatureRSA()` dispatcher in `jwt_validator.cpp` handles RS256/RS384/RS512 parameterically (digest selection)
+- Comprehensive test coverage: `tests/test_jwt_ec_curves_comprehensive.cpp` (ES384 + ES512 happy-path, expired, wrong sig, tampered payload, kid revocation, cross-curve attacks; RS384 + RS512)
+
+### Changed
+- Algorithm allow-list in `JWTValidator::parseAndValidate()` extended from `{RS256, ES256, EdDSA}` to `{RS256, RS384, RS512, ES256, ES384, ES512, EdDSA}`
+- `verifySignatureRS256()` now delegates to `verifySignatureRSA()` (backward compatible)
+- `verifySignatureES256()` now delegates to `verifySignatureEC()` (backward compatible)
+
 ## [1.7.0] — 2026-03-09
 ### Added
 - Certificate-based mutual TLS (mTLS) authentication (`auth/mtls_authenticator.cpp`) (Issue #2370)
