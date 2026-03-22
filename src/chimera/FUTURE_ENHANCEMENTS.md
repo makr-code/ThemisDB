@@ -174,8 +174,8 @@ struct PoolStats {
 ---
 
 ### Async/Promise-Based API
-**Priority:** Medium  
-**Target Version:** v1.2.0
+**Status:** ✅ Implemented (v1.8.0)  
+**Original Target Version:** v1.2.0
 
 Non-blocking async operations for high-concurrency benchmarks.
 
@@ -461,8 +461,8 @@ auto pg_latest = AdapterFactory::create_with_fallback(
 ---
 
 ### Adapter Configuration Validation
-**Priority:** Medium  
-**Target Version:** v1.2.0
+**Status:** ✅ Implemented (v1.8.0)  
+**Original Target Version:** v1.2.0
 
 Validate adapter configuration before connection.
 
@@ -764,8 +764,8 @@ public:
 ## API Extensions
 
 ### Batch Operation Enhancements
-**Priority:** High  
-**Target Version:** v1.1.0
+**Status:** ✅ Implemented (v1.8.0)  
+**Original Target Version:** v1.1.0
 
 Enhanced batch operations with progress tracking.
 
