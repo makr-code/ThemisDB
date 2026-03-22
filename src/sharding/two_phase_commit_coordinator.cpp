@@ -40,6 +40,12 @@ namespace themis::sharding {
 // ─────────────────────────────────────────────────────────────────────────────
 
 TwoPhaseCommitCoordinator::TwoPhaseCommitCoordinator(
+    const std::string& coordinator_id
+)
+    : TwoPhaseCommitCoordinator(coordinator_id, Config{})
+{}
+
+TwoPhaseCommitCoordinator::TwoPhaseCommitCoordinator(
     const std::string& coordinator_id,
     const Config&      config
 )

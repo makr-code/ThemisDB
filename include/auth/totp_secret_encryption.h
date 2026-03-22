@@ -217,7 +217,8 @@ public:
         bool is_active;                 // Is this the current active secret?
     };
     
-    explicit TOTPSecretRotationManager(const RotationConfig& config = RotationConfig());
+    TOTPSecretRotationManager();
+    explicit TOTPSecretRotationManager(const RotationConfig& config);
     
     /**
      * @brief Rotate a user's TOTP secret

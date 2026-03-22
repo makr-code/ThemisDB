@@ -189,7 +189,11 @@ public:
         int32_t fallback_budget_ms = 200;
     };
 
-    explicit GpuBatchBackend(Config cfg = {})
+    GpuBatchBackend()
+        : GpuBatchBackend(Config{})
+    {}
+
+    explicit GpuBatchBackend(Config cfg)
         : cfg_(cfg)
         , safe_fail_(themis::gpu::GPUSafeFail::Config{
               /*failure_threshold=*/3,

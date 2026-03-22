@@ -55,9 +55,14 @@ bool DurableAcceptorState::operator==(const DurableAcceptorState& o) const noexc
 // ─────────────────────────────────────────────────────────────────────────────
 
 PaxosStatePersistence::PaxosStatePersistence(PaxosWAL*             wal,
+                                              PaxosSnapshotManager* snapshot_mgr)
+    : PaxosStatePersistence(wal, snapshot_mgr, Config{})
+{}
+
+PaxosStatePersistence::PaxosStatePersistence(PaxosWAL*             wal,
                                               PaxosSnapshotManager* snapshot_mgr,
-                                              Config                config)
-    : wal_(wal), snapshot_mgr_(snapshot_mgr), config_(std::move(config))
+                                              const Config&         config)
+    : wal_(wal), snapshot_mgr_(snapshot_mgr), config_(config)
 {
     if (!wal_)          throw std::invalid_argument("PaxosStatePersistence: wal cannot be null");
     if (!snapshot_mgr_) throw std::invalid_argument("PaxosStatePersistence: snapshot_mgr cannot be null");

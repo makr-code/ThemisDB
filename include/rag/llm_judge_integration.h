@@ -129,7 +129,8 @@ public:
      * @throws std::invalid_argument if @p engine is nullptr and
      *         @p config.allow_mock is false.
      */
-    explicit LLMJudgeIntegration(ILLMInferenceEngine* engine, const Config& config = Config{});
+    explicit LLMJudgeIntegration(ILLMInferenceEngine* engine);
+    explicit LLMJudgeIntegration(ILLMInferenceEngine* engine, const Config& config);
 
     /**
      * @brief Construct LLM integration

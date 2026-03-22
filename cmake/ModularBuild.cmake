@@ -1776,8 +1776,11 @@ function(themis_build_modular)
         DEPENDENCIES ${_themis_network_deps}
     )
     if(MSVC)
-        set_source_files_properties(${CMAKE_SOURCE_DIR}/src/server/monitoring_api_handler.cpp
-            PROPERTIES COMPILE_OPTIONS "/bigobj /Od")
+        set_source_files_properties(
+            ${CMAKE_SOURCE_DIR}/src/server/monitoring_api_handler.cpp
+            ${CMAKE_SOURCE_DIR}/src/server/index_api_handler.cpp
+            PROPERTIES COMPILE_OPTIONS "/bigobj;/Od;/Zm200"
+        )
     endif()
     
     # Optional modules

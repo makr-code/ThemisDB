@@ -1830,7 +1830,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_distributed.cpp")
 
     # Work around intermittent Windows file-lock issues for these binaries
     # by emitting them into a dedicated output directory.
-    set(_GRAPH_DISTRIBUTED_RUNTIME_DIR "${CMAKE_BINARY_DIR}/cmake/tests_graph_distributed")
+    # Use an absolute path anchored at this subdirectory's binary dir to avoid
+    # generator-relative link paths that can resolve incorrectly on Windows.
+    set(_GRAPH_DISTRIBUTED_RUNTIME_DIR "${CMAKE_CURRENT_BINARY_DIR}/../tests_graph_distributed")
+    get_filename_component(_GRAPH_DISTRIBUTED_RUNTIME_DIR "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}" ABSOLUTE)
+    file(MAKE_DIRECTORY "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}")
 
     add_executable(test_graph_distributed
         test_graph_distributed.cpp
@@ -1857,9 +1861,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_distributed.cpp")
 
     set_target_properties(test_graph_distributed PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}"
+        PDB_OUTPUT_DIRECTORY "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}"
+        OUTPUT_NAME "test_graph_distributed_runner"
     )
 
-    add_test(NAME DistributedGraphTests COMMAND test_graph_distributed)
+    add_test(NAME DistributedGraphTests COMMAND $<TARGET_FILE:test_graph_distributed>)
 
     set_tests_properties(DistributedGraphTests PROPERTIES
         LABELS "graph;distributed;shards;unit"
@@ -1892,10 +1898,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_distributed.cpp")
 
     set_target_properties(test_graph_distributed_shared_mutex_focused PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}"
+        PDB_OUTPUT_DIRECTORY "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}"
+        OUTPUT_NAME "test_graph_distributed_shared_mutex_runner"
     )
 
     add_test(NAME DistributedGraphSharedMutexFocusedTests
-             COMMAND test_graph_distributed_shared_mutex_focused
+             COMMAND $<TARGET_FILE:test_graph_distributed_shared_mutex_focused>
                      --gtest_filter=DistributedGraphSharedMutexStressTest.*)
 
     set_tests_properties(DistributedGraphSharedMutexFocusedTests PROPERTIES

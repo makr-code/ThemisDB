@@ -174,7 +174,8 @@ public:
             std::function<std::unique_ptr<IImporter>()>> importer_factories;
     };
 
-    explicit ImportWizard(Config config = {});
+    explicit ImportWizard();
+    explicit ImportWizard(Config config);
 
     // ── Session lifecycle ─────────────────────────────────────────────────────
 

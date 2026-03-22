@@ -117,7 +117,8 @@ public:
 
     // ── Lifecycle ────────────────────────────────────────────────────
 
-    explicit SpeculativeDecoder(const Config& config = {});
+    SpeculativeDecoder();
+    explicit SpeculativeDecoder(const Config& config);
 
     // ── Core interface ───────────────────────────────────────────────
 

@@ -31,6 +31,10 @@ namespace llm {
 // Construction / Destruction
 // ═══════════════════════════════════════════════════════════
 
+SharedWorkerPool::SharedWorkerPool()
+    : SharedWorkerPool(Config{}) {
+}
+
 SharedWorkerPool::SharedWorkerPool(const Config& config)
     : config_(config)
 {

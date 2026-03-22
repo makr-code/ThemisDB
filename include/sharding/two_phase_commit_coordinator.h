@@ -152,8 +152,12 @@ public:
      * @param config          Configuration (WAL, timeouts, …)
      */
     explicit TwoPhaseCommitCoordinator(
+        const std::string& coordinator_id
+    );
+
+    explicit TwoPhaseCommitCoordinator(
         const std::string& coordinator_id,
-        const Config&      config = {}
+        const Config&      config
     );
 
     ~TwoPhaseCommitCoordinator() = default;

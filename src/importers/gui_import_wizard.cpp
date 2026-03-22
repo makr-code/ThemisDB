@@ -152,6 +152,9 @@ ImportWizardState ImportWizardState::fromJSON(const json& j) {
 // ImportWizard
 // ─────────────────────────────────────────────────────────────────────────────
 
+ImportWizard::ImportWizard()
+    : ImportWizard(Config{}) {}
+
 ImportWizard::ImportWizard(Config config)
     : config_(std::move(config)) {}
 

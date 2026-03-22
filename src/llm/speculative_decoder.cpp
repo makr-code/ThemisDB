@@ -53,6 +53,10 @@ namespace llm {
 // Constructor
 // ═══════════════════════════════════════════════════════════
 
+SpeculativeDecoder::SpeculativeDecoder()
+    : SpeculativeDecoder(Config{}) {
+}
+
 SpeculativeDecoder::SpeculativeDecoder(const Config& config)
     : config_(config)
 {

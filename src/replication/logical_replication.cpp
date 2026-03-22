@@ -65,6 +65,9 @@ bool isSupportedRowFilter(const std::string& expr) {
 }
 }  // namespace
 
+LogicalReplicationManager::LogicalReplicationManager(std::shared_ptr<WALManager> wal)
+    : LogicalReplicationManager(std::move(wal), Config{}) {}
+
 LogicalReplicationManager::LogicalReplicationManager(std::shared_ptr<WALManager> wal, Config config)
     : wal_(std::move(wal))
     , config_(std::move(config)) {
@@ -72,6 +75,27 @@ LogicalReplicationManager::LogicalReplicationManager(std::shared_ptr<WALManager>
         THEMIS_WARN("LogicalReplicationManager persistence disabled: wal_directory not configured");
     }
     loadPersistedSlots();
+}
+
+LogicalReplicationManager::LogicalReplicationSlot LogicalReplicationManager::createSlot(
+    const std::string& slot_name,
+    const std::string& output_plugin) {
+    return createSlot(slot_name, output_plugin, ReplicationFilter{}, true, {});
+}
+
+LogicalReplicationManager::LogicalReplicationSlot LogicalReplicationManager::createSlot(
+    const std::string& slot_name,
+    const std::string& output_plugin,
+    const ReplicationFilter& filter) {
+    return createSlot(slot_name, output_plugin, filter, true, {});
+}
+
+LogicalReplicationManager::LogicalReplicationSlot LogicalReplicationManager::createSlot(
+    const std::string& slot_name,
+    const std::string& output_plugin,
+    const ReplicationFilter& filter,
+    bool perform_initial_sync) {
+    return createSlot(slot_name, output_plugin, filter, perform_initial_sync, {});
 }
 
 LogicalReplicationManager::LogicalReplicationSlot LogicalReplicationManager::createSlot(

@@ -75,7 +75,8 @@ public:
      * The connection is established eagerly; if it fails a warning is logged
      * and the instance operates as a no-op stub until reconnected.
      */
-    explicit RedisTokenBlacklist(const Config& config = Config{});
+    RedisTokenBlacklist();
+    explicit RedisTokenBlacklist(const Config& config);
     ~RedisTokenBlacklist() override;
 
     RedisTokenBlacklist(const RedisTokenBlacklist&) = delete;

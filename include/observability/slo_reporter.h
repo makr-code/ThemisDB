@@ -219,7 +219,8 @@ public:
         size_t max_samples_per_slo{100'000};
     };
 
-    explicit SloReporter(const Config& config = Config{});
+    explicit SloReporter();
+    explicit SloReporter(const Config& config);
     ~SloReporter();
 
     // Non-copyable

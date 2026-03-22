@@ -36,6 +36,14 @@ namespace auth {
 // Construction / Destruction
 // ============================================================================
 
+ZeroTrustAuthVerifier::ZeroTrustAuthVerifier()
+    : ZeroTrustAuthVerifier(Config{}, nullptr)
+{}
+
+ZeroTrustAuthVerifier::ZeroTrustAuthVerifier(TokenVerifier token_verifier)
+    : ZeroTrustAuthVerifier(Config{}, std::move(token_verifier))
+{}
+
 ZeroTrustAuthVerifier::ZeroTrustAuthVerifier(
     const Config& config,
     TokenVerifier token_verifier)

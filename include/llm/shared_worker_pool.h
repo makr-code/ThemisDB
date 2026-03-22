@@ -68,7 +68,8 @@ public:
         size_t max_queue_size = 10000;
     };
 
-    explicit SharedWorkerPool(const Config& config = {});
+    SharedWorkerPool();
+    explicit SharedWorkerPool(const Config& config);
     ~SharedWorkerPool();
 
     SharedWorkerPool(const SharedWorkerPool&)            = delete;

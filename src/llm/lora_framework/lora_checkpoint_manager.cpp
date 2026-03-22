@@ -137,6 +137,9 @@ std::vector<uint8_t> readFile(const fs::path& p) {
 // Construction / Destruction
 // ─────────────────────────────────────────────────────────────────────────────
 
+LoRACheckpointManager::LoRACheckpointManager()
+    : LoRACheckpointManager(Config{}) {}
+
 LoRACheckpointManager::LoRACheckpointManager(Config config)
     : config_(std::move(config)) {}
 

@@ -76,7 +76,8 @@ public:
         size_t partial_keep_suffix = 2;
     };
     
-    explicit PIIDetector(const Config& config = {});
+    explicit PIIDetector();
+    explicit PIIDetector(const Config& config);
     
     /// Detect PII in text
     std::vector<PIIMatch> detectPII(const std::string& text) const;

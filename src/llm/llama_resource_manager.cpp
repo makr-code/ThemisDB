@@ -25,6 +25,7 @@
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <filesystem>
+#include <llama.h>
 
 namespace themis {
 namespace llm {

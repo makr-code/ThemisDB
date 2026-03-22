@@ -40,6 +40,7 @@
     #include <poll.h>
     #include <unistd.h>
     #include <fcntl.h>
+    #include <netinet/in.h>
     #include <netinet/tcp.h>
     typedef int socket_t;
     #define INVALID_SOCKET_VALUE -1
