@@ -73,46 +73,30 @@ for (const auto& token : stream.value()) {
 
 ---
 
-### Multi-Modal Interface
+### Multi-Modal Interface ✅ SHIPPED (v1.8.0)
 **Priority:** High  
-**Target Version:** v1.7.0
+**Target Version:** v1.8.0 — **Implemented** (`include/aql/multimodal_infer_request.h`)
 
-Extend interfaces to support images, audio, and video.
-
-**Proposed Structures:**
+**Shipped Structures:**
 ```cpp
-enum class ModalityType {
-    TEXT,
-    IMAGE,
-    AUDIO,
-    VIDEO
-};
+enum class ModalityType { TEXT, IMAGE, AUDIO, VIDEO };
 
 struct MultiModalInput {
     ModalityType type;
-    std::variant<
-        std::string,              // Text
-        std::vector<uint8_t>,     // Image bytes
-        std::filesystem::path     // File path
-    > data;
+    std::variant<std::string, std::vector<uint8_t>, std::filesystem::path> data;
     std::string mime_type;
+    std::string label;
+    void validate() const;  // throws std::invalid_argument on bad MIME or empty bytes
+    static const std::unordered_set<std::string>& imageMimeTypes();
+    static const std::unordered_set<std::string>& audioMimeTypes();
+    static const std::unordered_set<std::string>& videoMimeTypes();
 };
 
-struct MultiModalInferRequest : public InferRequest {
+struct MultiModalInferRequest : public llm::InferenceRequest {
     std::vector<MultiModalInput> inputs;
-};
-```
-
-**Interface Addition:**
-```cpp
-class ILLMBackend {
-public:
-    // Existing
-    virtual Result<std::string> infer(const InferRequest& req) = 0;
-    
-    // New
-    virtual Result<std::string> inferMultiModal(const MultiModalInferRequest& req) = 0;
-    virtual bool supportsMultiModal() const = 0;
+    void addInput(const MultiModalInput&);  // validates before appending
+    void validateInputs() const;
+    bool hasNonTextInputs() const;
 };
 ```
 
@@ -336,18 +320,26 @@ class LlmAqlHandler {
 
 ---
 
-### Async Interface
+### Async Interface ✅ SHIPPED (v1.8.0)
 **Priority:** High  
-**Target Version:** v1.7.0
+**Target Version:** v1.8.0 — **Implemented** (`include/aql/iasync_llm_backend.h`)
 
-Non-blocking async operations.
-
-**Proposed:**
+**Shipped Interfaces:**
 ```cpp
 class IAsyncLLMBackend {
 public:
-    virtual std::future<Result<std::string>> inferAsync(const InferRequest& req) = 0;
-    virtual std::future<Result<std::vector<float>>> embedAsync(const std::string& text) = 0;
+    virtual ~IAsyncLLMBackend() = default;
+    virtual std::future<Result<std::string>>
+        inferAsync(const llm::InferenceRequest& req) = 0;
+    virtual std::future<Result<std::vector<float>>>
+        embedAsync(const std::string& text) = 0;
+    virtual bool supportsMultiModal() const { return false; }
+};
+
+class ThreadPoolAsyncLLMBackend : public IAsyncLLMBackend {
+public:
+    explicit ThreadPoolAsyncLLMBackend(std::shared_ptr<llm::ILLMPlugin> plugin);
+    // ... wraps plugin->generate() / plugin->embed() via std::async
 };
 ```
 
@@ -572,16 +564,12 @@ LlmAqlHandler handler(backend);
 
 ---
 
-### v1.7.x → v1.8.x: Agent Framework
+### v1.7.x → v1.8.x: Agent Framework ✅ Done
 **Breaking Changes:** None (new interfaces)
 
-**Planned APIs:**
-```cpp
-// Async inference backend (target v1.8.0)
-class IAsyncLLMBackend { /* ... */ };
-// Multi-modal inference (target v1.8.0)
-struct MultiModalInferRequest { /* ... */ };
-```
+**Shipped APIs (v1.8.0):**
+- `IAsyncLLMBackend` + `ThreadPoolAsyncLLMBackend` (`include/aql/iasync_llm_backend.h`) – non-blocking async inference
+- `ModalityType`, `MultiModalInput`, `MultiModalInferRequest` (`include/aql/multimodal_infer_request.h`) – MIME-validated multi-modal requests
 
 ---
 
@@ -597,10 +585,10 @@ struct MultiModalInferRequest { /* ... */ };
 - [x] Implement streaming interface (`include/aql/aql_token_stream.h`, v1.7.0)
 - [ ] Add batch inference support
 - [ ] Create request builder pattern
-- [ ] Implement async interface
+- [x] Implement async interface (`include/aql/iasync_llm_backend.h`, v1.8.0)
 
 ### Advanced Topics
-- [ ] Design multi-modal interface
+- [x] Design multi-modal interface (`include/aql/multimodal_infer_request.h`, v1.8.0)
 - [x] Implement agent framework (`include/aql/aql_agent.h`, `src/aql/aql_agent.cpp`, v1.7.0)
 - [ ] Create fine-tuning interface
 - [ ] Add coroutine support

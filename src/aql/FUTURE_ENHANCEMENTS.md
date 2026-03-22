@@ -690,9 +690,9 @@ Support queries and documents in multiple languages:
 ### v1.7.x → v1.8.x: Agent Framework
 **Breaking Changes:** None (new features)
 
-**Planned Features (v1.8.0):**
-- Multi-modal agent inputs (image/audio via `MultiModalInferRequest`)
-- `IAsyncLLMBackend` non-blocking async interface
+**Shipped (v1.8.0):**
+- `MultiModalInferRequest` + `MultiModalInput` + `ModalityType` (`include/aql/multimodal_infer_request.h`) – MIME-validated multi-modal request extending `llm::InferenceRequest`
+- `IAsyncLLMBackend` + `ThreadPoolAsyncLLMBackend` (`include/aql/iasync_llm_backend.h`) – non-blocking async inference interface
 
 ---
 
@@ -714,7 +714,7 @@ Support queries and documents in multiple languages:
 - `[ ]` Fine-tuning pipeline integration
 - `[x]` Agent framework with tool calling (`include/aql/aql_agent.h`, `src/aql/aql_agent.cpp`, v1.7.0)
 - `[ ]` Speculative decoding
-- `[ ]` Multi-modal LLM support
+- `[x]` Multi-modal LLM support (`include/aql/multimodal_infer_request.h`, v1.8.0)
 - `[ ]` Distributed model sharding
 
 **Contribution Guide:** See [CONTRIBUTING.md](../../CONTRIBUTING.md)
@@ -738,6 +738,21 @@ Support queries and documents in multiple languages:
 - Tool executor exceptions are caught inside `invokeTool()` and returned as a JSON error object — they never propagate to `execute()` callers.
 - `Action Input:` is parsed as JSON; if parsing fails the raw string is wrapped as `{"input": "<raw>"}`.
 - `verbose = true` logs each reasoning step at `spdlog::debug` level.
+
+### MultiModalInferRequest (v1.8.0)
+- **Header-only** (`include/aql/multimodal_infer_request.h`); no `.cpp` file required.
+- `ModalityType` is a scoped enum with four values: `TEXT`, `IMAGE`, `AUDIO`, `VIDEO`.
+- `MultiModalInput::validate()` checks MIME type against per-modality allowlists stored as `static const std::unordered_set<std::string>` — O(1) lookup.
+- Empty binary payloads (`std::vector<uint8_t>{}`) for IMAGE/AUDIO/VIDEO are rejected with `std::invalid_argument`; file-path payloads are not checked for on-disk existence.
+- `MultiModalInferRequest::addInput()` calls `validate()` before appending to `inputs`, ensuring the vector never contains an invalid entry.
+- Extends `llm::InferenceRequest` so all existing inference parameters (prompt, model_id, temperature, stop_sequences, …) are available without duplication.
+
+### IAsyncLLMBackend (v1.8.0)
+- **Header-only** (`include/aql/iasync_llm_backend.h`); no `.cpp` file required.
+- `IAsyncLLMBackend` is a pure abstract class. New virtual methods may only be appended at the end of the vtable.
+- `ThreadPoolAsyncLLMBackend` wraps any `ILLMPlugin` and dispatches each call via `std::async(std::launch::async, …)`. Plugin exceptions are caught and returned as `Err<T>(ERR_UNKNOWN, message)` — they never propagate through the future.
+- `supportsMultiModal()` delegates to `ILLMPlugin::getCapabilities().supports_multimodal`.
+- `InferenceRequest` is copied into the `std::async` lambda to prevent dangling reference when the caller's request object is destroyed before the async task completes.
 
 ---
 

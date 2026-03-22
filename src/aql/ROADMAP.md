@@ -55,8 +55,8 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
   - Perf: tool dispatch overhead ≤ 1 ms per step excluding tool execution; no heap allocation in reasoning-step parsing hot path
 
 ### Long-term (6-12 months)
-- [ ] Multi-modal AQL agent inputs (image/audio/video via `MultiModalInferRequest`) (Target: v1.8.0)
-- [ ] `IAsyncLLMBackend` – non-blocking `std::future<Result<T>>` inference interface (Target: v1.8.0)
+- [x] Multi-modal AQL agent inputs (image/audio/video via `MultiModalInferRequest`) (Target: v1.8.0)
+- [x] `IAsyncLLMBackend` – non-blocking `std::future<Result<T>>` inference interface (Target: v1.8.0)
 
 ## Implementation Phases
 ### Phase 1: LLM-Assisted AQL Foundation (Status: Completed ✅)
@@ -86,11 +86,15 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
   - `include/aql/aql_agent.h` – `AgentTool`, `AgentConfig`, `ReasoningStep`, `AgentResult`, `IAgent`, `ReActAgent`
   - `src/aql/aql_agent.cpp` – Pimpl ReActAgent implementation
   - `tests/test_aql_agent.cpp` – 17 unit tests covering registration, config, execute, move semantics
-- [ ] Multi-modal agent inputs (image/audio/video) (Target: v1.8.0)
-- [ ] `IAsyncLLMBackend` async interface (Target: v1.8.0)
+- [x] Multi-modal agent inputs (image/audio/video) (Target: v1.8.0)
+  - `include/aql/multimodal_infer_request.h` – `ModalityType`, `MultiModalInput` (MIME-validated), `MultiModalInferRequest`
+  - `tests/test_aql_multimodal.cpp` – 28 unit tests covering construction, MIME validation, helpers
+- [x] `IAsyncLLMBackend` async interface (Target: v1.8.0)
+  - `include/aql/iasync_llm_backend.h` – pure abstract `IAsyncLLMBackend` + `ThreadPoolAsyncLLMBackend` adapter
+  - `tests/test_aql_async_backend.cpp` – 11 unit tests covering construction, async inference, error propagation
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (42 unit tests in few-shot library + 3 performance benchmarks + 7 integration tests + 13 injection tests + 1 highlighter path integration test in handler + 14 token-stream tests + 17 agent tests)
+- [x] Unit tests coverage > 80% (42 unit tests in few-shot library + 3 performance benchmarks + 7 integration tests + 13 injection tests + 1 highlighter path integration test in handler + 14 token-stream tests + 17 agent tests + 28 multimodal tests + 11 async-backend tests)
 - [x] Integration tests (handler ↔ highlighter path covered)
 - [x] Performance benchmarks (few-shot library: findRelevant/buildPromptSection timing tests added; AQLSyntaxHighlighter, AQLConfidenceScorer, and AQLFewShotExampleLibrary benchmarks implemented in `benchmarks/bench_hybrid_aql_sugar.cpp`, Issue: #1523)
 - [x] Security audit (prompt injection prevention via `sanitizePromptInput()` in `translateNLToAQL()`, `translateNLToAQLStreaming()`, and `translateNLToAQLWithExamples()`; AgentTool executor exceptions are caught and returned as JSON error objects)  
