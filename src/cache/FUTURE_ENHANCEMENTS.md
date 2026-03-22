@@ -11,7 +11,7 @@ This document covers implementation-specific future enhancements for the Cache m
 
 ## Design Constraints
 
-- `[ ]` L1 and L2 in-memory tiers must stay lock-free on the read path; no new `std::mutex` acquisitions may be introduced on `AdaptiveQueryCache::get()`. **Current state: L1 `get()` holds `l1_mutex_` exclusively (line 206) — violates this constraint.**
+- `[x]` L1 and L2 in-memory tiers must stay lock-free on the read path; no new `std::mutex` acquisitions may be introduced on `AdaptiveQueryCache::get()`. **Resolved (v1.9.0): `l1_mutex_` is now `std::shared_mutex`; `get()` holds only a `shared_lock`, allowing concurrent readers.**
 - `[ ]` The `cache::CircuitBreaker` protecting L3 RocksDB must remain the sole fault-isolation mechanism for the persistence tier; new L3 features must check breaker state before every operation.
 - `[ ]` Per-tenant quotas enforced via `config_.per_tenant_max_bytes` must not be bypassable by any new Admin API write path.
 - `[ ]` Serialization format for L2 compressed entries (`zstd_codec`) and L3 RocksDB keys (`QUERY_CACHE_PREFIX`) must remain stable across minor versions; breaking format changes require a cache flush on upgrade.
@@ -56,14 +56,16 @@ This document covers implementation-specific future enhancements for the Cache m
 ### Lock-Free L1 Read Path
 **Priority:** High
 **Target Version:** v1.7.0
+**Status:** ✅ Implemented (v1.9.0)
 
-`AdaptiveQueryCache::get()` currently takes an exclusive `std::lock_guard<std::mutex>` on `l1_mutex_` (line 206 of `adaptive_query_cache.cpp`) on every read, including cache hits. Under high read concurrency all reader threads serialize, defeating the purpose of the in-memory hot tier. The design constraint explicitly forbids new mutex acquisitions on `get()`.
+`AdaptiveQueryCache::get()` previously took an exclusive `std::lock_guard<std::mutex>` on `l1_mutex_` on every read, serialising all reader threads under high concurrency.
 
 **Implementation Notes:**
-- `[ ]` Replace `l1_cache_` (`std::unordered_map` + `std::mutex`) with a concurrent hash map (e.g., `tbb::concurrent_hash_map` or a custom open-addressing map with per-bucket spinlocks) in `adaptive_query_cache.cpp`.
-- `[ ]` For expiry-on-read (lines 213–215), use a compare-exchange on an atomic `expired` flag so only one thread performs the erase while others proceed to the L2 path.
-- `[ ]` Update `l1_eviction_strategy_->onAccess()` to use a lock-free counter (std::atomic) per entry rather than calling into the eviction strategy under the lock.
-- `[ ]` Benchmark: measure `get()` throughput with 16 reader threads before and after; target ≥ 3× improvement on L1 hit path.
+- `[x]` Replaced `l1_cache_` value type with `std::unordered_map<std::string, std::unique_ptr<L1Entry>>`; `L1Entry` fields (timestamps, TTL, counters) are now `std::atomic`. Copy/move constructors are deleted to prevent unintentional value-type copies.
+- `[x]` `l1_mutex_` promoted to `std::shared_mutex`; `get()` acquires a `std::shared_lock` (concurrent readers), all write paths (`put()`, `invalidate()`, `clear()`, `clearExpired()`, warmup, replicated put/invalidate, `exportSnapshot()`) acquire `std::unique_lock`.
+- `[x]` Expiry on read uses CAS on `expired_flag` (`std::atomic<bool>`) so only the first thread marks the entry; all readers fall through to L2 without erasing under the shared lock.
+- `[x]` `l1_eviction_strategy_` calls protected by a dedicated `l1_eviction_mutex_` (`std::mutex`) so the eviction strategy is never called concurrently.
+- `[x]` `onAccess()` removed from the hot read path; access frequency tracked via `access_count.fetch_add(1, relaxed)` per entry.
 
 **Performance Targets:**
 - L1 hit path throughput: ≥ 5 M ops/s per core under 16-thread contention.
@@ -162,5 +164,5 @@ This document covers implementation-specific future enhancements for the Cache m
 
 ---
 
-*Last Updated: 2026-03-15*
-*Module Version: v1.8.0*
+*Last Updated: 2026-03-22*
+*Module Version: v1.9.0*

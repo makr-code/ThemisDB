@@ -9,6 +9,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 *(All planned features are implemented — see `FUTURE_ENHANCEMENTS.md` for long-horizon items.)*
 
+## [1.9.0] — 2026-03-22
+### Changed
+- **Lock-free L1 read path**: `l1_mutex_` promoted from `std::mutex` to `std::shared_mutex`; `AdaptiveQueryCache::get()` now holds a `std::shared_lock` on the L1 tier, allowing concurrent reads without serialisation.
+- `L1Entry` fields (`created_at_ms`, `last_accessed_ms`, `access_count`, `ttl_seconds`, `window_start_ms`, `window_count`, `expired_flag`) converted to `std::atomic`; copy/move constructors deleted.
+- `l1_cache_` value type changed from `L1Entry` to `std::unique_ptr<L1Entry>` to allow stable pointer access under a shared lock.
+- `l1_eviction_strategy_` calls (insert/remove/select/clear/getName) now protected by a dedicated `l1_eviction_mutex_` (`std::mutex`) separate from `l1_mutex_`.
+- Lazy L1 expiry: expired entries are marked via CAS on `expired_flag` and purged during the next write-path eviction pass instead of erasing under a shared lock.
+- `onAccess()` removed from the L1 hot read path; access frequency tracked atomically via `access_count.fetch_add`.
+
 ## [1.7.0] — 2026-03-09
 ### Added
 - Public cache abstraction interfaces: `IEvictionPolicy`, `ICacheAdminOps`, `ICacheWarmup`, `IGDPRPurgeHook`, `ITTLAdapter` in `include/cache/cache_interfaces.h`

@@ -1124,12 +1124,17 @@ nlohmann::json AdaptiveQueryCache::getDetailedInfo() const {
     };
     
     {
-        std::lock_guard<std::mutex> lock(l1_mutex_);
+        std::shared_lock<std::shared_mutex> lock(l1_mutex_);
+        std::string eviction_name;
+        {
+            std::lock_guard<std::mutex> evl(l1_eviction_mutex_);
+            eviction_name = std::string(l1_eviction_strategy_->getName());
+        }
         info["l1"] = {
             {"entries", l1_cache_.size()},
             {"max_entries", config_.l1_max_entries},
             {"utilization", static_cast<double>(l1_cache_.size()) / config_.l1_max_entries},
-            {"eviction_policy", std::string(l1_eviction_strategy_->getName())}
+            {"eviction_policy", eviction_name}
         };
     }
     
@@ -1711,7 +1716,7 @@ std::vector<std::string> AdaptiveQueryCache::exportKeys(size_t max_keys) const {
     
     // Export L1 keys
     {
-        std::lock_guard<std::mutex> lock(l1_mutex_);
+        std::shared_lock<std::shared_mutex> lock(l1_mutex_);
         for (const auto& [key, entry] : l1_cache_) {
             if (keys.size() >= max_keys) break;
             keys.push_back("L1:" + key.substr(0, 16) + "...");
@@ -1817,10 +1822,13 @@ size_t AdaptiveQueryCache::invalidateTenant(const std::string& tenant_id) {
     
     // Invalidate L1
     {
-        std::lock_guard<std::mutex> lock(l1_mutex_);
+        std::unique_lock<std::shared_mutex> lock(l1_mutex_);
         for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {
             if (it->first.find(tenant_prefix) == 0) {
-                l1_eviction_strategy_->onRemove(it->first);
+                {
+                    std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);
+                    l1_eviction_strategy_->onRemove(it->first);
+                }
                 it = l1_cache_.erase(it);
                 count++;
             } else {
@@ -1943,11 +1951,14 @@ size_t AdaptiveQueryCache::invalidatePII(const std::string& pii_uuid) {
 
     if (!keys_to_purge.empty()) {
         {
-            std::lock_guard<std::mutex> lock(l1_mutex_);
+            std::unique_lock<std::shared_mutex> lock(l1_mutex_);
             for (const auto& k : keys_to_purge) {
                 auto it = l1_cache_.find(k);
                 if (it != l1_cache_.end()) {
-                    l1_eviction_strategy_->onRemove(it->first);
+                    {
+                        std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);
+                        l1_eviction_strategy_->onRemove(it->first);
+                    }
                     l1_cache_.erase(it);
                     count++;
                 }
@@ -2250,21 +2261,26 @@ AdaptiveQueryCache::warmupFromLog(const std::string& log_path, size_t max_entrie
                 continue;
             }
 
-            L1Entry entry;
-            entry.result          = std::move(value_json);
-            entry.created_at_ms   = getCurrentTimeMs();
-            entry.last_accessed_ms = entry.created_at_ms;
-            entry.access_count    = 0;
-            entry.ttl_seconds     = ttl_s;
+            auto l1_entry = std::make_unique<L1Entry>();
+            l1_entry->result = std::move(value_json);
+            int64_t insert_ms = getCurrentTimeMs();
+            l1_entry->created_at_ms.store(insert_ms, std::memory_order_relaxed);
+            l1_entry->last_accessed_ms.store(insert_ms, std::memory_order_relaxed);
+            l1_entry->access_count.store(0, std::memory_order_relaxed);
+            l1_entry->ttl_seconds.store(ttl_s, std::memory_order_relaxed);
+            l1_entry->window_start_ms.store(insert_ms, std::memory_order_relaxed);
+            l1_entry->window_count.store(0, std::memory_order_relaxed);
 
-            std::lock_guard<std::mutex> lock(l1_mutex_);
+            std::unique_lock<std::shared_mutex> lock(l1_mutex_);
             // Evict oldest L1 entry if at capacity
             if (l1_cache_.size() >= config_.l1_max_entries) {
                 evictLRU(CacheLevel::HOT);
             }
-            int64_t insert_ms = entry.created_at_ms;
-            l1_cache_[key] = std::move(entry);
-            l1_eviction_strategy_->onInsert(key, static_cast<uint64_t>(insert_ms));
+            l1_cache_[key] = std::move(l1_entry);
+            {
+                std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);
+                l1_eviction_strategy_->onInsert(key, static_cast<uint64_t>(insert_ms));
+            }
         }
 
         ++result.entries_loaded;
@@ -2309,9 +2325,11 @@ AdaptiveQueryCache::exportSnapshot(const std::string& out_path) const {
 
     // Export live L1 entries
     {
-        std::lock_guard<std::mutex> lock(l1_mutex_);
+        std::shared_lock<std::shared_mutex> lock(l1_mutex_);
         for (const auto& [key, entry] : l1_cache_) {
-            if (isExpired(entry.created_at_ms, entry.ttl_seconds)) continue;
+            int64_t created = entry->created_at_ms.load(std::memory_order_relaxed);
+            int ttl_sec     = entry->ttl_seconds.load(std::memory_order_relaxed);
+            if (isExpired(created, ttl_sec)) continue;
 
             // Derive fingerprint: strip tenant prefix if present
             std::string fp = key;
@@ -2320,11 +2338,11 @@ AdaptiveQueryCache::exportSnapshot(const std::string& out_path) const {
                 if (pos != std::string::npos) fp = fp.substr(pos + 1);
             }
 
-            int remaining_ttl = entry.ttl_seconds
-                - static_cast<int>((now_ms - entry.created_at_ms) / 1000);
+            int remaining_ttl = ttl_sec
+                - static_cast<int>((now_ms - created) / 1000);
             if (remaining_ttl <= 0) continue;
 
-            std::string value_str = entry.result.dump();
+            std::string value_str = entry->result.dump();
             std::string value_b64 = warmupBase64Encode(value_str);
 
             // Extract tenant from original key
@@ -2525,21 +2543,24 @@ void AdaptiveQueryCache::applyReplicatedEntry(const cache::ReplicationMessage& m
     int ttl_seconds = msg.ttl_seconds > 0 ? msg.ttl_seconds : config_.l1_ttl_seconds;
 
     if (result_size < config_.l1_max_entry_size) {
-        std::lock_guard<std::mutex> lock(l1_mutex_);
+        std::unique_lock<std::shared_mutex> lock(l1_mutex_);
         if (l1_cache_.count(key) == 0) {   // Don't overwrite a locally fresher entry
             if (l1_cache_.size() >= config_.l1_max_entries) {
                 evictLRU(CacheLevel::HOT);
             }
-            L1Entry entry;
-            entry.result           = msg.result;
-            entry.created_at_ms    = now_ms;
-            entry.last_accessed_ms = now_ms;
-            entry.access_count     = 0;
-            entry.ttl_seconds      = ttl_seconds;
-            entry.window_start_ms  = now_ms;
-            entry.window_count     = 0;
-            l1_cache_[key]         = std::move(entry);
-            l1_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
+            auto entry = std::make_unique<L1Entry>();
+            entry->result = msg.result;
+            entry->created_at_ms.store(now_ms, std::memory_order_relaxed);
+            entry->last_accessed_ms.store(now_ms, std::memory_order_relaxed);
+            entry->access_count.store(0, std::memory_order_relaxed);
+            entry->ttl_seconds.store(ttl_seconds, std::memory_order_relaxed);
+            entry->window_start_ms.store(now_ms, std::memory_order_relaxed);
+            entry->window_count.store(0, std::memory_order_relaxed);
+            l1_cache_[key] = std::move(entry);
+            {
+                std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);
+                l1_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
+            }
             enhanced_metrics_.total_bytes_cached += result_size;
         }
     } else if (result_size < config_.l2_max_entry_size) {
@@ -2576,10 +2597,13 @@ void AdaptiveQueryCache::applyReplicatedInvalidation(const cache::ReplicationMes
         std::regex re(pattern);
 
         {
-            std::lock_guard<std::mutex> lock(l1_mutex_);
+            std::unique_lock<std::shared_mutex> lock(l1_mutex_);
             for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {
                 if (std::regex_search(it->first, re)) {
-                    l1_eviction_strategy_->onRemove(it->first);
+                    {
+                        std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);
+                        l1_eviction_strategy_->onRemove(it->first);
+                    }
                     it = l1_cache_.erase(it);
                 } else {
                     ++it;
