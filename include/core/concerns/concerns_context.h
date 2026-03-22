@@ -38,6 +38,7 @@
 // via each of the four interface headers above; no direct include needed.
 #include <memory>
 #include <string>
+#include <map>
 #include <unordered_map>
 
 namespace themis {
@@ -124,6 +125,22 @@ public:
         /// Pre-populated flag values for the in-memory provider.
         /// Ignored when featureFlagsAdapter is "noop".
         std::unordered_map<std::string, bool> initialFeatureFlags;
+
+        // Secrets config
+        /// Which secrets adapter to use: "noop" (default), "inmemory", or "env".
+        /// "noop"     — NoOpSecrets; always returns nullopt (testing/minimal builds).
+        /// "inmemory" — InMemorySecrets; map-backed; pre-populate via initialSecrets.
+        /// "env"      — EnvSecretsProvider; reads from environment variables using
+        ///              secretsEnvPrefix as the variable prefix.
+        std::string secretsAdapter = "noop";
+        /// Pre-populated key-value pairs for the "inmemory" secrets provider.
+        /// Ignored when secretsAdapter is not "inmemory".
+        std::map<std::string, std::string> initialSecrets;
+        /// Environment-variable prefix used by the "env" secrets provider.
+        /// Default: "THEMIS_SECRET_".  The secret name is upper-cased and
+        /// dots/dashes are replaced with underscores before appending to this prefix.
+        /// Ignored when secretsAdapter is not "env".
+        std::string secretsEnvPrefix = "THEMIS_SECRET_";
 
         // Audit log config
         /// Which audit log adapter to use: "noop" (default) or "inmemory".

@@ -1,9 +1,9 @@
-<!-- Status: current | validated: 2026-03-12 -->
+<!-- Status: current | validated: 2026-03-22 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Core Module
 
-**Last Audit:** 2026-03-12  
+**Last Audit:** 2026-03-22  
 **Auditor:** Copilot  
 **Status:** ✅ Pass
 
@@ -13,9 +13,9 @@
 |--------|--------|
 | Build System Registration | ✅ Verified |
 | Source Files | 2 direct + 5 in subdirectories (`src/core/`, `core/adapters/`, `core/concerns/`) |
-| Test Coverage | ✅ Beta — core interfaces covered; plugin-based adapter loading pending |
-| Open TODOs | 7 files contain TODOs (secrets interface, plugin adapter loading) |
-| Open Stubs | 1 (secrets interface — partially implemented, Issue #1417) |
+| Test Coverage | ✅ Production — core interfaces covered; secrets providers (InMemorySecrets, EnvSecretsProvider) covered |
+| Open TODOs | 1 file contains TODO (plugin adapter loading, Issue #1706) |
+| Open Stubs | 0 |
 | Security Issues | None |
 
 ## Build System
@@ -48,6 +48,7 @@
 - Health check interface: live and ready aggregation
 - Dynamic log level adjustment
 - Feature flag interface
+- Secrets providers: InMemorySecrets (map-backed) and EnvSecretsProvider (env-var-backed)
 
 ## Findings
 
@@ -55,9 +56,9 @@
 - **Circuit breaker for OTLP exporter** — prevents trace export failures from blocking request processing.
 - **Trace correlation in logs** — `logWithTrace()` auto-injects trace/span/request IDs; no manual correlation needed.
 - **W3C TraceContext validation** — malformed `traceparent` values are silently ignored; no propagation of invalid trace contexts.
+- **Secrets interface** — `InMemorySecrets` and `EnvSecretsProvider` implemented; config-driven selection via `Config::secretsAdapter`; `ConfigValidator` extended; 30+ tests (Issue #1417).
 
 ### Open
-- **Secrets interface** — partially implemented; full `ISecrets` vault/environment injection planned (Issue #1417).
 - **Plugin-based adapter loading** — recompile required to change adapter implementations (Issue #1706).
 
 ## Compliance

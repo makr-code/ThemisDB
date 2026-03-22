@@ -57,6 +57,8 @@ on:
       - 'include/core/concerns/i_feature_flags.h'
       - 'include/core/concerns/i_circuit_breaker.h'
       - 'include/core/concerns/lifecycle.h'
+      - 'include/core/concerns/inmemory_secrets.h'
+      - 'include/core/concerns/i_secrets.h'
       - 'src/core/concerns/concerns_context.cpp'
       - 'scripts/license-server/**'
       - 'wordpress-plugins/themisdb-order-request/includes/class-license-api.php'
@@ -122,6 +124,8 @@ on:
       - 'include/core/concerns/i_feature_flags.h'
       - 'include/core/concerns/i_circuit_breaker.h'
       - 'include/core/concerns/lifecycle.h'
+      - 'include/core/concerns/inmemory_secrets.h'
+      - 'include/core/concerns/i_secrets.h'
       - 'src/core/concerns/concerns_context.cpp'
       - 'scripts/license-server/**'
       - 'wordpress-plugins/themisdb-order-request/includes/class-license-api.php'
@@ -310,7 +314,7 @@ jobs:
           set -o pipefail
           cd build
           ./tests/themis_tests \
-            --gtest_filter="ConcernsContextTest*:InMemoryFeatureFlagsTest*:NoOpFeatureFlagsTest*:NoOpCircuitBreakerTest*:MetricLabelsTest*:IContextTest*:IAsyncLoggerTest*:IAsyncCacheTest*:ContextPropagationTest*:ContextScopeTest*" \
+            --gtest_filter="ConcernsContextTest*:InMemoryFeatureFlagsTest*:NoOpFeatureFlagsTest*:NoOpCircuitBreakerTest*:MetricLabelsTest*:IContextTest*:IAsyncLoggerTest*:IAsyncCacheTest*:ContextPropagationTest*:ContextScopeTest*:ISecretsTest*:InMemorySecretsTest*:EnvSecretsProviderTest*:ConcernsContextSecretsConfigTest*:ConfigValidatorSecretsTest*" \
             --gtest_output="xml:concerns_results.xml" \
             2>&1 | tee concerns_output.txt
 
@@ -428,6 +432,8 @@ jobs:
           CORE_FILTER="${CORE_FILTER}:NoOpFeatureFlagsTest*:NoOpCircuitBreakerTest*"
           CORE_FILTER="${CORE_FILTER}:MetricLabelsTest*:IContextTest*:IAsyncLoggerTest*"
           CORE_FILTER="${CORE_FILTER}:IAsyncCacheTest*:ContextPropagationTest*:ContextScopeTest*"
+          CORE_FILTER="${CORE_FILTER}:ISecretsTest*:InMemorySecretsTest*:EnvSecretsProviderTest*"
+          CORE_FILTER="${CORE_FILTER}:ConcernsContextSecretsConfigTest*:ConfigValidatorSecretsTest*"
           CORE_FILTER="${CORE_FILTER}:PluginHealthMonitorTest*:PluginHealthMonitorSingleton*"
           # CCPA/CPRA data subject rights tests
           CCPA_FILTER="RightToKnow*:RightToDelete*:OptOutOfSale*:DataPortability*"

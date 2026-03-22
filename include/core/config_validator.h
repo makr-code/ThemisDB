@@ -210,6 +210,7 @@ public:
      * @param circuit_breaker_adapter  Value of Config::circuitBreakerAdapter
      * @param feature_flags_adapter    Value of Config::featureFlagsAdapter
      * @param audit_adapter            Value of Config::auditAdapter
+     * @param secrets_adapter          Value of Config::secretsAdapter
      */
     static ValidationResult validateAdapterConfig(
         const std::string& logger_adapter,
@@ -218,7 +219,8 @@ public:
         const std::string& cache_adapter,
         const std::string& circuit_breaker_adapter = "default",
         const std::string& feature_flags_adapter   = "inmemory",
-        const std::string& audit_adapter            = "noop")
+        const std::string& audit_adapter            = "noop",
+        const std::string& secrets_adapter          = "noop")
     {
         ValidationResult result;
 
@@ -229,6 +231,7 @@ public:
         const std::vector<std::string> valid_circuit_breaker_adapters = {"default", "noop"};
         const std::vector<std::string> valid_feature_flags_adapters   = {"inmemory", "noop"};
         const std::vector<std::string> valid_audit_adapters           = {"inmemory", "noop"};
+        const std::vector<std::string> valid_secrets_adapters         = {"noop", "inmemory", "env"};
 
         auto check = [&](const std::string& value,
                          const std::vector<std::string>& valid_values,
@@ -252,6 +255,7 @@ public:
         check(circuit_breaker_adapter, valid_circuit_breaker_adapters, "circuitBreakerAdapter");
         check(feature_flags_adapter,   valid_feature_flags_adapters,   "featureFlagsAdapter");
         check(audit_adapter,           valid_audit_adapters,           "auditAdapter");
+        check(secrets_adapter,         valid_secrets_adapters,         "secretsAdapter");
 
         return result;
     }
