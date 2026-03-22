@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-03-12 -->
+<!-- Status: current | validated: 2026-03-22 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog — Core Module
@@ -8,7 +8,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 - Plugin-based adapter loading without recompile (Issue #1706)
-- Secrets interface for credential injection into components (Issue #1417, partially complete)
+
+## [1.8.0] — 2026-03-22
+### Added
+- `InMemorySecrets`: thread-safe map-backed `ISecrets` implementation; pre-populated via `Config::initialSecrets`; `setSecret()`/`removeSecret()` for runtime updates; sorted `listSecretNames()` (Issue #1417)
+- `EnvSecretsProvider`: `ISecrets` implementation that reads credentials from environment variables using a configurable prefix (default `THEMIS_SECRET_`); dots and dashes in the secret name are mapped to underscores and the name is upper-cased; `registerName()` enables selective `listSecretNames()` enumeration (Issue #1417)
+- `ConcernsContext::Config::secretsAdapter`: selects which secrets provider `create(config)` instantiates — `"noop"` (default), `"inmemory"`, or `"env"` (Issue #1417)
+- `ConcernsContext::Config::initialSecrets`: pre-populated key-value pairs for the `"inmemory"` secrets provider (Issue #1417)
+- `ConcernsContext::Config::secretsEnvPrefix`: environment-variable prefix used by the `"env"` secrets provider; default `"THEMIS_SECRET_"` (Issue #1417)
+- `ConfigValidator::validateAdapterConfig()` extended with `secrets_adapter` parameter; validates against `{"noop", "inmemory", "env"}` (Issue #1417)
 
 ## [1.7.0] — 2026-03-09
 ### Added

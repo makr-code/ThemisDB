@@ -36,9 +36,10 @@ v1.x – Full lifecycle management for LLM prompt templates is production-ready.
 - [x] **Chain-of-thought prompt construction** – `ChainOfThoughtBuilder` with step delimiters, auto-numbering, zero-shot/few-shot/wrap helpers
 - [x] **RAG prompt builder** – `RAGPromptBuilder` with budget-aware chunk selection, source citations, template injection, and full-prompt assembly
 - [x] **System prompt manager** – `SystemPromptManager` with built-in and custom role support, context-variable rendering, and JSON serialisation
+- [x] **Context-window budget enforcement** – `ContextWindowBudgetManager` with pluggable `ITokenCounter`, `CharDivisionCounter` BPE approximation, greedy chunk selection, `PromptBudgetExceededError`, and utilisation callback
 
 ## In Progress 🚧
-- [?] Token counting and context-window budget enforcement (Target: Q2 2026)
+- [x] Token counting and context-window budget enforcement (Target: Q2 2026)
 
 ## Planned Features 📋
 
@@ -71,7 +72,7 @@ v1.x – Full lifecycle management for LLM prompt templates is production-ready.
 
 ### Phase 2: Typed DSL & Context Budget (Status: In Progress 🚧)
 - [?] Typed template DSL with compile-time placeholder validation (Target: Q2 2026)
-- [?] Context window budget manager – enforce token limits before dispatch (Target: Q2 2026)
+- [x] Context window budget manager – enforce token limits before dispatch (Target: Q2 2026)
 - [x] Prompt injection attack detection layer (Target: Q2 2026)
 - [x] Multi-modal prompt support (image descriptions alongside text) (Target: Q3 2026)
 
@@ -95,6 +96,7 @@ v1.x – Full lifecycle management for LLM prompt templates is production-ready.
 - [x] All prompt_engineering sources compiled in the build
 - [x] Prompt injection attack detection layer (`PromptInjectionDetector`)
 - [x] Chain-of-thought, RAG prompt builder, and system prompt manager implemented
+- [x] Context-window budget enforcement (`ContextWindowBudgetManager`) with pluggable token counter and `PromptBudgetExceededError`
 - [x] Unit tests coverage > 80%
 - [x] Integration tests (version control round-trip, A/B statistical significance)
 - [x] Performance benchmarks (optimization loop latency, concurrent access)

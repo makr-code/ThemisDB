@@ -16,6 +16,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Cassandra adapter (wide-column) — Issue #1641
 - Adapter-level connection pooling
 
+## [1.8.0] — 2026-03-22
+### Added
+- Async/Promise-Based API: `IAsyncDatabaseAdapter` with `execute_query_async()`, `batch_insert_async()`, `search_vectors_async()`, and `cancel_async()`; `ASYNC_OPERATIONS` capability flag; `ThemisDBAdapter` implements `IAsyncDatabaseAdapter` with thread-pool dispatch and cancellation token support (`database_adapter.hpp`, `themisdb_adapter.hpp`)
+- Batch Operation Enhancements: `BatchOptions` (chunk_size, stop_on_error, progress_callback, batch_callback) and `BatchResult` (total_processed, successful, failed, total_time, per-chunk results); default `batch_insert_advanced()` implementation in `IRelationalAdapter`; default `batch_insert_documents_advanced()` in `IDocumentAdapter` (`database_adapter.hpp`)
+- AdapterConfig validation: `AdapterConfig::validate()` (returns `Result<bool>`, checks connection string, pool_size, timeout_ms, use_tls), `get_validation_errors()` (returns all constraint violations), `parse_connection_string()` (decomposes URL into `ParsedConnectionString`) (`database_adapter.hpp`)
+- Error Recovery and Retry Logic: `RetryPolicy` (max_retries, initial_delay, backoff_multiplier, max_delay, is_transient predicate), `CircuitBreaker` (CLOSED/OPEN/HALF_OPEN state machine, configurable failure threshold and open timeout), `ConnectionWithRetry<T>` decorator template (`retry_policy.hpp`)
+- 14 focused test executables covering all features including `test_chimera_retry_policy`, `test_chimera_batch_operations`, `test_chimera_adapter_config_validation`, `test_chimera_async_api`
+
 ## [1.7.0] — 2026-03-09
 ### Added
 - Build system: all 9 adapters registered in `cmake/ChimeraAdapters.cmake` (unconditional — no LLM gate)

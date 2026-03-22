@@ -45,7 +45,9 @@
 
 #pragma once
 
+#include "analytics/cep_engine.h"
 #include "cdc/changefeed.h"
+#include "index/ann_index.h"
 #include "index/graph_index.h"
 #include "utils/expected.h"
 
@@ -132,6 +134,14 @@ struct RefreshPolicy {
     /// 0 = anomaly detection disabled.
     /// DE: Entfernungsrate, ab der ein Zyklus als anomal markiert wird.
     float anomaly_threshold_removal_rate{0.0f};
+
+    // ── ANN acceleration ──────────────────────────────────────────────────────
+    /// Minimum number of vertices in the graph for the engine to use an
+    /// attached ANN index instead of the O(V²) brute-force similarity scan
+    /// during candidate edge discovery.  Set to 0 to always use ANN when
+    /// an index has been attached via setANNIndex().
+    /// DE: Mindestanzahl an Knoten für ANN-beschleunigte Kandidatenerkennung.
+    size_t ann_min_vertices{10000};
 
     RefreshPolicy() = default;
 };
@@ -436,6 +446,55 @@ public:
      */
     void setChangefeed(std::shared_ptr<Changefeed> changefeed);
 
+    /**
+     * @brief Attach an ANN index for accelerated candidate edge discovery.
+     *
+     * When set and the vertex count during a refresh cycle exceeds
+     * `policy.ann_min_vertices`, the engine calls `ann_index->build()` with
+     * the current vertex embeddings and then uses `ann_index->search()` to
+     * find top-k nearest neighbours per vertex in O(V·log V) instead of the
+     * default O(V²) brute-force scan.
+     *
+     * The engine rebuilds the index at the start of each qualifying cycle.
+     * Set to nullptr to detach and revert to brute-force discovery.
+     *
+     * Thread-safe: may be called before or after start().
+     *
+     * DE: Registriert einen ANN-Index für beschleunigte Kantenkandidaten-Suche.
+     */
+    void setANNIndex(std::shared_ptr<index::IAnnIndex> ann_index);
+
+    /**
+     * @brief Register a callback for real-time CEP event emission.
+     *
+     * The callback is invoked after every successful batch commit, once for
+     * each edge mutation:
+     *   - Additions  → EventType::EDGE_CREATE, event_name = "EDGE_ADDED"
+     *   - Removals   → EventType::EDGE_DELETE, event_name = "EDGE_REMOVED"
+     *
+     * Each event carries the fields: edge_id, from_vertex (additions only),
+     * to_vertex (additions only), relevance_score (additions only), and
+     * cycle_number.
+     *
+     * No events are emitted when a cycle is aborted by the safety gate or
+     * when the batch commit fails.
+     *
+     * Pass an empty function to detach an existing callback.
+     *
+     * Typical production usage:
+     * @code
+     *   engine.setCEPEventCallback([](themisdb::analytics::Event ev) {
+     *       themisdb::analytics::CEPEngine::getInstance().submitEvent(std::move(ev));
+     *   });
+     * @endcode
+     *
+     * Thread-safe: may be called before or after start().
+     *
+     * DE: Registriert einen Callback für CEP-Echtzeit-Kantenmutationsereignisse.
+     */
+    void setCEPEventCallback(
+        std::function<void(themisdb::analytics::Event)> callback);
+
     // ── Scoring helpers (exposed for testability) ─────────────────────────────
 
     /**
@@ -510,12 +569,25 @@ private:
     /// Append an entry to the audit trail (evicts oldest if at capacity).
     void appendAudit(RefreshAuditEntry entry);
 
+    /// (Re-)build the ANN index from the current vertex set and their
+    /// embeddings.  Populates ann_vertex_to_idx_ and ann_idx_to_vertex_.
+    /// No-op when ann_index_ is nullptr or embedding_fn_ is not set.
+    void rebuildANNIndex(const std::vector<std::string>& vertices) const;
+
     // ── Data members ──────────────────────────────────────────────────────────
 
     GraphIndexManager& graph_mgr_;
     RefreshPolicy policy_;
     NodeEmbeddingProvider embedding_fn_;
     std::shared_ptr<Changefeed> changefeed_; ///< Optional – may be nullptr
+    std::shared_ptr<index::IAnnIndex> ann_index_; ///< Optional ANN index
+    std::function<void(themisdb::analytics::Event)> cep_event_callback_; ///< Optional CEP callback
+
+    // Vertex ↔ integer-ID mapping built by rebuildANNIndex().
+    // Protected by stats_mutex_ (rebuilt inside discoverCandidateEdges which
+    // is called only from runRefreshCycle which holds cycle_mutex_).
+    mutable std::unordered_map<std::string, int64_t> ann_vertex_to_idx_;
+    mutable std::vector<std::string>                  ann_idx_to_vertex_;
 
     mutable std::mutex policy_mutex_;   ///< Protects policy_ updates
     mutable std::mutex cycle_mutex_;    ///< Serialises concurrent triggerRefresh calls

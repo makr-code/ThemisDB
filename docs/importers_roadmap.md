@@ -1,59 +1,52 @@
 # Importers Module: Production-Readiness Assessment & Roadmap
 
-**Version:** 1.0
-**Last Updated:** 2026-02-20
+**Version:** 2.1
+**Last Updated:** 2026-03-21
 **Scope:** Importers module hardening, observability, and feature coverage
 
 ---
 
-## Current Status: Partially Production-Ready
+## Current Status: Production-Ready ✅ (v2.1 feature set)
 
-The importers module (`src/importers/`, `include/importers/`) provides a PostgreSQL
-`pg_dump` importer with basic DDL/DML/COPY parsing, schema mapping, and batch-import
-support.  The following gaps must be addressed before the module is suitable for all
-production workloads.
+The importers module (`src/importers/`, `include/importers/`) is production-ready across
+all supported connectors (PostgreSQL v2.1, MySQL/MariaDB, MongoDB, SQLite, Oracle, Kafka,
+S3, flat files).  All gaps identified in the original assessment have been addressed.
+Advanced capabilities added through v2.1 include MDM entity deduplication, adaptive import
+optimization, data quality assessment, CRDT-based import, and a GUI import wizard.
+
+> **Note:** "Production-Ready" applies to the v2.1 feature set documented here.
+> Additional features remain planned for future versions (Microsoft SQL Server importer,
+> FedProx aggregation, Ethereum blockchain anchor, quantum-safe cryptography, and
+> Zero-Knowledge Proofs). See [`src/importers/ROADMAP.md`](../src/importers/ROADMAP.md)
+> for the full feature roadmap.
+
+For detailed architecture information, see [`src/importers/ARCHITECTURE.md`](../src/importers/ARCHITECTURE.md).
 
 ---
 
-## Key Gaps Identified
+## Previously Identified Gaps — All Resolved ✅
 
-### Functional / Architecture
+The following gaps were identified in v1.0 (2026-02-20) and have since been resolved:
 
-- **SQL parsing via regex/heuristics** – `parseCreateTable`, `parseInsert`, and the
-  `COPY` header are parsed with regular expressions.  Complex DDL (nested parentheses,
-  default expressions with sub-selects, quoted identifiers, domain types, partitioned
-  tables) and certain DML corner-cases are not handled correctly.
-- **No streaming / checkpoint support** – The entire dump is processed in a single
-  pass.  Very large files (>1 GB) block the caller and cannot be resumed after a
-  partial failure.
-- **No multi-threading / async import** – Import is single-threaded.  No API exists
-  for live progress streaming to callers while the import is running.
-- **Type mapping incomplete** – Array types (`integer[]`, `text[]`), `jsonb`, `inet`,
-  `cidr`, `macaddr`, `money`, `interval`, `xml`, and PostGIS geometry types had no
-  dedicated mapping rules.  User-configurable overrides were also missing.
-- **No input validation beyond file header check** – Malformed rows, encoding issues,
-  or unexpectedly large values can cause silent data loss.
-
-### Observability / Error Handling
-
-- **No structured error surface** – Errors were appended to a plain `vector<string>`.
-  Callers could not programmatically distinguish parse errors from I/O errors or
-  data-conversion errors.
-- **No Prometheus / OpenTelemetry metrics** – Throughput, latency, error rates, and
-  per-table import counts are not exported.
-- **No monitoring / recovery API** – There is no way to query import progress, retry
-  failed batches, or quarantine problematic rows.
-
-### Testing
-
-- **No integration tests for COPY parsing** – The original `parseCopy` contained a
-  `TODO` comment and did not parse tab-separated values.
-- **No tests for INSERT VALUES parsing** – `parseInsert` similarly contained a `TODO`
-  and never extracted row data.
-- **No fuzz tests or chaos tests** – Corrupt dumps, truncated files, and encoding
-  edge-cases are untested.
-- **No cross-version CI** – PostgreSQL dump formats differ between versions 9.x, 12,
-  14, 15, and 16.  No test matrix covers version variants.
+| Gap | Resolution | Version |
+|-----|-----------|---------|
+| SQL parsing via regex/heuristics | Hardened DDL/DML/COPY parser with full PG 12–16 support | v1.1–v1.3 |
+| No streaming / checkpoint support | `ImportOptions::checkpoint_file` with byte-offset resume | v1.2 |
+| No multi-threading / async import | Parallel table import; streaming `ProgressCallback` | v1.2 |
+| Type mapping incomplete | Full type table: `jsonb`, arrays, `inet`, `money`, `interval`, PostGIS | v1.1 |
+| No input validation | `max_row_size_bytes`, `max_statement_size_bytes`, `enforce_utf8` | v1.3 |
+| No structured error surface | `ImportErrorCode` enum + `ImportError` struct + `toJson()` | v1.1 |
+| No Prometheus/OTel metrics | `ImportOptions::metrics_callback` with label support | v1.4 |
+| No monitoring / recovery API | `ImportStats`, `structured_errors`, progress events | v1.2 |
+| No COPY/INSERT integration tests | `test_postgres_importer_integration.cpp` (15 cases) | v1.2 |
+| No fuzz / chaos tests | `test_postgres_importer_chaos.cpp` (25+ cases); AFL++ harness | v1.3 |
+| No cross-version CI | PG 12, PG 14, PG 15, PG 16 fixture matrix | v1.3 |
+| No MySQL connector | `mysql_importer.cpp` production-ready | v1.4 |
+| No MongoDB connector | `mongo_importer.cpp` production-ready | v1.4 |
+| No Kafka connector | `kafka_importer.cpp` (JSON, Avro, plaintext) | v1.5 |
+| No S3 connector | `s3_importer.cpp` (multi-part, checksum) | v1.5 |
+| No flat-file importer | `flatfile_importer.cpp` (CSV/TSV/Parquet/NDJSON) | v1.5 |
+| No conflict resolution | `conflict_resolver.cpp` (SKIP, OVERWRITE, MERGE, ERROR) | v1.5 |
 
 ---
 

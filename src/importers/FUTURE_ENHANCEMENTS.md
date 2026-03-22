@@ -33,10 +33,10 @@ This document covers planned enhancements to the Importers module beyond what is
 ### MySQL / MariaDB Importer
 **Priority:** High
 **Target Version:** v1.8.0
-**Status:** `src/importers/mysql_importer.cpp` exists but needs verification that it is fully wired.
+**Status:** ✅ Implemented (`src/importers/mysql_importer.cpp`)
 
 **Implementation Notes:**
-- `[ ]` Verify `mysql_importer.cpp` registers with `ImporterRegistry` and is reachable from the admin import API.
+- `[x]` `mysql_importer.cpp` registers with `ImporterRegistry` and is reachable from the admin import API.
 - `[x]` Add Prometheus counters `importers_mysql_rows_imported_total` and `importers_mysql_errors_total` consistent with other importer naming.
 - `[x]` Add integration test using a Docker MySQL 8.0 container.
 

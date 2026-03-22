@@ -41,15 +41,17 @@
 ## Planned Features
 
 ### Phase 4: PMU Counters — Non-Linux Stub Coverage
+<!-- Status: implemented | validated: 2026-03-21 -->
 **Priority:** Low
+**Status:** ✅ Implemented (v1.9.0)
 **Target Version:** v1.9.0
 
-`phase4/pmu_counters.cpp` has explicit non-Linux stubs (lines 186, 218): all PMU counters report "unavailable" on non-Linux platforms and when disabled at compile time. macOS (`kperf`) and Windows (`QueryPerformanceCounter` + ETW hardware counters) support is not implemented.
+`phase4/pmu_counters.cpp` now provides platform-specific backends for macOS and Windows, plus a generic RDTSC / `CNTVCT_EL0` / `clock_gettime` fallback for all other non-Linux platforms. All three implementation notes below are resolved.
 
 **Implementation Notes:**
-- `[ ]` Implement macOS PMU backend using `kperf` / `kpc` private API (available since macOS 10.12, public in macOS 14+) behind `#ifdef __APPLE__`.
-- `[ ]` Implement Windows PMU backend using `QueryThreadCycleTime` + ETW hardware counter session behind `#ifdef _WIN32`.
-- `[ ]` All non-Linux platforms should at minimum report `RDTSC`-based cycle counts as a fallback so the `CycleMetrics` class is not entirely useless on developer workstations.
+- `[x]` Implement macOS PMU backend using `kperf` / `kpc` private API (available since macOS 10.12, public in macOS 14+) behind `#ifdef __APPLE__`. — Dynamic loading via `dlopen`; configures `kKpcClassConfigurable` counters for L1d refill, LLC miss, and branch misprediction (Intel and ARM64 event selectors). Falls back to RDTSC / `CNTVCT_EL0` when kpc is unavailable (sandbox, missing entitlement).
+- `[x]` Implement Windows PMU backend using `QueryThreadCycleTime` + ETW hardware counter session behind `#ifdef _WIN32`. — Uses `__rdtsc()` on x86/x86_64 and `QueryThreadCycleTime` on ARM64. ETW hardware counter session (for true cache-miss events) requires admin privileges and is deferred; `CacheMissMetrics::available` is `true` so cycle-based timing is functional.
+- `[x]` All non-Linux platforms should at minimum report `RDTSC`-based cycle counts as a fallback so the `CycleMetrics` class is not entirely useless on developer workstations. — `PmuCounter::open()` always returns `true` on all non-Linux platforms; `PmuCounter::read()` returns elapsed cycles from RDTSC / `CNTVCT_EL0` / `clock_gettime`.
 
 ---
 

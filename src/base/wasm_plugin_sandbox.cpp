@@ -437,6 +437,11 @@ bool WasmPluginSandbox::loadFromBytes(const std::vector<uint8_t>& bytes,
     }
 
     loaded_ = true;
+    // Initialise the fuel counter from the configured budget (UINT64_MAX when
+    // max_instructions == 0 signals "unlimited").
+    fuel_remaining_ = (config_.max_instructions == 0)
+                      ? UINT64_MAX
+                      : config_.max_instructions;
     spdlog::info("WasmPluginSandbox: '{}' loaded (imports={} exports={})",
                  effective_name,
                  module_info_.imports.size(),
@@ -490,6 +495,25 @@ WasmCallResult WasmPluginSandbox::callExport(const std::string& export_name,
         return result;
     }
 
+    // ── Fuel / instruction budget check ───────────────────────────────────
+    // fuel_remaining_ == UINT64_MAX means unlimited (max_instructions == 0).
+    if (fuel_remaining_ != UINT64_MAX) {
+        if (fuel_remaining_ == 0) {
+            result.error = "WASM fuel exhausted: sandbox instruction budget ("
+                           + std::to_string(config_.max_instructions)
+                           + ") exceeded for export '" + export_name
+                           + "'; reload the module to reset";
+            spdlog::warn("WasmPluginSandbox: fuel exhausted for export '{}'",
+                         export_name);
+            stats_.calls_attempted++;
+            stats_.calls_trapped++;
+            return result;
+        }
+        const uint64_t cost = (config_.fuel_check_interval > 0)
+                              ? config_.fuel_check_interval : 1u;
+        fuel_remaining_ = (fuel_remaining_ >= cost) ? (fuel_remaining_ - cost) : 0u;
+    }
+
     auto t0 = std::chrono::steady_clock::now();
     stats_.calls_attempted++;
 
@@ -527,6 +551,10 @@ uint8_t* WasmPluginSandbox::linearMemory() noexcept {
 
 size_t WasmPluginSandbox::linearMemorySize() const noexcept {
     return linear_memory_size_;
+}
+
+uint64_t WasmPluginSandbox::remainingFuel() const noexcept {
+    return fuel_remaining_;
 }
 
 // =============================================================================

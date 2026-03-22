@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-03-12 -->
+<!-- Status: current | validated: 2026-03-21 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog — Network Module
@@ -8,6 +8,18 @@
 - Integration tests for TLS + WebSocket
 - Performance benchmarks for all transports
 - IPv6 CIDR policies in ZeroTrustPolicyEnforcer
+- Full distributed multi-node Raft consensus for RaftLoadBalancer
+
+---
+
+## [1.8.0] — Performance Optimizations, UDP Ingestion, and Raft Load Balancing
+### Added
+- **Wire protocol batch writes** (`wire_protocol_batch.cpp`): `WireProtocolBatcher` coalesces outbound frames via `writev(2)`; `NagleController` manages `TCP_CORK`/`TCP_NOPUSH` per socket; ~10× syscall reduction for small-message workloads
+- **Zero-copy serialization** (`wire_protocol_zero_copy.cpp`): `ZeroCopyFrameBuilder` writes header + payload in a single `writev(2)` without heap allocation; `MemoryMappedPayload` enables true zero-copy for file-backed payloads via mmap/sendfile
+- **Dictionary-trained Zstd compression** (`connection_compression.cpp`): `ZstdDictionaryCompressor` trains on representative samples and reuses the dictionary for all subsequent compress/decompress calls; falls back to generic Zstd on training failure
+- **UDP ingestion server** (`udp_server.cpp`, port 8768): fire-and-forget transport for metrics, logs, events, and batched payloads; optional ACK with sequence-number deduplication; opcodes: `METRIC`, `LOG`, `EVENT`, `BATCH`, `PING`
+- **Raft-coordinated load balancer** (`raft_load_balancer.cpp`, port 8774): five routing strategies (`ROUND_ROBIN`, `LEAST_CONNECTIONS`, `WEIGHTED_ROUND_ROBIN`, `HEALTH_BASED`, `CONSISTENT_HASH`); automatic health-based failover; cross-datacenter affinity; `Stats` counters for Prometheus
+- Focused unit tests: `test_wire_protocol_optimizations.cpp` (39 tests), `test_udp_server.cpp` (59 tests), `test_raft_load_balancer.cpp` (26 tests)
 
 ---
 

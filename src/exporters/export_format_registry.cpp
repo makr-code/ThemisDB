@@ -29,6 +29,7 @@
 #include "exporters/huggingface_exporter.h"
 #include "exporters/streaming_exporter.h"
 #include "exporters/incremental_exporter.h"
+#include "exporters/join_exporter.h"
 #include "exporters/format_template.h"
 
 #include <nlohmann/json.hpp>
@@ -102,6 +103,10 @@ void ExportFormatRegistry::registerBuiltins() {
 
     // Incremental / delta export
     registerFormat("incremental", []() -> std::unique_ptr<IExporter> { return std::make_unique<IncrementalExporter>(); });
+
+    // Cross-collection join export (Issue #1722)
+    registerFormat("join",       []() -> std::unique_ptr<IExporter> { return std::make_unique<JoinExporter>(); });
+    registerFormat("join_jsonl", []() -> std::unique_ptr<IExporter> { return std::make_unique<JoinExporter>(); });
 
     // Instruction-tuning template shortcuts
     registerFormat("jsonl_alpaca", []() -> std::unique_ptr<IExporter> {

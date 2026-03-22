@@ -28,6 +28,7 @@
 #include "core/concerns/noop_implementations.h"
 #include "core/concerns/spdlog_logger_adapter.h"
 #include "core/concerns/inmemory_cache_impl.h"
+#include "core/concerns/inmemory_secrets.h"
 #include "core/concerns/lifecycle.h"
 #include "core/concerns/metric_labels.h"
 #include "core/concerns/i_context.h"
@@ -1122,7 +1123,275 @@ TEST_F(ConcernsContextTest, UnhealthySecretsMarksContextUnhealthy) {
     EXPECT_FALSE(status.isHealthy());
 }
 
-// ===== InMemoryFeatureFlags Tests =====
+// ===== InMemorySecrets Tests =====
+
+TEST(InMemorySecretsTest, DefaultConstructorIsEmpty) {
+    InMemorySecrets s;
+    EXPECT_FALSE(s.hasSecret("any"));
+    EXPECT_FALSE(s.getSecret("any").has_value());
+    EXPECT_TRUE(s.listSecretNames().empty());
+    EXPECT_EQ(0u, s.size());
+}
+
+TEST(InMemorySecretsTest, ConstructWithInitialMap) {
+    InMemorySecrets s({{ "db.password", "hunter2" }, { "api.key", "sk-test" }});
+    ASSERT_TRUE(s.hasSecret("db.password"));
+    EXPECT_EQ("hunter2", s.getSecret("db.password").value());
+    ASSERT_TRUE(s.hasSecret("api.key"));
+    EXPECT_EQ("sk-test", s.getSecret("api.key").value());
+    EXPECT_FALSE(s.hasSecret("missing"));
+    EXPECT_EQ(2u, s.size());
+}
+
+TEST(InMemorySecretsTest, SetSecretAddsEntry) {
+    InMemorySecrets s;
+    s.setSecret("db.password", "secret123");
+    ASSERT_TRUE(s.hasSecret("db.password"));
+    EXPECT_EQ("secret123", s.getSecret("db.password").value());
+}
+
+TEST(InMemorySecretsTest, SetSecretOverwritesExistingValue) {
+    InMemorySecrets s({{"key", "old"}});
+    s.setSecret("key", "new");
+    EXPECT_EQ("new", s.getSecret("key").value());
+}
+
+TEST(InMemorySecretsTest, RemoveSecretDeletesEntry) {
+    InMemorySecrets s({{"key", "value"}});
+    ASSERT_TRUE(s.removeSecret("key"));
+    EXPECT_FALSE(s.hasSecret("key"));
+    EXPECT_EQ(0u, s.size());
+}
+
+TEST(InMemorySecretsTest, RemoveSecretOnMissingReturnsFalse) {
+    InMemorySecrets s;
+    EXPECT_FALSE(s.removeSecret("nonexistent"));
+}
+
+TEST(InMemorySecretsTest, ListSecretNamesReturnsSortedKeys) {
+    InMemorySecrets s({{"zebra", "z"}, {"alpha", "a"}, {"mango", "m"}});
+    auto names = s.listSecretNames();
+    ASSERT_EQ(3u, names.size());
+    EXPECT_EQ("alpha", names[0]);
+    EXPECT_EQ("mango", names[1]);
+    EXPECT_EQ("zebra", names[2]);
+}
+
+TEST(InMemorySecretsTest, GetSecretOnMissingKeyReturnsNullopt) {
+    InMemorySecrets s({{"key", "value"}});
+    EXPECT_FALSE(s.getSecret("not-present").has_value());
+}
+
+TEST(InMemorySecretsTest, LifecycleDoesNotCrash) {
+    InMemorySecrets s;
+    EXPECT_NO_THROW(s.flush());
+    EXPECT_NO_THROW(s.shutdown());
+}
+
+TEST(InMemorySecretsTest, IsHealthy) {
+    InMemorySecrets s;
+    EXPECT_TRUE(s.isHealthy().ok);
+}
+
+TEST(InMemorySecretsTest, ThreadSafeSetAndGet) {
+    InMemorySecrets s;
+    constexpr int kThreads = 8;
+    constexpr int kOps = 200;
+    std::vector<std::thread> threads;
+    threads.reserve(kThreads);
+    for (int t = 0; t < kThreads; ++t) {
+        threads.emplace_back([&s, t]() {
+            for (int i = 0; i < kOps; ++i) {
+                const std::string key = "secret." + std::to_string(t) + "." + std::to_string(i);
+                s.setSecret(key, "val");
+                s.hasSecret(key);
+                s.getSecret(key);
+            }
+        });
+    }
+    for (auto& th : threads) th.join();
+    EXPECT_EQ(static_cast<size_t>(kThreads * kOps), s.size());
+}
+
+// ===== EnvSecretsProvider Tests =====
+
+TEST(EnvSecretsProviderTest, DefaultPrefixIsThemisSecret) {
+    EnvSecretsProvider p;
+    EXPECT_EQ("THEMIS_SECRET_TEST", p.envKeyFor("test"));
+}
+
+TEST(EnvSecretsProviderTest, CustomPrefix) {
+    EnvSecretsProvider p("MY_APP_");
+    EXPECT_EQ("MY_APP_DB_PASSWORD", p.envKeyFor("db.password"));
+}
+
+TEST(EnvSecretsProviderTest, DotReplacedWithUnderscore) {
+    EnvSecretsProvider p("PREFIX_");
+    EXPECT_EQ("PREFIX_API_KEY_STRIPE", p.envKeyFor("api.key.stripe"));
+}
+
+TEST(EnvSecretsProviderTest, DashReplacedWithUnderscore) {
+    EnvSecretsProvider p("P_");
+    EXPECT_EQ("P_REDIS_URL", p.envKeyFor("redis-url"));
+}
+
+TEST(EnvSecretsProviderTest, GetSecretReadsEnvVar) {
+    // Set an env var and verify it is read back
+#if defined(_WIN32)
+    _putenv_s("THEMIS_SECRET_TEST_VAL", "my_secret");
+#else
+    ::setenv("THEMIS_SECRET_TEST_VAL", "my_secret", 1);
+#endif
+    EnvSecretsProvider p;
+    auto val = p.getSecret("test.val");
+    ASSERT_TRUE(val.has_value());
+    EXPECT_EQ("my_secret", val.value());
+#if defined(_WIN32)
+    _putenv_s("THEMIS_SECRET_TEST_VAL", "");
+#else
+    ::unsetenv("THEMIS_SECRET_TEST_VAL");
+#endif
+}
+
+TEST(EnvSecretsProviderTest, HasSecretReturnsFalseWhenEnvVarAbsent) {
+    EnvSecretsProvider p;
+    // Use a name that is unlikely to exist in the environment
+    EXPECT_FALSE(p.hasSecret("nonexistent.secret.x9z"));
+}
+
+TEST(EnvSecretsProviderTest, ListSecretNamesOnlyReturnsRegisteredAvailableNames) {
+#if defined(_WIN32)
+    _putenv_s("THEMIS_SECRET_DB_PASSWORD", "pw123");
+#else
+    ::setenv("THEMIS_SECRET_DB_PASSWORD", "pw123", 1);
+#endif
+
+    EnvSecretsProvider p;
+    p.registerName("db.password");           // present in env
+    p.registerName("missing.secret.xyz789"); // absent from env
+
+    auto names = p.listSecretNames();
+    ASSERT_EQ(1u, names.size());
+    EXPECT_EQ("db.password", names[0]);
+
+#if defined(_WIN32)
+    _putenv_s("THEMIS_SECRET_DB_PASSWORD", "");
+#else
+    ::unsetenv("THEMIS_SECRET_DB_PASSWORD");
+#endif
+}
+
+TEST(EnvSecretsProviderTest, LifecycleDoesNotCrash) {
+    EnvSecretsProvider p;
+    EXPECT_NO_THROW(p.flush());
+    EXPECT_NO_THROW(p.shutdown());
+}
+
+TEST(EnvSecretsProviderTest, IsHealthy) {
+    EnvSecretsProvider p;
+    EXPECT_TRUE(p.isHealthy().ok);
+}
+
+// ===== Config-driven secrets adapter selection Tests =====
+
+TEST(ConcernsContextSecretsConfigTest, NoopAdapterByDefault) {
+    // The default secretsAdapter is "noop" — no env var needed
+    ConcernsContext::Config cfg;
+    cfg.loggerAdapter  = "noop";
+    cfg.tracerAdapter  = "noop";
+    cfg.metricsAdapter = "noop";
+    cfg.cacheAdapter   = "noop";
+    cfg.circuitBreakerAdapter = "noop";
+    cfg.featureFlagsAdapter   = "noop";
+    cfg.auditAdapter = "noop";
+    // secretsAdapter defaults to "noop"
+    auto ctx = ConcernsContext::create(cfg);
+    EXPECT_FALSE(ctx->secrets().hasSecret("anything"));
+}
+
+TEST(ConcernsContextSecretsConfigTest, InMemoryAdapterPrePopulated) {
+    ConcernsContext::Config cfg;
+    cfg.loggerAdapter  = "noop";
+    cfg.tracerAdapter  = "noop";
+    cfg.metricsAdapter = "noop";
+    cfg.cacheAdapter   = "noop";
+    cfg.circuitBreakerAdapter = "noop";
+    cfg.featureFlagsAdapter   = "noop";
+    cfg.auditAdapter = "noop";
+    cfg.secretsAdapter = "inmemory";
+    cfg.initialSecrets = {{"db.password", "s3cr3t"}, {"api.key", "abc123"}};
+
+    auto ctx = ConcernsContext::create(cfg);
+    ASSERT_TRUE(ctx->secrets().hasSecret("db.password"));
+    EXPECT_EQ("s3cr3t", ctx->secrets().getSecret("db.password").value());
+    ASSERT_TRUE(ctx->secrets().hasSecret("api.key"));
+    EXPECT_EQ("abc123", ctx->secrets().getSecret("api.key").value());
+    EXPECT_FALSE(ctx->secrets().hasSecret("unknown"));
+}
+
+TEST(ConcernsContextSecretsConfigTest, EnvAdapterReadsEnvironmentVariable) {
+#if defined(_WIN32)
+    _putenv_s("MYAPP_DB_PASSWORD", "envpw");
+#else
+    ::setenv("MYAPP_DB_PASSWORD", "envpw", 1);
+#endif
+
+    ConcernsContext::Config cfg;
+    cfg.loggerAdapter  = "noop";
+    cfg.tracerAdapter  = "noop";
+    cfg.metricsAdapter = "noop";
+    cfg.cacheAdapter   = "noop";
+    cfg.circuitBreakerAdapter = "noop";
+    cfg.featureFlagsAdapter   = "noop";
+    cfg.auditAdapter = "noop";
+    cfg.secretsAdapter   = "env";
+    cfg.secretsEnvPrefix = "MYAPP_";
+
+    auto ctx = ConcernsContext::create(cfg);
+    ASSERT_TRUE(ctx->secrets().hasSecret("db.password"));
+    EXPECT_EQ("envpw", ctx->secrets().getSecret("db.password").value());
+
+#if defined(_WIN32)
+    _putenv_s("MYAPP_DB_PASSWORD", "");
+#else
+    ::unsetenv("MYAPP_DB_PASSWORD");
+#endif
+}
+
+TEST(ConcernsContextSecretsConfigTest, InvalidSecretsAdapterThrows) {
+    ConcernsContext::Config cfg;
+    cfg.loggerAdapter  = "noop";
+    cfg.tracerAdapter  = "noop";
+    cfg.metricsAdapter = "noop";
+    cfg.cacheAdapter   = "noop";
+    cfg.secretsAdapter = "unknown_adapter";
+    EXPECT_THROW(ConcernsContext::create(cfg), std::runtime_error);
+}
+
+// ===== ConfigValidator secretsAdapter Tests =====
+
+TEST(ConfigValidatorSecretsTest, ValidSecretsAdaptersPass) {
+    for (const auto& adapter : std::vector<std::string>{"noop", "inmemory", "env"}) {
+        auto result = ConfigValidator::validateAdapterConfig(
+            "noop", "", "", "noop", "noop", "noop", "noop", adapter);
+        EXPECT_TRUE(result.valid) << "Expected valid for secretsAdapter=" << adapter;
+    }
+}
+
+TEST(ConfigValidatorSecretsTest, InvalidSecretsAdapterFails) {
+    auto result = ConfigValidator::validateAdapterConfig(
+        "noop", "", "", "noop", "noop", "noop", "noop", "vault");
+    EXPECT_FALSE(result.valid);
+    ASSERT_FALSE(result.errors.empty());
+    EXPECT_NE(std::string::npos, result.errors[0].find("secretsAdapter"));
+}
+
+TEST(ConfigValidatorSecretsTest, DefaultSecretsAdapterIsNoop) {
+    // When 8th argument is omitted it defaults to "noop" — must pass validation
+    auto result = ConfigValidator::validateAdapterConfig(
+        "noop", "", "", "noop", "noop", "noop", "noop");
+    EXPECT_TRUE(result.valid);
+}
 
 TEST(InMemoryFeatureFlagsTest, UnknownFlagIsDisabledByDefault) {
     InMemoryFeatureFlags flags;

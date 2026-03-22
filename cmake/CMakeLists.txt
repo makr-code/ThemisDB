@@ -1613,6 +1613,7 @@ set(THEMIS_CORE_SOURCES
     ../src/prompt_engineering/chain_of_thought.cpp
     ../src/prompt_engineering/rag_prompt_builder.cpp
     ../src/prompt_engineering/system_prompt_manager.cpp
+    ../src/prompt_engineering/context_window_manager.cpp
     
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/transaction_api_handler.cpp>
@@ -2239,6 +2240,10 @@ set(THEMIS_CORE_SOURCES
     ../src/observability/advanced_metrics.cpp
     # Observability: OpenTelemetry Full Integration (v1.6.0)
     ../src/observability/opentelemetry_tracer.cpp
+    # Observability: ML-based anomaly detection on metrics time-series (v1.7.0, Issue #2097)
+    ../src/observability/ml_anomaly_detector.cpp
+    # Observability: automated root cause identification for performance issues (v1.7.0, Issue #84)
+    ../src/observability/root_cause_analyzer.cpp
 
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
