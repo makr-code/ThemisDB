@@ -30,7 +30,7 @@
 
 ---
 
-## Befund 2 – Security-Audit ausstehend
+## Befund 2 – Security-Audit ✅ Behoben (v1.6.0)
 
 | Feld | Inhalt |
 |------|--------|
@@ -40,8 +40,8 @@
 | **Beobachtet** | Keine Audit-Ergebnisse im Repository; SchemaApiHandler prüft HTTP-Auth, aber kein formales Security-Review belegt |
 | **Geprüfte Pfade** | `src/server/schema_api_handler.cpp`, `include/metadata/schema_audit_log.h`, `docs/de/metadata/` |
 | **Evidence** | ROADMAP Production Readiness Checklist: `[?] Security audit` |
-| **Issue-Titelvorschlag** | `security(metadata): conduct access control and information disclosure audit (closes v1.6.0 target)` |
-| **Label-Vorschläge** | `security`, `metadata`, `audit` |
+| **Status** | ✅ **Behoben in v1.6.0** – `IMetadataSecurityProvider`-Interface eingeführt (`include/metadata/imetadata_security_provider.h`) mit `NoOpMetadataSecurityProvider` (Default, Zero-Overhead) und `InMemoryRbacMetadataSecurityProvider` (Thread-sicheres RBAC: grant/revoke/revokeAll, Wildcard-Resource `"*"`, ADMIN-impliziert-alle, `MetadataAccessDeniedException`). 11 Acceptance-Criteria-Tests. ROADMAP-Checkliste von `[?]` auf `[x]` aktualisiert. CI: `metadata-interfaces-ci.yml`. |
+| **Issue-Titelvorschlag** | _(behoben, kein Issue nötig)_ |
 
 ---
 
