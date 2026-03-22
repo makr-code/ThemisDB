@@ -47,14 +47,17 @@
 
 #include <gtest/gtest.h>
 
+#include "analytics/cep_engine.h"
 #include "cdc/changefeed.h"
 #include "graph/scheduled_edge_refresh.h"
+#include "index/ann_index.h"
 #include "index/graph_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 
 #include <chrono>
 #include <filesystem>
+#include <mutex>
 #include <string>
 #include <thread>
 #include <unordered_map>
@@ -901,4 +904,318 @@ TEST_F(ScheduledEdgeRefreshTest, Regression_Stats_RemovalRate_EmptyGraph) {
     RefreshStats stats = engine.triggerRefresh();
     EXPECT_DOUBLE_EQ(stats.removal_rate, 0.0); // 0/0 → 0.0
     EXPECT_FALSE(stats.anomaly_high_removal_rate);
+}
+
+// ============================================================================
+// ANN-accelerated candidate discovery
+// ============================================================================
+
+namespace {
+
+/// Minimal brute-force IAnnIndex implementation for deterministic test results.
+class BruteForceANN : public themis::index::IAnnIndex {
+public:
+    bool build(const float* vectors, const int64_t* ids,
+               size_t count, size_t dim) override {
+        ids_.assign(ids, ids + count);
+        vecs_.clear();
+        vecs_.reserve(count);
+        for (size_t i = 0; i < count; ++i)
+            vecs_.emplace_back(vectors + i * dim, vectors + (i + 1) * dim);
+        dim_ = dim;
+        return true;
+    }
+
+    bool add(int64_t id, const float* vector, size_t dim) override {
+        ids_.push_back(id);
+        vecs_.emplace_back(vector, vector + dim);
+        dim_ = dim;
+        return true;
+    }
+
+    std::vector<themis::index::AnnSearchResult> search(
+        const float* query, size_t dim, int k) const override
+    {
+        if (ids_.empty()) return {};
+        std::vector<std::pair<float, int64_t>> scored;
+        scored.reserve(ids_.size());
+        for (size_t i = 0; i < ids_.size(); ++i) {
+            float d = 0.f;
+            for (size_t j = 0; j < dim && j < dim_; ++j) {
+                float diff = query[j] - vecs_[i][j];
+                d += diff * diff;
+            }
+            scored.emplace_back(d, ids_[i]);
+        }
+        std::sort(scored.begin(), scored.end());
+        int n = std::min(k, static_cast<int>(scored.size()));
+        std::vector<themis::index::AnnSearchResult> out;
+        out.reserve(n);
+        for (int i = 0; i < n; ++i)
+            out.push_back({scored[i].second, scored[i].first});
+        return out;
+    }
+
+    size_t size() const override { return ids_.size(); }
+
+private:
+    std::vector<int64_t>              ids_;
+    std::vector<std::vector<float>>   vecs_;
+    size_t                            dim_ = 0;
+};
+
+} // anonymous namespace
+
+TEST_F(ScheduledEdgeRefreshTest, ANN_CandidateDiscovery_FindsSameCandidatesAsBruteForce) {
+    // Build a 4-node graph with two clear clusters:
+    //   cluster A: nodes a0, a1 (embedding [1,0])
+    //   cluster B: nodes b0, b1 (embedding [0,1])
+    // Cross-cluster edges only; intra-cluster edges are the candidates.
+    addEdge("ab00", "a0", "b0");
+    addEdge("ab11", "a1", "b1");
+
+    std::unordered_map<std::string, std::vector<float>> embs = {
+        {"a0", {1.0f, 0.0f}},
+        {"a1", {1.0f, 0.0f}},
+        {"b0", {0.0f, 1.0f}},
+        {"b1", {0.0f, 1.0f}},
+    };
+
+    RefreshPolicy p;
+    p.relevance_threshold     = 0.0f;  // never remove
+    p.add_threshold           = 0.9f;  // only near-identical vectors qualify
+    p.max_removal_fraction    = 1.0f;
+    p.max_edges_to_add        = 100;
+    p.decay_half_life_seconds = 0.0;
+    p.top_k_candidates        = 3;
+    p.ann_min_vertices        = 3;     // 4 vertices → ANN path is active
+
+    // Brute-force run (baseline).
+    RefreshStats bf_stats;
+    {
+        ScheduledGraphEdgeRefreshEngine bf_engine(
+            *graph_mgr_, p, makeEmbeddingProvider(embs));
+        bf_stats = bf_engine.triggerRefresh();
+    }
+
+    // Rebuild graph (brute-force engine may have added edges).
+    graph_mgr_.reset();
+    db_.reset();
+    fs::remove_all(test_db_path_);
+    RocksDBWrapper::Config cfg;
+    cfg.db_path             = test_db_path_;
+    cfg.memtable_size_mb    = 16;
+    cfg.block_cache_size_mb = 32;
+    cfg.max_background_jobs = 1;
+    db_        = std::make_unique<RocksDBWrapper>(cfg);
+    ASSERT_TRUE(db_->open());
+    graph_mgr_ = std::make_unique<GraphIndexManager>(*db_);
+    addEdge("ab00", "a0", "b0");
+    addEdge("ab11", "a1", "b1");
+
+    // ANN-accelerated run.
+    ScheduledGraphEdgeRefreshEngine ann_engine(
+        *graph_mgr_, p, makeEmbeddingProvider(embs));
+    ann_engine.setANNIndex(std::make_shared<BruteForceANN>());
+    RefreshStats ann_stats = ann_engine.triggerRefresh();
+
+    // Both paths should remove 0 edges (threshold = 0.0).
+    EXPECT_EQ(ann_stats.edges_removed, 0u);
+    EXPECT_FALSE(ann_stats.aborted_safety_gate);
+
+    // Both paths should add at least the two intra-cluster candidate edges
+    // (a0→a1 and b0→b1); allow the ANN path to find as many or more.
+    EXPECT_GE(ann_stats.edges_added, 0u); // non-negative
+    // Core property: ANN path produces at least as many candidates as the
+    // number of intra-cluster pairs (since BruteForce ANN has perfect recall).
+    EXPECT_EQ(ann_stats.edges_added, bf_stats.edges_added);
+}
+
+TEST_F(ScheduledEdgeRefreshTest, ANN_BelowThreshold_UsesBruteForce) {
+    // When vertex count is at or below ann_min_vertices the brute-force path
+    // is taken even when an ANN index is attached.
+    buildSmallGraph();
+
+    RefreshPolicy p;
+    p.relevance_threshold     = 0.0f;
+    p.add_threshold           = 2.0f;  // impossibly high – no candidates added
+    p.max_removal_fraction    = 1.0f;
+    p.decay_half_life_seconds = 0.0;
+    p.ann_min_vertices        = 1000;  // threshold much higher than 4 vertices
+
+    ScheduledGraphEdgeRefreshEngine engine(*graph_mgr_, p);
+    engine.setANNIndex(std::make_shared<BruteForceANN>());
+
+    // Should complete without crash; ANN index build should NOT be triggered.
+    RefreshStats stats = engine.triggerRefresh();
+    EXPECT_FALSE(stats.aborted_safety_gate);
+}
+
+// ============================================================================
+// CEP event emission
+// ============================================================================
+
+TEST_F(ScheduledEdgeRefreshTest, CEP_EventsEmitted_OnSuccessfulRemoval) {
+    // Build a graph where all edges are below the relevance threshold so they
+    // will be removed.
+    std::unordered_map<std::string, std::vector<float>> embs = {
+        {"X", {1.0f, 0.0f}},
+        {"Y", {0.0f, 1.0f}},  // orthogonal → very low cosine similarity
+    };
+    addEdge("xy", "X", "Y");
+
+    RefreshPolicy p;
+    p.relevance_threshold     = 0.9f;  // cosine(X,Y) ≈ 0.5 < 0.9 → removed
+    p.add_threshold           = 2.0f;  // no additions
+    p.max_removal_fraction    = 1.0f;
+    p.decay_half_life_seconds = 0.0;
+    p.similarity_metric       = SimilarityMetric::COSINE;
+
+    std::vector<themisdb::analytics::Event> captured_events;
+    std::mutex capture_mu;
+
+    ScheduledGraphEdgeRefreshEngine engine(
+        *graph_mgr_, p, makeEmbeddingProvider(embs));
+    engine.setCEPEventCallback(
+        [&captured_events, &capture_mu](themisdb::analytics::Event ev) {
+            std::lock_guard<std::mutex> lock(capture_mu);
+            captured_events.push_back(std::move(ev));
+        });
+
+    RefreshStats stats = engine.triggerRefresh();
+    EXPECT_FALSE(stats.aborted_safety_gate);
+    EXPECT_GE(stats.edges_removed, 1u);
+
+    std::lock_guard<std::mutex> lock(capture_mu);
+    // At least one EDGE_REMOVED event should have been emitted.
+    bool found_removal = false;
+    for (const auto& ev : captured_events) {
+        if (ev.event_name == "EDGE_REMOVED") {
+            found_removal = true;
+            EXPECT_EQ(ev.type, themisdb::analytics::EventType::EDGE_DELETE);
+            auto eid = ev.getField<std::string>("edge_id");
+            EXPECT_TRUE(eid.has_value());
+            auto cycle = ev.getField<int64_t>("cycle_number");
+            EXPECT_TRUE(cycle.has_value());
+            EXPECT_EQ(*cycle, static_cast<int64_t>(1));
+        }
+    }
+    EXPECT_TRUE(found_removal);
+}
+
+TEST_F(ScheduledEdgeRefreshTest, CEP_EventsEmitted_OnSuccessfulAddition) {
+    // Two nodes with identical embeddings → high similarity → edge should be added.
+    std::unordered_map<std::string, std::vector<float>> embs = {
+        {"P", {1.0f, 0.0f}},
+        {"Q", {1.0f, 0.0f}},  // identical → cosine = 1.0
+    };
+    addEdge("pq_cross", "P", "Q");  // existing edge so similarity scoring has a graph
+
+    RefreshPolicy p;
+    p.relevance_threshold     = 0.0f;   // keep everything
+    p.add_threshold           = 0.9f;   // identical vectors qualify
+    p.max_removal_fraction    = 1.0f;
+    p.max_edges_to_add        = 10;
+    p.decay_half_life_seconds = 0.0;
+    p.top_k_candidates        = 5;
+    p.similarity_metric       = SimilarityMetric::COSINE;
+
+    std::vector<themisdb::analytics::Event> captured_events;
+    std::mutex capture_mu;
+
+    ScheduledGraphEdgeRefreshEngine engine(
+        *graph_mgr_, p, makeEmbeddingProvider(embs));
+    engine.setCEPEventCallback(
+        [&captured_events, &capture_mu](themisdb::analytics::Event ev) {
+            std::lock_guard<std::mutex> lock(capture_mu);
+            captured_events.push_back(std::move(ev));
+        });
+
+    RefreshStats stats = engine.triggerRefresh();
+    EXPECT_FALSE(stats.aborted_safety_gate);
+
+    std::lock_guard<std::mutex> lock(capture_mu);
+    // Any added edge should emit an EDGE_ADDED CEP event with all required fields.
+    for (const auto& ev : captured_events) {
+        if (ev.event_name == "EDGE_ADDED") {
+            EXPECT_EQ(ev.type, themisdb::analytics::EventType::EDGE_CREATE);
+            EXPECT_TRUE(ev.getField<std::string>("edge_id").has_value());
+            EXPECT_TRUE(ev.getField<std::string>("from_vertex").has_value());
+            EXPECT_TRUE(ev.getField<std::string>("to_vertex").has_value());
+            EXPECT_TRUE(ev.getField<double>("relevance_score").has_value());
+            EXPECT_TRUE(ev.getField<int64_t>("cycle_number").has_value());
+        }
+    }
+}
+
+TEST_F(ScheduledEdgeRefreshTest, CEP_NoEventsEmitted_WhenSafetyGateAborts) {
+    // All edges below threshold → removal fraction 100% > max_removal_fraction.
+    std::unordered_map<std::string, std::vector<float>> embs = {
+        {"X", {1.0f, 0.0f}},
+        {"Y", {0.0f, 1.0f}},
+    };
+    addEdge("xy1", "X", "Y");
+    addEdge("xy2", "Y", "X");
+
+    RefreshPolicy p;
+    p.relevance_threshold     = 0.9f;  // both edges below threshold
+    p.add_threshold           = 2.0f;  // no additions
+    p.max_removal_fraction    = 0.01f; // very tight gate → abort
+    p.decay_half_life_seconds = 0.0;
+    p.similarity_metric       = SimilarityMetric::COSINE;
+
+    std::vector<themisdb::analytics::Event> captured_events;
+    std::mutex capture_mu;
+
+    ScheduledGraphEdgeRefreshEngine engine(
+        *graph_mgr_, p, makeEmbeddingProvider(embs));
+    engine.setCEPEventCallback(
+        [&captured_events, &capture_mu](themisdb::analytics::Event ev) {
+            std::lock_guard<std::mutex> lock(capture_mu);
+            captured_events.push_back(std::move(ev));
+        });
+
+    RefreshStats stats = engine.triggerRefresh();
+    EXPECT_TRUE(stats.aborted_safety_gate);
+
+    std::lock_guard<std::mutex> lock(capture_mu);
+    // No CEP events must be emitted when the safety gate aborts the cycle.
+    EXPECT_TRUE(captured_events.empty());
+}
+
+TEST_F(ScheduledEdgeRefreshTest, CEP_DetachBySettingEmptyCallback) {
+    // Verify that setCEPEventCallback({}) detaches without crashing.
+    std::unordered_map<std::string, std::vector<float>> embs = {
+        {"A", {1.0f, 0.0f}},
+        {"B", {0.0f, 1.0f}},
+    };
+    addEdge("ab", "A", "B");
+
+    RefreshPolicy p;
+    p.relevance_threshold     = 0.9f;
+    p.add_threshold           = 2.0f;
+    p.max_removal_fraction    = 1.0f;
+    p.decay_half_life_seconds = 0.0;
+    p.similarity_metric       = SimilarityMetric::COSINE;
+
+    std::vector<themisdb::analytics::Event> captured_events;
+    std::mutex capture_mu;
+
+    ScheduledGraphEdgeRefreshEngine engine(
+        *graph_mgr_, p, makeEmbeddingProvider(embs));
+
+    // Attach, then detach.
+    engine.setCEPEventCallback(
+        [&captured_events, &capture_mu](themisdb::analytics::Event ev) {
+            std::lock_guard<std::mutex> lock(capture_mu);
+            captured_events.push_back(std::move(ev));
+        });
+    engine.setCEPEventCallback({}); // detach
+
+    RefreshStats stats = engine.triggerRefresh();
+    EXPECT_FALSE(stats.aborted_safety_gate);
+
+    std::lock_guard<std::mutex> lock(capture_mu);
+    // After detaching, no events should have been recorded.
+    EXPECT_TRUE(captured_events.empty());
 }

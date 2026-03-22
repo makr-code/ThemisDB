@@ -8,7 +8,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 - Spherical geometry support (WGS-84 ellipsoid) — Issue #1744
-- Configurable precision mode (exact vs. approximate) — Issue #1742 (partially complete)
+- GPU-accelerated DBSCAN / k-means clustering — Target: v2.3.0
+- CUDA kernels for ST_BUFFER, ST_UNION, ST_DIFFERENCE on GPU — Target: v2.2.0
+
+## [2.2.0] — 2026-03-21
+### Added
+- English documentation in `docs/en/geo/README.md` covering all components, API reference, AQL geo functions, configuration, architecture, and known limitations (Issue #1749)
+- Comprehensive CI workflow `geo-module-ci.yml` covering 19 focused test targets across the entire geo module
 
 ## [1.7.0] — 2026-03-09
 ### Added

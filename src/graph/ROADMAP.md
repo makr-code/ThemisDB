@@ -32,13 +32,13 @@
 - [x] EXPLAIN HTTP endpoint (`POST /api/v1/graph/query/explain`) for all query types (Issue: #1816)
 
 ## In Progress 🚧
-- [~] Scheduled Semantic Graph Edge Refresh: ANN/GNN candidate discovery and CEP integration remaining (ChangeFeed + anomaly detection + integration tests complete, Issue: #FEATURE/ScheduledGraphEdgeRefresh)
+- [~] GPU-accelerated BFS/DFS for massive graphs (`graph/gpu_traversal.cpp`, CPU fallback active; real CUDA kernels planned for THEMIS_ENABLE_CUDA)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
 - [x] EXPLAIN output in AQL for graph query plans (Issue: #1816)
-- [~] Scheduled Semantic Graph Edge Refresh with vector similarity scoring, temporal decay, and ACID batch updates (Issue: #FEATURE/ScheduledGraphEdgeRefresh, Target: Q4 2026)
+- [x] Scheduled Semantic Graph Edge Refresh with vector similarity scoring, temporal decay, and ACID batch updates (Issue: #FEATURE/ScheduledGraphEdgeRefresh)
 
 ### Long-term (6-12 months)
 - [I] GPU-accelerated BFS/DFS for massive graphs (Issue: #1829)
@@ -69,7 +69,7 @@
 - [x] Temporal graph query optimization (time-ranged traversals)
 - [~] GPU-accelerated BFS/DFS for massive graphs (`graph/gpu_traversal.cpp`, CPU fallback active; real CUDA kernels planned for THEMIS_ENABLE_CUDA)
 
-### Phase 4: Scheduled Edge Refresh (Status: In Progress 🚧)
+### Phase 4: Scheduled Edge Refresh (Status: Completed ✅)
 - [x] `ScheduledGraphEdgeRefreshEngine` class with `RefreshPolicy` config interface and background scheduler (`include/graph/scheduled_edge_refresh.h`, `src/graph/scheduled_edge_refresh.cpp`, Target: Q4 2026)
   - Affected files: `include/graph/scheduled_edge_refresh.h`, `src/graph/scheduled_edge_refresh.cpp`, `include/index/graph_index.h`, `src/index/graph_index.cpp`
   - Runtime: background thread wakes at `refresh_interval`; synchronous `triggerRefresh()` also available
@@ -85,8 +85,8 @@
 - [x] Anomaly detection: `removal_rate` + `anomaly_high_removal_rate` in `RefreshStats`; `anomaly_threshold_removal_rate` in `RefreshPolicy` (Target: Q4 2026)
 - [x] Changefeed integration: `setChangefeed()` → `recordEvent()` per mutation with key prefix `graph_edge_refresh:` (Target: Q4 2026)
 - [x] Integration tests: large graph (50+ nodes), cluster-embedding scenario, regression (stable graph), changefeed event verification (Target: Q4 2026)
-- [ ] Integration with acceleration module for ANN/GNN top-k candidate edges (Target: Q1 2027)
-- [ ] CEP event emission for edge mutations via `analytics/cep_engine` (Target: Q1 2027)
+- [x] Integration with acceleration module for ANN/GNN top-k candidate edges — `setANNIndex(IAnnIndex*)`, `rebuildANNIndex()`, ANN path in `discoverCandidateEdges()` when vertex count > `policy.ann_min_vertices` (Target: Q1 2027)
+- [x] CEP event emission for edge mutations via `analytics/cep_engine` — `setCEPEventCallback(std::function<void(themisdb::analytics::Event)>)`, `EDGE_CREATE`/`EDGE_DELETE` events emitted after successful batch commit (Target: Q1 2027)
 - [x] Bilingual documentation EN (`docs/scheduled_edge_refresh.md`) and DE (`docs/de/scheduled_edge_refresh.md`) including anomaly detection + Changefeed sections (Target: Q4 2026)
 
 ## Production Readiness Checklist

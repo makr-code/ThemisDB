@@ -442,6 +442,11 @@ void ConfigSchemaValidator::validateValueImpl(const nlohmann::json& value,
     if (schema.contains("oneOf") && schema["oneOf"].is_array()) {
         validateOneOf(value, schema["oneOf"], json_path, result, root_schema, visited_refs);
     }
+
+    // --- not ---
+    if (schema.contains("not") && schema["not"].is_object()) {
+        validateNot(value, schema["not"], json_path, result, root_schema, visited_refs);
+    }
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -778,6 +783,23 @@ void ConfigSchemaValidator::validateOneOf(const nlohmann::json& value,
         result.addError("Value at '" + json_path +
                         "' must match exactly one of the oneOf schemas, but matched " +
                         std::to_string(matched));
+    }
+}
+
+// ═══════════════════════════════════════════════════════════
+// validateNot
+// ═══════════════════════════════════════════════════════════
+
+void ConfigSchemaValidator::validateNot(const nlohmann::json& value,
+                                        const nlohmann::json& not_schema,
+                                        const std::string& json_path,
+                                        ValidationResult& result,
+                                        const nlohmann::json& root_schema,
+                                        std::vector<std::string>& visited_refs) {
+    ValidationResult sub_result;
+    validateValueImpl(value, not_schema, json_path, sub_result, root_schema, visited_refs);
+    if (sub_result.valid) {
+        result.addError("Value at '" + json_path + "' must NOT be valid against the 'not' schema");
     }
 }
 

@@ -2,7 +2,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Production** — JSONL export, Parquet columnar export, Apache Arrow IPC export (file and stream), Hugging Face Datasets-compatible export, HuggingFace Hub direct upload, streaming export, incremental/delta export, AQL predicate filtering, instruction-tuning format templates (Alpaca, ShareGPT, ChatML, OpenAI), AES-256-GCM export encryption, PII detection and redaction, data augmentation, ExportFormatRegistry, and PolicyEngine authorization are all operational. Cross-collection join export remains planned.
+**Production** — JSONL export, Parquet columnar export, Apache Arrow IPC export (file and stream), Hugging Face Datasets-compatible export, HuggingFace Hub direct upload, streaming export, incremental/delta export, AQL predicate filtering, instruction-tuning format templates (Alpaca, ShareGPT, ChatML, OpenAI), AES-256-GCM export encryption, PII detection and redaction, data augmentation, ExportFormatRegistry, PolicyEngine authorization, and cross-collection join export are all operational.
 
 ## Completed ✅
 - [x] JSONL exporter for LLM training data
@@ -38,7 +38,7 @@
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Cross-collection join export for complex training datasets (Issue: #1722)
+- [x] Cross-collection join export for complex training datasets (`exporters/join_exporter.cpp`) (Issue: #1722)
 - [x] `validate_template` dry-run mode — `validateTemplate()` free function in `format_template.h/cpp`; `JSONLLLMExporter::validateTemplate()`; 18 tests in `tests/exporters/test_format_template.cpp`
 
 ## Implementation Phases
@@ -70,17 +70,27 @@
 - [x] PolicyEngine authorization check (`enforceExportPolicy()`) in all 6 exporters; `ERR_EXPORT_POLICY_DENIED` (9310) (EXP-001)
 - [x] HuggingFace Hub direct upload client (`HuggingFaceHubClient`) using libcurl; PolicyEngine authorization (`HubUploadConfig::policy_engine`); audit logging (`HubUploadConfig::audit_log`) on all return paths (Issue: #1719, EXP-002)
 - [x] `--incremental` CLI flag in `tools/export_cli.cpp` (EXP-004)
-- [x] ExportFormatRegistry singleton with 13 built-in format factories (9 plain + 4 instruction-tuning template shortcuts); `loadTemplatesFromConfig()` / `loadTemplatesFromJson()` for user-defined templates (EXP-005)
+- [x] `ExportFormatRegistry` singleton with 15 built-in format factories (11 plain + 4 instruction-tuning template shortcuts); `loadTemplatesFromConfig()` / `loadTemplatesFromJson()` for user-defined templates (EXP-005)
+
+### Phase 6: Cross-Collection Join Export (Status: Completed ✅)
+- [x] Cross-collection hash-join export (`exporters/join_exporter.cpp`): inner join semantics, right-side in-memory hash table, ≥ 50 000 merged docs/sec (Issue: #1722)
+- [x] `JoinExportConfig` struct: `left_collection`, `right_collection`, `left_key_field`, `right_key_field`, `join_predicate` (AQL), `output_fields` with `"src:alias"` renaming, PII config, 1 GiB right-side memory budget
+- [x] Qualified field references (`left.<field>` / `right.<field>`) resolve ambiguous names; `ERR_EXPORT_JOIN_AMBIGUOUS_FIELD` for unaliased conflicts
+- [x] AQL join predicate filtering on merged record; `ERR_EXPORT_JOIN_PREDICATE_INVALID` for parse failures
+- [x] Right-side memory budget enforcement; `ERR_EXPORT_JOIN_MEMORY_LIMIT` when exceeded
+- [x] PII detection and redaction on merged serialised JSON
+- [x] `JoinExporter` registered in `ExportFormatRegistry` as `"join"` and `"join_jsonl"`
+- [x] 676-line test suite (`tests/exporters/test_join_exporter.cpp`); CI: `.github/workflows/join-exporter-ci.yml`
 
 ## Production Readiness Checklist
 - [P] Unit tests coverage > 80% (Issue: #1729)
-- [x] Integration tests (JSONL export, LoRA metadata, Parquet, Arrow IPC, HuggingFace, streaming, incremental)
-- [x] Focused test targets for all 12 exporter test files registered in tests/CMakeLists.txt
+- [x] Integration tests (JSONL export, LoRA metadata, Parquet, Arrow IPC, HuggingFace, streaming, incremental, join)
+- [x] Focused test targets for all 13 exporter test files registered in tests/CMakeLists.txt
 - [~] Performance benchmarks (export throughput) — `benchmarks/bench_exporters.cpp` added (Issue: #1730)
 - [x] Security audit (sensitive field redaction, export authorization via PolicyEngine) (Issue: #1731)
-- [x] Documentation complete (JSONL exporter, LoRA metadata, vLLM integration, Parquet, Arrow IPC, HuggingFace)
+- [x] Documentation complete (JSONL exporter, LoRA metadata, vLLM integration, Parquet, Arrow IPC, HuggingFace, join)
 - [x] API stability guaranteed for JSONL exporter
-- [x] All 15 source files registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake
+- [x] All 16 source files registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake
 
 ## Known Issues & Limitations
 - JSONL exporter deduplication is opt-in (`quality.skip_duplicates`); Parquet exporter always deduplicates by primary key

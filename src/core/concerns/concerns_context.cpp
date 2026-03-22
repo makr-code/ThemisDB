@@ -31,6 +31,7 @@
 #include "core/concerns/zipkin_tracer_adapter.h"
 #include "core/concerns/prometheus_metrics_adapter.h"
 #include "core/concerns/inmemory_cache_impl.h"
+#include "core/concerns/inmemory_secrets.h"
 #include "core/concerns/redis_cache.h"
 #include "core/concerns/noop_implementations.h"
 #include "core/production_mode.h"
@@ -72,7 +73,7 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
         config.loggerAdapter, config.tracerAdapter,
         config.metricsAdapter, config.cacheAdapter,
         config.circuitBreakerAdapter, config.featureFlagsAdapter,
-        config.auditAdapter);
+        config.auditAdapter, config.secretsAdapter);
     if (!adapter_validation.valid) {
         throw std::runtime_error("Invalid adapter configuration:\n" + adapter_validation.formatErrors());
     }
@@ -198,13 +199,24 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
         auditLog = std::make_unique<NoOpAuditLog>();
     }
 
+    // Initialize secrets provider
+    std::unique_ptr<ISecrets> secrets;
+    if (config.secretsAdapter == "inmemory") {
+        secrets = std::make_unique<InMemorySecrets>(config.initialSecrets);
+    } else if (config.secretsAdapter == "env") {
+        secrets = std::make_unique<EnvSecretsProvider>(config.secretsEnvPrefix);
+    } else {
+        // "noop" — default; only reachable after validation passes
+        secrets = std::make_unique<NoOpSecrets>();
+    }
+
     return std::shared_ptr<ConcernsContext>(new ConcernsContext(
         std::move(logger),
         std::move(tracer),
         std::move(metrics),
         std::move(cache),
         std::move(circuit_breaker),
-        std::make_unique<NoOpSecrets>(),
+        std::move(secrets),
         std::move(featureFlags),
         std::move(auditLog)
     ));

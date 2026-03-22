@@ -38,7 +38,6 @@
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <unordered_set>
-
 namespace themis {
 namespace graph {
 
@@ -181,6 +180,20 @@ void ScheduledGraphEdgeRefreshEngine::setChangefeed(std::shared_ptr<Changefeed> 
     changefeed_ = std::move(changefeed);
 }
 
+void ScheduledGraphEdgeRefreshEngine::setANNIndex(
+    std::shared_ptr<index::IAnnIndex> ann_index)
+{
+    std::lock_guard<std::mutex> lock(stats_mutex_);
+    ann_index_ = std::move(ann_index);
+}
+
+void ScheduledGraphEdgeRefreshEngine::setCEPEventCallback(
+    std::function<void(themisdb::analytics::Event)> callback)
+{
+    std::lock_guard<std::mutex> lock(stats_mutex_);
+    cep_event_callback_ = std::move(callback);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Scoring helpers
 // ─────────────────────────────────────────────────────────────────────────────
@@ -312,6 +325,41 @@ EdgeScore ScheduledGraphEdgeRefreshEngine::scoreEdge(
 // ─────────────────────────────────────────────────────────────────────────────
 // Private helpers
 // ─────────────────────────────────────────────────────────────────────────────
+
+void ScheduledGraphEdgeRefreshEngine::rebuildANNIndex(
+    const std::vector<std::string>& vertices) const
+{
+    // Guarded by cycle_mutex_ (caller holds it); ann_index_ read under
+    // stats_mutex_ at the call site.
+    if (!ann_index_ || !embedding_fn_) return;
+
+    ann_vertex_to_idx_.clear();
+    ann_idx_to_vertex_.clear();
+
+    // Collect embeddings and build a flat vector array for build().
+    std::vector<float>   flat_vecs;
+    std::vector<int64_t> flat_ids;
+    size_t dim = 0;
+
+    for (const auto& v : vertices) {
+        auto emb = embedding_fn_(v);
+        if (emb.empty()) continue;
+        if (dim == 0) dim = emb.size();
+        if (emb.size() != dim) continue; // dimension mismatch – skip
+
+        const auto idx = static_cast<int64_t>(flat_ids.size());
+        flat_ids.push_back(idx);
+        flat_vecs.insert(flat_vecs.end(), emb.begin(), emb.end());
+        ann_vertex_to_idx_[v] = idx;
+        ann_idx_to_vertex_.push_back(v);
+    }
+
+    if (flat_ids.empty() || dim == 0) return;
+
+    ann_index_->build(flat_vecs.data(), flat_ids.data(), flat_ids.size(), dim);
+    spdlog::debug("[ScheduledEdgeRefresh] ANN index rebuilt with {} vertices (dim={})",
+                  flat_ids.size(), dim);
+}
 
 /* static */ void ScheduledGraphEdgeRefreshEngine::validatePolicy(
     const RefreshPolicy& policy)
@@ -629,12 +677,83 @@ ScheduledGraphEdgeRefreshEngine::discoverCandidateEdges(
     // add as candidate edges if they do not already exist.
     std::vector<std::tuple<std::string, std::string, float>> candidates;
 
+    // ── ANN-accelerated path ─────────────────────────────────────────────────
+    // Use the ANN index when one is attached and the vertex count exceeds the
+    // configured threshold.  The index is rebuilt from the current embeddings
+    // so that newly added vertices are always included.
+    std::shared_ptr<index::IAnnIndex> ann_idx;
+    {
+        std::lock_guard<std::mutex> lock(stats_mutex_);
+        ann_idx = ann_index_;
+    }
+
+    if (ann_idx && vertices.size() > policy.ann_min_vertices) {
+        rebuildANNIndex(vertices);
+
+        // Search top-k*3 candidates per vertex to give the threshold filter
+        // enough room even if some ANN results fall below add_threshold.
+        const int k_search =
+            static_cast<int>(policy.top_k_candidates) * 3 + 1; // +1 to exclude self
+
+        for (const auto& vertex : vertices) {
+            auto emb_v = embedding_fn_(vertex);
+            if (emb_v.empty()) continue;
+
+            auto results =
+                ann_idx->search(emb_v.data(), emb_v.size(), k_search);
+
+            std::vector<std::pair<float, std::string>> scored;
+            scored.reserve(results.size());
+
+            for (const auto& r : results) {
+                if (r.id < 0 ||
+                    static_cast<size_t>(r.id) >= ann_idx_to_vertex_.size())
+                    continue;
+                const std::string& other = ann_idx_to_vertex_[r.id];
+                if (other == vertex) continue; // skip self
+
+                // Compute exact similarity (ANN provides proximity order,
+                // but the actual score uses the configured metric).
+                auto emb_o = embedding_fn_(other);
+                if (emb_o.empty()) continue;
+
+                float sim = computeSimilarity(emb_v, emb_o);
+                if (sim >= policy.add_threshold) {
+                    scored.emplace_back(sim, other);
+                }
+            }
+
+            // Keep only top-k.
+            if (scored.size() > policy.top_k_candidates) {
+                std::partial_sort(
+                    scored.begin(),
+                    scored.begin() +
+                        static_cast<std::ptrdiff_t>(policy.top_k_candidates),
+                    scored.end(),
+                    [](const auto& a, const auto& b) {
+                        return a.first > b.first; // descending
+                    });
+                scored.resize(policy.top_k_candidates);
+            }
+
+            for (const auto& [sim, other] : scored) {
+                const std::string pair_key = vertex + "|" + other;
+                if (!existing_pairs.count(pair_key)) {
+                    candidates.emplace_back(vertex, other, sim);
+                    existing_pairs.insert(pair_key);
+                }
+            }
+        }
+
+        return candidates;
+    }
+
+    // ── Brute-force path (default) ────────────────────────────────────────────
     for (const auto& vertex : vertices) {
         auto emb_v = embedding_fn_(vertex);
         if (emb_v.empty()) continue;
 
         // Score similarity against every other vertex (brute-force).
-        // For large graphs, replace with an ANN index lookup.
         std::vector<std::pair<float, std::string>> scored;
         scored.reserve(vertices.size());
 
@@ -652,7 +771,9 @@ ScheduledGraphEdgeRefreshEngine::discoverCandidateEdges(
         // Keep only top-k.
         if (scored.size() > policy.top_k_candidates) {
             std::partial_sort(scored.begin(),
-                              scored.begin() + policy.top_k_candidates,
+                              scored.begin() +
+                                  static_cast<std::ptrdiff_t>(
+                                      policy.top_k_candidates),
                               scored.end(),
                               [](const auto& a, const auto& b) {
                                   return a.first > b.first; // descending
@@ -703,6 +824,15 @@ bool ScheduledGraphEdgeRefreshEngine::applyBatch(
     }
 
     // ── Additions ───────────────────────────────────────────────────────────
+    // Track successfully queued new edges to emit CEP events only for those
+    // that made it into the batch (addEdge() succeeds) and only after commit.
+    struct AddedEdgeRecord {
+        std::string id, from, to;
+        float sim;
+    };
+    std::vector<AddedEdgeRecord> added_records;
+    added_records.reserve(edges_to_add.size());
+
     for (size_t i = 0; i < edges_to_add.size(); ++i) {
         const auto& [from, to, sim] = edges_to_add[i];
         const std::string new_id = makeNewEdgeId(from, to, cycle_number, i);
@@ -725,6 +855,8 @@ bool ScheduledGraphEdgeRefreshEngine::applyBatch(
             continue;
         }
 
+        added_records.push_back({new_id, from, to, sim});
+
         RefreshAuditEntry entry;
         entry.action          = RefreshAuditEntry::Action::ADD;
         entry.edge_id         = new_id;
@@ -740,6 +872,52 @@ bool ScheduledGraphEdgeRefreshEngine::applyBatch(
     if (!batch->commit()) {
         spdlog::error("[ScheduledEdgeRefresh] batch commit failed in cycle {}", cycle_number);
         return false;
+    }
+
+    // ── CEP event emission (only after a successful commit) ─────────────────
+    // Copy the callback under the stats mutex to avoid holding it during
+    // the (potentially slow) invocations.
+    std::function<void(themisdb::analytics::Event)> cep_cb;
+    {
+        std::lock_guard<std::mutex> lock(stats_mutex_);
+        cep_cb = cep_event_callback_;
+    }
+
+    if (cep_cb) {
+        const auto emit_time = std::chrono::system_clock::now();
+
+        for (const auto& edge_id : edge_ids_to_remove) {
+            themisdb::analytics::Event ev;
+            ev.type       = themisdb::analytics::EventType::EDGE_DELETE;
+            ev.event_name = "EDGE_REMOVED";
+            ev.timestamp  = emit_time;
+            ev.setField("edge_id",      edge_id);
+            ev.setField("cycle_number", static_cast<int64_t>(cycle_number));
+            try {
+                cep_cb(std::move(ev));
+            } catch (const std::exception& ex) {
+                spdlog::warn("[ScheduledEdgeRefresh] CEP callback(EDGE_REMOVED) failed: {}",
+                             ex.what());
+            }
+        }
+
+        for (const auto& rec : added_records) {
+            themisdb::analytics::Event ev;
+            ev.type       = themisdb::analytics::EventType::EDGE_CREATE;
+            ev.event_name = "EDGE_ADDED";
+            ev.timestamp  = emit_time;
+            ev.setField("edge_id",         rec.id);
+            ev.setField("from_vertex",     rec.from);
+            ev.setField("to_vertex",       rec.to);
+            ev.setField("relevance_score", static_cast<double>(rec.sim));
+            ev.setField("cycle_number",    static_cast<int64_t>(cycle_number));
+            try {
+                cep_cb(std::move(ev));
+            } catch (const std::exception& ex) {
+                spdlog::warn("[ScheduledEdgeRefresh] CEP callback(EDGE_ADDED) failed: {}",
+                             ex.what());
+            }
+        }
     }
 
     return true;

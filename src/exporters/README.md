@@ -39,11 +39,12 @@ Provides data export functionality for ThemisDB. Supported formats:
 - `export_encryption.cpp` — AES-256-GCM encryption for sensitive export data
 - `pii_detector.cpp` — PII detection and redaction before export
 - `data_augmentation.cpp` — synthetic data augmentation pipeline for training data diversity
+- `join_exporter.cpp` — cross-collection hash-join export (inner join, output-field aliasing, AQL predicate, PII redaction)
 - `exporter_metrics.cpp` — export throughput and quality metrics
 
 ## Current Delivery Status
 
-**Maturity:** 🟢 Production-Ready — JSONL, Parquet, Arrow IPC, Hugging Face, and streaming export all operational.
+**Maturity:** 🟢 Production-Ready — JSONL, Parquet, Arrow IPC, Hugging Face, streaming, and cross-collection join export all operational.
 
 ## Components
 
@@ -53,6 +54,7 @@ Provides data export functionality for ThemisDB. Supported formats:
 - Hugging Face dataset exporter
 - Streaming exporter for large collections
 - Incremental/delta exporter with watermark-based change tracking
+- Cross-collection join exporter (hash-join, output-field aliasing, AQL predicate filter)
 - AQL predicate filter for record-level export filtering
 - Instruction-tuning format templates (Alpaca, ShareGPT, ChatML, OpenAI)
 - Export encryption (AES-256-GCM) for sensitive training data
@@ -67,6 +69,7 @@ Provides data export functionality for ThemisDB. Supported formats:
 - Export to Apache Arrow IPC file (`.arrow`) or stream (`.arrows`) format for zero-copy pipelines
 - Hugging Face Datasets-compatible export (JSONL shards + `dataset_card.md` + `dataset_info.json`)
 - **HuggingFace Hub direct upload** — push exported datasets to the Hub without manual steps
+- **Cross-collection join export** — hash-join two collections into a single JSONL output; output-field aliasing, AQL join predicate, PII redaction, right-side memory budget ≤ 1 GiB
 - Configurable field selection (include/exclude)
 - Batch export operations
 - Streaming export without full in-memory load

@@ -156,7 +156,7 @@ Config paths currently resolve against a single filesystem root. Add overlay sup
 
 **Implementation Notes:**
 - `[x]` Add `allOf` / `anyOf` / `oneOf` — combine multiple sub-schemas; collect errors from all branches for `allOf`.
-- `[ ]` Add `not` — assert a value does NOT match a sub-schema.
+- `[x]` Add `not` — assert a value does NOT match a sub-schema.
 - `[x]` Add `$ref` with a local `$defs` / `definitions` lookup table to allow reusable schema fragments.
 - `[x]` Add `format` keyword (informational only): `date`, `date-time`, `email`, `uri`, `ipv4`, `ipv6`.
 - `[x]` Add `uniqueItems` for array validation.
@@ -212,9 +212,9 @@ Extended JSON Schema Keyword Support"), LRU caching, and path-migration tooling.
 `config_encrypted_store.cpp` uses `std::lock_guard<std::mutex>` (exclusive) for both read (`get`, `list`, `contains`, `size`) and write (`set`, `remove`, `rotate_key`) operations. All read calls serialize with each other unnecessarily.
 
 **Implementation Notes:**
-- `[ ]` Replace `std::mutex mutex_` with `std::shared_mutex` in `ConfigEncryptedStore`; upgrade `get`, `list`, `contains`, `size` to `std::shared_lock`.
-- `[ ]` Keep `set`, `remove`, `rotate_key`, and `re_encrypt_all_locked()` on `std::unique_lock`.
-- `[ ]` Re-encryption (line 192, "perform full re-encrypt before swapping") requires `unique_lock` for its full duration to maintain atomicity — do not split it.
+- `[x]` Replace `std::mutex mutex_` with `std::shared_mutex` in `ConfigEncryptedStore`; upgrade `get`, `list`, `contains`, `size` to `std::shared_lock`.
+- `[x]` Keep `set`, `remove`, `rotate_key`, and `re_encrypt_all_locked()` on `std::unique_lock`.
+- `[x]` Re-encryption (line 192, "perform full re-encrypt before swapping") requires `unique_lock` for its full duration to maintain atomicity — do not split it.
 
 ---
 

@@ -172,27 +172,31 @@ gzip format, pipe through `zstd -d | gzip` or use `pigz`.
 `huggingface_hub_client.cpp` implements exponential retry back-off for file uploads (line 423) but does not check HTTP 429 (Too Many Requests) or the `Retry-After` response header before retrying. Retrying immediately on a 429 wastes the retry budget and may result in account throttling.
 
 **Implementation Notes:**
-- `[ ]` After each curl response, check HTTP status 429; if present, parse the `Retry-After` header (seconds or HTTP-date format) and sleep for that duration before retrying.
-- `[ ]` Cap total sleep from `Retry-After` at `config_.timeout_seconds` to prevent indefinite blocking.
-- `[ ]` Emit a `exporters.huggingface.rate_limit_hit` metric via `ExporterMetrics` whenever a 429 is received.
+- `[x]` After each curl response, check HTTP status 429; if present, parse the `Retry-After` header (seconds or HTTP-date format) and sleep for that duration before retrying.
+- `[x]` Cap total sleep from `Retry-After` at `config_.timeout_seconds` to prevent indefinite blocking.
+- `[x]` Emit a `exporters.huggingface.rate_limit_hit` metric via `ExporterMetrics` whenever a 429 is received.
 
 ---
 
 
-**Priority:** Low
-**Target Version:** v2.0.0 (Issue: #1722)
+### ~~Cross-Collection Join Export~~ ✅ Implemented (Issue: #1722)
+**Priority:** Low  
+**Target Version:** v1.8.0 — **Delivered**
 
-Export a joined view of two or more collections (e.g., `documents JOIN annotations`) into a single JSONL or Parquet output file. Uses the AQL engine to evaluate the join predicate.
+Export a joined view of two or more collections (e.g., `documents JOIN annotations`) into a single JSONL output file. Implemented as an in-memory hash-join: the right side is loaded into a hash table keyed on `right_key_field`, then every left entity is probed against it.
 
 **Implementation Notes:**
-- Add `JoinExportConfig` struct with `left_collection`, `right_collection`, `join_predicate` (AQL expression), and `output_fields`.
-- Implement as a new exporter class `JoinExporter` that opens two `AqlPredicateFilter` cursors and merges record batches.
-- PII detection runs on the merged record before serialization.
-- Error cases: collection not found, join predicate parse failure, ambiguous field names (rename via `output_fields` alias map).
+- `[x]` `JoinExportConfig` struct with `left_collection`, `right_collection`, `left_key_field`, `right_key_field`, `join_predicate` (AQL expression), `output_fields` (with `"src_name:alias"` renaming), PII config, and `right_side_memory_limit_bytes` (default 1 GiB).
+- `[x]` `JoinExporter` implements `IExporter`; `setRightCollection()` builds the hash table; `exportEntities()` performs inner join.
+- `[x]` Qualified field references `left.<field>` / `right.<field>` resolve ambiguous names; unaliased conflicts throw `ERR_EXPORT_JOIN_AMBIGUOUS_FIELD`.
+- `[x]` AQL join predicate filtering on the merged record; parse failures throw `ERR_EXPORT_JOIN_PREDICATE_INVALID`.
+- `[x]` Right-side memory budget enforced; `ERR_EXPORT_JOIN_MEMORY_LIMIT` thrown when exceeded.
+- `[x]` PII detection runs on the merged record before serialization.
+- `[x]` Registered in `ExportFormatRegistry` as `"join"` and `"join_jsonl"`.
+- `[x]` Throughput ≥ 50 000 merged docs/sec; right-side hash table ≤ 1 GiB configurable.
 
-**Performance Targets:**
-- Join export throughput ≥ 50 000 merged docs/sec (hash-join on in-memory right side ≤ 10 M rows).
-- Memory budget for right-side hash table ≤ 1 GB configurable.
+**Remaining (future issues):**
+- Parquet output variant for JoinExporter (additive; no existing API changes required).
 
 ---
 

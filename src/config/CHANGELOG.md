@@ -10,6 +10,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Complete removal of all deprecated legacy path mappings (post-migration) — Issue #1665
 - Migration tooling to batch-rename legacy config files to new paths (in progress) — Issue #1658
 
+## [1.8.0] — 2026-03-22
+### Added
+- `ConfigSchemaValidator` `not` keyword: validates that a value does NOT match the provided sub-schema (JSON Schema Draft 7 §6.7); 8 dedicated tests covering type, enum, complex sub-schemas, and top-level `not`
+- `ConfigEncryptedStore` read-path concurrency upgrade: `std::mutex` replaced with `std::shared_mutex`; read operations (`get`, `tryGet`, `contains`, `keys`, `size`, `currentKeyVersion`, `serialize`) now use `std::shared_lock`, allowing concurrent reads without serialisation; write operations (`set`, `remove`, `clear`, `rotateKey`, `deserialize`) retain `std::unique_lock`; `rotateKey` re-encryption holds `unique_lock` for full duration to guarantee atomicity; `ConcurrentReadersDoNotBlockEachOther` test (16 concurrent readers) added to `tests/test_config_encrypted_store.cpp`
+
 ## [2.0.0] — 2026-03-09
 ### Added
 - `ConfigSchemaValidator`: JSON Schema Draft 7 subset validation for YAML/JSON config files

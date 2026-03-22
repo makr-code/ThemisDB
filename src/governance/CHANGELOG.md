@@ -9,6 +9,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 *(All planned features implemented — see `FUTURE_ENHANCEMENTS.md` for long-horizon research items.)*
 
+## [1.8.0] — 2026-03-21
+### Added
+- Registered 9 previously unregistered governance test targets in `tests/CMakeLists.txt`: `CcpaRulesFocusedTests`, `CrossTenantPolicyInheritanceFocusedTests`, `DataLineageFocusedTests`, `DataMaskerFocusedTests`, `PciDssRulesFocusedTests`, `PolicyReviewFocusedTests`, `PolicyTemplateFocusedTests`, `PolicyVersioningFocusedTests`, `Soc2ControlsFocusedTests`
+- Created dedicated CI workflow `governance-module-ci.yml` covering all 19 governance test suites across two jobs: unit tests and policy engine tests
+
 ## [1.7.0] — 2026-03-09
 ### Added
 - `CrossTenantPolicyInheritance`: tenant hierarchy management with cycle detection, most-restrictive-wins merge semantics, `evaluateEffectivePolicy()` merging from full ancestor chain, `resolveEffectiveRules()` returning flattened rule list (Issue #1772)
