@@ -32,6 +32,8 @@
 #include <memory>
 #include <chrono>
 #include <mutex>
+#include <shared_mutex>
+#include <atomic>
 #include <thread>
 #include <unordered_map>
 #include <unordered_set>
@@ -587,14 +589,20 @@ public:
 
 private:
     struct L1Entry {
-        nlohmann::json result;
-        int64_t created_at_ms;
-        int64_t last_accessed_ms;
-        int64_t access_count = 0;
-        int ttl_seconds;
-        // Adaptive TTL: sliding 5-minute access window
-        int64_t window_start_ms = 0;
-        uint32_t window_count = 0;
+        nlohmann::json result;                         // Read-only after insert
+        std::atomic<int64_t> created_at_ms{0};         // Written at insert; reset by adaptive TTL
+        std::atomic<int64_t> last_accessed_ms{0};      // Updated lock-free on every get() hit
+        std::atomic<int64_t> access_count{0};          // Incremented lock-free
+        std::atomic<int> ttl_seconds{0};               // Adaptive TTL writes
+        std::atomic<int64_t> window_start_ms{0};       // Adaptive TTL window start
+        std::atomic<uint32_t> window_count{0};         // Accesses in current window
+        std::atomic<bool> expired_flag{false};         // CAS-based expiry marker for lazy cleanup
+
+        L1Entry() = default;
+        L1Entry(const L1Entry&)            = delete;
+        L1Entry& operator=(const L1Entry&) = delete;
+        L1Entry(L1Entry&&)                 = delete;
+        L1Entry& operator=(L1Entry&&)      = delete;
     };
     
     struct L2Entry {
@@ -648,9 +656,10 @@ private:
     std::unordered_map<std::string, std::unordered_set<std::string>> pii_key_index_;
     mutable std::mutex pii_index_mutex_;
     
-    // L1: In-memory HashMap
-    std::unordered_map<std::string, L1Entry> l1_cache_;
-    mutable std::mutex l1_mutex_;
+    // L1: In-memory HashMap (lock-free read path)
+    std::unordered_map<std::string, std::unique_ptr<L1Entry>> l1_cache_;
+    mutable std::shared_mutex l1_mutex_;
+    mutable std::mutex l1_eviction_mutex_;  // Protects l1_eviction_strategy_ calls
     
     // L2: Compressed in-memory
     std::unordered_map<std::string, L2Entry> l2_cache_;

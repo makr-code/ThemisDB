@@ -45,6 +45,7 @@ Production-ready multi-level cache (L1/L2/L3) with all four implementation phase
 - [x] Unit tests coverage > 80% (Issue: #1596) — `tests/test_cache_interfaces.cpp`; 43 unit tests for all 5 interfaces and all value types; registered as `CacheInterfacesTests` in `tests/CMakeLists.txt`
 - [x] `RedisCacheCoordinator` Async Pub/Sub Subscription Loop (v1.7.0) — exponential back-off reconnection (1 s → 30 s) with `cache.redis.reconnect` metric; `isConnected()` exposed in `GET /v1/admin/cache/health`; Windows stub replaced with `THEMIS_POSIX_SOCKETS` compile-time feature flag; noisy `THEMIS_WARN` in stub constructor downgraded to `THEMIS_DEBUG`; CI: `redis-cache-coordinator-async-loop-ci.yml`
 - [x] Warmup: Parallel Bulk Load (v1.8.0, Issue: #244) — `src/cache/warmup.cpp` rewrites `warmupFromLog()` with N `std::async` workers (one per CPU core); `Config::max_parallel_workers` (default: `std::thread::hardware_concurrency()`); `WarmupResult::warmup_duration_ms` + `warmup_entries_per_second`; per-shard L1/L2 insertion under existing mutexes; atomic aggregate counters; API response extended with timing/throughput fields; 4 new tests in `tests/test_cache_warmup.cpp`; CI: `cache-warmup-parallel-bulk-load-ci.yml`
+- [x] Lock-Free L1 Read Path (v1.9.0) — `l1_mutex_` → `std::shared_mutex`; `L1Entry` fields atomicised; `l1_cache_` stores `unique_ptr<L1Entry>`; `l1_eviction_mutex_` guards eviction strategy; lazy expiry via CAS on `expired_flag`; `onAccess()` removed from hot path
 
 ## Implementation Phases
 
@@ -76,6 +77,13 @@ Production-ready multi-level cache (L1/L2/L3) with all four implementation phase
 - [x] Add write-through cache mode for read-heavy workloads (Issue: #1593) — `Config::enable_write_through` (opt-in) in `adaptive_query_cache.h`; `writeThroughToL3()` private method; `CacheMetrics::write_through_writes` counter
 - [x] Implement predictive pre-fetching based on query sequence history (Issue: #1594) — `PredictivePrefetcher` in `include/cache/predictive_prefetcher.h`; `src/cache/predictive_prefetcher.cpp`; `recordQueryAccess()`, `getCandidates()`; opt-in via `Config::enable_predictive_prefetch`
 - [x] Add cache replication for high-availability multi-node deployments (Issue: #1595) — `CacheReplicationManager` in `include/cache/cache_replication.h`; `InProcessCacheCoordinator` in `include/cache/distributed_cache_coordinator.h`; `src/cache/cache_replication.cpp`, `src/cache/cache_replication_coordinator.cpp`; tests in `tests/test_cache_replication.cpp`
+
+### Phase 5: Concurrency Hardening — Lock-Free L1 Read Path (Status: Complete ✅)
+- [x] Promote `l1_mutex_` from `std::mutex` to `std::shared_mutex`; all read paths use `std::shared_lock`, all write paths use `std::unique_lock` — `adaptive_query_cache.h/cpp`
+- [x] Convert `L1Entry` fields to `std::atomic` and store entries as `std::unique_ptr<L1Entry>` in `l1_cache_` — deleted copy/move constructors prevent accidental value-type copies
+- [x] Add `l1_eviction_mutex_` to serialise `l1_eviction_strategy_` calls independently of `l1_mutex_` — `adaptive_query_cache.h/cpp`
+- [x] Implement lazy L1 expiry via CAS on `L1Entry::expired_flag`; expired entries purged during write-path eviction pass, not inline on `get()`
+- [x] Remove `l1_eviction_strategy_->onAccess()` from hot read path; access frequency tracked via `access_count.fetch_add(1, relaxed)`
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (Issue: #1596)
