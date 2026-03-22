@@ -11990,6 +11990,9 @@ add_chimera_focused_test(
     ChimeraAdapterConfigValidationTests
     "chimera;adapter;config;validation;unit"
     "AdapterConfig: validate(), get_validation_errors(), parse_connection_string(), type/range checks"
+)
+
+add_chimera_focused_test(
     test_chimera_async_api
     chimera/test_chimera_async_api.cpp
     ChimeraAsyncAPITests

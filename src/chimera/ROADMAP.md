@@ -27,8 +27,11 @@ graph operations across 9 adapters. Build system fully registered; focused test 
 - [x] Weaviate adapter (native vector database)
 - [x] Neo4j adapter (native graph database) (Issue: #1650)
 - [x] Build system: all 9 adapters registered in `cmake/ChimeraAdapters.cmake` (unconditional – no LLM gate)
-- [x] Focused standalone test targets for all 10 test files in `tests/CMakeLists.txt`
+- [x] Focused standalone test targets for all 14 test files in `tests/CMakeLists.txt`
 - [x] Error Recovery and Retry Logic: `RetryPolicy` (exponential backoff, configurable), `CircuitBreaker` (CLOSED/OPEN/HALF_OPEN), `ConnectionWithRetry` decorator (Issue: #17)
+- [x] Async/Promise-Based API: `IAsyncDatabaseAdapter` with `execute_query_async`, `batch_insert_async`, `search_vectors_async`, `cancel_async`, RAII cancellation token cleanup
+- [x] Batch Operation Enhancements: `BatchOptions` (batch_size, stop_on_error, progress_callback, batch_callback), `BatchResult` (total_processed, successful, failed, total_time, per-chunk results), default implementations in `IRelationalAdapter` and `IDocumentAdapter`
+- [x] `AdapterConfig` validation: `validate()`, `get_validation_errors()`, `parse_connection_string()` with scheme/host/port/options checks
 
 ## In Progress 🚧
 - [~] PostgreSQL vendor adapter — simulation mode complete; production wiring to `libpqxx` pending (Issue: #1629)
@@ -76,8 +79,15 @@ graph operations across 9 adapters. Build system fully registered; focused test 
 - [x] Adapter capability matrix (which operations each system supports)
 - [I] Benchmark result aggregation and reporting dashboard (Issue: #1649)
 
+### Phase 4: Advanced API & Quality (Status: Completed ✅)
+- [x] Error Recovery and Retry Logic: `RetryPolicy`, `CircuitBreaker`, `ConnectionWithRetry` (Issue: #17)
+- [x] Async/Promise-Based API: `IAsyncDatabaseAdapter` with future-based operations and RAII cancellation token management
+- [x] Batch Operation Enhancements: `BatchOptions`, `BatchResult`, `batch_insert_advanced`, `batch_insert_documents_advanced` with chunking, progress callbacks, stop-on-error semantics
+- [x] `AdapterConfig` validation: scheme/host/port/options checks, `parse_connection_string()`
+- [x] Focused standalone test targets for all 14 test files in `tests/CMakeLists.txt`
+
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% line coverage — 10 focused test executables covering all 9 adapters, >500 test cases across all adapter test files
+- [x] Unit tests coverage > 80% line coverage — 14 focused test executables covering all 9 adapters, >600 test cases across all adapter test files
 - [x] Integration tests (adapter factory, ThemisDB, MongoDB, PostgreSQL, Elasticsearch, Pinecone, Qdrant, Weaviate, Neo4j)
 - [P] Performance benchmarks (adapter overhead measurement) (Issue: #1652)
 - [P] Security audit (connection credential handling) (Issue: #1653)
