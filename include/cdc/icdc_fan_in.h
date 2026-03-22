@@ -198,9 +198,9 @@ public:
     }
 
     std::vector<FanInEvent> listEvents(
-        uint64_t                         from_sequence,
-        std::size_t                      limit,
-        const std::vector<CollectionId>& collections) const override
+        uint64_t                         from_sequence = 0,
+        std::size_t                      limit = 0,
+        const std::vector<CollectionId>& collections = {}) const override
     {
         // Take a snapshot of sources under the lock, then query without holding it.
         std::unordered_map<CollectionId, Changefeed*> snapshot;

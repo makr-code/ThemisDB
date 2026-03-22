@@ -15,6 +15,7 @@
 
 #include <gtest/gtest.h>
 #include "cdc/icdc_pause_control.h"
+#include "cdc/changefeed.h"
 
 #include <atomic>
 #include <chrono>
@@ -26,10 +27,10 @@ using namespace themis::cdc;
 
 namespace {
 
-Changefeed::ChangeEvent makeEv(uint64_t seq, const std::string& key = "k") {
-    Changefeed::ChangeEvent ev;
+themis::Changefeed::ChangeEvent makeEv(uint64_t seq, const std::string& key = "k") {
+    themis::Changefeed::ChangeEvent ev;
     ev.sequence     = seq;
-    ev.type         = Changefeed::ChangeEventType::EVENT_PUT;
+    ev.type         = themis::Changefeed::ChangeEventType::EVENT_PUT;
     ev.key          = key + ":" + std::to_string(seq);
     ev.value        = "v";
     ev.timestamp_ms = static_cast<int64_t>(seq) * 100;

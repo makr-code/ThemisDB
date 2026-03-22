@@ -193,7 +193,7 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
     // worker can check and update headroom without holding the mutex.
     std::atomic<size_t> l1_warmed{0};
     {
-        std::lock_guard<std::mutex> lk(l1_mutex_);
+        std::shared_lock<std::shared_mutex> lk(l1_mutex_);
         l1_warmed.store(l1_cache_.size(), std::memory_order_relaxed);
     }
 
@@ -326,15 +326,15 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
             if (l1_warmed.load(std::memory_order_relaxed) < l1_warmup_cap &&
                 decoded.size() <= config_.l1_max_entry_size) {
                 // Store in L1 (per-shard insertion under l1_mutex_).
-                L1Entry entry;
-                entry.result = value_json;
-                entry.created_at_ms = now_ms;
-                entry.last_accessed_ms = now_ms;
-                entry.access_count = 1;
-                entry.ttl_seconds = ttl_remaining_s;
+                auto entry = std::make_unique<L1Entry>();
+                entry->result = value_json;
+                entry->created_at_ms.store(now_ms, std::memory_order_relaxed);
+                entry->last_accessed_ms.store(now_ms, std::memory_order_relaxed);
+                entry->access_count.store(1, std::memory_order_relaxed);
+                entry->ttl_seconds.store(ttl_remaining_s, std::memory_order_relaxed);
 
                 {
-                    std::lock_guard<std::mutex> lk(l1_mutex_);
+                    std::unique_lock<std::shared_mutex> lk(l1_mutex_);
                     if (l1_cache_.count(cache_key) == 0) {
                         if (l1_cache_.size() >= config_.l1_max_entries) {
                             evictLRU(CacheLevel::HOT);
@@ -462,15 +462,19 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::exportSnapshot(const std::s
 
     // Export L1 entries.
     {
-        std::lock_guard<std::mutex> lk(l1_mutex_);
+        std::shared_lock<std::shared_mutex> lk(l1_mutex_);
         for (const auto& [key, entry] : l1_cache_) {
-            if (isExpired(entry.created_at_ms, entry.ttl_seconds)) continue;
+            if (!entry) continue;
 
-            int ttl_remaining_s = entry.ttl_seconds
-                - static_cast<int>((now_ms - entry.created_at_ms) / 1000);
+            const int64_t created_at_ms = entry->created_at_ms.load(std::memory_order_relaxed);
+            const int ttl_seconds = entry->ttl_seconds.load(std::memory_order_relaxed);
+            if (isExpired(created_at_ms, ttl_seconds)) continue;
+
+            int ttl_remaining_s = ttl_seconds
+                - static_cast<int>((now_ms - created_at_ms) / 1000);
             if (ttl_remaining_s <= 0) continue;
 
-            std::string value_json = entry.result.dump();
+            std::string value_json = entry->result.dump();
             std::string value_b64 = base64Encode(value_json);
 
             nlohmann::json rec;

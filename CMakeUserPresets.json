@@ -8,10 +8,6 @@
       "description": "Default VS Code preset - MSVC + Ninja Release with tests and vcpkg",
       "hidden": false,
       "inherits": "msvc-ninja-release",
-      "environment": {
-        "VCPKG_MAX_CONCURRENCY": "1",
-        "CMAKE_BUILD_PARALLEL_LEVEL": "1"
-      },
       "cacheVariables": {
         "THEMIS_BUILD_TESTS": "ON",
         "THEMIS_ENABLE_LLM": "ON",
@@ -24,10 +20,6 @@
       "description": "VS Code preset for debug builds with vcpkg",
       "hidden": false,
       "inherits": "msvc-ninja-debug",
-      "environment": {
-        "VCPKG_MAX_CONCURRENCY": "1",
-        "CMAKE_BUILD_PARALLEL_LEVEL": "1"
-      },
       "cacheVariables": {
         "THEMIS_BUILD_TESTS": "ON",
         "THEMIS_ENABLE_LLM": "ON",
@@ -102,6 +94,125 @@
         "test_graph_distributed_shared_mutex_focused"
       ],
       "jobs": 4
+    },
+    {
+      "name": "cache-tests-release",
+      "displayName": "Cache Tests: Release (focused)",
+      "description": "Release build of cache-related test executables only",
+      "configurePreset": "vscode-windows-release",
+      "targets": [
+        "test_enhanced_query_cache",
+        "test_cache_admin_api_handler",
+        "test_cache_warmup",
+        "test_cache_replication",
+        "test_cache_replication_coordinator",
+        "test_cache_interfaces"
+      ],
+      "jobs": 8
+    },
+    {
+      "name": "cdc-tests-release",
+      "displayName": "CDC Tests: Release (focused)",
+      "description": "Release build of CDC-related test executables only",
+      "configurePreset": "vscode-windows-release",
+      "targets": [
+        "test_cdc_admin",
+        "test_cdc_retention",
+        "test_cdc_changefeed_sequence_counter",
+        "test_cdc_changefeed_core_focused",
+        "test_cdc_ws_handler",
+        "test_cdc_consumer_group",
+        "test_cdc_pause_control",
+        "test_cdc_backpressure_signal",
+        "test_cdc_fan_in",
+        "test_cdc_event_schema",
+        "test_cdc_delivery_guarantee_config"
+      ],
+      "jobs": 8
+    },
+    {
+      "name": "transaction-tests-release",
+      "displayName": "Transaction Tests: Release (focused)",
+      "description": "Release build of transaction-related test executables only",
+      "configurePreset": "vscode-windows-release",
+      "targets": [
+        "test_transaction_manager_comprehensive",
+        "test_transaction_occ",
+        "test_transaction_bulk",
+        "test_transaction_retry",
+        "test_transaction_timeout",
+        "test_transaction_isolation",
+        "test_transaction_ssi",
+        "test_transaction_batcher_focused",
+        "test_transaction_auditor_focused",
+        "test_transaction_manager_focused",
+        "test_transaction_distributed_2pc_focused",
+        "test_transaction_isolation_levels_focused"
+      ],
+      "jobs": 8
+    },
+    {
+      "name": "replication-tests-release",
+      "displayName": "Replication Tests: Release (focused)",
+      "description": "Release build of replication-related test executables only",
+      "configurePreset": "vscode-windows-release",
+      "targets": [
+        "test_replication_ha_focused",
+        "test_replication_new_features_focused",
+        "test_replication_ha",
+        "test_replication_new_features",
+        "test_replication_topology_api_handler",
+        "test_replication_raft_v2",
+        "test_replication_crdt_types"
+      ],
+      "jobs": 8
+    },
+    {
+      "name": "main-tests-release",
+      "displayName": "Main Tests: Release (aggregated)",
+      "description": "Release build aggregating the focused graph, cache, CDC, transaction, and replication test executables",
+      "configurePreset": "vscode-windows-release",
+      "targets": [
+        "test_graph_distributed",
+        "test_graph_distributed_shared_mutex_focused",
+        "test_enhanced_query_cache",
+        "test_cache_admin_api_handler",
+        "test_cache_warmup",
+        "test_cache_replication",
+        "test_cache_replication_coordinator",
+        "test_cache_interfaces",
+        "test_cdc_admin",
+        "test_cdc_retention",
+        "test_cdc_changefeed_sequence_counter",
+        "test_cdc_changefeed_core_focused",
+        "test_cdc_ws_handler",
+        "test_cdc_consumer_group",
+        "test_cdc_pause_control",
+        "test_cdc_backpressure_signal",
+        "test_cdc_fan_in",
+        "test_cdc_event_schema",
+        "test_cdc_delivery_guarantee_config",
+        "test_transaction_manager_comprehensive",
+        "test_transaction_occ",
+        "test_transaction_bulk",
+        "test_transaction_retry",
+        "test_transaction_timeout",
+        "test_transaction_isolation",
+        "test_transaction_ssi",
+        "test_transaction_batcher_focused",
+        "test_transaction_auditor_focused",
+        "test_transaction_manager_focused",
+        "test_transaction_distributed_2pc_focused",
+        "test_transaction_isolation_levels_focused",
+        "test_replication_ha_focused",
+        "test_replication_new_features_focused",
+        "test_replication_ha",
+        "test_replication_new_features",
+        "test_replication_topology_api_handler",
+        "test_replication_raft_v2",
+        "test_replication_crdt_types"
+      ],
+      "jobs": 8
     },
     {
       "name": "hyperscaler-full-build",

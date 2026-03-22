@@ -235,7 +235,7 @@ public:
     }
 
     std::string getSchema(const std::string& collection,
-                          int                version) const override
+                          int                version = -1) const override
     {
         std::unique_lock<std::mutex> lk(mutex_);
         auto it = schemas_.find(collection);
