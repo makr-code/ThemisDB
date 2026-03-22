@@ -73,7 +73,7 @@
       "name": "vscode-windows-release",
       "configurePreset": "vscode-windows-release",
       "targets": ["themis_tests"],
-      "jobs": 4
+      "jobs": 8
     },
     {
       "name": "vscode-windows-debug",

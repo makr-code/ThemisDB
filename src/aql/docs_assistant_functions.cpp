@@ -114,22 +114,34 @@ private:
 };
 
 DocsAssistantFunctions::DocsAssistantFunctions()
-    : impl_(std::make_unique<Impl>()) {}
+    = default;
 
 DocsAssistantFunctions::~DocsAssistantFunctions() = default;
 
+DocsAssistantFunctions::Impl& DocsAssistantFunctions::ensureImpl() {
+    if (!impl_) {
+        impl_ = std::make_unique<Impl>();
+    }
+    return *impl_;
+}
+
+DocsAssistantFunctions::Impl* DocsAssistantFunctions::tryGetImpl() const {
+    return impl_.get();
+}
+
 std::string DocsAssistantFunctions::help(const std::string& query, const std::string& user_id) {
     try {
-        auto* assistant = impl_->getAssistant();
+        auto& impl = ensureImpl();
+        auto* assistant = impl.getAssistant();
         
         // Try to use LoRA adapter if available
         bool using_lora = false;
         std::string answer;
         auto start_time = std::chrono::high_resolution_clock::now();
         
-        if (impl_->isLoRAAvailable()) {
+        if (impl.isLoRAAvailable()) {
             try {
-                auto* lora = impl_->getLoRA();
+                auto* lora = impl.getLoRA();
                 if (lora) {
                     spdlog::debug("Using ThemisHelpLoRA for query: {}", query);
                     answer = lora->query(query, user_id);
@@ -368,7 +380,7 @@ std::string DocsAssistantFunctions::formatSearchResults(const std::vector<llm::D
 
 std::string DocsAssistantFunctions::docsQuery(const std::string& query) {
     try {
-        auto* assistant = impl_->getAssistant();
+        auto* assistant = ensureImpl().getAssistant();
         auto result = assistant->query(query);
         return result.generated_answer;
     } catch (const std::exception& e) {
@@ -380,7 +392,7 @@ std::string DocsAssistantFunctions::docsQuery(const std::string& query) {
 
 json DocsAssistantFunctions::docsSearch(const std::string& query, int limit) {
     try {
-        auto* assistant = impl_->getAssistant();
+        auto* assistant = ensureImpl().getAssistant();
         auto docs = assistant->searchDocs(query, limit);
         
         // Convert to JSON array
@@ -417,7 +429,7 @@ json DocsAssistantFunctions::docsSearch(const std::string& query, int limit) {
 
 std::string DocsAssistantFunctions::docsConfigHelp(const std::string& topic) {
     try {
-        auto* assistant = impl_->getAssistant();
+        auto* assistant = ensureImpl().getAssistant();
         auto result = assistant->getConfigHelp(topic);
         return result.generated_answer;
     } catch (const std::exception& e) {
@@ -429,7 +441,7 @@ std::string DocsAssistantFunctions::docsConfigHelp(const std::string& topic) {
 
 std::string DocsAssistantFunctions::docsTroubleshoot(const std::string& error_description) {
     try {
-        auto* assistant = impl_->getAssistant();
+        auto* assistant = ensureImpl().getAssistant();
         auto result = assistant->getTroubleshootingHelp(error_description);
         return result.generated_answer;
     } catch (const std::exception& e) {
@@ -441,7 +453,7 @@ std::string DocsAssistantFunctions::docsTroubleshoot(const std::string& error_de
 
 json DocsAssistantFunctions::docsStats() {
     try {
-        auto* assistant = impl_->getAssistant();
+        auto* assistant = ensureImpl().getAssistant();
         return assistant->getStats();
     } catch (const std::exception& e) {
         throw std::runtime_error(
@@ -451,16 +463,18 @@ json DocsAssistantFunctions::docsStats() {
 }
 
 bool DocsAssistantFunctions::isReady() const {
-    return impl_->isReady();
+    const auto* impl = tryGetImpl();
+    return impl ? impl->isReady() : false;
 }
 
 void DocsAssistantFunctions::clearCache() {
     try {
-        auto* assistant = impl_->getAssistant();
+        auto& impl = ensureImpl();
+        auto* assistant = impl.getAssistant();
         assistant->clearCache();
         
         // Also log unload event if LoRA is active
-        if (impl_->isLoRAAvailable()) {
+        if (impl.isLoRAAvailable()) {
             spdlog::info("Cache cleared, LoRA adapter remains loaded");
         }
     } catch (const std::exception& e) {
@@ -471,16 +485,22 @@ void DocsAssistantFunctions::clearCache() {
 }
 
 bool DocsAssistantFunctions::isLoRAActive() const {
-    return impl_->isLoRAAvailable();
+    auto* impl = tryGetImpl();
+    return impl ? impl->isLoRAAvailable() : false;
 }
 
 json DocsAssistantFunctions::getPerformanceMetrics() const {
     json metrics;
+    auto* impl = tryGetImpl();
+    if (!impl) {
+        metrics["lora_active"] = false;
+        return metrics;
+    }
     
     // Add base assistant metrics
-    if (impl_->isReady()) {
+    if (impl->isReady()) {
         try {
-            auto* assistant = impl_->getAssistant();
+            auto* assistant = impl->getAssistant();
             metrics["base_assistant"] = assistant->getStats();
         } catch (...) {
             metrics["base_assistant"] = nullptr;
@@ -488,9 +508,9 @@ json DocsAssistantFunctions::getPerformanceMetrics() const {
     }
     
     // Add LoRA metrics if available
-    if (impl_->isLoRAAvailable()) {
+    if (impl->isLoRAAvailable()) {
         try {
-            auto* lora = impl_->getLoRA();
+            auto* lora = impl->getLoRA();
             if (lora) {
                 auto lora_metrics = lora->getMetrics();
                 metrics["lora"] = {
@@ -518,7 +538,7 @@ json DocsAssistantFunctions::getPerformanceMetrics() const {
         }
     }
     
-    metrics["lora_active"] = impl_->isLoRAAvailable();
+    metrics["lora_active"] = impl->isLoRAAvailable();
     
     return metrics;
 }

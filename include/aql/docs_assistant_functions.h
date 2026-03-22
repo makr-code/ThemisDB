@@ -252,7 +252,9 @@ protected:
 
 private:
     class Impl;
-    std::unique_ptr<Impl> impl_;
+  Impl& ensureImpl();
+  Impl* tryGetImpl() const;
+  mutable std::unique_ptr<Impl> impl_;
 
     /// Injected classifier; null means native NLP is not available (NullClassifyFn semantics).
     IClassifyFn* classifier_ = nullptr;
