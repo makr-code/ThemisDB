@@ -41,10 +41,11 @@
       ],
       "evidence": "ROADMAP Production Readiness Checklist: '[?] Security audit'",
       "severity": "medium",
-      "status": "open",
+      "status": "fixed",
+      "fix_description": "IMetadataSecurityProvider interface added (include/metadata/imetadata_security_provider.h) with NoOpMetadataSecurityProvider (default, zero overhead) and InMemoryRbacMetadataSecurityProvider (thread-safe RBAC: grant/revoke/revokeAll, wildcard resource '*', ADMIN-implies-all, MetadataAccessDeniedException). 11 acceptance-criteria tests in test_metadata_security_provider.cpp. ROADMAP checklist updated from [?] to [x]. CI: metadata-interfaces-ci.yml.",
       "target_version": "v1.6.0",
-      "issue_title_suggestion": "security(metadata): conduct access control and information disclosure audit (closes v1.6.0 target)",
-      "label_suggestions": ["security", "metadata", "audit"]
+      "issue_title_suggestion": null,
+      "label_suggestions": []
     },
     {
       "id": "META-MISSING-003",
