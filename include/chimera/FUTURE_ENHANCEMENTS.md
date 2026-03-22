@@ -32,8 +32,9 @@
 ## Planned Interface Extensions
 
 ### Async Operation Interfaces
-**Status:** ✅ Implemented (v1.8.0)  
-**Original Target Version:** v1.2.0
+**Priority:** High  
+**Target Version:** v1.2.0  
+**Status:** ✅ Implemented (v1.8.0)
 
 Add async/await style interfaces for non-blocking operations.
 
@@ -496,8 +497,9 @@ struct DistributedQueryOptions {
 ---
 
 ### Batch Operation Configuration
-**Status:** ✅ Implemented (v1.8.0)  
-**Original Target Version:** v1.2.0
+**Priority:** Medium  
+**Target Version:** v1.2.0  
+**Status:** ✅ Implemented (v1.8.0)
 
 Enhanced batch operation control.
 

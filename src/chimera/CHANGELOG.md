@@ -18,13 +18,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [1.8.0] — 2026-03-22
 ### Added
-- Async/Promise-Based API: `IAsyncDatabaseAdapter` interface with `execute_query_async`, `batch_insert_async`, `search_vectors_async`, `cancel_async`; per-operation `AsyncQueryOptions` (operation_id, timeout, priority); RAII `ScopedTokenRemover` ensures cancellation tokens are cleaned up on completion; duplicate operation_id detection returns `ALREADY_EXISTS`; `ASYNC_OPERATIONS` capability flag and `capability_to_string` support (`tests/chimera/test_chimera_async_api.cpp` — 24 tests)
-- Batch Operation Enhancements: `BatchOptions` (batch_size, stop_on_error, progress_callback, batch_callback), `BatchResult` (total_processed, successful, failed, total_time, per-chunk `batch_results`); default chunked implementations of `batch_insert_advanced` and `batch_insert_documents_advanced` provided in `IRelationalAdapter` and `IDocumentAdapter` base interfaces (`tests/chimera/test_chimera_batch_operations.cpp` — 30 tests)
-- `AdapterConfig` validation: `validate()`, `get_validation_errors()`, `parse_connection_string()` with scheme/host/port/options correctness checks; `ParsedConnectionString` struct (`tests/chimera/test_adapter_config_validation.cpp`)
-- Focused test targets for all 14 chimera test files registered in `tests/CMakeLists.txt` (previous release registered 10; the 4 new targets are `ChimeraBatchOperationsTests`, `ChimeraAdapterConfigValidationTests`, `ChimeraAsyncAPITests`, and `ChimeraRetryPolicyTests`)
-
-### Fixed
-- `tests/CMakeLists.txt`: `add_chimera_focused_test` call for `test_chimera_adapter_config_validation` and `test_chimera_async_api` were incorrectly merged into a single invocation; split into two separate calls so `ChimeraAsyncAPITests` is properly registered as its own CTest target
+- Async/Promise-Based API: `IAsyncDatabaseAdapter` with `execute_query_async()`, `batch_insert_async()`, `search_vectors_async()`, and `cancel_async()`; `ASYNC_OPERATIONS` capability flag; `ThemisDBAdapter` implements `IAsyncDatabaseAdapter` with thread-pool dispatch and cancellation token support (`database_adapter.hpp`, `themisdb_adapter.hpp`)
+- Batch Operation Enhancements: `BatchOptions` (chunk_size, stop_on_error, progress_callback, batch_callback) and `BatchResult` (total_processed, successful, failed, total_time, per-chunk results); default `batch_insert_advanced()` implementation in `IRelationalAdapter`; default `batch_insert_documents_advanced()` in `IDocumentAdapter` (`database_adapter.hpp`)
+- AdapterConfig validation: `AdapterConfig::validate()` (returns `Result<bool>`, checks connection string, pool_size, timeout_ms, use_tls), `get_validation_errors()` (returns all constraint violations), `parse_connection_string()` (decomposes URL into `ParsedConnectionString`) (`database_adapter.hpp`)
+- Error Recovery and Retry Logic: `RetryPolicy` (max_retries, initial_delay, backoff_multiplier, max_delay, is_transient predicate), `CircuitBreaker` (CLOSED/OPEN/HALF_OPEN state machine, configurable failure threshold and open timeout), `ConnectionWithRetry<T>` decorator template (`retry_policy.hpp`)
+- 14 focused test executables covering all features including `test_chimera_retry_policy`, `test_chimera_batch_operations`, `test_chimera_adapter_config_validation`, `test_chimera_async_api`
 
 ## [1.7.0] — 2026-03-09
 ### Added
