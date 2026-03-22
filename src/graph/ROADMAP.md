@@ -86,7 +86,7 @@
 - [x] Changefeed integration: `setChangefeed()` → `recordEvent()` per mutation with key prefix `graph_edge_refresh:` (Target: Q4 2026)
 - [x] Integration tests: large graph (50+ nodes), cluster-embedding scenario, regression (stable graph), changefeed event verification (Target: Q4 2026)
 - [x] Integration with acceleration module for ANN/GNN top-k candidate edges — `setANNIndex(IAnnIndex*)`, `rebuildANNIndex()`, ANN path in `discoverCandidateEdges()` when vertex count > `policy.ann_min_vertices` (Target: Q1 2027)
-- [x] CEP event emission for edge mutations via `analytics/cep_engine` — `setCEPEngine(CEPEngine*)`, `EDGE_CREATE`/`EDGE_DELETE` events emitted after successful batch commit (Target: Q1 2027)
+- [x] CEP event emission for edge mutations via `analytics/cep_engine` — `setCEPEventCallback(std::function<void(themisdb::analytics::Event)>)`, `EDGE_CREATE`/`EDGE_DELETE` events emitted after successful batch commit (Target: Q1 2027)
 - [x] Bilingual documentation EN (`docs/scheduled_edge_refresh.md`) and DE (`docs/de/scheduled_edge_refresh.md`) including anomaly detection + Changefeed sections (Target: Q4 2026)
 
 ## Production Readiness Checklist

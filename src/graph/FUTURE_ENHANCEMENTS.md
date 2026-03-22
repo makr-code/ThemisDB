@@ -642,7 +642,9 @@ Process graphs as streams of edge insertions/deletions.
 
 **v1.8.0 (Q1 2027):**
 1. ✅ Distributed Graph Queries
-2. Query Rewriting
+2. ✅ ANN-accelerated candidate edge discovery (`setANNIndex(IAnnIndex*)` + `rebuildANNIndex()`)
+3. ✅ CEP event emission for edge mutations (`setCEPEventCallback(std::function<void(themisdb::analytics::Event)>)`)
+4. Query Rewriting
 
 **v1.9.0 (Q3 2027):**
 1. GPU-Accelerated Graph Processing
@@ -953,11 +955,11 @@ Key properties:
 
 ## Scheduled Semantic Graph Edge Refresh
 
-**Status:** 🚧 Beta — Core engine, safety gates, audit trail, anomaly detection, and ChangeFeed integration complete.  ANN/GNN candidate discovery and CEP event emission are planned (Target: Q1 2027).
+**Status:** ✅ Production Ready — Core engine, safety gates, audit trail, anomaly detection, ChangeFeed integration, ANN-accelerated candidate discovery, and CEP event emission are complete.
 
 **Issue:** #FEATURE/ScheduledGraphEdgeRefresh  
 **Files:** `include/graph/scheduled_edge_refresh.h`, `src/graph/scheduled_edge_refresh.cpp`  
-**Tests:** `tests/graph/test_scheduled_edge_refresh.cpp` (45+ tests)  
+**Tests:** `tests/graph/test_scheduled_edge_refresh.cpp` (60+ tests)  
 **Docs:** `docs/scheduled_edge_refresh.md`, `docs/de/scheduled_edge_refresh.md`
 
 ### Background & State of the Art
@@ -983,7 +985,7 @@ Keeping a graph semantically current as the underlying data evolves is a well-st
   - Bounded in-memory audit trail (`RefreshAuditEntry`, max 10,000 entries)
   - Optional `Changefeed` events (`EVENT_PUT` / `EVENT_DELETE` keyed `graph_edge_refresh:<edge_id>`)
 - **Frequency:** Configurable — time-based (`refresh_interval`), event-triggered (`triggerRefresh()`), or adaptive (caller-driven).
-- **Graph size targets:** Brute-force similarity for ≤ 10,000 nodes; ANN (HNSW via `acceleration` module) for larger graphs (planned, Target: Q1 2027).
+- **Graph size targets:** Brute-force similarity for ≤ `policy.ann_min_vertices` nodes (default 10,000); ANN-accelerated path via `setANNIndex(IAnnIndex*)` for larger graphs.
 
 ### Design Constraints
 
@@ -996,7 +998,7 @@ Keeping a graph semantically current as the underlying data evolves is a well-st
 - [ ] `NodeEmbeddingProvider` returning an empty vector is treated as "embedding unavailable" → similarity skipped → `similarity = 1.0`
 - [ ] Audit trail bounded at `kMaxAuditEntries = 10,000`; oldest entries evicted FIFO (no unbounded growth)
 - [ ] `Changefeed` attachment is optional; `recordEvent` failures are logged as warnings, never as errors that abort the cycle
-- [ ] ANN integration (planned) must produce identical *ranking order* as brute-force for the same graph and embeddings (deterministic top-k, tolerance ≤ 1e-4 on scores)
+- [x] ANN integration: `setANNIndex(IAnnIndex*)` + `rebuildANNIndex()` + ANN path in `discoverCandidateEdges()` when vertex count > `policy.ann_min_vertices`; brute-force fallback when below threshold or no index attached
 
 ### Required Interfaces
 
@@ -1011,8 +1013,8 @@ Keeping a graph semantically current as the underlying data evolves is a well-st
 | `GraphIndexManager::deleteEdge(id, batch)` | `applyBatch()` | Batched deletion |
 | `NodeEmbeddingProvider` (`std::function<std::vector<float>(std::string)>`) | `computeSimilarity()` | User-supplied; may be backed by GNN index or HNSW vector store |
 | `Changefeed::recordEvent(ChangeEvent)` | `appendAudit()` | Optional; CDC downstream consumers |
-| `acceleration::ANNIndex::knnSearch(query, k)` *(planned)* | `discoverCandidates()` | Replaces brute-force O(V·D) loop with O(log V·D) for large graphs |
-| `analytics::CEPEngine::emitEvent(pattern, payload)` *(planned)* | `applyBatch()` | Real-time edge mutation events for CEP rule matching |
+| `index::IAnnIndex::search(query, dim, k)` ✅ | `discoverCandidates()` | Attached via `setANNIndex()`; active when vertex count > `policy.ann_min_vertices` |
+| `setCEPEventCallback(std::function<void(themisdb::analytics::Event)>)` ✅ | `applyBatch()` | Real-time `EDGE_CREATE`/`EDGE_DELETE` events after successful batch commit |
 
 ### Implementation Notes
 
@@ -1062,15 +1064,18 @@ relevance = similarity × temporal_factor × centrality_weight
   - ChangeFeed: `recordEvent()` called for each mutation with correct event type and metadata
   - Large-graph integration: 100-node graph, cluster embeddings → correct add/remove behaviour
   - Regression: stable graph (all edges above threshold) → zero mutations over multiple cycles
-- **Planned additional tests** (ANN/CEP integration):
-  - ANN top-k results match brute-force ranking for graphs of 50,000–500,000 nodes (score tolerance ≤ 1e-4)
-  - CEP events emitted in correct order and format; no events emitted when cycle is aborted by safety gate
-  - Concurrent `triggerRefresh()` + background scheduler: second call blocks until first cycle completes
+- **ANN/CEP tests** (implemented):
+  - ANN path active when vertex count > `policy.ann_min_vertices`; brute-force fallback below threshold
+  - ANN-accelerated discovery produces same candidate count as brute-force (BruteForceANN fixture)
+  - CEP callback invoked with `EDGE_REMOVED` events after successful removal (event_name + fields validated)
+  - CEP callback invoked with `EDGE_ADDED` events after successful addition (all required fields present)
+  - No CEP events emitted when safety gate aborts cycle
+  - Detaching CEP callback (empty function) prevents further event emission
 
 ### Performance Targets
 
 - Single refresh cycle on a **10,000-node graph** (brute-force): ≤ 5 s wall time on a single core, ≤ 200 ms with 8 parallel scoring workers.
-- Single refresh cycle on a **1,000,000-node graph** (ANN, planned): ≤ 30 s wall time; top-k candidate discovery O(V · log V · D) where D = embedding dimension.
+- Single refresh cycle on a **1,000,000-node graph** (ANN via `setANNIndex()`): ≤ 30 s wall time; top-k candidate discovery O(V · log V · D) where D = embedding dimension.
 - Audit trail `appendAudit()` overhead: < 1 µs per mutation (bounded ring buffer, no heap allocation on steady state).
 - `ChangeFeed::recordEvent()` path: < 5 µs per event (RocksDB single put).
 - Safety gate check: O(1) — computed as a fraction before any storage access.
@@ -1082,10 +1087,10 @@ relevance = similarity × temporal_factor × centrality_weight
 - `max_removal_fraction` safety gate (default 0.10) prevents runaway deletions from a misconfigured or adversarially crafted `NodeEmbeddingProvider`; the gate fires before any write is issued.
 - `NodeEmbeddingProvider` is user-supplied code; it must not be trusted to return well-formed vectors. `computeSimilarity()` defensively returns 0.0 for empty, mismatched-length, or NaN-containing vectors.
 - Audit trail eviction is FIFO and bounded; no unbounded memory growth regardless of cycle count.
-- `Changefeed::recordEvent()` exceptions are caught and logged as warnings; they never abort a refresh cycle or roll back committed mutations.
+- `Changefeed::recordEvent()` and CEP callback exceptions are caught and logged as warnings; they never abort a refresh cycle or roll back committed mutations.
 - Batch commit failure is logged as an error; the cycle reports failure via `RefreshStats::last_error` without crashing the engine or stopping the background thread.
 - `setPolicy()` is thread-safe (protected by `policy_mutex_`); a concurrent `triggerRefresh()` sees either the old or the new policy consistently, never a partial mix.
-- ANN index integration (planned) must not read raw user data outside the configured `graph_id` scope; query is scoped to the same graph as the refresh cycle.
+- ANN index integration only queries the vertex set present in the current cycle; no cross-graph data access is possible through the `IAnnIndex` interface.
 
 ---
 

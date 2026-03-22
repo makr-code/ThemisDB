@@ -465,10 +465,10 @@ public:
     void setANNIndex(std::shared_ptr<index::IAnnIndex> ann_index);
 
     /**
-     * @brief Attach a CEP engine for real-time edge mutation event emission.
+     * @brief Register a callback for real-time CEP event emission.
      *
-     * When set, every edge mutation committed by a successful refresh cycle
-     * emits one `themisdb::analytics::Event` to the CEP engine:
+     * The callback is invoked after every successful batch commit, once for
+     * each edge mutation:
      *   - Additions  → EventType::EDGE_CREATE, event_name = "EDGE_ADDED"
      *   - Removals   → EventType::EDGE_DELETE, event_name = "EDGE_REMOVED"
      *
@@ -479,14 +479,21 @@ public:
      * No events are emitted when a cycle is aborted by the safety gate or
      * when the batch commit fails.
      *
-     * Set to nullptr to detach.
+     * Pass an empty function to detach an existing callback.
+     *
+     * Typical production usage:
+     * @code
+     *   engine.setCEPEventCallback([](themisdb::analytics::Event ev) {
+     *       themisdb::analytics::CEPEngine::getInstance().submitEvent(std::move(ev));
+     *   });
+     * @endcode
      *
      * Thread-safe: may be called before or after start().
      *
-     * DE: Registriert eine CEP-Engine für Echtzeit-Kantenmutationsereignisse.
+     * DE: Registriert einen Callback für CEP-Echtzeit-Kantenmutationsereignisse.
      */
-    void setCEPEngine(
-        std::shared_ptr<themisdb::analytics::CEPEngine> cep_engine);
+    void setCEPEventCallback(
+        std::function<void(themisdb::analytics::Event)> callback);
 
     // ── Scoring helpers (exposed for testability) ─────────────────────────────
 
@@ -574,7 +581,7 @@ private:
     NodeEmbeddingProvider embedding_fn_;
     std::shared_ptr<Changefeed> changefeed_; ///< Optional – may be nullptr
     std::shared_ptr<index::IAnnIndex> ann_index_; ///< Optional ANN index
-    std::shared_ptr<themisdb::analytics::CEPEngine> cep_engine_; ///< Optional CEP engine
+    std::function<void(themisdb::analytics::Event)> cep_event_callback_; ///< Optional CEP callback
 
     // Vertex ↔ integer-ID mapping built by rebuildANNIndex().
     // Protected by stats_mutex_ (rebuilt inside discoverCandidateEdges which

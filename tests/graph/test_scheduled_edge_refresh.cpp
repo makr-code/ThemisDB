@@ -47,14 +47,17 @@
 
 #include <gtest/gtest.h>
 
+#include "analytics/cep_engine.h"
 #include "cdc/changefeed.h"
 #include "graph/scheduled_edge_refresh.h"
+#include "index/ann_index.h"
 #include "index/graph_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 
 #include <chrono>
 #include <filesystem>
+#include <mutex>
 #include <string>
 #include <thread>
 #include <unordered_map>
@@ -1052,41 +1055,6 @@ TEST_F(ScheduledEdgeRefreshTest, ANN_BelowThreshold_UsesBruteForce) {
 // CEP event emission
 // ============================================================================
 
-namespace {
-
-/// Minimal CEP engine stub that records submitted events.
-class RecordingCEPEngine : public themisdb::analytics::CEPEngine {
-public:
-    RecordingCEPEngine() {
-        // Initialise with a default config but do not start background threads.
-        themisdb::analytics::CEPConfig cfg;
-        cfg.max_events_per_stream = 10000;
-        // skip init() to avoid real threading in tests
-    }
-
-    bool submitEvent(themisdb::analytics::Event event) override {
-        std::lock_guard<std::mutex> lock(mu_);
-        events_.push_back(std::move(event));
-        return true;
-    }
-
-    std::vector<themisdb::analytics::Event> getEvents() const {
-        std::lock_guard<std::mutex> lock(mu_);
-        return events_;
-    }
-
-    void clear() {
-        std::lock_guard<std::mutex> lock(mu_);
-        events_.clear();
-    }
-
-private:
-    mutable std::mutex mu_;
-    std::vector<themisdb::analytics::Event> events_;
-};
-
-} // anonymous namespace
-
 TEST_F(ScheduledEdgeRefreshTest, CEP_EventsEmitted_OnSuccessfulRemoval) {
     // Build a graph where all edges are below the relevance threshold so they
     // will be removed.
@@ -1103,22 +1071,28 @@ TEST_F(ScheduledEdgeRefreshTest, CEP_EventsEmitted_OnSuccessfulRemoval) {
     p.decay_half_life_seconds = 0.0;
     p.similarity_metric       = SimilarityMetric::COSINE;
 
-    auto cep = std::make_shared<RecordingCEPEngine>();
+    std::vector<themisdb::analytics::Event> captured_events;
+    std::mutex capture_mu;
 
     ScheduledGraphEdgeRefreshEngine engine(
         *graph_mgr_, p, makeEmbeddingProvider(embs));
-    engine.setCEPEngine(cep);
+    engine.setCEPEventCallback(
+        [&captured_events, &capture_mu](themisdb::analytics::Event ev) {
+            std::lock_guard<std::mutex> lock(capture_mu);
+            captured_events.push_back(std::move(ev));
+        });
 
     RefreshStats stats = engine.triggerRefresh();
     EXPECT_FALSE(stats.aborted_safety_gate);
     EXPECT_GE(stats.edges_removed, 1u);
 
-    const auto events = cep->getEvents();
+    std::lock_guard<std::mutex> lock(capture_mu);
     // At least one EDGE_REMOVED event should have been emitted.
     bool found_removal = false;
-    for (const auto& ev : events) {
+    for (const auto& ev : captured_events) {
         if (ev.event_name == "EDGE_REMOVED") {
             found_removal = true;
+            EXPECT_EQ(ev.type, themisdb::analytics::EventType::EDGE_DELETE);
             auto eid = ev.getField<std::string>("edge_id");
             EXPECT_TRUE(eid.has_value());
             auto cycle = ev.getField<int64_t>("cycle_number");
@@ -1146,19 +1120,25 @@ TEST_F(ScheduledEdgeRefreshTest, CEP_EventsEmitted_OnSuccessfulAddition) {
     p.top_k_candidates        = 5;
     p.similarity_metric       = SimilarityMetric::COSINE;
 
-    auto cep = std::make_shared<RecordingCEPEngine>();
+    std::vector<themisdb::analytics::Event> captured_events;
+    std::mutex capture_mu;
 
     ScheduledGraphEdgeRefreshEngine engine(
         *graph_mgr_, p, makeEmbeddingProvider(embs));
-    engine.setCEPEngine(cep);
+    engine.setCEPEventCallback(
+        [&captured_events, &capture_mu](themisdb::analytics::Event ev) {
+            std::lock_guard<std::mutex> lock(capture_mu);
+            captured_events.push_back(std::move(ev));
+        });
 
     RefreshStats stats = engine.triggerRefresh();
     EXPECT_FALSE(stats.aborted_safety_gate);
 
-    const auto events = cep->getEvents();
+    std::lock_guard<std::mutex> lock(capture_mu);
     // Any added edge should emit an EDGE_ADDED CEP event with all required fields.
-    for (const auto& ev : events) {
+    for (const auto& ev : captured_events) {
         if (ev.event_name == "EDGE_ADDED") {
+            EXPECT_EQ(ev.type, themisdb::analytics::EventType::EDGE_CREATE);
             EXPECT_TRUE(ev.getField<std::string>("edge_id").has_value());
             EXPECT_TRUE(ev.getField<std::string>("from_vertex").has_value());
             EXPECT_TRUE(ev.getField<std::string>("to_vertex").has_value());
@@ -1184,20 +1164,27 @@ TEST_F(ScheduledEdgeRefreshTest, CEP_NoEventsEmitted_WhenSafetyGateAborts) {
     p.decay_half_life_seconds = 0.0;
     p.similarity_metric       = SimilarityMetric::COSINE;
 
-    auto cep = std::make_shared<RecordingCEPEngine>();
+    std::vector<themisdb::analytics::Event> captured_events;
+    std::mutex capture_mu;
 
     ScheduledGraphEdgeRefreshEngine engine(
         *graph_mgr_, p, makeEmbeddingProvider(embs));
-    engine.setCEPEngine(cep);
+    engine.setCEPEventCallback(
+        [&captured_events, &capture_mu](themisdb::analytics::Event ev) {
+            std::lock_guard<std::mutex> lock(capture_mu);
+            captured_events.push_back(std::move(ev));
+        });
 
     RefreshStats stats = engine.triggerRefresh();
     EXPECT_TRUE(stats.aborted_safety_gate);
+
+    std::lock_guard<std::mutex> lock(capture_mu);
     // No CEP events must be emitted when the safety gate aborts the cycle.
-    EXPECT_TRUE(cep->getEvents().empty());
+    EXPECT_TRUE(captured_events.empty());
 }
 
-TEST_F(ScheduledEdgeRefreshTest, CEP_DetachBySettingNullptr) {
-    // Verify that setCEPEngine(nullptr) detaches without crashing.
+TEST_F(ScheduledEdgeRefreshTest, CEP_DetachBySettingEmptyCallback) {
+    // Verify that setCEPEventCallback({}) detaches without crashing.
     std::unordered_map<std::string, std::vector<float>> embs = {
         {"A", {1.0f, 0.0f}},
         {"B", {0.0f, 1.0f}},
@@ -1211,15 +1198,24 @@ TEST_F(ScheduledEdgeRefreshTest, CEP_DetachBySettingNullptr) {
     p.decay_half_life_seconds = 0.0;
     p.similarity_metric       = SimilarityMetric::COSINE;
 
-    auto cep = std::make_shared<RecordingCEPEngine>();
+    std::vector<themisdb::analytics::Event> captured_events;
+    std::mutex capture_mu;
 
     ScheduledGraphEdgeRefreshEngine engine(
         *graph_mgr_, p, makeEmbeddingProvider(embs));
-    engine.setCEPEngine(cep);
-    engine.setCEPEngine(nullptr); // detach
+
+    // Attach, then detach.
+    engine.setCEPEventCallback(
+        [&captured_events, &capture_mu](themisdb::analytics::Event ev) {
+            std::lock_guard<std::mutex> lock(capture_mu);
+            captured_events.push_back(std::move(ev));
+        });
+    engine.setCEPEventCallback({}); // detach
 
     RefreshStats stats = engine.triggerRefresh();
     EXPECT_FALSE(stats.aborted_safety_gate);
+
+    std::lock_guard<std::mutex> lock(capture_mu);
     // After detaching, no events should have been recorded.
-    EXPECT_TRUE(cep->getEvents().empty());
+    EXPECT_TRUE(captured_events.empty());
 }

@@ -187,11 +187,11 @@ void ScheduledGraphEdgeRefreshEngine::setANNIndex(
     ann_index_ = std::move(ann_index);
 }
 
-void ScheduledGraphEdgeRefreshEngine::setCEPEngine(
-    std::shared_ptr<themisdb::analytics::CEPEngine> cep_engine)
+void ScheduledGraphEdgeRefreshEngine::setCEPEventCallback(
+    std::function<void(themisdb::analytics::Event)> callback)
 {
     std::lock_guard<std::mutex> lock(stats_mutex_);
-    cep_engine_ = std::move(cep_engine);
+    cep_event_callback_ = std::move(callback);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -875,15 +875,15 @@ bool ScheduledGraphEdgeRefreshEngine::applyBatch(
     }
 
     // ── CEP event emission (only after a successful commit) ─────────────────
-    // Copy the shared_ptr under the stats mutex to avoid holding it during
-    // the (potentially slow) submitEvent calls.
-    std::shared_ptr<themisdb::analytics::CEPEngine> cep;
+    // Copy the callback under the stats mutex to avoid holding it during
+    // the (potentially slow) invocations.
+    std::function<void(themisdb::analytics::Event)> cep_cb;
     {
         std::lock_guard<std::mutex> lock(stats_mutex_);
-        cep = cep_engine_;
+        cep_cb = cep_event_callback_;
     }
 
-    if (cep) {
+    if (cep_cb) {
         const auto emit_time = std::chrono::system_clock::now();
 
         for (const auto& edge_id : edge_ids_to_remove) {
@@ -894,9 +894,9 @@ bool ScheduledGraphEdgeRefreshEngine::applyBatch(
             ev.setField("edge_id",      edge_id);
             ev.setField("cycle_number", static_cast<int64_t>(cycle_number));
             try {
-                cep->submitEvent(std::move(ev));
+                cep_cb(std::move(ev));
             } catch (const std::exception& ex) {
-                spdlog::warn("[ScheduledEdgeRefresh] CEP submitEvent(EDGE_REMOVED) failed: {}",
+                spdlog::warn("[ScheduledEdgeRefresh] CEP callback(EDGE_REMOVED) failed: {}",
                              ex.what());
             }
         }
@@ -912,9 +912,9 @@ bool ScheduledGraphEdgeRefreshEngine::applyBatch(
             ev.setField("relevance_score", static_cast<double>(rec.sim));
             ev.setField("cycle_number",    static_cast<int64_t>(cycle_number));
             try {
-                cep->submitEvent(std::move(ev));
+                cep_cb(std::move(ev));
             } catch (const std::exception& ex) {
-                spdlog::warn("[ScheduledEdgeRefresh] CEP submitEvent(EDGE_ADDED) failed: {}",
+                spdlog::warn("[ScheduledEdgeRefresh] CEP callback(EDGE_ADDED) failed: {}",
                              ex.what());
             }
         }
