@@ -1862,7 +1862,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_distributed.cpp")
     set_target_properties(test_graph_distributed PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}"
         PDB_OUTPUT_DIRECTORY "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}"
-        OUTPUT_NAME "test_graph_distributed_runner"
+        OUTPUT_NAME "test_graph_distributed_exec"
     )
 
     add_test(NAME DistributedGraphTests COMMAND $<TARGET_FILE:test_graph_distributed>)

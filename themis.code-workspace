@@ -2,12 +2,6 @@
     "folders": [
         {
             "path": "."
-        },
-        {
-            "path": "../DBahnThDB"
-        },
-        {
-            "path": "../VIS5ThDB"
         }
     ]
 }
