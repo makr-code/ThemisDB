@@ -7,8 +7,14 @@ All notable changes to the AQL (ThemisDB Query Language) module are documented h
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
-- Multi-modal AQL agent inputs (image/audio/video via `MultiModalInferRequest`) — Target v1.8.0
-- `IAsyncLLMBackend` non-blocking `std::future<Result<T>>` inference interface — Target v1.8.0
+
+## [1.8.0] — 2026-03-22
+### Added
+- `MultiModalInferRequest` type hierarchy: `ModalityType` enum (TEXT/IMAGE/AUDIO/VIDEO), `MultiModalInput` (MIME-validated, variant payload: string/bytes/path), `MultiModalInferRequest` extending `llm::InferenceRequest` with `addInput()`, `validateInputs()`, `hasNonTextInputs()` helpers (`include/aql/multimodal_infer_request.h`)
+- `IAsyncLLMBackend` – pure abstract non-blocking inference interface: `inferAsync(InferenceRequest)` → `std::future<Result<std::string>>`, `embedAsync(string)` → `std::future<Result<vector<float>>>`, `supportsMultiModal()` (`include/aql/iasync_llm_backend.h`)
+- `ThreadPoolAsyncLLMBackend` – concrete `IAsyncLLMBackend` adapter wrapping any `ILLMPlugin` via `std::async`; plugin exceptions are captured as `Result` errors rather than propagated through the future
+- 28 unit tests for multimodal types (`tests/test_aql_multimodal.cpp`)
+- 11 unit tests for async backend interface (`tests/test_aql_async_backend.cpp`)
 
 ## [1.7.0] — 2026-03-09
 ### Added
