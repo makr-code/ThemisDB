@@ -9959,6 +9959,41 @@ else()
     message(STATUS "JWT ES256 Comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_es256_comprehensive.cpp")
 endif()
 
+# JWT EC Curves Comprehensive Tests (ES384, ES512, RS384, RS512)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_ec_curves_comprehensive.cpp")
+    message(STATUS "Adding JWT EC Curves Comprehensive tests")
+
+    add_executable(test_jwt_ec_curves_comprehensive
+        test_jwt_ec_curves_comprehensive.cpp
+    )
+
+    target_link_libraries(test_jwt_ec_curves_comprehensive PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_jwt_ec_curves_comprehensive PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME JWTECCurvesComprehensiveTests COMMAND test_jwt_ec_curves_comprehensive)
+
+    set_tests_properties(JWTECCurvesComprehensiveTests PROPERTIES
+        LABELS "auth;jwt;es384;es512;rs384;rs512;ecdsa;comprehensive;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  JWT EC Curves: ES384 (P-384/SHA-384), ES512 (P-521/SHA-512), RS384, RS512")
+else()
+    message(STATUS "JWT EC Curves Comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_ec_curves_comprehensive.cpp")
+endif()
+
 # JWT Integration Tests (live mini-JWKS HTTP server via Boost.Asio)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_integration.cpp")
     message(STATUS "Adding JWT Integration tests")

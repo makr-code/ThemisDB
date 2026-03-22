@@ -313,6 +313,13 @@ const nlohmann::json* JWTValidator::findJwkForKid(const nlohmann::json& jwks, co
 bool JWTValidator::verifySignatureRS256(const std::string& header_payload,
                                         const std::vector<uint8_t>& signature,
                                         const nlohmann::json& jwk) {
+    return verifySignatureRSA(header_payload, signature, jwk, "RS256");
+}
+
+bool JWTValidator::verifySignatureRSA(const std::string& header_payload,
+                                      const std::vector<uint8_t>& signature,
+                                      const nlohmann::json& jwk,
+                                      const std::string& alg) {
     if (jwk.value("kty", "") != "RSA") return false;
     auto n_b64 = jwk.value("n", "");
     auto e_b64 = jwk.value("e", "");
@@ -349,10 +356,21 @@ bool JWTValidator::verifySignatureRS256(const std::string& header_payload,
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
-    // Verify using EVP_DigestVerify to compute SHA256 and PKCS#1 v1.5
+    // Select digest based on algorithm (RS256 → SHA-256, RS384 → SHA-384, RS512 → SHA-512)
+    const EVP_MD* md = nullptr;
+    if (alg == "RS256") {
+        md = EVP_sha256();
+    } else if (alg == "RS384") {
+        md = EVP_sha384();
+    } else if (alg == "RS512") {
+        md = EVP_sha512();
+    } else {
+        return false;
+    }
+    // Verify using EVP_DigestVerify with selected digest and PKCS#1 v1.5
     auto mctx = utils::make_evp_md_ctx();
     if (!mctx) return false;
-    int ok = EVP_DigestVerifyInit(mctx.get(), nullptr, EVP_sha256(), nullptr, pkey.get());
+    int ok = EVP_DigestVerifyInit(mctx.get(), nullptr, md, nullptr, pkey.get());
     if (ok != 1) return false;
     ok = EVP_DigestVerifyUpdate(mctx.get(), header_payload.data(), header_payload.size());
     if (ok != 1) return false;
@@ -363,10 +381,42 @@ bool JWTValidator::verifySignatureRS256(const std::string& header_payload,
 bool JWTValidator::verifySignatureES256(const std::string& header_payload,
                                         const std::vector<uint8_t>& signature,
                                         const nlohmann::json& jwk) {
-    // Verify ECDSA P-256 / SHA-256 signature (ES256)
-    // JWK format: {"kty":"EC","crv":"P-256","x":"<base64url>","y":"<base64url>"}
+    return verifySignatureEC(header_payload, signature, jwk, "ES256");
+}
+
+bool JWTValidator::verifySignatureEC(const std::string& header_payload,
+                                     const std::vector<uint8_t>& signature,
+                                     const nlohmann::json& jwk,
+                                     const std::string& alg) {
+    // Verify ECDSA signature for ES256 (P-256/SHA-256), ES384 (P-384/SHA-384),
+    // or ES512 (P-521/SHA-512).
+    // JWK format: {"kty":"EC","crv":"P-256"|"P-384"|"P-521","x":"...","y":"..."}
     if (jwk.value("kty", "") != "EC") return false;
-    if (jwk.value("crv", "") != "P-256") return false;
+    const std::string crv = jwk.value("crv", "");
+
+    // Determine curve NID, expected coordinate size (bytes), and digest from alg.
+    int nid = 0;
+    size_t coord_size = 0;
+    const EVP_MD* md = nullptr;
+
+    if (alg == "ES256") {
+        if (crv != "P-256") return false;
+        nid = NID_X9_62_prime256v1;
+        coord_size = 32;
+        md = EVP_sha256();
+    } else if (alg == "ES384") {
+        if (crv != "P-384") return false;
+        nid = NID_secp384r1;
+        coord_size = 48;
+        md = EVP_sha384();
+    } else if (alg == "ES512") {
+        if (crv != "P-521") return false;
+        nid = NID_secp521r1;
+        coord_size = 66;
+        md = EVP_sha512();
+    } else {
+        return false;
+    }
 
     auto x_b64 = jwk.value("x", "");
     auto y_b64 = jwk.value("y", "");
@@ -374,14 +424,14 @@ bool JWTValidator::verifySignatureES256(const std::string& header_payload,
 
     auto x_bytes = decodeBase64Url(x_b64);
     auto y_bytes = decodeBase64Url(y_b64);
-    if (x_bytes.size() != 32 || y_bytes.size() != 32) return false;
+    if (x_bytes.size() != coord_size || y_bytes.size() != coord_size) return false;
 
-    // Build EC_KEY for P-256
+    // Build EC_KEY for the target curve.
     using ECKeyPtr = std::unique_ptr<EC_KEY, decltype(&EC_KEY_free)>;
     using ECGroupPtr = std::unique_ptr<EC_GROUP, decltype(&EC_GROUP_free)>;
     using ECPointPtr = std::unique_ptr<EC_POINT, decltype(&EC_POINT_free)>;
 
-    ECGroupPtr group(EC_GROUP_new_by_curve_name(NID_X9_62_prime256v1), &EC_GROUP_free);
+    ECGroupPtr group(EC_GROUP_new_by_curve_name(nid), &EC_GROUP_free);
     if (!group) return false;
 
     ECKeyPtr ec_key(EC_KEY_new(), &EC_KEY_free);
@@ -404,16 +454,16 @@ bool JWTValidator::verifySignatureES256(const std::string& header_payload,
     if (!pkey) return false;
     if (EVP_PKEY_set1_EC_KEY(pkey.get(), ec_key.get()) != 1) return false;
 
-    // JWT ES256 signature is the raw (r || s) encoding (each 32 bytes = 64 bytes total).
+    // JWT ECDSA signature is raw (r || s) encoding (coord_size bytes each).
     // OpenSSL ECDSA_verify expects DER-encoded ECDSA_SIG.  Convert r||s → DER.
-    if (signature.size() != 64) return false;
+    if (signature.size() != coord_size * 2) return false;
 
     using ECDSASIGPtr = std::unique_ptr<ECDSA_SIG, decltype(&ECDSA_SIG_free)>;
     ECDSASIGPtr ecdsa_sig(ECDSA_SIG_new(), &ECDSA_SIG_free);
     if (!ecdsa_sig) return false;
 
-    auto r_bn = utils::BIGNUMPtr(BN_bin2bn(signature.data(),      32, nullptr));
-    auto s_bn = utils::BIGNUMPtr(BN_bin2bn(signature.data() + 32, 32, nullptr));
+    auto r_bn = utils::BIGNUMPtr(BN_bin2bn(signature.data(),              (int)coord_size, nullptr));
+    auto s_bn = utils::BIGNUMPtr(BN_bin2bn(signature.data() + coord_size, (int)coord_size, nullptr));
     if (!r_bn || !s_bn) return false;
 
     // ECDSA_SIG_set0 takes ownership on success
@@ -429,10 +479,10 @@ bool JWTValidator::verifySignatureES256(const std::string& header_payload,
     int encoded_len = i2d_ECDSA_SIG(ecdsa_sig.get(), &der_ptr);
     if (encoded_len != der_len) return false;
 
-    // Verify using EVP_DigestVerify with SHA-256
+    // Verify using EVP_DigestVerify with the selected digest.
     auto mctx = utils::make_evp_md_ctx();
     if (!mctx) return false;
-    if (EVP_DigestVerifyInit(mctx.get(), nullptr, EVP_sha256(), nullptr, pkey.get()) != 1) return false;
+    if (EVP_DigestVerifyInit(mctx.get(), nullptr, md, nullptr, pkey.get()) != 1) return false;
     if (EVP_DigestVerifyUpdate(mctx.get(), header_payload.data(), header_payload.size()) != 1) return false;
     return EVP_DigestVerifyFinal(mctx.get(), der_buf.data(), static_cast<size_t>(der_len)) == 1;
 }
@@ -537,14 +587,15 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     std::string alg = header.value("alg", "");
     std::string kid = header.value("kid", "");
     
-    // Check algorithm - support RS256, ES256 and EdDSA
-    if (alg != "RS256" && alg != "ES256" && alg != "EdDSA") {
+    // Check algorithm - support RS256/RS384/RS512, ES256/ES384/ES512, and EdDSA
+    if (alg != "RS256" && alg != "RS384" && alg != "RS512" &&
+        alg != "ES256" && alg != "ES384" && alg != "ES512" && alg != "EdDSA") {
         utils::Logger::warn("JWT validation failed: Unsupported algorithm: " + alg);
         if (audit_logger_) {
             audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
                 "", "jwt/token", {{"reason", "unsupported_algorithm"}, {"alg", alg}});
         }
-        throw std::runtime_error("Unsupported alg: " + alg + " (supported: RS256, ES256, EdDSA)");
+        throw std::runtime_error("Unsupported alg: " + alg + " (supported: RS256, RS384, RS512, ES256, ES384, ES512, EdDSA)");
     }
     
     // Check kid revocation
@@ -707,10 +758,10 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
         throw std::runtime_error("JWK not found for kid");
     }
     bool sig_ok = false;
-    if (alg == "RS256") {
-        sig_ok = verifySignatureRS256(header_payload, sig_bytes, *jwk);
-    } else if (alg == "ES256") {
-        sig_ok = verifySignatureES256(header_payload, sig_bytes, *jwk);
+    if (alg == "RS256" || alg == "RS384" || alg == "RS512") {
+        sig_ok = verifySignatureRSA(header_payload, sig_bytes, *jwk, alg);
+    } else if (alg == "ES256" || alg == "ES384" || alg == "ES512") {
+        sig_ok = verifySignatureEC(header_payload, sig_bytes, *jwk, alg);
     } else if (alg == "EdDSA") {
         sig_ok = verifySignatureEdDSA(header_payload, sig_bytes, *jwk);
     }
