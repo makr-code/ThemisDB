@@ -2275,6 +2275,7 @@ set(THEMIS_CORE_SOURCES
     ../src/exporters/huggingface_exporter.cpp
     ../src/exporters/data_augmentation.cpp
     ../src/exporters/export_format_registry.cpp
+    ../src/exporters/join_exporter.cpp
     ../src/exporters/huggingface_hub_client.cpp
     ../src/importers/postgres_importer.cpp
     ../src/importers/mysql_importer.cpp

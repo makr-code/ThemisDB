@@ -490,6 +490,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/cache/cache_replication.cpp
     ../src/cache/distributed_cache_coordinator.cpp
     ../src/cache/adaptive_query_cache.cpp
+    ../src/cache/warmup.cpp
     ../src/cache/cache_hit_rate_slo_monitor.cpp
     ../src/cache/predictive_prefetcher.cpp
     ../src/query/statistical_aggregator.cpp
@@ -568,6 +569,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/exporters/huggingface_exporter.cpp
     ../src/exporters/data_augmentation.cpp
     ../src/exporters/export_format_registry.cpp
+    ../src/exporters/join_exporter.cpp
     ../src/exporters/huggingface_hub_client.cpp
     ../src/importers/conflict_resolver.cpp
     $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:../src/importers/postgres_importer.cpp>
