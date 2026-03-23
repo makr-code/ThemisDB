@@ -15,7 +15,7 @@ Regular landscape reviews ensure that ThemisDB stays aligned with advances in:
 
 | Quarter | Report | Focus Areas | Status |
 |---------|--------|-------------|--------|
-| 2026 Q1 | [2026_q1_landscape.md](2026_q1_landscape.md) | Vector search, LLM integration, GPU ops | 🔄 In Progress |
+| 2026 Q1 | [2026_q1_landscape.md](2026_q1_landscape.md) | Relational DB, Vector Search, Graph DB, Temporal DB, Process-DB, Verwaltungs-IT, LLM/RAG, LoRA/PEFT, Prompt Engineering, Storage, Distributed Systems, GPU, Security, Query Optimization | ✅ Complete |
 
 ## Update Process
 
