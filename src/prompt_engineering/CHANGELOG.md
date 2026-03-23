@@ -14,7 +14,35 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Chain-of-thought execution tracer
 - Prompt regression suite for detecting quality regressions across model updates
 
-## [1.8.0] — 2026-03-23
+## [1.9.0] — 2026-03-23
+
+### Added
+- `PromptABExperimentFramework` — public A/B experiment framework for prompt template variants
+  (Phase 5, item 3).  Files:
+  `include/prompt_engineering/prompt_ab_experiment.h` +
+  `src/prompt_engineering/prompt_ab_experiment.cpp`.
+- `ExperimentVariant` — `CONTROL` / `TREATMENT` enum.
+- `ExperimentContext` — `experiment_id` + `request_id` routing struct.
+- `ExperimentStatus` — `RUNNING`, `WINNER_CONTROL`, `WINNER_TREATMENT`, `INCONCLUSIVE`, `COMPLETED`.
+- `PromptExperiment` — experiment descriptor: `template_id`, `control_version_id`,
+  `treatment_version_id`, `split_pct` (0–100), `min_samples`, `confidence_level`.
+  `toJson()` / `fromJson()`.
+- `ExperimentOutcome` — single scored observation; `toJson()`.
+- `ExperimentSummary` — snapshot: per-variant counts, mean scores, `delta_pct`,
+  `p_value`, `significant`, `winner_version_id`; `toJson()`.
+- **Deterministic variant assignment** via MurmurHash3-32 of `request_id`
+  (seed `0x9747b28c`): `murmur3_32(request_id) % 100 < split_pct → TREATMENT`.
+- **Welch two-sample t-test** with Welch-Satterthwaite degrees of freedom for
+  significance detection; auto-promotes winner when both variants reach
+  `min_samples` and `p < 1 − confidence_level`.
+- `setWinnerCallback()` — exception-safe callback fired on auto-promotion.
+- 30 focused unit tests in `tests/test_prompt_ab_experiment.cpp`
+  (AC-1 through AC-30).
+- CI: `.github/workflows/prompt-ab-experiment-ci.yml` (GCC-12/14, Clang-15).
+- German docs updated: `docs/de/prompt_engineering/README.md` +
+  `missing-implementations.md` item #4 resolved.
+
+
 
 ### Added
 - `PromptRegressionRunner` — automated regression harness around `PromptEvaluator`;

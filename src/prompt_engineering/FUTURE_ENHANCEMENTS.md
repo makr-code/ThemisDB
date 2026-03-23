@@ -138,21 +138,23 @@ The "self-aware" component dynamically adapts critique prompts based on the mode
 
 ---
 
-### [ ] Prompt A/B Experimentation Framework
+### [x] Prompt A/B Experimentation Framework
 **Priority:** Medium
 **Target Version:** v1.0.0
+**Status:** ✅ Implemented (v1.9.0)
 
-Extend `prompt_version_control.cpp` and `prompt_optimizer.cpp` to support traffic-split A/B experiments between prompt template versions. Experiment assignment is deterministic per `request_id` (hash-based) and results feed into `feedback_collector.cpp` for statistical significance testing.
+Public A/B experiment framework for prompt template variants with deterministic
+per-request traffic splitting and automated winner promotion.
 
-**Implementation Notes:**
-- Add `PromptExperiment` entity to `prompt_version_control.cpp`: stores control/treatment template IDs, traffic split ratio, and start/end timestamps.
-- `prompt_manager.cpp::render()` accepts an optional `experiment_context` struct; if present, selects variant via `murmur3(request_id) % 100 < split_pct`.
-- `self_improvement_orchestrator.cpp` consumes experiment outcome data to auto-promote the winning variant after reaching statistical significance (p < 0.05, min 200 samples).
-- Emit per-variant metrics to `prompt_performance_tracker.cpp` tagged with `experiment_id` and `variant`.
-
-**Performance Targets:**
-- Variant selection overhead: <0.1 ms per request.
-- Minimum detectable effect size at p < 0.05 with 200 samples: 10% relative score improvement.
+**Implemented Components:**
+- `ExperimentVariant` — `CONTROL` / `TREATMENT`.
+- `ExperimentContext` — routing struct: `experiment_id` + `request_id`.
+- `ExperimentStatus` — `RUNNING`, `WINNER_CONTROL`, `WINNER_TREATMENT`, `INCONCLUSIVE`, `COMPLETED`.
+- `PromptExperiment` — descriptor: `split_pct`, `min_samples`, `confidence_level`; `toJson()` / `fromJson()`.
+- `ExperimentOutcome` — single scored observation; `toJson()`.
+- `ExperimentSummary` — per-variant counts, mean scores, `delta_pct`, `p_value`, `significant`, `winner_version_id`; `toJson()`.
+- `PromptABExperimentFramework` — MurmurHash3-32 variant assignment; Welch two-sample t-test; auto-promotes winner at `min_samples` + `p < alpha`; exception-safe `WinnerCallback`.
+- 30 unit tests (AC-1 through AC-30); CI: `prompt-ab-experiment-ci.yml`.
 
 ---
 

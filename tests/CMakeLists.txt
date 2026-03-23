@@ -14028,6 +14028,14 @@ add_prompt_focused_test(
 )
 
 add_prompt_focused_test(
+    test_prompt_ab_experiment_focused
+    test_prompt_ab_experiment.cpp
+    PromptABExperimentFocusedTests
+    "prompt_engineering;ab_testing;experiment;traffic_split;winner_promotion;unit"
+    "PromptABExperimentFramework: create/stop, assignVariant (murmur3), recordOutcome, checkSignificance, promoteWinner, getSummary (AC-1 through AC-30)"
+)
+
+add_prompt_focused_test(
     test_rag_prompt_builder_focused
     test_rag_prompt_builder.cpp
     RAGPromptBuilderFocusedTests

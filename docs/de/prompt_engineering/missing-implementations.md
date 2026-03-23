@@ -48,18 +48,14 @@ Prüfstand: 2026-03-09 | Branch: `develop`
 
 ---
 
-## 4. Prompt A/B Experimentation Framework (Typed) — nicht implementiert
+## 4. Prompt A/B Experimentation Framework — ✅ implementiert (v1.9.0)
 
 | Feld | Wert |
 |---|---|
 | **Claim-Quelle** | `src/prompt_engineering/ROADMAP.md` §"Phase 3" + `include/prompt_engineering/FUTURE_ENHANCEMENTS.md` §"Prompt A/B Experimentation Framework" |
-| **Erwartet** | `IPromptABFramework` mit deterministischem `assignVariant(UserId, ExperimentKey)`, `listExperiments()`, konfigurierbaren Traffic-Splits |
-| **Beobachtet** | A/B-Testing ist in `self_improvement_orchestrator.cpp` als `ABTest`-Klasse und `startABTest()`/`analyzeABTest()` implementiert; dies ist jedoch ein internes Optimierungs-A/B-Test, kein öffentliches `IPromptABFramework`; deterministische Varianten-Zuweisung nach User-ID fehlt |
-| **Evidence (geprüfte Pfade)** | `src/prompt_engineering/self_improvement_orchestrator.cpp` Z.71–332 (ABTest implementiert); `include/prompt_engineering/FUTURE_ENHANCEMENTS.md` §"Prompt A/B Experimentation Framework" (alle `[ ]`) |
-| **ROADMAP-Status** | `[?]` – geplant (Phase 3) |
-| **Anmerkung** | Das interne A/B-Testing für Optimierungszyklen ist implementiert; das öffentliche Framework für Feature-Flag-artige Traffic-Splits ist nicht vorhanden |
-| **Issue-Titelvorschlag** | `[prompt_engineering] Implement IPromptABFramework with deterministic per-user variant assignment` |
-| **Label-Vorschläge** | `type:feature`, `priority:medium`, `prompt_engineering`, `status:planned` |
+| **Erwartet** | Deterministische Varianten-Zuweisung per `request_id`, konfigurierbarer Traffic-Split, Auto-Promotion des Gewinners |
+| **Beobachtet** | Vollständig implementiert: `PromptABExperimentFramework` (`include/prompt_engineering/prompt_ab_experiment.h`); MurmurHash3-32 Variant-Assignment; Welch-t-Test für Signifikanz; Auto-Promotion ab `min_samples`; exception-sicherer `WinnerCallback` |
+| **ROADMAP-Status** | `[x]` – implementiert (v1.9.0) |
 
 ---
 
@@ -112,7 +108,7 @@ für ~14 Quelldateien ist eine Coverage > 80% wahrscheinlich, aber nicht nachgew
 | 1 | Typed Template DSL | ROADMAP Phase 2 | Mittel | `[?]` nicht begonnen |
 | 2 | Context Window Budget Manager | ROADMAP Phase 2 | Hoch | ✅ implementiert (v1.5.0) |
 | 3 | CoT Execution Tracer | ROADMAP Phase 3 | Niedrig | ✅ implementiert (v1.7.0) |
-| 4 | Typed A/B Experimentation Framework | ROADMAP Phase 3 | Mittel | `[?]` geplant |
+| 4 | Typed A/B Experimentation Framework | ROADMAP Phase 3 | Mittel | ✅ implementiert (v1.9.0) |
 | 5 | Quality Regression Interface | ROADMAP Phase 3 | Mittel | ✅ implementiert (v1.8.0) |
 | 6 | PII-Detektion & Template-Integritätshash | FUTURE_ENHANCEMENTS | Hoch | `[ ]` offen |
 | 7 | Reflection Tuning + LLM-Adapter | ROADMAP Phase 3 | Hoch | ✅ implementiert (v1.5.0 / v1.6.0) |
