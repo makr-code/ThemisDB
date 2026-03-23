@@ -85,7 +85,15 @@ v1.5.0 – Full lifecycle management for LLM prompt templates is production-read
 - [x] `ReflectionHallucinationGuard` — marker scan + rolling-average divergence detection
 - [x] 38 unit tests; CI: `reflection-tuner-ci.yml`
 
-### Phase 4: Tracing, Regression & Experiments (Status: Planned 📋)
+### Phase 4: Integration, Adapter & Observability (Status: Completed ✅)
+- [x] `ILLMProviderReflectionAdapter` — bridges `ILLMProvider` → `IReflectionProvider`; adapter pattern, `IReflectionScorer` interface, heuristic fallback
+- [x] Reflection metrics in `PromptEngineeringMetrics` — 4 new counters + Prometheus export + snapshot/restore
+- [x] `PromptEngineeringIntegration` wired: `setReflectionTuner()`, `setMetrics()`, optional reflection pass in `afterExecution()`
+- [x] `IntegrationConfig::enable_reflection_tuning` / `reflection_max_iterations`
+- [x] 28 focused integration tests; CI: `reflection-integration-ci.yml`
+- [x] German docs updated (README, missing-implementations.md)
+
+### Phase 5: Tracing, Regression & Experiments (Status: Planned 📋)
 - [?] CoT execution tracer – record per-step reasoning chain with latency attribution
 - [?] Prompt regression suite – detect quality degradation on model upgrade
 - [?] A/B experiment framework with configurable traffic splits and automated winner selection

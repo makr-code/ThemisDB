@@ -14059,6 +14059,14 @@ add_prompt_focused_test(
     "ReflectionTuner: all strategies, SelfAwareContext, DynamicReflectionPromptBuilder, ReflectionHallucinationGuard, mock provider, edge cases"
 )
 
+add_prompt_focused_test(
+    test_reflection_integration_focused
+    test_reflection_integration.cpp
+    ReflectionIntegrationFocusedTests
+    "prompt_engineering;reflection_tuning;llm_adapter;metrics;integration;unit"
+    "ILLMProviderReflectionAdapter, reflection metrics, IntegrationConfig round-trip, facade wiring"
+)
+
 # ============================================================================
 # Custom Test Targets
 # ============================================================================

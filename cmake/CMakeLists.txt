@@ -1615,6 +1615,7 @@ set(THEMIS_CORE_SOURCES
     ../src/prompt_engineering/system_prompt_manager.cpp
     ../src/prompt_engineering/context_window_manager.cpp
     ../src/prompt_engineering/reflection_tuner.cpp
+    ../src/prompt_engineering/llm_reflection_adapter.cpp
     
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/transaction_api_handler.cpp>

@@ -25,6 +25,9 @@ Das Prompt Engineering Modul stellt ein vollständiges **Lifecycle-Management-Sy
 - **Chain-of-Thought** – `ChainOfThoughtBuilder` mit Schritt-Trennzeichen, Zero-Shot/Few-Shot-Helfer
 - **RAG-Prompt-Builder** – `RAGPromptBuilder` mit budgetbewusster Chunk-Selektion und Quellenangaben
 - **System-Prompt-Manager** – `SystemPromptManager` mit rollenbasierten Overrides
+- **Context-Window-Budget** – `ContextWindowBudgetManager` mit tokenbasierter Limitierung und `PromptBudgetExceededError`
+- **Reflection Tuning** – `ReflectionTuner` mit vier Strategien (SELF_REFINE, REFLEXION, CONSTITUTIONAL, SOCRATIC), dynamisch selbst-bewusstem Prompting (`SelfAwareContext`), `ReflectionHallucinationGuard` gegen Halluzinations-Verstärkung
+- **LLM-Reflection-Adapter** – `ILLMProviderReflectionAdapter` verbindet jeden bestehenden `ILLMProvider` direkt mit dem `ReflectionTuner` (Adapter-Muster)
 
 ---
 
@@ -48,6 +51,9 @@ Das Prompt Engineering Modul stellt ein vollständiges **Lifecycle-Management-Sy
 | `chain_of_thought.cpp` | CoT-Prompt-Konstruktion: Builder, Zero-Shot, Few-Shot, Wrap-Helfer |
 | `rag_prompt_builder.cpp` | RAG-Prompt-Zusammenstellung: budgetbewusste Chunk-Selektion |
 | `system_prompt_manager.cpp` | System-Prompt-Registry mit rollenbasierter Override-Unterstützung |
+| `context_window_manager.cpp` | Token-Budget-Enforcement vor LLM-Dispatch (`ContextWindowBudgetManager`, `ITokenCounter`) |
+| `reflection_tuner.cpp` | Iterativer Selbstkritik-Revisions-Zyklus (`ReflectionTuner`, `DynamicReflectionPromptBuilder`, `SelfAwareContext`, `ReflectionHallucinationGuard`) |
+| `llm_reflection_adapter.cpp` | Adapter `ILLMProvider` → `IReflectionProvider` (`ILLMProviderReflectionAdapter`, `IReflectionScorer`) |
 
 ### Öffentliche Header (`include/prompt_engineering/`)
 
@@ -67,6 +73,9 @@ Das Prompt Engineering Modul stellt ein vollständiges **Lifecycle-Management-Sy
 | `chain_of_thought.h` | `ChainOfThoughtBuilder`, `CoTStep`, `CoTConfig` |
 | `rag_prompt_builder.h` | `RAGPromptBuilder`, `RetrievedChunk`, `RAGPromptConfig` |
 | `system_prompt_manager.h` | `SystemPromptManager`, `SystemPrompt`, `Role` |
+| `context_window_manager.h` | `ContextWindowBudgetManager`, `ITokenCounter`, `CharDivisionCounter`, `ModelTokenBudget`, `BudgetAllocation`, `PromptBudgetExceededError` |
+| `reflection_tuner.h` | `ReflectionTuner`, `IReflectionProvider`, `DynamicReflectionPromptBuilder`, `SelfAwareContext`, `ReflectionHallucinationGuard`, `ReflectionConfig`, `ReflectionResult` |
+| `llm_reflection_adapter.h` | `ILLMProviderReflectionAdapter`, `IReflectionScorer` |
 
 ---
 
@@ -95,7 +104,13 @@ PromptEngineeringIntegration  (Facade + Hintergrund-Worker)
         │
         ├─ ChainOfThoughtBuilder     (reine Berechnung; CoT-Prompt-Konstruktion)
         ├─ RAGPromptBuilder          (reine Berechnung; RAG-Kontext-Injektion)
-        └─ SystemPromptManager       (In-Memory-Registry; rollenbasierte System-Prompts)
+        ├─ SystemPromptManager       (In-Memory-Registry; rollenbasierte System-Prompts)
+        ├─ ContextWindowBudgetManager (Token-Limit-Enforcement; ITokenCounter)
+        ├─ ReflectionTuner           (iterativer Selbstkritik-Zyklus; 4 Strategien)
+        │       ├─ DynamicReflectionPromptBuilder  (strategy-spezifische Prompts)
+        │       ├─ SelfAwareContext               (Konfidenz/Unsicherheit aus Antworttext)
+        │       └─ ReflectionHallucinationGuard   (Marker-Scan + Divergenz-Erkennung)
+        └─ ILLMProviderReflectionAdapter  (ILLMProvider → IReflectionProvider Bridge)
 ```
 
 ---

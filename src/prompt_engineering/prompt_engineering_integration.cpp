@@ -45,6 +45,8 @@ nlohmann::json IntegrationConfig::toJson() const {
         {"enable_performance_tracking", enable_performance_tracking},
         {"enable_feedback_collection", enable_feedback_collection},
         {"enable_injection_detection", enable_injection_detection},
+        {"enable_reflection_tuning", enable_reflection_tuning},
+        {"reflection_max_iterations", reflection_max_iterations},
         {"min_executions_before_optimization", min_executions_before_optimization},
         {"min_success_rate_for_optimization", min_success_rate_for_optimization},
         {"background_worker_enabled", background_worker_enabled},
@@ -62,6 +64,8 @@ IntegrationConfig IntegrationConfig::fromJson(const nlohmann::json& j) {
     config.enable_performance_tracking = j.value("enable_performance_tracking", true);
     config.enable_feedback_collection = j.value("enable_feedback_collection", true);
     config.enable_injection_detection = j.value("enable_injection_detection", true);
+    config.enable_reflection_tuning = j.value("enable_reflection_tuning", false);
+    config.reflection_max_iterations = j.value("reflection_max_iterations", size_t{3});
     config.min_executions_before_optimization = j.value("min_executions_before_optimization", 100);
     config.min_success_rate_for_optimization = j.value("min_success_rate_for_optimization", 0.7);
     config.background_worker_enabled = j.value("background_worker_enabled", true);
@@ -438,6 +442,44 @@ void PromptEngineeringIntegration::afterExecution(
             }
         }
     }
+
+    // Optional reflection tuning pass — refine the response if a tuner is attached
+    // and the execution succeeded (no point refining failed/empty responses).
+    if (config_.enable_reflection_tuning && reflection_tuner_ && success && !response.empty()) {
+        if (metrics_) {
+            metrics_->recordReflectionCycleStart(ctx.prompt_id);
+        }
+
+        auto reflection_result = reflection_tuner_->tune(ctx.enhanced_prompt, response);
+
+        if (metrics_) {
+            const bool improved = reflection_result.quality_improvement > 0.0;
+            metrics_->recordReflectionCycleComplete(
+                ctx.prompt_id,
+                reflection_result.total_iterations,
+                improved);
+            metrics_->recordReflectionQualityDelta(
+                ctx.prompt_id,
+                reflection_result.quality_improvement);
+            if (reflection_result.halted_by_hallucination_guard) {
+                metrics_->recordReflectionGuardFired(ctx.prompt_id);
+            }
+        }
+
+        // Store reflection result as positive feedback when quality improved.
+        if (config_.enable_feedback_collection && feedback_collector_ &&
+            reflection_result.quality_improvement > 0.0) {
+            feedback_collector_->recordFeedback(
+                ctx.prompt_id,
+                ctx.enhanced_prompt,
+                reflection_result.final_response,
+                FeedbackType::USER_POSITIVE,
+                "Reflection tuning improved quality by " +
+                    std::to_string(static_cast<int>(
+                        reflection_result.quality_improvement * 100)) + "%",
+                static_cast<float>(reflection_result.quality_improvement));
+        }
+    }
 }
 
 void PromptEngineeringIntegration::startBackgroundOptimization() {
@@ -503,6 +545,18 @@ void PromptEngineeringIntegration::updateConfig(const IntegrationConfig& config)
         );
         background_worker_->start();
     }
+}
+
+void PromptEngineeringIntegration::setReflectionTuner(
+    std::shared_ptr<ReflectionTuner> tuner) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    reflection_tuner_ = std::move(tuner);
+}
+
+void PromptEngineeringIntegration::setMetrics(
+    std::shared_ptr<PromptEngineeringMetrics> metrics) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    metrics_ = std::move(metrics);
 }
 
 void PromptEngineeringIntegration::checkAndTriggerOptimization(const std::string& prompt_id) {

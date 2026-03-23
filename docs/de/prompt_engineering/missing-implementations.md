@@ -26,17 +26,14 @@ Prüfstand: 2026-03-09 | Branch: `develop`
 
 ---
 
-## 2. Context Window Budget Manager — nicht implementiert
+## 2. Context Window Budget Manager — ✅ implementiert (v1.5.0)
 
 | Feld | Wert |
 |---|---|
-| **Claim-Quelle** | `src/prompt_engineering/ROADMAP.md` §"Phase 2" + §"In Progress 🚧": "Token counting and context-window budget enforcement" (`[?]`) |
-| **Erwartet** | `IRAGContextBudgetManager` mit `allocate(tokens)`, `remaining()`, `BudgetExhaustedError`; striktes Token-Limit-Enforcement vor LLM-Dispatch |
-| **Beobachtet** | `RAGPromptBuilder::selectChunks()` implementiert ein zeichenbasiertes Zeichen-Budget (nicht tokenbasiert); kein `IRAGContextBudgetManager`; kein Token-Zähler; keine `BudgetExhaustedError`-Exception |
-| **Evidence (geprüfte Pfade)** | `include/prompt_engineering/rag_prompt_builder.h` (Zeichen-Budget-Selektion vorhanden, kein Token-Zähler); `include/prompt_engineering/FUTURE_ENHANCEMENTS.md` §"RAG Context Budget Manager" (alle `[ ]`) |
-| **ROADMAP-Status** | `[?]` – nicht begonnen (Target: Q2 2026) |
-| **Issue-Titelvorschlag** | `[prompt_engineering] Implement IRAGContextBudgetManager with hard token-limit enforcement` |
-| **Label-Vorschläge** | `type:feature`, `priority:high`, `prompt_engineering`, `status:planned` |
+| **Claim-Quelle** | `src/prompt_engineering/ROADMAP.md` §"Phase 2" |
+| **Erwartet** | Token-basiertes Budget-Enforcement vor LLM-Dispatch |
+| **Beobachtet** | `ContextWindowBudgetManager` in `include/prompt_engineering/context_window_manager.h` + `src/prompt_engineering/context_window_manager.cpp` vollständig implementiert. `ITokenCounter`, `CharDivisionCounter` (BPE-Approximation), `PromptBudgetExceededError`, greedy Chunk-Selektion und Nutzungs-Callback vorhanden. |
+| **ROADMAP-Status** | `[x]` – implementiert (v1.5.0) |
 
 ---
 
@@ -119,11 +116,12 @@ für ~14 Quelldateien ist eine Coverage > 80% wahrscheinlich, aber nicht nachgew
 | # | Feature | Quelle | Kritikalität | Status |
 |---|---|---|---|---|
 | 1 | Typed Template DSL | ROADMAP Phase 2 | Mittel | `[?]` nicht begonnen |
-| 2 | Context Window Budget Manager | ROADMAP Phase 2 | Hoch | `[?]` nicht begonnen |
+| 2 | Context Window Budget Manager | ROADMAP Phase 2 | Hoch | ✅ implementiert (v1.5.0) |
 | 3 | CoT Execution Tracer | ROADMAP Phase 3 | Niedrig | `[?]` geplant |
 | 4 | Typed A/B Experimentation Framework | ROADMAP Phase 3 | Mittel | `[?]` geplant |
 | 5 | Quality Regression Interface | ROADMAP Phase 3 | Mittel | `[?]` geplant |
 | 6 | PII-Detektion & Template-Integritätshash | FUTURE_ENHANCEMENTS | Hoch | `[ ]` offen |
+| 7 | Reflection Tuning + LLM-Adapter | ROADMAP Phase 3 | Hoch | ✅ implementiert (v1.5.0 / v1.6.0) |
 
 *Alle Phase-1-ROADMAP-Einträge (`[x]`) sind durch vorhandene Implementierungsdateien
 auf `develop` belegt. Phase-2- und Phase-3-Einträge sind korrekt als `[?]` markiert.*

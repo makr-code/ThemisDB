@@ -14,7 +14,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Chain-of-thought execution tracer
 - Prompt regression suite for detecting quality regressions across model updates
 
-## [1.5.0] — 2026-03-23
+## [1.6.0] — 2026-03-23
+
+### Added
+- `ILLMProviderReflectionAdapter` — adapter bridging any `ILLMProvider` to `IReflectionProvider`;
+  uses `DynamicReflectionPromptBuilder` for prompt construction; pluggable `IReflectionScorer`
+  with built-in heuristic fallback.  Stored in `include/prompt_engineering/llm_reflection_adapter.h`
+  + `src/prompt_engineering/llm_reflection_adapter.cpp`.
+- Reflection Tuning metrics — 4 new counters in `PromptEngineeringMetrics`:
+  `recordReflectionCycleStart`, `recordReflectionCycleComplete`, `recordReflectionGuardFired`,
+  `recordReflectionQualityDelta`; all exported via `exportMetrics()`, persisted via
+  `snapshotToJson()` / `restoreFromJson()`, and reset by `reset()`.
+- `IntegrationConfig::enable_reflection_tuning` (default: `false`) + `reflection_max_iterations`
+  (default: 3) — opt-in reflection pass in `PromptEngineeringIntegration::afterExecution()`.
+- `PromptEngineeringIntegration::setReflectionTuner()` + `setMetrics()` — inject a
+  `ReflectionTuner` and `PromptEngineeringMetrics` instance for observability.
+- 28 focused unit tests in `tests/test_reflection_integration.cpp` (AC-1 through AC-28).
+- CI: `.github/workflows/reflection-integration-ci.yml` (GCC-12/14, Clang-15).
+- German docs updated: `docs/de/prompt_engineering/README.md` (new components table, architecture
+  diagram) and `missing-implementations.md` (items 2 + 7 resolved).
 
 ### Added
 - `ReflectionTuner` — iterative self-critique and revision cycle for LLM responses,
