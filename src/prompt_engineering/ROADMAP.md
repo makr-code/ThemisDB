@@ -95,7 +95,7 @@ v1.5.0 – Full lifecycle management for LLM prompt templates is production-read
 
 ### Phase 5: Tracing, Regression & Experiments (Status: In Progress 🚧)
 - [x] CoT execution tracer — `IChainOfThoughtTracer` + `RecordingCoTTracer` + `CoTTraceCollector`; `ChainOfThoughtBuilder::attachTracer()`; per-step latency attribution; 30 tests; CI: `cot-tracer-ci.yml`
-- [?] Prompt regression suite – detect quality degradation on model upgrade
+- [x] Prompt regression suite — `PromptRegressionRunner`; golden-set fixtures; `FeedbackCollector` integration; `delta_pct`/`is_regression`/`blocked`; structured log callback; 30 tests; CI: `prompt-regression-runner-ci.yml`
 - [?] A/B experiment framework with configurable traffic splits and automated winner selection
 - [?] Import/export prompt library to JSON / YAML for cross-environment portability
 - [?] Per-language prompt template variants (i18n support)

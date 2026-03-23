@@ -50,6 +50,7 @@ Das Prompt Engineering Modul stellt ein vollständiges **Lifecycle-Management-Sy
 | `prompt_injection_detector.cpp` | Musterbasierte Prompt-Injection-Erkennung und Bereinigung |
 | `chain_of_thought.cpp` | CoT-Prompt-Konstruktion: Builder, Zero-Shot, Few-Shot, Wrap-Helfer; Tracer-Wiring |
 | `cot_tracer.cpp` | Per-Schritt-Tracing: `IChainOfThoughtTracer`, `RecordingCoTTracer`, `CoTTraceCollector` |
+| `prompt_regression_runner.cpp` | Qualitäts-Regressionserkennung: `PromptRegressionRunner`, `RegressionFixture`, `RegressionResult` |
 | `rag_prompt_builder.cpp` | RAG-Prompt-Zusammenstellung: budgetbewusste Chunk-Selektion |
 | `system_prompt_manager.cpp` | System-Prompt-Registry mit rollenbasierter Override-Unterstützung |
 | `context_window_manager.cpp` | Token-Budget-Enforcement vor LLM-Dispatch (`ContextWindowBudgetManager`, `ITokenCounter`) |
@@ -73,6 +74,7 @@ Das Prompt Engineering Modul stellt ein vollständiges **Lifecycle-Management-Sy
 | `prompt_injection_detector.h` | `PromptInjectionDetector`, `DetectionResult` |
 | `chain_of_thought.h` | `ChainOfThoughtBuilder`, `CoTStep`, `CoTConfig` |
 | `cot_tracer.h` | `IChainOfThoughtTracer`, `CoTSpanRecord`, `RecordingCoTTracer`, `CoTTraceCollector`, `StepId` |
+| `prompt_regression_runner.h` | `PromptRegressionRunner`, `RegressionFixture`, `RegressionConfig`, `RegressionResult`, `FixtureDelta` |
 | `rag_prompt_builder.h` | `RAGPromptBuilder`, `RetrievedChunk`, `RAGPromptConfig` |
 | `system_prompt_manager.h` | `SystemPromptManager`, `SystemPrompt`, `Role` |
 | `context_window_manager.h` | `ContextWindowBudgetManager`, `ITokenCounter`, `CharDivisionCounter`, `ModelTokenBudget`, `BudgetAllocation`, `PromptBudgetExceededError` |
@@ -215,6 +217,7 @@ Testdateien in `tests/`:
 | `test_prompt_policy.cpp` | Prompt-Richtlinien |
 | `test_chain_of_thought.cpp` | CoT-Builder |
 | `test_cot_tracer.cpp` | CoT-Tracer (IChainOfThoughtTracer, RecordingCoTTracer, CoTTraceCollector) |
+| `test_prompt_regression_runner.cpp` | Prompt-Regressions-Runner (PromptRegressionRunner, RegressionFixture, FeedbackCollector-Integration) |
 | `test_rag_prompt_builder.cpp` | RAG-Prompt-Builder |
 | `test_system_prompt_manager.cpp` | System-Prompt-Manager |
 

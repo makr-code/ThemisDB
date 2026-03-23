@@ -66,21 +66,20 @@ Instrument chain-of-thought prompt construction so that each reasoning step is i
 
 ---
 
-### [ ] Automated Prompt Quality Regression Suite
+### [x] Automated Prompt Quality Regression Suite
 **Priority:** Medium
 **Target Version:** v0.10.0
+**Status:** ✅ Implemented (v1.8.0)
 
-Build a regression harness around `prompt_evaluator.cpp` that runs on every template version publish to detect quality regressions. The harness compares the new template's `PromptEvaluator` score against the previous published version on a fixed golden-set of legal-domain prompts.
+Regression harness around `PromptEvaluator` that compares candidate vs. baseline
+outputs on a fixed golden-set and optional human-feedback fixtures.
 
-**Implementation Notes:**
-- Add `prompt_regression_runner.cpp` that loads golden-set fixtures from `tests/prompt_engineering/golden/` and calls `PromptEvaluator::score()` for each.
-- Integrate with `feedback_collector.cpp` to pull real-world human-feedback scores as additional regression signal.
-- Block publish in `prompt_version_control.cpp` if the mean regression-suite score drops >5% vs. the current published version.
-- Emit regression results as structured log entries via `utils/logger.cpp` with template ID, version, and per-fixture delta scores.
-
-**Performance Targets:**
-- Full regression suite (100 golden prompts) runtime: <60 s against a mock LLM stub.
-- False-positive regression block rate: <2% over a 30-day rolling window.
+**Implemented Components:**
+- `RegressionFixture` — evaluation pair: prompt_text, expected_output, source (`"golden"` / `"feedback"`); `toJson()` / `fromJson()`.
+- `RegressionConfig` — `max_regression_pct` (5 %), `min_fixtures`, `confidence_level`, `block_on_regression`.
+- `RegressionResult` — `delta_pct`, `is_regression`, `blocked`, `inconclusive`, `statistically_significant`, per-fixture `FixtureDelta`s; `toJson()`.
+- `PromptRegressionRunner` — fixture management; `loadFeedbackFixtures()` (imports `USER_POSITIVE` entries from `FeedbackCollector`); `run()` computes scores via `PromptEvaluator::evaluateSingle()` and Welch t-test; `setLogCallback()` for structured JSON log events.
+- 30 unit tests (AC-1 through AC-30); CI: `prompt-regression-runner-ci.yml`.
 
 ---
 

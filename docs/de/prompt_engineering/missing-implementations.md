@@ -63,17 +63,14 @@ Prüfstand: 2026-03-09 | Branch: `develop`
 
 ---
 
-## 5. Automated Quality Regression Interface — nicht implementiert
+## 5. Automated Quality Regression Interface — ✅ implementiert (v1.8.0)
 
 | Feld | Wert |
 |---|---|
 | **Claim-Quelle** | `src/prompt_engineering/ROADMAP.md` §"Phase 3" + `include/prompt_engineering/FUTURE_ENHANCEMENTS.md` §"Automated Quality Regression Interface" |
-| **Erwartet** | `IPromptQualityEvaluator` mit `evaluate(IPromptTemplate, QualityConfig) -> QualityReport`; zustandslose Evaluation ohne Persistierung von Rohdaten |
-| **Beobachtet** | `PromptEvaluator` (implementiert) ist ein generischer Qualitäts-Scorer; kein `IPromptQualityEvaluator`-Interface; kein Regressions-Runner; kein `QualityReport`-Typ |
-| **Evidence (geprüfte Pfade)** | `include/prompt_engineering/prompt_evaluator.h` (generischer Evaluator vorhanden, kein Regressions-Interface); `include/prompt_engineering/FUTURE_ENHANCEMENTS.md` §"Automated Quality Regression Interface" (alle `[ ]`) |
-| **ROADMAP-Status** | `[?]` – geplant (Phase 3) |
-| **Issue-Titelvorschlag** | `[prompt_engineering] Implement IPromptQualityEvaluator regression interface` |
-| **Label-Vorschläge** | `type:feature`, `priority:medium`, `prompt_engineering`, `status:planned` |
+| **Erwartet** | Regression-Harness um `PromptEvaluator`; Vergleich Kandidat vs. Baseline auf goldenen Fixtures; Block-Gate wenn Score >5 % fällt |
+| **Beobachtet** | Vollständig implementiert: `PromptRegressionRunner` (`include/prompt_engineering/prompt_regression_runner.h`); `RegressionFixture`, `RegressionConfig`, `RegressionResult`, `FixtureDelta`; `loadFeedbackFixtures()` integriert `FeedbackCollector`; `run()` berechnet `delta_pct`, `is_regression`, `blocked`; Log-Callback für strukturiertes Logging |
+| **ROADMAP-Status** | `[x]` – implementiert (v1.8.0) |
 
 ---
 
@@ -116,7 +113,7 @@ für ~14 Quelldateien ist eine Coverage > 80% wahrscheinlich, aber nicht nachgew
 | 2 | Context Window Budget Manager | ROADMAP Phase 2 | Hoch | ✅ implementiert (v1.5.0) |
 | 3 | CoT Execution Tracer | ROADMAP Phase 3 | Niedrig | ✅ implementiert (v1.7.0) |
 | 4 | Typed A/B Experimentation Framework | ROADMAP Phase 3 | Mittel | `[?]` geplant |
-| 5 | Quality Regression Interface | ROADMAP Phase 3 | Mittel | `[?]` geplant |
+| 5 | Quality Regression Interface | ROADMAP Phase 3 | Mittel | ✅ implementiert (v1.8.0) |
 | 6 | PII-Detektion & Template-Integritätshash | FUTURE_ENHANCEMENTS | Hoch | `[ ]` offen |
 | 7 | Reflection Tuning + LLM-Adapter | ROADMAP Phase 3 | Hoch | ✅ implementiert (v1.5.0 / v1.6.0) |
 

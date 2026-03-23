@@ -14,7 +14,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Chain-of-thought execution tracer
 - Prompt regression suite for detecting quality regressions across model updates
 
-## [1.7.0] — 2026-03-23
+## [1.8.0] — 2026-03-23
+
+### Added
+- `PromptRegressionRunner` — automated regression harness around `PromptEvaluator`;
+  compares candidate vs. baseline outputs on golden-set fixtures; gates publish via
+  `RegressionResult::blocked`.  Files:
+  `include/prompt_engineering/prompt_regression_runner.h` +
+  `src/prompt_engineering/prompt_regression_runner.cpp`.
+- `RegressionFixture` — evaluation pair: `template_id`, `prompt_text`,
+  `expected_output`, `source` (`"golden"` / `"feedback"`), `baseline_score`.
+  `toJson()` / `fromJson()`.
+- `RegressionConfig` — `max_regression_pct` (5 %), `min_fixtures`, `confidence_level`,
+  `block_on_regression`.
+- `RegressionResult` — `fixture_count`, `mean_candidate_score`, `mean_baseline_score`,
+  `delta_pct`, `is_regression`, `blocked`, `inconclusive`, `statistically_significant`,
+  `fixture_deltas`, `toJson()`.
+- `FixtureDelta` — per-fixture score breakdown: index, template_id, baseline_score,
+  candidate_score, delta.
+- `PromptRegressionRunner::loadFeedbackFixtures()` — imports `USER_POSITIVE` entries
+  from `FeedbackCollector` as regression fixtures.
+- `PromptRegressionRunner::setLogCallback()` — structured JSON log event per run; log
+  exceptions are suppressed so the runner is never interrupted.
+- 30 focused unit tests in `tests/test_prompt_regression_runner.cpp` (AC-1 through AC-30).
+- CI: `.github/workflows/prompt-regression-runner-ci.yml` (GCC-12/14, Clang-15).
+- German docs updated: `docs/de/prompt_engineering/README.md` + `missing-implementations.md`
+  item #4 resolved.
 
 ### Added
 - `IChainOfThoughtTracer` — pluggable per-step tracing interface; both

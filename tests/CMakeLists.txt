@@ -14020,6 +14020,14 @@ add_prompt_focused_test(
 )
 
 add_prompt_focused_test(
+    test_prompt_regression_runner_focused
+    test_prompt_regression_runner.cpp
+    PromptRegressionRunnerFocusedTests
+    "prompt_engineering;regression;quality;fixtures;feedback;unit"
+    "PromptRegressionRunner: golden fixtures, feedback integration, regression detection, block gate, log callback (AC-1 through AC-30)"
+)
+
+add_prompt_focused_test(
     test_rag_prompt_builder_focused
     test_rag_prompt_builder.cpp
     RAGPromptBuilderFocusedTests
