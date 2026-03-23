@@ -52,6 +52,7 @@ Das Prompt Engineering Modul stellt ein vollständiges **Lifecycle-Management-Sy
 | `cot_tracer.cpp` | Per-Schritt-Tracing: `IChainOfThoughtTracer`, `RecordingCoTTracer`, `CoTTraceCollector` |
 | `prompt_regression_runner.cpp` | Qualitäts-Regressionserkennung: `PromptRegressionRunner`, `RegressionFixture`, `RegressionResult` |
 | `prompt_ab_experiment.cpp` | A/B-Experiment-Framework: `PromptABExperimentFramework`, `PromptExperiment`, `ExperimentVariant`, MurmurHash3-32 |
+| `prompt_library_io.cpp` | Import/Export-Bibliothek: `PromptLibraryIO`, `PromptLibraryBundle`, JSON+YAML, FNV-1a-Prüfsumme |
 | `rag_prompt_builder.cpp` | RAG-Prompt-Zusammenstellung: budgetbewusste Chunk-Selektion |
 | `system_prompt_manager.cpp` | System-Prompt-Registry mit rollenbasierter Override-Unterstützung |
 | `context_window_manager.cpp` | Token-Budget-Enforcement vor LLM-Dispatch (`ContextWindowBudgetManager`, `ITokenCounter`) |
@@ -77,6 +78,7 @@ Das Prompt Engineering Modul stellt ein vollständiges **Lifecycle-Management-Sy
 | `cot_tracer.h` | `IChainOfThoughtTracer`, `CoTSpanRecord`, `RecordingCoTTracer`, `CoTTraceCollector`, `StepId` |
 | `prompt_regression_runner.h` | `PromptRegressionRunner`, `RegressionFixture`, `RegressionConfig`, `RegressionResult`, `FixtureDelta` |
 | `prompt_ab_experiment.h` | `PromptABExperimentFramework`, `PromptExperiment`, `ExperimentVariant`, `ExperimentContext`, `ExperimentStatus`, `ExperimentOutcome`, `ExperimentSummary` |
+| `prompt_library_io.h` | `PromptLibraryIO`, `PromptLibraryBundle`, `ExportFormat`, `ImportResult`, `ExportResult` |
 | `rag_prompt_builder.h` | `RAGPromptBuilder`, `RetrievedChunk`, `RAGPromptConfig` |
 | `system_prompt_manager.h` | `SystemPromptManager`, `SystemPrompt`, `Role` |
 | `context_window_manager.h` | `ContextWindowBudgetManager`, `ITokenCounter`, `CharDivisionCounter`, `ModelTokenBudget`, `BudgetAllocation`, `PromptBudgetExceededError` |
@@ -221,6 +223,7 @@ Testdateien in `tests/`:
 | `test_cot_tracer.cpp` | CoT-Tracer (IChainOfThoughtTracer, RecordingCoTTracer, CoTTraceCollector) |
 | `test_prompt_regression_runner.cpp` | Prompt-Regressions-Runner (PromptRegressionRunner, RegressionFixture, FeedbackCollector-Integration) |
 | `test_prompt_ab_experiment.cpp` | A/B-Experiment-Framework (PromptABExperimentFramework, MurmurHash3-32, Welch-t-Test, WinnerCallback) |
+| `test_prompt_library_io.cpp` | Import/Export-Bibliothek (PromptLibraryIO, JSON/YAML-Roundtrip, FNV-1a-Prüfsumme) |
 | `test_rag_prompt_builder.cpp` | RAG-Prompt-Builder |
 | `test_system_prompt_manager.cpp` | System-Prompt-Manager |
 

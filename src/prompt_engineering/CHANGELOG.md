@@ -14,7 +14,35 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Chain-of-thought execution tracer
 - Prompt regression suite for detecting quality regressions across model updates
 
-## [1.9.0] — 2026-03-23
+## [2.0.0] — 2026-03-23
+
+### Added
+- `PromptLibraryIO` — import/export of prompt template libraries to JSON and YAML
+  for cross-environment portability (Phase 5, item 4).  Files:
+  `include/prompt_engineering/prompt_library_io.h` +
+  `src/prompt_engineering/prompt_library_io.cpp`.
+- `PromptLibraryBundle` — self-contained snapshot: `name`, `description`,
+  `version`, `format_version`, `created_at`, `checksum`,
+  `templates`; `toJson()` / `fromJson()`.
+- `ExportFormat` — `JSON` or `YAML`.
+- `ImportResult` — `success`, `templates_loaded`, `error_message`,
+  `checksum_valid`.
+- `ExportResult` — `success`, `templates_written`, `error_message`.
+- **FNV-1a 64-bit checksum** over sorted template JSON for bundle integrity; stored as
+  16-character lowercase hex.
+- `exportToJson()` / `exportToYaml()` — auto-compute checksum when
+  `bundle.checksum` is empty.
+- `exportToFile(bundle, path, fmt)` — format auto-detected from `.yaml`/`.yml`
+  extension.
+- `importFromJson()` / `importFromYaml()` / `importFromFile()` — all parse-safe
+  (return `nullopt` / `success=false` on error).
+- `verifyChecksum()` — `bundle.checksum == computeChecksum(bundle)`.
+- 30 focused unit tests in `tests/test_prompt_library_io.cpp`
+  (AC-1 through AC-30).
+- CI: `.github/workflows/prompt-library-io-ci.yml` (GCC-12/14, Clang-15).
+- German docs updated: `docs/de/prompt_engineering/README.md` item added.
+
+
 
 ### Added
 - `PromptABExperimentFramework` — public A/B experiment framework for prompt template variants

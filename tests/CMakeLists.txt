@@ -14036,6 +14036,14 @@ add_prompt_focused_test(
 )
 
 add_prompt_focused_test(
+    test_prompt_library_io_focused
+    test_prompt_library_io.cpp
+    PromptLibraryIOFocusedTests
+    "prompt_engineering;library_io;import;export;json;yaml;checksum;unit"
+    "PromptLibraryIO: JSON/YAML import+export, FNV-1a checksum, file round-trip, cross-env portability (AC-1 through AC-30)"
+)
+
+add_prompt_focused_test(
     test_rag_prompt_builder_focused
     test_rag_prompt_builder.cpp
     RAGPromptBuilderFocusedTests

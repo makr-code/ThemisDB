@@ -158,6 +158,28 @@ per-request traffic splitting and automated winner promotion.
 
 ---
 
+### [x] Prompt Library Import/Export
+**Priority:** Medium
+**Target Version:** v1.0.0
+**Status:** ✅ Implemented (v2.0.0)
+
+Cross-environment portability for prompt template collections via JSON and YAML serialisation.
+
+**Implemented Components:**
+- `PromptLibraryBundle` — self-contained snapshot: `name`, `description`, `version`, `format_version`, `created_at`, `checksum`, `templates`; `toJson()` / `fromJson()`.
+- `ExportFormat` — `JSON` or `YAML`.
+- `ImportResult` — `success`, `templates_loaded`, `error_message`, `checksum_valid`.
+- `ExportResult` — `success`, `templates_written`, `error_message`.
+- `PromptLibraryIO` — all-static:
+  - `exportToJson()` / `exportToYaml()` — auto-compute checksum; pretty-printed JSON or yaml-cpp output.
+  - `exportToFile(bundle, path, fmt)` — auto-detects YAML from `.yaml`/`.yml` extension.
+  - `importFromJson()` / `importFromYaml()` — parse-safe; return `nullopt` on error.
+  - `importFromFile(path, bundle)` → `ImportResult`; auto-detects format; validates checksum.
+  - `computeChecksum()` / `verifyChecksum()` — FNV-1a 64-bit over sorted template JSON; 16-character lowercase hex.
+- 30 unit tests (AC-1 through AC-30); CI: `prompt-library-io-ci.yml`.
+
+---
+
 ## Test Strategy
 
 | Test Type | Coverage Target | Notes |

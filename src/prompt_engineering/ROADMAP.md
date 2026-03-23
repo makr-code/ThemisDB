@@ -97,7 +97,7 @@ v1.5.0 – Full lifecycle management for LLM prompt templates is production-read
 - [x] CoT execution tracer — `IChainOfThoughtTracer` + `RecordingCoTTracer` + `CoTTraceCollector`; `ChainOfThoughtBuilder::attachTracer()`; per-step latency attribution; 30 tests; CI: `cot-tracer-ci.yml`
 - [x] Prompt regression suite — `PromptRegressionRunner`; golden-set fixtures; `FeedbackCollector` integration; `delta_pct`/`is_regression`/`blocked`; structured log callback; 30 tests; CI: `prompt-regression-runner-ci.yml`
 - [x] A/B experiment framework — `PromptABExperimentFramework`; deterministic MurmurHash3-32 variant assignment; Welch t-test significance; auto winner promotion; `WinnerCallback`; 30 tests; CI: `prompt-ab-experiment-ci.yml`
-- [?] Import/export prompt library to JSON / YAML for cross-environment portability
+- [x] Import/export prompt library — `PromptLibraryIO`; JSON + YAML (via yaml-cpp); FNV-1a checksum; `PromptLibraryBundle`; file round-trip; 30 tests; CI: `prompt-library-io-ci.yml`
 - [?] Per-language prompt template variants (i18n support)
 
 ## Production Readiness Checklist
