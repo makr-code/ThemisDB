@@ -160,6 +160,17 @@ std::optional<int64_t> BaseEntity::getFieldAsInt(std::string_view field_name) co
             return static_cast<int64_t>(arg);
         } else if constexpr (std::is_same_v<T, bool>) {
             return arg ? 1 : 0;
+        } else if constexpr (std::is_same_v<T, std::string>) {
+            try {
+                size_t pos = 0;
+                int64_t parsed = std::stoll(arg, &pos, 10);
+                if (pos == arg.size()) {
+                    return parsed;
+                }
+                return std::nullopt;
+            } catch (...) {
+                return std::nullopt;
+            }
         }
         return std::nullopt;
     }, *value);

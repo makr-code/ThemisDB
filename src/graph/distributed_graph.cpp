@@ -229,7 +229,9 @@ Result<GraphIndexManager::PathResult> DistributedGraphManager::shortestPath(
         for (auto& [sid, exec] : shards) {
             if (sid == start_shard) {
                 auto res = exec->executeDijkstra(start_local, target_local, constraints);
-                if (res) return res;
+                // Normalize empty path as "not found" at distributed layer so
+                // callers receive ERR_GRAPH_PATH_NOT_FOUND consistently.
+                if (res && !res->path.empty()) return res;
                 // Fall through to global search if the shard failed.
                 break;
             }
@@ -254,7 +256,7 @@ Result<GraphIndexManager::PathResult> DistributedGraphManager::shortestPath(
 
     for (auto& f : futures) {
         auto res = f.get();
-        if (!res) continue;  // this shard has no path
+        if (!res || res->path.empty()) continue;  // this shard has no path
         if (res->totalCost < best.totalCost) {
             best = *res;
             found_any = true;

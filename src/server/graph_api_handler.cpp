@@ -733,6 +733,12 @@ http::response<http::string_body> GraphApiHandler::handleCostModelExport(
     }
 
     std::string model_json = optimizer_->exportCostModel();
+    // Normalize legacy/empty exports to an object JSON so clients can round-trip
+    // the payload without special-casing "null".
+    auto parsed = json::parse(model_json, nullptr, false);
+    if (parsed.is_discarded() || parsed.is_null() || !parsed.is_object()) {
+        model_json = json::object().dump();
+    }
     span.setStatus(true);
     return makeResponse(http::status::ok, model_json, req);
 }
@@ -750,7 +756,22 @@ http::response<http::string_body> GraphApiHandler::handleCostModelImport(
             "Graph optimizer not available", req);
     }
 
-    if (!optimizer_->importCostModel(req.body())) {
+    auto parsed = json::parse(req.body(), nullptr, false);
+    if (parsed.is_discarded()) {
+        span.setStatus(false, "invalid cost model JSON");
+        return makeErrorResponse(http::status::bad_request,
+            "Invalid cost model JSON", req);
+    }
+    if (parsed.is_null()) {
+        parsed = json::object();
+    }
+    if (!parsed.is_object()) {
+        span.setStatus(false, "invalid cost model JSON type");
+        return makeErrorResponse(http::status::bad_request,
+            "Invalid cost model JSON", req);
+    }
+
+    if (!optimizer_->importCostModel(parsed.dump())) {
         span.setStatus(false, "invalid cost model JSON");
         return makeErrorResponse(http::status::bad_request,
             "Invalid cost model JSON", req);

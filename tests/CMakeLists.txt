@@ -508,6 +508,10 @@ get_target_property(_themis_tests_sources themis_tests SOURCES)
 if(_themis_tests_sources)
     list(FILTER _themis_tests_sources EXCLUDE REGEX ".*[\\/]test_feature_flags\\.cpp$")
     list(FILTER _themis_tests_sources EXCLUDE REGEX ".*[\\/]test_vulkan_compute_equivalents\\.cpp$")
+    # Prevent duplicate protobuf descriptor registration at runtime:
+    # themis_wire_v1.pb.cc is provided via themis_network; compiling it again
+    # into themis_tests causes FATAL "File already exists in database".
+    list(FILTER _themis_tests_sources EXCLUDE REGEX ".*[\\/]proto_generated[\\/]themis_wire_v1\\.pb\\.cc$")
     list(FILTER _themis_tests_sources EXCLUDE REGEX ".*[\\/]src[\\/]importers[\\/]postgres_importer\\.cpp$")
     list(FILTER _themis_tests_sources EXCLUDE REGEX ".*[\\/]src[\\/]importers[\\/]postgres_importer_mdm\\.cpp$")
     if(NOT THEMIS_ENABLE_GPU)
@@ -1200,6 +1204,7 @@ get_target_property(_themis_tests_sources_final themis_tests SOURCES)
 if(_themis_tests_sources_final)
     list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]test_feature_flags\\.cpp$")
     list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]test_vulkan_compute_equivalents\\.cpp$")
+    list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]proto_generated[\\/]themis_wire_v1\\.pb\\.cc$")
     if(NOT THEMIS_ENABLE_GPU)
         list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]test_cpu_gpu_parity\\.cpp$")
     endif()
@@ -1324,31 +1329,51 @@ endif()
 
 # Copy DLLs to test directory on Windows after build
 if(WIN32)
-    # Copy DLLs from themis_core directory
-    add_custom_command(TARGET themis_tests POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E echo "Copying DLLs to test directory..."
-    )
-    
-    # Copy llama.cpp and runtime DLLs if they exist
-    if(EXISTS "${CMAKE_BINARY_DIR}/bin")
-        add_custom_command(TARGET themis_tests POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_directory
-                "${CMAKE_BINARY_DIR}/bin"
-                "$<TARGET_FILE_DIR:themis_tests>"
-            COMMENT "Copying llama.cpp DLLs to test directory"
+    function(themis_sync_runtime_dlls_for_target target_name)
+        add_custom_command(TARGET ${target_name} POST_BUILD
+            COMMAND ${CMAKE_COMMAND}
+                -DBIN_DIR=${CMAKE_BINARY_DIR}/bin
+                -DVCPKG_BIN_DIR=${CMAKE_BINARY_DIR}/vcpkg_installed/x64-windows/bin
+                -DDST_DIR=$<TARGET_FILE_DIR:${target_name}>
+                -P ${CMAKE_SOURCE_DIR}/cmake/CopyRuntimeDlls.cmake
+            COMMENT "Syncing runtime DLLs for ${target_name}"
         )
-    endif()
-    
-    # Copy vcpkg runtime DLLs
-    if(EXISTS "${CMAKE_BINARY_DIR}/vcpkg_installed/x64-windows/bin")
-        file(GLOB VCPKG_RUNTIME_DLLS "${CMAKE_BINARY_DIR}/vcpkg_installed/x64-windows/bin/*.dll")
-        if(VCPKG_RUNTIME_DLLS)
-            add_custom_command(TARGET themis_tests POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E copy ${VCPKG_RUNTIME_DLLS} "$<TARGET_FILE_DIR:themis_tests>"
-                COMMENT "Copying vcpkg runtime DLLs to test directory"
-            )
+    endfunction()
+
+    add_custom_target(sync_test_runtime_dlls
+        COMMAND ${CMAKE_COMMAND}
+            -DBIN_DIR=${CMAKE_BINARY_DIR}/bin
+            -DVCPKG_BIN_DIR=${CMAKE_BINARY_DIR}/vcpkg_installed/x64-windows/bin
+            -DDST_DIR=${CMAKE_BINARY_DIR}/cmake/tests
+            -P ${CMAKE_SOURCE_DIR}/cmake/CopyRuntimeDlls.cmake
+        COMMENT "Syncing runtime DLLs to cmake/tests"
+    )
+
+    # Build-time sync avoids stale DLLs in target runtime directories.
+    themis_sync_runtime_dlls_for_target(themis_tests)
+
+    # Ensure module DLLs are built before syncing cmake/tests runtime dependencies.
+    foreach(_themis_runtime_target IN ITEMS
+        themis_base
+        themis_content
+        themis_geo
+        themis_graph
+        themis_ingestion
+        themis_llm
+        themis_network
+        themis_query
+        themis_security
+        themis_sharding
+        themis_storage
+        themis_timeseries
+        themis_transaction
+    )
+        if(TARGET ${_themis_runtime_target})
+            add_dependencies(sync_test_runtime_dlls ${_themis_runtime_target})
         endif()
-    endif()
+    endforeach()
+
+    add_dependencies(themis_tests sync_test_runtime_dlls)
 endif()
 
 add_test(NAME AllTests COMMAND themis_tests)
@@ -1725,6 +1750,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_property_graph.cpp")
     target_compile_definitions(test_property_graph PRIVATE
         THEMIS_TEST_BUILD=1
     )
+
+    if(WIN32)
+        themis_sync_runtime_dlls_for_target(test_property_graph)
+        add_dependencies(test_property_graph sync_test_runtime_dlls)
+    endif()
     
     add_test(NAME PropertyGraphTests COMMAND test_property_graph)
     
@@ -1767,6 +1797,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_query_optimizer.cpp")
         THEMIS_GRAPH_EXPORTS
     )
 
+    if(WIN32)
+        themis_sync_runtime_dlls_for_target(test_graph_query_optimizer)
+        add_dependencies(test_graph_query_optimizer sync_test_runtime_dlls)
+    endif()
+
     add_test(NAME GraphQueryOptimizerTests COMMAND test_graph_query_optimizer)
 
     set_tests_properties(GraphQueryOptimizerTests PROPERTIES
@@ -1808,6 +1843,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_advanced_features.cpp")
         THEMIS_TEST_BUILD=1
         THEMIS_GRAPH_EXPORTS
     )
+
+    if(WIN32)
+        themis_sync_runtime_dlls_for_target(test_graph_advanced_features)
+        add_dependencies(test_graph_advanced_features sync_test_runtime_dlls)
+    endif()
 
     add_test(NAME GraphAdvancedFeaturesTests COMMAND test_graph_advanced_features)
 
@@ -1859,6 +1899,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_distributed.cpp")
         THEMIS_GRAPH_EXPORTS
     )
 
+    if(WIN32)
+        themis_sync_runtime_dlls_for_target(test_graph_distributed)
+        add_dependencies(test_graph_distributed sync_test_runtime_dlls)
+    endif()
+
     set_target_properties(test_graph_distributed PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}"
         PDB_OUTPUT_DIRECTORY "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}"
@@ -1870,6 +1915,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_distributed.cpp")
     set_tests_properties(DistributedGraphTests PROPERTIES
         LABELS "graph;distributed;shards;unit"
         TIMEOUT 120
+        ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin"
     )
 
     # Focused target for the shared_mutex upgrade concurrency stress test.
@@ -1896,10 +1942,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_distributed.cpp")
         THEMIS_GRAPH_EXPORTS
     )
 
+    if(WIN32)
+        themis_sync_runtime_dlls_for_target(test_graph_distributed_shared_mutex_focused)
+        add_dependencies(test_graph_distributed_shared_mutex_focused sync_test_runtime_dlls)
+    endif()
+
     set_target_properties(test_graph_distributed_shared_mutex_focused PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}"
         PDB_OUTPUT_DIRECTORY "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}"
-        OUTPUT_NAME "test_graph_distributed_shared_mutex_runner"
+        OUTPUT_NAME "test_graph_distributed_shared_mutex_exec"
     )
 
     add_test(NAME DistributedGraphSharedMutexFocusedTests
@@ -1909,6 +1960,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_distributed.cpp")
     set_tests_properties(DistributedGraphSharedMutexFocusedTests PROPERTIES
         LABELS "graph;distributed;shared_mutex;concurrency;focused;unit"
         TIMEOUT 60
+        ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin"
     )
 
     message(STATUS "  Distributed Graph: shard-aware query execution, BFS/Dijkstra fan-out, plan generation")
@@ -1941,6 +1993,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_parallel_traversal.cpp")
         THEMIS_TEST_BUILD=1
         THEMIS_GRAPH_EXPORTS
     )
+
+    if(WIN32)
+        themis_sync_runtime_dlls_for_target(test_graph_parallel_traversal)
+        add_dependencies(test_graph_parallel_traversal sync_test_runtime_dlls)
+    endif()
 
     add_test(NAME ParallelGraphTraversalTests COMMAND test_graph_parallel_traversal)
 
@@ -1984,6 +2041,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_graph_traversal.cpp")
         THEMIS_GRAPH_EXPORTS
     )
 
+    if(WIN32)
+        themis_sync_runtime_dlls_for_target(test_gpu_graph_traversal)
+        add_dependencies(test_gpu_graph_traversal sync_test_runtime_dlls)
+    endif()
+
     add_test(NAME GPUGraphTraversalTests COMMAND test_gpu_graph_traversal)
 
     set_tests_properties(GPUGraphTraversalTests PROPERTIES
@@ -2021,6 +2083,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_analytics.cpp")
         THEMIS_GRAPH_EXPORTS
     )
 
+    if(WIN32)
+        themis_sync_runtime_dlls_for_target(test_graph_analytics)
+        add_dependencies(test_graph_analytics sync_test_runtime_dlls)
+    endif()
+
     add_test(NAME GraphAnalyticsTests COMMAND test_graph_analytics)
 
     set_tests_properties(GraphAnalyticsTests PROPERTIES
@@ -2057,6 +2124,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_type_filtering.cpp")
         THEMIS_TEST_BUILD=1
         THEMIS_GRAPH_EXPORTS
     )
+
+    if(WIN32)
+        themis_sync_runtime_dlls_for_target(test_graph_type_filtering)
+        add_dependencies(test_graph_type_filtering sync_test_runtime_dlls)
+    endif()
 
     add_test(NAME GraphTypeFilteringTests COMMAND test_graph_type_filtering)
 
@@ -2096,6 +2168,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_edge_encryption.cpp")
         THEMIS_TEST_BUILD=1
         THEMIS_GRAPH_EXPORTS
     )
+
+    if(WIN32)
+        themis_sync_runtime_dlls_for_target(test_graph_edge_encryption)
+        add_dependencies(test_graph_edge_encryption sync_test_runtime_dlls)
+    endif()
 
     add_test(NAME GraphEdgeEncryptionTests COMMAND test_graph_edge_encryption)
 
@@ -3487,6 +3564,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_serverless_function_api_handler.cpp"
 
     target_link_libraries(test_serverless_function_api_handler PRIVATE
         ${TEST_LIBS}
+        themis_core
+        fmt::fmt
+        spdlog::spdlog
         Threads::Threads
     )
 
@@ -3527,6 +3607,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_wasm_handler_registry.cpp")
 
     target_link_libraries(test_wasm_handler_registry PRIVATE
         ${TEST_LIBS}
+        themis_core
+        fmt::fmt
+        spdlog::spdlog
         Threads::Threads
     )
 
@@ -3612,6 +3695,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_service_mesh_api_handler.cpp")
 
     target_link_libraries(test_service_mesh_api_handler PRIVATE
         ${TEST_LIBS}
+        themis_core
+        fmt::fmt
+        spdlog::spdlog
         Threads::Threads
     )
 

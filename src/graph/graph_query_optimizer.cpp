@@ -1404,6 +1404,25 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
     auto [status, path_result] = graph_manager_.dijkstra(start_vertex, target_vertex);
 
     if (!status.ok) {
+        // Keep behaviour consistent with the parallel path: no path is a valid
+        // query result (empty path), not an execution failure.
+        if (status.message.find("Kein Pfad gefunden") != std::string::npos ||
+            status.message.find("no path") != std::string::npos ||
+            status.message.find("No path") != std::string::npos) {
+            GraphIndexManager::PathResult empty_path;
+            auto end_time = std::chrono::steady_clock::now();
+            local_stats.execution_time_ms =
+                std::chrono::duration<double, std::milli>(end_time - start_time).count();
+            local_stats.nodes_explored = 0;
+            local_stats.paths_found = 0;
+
+            if (stats) {
+                *stats = local_stats;
+            }
+            recordExecution(local_stats);
+            return Ok(empty_path);
+        }
+
         return Err<GraphIndexManager::PathResult>(
             errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
             "Dijkstra execution failed: " + status.message
@@ -1692,10 +1711,14 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
         pattern_adj[e.first].insert(e.second);
     }
 
-    // Enumerate all vertices in the data graph using getAllVertices().
+    // Enumerate all vertices in the data graph.
     // Pattern vertex labels ("u", "v", ...) are abstract names used only for
     // result mapping; they are NOT data vertex IDs.
-    std::vector<std::string> data_vertices = graph_manager_.getAllVertices();
+    std::vector<std::string> data_vertices;
+    auto [all_vertices_status, all_vertices] = graph_manager_.allVertices();
+    if (all_vertices_status.ok) {
+        data_vertices = std::move(all_vertices);
+    }
 
     // Build out-adjacency cache for data graph vertices to speed up feasibility checks
     std::unordered_map<std::string, std::unordered_set<std::string>> data_adj_cache;
@@ -1828,6 +1851,28 @@ Result<GraphQueryOptimizer::GraphStatistics> GraphQueryOptimizer::collectStatist
     // Get topology statistics from GraphIndexManager
     stats.vertex_count = graph_manager_.getTopologyNodeCount();
     stats.edge_count = graph_manager_.getTopologyEdgeCount();
+
+    // Fallback path for setups that do not preload in-memory topology.
+    // This commonly happens in focused unit tests that populate RocksDB via
+    // addEdge() but never call rebuildTopology().
+    if (stats.vertex_count == 0 && stats.edge_count == 0) {
+        auto [vertex_status, vertices] = graph_manager_.allVertices();
+        if (vertex_status.ok) {
+            stats.vertex_count = vertices.size();
+
+            std::unordered_set<std::string> unique_edge_ids;
+            for (const auto& v : vertices) {
+                auto [adj_status, adjs] = graph_manager_.outAdjacency(v);
+                if (!adj_status.ok) {
+                    continue;
+                }
+                for (const auto& adj : adjs) {
+                    unique_edge_ids.insert(adj.edgeId);
+                }
+            }
+            stats.edge_count = unique_edge_ids.size();
+        }
+    }
     
     if (stats.vertex_count > 0) {
         stats.avg_degree = static_cast<double>(stats.edge_count) / static_cast<double>(stats.vertex_count);
@@ -2470,7 +2515,7 @@ static std::string algoToName(GraphQueryOptimizer::TraversalAlgorithm algo) {
 }
 
 std::string GraphQueryOptimizer::exportCostModel() const {
-    nlohmann::json j;
+    nlohmann::json j = nlohmann::json::object();
     for (const auto& [algo, model] : algo_cost_models_) {
         std::string name = algoToName(algo);
         j[name] = {

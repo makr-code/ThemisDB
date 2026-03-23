@@ -4108,6 +4108,19 @@ if(THEMIS_BUILD_TESTS)
         CONFIGURATIONS Release Debug
     )
 
+    # Sync runtime DLLs next to the secidx test binary so CTest discovery
+    # can resolve them without a manual PATH adjustment.
+    if(WIN32)
+        add_custom_command(TARGET themis_secidx_tests POST_BUILD
+            COMMAND ${CMAKE_COMMAND}
+                    -D "BIN_DIR=${CMAKE_BINARY_DIR}/bin"
+                -D "DST_DIR=$<TARGET_FILE_DIR:themis_secidx_tests>"
+                -P "${THEMIS_ROOT_DIR}/cmake/CopyRuntimeDlls.cmake"
+            COMMENT "Syncing runtime DLLs for themis_secidx_tests"
+            VERBATIM
+        )
+    endif()
+
     # CRITICAL TESTS ONLY (for fast validation)
     add_executable(themis_tests_critical
         ${THEMIS_ROOT_DIR}/tests/test_lib_rocksdb_integration.cpp
