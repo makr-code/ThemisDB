@@ -14,6 +14,31 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Chain-of-thought execution tracer
 - Prompt regression suite for detecting quality regressions across model updates
 
+## [1.5.0] — 2026-03-23
+
+### Added
+- `ReflectionTuner` — iterative self-critique and revision cycle for LLM responses,
+  implementing four strategies: `SELF_REFINE` (Madaan et al., NeurIPS 2023),
+  `REFLEXION` (Shinn et al., NeurIPS 2023), `CONSTITUTIONAL` (Bai et al., Anthropic 2022),
+  and `SOCRATIC` (Socratic questioning).
+- `IReflectionProvider` — pluggable LLM backend interface with `generate`, `critique`,
+  `revise`, and `score` methods; fallback template-and-heuristic mode when no provider
+  is attached.
+- `DynamicReflectionPromptBuilder` — generates strategy-specific, self-aware critique
+  and revision prompts; injects `SelfAwareContext` into prompts dynamically.
+- `SelfAwareContext` — extracts the model's self-reported confidence and uncertainty
+  from response text via linguistic marker analysis; drives adaptive critique prompts.
+- `ReflectionHallucinationGuard` — detects hallucination signals (marker scan) and
+  quality divergence (rolling-average trajectory analysis); halts the reflection cycle
+  before errors compound (mitigates risk documented in Golem.de, 2026-03).
+- `ReflectionConfig` — full configuration: strategy, max iterations, convergence
+  threshold, plateau detection, guard thresholds, constitutional principles, and
+  self-aware context toggle.
+- `ReflectionResult` — complete result with per-step trace, quality trajectory,
+  convergence/guard flags, and `toJson()` for observability.
+- 38 unit tests in `tests/test_reflection_tuner.cpp` (AC-1 through AC-20).
+- CI: `.github/workflows/reflection-tuner-ci.yml` (multi-platform, AC-1–AC-20).
+
 ## [1.4.0] — 2026-03-12
 
 ### Added

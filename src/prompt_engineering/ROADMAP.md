@@ -5,7 +5,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-v1.x – Full lifecycle management for LLM prompt templates is production-ready. Version control, A/B testing, feedback collection, self-improvement orchestrator, Prometheus metrics, prompt injection attack detection, chain-of-thought prompt construction, RAG prompt assembly, and system prompt management are all implemented.
+v1.5.0 – Full lifecycle management for LLM prompt templates is production-ready. Version control, A/B testing, feedback collection, self-improvement orchestrator, Prometheus metrics, prompt injection attack detection, chain-of-thought prompt construction, RAG prompt assembly, system prompt management, context-window budget enforcement, and **Reflection Tuning with dynamic self-aware prompting** are all implemented.
 
 ## Completed ✅
 - [x] PromptManager – CRUD with RocksDB persistence and YAML bulk-load
@@ -37,6 +37,7 @@ v1.x – Full lifecycle management for LLM prompt templates is production-ready.
 - [x] **RAG prompt builder** – `RAGPromptBuilder` with budget-aware chunk selection, source citations, template injection, and full-prompt assembly
 - [x] **System prompt manager** – `SystemPromptManager` with built-in and custom role support, context-variable rendering, and JSON serialisation
 - [x] **Context-window budget enforcement** – `ContextWindowBudgetManager` with pluggable `ITokenCounter`, `CharDivisionCounter` BPE approximation, greedy chunk selection, `PromptBudgetExceededError`, and utilisation callback
+- [x] **Reflection Tuning with dynamic self-aware prompting** – `ReflectionTuner` with four strategies (SELF_REFINE, REFLEXION, CONSTITUTIONAL, SOCRATIC), `IReflectionProvider` interface, `DynamicReflectionPromptBuilder`, `SelfAwareContext`, `ReflectionHallucinationGuard`
 
 ## In Progress 🚧
 - [x] Token counting and context-window budget enforcement (Target: Q2 2026)
@@ -76,7 +77,15 @@ v1.x – Full lifecycle management for LLM prompt templates is production-ready.
 - [x] Prompt injection attack detection layer (Target: Q2 2026)
 - [x] Multi-modal prompt support (image descriptions alongside text) (Target: Q3 2026)
 
-### Phase 3: Tracing, Regression & Experiments (Status: Planned 📋)
+### Phase 3: Reflection Tuning & Dynamic Self-Aware Prompting (Status: Completed ✅)
+- [x] `ReflectionTuner` — iterative generate→critique→revise cycle with four strategies
+- [x] `IReflectionProvider` interface — pluggable LLM backend; fallback template/heuristic mode
+- [x] `DynamicReflectionPromptBuilder` — strategy-specific, self-aware critique and revision prompts
+- [x] `SelfAwareContext` — linguistic confidence/uncertainty extraction; adaptive prompt injection
+- [x] `ReflectionHallucinationGuard` — marker scan + rolling-average divergence detection
+- [x] 38 unit tests; CI: `reflection-tuner-ci.yml`
+
+### Phase 4: Tracing, Regression & Experiments (Status: Planned 📋)
 - [?] CoT execution tracer – record per-step reasoning chain with latency attribution
 - [?] Prompt regression suite – detect quality degradation on model upgrade
 - [?] A/B experiment framework with configurable traffic splits and automated winner selection
@@ -97,6 +106,7 @@ v1.x – Full lifecycle management for LLM prompt templates is production-ready.
 - [x] Prompt injection attack detection layer (`PromptInjectionDetector`)
 - [x] Chain-of-thought, RAG prompt builder, and system prompt manager implemented
 - [x] Context-window budget enforcement (`ContextWindowBudgetManager`) with pluggable token counter and `PromptBudgetExceededError`
+- [x] **Reflection Tuning** (`ReflectionTuner`, `IReflectionProvider`, `DynamicReflectionPromptBuilder`, `SelfAwareContext`, `ReflectionHallucinationGuard`) — dynamic self-aware LLM prompting with divergence guard
 - [x] Unit tests coverage > 80%
 - [x] Integration tests (version control round-trip, A/B statistical significance)
 - [x] Performance benchmarks (optimization loop latency, concurrent access)

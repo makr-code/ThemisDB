@@ -14051,6 +14051,14 @@ add_prompt_focused_test(
     "ContextWindowBudgetManager: token counting, greedy chunk selection, budget enforcement, PromptBudgetExceededError"
 )
 
+add_prompt_focused_test(
+    test_reflection_tuner_focused
+    test_reflection_tuner.cpp
+    ReflectionTunerFocusedTests
+    "prompt_engineering;reflection_tuning;self_aware;hallucination_guard;dynamic_prompting;unit"
+    "ReflectionTuner: all strategies, SelfAwareContext, DynamicReflectionPromptBuilder, ReflectionHallucinationGuard, mock provider, edge cases"
+)
+
 # ============================================================================
 # Custom Test Targets
 # ============================================================================

@@ -82,8 +82,6 @@ Build a regression harness around `prompt_evaluator.cpp` that runs on every temp
 ---
 
 ### [x] RAG Context Window Budget Manager
-**Priority:** High
-**Target Version:** v0.9.0
 
 Add a `ContextWindowBudgetManager` to `prompt_engineering_integration.cpp` that enforces per-model token limits. It ranks retrieved document chunks by relevance score, then greedily packs chunks until the token budget is reached, ensuring the system prompt and CoT scaffolding always fit.
 
@@ -96,6 +94,45 @@ Add a `ContextWindowBudgetManager` to `prompt_engineering_integration.cpp` that 
 **Performance Targets:**
 - Budget computation for 20 candidate chunks: <2 ms P99.
 - Token counting via BPE bridge: <0.5 ms per 512-token chunk.
+
+---
+
+### [x] Reflection Tuning with Dynamic Self-Aware Prompting
+**Priority:** High
+**Target Version:** v1.5.0
+**Status:** ✅ Implemented (v1.5.0)
+
+Implement an iterative self-critique and revision cycle (`ReflectionTuner`) that improves LLM responses through structured reflection, grounded in:
+
+- Madaan et al. (NeurIPS 2023) "Self-Refine: Iterative Refinement with Self-Feedback"
+- Shinn et al. (NeurIPS 2023) "Reflexion: Language Agents with Verbal Reinforcement Learning"
+- Bai et al. (Anthropic 2022) "Constitutional AI: Harmlessness from AI Feedback"
+- Li et al. (2023) "Reflection-Tuning: Recycling Data for Better Instruction Tuning"
+
+The "self-aware" component dynamically adapts critique prompts based on the model's own self-reported confidence and linguistic uncertainty markers extracted from its previous response.
+
+**Implementation Notes:**
+- `ReflectionTuner` in `include/prompt_engineering/reflection_tuner.h` + `src/prompt_engineering/reflection_tuner.cpp`.
+- `IReflectionProvider` interface with `generate`, `critique`, `revise`, `score` methods; fallback template-and-heuristic mode when no provider is attached.
+- `DynamicReflectionPromptBuilder` generates strategy-specific prompts (SELF_REFINE / REFLEXION / CONSTITUTIONAL / SOCRATIC) and injects `SelfAwareContext`.
+- `SelfAwareContext::fromResponse()` scans for linguistic confidence/uncertainty markers; confidence ratio drives adaptive critique emphasis.
+- `ReflectionHallucinationGuard` uses two mechanisms to prevent hallucination amplification: marker scan (Golem.de, 2026-03: "Selbstkritik bis hin zur Halluzination") and rolling-average quality divergence detection.
+- `ReflectionConfig` exposes all tuning parameters: strategy, `max_iterations`, `convergence_threshold`, `min_delta_improvement`, `divergence_threshold`, `divergence_window`, `constitutional_principles`, `include_self_aware_context`.
+- `ReflectionResult::toJson()` emits the complete trace for logging and observability.
+
+**Performance Targets:**
+- Single reflection iteration (prompt construction only): <0.5 ms P99.
+- Full 3-iteration cycle without an LLM backend: <1 ms P99.
+- `SelfAwareContext::fromResponse()` for a 512-token response: <0.1 ms.
+
+**Security / Reliability:**
+- The `ReflectionHallucinationGuard` fires on any of 15 known hallucination marker phrases found in the critique and on rolling quality divergence, preventing the reflection loop from amplifying fabricated content.
+- Constitutional principles must be curated by the application; the module does not impose defaults to avoid silently constraining output in unexpected domains.
+
+**Test Strategy:**
+- 38 unit tests covering AC-1 through AC-20 in `tests/test_reflection_tuner.cpp`.
+- Four mock provider types: `ConstantMockProvider`, `ImprovingMockProvider`, `HallucinatingCritiqueProvider`, `DivertingMockProvider`.
+- CI: `.github/workflows/reflection-tuner-ci.yml`, multi-platform (GCC-12/14, Clang-15).
 
 ---
 
@@ -191,3 +228,17 @@ The planned enhancements are grounded in the following peer-reviewed literature 
 [15] K. Greshake et al., "Not What You've Signed Up For: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection," in *Proc. AISec@CCS 2023*, pp. 79–90, 2023. Available: https://arxiv.org/abs/2302.12173
 
 [16] F. Perez and I. Ribeiro, "Ignore Previous Prompt: Attack Techniques For Language Models," *arXiv preprint arXiv:2211.09527*, 2022. Available: https://arxiv.org/abs/2211.09527
+
+### Reflection Tuning & Self-Aware Dynamic Prompting
+
+[17] A. Madaan et al., "Self-Refine: Iterative Refinement with Self-Feedback," in *Proc. NeurIPS*, vol. 36, 2023. Available: https://arxiv.org/abs/2303.17651
+
+[18] N. Shinn et al., "Reflexion: Language Agents with Verbal Reinforcement Learning," in *Proc. NeurIPS*, vol. 36, 2023. Available: https://arxiv.org/abs/2303.11366
+
+[19] Y. Bai et al., "Constitutional AI: Harmlessness from AI Feedback," *arXiv preprint arXiv:2212.08073*, 2022. Available: https://arxiv.org/abs/2212.08073
+
+[20] M. Li et al., "Reflection-Tuning: Recycling Data for Better Instruction Tuning," *arXiv preprint arXiv:2310.11716*, 2023. Available: https://arxiv.org/abs/2310.11716
+
+[21] S. Ji et al., "Survey of Hallucination in Natural Language Generation," *ACM Computing Surveys*, vol. 55, no. 12, pp. 1–38, 2023. [DOI: 10.1145/3571730] Available: https://arxiv.org/abs/2202.03629
+
+[22] Golem.de, "Reflection Tuning bei KI: Selbstkritik bis hin zur Halluzination," *Golem.de*, March 2026. Available: https://www.golem.de/news/reflection-tuning-bei-ki-selbstkritik-bis-hin-zur-halluzination-2603-206734.html
