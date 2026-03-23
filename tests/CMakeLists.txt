@@ -17667,4 +17667,53 @@ else()
     message(STATUS "Compute interface focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_compute_interfaces.cpp")
 endif()
 
+# ============================================================================
+# MQTT Client Service Focused Tests (v1.9.0 — MqttClientService /
+# MqttCDCTransport / IMqttMessageHandler; bidirectional MQTT client)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_mqtt_client_service.cpp")
+    message(STATUS "Adding MQTT Client Service focused tests (v1.9.0)")
+
+    add_executable(test_mqtt_client_service_focused
+        test_mqtt_client_service.cpp
+        ${THEMIS_ROOT_DIR}/src/server/mqtt_client_service.cpp
+        ${THEMIS_ROOT_DIR}/src/server/mqtt_session.cpp
+        ${THEMIS_ROOT_DIR}/src/plugins/rpc_service_registry.cpp
+    )
+
+    target_include_directories(test_mqtt_client_service_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_mqtt_client_service_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    if(TARGET Boost::system)
+        target_link_libraries(test_mqtt_client_service_focused PRIVATE Boost::system)
+    endif()
+
+    target_compile_definitions(test_mqtt_client_service_focused PRIVATE
+        THEMIS_ENABLE_MQTT=1
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MqttClientServiceFocusedTests COMMAND test_mqtt_client_service_focused)
+
+    set_tests_properties(MqttClientServiceFocusedTests PROPERTIES
+        LABELS "server;mqtt;client;cdc;pub-sub;service-registry;realtime;v1.9.0;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  MqttClientService: config defaults, stats/reset, IMqttMessageHandler, lifecycle, publish/subscribe, service-registry, MqttCDCTransport topic mapping, CDC publish delegation")
+else()
+    message(STATUS "MQTT Client Service focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_mqtt_client_service.cpp")
+endif()
+
 message(STATUS "Tests configured successfully")

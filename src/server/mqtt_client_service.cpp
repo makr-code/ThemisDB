@@ -1,0 +1,671 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            mqtt_client_service.cpp                            ║
+  Version:         1.9.0                                              ║
+  Last Modified:   2026-03-23                                         ║
+  Author:          ThemisDB Project                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#include "server/mqtt_client_service.h"
+
+#ifdef THEMIS_ENABLE_MQTT
+
+#include <boost/asio.hpp>
+#include <nlohmann/json.hpp>
+
+#include <algorithm>
+#include <array>
+#include <cstring>
+#include <iomanip>
+#include <random>
+#include <sstream>
+#include <stdexcept>
+
+namespace asio = boost::asio;
+
+namespace themis {
+namespace server {
+
+// ── MQTT packet helpers ───────────────────────────────────────────────────────
+
+namespace detail {
+
+// Encode a variable-length integer (MQTT remaining-length encoding).
+static std::vector<uint8_t> encodeVarLen(uint32_t value) {
+    std::vector<uint8_t> out;
+    do {
+        uint8_t byte = static_cast<uint8_t>(value & 0x7F);
+        value >>= 7;
+        if (value > 0) byte |= 0x80;
+        out.push_back(byte);
+    } while (value > 0);
+    return out;
+}
+
+// Decode variable-length integer from buffer.
+// Returns (decoded_value, bytes_consumed) or (0,0) on incomplete data.
+static std::pair<uint32_t, size_t> decodeVarLen(const uint8_t* data, size_t len) {
+    uint32_t value = 0;
+    uint32_t multiplier = 1;
+    size_t   consumed = 0;
+    for (size_t i = 0; i < std::min(len, size_t{4}); ++i) {
+        uint8_t byte = data[i];
+        value += (byte & 0x7F) * multiplier;
+        multiplier <<= 7;
+        ++consumed;
+        if ((byte & 0x80) == 0) return {value, consumed};
+    }
+    return {0, 0}; // incomplete
+}
+
+// Write a 2-byte big-endian integer.
+static void write16(std::vector<uint8_t>& buf, uint16_t val) {
+    buf.push_back(static_cast<uint8_t>(val >> 8));
+    buf.push_back(static_cast<uint8_t>(val & 0xFF));
+}
+
+// Write an MQTT UTF-8 string (2-byte length prefix + data).
+static void writeStr(std::vector<uint8_t>& buf, const std::string& s) {
+    write16(buf, static_cast<uint16_t>(s.size()));
+    buf.insert(buf.end(), s.begin(), s.end());
+}
+
+// Read an MQTT UTF-8 string from buffer.
+// Returns (string, bytes_consumed) or ("", 0) on incomplete data.
+static std::pair<std::string, size_t> readStr(const uint8_t* data, size_t len) {
+    if (len < 2) return {"", 0};
+    uint16_t slen = static_cast<uint16_t>((data[0] << 8) | data[1]);
+    if (len < size_t{2} + slen) return {"", 0};
+    return {std::string(reinterpret_cast<const char*>(data + 2), slen),
+            size_t{2} + slen};
+}
+
+// ── Packet builders ────────────────────────────────────────────────────────
+
+static std::vector<uint8_t> buildConnect(const MqttClientConfig& cfg,
+                                         const std::string& client_id) {
+    // Variable header + payload
+    std::vector<uint8_t> payload;
+
+    // Protocol Name "MQTT" + version 4 (3.1.1)
+    writeStr(payload, "MQTT");
+    payload.push_back(0x04); // protocol level
+
+    // Connect Flags
+    uint8_t flags = 0;
+    if (cfg.clean_session) flags |= 0x02;
+    if (!cfg.username.empty()) flags |= 0x80;
+    if (!cfg.password.empty()) flags |= 0x40;
+    payload.push_back(flags);
+
+    // Keep Alive
+    write16(payload, cfg.keepalive_seconds);
+
+    // Payload: client_id
+    writeStr(payload, client_id);
+    if (!cfg.username.empty()) writeStr(payload, cfg.username);
+    if (!cfg.password.empty()) writeStr(payload, cfg.password);
+
+    // Assemble packet
+    std::vector<uint8_t> pkt;
+    pkt.push_back(0x10); // CONNECT type
+    auto vl = encodeVarLen(static_cast<uint32_t>(payload.size()));
+    pkt.insert(pkt.end(), vl.begin(), vl.end());
+    pkt.insert(pkt.end(), payload.begin(), payload.end());
+    return pkt;
+}
+
+static std::vector<uint8_t> buildPublish(const std::string& topic,
+                                         const std::string& payload,
+                                         uint8_t qos, bool retain,
+                                         uint16_t packet_id) {
+    std::vector<uint8_t> vheader;
+    writeStr(vheader, topic);
+    if (qos > 0) write16(vheader, packet_id);
+    vheader.insert(vheader.end(), payload.begin(), payload.end());
+
+    uint8_t flags = static_cast<uint8_t>((qos & 0x03) << 1);
+    if (retain) flags |= 0x01;
+
+    std::vector<uint8_t> pkt;
+    pkt.push_back(static_cast<uint8_t>(0x30 | flags));
+    auto vl = encodeVarLen(static_cast<uint32_t>(vheader.size()));
+    pkt.insert(pkt.end(), vl.begin(), vl.end());
+    pkt.insert(pkt.end(), vheader.begin(), vheader.end());
+    return pkt;
+}
+
+static std::vector<uint8_t> buildSubscribe(
+        uint16_t packet_id,
+        const std::vector<std::pair<std::string, uint8_t>>& topics) {
+    std::vector<uint8_t> vheader;
+    write16(vheader, packet_id);
+    for (const auto& [filter, qos] : topics) {
+        writeStr(vheader, filter);
+        vheader.push_back(qos & 0x03);
+    }
+
+    std::vector<uint8_t> pkt;
+    pkt.push_back(0x82); // SUBSCRIBE
+    auto vl = encodeVarLen(static_cast<uint32_t>(vheader.size()));
+    pkt.insert(pkt.end(), vl.begin(), vl.end());
+    pkt.insert(pkt.end(), vheader.begin(), vheader.end());
+    return pkt;
+}
+
+static std::vector<uint8_t> buildUnsubscribe(
+        uint16_t packet_id,
+        const std::vector<std::string>& topics) {
+    std::vector<uint8_t> vheader;
+    write16(vheader, packet_id);
+    for (const auto& filter : topics)
+        writeStr(vheader, filter);
+
+    std::vector<uint8_t> pkt;
+    pkt.push_back(0xA2); // UNSUBSCRIBE
+    auto vl = encodeVarLen(static_cast<uint32_t>(vheader.size()));
+    pkt.insert(pkt.end(), vl.begin(), vl.end());
+    pkt.insert(pkt.end(), vheader.begin(), vheader.end());
+    return pkt;
+}
+
+static std::vector<uint8_t> buildPingReq()    { return {0xC0, 0x00}; }
+static std::vector<uint8_t> buildDisconnect() { return {0xE0, 0x00}; }
+static std::vector<uint8_t> buildPubAck(uint16_t id) {
+    return {0x40, 0x02,
+            static_cast<uint8_t>(id >> 8),
+            static_cast<uint8_t>(id & 0xFF)};
+}
+
+} // namespace detail
+
+// ── AsioImpl ─────────────────────────────────────────────────────────────────
+// PIMPL wrapper that keeps all Boost.Asio types out of the public header.
+
+struct MqttClientService::AsioImpl {
+    asio::io_context              io_ctx;
+    asio::ip::tcp::socket         socket{io_ctx};
+    asio::steady_timer            keepalive_timer{io_ctx};
+    asio::steady_timer            reconnect_timer{io_ctx};
+    asio::executor_work_guard<asio::io_context::executor_type>
+                                  work_guard{asio::make_work_guard(io_ctx)};
+};
+
+// ── MqttClientService ─────────────────────────────────────────────────────────
+
+static std::string generateClientIdImpl() {
+    std::random_device rd;
+    std::mt19937       gen(rd());
+    std::uniform_int_distribution<uint32_t> dist(0, 0xFFFFFFFF);
+    std::ostringstream oss;
+    oss << "themisdb-" << std::hex << std::setw(8) << std::setfill('0')
+        << dist(gen);
+    return oss.str();
+}
+
+MqttClientService::MqttClientService(MqttClientConfig config)
+    : config_(std::move(config))
+    , effective_client_id_(config_.client_id.empty()
+                               ? generateClientIdImpl()
+                               : config_.client_id)
+    , asio_(std::make_unique<AsioImpl>())
+    , read_buf_(8192)
+    , cdc_transport_(*this) {}
+
+MqttClientService::~MqttClientService() {
+    stop();
+}
+
+void MqttClientService::start() {
+    bool expected = false;
+    if (!running_.compare_exchange_strong(expected, true)) return;
+
+    asio::post(asio_->io_ctx, [this] { doConnect(); });
+    io_thread_ = std::thread([this] { ioThreadEntry(); });
+}
+
+void MqttClientService::stop() {
+    bool expected = true;
+    if (!running_.compare_exchange_strong(expected, false)) return;
+
+    asio::post(asio_->io_ctx, [this] {
+        asio_->keepalive_timer.cancel();
+        asio_->reconnect_timer.cancel();
+        if (stats_.is_connected.load()) {
+            asio::error_code ec;
+            auto pkt = detail::buildDisconnect();
+            asio::write(asio_->socket, asio::buffer(pkt), ec);
+            asio_->socket.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
+            asio_->socket.close(ec);
+        } else {
+            asio::error_code ec;
+            asio_->socket.close(ec);
+        }
+        asio_->work_guard.reset();
+    });
+
+    if (io_thread_.joinable()) io_thread_.join();
+    stats_.is_connected = false;
+}
+
+bool MqttClientService::isConnected() const noexcept {
+    return stats_.is_connected.load();
+}
+
+bool MqttClientService::publish(const std::string& topic,
+                                const std::string& payload,
+                                uint8_t qos, bool retain) {
+    if (!stats_.is_connected.load()) {
+        ++stats_.publish_errors;
+        return false;
+    }
+    uint16_t pid = 0;
+    if (qos > 0) {
+        // Generate packet ID under the outbound_mutex_
+        std::lock_guard<std::mutex> lk(outbound_mutex_);
+        pid = ++next_packet_id_;
+        if (next_packet_id_ == 0) next_packet_id_ = 1;
+    }
+    auto pkt = detail::buildPublish(topic, payload, qos, retain, pid);
+    enqueuePacket(std::move(pkt));
+    ++stats_.messages_published;
+    stats_.bytes_sent += payload.size();
+    return true;
+}
+
+bool MqttClientService::subscribe(const std::string& topic_filter, uint8_t qos) {
+    asio::post(asio_->io_ctx, [this, topic_filter, qos] {
+        subscriptions_[topic_filter] = qos;
+        if (stats_.is_connected.load()) {
+            uint16_t pid;
+            {
+                std::lock_guard<std::mutex> lk(outbound_mutex_);
+                pid = ++next_packet_id_;
+                if (next_packet_id_ == 0) next_packet_id_ = 1;
+            }
+            auto pkt = detail::buildSubscribe(
+                pid, {{topic_filter, qos}});
+            enqueuePacket(std::move(pkt));
+            ++stats_.subscribe_count;
+        }
+    });
+    return true;
+}
+
+bool MqttClientService::unsubscribe(const std::string& topic_filter) {
+    asio::post(asio_->io_ctx, [this, topic_filter] {
+        subscriptions_.erase(topic_filter);
+        if (stats_.is_connected.load()) {
+            uint16_t pid;
+            {
+                std::lock_guard<std::mutex> lk(outbound_mutex_);
+                pid = ++next_packet_id_;
+                if (next_packet_id_ == 0) next_packet_id_ = 1;
+            }
+            auto pkt = detail::buildUnsubscribe(pid, {topic_filter});
+            enqueuePacket(std::move(pkt));
+        }
+    });
+    return true;
+}
+
+void MqttClientService::setMessageHandler(
+        std::shared_ptr<IMqttMessageHandler> handler) {
+    std::lock_guard<std::mutex> lk(handler_mutex_);
+    handler_ = std::move(handler);
+}
+
+void MqttClientService::registerWithServiceRegistry(
+        const std::string& service_name) {
+    plugins::rpc::RPCServiceRegistry::registerService(service_name,
+                                                       static_cast<void*>(this));
+    registered_service_name_ = service_name;
+}
+
+void MqttClientService::unregisterFromServiceRegistry(
+        const std::string& service_name) {
+    plugins::rpc::RPCServiceRegistry::unregisterService(service_name);
+    if (registered_service_name_ == service_name)
+        registered_service_name_.clear();
+}
+
+// ── Internal ──────────────────────────────────────────────────────────────────
+
+void MqttClientService::ioThreadEntry() {
+    asio::error_code ec;
+    asio_->io_ctx.run(ec);
+}
+
+void MqttClientService::doConnect() {
+    if (!running_.load()) return;
+
+    asio::error_code ec;
+    asio_->socket.close(ec);
+    stats_.is_connected = false;
+    packet_buf_.clear();
+
+    asio::ip::tcp::resolver resolver(asio_->io_ctx);
+    auto results = resolver.resolve(
+        config_.broker_host,
+        std::to_string(config_.broker_port), ec);
+
+    if (ec) { scheduleReconnect(); return; }
+
+    // Connect with timeout via deadline
+    std::atomic<bool> connected{false};
+    asio_->socket.async_connect(
+        *results.begin(),
+        [this, &connected](asio::error_code ec2) {
+            connected = true;
+            if (ec2) { scheduleReconnect(); return; }
+            // Send CONNECT
+            auto pkt = detail::buildConnect(config_, effective_client_id_);
+            asio::error_code we;
+            asio::write(asio_->socket, asio::buffer(pkt), we);
+            if (we) { scheduleReconnect(); return; }
+            stats_.bytes_sent += pkt.size();
+            doRead();
+        });
+
+    asio_->keepalive_timer.expires_after(
+        std::chrono::milliseconds(config_.connect_timeout_ms));
+    asio_->keepalive_timer.async_wait([this, &connected](asio::error_code ec3) {
+        if (!ec3 && !connected) {
+            asio::error_code ce;
+            asio_->socket.close(ce);
+        }
+    });
+}
+
+void MqttClientService::doRead() {
+    if (!running_.load()) return;
+
+    asio_->socket.async_read_some(
+        asio::buffer(read_buf_),
+        [this](asio::error_code ec, size_t n) {
+            if (ec) { handleDisconnect(ec.message()); return; }
+            stats_.bytes_received += n;
+            packet_buf_.insert(packet_buf_.end(),
+                               read_buf_.begin(),
+                               read_buf_.begin() + static_cast<ptrdiff_t>(n));
+            processBuffer();
+            doRead();
+        });
+}
+
+void MqttClientService::processBuffer() {
+    while (packet_buf_.size() >= 2) {
+        // Fixed header: type byte
+        uint8_t type_flags = packet_buf_[0];
+
+        // Decode remaining length
+        auto [rem_len, hdr_extra] = detail::decodeVarLen(
+            packet_buf_.data() + 1,
+            packet_buf_.size() - 1);
+        if (hdr_extra == 0) break; // incomplete length
+
+        size_t total = 1 + hdr_extra + rem_len;
+        if (packet_buf_.size() < total) break; // incomplete payload
+
+        const uint8_t* payload = packet_buf_.data() + 1 + hdr_extra;
+        uint8_t type = type_flags >> 4;
+
+        switch (type) {
+        case 2: { // CONNACK
+            if (rem_len >= 2) onConnAck(payload[0], payload[1]);
+            break;
+        }
+        case 3: { // PUBLISH
+            auto [topic, tlen] = detail::readStr(payload, rem_len);
+            if (tlen == 0) break;
+            uint8_t qos = (type_flags >> 1) & 0x03;
+            size_t  off = tlen;
+            uint16_t pid = 0;
+            if (qos > 0 && off + 1 < rem_len) {
+                pid = static_cast<uint16_t>((payload[off] << 8) | payload[off + 1]);
+                off += 2;
+            }
+            std::string msg_payload(
+                reinterpret_cast<const char*>(payload + off),
+                rem_len - off);
+            onPublishReceived(topic, msg_payload, qos);
+            if (qos == 1) enqueuePacket(detail::buildPubAck(pid));
+            break;
+        }
+        case 9:  // SUBACK — accepted, nothing extra to do
+        case 11: // UNSUBACK
+        case 13: // PINGRESP
+            break;
+        case 14: // DISCONNECT from broker
+            handleDisconnect("broker sent DISCONNECT");
+            break;
+        default:
+            break;
+        }
+
+        packet_buf_.erase(packet_buf_.begin(),
+                          packet_buf_.begin() + static_cast<ptrdiff_t>(total));
+    }
+}
+
+void MqttClientService::onConnAck(uint8_t /*flags*/, uint8_t return_code) {
+    if (return_code != 0) {
+        handleDisconnect("CONNACK rejected (code=" + std::to_string(return_code) + ")");
+        return;
+    }
+    stats_.is_connected = true;
+    ++stats_.connect_count;
+    reconnect_attempt_ = 0;
+
+    sendSubscriptions();
+    startKeepalive();
+
+    std::string cid = effective_client_id_;
+    std::shared_ptr<IMqttMessageHandler> h;
+    {
+        std::lock_guard<std::mutex> lk(handler_mutex_);
+        h = handler_;
+    }
+    if (h) {
+        try { h->onConnected(cid); } catch (...) {}
+    }
+
+    doWrite(); // Flush any queued publishes
+}
+
+void MqttClientService::onPublishReceived(const std::string& topic,
+                                          const std::string& payload,
+                                          uint8_t qos) {
+    ++stats_.messages_received;
+    std::shared_ptr<IMqttMessageHandler> h;
+    {
+        std::lock_guard<std::mutex> lk(handler_mutex_);
+        h = handler_;
+    }
+    if (h) {
+        try { h->onMessage(topic, payload, qos); } catch (...) {}
+    }
+}
+
+void MqttClientService::enqueuePacket(std::vector<uint8_t> pkt) {
+    {
+        std::lock_guard<std::mutex> lk(outbound_mutex_);
+        if (outbound_queue_.size() >= config_.max_outbound_queue) {
+            ++stats_.publish_errors;
+            return;
+        }
+        outbound_queue_.push_back(std::move(pkt));
+    }
+    asio::post(asio_->io_ctx, [this] { doWrite(); });
+}
+
+void MqttClientService::doWrite() {
+    if (writing_) return;
+    std::vector<uint8_t> pkt;
+    {
+        std::lock_guard<std::mutex> lk(outbound_mutex_);
+        if (outbound_queue_.empty()) return;
+        pkt = std::move(outbound_queue_.front());
+        outbound_queue_.pop_front();
+    }
+    writing_ = true;
+    auto buf = std::make_shared<std::vector<uint8_t>>(std::move(pkt));
+    asio::async_write(
+        asio_->socket,
+        asio::buffer(*buf),
+        [this, buf](asio::error_code ec, size_t n) {
+            writing_ = false;
+            if (ec) { handleDisconnect(ec.message()); return; }
+            stats_.bytes_sent += n;
+            doWrite(); // drain next
+        });
+}
+
+void MqttClientService::sendSubscriptions() {
+    if (subscriptions_.empty()) return;
+    std::vector<std::pair<std::string, uint8_t>> topics(
+        subscriptions_.begin(), subscriptions_.end());
+    uint16_t pid;
+    {
+        std::lock_guard<std::mutex> lk(outbound_mutex_);
+        pid = ++next_packet_id_;
+        if (next_packet_id_ == 0) next_packet_id_ = 1;
+    }
+    auto pkt = detail::buildSubscribe(pid, topics);
+    enqueuePacket(std::move(pkt));
+    ++stats_.subscribe_count;
+}
+
+void MqttClientService::startKeepalive() {
+    if (config_.keepalive_seconds == 0) return;
+    asio_->keepalive_timer.expires_after(
+        std::chrono::seconds(config_.keepalive_seconds));
+    asio_->keepalive_timer.async_wait([this](asio::error_code ec) {
+        if (ec) return;
+        if (stats_.is_connected.load())
+            enqueuePacket(detail::buildPingReq());
+        startKeepalive();
+    });
+}
+
+void MqttClientService::scheduleReconnect() {
+    if (!running_.load()) return;
+
+    ++reconnect_attempt_;
+    ++stats_.reconnect_count;
+
+    const MqttRetryConfig& r = config_.retry;
+    if (r.maxRetries > 0 && reconnect_attempt_ > r.maxRetries) return;
+
+    uint32_t delay_ms = r.initialRetryDelayMs;
+    if (r.exponentialBackoff && reconnect_attempt_ > 1) {
+        float f = static_cast<float>(r.initialRetryDelayMs);
+        for (uint32_t i = 1; i < reconnect_attempt_; ++i)
+            f = std::min(f * r.backoffMultiplier,
+                         static_cast<float>(r.maxRetryDelayMs));
+        delay_ms = static_cast<uint32_t>(f);
+    }
+    delay_ms = std::min(delay_ms, r.maxRetryDelayMs);
+
+    asio_->reconnect_timer.expires_after(std::chrono::milliseconds(delay_ms));
+    asio_->reconnect_timer.async_wait([this](asio::error_code ec) {
+        if (!ec && running_.load()) doConnect();
+    });
+}
+
+void MqttClientService::handleDisconnect(const std::string& reason) {
+    bool was_connected = stats_.is_connected.exchange(false);
+    asio_->keepalive_timer.cancel();
+
+    asio::error_code ec;
+    asio_->socket.close(ec);
+
+    if (was_connected) {
+        std::shared_ptr<IMqttMessageHandler> h;
+        {
+            std::lock_guard<std::mutex> lk(handler_mutex_);
+            h = handler_;
+        }
+        if (h) {
+            try { h->onDisconnected(reason); } catch (...) {}
+        }
+    }
+
+    if (running_.load()) scheduleReconnect();
+}
+
+uint16_t MqttClientService::nextPacketId() noexcept {
+    if (++next_packet_id_ == 0) next_packet_id_ = 1;
+    return next_packet_id_;
+}
+
+std::string MqttClientService::generateClientId() {
+    return generateClientIdImpl();
+}
+
+// ── MqttCDCTransport ──────────────────────────────────────────────────────────
+
+MqttCDCTransport::MqttCDCTransport(MqttClientService& service)
+    : service_(service)
+    , topic_prefix_(service.getConfig().cdc_topic_prefix)
+    , qos_(service.getConfig().cdc_qos) {}
+
+bool MqttCDCTransport::start() {
+    service_.start();
+    return true;
+}
+
+void MqttCDCTransport::stop() {
+    service_.stop();
+}
+
+bool MqttCDCTransport::publish(const cdc::Changefeed::ChangeEvent& event) {
+    try {
+        nlohmann::json j = event.toJson();
+        std::string    payload = j.dump();
+        std::string    topic   = topicForEvent(event);
+        return service_.publish(topic, payload, qos_, false);
+    } catch (...) {
+        return false;
+    }
+}
+
+std::string MqttCDCTransport::topicForEvent(
+        const cdc::Changefeed::ChangeEvent& event) const {
+    using ET = cdc::Changefeed::ChangeEventType;
+    std::string type_str;
+    switch (event.type) {
+    case ET::EVENT_PUT:                  type_str = "PUT";                  break;
+    case ET::EVENT_DELETE:               type_str = "DELETE";               break;
+    case ET::EVENT_TRANSACTION_COMMIT:   type_str = "TRANSACTION_COMMIT";   break;
+    case ET::EVENT_TRANSACTION_ROLLBACK: type_str = "TRANSACTION_ROLLBACK"; break;
+    default:                             type_str = "UNKNOWN";              break;
+    }
+
+    // Extract collection name from metadata (key "collection") or use "default"
+    std::string collection = "default";
+    if (event.metadata.contains("collection") &&
+        event.metadata["collection"].is_string()) {
+        collection = event.metadata["collection"].get<std::string>();
+    }
+
+    return topic_prefix_ + collection + "/" + type_str;
+}
+
+void MqttCDCTransport::setTopicPrefix(const std::string& prefix) {
+    topic_prefix_ = prefix;
+}
+
+void MqttCDCTransport::setQos(uint8_t qos) {
+    qos_ = qos;
+}
+
+} // namespace server
+} // namespace themis
+
+#endif // THEMIS_ENABLE_MQTT
