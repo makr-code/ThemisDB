@@ -20,6 +20,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstring>
 #include <iomanip>
 #include <random>
@@ -192,6 +193,7 @@ struct MqttClientService::AsioImpl {
     asio::ip::tcp::socket         socket{io_ctx};
     asio::steady_timer            keepalive_timer{io_ctx};
     asio::steady_timer            reconnect_timer{io_ctx};
+    asio::steady_timer            connect_timer{io_ctx};
     asio::executor_work_guard<asio::io_context::executor_type>
                                   work_guard{asio::make_work_guard(io_ctx)};
 };
@@ -236,6 +238,7 @@ void MqttClientService::stop() {
     asio::post(asio_->io_ctx, [this] {
         asio_->keepalive_timer.cancel();
         asio_->reconnect_timer.cancel();
+        asio_->connect_timer.cancel();
         if (stats_.is_connected.load()) {
             asio::error_code ec;
             auto pkt = detail::buildDisconnect();
@@ -356,12 +359,15 @@ void MqttClientService::doConnect() {
 
     if (ec) { scheduleReconnect(); return; }
 
-    // Connect with timeout via deadline
-    std::atomic<bool> connected{false};
+    // Use a heap-allocated flag shared between the connect handler and the
+    // timeout handler so neither captures a dangling stack reference.
+    auto connected = std::make_shared<std::atomic<bool>>(false);
+
     asio_->socket.async_connect(
         *results.begin(),
-        [this, &connected](asio::error_code ec2) {
-            connected = true;
+        [this, connected](asio::error_code ec2) {
+            asio_->connect_timer.cancel(); // cancel connection timeout
+            connected->store(true);
             if (ec2) { scheduleReconnect(); return; }
             // Send CONNECT
             auto pkt = detail::buildConnect(config_, effective_client_id_);
@@ -372,12 +378,13 @@ void MqttClientService::doConnect() {
             doRead();
         });
 
-    asio_->keepalive_timer.expires_after(
+    // Independent timer for connection-establishment timeout.
+    asio_->connect_timer.expires_after(
         std::chrono::milliseconds(config_.connect_timeout_ms));
-    asio_->keepalive_timer.async_wait([this, &connected](asio::error_code ec3) {
-        if (!ec3 && !connected) {
+    asio_->connect_timer.async_wait([this, connected](asio::error_code ec3) {
+        if (!ec3 && !connected->load()) {
             asio::error_code ce;
-            asio_->socket.close(ce);
+            asio_->socket.close(ce); // triggers the async_connect error handler
         }
     });
 }
@@ -564,11 +571,12 @@ void MqttClientService::scheduleReconnect() {
 
     uint32_t delay_ms = r.initialRetryDelayMs;
     if (r.exponentialBackoff && reconnect_attempt_ > 1) {
-        float f = static_cast<float>(r.initialRetryDelayMs);
-        for (uint32_t i = 1; i < reconnect_attempt_; ++i)
-            f = std::min(f * r.backoffMultiplier,
-                         static_cast<float>(r.maxRetryDelayMs));
-        delay_ms = static_cast<uint32_t>(f);
+        // Use std::pow to avoid a loop that grows with reconnect_attempt_.
+        float f = static_cast<float>(r.initialRetryDelayMs) *
+                  std::pow(r.backoffMultiplier,
+                           static_cast<float>(reconnect_attempt_ - 1));
+        delay_ms = static_cast<uint32_t>(std::min(f,
+                       static_cast<float>(r.maxRetryDelayMs)));
     }
     delay_ms = std::min(delay_ms, r.maxRetryDelayMs);
 
