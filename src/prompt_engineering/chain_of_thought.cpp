@@ -21,6 +21,7 @@
  */
 
 #include "prompt_engineering/chain_of_thought.h"
+#include <chrono>
 #include <sstream>
 
 namespace themis {
@@ -90,16 +91,38 @@ std::string ChainOfThoughtBuilder::build() const {
     std::ostringstream out;
     bool first = true;
 
-    for (const auto& step : steps_) {
+    for (std::size_t idx = 0; idx < steps_.size(); ++idx) {
+        const auto& step = steps_[idx];
+
         if (!first) {
             out << config_.step_delimiter;
         }
         first = false;
 
+        // Fire onStepBegin — errors in the tracer must not propagate.
+        if (tracer_) {
+            try {
+                tracer_->onStepBegin(idx, step.label);
+            } catch (...) {}
+        }
+
+        const auto t0 = std::chrono::steady_clock::now();
+
         if (!step.label.empty()) {
             out << step.label << ":\n";
         }
         out << step.content;
+
+        const auto duration =
+            std::chrono::duration_cast<std::chrono::microseconds>(
+                std::chrono::steady_clock::now() - t0);
+
+        // Fire onStepEnd — errors in the tracer must not propagate.
+        if (tracer_) {
+            try {
+                tracer_->onStepEnd(idx, step.content, duration);
+            } catch (...) {}
+        }
     }
 
     if (!final_answer_.empty()) {
@@ -110,6 +133,23 @@ std::string ChainOfThoughtBuilder::build() const {
     }
 
     return out.str();
+}
+
+// ---------------------------------------------------------------------------
+// Tracer management
+// ---------------------------------------------------------------------------
+
+void ChainOfThoughtBuilder::attachTracer(
+    std::shared_ptr<IChainOfThoughtTracer> tracer) {
+    tracer_ = std::move(tracer);
+}
+
+void ChainOfThoughtBuilder::detachTracer() {
+    tracer_.reset();
+}
+
+bool ChainOfThoughtBuilder::hasTracer() const noexcept {
+    return tracer_ != nullptr;
 }
 
 // ---------------------------------------------------------------------------

@@ -48,7 +48,8 @@ Das Prompt Engineering Modul stellt ein vollständiges **Lifecycle-Management-Sy
 | `prompt_engineering_metrics.cpp` | Prometheus-kompatible Metriken + Snapshot/Restore |
 | `prompt_engineering_integration.cpp` | Hochrangige Facade + Hintergrund-Worker-Thread |
 | `prompt_injection_detector.cpp` | Musterbasierte Prompt-Injection-Erkennung und Bereinigung |
-| `chain_of_thought.cpp` | CoT-Prompt-Konstruktion: Builder, Zero-Shot, Few-Shot, Wrap-Helfer |
+| `chain_of_thought.cpp` | CoT-Prompt-Konstruktion: Builder, Zero-Shot, Few-Shot, Wrap-Helfer; Tracer-Wiring |
+| `cot_tracer.cpp` | Per-Schritt-Tracing: `IChainOfThoughtTracer`, `RecordingCoTTracer`, `CoTTraceCollector` |
 | `rag_prompt_builder.cpp` | RAG-Prompt-Zusammenstellung: budgetbewusste Chunk-Selektion |
 | `system_prompt_manager.cpp` | System-Prompt-Registry mit rollenbasierter Override-Unterstützung |
 | `context_window_manager.cpp` | Token-Budget-Enforcement vor LLM-Dispatch (`ContextWindowBudgetManager`, `ITokenCounter`) |
@@ -71,6 +72,7 @@ Das Prompt Engineering Modul stellt ein vollständiges **Lifecycle-Management-Sy
 | `prompt_engineering_integration.h` | `PromptEngineeringIntegration`, `IntegrationConfig`, `ExecutionContext` |
 | `prompt_injection_detector.h` | `PromptInjectionDetector`, `DetectionResult` |
 | `chain_of_thought.h` | `ChainOfThoughtBuilder`, `CoTStep`, `CoTConfig` |
+| `cot_tracer.h` | `IChainOfThoughtTracer`, `CoTSpanRecord`, `RecordingCoTTracer`, `CoTTraceCollector`, `StepId` |
 | `rag_prompt_builder.h` | `RAGPromptBuilder`, `RetrievedChunk`, `RAGPromptConfig` |
 | `system_prompt_manager.h` | `SystemPromptManager`, `SystemPrompt`, `Role` |
 | `context_window_manager.h` | `ContextWindowBudgetManager`, `ITokenCounter`, `CharDivisionCounter`, `ModelTokenBudget`, `BudgetAllocation`, `PromptBudgetExceededError` |
@@ -103,6 +105,7 @@ PromptEngineeringIntegration  (Facade + Hintergrund-Worker)
         ├─ PromptInjectionDetector   (zustandslose Sicherheitsschicht)
         │
         ├─ ChainOfThoughtBuilder     (reine Berechnung; CoT-Prompt-Konstruktion)
+        │       └─ IChainOfThoughtTracer  (per-step-Tracing; RecordingCoTTracer / CoTTraceCollector)
         ├─ RAGPromptBuilder          (reine Berechnung; RAG-Kontext-Injektion)
         ├─ SystemPromptManager       (In-Memory-Registry; rollenbasierte System-Prompts)
         ├─ ContextWindowBudgetManager (Token-Limit-Enforcement; ITokenCounter)
@@ -211,6 +214,7 @@ Testdateien in `tests/`:
 | `test_prompt_injection_detector.cpp` | Injection-Erkennung |
 | `test_prompt_policy.cpp` | Prompt-Richtlinien |
 | `test_chain_of_thought.cpp` | CoT-Builder |
+| `test_cot_tracer.cpp` | CoT-Tracer (IChainOfThoughtTracer, RecordingCoTTracer, CoTTraceCollector) |
 | `test_rag_prompt_builder.cpp` | RAG-Prompt-Builder |
 | `test_system_prompt_manager.cpp` | System-Prompt-Manager |
 

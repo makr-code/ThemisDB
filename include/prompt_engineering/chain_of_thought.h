@@ -40,9 +40,12 @@
 
 #pragma once
 
+#include <memory>
 #include <string>
 #include <vector>
 #include <utility>
+
+#include "cot_tracer.h"
 
 namespace themis {
 namespace prompt_engineering {
@@ -124,6 +127,13 @@ public:
     /**
      * @brief Assemble all added steps (and optional final answer) into a
      *        single prompt string.
+     *
+     * When a tracer is attached via `attachTracer()`, fires
+     * `IChainOfThoughtTracer::onStepBegin()` and `onStepEnd()` for each step
+     * before and after it is appended to the output buffer.  The callbacks
+     * are wrapped in a `try/catch(...)` block so that a misbehaving tracer
+     * can never interrupt the prompt construction.
+     *
      * @return The complete prompt text.
      */
     std::string build() const;
@@ -142,6 +152,30 @@ public:
      * @brief Return a read-only reference to the current configuration.
      */
     const CoTConfig& getConfig() const;
+
+    // -------------------------------------------------------------------------
+    // Step Tracer
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Attach an `IChainOfThoughtTracer` to this builder.
+     *
+     * When set, `build()` calls `onStepBegin`/`onStepEnd` for each step.
+     * Passing `nullptr` is equivalent to calling `detachTracer()`.
+     *
+     * @param tracer  Tracer implementation to attach.
+     */
+    void attachTracer(std::shared_ptr<IChainOfThoughtTracer> tracer);
+
+    /**
+     * @brief Remove the currently attached tracer (no-op if none is set).
+     */
+    void detachTracer();
+
+    /**
+     * @brief Return `true` when a tracer is currently attached.
+     */
+    bool hasTracer() const noexcept;
 
     // -------------------------------------------------------------------------
     // Static factory helpers
@@ -195,6 +229,7 @@ private:
     CoTConfig           config_;
     std::vector<CoTStep> steps_;
     std::string          final_answer_;
+    std::shared_ptr<IChainOfThoughtTracer> tracer_;
 };
 
 } // namespace prompt_engineering

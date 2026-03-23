@@ -14012,6 +14012,14 @@ add_prompt_focused_test(
 )
 
 add_prompt_focused_test(
+    test_cot_tracer_focused
+    test_cot_tracer.cpp
+    CoTTracerFocusedTests
+    "prompt_engineering;cot;tracer;cot_tracer;recording;collector;unit"
+    "IChainOfThoughtTracer, RecordingCoTTracer, CoTTraceCollector, ChainOfThoughtBuilder tracer wiring (AC-1 through AC-30)"
+)
+
+add_prompt_focused_test(
     test_rag_prompt_builder_focused
     test_rag_prompt_builder.cpp
     RAGPromptBuilderFocusedTests

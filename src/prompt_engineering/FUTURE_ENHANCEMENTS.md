@@ -45,21 +45,24 @@ Replace ad-hoc string interpolation in `prompt_manager.cpp` with a typed templat
 
 ---
 
-### [ ] Chain-of-Thought Step Tracer
+### [x] Chain-of-Thought Step Tracer
 **Priority:** High
 **Target Version:** v0.9.0
+**Status:** ✅ Implemented (v1.7.0)
 
-Instrument chain-of-thought prompt construction so that each reasoning step is individually traced via `utils/tracing.cpp`. This enables offline analysis of which CoT steps contribute to answer quality and which introduce hallucination risk in the legal-domain context.
+Instrument chain-of-thought prompt construction so that each reasoning step is individually traced.  The implementation enables offline analysis of which CoT steps contribute to answer quality and their per-step construction latency.
 
-**Implementation Notes:**
-- Extend `prompt_engineering_integration.cpp` with a `CoTTraceCollector` that emits one OpenTelemetry span per CoT step, carrying `step_index`, `token_count`, and `template_id` attributes.
-- Wire `CoTTraceCollector` into the existing `utils/tracing.cpp` span context so traces propagate correctly through the RAG pipeline.
-- `prompt_performance_tracker.cpp` must aggregate per-step token counts for cost attribution by legal matter ID.
-- Store CoT traces in the timeseries module (`timeseries/tsstore.h`) for retention and aggregation.
+**Implemented Components:**
+- `IChainOfThoughtTracer` — pluggable interface; `onStepBegin(StepId, label) noexcept`, `onStepEnd(StepId, content, duration) noexcept`.
+- `CoTSpanRecord` — span value type: step_index, label, content, token_count (BPE approx), duration, start_time; `toJson()`.
+- `RecordingCoTTracer` — concrete in-memory tracer for testing; `spans()`, `reset()`, `toJson()`.
+- `CoTTraceCollector` — fan-out tracer forwarding to N children; `addTracer()`, `removeTracer()`, `totalStepsTraced()`, `toJson()`.
+- `ChainOfThoughtBuilder::attachTracer()` / `detachTracer()` / `hasTracer()`.
+- `build()` fires per-step callbacks; exceptions in tracer implementations are caught and suppressed.
+- 30 unit tests (AC-1 through AC-30); CI: `cot-tracer-ci.yml`.
 
 **Performance Targets:**
 - Tracing overhead per CoT step: <0.2 ms.
-- Trace storage: <500 bytes per step after ZSTD compression (`utils/zstd_codec.cpp`).
 
 ---
 

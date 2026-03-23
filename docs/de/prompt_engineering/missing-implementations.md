@@ -37,17 +37,14 @@ Prüfstand: 2026-03-09 | Branch: `develop`
 
 ---
 
-## 3. Chain-of-Thought Execution Tracer — nicht implementiert
+## 3. Chain-of-Thought Execution Tracer — ✅ implementiert (v1.7.0)
 
 | Feld | Wert |
 |---|---|
 | **Claim-Quelle** | `src/prompt_engineering/ROADMAP.md` §"Phase 3" + `include/prompt_engineering/FUTURE_ENHANCEMENTS.md` §"Chain-of-Thought Step Tracer Interface" |
 | **Erwartet** | `IChainOfThoughtTracer` mit `onStepBegin(StepId)`, `onStepEnd(StepId, reasoning, duration)` (beide `noexcept`); `ChainOfThoughtBuilder::attachTracer()` |
-| **Beobachtet** | `ChainOfThoughtBuilder` ist ein reiner String-Assembler; kein Tracer-Interface; kein Callback-Mechanismus; keine Latenz-Attribution pro Schritt |
-| **Evidence (geprüfte Pfade)** | `include/prompt_engineering/chain_of_thought.h` (kein Tracer); `include/prompt_engineering/FUTURE_ENHANCEMENTS.md` §"Chain-of-Thought Step Tracer Interface" (alle `[ ]`) |
-| **ROADMAP-Status** | `[?]` – geplant (Phase 3) |
-| **Issue-Titelvorschlag** | `[prompt_engineering] Implement IChainOfThoughtTracer for per-step reasoning instrumentation` |
-| **Label-Vorschläge** | `type:feature`, `priority:low`, `prompt_engineering`, `status:planned` |
+| **Beobachtet** | Vollständig implementiert in `include/prompt_engineering/cot_tracer.h` + `src/prompt_engineering/cot_tracer.cpp`. `ChainOfThoughtBuilder::attachTracer()` / `detachTracer()` / `hasTracer()` vorhanden; `build()` feuert Callbacks pro Schritt. |
+| **ROADMAP-Status** | `[x]` – implementiert (v1.7.0) |
 
 ---
 
@@ -117,7 +114,7 @@ für ~14 Quelldateien ist eine Coverage > 80% wahrscheinlich, aber nicht nachgew
 |---|---|---|---|---|
 | 1 | Typed Template DSL | ROADMAP Phase 2 | Mittel | `[?]` nicht begonnen |
 | 2 | Context Window Budget Manager | ROADMAP Phase 2 | Hoch | ✅ implementiert (v1.5.0) |
-| 3 | CoT Execution Tracer | ROADMAP Phase 3 | Niedrig | `[?]` geplant |
+| 3 | CoT Execution Tracer | ROADMAP Phase 3 | Niedrig | ✅ implementiert (v1.7.0) |
 | 4 | Typed A/B Experimentation Framework | ROADMAP Phase 3 | Mittel | `[?]` geplant |
 | 5 | Quality Regression Interface | ROADMAP Phase 3 | Mittel | `[?]` geplant |
 | 6 | PII-Detektion & Template-Integritätshash | FUTURE_ENHANCEMENTS | Hoch | `[ ]` offen |

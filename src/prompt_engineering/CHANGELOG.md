@@ -14,7 +14,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Chain-of-thought execution tracer
 - Prompt regression suite for detecting quality regressions across model updates
 
-## [1.6.0] — 2026-03-23
+## [1.7.0] — 2026-03-23
+
+### Added
+- `IChainOfThoughtTracer` — pluggable per-step tracing interface; both
+  `onStepBegin(StepId, label)` and `onStepEnd(StepId, content, duration)` are
+  `noexcept`.  Stored in `include/prompt_engineering/cot_tracer.h` +
+  `src/prompt_engineering/cot_tracer.cpp`.
+- `CoTSpanRecord` — immutable span value type: step_index, label, content,
+  token_count (chars/4 BPE approx), duration, start_time; `toJson()`.
+- `RecordingCoTTracer` — concrete tracer for testing / offline analysis; thread-safe;
+  `spans()`, `spanCount()`, `hasSpans()`, `reset()`, `toJson()`.
+- `CoTTraceCollector` — fan-out tracer; forwards to N registered children;
+  `addTracer()`, `removeTracer()`, `tracerCount()`, `totalStepsTraced()`,
+  `spanCount()`, `reset()`, `toJson()`.
+- `ChainOfThoughtBuilder::attachTracer()` / `detachTracer()` / `hasTracer()`.
+- `ChainOfThoughtBuilder::build()` — fires `onStepBegin` / `onStepEnd` per step
+  when a tracer is attached; tracer exceptions are caught and suppressed so the
+  prompt-construction hot path is never interrupted.
+- 30 focused unit tests in `tests/test_cot_tracer.cpp` (AC-1 through AC-30).
+- CI: `.github/workflows/cot-tracer-ci.yml` (GCC-12/14, Clang-15).
+- German docs updated: `docs/de/prompt_engineering/README.md` (CoT Tracer
+  components); `missing-implementations.md` (item #3 resolved).
 
 ### Added
 - `ILLMProviderReflectionAdapter` — adapter bridging any `ILLMProvider` to `IReflectionProvider`;
