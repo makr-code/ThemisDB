@@ -277,7 +277,7 @@ bool MqttClientService::publish(const std::string& topic,
     auto pkt = detail::buildPublish(topic, payload, qos, retain, pid);
     enqueuePacket(std::move(pkt));
     ++stats_.messages_published;
-    stats_.bytes_sent += payload.size();
+    // bytes_sent is counted in doWrite() from the actual bytes written to the socket.
     return true;
 }
 
@@ -605,11 +605,6 @@ void MqttClientService::handleDisconnect(const std::string& reason) {
     }
 
     if (running_.load()) scheduleReconnect();
-}
-
-uint16_t MqttClientService::nextPacketId() noexcept {
-    if (++next_packet_id_ == 0) next_packet_id_ = 1;
-    return next_packet_id_;
 }
 
 std::string MqttClientService::generateClientId() {

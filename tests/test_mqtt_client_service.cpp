@@ -328,6 +328,20 @@ TEST(MqttClientServiceFocusedTests, MultiplePublishErrorsAccumulate) {
     EXPECT_EQ(svc.getStats().publish_errors.load(), 5u);
 }
 
+TEST(MqttClientServiceFocusedTests, PublishDoesNotIncrementBytesSentWhenDisconnected) {
+    // bytes_sent must NOT be incremented on a failed publish (not connected).
+    MqttClientService svc;
+    svc.publish("test/topic", "hello");
+    EXPECT_EQ(svc.getStats().bytes_sent.load(), 0u);
+}
+
+TEST(MqttClientServiceFocusedTests, MessagesPublishedNotIncrementedOnError) {
+    // messages_published counts only successful enqueues, not failed ones.
+    MqttClientService svc;
+    svc.publish("test/topic", "payload"); // fails: not connected
+    EXPECT_EQ(svc.getStats().messages_published.load(), 0u);
+}
+
 // ── AC-SUB: subscribe() / unsubscribe() ──────────────────────────────────────
 
 TEST(MqttClientServiceFocusedTests, SubscribeReturnsTrue) {

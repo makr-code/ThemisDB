@@ -441,7 +441,6 @@ private:
     void scheduleReconnect();
     void handleDisconnect(const std::string& reason);
     void enqueuePacket(std::vector<uint8_t> packet);
-    uint16_t nextPacketId() noexcept;
     void sendSubscriptions();
 
     static std::string generateClientId();
