@@ -14180,6 +14180,38 @@ add_prompt_focused_test(
 )
 
 add_prompt_focused_test(
+    test_cot_tracer_focused
+    test_cot_tracer.cpp
+    CoTTracerFocusedTests
+    "prompt_engineering;cot;tracer;cot_tracer;recording;collector;unit"
+    "IChainOfThoughtTracer, RecordingCoTTracer, CoTTraceCollector, ChainOfThoughtBuilder tracer wiring (AC-1 through AC-30)"
+)
+
+add_prompt_focused_test(
+    test_prompt_regression_runner_focused
+    test_prompt_regression_runner.cpp
+    PromptRegressionRunnerFocusedTests
+    "prompt_engineering;regression;quality;fixtures;feedback;unit"
+    "PromptRegressionRunner: golden fixtures, feedback integration, regression detection, block gate, log callback (AC-1 through AC-30)"
+)
+
+add_prompt_focused_test(
+    test_prompt_ab_experiment_focused
+    test_prompt_ab_experiment.cpp
+    PromptABExperimentFocusedTests
+    "prompt_engineering;ab_testing;experiment;traffic_split;winner_promotion;unit"
+    "PromptABExperimentFramework: create/stop, assignVariant (murmur3), recordOutcome, checkSignificance, promoteWinner, getSummary (AC-1 through AC-30)"
+)
+
+add_prompt_focused_test(
+    test_prompt_library_io_focused
+    test_prompt_library_io.cpp
+    PromptLibraryIOFocusedTests
+    "prompt_engineering;library_io;import;export;json;yaml;checksum;unit"
+    "PromptLibraryIO: JSON/YAML import+export, FNV-1a checksum, file round-trip, cross-env portability (AC-1 through AC-30)"
+)
+
+add_prompt_focused_test(
     test_rag_prompt_builder_focused
     test_rag_prompt_builder.cpp
     RAGPromptBuilderFocusedTests
@@ -14220,6 +14252,19 @@ add_prompt_focused_test(
 )
 
 add_prompt_focused_test(
+    test_reflection_tuner_focused
+    test_reflection_tuner.cpp
+    ReflectionTunerFocusedTests
+    "prompt_engineering;reflection_tuning;self_aware;hallucination_guard;dynamic_prompting;unit"
+    "ReflectionTuner: all strategies, SelfAwareContext, DynamicReflectionPromptBuilder, ReflectionHallucinationGuard, mock provider, edge cases"
+)
+
+add_prompt_focused_test(
+    test_reflection_integration_focused
+    test_reflection_integration.cpp
+    ReflectionIntegrationFocusedTests
+    "prompt_engineering;reflection_tuning;llm_adapter;metrics;integration;unit"
+    "ILLMProviderReflectionAdapter, reflection metrics, IntegrationConfig round-trip, facade wiring"
     test_tree_of_thoughts_focused
     test_tree_of_thoughts.cpp
     TreeOfThoughtsFocusedTests
