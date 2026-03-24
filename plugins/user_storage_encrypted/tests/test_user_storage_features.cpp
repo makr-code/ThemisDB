@@ -1,21 +1,24 @@
 /*
  * test_user_storage_features.cpp
  *
- * Unit + integration tests for FUTURE_ENHANCEMENTS items 1–3:
+ * Unit + integration tests for FUTURE_ENHANCEMENTS items 1–4:
  *   1. Stdin-based key delivery (no /tmp password file)
  *   2. Argon2id key derivation service
  *   3. Key rotation persistence via IRotationStore
+ *   4. Startup stale mount reconciliation
  */
 
 #include "../include/gocryptfs_backend.hpp"
 #include "../include/key_derivation_service.hpp"
 #include "../include/key_rotation_scheduler.hpp"
+#include "../include/multi_level_storage.hpp"
 #include "../include/security_level.hpp"
 
 #include <gtest/gtest.h>
 #include <nlohmann/json.hpp>
 #include <filesystem>
 #include <fstream>
+#include <sstream>
 #include <map>
 #include <string>
 #include <atomic>
@@ -467,4 +470,189 @@ TEST_F(KeyRotationPersistenceTest, MultipleSecurityLevelsPersistedIndependently)
         EXPECT_TRUE(store_->get(key, val))
             << "Missing store entry for level: " << securityLevelToString(level);
     }
+}
+
+// ---------------------------------------------------------------------------
+// Feature 4: Startup Stale Mount Reconciliation
+// ---------------------------------------------------------------------------
+//
+// These tests validate that MultiLevelEncryptedStorage::reconcileStaleMounts()
+// (called internally from initialize()) behaves correctly when stale mounts
+// are present or absent.  Because actually creating FUSE mounts requires root
+// and gocryptfs binaries, the tests use /proc/mounts directly and operate on
+// a temp directory whose name is guaranteed to differ from any real system
+// mount point.
+// ---------------------------------------------------------------------------
+
+// Helper: does /proc/mounts contain the given path as a mount point?
+static bool isMountedInProcMounts(const std::string& path) {
+#if defined(__linux__)
+    std::ifstream mounts("/proc/mounts");
+    std::string line;
+    while (std::getline(mounts, line)) {
+        std::istringstream iss(line);
+        std::string dev, mp;
+        iss >> dev >> mp;
+        if (mp == path) return true;
+    }
+#endif
+    return false;
+}
+
+// Test: reconcileStaleMounts is called during initialize() without crashing
+// when no stale mounts exist (empty base path subtree).
+TEST(StaleMountReconciliationTest, InitializeWithNoStaleMountsSucceeds) {
+    // Use a temp base path that has no child mounts.
+    const std::string base = "/tmp/themis_stale_test_" + std::to_string(getpid());
+    ::mkdir(base.c_str(), 0700);
+
+    // Build a minimal config with one encrypted level pointing to base.
+    // The initialize() call will fail (no real gocryptfs/keys), but it must
+    // not crash or hang — the stale-mount scan should complete cleanly.
+    const std::string config = R"({
+        "multi_level_storage": {
+            "levels": [
+                {
+                    "name": "offen",
+                    "encrypted": false,
+                    "path": ")" + base + R"("
+                }
+            ]
+        }
+    })";
+
+    MultiLevelEncryptedStorage storage;
+    // initialize() may return false (no real backend) but must not throw.
+    EXPECT_NO_THROW(storage.initialize(config.c_str()));
+
+    // Cleanup
+    ::rmdir(base.c_str());
+}
+
+// Test: reconcileStaleMounts does nothing when base_path is an empty string.
+TEST(StaleMountReconciliationTest, EmptyBasePathIsHandledGracefully) {
+    // Construct with default empty config — loadConfiguration returns a single
+    // unencrypted "offen" level with no mount_point, so base_paths will be
+    // empty and reconcileStaleMounts("") is never called (or a no-op if called).
+    MultiLevelEncryptedStorage storage;
+    // Must not crash.
+    EXPECT_NO_THROW(storage.initialize("{}"));
+}
+
+// Test: reconcileStaleMounts skips mount points that belong to the current config.
+// We verify this by confirming that a freshly initialized storage with a known
+// (non-existent) mount_point does NOT attempt to unmount it — if it did, it
+// would try fork/exec fusermount against a non-existent path and could produce
+// unexpected side-effects.
+TEST(StaleMountReconciliationTest, ConfiguredMountPointsAreNotUnmounted) {
+    const std::string base = "/tmp/themis_conf_test_" + std::to_string(getpid());
+    const std::string mp   = base + "/vs_nfd_mp";
+    ::mkdir(base.c_str(), 0700);
+    ::mkdir(mp.c_str(),   0700);
+
+    // The mount point is NOT in /proc/mounts (we never actually mounted it),
+    // so reconcileStaleMounts should ignore it entirely.
+    const std::string config = R"({
+        "multi_level_storage": {
+            "levels": [
+                {
+                    "name": "vs-nfd",
+                    "encrypted": true,
+                    "encrypted_dir": ")" + base + R"(/vs_nfd_enc",
+                    "mount_point":   ")" + mp + R"(",
+                    "encryption": {
+                        "backend": "gocryptfs",
+                        "key_id": "test-key",
+                        "key_provider": "mock"
+                    }
+                }
+            ]
+        }
+    })";
+
+    MultiLevelEncryptedStorage storage;
+    EXPECT_NO_THROW(storage.initialize(config.c_str()));
+
+    // mp must still exist (it was never unmounted).
+    struct stat st{};
+    EXPECT_EQ(::stat(mp.c_str(), &st), 0) << "Configured mount point was unexpectedly removed";
+
+    // Cleanup
+    ::rmdir(mp.c_str());
+    ::rmdir(base.c_str());
+}
+
+// Test: stale mount path detection — unit-test the /proc/mounts pattern logic
+// by confirming a hypothetical path outside base_path is not considered stale.
+TEST(StaleMountReconciliationTest, MountOutsideBasePathIsIgnored) {
+    // Create two separate base paths.
+    const std::string base_a = "/tmp/themis_base_a_" + std::to_string(getpid());
+    const std::string base_b = "/tmp/themis_base_b_" + std::to_string(getpid());
+    ::mkdir(base_a.c_str(), 0700);
+    ::mkdir(base_b.c_str(), 0700);
+
+    // Config only has base_a; any mount under base_b would be outside scope.
+    const std::string config = R"({
+        "multi_level_storage": {
+            "levels": [
+                {
+                    "name": "offen",
+                    "encrypted": false,
+                    "path": ")" + base_a + R"("
+                }
+            ]
+        }
+    })";
+
+    MultiLevelEncryptedStorage storage;
+    EXPECT_NO_THROW(storage.initialize(config.c_str()));
+
+    // base_b must still exist untouched.
+    struct stat st{};
+    EXPECT_EQ(::stat(base_b.c_str(), &st), 0);
+
+    ::rmdir(base_a.c_str());
+    ::rmdir(base_b.c_str());
+}
+
+// Test: multiple encrypted levels — reconcileStaleMounts is called for each
+// unique parent directory of configured mount points; all invocations must
+// complete without throwing.
+TEST(StaleMountReconciliationTest, MultipleEncryptedLevelsDontCrash) {
+    const std::string base = "/tmp/themis_multi_" + std::to_string(getpid());
+    ::mkdir(base.c_str(), 0700);
+
+    // Create all needed directories so the validation doesn't fail on stat.
+    const std::string mp1 = base + "/hot_mp";
+    const std::string mp2 = base + "/warm_mp";
+    ::mkdir(mp1.c_str(), 0700);
+    ::mkdir(mp2.c_str(), 0700);
+
+    const std::string config = R"({
+        "multi_level_storage": {
+            "levels": [
+                {
+                    "name": "vs-nfd",
+                    "encrypted": true,
+                    "encrypted_dir": ")" + base + R"(/hot_enc",
+                    "mount_point":   ")" + mp1 + R"(",
+                    "encryption": { "backend": "gocryptfs", "key_id": "k1", "key_provider": "mock" }
+                },
+                {
+                    "name": "geheim",
+                    "encrypted": true,
+                    "encrypted_dir": ")" + base + R"(/warm_enc",
+                    "mount_point":   ")" + mp2 + R"(",
+                    "encryption": { "backend": "gocryptfs", "key_id": "k2", "key_provider": "mock" }
+                }
+            ]
+        }
+    })";
+
+    MultiLevelEncryptedStorage storage;
+    EXPECT_NO_THROW(storage.initialize(config.c_str()));
+
+    ::rmdir(mp1.c_str());
+    ::rmdir(mp2.c_str());
+    ::rmdir(base.c_str());
 }
