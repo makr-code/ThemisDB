@@ -564,3 +564,218 @@ TEST_F(TemporalQueryEngineTest, QueryAsOfCached_WithFilter_FiltersPostCache) {
     ASSERT_TRUE(cached.has_value());
     EXPECT_EQ(cached->size(), 2u);
 }
+
+// ── executeTemporalQuery (SystemVersionedTable) ───────────────────────────────
+
+// Helper: set up a small system-versioned table shared by the spec tests.
+class ExecuteTemporalQueryTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        // emp1: two versions
+        svt.insert("emp1", {{"name", "Alice"}, {"dept", "Engineering"}});
+        t_after_alice = now();
+        svt.update("emp1", {{"dept", "R&D"}});
+
+        // emp2: one version, logically deleted
+        svt.insert("emp2", {{"name", "Bob"}, {"dept", "Sales"}, {"deleted", true}});
+    }
+
+    SystemVersionedTable svt{"exec_table", "node_a"};
+    Timestamp t_after_alice{0};
+};
+
+TEST_F(ExecuteTemporalQueryTest, SpecAsOf_Now_ReturnsBothCurrentRows) {
+    auto spec = TemporalQuerySpec::asOf(now());
+    // include_deleted=false by default → only emp1 (emp2 is marked deleted)
+    auto rows = TemporalQueryEngine::executeTemporalQuery(svt, spec);
+    EXPECT_EQ(rows.size(), 1u);
+    EXPECT_EQ(rows[0].data["name"], "Alice");
+}
+
+TEST_F(ExecuteTemporalQueryTest, SpecAsOf_IncludeDeleted_ReturnsBoth) {
+    TemporalQuerySpec spec = TemporalQuerySpec::asOf(now());
+    spec.include_deleted = true;
+    auto rows = TemporalQueryEngine::executeTemporalQuery(svt, spec);
+    EXPECT_EQ(rows.size(), 2u);
+}
+
+TEST_F(ExecuteTemporalQueryTest, SpecFromTo_FullRange_ReturnsAllVersions) {
+    auto spec = TemporalQuerySpec::fromTo(kMinTimestamp, kMaxTimestamp);
+    spec.include_deleted = true; // include everything
+    auto rows = TemporalQueryEngine::executeTemporalQuery(svt, spec);
+    // emp1: 2 versions, emp2: 1 version → 3 total
+    EXPECT_EQ(rows.size(), 3u);
+}
+
+TEST_F(ExecuteTemporalQueryTest, SpecFromTo_NarrowRange_ReturnsVersionsInRange) {
+    auto spec = TemporalQuerySpec::fromTo(t_after_alice, kMaxTimestamp);
+    spec.include_deleted = true;
+    auto rows = TemporalQueryEngine::executeTemporalQuery(svt, spec);
+    // At least the current emp1 version (opened after t_after_alice)
+    EXPECT_GE(rows.size(), 1u);
+}
+
+TEST_F(ExecuteTemporalQueryTest, SpecBetweenAnd_FullRange_ReturnsAll) {
+    auto spec = TemporalQuerySpec::betweenAnd(kMinTimestamp, kMaxTimestamp);
+    spec.include_deleted = true;
+    auto rows = TemporalQueryEngine::executeTemporalQuery(svt, spec);
+    EXPECT_EQ(rows.size(), 3u); // same as FROM_TO over full range
+}
+
+TEST_F(ExecuteTemporalQueryTest, SpecBetweenAnd_EmptyRange_ReturnsEmpty) {
+    // A range wholly before any wall-clock data returns nothing
+    auto spec = TemporalQuerySpec::betweenAnd(kMinTimestamp, 0);
+    auto rows = TemporalQueryEngine::executeTemporalQuery(svt, spec);
+    EXPECT_TRUE(rows.empty());
+}
+
+TEST_F(ExecuteTemporalQueryTest, SpecContainedIn_FullRange_ReturnsVersionsContained) {
+    auto spec = TemporalQuerySpec::containedIn(kMinTimestamp, kMaxTimestamp);
+    spec.include_deleted = true;
+    auto rows = TemporalQueryEngine::executeTemporalQuery(svt, spec);
+    // Every closed version (sys_time.end != kMaxTimestamp) is fully contained;
+    // current open versions (sys_end == kMaxTimestamp) have end==kMaxTimestamp
+    // which equals the spec end → also included.
+    EXPECT_EQ(rows.size(), 3u);
+}
+
+TEST_F(ExecuteTemporalQueryTest, SpecAll_ReturnsAllVersionsIncludingDeleted) {
+    auto spec = TemporalQuerySpec::all();
+    auto rows = TemporalQueryEngine::executeTemporalQuery(svt, spec);
+    // ALL includes include_deleted=true, NON_SEQUENCED → 3 total versions
+    EXPECT_EQ(rows.size(), 3u);
+}
+
+TEST_F(ExecuteTemporalQueryTest, SpecAsOf_WithFilter_FiltersResult) {
+    TemporalQuerySpec spec = TemporalQuerySpec::asOf(now());
+    spec.include_deleted = true;
+    auto rows = TemporalQueryEngine::executeTemporalQuery(
+        svt, spec, {RowFilter{"name", "Bob"}});
+    ASSERT_EQ(rows.size(), 1u);
+    EXPECT_EQ(rows[0].data["name"], "Bob");
+}
+
+// ── executeTemporalQuery (BiTemporalTable) ────────────────────────────────────
+
+class ExecuteBiTemporalQueryTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        // contract c1: valid [1000, 5000)
+        bt.insertWithValidTime("c1", {{"type", "NDA"},  {"client", "Acme"}},  {1000, 5000});
+        // contract c2: valid [3000, 9000)
+        bt.insertWithValidTime("c2", {{"type", "SLA"},  {"client", "Beta"}},  {3000, 9000});
+        // contract c3: valid [6000, 8000) — fully inside [5000, 9000)
+        bt.insertWithValidTime("c3", {{"type", "MSA"},  {"client", "Gamma"}}, {6000, 8000});
+    }
+
+    BiTemporalTable bt{"contracts", "node_a"};
+};
+
+TEST_F(ExecuteBiTemporalQueryTest, BT_SpecAsOf_PointInRange_ReturnsActiveRows) {
+    // At valid_at=4000: c1 and c2 are active
+    auto spec = TemporalQuerySpec::asOf(4000);
+    auto rows = TemporalQueryEngine::executeTemporalQuery(bt, spec);
+    EXPECT_EQ(rows.size(), 2u);
+    bool c1 = false, c2 = false;
+    for (const auto& r : rows) {
+        if (r.key == "c1") c1 = true;
+        if (r.key == "c2") c2 = true;
+    }
+    EXPECT_TRUE(c1);
+    EXPECT_TRUE(c2);
+}
+
+TEST_F(ExecuteBiTemporalQueryTest, BT_SpecFromTo_OverlapRange_ReturnsOverlappingRows) {
+    // Range [4500, 7000): overlaps c1 [1000,5000), c2 [3000,9000), c3 [6000,8000)
+    auto spec = TemporalQuerySpec::fromTo(4500, 7000);
+    auto rows = TemporalQueryEngine::executeTemporalQuery(bt, spec);
+    EXPECT_GE(rows.size(), 2u);
+}
+
+TEST_F(ExecuteBiTemporalQueryTest, BT_SpecBetweenAnd_ClosedBound_IncludesEndpoint) {
+    // BETWEEN 5000 AND 5000: closed interval [5000, 5000] — c2 [3000,9000) contains 5000
+    auto spec = TemporalQuerySpec::betweenAnd(5000, 5000);
+    auto rows = TemporalQueryEngine::executeTemporalQuery(bt, spec);
+    EXPECT_GE(rows.size(), 1u);
+    bool c2_found = false;
+    for (const auto& r : rows) {
+        if (r.key == "c2") c2_found = true;
+    }
+    EXPECT_TRUE(c2_found);
+}
+
+TEST_F(ExecuteBiTemporalQueryTest, BT_SpecContainedIn_OnlyFullyContainedRows) {
+    // CONTAINED IN [5000, 9000): c3 [6000,8000) is fully inside; c2 starts at 3000
+    auto spec = TemporalQuerySpec::containedIn(5000, 9000);
+    auto rows = TemporalQueryEngine::executeTemporalQuery(bt, spec);
+    ASSERT_GE(rows.size(), 1u);
+    // c3 must be present; c2 must not (it starts at 3000 < 5000)
+    bool c3_found = false, c2_found = false;
+    for (const auto& r : rows) {
+        if (r.key == "c3") c3_found = true;
+        if (r.key == "c2") c2_found = true;
+    }
+    EXPECT_TRUE(c3_found);
+    EXPECT_FALSE(c2_found);
+}
+
+TEST_F(ExecuteBiTemporalQueryTest, BT_SpecAll_ReturnsAllCurrentRows) {
+    auto spec = TemporalQuerySpec::all();
+    auto rows = TemporalQueryEngine::executeTemporalQuery(bt, spec);
+    EXPECT_EQ(rows.size(), 3u); // all three current contracts
+}
+
+TEST_F(ExecuteBiTemporalQueryTest, BT_SpecAsOf_NoActiveRows_ReturnsEmpty) {
+    // At valid_at=10000 no contract is active
+    auto spec = TemporalQuerySpec::asOf(10000);
+    auto rows = TemporalQueryEngine::executeTemporalQuery(bt, spec);
+    EXPECT_TRUE(rows.empty());
+}
+
+TEST_F(ExecuteBiTemporalQueryTest, BT_SpecFromTo_WithFilter_ReturnsFilteredRows) {
+    auto spec = TemporalQuerySpec::fromTo(3000, 9000);
+    auto rows = TemporalQueryEngine::executeTemporalQuery(
+        bt, spec, {RowFilter{"client", "Gamma"}});
+    ASSERT_GE(rows.size(), 1u);
+    for (const auto& r : rows) {
+        EXPECT_EQ(r.data.value("client", ""), "Gamma");
+    }
+}
+
+// ── TemporalQuerySpec convenience factories ────────────────────────────────────
+
+TEST(TemporalQuerySpecTest, AsOf_Factory_SetsCorrectClause) {
+    auto spec = TemporalQuerySpec::asOf(12345);
+    EXPECT_EQ(spec.clause, TemporalClause::AS_OF);
+    EXPECT_EQ(spec.start_time, 12345);
+    EXPECT_FALSE(spec.include_deleted);
+}
+
+TEST(TemporalQuerySpecTest, FromTo_Factory_SetsCorrectBounds) {
+    auto spec = TemporalQuerySpec::fromTo(100, 200);
+    EXPECT_EQ(spec.clause, TemporalClause::FROM_TO);
+    EXPECT_EQ(spec.start_time, 100);
+    EXPECT_EQ(spec.end_time, 200);
+}
+
+TEST(TemporalQuerySpecTest, BetweenAnd_Factory_SetsCorrectBounds) {
+    auto spec = TemporalQuerySpec::betweenAnd(100, 200);
+    EXPECT_EQ(spec.clause, TemporalClause::BETWEEN_AND);
+    EXPECT_EQ(spec.start_time, 100);
+    EXPECT_EQ(spec.end_time, 200);
+}
+
+TEST(TemporalQuerySpecTest, ContainedIn_Factory_SetsCorrectBounds) {
+    auto spec = TemporalQuerySpec::containedIn(50, 150);
+    EXPECT_EQ(spec.clause, TemporalClause::CONTAINED_IN);
+    EXPECT_EQ(spec.start_time, 50);
+    EXPECT_EQ(spec.end_time, 150);
+}
+
+TEST(TemporalQuerySpecTest, All_Factory_SetsFlagAndRange) {
+    auto spec = TemporalQuerySpec::all();
+    EXPECT_EQ(spec.clause, TemporalClause::ALL);
+    EXPECT_TRUE(spec.include_deleted);
+    EXPECT_EQ(spec.start_time, kMinTimestamp);
+    EXPECT_EQ(spec.end_time, kMaxTimestamp);
+}
