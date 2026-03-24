@@ -11724,6 +11724,44 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_input_validation_security.c
     message(STATUS "  InputValidationSecurity: AQL/path-traversal/XSS/command-injection prevention (legacy API disabled; DISABLED placeholder)")
 endif()
 
+# ── USB Volume Hardening focused tests ────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_usb_volume_hardening.cpp")
+    message(STATUS "Adding USB Volume Hardening focused tests")
+
+    add_executable(test_usb_volume_hardening_focused
+        test_usb_volume_hardening.cpp
+        ../src/security/usb_volume_hardening.cpp
+        ../src/security/usb_admin_authenticator.cpp
+    )
+
+    target_include_directories(test_usb_volume_hardening_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_usb_volume_hardening_focused PRIVATE
+        ${TEST_LIBS}
+        OpenSSL::Crypto
+        OpenSSL::SSL
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_usb_volume_hardening_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME USBVolumeHardeningFocusedTests
+             COMMAND test_usb_volume_hardening_focused)
+
+    set_tests_properties(USBVolumeHardeningFocusedTests PROPERTIES
+        LABELS "security;usb;volume-hardening;fat;integrity;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  USBVolumeHardening: volume hash (FAT-tamper detection), read-only mount, USB serial binding (anti-cloning)")
+endif()
+
 # ============================================================================
 # Time Series Module – Focused Standalone Test Targets
 # Each test is a standalone executable covering a distinct Phase 2 / Phase 3

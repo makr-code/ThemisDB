@@ -110,6 +110,15 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
   - `validateChallengeResponse()` verifies HMAC-SHA256(license_key, challenge), enforces TTL and one-time-use
   - Windows `MachineGuid` read from registry (`HKLM\SOFTWARE\Microsoft\Cryptography\MachineGuid`)
   - Tests: 18 tests in `tests/test_usb_admin_authenticator.cpp` (valid HMAC, wrong response, replay, unknown, expired, empty, multi-challenge)
+- [x] USB Volume Hardening — defence against FAT filesystem manipulation (`include/security/usb_volume_hardening.h`, `src/security/usb_volume_hardening.cpp`)
+  - **Volume integrity hash**: SHA-256 of license file content pinned at provisioning time; any FAT-level file replacement or byte-level edit is detected before the license is parsed
+  - **Read-only mount enforcement**: verifies `/proc/mounts` (Linux) or `FILE_READ_ONLY_VOLUME` (Windows); prevents live writes to the stick during authentication
+  - **USB device serial binding**: reads SCSI VPD serial via sysfs (`/sys/class/block/<dev>/device/../../serial`) on Linux and volume serial on Windows; prevents `dd`-cloned sticks from being accepted
+  - Constant-time comparison for all hash/serial comparisons (OpenSSL `CRYPTO_memcmp`)
+  - 3 new `Metrics` counters: `usb_denied_not_readonly`, `usb_denied_volume_hash_mismatch`, `usb_denied_serial_mismatch`
+  - 3 new `USBAdminConfig` fields: `require_readonly_mount`, `expected_volume_hash`, `expected_usb_serial`
+  - All hardening checks produce audit-log entries with descriptive event names
+  - Tests: 22 tests in `tests/test_usb_volume_hardening.cpp` + `USBVolumeHardeningFocusedTests` standalone target
 - [x] SOC 2 Type II compliance evidence collection (`include/security/security_evidence_collector.h`, `src/security/security_evidence_collector.cpp`)
   - Audit log export via `AuditLogger::generateComplianceReport()` + `searchEntries()`
   - Key-rotation records from `KeyProvider::listKeys()` with version-based rotation detection
@@ -140,11 +149,13 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
   - KyberKEM/DilithiumSigner/HybridEncryption: 40 tests (`tests/test_post_quantum_crypto.cpp`)
   - SecurityEvidenceCollector: 28 tests (`tests/security/test_security_evidence_collector.cpp`)
   - FipsCryptoMode: 20 tests (`tests/security/test_fips_crypto_mode.cpp`)
+  - USBVolumeHardening: 22 tests (`tests/test_usb_volume_hardening.cpp`)
   - QueryMaskingPolicy, RLSManager, ZeroTrustPolicyEnforcer, AuthRateLimiter, HsmProvider: covered
   - Standalone focused test targets for all security sub-directory tests:
     `SecurityEvidenceCollectorFocusedTests`, `FipsCryptoModeFocusedTests`,
     `AccessControlManagerFocusedTests`, `RowLevelSecurityFocusedTests`,
     `SecurityNegativeIntegrationFocusedTests`, `InputValidationSecurityFocusedTests`,
+    `USBVolumeHardeningFocusedTests`,
     `CryptoAttackVectorTests`, `InjectionAttackVectorTests`, `AuthenticationAttackVectorTests`
 - [x] Integration tests (TLS handshake, key rotation, RBAC enforcement, RLS filtering, JWT revocation)
 - [x] Attack vector tests (crypto IV/tag/key confusion, injection, authentication privilege escalation)
@@ -161,6 +172,8 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - AQL injection detection uses both regex and AST-level analysis. The `validateForReadOnlyContext()` method rejects DDL/write operations via regex (`containsWriteOrDDLOperations()`), then falls through to `validateAQLAST()` for general injection pattern detection as defence-in-depth. `validateUnboundedForLoops()` rejects unbounded FOR loops without LIMIT clause.
 - Zero-trust `ZeroTrustPolicyEnforcer` supports IPv4 CIDR policies only; IPv6 support planned for a follow-up.
 - USB admin challenge-response uses HMAC-SHA256 with the license key as the HMAC secret; consider migrating to Ed25519 signatures with a dedicated per-USB key pair in a future iteration.
+- USB Volume Hardening: `getUSBDeviceSerial()` on Linux reads the serial from sysfs; if the USB stick does not expose a serial via the SCSI VPD page 0x80 string descriptor (some cheap sticks do not), `expected_usb_serial` verification is unavailable.  In that case `verifyUSBSerial()` returns false and the stick will be rejected; set `expected_usb_serial` only for sticks known to expose a stable serial.
+- USB Volume Hardening: `isMountedReadOnly()` verifies the _current_ mount flags at authentication time; an attacker with root access could remount the volume as read-write after the check passes.  Use `require_readonly_mount` as a defence-in-depth measure alongside OS-level policies.
 
 ## Breaking Changes
 - SecurityManager API is stable from v1.x.

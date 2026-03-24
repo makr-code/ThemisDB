@@ -614,6 +614,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/security/vault_signing_provider.cpp
     ../src/security/malware_scanner.cpp
     ../src/security/usb_admin_authenticator.cpp
+    ../src/security/usb_volume_hardening.cpp
     ../src/security/pki_key_provider.cpp
     ../src/security/cms_signing.cpp
     ../src/security/rbac.cpp
