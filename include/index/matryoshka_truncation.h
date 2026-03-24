@@ -40,11 +40,13 @@
 
 #include "index/ann_index.h"
 
+#include <algorithm>
 #include <cmath>
 #include <cstddef>
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace themis {
@@ -89,10 +91,11 @@ public:
                 "MatryoshkaTruncation: trunc_dim must be > 0");
     }
 
-    /// Truncate @p vector (raw array of length @p full_dim) to trunc_dim_
-    /// dimensions.  If @p full_dim < trunc_dim_ the full vector is returned
-    /// (zero-padded to trunc_dim_ if normalize is true; passed through as-is
-    /// otherwise).
+    /// Truncate @p vector (raw array of length @p full_dim) to a vector of
+    /// length trunc_dim_. If @p full_dim >= trunc_dim_, only the first
+    /// trunc_dim_ elements are kept. If @p full_dim < trunc_dim_, all
+    /// available elements are copied and the remaining positions are
+    /// zero-padded up to trunc_dim_, regardless of normalize_.
     [[nodiscard]] std::vector<float> truncate(const float* vector,
                                                size_t full_dim) const
     {
@@ -174,7 +177,9 @@ public:
     bool build(const float* vectors, const int64_t* ids,
                size_t count, size_t full_dim) override
     {
-        if (count == 0) return backend_->build(nullptr, nullptr, 0, trunc_.trunc_dim());
+        // Empty dataset: treat as a successful no-op to keep semantics consistent
+        // across backends (some, e.g. ScaNN, return false for count == 0).
+        if (count == 0) return true;
 
         // Materialise the truncated flat array once and hand it to the backend.
         const size_t td = trunc_.trunc_dim();
