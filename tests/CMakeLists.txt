@@ -17753,4 +17753,136 @@ else()
     message(STATUS "Compute interface focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_compute_interfaces.cpp")
 endif()
 
+# OZG Service Registry focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ozg_service_registry.cpp")
+    message(STATUS "Adding OZG Service Registry focused tests (v2.2.0)")
+
+    add_executable(test_ozg_service_registry_focused
+        test_ozg_service_registry.cpp
+    )
+
+    target_include_directories(test_ozg_service_registry_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_ozg_service_registry_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ozg_service_registry_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME OZGServiceRegistryFocusedTests COMMAND test_ozg_service_registry_focused)
+
+    set_tests_properties(OZGServiceRegistryFocusedTests PROPERTIES
+        LABELS "importers;ozg;german-gov;service-registry;v2.2.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  OZGServiceRegistry: registerService, findById/ByStatus/ByState/ByComplianceTag, updateService, removeService, thread-safety, polymorphic")
+else()
+    message(STATUS "OZG Service Registry focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ozg_service_registry.cpp")
+endif()
+
+# XÖV Importer focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_xoev_importer.cpp")
+    message(STATUS "Adding XÖV Importer focused tests (v2.2.0)")
+
+    add_executable(test_xoev_importer_focused
+        test_xoev_importer.cpp
+    )
+
+    target_include_directories(test_xoev_importer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_xoev_importer_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_xoev_importer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME XOEVImporterFocusedTests COMMAND test_xoev_importer_focused)
+
+    set_tests_properties(XOEVImporterFocusedTests PROPERTIES
+        LABELS "importers;xoev;german-gov;xpersonenstand;xmeld;v2.2.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  XOEVImporter: importRecord, importFromXML, exportToXML, findByStandard, findByAktenzeichen, thread-safety, polymorphic")
+else()
+    message(STATUS "XÖV Importer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_xoev_importer.cpp")
+endif()
+
+# XDOMEA Connector focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_xdomea_connector.cpp")
+    message(STATUS "Adding XDOMEA Connector focused tests (v1.2.0)")
+
+    add_executable(test_xdomea_connector_focused
+        test_xdomea_connector.cpp
+    )
+
+    target_include_directories(test_xdomea_connector_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_xdomea_connector_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_xdomea_connector_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME XDOMEAConnectorFocusedTests COMMAND test_xdomea_connector_focused)
+
+    set_tests_properties(XDOMEAConnectorFocusedTests PROPERTIES
+        LABELS "document;xdomea;german-gov;records-management;v1.2.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  XDOMEAConnector: storeDocument, getDocument, removeDocument, listByType/Retention/Children, importFromXML, exportToXML, thread-safety, polymorphic")
+else()
+    message(STATUS "XDOMEA Connector focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_xdomea_connector.cpp")
+endif()
+
+# eID Authenticator focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_eid_authenticator.cpp")
+    message(STATUS "Adding eID Authenticator focused tests (v1.9.0)")
+
+    add_executable(test_eid_authenticator_focused
+        test_eid_authenticator.cpp
+    )
+
+    target_include_directories(test_eid_authenticator_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_eid_authenticator_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_eid_authenticator_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME EIDAuthenticatorFocusedTests COMMAND test_eid_authenticator_focused)
+
+    set_tests_properties(EIDAuthenticatorFocusedTests PROPERTIES
+        LABELS "auth;eid;bsi-tr-03130;german-gov;online-ausweisfunktion;v1.9.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  EIDAuthenticator: initialize, beginAuthSession, completeAuthSession, revokeSession, EIDIdentity attributes, fullName, thread-safety, polymorphic")
+else()
+    message(STATUS "eID Authenticator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_eid_authenticator.cpp")
+endif()
+
 message(STATUS "Tests configured successfully")

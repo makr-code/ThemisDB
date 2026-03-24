@@ -9,6 +9,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 - Fine-grained ABAC with OPA policy expressions — PR open (Issue #1538)
 
+## [1.9.0] — 2026-03-24
+### Added
+- `include/auth/eid_authenticator.h`: `IEIDAuthenticator` + `InMemoryEIDAuthenticator` — German eID Online-Ausweisfunktion integration per BSI TR-03130/TR-03110/TR-03127 and eIDAS; supports initialize, beginAuthSession (redirect URL), completeAuthSession (SAML simulation), revokeSession, EIDIdentity attribute map, fullName helper; 30 tests; CI: `eid-authenticator-ci.yml`
+
 ## [1.8.0] — 2026-03-22
 ### Added
 - EC Curve P-384 (ES384 / SHA-384) JWT algorithm support (`auth/jwt_validator.cpp`) — Feature #9
