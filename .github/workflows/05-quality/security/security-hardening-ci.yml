@@ -29,6 +29,8 @@ on:
       - 'tests/test_hsm_security_checker.cpp'
       - 'tests/test_hsm_security_metrics.cpp'
       - 'tests/test_hsm_provider.cpp'
+      - 'tests/test_usb_admin_authenticator.cpp'
+      - 'tests/test_usb_volume_hardening.cpp'
       - 'fuzz/harnesses/jwt_rbac_config_harness.cpp'
       - 'fuzz/corpus/jwt/**'
       - 'fuzz/corpus/rbac/**'
@@ -58,6 +60,8 @@ on:
       - 'tests/test_hsm_security_checker.cpp'
       - 'tests/test_hsm_security_metrics.cpp'
       - 'tests/test_hsm_provider.cpp'
+      - 'tests/test_usb_admin_authenticator.cpp'
+      - 'tests/test_usb_volume_hardening.cpp'
       - 'fuzz/harnesses/jwt_rbac_config_harness.cpp'
       - 'fuzz/corpus/jwt/**'
       - 'fuzz/corpus/rbac/**'
@@ -169,6 +173,14 @@ jobs:
             --gtest_output="xml:hsm_security_results.xml" \
             2>&1 | tee hsm_security_output.txt
 
+      - name: Run USB volume hardening tests
+        run: |
+          cd build
+          ./tests/themis_tests \
+            --gtest_filter="USBVolumeHardeningTest*:USBAdminHardeningIntegrationTest*:USBAdminAuthenticatorTest*:USBChallengeResponseTest*" \
+            --gtest_output="xml:usb_hardening_results.xml" \
+            2>&1 | tee usb_hardening_output.txt
+
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
@@ -179,6 +191,8 @@ jobs:
             build/*_negative_output.txt
             build/hsm_security_results.xml
             build/hsm_security_output.txt
+            build/usb_hardening_results.xml
+            build/usb_hardening_output.txt
           retention-days: 30
 
       - name: Write job summary
@@ -202,6 +216,7 @@ jobs:
           echo "- HSM stub gating tests (production mode fail-fast, environment detection)" >> "$GITHUB_STEP_SUMMARY"
           echo "- HSM startup integration tests (production safety validation)" >> "$GITHUB_STEP_SUMMARY"
           echo "- HSM security checker and metrics tests" >> "$GITHUB_STEP_SUMMARY"
+          echo "- USB volume hardening tests (FAT-tamper detection, RO-mount, serial binding)" >> "$GITHUB_STEP_SUMMARY"
 
   # ───────────────────────────────────────────────────────────────────────────
   # 2. AddressSanitizer + UndefinedBehaviorSanitizer
