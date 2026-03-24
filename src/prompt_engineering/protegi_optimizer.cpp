@@ -240,9 +240,26 @@ ProTeGiResult ProTeGiOptimizer::optimize(
         std::sort(scored.begin(), scored.end(),
                   [](const auto& a, const auto& b) { return a.first > b.first; });
 
-        // Trim to beam_width
-        if (scored.size() > config_.beam_width) {
-            scored.resize(config_.beam_width);
+        // Clamp beam_width to at least 1 to prevent UB on empty scored vector
+        std::size_t effective_beam_width = config_.beam_width >= 1
+            ? static_cast<std::size_t>(config_.beam_width) : 1u;
+        if (config_.beam_width < 1) {
+            THEMIS_INFO(
+                "ProTeGi optimizer: invalid beam_width={} configured; clamping to 1.",
+                config_.beam_width);
+        }
+
+        // Trim to effective_beam_width
+        if (scored.size() > effective_beam_width) {
+            scored.resize(effective_beam_width);
+        }
+
+        // Guard against empty scored vector
+        if (scored.empty()) {
+            THEMIS_INFO(
+                "ProTeGi optimizer: no scored candidates available at step {}; terminating.",
+                step + 1);
+            break;
         }
 
         double step_best = scored.front().first;

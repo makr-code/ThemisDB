@@ -68,7 +68,7 @@ enum class ToTSearchStrategy {
  * @brief Node evaluation verdict returned by IToTEvaluator.
  */
 enum class ToTVerdict {
-    SURE,    ///< This thought definitely leads to a valid solution; expand it.
+    SURE,    ///< This thought is accepted as a valid solution; stop expanding from this node.
     MAYBE,   ///< This thought might lead to a solution; worth exploring.
     IMPOSSIBLE ///< This thought cannot lead to a valid solution; prune it.
 };
@@ -255,11 +255,21 @@ public:
      * @brief Run tree-of-thoughts search to solve @p problem.
      *
      * If no generator or evaluator was injected, built-in heuristic
-     * implementations are used automatically so the method always
-     * returns a non-empty result.
+     * implementations are used automatically so callers do not need to
+     * provide custom components for basic usage.
+     *
+     * If @p problem is empty, the search is not executed and a default /
+     * empty ToTResult is returned (e.g., with no best_path and no answer).
+     *
+     * Even for non-empty problems, the returned ToTResult may have an
+     * empty best_path and/or answer if no satisfactory solution can be
+     * found under the current configuration (e.g., depth limits, pruning).
+     * Callers SHOULD NOT assume that best_path or answer are always set and
+     * SHOULD check these fields before use.
      *
      * @param problem  Natural-language problem statement.
-     * @return ToTResult containing the best reasoning path and final answer.
+     * @return ToTResult containing the best reasoning path (if any) and
+     *         final answer (if available).
      */
     ToTResult solve(const std::string& problem);
 

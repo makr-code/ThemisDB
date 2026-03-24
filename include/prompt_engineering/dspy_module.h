@@ -282,18 +282,18 @@ public:
 /**
  * @brief DSPy module that prepends chain-of-thought reasoning instructions.
  *
- * Automatically injects a "Reasoning:" output field before the declared
+ * Automatically injects a "Reasoning" output field before the declared
  * output fields so the model reasons step-by-step before producing its
  * final outputs.
  *
- * The intermediate reasoning is captured in the "reasoning" key of the
+ * The intermediate reasoning is captured in the "Reasoning" key of the
  * returned map alongside the declared output fields.
  */
 class DspyChainOfThought : public DspyModule {
 public:
     /**
      * @brief Construct by cloning the given signature and injecting the
-     *        "reasoning" output field at position 0.
+     *        "Reasoning" output field at position 0.
      */
     explicit DspyChainOfThought(DspySignature signature);
 

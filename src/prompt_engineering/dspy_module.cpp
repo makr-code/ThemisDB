@@ -29,6 +29,7 @@
 #include "utils/logger.h"
 
 #include <algorithm>
+#include <cctype>
 #include <sstream>
 
 namespace themis {
@@ -148,14 +149,18 @@ std::unordered_map<std::string, std::string> DspySignature::parseResponse(
             ++value_start;
         }
 
-        // Find where the next output field starts (if any)
+        // Find where the next output field starts (if any).
+        // Support both "OtherField:" and "OtherField :" as boundary markers.
         size_t value_end = response.size();
         for (const auto& other : outputs_) {
             if (other.name == field.name) continue;
-            std::string other_marker = other.name + ":";
-            auto other_pos = response.find(other_marker, value_start);
-            if (other_pos != std::string::npos && other_pos < value_end) {
-                value_end = other_pos;
+            // Check "OtherField:" and "OtherField :" variants
+            for (const auto& suffix : {std::string(":"), std::string(" :")}) {
+                std::string other_marker = other.name + suffix;
+                auto other_pos = response.find(other_marker, value_start);
+                if (other_pos != std::string::npos && other_pos < value_end) {
+                    value_end = other_pos;
+                }
             }
         }
 

@@ -278,7 +278,10 @@ private:
         const std::vector<TestCase>& test_cases,
         size_t n) const;
 
-    // Default error extractor: returns a failure string when score < 0.5.
+    // Default error extractor: uses a simple heuristic based on the relation
+    // between the prompt and each test case's expected output (e.g., treating
+    // cases where the expected output is longer than the prompt as failures)
+    // to produce generic error messages when no custom error_fn is provided.
     static std::vector<std::string> defaultErrorFn(
         const std::string& prompt,
         const std::vector<TestCase>& mini_batch);
