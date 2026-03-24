@@ -2,8 +2,8 @@
 
 Dieser Index bietet eine Übersicht über die Ordnerstruktur von ThemisDB und erklärt den Zweck jedes Verzeichnisses.
 
-> **Version:** 1.5.0-dev  
-> **Letzte Aktualisierung:** 2026-02-17
+> **Version:** 1.8.0  
+> **Letzte Aktualisierung:** 2026-03-24
 
 ---
 
