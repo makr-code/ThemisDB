@@ -54,8 +54,10 @@ struct KeyRotationScheduler::Impl {
     std::atomic<bool> running;
     std::thread scheduler_thread;
     int check_interval_seconds;
+    std::shared_ptr<IRotationStore> store;
     
-    Impl() : running(false), check_interval_seconds(3600) {}
+    Impl() : running(false), check_interval_seconds(3600),
+             store(std::make_shared<NullRotationStore>()) {}
 };
 
 KeyRotationScheduler::KeyRotationScheduler()
@@ -64,6 +66,13 @@ KeyRotationScheduler::KeyRotationScheduler()
 
 KeyRotationScheduler::~KeyRotationScheduler() {
     shutdown();
+}
+
+void KeyRotationScheduler::setRotationStore(std::shared_ptr<IRotationStore> store) {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    if (store) {
+        impl_->store = std::move(store);
+    }
 }
 
 Result<void> KeyRotationScheduler::initialize(int check_interval_seconds) {
@@ -104,8 +113,16 @@ Result<void> KeyRotationScheduler::scheduleRotation(
     schedule.interval_days = interval_days;
     schedule.auto_rotate = auto_rotate;
     schedule.callback = callback;
-    schedule.last_check_ms = getCurrentTimeMs();
+
+    // Load persisted last_check_ms (0 if not found)
+    auto loaded = impl_->store->load(level);
+    schedule.last_check_ms = loaded.isSuccess() ? loaded.value() : getCurrentTimeMs();
     
+    // If no persisted state, initialise to now
+    if (schedule.last_check_ms == 0) {
+        schedule.last_check_ms = getCurrentTimeMs();
+    }
+
     impl_->schedules[level] = schedule;
     
     return Result<void>();
@@ -155,13 +172,20 @@ void KeyRotationScheduler::schedulerLoop() {
                 auto& schedule = pair.second;
                 
                 if (!schedule.auto_rotate) {
-                    continue; // Skip manual rotation
+                    continue;
                 }
-                
-                // Check if rotation is due
-                // Note: In real implementation, would check last rotation time from storage
-                // For now, this is a placeholder for the rotation check logic
-                // The actual rotation trigger would come from isRotationDue() check
+
+                int64_t now = getCurrentTimeMs();
+                int64_t interval_ms = static_cast<int64_t>(schedule.interval_days) * 24 * 3600 * 1000;
+                if (now - schedule.last_check_ms >= interval_ms) {
+                    schedule.last_check_ms = now;
+                    // Persist updated timestamp
+                    impl_->store->save(schedule.level, now);
+
+                    if (schedule.callback) {
+                        schedule.callback(schedule.level, true, "");
+                    }
+                }
             }
         }
         
@@ -169,6 +193,21 @@ void KeyRotationScheduler::schedulerLoop() {
         std::this_thread::sleep_for(
             std::chrono::seconds(impl_->check_interval_seconds)
         );
+    }
+}
+
+void KeyRotationScheduler::triggerRotation(SecurityLevel level) {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    auto it = impl_->schedules.find(level);
+    if (it == impl_->schedules.end()) {
+        return;
+    }
+    auto& schedule = it->second;
+    int64_t now = getCurrentTimeMs();
+    schedule.last_check_ms = now;
+    impl_->store->save(level, now);
+    if (schedule.callback) {
+        schedule.callback(level, true, "");
     }
 }
 

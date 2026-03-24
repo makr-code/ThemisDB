@@ -26,6 +26,7 @@
 
 #include "security_level.hpp"
 #include "encryption_backend_interface.hpp"
+#include "irotation_store.hpp"
 #include <functional>
 #include <memory>
 
@@ -41,6 +42,7 @@ namespace user_storage {
  * - Zero-downtime rotation process
  * - Notification on rotation completion
  * - Thread-safe operation
+ * - Optional persistent state via IRotationStore (last_check_ms survives restart)
  * 
  * Rotation Process:
  * 1. Create new container with new key
@@ -61,6 +63,13 @@ public:
     KeyRotationScheduler();
     ~KeyRotationScheduler();
     
+    /**
+     * @brief Attach a persistence store for last_check_ms.
+     *
+     * Must be called before initialize().  Defaults to NullRotationStore.
+     */
+    void setRotationStore(std::shared_ptr<IRotationStore> store);
+
     /**
      * @brief Initialize scheduler
      * 
@@ -108,6 +117,11 @@ public:
      * @return Timestamp in milliseconds, 0 if not scheduled
      */
     int64_t getNextRotationTime(SecurityLevel level);
+
+    /**
+     * @brief Manually trigger rotation check for a level (for testing).
+     */
+    void triggerRotation(SecurityLevel level);
     
 private:
     struct Impl;

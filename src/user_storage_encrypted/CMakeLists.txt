@@ -9,11 +9,14 @@ endif()
 message(STATUS "Configuring User Storage Encrypted Plugin (src/user_storage_encrypted)")
 
 find_package(nlohmann_json REQUIRED)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(ARGON2 REQUIRED libargon2)
 
 add_library(themis_user_storage_encrypted SHARED
     multi_level_storage.cpp
     gocryptfs_backend.cpp
     key_rotation_scheduler.cpp
+    key_derivation_service.cpp
 )
 
 target_include_directories(themis_user_storage_encrypted
@@ -23,10 +26,12 @@ target_include_directories(themis_user_storage_encrypted
         $<INSTALL_INTERFACE:include>
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
+        ${ARGON2_INCLUDE_DIRS}
 )
 
 target_link_libraries(themis_user_storage_encrypted PRIVATE
     nlohmann_json::nlohmann_json
+    ${ARGON2_LIBRARIES}
 )
 
 target_compile_features(themis_user_storage_encrypted PRIVATE cxx_std_17)
