@@ -14137,6 +14137,30 @@ add_prompt_focused_test(
     "ContextWindowBudgetManager: token counting, greedy chunk selection, budget enforcement, PromptBudgetExceededError"
 )
 
+add_prompt_focused_test(
+    test_tree_of_thoughts_focused
+    test_tree_of_thoughts.cpp
+    TreeOfThoughtsFocusedTests
+    "prompt_engineering;tree_of_thoughts;tot;bfs;dfs;beam;unit"
+    "TreeOfThoughtsBuilder: BFS/DFS/BEAM search, pruning, custom generator/evaluator (v2.0.0)"
+)
+
+add_prompt_focused_test(
+    test_protegi_optimizer_focused
+    test_protegi_optimizer.cpp
+    ProTeGiOptimizerFocusedTests
+    "prompt_engineering;protegi;textual_gradient;beam_search;optimizer;unit"
+    "ProTeGiOptimizer: textual gradient descent, beam search, mini-batch critique, convergence (v2.0.0)"
+)
+
+add_prompt_focused_test(
+    test_dspy_module_focused
+    test_dspy_module.cpp
+    DspyModuleFocusedTests
+    "prompt_engineering;dspy;signature;predict;chain_of_thought;unit"
+    "DspyModule: DspySignature, DspyPredict, DspyChainOfThought, EchoDspyLLMProvider (v2.0.0)"
+)
+
 # ============================================================================
 # Custom Test Targets
 # ============================================================================
