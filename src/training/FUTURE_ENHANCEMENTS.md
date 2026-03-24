@@ -197,3 +197,30 @@ Implement end-to-end provenance tracking for every training sample from source d
     **Iterative Zero-Shot LLM Prompting for Knowledge Graph Construction.**
     arXiv preprint arXiv:2307.01128.
     *(knowledge graph enrichment for training data)*
+
+
+---
+
+## ✅ Implemented — AdaLoRA, LoRAAdapterMerger, and LoRA+ (v1.6.0)
+
+### AdaLoRA — Adaptive Budget Allocation
+- **Status**: ✅ Implemented in `include/training/ada_lora_adapter.h` + `src/training/ada_lora_adapter.cpp`
+- Importance scoring: per-rank-component B/A norm product approximation
+- `reallocateRanks(budget)`: proportional allocation with [1, max_rank] bounds
+- Active-rank forward pass (only unpruned rank components used)
+- 36 tests: `tests/test_ada_lora_adapter.cpp`; CMake target: `AdaLoRAFocusedTests`
+- Reference: Zhang et al. (2023), *AdaLoRA*, arXiv:2303.10512
+
+### LoRAAdapterMerger — Multi-Adapter Composition
+- **Status**: ✅ Implemented in `include/training/lora_adapter_merger.h` + `src/training/lora_adapter_merger.cpp`
+- `mergeLinear()` / `mergeLinearAll()`: weighted ΔW sum + SVD-based (B', A') factorisation
+- `mergeTIES()` / `mergeTIESAll()`: Trim (threshold) → Resolve (majority-vote sign) → Merge (sign-consistent average)
+- 32 tests: `tests/test_lora_adapter_merger.cpp`; CMake target: `LoRAMergerFocusedTests`
+- References: Ilharco et al. (2023), *Task Arithmetic*, arXiv:2212.04089;
+              Yadav et al. (2023), *TIES-Merging*, arXiv:2306.01708
+
+### LoRA+ — Asymmetric Learning Rates
+- **Status**: ✅ Implemented via `IncrementalTrainingConfig::lora_plus_lambda`
+- When `lora_plus_lambda > 1.0`: B uses `lr * λ`, A uses `lr` (two separate AdamOptimizer instances)
+- Backward-compatible: default `1.0` preserves original behaviour
+- Reference: Hayou et al. (2024), *LoRA+*, arXiv:2402.12354
