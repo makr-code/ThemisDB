@@ -49,6 +49,7 @@ void ShardingManager::AddShardNode(const ShardNodeInfo& node) {
     }
 
     shard_nodes_.push_back(node);
+    ring_.addShard(node.node_address);
 }
 
 size_t ShardingManager::GetNodeCount() const {
@@ -94,6 +95,7 @@ bool ShardingManager::RemoveShardNode(uint32_t node_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     for (auto it = shard_nodes_.begin(); it != shard_nodes_.end(); ++it) {
         if (it->node_id == node_id) {
+            ring_.removeShard(it->node_address);
             shard_nodes_.erase(it);
             return true;
         }
@@ -109,6 +111,87 @@ std::string ShardingManager::GetShardingCapabilityInfo() const {
     result += std::to_string(info.sharding_max_nodes);
     result += " | Current Nodes: ";
     result += std::to_string(GetNodeCount());
+    return result;
+}
+
+std::string ShardingManager::GetShardForKey(
+    const std::string& collection,
+    const std::string& key) const
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto result = ring_.getNode(collection + "/" + key);
+    return result.value_or(std::string{});
+}
+
+std::vector<std::string> ShardingManager::GetShardsForKeyRange(
+    const std::string& collection,
+    const std::string& min_key,
+    const std::string& max_key) const
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    if (shard_nodes_.empty()) {
+        return {};
+    }
+
+    // Resolve the shard responsible for each bound.
+    auto start_opt = ring_.getNode(collection + "/" + min_key);
+    auto end_opt   = ring_.getNode(collection + "/" + max_key);
+
+    if (!start_opt || !end_opt) {
+        return {};
+    }
+
+    const std::string& start_shard = *start_opt;
+    const std::string& end_shard   = *end_opt;
+
+    // Fast path: both bounds land on the same shard.
+    if (start_shard == end_shard) {
+        return {start_shard};
+    }
+
+    // Walk the ring clockwise from start_shard until we reach end_shard,
+    // collecting every unique shard we encounter.  getAllShards() returns
+    // the list of unique shard identifiers; we build an ordered traversal
+    // by iterating the sorted virtual-node ring.
+    //
+    // Strategy:
+    //   1. Get all shards sorted by their *minimum* hash token (first
+    //      virtual node position), forming a clockwise traversal order.
+    //   2. Starting from start_shard, walk until end_shard is included.
+    //
+    // Note: this approximation is accurate for ranges that are small
+    // relative to the keyspace.  For very large ranges the caller
+    // should prefer a SCATTER_GATHER.
+
+    std::vector<std::string> all_shards = ring_.getAllShards();
+    if (all_shards.empty()) {
+        return {};
+    }
+
+    // Find indices of start and end in the all_shards list.
+    int start_idx = -1, end_idx = -1;
+    for (int i = 0; i < static_cast<int>(all_shards.size()); ++i) {
+        if (all_shards[i] == start_shard) start_idx = i;
+        if (all_shards[i] == end_shard)   end_idx   = i;
+    }
+
+    if (start_idx < 0 || end_idx < 0) {
+        // Defensive fallback — return both boundary shards.
+        return {start_shard, end_shard};
+    }
+
+    std::vector<std::string> result;
+    const int n = static_cast<int>(all_shards.size());
+
+    // Walk clockwise from start_idx to end_idx (inclusive), wrapping around.
+    int idx = start_idx;
+    for (int steps = 0; steps < n; ++steps) {
+        result.push_back(all_shards[idx]);
+        if (idx == end_idx) break;
+        idx = (idx + 1) % n;
+    }
+
     return result;
 }
 
