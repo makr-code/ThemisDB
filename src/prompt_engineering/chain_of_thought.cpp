@@ -99,11 +99,9 @@ std::string ChainOfThoughtBuilder::build() const {
         }
         first = false;
 
-        // Fire onStepBegin — errors in the tracer must not propagate.
+        // Fire onStepBegin — callbacks are noexcept; implementations must not throw.
         if (tracer_) {
-            try {
-                tracer_->onStepBegin(idx, step.label);
-            } catch (...) {}
+            tracer_->onStepBegin(idx, step.label);
         }
 
         const auto t0 = std::chrono::steady_clock::now();
@@ -117,11 +115,9 @@ std::string ChainOfThoughtBuilder::build() const {
             std::chrono::duration_cast<std::chrono::microseconds>(
                 std::chrono::steady_clock::now() - t0);
 
-        // Fire onStepEnd — errors in the tracer must not propagate.
+        // Fire onStepEnd — callbacks are noexcept; implementations must not throw.
         if (tracer_) {
-            try {
-                tracer_->onStepEnd(idx, step.content, duration);
-            } catch (...) {}
+            tracer_->onStepEnd(idx, step.content, duration);
         }
     }
 

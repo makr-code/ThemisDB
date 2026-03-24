@@ -58,6 +58,7 @@
 #include "prompt_engineering/prompt_engineering_metrics.h"
 #include "prompt_engineering/prompt_engineering_integration.h"
 
+#include <algorithm>
 #include <memory>
 #include <string>
 #include <vector>

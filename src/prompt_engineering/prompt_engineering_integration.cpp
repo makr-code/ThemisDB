@@ -443,31 +443,52 @@ void PromptEngineeringIntegration::afterExecution(
         }
     }
 
+    // Snapshot reflection-tuning state under lock to prevent data races with
+    // updateConfig() / setReflectionTuner() / setMetrics() on other threads.
+    IntegrationConfig                        snap_config;
+    std::shared_ptr<ReflectionTuner>         snap_tuner;
+    std::shared_ptr<PromptEngineeringMetrics> snap_metrics;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        snap_config  = config_;
+        snap_tuner   = reflection_tuner_;
+        snap_metrics = metrics_;
+    }
+
     // Optional reflection tuning pass — refine the response if a tuner is attached
     // and the execution succeeded (no point refining failed/empty responses).
-    if (config_.enable_reflection_tuning && reflection_tuner_ && success && !response.empty()) {
-        if (metrics_) {
-            metrics_->recordReflectionCycleStart(ctx.prompt_id);
+    if (snap_config.enable_reflection_tuning && snap_tuner && success && !response.empty()) {
+        // Apply reflection_max_iterations from IntegrationConfig to the tuner so
+        // that callers who set config_.reflection_max_iterations actually see the
+        // change take effect on the next tune() call.  We intentionally operate on
+        // the snapshotted tuner pointer: if setReflectionTuner() is called concurrently,
+        // the replacement takes effect on the *next* invocation, not mid-flight.
+        auto tuner_cfg = snap_tuner->getConfig();
+        tuner_cfg.max_iterations = snap_config.reflection_max_iterations;
+        snap_tuner->setConfig(tuner_cfg);
+
+        if (snap_metrics) {
+            snap_metrics->recordReflectionCycleStart(ctx.prompt_id);
         }
 
-        auto reflection_result = reflection_tuner_->tune(ctx.enhanced_prompt, response);
+        auto reflection_result = snap_tuner->tune(ctx.enhanced_prompt, response);
 
-        if (metrics_) {
+        if (snap_metrics) {
             const bool improved = reflection_result.quality_improvement > 0.0;
-            metrics_->recordReflectionCycleComplete(
+            snap_metrics->recordReflectionCycleComplete(
                 ctx.prompt_id,
                 reflection_result.total_iterations,
                 improved);
-            metrics_->recordReflectionQualityDelta(
+            snap_metrics->recordReflectionQualityDelta(
                 ctx.prompt_id,
                 reflection_result.quality_improvement);
             if (reflection_result.halted_by_hallucination_guard) {
-                metrics_->recordReflectionGuardFired(ctx.prompt_id);
+                snap_metrics->recordReflectionGuardFired(ctx.prompt_id);
             }
         }
 
         // Store reflection result as positive feedback when quality improved.
-        if (config_.enable_feedback_collection && feedback_collector_ &&
+        if (snap_config.enable_feedback_collection && feedback_collector_ &&
             reflection_result.quality_improvement > 0.0) {
             feedback_collector_->recordFeedback(
                 ctx.prompt_id,

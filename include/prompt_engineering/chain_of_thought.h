@@ -128,11 +128,11 @@ public:
      * @brief Assemble all added steps (and optional final answer) into a
      *        single prompt string.
      *
-     * When a tracer is attached via `attachTracer()`, fires
+     * When a tracer is attached via `attachTracer()`, this method calls
      * `IChainOfThoughtTracer::onStepBegin()` and `onStepEnd()` for each step
-     * before and after it is appended to the output buffer.  The callbacks
-     * are wrapped in a `try/catch(...)` block so that a misbehaving tracer
-     * can never interrupt the prompt construction.
+     * before and after it is appended to the output buffer.  These callbacks
+     * are declared `noexcept` in `IChainOfThoughtTracer`, so tracer
+     * implementations must not throw; doing so would invoke `std::terminate`.
      *
      * @return The complete prompt text.
      */
