@@ -4,6 +4,17 @@
 
 ---
 
+## ✅ Implemented (graduated from this backlog)
+
+| Item | Version | Notes |
+|------|---------|-------|
+| Stdin key delivery (no `/tmp` password file) | v0.1.0 | `executeCommandWithStdin` + `deliverKeyViaStdin`; `explicit_bzero` |
+| Argon2id KDF per-container key derivation | v0.1.0 | `Argon2idKeyDerivationService`; m=65536/t=3/p=4; salt in `.themis_kdf_salt` |
+| Key rotation persistence via `IRotationStore` | v0.1.0 | `last_check_ms` + `interval_days` persisted after every rotation callback |
+| Startup stale mount reconciliation | v0.2.0 | `reconcileStaleMounts()` scans `/proc/mounts`; `fusermount -u` / `umount` fallback; non-fatal |
+
+---
+
 ## Scope
 
 - Enhancements to the encrypted user storage plugin: new encryption algorithms (ChaCha20-Poly1305, post-quantum KEM), expanded HSM/PKCS#11 support, ABAC policy engine, and compliance tooling (audit log export, GDPR erasure).
