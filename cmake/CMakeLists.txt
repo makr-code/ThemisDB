@@ -1573,6 +1573,8 @@ set(THEMIS_CORE_SOURCES
     ../src/query/query_plan_visualizer.cpp
     ../src/query/sql_parser.cpp
     ../src/query/sparql_parser.cpp
+    ../src/query/cypher_parser.cpp
+    ../src/query/gremlin_parser.cpp
     ../src/query/let_evaluator.cpp
     ../src/query/window_evaluator.cpp
     ../src/query/cte_subquery.cpp

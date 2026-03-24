@@ -471,7 +471,8 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/cross_cluster_federation.cpp
     ../src/query/materialized_cte.cpp
     ../src/query/sparql_parser.cpp
-    ../src/query/vectorized_execution.cpp
+    ../src/query/cypher_parser.cpp
+    ../src/query/gremlin_parser.cpp
     ../src/query/parallel_executor.cpp
     ../src/query/query_canceller.cpp
     ../src/query/query_federation.cpp

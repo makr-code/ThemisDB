@@ -12,6 +12,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Security audit: injection prevention hardening and resource exhaustion edge cases
 - AQL parser thread-safety refactor (per-thread instances or mutex protection)
 
+## [1.6.0] — 2026-03-24
+
+### Added
+- Cypher compatibility layer (`cypher_parser.cpp`, `include/query/cypher_parser.h`): full
+  MATCH/WHERE/RETURN parser + `CypherToAQLTranspiler` emitting AQL FOR/FILTER/SORT/LIMIT/RETURN;
+  supports node patterns (variable, label, inline properties), relationship patterns
+  (OUT/IN/BOTH, variable-length *m..n), WHERE expressions (=, <>, AND, OR, NOT, IS NULL,
+  STARTS WITH, ENDS WITH, CONTAINS, IN), RETURN DISTINCT, ORDER BY, SKIP, LIMIT.
+  30 focused tests (`CypherParserFocusedTests`).
+- Gremlin compatibility layer (`gremlin_parser.cpp`, `include/query/gremlin_parser.h`): full
+  Apache TinkerPop Gremlin traversal parser + `GremlinToAQLTranspiler`; supports g.V()/g.E(),
+  hasLabel/has/hasNot, P.eq/neq/lt/lte/gt/gte/within/without predicates, out/in/both traversals,
+  values/valueMap/id/label projection, count (LENGTH() wrapper), dedup (COLLECT), limit/range,
+  order().by() sorting, as/select aliases.
+  30 focused tests (`GremlinParserFocusedTests`).
+
 ## [1.5.0] — 2026-03-12
 
 ### Added
