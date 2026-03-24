@@ -121,6 +121,28 @@ public:
      * @return List of unique shard IDs
      */
     std::vector<std::string> getAllShards() const;
+
+    /**
+     * Get all shards responsible for any key whose hash lies in [hash_start, hash_end].
+     *
+     * Performs a clockwise ring walk from hash_start to hash_end, collecting every
+     * distinct shard ID encountered.  When hash_start > hash_end the range wraps
+     * around the ring and all shards are returned.
+     *
+     * @param hash_start  Lower bound of the hash range (inclusive)
+     * @param hash_end    Upper bound of the hash range (inclusive)
+     * @return Ordered, deduplicated list of shard IDs (may be all shards)
+     */
+    std::vector<std::string> getShardsInRange(uint64_t hash_start, uint64_t hash_end) const;
+
+    /**
+     * Hash an arbitrary string key using the internal FNV-1a + mix function.
+     * Exposed so callers can compute consistent hash positions without duplicating
+     * the hash logic.
+     * @param key  String to hash
+     * @return 64-bit hash value
+     */
+    uint64_t hashKey(const std::string& key) const { return hash(key); }
     
     /**
      * Calculate balance factor (standard deviation of virtual nodes per shard)
