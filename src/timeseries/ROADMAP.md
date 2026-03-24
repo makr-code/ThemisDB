@@ -10,6 +10,7 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
 - [x] Gorilla compression for 10–20× space reduction
 - [x] TSAutoBuffer – automatic batching for single-point inserts (NEW)
 - [x] Continuous aggregation for downsampling
+- [x] **Named Continuous Aggregate Materialization (v1.9.0):** `ContinuousAggDefinition` (name, config, auto_refresh, status, agg_id), `ContinuousAggMaterializationStatus`, and `ContinuousAggMaterializationEngine` — TimescaleDB-style `createAggregate` / `dropAggregate` / `listAggregates` / `getAggregate` registry; `refreshAggregate` / `refreshAll` (watermark-driven incremental refresh); `queryMaterialized`; `getAggregateStatus` / `getAllStatus` (`continuous_agg.cpp`)
 - [x] Time-based retention policies
 - [x] High-frequency data ingestion
 - [x] Configurable compression strategies
