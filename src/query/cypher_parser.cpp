@@ -293,6 +293,22 @@ struct CypherParser::Parser {
     explicit Parser(std::vector<CypherParser::Token> toks)
         : tokens(std::move(toks)) {}
 
+    // Collapse token-boundary spaces around dots: "n . prop" → "n.prop"
+    static std::string collapseDotSpaces(const std::string& s) {
+        std::string out;
+        out.reserve(s.size());
+        for (size_t i = 0; i < s.size(); ) {
+            if (i + 2 < s.size() &&
+                s[i] == ' ' && s[i + 1] == '.' && s[i + 2] == ' ') {
+                out += '.';
+                i += 3;
+            } else {
+                out += s[i++];
+            }
+        }
+        return out;
+    }
+
     // ---- Token helpers -------------------------------------------------------
 
     const CypherParser::Token& current() const {
@@ -737,39 +753,13 @@ struct CypherParser::Parser {
             // We peek-ahead and collect token text until a structural stop.
             size_t start = cursor;
             auto expr = parseExpr();  // parse and discard the AST node (we only need the text)
-            // Reconstruct expression text from token values
+            // Reconstruct expression text from token values, collapsing "n . prop" → "n.prop"
             std::string expr_text;
             for (size_t i = start; i < cursor; ++i) {
                 if (i > start) expr_text += " ";
                 expr_text += tokens[i].value;
             }
-            // Collapse "n . prop" → "n.prop"
-            {
-                std::string clean;
-                clean.reserve(expr_text.size());
-                for (size_t i = 0; i < expr_text.size(); ++i) {
-                    if (i + 2 < expr_text.size() &&
-                        expr_text[i + 1] == '.' &&
-                        expr_text[i] == ' ' && expr_text[i + 2] == ' ') {
-                        // skip surrounding spaces around dot
-                        continue;
-                    }
-                    clean += expr_text[i];
-                }
-                // Simpler approach: remove " . " → "."
-                std::string fixed;
-                for (size_t i = 0; i < clean.size(); ) {
-                    if (i + 2 < clean.size() &&
-                        clean[i] == ' ' && clean[i+1] == '.' && clean[i+2] == ' ') {
-                        fixed += '.';
-                        i += 3;
-                    } else {
-                        fixed += clean[i++];
-                    }
-                }
-                expr_text = std::move(fixed);
-            }
-            item.expression = std::move(expr_text);
+            item.expression = collapseDotSpaces(expr_text);
             (void)expr;  // expression AST built above; text is what we store
 
             if (match(TokenType::KW_AS))
@@ -791,21 +781,7 @@ struct CypherParser::Parser {
                 if (i > start) expr_text += " ";
                 expr_text += tokens[i].value;
             }
-            // Collapse " . " → "."
-            {
-                std::string fixed;
-                for (size_t i = 0; i < expr_text.size(); ) {
-                    if (i + 2 < expr_text.size() &&
-                        expr_text[i] == ' ' && expr_text[i+1] == '.' && expr_text[i+2] == ' ') {
-                        fixed += '.';
-                        i += 3;
-                    } else {
-                        fixed += expr_text[i++];
-                    }
-                }
-                expr_text = std::move(fixed);
-            }
-            spec.expression = std::move(expr_text);
+            spec.expression = collapseDotSpaces(expr_text);
             spec.ascending  = true;
             if (match(TokenType::KW_ASC))  spec.ascending = true;
             if (match(TokenType::KW_DESC)) spec.ascending = false;
@@ -891,7 +867,7 @@ std::string CypherToAQLTranspiler::exprToAQL(const CypherExpr& expr,
             if (op == "IN")          return left + " IN " + right;
             if (op == "NOT IN")      return left + " NOT IN " + right;
             if (op == "STARTS WITH") return "STARTS_WITH(" + left + ", " + right + ")";
-            if (op == "ENDS WITH")   return "CONTAINS(" + left + ", " + right + ")";  // AQL CONTAINS
+            if (op == "ENDS WITH")   return "ENDS_WITH(" + left + ", " + right + ")";
             if (op == "CONTAINS")    return "CONTAINS(" + left + ", " + right + ")";
             // Comparison ops pass through: =, <>, <, <=, >, >=
             // AQL uses == for equality
