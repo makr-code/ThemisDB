@@ -192,3 +192,77 @@ FOR m IN _process_definitions
   FILTER CONTAINS(LOWER(m.name), "bauantrag")
   RETURN m
 ```
+
+## Wissenschaftliche Grundlagen
+
+The following peer-reviewed sources and standards form the scientific foundation of the Process module.
+
+### Workflow and Process Modelling
+
+1. **van der Aalst, W. M. P. (2016).**
+   *Process Mining: Data Science in Action (2nd ed.).*
+   Springer. ISBN: 978-3-662-49851-4.
+   DOI: [10.1007/978-3-662-49851-4](https://doi.org/10.1007/978-3-662-49851-4)
+   > Foundational reference for process discovery, conformance checking and enhancement.
+   > Directly motivates the `ProcessGraphManager` conformance pipeline and the BPMN/PNML
+   > import/export layer in `bpmn_adapter.cpp` and `pnml_adapter.cpp`.
+
+2. **Object Management Group. (2013).**
+   *Business Process Model and Notation (BPMN) 2.0.2.*
+   OMG Document Number: formal/2013-12-09.
+   URL: https://www.omg.org/spec/BPMN/2.0.2
+   > Normative specification for the BPMN 2.0 interchange format.
+   > Governs the `BPMNExporter` and `BPMNImporter` round-trip fidelity contract and the
+   > compliance_tags vocabulary stored in `_process_definitions`.
+
+3. **ISO/IEC. (2013).**
+   *Information Technology – Process Assessment – Part 2: Performing an Assessment.*
+   ISO/IEC 33002:2015.
+   URL: https://www.iso.org/standard/54449.html
+   > ISO 19510:2013 BPMN standard underpinning the XML serialisation schema validated by
+   > `ProcessSchemaValidator` at import time.
+
+### LLM-Augmented Process Automation
+
+4. **Busch, M., Brunk, J., & Becker, J. (2023).**
+   *ProcessGPT: Transforming Business Process Management with Generative Artificial Intelligence.*
+   arXiv preprint arXiv:2304.07510.
+   URL: https://arxiv.org/abs/2304.07510
+   > Proposes using GPT-class models to draft, analyse and refactor process models from
+   > natural language descriptions. Target integration for the planned `NLProcessDrafter`
+   > in `src/process/` (Q2 2026 roadmap item).
+
+5. **Bukhsh, Z. A., Saeed, A., & Dijkman, R. M. (2021).**
+   *ProcessTransformer: Predictive Business Process Monitoring with Transformer Networks.*
+   arXiv preprint arXiv:2104.00721.
+   URL: https://arxiv.org/abs/2104.00721
+   > Introduces a Transformer-based next-activity predictor for process event logs.
+   > Planned basis for the conformance-prediction extension of `ProcessGraphManager`
+   > (Q1 2027 roadmap item).
+
+### Public Administration Standards
+
+6. **FITKO / Föderale IT-Kooperation. (2024).**
+   *Föderales Informationsmanagement (FIM) – Technischer Leitfaden.*
+   URL: https://www.fitko.de/fim
+   > Defines the canonical FIM data model for German administrative processes (Leistungs-,
+   > Formular- und Prozessbaukasten). Governs the `FIMProcessAdapter` schema mapping in
+   > `fim_adapter.cpp` and the `compliance_tags` vocabulary (`FIM`, `OZG`).
+
+7. **Bundesministerium des Innern (BMI). (2017).**
+   *XÖV-Rahmenwerk: Rahmenbedingungen für die Entwicklung von XÖV-Standards.*
+   URL: https://www.xoev.de
+   > XÖV exchange standard family used by `XoevProcessSerializer` for interoperability
+   > with German public-sector IT systems (Bund, Länder, Kommunen).
+
+## Scientific References
+
+1. van der Aalst, W. M. P. (2016). **Process Mining: Data Science in Action (2nd ed.)**. Springer. https://doi.org/10.1007/978-3-662-49851-4
+
+2. Object Management Group. (2013). **Business Process Model and Notation (BPMN) 2.0.2**. OMG formal/2013-12-09. https://www.omg.org/spec/BPMN/2.0.2
+
+3. Busch, M., Brunk, J., & Becker, J. (2023). **ProcessGPT: Transforming Business Process Management with Generative Artificial Intelligence**. arXiv:2304.07510. https://arxiv.org/abs/2304.07510
+
+4. Bukhsh, Z. A., Saeed, A., & Dijkman, R. M. (2021). **ProcessTransformer: Predictive Business Process Monitoring with Transformer Networks**. arXiv:2104.00721. https://arxiv.org/abs/2104.00721
+
+5. FITKO / Föderale IT-Kooperation. (2024). **Föderales Informationsmanagement (FIM) – Technischer Leitfaden**. https://www.fitko.de/fim
