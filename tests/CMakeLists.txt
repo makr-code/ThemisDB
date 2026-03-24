@@ -16088,6 +16088,42 @@ else()
     message(STATUS "Query JIT Compilation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_query_jit_compilation.cpp")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_vectorized_execution.cpp")
+    message(STATUS "Adding Vectorized Execution focused tests (v1.8.0, Issue #2434)")
+
+    add_executable(test_vectorized_execution_focused
+        test_vectorized_execution.cpp
+    )
+
+    target_include_directories(test_vectorized_execution_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_vectorized_execution_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_vectorized_execution_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME VectorizedExecutionFocusedTests
+        COMMAND test_vectorized_execution_focused)
+
+    set_tests_properties(VectorizedExecutionFocusedTests PROPERTIES
+        LABELS "query;vectorized;execution;simd;batch;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  VectorizedExecution: filter/project/aggregate/sort, SIMD batch ops, stats, null handling")
+else()
+    message(STATUS "Vectorized Execution tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_vectorized_execution.cpp")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_materialized_view.cpp")
     message(STATUS "Adding Materialized Views focused tests (v1.8.0, Issue #195)")
 

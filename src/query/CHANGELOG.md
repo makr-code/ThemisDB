@@ -12,23 +12,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Security audit: injection prevention hardening and resource exhaustion edge cases
 - AQL parser thread-safety refactor (per-thread instances or mutex protection)
 
-## [1.6.0] — 2026-03-24
+## [1.8.0] — 2026-03-24
 
 ### Added
-- Cypher compatibility layer (`cypher_parser.cpp`, `include/query/cypher_parser.h`): full
-  MATCH/WHERE/RETURN parser + `CypherToAQLTranspiler` emitting AQL FOR/FILTER/SORT/LIMIT/RETURN;
-  supports node patterns (variable, label, inline properties), relationship patterns
-  (OUT/IN/BOTH, variable-length *m..n), WHERE expressions (=, <>, AND, OR, NOT, IS NULL,
-  STARTS WITH, ENDS WITH, CONTAINS, IN), RETURN DISTINCT, ORDER BY, SKIP, LIMIT.
-  30 focused tests (`CypherParserFocusedTests`).
-- Gremlin compatibility layer (`gremlin_parser.cpp`, `include/query/gremlin_parser.h`): full
-  Apache TinkerPop Gremlin traversal parser + `GremlinToAQLTranspiler`; supports g.V()/g.E(),
-  hasLabel/has/hasNot, P.eq/neq/lt/lte/gt/gte/within/without predicates, out/in/both traversals,
-  values/valueMap/id/label projection, count (LENGTH() wrapper), dedup (COLLECT), limit/range,
-  order().by() sorting, as/select aliases.
-  30 focused tests (`GremlinParserFocusedTests`).
+- JIT hot-path compiler (`query_compiler.cpp`): `QueryCompiler` wraps the conjunctive AQL execution path with call-count tracking; queries reaching `Config::hot_threshold` (default 100) are promoted to a compiled specialisation for lower-overhead repeated execution
+- Vectorized execution focused test target (`test_vectorized_execution_focused`) registered in `tests/CMakeLists.txt`; covers all 30 test cases for `VectorizedExecutionEngine` (filter, project, aggregate, sort, stats, null handling, custom batch size)
+- CI workflow `.github/workflows/02-feature-modules/adaptive-query/query-vectorized-execution-ci.yml` (GCC-12/13 matrix, 10 acceptance criteria)
 
-## [1.5.0] — 2026-03-12
+### Changed
+- `executeAql()` conjunctive query path now dispatches through `QueryCompiler` for JIT hot-path optimisation; semantics are identical to the previous interpreter path on the cold path
+
+
 
 ### Added
 - Vectorized execution engine (`vectorized_execution.cpp`): column-store batch processing with SIMD acceleration

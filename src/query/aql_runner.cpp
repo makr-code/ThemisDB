@@ -25,6 +25,7 @@
  */
 
 #include "query/aql_runner.h"
+#include "query/query_compiler.h"
 #include "query/query_plan_visualizer.h"
 #include "query/runtime_reoptimizer.h"
 #include "storage/base_entity.h"
@@ -38,6 +39,17 @@
 #include <fmt/format.h>
 
 namespace themis {
+
+// Lazy-initialized JIT QueryCompiler for hot-path conjunctive queries (v1.8.0)
+static query::QueryCompiler& getJitCompiler() {
+    static query::QueryCompiler compiler;
+    return compiler;
+}
+
+// Thread-local pointer to the QueryEngine currently executing on this thread.
+// Updated at the start of each executeAql() call so that the stored ExecuteFn
+// in the static QueryCompiler always operates on the correct engine instance.
+static thread_local QueryEngine* tl_jit_engine = nullptr;
 
 // Lazy-initialized NLP analyzer (thread-safe in C++11+)
 static themis::analytics::NlpTextAnalyzer& getNlpAnalyzer() {
@@ -305,18 +317,49 @@ Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
         return Ok(nlohmann::json({{"type","join"},{"results", rows}}));
     }
 
-    // Conjunctive (default) query
-    auto result = engine.executeAndEntitiesWithFallback(tr.query, true);
-    if (!result) {
+    // Conjunctive (default) query — dispatch through the JIT hot-path compiler
+    // (v1.8.0).  The interpreter ExecuteFn captures the translated query text and
+    // accesses the current engine via the thread-local tl_jit_engine pointer,
+    // which is refreshed at the top of each executeAql() call so the stored
+    // executor always operates on the correct engine.  Once call_count reaches
+    // Config::hot_threshold the QueryCompiler promotes to the compiled (hot)
+    // specialisation for lower-overhead repeated execution of the same query.
+    tl_jit_engine = &engine;
+    auto& jit = getJitCompiler();
+
+    query::QueryCompiler::ExecuteFn exec_fn =
+        [conj_query = tr.query](
+            const std::string& /*q*/,
+            const query::QueryCompiler::QueryParams& /*params*/)
+        -> Result<query::QueryResult> {
+            auto res = tl_jit_engine->executeAndEntitiesWithFallback(conj_query, true);
+            if (!res) {
+                return Err<query::QueryResult>(
+                    errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                    res.error().message()
+                );
+            }
+            query::QueryResult qr;
+            qr.rows.reserve(res->size());
+            for (auto& e : *res) {
+                qr.rows.push_back(nlohmann::json::parse(e.toJson()));
+            }
+            qr.rows_examined = qr.rows.size();
+            return Ok(std::move(qr));
+        };
+
+    auto compiled = jit.compile(aql, {}, exec_fn);
+    auto jit_result = jit.execute(compiled, {});
+    if (!jit_result) {
         return Err<nlohmann::json>(
             errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-            result.error().message()
+            jit_result.error().message()
         );
     }
-    auto entities = std::move(*result);
+
     nlohmann::json arr = nlohmann::json::array();
-    for (auto& e : entities) arr.push_back(nlohmann::json::parse(e.toJson()));
-    reopt_guard.finish(entities.size());
+    for (const auto& row : jit_result->rows) arr.push_back(row);
+    reopt_guard.finish(jit_result->rows.size());
     return Ok(nlohmann::json({{"type","and"},{"results", arr}}));
 }
 
