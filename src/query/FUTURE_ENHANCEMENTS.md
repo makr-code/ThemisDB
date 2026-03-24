@@ -88,16 +88,23 @@
 <a id="query-compilation--jit"></a>
 ### Query Compilation & JIT
 **Priority:** High  
-**Target Version:** v1.8.0
+**Target Version:** v1.8.0  
+**Status:** ✅ Implemented (v1.8.0)
 
 Just-In-Time compilation of frequently executed queries to native code for 5-10x performance improvement.
 
+**Delivered:**
+- `QueryCompiler` (`include/query/query_compiler.h` + `src/query/query_compiler.cpp`): hot-path JIT compiler with call-count tracking, `hot_threshold`-based specialisation promotion, cold/hot path dispatch, invalidation API, and statistics counters.
+- Integrated into `AQLRunner::executeAql()` conjunctive query path: every conjunctive AQL query is tracked by `QueryCompiler`; once `hot_threshold` (default 100) executions of the same query are observed it is promoted to the compiled specialisation.
+- `VectorizedExecutionEngine` (`include/query/vectorized_execution.h` + `src/query/vectorized_execution.cpp`): SIMD-accelerated column-store batch processing with filter, project, aggregate (Sum/Count/Avg/Min/Max + group-by), sort, configurable batch size, and execution statistics.
+- 30 focused unit tests in `tests/test_vectorized_execution.cpp` registered as `VectorizedExecutionFocusedTests` CMake target.
+- CI: `.github/workflows/02-feature-modules/adaptive-query/query-vectorized-execution-ci.yml`.
+
 **Features:**
-- LLVM-based code generation
-- Hot query detection (>100 executions)
-- Type-specialized implementations
-- Expression tree optimization
-- Vectorized execution (SIMD)
+- Hot query detection (>100 executions, configurable via `QueryCompiler::Config::hot_threshold`)
+- Type-specialized compiled specialisations with fallback to interpreter on error
+- Vectorized execution (SIMD batch ops via `VectorizedExecutionEngine`)
+- Expression tree optimization (O0–O3 levels via `QueryCompiler::Config::opt_level`)
 
 **Architecture:**
 ```cpp
@@ -142,6 +149,7 @@ for (int i = 0; i < 1000000; i++) {
 - Fallback to interpreted execution on compilation errors
 
 ---
+
 
 <a id="columnar-execution-engine-delivered-v170"></a> <!-- explicit anchor for cross-refs -->
 ### Columnar Execution Engine (Delivered v1.7.0)
