@@ -6762,6 +6762,42 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_mining_llm.cpp")
     message(STATUS "  ProcessMiningPattern: conformance, compliance, fraud detection, activity prediction")
 endif()
 
+# Process Discovery & Conformance Checking focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_discovery_conformance.cpp")
+    message(STATUS "Adding focused process discovery and conformance checking tests")
+
+    add_executable(test_process_discovery_conformance_focused
+        analytics/test_process_discovery_conformance.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/process_mining.cpp
+    )
+
+    target_include_directories(test_process_discovery_conformance_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_process_discovery_conformance_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_process_discovery_conformance_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ProcessDiscoveryConformanceFocusedTests
+             COMMAND test_process_discovery_conformance_focused)
+
+    set_tests_properties(ProcessDiscoveryConformanceFocusedTests PROPERTIES
+        LABELS "analytics;process-mining;inductive-miner;conformance;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ProcessDiscoveryConformance: Inductive Miner, alignment conformance checking")
+endif()
+
 # ============================================================================
 # Graph Module Focused Test Targets
 # Each target links only the graph source(s) it exercises, enabling fast
