@@ -1,10 +1,36 @@
-<!-- Status: current | validated: 2026-03-12 -->
+<!-- Status: current | validated: 2026-03-24 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog — Query Module
 
 All notable changes to the Query module are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+
+## [1.9.0] — 2026-03-24
+
+### Added
+- **`QueryFederation` shard-key routing** — eliminates the O(N shards) broadcast for queries containing a `_key` equality or range predicate:
+  - `ConsistentHashRing::getShardsInRange(hash_start, hash_end)` — clockwise ring walk returning the deduplicated set of shards responsible for a hash interval; wrap-around ranges return all shards.
+  - `ConsistentHashRing::hashKey(key)` — public accessor to the internal FNV-1a + mix64 hash function.
+  - `URNResolver::getShardForKey(collection, key)` — point-routes an arbitrary string key via the consistent hash ring.
+  - `URNResolver::getShardsForKeyRange(collection, min_key, max_key)` — range-routes via `getShardsInRange`; falls back to all healthy shards if the ring returns nothing.
+  - `ShardRouter::executeOnShards(query, shard_ids)` (virtual) — executes a query on a specified subset of shards, mirroring `scatterGather` concurrency semantics.
+  - `ShardRouter::getResolver()` — const/non-const accessor exposing the `URNResolver` to higher-level components.
+  - `QueryFederation::QueryMetadata::ShardKeyPredicate` — new inner struct (`Kind::POINT` / `Kind::RANGE`, `collection`, `key_value` / `key_min`+`key_max`).
+  - `QueryFederation::QueryMetadata::shard_key_predicate` — optional field populated by `analyzeQuery()`.
+  - `QueryFederation::analyzeQuery()`: regex extraction of `FILTER <var>._key == "<value>"` (point) and `FILTER <var>._key >= "<min>" AND <var>._key <= "<max>"` (range) predicates using `std::regex`.
+  - `QueryFederation::determineRelevantShards()`: delegates to `URNResolver::getShardForKey` / `getShardsForKeyRange`; falls back to all healthy shards for keyless queries.
+  - PARTITION_PRUNING branch in `QueryFederation::execute()` now calls `shard_router_->executeOnShards()`.
+  - `spdlog::warn` emitted when full-scan broadcasts to > 10 shards.
+  - 4 unit tests in `tests/test_query_federation.cpp`: point-lookup → 1 shard, range → ≤ 3 shards, full-scan → `scatterGather`, determinism.
+  - CMake focused target: `QueryFederationShardRoutingTests`.
+
+### Changed
+- `ShardRouter::scatterGather()` is now `virtual` to allow test instrumentation.
+- `QueryFederation::createExecutionPlan()`: shard-key predicate check takes priority over generic predicate-based pruning; JOIN table-count guard added.
+
+### Fixed
+- `QueryFederation::createExecutionPlan()`: previously accessed `metadata.tables[0]`/`[1]` without bounds check when `metadata.tables.size() < 2`; now guarded.
 
 ## [Unreleased]
 

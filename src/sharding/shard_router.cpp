@@ -398,6 +398,121 @@ std::vector<ShardResult> ShardRouter::scatterGather(const std::string& query) {
     return results;
 }
 
+std::vector<ShardResult> ShardRouter::executeOnShards(
+    const std::string& query,
+    const std::vector<std::string>& shard_ids
+) {
+    std::vector<ShardResult> results;
+
+    if (shard_ids.empty()) {
+        return results;
+    }
+
+    // Build a fast lookup: shard_id → ShardInfo for the requested shards only.
+    auto all_shards = resolver_->getHealthyShards();
+    std::unordered_map<std::string, ShardInfo> shard_map;
+    shard_map.reserve(all_shards.size());
+    for (const auto& s : all_shards) {
+        shard_map[s.shard_id] = s;
+    }
+
+    // Collect the ShardInfo for each requested ID, skipping unknown ones.
+    std::vector<ShardInfo> target_shards;
+    target_shards.reserve(shard_ids.size());
+    for (const auto& id : shard_ids) {
+        auto it = shard_map.find(id);
+        if (it == shard_map.end()) {
+            spdlog::warn("executeOnShards: unknown or unhealthy shard '{}', skipping", id);
+        } else {
+            target_shards.push_back(it->second);
+        }
+    }
+
+    if (target_shards.empty()) {
+        return results;
+    }
+
+    const size_t max_concurrent = std::min(
+        static_cast<size_t>(config_.max_concurrent_shards),
+        target_shards.size()
+    );
+
+    std::atomic<uint64_t> local_count{0};
+    std::atomic<uint64_t> remote_count{0};
+
+    for (size_t batch_start = 0; batch_start < target_shards.size(); batch_start += max_concurrent) {
+        size_t batch_end = std::min(batch_start + max_concurrent, target_shards.size());
+
+        std::vector<std::future<ShardResult>> futures;
+        futures.reserve(batch_end - batch_start);
+        std::vector<std::string> batch_shard_ids;
+        batch_shard_ids.reserve(batch_end - batch_start);
+
+        for (size_t i = batch_start; i < batch_end; ++i) {
+            const auto& shard = target_shards[i];
+            batch_shard_ids.push_back(shard.shard_id);
+
+            futures.push_back(std::async(std::launch::async,
+                [this, shard, &query, &local_count, &remote_count]() -> ShardResult {
+                ShardResult result;
+                result.shard_id = shard.shard_id;
+                auto t0 = std::chrono::steady_clock::now();
+                try {
+                    if (shard.shard_id == config_.local_shard_id) {
+                        local_count++;
+                        result = executeLocal("POST", "/api/v1/query",
+                            std::optional<nlohmann::json>(nlohmann::json{{"query", query}}));
+                        result.shard_id = shard.shard_id;
+                    } else {
+                        remote_count++;
+                        auto exec_result = executor_->executeQuery(shard, query);
+                        result.success = exec_result.success;
+                        result.data    = exec_result.data;
+                        result.error_msg = exec_result.error;
+                        result.execution_time_ms = exec_result.execution_time_ms;
+                    }
+                } catch (const std::exception& e) {
+                    result.success   = false;
+                    result.error_msg = std::string("executeOnShards exception: ") + e.what();
+                }
+                if (result.execution_time_ms == 0) {
+                    result.execution_time_ms =
+                        static_cast<uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
+                            std::chrono::steady_clock::now() - t0).count());
+                }
+                return result;
+            }));
+        }
+
+        const auto timeout = std::chrono::milliseconds(config_.scatter_timeout_ms);
+        for (size_t i = 0; i < futures.size(); ++i) {
+            try {
+                if (futures[i].wait_for(timeout) == std::future_status::ready) {
+                    results.push_back(futures[i].get());
+                } else {
+                    ShardResult tr;
+                    tr.shard_id         = batch_shard_ids[i];
+                    tr.success          = false;
+                    tr.error_msg        = "executeOnShards request timed out";
+                    tr.execution_time_ms = config_.scatter_timeout_ms;
+                    results.push_back(tr);
+                }
+            } catch (const std::exception& e) {
+                ShardResult er;
+                er.shard_id  = batch_shard_ids[i];
+                er.success   = false;
+                er.error_msg = std::string("executeOnShards future exception: ") + e.what();
+                results.push_back(er);
+            }
+        }
+    }
+
+    local_requests_  += local_count.load();
+    remote_requests_ += remote_count.load();
+
+    return results;
+}
+
 nlohmann::json ShardRouter::executeCrossShardJoin(
     const std::string& query,
     const std::string& join_field) {

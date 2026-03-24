@@ -23,10 +23,13 @@
 #pragma once
 
 #include "sharding/shard_router.h"
+#include "sharding/urn_resolver.h"
 #include "query/query_optimizer.h"
 #include <string>
 #include <vector>
 #include <memory>
+#include <optional>
+#include <atomic>
 #include <nlohmann/json.hpp>
 
 namespace themis::query {
@@ -201,6 +204,18 @@ private:
      * @return Query metadata (tables, predicates, etc.)
      */
     struct QueryMetadata {
+        // ── Shard-key predicate ──────────────────────────────────────────────
+        // Populated by analyzeQuery() when it detects a _key == <value> or
+        // _key >= <min> AND _key <= <max> predicate, enabling partition pruning.
+        struct ShardKeyPredicate {
+            enum class Kind { POINT, RANGE };
+            Kind kind;
+            std::string collection;
+            std::string key_value;   // used when kind == POINT
+            std::string key_min;     // used when kind == RANGE
+            std::string key_max;     // used when kind == RANGE
+        };
+
         std::vector<std::string> tables;
         std::vector<std::string> predicates;
         std::vector<std::string> projections;
@@ -209,6 +224,9 @@ private:
         std::optional<std::string> order_by;
         std::optional<uint64_t> limit;
         std::optional<uint64_t> offset;
+
+        // Shard-key routing hint (nullopt → no routing hint, use scatter-gather)
+        std::optional<ShardKeyPredicate> shard_key_predicate;
         
         // Extended for adaptive capability-based routing
         std::string query_text;               // Original query text

@@ -159,7 +159,30 @@ public:
      * @param query Query to execute
      * @return Merged results from all shards
      */
-    std::vector<ShardResult> scatterGather(const std::string& query);
+    virtual std::vector<ShardResult> scatterGather(const std::string& query);
+
+    /**
+     * Execute a query on a specific subset of shards.
+     *
+     * Behaves identically to scatterGather but only contacts the shards
+     * whose IDs appear in @p shard_ids.  Unknown or unhealthy shard IDs are
+     * skipped with a WARN log rather than causing an error.
+     *
+     * @param query     AQL query string
+     * @param shard_ids Shard identifiers to target
+     * @return Results from the targeted shards (success + failure entries)
+     */
+    virtual std::vector<ShardResult> executeOnShards(
+        const std::string& query,
+        const std::vector<std::string>& shard_ids
+    );
+
+    /**
+     * Access the URN resolver to perform key-based shard lookups.
+     * @return Reference to the resolver
+     */
+    URNResolver& getResolver() { return *resolver_; }
+    const URNResolver& getResolver() const { return *resolver_; }
     
     /**
      * Execute cross-shard join (simplified two-phase approach)

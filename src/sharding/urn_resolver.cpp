@@ -84,6 +84,32 @@ std::string URNResolver::getShardId(const URN& urn) const {
     return hash_ring_->getShardForURN(urn);
 }
 
+std::string URNResolver::getShardForKey(
+    const std::string& /*collection*/,
+    const std::string& key
+) const {
+    auto node = hash_ring_->getNode(key);
+    return node.value_or(std::string{});
+}
+
+std::vector<std::string> URNResolver::getShardsForKeyRange(
+    const std::string& /*collection*/,
+    const std::string& min_key,
+    const std::string& max_key
+) const {
+    uint64_t h_min = hash_ring_->hashKey(min_key);
+    uint64_t h_max = hash_ring_->hashKey(max_key);
+    auto shards = hash_ring_->getShardsInRange(h_min, h_max);
+    if (shards.empty()) {
+        // Fall back to returning all healthy shards so callers always get something
+        auto all = getHealthyShards();
+        for (const auto& s : all) {
+            shards.push_back(s.shard_id);
+        }
+    }
+    return shards;
+}
+
 std::vector<ShardInfo> URNResolver::getAllShards() const {
     return topology_->getAllShards();
 }

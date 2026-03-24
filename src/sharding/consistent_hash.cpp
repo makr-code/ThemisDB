@@ -199,6 +199,48 @@ std::vector<std::string> ConsistentHashRing::getAllShards() const {
     return shards;
 }
 
+std::vector<std::string> ConsistentHashRing::getShardsInRange(
+    uint64_t hash_start, uint64_t hash_end
+) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    if (ring_.empty()) {
+        return {};
+    }
+
+    // Wrap-around case: the range crosses the ring's maximum value.
+    // In that case every shard in the ring is potentially responsible for
+    // some key in the range, so return all of them.
+    if (hash_start > hash_end) {
+        std::vector<std::string> all;
+        all.reserve(shard_tokens_.size());
+        for (const auto& [shard_id, _] : shard_tokens_) {
+            all.push_back(shard_id);
+        }
+        return all;
+    }
+
+    // Walk clockwise from hash_start to hash_end, collecting each distinct
+    // shard we pass over.
+    std::vector<std::string> result;
+    std::set<std::string> seen;
+
+    // The shard responsible for hash_start is the first entry at or after it.
+    auto it = ring_.lower_bound(hash_start);
+    if (it == ring_.end()) {
+        it = ring_.begin(); // wrap around
+    }
+
+    while (it != ring_.end() && it->first <= hash_end) {
+        if (seen.insert(it->second).second) {
+            result.push_back(it->second);
+        }
+        ++it;
+    }
+
+    return result;
+}
+
 double ConsistentHashRing::getBalanceFactor() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
