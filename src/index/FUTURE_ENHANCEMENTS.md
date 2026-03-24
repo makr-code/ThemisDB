@@ -259,6 +259,49 @@ SecondaryIndexManager sim(db, config);
 **Tests:** `tests/index/test_index_compression.cpp` — 30+ focused tests covering all 5 acceptance criteria  
 **CI:** `.github/workflows/index-compression-ci.yml`
 
+---
+
+### Matryoshka Representation Learning (MRL) Truncation
+**Priority:** High  
+**Original Target Version:** v1.8.0  
+**Status:** ✅ Implemented (v1.8.0)
+
+MRL (Kusupati et al., NeurIPS 2022) trains embeddings so that every prefix of
+length d < D is itself a useful d-dimensional representation.  A single full-D
+embedding can therefore be truncated to any supported granularity without
+retraining, enabling:
+
+- **Multi-stage retrieval**: cheap low-D ANN pre-filter → full-D re-rank.
+- **Adaptive precision**: 64-D for rough candidate selection, 768-D for scoring.
+- **Compact indexes**: smaller index fits in RAM → faster queries on large corpora.
+
+#### ✅ Implemented Features
+
+- `MatryoshkaTruncation` — stateless helper: `truncate(vector, full_dim)` and
+  `truncate(std::vector<float>)` overloads; optional L2 normalisation so that
+  dot-product equals cosine similarity on the result.
+- `MatryoshkaTruncatedIndex` — `IAnnIndex` decorator that applies truncation
+  transparently to **any** ANN backend (`ScaNN`, `DiskAnnAdapter`, HNSW, …).
+  Methods: `build`, `add`, `search`, `save`, `load`, `size`, `truncation()`,
+  `backend()` accessors.
+- Standard MRL granularity constants: `kMRL_64 / 128 / 256 / 512 / 768 / 1024 / 1536`
+  (matches OpenAI text-embedding-3-small/-large, Nomic Embed v1.5, BGE-M3).
+- Zero-vector safety: no division-by-zero when normalisation is enabled.
+- Zero-pad behaviour when `trunc_dim > full_dim` (graceful degradation).
+
+**Files:**
+- `include/index/matryoshka_truncation.h` — header-only implementation
+- `src/index/matryoshka_truncation.cpp` — compilation unit (extension point)
+
+**Tests:** `tests/index/test_matryoshka_truncation.cpp` — 25 focused tests (v1.8.0)  
+**CI:** `.github/workflows/matryoshka-truncation-ci.yml`
+
+**References:**
+- Kusupati, A. et al. "Matryoshka Representation Learning." NeurIPS 2022.
+  https://arxiv.org/abs/2205.13147
+
+---
+
 ### Learned Indexes
 **Priority:** Medium  
 **Target Version:** v1.8.0
