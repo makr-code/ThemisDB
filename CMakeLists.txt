@@ -284,6 +284,11 @@ if(BUILD_CHIMERA_ADAPTERS)
     add_subdirectory(adapters/chimera)
 endif()
 
+# Enable CTest infrastructure at root level so `ctest --preset` can find tests
+# registered inside add_subdirectory(cmake). Without this, CTestTestfile.cmake
+# is only generated in build-dir/cmake/, not in the root binary dir.
+enable_testing()
+
 # Main build logic
 add_subdirectory(cmake)
 

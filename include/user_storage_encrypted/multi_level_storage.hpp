@@ -162,6 +162,20 @@ private:
     Result<void> initializeLevel(const LevelConfig& config);
     Result<void> mountLevel(const LevelConfig& config);
     Result<void> unmountLevel(const LevelConfig& config);
+
+    /**
+     * @brief Reconcile stale gocryptfs mounts left over from a previous crash.
+     *
+     * Scans /proc/mounts for any mount point that is a direct child of
+     * @p base_path and is currently not among the configured mount points.
+     * Each stale mount is unmounted via "fusermount -u" (Linux) / "umount"
+     * (macOS).  A WARN-level log message is emitted per stale mount; if
+     * unmounting fails the error is logged and startup continues — it is
+     * never fatal.
+     *
+     * @param base_path  Directory prefix to scan (e.g. "/var/lib/themisdb").
+     */
+    void reconcileStaleMounts(const std::string& base_path);
     
     // Key provider management
     Result<std::shared_ptr<KeyProvider>> getKeyProvider(const LevelConfig& config);

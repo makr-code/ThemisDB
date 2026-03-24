@@ -8,7 +8,7 @@ Every quarter the ThemisDB team reviews relevant literature and industry develop
 
 | Quarter | Review Period | Responsible | Deadline |
 |---------|---------------|-------------|----------|
-| 2026 Q1 | Jan–Mar 2026 | TBD | 2026-03-31 |
+| 2026 Q1 | Jan–Mar 2026 | ThemisDB Research Team | 2026-03-31 ✅ |
 | 2026 Q2 | Apr–Jun 2026 | TBD | 2026-06-30 |
 | 2026 Q3 | Jul–Sep 2026 | TBD | 2026-09-30 |
 | 2026 Q4 | Oct–Dec 2026 | TBD | 2026-12-31 |

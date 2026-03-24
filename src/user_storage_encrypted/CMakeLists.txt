@@ -10,10 +10,18 @@ message(STATUS "Configuring User Storage Encrypted Plugin (src/user_storage_encr
 
 find_package(nlohmann_json REQUIRED)
 
+# libargon2 is required for the Argon2id key derivation service (Feature 2).
+find_library(ARGON2_LIB NAMES argon2)
+find_path(ARGON2_INCLUDE_DIR NAMES argon2.h)
+if(NOT ARGON2_LIB OR NOT ARGON2_INCLUDE_DIR)
+    message(FATAL_ERROR "libargon2 not found. Install: apt-get install libargon2-dev")
+endif()
+
 add_library(themis_user_storage_encrypted SHARED
     multi_level_storage.cpp
     gocryptfs_backend.cpp
     key_rotation_scheduler.cpp
+    key_derivation_service.cpp
 )
 
 target_include_directories(themis_user_storage_encrypted
@@ -23,10 +31,12 @@ target_include_directories(themis_user_storage_encrypted
         $<INSTALL_INTERFACE:include>
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
+        ${ARGON2_INCLUDE_DIR}
 )
 
 target_link_libraries(themis_user_storage_encrypted PRIVATE
     nlohmann_json::nlohmann_json
+    ${ARGON2_LIB}
 )
 
 target_compile_features(themis_user_storage_encrypted PRIVATE cxx_std_17)

@@ -1144,3 +1144,35 @@ The planned enhancements described above are grounded in current research. Selec
 
 [20] L. Fang et al., "gRPC: A Modern Open Source High Performance RPC Framework," in *Proc. ACM SIGCOMM*, 2023. doi: 10.1145/3603269.3604817  
 [21] P. Beschastnikh et al., "Improving Service Versioning and API Compatibility via Semantic Versioning Analysis," in *Proc. 2023 IEEE International Conference on Software Analysis, Evolution and Reengineering (SANER)*, 2023, pp. 482–491. doi: 10.1109/SANER56733.2023.00054  
+
+---
+
+## ✅ Implemented (v1.9.0)
+
+### MqttClientService — Bidirectional MQTT Client Integration
+
+`MqttClientService` + `MqttCDCTransport` + `IMqttMessageHandler` in
+`include/server/mqtt_client_service.h` / `src/server/mqtt_client_service.cpp`.
+
+**Implemented:**
+- Boost.Asio async MQTT client (PIMPL `AsioImpl`): TCP connect, CONNECT/PUBLISH/SUBSCRIBE/PINGREQ/DISCONNECT
+- Automatic reconnect with `MqttRetryConfig` exponential back-off (`std::pow` based, O(1))
+- Thread-safe API: `publish()` / `subscribe()` / `unsubscribe()` via `asio::post()`
+- `MqttCDCTransport : ICDCTransport` — CDC event → JSON → MQTT topic `{prefix}{collection}/{TYPE}`
+- `RPCServiceRegistry` integration (`registerWithServiceRegistry()`)
+- No-op stubs when `THEMIS_ENABLE_MQTT` is absent
+
+**Known Limitation / Planned Enhancement:**
+- `MqttClientConfig` contains `tls_cert_path`, `tls_key_path`, `tls_ca_path`, `tls_enabled` fields
+  but the current implementation uses a plain TCP socket (`asio::ip::tcp::socket`).
+  **TLS for the MQTT client** (Boost.Asio `ssl::stream<tcp::socket>` with `ssl::context`) is
+  planned for v1.10.0:
+  - Load CA cert via `ssl::context::load_verify_file(tls_ca_path)` for broker verification
+  - Optionally load client cert+key for mutual TLS via `ssl::context::use_certificate_file()` +
+    `ssl::context::use_private_key_file()`
+  - All three paths configurable per `MqttClientConfig`
+  - Target: v1.10.0 (requires `Boost::asio` SSL components; add `THEMIS_ENABLE_MQTT_TLS` guard)
+
+**References:**
+- OASIS MQTT 3.1.1 Specification, OASIS Standard, Oct. 2014. [Online]. Available: https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html
+- C. Bormann and P. Hoffman, "CBOR: Concise Binary Object Representation," IETF RFC 8949, Dec. 2020. [Online]. Available: https://www.rfc-editor.org/rfc/rfc8949

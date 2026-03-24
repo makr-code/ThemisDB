@@ -331,26 +331,28 @@ TEST_F(DistributedGraphTest, OptimizationPlan_SingleNode_NotDistributed) {
     std::string db_path = "./data/themis_plan_shard_compat_test";
     fs::remove_all(db_path);
 
-    themis::RocksDBWrapper::Config cfg;
-    cfg.db_path = db_path;
-    cfg.memtable_size_mb = 64;
-    cfg.block_cache_size_mb = 64;
-    cfg.max_background_jobs = 2;
-    cfg.compression_default = "lz4";
-    cfg.compression_bottommost = "zstd";
-    auto db = std::make_unique<themis::RocksDBWrapper>(cfg);
-    ASSERT_TRUE(db->open());
-    auto mgr = std::make_unique<themis::GraphIndexManager>(*db);
-    populateTestGraph(*mgr);
+    {
+        themis::RocksDBWrapper::Config cfg;
+        cfg.db_path = db_path;
+        cfg.memtable_size_mb = 64;
+        cfg.block_cache_size_mb = 64;
+        cfg.max_background_jobs = 2;
+        cfg.compression_default = "lz4";
+        cfg.compression_bottommost = "zstd";
+        auto db = std::make_unique<themis::RocksDBWrapper>(cfg);
+        ASSERT_TRUE(db->open());
+        auto mgr = std::make_unique<themis::GraphIndexManager>(*db);
+        populateTestGraph(*mgr);
 
-    themis::graph::GraphQueryOptimizer optimizer(*mgr);
-    auto plan = optimizer.optimizeShortestPath("A", "D");
-    ASSERT_TRUE(plan.has_value());
+        themis::graph::GraphQueryOptimizer optimizer(*mgr);
+        auto plan = optimizer.optimizeShortestPath("A", "D");
+        ASSERT_TRUE(plan.has_value());
 
-    // Single-node plan must not be marked distributed.
-    EXPECT_FALSE(plan->is_distributed);
-    EXPECT_TRUE(plan->shard_ids.empty());
-    EXPECT_EQ(plan->recommended_parallelism, 1u);
+        // Single-node plan must not be marked distributed.
+        EXPECT_FALSE(plan->is_distributed);
+        EXPECT_TRUE(plan->shard_ids.empty());
+        EXPECT_EQ(plan->recommended_parallelism, 1u);
+    }
 
     fs::remove_all(db_path);
 }
@@ -364,37 +366,39 @@ TEST_F(DistributedGraphTest, ExplainPlan_DistributedPlanContainsShardInfo) {
     std::string db_path = "./data/themis_explain_dist_test";
     fs::remove_all(db_path);
 
-    themis::RocksDBWrapper::Config cfg;
-    cfg.db_path = db_path;
-    cfg.memtable_size_mb = 64;
-    cfg.block_cache_size_mb = 64;
-    cfg.max_background_jobs = 2;
-    cfg.compression_default = "lz4";
-    cfg.compression_bottommost = "zstd";
-    auto db = std::make_unique<themis::RocksDBWrapper>(cfg);
-    ASSERT_TRUE(db->open());
-    auto mgr = std::make_unique<themis::GraphIndexManager>(*db);
+    {
+        themis::RocksDBWrapper::Config cfg;
+        cfg.db_path = db_path;
+        cfg.memtable_size_mb = 64;
+        cfg.block_cache_size_mb = 64;
+        cfg.max_background_jobs = 2;
+        cfg.compression_default = "lz4";
+        cfg.compression_bottommost = "zstd";
+        auto db = std::make_unique<themis::RocksDBWrapper>(cfg);
+        ASSERT_TRUE(db->open());
+        auto mgr = std::make_unique<themis::GraphIndexManager>(*db);
 
-    themis::graph::GraphQueryOptimizer optimizer(*mgr);
+        themis::graph::GraphQueryOptimizer optimizer(*mgr);
 
-    // Build a distributed plan manually and verify explainPlan output.
-    themis::graph::GraphQueryOptimizer::OptimizationPlan plan;
-    plan.algorithm = themis::graph::GraphQueryOptimizer::TraversalAlgorithm::DIJKSTRA;
-    plan.pattern = themis::graph::GraphQueryOptimizer::QueryPattern::SHORTEST_PATH;
-    plan.estimated_cost = 2.0;
-    plan.estimated_time_ms = 20.0;
-    plan.estimated_nodes_explored = 50;
-    plan.use_index = true;
-    plan.enable_parallel = true;
-    plan.is_distributed = true;
-    plan.shard_ids = {"shard1", "shard2"};
-    plan.recommended_parallelism = 2;
+        // Build a distributed plan manually and verify explainPlan output.
+        themis::graph::GraphQueryOptimizer::OptimizationPlan plan;
+        plan.algorithm = themis::graph::GraphQueryOptimizer::TraversalAlgorithm::DIJKSTRA;
+        plan.pattern = themis::graph::GraphQueryOptimizer::QueryPattern::SHORTEST_PATH;
+        plan.estimated_cost = 2.0;
+        plan.estimated_time_ms = 20.0;
+        plan.estimated_nodes_explored = 50;
+        plan.use_index = true;
+        plan.enable_parallel = true;
+        plan.is_distributed = true;
+        plan.shard_ids = {"shard1", "shard2"};
+        plan.recommended_parallelism = 2;
 
-    std::string explanation = optimizer.explainPlan(plan);
-    EXPECT_NE(explanation.find("Distributed"), std::string::npos);
-    EXPECT_NE(explanation.find("shard1"), std::string::npos);
-    EXPECT_NE(explanation.find("shard2"), std::string::npos);
-    EXPECT_NE(explanation.find("Parallelism"), std::string::npos);
+        std::string explanation = optimizer.explainPlan(plan);
+        EXPECT_NE(explanation.find("Distributed"), std::string::npos);
+        EXPECT_NE(explanation.find("shard1"), std::string::npos);
+        EXPECT_NE(explanation.find("shard2"), std::string::npos);
+        EXPECT_NE(explanation.find("Parallelism"), std::string::npos);
+    }
 
     fs::remove_all(db_path);
 }

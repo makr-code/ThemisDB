@@ -1577,8 +1577,21 @@ GraphIndexManager::getEdgesInTimeRange(int64_t range_start_ms, int64_t range_end
 		if (!blob.has_value()) return true;
 
 		BaseEntity edge = BaseEntity::deserialize(edgeId, *blob);
-		std::optional<int64_t> valid_from = edge.getFieldAsInt("valid_from");
-		std::optional<int64_t> valid_to = edge.getFieldAsInt("valid_to");
+		auto parseTemporalField = [&edge](std::string_view field) -> std::optional<int64_t> {
+			auto as_int = edge.getFieldAsInt(field);
+			if (as_int.has_value()) return as_int;
+			auto as_str = edge.getFieldAsString(field);
+			if (!as_str.has_value()) return std::nullopt;
+			try {
+				size_t pos = 0;
+				int64_t parsed = std::stoll(*as_str, &pos, 10);
+				if (pos == as_str->size()) return parsed;
+			} catch (...) {
+			}
+			return std::nullopt;
+		};
+		std::optional<int64_t> valid_from = parseTemporalField("valid_from");
+		std::optional<int64_t> valid_to = parseTemporalField("valid_to");
 
 		// Check if edge is in time range
 		bool match = require_full_containment 
@@ -1623,8 +1636,21 @@ GraphIndexManager::getOutEdgesInTimeRange(std::string_view fromPk, int64_t range
 		if (!blob.has_value()) return true;
 
 		BaseEntity edge = BaseEntity::deserialize(edgeId, *blob);
-		std::optional<int64_t> valid_from = edge.getFieldAsInt("valid_from");
-		std::optional<int64_t> valid_to = edge.getFieldAsInt("valid_to");
+		auto parseTemporalField = [&edge](std::string_view field) -> std::optional<int64_t> {
+			auto as_int = edge.getFieldAsInt(field);
+			if (as_int.has_value()) return as_int;
+			auto as_str = edge.getFieldAsString(field);
+			if (!as_str.has_value()) return std::nullopt;
+			try {
+				size_t pos = 0;
+				int64_t parsed = std::stoll(*as_str, &pos, 10);
+				if (pos == as_str->size()) return parsed;
+			} catch (...) {
+			}
+			return std::nullopt;
+		};
+		std::optional<int64_t> valid_from = parseTemporalField("valid_from");
+		std::optional<int64_t> valid_to = parseTemporalField("valid_to");
 
 		// Check if edge is in time range
 		bool match = require_full_containment 

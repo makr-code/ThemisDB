@@ -158,6 +158,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   convergence/guard flags, and `toJson()` for observability.
 - 38 unit tests in `tests/test_reflection_tuner.cpp` (AC-1 through AC-20).
 - CI: `.github/workflows/reflection-tuner-ci.yml` (multi-platform, AC-1–AC-20).
+## [2.0.0] — 2026-03-24
+
+### Added
+- `TreeOfThoughtsBuilder` – multi-path reasoning with BFS, DFS, and BEAM search strategies; pluggable `IToTThoughtGenerator` and `IToTEvaluator` interfaces; depth-bounded pruning; `ToTConfig`, `ToTNode`, `ToTResult` data types; `TreeOfThoughtsBuilder::buildThoughtPrompt()`, `buildEvaluationPrompt()`, `buildSynthesisPrompt()` static helpers (30 unit tests; CI: `tree-of-thoughts-ci.yml`)
+- `ProTeGiOptimizer` – automatic prompt optimisation via natural-language ("textual") gradients; `IProTeGiLLMProvider` interface for critique and candidate generation; `ProTeGiConfig`, `ProTeGiGradient`, `ProTeGiResult` types; mini-batch error sampling, beam search, early-stop and convergence-stop conditions (18 unit tests; CI: `protegi-optimizer-ci.yml`)
+- `DspySignature` – typed input/output contract declaration with `buildPrompt()` and `parseResponse()`; `DspyField` with `DspyFieldType` (STRING/INT/FLOAT/BOOL/LIST/JSON); `DspyPredict` and `DspyChainOfThought` modules; `IDspyLLMProvider` interface; `EchoDspyLLMProvider` echo stub; `DspyMissingFieldError` exception (30 unit tests; CI: `dspy-module-ci.yml`)
+- New focused CMake test targets: `TreeOfThoughtsFocusedTests`, `ProTeGiOptimizerFocusedTests`, `DspyModuleFocusedTests`
+- All three source files registered in `THEMIS_LLM_SOURCES` (ModularBuild.cmake) and the top-level `themis_core` source list (cmake/CMakeLists.txt)
 
 ## [1.4.0] — 2026-03-12
 

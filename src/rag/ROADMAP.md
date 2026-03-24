@@ -3,7 +3,7 @@
 # RAG Module Roadmap
 
 ## Current Status
-v1.x – Production-ready Retrieval-Augmented Generation system. 25 implementation files (~9,900 LOC) covering evaluation, knowledge gap detection, ethical compliance, multi-judge orchestration, streaming retrieval, cross-encoder re-ranking, hybrid BM25+vector retrieval, batch evaluation, calibration, and LRU evaluation caching.
+v2.0.0 – Production-ready Retrieval-Augmented Generation system. 27 implementation files covering evaluation, knowledge gap detection, ethical compliance, multi-judge orchestration, streaming retrieval, cross-encoder re-ranking, hybrid BM25+vector retrieval, batch evaluation, calibration, LRU evaluation caching, REPLUG-style LLM-scored fusion, and Constitutional AI / RLAIF training pipeline.
 
 ## Completed ✅
 - [x] RAGJudge – main orchestrator for multi-dimensional evaluation
@@ -96,6 +96,10 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 25 implementati
 - [x] Performance benchmark harness (`benchmarks/bench_rag_evaluation.cpp`) — recall@K (K=1/5/10/20/50); FAST/BALANCED/THOROUGH latency; batch throughput; end-to-end pipeline benchmark
 - [x] Prompt injection detection and sanitization (`rag/prompt_injection_detector.h/.cpp`) — security audit for retrieved context; pattern-based heuristic detector; PromptInjectionSanitizer with configurable thresholds
 
+### Phase 6: REPLUG Co-Training & Constitutional AI / RLAIF (Status: Completed ✅)
+- [x] `ReplugRetriever` — REPLUG-style LLM-scored retrieval fusion (`rag/replug_retriever.h/.cpp`) (Target: Q1 2026) — Inputs: query + RetrievedDocument list; Outputs: ReplugFusionResult with fused scores; λ interpolation, softmax temperature, min_retrieval_score filter, REPLUG-LSR weight update via KL gradient; ILLMScorer plugin; HeuristicLLMScorer (Jaccard); 30 unit tests
+- [x] `RLAIFTrainer` — Constitutional AI + RLAIF preference dataset generation (`rag/rlaif_trainer.h/.cpp`) (Target: Q1 2026) — Inputs: query + draft response; Outputs: PreferencePair (prompt, chosen, rejected); critique-revision loop; IAIJudge plugin; HeuristicAIJudge; AIPrinciple registry; processBatch(); RLAIFConfig; 30 unit tests
+
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (streaming_retriever: 28 test cases; reranker: 30+ test cases; document_splitter: 37 test cases)
 - [x] Unit tests coverage > 80% (streaming_retriever: 28 tests; reranker: 30+ tests; hybrid_retriever: 31 tests)
@@ -105,6 +109,8 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 25 implementati
 - [x] Unit tests for EvaluationReportExporter (test_rag_evaluation_report_exporter.cpp: JSON/HTML export; file I/O; edge cases; factory; available in all build variants)
 - [x] Unit tests for DistributedRAGEvaluator (test_rag_distributed_evaluator.cpp: construction validation, aggregation strategies, meta fields, factory helpers, batch evaluate)
 - [x] Unit tests for PromptInjectionDetector and Sanitizer (test_rag_prompt_injection.cpp: benign pass-through, instruction override, system-prompt leak, delimiter escape, role injection, markup injection, Unicode bidi, sanitizer truncation/replacement)
+- [x] Unit tests for ReplugRetriever (test_rag_replug_retriever.cpp: ILLMScorer, HeuristicLLMScorer, fuse(), top_k truncation, min_retrieval_score filtering, weight updates, factory helpers; 30 tests)
+- [x] Unit tests for RLAIFTrainer (test_rag_rlaif_trainer.cpp: IAIJudge, HeuristicAIJudge, runTrainingStep(), createPreferencePair(), processBatch(), principle management, dataset access, stats; 30 tests)
 - [x] Performance benchmarks (benchmarks/bench_rag_evaluation.cpp: recall@K harness, FAST/BALANCED/THOROUGH latency, distributed evaluator, injection scan throughput, end-to-end pipeline)
 - [x] Integration tests (full pipeline: retrieve → generate → evaluate) — `test_rag_pipeline_integration.cpp` (heuristic/FAST mode, no live LLM required)
 - [x] Performance benchmarks (recall@10, latency per mode)

@@ -1521,6 +1521,7 @@ set(THEMIS_CORE_SOURCES
     ../src/security/encrypted_field.cpp
     ../src/security/malware_scanner.cpp
     ../src/security/usb_admin_authenticator.cpp
+    ../src/security/usb_volume_hardening.cpp
     ../src/security/aql_injection_detector.cpp
     ../src/core/security_initialization.cpp
     ../src/performance/cycle_metrics.cpp
@@ -1572,6 +1573,8 @@ set(THEMIS_CORE_SOURCES
     ../src/query/query_plan_visualizer.cpp
     ../src/query/sql_parser.cpp
     ../src/query/sparql_parser.cpp
+    ../src/query/cypher_parser.cpp
+    ../src/query/gremlin_parser.cpp
     ../src/query/let_evaluator.cpp
     ../src/query/window_evaluator.cpp
     ../src/query/cte_subquery.cpp
@@ -1620,6 +1623,9 @@ set(THEMIS_CORE_SOURCES
     ../src/prompt_engineering/prompt_regression_runner.cpp
     ../src/prompt_engineering/prompt_ab_experiment.cpp
     ../src/prompt_engineering/prompt_library_io.cpp
+    ../src/prompt_engineering/tree_of_thoughts.cpp
+    ../src/prompt_engineering/protegi_optimizer.cpp
+    ../src/prompt_engineering/dspy_module.cpp
     
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/transaction_api_handler.cpp>
@@ -4113,6 +4119,19 @@ if(THEMIS_BUILD_TESTS)
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
     )
+
+    # Sync runtime DLLs next to the secidx test binary so CTest discovery
+    # can resolve them without a manual PATH adjustment.
+    if(WIN32)
+        add_custom_command(TARGET themis_secidx_tests POST_BUILD
+            COMMAND ${CMAKE_COMMAND}
+                    -D "BIN_DIR=${CMAKE_BINARY_DIR}/bin"
+                -D "DST_DIR=$<TARGET_FILE_DIR:themis_secidx_tests>"
+                -P "${THEMIS_ROOT_DIR}/cmake/CopyRuntimeDlls.cmake"
+            COMMENT "Syncing runtime DLLs for themis_secidx_tests"
+            VERBATIM
+        )
+    endif()
 
     # CRITICAL TESTS ONLY (for fast validation)
     add_executable(themis_tests_critical

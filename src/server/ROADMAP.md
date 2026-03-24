@@ -155,6 +155,17 @@ v1.7.0 – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTT
 - [x] Documentation complete — `include/server/README.md` (890 lines, includes `distributed_gateway.h` section), `src/server/README.md` (1 342 lines), `docs/de/server/README.md` (276 lines, German, validated 2026-03-10), `src/server/ARCHITECTURE.md`, `src/server/FUTURE_ENHANCEMENTS.md` (with IEEE references), `include/server/FUTURE_ENHANCEMENTS.md`, `src/server/rpc/README.md`, `docs/de/server/missing-implementations.md`, `docs/DISTRIBUTED_GATEWAY.md`; all public API handlers and configuration options documented
 - [x] API stability guaranteed — REST `/api/v1/` path versioning enforced; `v2` prefix introduced for breaking changes; deprecation headers and `Sunset` dates emitted by versioning middleware; gRPC `.proto` definitions stable (no breaking field removals planned); MCP server protocol tracks upstream spec; see §Breaking Changes below
 
+### Phase 7: MQTT Client Service — Bidirectional Real-time Integration (Status: Completed ✅)
+- [x] `MqttClientService` — bidirectional MQTT client: connects to an external broker, sends CONNECT/SUBSCRIBE/PUBLISH/PINGREQ/DISCONNECT packets via Boost.Asio async I/O; auto-reconnects with exponential back-off from `MqttRetryConfig` (v1.9.0)
+  - Files: `include/server/mqtt_client_service.h`, `src/server/mqtt_client_service.cpp`
+  - Behaviour: background I/O thread runs `asio::io_context`; `publish()` and `subscribe()` post work via `asio::post()` for thread-safe use from any caller thread; keepalive timer sends PINGREQ every `keepalive_seconds`
+  - Errors: `publish()` returns false + increments `publish_errors` when not connected or queue full; connection failure triggers reconnect scheduler; broker CONNACK ≠ 0 triggers disconnect + reconnect
+  - Tests: 31 unit tests in `tests/test_mqtt_client_service.cpp` (config defaults, stats atomics, handler interface, lifecycle, publish/subscribe, service registry, CDC transport topic mapping, all 4 ChangeEventTypes)
+  - CI: `mqtt-client-service-ci.yml`
+- [x] `MqttCDCTransport : ICDCTransport` — CDC → MQTT bridge: serialises `Changefeed::ChangeEvent` to JSON and publishes to `{cdc_topic_prefix}{collection}/{EVENT_TYPE}`; topic prefix and QoS configurable at runtime (v1.9.0)
+- [x] `IMqttMessageHandler` — callback interface for inbound MQTT messages: `onMessage(topic, payload, qos)`, `onConnected(client_id)`, `onDisconnected(reason)`; all callbacks `noexcept` (v1.9.0)
+- [x] Service registration via `RPCServiceRegistry` — `MqttClientService` self-registers as `"mqtt_client"` (or custom name) for service discovery by other ThemisDB components (v1.9.0)
+
 ## Known Issues & Limitations
 - HTTP/3 is implemented and hardened for high-throughput production workloads; further QUIC congestion-control tuning is ongoing.
 - GraphQL support is available via `server/graphql_api_handler.cpp`; advanced federation features are planned.

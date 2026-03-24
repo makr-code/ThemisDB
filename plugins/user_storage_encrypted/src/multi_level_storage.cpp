@@ -29,7 +29,13 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
+#include <string>
+#include <vector>
+#include <set>
+#include <cstdio>
 #include <sys/stat.h>
+#include <sys/wait.h>
+#include <unistd.h>
 #include <errno.h>
 
 using json = nlohmann::json;
@@ -67,7 +73,26 @@ bool MultiLevelEncryptedStorage::initialize(const char* config_json) {
         if (result.isError()) {
             return false;
         }
-        
+
+        // Collect all base/mount paths to derive a common root for reconciliation.
+        // We reconcile against each configured mount_point's parent directory.
+        std::set<std::string> base_paths;
+        for (const auto& pair : impl_->level_configs) {
+            const auto& cfg = pair.second;
+            if (cfg.encrypted && !cfg.mount_point.empty()) {
+                // Parent of the mount point is the "base" to scan
+                std::string parent = cfg.mount_point;
+                auto slash = parent.rfind('/');
+                if (slash != std::string::npos && slash > 0) {
+                    parent = parent.substr(0, slash);
+                }
+                base_paths.insert(parent);
+            }
+        }
+        for (const auto& base : base_paths) {
+            reconcileStaleMounts(base);
+        }
+
         // Initialize all configured levels
         for (const auto& pair : impl_->level_configs) {
             auto init_result = initializeLevel(pair.second);
@@ -89,6 +114,91 @@ void MultiLevelEncryptedStorage::shutdown() {
         impl_->backends.clear();
         impl_->key_providers.clear();
         impl_->initialized = false;
+    }
+}
+
+void MultiLevelEncryptedStorage::reconcileStaleMounts(const std::string& base_path) {
+    if (base_path.empty()) {
+        return;
+    }
+
+    // Build set of mount points that belong to this instance so we can skip them.
+    std::set<std::string> configured_mounts;
+    for (const auto& pair : impl_->level_configs) {
+        if (pair.second.encrypted && !pair.second.mount_point.empty()) {
+            configured_mounts.insert(pair.second.mount_point);
+        }
+    }
+
+    // Collect stale mount points from /proc/mounts (Linux) that:
+    //   1. Start with base_path + '/'
+    //   2. Are NOT in the currently configured set (i.e., orphaned from a prior run).
+    std::vector<std::string> stale;
+
+#if defined(__linux__)
+    std::ifstream mounts("/proc/mounts");
+    std::string line;
+    while (std::getline(mounts, line)) {
+        // /proc/mounts format: <device> <mountpoint> <fstype> <options> <dump> <pass>
+        std::istringstream iss(line);
+        std::string device, mount_point;
+        iss >> device >> mount_point;
+        if (mount_point.empty()) continue;
+
+        // Only consider mount points that are children of base_path.
+        const std::string prefix = base_path + "/";
+        if (mount_point.size() > prefix.size() &&
+            mount_point.compare(0, prefix.size(), prefix) == 0) {
+            if (configured_mounts.find(mount_point) == configured_mounts.end()) {
+                stale.push_back(mount_point);
+            }
+        }
+    }
+#endif
+
+    // Unmount each stale mount; errors are logged but do not abort startup.
+    for (const auto& mp : stale) {
+        // WARN: stale mount found
+        // (In production this would use the ThemisDB logger; here we write to stderr.)
+        fprintf(stderr,
+                "[WARN] themis::user_storage: stale gocryptfs mount found at '%s', unmounting.\n",
+                mp.c_str());
+
+        // Try fusermount -u first (preferred for FUSE mounts), fall back to umount.
+        bool unmounted = false;
+
+#if defined(__linux__)
+        {
+            pid_t pid = fork();
+            if (pid == 0) {
+                // Child: exec fusermount -u <mp>
+                execlp("fusermount", "fusermount", "-u", mp.c_str(), nullptr);
+                _exit(127);
+            } else if (pid > 0) {
+                int status = 0;
+                waitpid(pid, &status, 0);
+                unmounted = (WIFEXITED(status) && WEXITSTATUS(status) == 0);
+            }
+        }
+
+        if (!unmounted) {
+            pid_t pid = fork();
+            if (pid == 0) {
+                execlp("umount", "umount", mp.c_str(), nullptr);
+                _exit(127);
+            } else if (pid > 0) {
+                int status = 0;
+                waitpid(pid, &status, 0);
+                unmounted = (WIFEXITED(status) && WEXITSTATUS(status) == 0);
+            }
+        }
+#endif
+
+        if (!unmounted) {
+            fprintf(stderr,
+                    "[ERROR] themis::user_storage: failed to unmount stale mount '%s', continuing.\n",
+                    mp.c_str());
+        }
     }
 }
 
