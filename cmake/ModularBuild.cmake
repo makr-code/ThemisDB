@@ -615,6 +615,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/security/vault_signing_provider.cpp
     ../src/security/malware_scanner.cpp
     ../src/security/usb_admin_authenticator.cpp
+    ../src/security/usb_volume_hardening.cpp
     ../src/security/pki_key_provider.cpp
     ../src/security/cms_signing.cpp
     ../src/security/rbac.cpp
@@ -900,6 +901,9 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/sharding_manager_edition.cpp
     ../src/sharding/two_phase_commit_coordinator.cpp
     ../src/sharding/two_phase_commit_participant.cpp
+
+    # Phase 4.1 — Epoch-based fencing + lease management
+    ../src/sharding/epoch_fencing.cpp
 )
 
 set(THEMIS_LLM_SOURCES
@@ -921,6 +925,9 @@ set(THEMIS_LLM_SOURCES
     ../src/prompt_engineering/chain_of_thought.cpp
     ../src/prompt_engineering/rag_prompt_builder.cpp
     ../src/prompt_engineering/system_prompt_manager.cpp
+    ../src/prompt_engineering/tree_of_thoughts.cpp
+    ../src/prompt_engineering/protegi_optimizer.cpp
+    ../src/prompt_engineering/dspy_module.cpp
     ../src/llm/block_table.cpp
     ../src/llm/paged_block_manager.cpp
     ../src/llm/paged_kv_cache.cpp
@@ -1363,6 +1370,7 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/themis_core_grpc_service.cpp>
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/server/websocket_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_MQTT}>:../src/server/mqtt_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_MQTT}>:../src/server/mqtt_client_service.cpp>
     $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:../src/server/postgres_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_MCP}>:../src/server/mcp_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/grpc_web_proxy_handler.cpp>

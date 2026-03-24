@@ -4,7 +4,7 @@
 
 ## Current Status
 
-**Status:** 🚧 In Progress — Phase 3 (RPC Integration & Persistent State)
+**Status:** 🚧 In Progress — Phase 4.1 (Epoch Fencing) complete; Phase 4.2 planned
 
 | Component | Status |
 |-----------|--------|
@@ -14,9 +14,11 @@
 | ShardRepairEngine (Reed-Solomon, anti-entropy) | ✅ Production-ready |
 | Prometheus metrics + Admin API | ✅ Production-ready |
 | Build system audit (all .cpp registered in CMake) | ✅ Complete (March 2026) |
-| Focused standalone test targets (31 targets) | ✅ Complete (March 2026) |
+| Focused standalone test targets (32 targets) | ✅ Complete (March 2026) |
+| **Epoch-based fencing + lease management (Phase 4.1)** | ✅ **Complete (v1.9.0)** |
 | RPC integration (cross-shard read/write) | 🚧 In Progress |
 | Persistent Paxos acceptor state | 🚧 In Progress |
+| Automatic failover orchestration (Phase 4.2) | 🔲 Planned |
 | Consistent-hashing metadata shards | 🔲 Planned |
 | Cross-shard query routing | 🔲 Planned |
 | Adaptive rebalancer | 🔲 Planned |
@@ -72,8 +74,9 @@ Sharding is a database architecture pattern that involves breaking a database in
 - [?] Complete metadata shard implementation with consistent hashing (Target: Q3 2026)
 - [?] End-to-end cross-shard query routing layer (Target: Q3 2026)
 
-### Phase 4: Hardening & Adaptive Rebalancing (Status: Planned 📋)
-- [?] gRPC transport with mTLS for all inter-shard RPC channels
+### Phase 4: Hardening & Adaptive Rebalancing (Status: In Progress 🚧)
+- [x] Epoch-based fencing + lease management (`epoch_fencing.h` / `epoch_fencing.cpp`) — Phase 4.1 ✅ (v1.9.0)
+- [?] Automatic failover orchestration — Phase 4.2 (planned)
 - [?] Adaptive rebalancer driven by per-shard access-pattern telemetry
 - [~] Reed-Solomon repair parallelisation across repair workers (v1.6.0 — parallel scan bands, IOPS throttle, GPU flag)
 - [?] Raft snapshot compaction to bound log growth

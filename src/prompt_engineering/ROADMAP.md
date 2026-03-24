@@ -5,7 +5,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-v1.x – Full lifecycle management for LLM prompt templates is production-ready. Version control, A/B testing, feedback collection, self-improvement orchestrator, Prometheus metrics, prompt injection attack detection, chain-of-thought prompt construction, RAG prompt assembly, and system prompt management are all implemented.
+v2.0.0 – Full lifecycle management for LLM prompt templates is production-ready. Version control, A/B testing, feedback collection, self-improvement orchestrator, Prometheus metrics, prompt injection attack detection, chain-of-thought prompt construction, RAG prompt assembly, system prompt management, context-window budget enforcement, Tree-of-Thoughts multi-path reasoning, ProTeGi textual-gradient optimizer, and DSPy-compatible prompt declaration layer are all implemented.
 
 ## Completed ✅
 - [x] PromptManager – CRUD with RocksDB persistence and YAML bulk-load
@@ -33,6 +33,9 @@ v1.x – Full lifecycle management for LLM prompt templates is production-ready.
 - [x] Integration facade combining all subsystems
 - [x] **Prompt injection attack detection** – `PromptInjectionDetector` with 10 built-in patterns, keyword/syntax scoring, `detect()`, `detectInResponse()`, `sanitize()`, pluggable custom patterns (Issue: #2428, PR: #2534)
 - [x] Multi-modal prompt support (image descriptions alongside text) (Target: Q3 2026) (Issue: #2429)
+- [x] **Tree-of-Thoughts reasoning** – `TreeOfThoughtsBuilder` with BFS/DFS/BEAM search, pluggable `IToTThoughtGenerator` and `IToTEvaluator`, pruning, and answer synthesis (Target: Q1 2026)
+- [x] **ProTeGi textual-gradient optimizer** – `ProTeGiOptimizer` implementing automatic prompt optimisation via natural-language gradients, mini-batch critique, and beam search (Target: Q1 2026)
+- [x] **DSPy-compatible prompt declaration layer** – `DspySignature`, `DspyPredict`, `DspyChainOfThought`, `EchoDspyLLMProvider`, and `DspyMissingFieldError` (Target: Q1 2026)
 - [x] **Chain-of-thought prompt construction** – `ChainOfThoughtBuilder` with step delimiters, auto-numbering, zero-shot/few-shot/wrap helpers
 - [x] **RAG prompt builder** – `RAGPromptBuilder` with budget-aware chunk selection, source citations, template injection, and full-prompt assembly
 - [x] **System prompt manager** – `SystemPromptManager` with built-in and custom role support, context-variable rendering, and JSON serialisation
@@ -83,6 +86,11 @@ v1.x – Full lifecycle management for LLM prompt templates is production-ready.
 - [?] Import/export prompt library to JSON / YAML for cross-environment portability
 - [?] Per-language prompt template variants (i18n support)
 
+### Phase 6: Advanced Reasoning & Optimization (Status: Completed ✅)
+- [x] **Tree-of-Thoughts reasoning** – `TreeOfThoughtsBuilder` with BFS/DFS/BEAM search strategies, pluggable `IToTThoughtGenerator` and `IToTEvaluator`, depth-bounded pruning, and answer synthesis (30 tests, CI: tree-of-thoughts-ci.yml)
+- [x] **ProTeGi textual-gradient optimizer** – `ProTeGiOptimizer` and `IProTeGiLLMProvider` implementing automatic prompt optimisation via natural-language gradients, mini-batch critique, and beam search (18 tests, CI: protegi-optimizer-ci.yml)
+- [x] **DSPy-compatible prompt declaration layer** – `DspySignature`, `DspyPredict`, `DspyChainOfThought`, `EchoDspyLLMProvider`, `IDspyLLMProvider`, and `DspyMissingFieldError` (30 tests, CI: dspy-module-ci.yml)
+
 ## Production Readiness Checklist
 - [x] Template validation with detailed error reporting
 - [x] Feedback paging API for large archives
@@ -97,6 +105,9 @@ v1.x – Full lifecycle management for LLM prompt templates is production-ready.
 - [x] Prompt injection attack detection layer (`PromptInjectionDetector`)
 - [x] Chain-of-thought, RAG prompt builder, and system prompt manager implemented
 - [x] Context-window budget enforcement (`ContextWindowBudgetManager`) with pluggable token counter and `PromptBudgetExceededError`
+- [x] Tree-of-Thoughts reasoning (`TreeOfThoughtsBuilder`) with BFS/DFS/BEAM, pruning, and answer synthesis
+- [x] ProTeGi textual-gradient optimizer (`ProTeGiOptimizer`) with mini-batch critique and beam search
+- [x] DSPy-compatible prompt declaration layer (`DspySignature`, `DspyPredict`, `DspyChainOfThought`)
 - [x] Unit tests coverage > 80%
 - [x] Integration tests (version control round-trip, A/B statistical significance)
 - [x] Performance benchmarks (optimization loop latency, concurrent access)
