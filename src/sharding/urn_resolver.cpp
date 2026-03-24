@@ -21,6 +21,7 @@
  */
 
 #include "sharding/urn_resolver.h"
+#include <spdlog/spdlog.h>
 
 namespace themis::sharding {
 
@@ -101,7 +102,10 @@ std::vector<std::string> URNResolver::getShardsForKeyRange(
     uint64_t h_max = hash_ring_->hashKey(max_key);
     auto shards = hash_ring_->getShardsInRange(h_min, h_max);
     if (shards.empty()) {
-        // Fall back to returning all healthy shards so callers always get something
+        spdlog::warn("URNResolver::getShardsForKeyRange: ring returned no shards for "
+                     "range [{}, {}] (h_min={:#x}, h_max={:#x}); falling back to all "
+                     "healthy shards — check ring configuration",
+                     min_key, max_key, h_min, h_max);
         auto all = getHealthyShards();
         for (const auto& s : all) {
             shards.push_back(s.shard_id);

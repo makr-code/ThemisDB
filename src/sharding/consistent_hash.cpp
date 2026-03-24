@@ -208,36 +208,42 @@ std::vector<std::string> ConsistentHashRing::getShardsInRange(
         return {};
     }
 
-    // Wrap-around case: the range crosses the ring's maximum value.
-    // In that case every shard in the ring is potentially responsible for
-    // some key in the range, so return all of them.
-    if (hash_start > hash_end) {
-        std::vector<std::string> all;
-        all.reserve(shard_tokens_.size());
-        for (const auto& [shard_id, _] : shard_tokens_) {
-            all.push_back(shard_id);
-        }
-        return all;
-    }
-
-    // Walk clockwise from hash_start to hash_end, collecting each distinct
-    // shard we pass over.
     std::vector<std::string> result;
     std::set<std::string> seen;
 
-    // The shard responsible for hash_start is the first entry at or after it.
-    auto it = ring_.lower_bound(hash_start);
-    if (it == ring_.end()) {
-        it = ring_.begin(); // wrap around
-    }
-
-    while (it != ring_.end() && it->first <= hash_end) {
-        if (seen.insert(it->second).second) {
-            result.push_back(it->second);
+    auto collect = [&](auto from, auto to_exclusive) {
+        // Walk from 'from' to just before 'to_exclusive', collecting shards.
+        for (auto it = from; it != to_exclusive; ++it) {
+            seen.insert(it->second);
         }
-        ++it;
+    };
+
+    if (hash_start > hash_end) {
+        // Wrap-around range: [hash_start, ring_max] ∪ [ring_min, hash_end]
+        // Part 1: hash_start → end of ring
+        auto it_start = ring_.lower_bound(hash_start);
+        if (it_start == ring_.end()) {
+            it_start = ring_.begin();
+        }
+        collect(it_start, ring_.end());
+
+        // Part 2: beginning of ring → hash_end (inclusive)
+        for (auto it = ring_.begin(); it != ring_.end() && it->first <= hash_end; ++it) {
+            seen.insert(it->second);
+        }
+    } else {
+        // Normal (non-wrapping) range: [hash_start, hash_end]
+        auto it = ring_.lower_bound(hash_start);
+        if (it == ring_.end()) {
+            it = ring_.begin(); // wrap-around: start is past the last token
+        }
+        while (it != ring_.end() && it->first <= hash_end) {
+            seen.insert(it->second);
+            ++it;
+        }
     }
 
+    result.assign(seen.begin(), seen.end());
     return result;
 }
 

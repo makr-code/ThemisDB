@@ -328,9 +328,18 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
     }
 
     // ── Shard-key predicate ───────────────────────────────────────────────────
-    // POINT:  FILTER <var>._key == "<value>"   or   FILTER <var>._key == '<value>'
-    // RANGE:  FILTER <var>._key >= "<min>" AND <var>._key <= "<max>"
-    //         (also with <=/>= swapped or using BETWEEN syntax – simplified here)
+    // Extracts well-known AQL patterns using regex (not a full AQL AST parser).
+    // Recognised forms:
+    //   POINT:  FILTER <var>._key == "<value>"  (double or single quotes)
+    //   RANGE:  FILTER <var>._key >= "<min>" AND <var>._key <= "<max>"
+    //
+    // Known limitations (fall back to scatter-gather):
+    //   • No spaces variation: `_key=="value"` — not matched
+    //   • Back-tick quoting:   `_key == \`value\`` — not matched
+    //   • IN-array:            `_key IN ["a","b"]` — not matched
+    //   • BETWEEN syntax       — not matched
+    //   • Compound predicates with OR — not matched
+    // A full AQL AST integration is planned for v2.0.0.
     if (!metadata.tables.empty()) {
         const std::string& col = metadata.tables.front();
 
