@@ -899,6 +899,9 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/sharding_manager_edition.cpp
     ../src/sharding/two_phase_commit_coordinator.cpp
     ../src/sharding/two_phase_commit_participant.cpp
+
+    # Phase 4.1 — Epoch-based fencing + lease management
+    ../src/sharding/epoch_fencing.cpp
 )
 
 set(THEMIS_LLM_SOURCES

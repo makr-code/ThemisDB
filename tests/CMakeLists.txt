@@ -16528,6 +16528,22 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_uncovered.cpp")
     message(STATUS "  ShardingUncovered: OrphanDetector, ShardLoadDetector")
 endif()
 
+# ── Epoch Fencing focused tests (Phase 4.1) ───────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_epoch_fencing.cpp")
+    message(STATUS "Adding Sharding: Epoch Fencing focused tests (Phase 4.1)")
+    add_executable(test_epoch_fencing_focused test_epoch_fencing.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/epoch_fencing.cpp)
+    target_include_directories(test_epoch_fencing_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_epoch_fencing_focused PRIVATE ${TEST_LIBS} spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_epoch_fencing_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME EpochFencingFocusedTests COMMAND test_epoch_fencing_focused)
+    set_tests_properties(EpochFencingFocusedTests PROPERTIES
+        LABELS "sharding;epoch;fencing;lease;stonith;phase4;focused;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  EpochFencing: EpochFencingManager, LeaseManager, NullStonithProvider")
+endif()
+
 # Process Modeling Module focused tests
 # Covers: BpmnSerializer, EpkSerializer, VccVpbImporter, LlmProcessDescriptor,
 #         ProcessModelManager, ProcessLinker, ProcessGraphRag

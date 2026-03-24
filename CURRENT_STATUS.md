@@ -87,7 +87,7 @@ Status: **Production-ready** ✅
 **Phase 4: Fencing, Failover & Chaos Engineering** (in progress)
 - Duration: 8-10 weeks (ongoing, Q2 2026)
 - Sub-phases:
-  - **Phase 4.1:** Epoch-based fencing + lease management — in progress
+  - **Phase 4.1:** Epoch-based fencing + lease management — ✅ complete (v1.9.0)
   - **Phase 4.2:** Automatic failover orchestration — in progress
   - **Phase 4.3:** Chaos testing framework — planned
   - **Phase 4.4:** Disaster recovery procedures — planned
@@ -359,7 +359,7 @@ Status: **In active development** 🚀
 
 ### In Development 🚧
 
-- 🚧 **Epoch Fencing:** Lease management and STONITH — Phase 4.1
+- ✅ **Epoch Fencing:** EpochFencingManager + LeaseManager + NullStonithProvider + 28 tests (v1.9.0)
 - 🚧 **Automatic Failover:** Orchestration logic — Phase 4.2
 
 ### Planned ⏳
@@ -384,7 +384,7 @@ Status: **In active development** 🚀
 **Status:** On track ✅  
 **Progress:** 75% complete  
 **Quality:** Production-grade ⭐⭐⭐⭐⭐  
-**Next:** Phase 4.1 epoch fencing implementation  
+**Next:** Phase 4.2 automatic failover orchestration  
 **Confidence:** High
 
 ThemisDB has successfully implemented production-grade observability, durability, and full RPC/network resilience infrastructure. The system now guarantees zero data loss, provides fast recovery (<3s), supports all major network protocols (gRPC, HTTP/1–3, WebSocket, PostgreSQL Wire, MQTT), and has comprehensive security (mTLS, HSM, CRL/OCSP). Phase 4 will add the fencing and failover capabilities required for fully autonomous multi-node operation.
