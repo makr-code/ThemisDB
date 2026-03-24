@@ -112,7 +112,8 @@ double HeuristicAIJudge::judge(const std::string& /*prompt*/,
     return qa / total;
 }
 
-std::string HeuristicAIJudge::critique(const std::string& response,
+std::string HeuristicAIJudge::critique(const std::string& /*prompt*/,
+                                        const std::string& response,
                                         const AIPrinciple& principle) const {
     // Heuristic: check for harmful / discriminatory keywords.
     static const std::vector<std::string> harmful_patterns = {
@@ -138,7 +139,8 @@ std::string HeuristicAIJudge::critique(const std::string& response,
     return {};
 }
 
-std::string HeuristicAIJudge::revise(const std::string& response,
+std::string HeuristicAIJudge::revise(const std::string& /*prompt*/,
+                                      const std::string& response,
                                       const std::string& critique_text,
                                       const AIPrinciple& /*principle*/) const {
     if (critique_text.empty()) {
@@ -166,6 +168,8 @@ struct RLAIFTrainer::Impl {
 // ============================================================
 // RLAIFTrainer — construction
 // ============================================================
+
+RLAIFTrainer::~RLAIFTrainer() = default;
 
 RLAIFTrainer::RLAIFTrainer()
     : impl_(std::make_unique<Impl>()) {
@@ -269,7 +273,7 @@ ConstitutionalCritique RLAIFTrainer::generateCritique(
     ConstitutionalCritique result;
     result.principle_id = principle.id;
 
-    const std::string crit_text = impl_->judge->critique(response, principle);
+    const std::string crit_text = impl_->judge->critique("", response, principle);
     result.critique_text     = crit_text;
     result.violation_detected = !crit_text.empty();
     // Severity proxy: length of critique relative to a cap of 200 chars.
@@ -283,7 +287,7 @@ ConstitutionalCritique RLAIFTrainer::generateCritique(
 std::string RLAIFTrainer::generateRevision(const std::string& response,
                                             const std::string& critique_text,
                                             const AIPrinciple& principle) const {
-    return impl_->judge->revise(response, critique_text, principle);
+    return impl_->judge->revise("", response, critique_text, principle);
 }
 
 double RLAIFTrainer::scoreResponse(const std::string& response) const {

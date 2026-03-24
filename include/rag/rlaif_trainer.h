@@ -207,23 +207,27 @@ public:
     /**
      * @brief Generate a critique of a response according to a principle.
      *
+     * @param prompt      The original user prompt (context for the critique).
      * @param response    The response to critique.
      * @param principle   The constitutional principle to apply.
      * @return A critique text (may be empty if no violation detected).
      */
     virtual std::string critique(
-        const std::string&    response,
-        const AIPrinciple&    principle) const = 0;
+        const std::string& prompt,
+        const std::string& response,
+        const AIPrinciple& principle) const = 0;
 
     /**
      * @brief Generate a revised response that addresses the critique.
      *
-     * @param response    The original response.
+     * @param prompt        The original user prompt (context for revision).
+     * @param response      The original response.
      * @param critique_text The critique to address.
-     * @param principle   The constitutional principle being applied.
+     * @param principle     The constitutional principle being applied.
      * @return A revised response (may equal the original if no change).
      */
     virtual std::string revise(
+        const std::string& prompt,
         const std::string& response,
         const std::string& critique_text,
         const AIPrinciple& principle) const = 0;
@@ -251,10 +255,12 @@ public:
                  const std::string& response_a,
                  const std::string& response_b) const override;
 
-    std::string critique(const std::string& response,
+    std::string critique(const std::string& prompt,
+                         const std::string& response,
                          const AIPrinciple& principle) const override;
 
-    std::string revise(const std::string& response,
+    std::string revise(const std::string& prompt,
+                       const std::string& response,
                        const std::string& critique_text,
                        const AIPrinciple& principle) const override;
 
@@ -329,7 +335,14 @@ public:
     explicit RLAIFTrainer(const RLAIFConfig&       config,
                           std::shared_ptr<IAIJudge> judge = nullptr);
 
-    ~RLAIFTrainer() = default;
+    ~RLAIFTrainer();
+
+    // RLAIFTrainer is move-only (PIMPL with unique_ptr).
+    RLAIFTrainer(RLAIFTrainer&&) noexcept            = default;
+    RLAIFTrainer& operator=(RLAIFTrainer&&) noexcept = default;
+
+    RLAIFTrainer(const RLAIFTrainer&)            = delete;
+    RLAIFTrainer& operator=(const RLAIFTrainer&) = delete;
 
     // ═══════════════════════════════════════════════════════════
     // Principle management
