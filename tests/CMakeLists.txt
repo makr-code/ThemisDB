@@ -91,6 +91,8 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_rag_calibration_manager\\.cpp$"
         ".*test_rag_batch_evaluator\\.cpp$"
         ".*test_rag_pipeline_integration\\.cpp$"
+        ".*test_rag_replug_retriever\\.cpp$"
+        ".*test_rag_rlaif_trainer\\.cpp$"
         ".*test_raid_lora_integration\\.cpp$"
         ".*test_training_service_registry\\.cpp$"
         ".*test_signature_verifier\\.cpp$"
@@ -897,6 +899,10 @@ if(NOT THEMIS_ENABLE_LLM)
         ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_batch_evaluator.cpp
         # Pipeline integration test (heuristic/FAST mode, no LLM dependency).
         ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_pipeline_integration.cpp
+        # ReplugRetriever and RLAIFTrainer have no hard LLM runtime dependency
+        # (all LLM calls go through pluggable interfaces with heuristic defaults).
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_replug_retriever.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_rlaif_trainer.cpp
     )
 endif()
 
@@ -926,6 +932,8 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_SOURCE_DIR}/src/rag/evaluation_cache.cpp
     ${CMAKE_SOURCE_DIR}/src/rag/calibration_manager.cpp
     ${CMAKE_SOURCE_DIR}/src/rag/batch_evaluator.cpp
+    ${CMAKE_SOURCE_DIR}/src/rag/replug_retriever.cpp
+    ${CMAKE_SOURCE_DIR}/src/rag/rlaif_trainer.cpp
     ${CMAKE_SOURCE_DIR}/src/server/cdn_cache_middleware.cpp
 )
 
@@ -17867,6 +17875,16 @@ else()
     message(STATUS "Compute interface focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_compute_interfaces.cpp")
 endif()
 
+# ReplugRetriever focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_replug_retriever.cpp")
+    message(STATUS "Adding ReplugRetriever focused tests (RAG module, REPLUG-LSR, v2.0.0)")
+
+    add_executable(test_rag_replug_retriever_focused
+        test_rag_replug_retriever.cpp
+        ${CMAKE_SOURCE_DIR}/src/rag/replug_retriever.cpp
+    )
+
+    target_include_directories(test_rag_replug_retriever_focused PRIVATE
 # ---------------------------------------------------------------------------
 # CypherParserFocusedTests (30 tests) – v1.6.0
 # ---------------------------------------------------------------------------
@@ -17882,12 +17900,39 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cypher_parser.cpp")
         ${CMAKE_SOURCE_DIR}/src
     )
 
+    target_link_libraries(test_rag_replug_retriever_focused PRIVATE
     target_link_libraries(test_cypher_parser PRIVATE
         ${TEST_LIBS}
         themis_core
         Threads::Threads
     )
 
+    target_compile_definitions(test_rag_replug_retriever_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ReplugRetrieverFocusedTests COMMAND test_rag_replug_retriever_focused)
+
+    set_tests_properties(ReplugRetrieverFocusedTests PROPERTIES
+        LABELS "rag;replug;llm_scorer;fusion;weight_update;lsr;v2.0.0;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ReplugRetriever: ILLMScorer, HeuristicLLMScorer, fuse(), updateRetrieverWeights(), ReplugRetrieverFactory")
+else()
+    message(STATUS "ReplugRetriever focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_replug_retriever.cpp")
+endif()
+
+# RLAIFTrainer focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_rlaif_trainer.cpp")
+    message(STATUS "Adding RLAIFTrainer focused tests (RAG module, Constitutional AI / RLAIF, v2.0.0)")
+
+    add_executable(test_rag_rlaif_trainer_focused
+        test_rag_rlaif_trainer.cpp
+        ${CMAKE_SOURCE_DIR}/src/rag/rlaif_trainer.cpp
+    )
+
+    target_include_directories(test_rag_rlaif_trainer_focused PRIVATE
     target_compile_definitions(test_cypher_parser PRIVATE
         THEMIS_TEST_BUILD=1
     )
@@ -17919,12 +17964,27 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gremlin_parser.cpp")
         ${CMAKE_SOURCE_DIR}/src
     )
 
+    target_link_libraries(test_rag_rlaif_trainer_focused PRIVATE
     target_link_libraries(test_gremlin_parser PRIVATE
         ${TEST_LIBS}
         themis_core
         Threads::Threads
     )
 
+    target_compile_definitions(test_rag_rlaif_trainer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RLAIFTrainerFocusedTests COMMAND test_rag_rlaif_trainer_focused)
+
+    set_tests_properties(RLAIFTrainerFocusedTests PROPERTIES
+        LABELS "rag;rlaif;constitutional_ai;preference_pairs;training;v2.0.0;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  RLAIFTrainer: IAIJudge, HeuristicAIJudge, runTrainingStep(), createPreferencePair(), processBatch(), RLAIFTrainerFactory")
+else()
+    message(STATUS "RLAIFTrainer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_rlaif_trainer.cpp")
     target_compile_definitions(test_gremlin_parser PRIVATE
         THEMIS_TEST_BUILD=1
     )

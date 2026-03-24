@@ -170,6 +170,44 @@ jobs:
                 --timeout 120 \
                 2>&1 | tee rag_distributed_evaluator_ctest.txt
 
+      # ── REPLUG: LLM-scored retrieval and ensemble fusion ──────────────────
+      #
+      # Acceptance criteria verified:
+      #   AC-13 ReplugRetriever::fuse() interpolates retrieval and LLM scores
+      #         using configured lambda weight
+      #   AC-14 HeuristicLLMScorer returns scores in [0.0, 1.0]
+      #   AC-15 ReplugRetriever::updateRetrieverWeights() adjusts weights via
+      #         KL divergence minimisation (REPLUG-LSR gradient signal)
+      #   AC-16 ReplugRetrieverFactory produces Default/WithCustomScorer instances
+      - name: Run ReplugRetrieverFocusedTests
+        run: |
+          set -o pipefail
+          cd build
+          ctest -R "ReplugRetrieverFocusedTests" \
+                --output-on-failure \
+                --timeout 120 \
+                2>&1 | tee rag_replug_retriever_ctest.txt
+
+      # ── RLAIF: Constitutional AI / RLAIF training pipeline ────────────────
+      #
+      # Acceptance criteria verified:
+      #   AC-17 HeuristicAIJudge::critique() returns a critique string with
+      #         violation_detected flag set appropriately
+      #   AC-18 HeuristicAIJudge::revise() produces a non-empty revised response
+      #   AC-19 RLAIFTrainer::runTrainingStep() generates preference pairs for
+      #         all configured constitutional strategies
+      #   AC-20 RLAIFTrainer::processBatch() returns one preference pair per
+      #         input candidate
+      #   AC-21 RLAIFTrainerFactory produces Default/WithCustomJudge instances
+      - name: Run RLAIFTrainerFocusedTests
+        run: |
+          set -o pipefail
+          cd build
+          ctest -R "RLAIFTrainerFocusedTests" \
+                --output-on-failure \
+                --timeout 120 \
+                2>&1 | tee rag_rlaif_trainer_ctest.txt
+
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
@@ -182,6 +220,8 @@ jobs:
             build/rag_streaming_retriever_ctest.txt
             build/rag_prompt_injection_ctest.txt
             build/rag_distributed_evaluator_ctest.txt
+            build/rag_replug_retriever_ctest.txt
+            build/rag_rlaif_trainer_ctest.txt
           retention-days: 30
 
       - name: Write job summary
@@ -210,3 +250,5 @@ jobs:
           echo "| ContextWindowFillerTest | Token budget enforcement |" >> "$GITHUB_STEP_SUMMARY"
           echo "| PromptInjectionDetector | Instruction-override, system-prompt leak, bidi |" >> "$GITHUB_STEP_SUMMARY"
           echo "| DistributedRAGEvaluator | MEAN/WEIGHTED_MEAN/MAJORITY_VOTING/BEST_OF_N |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| ReplugRetrieverFocusedTests | LLM-scored fusion, HeuristicLLMScorer, REPLUG-LSR (LM-Supervised Retrieval) weight update |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| RLAIFTrainerFocusedTests | Constitutional AI critique/revise, preference pairs, batch |" >> "$GITHUB_STEP_SUMMARY"
