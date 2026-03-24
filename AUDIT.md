@@ -1,6 +1,6 @@
 # ThemisDB — Security & Compliance Audit Record
 
-**Last Updated:** 2026-03-18  
+**Last Updated:** 2026-03-24  
 **Version:** 1.1  
 **Scope:** All 46 modules in `src/**`
 
@@ -185,7 +185,7 @@ Reports are saved to `audit-results-<timestamp>/comprehensive-audit-report.md`.
 **Observability:**
 - ✅ `RootCauseAnalyzer` — `analyzeIssue`, `findCorrelations`, `buildCausalGraph` (Issue #84)
 
-### v1.8.0 (2026-Q2)
+### v1.8.0 (2026-03-22)
 
 **Authentication & Authorization:**
 - ✅ JWT scope enforcement — `JWTClaims.scopes`, `role_scope_map_`, OAuth2 `scope`/`scp` claim extraction (PR [#4279](https://github.com/makr-code/ThemisDB/pull/4279))
