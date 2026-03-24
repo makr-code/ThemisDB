@@ -17846,4 +17846,49 @@ else()
     message(STATUS "Compute interface focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_compute_interfaces.cpp")
 endif()
 
+# QueryFederation shard-key routing focused tests (v1.9.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/query/test_query_federation_routing.cpp")
+    message(STATUS "Adding QueryFederation shard-key routing focused tests (query, v1.9.0)")
+
+    add_executable(test_query_federation_routing_focused
+        query/test_query_federation_routing.cpp
+        ${CMAKE_SOURCE_DIR}/src/query/query_federation.cpp
+        ${CMAKE_SOURCE_DIR}/src/sharding/sharding_manager_edition.cpp
+        ${CMAKE_SOURCE_DIR}/src/sharding/consistent_hash.cpp
+        ${CMAKE_SOURCE_DIR}/src/sharding/shard_topology.cpp
+        ${CMAKE_SOURCE_DIR}/src/sharding/urn_resolver.cpp
+        ${CMAKE_SOURCE_DIR}/src/sharding/remote_executor.cpp
+        ${CMAKE_SOURCE_DIR}/src/sharding/shard_router.cpp
+    )
+
+    target_include_directories(test_query_federation_routing_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_query_federation_routing_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_query_federation_routing_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME QueryFederationRoutingFocusedTests
+        COMMAND test_query_federation_routing_focused)
+
+    set_tests_properties(QueryFederationRoutingFocusedTests PROPERTIES
+        LABELS "query;federation;shard-key;routing;point-lookup;range;broadcast;v1.9.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  QueryFederation: point-lookup→1 shard, range→subset, full-scan→broadcast; ShardingManager::GetShardForKey+GetShardsForKeyRange")
+else()
+    message(STATUS "QueryFederation routing tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/query/test_query_federation_routing.cpp")
+endif()
+
 message(STATUS "Tests configured successfully")
