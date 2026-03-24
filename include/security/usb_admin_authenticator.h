@@ -31,6 +31,8 @@
 #include <mutex>
 #include <unordered_map>
 
+#include "security/usb_volume_hardening.h"
+
 namespace themis {
 namespace security {
 
@@ -72,6 +74,24 @@ struct USBAdminConfig {
         "admin:topology",
         "admin:rebalance"
     };
+
+    // ── USB Volume Hardening (defence against FAT manipulation) ───────────────
+
+    /// When true, refreshUSBStatus() rejects the USB unless the filesystem is
+    /// mounted read-only.  A read-only mount prevents any process running on the
+    /// host from writing to the stick while it is in use.
+    bool require_readonly_mount = false;
+
+    /// If non-empty, refreshUSBStatus() rejects the USB unless the SHA-256 hash
+    /// of the license file matches this value (lowercase hex, 64 chars).
+    /// Provision this value from a secure, server-side configuration store.
+    /// Any FAT-level modification of the license file will be detected.
+    std::string expected_volume_hash;
+
+    /// If non-empty, refreshUSBStatus() rejects the USB unless the device serial
+    /// number matches this value.  This prevents a `dd` clone of the stick from
+    /// being accepted on the same or a different host.
+    std::string expected_usb_serial;
 };
 
 /// USB Admin Authenticator
@@ -118,6 +138,9 @@ public:
         uint64_t admin_ops_denied_lockout = 0;
         uint64_t usb_mount_checks = 0;
         uint64_t usb_mount_detected = 0;
+        uint64_t usb_denied_not_readonly = 0;      ///< Rejected: filesystem not mounted read-only
+        uint64_t usb_denied_volume_hash_mismatch = 0; ///< Rejected: FAT-level file tampering detected
+        uint64_t usb_denied_serial_mismatch = 0;   ///< Rejected: cloned USB device detected
         std::chrono::system_clock::time_point last_valid_check;
     };
     

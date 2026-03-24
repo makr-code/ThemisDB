@@ -25,6 +25,7 @@
 #pragma once
 
 #include <string>
+#include <stdexcept>
 
 namespace themis {
 namespace plugins {

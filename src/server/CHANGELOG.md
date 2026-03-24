@@ -8,6 +8,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [1.9.0] — 2026-03-23
+### Added
+- **MQTT Client Service** (`include/server/mqtt_client_service.h`, `src/server/mqtt_client_service.cpp`) — bidirectional MQTT integration for real-time environments
+  - `MqttClientConfig` — broker host/port, credentials, TLS paths, keepalive, CDC topic prefix/QoS, retry policy, outbound-queue limit
+  - `MqttClientStats` — atomic counters: messages_published, messages_received, bytes_sent/received, connect_count, reconnect_count, publish_errors, subscribe_count, is_connected
+  - `IMqttMessageHandler` — callback interface with `onMessage()` (required), `onConnected()` and `onDisconnected()` (default no-ops); all `noexcept`
+  - `MqttCDCTransport : ICDCTransport` — CDC → MQTT bridge; maps `Changefeed::ChangeEvent` to `{prefix}{collection}/{EVENT_TYPE}` topics; configurable prefix and QoS at runtime
+  - `MqttClientService` — Boost.Asio async I/O client; background thread; automatic reconnect with `MqttRetryConfig` exponential back-off; `publish()` / `subscribe()` / `unsubscribe()` thread-safe via `asio::post()`; `registerWithServiceRegistry()` / `unregisterFromServiceRegistry()` for service discovery
+  - 31 unit tests in `tests/test_mqtt_client_service.cpp`
+  - CI: `.github/workflows/mqtt-client-service-ci.yml`
+  - No-op stubs compiled when `THEMIS_ENABLE_MQTT` is absent (zero overhead)
+
 ## [1.5.0] — 2026-03-12
 ### Added
 - HTTP/3 (QUIC) transport support
