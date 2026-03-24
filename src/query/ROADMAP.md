@@ -55,6 +55,8 @@ One open item remains: `QueryFederation` shard-key routing (currently broadcasts
 - [x] Per-query resource limits (`query_resource_limits.h`): `max_rows`, `max_memory_bytes`, `timeout_ms` enforced pre-execution and at every 1,000-row batch boundary
 - [x] Query JIT compiler (`query_compiler.cpp`): hot-query detection (configurable threshold, default 100 executions), specialised execution path, interpreter fallback on compilation failure
 - [x] `QueryEngine::createDefault()` factory: throws `std::runtime_error` (concrete interface adapters not yet wired; use constructor injection)
+- [x] Cypher compatibility layer (`cypher_parser.cpp`): MATCH/WHERE/RETURN parser + `CypherToAQLTranspiler` (v1.6.0)
+- [x] Gremlin compatibility layer (`gremlin_parser.cpp`): Apache TinkerPop Gremlin traversal parser + `GremlinToAQLTranspiler` (v1.6.0)
 
 ## In Progress 🚧
 

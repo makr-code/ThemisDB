@@ -17753,4 +17753,78 @@ else()
     message(STATUS "Compute interface focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_compute_interfaces.cpp")
 endif()
 
+# ---------------------------------------------------------------------------
+# CypherParserFocusedTests (30 tests) – v1.6.0
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cypher_parser.cpp")
+    message(STATUS "Adding CypherParser focused tests (Cypher/AQL transpiler, v1.6.0)")
+
+    add_executable(test_cypher_parser
+        test_cypher_parser.cpp
+    )
+
+    target_include_directories(test_cypher_parser PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_cypher_parser PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cypher_parser PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CypherParserFocusedTests COMMAND test_cypher_parser)
+
+    set_tests_properties(CypherParserFocusedTests PROPERTIES
+        LABELS "query;cypher;parser;transpiler;v1.6.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CypherParser: MATCH/WHERE/RETURN, relationship patterns, AQL transpilation (30 tests)")
+else()
+    message(STATUS "Cypher parser focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cypher_parser.cpp")
+endif()
+
+# ---------------------------------------------------------------------------
+# GremlinParserFocusedTests (30 tests) – v1.6.0
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gremlin_parser.cpp")
+    message(STATUS "Adding GremlinParser focused tests (Gremlin/AQL transpiler, v1.6.0)")
+
+    add_executable(test_gremlin_parser
+        test_gremlin_parser.cpp
+    )
+
+    target_include_directories(test_gremlin_parser PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_gremlin_parser PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_gremlin_parser PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GremlinParserFocusedTests COMMAND test_gremlin_parser)
+
+    set_tests_properties(GremlinParserFocusedTests PROPERTIES
+        LABELS "query;gremlin;parser;transpiler;v1.6.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  GremlinParser: g.V()/g.E(), hasLabel/has/hasNot, out/in/both, values/valueMap, count/dedup, limit/range/order().by(), AQL transpilation (30 tests)")
+else()
+    message(STATUS "Gremlin parser focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_gremlin_parser.cpp")
+endif()
+
 message(STATUS "Tests configured successfully")
