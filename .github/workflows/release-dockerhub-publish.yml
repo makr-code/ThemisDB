@@ -1,0 +1,97 @@
+name: "[Manual] Publish Docker Image to Docker Hub"
+
+# ---------------------------------------------------------------------------
+# ROOT-LEVEL TRIGGER
+# ------------------
+# This file exists at the root of .github/workflows/ so that it appears in
+# the GitHub Web UI and GitHub App under the Actions tab.
+#
+# GitHub only shows workflow_dispatch triggers for workflows directly in
+# .github/workflows/. The real implementation lives in:
+#   .github/workflows/04-release/dockerhub-publish-on-release.yml
+#
+# The real workflow also runs automatically on GitHub release events
+# (release: published). Use this wrapper to manually re-run it for
+# historical releases, dry-run validation, or debug image builds.
+#
+# ALTERNATIVE: GitHub CLI
+#   gh workflow run "04-release/dockerhub-publish-on-release.yml" \
+#     --repo makr-code/ThemisDB --ref main \
+#     --field tag_name=v1.9.0 --field build_target=runtime --field dry_run=false
+# ---------------------------------------------------------------------------
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: "Release tag to build and push (e.g. v1.4.0 or v1.4.0-rc1)"
+        required: true
+        type: string
+      build_target:
+        description: |
+          Docker build target.
+          runtime = lean production image (default).
+          debug   = includes gdb/valgrind/strace/source; tag gets -debug suffix; no :latest.
+        required: false
+        default: "runtime"
+        type: choice
+        options:
+          - "runtime"
+          - "debug"
+      dry_run:
+        description: "Dry-run: build the image but do NOT push to Docker Hub"
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+      ref:
+        description: "Branch, tag, or SHA to run on (default: main)"
+        required: false
+        default: "main"
+        type: string
+
+permissions:
+  actions: write
+
+jobs:
+  trigger:
+    name: "Trigger › 04-release/dockerhub-publish-on-release.yml"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Dispatch workflow
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh workflow run "04-release/dockerhub-publish-on-release.yml" \
+            --repo "${{ github.repository }}" \
+            --ref "${{ inputs.ref }}" \
+            --field "tag_name=${{ inputs.tag_name }}" \
+            --field "build_target=${{ inputs.build_target }}" \
+            --field "dry_run=${{ inputs.dry_run }}"
+
+          echo "✅ Dispatched 04-release/dockerhub-publish-on-release.yml"
+          echo "   tag_name     : ${{ inputs.tag_name }}"
+          echo "   build_target : ${{ inputs.build_target }}"
+          echo "   dry_run      : ${{ inputs.dry_run }}"
+          echo "   ref          : ${{ inputs.ref }}"
+
+      - name: Write job summary
+        if: always()
+        shell: bash
+        run: |
+          echo "## 🐳 [Manual] Publish Docker Image to Docker Hub" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Tag** | \`${{ inputs.tag_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Build target** | \`${{ inputs.build_target }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Dry-run** | \`${{ inputs.dry_run }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Ref** | \`${{ inputs.ref }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Target workflow** | \`04-release/dockerhub-publish-on-release.yml\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Timestamp** | $(date -u +'%Y-%m-%d %H:%M:%S UTC') |" >> "$GITHUB_STEP_SUMMARY"
