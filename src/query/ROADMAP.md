@@ -10,6 +10,9 @@
 ## Current Status
 
 Production-ready multi-model query engine supporting relational, document, graph, vector, spatial, and timeseries query models via AQL. Phases 1–7 are complete: AQL parser, cost-based optimizer (wired to real statistics and Prometheus metrics), multi-model execution, hybrid queries (vector+geo, fulltext+geo, graph+spatial), function registry (100+ built-in functions), CTE with correlated-subquery support, semantic/exact/CTE query caches, window functions, result streaming, EXPLAIN/EXPLAIN ANALYZE, LLM integration directives, vectorized columnar execution, cross-cluster federation with shard-key routing (point-lookup + range), SPARQL/SQL compatibility layers, per-query resource limits, adaptive re-optimization, and JIT compilation for hot queries.
+Production-ready multi-model query engine supporting relational, document, graph, vector, spatial, and timeseries query models via AQL. Phases 1–6 are complete: AQL parser, cost-based optimizer (wired to real statistics and Prometheus metrics), multi-model execution, hybrid queries (vector+geo, fulltext+geo, graph+spatial), function registry (100+ built-in functions), CTE with correlated-subquery support, semantic/exact/CTE query caches, window functions, result streaming, EXPLAIN/EXPLAIN ANALYZE, LLM integration directives, vectorized columnar execution, cross-cluster federation, SPARQL/SQL compatibility layers, per-query resource limits, adaptive re-optimization, and JIT compilation for hot queries.
+
+`QueryFederation` shard-key routing is now implemented (v1.9.0): point-lookup and range queries are routed to the minimum required shard set via `ShardingManager::GetShardForKey` and `GetShardsForKeyRange`. Keyless full-collection scans still broadcast but emit a WARN when > 10 shards are targeted.
 
 ## Completed ✅
 
@@ -53,6 +56,8 @@ Production-ready multi-model query engine supporting relational, document, graph
 - [x] Per-query resource limits (`query_resource_limits.h`): `max_rows`, `max_memory_bytes`, `timeout_ms` enforced pre-execution and at every 1,000-row batch boundary
 - [x] Query JIT compiler (`query_compiler.cpp`): hot-query detection (configurable threshold, default 100 executions), specialised execution path, interpreter fallback on compilation failure
 - [x] `QueryEngine::createDefault()` factory: throws `std::runtime_error` (concrete interface adapters not yet wired; use constructor injection)
+- [x] Cypher compatibility layer (`cypher_parser.cpp`): MATCH/WHERE/RETURN parser + `CypherToAQLTranspiler` (v1.6.0)
+- [x] Gremlin compatibility layer (`gremlin_parser.cpp`): Apache TinkerPop Gremlin traversal parser + `GremlinToAQLTranspiler` (v1.6.0)
 
 ## In Progress 🚧
 
@@ -78,6 +83,12 @@ Production-ready multi-model query engine supporting relational, document, graph
 ### Short-term (v1.9.0, Q2 2026)
 
 - [ ] Edge-type filtering in graph traversal (`TraversalQuery` struct extension) (Target: v1.9.0)
+- [ ] `QueryFederation` shard-key routing (see In Progress above) (Target: v1.9.0)
+  - Inputs: AQL query with shard-key predicate; `ShardingManager` interface
+  - Outputs: routed plan executing on ≤ N relevant shards
+  - Errors: shard unreachable → skip with `WARN`; no shard-key predicate → broadcast + `WARN` if > 10 shards
+  - Tests: unit (3-shard mock) + integration (ThemisDB cluster)
+  - Perf: fan-out latency ≤ 200 ms for 16 shards on LAN
   - Inputs: `TraversalQuery::edge_type_filter` (string set)
   - Outputs: traversal restricted to matching edge types
   - Tests: unit tests asserting only matching edges are followed
@@ -190,7 +201,7 @@ Production-ready multi-model query engine supporting relational, document, graph
   - Streaming first-chunk ≤ 50 ms
 - [x] Documentation complete (`src/query/README.md`, `include/query/README.md`, `src/query/CHANGELOG.md`)
 - [x] API stability guaranteed for `AQLParser::parse`, `QueryOptimizer::optimize`, `QueryEngine::execute*`, `QueryCache::lookup`, `UDFRegistry::register_fn`
-- [ ] `QueryFederation` shard-key routing (point-lookup + range routing to replace broadcast — see In Progress)
+- [x] `QueryFederation` shard-key routing (point-lookup + range routing implemented — v1.9.0)
 
 ## Known Issues & Limitations
 

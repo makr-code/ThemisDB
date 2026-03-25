@@ -27,6 +27,64 @@ Each paper that serves as a foundation for a ThemisDB algorithm, data structure,
 | [Scaling Laws — Kaplan et al. (2020)](../LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS.md#22-scaling-laws) | `src/llm/` (model selection) | v1.3.0+ | ✅ Implemented |
 | [Graph-Process Schema and Hybrid Vector+Graph Retrieval — ThemisDB (2026)](process_graph_vector_ai_2026.md) | `src/graph/`, `src/vector/`, `src/rag/`, `src/llm/` | v1.9.0+ | 🔄 Partially Implemented |
 
+**Relational & Query:**
+
+| Paper | Module(s) | Version | Status |
+|-------|-----------|---------|--------|
+| [DuckDB — Raasveldt & Mühleisen (2019)](duckdb_olap_2019.md) | `src/query/`, `src/exporters/` | planned v2.x | ⏳ Planned |
+
+**Vector Search:**
+
+| Paper | Module(s) | Version | Status |
+|-------|-----------|---------|--------|
+| [HNSW — Malkov & Yashunin (2020)](hnsw_efficient_ann_2020.md) | `src/index/`, `src/vector/`, `src/rag/` | v1.0.0+ | ✅ Implemented |
+
+**Graph Databases:**
+
+| Paper | Module(s) | Version | Status |
+|-------|-----------|---------|--------|
+| [Graph Databases — Robinson, Webber & Eifrem (2015)](graph_databases_oreilly_2015.md) | `src/graph/`, `src/aql/` | v1.0.0+ | 🔄 Partially Implemented |
+
+**Temporal / Timeline:**
+
+| Paper | Module(s) | Version | Status |
+|-------|-----------|---------|--------|
+| [SQL:2011 Temporal Features — Kulkarni & Michels (2012)](temporal_sql2011_2012.md) | `src/temporal/`, `src/query/` | v1.x+ | 🔄 Partially Implemented |
+
+**Process Mining & BPMN:**
+
+| Paper | Module(s) | Version | Status |
+|-------|-----------|---------|--------|
+| [Process Mining — van der Aalst (2016)](process_mining_van_der_aalst_2012.md) | `src/process/`, `src/analytics/` | v1.9.0+ | 🔄 Partially Implemented |
+| [ProcessGPT — Busch et al. (2023)](processgpt_busch_2023.md) | `src/process/`, `src/llm/` | planned Q2 2026 | ⏳ Planned |
+| [ProcessTransformer — Bukhsh et al. (2021)](processtransformer_bukhsh_2021.md) | `src/process/`, `src/training/` | planned Q1 2027 | ⏳ Planned |
+
+**Graph RAG & Retrieval:**
+
+| Paper | Module(s) | Version | Status |
+|-------|-----------|---------|--------|
+| [GraphRAG — Edge et al. (2024)](graphrag_edge_2024.md) | `src/process/`, `src/rag/`, `src/graph/` | planned Q3 2026 | ⏳ Planned |
+| [HippoRAG — Gutierrez et al. (2024)](hipporag_gutierrez_2024.md) | `src/process/`, `src/rag/` | planned Q2 2026 | ⏳ Planned |
+
+**LoRA / PEFT:**
+
+| Paper | Module(s) | Version | Status |
+|-------|-----------|---------|--------|
+| [LoRA — Hu et al. (2022)](lora_low_rank_adaptation_2022.md) | `src/llm/lora/`, `src/training/` | v1.3.0+ | ✅ Implemented |
+
+**Prompt Engineering:**
+
+| Paper | Module(s) | Version | Status |
+|-------|-----------|---------|--------|
+| [Prompt Pattern Catalog — White et al. (2023)](prompt_patterns_catalog_2023.md) | `src/prompt_engineering/` | v1.2.0+ | ✅ Implemented |
+| [LMQL — Beurer-Kellner et al. (2023)](lmql_beurer_kellner_2023.md) | `src/prompt_engineering/`, `src/llm/` | planned v2.x | ⏳ Planned |
+
+**Verwaltungs-IT / Administrative IT:**
+
+| Paper | Module(s) | Version | Status |
+|-------|-----------|---------|--------|
+| [OZG / FIM / XÖV Standards](verwaltungs_it_ozg_sources.md) | `src/process/`, `src/importers/`, `src/auth/` | v1.9.0+ | 🔄 Partially Implemented |
+
 > For full IEEE citations and implementation details, see [LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS.md](../LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS.md).
 
 ## Adding a New Paper

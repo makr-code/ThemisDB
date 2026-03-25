@@ -10,9 +10,9 @@
 
 ## Current Status
 
-Public headers at v1.8.0. JWT, OAuth 2.0 (device flow, PKCE), OIDC, LDAP, SAML,
+Public headers at v1.9.0. JWT, OAuth 2.0 (device flow, PKCE), OIDC, LDAP, SAML,
 Kerberos/GSSAPI, mTLS, WebAuthn, TOTP MFA, API key, federated identity, zero-trust,
-session management, and token blacklisting (Redis + RocksDB) are all stable.
+session management, token blacklisting (Redis + RocksDB), and German eID Online-Ausweisfunktion are all stable.
 
 ---
 
@@ -34,6 +34,7 @@ session management, and token blacklisting (Redis + RocksDB) are all stable.
 - [x] Session management with refresh
 - [x] Secure memory for credential handling
 - [x] Auth audit logging and rate limiting
+- [x] German eID Online-Ausweisfunktion (`eid_authenticator.h`) — BSI TR-03130/TR-03110/TR-03127, eIDAS LoA HIGH
 
 ---
 

@@ -7,7 +7,7 @@
 
 ## Current Status
 
-v2.1.0 — Production-ready. 33 public headers. 9 source connectors, MDM engine, blockchain integrity, federated learning, GUI wizard.
+v2.2.0 — Production-ready. 35 public headers. 9 source connectors, MDM engine, blockchain integrity, federated learning, GUI wizard, OZG service registry, XÖV importer.
 
 ## Completed ✅
 
@@ -20,6 +20,8 @@ v2.1.0 — Production-ready. 33 public headers. 9 source connectors, MDM engine,
 - [x] Blockchain-anchored integrity (stub Ethereum anchor)
 - [x] Federated learning data partitioning (FedAvg; FedProx stub)
 - [x] GUI import wizard interface
+- [x] `ozg_service_registry.h` — OZG 2.0 service catalog registry (`IOZGServiceRegistry`, `InMemoryOZGServiceRegistry`)
+- [x] `xoev_importer.h` — XÖV data model importer/exporter (`IXOEVImporter`, `InMemoryXOEVImporter`)
 
 ## Planned
 

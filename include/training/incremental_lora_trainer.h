@@ -190,6 +190,12 @@ struct IncrementalTrainingConfig {
     // Checkpoint directory (non-empty enables LoRACheckpointManager integration)
     std::string checkpoint_dir;           ///< Directory for checkpoint files
 
+    // LoRA+ asymmetric learning rate (Hayou et al., 2024)
+    // When > 1.0, B matrices use lr * lora_plus_lambda and A matrices use lr.
+    // This yields faster convergence and better downstream task performance.
+    // Set to 1.0 (default) to use standard LoRA (single learning rate for A and B).
+    float lora_plus_lambda = 1.0f;        ///< LoRA+ λ ratio (B lr = lr * λ, A lr = lr)
+
     IncrementalTrainingConfig() = default;
 };
 

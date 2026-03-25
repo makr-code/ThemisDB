@@ -24,6 +24,7 @@
 
 #include "sharding/shard_router.h"
 #include "sharding/urn_resolver.h"
+#include "sharding/sharding_manager.h"
 #include "query/query_optimizer.h"
 #include <string>
 #include <vector>
@@ -121,6 +122,25 @@ public:
         std::shared_ptr<sharding::ShardRouter> shard_router,
         const Config& config
     );
+    /**
+     * @brief Construct query federation engine with explicit ShardingManager
+     *
+     * Enables shard-key routing (point-lookup and range queries) so that
+     * only the relevant shards are consulted instead of broadcasting to all.
+     *
+     * @param shard_router      Shard router for execution
+     * @param sharding_manager  ShardingManager owning the consistent-hash ring
+     * @param config            Optional configuration
+     */
+    QueryFederation(
+        std::shared_ptr<sharding::ShardRouter> shard_router,
+        sharding::ShardingManager& sharding_manager
+    );
+    QueryFederation(
+        std::shared_ptr<sharding::ShardRouter> shard_router,
+        sharding::ShardingManager& sharding_manager,
+        const Config& config
+    );
     
     /**
      * @brief Execute federated query
@@ -188,6 +208,8 @@ public:
 
 private:
     std::shared_ptr<sharding::ShardRouter> shard_router_;
+    // Non-owning pointer; nullptr when no ShardingManager was injected.
+    sharding::ShardingManager* sharding_manager_ = nullptr;
     Config config_;
     
     // Statistics
@@ -231,6 +253,14 @@ private:
         // Extended for adaptive capability-based routing
         std::string query_text;               // Original query text
         std::vector<float> embeddings;        // Query embeddings for semantic matching
+
+        // Shard-key routing fields (populated by analyzeQuery)
+        // Set when the query contains an equality predicate on _key:
+        //   FILTER doc._key == "<value>"
+        std::optional<std::string> point_lookup_key;
+        // Set when the query contains a range predicate on _key:
+        //   FILTER doc._key >= "<min>" AND doc._key <= "<max>"
+        std::optional<std::pair<std::string, std::string>> key_range;
     };
     QueryMetadata analyzeQuery(const std::string& query);
     

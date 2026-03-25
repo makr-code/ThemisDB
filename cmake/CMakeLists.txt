@@ -1573,6 +1573,8 @@ set(THEMIS_CORE_SOURCES
     ../src/query/query_plan_visualizer.cpp
     ../src/query/sql_parser.cpp
     ../src/query/sparql_parser.cpp
+    ../src/query/cypher_parser.cpp
+    ../src/query/gremlin_parser.cpp
     ../src/query/let_evaluator.cpp
     ../src/query/window_evaluator.cpp
     ../src/query/cte_subquery.cpp
@@ -1615,6 +1617,15 @@ set(THEMIS_CORE_SOURCES
     ../src/prompt_engineering/rag_prompt_builder.cpp
     ../src/prompt_engineering/system_prompt_manager.cpp
     ../src/prompt_engineering/context_window_manager.cpp
+    ../src/prompt_engineering/reflection_tuner.cpp
+    ../src/prompt_engineering/llm_reflection_adapter.cpp
+    ../src/prompt_engineering/cot_tracer.cpp
+    ../src/prompt_engineering/prompt_regression_runner.cpp
+    ../src/prompt_engineering/prompt_ab_experiment.cpp
+    ../src/prompt_engineering/prompt_library_io.cpp
+    ../src/prompt_engineering/tree_of_thoughts.cpp
+    ../src/prompt_engineering/protegi_optimizer.cpp
+    ../src/prompt_engineering/dspy_module.cpp
     
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/transaction_api_handler.cpp>

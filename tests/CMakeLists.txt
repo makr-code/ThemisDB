@@ -91,6 +91,8 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_rag_calibration_manager\\.cpp$"
         ".*test_rag_batch_evaluator\\.cpp$"
         ".*test_rag_pipeline_integration\\.cpp$"
+        ".*test_rag_replug_retriever\\.cpp$"
+        ".*test_rag_rlaif_trainer\\.cpp$"
         ".*test_raid_lora_integration\\.cpp$"
         ".*test_training_service_registry\\.cpp$"
         ".*test_signature_verifier\\.cpp$"
@@ -897,6 +899,10 @@ if(NOT THEMIS_ENABLE_LLM)
         ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_batch_evaluator.cpp
         # Pipeline integration test (heuristic/FAST mode, no LLM dependency).
         ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_pipeline_integration.cpp
+        # ReplugRetriever and RLAIFTrainer have no hard LLM runtime dependency
+        # (all LLM calls go through pluggable interfaces with heuristic defaults).
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_replug_retriever.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_rlaif_trainer.cpp
     )
 endif()
 
@@ -926,6 +932,8 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_SOURCE_DIR}/src/rag/evaluation_cache.cpp
     ${CMAKE_SOURCE_DIR}/src/rag/calibration_manager.cpp
     ${CMAKE_SOURCE_DIR}/src/rag/batch_evaluator.cpp
+    ${CMAKE_SOURCE_DIR}/src/rag/replug_retriever.cpp
+    ${CMAKE_SOURCE_DIR}/src/rag/rlaif_trainer.cpp
     ${CMAKE_SOURCE_DIR}/src/server/cdn_cache_middleware.cpp
 )
 
@@ -6760,6 +6768,42 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_mining_llm.cpp")
     )
 
     message(STATUS "  ProcessMiningPattern: conformance, compliance, fraud detection, activity prediction")
+endif()
+
+# Process Discovery & Conformance Checking focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_discovery_conformance.cpp")
+    message(STATUS "Adding focused process discovery and conformance checking tests")
+
+    add_executable(test_process_discovery_conformance_focused
+        analytics/test_process_discovery_conformance.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/process_mining.cpp
+    )
+
+    target_include_directories(test_process_discovery_conformance_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_process_discovery_conformance_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_process_discovery_conformance_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ProcessDiscoveryConformanceFocusedTests
+             COMMAND test_process_discovery_conformance_focused)
+
+    set_tests_properties(ProcessDiscoveryConformanceFocusedTests PROPERTIES
+        LABELS "analytics;process-mining;inductive-miner;conformance;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ProcessDiscoveryConformance: Inductive Miner, alignment conformance checking")
 endif()
 
 # ============================================================================
@@ -14092,6 +14136,14 @@ add_index_focused_test(
     "IndexCompression: delta encoding, prefix compression, bloom filters, dictionary encoding, RLE (v1.7.0)"
 )
 
+add_index_focused_test(
+    test_matryoshka_truncation_focused
+    index/test_matryoshka_truncation.cpp
+    MatryoshkaTruncationFocusedTests
+    "index;matryoshka;mrl;truncation;ann;scann;focused;unit"
+    "MatryoshkaTruncation: MRL prefix truncation, L2 normalisation, MatryoshkaTruncatedIndex IAnnIndex wrapper (v1.8.0)"
+)
+
 # ============================================================================
 # Cache Interfaces Tests (Issue: #1596 — unit test coverage >80%)
 # ============================================================================
@@ -14136,6 +14188,38 @@ add_prompt_focused_test(
 )
 
 add_prompt_focused_test(
+    test_cot_tracer_focused
+    test_cot_tracer.cpp
+    CoTTracerFocusedTests
+    "prompt_engineering;cot;tracer;cot_tracer;recording;collector;unit"
+    "IChainOfThoughtTracer, RecordingCoTTracer, CoTTraceCollector, ChainOfThoughtBuilder tracer wiring (AC-1 through AC-30)"
+)
+
+add_prompt_focused_test(
+    test_prompt_regression_runner_focused
+    test_prompt_regression_runner.cpp
+    PromptRegressionRunnerFocusedTests
+    "prompt_engineering;regression;quality;fixtures;feedback;unit"
+    "PromptRegressionRunner: golden fixtures, feedback integration, regression detection, block gate, log callback (AC-1 through AC-30)"
+)
+
+add_prompt_focused_test(
+    test_prompt_ab_experiment_focused
+    test_prompt_ab_experiment.cpp
+    PromptABExperimentFocusedTests
+    "prompt_engineering;ab_testing;experiment;traffic_split;winner_promotion;unit"
+    "PromptABExperimentFramework: create/stop, assignVariant (murmur3), recordOutcome, checkSignificance, promoteWinner, getSummary (AC-1 through AC-30)"
+)
+
+add_prompt_focused_test(
+    test_prompt_library_io_focused
+    test_prompt_library_io.cpp
+    PromptLibraryIOFocusedTests
+    "prompt_engineering;library_io;import;export;json;yaml;checksum;unit"
+    "PromptLibraryIO: JSON/YAML import+export, FNV-1a checksum, file round-trip, cross-env portability (AC-1 through AC-30)"
+)
+
+add_prompt_focused_test(
     test_rag_prompt_builder_focused
     test_rag_prompt_builder.cpp
     RAGPromptBuilderFocusedTests
@@ -14173,6 +14257,43 @@ add_prompt_focused_test(
     ContextWindowBudgetManagerFocusedTests
     "prompt_engineering;context_window;token_budget;budget_enforcement;unit"
     "ContextWindowBudgetManager: token counting, greedy chunk selection, budget enforcement, PromptBudgetExceededError"
+)
+
+add_prompt_focused_test(
+    test_reflection_tuner_focused
+    test_reflection_tuner.cpp
+    ReflectionTunerFocusedTests
+    "prompt_engineering;reflection_tuning;self_aware;hallucination_guard;dynamic_prompting;unit"
+    "ReflectionTuner: all strategies, SelfAwareContext, DynamicReflectionPromptBuilder, ReflectionHallucinationGuard, mock provider, edge cases"
+)
+
+add_prompt_focused_test(
+    test_reflection_integration_focused
+    test_reflection_integration.cpp
+    ReflectionIntegrationFocusedTests
+    "prompt_engineering;reflection_tuning;llm_adapter;metrics;integration;unit"
+    "ILLMProviderReflectionAdapter, reflection metrics, IntegrationConfig round-trip, facade wiring"
+    test_tree_of_thoughts_focused
+    test_tree_of_thoughts.cpp
+    TreeOfThoughtsFocusedTests
+    "prompt_engineering;tree_of_thoughts;tot;bfs;dfs;beam;unit"
+    "TreeOfThoughtsBuilder: BFS/DFS/BEAM search, pruning, custom generator/evaluator (v2.0.0)"
+)
+
+add_prompt_focused_test(
+    test_protegi_optimizer_focused
+    test_protegi_optimizer.cpp
+    ProTeGiOptimizerFocusedTests
+    "prompt_engineering;protegi;textual_gradient;beam_search;optimizer;unit"
+    "ProTeGiOptimizer: textual gradient descent, beam search, mini-batch critique, convergence (v2.0.0)"
+)
+
+add_prompt_focused_test(
+    test_dspy_module_focused
+    test_dspy_module.cpp
+    DspyModuleFocusedTests
+    "prompt_engineering;dspy;signature;predict;chain_of_thought;unit"
+    "DspyModule: DspySignature, DspyPredict, DspyChainOfThought, EchoDspyLLMProvider (v2.0.0)"
 )
 
 # ============================================================================
@@ -14883,6 +15004,77 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_advanced_training_features.cpp")
     message(STATUS "  AdvancedTrainingFeatures: QuantizationConfig, multi-GPU config, TrainingMetrics, EpochMetrics, getMetrics(), checkpoint dir")
 else()
     message(STATUS "AdvancedTrainingFeatures focused tests not found")
+endif()
+
+# AdaLoRA focused tests – importance-based rank pruning (Phase: AdaLoRA)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ada_lora_adapter.cpp")
+    message(STATUS "Adding AdaLoRA focused tests")
+
+    add_executable(test_ada_lora_adapter_focused
+        test_ada_lora_adapter.cpp
+        ${THEMIS_ROOT_DIR}/src/training/ada_lora_adapter.cpp
+    )
+
+    target_include_directories(test_ada_lora_adapter_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_ada_lora_adapter_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ada_lora_adapter_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AdaLoRAFocusedTests COMMAND test_ada_lora_adapter_focused)
+
+    set_tests_properties(AdaLoRAFocusedTests PROPERTIES
+        LABELS "training;ada-lora;rank-pruning;importance;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  AdaLoRA: addLayer, importance scoring, rank reallocation, forward pass, weight access")
+else()
+    message(STATUS "AdaLoRA focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ada_lora_adapter.cpp")
+endif()
+
+# LoRAMerger focused tests – linear + TIES merge (Phase: multi-adapter)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_adapter_merger.cpp")
+    message(STATUS "Adding LoRAMerger focused tests")
+
+    add_executable(test_lora_adapter_merger_focused
+        test_lora_adapter_merger.cpp
+        ${THEMIS_ROOT_DIR}/src/training/lora_adapter_merger.cpp
+        ${THEMIS_ROOT_DIR}/src/training/lora_adapter.cpp
+    )
+
+    target_include_directories(test_lora_adapter_merger_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_lora_adapter_merger_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_lora_adapter_merger_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME LoRAMergerFocusedTests COMMAND test_lora_adapter_merger_focused)
+
+    set_tests_properties(LoRAMergerFocusedTests PROPERTIES
+        LABELS "training;lora;merge;ties;linear;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  LoRAMerger: mergeLinear, mergeTIES, mergeLinearAll, mergeTIESAll, error handling")
+else()
+    message(STATUS "LoRAMerger focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lora_adapter_merger.cpp")
 endif()
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -16031,6 +16223,42 @@ else()
     message(STATUS "Query JIT Compilation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_query_jit_compilation.cpp")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_vectorized_execution.cpp")
+    message(STATUS "Adding Vectorized Execution focused tests (v1.8.0, Issue #2434)")
+
+    add_executable(test_vectorized_execution_focused
+        test_vectorized_execution.cpp
+    )
+
+    target_include_directories(test_vectorized_execution_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_vectorized_execution_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_vectorized_execution_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME VectorizedExecutionFocusedTests
+        COMMAND test_vectorized_execution_focused)
+
+    set_tests_properties(VectorizedExecutionFocusedTests PROPERTIES
+        LABELS "query;vectorized;execution;simd;batch;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  VectorizedExecution: filter/project/aggregate/sort, SIMD batch ops, stats, null handling")
+else()
+    message(STATUS "Vectorized Execution tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_vectorized_execution.cpp")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_materialized_view.cpp")
     message(STATUS "Adding Materialized Views focused tests (v1.8.0, Issue #195)")
 
@@ -16577,6 +16805,22 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_uncovered.cpp")
     message(STATUS "  ShardingUncovered: OrphanDetector, ShardLoadDetector")
 endif()
 
+# ── Epoch Fencing focused tests (Phase 4.1) ───────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_epoch_fencing.cpp")
+    message(STATUS "Adding Sharding: Epoch Fencing focused tests (Phase 4.1)")
+    add_executable(test_epoch_fencing_focused test_epoch_fencing.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/epoch_fencing.cpp)
+    target_include_directories(test_epoch_fencing_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_epoch_fencing_focused PRIVATE ${TEST_LIBS} spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_epoch_fencing_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME EpochFencingFocusedTests COMMAND test_epoch_fencing_focused)
+    set_tests_properties(EpochFencingFocusedTests PROPERTIES
+        LABELS "sharding;epoch;fencing;lease;stonith;phase4;focused;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  EpochFencing: EpochFencingManager, LeaseManager, NullStonithProvider")
+endif()
+
 # Process Modeling Module focused tests
 # Covers: BpmnSerializer, EpkSerializer, VccVpbImporter, LlmProcessDescriptor,
 #         ProcessModelManager, ProcessLinker, ProcessGraphRag
@@ -16761,6 +17005,99 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_bi_temporal.cpp")
     message(STATUS "  BiTemporalTable: insert/update/delete, bi-temporal queries, gap detection, uniqueness constraints, temporal foreign keys")
 else()
     message(STATUS "BiTemporalTable tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_bi_temporal.cpp")
+endif()
+
+
+# ============================================================================
+# Temporal Module -- TemporalQueryEngine Focused Tests (v1.9.0)
+# Validates SQL:2011 FOR SYSTEM_TIME / FOR APPLICATION_TIME dispatch via
+# TemporalQuerySpec::asOf / fromTo / betweenAnd / containedIn / all.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_query_engine.cpp")
+    message(STATUS "Adding Temporal: TemporalQueryEngine + TemporalQuerySpec focused tests (v1.9.0)")
+
+    add_executable(test_temporal_query_engine_focused
+        temporal/test_temporal_query_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/temporal_query_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/system_versioned_table.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/bi_temporal.cpp
+    )
+
+    target_include_directories(test_temporal_query_engine_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_temporal_query_engine_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_temporal_query_engine_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TemporalQueryEngineFocusedTests
+        COMMAND test_temporal_query_engine_focused)
+
+    set_tests_properties(TemporalQueryEngineFocusedTests PROPERTIES
+        LABELS "temporal;query-engine;sql2011;as-of;from-to;between-and;contained-in;bitemporal;v1.9.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  TemporalQueryEngine: AS_OF, FROM_TO, BETWEEN_AND, CONTAINED_IN, ALL clauses; system-versioned + bi-temporal dispatch; deleted-row filter; TemporalQuerySpec factories")
+else()
+    message(STATUS "TemporalQueryEngine tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_query_engine.cpp")
+endif()
+
+# ============================================================================
+# Timeseries Module -- ContinuousAggMaterializationEngine Focused Tests (v1.9.0)
+# Validates TimescaleDB-style named continuous aggregate lifecycle:
+#   createAggregate / dropAggregate / listAggregates / getAggregate
+#   refreshAggregate / refreshAll (watermark pushdown, incremental)
+#   queryMaterialized / getAggregateStatus / getAllStatus
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/timeseries/test_continuous_agg_materialization.cpp")
+    message(STATUS "Adding Timeseries: ContinuousAggMaterializationEngine focused tests (v1.9.0)")
+
+    add_executable(test_continuous_agg_materialization_focused
+        timeseries/test_continuous_agg_materialization.cpp
+        ${CMAKE_SOURCE_DIR}/src/timeseries/continuous_agg.cpp
+        ${CMAKE_SOURCE_DIR}/src/timeseries/tsstore.cpp
+    )
+
+    target_include_directories(test_continuous_agg_materialization_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_continuous_agg_materialization_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    if(TARGET themis_core)
+        target_link_libraries(test_continuous_agg_materialization_focused PRIVATE themis_core)
+    endif()
+
+    target_compile_definitions(test_continuous_agg_materialization_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ContinuousAggMaterializationFocusedTests
+        COMMAND test_continuous_agg_materialization_focused)
+
+    set_tests_properties(ContinuousAggMaterializationFocusedTests PROPERTIES
+        LABELS "timeseries;continuous-agg;materialization;watermark;incremental;v1.9.0;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ContinuousAggMaterializationEngine: create/drop/list/get aggregates, refreshAggregate, refreshAll, queryMaterialized, getAggregateStatus, getAllStatus, incremental watermark, inactive/auto_refresh flags")
+else()
+    message(STATUS "ContinuousAggMaterializationEngine tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/timeseries/test_continuous_agg_materialization.cpp")
 endif()
 
 # ============================================================================
@@ -17802,6 +18139,299 @@ else()
     message(STATUS "Compute interface focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_compute_interfaces.cpp")
 endif()
 
+# QueryFederation shard-key routing focused tests (v1.9.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/query/test_query_federation_routing.cpp")
+    message(STATUS "Adding QueryFederation shard-key routing focused tests (query, v1.9.0)")
+
+    add_executable(test_query_federation_routing_focused
+        query/test_query_federation_routing.cpp
+        ${CMAKE_SOURCE_DIR}/src/query/query_federation.cpp
+        ${CMAKE_SOURCE_DIR}/src/sharding/sharding_manager_edition.cpp
+        ${CMAKE_SOURCE_DIR}/src/sharding/consistent_hash.cpp
+        ${CMAKE_SOURCE_DIR}/src/sharding/shard_topology.cpp
+        ${CMAKE_SOURCE_DIR}/src/sharding/urn_resolver.cpp
+        ${CMAKE_SOURCE_DIR}/src/sharding/remote_executor.cpp
+        ${CMAKE_SOURCE_DIR}/src/sharding/shard_router.cpp
+    )
+
+    target_include_directories(test_query_federation_routing_focused PRIVATE
+# OZG Service Registry focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ozg_service_registry.cpp")
+    message(STATUS "Adding OZG Service Registry focused tests (v2.2.0)")
+
+    add_executable(test_ozg_service_registry_focused
+        test_ozg_service_registry.cpp
+    )
+
+    target_include_directories(test_ozg_service_registry_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_ozg_service_registry_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ozg_service_registry_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME OZGServiceRegistryFocusedTests COMMAND test_ozg_service_registry_focused)
+
+    set_tests_properties(OZGServiceRegistryFocusedTests PROPERTIES
+        LABELS "importers;ozg;german-gov;service-registry;v2.2.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  OZGServiceRegistry: registerService, findById/ByStatus/ByState/ByComplianceTag, updateService, removeService, thread-safety, polymorphic")
+else()
+    message(STATUS "OZG Service Registry focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ozg_service_registry.cpp")
+endif()
+
+# XÖV Importer focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_xoev_importer.cpp")
+    message(STATUS "Adding XÖV Importer focused tests (v2.2.0)")
+
+    add_executable(test_xoev_importer_focused
+        test_xoev_importer.cpp
+    )
+
+    target_include_directories(test_xoev_importer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_xoev_importer_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_xoev_importer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME XOEVImporterFocusedTests COMMAND test_xoev_importer_focused)
+
+    set_tests_properties(XOEVImporterFocusedTests PROPERTIES
+        LABELS "importers;xoev;german-gov;xpersonenstand;xmeld;v2.2.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  XOEVImporter: importRecord, importFromXML, exportToXML, findByStandard, findByAktenzeichen, thread-safety, polymorphic")
+else()
+    message(STATUS "XÖV Importer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_xoev_importer.cpp")
+endif()
+
+# XDOMEA Connector focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_xdomea_connector.cpp")
+    message(STATUS "Adding XDOMEA Connector focused tests (v1.2.0)")
+
+    add_executable(test_xdomea_connector_focused
+        test_xdomea_connector.cpp
+    )
+
+    target_include_directories(test_xdomea_connector_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_xdomea_connector_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_xdomea_connector_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME XDOMEAConnectorFocusedTests COMMAND test_xdomea_connector_focused)
+
+    set_tests_properties(XDOMEAConnectorFocusedTests PROPERTIES
+        LABELS "document;xdomea;german-gov;records-management;v1.2.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  XDOMEAConnector: storeDocument, getDocument, removeDocument, listByType/Retention/Children, importFromXML, exportToXML, thread-safety, polymorphic")
+else()
+    message(STATUS "XDOMEA Connector focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_xdomea_connector.cpp")
+endif()
+
+# eID Authenticator focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_eid_authenticator.cpp")
+    message(STATUS "Adding eID Authenticator focused tests (v1.9.0)")
+
+    add_executable(test_eid_authenticator_focused
+        test_eid_authenticator.cpp
+    )
+
+    target_include_directories(test_eid_authenticator_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_eid_authenticator_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_eid_authenticator_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME EIDAuthenticatorFocusedTests COMMAND test_eid_authenticator_focused)
+
+    set_tests_properties(EIDAuthenticatorFocusedTests PROPERTIES
+        LABELS "auth;eid;bsi-tr-03130;german-gov;online-ausweisfunktion;v1.9.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  EIDAuthenticator: initialize, beginAuthSession, completeAuthSession, revokeSession, EIDIdentity attributes, fullName, thread-safety, polymorphic")
+else()
+    message(STATUS "eID Authenticator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_eid_authenticator.cpp")
+# ReplugRetriever focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_replug_retriever.cpp")
+    message(STATUS "Adding ReplugRetriever focused tests (RAG module, REPLUG-LSR, v2.0.0)")
+
+    add_executable(test_rag_replug_retriever_focused
+        test_rag_replug_retriever.cpp
+        ${CMAKE_SOURCE_DIR}/src/rag/replug_retriever.cpp
+    )
+
+    target_include_directories(test_rag_replug_retriever_focused PRIVATE
+# ---------------------------------------------------------------------------
+# CypherParserFocusedTests (30 tests) – v1.6.0
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cypher_parser.cpp")
+    message(STATUS "Adding CypherParser focused tests (Cypher/AQL transpiler, v1.6.0)")
+
+    add_executable(test_cypher_parser
+        test_cypher_parser.cpp
+    )
+
+    target_include_directories(test_cypher_parser PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_query_federation_routing_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_query_federation_routing_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME QueryFederationRoutingFocusedTests
+        COMMAND test_query_federation_routing_focused)
+
+    set_tests_properties(QueryFederationRoutingFocusedTests PROPERTIES
+        LABELS "query;federation;shard-key;routing;point-lookup;range;broadcast;v1.9.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  QueryFederation: point-lookup→1 shard, range→subset, full-scan→broadcast; ShardingManager::GetShardForKey+GetShardsForKeyRange")
+else()
+    message(STATUS "QueryFederation routing tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/query/test_query_federation_routing.cpp")
+    target_link_libraries(test_rag_replug_retriever_focused PRIVATE
+    target_link_libraries(test_cypher_parser PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_rag_replug_retriever_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ReplugRetrieverFocusedTests COMMAND test_rag_replug_retriever_focused)
+
+    set_tests_properties(ReplugRetrieverFocusedTests PROPERTIES
+        LABELS "rag;replug;llm_scorer;fusion;weight_update;lsr;v2.0.0;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ReplugRetriever: ILLMScorer, HeuristicLLMScorer, fuse(), updateRetrieverWeights(), ReplugRetrieverFactory")
+else()
+    message(STATUS "ReplugRetriever focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_replug_retriever.cpp")
+endif()
+
+# RLAIFTrainer focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_rlaif_trainer.cpp")
+    message(STATUS "Adding RLAIFTrainer focused tests (RAG module, Constitutional AI / RLAIF, v2.0.0)")
+
+    add_executable(test_rag_rlaif_trainer_focused
+        test_rag_rlaif_trainer.cpp
+        ${CMAKE_SOURCE_DIR}/src/rag/rlaif_trainer.cpp
+    )
+
+    target_include_directories(test_rag_rlaif_trainer_focused PRIVATE
+    target_compile_definitions(test_cypher_parser PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CypherParserFocusedTests COMMAND test_cypher_parser)
+
+    set_tests_properties(CypherParserFocusedTests PROPERTIES
+        LABELS "query;cypher;parser;transpiler;v1.6.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CypherParser: MATCH/WHERE/RETURN, relationship patterns, AQL transpilation (30 tests)")
+else()
+    message(STATUS "Cypher parser focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cypher_parser.cpp")
+endif()
+
+# ---------------------------------------------------------------------------
+# GremlinParserFocusedTests (30 tests) – v1.6.0
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gremlin_parser.cpp")
+    message(STATUS "Adding GremlinParser focused tests (Gremlin/AQL transpiler, v1.6.0)")
+
+    add_executable(test_gremlin_parser
+        test_gremlin_parser.cpp
+    )
+
+    target_include_directories(test_gremlin_parser PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_rag_rlaif_trainer_focused PRIVATE
+    target_link_libraries(test_gremlin_parser PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_rag_rlaif_trainer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RLAIFTrainerFocusedTests COMMAND test_rag_rlaif_trainer_focused)
+
+    set_tests_properties(RLAIFTrainerFocusedTests PROPERTIES
+        LABELS "rag;rlaif;constitutional_ai;preference_pairs;training;v2.0.0;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  RLAIFTrainer: IAIJudge, HeuristicAIJudge, runTrainingStep(), createPreferencePair(), processBatch(), RLAIFTrainerFactory")
+else()
+    message(STATUS "RLAIFTrainer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_rlaif_trainer.cpp")
+    target_compile_definitions(test_gremlin_parser PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GremlinParserFocusedTests COMMAND test_gremlin_parser)
+
+    set_tests_properties(GremlinParserFocusedTests PROPERTIES
+        LABELS "query;gremlin;parser;transpiler;v1.6.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  GremlinParser: g.V()/g.E(), hasLabel/has/hasNot, out/in/both, values/valueMap, count/dedup, limit/range/order().by(), AQL transpilation (30 tests)")
+else()
+    message(STATUS "Gremlin parser focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_gremlin_parser.cpp")
 # ============================================================================
 # MQTT Client Service Focused Tests (v1.9.0 — MqttClientService /
 # MqttCDCTransport / IMqttMessageHandler; bidirectional MQTT client)

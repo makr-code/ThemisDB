@@ -28,6 +28,7 @@
 - [x] Bitemporal joins: combined transaction-time + valid-time join predicates (`TemporalQueryEngine::joinBiTemporal`)
 - [x] SEQUENCED vs. NON-SEQUENCED temporal query semantics per SQL:2011 §4.16.5 (`TemporalQueryEngine::queryWithSemantics`)
 - [x] **Time-Travel Query Engine (v1.2.0):** `queryBetween` (FOR SYSTEM_TIME BETWEEN…AND), `queryApplicationTime` / `queryApplicationTimeRange` (FOR APPLICATION_TIME), `queryAsOfWithIndex` (index-accelerated version pruning), `QueryCache` + `detail::queryAsOfCached` (result caching for frequently accessed historical data) (`temporal_query_engine.cpp`)
+- [x] **SQL:2011 Temporal Query Dispatcher (v1.9.0):** `TemporalClause` enum (AS_OF, FROM_TO, BETWEEN_AND, CONTAINED_IN, ALL), `TemporalQuerySpec` struct with factory methods (`asOf`, `fromTo`, `betweenAnd`, `containedIn`, `all`), `TemporalQueryEngine::executeTemporalQuery()` overloads for both `SystemVersionedTable` and `BiTemporalTable`; `include_deleted` flag to suppress logically-deleted rows (`temporal_query_engine.cpp`)
 
 ## In Progress 🚧
 *(no items currently in progress)*
