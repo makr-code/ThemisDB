@@ -284,4 +284,130 @@ void ContinuousAggregateManager::refreshHierarchy(const RollupHierarchy& hierarc
     }
 }
 
+// ============================================================
+// ContinuousAggMaterializationEngine
+// ============================================================
+
+ContinuousAggMaterializationEngine::ContinuousAggMaterializationEngine(TSStore* store)
+    : store_(store)
+    , wm_store_(store)
+    , mgr_(store) {}
+
+bool ContinuousAggMaterializationEngine::createAggregate(ContinuousAggDefinition def) {
+    if (defs_.count(def.name)) {
+        return false; // duplicate name
+    }
+    // Auto-populate agg_id from name + derived metric name so the watermark key
+    // is stable and human-readable regardless of how the caller configured it.
+    const std::string derived = ContinuousAggregateManager::derivedMetricName(
+        def.config.metric, def.config.window.size);
+    def.agg_id = def.name + "::" + derived;
+
+    def_order_.push_back(def.name);
+    defs_.emplace(def.name, std::move(def));
+    return true;
+}
+
+bool ContinuousAggMaterializationEngine::dropAggregate(const std::string& name) {
+    auto it = defs_.find(name);
+    if (it == defs_.end()) {
+        return false;
+    }
+    // Remove the persisted watermark so a re-created aggregate starts fresh.
+    wm_store_.deleteWatermark(it->second.agg_id);
+
+    defs_.erase(it);
+    def_order_.erase(
+        std::remove(def_order_.begin(), def_order_.end(), name),
+        def_order_.end());
+    return true;
+}
+
+std::optional<ContinuousAggDefinition>
+ContinuousAggMaterializationEngine::getAggregate(const std::string& name) const {
+    auto it = defs_.find(name);
+    if (it == defs_.end()) return std::nullopt;
+    return it->second;
+}
+
+std::vector<std::string> ContinuousAggMaterializationEngine::listAggregates() const {
+    return def_order_; // stable insertion order
+}
+
+size_t ContinuousAggMaterializationEngine::refreshAggregate(
+    const std::string& name, int64_t to_ms) {
+
+    auto it = defs_.find(name);
+    if (it == defs_.end()) return 0;
+
+    ContinuousAggDefinition& def = it->second;
+    if (def.status == ContinuousAggStatus::INACTIVE) return 0;
+
+    return mgr_.refreshIncremental(def.config, def.agg_id, to_ms, wm_store_);
+}
+
+size_t ContinuousAggMaterializationEngine::refreshAll(int64_t to_ms) {
+    size_t total = 0;
+    for (const auto& name : def_order_) {
+        auto it = defs_.find(name);
+        if (it == defs_.end()) continue;
+        if (!it->second.auto_refresh) continue;
+        if (it->second.status == ContinuousAggStatus::INACTIVE) continue;
+        total += mgr_.refreshIncremental(it->second.config, it->second.agg_id,
+                                         to_ms, wm_store_);
+    }
+    return total;
+}
+
+std::vector<TSStore::DataPoint>
+ContinuousAggMaterializationEngine::queryMaterialized(
+    const std::string& name, int64_t from_ms, int64_t to_ms) const {
+
+    auto it = defs_.find(name);
+    if (it == defs_.end()) return {};
+
+    if (!store_) return {};
+
+    TSStore::QueryOptions qopt;
+    qopt.metric            = ContinuousAggregateManager::derivedMetricName(
+                                it->second.config.metric,
+                                it->second.config.window.size);
+    qopt.entity            = it->second.config.entity.value_or("");
+    qopt.from_timestamp_ms = from_ms;
+    qopt.to_timestamp_ms   = to_ms;
+    qopt.limit             = 1000000;
+
+    auto result = store_->query(qopt);
+    if (!result.has_value()) return {};
+    return *result;
+}
+
+std::optional<ContinuousAggMaterializationStatus>
+ContinuousAggMaterializationEngine::getAggregateStatus(const std::string& name) const {
+    auto it = defs_.find(name);
+    if (it == defs_.end()) return std::nullopt;
+
+    const ContinuousAggDefinition& def = it->second;
+    ContinuousAggMaterializationStatus s;
+    s.name           = def.name;
+    s.derived_metric = ContinuousAggregateManager::derivedMetricName(
+                           def.config.metric, def.config.window.size);
+    s.watermark_ms   = wm_store_.getWatermark(def.agg_id);
+    s.status         = def.status;
+    s.windows_written = 0;
+    return s;
+}
+
+std::vector<ContinuousAggMaterializationStatus>
+ContinuousAggMaterializationEngine::getAllStatus() const {
+    std::vector<ContinuousAggMaterializationStatus> result;
+    result.reserve(def_order_.size());
+    for (const auto& name : def_order_) {
+        auto s = getAggregateStatus(name);
+        if (s.has_value()) result.push_back(std::move(*s));
+    }
+    return result;
+}
+
+
 } // namespace themis

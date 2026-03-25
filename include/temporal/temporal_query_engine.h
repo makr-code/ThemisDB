@@ -90,6 +90,75 @@ struct RowFilter {
     }
 };
 
+// ============================================================================
+// TemporalQuerySpec — structured SQL:2011 FOR SYSTEM_TIME / FOR APPLICATION_TIME
+// ============================================================================
+
+/**
+ * SQL:2011 temporal clause type (§7.6).
+ *
+ * AS_OF          — FOR SYSTEM_TIME AS OF <timestamp>
+ *                  Returns all rows current at the given instant.
+ *
+ * FROM_TO        — FOR SYSTEM_TIME FROM <start> TO <end>
+ *                  Returns all row versions whose sys_time overlaps [start, end).
+ *
+ * BETWEEN_AND    — FOR SYSTEM_TIME BETWEEN <start> AND <end>
+ *                  Closed-interval variant: overlaps [start, end].
+ *
+ * CONTAINED_IN   — FOR SYSTEM_TIME CONTAINED IN PERIOD (<start>, <end>)
+ *                  Returns only rows whose entire sys_time lies within [start, end).
+ *
+ * ALL            — FOR SYSTEM_TIME ALL
+ *                  Returns every stored version (equivalent to NON_SEQUENCED).
+ */
+enum class TemporalClause {
+    AS_OF,
+    FROM_TO,
+    BETWEEN_AND,
+    CONTAINED_IN,
+    ALL
+};
+
+/**
+ * Structured specification for a SQL:2011 temporal query.
+ *
+ * For AS_OF queries only start_time is used.
+ * For FROM_TO / BETWEEN_AND / CONTAINED_IN both start_time and end_time are used.
+ * For ALL neither start_time nor end_time is relevant.
+ *
+ * include_deleted: when true, rows that have been logically deleted (i.e. their
+ *   most-recent version carries an explicit "deleted" flag in their data) are
+ *   included in the result.  When false (default) such rows are excluded.
+ */
+struct TemporalQuerySpec {
+    TemporalClause clause{TemporalClause::AS_OF};
+    Timestamp start_time{0};
+    Timestamp end_time{kMaxTimestamp};
+    bool include_deleted{false};
+
+    /// Convenience factory — FOR SYSTEM_TIME AS OF <t>
+    static TemporalQuerySpec asOf(Timestamp t) noexcept {
+        return {TemporalClause::AS_OF, t, kMaxTimestamp, false};
+    }
+    /// Convenience factory — FOR SYSTEM_TIME FROM <s> TO <e>
+    static TemporalQuerySpec fromTo(Timestamp s, Timestamp e) noexcept {
+        return {TemporalClause::FROM_TO, s, e, false};
+    }
+    /// Convenience factory — FOR SYSTEM_TIME BETWEEN <s> AND <e>
+    static TemporalQuerySpec betweenAnd(Timestamp s, Timestamp e) noexcept {
+        return {TemporalClause::BETWEEN_AND, s, e, false};
+    }
+    /// Convenience factory — FOR SYSTEM_TIME CONTAINED IN PERIOD (<s>, <e>)
+    static TemporalQuerySpec containedIn(Timestamp s, Timestamp e) noexcept {
+        return {TemporalClause::CONTAINED_IN, s, e, false};
+    }
+    /// Convenience factory — FOR SYSTEM_TIME ALL
+    static TemporalQuerySpec all() noexcept {
+        return {TemporalClause::ALL, kMinTimestamp, kMaxTimestamp, true};
+    }
+};
+
 /**
  * TemporalQueryEngine
  *
@@ -296,6 +365,53 @@ public:
      */
     static bool matchesFilters(const VersionedDocument& doc,
                                const std::vector<RowFilter>& filters);
+
+    // =========================================================================
+    // executeTemporalQuery — SQL:2011 FOR SYSTEM_TIME clause dispatcher
+    // =========================================================================
+
+    /**
+     * Execute a SQL:2011 FOR SYSTEM_TIME query over a SystemVersionedTable.
+     *
+     * Dispatches to the appropriate lower-level method based on spec.clause:
+     *   AS_OF         → queryAsOf(table, spec.start_time, filters)
+     *   FROM_TO       → queryFromTo(table, spec.start_time, spec.end_time, filters)
+     *   BETWEEN_AND   → queryBetween(table, spec.start_time, spec.end_time, filters)
+     *   CONTAINED_IN  → versions whose entire sys_time ⊆ [start, end)
+     *   ALL           → all stored versions (NON_SEQUENCED over full time range)
+     *
+     * When spec.include_deleted is false (default) rows whose data contains the
+     * field "deleted" with value true are excluded from the result.
+     *
+     * @param table    Source system-versioned table.
+     * @param spec     Temporal query specification (clause type + timestamps).
+     * @param filters  Optional field-level row filters applied after the
+     *                 temporal predicate.
+     */
+    static std::vector<VersionedDocument> executeTemporalQuery(
+        const SystemVersionedTable& table,
+        const TemporalQuerySpec& spec,
+        const std::vector<RowFilter>& filters = {});
+
+    /**
+     * Execute a SQL:2011 FOR APPLICATION_TIME query over a BiTemporalTable.
+     *
+     * Dispatches based on spec.clause:
+     *   AS_OF         → queryApplicationTime(table, spec.start_time, filters)
+     *   FROM_TO       → queryApplicationTimeRange(table, spec.start_time,
+     *                                              spec.end_time, filters)
+     *   BETWEEN_AND   → queryApplicationTimeRange with closed upper bound
+     *   CONTAINED_IN  → current rows whose valid_time ⊆ [start, end)
+     *   ALL           → all current rows (all valid-time periods)
+     *
+     * @param table    Source bi-temporal table.
+     * @param spec     Temporal query specification (clause type + timestamps).
+     * @param filters  Optional field-level row filters.
+     */
+    static std::vector<VersionedDocument> executeTemporalQuery(
+        const BiTemporalTable& table,
+        const TemporalQuerySpec& spec,
+        const std::vector<RowFilter>& filters = {});
 
 };
 

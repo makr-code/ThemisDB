@@ -16917,6 +16917,99 @@ else()
     message(STATUS "BiTemporalTable tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_bi_temporal.cpp")
 endif()
 
+
+# ============================================================================
+# Temporal Module -- TemporalQueryEngine Focused Tests (v1.9.0)
+# Validates SQL:2011 FOR SYSTEM_TIME / FOR APPLICATION_TIME dispatch via
+# TemporalQuerySpec::asOf / fromTo / betweenAnd / containedIn / all.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_query_engine.cpp")
+    message(STATUS "Adding Temporal: TemporalQueryEngine + TemporalQuerySpec focused tests (v1.9.0)")
+
+    add_executable(test_temporal_query_engine_focused
+        temporal/test_temporal_query_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/temporal_query_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/system_versioned_table.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/bi_temporal.cpp
+    )
+
+    target_include_directories(test_temporal_query_engine_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_temporal_query_engine_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_temporal_query_engine_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TemporalQueryEngineFocusedTests
+        COMMAND test_temporal_query_engine_focused)
+
+    set_tests_properties(TemporalQueryEngineFocusedTests PROPERTIES
+        LABELS "temporal;query-engine;sql2011;as-of;from-to;between-and;contained-in;bitemporal;v1.9.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  TemporalQueryEngine: AS_OF, FROM_TO, BETWEEN_AND, CONTAINED_IN, ALL clauses; system-versioned + bi-temporal dispatch; deleted-row filter; TemporalQuerySpec factories")
+else()
+    message(STATUS "TemporalQueryEngine tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_query_engine.cpp")
+endif()
+
+# ============================================================================
+# Timeseries Module -- ContinuousAggMaterializationEngine Focused Tests (v1.9.0)
+# Validates TimescaleDB-style named continuous aggregate lifecycle:
+#   createAggregate / dropAggregate / listAggregates / getAggregate
+#   refreshAggregate / refreshAll (watermark pushdown, incremental)
+#   queryMaterialized / getAggregateStatus / getAllStatus
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/timeseries/test_continuous_agg_materialization.cpp")
+    message(STATUS "Adding Timeseries: ContinuousAggMaterializationEngine focused tests (v1.9.0)")
+
+    add_executable(test_continuous_agg_materialization_focused
+        timeseries/test_continuous_agg_materialization.cpp
+        ${CMAKE_SOURCE_DIR}/src/timeseries/continuous_agg.cpp
+        ${CMAKE_SOURCE_DIR}/src/timeseries/tsstore.cpp
+    )
+
+    target_include_directories(test_continuous_agg_materialization_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_continuous_agg_materialization_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    if(TARGET themis_core)
+        target_link_libraries(test_continuous_agg_materialization_focused PRIVATE themis_core)
+    endif()
+
+    target_compile_definitions(test_continuous_agg_materialization_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ContinuousAggMaterializationFocusedTests
+        COMMAND test_continuous_agg_materialization_focused)
+
+    set_tests_properties(ContinuousAggMaterializationFocusedTests PROPERTIES
+        LABELS "timeseries;continuous-agg;materialization;watermark;incremental;v1.9.0;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ContinuousAggMaterializationEngine: create/drop/list/get aggregates, refreshAggregate, refreshAll, queryMaterialized, getAggregateStatus, getAllStatus, incremental watermark, inactive/auto_refresh flags")
+else()
+    message(STATUS "ContinuousAggMaterializationEngine tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/timeseries/test_continuous_agg_materialization.cpp")
+endif()
+
 # ============================================================================
 # Core Module – Distributed Cache Integration Focused Tests (Issue #64)
 # Validates all seven acceptance criteria:
@@ -17956,6 +18049,22 @@ else()
     message(STATUS "Compute interface focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_compute_interfaces.cpp")
 endif()
 
+# QueryFederation shard-key routing focused tests (v1.9.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/query/test_query_federation_routing.cpp")
+    message(STATUS "Adding QueryFederation shard-key routing focused tests (query, v1.9.0)")
+
+    add_executable(test_query_federation_routing_focused
+        query/test_query_federation_routing.cpp
+        ${CMAKE_SOURCE_DIR}/src/query/query_federation.cpp
+        ${CMAKE_SOURCE_DIR}/src/sharding/sharding_manager_edition.cpp
+        ${CMAKE_SOURCE_DIR}/src/sharding/consistent_hash.cpp
+        ${CMAKE_SOURCE_DIR}/src/sharding/shard_topology.cpp
+        ${CMAKE_SOURCE_DIR}/src/sharding/urn_resolver.cpp
+        ${CMAKE_SOURCE_DIR}/src/sharding/remote_executor.cpp
+        ${CMAKE_SOURCE_DIR}/src/sharding/shard_router.cpp
+    )
+
+    target_include_directories(test_query_federation_routing_focused PRIVATE
 # OZG Service Registry focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ozg_service_registry.cpp")
     message(STATUS "Adding OZG Service Registry focused tests (v2.2.0)")
@@ -18111,6 +18220,29 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cypher_parser.cpp")
         ${CMAKE_SOURCE_DIR}/src
     )
 
+    target_link_libraries(test_query_federation_routing_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_query_federation_routing_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME QueryFederationRoutingFocusedTests
+        COMMAND test_query_federation_routing_focused)
+
+    set_tests_properties(QueryFederationRoutingFocusedTests PROPERTIES
+        LABELS "query;federation;shard-key;routing;point-lookup;range;broadcast;v1.9.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  QueryFederation: point-lookup→1 shard, range→subset, full-scan→broadcast; ShardingManager::GetShardForKey+GetShardsForKeyRange")
+else()
+    message(STATUS "QueryFederation routing tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/query/test_query_federation_routing.cpp")
     target_link_libraries(test_rag_replug_retriever_focused PRIVATE
     target_link_libraries(test_cypher_parser PRIVATE
         ${TEST_LIBS}

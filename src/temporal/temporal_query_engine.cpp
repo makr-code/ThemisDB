@@ -419,6 +419,119 @@ size_t QueryCache::size() const {
 }
 
 // ============================================================================
+// executeTemporalQuery — SQL:2011 FOR SYSTEM_TIME dispatcher
+// ============================================================================
+
+namespace {
+/// Remove logically-deleted rows from a result set when include_deleted==false.
+void applyDeletedFilter(std::vector<VersionedDocument>& rows, bool include_deleted) {
+    if (include_deleted) return;
+    rows.erase(
+        std::remove_if(rows.begin(), rows.end(),
+            [](const VersionedDocument& v) {
+                return v.data.value("deleted", false);
+            }),
+        rows.end());
+}
+} // anonymous namespace
+
+std::vector<VersionedDocument> TemporalQueryEngine::executeTemporalQuery(
+    const SystemVersionedTable& table,
+    const TemporalQuerySpec& spec,
+    const std::vector<RowFilter>& filters) {
+
+    std::vector<VersionedDocument> result;
+
+    switch (spec.clause) {
+        case TemporalClause::AS_OF:
+            result = queryAsOf(table, spec.start_time, filters);
+            break;
+
+        case TemporalClause::FROM_TO:
+            result = queryFromTo(table, spec.start_time, spec.end_time, filters);
+            break;
+
+        case TemporalClause::BETWEEN_AND:
+            result = queryBetween(table, spec.start_time, spec.end_time, filters);
+            break;
+
+        case TemporalClause::CONTAINED_IN: {
+            // Return versions whose entire sys_time period lies within [start, end).
+            // A period [s, e) is contained-in [spec.start, spec.end) iff
+            //   s >= spec.start && e <= spec.end
+            auto candidates = queryFromTo(table, spec.start_time, spec.end_time, filters);
+            result.reserve(candidates.size());
+            for (auto& v : candidates) {
+                if (v.sys_time.start >= spec.start_time &&
+                    v.sys_time.end   <= spec.end_time) {
+                    result.push_back(std::move(v));
+                }
+            }
+            break;
+        }
+
+        case TemporalClause::ALL:
+            result = queryWithSemantics(table, TemporalSemantics::NON_SEQUENCED,
+                                        {kMinTimestamp, kMaxTimestamp}, filters);
+            break;
+    }
+
+    applyDeletedFilter(result, spec.include_deleted);
+    return result;
+}
+
+std::vector<VersionedDocument> TemporalQueryEngine::executeTemporalQuery(
+    const BiTemporalTable& table,
+    const TemporalQuerySpec& spec,
+    const std::vector<RowFilter>& filters) {
+
+    std::vector<VersionedDocument> result;
+
+    switch (spec.clause) {
+        case TemporalClause::AS_OF:
+            result = queryApplicationTime(table, spec.start_time, filters);
+            break;
+
+        case TemporalClause::FROM_TO:
+            result = queryApplicationTimeRange(table, spec.start_time,
+                                               spec.end_time, filters);
+            break;
+
+        case TemporalClause::BETWEEN_AND: {
+            // Closed upper bound: include rows whose valid_time overlaps [start, end].
+            Timestamp closed_end = (spec.end_time < kMaxTimestamp)
+                                   ? spec.end_time + 1 : kMaxTimestamp;
+            result = queryApplicationTimeRange(table, spec.start_time,
+                                               closed_end, filters);
+            break;
+        }
+
+        case TemporalClause::CONTAINED_IN: {
+            // Current rows whose entire valid_time ⊆ [start, end).
+            auto candidates = queryApplicationTimeRange(table, spec.start_time,
+                                                        spec.end_time, filters);
+            result.reserve(candidates.size());
+            for (auto& v : candidates) {
+                if (v.valid_time.start >= spec.start_time &&
+                    v.valid_time.end   <= spec.end_time) {
+                    result.push_back(std::move(v));
+                }
+            }
+            break;
+        }
+
+        case TemporalClause::ALL:
+            // All current rows regardless of valid-time period.
+            result = queryApplicationTimeRange(table, kMinTimestamp,
+                                               kMaxTimestamp, filters);
+            break;
+    }
+
+    applyDeletedFilter(result, spec.include_deleted);
+    return result;
+}
+
+// ============================================================================
 // Cached query helper
 // ============================================================================
 
