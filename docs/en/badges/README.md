@@ -30,7 +30,7 @@ The README header is organised into four thematic rows for quick scanning. Each 
 
 | Badge | What it shows | Details |
 |-------|---------------|---------|
-| Lines of Code | Total source lines counted by Tokei | [loc.md](loc.md) |
+| Lines of Code | Total source lines (Tokei count, stored in `.github/badges/lines-of-code.json`) | [loc.md](loc.md) |
 | Repo Size | Total repository size (GitHub API) | [repo-size.md](repo-size.md) |
 | Last Commit | Date of the most recent commit on `develop` | [last-commit.md](last-commit.md) |
 | Stars | GitHub star count | [stars.md](stars.md) |

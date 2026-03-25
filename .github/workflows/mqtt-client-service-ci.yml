@@ -37,7 +37,7 @@ jobs:
   ci-scope-classifier:
     permissions:
       contents: read
-    uses: ./.github/workflows/01-core/ci-scope-classifier.yml
+    uses: ./.github/workflows/ci-scope-classifier.yml
 
   # ---------------------------------------------------------------------------
   # Build and run the MqttClientService focused test suite.
@@ -131,7 +131,7 @@ jobs:
         with:
           cc:  ${{ matrix.cc }}
           cxx: ${{ matrix.cxx }}
-          extra-cmake-args: -DTHEMIS_ENABLE_MQTT=ON
+          extra-cmake-flags: -DTHEMIS_ENABLE_MQTT=ON
 
       - name: Run MqttClientServiceFocusedTests
         run: |

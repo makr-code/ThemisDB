@@ -1,15 +1,11 @@
 name: User Storage Encrypted CI
 
-# Validates user_storage_encrypted v0.1.0 features:
+# Validates user_storage_encrypted plugin:
 #   - Stdin key delivery (executeCommandWithStdin / deliverKeyViaStdin / explicit_bzero)
 #   - Argon2id KDF (Argon2idKeyDerivationService, m=65536/t=3/p=4)
 #   - IRotationStore / FileRotationStore persistence for KeyRotationScheduler
-on:
-  push:
-    branches: [main, develop]
-    paths:
-      - 'include/user_storage_encrypted/**'
-      - 'src/user_storage_encrypted/**'
+#   - Stale mount reconciliation (reconcileStaleMounts, v0.2.0)
+
 on:
   push:
     branches:
@@ -25,8 +21,6 @@ on:
     paths:
       - 'include/user_storage_encrypted/**'
       - 'src/user_storage_encrypted/**'
-      - 'src/user_storage_encrypted/**'
-      - 'include/user_storage_encrypted/**'
       - 'plugins/user_storage_encrypted/**'
       - '.github/workflows/user-storage-encrypted-ci.yml'
   workflow_dispatch:
@@ -39,17 +33,15 @@ jobs:
   ci-scope-classifier:
     permissions:
       contents: read
-    uses: ./.github/workflows/01-core/ci-scope-classifier.yml
+    uses: ./.github/workflows/ci-scope-classifier.yml
 
   user-storage-encrypted-tests:
     needs: ci-scope-classifier
     if: needs.ci-scope-classifier.outputs.has_code_changes == 'true'
-    name: User storage encrypted tests (${{ matrix.os }} / ${{ matrix.compiler }})
+    name: User Storage Encrypted tests (${{ matrix.os }} / ${{ matrix.compiler }})
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
 
-    name: User Storage Encrypted tests (${{ matrix.os }} / ${{ matrix.compiler }})
-    runs-on: ${{ matrix.os }}
     permissions:
       contents: read
 
@@ -86,29 +78,6 @@ jobs:
           cc:  ${{ matrix.cc }}
           cxx: ${{ matrix.cxx }}
           extra-packages: >-
-            libargon2-dev
-            nlohmann-json3-dev
-            libgtest-dev
-
-      - name: Configure (user storage encrypted test target only)
-        uses: ./.github/actions/configure-themis
-        with:
-          cc:  ${{ matrix.cc }}
-          cxx: ${{ matrix.cxx }}
-          build-target: ''
-          extra-cmake-args: '-DTHEMIS_PLUGIN_USER_STORAGE_ENCRYPTED=ON -DBUILD_TESTING=ON'
-
-      - name: Build test_user_storage_features
-        run: cmake --build build --target test_user_storage_features -- -j$(nproc)
-
-      - name: Run user storage features tests
-        run: |
-          set -o pipefail
-          cd build
-          ctest --tests-regex UserStorageFocusedTests \
-          cc:             ${{ matrix.cc }}
-          cxx:            ${{ matrix.cxx }}
-          extra-packages: >-
             nlohmann-json3-dev
             libgtest-dev
             libargon2-dev
@@ -144,8 +113,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: user-storage-results-${{ matrix.os }}-${{ matrix.compiler }}
-          path: build/user_storage_test_output.txt
           name: user-storage-encrypted-results-${{ matrix.os }}-${{ matrix.compiler }}
           path: |
             build/user_storage_test_output.txt
@@ -160,12 +127,9 @@ jobs:
           echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
           echo "| **OS** | \`${{ matrix.os }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Compiler** | \`${{ matrix.compiler }}\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Version** | v0.1.0 |" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "Covers: stdin key delivery (AC-SD-1–4), Argon2id KDF (AC-KDF-1–10), IRotationStore persistence (AC-PRS-1–6), GocryptfsBackend (AC-GCF-1–2)." >> "$GITHUB_STEP_SUMMARY"
           echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "Features tested: stdin key delivery (no /tmp file), Argon2id KDF (determinism + perf), key rotation persistence (IRotationStore)." >> "$GITHUB_STEP_SUMMARY"
+          echo "Features tested: stdin key delivery (no /tmp file), Argon2id KDF (determinism + perf), key rotation persistence (IRotationStore), stale mount reconciliation." >> "$GITHUB_STEP_SUMMARY"
