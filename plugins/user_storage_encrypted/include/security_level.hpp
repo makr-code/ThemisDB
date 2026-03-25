@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            security_level.hpp                                 ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:11:58                                ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-16 04:11:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,6 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 9ab72c508  2026-03-12  refactor: flatten plugin hierarchy to src/<name>/ and inc... ║
+    • acdb250db  2026-03-12  feat: migrate plugins to src/include with CMake switches ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -23,6 +25,7 @@
 #pragma once
 
 #include <string>
+#include <stdexcept>
 
 namespace themis {
 namespace plugins {

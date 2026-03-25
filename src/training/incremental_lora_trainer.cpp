@@ -480,8 +480,11 @@ public:
         lora_layer_.reset();
         q_lora_layer_.reset();
         optimizer_.reset();
+        optimizer_B_plus_.reset();
+        optimizer_A_plus_.reset();
         lora_initialized_ = false;
         using_qlora_      = false;
+        using_lora_plus_  = false;
 #endif
 #if defined(THEMIS_ENABLE_LLM) && defined(THEMIS_ENABLE_GPU)
         gpu_lora_layer_.reset();
@@ -530,8 +533,13 @@ private:
     std::unique_ptr<llm::lora::LoRALayer>    lora_layer_;   ///< Full-precision path (NONE/FP16)
     std::unique_ptr<llm::lora::QLoRALayer>   q_lora_layer_; ///< Quantized path (INT8/NF4)
     std::unique_ptr<llm::lora::AdamOptimizer> optimizer_;
+    // LoRA+ (Hayou et al., 2024): separate optimizers for B (lr*λ) and A (lr).
+    // Both are non-null only when config_.lora_plus_lambda > 1.0.
+    std::unique_ptr<llm::lora::AdamOptimizer> optimizer_B_plus_; ///< LoRA+ B optimizer (lr*λ)
+    std::unique_ptr<llm::lora::AdamOptimizer> optimizer_A_plus_; ///< LoRA+ A optimizer (lr)
     bool lora_initialized_ = false;
     bool using_qlora_      = false;                         ///< true when q_lora_layer_ is active
+    bool using_lora_plus_  = false;                         ///< true when LoRA+ dual-optimizer is active
 #endif
 
 #if defined(THEMIS_ENABLE_LLM) && defined(THEMIS_ENABLE_GPU)
@@ -663,9 +671,25 @@ private:
             // Full-precision (fp32) or FP16 path: standard LoRALayer
             lora_layer_ = std::make_unique<llm::lora::LoRALayer>(
                 feature_dim, feature_dim, rank, scaling);
-            optimizer_  = std::make_unique<llm::lora::AdamOptimizer>(
-                config_.learning_rate);
-            optimizer_->add_parameters(lora_layer_->parameters());
+
+            // LoRA+ (Hayou et al., 2024): use asymmetric learning rates when
+            // lora_plus_lambda > 1.0. B matrices get lr*λ; A matrices get lr.
+            if (config_.lora_plus_lambda > 1.0f) {
+                auto params = lora_layer_->parameters(); // {B, A}
+                const float lr_B = config_.learning_rate * config_.lora_plus_lambda;
+                const float lr_A = config_.learning_rate;
+                optimizer_B_plus_ = std::make_unique<llm::lora::AdamOptimizer>(lr_B);
+                optimizer_A_plus_ = std::make_unique<llm::lora::AdamOptimizer>(lr_A);
+                optimizer_B_plus_->add_parameters({params[0]});
+                optimizer_A_plus_->add_parameters({params[1]});
+                optimizer_.reset(); // not used in LoRA+ mode
+                using_lora_plus_ = true;
+            } else {
+                optimizer_  = std::make_unique<llm::lora::AdamOptimizer>(
+                    config_.learning_rate);
+                optimizer_->add_parameters(lora_layer_->parameters());
+                using_lora_plus_ = false;
+            }
             using_qlora_      = false;
         } else {
             // Quantized path (INT8 / NF4): use QLoRALayer so base weights are
@@ -679,6 +703,7 @@ private:
                 config_.learning_rate);
             optimizer_->add_parameters(q_lora_layer_->parameters());
             using_qlora_      = true;
+            using_lora_plus_  = false;
 #ifndef THEMIS_NO_SPDLOG
             spdlog::info("QLoRA training initialized (quantization={})",
                          config_.quantization.type == TrainingQuantizationType::NF4
@@ -753,7 +778,12 @@ private:
         }
 
         // Zero gradients from previous step
-        optimizer_->zero_grad();
+        if (using_lora_plus_ && optimizer_B_plus_ && optimizer_A_plus_) {
+            optimizer_B_plus_->zero_grad();
+            optimizer_A_plus_->zero_grad();
+        } else {
+            optimizer_->zero_grad();
+        }
 
         // Forward pass: use QLoRALayer (quantized path) or LoRALayer (full-precision path)
         llm::lora::Tensor output;
@@ -783,8 +813,14 @@ private:
             lora_layer_->backward(grad_output);
         }
 
-        // Adam optimizer step: updates B and A weight matrices
-        optimizer_->step();
+        // Optimizer step: LoRA+ uses separate optimizers for B (lr*λ) and A (lr)
+        if (using_lora_plus_ && optimizer_B_plus_ && optimizer_A_plus_) {
+            optimizer_B_plus_->step();
+            optimizer_A_plus_->step();
+        } else {
+            // Adam optimizer step: updates B and A weight matrices
+            optimizer_->step();
+        }
 
         return loss;
     }

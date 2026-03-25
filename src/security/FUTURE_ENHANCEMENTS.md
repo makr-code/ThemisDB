@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-03-12 -->
+<!-- Status: current | validated: 2026-03-24 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Security Module - Future Enhancements
@@ -11,6 +11,43 @@
 - Anomaly detection and behavioral analytics for insider-threat and abuse detection
 - Zero-trust network model: every request authenticated and authorized regardless of network origin
 - Compliance attestation: FIPS 140-3, SOC 2 Type II, PCI DSS v4.0, GDPR/HIPAA audit support
+
+## ✅ Implemented (v1.6.0)
+
+### USB Volume Hardening — Defence Against FAT Manipulation
+
+**Status:** ✅ Implemented (v1.6.0)
+
+The USB admin security system has been hardened against FAT filesystem manipulation attacks.
+An attacker with physical access to the USB stick can no longer simply copy, replace, or hex-edit
+the license file: three independent protection layers have been added.
+
+#### Scope
+- `include/security/usb_volume_hardening.h` — `USBVolumeHardening` static class
+- `src/security/usb_volume_hardening.cpp` — production implementation
+- Extended `USBAdminConfig` with three new opt-in fields
+- Extended `USBAdminAuthenticator::Metrics` with three new counters
+- `tests/test_usb_volume_hardening.cpp` — 22 tests; `USBVolumeHardeningFocusedTests`
+
+#### Protection Layers
+1. **Volume integrity hash** (`expected_volume_hash` config field)
+   - SHA-256 of the raw license file content, provisioned at USB-issuance time
+   - Computed fresh on every `refreshUSBStatus()` call and compared with constant-time `CRYPTO_memcmp`
+   - Detects: file replacement, byte-level edits via hex editor, FAT sector rewriting
+2. **Read-only mount enforcement** (`require_readonly_mount` config field)
+   - Checks `/proc/mounts` on Linux, `FILE_READ_ONLY_VOLUME` on Windows
+   - Prevents any process (including a compromised one) from writing to the stick during auth
+3. **USB device serial binding** (`expected_usb_serial` config field)
+   - Reads SCSI VPD page 0x80 serial via `/sys/class/block/<dev>/device/../../serial` on Linux
+   - Prevents `dd` clone attacks: a cloned stick reports a different USB string descriptor serial
+   - Windows fallback: volume serial number from `GetVolumeInformation()`
+
+#### Design Constraints
+- All checks are opt-in via config fields; existing deployments are unaffected
+- No new mandatory dependencies; reuses OpenSSL (already a hard dependency)
+- All comparisons use `CRYPTO_memcmp` (OpenSSL constant-time compare)
+
+---
 
 ## Design Constraints
 

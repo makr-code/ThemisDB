@@ -1,8 +1,8 @@
 # Query Module Roadmap
 
-**Version:** 1.8.0
+**Version:** 1.9.0
 **Status:** ✅ Production-Ready
-**Last Updated:** 2026-03-21
+**Last Updated:** 2026-03-24
 **Module Path:** `src/query/`
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
@@ -11,7 +11,7 @@
 
 Production-ready multi-model query engine supporting relational, document, graph, vector, spatial, and timeseries query models via AQL. Phases 1–6 are complete: AQL parser, cost-based optimizer (wired to real statistics and Prometheus metrics), multi-model execution, hybrid queries (vector+geo, fulltext+geo, graph+spatial), function registry (100+ built-in functions), CTE with correlated-subquery support, semantic/exact/CTE query caches, window functions, result streaming, EXPLAIN/EXPLAIN ANALYZE, LLM integration directives, vectorized columnar execution, cross-cluster federation, SPARQL/SQL compatibility layers, per-query resource limits, adaptive re-optimization, and JIT compilation for hot queries.
 
-One open item remains: `QueryFederation` shard-key routing (currently broadcasts to all shards; single-shard routing for point lookups and range queries is in progress).
+`QueryFederation` shard-key routing is now implemented (v1.9.0): point-lookup and range queries are routed to the minimum required shard set via `ShardingManager::GetShardForKey` and `GetShardsForKeyRange`. Keyless full-collection scans still broadcast but emit a WARN when > 10 shards are targeted.
 
 ## Completed ✅
 
@@ -55,14 +55,11 @@ One open item remains: `QueryFederation` shard-key routing (currently broadcasts
 - [x] Per-query resource limits (`query_resource_limits.h`): `max_rows`, `max_memory_bytes`, `timeout_ms` enforced pre-execution and at every 1,000-row batch boundary
 - [x] Query JIT compiler (`query_compiler.cpp`): hot-query detection (configurable threshold, default 100 executions), specialised execution path, interpreter fallback on compilation failure
 - [x] `QueryEngine::createDefault()` factory: throws `std::runtime_error` (concrete interface adapters not yet wired; use constructor injection)
+- [x] Cypher compatibility layer (`cypher_parser.cpp`): MATCH/WHERE/RETURN parser + `CypherToAQLTranspiler` (v1.6.0)
+- [x] Gremlin compatibility layer (`gremlin_parser.cpp`): Apache TinkerPop Gremlin traversal parser + `GremlinToAQLTranspiler` (v1.6.0)
 
 ## In Progress 🚧
 
-- [~] `QueryFederation`: shard-key routing — `query_federation.cpp` line 348 contains a TODO; currently broadcasts to all shards for every query (O(N shards)); point-lookup routing via `ShardingManager::getShardForKey` and range routing via `ShardingManager::getShardsForKeyRange` are planned for v1.9.0
-  - [ ] Implement point-lookup routing: `ShardingManager::getShardForKey(collection, key)` → single shard (Target: v1.9.0)
-  - [ ] Implement range-query routing: `ShardingManager::getShardsForKeyRange(collection, min_key, max_key)` → subset of shards (Target: v1.9.0)
-  - [ ] Retain broadcast for keyless full-collection scans; emit `WARN` when broadcasting to > 10 shards (Target: v1.9.0)
-  - [ ] Add unit tests: 3-shard setup — point lookup → 1 shard, range → 2 shards, full scan → all 3 (Target: v1.9.0)
 - [~] `QueryEngine` graph traversal: edge-type filtering — `query_engine.cpp` line 3533 has a TODO ("Add edge type filtering once exposed in `TraversalQuery` struct"); depends on graph module exposing the field (Target: v1.9.0)
 
 ## Planned Features 📋
@@ -75,7 +72,6 @@ One open item remains: `QueryFederation` shard-key routing (currently broadcasts
   - Errors: shard unreachable → skip with `WARN`; no shard-key predicate → broadcast + `WARN` if > 10 shards
   - Tests: unit (3-shard mock) + integration (ThemisDB cluster)
   - Perf: fan-out latency ≤ 200 ms for 16 shards on LAN
-- [ ] Edge-type filtering in graph traversal (`TraversalQuery` struct extension) (Target: v1.9.0)
   - Inputs: `TraversalQuery::edge_type_filter` (string set)
   - Outputs: traversal restricted to matching edge types
   - Tests: unit tests asserting only matching edges are followed
@@ -188,11 +184,10 @@ One open item remains: `QueryFederation` shard-key routing (currently broadcasts
   - Streaming first-chunk ≤ 50 ms
 - [x] Documentation complete (`src/query/README.md`, `include/query/README.md`, `src/query/CHANGELOG.md`)
 - [x] API stability guaranteed for `AQLParser::parse`, `QueryOptimizer::optimize`, `QueryEngine::execute*`, `QueryCache::lookup`, `UDFRegistry::register_fn`
-- [ ] `QueryFederation` shard-key routing (point-lookup + range routing to replace broadcast — see In Progress)
+- [x] `QueryFederation` shard-key routing (point-lookup + range routing implemented — v1.9.0)
 
 ## Known Issues & Limitations
 
-- **`QueryFederation` broadcasts to all shards** (`query_federation.cpp` line 348: TODO): every federated query is sent to all cluster nodes regardless of key range. This makes federation O(N shards) for all queries. Fix tracked in In Progress (v1.9.0).
 - **`AQLParser` is NOT thread-safe**: each thread must own its own `AQLParser` instance or protect shared instances with a mutex. Thread-safe wrapper is planned but not yet scheduled.
 - **`QueryEngine::createDefault()` unimplemented**: throws `std::runtime_error`. Use constructor injection (`IStorageEnginePtr` + `IIndexManagerPtr`) until concrete interface adapters are wired (v1.9.0).
 - **Graph traversal edge-type filtering missing**: `TraversalQuery` struct does not yet expose an edge-type filter field (`query_engine.cpp` line 3533 TODO). Traversals match all edge types. Depends on the graph module exposing the field.

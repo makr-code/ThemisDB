@@ -16,6 +16,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Kafka consumer group rebalance-aware import
 - Performance benchmarks: schema inference vs. manual mapping
 
+## [2.2.0] — 2026-03-24
+### Added
+- `ozg_service_registry.h`: `OZGServiceEntry`, `IOZGServiceRegistry`, `InMemoryOZGServiceRegistry` — thread-safe in-memory registry for German OZG 2.0 (Onlinezugangsgesetz) service catalog; supports findById, findByStatus (OZGServiceStatus), findByState (Bundesland AGS code), findByComplianceTag, SDGR/FIM fields; 30 tests in `tests/test_ozg_service_registry.cpp`; CI: `ozg-service-registry-ci.yml`
+- `xoev_importer.h`: `XOEVRecord`, `XOEVImportResult`, `XOEVExportResult`, `IXOEVImporter`, `InMemoryXOEVImporter` — import/export for XÖV (XML in der öffentlichen Verwaltung) data models covering XPersonenstand, XMeld, XBau, XKfz, XFinanz, XGewerbeanmeldung; lightweight XML parse/emit; 30 tests in `tests/test_xoev_importer.cpp`; CI: `xoev-importer-ci.yml`
+
 ## [1.5.0] — 2026-03-16
 ### Added
 - GUI import wizard with step-by-step source configuration and preview

@@ -26,60 +26,47 @@ Prüfstand: 2026-03-09 | Branch: `develop`
 
 ---
 
-## 2. Context Window Budget Manager — nicht implementiert
+## 2. Context Window Budget Manager — ✅ implementiert (v1.5.0)
 
 | Feld | Wert |
 |---|---|
-| **Claim-Quelle** | `src/prompt_engineering/ROADMAP.md` §"Phase 2" + §"In Progress 🚧": "Token counting and context-window budget enforcement" (`[?]`) |
-| **Erwartet** | `IRAGContextBudgetManager` mit `allocate(tokens)`, `remaining()`, `BudgetExhaustedError`; striktes Token-Limit-Enforcement vor LLM-Dispatch |
-| **Beobachtet** | `RAGPromptBuilder::selectChunks()` implementiert ein zeichenbasiertes Zeichen-Budget (nicht tokenbasiert); kein `IRAGContextBudgetManager`; kein Token-Zähler; keine `BudgetExhaustedError`-Exception |
-| **Evidence (geprüfte Pfade)** | `include/prompt_engineering/rag_prompt_builder.h` (Zeichen-Budget-Selektion vorhanden, kein Token-Zähler); `include/prompt_engineering/FUTURE_ENHANCEMENTS.md` §"RAG Context Budget Manager" (alle `[ ]`) |
-| **ROADMAP-Status** | `[?]` – nicht begonnen (Target: Q2 2026) |
-| **Issue-Titelvorschlag** | `[prompt_engineering] Implement IRAGContextBudgetManager with hard token-limit enforcement` |
-| **Label-Vorschläge** | `type:feature`, `priority:high`, `prompt_engineering`, `status:planned` |
+| **Claim-Quelle** | `src/prompt_engineering/ROADMAP.md` §"Phase 2" |
+| **Erwartet** | Token-basiertes Budget-Enforcement vor LLM-Dispatch |
+| **Beobachtet** | `ContextWindowBudgetManager` in `include/prompt_engineering/context_window_manager.h` + `src/prompt_engineering/context_window_manager.cpp` vollständig implementiert. `ITokenCounter`, `CharDivisionCounter` (BPE-Approximation), `PromptBudgetExceededError`, greedy Chunk-Selektion und Nutzungs-Callback vorhanden. |
+| **ROADMAP-Status** | `[x]` – implementiert (v1.5.0) |
 
 ---
 
-## 3. Chain-of-Thought Execution Tracer — nicht implementiert
+## 3. Chain-of-Thought Execution Tracer — ✅ implementiert (v1.7.0)
 
 | Feld | Wert |
 |---|---|
 | **Claim-Quelle** | `src/prompt_engineering/ROADMAP.md` §"Phase 3" + `include/prompt_engineering/FUTURE_ENHANCEMENTS.md` §"Chain-of-Thought Step Tracer Interface" |
 | **Erwartet** | `IChainOfThoughtTracer` mit `onStepBegin(StepId)`, `onStepEnd(StepId, reasoning, duration)` (beide `noexcept`); `ChainOfThoughtBuilder::attachTracer()` |
-| **Beobachtet** | `ChainOfThoughtBuilder` ist ein reiner String-Assembler; kein Tracer-Interface; kein Callback-Mechanismus; keine Latenz-Attribution pro Schritt |
-| **Evidence (geprüfte Pfade)** | `include/prompt_engineering/chain_of_thought.h` (kein Tracer); `include/prompt_engineering/FUTURE_ENHANCEMENTS.md` §"Chain-of-Thought Step Tracer Interface" (alle `[ ]`) |
-| **ROADMAP-Status** | `[?]` – geplant (Phase 3) |
-| **Issue-Titelvorschlag** | `[prompt_engineering] Implement IChainOfThoughtTracer for per-step reasoning instrumentation` |
-| **Label-Vorschläge** | `type:feature`, `priority:low`, `prompt_engineering`, `status:planned` |
+| **Beobachtet** | Vollständig implementiert in `include/prompt_engineering/cot_tracer.h` + `src/prompt_engineering/cot_tracer.cpp`. `ChainOfThoughtBuilder::attachTracer()` / `detachTracer()` / `hasTracer()` vorhanden; `build()` feuert Callbacks pro Schritt. |
+| **ROADMAP-Status** | `[x]` – implementiert (v1.7.0) |
 
 ---
 
-## 4. Prompt A/B Experimentation Framework (Typed) — nicht implementiert
+## 4. Prompt A/B Experimentation Framework — ✅ implementiert (v1.9.0)
 
 | Feld | Wert |
 |---|---|
 | **Claim-Quelle** | `src/prompt_engineering/ROADMAP.md` §"Phase 3" + `include/prompt_engineering/FUTURE_ENHANCEMENTS.md` §"Prompt A/B Experimentation Framework" |
-| **Erwartet** | `IPromptABFramework` mit deterministischem `assignVariant(UserId, ExperimentKey)`, `listExperiments()`, konfigurierbaren Traffic-Splits |
-| **Beobachtet** | A/B-Testing ist in `self_improvement_orchestrator.cpp` als `ABTest`-Klasse und `startABTest()`/`analyzeABTest()` implementiert; dies ist jedoch ein internes Optimierungs-A/B-Test, kein öffentliches `IPromptABFramework`; deterministische Varianten-Zuweisung nach User-ID fehlt |
-| **Evidence (geprüfte Pfade)** | `src/prompt_engineering/self_improvement_orchestrator.cpp` Z.71–332 (ABTest implementiert); `include/prompt_engineering/FUTURE_ENHANCEMENTS.md` §"Prompt A/B Experimentation Framework" (alle `[ ]`) |
-| **ROADMAP-Status** | `[?]` – geplant (Phase 3) |
-| **Anmerkung** | Das interne A/B-Testing für Optimierungszyklen ist implementiert; das öffentliche Framework für Feature-Flag-artige Traffic-Splits ist nicht vorhanden |
-| **Issue-Titelvorschlag** | `[prompt_engineering] Implement IPromptABFramework with deterministic per-user variant assignment` |
-| **Label-Vorschläge** | `type:feature`, `priority:medium`, `prompt_engineering`, `status:planned` |
+| **Erwartet** | Deterministische Varianten-Zuweisung per `request_id`, konfigurierbarer Traffic-Split, Auto-Promotion des Gewinners |
+| **Beobachtet** | Vollständig implementiert: `PromptABExperimentFramework` (`include/prompt_engineering/prompt_ab_experiment.h`); MurmurHash3-32 Variant-Assignment; Welch-t-Test für Signifikanz; Auto-Promotion ab `min_samples`; exception-sicherer `WinnerCallback` |
+| **ROADMAP-Status** | `[x]` – implementiert (v1.9.0) |
 
 ---
 
-## 5. Automated Quality Regression Interface — nicht implementiert
+## 5. Automated Quality Regression Interface — ✅ implementiert (v1.8.0)
 
 | Feld | Wert |
 |---|---|
 | **Claim-Quelle** | `src/prompt_engineering/ROADMAP.md` §"Phase 3" + `include/prompt_engineering/FUTURE_ENHANCEMENTS.md` §"Automated Quality Regression Interface" |
-| **Erwartet** | `IPromptQualityEvaluator` mit `evaluate(IPromptTemplate, QualityConfig) -> QualityReport`; zustandslose Evaluation ohne Persistierung von Rohdaten |
-| **Beobachtet** | `PromptEvaluator` (implementiert) ist ein generischer Qualitäts-Scorer; kein `IPromptQualityEvaluator`-Interface; kein Regressions-Runner; kein `QualityReport`-Typ |
-| **Evidence (geprüfte Pfade)** | `include/prompt_engineering/prompt_evaluator.h` (generischer Evaluator vorhanden, kein Regressions-Interface); `include/prompt_engineering/FUTURE_ENHANCEMENTS.md` §"Automated Quality Regression Interface" (alle `[ ]`) |
-| **ROADMAP-Status** | `[?]` – geplant (Phase 3) |
-| **Issue-Titelvorschlag** | `[prompt_engineering] Implement IPromptQualityEvaluator regression interface` |
-| **Label-Vorschläge** | `type:feature`, `priority:medium`, `prompt_engineering`, `status:planned` |
+| **Erwartet** | Regression-Harness um `PromptEvaluator`; Vergleich Kandidat vs. Baseline auf goldenen Fixtures; Block-Gate wenn Score >5 % fällt |
+| **Beobachtet** | Vollständig implementiert: `PromptRegressionRunner` (`include/prompt_engineering/prompt_regression_runner.h`); `RegressionFixture`, `RegressionConfig`, `RegressionResult`, `FixtureDelta`; `loadFeedbackFixtures()` integriert `FeedbackCollector`; `run()` berechnet `delta_pct`, `is_regression`, `blocked`; Log-Callback für strukturiertes Logging |
+| **ROADMAP-Status** | `[x]` – implementiert (v1.8.0) |
 
 ---
 
@@ -119,11 +106,12 @@ für ~14 Quelldateien ist eine Coverage > 80% wahrscheinlich, aber nicht nachgew
 | # | Feature | Quelle | Kritikalität | Status |
 |---|---|---|---|---|
 | 1 | Typed Template DSL | ROADMAP Phase 2 | Mittel | `[?]` nicht begonnen |
-| 2 | Context Window Budget Manager | ROADMAP Phase 2 | Hoch | `[?]` nicht begonnen |
-| 3 | CoT Execution Tracer | ROADMAP Phase 3 | Niedrig | `[?]` geplant |
-| 4 | Typed A/B Experimentation Framework | ROADMAP Phase 3 | Mittel | `[?]` geplant |
-| 5 | Quality Regression Interface | ROADMAP Phase 3 | Mittel | `[?]` geplant |
+| 2 | Context Window Budget Manager | ROADMAP Phase 2 | Hoch | ✅ implementiert (v1.5.0) |
+| 3 | CoT Execution Tracer | ROADMAP Phase 3 | Niedrig | ✅ implementiert (v1.7.0) |
+| 4 | Typed A/B Experimentation Framework | ROADMAP Phase 3 | Mittel | ✅ implementiert (v1.9.0) |
+| 5 | Quality Regression Interface | ROADMAP Phase 3 | Mittel | ✅ implementiert (v1.8.0) |
 | 6 | PII-Detektion & Template-Integritätshash | FUTURE_ENHANCEMENTS | Hoch | `[ ]` offen |
+| 7 | Reflection Tuning + LLM-Adapter | ROADMAP Phase 3 | Hoch | ✅ implementiert (v1.5.0 / v1.6.0) |
 
 *Alle Phase-1-ROADMAP-Einträge (`[x]`) sind durch vorhandene Implementierungsdateien
 auf `develop` belegt. Phase-2- und Phase-3-Einträge sind korrekt als `[?]` markiert.*

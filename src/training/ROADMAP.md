@@ -1,10 +1,10 @@
 # Training Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Validated: 2026-03-11 (b2342851) -->
+<!-- Validated: 2026-03-24 -->
 
 ## Current Status
-v1.x – Domain-specific AI fine-tuning toolchain for legal text. LegalAutoLabeler, IncrementalLoRATrainer, and KnowledgeGraphEnricher are production-ready with checkpoint/resume, adapter versioning, and graph-context enrichment.
+v1.6.0 – AdaLoRA (adaptive rank pruning), LoRAAdapterMerger (TIES + linear), and LoRA+ (asymmetric LR) added. Full LoRA fine-tuning toolchain including checkpoint/resume, adapter versioning, quantization (QLoRA), and multi-GPU training.
 
 ## Completed ✅
 - [x] LegalAutoLabeler – automated training sample generation from legal documents via NLP modality extraction
@@ -36,6 +36,9 @@ v1.x – Domain-specific AI fine-tuning toolchain for legal text. LegalAutoLabel
 - [x] Model quantization configuration (Target: Q2 2026) — `TrainingQuantizationType` enum (NONE/FP16/INT8/NF4), `QuantizationConfig` struct, `IncrementalTrainingConfig.quantization` field; validated in `validateHyperparameters()`; INT8 and NF4 activate `QLoRALayer` in the CPU training path (base weights frozen/compressed, only LoRA adapters A and B trained in full-precision); NONE/FP16 use standard `LoRALayer`
 - [x] Training metrics tracking (Target: Q2 2026) — `EpochMetrics` (per-epoch loss/accuracy/lr/elapsed), `TrainingMetrics` (step_losses, epoch_metrics, best_train_loss, best_val_loss, total_elapsed_seconds); `IncrementalLoRATrainer::getMetrics()` public API; metrics reset at start of each `train()` call
 - [x] `LoRACheckpointManager` integration in `IncrementalLoRATrainer` (Target: Q2 2026) — `IncrementalTrainingConfig.checkpoint_dir` field; when set, each `saveCheckpoint()` call delegates to `LoRACheckpointManager::save()` for atomic writes, SHA-256 integrity, and rolling-window rotation (3 checkpoints default)
+- [x] **AdaLoRA** adaptive rank allocation (Target: Q2 2026) — `ada_lora_adapter.h/.cpp`; importance scoring via B/A norm products; `reallocateRanks()` proportional budget distribution; active-rank forward pass; 36 tests (`test_ada_lora_adapter.cpp`); `AdaLoRAFocusedTests` CMake target
+- [x] **LoRAAdapterMerger** linear + TIES merging (Target: Q2 2026) — `lora_adapter_merger.h/.cpp`; `mergeLinear()` weighted ΔW sum + SVD factorisation; `mergeTIES()` Trim–Resolve–Merge (Yadav et al.); `*All()` batch overloads; 32 tests (`test_lora_adapter_merger.cpp`); `LoRAMergerFocusedTests` CMake target
+- [x] **LoRA+** asymmetric learning rates (Target: Q2 2026) — `IncrementalTrainingConfig::lora_plus_lambda`; when > 1.0, B uses `lr*λ` and A uses `lr` (Hayou et al., 2024); dual `AdamOptimizer` instances in `IncrementalLoRATrainer::Impl`
 
 ## In Progress 🚧
 - [x] Automated hyperparameter search (LoRA rank, learning rate sweep) (Target: Q2 2026) — `HyperparamSearchConfig`, `HyperparamResult`, `HyperparamTrialResult`, `HyperparamSearchCallback` in `training_pipeline.h`; `runHyperparamSearch()` in `training_pipeline.cpp`; 9 tests in `tests/test_training_pipeline_e2e.cpp`
