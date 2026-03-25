@@ -38,6 +38,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] Model serving and online inference pipeline: thread-safe named+versioned model registry, online/batch inference, class-probability output, per-model health metrics, serialization round-trip (`analytics/model_serving.cpp`)
 - [x] Predictive analytics and time-series forecasting: LINEAR_REGRESSION, EXP_SMOOTHING, Holt-Winters triple exponential smoothing, ARIMA (AR+I+MA via Yule–Walker), ENSEMBLE with weighted combination; confidence intervals, seasonal decomposition, accuracy metrics (MAE, RMSE, MAPE, sMAPE), model serialization round-trip (`analytics/forecasting.cpp`)
 - [x] Predictive analytics and time-series forecasting (Issue: #1473)
+- [x] Forecasting v1.9.0 enhancements (Issue: #4054): `predictBatch()` (batch forecasting across N series), `update(double)` (O(1) incremental ETS/ARIMA/LR state absorption), parallel auto-tune grid search via `std::async` (9 α tasks), FNV-1a 64-bit fit-result cache (O(1) repeated-fit bypass) — 17 new tests in `ForecastingBatchStreamingTests`
 - [x] AutoML integration for automated model selection (Issue: #1485) ✅
 - [x] Advanced graph analytics: betweenness centrality, Louvain community detection (Issue: #1475)
 - [x] Integration with external ML tools (ONNX Runtime, TensorFlow Serving) (Issue: #1476) ✅
