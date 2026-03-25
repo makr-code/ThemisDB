@@ -9,6 +9,7 @@
 
 ## Current Status
 
+Production-ready multi-model query engine supporting relational, document, graph, vector, spatial, and timeseries query models via AQL. Phases 1–7 are complete: AQL parser, cost-based optimizer (wired to real statistics and Prometheus metrics), multi-model execution, hybrid queries (vector+geo, fulltext+geo, graph+spatial), function registry (100+ built-in functions), CTE with correlated-subquery support, semantic/exact/CTE query caches, window functions, result streaming, EXPLAIN/EXPLAIN ANALYZE, LLM integration directives, vectorized columnar execution, cross-cluster federation with shard-key routing (point-lookup + range), SPARQL/SQL compatibility layers, per-query resource limits, adaptive re-optimization, and JIT compilation for hot queries.
 Production-ready multi-model query engine supporting relational, document, graph, vector, spatial, and timeseries query models via AQL. Phases 1–6 are complete: AQL parser, cost-based optimizer (wired to real statistics and Prometheus metrics), multi-model execution, hybrid queries (vector+geo, fulltext+geo, graph+spatial), function registry (100+ built-in functions), CTE with correlated-subquery support, semantic/exact/CTE query caches, window functions, result streaming, EXPLAIN/EXPLAIN ANALYZE, LLM integration directives, vectorized columnar execution, cross-cluster federation, SPARQL/SQL compatibility layers, per-query resource limits, adaptive re-optimization, and JIT compilation for hot queries.
 
 `QueryFederation` shard-key routing is now implemented (v1.9.0): point-lookup and range queries are routed to the minimum required shard set via `ShardingManager::GetShardForKey` and `GetShardsForKeyRange`. Keyless full-collection scans still broadcast but emit a WARN when > 10 shards are targeted.
@@ -62,10 +63,26 @@ Production-ready multi-model query engine supporting relational, document, graph
 
 - [~] `QueryEngine` graph traversal: edge-type filtering — `query_engine.cpp` line 3533 has a TODO ("Add edge type filtering once exposed in `TraversalQuery` struct"); depends on graph module exposing the field (Target: v1.9.0)
 
+## Completed (v1.9.0) ✅
+
+- [x] `QueryFederation` shard-key routing — point-lookup + range routing replacing full broadcast
+  - `ConsistentHashRing::getShardsInRange()` + `hashKey()` added
+  - `URNResolver::getShardForKey()` + `getShardsForKeyRange()` added
+  - `ShardRouter::executeOnShards()` added (virtual, instrumentation-friendly)
+  - `ShardRouter::scatterGather()` made virtual for testability
+  - `ShardRouter::getResolver()` accessor added
+  - `QueryFederation::analyzeQuery()`: regex extraction of `_key ==` and `_key >= … AND _key <=` predicates
+  - `QueryFederation::determineRelevantShards()`: delegates to `URNResolver` routing methods
+  - PARTITION_PRUNING branch calls `executeOnShards()` instead of `scatterGather()`
+  - SCATTER_GATHER emits `spdlog::warn` when broadcasting to > 10 shards
+  - 4 unit tests in `tests/test_query_federation.cpp` (point lookup → 1 shard, range → ≤ 3 shards, full-scan → scatterGather, determinism)
+  - CMake target: `QueryFederationShardRoutingTests`
+
 ## Planned Features 📋
 
 ### Short-term (v1.9.0, Q2 2026)
 
+- [ ] Edge-type filtering in graph traversal (`TraversalQuery` struct extension) (Target: v1.9.0)
 - [ ] `QueryFederation` shard-key routing (see In Progress above) (Target: v1.9.0)
   - Inputs: AQL query with shard-key predicate; `ShardingManager` interface
   - Outputs: routed plan executing on ≤ N relevant shards
@@ -194,9 +211,11 @@ Production-ready multi-model query engine supporting relational, document, graph
 - **Stale statistics for cost estimation**: statistics used for cardinality estimation can become stale over time as data grows, leading to suboptimal join ordering. Workaround: restart or manually trigger `StatisticsCollector::refresh()`. Continuous incremental stats collection is planned.
 - **JIT compilation requires matching compiler ABI**: `QueryCompiler` hot-path specialisation relies on the same compiler toolchain used for the server binary. Cross-compiled or plugin-loaded UDFs may have ABI mismatches.
 - **SQL compatibility layer covers DML only** (SELECT/INSERT/UPDATE/DELETE); DDL (CREATE TABLE, ALTER TABLE) is not translated and returns `UNSUPPORTED_OPERATION`.
+- **`QueryFederation` shard-key extraction uses regex, not the full AQL AST**: complex predicate forms (e.g., `_key IN [...]`, `_key BETWEEN`, case variations) are not detected and fall back to broadcast. Full AQL AST integration planned for v2.0.0.
 
 ## Breaking Changes
 
 - **v1.2.0**: `QueryEngine` constructor signature changed to require `IIndexManagerPtr`; callers using the old single-argument storage constructor must add an index manager.
 - **v1.5.0 (SPARQL/SQL parsers)**: `AQLParser::parse()` now rejects raw SQL or SPARQL strings with a structured `AQLParseException`; route SQL/SPARQL through `SQLParser`/`SPARQLParser` before passing to the AQL pipeline.
 - **v1.8.0 (JIT compiler)**: `QueryCompiler` requires LLVM 15+ at link time when `THEMIS_ENABLE_JIT=ON` (default: OFF); builds without LLVM remain unaffected.
+- **v1.9.0 (ShardRouter)**: `scatterGather()` and `executeOnShards()` are now `virtual`; subclasses or mocks that previously relied on them being non-virtual must be updated.

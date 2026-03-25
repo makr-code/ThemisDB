@@ -199,6 +199,54 @@ std::vector<std::string> ConsistentHashRing::getAllShards() const {
     return shards;
 }
 
+std::vector<std::string> ConsistentHashRing::getShardsInRange(
+    uint64_t hash_start, uint64_t hash_end
+) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    if (ring_.empty()) {
+        return {};
+    }
+
+    std::vector<std::string> result;
+    std::set<std::string> seen;
+
+    auto collect = [&](auto from, auto to_exclusive) {
+        // Walk from 'from' to just before 'to_exclusive', collecting shards.
+        for (auto it = from; it != to_exclusive; ++it) {
+            seen.insert(it->second);
+        }
+    };
+
+    if (hash_start > hash_end) {
+        // Wrap-around range: [hash_start, ring_max] ∪ [ring_min, hash_end]
+        // Part 1: hash_start → end of ring
+        auto it_start = ring_.lower_bound(hash_start);
+        if (it_start == ring_.end()) {
+            it_start = ring_.begin();
+        }
+        collect(it_start, ring_.end());
+
+        // Part 2: beginning of ring → hash_end (inclusive)
+        for (auto it = ring_.begin(); it != ring_.end() && it->first <= hash_end; ++it) {
+            seen.insert(it->second);
+        }
+    } else {
+        // Normal (non-wrapping) range: [hash_start, hash_end]
+        auto it = ring_.lower_bound(hash_start);
+        if (it == ring_.end()) {
+            it = ring_.begin(); // wrap-around: start is past the last token
+        }
+        while (it != ring_.end() && it->first <= hash_end) {
+            seen.insert(it->second);
+            ++it;
+        }
+    }
+
+    result.assign(seen.begin(), seen.end());
+    return result;
+}
+
 double ConsistentHashRing::getBalanceFactor() const {
     std::lock_guard<std::mutex> lock(mutex_);
     

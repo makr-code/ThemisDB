@@ -26,6 +26,7 @@
 #include "api/grpc_server.h"
 #include "utils/logger.h"
 
+#include <chrono>
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
@@ -94,7 +95,11 @@ void GrpcApiServer::registerService(grpc::Service* service) {
 // ---------------------------------------------------------------------------
 
 bool GrpcApiServer::start() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    // Validate state under the lock, then release before the blocking
+    // BuildAndStart() call (which binds a network socket).  Holding the mutex
+    // across BuildAndStart() would prevent other threads from calling stop()
+    // or any accessor while the socket is being opened.
+    std::unique_lock<std::mutex> lock(mutex_);
 
     if (running_) {
         THEMIS_WARN("GrpcApiServer::start – server is already running on " + server_address_);
@@ -106,19 +111,31 @@ bool GrpcApiServer::start() {
         return false;
     }
 
+    // Capture config values while still locked.
+    const std::string address    = server_address_;
+    const auto        services   = services_;       // copy the registered service list
+    const auto        msg_size   = config_.max_message_size_bytes;
+
+    // Build credentials while still locked (reads config_, no network I/O).
+    std::shared_ptr<grpc::ServerCredentials> credentials;
+    try {
+        credentials = buildCredentials();
+    } catch (const std::exception& ex) {
+        THEMIS_ERROR(std::string("GrpcApiServer::start – credential build failed: ") + ex.what());
+        return false;
+    }
+
+    // ── Release the lock before the blocking socket bind ──────────────────
+    lock.unlock();
+
     try {
         grpc::ServerBuilder builder;
 
-        // Listening address and credentials (TLS or insecure)
-        auto credentials = buildCredentials();
-        builder.AddListeningPort(server_address_, credentials);
+        builder.AddListeningPort(address, credentials);
+        builder.SetMaxReceiveMessageSize(msg_size);
+        builder.SetMaxSendMessageSize(msg_size);
 
-        // Message size limits
-        builder.SetMaxReceiveMessageSize(config_.max_message_size_bytes);
-        builder.SetMaxSendMessageSize(config_.max_message_size_bytes);
-
-        // Register application services
-        for (auto* svc : services_) {
+        for (auto* svc : services) {
             builder.RegisterService(svc);
         }
 
@@ -130,15 +147,19 @@ bool GrpcApiServer::start() {
         THEMIS_INFO("GrpcApiServer: gRPC reflection enabled (debug build)");
 #endif
 
-        server_ = builder.BuildAndStart();
-
-        if (!server_) {
-            THEMIS_ERROR("GrpcApiServer::start – BuildAndStart() returned nullptr for " + server_address_);
+        auto server = builder.BuildAndStart();
+        if (!server) {
+            THEMIS_ERROR("GrpcApiServer::start – BuildAndStart() returned nullptr for " + address);
             return false;
         }
 
+        // Re-acquire lock to update shared state.
+        lock.lock();
+        server_  = std::move(server);
         running_ = true;
-        THEMIS_INFO("GrpcApiServer listening on " + server_address_);
+        lock.unlock();
+
+        THEMIS_INFO("GrpcApiServer listening on " + address);
         return true;
 
     } catch (const std::exception& ex) {
@@ -159,7 +180,11 @@ void GrpcApiServer::stop() {
     }
 
     THEMIS_INFO("GrpcApiServer: shutting down " + server_address_);
-    server_->Shutdown();
+
+    // Apply a 30-second hard deadline so stop() never blocks indefinitely
+    // when a misbehaving RPC handler stalls (ROADMAP Phase 4).
+    const auto deadline = std::chrono::system_clock::now() + std::chrono::seconds(30);
+    server_->Shutdown(deadline);
     server_.reset();
     running_ = false;
     THEMIS_INFO("GrpcApiServer stopped");

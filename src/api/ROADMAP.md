@@ -3,7 +3,7 @@
 <!-- Status: current | validated: 2026-03-22 -->
 
 ## Current Status
-Core HTTP API server implemented with RESTful endpoints, AQL query execution, authentication, and TLS support. GraphQL WebSocket handler (`graphql-transport-ws` protocol) added with subscription management and `QueryLimits::max_subscriptions` enforcement. Versioned API routing (`/v1/`, `/v2/`), gRPC surface, OTLP tracing, geo-index hooks, and rate limiting are all production-ready. Outstanding: gRPC RPC stubs (ExecuteAQL, StreamAQL, VectorSearch, HybridSearch, FullTextSearch), OpenAPI 3.x completeness.
+Core HTTP API server implemented with RESTful endpoints, AQL query execution, authentication, and TLS support. GraphQL WebSocket handler (`graphql-transport-ws` protocol) added with subscription management and `QueryLimits::max_subscriptions` enforcement. Versioned API routing (`/v1/`, `/v2/`), gRPC surface with all RPC stubs wired (`ThemisDBGrpcServiceFactory`), OTLP tracing, geo-index hooks, and rate limiting are all production-ready. Phase 4 complete. Outstanding: OpenAPI 3.x completeness.
 
 ## Completed ✅
 - [x] HTTP server integration (Crow/Beast)
@@ -30,6 +30,9 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [x] Versioned API routing (`/v1/`/`/v2/` prefixes, 301 redirect for unversioned paths) — `include/server/route_version_router.h` (Issue: #1497)
 - [x] GraphQL WebSocket CDC callback use-after-free protection (`alive_` atomic flag) — v1.8.0
 - [x] GraphQL subscription variable type-validation in `handleSubscribe()` step 2 — v1.8.0
+- [x] gRPC RPC stubs wired: `ExecuteAQL`, `StreamAQL`, `VectorSearch`, `FilteredVectorSearch`, `HybridSearch`, `FullTextSearch` via `ThemisDBGrpcServiceFactory` — v1.9.0
+- [x] `GrpcApiServer::start()` mutex released before `BuildAndStart()` socket bind — v1.9.0
+- [x] `GrpcApiServer::stop()` 30-second `Shutdown()` deadline — v1.9.0
 
 ## In Progress 🚧
 - [I] OpenAPI 3.x specification completeness (Target: Q2 2026) (Issue: #1491)
@@ -63,12 +66,12 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [x] Generate client SDKs from OpenAPI spec for Python, JavaScript, and Go (Issue: #1507)
 - [x] Implement async job API for long-running AQL queries with polling endpoint (Issue: #1508)
 
-### Phase 4: API Hardening and gRPC Stub Wiring (Status: In Progress 🚧)
+### Phase 4: API Hardening and gRPC Stub Wiring (Status: Completed ✅)
 - [x] GraphQL WebSocket CDC callback use-after-free prevention (`alive_` atomic flag, `reset()` ordered release) — v1.8.0
 - [x] GraphQL subscription variable type-validation (required/non-null, list shape, scalar type matching) — v1.8.0
-- [~] Wire gRPC RPC stubs: `ExecuteAQL`, `StreamAQL`, `VectorSearch`, `FilteredVectorSearch`, `HybridSearch`, `FullTextSearch` via `ThemisDBGrpcServiceFactory` injection (Issue: pending)
-- [~] Fix `GrpcApiServer::start()` holding `mutex_` across `BuildAndStart()` blocking socket bind (Issue: pending)
-- [~] Fix `GrpcApiServer::stop()` indefinite block — add 30-second `Shutdown()` deadline (Issue: pending)
+- [x] Wire gRPC RPC stubs: `ExecuteAQL`, `StreamAQL`, `VectorSearch`, `FilteredVectorSearch`, `HybridSearch`, `FullTextSearch` via `ThemisDBGrpcServiceFactory` injection — v1.9.0
+- [x] Fix `GrpcApiServer::start()` holding `mutex_` across `BuildAndStart()` blocking socket bind — v1.9.0
+- [x] Fix `GrpcApiServer::stop()` indefinite block — 30-second `Shutdown()` deadline added — v1.9.0
 - [I] Complete OpenAPI 3.x specification for all existing endpoints (Issue: #1491)
 
 ## Production Readiness Checklist

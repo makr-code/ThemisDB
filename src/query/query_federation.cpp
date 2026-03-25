@@ -23,6 +23,8 @@
 #include "query/query_federation.h"
 #include <chrono>
 #include <algorithm>
+#include <regex>
+#include <set>
 #include <spdlog/spdlog.h>
 
 // Configuration constants
@@ -88,6 +90,10 @@ nlohmann::json QueryFederation::execute(const std::string& query) {
         switch (plan.strategy) {
             case ExecutionPlan::Strategy::SCATTER_GATHER:
                 scatter_gather_queries_++;
+                if (plan.target_shards.size() > 10) {
+                    spdlog::warn("QueryFederation: broadcasting to {} shards (no shard-key predicate found); "
+                                 "consider adding a FILTER on _key to enable partition pruning",
+                                 plan.target_shards.size());
                 // Warn when broadcasting to a large number of shards — this is
                 // O(N shards) and should be avoided for key-addressable queries.
                 if (sharding_manager_) {
@@ -105,6 +111,8 @@ nlohmann::json QueryFederation::execute(const std::string& query) {
                 
             case ExecutionPlan::Strategy::PARTITION_PRUNING:
                 partition_pruned_queries_++;
+                spdlog::debug("QueryFederation: partition pruning to {} shard(s)", plan.target_shards.size());
+                shard_results = shard_router_->executeOnShards(query, plan.target_shards);
                 {
                     // Execute on all shards (ShardRouter API does not yet expose
                     // per-shard execution), then retain only results from the
@@ -189,17 +197,21 @@ QueryFederation::ExecutionPlan QueryFederation::createExecutionPlan(
     
     // Check for JOINs
     if (!metadata.joins.empty()) {
-        // Estimate table sizes
-        uint64_t left_size = estimateCollectionSize(metadata.tables[0]);
-        uint64_t right_size = estimateCollectionSize(metadata.tables[1]);
-        
-        // Use broadcast join for small tables
-        if (std::min(left_size, right_size) < config_.broadcast_threshold_bytes) {
-            plan.strategy = ExecutionPlan::Strategy::BROADCAST_JOIN;
-            spdlog::debug("Using broadcast join strategy");
+        if (metadata.tables.size() >= 2) {
+            // Estimate table sizes
+            uint64_t left_size = estimateCollectionSize(metadata.tables[0]);
+            uint64_t right_size = estimateCollectionSize(metadata.tables[1]);
+            
+            // Use broadcast join for small tables
+            if (std::min(left_size, right_size) < config_.broadcast_threshold_bytes) {
+                plan.strategy = ExecutionPlan::Strategy::BROADCAST_JOIN;
+                spdlog::debug("Using broadcast join strategy");
+            } else {
+                plan.strategy = ExecutionPlan::Strategy::SHUFFLE_JOIN;
+                spdlog::debug("Using shuffle join strategy");
+            }
         } else {
-            plan.strategy = ExecutionPlan::Strategy::SHUFFLE_JOIN;
-            spdlog::debug("Using shuffle join strategy");
+            plan.strategy = ExecutionPlan::Strategy::SCATTER_GATHER;
         }
     }
     // Check for aggregations
@@ -207,16 +219,32 @@ QueryFederation::ExecutionPlan QueryFederation::createExecutionPlan(
         plan.strategy = ExecutionPlan::Strategy::MAP_REDUCE;
         spdlog::debug("Using map-reduce strategy for aggregation");
     }
-    // Check for partition pruning
+    // Shard-key predicate takes priority over generic predicate pruning
+    else if (config_.enable_pushdown && metadata.shard_key_predicate.has_value()) {
+        plan.target_shards = determineRelevantShards(metadata);
+        if (!plan.target_shards.empty()) {
+            plan.strategy = ExecutionPlan::Strategy::PARTITION_PRUNING;
+            spdlog::debug("Using partition pruning via shard-key predicate: {} shard(s)",
+                          plan.target_shards.size());
+        }
+    }
+    // Fall back to generic predicate-based pruning (no shard-key hint)
     else if (config_.enable_pushdown && !metadata.predicates.empty()) {
-        // Determine which shards are relevant based on predicates
         plan.target_shards = determineRelevantShards(metadata);
         
-        if (plan.target_shards.size() < PARTITION_PRUNING_THRESHOLD) {
+        if (!plan.target_shards.empty() &&
+            plan.target_shards.size() < PARTITION_PRUNING_THRESHOLD) {
             plan.strategy = ExecutionPlan::Strategy::PARTITION_PRUNING;
             spdlog::debug("Using partition pruning: {} shards", 
                          plan.target_shards.size());
         }
+    }
+
+    // For SCATTER_GATHER, populate target_shards with all healthy shard IDs so
+    // the broadcast warning in execute() has the count.
+    if (plan.strategy == ExecutionPlan::Strategy::SCATTER_GATHER) {
+        QueryMetadata all_meta;
+        plan.target_shards = determineRelevantShards(all_meta);
     }
     
     return plan;
@@ -336,6 +364,69 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
     QueryMetadata metadata;
     metadata.query_text = query;
 
+    // ── Collection name ──────────────────────────────────────────────────────
+    // Match:  FOR <var> IN <collection>
+    {
+        std::regex re_for(R"(FOR\s+\w+\s+IN\s+(\w+))", std::regex::icase);
+        std::sregex_iterator it(query.begin(), query.end(), re_for);
+        std::sregex_iterator end;
+        for (; it != end; ++it) {
+            metadata.tables.push_back((*it)[1].str());
+        }
+    }
+
+    // ── Shard-key predicate ───────────────────────────────────────────────────
+    // Extracts well-known AQL patterns using regex (not a full AQL AST parser).
+    // Recognised forms:
+    //   POINT:  FILTER <var>._key == "<value>"  (double or single quotes)
+    //   RANGE:  FILTER <var>._key >= "<min>" AND <var>._key <= "<max>"
+    //
+    // Known limitations (fall back to scatter-gather):
+    //   • No spaces variation: `_key=="value"` — not matched
+    //   • Back-tick quoting:   `_key == \`value\`` — not matched
+    //   • IN-array:            `_key IN ["a","b"]` — not matched
+    //   • BETWEEN syntax       — not matched
+    //   • Compound predicates with OR — not matched
+    // A full AQL AST integration is planned for v2.0.0.
+    if (!metadata.tables.empty()) {
+        const std::string& col = metadata.tables.front();
+
+        // Point lookup
+        std::regex re_point(
+            R"(FILTER\s+\w+\._key\s*==\s*[\"']([^\"']+)[\"'])",
+            std::regex::icase);
+        std::smatch m;
+        if (std::regex_search(query, m, re_point)) {
+            QueryMetadata::ShardKeyPredicate pred;
+            pred.kind       = QueryMetadata::ShardKeyPredicate::Kind::POINT;
+            pred.collection = col;
+            pred.key_value  = m[1].str();
+            metadata.shard_key_predicate = std::move(pred);
+            metadata.predicates.push_back("shard_key_point");
+        } else {
+            // Range lookup: ... _key >= "<min>" AND ... _key <= "<max>"
+            std::regex re_range(
+                R"(FILTER\s+\w+\._key\s*>=\s*[\"']([^\"']+)[\"']\s+AND\s+\w+\._key\s*<=\s*[\"']([^\"']+)[\"'])",
+                std::regex::icase);
+            if (std::regex_search(query, m, re_range)) {
+                QueryMetadata::ShardKeyPredicate pred;
+                pred.kind       = QueryMetadata::ShardKeyPredicate::Kind::RANGE;
+                pred.collection = col;
+                pred.key_min    = m[1].str();
+                pred.key_max    = m[2].str();
+                metadata.shard_key_predicate = std::move(pred);
+                metadata.predicates.push_back("shard_key_range");
+            }
+        }
+    }
+
+    // ── Generic FILTER ────────────────────────────────────────────────────────
+    if (query.find("FILTER") != std::string::npos &&
+        metadata.predicates.empty()) {
+        metadata.predicates.push_back("filter_present");
+    }
+
+    // ── Aggregations ─────────────────────────────────────────────────────────
     // ---- Collection extraction -------------------------------------------------
     // Pattern: FOR <var> IN <collection>
     size_t for_pos = query.find("FOR");
@@ -359,8 +450,23 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
         query.find("SUM")     != std::string::npos) {
         metadata.aggregations.push_back("aggregation_present");
     }
+
+    // ── Joins ─────────────────────────────────────────────────────────────────
     if (query.find("JOIN") != std::string::npos) {
         metadata.joins.push_back("join_present");
+    }
+
+    // ── LIMIT ────────────────────────────────────────────────────────────────
+    {
+        std::regex re_limit(R"(LIMIT\s+(\d+))", std::regex::icase);
+        std::smatch m2;
+        if (std::regex_search(query, m2, re_limit)) {
+            try {
+                metadata.limit = std::stoull(m2[1].str());
+            } catch (...) {
+                metadata.limit = 100;
+            }
+        }
     }
 
     // ---- LIMIT extraction ------------------------------------------------------
@@ -412,6 +518,41 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
 std::vector<std::string> QueryFederation::determineRelevantShards(
     const QueryMetadata& metadata
 ) {
+    // If a shard-key predicate was detected, use the ShardRouter's routing
+    // methods (via the URNResolver + ConsistentHashRing) to identify exactly
+    // which shards are responsible.
+    if (metadata.shard_key_predicate.has_value()) {
+        const auto& pred = *metadata.shard_key_predicate;
+
+        if (pred.kind == QueryMetadata::ShardKeyPredicate::Kind::POINT) {
+            // Single shard lookup
+            const std::string shard_id =
+                shard_router_->getResolver().getShardForKey(pred.collection, pred.key_value);
+            if (!shard_id.empty()) {
+                spdlog::debug("QueryFederation: point-lookup key='{}' → shard '{}'",
+                              pred.key_value, shard_id);
+                return {shard_id};
+            }
+        } else {
+            // Range lookup
+            auto shards = shard_router_->getResolver().getShardsForKeyRange(
+                pred.collection, pred.key_min, pred.key_max);
+            if (!shards.empty()) {
+                spdlog::debug("QueryFederation: range-lookup [{},{}] → {} shard(s)",
+                              pred.key_min, pred.key_max, shards.size());
+                return shards;
+            }
+        }
+    }
+
+    // No shard-key hint — return all healthy shard IDs (caller will broadcast).
+    auto all_shards = shard_router_->getResolver().getHealthyShards();
+    std::vector<std::string> ids;
+    ids.reserve(all_shards.size());
+    for (const auto& s : all_shards) {
+        ids.push_back(s.shard_id);
+    }
+    return ids;
     // If a ShardingManager was injected, use its consistent-hash ring for
     // key-based routing.  Otherwise fall back to the former placeholder.
     if (sharding_manager_) {
