@@ -31,6 +31,13 @@ class RocksDBWrapper;
 class TransactionManager;
 } // namespace themis
 
+// Interface forward declarations (always available without proto stubs)
+namespace themis {
+class IQueryEngine;
+class IVectorIndex;
+using IQueryEnginePtr = std::shared_ptr<IQueryEngine>;
+} // namespace themis
+
 namespace themis {
 namespace api {
 
@@ -45,7 +52,7 @@ namespace api {
  *
  * Lifecycle – register with GrpcApiServer before calling start():
  * @code
- *   ThemisDBGrpcService svc(db, txn_mgr);
+ *   ThemisDBGrpcService svc(db, txn_mgr, aql_engine, vector_index);
  *   grpc_api_server.registerService(svc.service());  // nullptr when stubs absent
  *   grpc_api_server.start();
  * @endcode
@@ -56,16 +63,40 @@ namespace api {
  *   - AQL           : ExecuteAQL, StreamAQL (server-side streaming)
  *   - Vector search : VectorSearch, FilteredVectorSearch, HybridSearch, FullTextSearch
  *   - Health        : HealthCheck
+ *
+ * When an AQL engine and/or vector index are provided via the extended
+ * constructor the corresponding RPC stubs delegate to them rather than
+ * returning UNIMPLEMENTED.  See ThemisDBGrpcServiceFactory for a fluent
+ * builder that wires all components together.
  */
 class ThemisDBGrpcService {
 public:
     /**
+     * @brief Construct with storage only (AQL and vector search return UNIMPLEMENTED).
      * @param db       Storage backend (must outlive this object).
      * @param txn_mgr  Transaction manager (must outlive this object).
      */
     ThemisDBGrpcService(
         std::shared_ptr<RocksDBWrapper>     db,
         std::shared_ptr<TransactionManager> txn_mgr
+    );
+
+    /**
+     * @brief Construct with all components wired in.
+     *
+     * AQL engine enables ExecuteAQL, StreamAQL, HybridSearch, and FullTextSearch.
+     * Vector index enables VectorSearch and FilteredVectorSearch.
+     *
+     * @param db           Storage backend (must outlive this object).
+     * @param txn_mgr      Transaction manager (must outlive this object).
+     * @param aql_engine   Query engine for AQL RPCs (may be nullptr).
+     * @param vector_index Vector similarity index (may be nullptr).
+     */
+    ThemisDBGrpcService(
+        std::shared_ptr<RocksDBWrapper>          db,
+        std::shared_ptr<TransactionManager>      txn_mgr,
+        std::shared_ptr<themis::IQueryEngine>    aql_engine,
+        std::shared_ptr<themis::IVectorIndex>    vector_index
     );
 
     ~ThemisDBGrpcService();
@@ -80,11 +111,16 @@ public:
     void* service();
 
 private:
-    std::shared_ptr<RocksDBWrapper>     db_;
-    std::shared_ptr<TransactionManager> txn_mgr_;
+    std::shared_ptr<RocksDBWrapper>             db_;
+    std::shared_ptr<TransactionManager>         txn_mgr_;
+    std::shared_ptr<themis::IQueryEngine>       aql_engine_;
+    std::shared_ptr<themis::IVectorIndex>       vector_index_;
 
     class Impl;
     std::unique_ptr<Impl> impl_;
+
+    /// Internal helper used by both constructors.
+    void buildImpl();
 };
 
 } // namespace api

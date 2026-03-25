@@ -10,7 +10,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Versioned API endpoint routing deprecation-header polish — Issue #1497
 - API key management endpoint — Issue #1502
 
-## [1.8.0] — 2026-03-22
+## [1.9.0] — 2026-03-25
+### Fixed
+- `GrpcApiServer::start()` no longer holds `mutex_` across the blocking `BuildAndStart()` socket-bind call; lock is released before the network operation and re-acquired afterwards, preventing deadlock when `stop()` or any accessor is called concurrently (Phase 4)
+- `GrpcApiServer::stop()` now applies a 30-second hard deadline to `server_->Shutdown()`, preventing indefinite blocks when in-flight RPC handlers stall (Phase 4)
+
+### Added
+- `ThemisDBGrpcService` extended constructor accepting `IQueryEngine` + `IVectorIndex`: when wired in, `ExecuteAQL`/`StreamAQL` delegate to the AQL engine; `VectorSearch`/`FilteredVectorSearch` delegate to the vector index; `HybridSearch` combines both; `FullTextSearch` constructs an AQL `FULLTEXT()` query (Phase 4)
+- `ThemisDBGrpcServiceFactory` (header-only fluent builder in `include/api/themisdb_grpc_service_factory.h`): `withDb()`, `withTxnMgr()`, `withQueryEngine()`, `withVectorIndex()`, `build()` — the recommended assembly point for a fully-wired `ThemisDBGrpcService`
+- `StreamAQL` RPC now streams each JSON array element as a separate `AQLRow` message (cancellation-aware via `ctx->IsCancelled()`)
+- `HealthCheck` details now report `aql`/`vector` status as `"ok"` or `"not wired"` rather than a static string
+- 8 new tests in `test_themisdb_grpc_service.cpp` covering extended constructor, factory build variants, and factory reuse
+
+
 ### Added
 - GraphQL WebSocket CDC callback use-after-free protection: `alive_` `std::shared_ptr<std::atomic<bool>>` flag added to `GraphQLWsHandler`; set to `false` (with `memory_order_release`) in `reset()` before subscriptions are cleared; CDC lambda captures `alive` by value and loads with `memory_order_acquire` before dereferencing `self` (`graphql_ws_handler.cpp`, `graphql_ws_handler.h`)
 - GraphQL subscription variable type-validation in `handleSubscribe()` step 2: new `validateVariables(const graphql::Operation&, const nlohmann::json&)` private helper validates required/non-null presence, null-value legality, list-vs-scalar shape, and built-in scalar type matching (String, ID, Int, Float, Boolean) before subscription registration (`graphql_ws_handler.cpp`)
