@@ -50,7 +50,7 @@ on:
           - "Debug"
           - "Release"
       ref:
-        description: "Branch, tag, or SHA to build (default: main)"
+        description: "Branch, tag, or SHA to build. Tip: COMMUNITY/MINIMAL→main, ENTERPRISE/MILITARY→enterprise, HYPERSCALER→hyperscaler"
         required: false
         default: "main"
         type: string
@@ -70,18 +70,20 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # Trim leading/trailing whitespace from ref to prevent 404 errors
+          REF=$(echo "${{ inputs.ref }}" | xargs)
           # NOTE: edition-build-ci.yml uses 'build-type' (kebab-case) from its
           # existing workflow_call contract; we map our build_type input to it.
           gh workflow run "03-editions/edition-build-ci.yml" \
             --repo "${{ github.repository }}" \
-            --ref "${{ inputs.ref }}" \
+            --ref "$REF" \
             --field "edition=${{ inputs.edition }}" \
             --field "build-type=${{ inputs.build_type }}"
 
           echo "✅ Dispatched 03-editions/edition-build-ci.yml"
           echo "   edition    : ${{ inputs.edition }}"
           echo "   build_type : ${{ inputs.build_type }}"
-          echo "   ref        : ${{ inputs.ref }}"
+          echo "   ref        : $REF"
 
       - name: Write job summary
         if: always()
