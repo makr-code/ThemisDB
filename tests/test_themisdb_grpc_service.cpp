@@ -128,9 +128,8 @@ TEST(ThemisDBGrpcServiceTest, ConstructWithWiredComponents) {
 
     ASSERT_NO_THROW({
         ThemisDBGrpcService svc(nullptr, nullptr, engine, index);
+        (void)svc.service();
     });
-    ThemisDBGrpcService svc(nullptr, nullptr, engine, index);
-    SUCCEED(); // construction succeeds; service() will return valid ptr if stubs present
 }
 
 TEST(ThemisDBGrpcServiceTest, ServicePointerStableAfterWiring) {
@@ -198,5 +197,4 @@ TEST(ThemisDBGrpcServiceFactoryTest, FactoryIsReusable) {
     // They must be distinct objects.
     EXPECT_NE(svc1.get(), svc2.get());
 }
-
 

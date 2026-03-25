@@ -56,6 +56,23 @@
 #  define THEMIS_HAS_JSON 0
 #endif
 
+namespace {
+
+/// Escape a string for safe embedding inside an AQL single-quoted literal.
+/// Replaces backslashes and single-quotes to prevent AQL injection.
+std::string aqlEscape(const std::string& raw) {
+    std::string out;
+    out.reserve(raw.size() + 4);
+    for (char c : raw) {
+        if (c == '\\') { out += "\\\\"; }
+        else if (c == '\'') { out += "\\'"; }
+        else { out += c; }
+    }
+    return out;
+}
+
+} // namespace
+
 namespace themis {
 namespace api {
 
@@ -525,9 +542,10 @@ private:
 
             // Sparse component (AQL full-text via engine) – simplified delegation
             if (aql_engine_ && !req->sparse_query().empty()) {
+                // Escape user input before embedding in AQL string literal
                 const std::string aql =
-                    "FOR doc IN " + req->collection() +
-                    " FILTER FULLTEXT(doc, 'text', '" + req->sparse_query() + "') "
+                    "FOR doc IN " + aqlEscape(req->collection()) +
+                    " FILTER FULLTEXT(doc, 'text', '" + aqlEscape(req->sparse_query()) + "')"
                     " LIMIT " + std::to_string(k) + " RETURN doc";
                 auto result = aql_engine_->execute(aql);
                 if (result) {
@@ -566,9 +584,10 @@ private:
             }
 
             const int limit = req->max_results() > 0 ? req->max_results() : 10;
+            // Escape user input before embedding in AQL string literal
             const std::string aql =
-                "FOR doc IN " + req->collection() +
-                " FILTER FULLTEXT(doc, 'text', '" + req->query() + "') "
+                "FOR doc IN " + aqlEscape(req->collection()) +
+                " FILTER FULLTEXT(doc, 'text', '" + aqlEscape(req->query()) + "')"
                 " LIMIT " + std::to_string(limit) + " RETURN doc";
 
             auto result = aql_engine_->execute(aql);
