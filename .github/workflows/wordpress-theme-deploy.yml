@@ -2,17 +2,14 @@ name: WordPress Theme Deploy
 
 on:
   push:
+    branches:
+      - main
+      - develop
     tags:
       - 'v*.*.*'
     paths:
       - 'wordpress-theme/**'
   workflow_dispatch:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'wordpress-theme/**'
 
 permissions:
   contents: read

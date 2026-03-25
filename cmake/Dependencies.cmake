@@ -20,7 +20,8 @@ if(NOT OpenSSL_FOUND)
 endif()
 message(STATUS "OpenSSL found: ${OPENSSL_VERSION}")
 
-find_package(ZLIB 1.3 REQUIRED)
+# Minimum 1.2 for Ubuntu 22.04 compatibility (ships zlib 1.2.11)
+find_package(ZLIB 1.2 REQUIRED)
 message(STATUS "ZLIB found: ${ZLIB_VERSION}")
 
 # zstd (compression codec) - must be found before RocksDB
