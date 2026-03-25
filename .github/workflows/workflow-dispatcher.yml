@@ -36,13 +36,25 @@ name: "🚀 Workflow Dispatcher (Universal)"
 #
 # NOTE
 # ----
-# For workflows with named inputs (e.g. [Manual] Create Release Archive),
-# dedicated root-level trigger files also exist for a better input UI:
-#   - release-create-archive.yml
-#   - release-bootstrap-branches.yml
-#   - maintenance-sync-roadmap.yml
-#   - maintenance-sync-milestones.yml
-#   - maintenance-label-governance.yml
+# For workflows with named inputs, dedicated root-level trigger files also
+# exist for a better input UI:
+#
+#   Release:
+#     - release-create-archive.yml        → 04-release/create-release-archive.yml
+#     - release-bootstrap-branches.yml    → 04-release/bootstrap-release-branches.yml
+#     - release-dockerhub-publish.yml     → 04-release/dockerhub-publish-on-release.yml
+#     - release-publish-enterprise.yml    → 04-release/publish-enterprise.yml
+#     - release-publish-hyperscaler.yml   → 04-release/publish-hyperscaler.yml
+#
+#   Maintenance:
+#     - maintenance-sync-roadmap.yml           → 08-maintenance/sync-roadmap-issues.yml
+#     - maintenance-sync-milestones.yml        → 08-maintenance/sync-milestones.yml
+#     - maintenance-label-governance.yml       → 08-maintenance/github_workflows_label-governance.yml
+#     - maintenance-add-doc-metadata.yml       → 08-maintenance/add-doc-metadata.yml
+#     - maintenance-code-maturity-analysis.yml → 08-maintenance/code-maturity-analysis.yml
+#
+#   Core:
+#     - core-ci-scope-classifier.yml      → 01-core/ci-scope-classifier.yml
 # ---------------------------------------------------------------------------
 
 on:

@@ -1,0 +1,66 @@
+name: "[Manual] Code Maturity Analysis"
+
+# ---------------------------------------------------------------------------
+# ROOT-LEVEL TRIGGER
+# ------------------
+# This file exists at the root of .github/workflows/ so that it appears in
+# the GitHub Web UI and GitHub App under the Actions tab.
+#
+# GitHub only shows workflow_dispatch triggers for workflows directly in
+# .github/workflows/. The real implementation lives in:
+#   .github/workflows/08-maintenance/code-maturity-analysis.yml
+#
+# The real workflow also runs on a schedule. Use this wrapper to trigger
+# an on-demand analysis run without waiting for the next scheduled execution.
+#
+# ALTERNATIVE: GitHub CLI
+#   gh workflow run "08-maintenance/code-maturity-analysis.yml" \
+#     --repo makr-code/ThemisDB --ref main
+# ---------------------------------------------------------------------------
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Branch, tag, or SHA to analyse (default: main)"
+        required: false
+        default: "main"
+        type: string
+
+permissions:
+  actions: write
+
+jobs:
+  trigger:
+    name: "Trigger › 08-maintenance/code-maturity-analysis.yml"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Dispatch workflow
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh workflow run "08-maintenance/code-maturity-analysis.yml" \
+            --repo "${{ github.repository }}" \
+            --ref "${{ inputs.ref }}"
+
+          echo "✅ Dispatched 08-maintenance/code-maturity-analysis.yml"
+          echo "   ref : ${{ inputs.ref }}"
+
+      - name: Write job summary
+        if: always()
+        shell: bash
+        run: |
+          echo "## 📊 [Manual] Code Maturity Analysis" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Ref** | \`${{ inputs.ref }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Target workflow** | \`08-maintenance/code-maturity-analysis.yml\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Timestamp** | $(date -u +'%Y-%m-%d %H:%M:%S UTC') |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "> ℹ️ The real workflow also runs on a schedule." >> "$GITHUB_STEP_SUMMARY"
+          echo "> Use this wrapper for on-demand analysis runs." >> "$GITHUB_STEP_SUMMARY"

@@ -66,10 +66,13 @@ files mirror the exact input fields of the real workflow:
 | `[Manual] Create Release Archive` | `04-release/create-release-archive.yml` |
 | `[Manual] Bootstrap Release Branches` | `04-release/bootstrap-release-branches.yml` |
 | `[Manual] Publish Docker Image to Docker Hub` | `04-release/dockerhub-publish-on-release.yml` |
+| `[Manual] Publish Enterprise Edition` | `04-release/publish-enterprise.yml` |
+| `[Manual] Publish Hyperscaler Edition` | `04-release/publish-hyperscaler.yml` |
 | `[Manual] Sync Roadmap Issues` | `08-maintenance/sync-roadmap-issues.yml` |
 | `[Manual] Sync Milestones from Roadmap` | `08-maintenance/sync-milestones.yml` |
 | `[Manual] Label Governance – Setup & Audit` | `08-maintenance/github_workflows_label-governance.yml` |
 | `[Manual] Add Documentation Metadata` | `08-maintenance/add-doc-metadata.yml` |
+| `[Manual] Code Maturity Analysis` | `08-maintenance/code-maturity-analysis.yml` |
 | `[Manual] CI Scope Classifier (Debug)` | `01-core/ci-scope-classifier.yml` |
 
 These wrappers appear in the **Actions** tab with the same input form as the
