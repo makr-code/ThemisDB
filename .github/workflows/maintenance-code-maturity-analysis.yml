@@ -15,16 +15,16 @@ name: "[Manual] Code Maturity Analysis"
 #
 # ALTERNATIVE: GitHub CLI
 #   gh workflow run "08-maintenance/code-maturity-analysis.yml" \
-#     --repo makr-code/ThemisDB --ref main
+#     --repo makr-code/ThemisDB --ref develop
 # ---------------------------------------------------------------------------
 
 on:
   workflow_dispatch:
     inputs:
       ref:
-        description: "Branch, tag, or SHA to analyse (default: main)"
+        description: "Branch, tag, or SHA to analyse (default: develop)"
         required: false
-        default: "main"
+        default: "develop"
         type: string
 
 permissions:
@@ -42,12 +42,14 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # Trim leading/trailing whitespace from the ref input to prevent 404 errors
+          REF=$(echo "${{ inputs.ref }}" | xargs)
           gh workflow run "08-maintenance/code-maturity-analysis.yml" \
             --repo "${{ github.repository }}" \
-            --ref "${{ inputs.ref }}"
+            --ref "$REF"
 
           echo "✅ Dispatched 08-maintenance/code-maturity-analysis.yml"
-          echo "   ref : ${{ inputs.ref }}"
+          echo "   ref : $REF"
 
       - name: Write job summary
         if: always()
