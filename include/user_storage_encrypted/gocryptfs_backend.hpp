@@ -108,6 +108,16 @@ public:
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
+    
+    // Helper methods
+
+    /// Create a secure temporary password file; returns the path.
+    Result<std::string> createPasswordFile(
+        const std::vector<uint8_t>& key_material
+    );
+
+    /// Execute command and pipe key_hex to its stdin; zeroes key_hex on return.
+    Result<std::string> deliverKeyViaStdin(
 
     // --- Stdin-based key delivery (Feature 1) ---
 
@@ -145,9 +155,16 @@ private:
     Result<std::string> executeCommand(
         const std::string& command,
         const std::vector<std::string>& args,
-        const std::string& stdin_data = ""
+        std::string key_hex
     );
 
+    /// Execute command with arbitrary stdin data.
+    Result<std::string> executeCommandWithStdin(
+        const std::vector<std::string>& args,
+        const std::string& stdin_data
+    );
+
+    /// Execute command safely via fork/execvp (no shell).
     Result<std::string> executeCommandSafe(
         const std::vector<std::string>& args
     );

@@ -9,6 +9,8 @@ endif()
 message(STATUS "Configuring User Storage Encrypted Plugin (src/user_storage_encrypted)")
 
 find_package(nlohmann_json REQUIRED)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(ARGON2 REQUIRED libargon2)
 
 # libargon2 is required for the Argon2id key derivation service (Feature 2).
 find_library(ARGON2_LIB NAMES argon2)
@@ -31,11 +33,13 @@ target_include_directories(themis_user_storage_encrypted
         $<INSTALL_INTERFACE:include>
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
+        ${ARGON2_INCLUDE_DIRS}
         ${ARGON2_INCLUDE_DIR}
 )
 
 target_link_libraries(themis_user_storage_encrypted PRIVATE
     nlohmann_json::nlohmann_json
+    ${ARGON2_LIBRARIES}
     ${ARGON2_LIB}
 )
 

@@ -14136,6 +14136,14 @@ add_index_focused_test(
     "IndexCompression: delta encoding, prefix compression, bloom filters, dictionary encoding, RLE (v1.7.0)"
 )
 
+add_index_focused_test(
+    test_matryoshka_truncation_focused
+    index/test_matryoshka_truncation.cpp
+    MatryoshkaTruncationFocusedTests
+    "index;matryoshka;mrl;truncation;ann;scann;focused;unit"
+    "MatryoshkaTruncation: MRL prefix truncation, L2 normalisation, MatryoshkaTruncatedIndex IAnnIndex wrapper (v1.8.0)"
+)
+
 # ============================================================================
 # Cache Interfaces Tests (Issue: #1596 — unit test coverage >80%)
 # ============================================================================

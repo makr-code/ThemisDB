@@ -26,6 +26,7 @@
 
 #include "security_level.hpp"
 #include "encryption_backend_interface.hpp"
+#include "irotation_store.hpp"
 #include <functional>
 #include <memory>
 #include <string>
@@ -68,6 +69,7 @@ public:
  * - Zero-downtime rotation process
  * - Notification on rotation completion
  * - Thread-safe operation
+ * - Optional persistent state via IRotationStore (last_check_ms survives restart)
  * - Optional persistence via IRotationStore (Feature 3)
  * 
  * Rotation Process:
@@ -90,6 +92,16 @@ public:
     ~KeyRotationScheduler();
     
     /**
+     * @brief Attach a persistence store for last_check_ms.
+     *
+     * Must be called before initialize().  Defaults to NullRotationStore.
+     */
+    void setRotationStore(std::shared_ptr<IRotationStore> store);
+
+    /**
+     * @brief Initialize scheduler
+     * 
+     * @param check_interval_seconds How often to check for rotation needs
      * @brief Initialize scheduler, optionally loading persisted rotation state.
      *
      * When a non-null @p store is supplied the scheduler loads any previously
@@ -151,6 +163,11 @@ public:
      * @return Timestamp in milliseconds, 0 if not scheduled
      */
     int64_t getNextRotationTime(SecurityLevel level);
+
+    /**
+     * @brief Manually trigger rotation check for a level (for testing).
+     */
+    void triggerRotation(SecurityLevel level);
     
 private:
     struct Impl;

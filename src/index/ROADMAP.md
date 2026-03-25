@@ -65,6 +65,13 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 
 ### Phase 3: Learned Structures & GPU Build (Status: In Progress 🚧)
 - [x] DiskANN / ScaNN alternative ANN algorithms for on-disk indexes (Issue: #1876)
+- [x] Matryoshka Representation Learning (MRL) truncation for multi-stage retrieval (v1.8.0)
+  - Files: `include/index/matryoshka_truncation.h`, `src/index/matryoshka_truncation.cpp`
+  - Backend: transparent `IAnnIndex` decorator (`MatryoshkaTruncatedIndex`) wrapping any ANN backend
+  - Granularities: `kMRL_64/128/256/512/768/1024/1536` (OpenAI text-embedding-3, Nomic Embed v1.5, BGE-M3)
+  - Tests: `tests/index/test_matryoshka_truncation.cpp` — 25 unit tests, AC-1 through AC-25
+  - CI: `.github/workflows/matryoshka-truncation-ci.yml`
+  - Performance: O(trunc_dim) truncation + normalisation; no index-build overhead beyond backend
 - [x] Learned index structures (ML-based B-tree replacement)
 - [I] GPU-accelerated index build for large-scale vector datasets (Issue: #1878)
 - [x] Parallel batch search across GPUs in MultiGPUVectorIndex

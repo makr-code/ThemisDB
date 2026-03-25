@@ -15,6 +15,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Full security audit (issue #1885)
 - API stability guarantees documentation (issue #1887)
 
+## [1.8.0] — 2026-03-24
+### Added
+- **Matryoshka Representation Learning (MRL) truncation** (Issue: #1876 follow-up):
+  `MatryoshkaTruncation` stateless helper for prefix-truncation and optional L2
+  normalisation of MRL embeddings; `MatryoshkaTruncatedIndex` IAnnIndex decorator
+  that applies truncation transparently to any ANN backend (ScaNN, DiskAnnAdapter,
+  HNSW, etc.), enabling multi-stage retrieval pipelines and compact low-dimensional
+  pre-filter indexes from a single full-dimensional embedding.
+  Files: `include/index/matryoshka_truncation.h`, `src/index/matryoshka_truncation.cpp`.
+  Standard granularity constants `kMRL_64/128/256/512/768/1024/1536` for
+  OpenAI text-embedding-3, Nomic Embed v1.5, BGE-M3 compatibility.
+  Tests: `tests/index/test_matryoshka_truncation.cpp` — 25 focused tests (v1.8.0).
+  CI: `.github/workflows/matryoshka-truncation-ci.yml`.
+
 ## [1.7.0] — 2026-03-xx
 ### Added
 - **Index Compression** (issue #176): `IndexCompressionCodec` with five techniques:

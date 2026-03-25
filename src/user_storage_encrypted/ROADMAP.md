@@ -43,6 +43,24 @@ is now ≥ 90/100; `KeyRotationScheduler` retains Production-Ready (100/100).
 
 ## Planned Features
 
+### v0.1.0 — Hardening and Tests ✅ (2026-03-24)
+
+- [x] Fix `const_cast` in `createPasswordFile()` — returns `Result<std::string>` (done)
+- [x] Secure key delivery via stdin pipe instead of `/tmp` password file (done)
+- [x] Argon2id KDF (`Argon2idKeyDerivationService`, m=65536/t=3/p=4) (done)
+- [x] `IRotationStore` persistence for `KeyRotationScheduler` (done)
+- [x] 20 unit tests (AC-SD, AC-KDF, AC-PRS, AC-GCF) (done)
+- [ ] Integration tests: create → mount → write file → unmount → re-mount → verify file (Target: Q3 2026)
+- [ ] Remove deprecated `executeCommand()` after confirming no external callers (Target: Q3 2026)
+
+### v0.2.0 — Stale Mount Reconciliation ✅ (2026-03-25)
+
+- [x] `reconcileStaleMounts()` — scans `/proc/mounts` for orphaned FUSE mounts,
+      unmounts via `fusermount -u` / `umount` fallback, non-fatal (done)
+- [x] Called from `initialize()` before `initializeLevel()` (done)
+- [x] 5 `StaleMountReconciliationTest` tests (done)
+
+### v0.3.0 — Multi-User and Quota (Target: Q1 2027)
 ### v0.2.0 — Monitoring and Multi-User (Target: Q3 2026)
 
 - [ ] Prometheus metrics: mount count, rotation events, container sizes (Target: Q3 2026)
@@ -77,6 +95,15 @@ is now ≥ 90/100; `KeyRotationScheduler` retains Production-Ready (100/100).
 - [x] Corrupted persisted rotation state is silently ignored
 
 ### Phase 4: Tests ✅
+- [x] 20 unit tests: stdin delivery, Argon2id KDF, IRotationStore persistence, GocryptfsBackend (done)
+- [x] 5 stale mount reconciliation tests (done)
+- [ ] Integration tests (Target: Q3 2026)
+
+### Phase 5: Performance / Hardening ✅
+- [x] Fix `const_cast` in `createPasswordFile()` (done)
+- [x] Stdin key delivery + `explicit_bzero` (done)
+- [x] KDF integration (Argon2id) (done)
+- [x] `reconcileStaleMounts()` in `initialize()` (done)
 - [x] 20 unit + integration tests (`test_user_storage_features.cpp`)
 - [x] CI workflow covering gcc-12, gcc-13, clang-15
 

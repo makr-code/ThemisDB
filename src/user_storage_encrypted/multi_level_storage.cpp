@@ -74,6 +74,10 @@ bool MultiLevelEncryptedStorage::initialize(const char* config_json) {
         if (result.isError()) {
             return false;
         }
+        
+        // Reconcile any orphaned FUSE mounts from a previous crash before
+        // initialising levels (non-fatal: log and continue).
+        reconcileStaleMounts();
 
         // Reconcile stale mounts from a prior crash before bringing up new mounts.
         std::set<std::string> base_paths;
@@ -786,6 +790,91 @@ Result<HealthStatus> MultiLevelEncryptedStorage::checkLevelHealth(SecurityLevel 
     status.healthy = true;
     status.message = "Level healthy";
     return Result<HealthStatus>(status);
+}
+
+void MultiLevelEncryptedStorage::reconcileStaleMounts() {
+    // Collect known mount points from configuration
+    std::vector<std::string> known_mount_points;
+    for (const auto& pair : impl_->level_configs) {
+        const auto& cfg = pair.second;
+        if (cfg.encrypted && !cfg.mount_point.empty()) {
+            known_mount_points.push_back(cfg.mount_point);
+        }
+    }
+
+#ifdef __linux__
+    // Scan /proc/mounts for FUSE entries whose mount point is one of ours
+    std::ifstream mounts_file("/proc/mounts");
+    if (!mounts_file) {
+        return;
+    }
+
+    std::vector<std::string> stale_mounts;
+    std::string line;
+    while (std::getline(mounts_file, line)) {
+        // /proc/mounts columns: device mountpoint fstype options dump pass
+        std::istringstream iss(line);
+        std::string device, mount_point, fstype;
+        iss >> device >> mount_point >> fstype;
+
+        // Only consider FUSE mounts (gocryptfs uses fuse.gocryptfs)
+        if (fstype.find("fuse") == std::string::npos) {
+            continue;
+        }
+
+        for (const auto& known : known_mount_points) {
+            if (mount_point == known) {
+                stale_mounts.push_back(mount_point);
+                break;
+            }
+        }
+    }
+
+    // Unmount stale FUSE mounts non-fatally
+    for (const auto& mp : stale_mounts) {
+        // Try fusermount -u first, fall back to umount
+        std::vector<std::string> args_fuse = {"fusermount", "-u", mp};
+        std::vector<std::string> args_umount = {"umount", mp};
+
+        // Fork/exec fusermount
+        {
+            pid_t pid = fork();
+            if (pid == 0) {
+                std::vector<char*> c_args;
+                for (const auto& a : args_fuse) {
+                    c_args.push_back(const_cast<char*>(a.c_str()));
+                }
+                c_args.push_back(nullptr);
+                execvp(c_args[0], c_args.data());
+                _exit(127);
+            } else if (pid > 0) {
+                int status = 0;
+                waitpid(pid, &status, 0);
+                if (WIFEXITED(status) && WEXITSTATUS(status) == 0) {
+                    continue; // Successfully unmounted
+                }
+            }
+        }
+
+        // Fallback: umount
+        {
+            pid_t pid = fork();
+            if (pid == 0) {
+                std::vector<char*> c_args;
+                for (const auto& a : args_umount) {
+                    c_args.push_back(const_cast<char*>(a.c_str()));
+                }
+                c_args.push_back(nullptr);
+                execvp(c_args[0], c_args.data());
+                _exit(127);
+            } else if (pid > 0) {
+                int status = 0;
+                waitpid(pid, &status, 0);
+                // Non-fatal regardless of outcome
+            }
+        }
+    }
+#endif
 }
 
 } // namespace user_storage
