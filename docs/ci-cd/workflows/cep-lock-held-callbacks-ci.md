@@ -1,0 +1,49 @@
+# CEP Lock-Held-Across-Callbacks CI
+
+🔄 **CI/CD**
+
+> **Workflow-Datei:** `.github/workflows/cep-lock-held-callbacks-ci.yml`
+
+## Aufgabe
+
+CI-Workflow zur automatischen Überprüfung und Validierung von: **CEP Lock-Held-Across-Callbacks**.
+
+## Auslöser (Triggers)
+
+- **`push`** — Automatisch bei jedem Push auf die konfigurierten Branches (Branches: `main`, `develop`) (5 überwachte Pfade)
+- **`pull_request`** — Automatisch bei Pull Requests (opened, synchronize, reopened) (5 überwachte Pfade)
+- **`workflow_dispatch`** — Manuell über die GitHub Actions UI ausführbar
+
+## Nebenläufigkeit
+
+- **Gruppe:** `${{ github.workflow }}-${{ github.ref }}`
+- **Cancel-in-progress:** Ja
+
+## Jobs
+
+### `ci-scope-classifier`
+**Typ:** Reusable Workflow Call
+**Verwendet:** `./.github/workflows/ci-scope-classifier.yml`
+
+### `cep-lock-held-callbacks-tests`
+**Anzeigename:** CEP lock-fix tests (${{ matrix.os }} / ${{ matrix.compiler }})
+
+**Läuft auf:** `${{ matrix.os }}`
+**Abhängigkeiten:** `ci-scope-classifier`
+**Bedingung:** `needs.ci-scope-classifier.outputs.has_code_changes == 'true'`
+**Matrix:** 3 Konfiguration(en)
+
+**Schritte:**
+
+- **Checkout repository** — `actions/checkout@v4`
+- **Set up C++ build environment** — `./.github/actions/setup-cpp-build`
+- **Configure and build** — `./.github/actions/configure-themis`
+- **Run CepEngineFocusedTests via ctest** — `set -o pipefail`
+- **Run tests via focused binary** — `set -o pipefail`
+- **Upload test results** — `actions/upload-artifact@v4`
+- **Write job summary** — `echo "## 🔒 CEP Lock-Held-Across-Callbacks – Unit Tests" >> "$GITHUB_STEP_SUMMARY`
+
+## Verwandte Ressourcen
+
+- [Workflow-Datei](../.github/workflows/cep-lock-held-callbacks-ci.yml)
+- [Alle Workflows](README.md)
