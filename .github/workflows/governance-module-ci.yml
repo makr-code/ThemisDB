@@ -83,7 +83,7 @@ jobs:
   ci-scope-classifier:
     permissions:
       contents: read
-    uses: ./.github/workflows/01-core/ci-scope-classifier.yml
+    uses: ./.github/workflows/ci-scope-classifier.yml
 
   # ---------------------------------------------------------------------------
   # Core governance unit tests: CCPA rules, data masking, data lineage, PCI-DSS,

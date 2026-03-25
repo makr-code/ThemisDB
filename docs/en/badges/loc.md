@@ -4,19 +4,19 @@
 
 ## What it shows
 
-The total number of lines of source code in the repository as counted by [Tokei](https://github.com/XAMPPRocky/tokei), a fast code statistics tool. The count covers all recognised source files across all languages used in ThemisDB (C++, CMake, Python, YAML, etc.).
+The total number of lines of source code in the repository as counted by [Tokei](https://github.com/XAMPPRocky/tokei), a fast code statistics tool. The count is stored in the `.github/badges/lines-of-code.json` file on the `develop` branch and rendered as a [shields.io dynamic JSON badge](https://shields.io/badges/dynamic-json-badge).
 
 ## What it does NOT guarantee
 
 - The count includes comments and blank lines unless Tokei's default filtering applies.
 - Auto-generated files (e.g., protobuf outputs, vendored dependencies) may be included in the total depending on which files are tracked in the repository.
-- The badge is recomputed on-demand by `tokei.rs` and reflects the state of the `main`/default branch.
+- The badge reflects the value stored in `.github/badges/lines-of-code.json` and must be updated manually or via a scheduled workflow whenever the codebase changes significantly.
 
 ## Source of truth
 
 | Source | URL |
 |--------|-----|
-| Tokei badge service | <https://tokei.rs> |
+| Badge data file | [`.github/badges/lines-of-code.json`](../../../.github/badges/lines-of-code.json) on `develop` |
 | Repository root | <https://github.com/makr-code/ThemisDB> |
 
 ## How contributors can verify
