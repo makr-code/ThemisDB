@@ -13,6 +13,10 @@ Entry-point: `plugins/user_storage_encrypted/CMakeLists.txt` (compatibility shim
 | HashiCorp Vault integration | ✅ Implemented |
 | HSM / PKCS#11 (streng-geheim) | ✅ Implemented |
 | Automatic key rotation | ✅ Implemented |
+| Stdin key delivery (no /tmp password file) | ✅ Implemented (v0.1.0) |
+| Argon2id KDF per-container key derivation | ✅ Implemented (v0.1.0) |
+| Key rotation persistence via IRotationStore | ✅ Implemented (v0.1.0) |
+| Startup stale mount reconciliation | ✅ Implemented (v0.2.0) |
 | Apache Ranger RBAC | 🔧 Integration-ready |
 
 ---
@@ -68,6 +72,23 @@ Entry-point: `plugins/user_storage_encrypted/CMakeLists.txt` (compatibility shim
 
 ## Implementation Phases
 
+### Phase 0 – Security Hardening (FUTURE_ENHANCEMENTS items 1–4) ✅ Complete
+
+- [x] **Item 1** – Stdin key delivery: `executeCommandWithStdin()` + `deliverKeyViaStdin()`;
+  passphrase piped via `-passfile /dev/stdin`; pipe buffer zeroed with `explicit_bzero`.
+  4 unit tests (`GocryptfsStdinTest`).
+- [x] **Item 2** – Argon2id KDF: `Argon2idKeyDerivationService` (libargon2, m=65536/t=3/p=4);
+  per-container key derivation; salt stored in `{encrypted_dir}/.themis_kdf_salt`.
+  10 unit tests (`Argon2idKdfTest` + `Argon2idPerformanceTest`).
+- [x] **Item 3** – Key rotation persistence: `IRotationStore` interface; `KeyRotationScheduler::initialize()`
+  persists `last_check_ms` and `interval_days`; state restored on next start.
+  6 unit tests (`KeyRotationPersistenceTest`).
+- [x] **Item 4** – Startup stale mount reconciliation: `MultiLevelEncryptedStorage::reconcileStaleMounts()`
+  scans `/proc/mounts`, identifies orphaned gocryptfs mount points under the configured base path,
+  and unmounts them via `fusermount -u` (fallback: `umount`) before level init; errors are logged but
+  never fatal. Called from `initialize()` before `initializeLevel()`.
+  5 unit tests (`StaleMountReconciliationTest`).
+
 ### Phase 1 – Integration Tests & Key Rotation
 - [ ] Docker Compose fixture: Vault dev server + ThemisDB for all four security levels
 - [ ] Integration tests: encrypt, store, retrieve, and decrypt for each tier
@@ -117,6 +138,10 @@ Entry-point: `plugins/user_storage_encrypted/CMakeLists.txt` (compatibility shim
 | HashiCorp Vault integration | ✅ Implemented |
 | HSM / PKCS#11 (streng-geheim tier) | ✅ Implemented |
 | 4-tier security classification | ✅ Implemented |
+| Stdin key delivery (no /tmp password file) | ✅ Implemented (v0.1.0) |
+| Argon2id KDF (m=65536/t=3/p=4) | ✅ Implemented (v0.1.0) |
+| Key rotation persistence (IRotationStore) | ✅ Implemented (v0.1.0) |
+| Startup stale mount reconciliation | ✅ Implemented (v0.2.0) |
 | Integration tests for all four security levels | ❌ Pending |
 | Zero-downtime key rotation tested | ❌ Pending |
 | Windows stable support | ❌ Not implemented |

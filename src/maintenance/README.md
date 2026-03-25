@@ -143,3 +143,51 @@ orchestrator.registerHealthProbe("my_module", []() -> ModuleHealthSignal {
 - `halt_on_task_failure` cascading behaviour
 - Health probe registration and aggregation
 - Metrics collection
+
+## Wissenschaftliche Grundlagen
+
+The following peer-reviewed sources form the scientific foundation of the Maintenance module.
+
+### Database Maintenance and Self-Tuning
+
+1. **Chaudhuri, S., & Weikum, G. (2000).**
+   *Rethinking Database System Architecture: Towards a Self-Tuning RISC-Style Database System.*
+   *Proceedings of the 26th International Conference on Very Large Data Bases (VLDB)*, 1–10.
+   URL: https://dl.acm.org/doi/10.5555/645926.671577
+   > Introduces the concept of self-tuning database components that monitor and adapt
+   > internal parameters at runtime. Directly motivates the `MaintenanceOrchestrator`
+   > adaptive scheduling model and the health-probe feedback loop in `health_probe.cpp`.
+
+2. **Agrawal, S., Chaudhuri, S., Kollar, L., Marathe, A., Narasayya, V., & Syamala, M. (2004).**
+   *Database Tuning Advisor for Microsoft SQL Server 2005.*
+   *Proceedings of the 30th International Conference on Very Large Data Bases (VLDB)*, 1110–1121.
+   URL: https://dl.acm.org/doi/10.5555/1316689.1316803
+   > Describes automated index/statistics recommendation. Informs the
+   > `REINDEX_HNSW` and `REBUILD_SECONDARY_INDEXES` task types and the
+   > `halt_on_task_failure` cascading strategy.
+
+### Scheduling Algorithms
+
+3. **Liu, C. L., & Layland, J. W. (1973).**
+   *Scheduling Algorithms for Multiprogramming in a Hard-Real-Time Environment.*
+   *Journal of the ACM*, 20(1), 46–61.
+   DOI: [10.1145/321738.321743](https://doi.org/10.1145/321738.321743)
+   > Rate-Monotonic Scheduling (RMS) theory for periodic task sets. Informs the
+   > maintenance-window priority model (`CRITICAL > HIGH > MEDIUM > LOW`) and the
+   > `max_concurrent_tasks` admission-control bound in `TaskScheduler`.
+
+4. **Silberschatz, A., Galvin, P. B., & Gagne, G. (2018).**
+   *Operating System Concepts (10th ed.).*
+   Wiley. ISBN: 978-1-119-32091-3.
+   > Chapter 5 (CPU Scheduling) motivates the multi-level feedback queue used for
+   > maintenance job priorities and the preemptive scheduling of `CRITICAL` tasks.
+
+## Scientific References
+
+1. Chaudhuri, S., & Weikum, G. (2000). **Rethinking Database System Architecture: Towards a Self-Tuning RISC-Style Database System**. *VLDB 2000*. https://dl.acm.org/doi/10.5555/645926.671577
+
+2. Agrawal, S., et al. (2004). **Database Tuning Advisor for Microsoft SQL Server 2005**. *VLDB 2004*. https://dl.acm.org/doi/10.5555/1316689.1316803
+
+3. Liu, C. L., & Layland, J. W. (1973). **Scheduling Algorithms for Multiprogramming in a Hard-Real-Time Environment**. *Journal of the ACM*, 20(1), 46–61. https://doi.org/10.1145/321738.321743
+
+4. Silberschatz, A., Galvin, P. B., & Gagne, G. (2018). **Operating System Concepts (10th ed.)**. Wiley. ISBN: 978-1-119-32091-3

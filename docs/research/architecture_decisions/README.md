@@ -20,7 +20,14 @@ See [decision_log.md](decision_log.md) for a chronological list of all decisions
 ### ✅ Accepted
 | ID | Decision | Date | Modules |
 |----|----------|------|---------|
-| *(none yet)* | | | |
+| [ADR-001](adr_001_hnsw_over_faiss_vector_index.md) | HNSW over FAISS for ANN Vector Index | 2023-06-01 | `src/index/` |
+| [ADR-002](adr_002_rocksdb_storage_backend.md) | RocksDB as Primary Persistent Storage Backend | 2022-11-15 | `src/cache/`, `src/index/`, `src/rag/` |
+| [ADR-003](adr_003_boost_beast_asio_http_server.md) | Boost.Beast + Asio for HTTP/WebSocket/MQTT Server | 2022-09-01 | `src/server/` |
+| [ADR-004](adr_004_multi_model_data_model.md) | Native Multi-Model Data Model (Relational + Vector + Graph + Document) | 2022-07-01 | `src/aql/`, `src/graph/`, `src/index/`, `src/query/` |
+| [ADR-005](adr_005_argon2id_over_scrypt_bcrypt.md) | Argon2id over scrypt / bcrypt for Key Derivation | 2023-04-01 | `plugins/user_storage_encrypted/` |
+| [ADR-006](adr_006_plugin_chimera_adapter_architecture.md) | Plugin-Based Adapter Architecture for Multi-Database Benchmarking (Chimera) | 2023-08-01 | `src/chimera/` |
+| [ADR-007](adr_007_grpc_for_internal_rpc.md) | gRPC + Protobuf for Internal Service RPC | 2022-10-01 | `src/rpc_grpc/`, `src/server/` |
+| [ADR-008](adr_008_jwt_oauth2_for_api_auth.md) | JWT + OAuth2 PKCE as Primary API Authentication | 2023-01-01 | `src/server/`, `src/auth/` |
 
 ### 🔄 Proposed / Under Review
 | ID | Decision | Date | Modules |

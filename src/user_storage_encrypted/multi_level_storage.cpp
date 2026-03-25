@@ -30,7 +30,13 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
+#include <string>
+#include <vector>
+#include <set>
+#include <cstdio>
 #include <sys/stat.h>
+#include <sys/wait.h>
+#include <unistd.h>
 #include <errno.h>
 
 using json = nlohmann::json;
@@ -68,7 +74,24 @@ bool MultiLevelEncryptedStorage::initialize(const char* config_json) {
         if (result.isError()) {
             return false;
         }
-        
+
+        // Reconcile stale mounts from a prior crash before bringing up new mounts.
+        std::set<std::string> base_paths;
+        for (const auto& pair : impl_->level_configs) {
+            const auto& cfg = pair.second;
+            if (cfg.encrypted && !cfg.mount_point.empty()) {
+                std::string parent = cfg.mount_point;
+                auto slash = parent.rfind('/');
+                if (slash != std::string::npos && slash > 0) {
+                    parent = parent.substr(0, slash);
+                }
+                base_paths.insert(parent);
+            }
+        }
+        for (const auto& base : base_paths) {
+            reconcileStaleMounts(base);
+        }
+
         // Initialize all configured levels
         for (const auto& pair : impl_->level_configs) {
             auto init_result = initializeLevel(pair.second);
@@ -90,6 +113,86 @@ void MultiLevelEncryptedStorage::shutdown() {
         impl_->backends.clear();
         impl_->key_providers.clear();
         impl_->initialized = false;
+    }
+}
+
+void MultiLevelEncryptedStorage::reconcileStaleMounts(const std::string& base_path) {
+    if (base_path.empty()) {
+        return;
+    }
+
+    // Build set of mount points that belong to this instance so we can skip them.
+    std::set<std::string> configured_mounts;
+    for (const auto& pair : impl_->level_configs) {
+        if (pair.second.encrypted && !pair.second.mount_point.empty()) {
+            configured_mounts.insert(pair.second.mount_point);
+        }
+    }
+
+    // Collect stale mount points from /proc/mounts (Linux) that:
+    //   1. Start with base_path + '/'
+    //   2. Are NOT in the currently configured set (orphaned from a prior run).
+    std::vector<std::string> stale;
+
+#if defined(__linux__)
+    std::ifstream mounts("/proc/mounts");
+    std::string line;
+    while (std::getline(mounts, line)) {
+        // /proc/mounts: <device> <mountpoint> <fstype> <options> <dump> <pass>
+        std::istringstream iss(line);
+        std::string device, mount_point;
+        iss >> device >> mount_point;
+        if (mount_point.empty()) continue;
+
+        const std::string prefix = base_path + "/";
+        if (mount_point.size() > prefix.size() &&
+            mount_point.compare(0, prefix.size(), prefix) == 0) {
+            if (configured_mounts.find(mount_point) == configured_mounts.end()) {
+                stale.push_back(mount_point);
+            }
+        }
+    }
+#endif
+
+    // Unmount each stale mount — errors are logged but never abort startup.
+    for (const auto& mp : stale) {
+        fprintf(stderr,
+                "[WARN] themis::user_storage: stale gocryptfs mount at '%s', unmounting.\n",
+                mp.c_str());
+
+        bool unmounted = false;
+
+#if defined(__linux__)
+        {
+            pid_t pid = fork();
+            if (pid == 0) {
+                execlp("fusermount", "fusermount", "-u", mp.c_str(), nullptr);
+                _exit(127);
+            } else if (pid > 0) {
+                int status = 0;
+                waitpid(pid, &status, 0);
+                unmounted = (WIFEXITED(status) && WEXITSTATUS(status) == 0);
+            }
+        }
+
+        if (!unmounted) {
+            pid_t pid = fork();
+            if (pid == 0) {
+                execlp("umount", "umount", mp.c_str(), nullptr);
+                _exit(127);
+            } else if (pid > 0) {
+                int status = 0;
+                waitpid(pid, &status, 0);
+                unmounted = (WIFEXITED(status) && WEXITSTATUS(status) == 0);
+            }
+        }
+#endif
+
+        if (!unmounted) {
+            fprintf(stderr,
+                    "[ERROR] themis::user_storage: failed to unmount stale mount '%s', continuing.\n",
+                    mp.c_str());
+        }
     }
 }
 

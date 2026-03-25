@@ -1,11 +1,11 @@
-<!-- Status: current | validated: 2026-03-22 -->
+<!-- Status: current | validated: 2026-03-24 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # RAG Module Roadmap
 
 ## Current Status
 
-v1.5.0 — production. Full RAG pipeline with hybrid retrieval, cross-encoder reranking, citation tracking, hallucination detection, multi-modal RAG, agentic RAG, RAGAS-compatible evaluation, distributed evaluation, streaming SSE, and online learning are operational.
+v2.0.0 — production. Full RAG pipeline with hybrid retrieval, cross-encoder reranking, citation tracking, hallucination detection, multi-modal RAG, agentic RAG, RAGAS-compatible evaluation, distributed evaluation, streaming SSE, online learning, REPLUG-style LLM-scored fusion, and Constitutional AI / RLAIF training pipeline are operational.
 
 ## Completed
 
@@ -27,6 +27,8 @@ v1.5.0 — production. Full RAG pipeline with hybrid retrieval, cross-encoder re
 - [x] Hallucination dashboard
 - [x] Agentic RAG with tool use
 - [x] Multi-modal RAG (text + image + audio)
+- [x] REPLUG-style LLM-scored retrieval fusion (`replug_retriever.h/.cpp`)
+- [x] Constitutional AI / RLAIF training pipeline (`rlaif_trainer.h/.cpp`)
 
 ## Implementation Phases
 
@@ -54,7 +56,11 @@ v1.5.0 — production. Full RAG pipeline with hybrid retrieval, cross-encoder re
 - [x] AgenticRag multi-step tool use
 - [x] Streaming retriever SSE
 
-### Phase 6 — Future Enhancements (Planned)
+### Phase 6 — REPLUG Co-Training & Constitutional AI / RLAIF ✅
+- [x] `ReplugRetriever` — REPLUG-style LLM-scored fusion (Shi et al., 2023); ILLMScorer interface; HeuristicLLMScorer; λ interpolation; REPLUG-LSR weight update; factory helpers; 30 unit tests
+- [x] `RLAIFTrainer` — Constitutional AI + RLAIF preference dataset generation (Bai et al., 2022; Lee et al., 2023); IAIJudge interface; HeuristicAIJudge; AIPrinciple registry; processBatch(); factory helpers; 30 unit tests
+
+### Phase 7 — Future Enhancements (Planned)
 - [ ] Video modality support in `MultimodalRag` (Target: Q4 2026)
 - [ ] Adaptive retrieval budget based on query complexity (Target: Q3 2026)
 - [ ] Federated RAG across isolated data silos (Target: Q4 2026)
@@ -64,4 +70,6 @@ v1.5.0 — production. Full RAG pipeline with hybrid retrieval, cross-encoder re
 - [x] HybridRetriever validated on BEIR benchmark
 - [x] Faithfulness evaluator correlation tested against human judgments
 - [x] Agentic RAG tested with 10-step tool chains
+- [x] ReplugRetriever: 30 unit tests (ILLMScorer, fusion, weight updates, factory)
+- [x] RLAIFTrainer: 30 unit tests (IAIJudge, runTrainingStep, batch, dataset, stats)
 - [ ] Video modality support (Target: Q4 2026)
