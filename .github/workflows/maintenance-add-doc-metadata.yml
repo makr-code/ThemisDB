@@ -24,8 +24,8 @@ on:
         default: "false"
         type: choice
         options:
-          - "true"
           - "false"
+          - "true"
       ref:
         description: "Branch, tag, or SHA to run on (default: main)"
         required: false

@@ -1,0 +1,99 @@
+name: "[Manual] Edition Build CI"
+
+# ---------------------------------------------------------------------------
+# ROOT-LEVEL TRIGGER
+# ------------------
+# This file exists at the root of .github/workflows/ so that it appears in
+# the GitHub Web UI and GitHub App under the Actions tab.
+#
+# GitHub only shows workflow_dispatch triggers for workflows directly in
+# .github/workflows/. The real implementation lives in:
+#   .github/workflows/03-editions/edition-build-ci.yml
+#
+# This wrapper provides a dropdown for every ThemisDB edition so that any
+# edition build can be triggered manually without remembering individual
+# workflow paths.
+#
+# Branch-to-Edition reference:
+#   COMMUNITY   → main / develop
+#   ENTERPRISE  → enterprise / develop
+#   HYPERSCALER → hyperscaler / develop
+#   MILITARY    → enterprise / develop  (variant of Enterprise)
+#   MINIMAL     → main / develop
+#
+# ALTERNATIVE: GitHub CLI
+#   gh workflow run "03-editions/edition-build-ci.yml" \
+#     --repo makr-code/ThemisDB --ref main \
+#     --field edition=COMMUNITY --field build-type=Debug
+# ---------------------------------------------------------------------------
+
+on:
+  workflow_dispatch:
+    inputs:
+      edition:
+        description: "ThemisDB Edition to build"
+        required: true
+        default: "COMMUNITY"
+        type: choice
+        options:
+          - "COMMUNITY"
+          - "ENTERPRISE"
+          - "HYPERSCALER"
+          - "MILITARY"
+          - "MINIMAL"
+      build_type:
+        description: "CMake build type"
+        required: false
+        default: "Debug"
+        type: choice
+        options:
+          - "Debug"
+          - "Release"
+      ref:
+        description: "Branch, tag, or SHA to build (default: main)"
+        required: false
+        default: "main"
+        type: string
+
+permissions:
+  actions: write
+
+jobs:
+  trigger:
+    name: "Trigger › 03-editions/edition-build-ci.yml (${{ inputs.edition }} · ${{ inputs.build_type }})"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Dispatch workflow
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # NOTE: edition-build-ci.yml uses 'build-type' (kebab-case) from its
+          # existing workflow_call contract; we map our build_type input to it.
+          gh workflow run "03-editions/edition-build-ci.yml" \
+            --repo "${{ github.repository }}" \
+            --ref "${{ inputs.ref }}" \
+            --field "edition=${{ inputs.edition }}" \
+            --field "build-type=${{ inputs.build_type }}"
+
+          echo "✅ Dispatched 03-editions/edition-build-ci.yml"
+          echo "   edition    : ${{ inputs.edition }}"
+          echo "   build_type : ${{ inputs.build_type }}"
+          echo "   ref        : ${{ inputs.ref }}"
+
+      - name: Write job summary
+        if: always()
+        shell: bash
+        run: |
+          echo "## 🏗️ [Manual] Edition Build CI" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Edition** | \`${{ inputs.edition }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Build type** | \`${{ inputs.build_type }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Ref** | \`${{ inputs.ref }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Target workflow** | \`03-editions/edition-build-ci.yml\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Timestamp** | $(date -u +'%Y-%m-%d %H:%M:%S UTC') |" >> "$GITHUB_STEP_SUMMARY"
