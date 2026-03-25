@@ -131,7 +131,7 @@ jobs:
         with:
           cc:  ${{ matrix.cc }}
           cxx: ${{ matrix.cxx }}
-          extra-cmake-args: -DTHEMIS_ENABLE_MQTT=ON
+          extra-cmake-flags: -DTHEMIS_ENABLE_MQTT=ON
 
       - name: Run MqttClientServiceFocusedTests
         run: |
