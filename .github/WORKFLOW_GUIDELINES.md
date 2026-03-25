@@ -65,6 +65,8 @@ files mirror the exact input fields of the real workflow:
 |--------------------|---------------|
 | `[Manual] Create Release Archive` | `04-release/create-release-archive.yml` |
 | `[Manual] Bootstrap Release Branches` | `04-release/bootstrap-release-branches.yml` |
+| `[Manual] Build Binary Release · Linux` | `04-release/build-binary-linux.yml` |
+| `[Manual] Build Binary Release · Windows` | `04-release/build-binary-windows.yml` |
 | `[Manual] Publish Docker Image to Docker Hub` | `04-release/dockerhub-publish-on-release.yml` |
 | `[Manual] Publish Enterprise Edition` | `04-release/publish-enterprise.yml` |
 | `[Manual] Publish Hyperscaler Edition` | `04-release/publish-hyperscaler.yml` |
