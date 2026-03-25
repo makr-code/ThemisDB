@@ -14998,6 +14998,77 @@ else()
     message(STATUS "AdvancedTrainingFeatures focused tests not found")
 endif()
 
+# AdaLoRA focused tests – importance-based rank pruning (Phase: AdaLoRA)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ada_lora_adapter.cpp")
+    message(STATUS "Adding AdaLoRA focused tests")
+
+    add_executable(test_ada_lora_adapter_focused
+        test_ada_lora_adapter.cpp
+        ${THEMIS_ROOT_DIR}/src/training/ada_lora_adapter.cpp
+    )
+
+    target_include_directories(test_ada_lora_adapter_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_ada_lora_adapter_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ada_lora_adapter_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AdaLoRAFocusedTests COMMAND test_ada_lora_adapter_focused)
+
+    set_tests_properties(AdaLoRAFocusedTests PROPERTIES
+        LABELS "training;ada-lora;rank-pruning;importance;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  AdaLoRA: addLayer, importance scoring, rank reallocation, forward pass, weight access")
+else()
+    message(STATUS "AdaLoRA focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ada_lora_adapter.cpp")
+endif()
+
+# LoRAMerger focused tests – linear + TIES merge (Phase: multi-adapter)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_adapter_merger.cpp")
+    message(STATUS "Adding LoRAMerger focused tests")
+
+    add_executable(test_lora_adapter_merger_focused
+        test_lora_adapter_merger.cpp
+        ${THEMIS_ROOT_DIR}/src/training/lora_adapter_merger.cpp
+        ${THEMIS_ROOT_DIR}/src/training/lora_adapter.cpp
+    )
+
+    target_include_directories(test_lora_adapter_merger_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_lora_adapter_merger_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_lora_adapter_merger_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME LoRAMergerFocusedTests COMMAND test_lora_adapter_merger_focused)
+
+    set_tests_properties(LoRAMergerFocusedTests PROPERTIES
+        LABELS "training;lora;merge;ties;linear;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  LoRAMerger: mergeLinear, mergeTIES, mergeLinearAll, mergeTIESAll, error handling")
+else()
+    message(STATUS "LoRAMerger focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lora_adapter_merger.cpp")
+endif()
+
 # ──────────────────────────────────────────────────────────────────────────────
 # Voice Module Focused Tests
 # ──────────────────────────────────────────────────────────────────────────────
