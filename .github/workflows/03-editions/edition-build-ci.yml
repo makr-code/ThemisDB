@@ -2,6 +2,12 @@ name: Edition Build CI (reusable)
 
 # Reusable workflow: builds and validates a single ThemisDB edition on Linux.
 # Called by the per-edition wrapper workflows (edition-*-ci.yml).
+#
+# Can also be triggered manually via the root-level edition-build.yml wrapper
+# or directly via GitHub CLI:
+#   gh workflow run "03-editions/edition-build-ci.yml" \
+#     --repo makr-code/ThemisDB --ref main \
+#     --field edition=COMMUNITY --field build-type=Debug
 
 on:
   workflow_call:
@@ -15,6 +21,28 @@ on:
         required: false
         default: 'Debug'
         type: string
+
+  workflow_dispatch:
+    inputs:
+      edition:
+        description: 'ThemisDB edition to build'
+        required: true
+        default: 'COMMUNITY'
+        type: choice
+        options:
+          - 'COMMUNITY'
+          - 'ENTERPRISE'
+          - 'HYPERSCALER'
+          - 'MILITARY'
+          - 'MINIMAL'
+      build-type:
+        description: 'CMake build type'
+        required: false
+        default: 'Debug'
+        type: choice
+        options:
+          - 'Debug'
+          - 'Release'
 
 jobs:
   edition-build:

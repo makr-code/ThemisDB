@@ -46,6 +46,9 @@ name: "🚀 Workflow Dispatcher (Universal)"
 #     - release-publish-enterprise.yml    → 04-release/publish-enterprise.yml
 #     - release-publish-hyperscaler.yml   → 04-release/publish-hyperscaler.yml
 #
+#   Editions (edition dropdown):
+#     - edition-build.yml                 → 03-editions/edition-build-ci.yml
+#
 #   Maintenance:
 #     - maintenance-sync-roadmap.yml           → 08-maintenance/sync-roadmap-issues.yml
 #     - maintenance-sync-milestones.yml        → 08-maintenance/sync-milestones.yml
