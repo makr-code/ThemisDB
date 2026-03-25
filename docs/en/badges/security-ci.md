@@ -1,6 +1,6 @@
 # Security CI Badge
 
-[![Security CI](https://github.com/makr-code/ThemisDB/actions/workflows/05-quality/security/security-hardening-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/05-quality/security/security-hardening-ci.yml)
+[![Security CI](https://github.com/makr-code/ThemisDB/actions/workflows/05-quality/security/security-hardening-ci.yml/badge.svg?branch=develop)](https://github.com/makr-code/ThemisDB/actions/workflows/05-quality/security/security-hardening-ci.yml?query=branch%3Adevelop)
 
 ## What it shows
 

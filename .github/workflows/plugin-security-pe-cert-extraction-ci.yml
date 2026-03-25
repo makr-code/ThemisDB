@@ -46,7 +46,7 @@ jobs:
   ci-scope-classifier:
     permissions:
       contents: read
-    uses: ./.github/workflows/01-core/ci-scope-classifier.yml
+    uses: ./.github/workflows/ci-scope-classifier.yml
 
   plugin-security-pe-cert-extraction-tests:
     needs: ci-scope-classifier

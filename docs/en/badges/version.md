@@ -1,6 +1,6 @@
 # Version Badge
 
-[![Version](https://img.shields.io/badge/version-1.5.0--dev-blue)](https://github.com/makr-code/ThemisDB/releases)
+[![Version](https://img.shields.io/badge/version-1.8.0--dev-blue)](https://github.com/makr-code/ThemisDB/releases)
 
 ## What it shows
 
