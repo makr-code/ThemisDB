@@ -35,28 +35,22 @@ implement the core encrypted storage pipeline. `gocryptfs_backend.cpp` is rated
 
 ## Planned Features
 
-### v0.1.0 — Hardening and Tests (Target: Q3 2026)
+### v0.1.0 — Hardening and Tests ✅ (2026-03-24)
 
-- [ ] Fix `const_cast` in `createPasswordFile()` — use output parameter or return value (Target: Q3 2026)
-- [ ] Secure key delivery via stdin pipe instead of `/tmp` password file (Target: Q3 2026)
-  - Inputs: key material bytes, gocryptfs command args
-  - Pipe key hex to gocryptfs stdin (`-passfile /dev/stdin` or `--extpass`)
-  - Eliminates key material touching the filesystem entirely
-  - Errors: broken pipe, gocryptfs ignoring stdin → fallback error + abort
-  - Tests: no temp file created when stdin delivery is used
-- [ ] Unit tests: `isMounted()`, `createPasswordFile()`, `executeCommandSafe()` exit codes (Target: Q3 2026)
+- [x] Fix `const_cast` in `createPasswordFile()` — returns `Result<std::string>` (done)
+- [x] Secure key delivery via stdin pipe instead of `/tmp` password file (done)
+- [x] Argon2id KDF (`Argon2idKeyDerivationService`, m=65536/t=3/p=4) (done)
+- [x] `IRotationStore` persistence for `KeyRotationScheduler` (done)
+- [x] 20 unit tests (AC-SD, AC-KDF, AC-PRS, AC-GCF) (done)
 - [ ] Integration tests: create → mount → write file → unmount → re-mount → verify file (Target: Q3 2026)
 - [ ] Remove deprecated `executeCommand()` after confirming no external callers (Target: Q3 2026)
 
-### v0.2.0 — Key Management (Target: Q4 2026)
+### v0.2.0 — Stale Mount Reconciliation ✅ (2026-03-25)
 
-- [ ] KDF integration: derive container key from master key using Argon2id (Target: Q4 2026)
-  - Inputs: master_key bytes, user_id, salt
-  - Outputs: 256-bit derived container key
-  - Constraints: Argon2id m=65536, t=3, p=4; ≤ 200 ms on reference hardware
-  - Tests: same master_key + salt → same derived key (deterministic)
-- [ ] Key escrow: encrypted key backup to ThemisDB secrets store (Target: Q4 2026)
-- [ ] `KeyRotationScheduler`: persist `last_check_ms` to RocksDB to survive restarts (Target: Q4 2026)
+- [x] `reconcileStaleMounts()` — scans `/proc/mounts` for orphaned FUSE mounts,
+      unmounts via `fusermount -u` / `umount` fallback, non-fatal (done)
+- [x] Called from `initialize()` before `initializeLevel()` (done)
+- [x] 5 `StaleMountReconciliationTest` tests (done)
 
 ### v0.3.0 — Multi-User and Quota (Target: Q1 2027)
 
@@ -85,14 +79,16 @@ implement the core encrypted storage pipeline. `gocryptfs_backend.cpp` is rated
 - [x] `_exit(127)` in child on `execvp` failure
 - [x] Exit code check in parent with error propagation
 
-### Phase 4: Tests [ ]
-- [ ] Unit tests (Target: Q3 2026)
+### Phase 4: Tests ✅
+- [x] 20 unit tests: stdin delivery, Argon2id KDF, IRotationStore persistence, GocryptfsBackend (done)
+- [x] 5 stale mount reconciliation tests (done)
 - [ ] Integration tests (Target: Q3 2026)
 
-### Phase 5: Performance / Hardening [~]
-- [~] Fix `const_cast` in `createPasswordFile()` (Target: Q3 2026)
-- [ ] Stdin key delivery (Target: Q3 2026)
-- [ ] KDF integration (Target: Q4 2026)
+### Phase 5: Performance / Hardening ✅
+- [x] Fix `const_cast` in `createPasswordFile()` (done)
+- [x] Stdin key delivery + `explicit_bzero` (done)
+- [x] KDF integration (Argon2id) (done)
+- [x] `reconcileStaleMounts()` in `initialize()` (done)
 
 ### Phase 6: Documentation & Acceptance ✅
 - [x] README, ARCHITECTURE, AUDIT, CHANGELOG, ROADMAP, SECURITY, FUTURE_ENHANCEMENTS

@@ -176,6 +176,9 @@ private:
     std::string getUserPath(SecurityLevel level, const std::string& user_id);
     std::string getGroupPath(SecurityLevel level, const std::string& group_id);
     std::string getBasePath(SecurityLevel level);
+
+    // Stale mount cleanup
+    void reconcileStaleMounts();
 };
 
 } // namespace user_storage
