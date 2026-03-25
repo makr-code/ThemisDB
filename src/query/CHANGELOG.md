@@ -12,7 +12,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Security audit: injection prevention hardening and resource exhaustion edge cases
 - AQL parser thread-safety refactor (per-thread instances or mutex protection)
 
-## [1.5.0] — 2026-03-12
+## [1.8.0] — 2026-03-24
+
+### Added
+- JIT hot-path compiler (`query_compiler.cpp`): `QueryCompiler` wraps the conjunctive AQL execution path with call-count tracking; queries reaching `Config::hot_threshold` (default 100) are promoted to a compiled specialisation for lower-overhead repeated execution
+- Vectorized execution focused test target (`test_vectorized_execution_focused`) registered in `tests/CMakeLists.txt`; covers all 30 test cases for `VectorizedExecutionEngine` (filter, project, aggregate, sort, stats, null handling, custom batch size)
+- CI workflow `.github/workflows/02-feature-modules/adaptive-query/query-vectorized-execution-ci.yml` (GCC-12/13 matrix, 10 acceptance criteria)
+
+### Changed
+- `executeAql()` conjunctive query path now dispatches through `QueryCompiler` for JIT hot-path optimisation; semantics are identical to the previous interpreter path on the cold path
+
+
 
 ### Added
 - Vectorized execution engine (`vectorized_execution.cpp`): column-store batch processing with SIMD acceleration

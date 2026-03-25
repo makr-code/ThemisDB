@@ -41,6 +41,8 @@
 #include "feedback_collector.h"
 #include "prompt_version_control.h"
 #include "prompt_injection_detector.h"
+#include "reflection_tuner.h"
+#include "prompt_engineering_metrics.h"
 
 namespace themis {
 namespace prompt_engineering {
@@ -65,7 +67,11 @@ struct IntegrationConfig {
     
     // Injection detection
     bool enable_injection_detection = true;
-    
+
+    // Reflection Tuning (optional; off by default — zero overhead when disabled)
+    bool enable_reflection_tuning = false;
+    size_t reflection_max_iterations = 3;
+
     // Optimization thresholds
     size_t min_executions_before_optimization = 100;
     double min_success_rate_for_optimization = 0.7;
@@ -241,6 +247,24 @@ public:
     // Configuration
     IntegrationConfig getConfig() const;
     void updateConfig(const IntegrationConfig& config);
+
+    // Reflection Tuning integration
+    /**
+     * @brief Attach a `ReflectionTuner` for optional post-generation response
+     *        refinement.
+     *
+     * When set and `IntegrationConfig::enable_reflection_tuning` is `true`,
+     * `afterExecution()` runs a reflection cycle on each successful response
+     * and records the results via `PromptEngineeringMetrics`.
+     */
+    void setReflectionTuner(std::shared_ptr<ReflectionTuner> tuner);
+
+    /**
+     * @brief Attach a `PromptEngineeringMetrics` instance for reflection
+     *        observability.  When not set, reflection metrics are silently
+     *        discarded.
+     */
+    void setMetrics(std::shared_ptr<PromptEngineeringMetrics> metrics);
     
 private:
     void checkAndTriggerOptimization(const std::string& prompt_id);
@@ -258,6 +282,8 @@ private:
     std::shared_ptr<FeedbackCollector> feedback_collector_;
     std::shared_ptr<PromptVersionControl> version_control_;
     std::shared_ptr<PromptInjectionDetector> injection_detector_;
+    std::shared_ptr<ReflectionTuner>         reflection_tuner_;
+    std::shared_ptr<PromptEngineeringMetrics> metrics_;
     
     std::unique_ptr<BackgroundOptimizationWorker> background_worker_;
     

@@ -22,6 +22,7 @@
  */
 
 #include "security/usb_admin_authenticator.h"
+#include "security/usb_volume_hardening.h"
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
 #include <fstream>
@@ -259,6 +260,52 @@ bool USBAdminAuthenticator::refreshUSBStatus() {
         return false;
     }
     
+    // ── USB Volume Hardening checks ───────────────────────────────────────────
+    // These checks run after the license is loaded and signature is validated.
+    // They defend against FAT-level manipulation, cloned USB sticks, and live
+    // writes to the stick during authentication.
+
+    // 1. Read-only mount enforcement
+    if (config_.require_readonly_mount) {
+        if (!USBVolumeHardening::isMountedReadOnly(config_.mount_path)) {
+            THEMIS_WARN("USBAdminAuthenticator: USB filesystem is not mounted read-only — rejecting");
+            metrics_.usb_denied_not_readonly++;
+            auditLog("USB_DENIED_NOT_READONLY",
+                     "USB filesystem is not mounted read-only at " + config_.mount_path,
+                     "");
+            current_license_.reset();
+            return false;
+        }
+    }
+
+    // 2. Volume integrity hash (FAT-manipulation detection)
+    if (!config_.expected_volume_hash.empty()) {
+        if (!USBVolumeHardening::verifyVolumeHash(
+                config_.mount_path, config_.license_file, config_.expected_volume_hash)) {
+            THEMIS_WARN("USBAdminAuthenticator: volume hash mismatch — FAT manipulation suspected");
+            metrics_.usb_denied_volume_hash_mismatch++;
+            auditLog("USB_DENIED_VOLUME_HASH_MISMATCH",
+                     "License file hash does not match pinned value — FAT manipulation suspected",
+                     "");
+            current_license_.reset();
+            return false;
+        }
+    }
+
+    // 3. USB device serial binding (anti-cloning)
+    if (!config_.expected_usb_serial.empty()) {
+        if (!USBVolumeHardening::verifyUSBSerial(
+                config_.mount_path, config_.expected_usb_serial)) {
+            THEMIS_WARN("USBAdminAuthenticator: USB serial mismatch — possible cloned device");
+            metrics_.usb_denied_serial_mismatch++;
+            auditLog("USB_DENIED_SERIAL_MISMATCH",
+                     "USB device serial does not match provisioned value — cloned device suspected",
+                     "");
+            current_license_.reset();
+            return false;
+        }
+    }
+
     // All checks passed
     current_license_ = license;
     metrics_.usb_mount_detected++;

@@ -503,6 +503,49 @@ std::string PromptEngineeringMetrics::exportMetrics() const {
         background_worker_cycles_.load(std::memory_order_relaxed)
     );
 
+    // Reflection Tuning metrics
+    oss << formatMetric(
+        prefix + "_reflection_cycle_starts_total",
+        "Total number of reflection tuning cycles started",
+        "counter",
+        reflection_cycle_starts_.load(std::memory_order_relaxed)
+    );
+
+    oss << formatMetric(
+        prefix + "_reflection_cycle_completions_total",
+        "Total number of reflection tuning cycles completed",
+        "counter",
+        reflection_cycle_completions_.load(std::memory_order_relaxed)
+    );
+
+    oss << formatMetric(
+        prefix + "_reflection_iterations_total",
+        "Total number of generate-critique-revise iterations across all cycles",
+        "counter",
+        reflection_iterations_total_.load(std::memory_order_relaxed)
+    );
+
+    oss << formatMetric(
+        prefix + "_reflection_improvements_total",
+        "Total number of reflection cycles that improved response quality",
+        "counter",
+        reflection_improvements_.load(std::memory_order_relaxed)
+    );
+
+    oss << formatMetric(
+        prefix + "_reflection_guard_fires_total",
+        "Total number of times ReflectionHallucinationGuard halted a cycle",
+        "counter",
+        reflection_guard_fires_.load(std::memory_order_relaxed)
+    );
+
+    oss << formatMetric(
+        prefix + "_reflection_quality_delta_sum",
+        "Sum of all quality deltas produced by reflection cycles",
+        "gauge",
+        reflection_quality_delta_sum_.load(std::memory_order_relaxed)
+    );
+
     return oss.str();
 }
 
@@ -539,6 +582,13 @@ void PromptEngineeringMetrics::reset() {
     integration_after_calls_.store(0);
     background_worker_cycles_.store(0);
     background_worker_total_duration_ms_.store(0.0);
+
+    reflection_cycle_starts_.store(0);
+    reflection_cycle_completions_.store(0);
+    reflection_iterations_total_.store(0);
+    reflection_improvements_.store(0);
+    reflection_guard_fires_.store(0);
+    reflection_quality_delta_sum_.store(0.0);
 
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     prompt_success_rates_.clear();
@@ -622,6 +672,12 @@ nlohmann::json PromptEngineeringMetrics::snapshotToJson() const {
     j["integration_after_calls"]         = integration_after_calls_.load(std::memory_order_relaxed);
     j["background_worker_cycles"]        = background_worker_cycles_.load(std::memory_order_relaxed);
     j["background_worker_total_duration_ms"] = background_worker_total_duration_ms_.load(std::memory_order_relaxed);
+    j["reflection_cycle_starts"]         = reflection_cycle_starts_.load(std::memory_order_relaxed);
+    j["reflection_cycle_completions"]    = reflection_cycle_completions_.load(std::memory_order_relaxed);
+    j["reflection_iterations_total"]     = reflection_iterations_total_.load(std::memory_order_relaxed);
+    j["reflection_improvements"]         = reflection_improvements_.load(std::memory_order_relaxed);
+    j["reflection_guard_fires"]          = reflection_guard_fires_.load(std::memory_order_relaxed);
+    j["reflection_quality_delta_sum"]    = reflection_quality_delta_sum_.load(std::memory_order_relaxed);
     return j;
 }
 
@@ -663,6 +719,12 @@ void PromptEngineeringMetrics::restoreFromJson(const nlohmann::json& snapshot) {
     load_i64("integration_after_calls",         integration_after_calls_);
     load_i64("background_worker_cycles",        background_worker_cycles_);
     load_dbl("background_worker_total_duration_ms", background_worker_total_duration_ms_);
+    load_i64("reflection_cycle_starts",         reflection_cycle_starts_);
+    load_i64("reflection_cycle_completions",    reflection_cycle_completions_);
+    load_i64("reflection_iterations_total",     reflection_iterations_total_);
+    load_i64("reflection_improvements",         reflection_improvements_);
+    load_i64("reflection_guard_fires",          reflection_guard_fires_);
+    load_dbl("reflection_quality_delta_sum",    reflection_quality_delta_sum_);
 }
 
 // ============================================================================
@@ -677,6 +739,50 @@ void PromptEngineeringMetrics::setAlertConfig(const AlertConfig& cfg) {
 void PromptEngineeringMetrics::setAlertCallback(AlertCallback cb) {
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     alert_callback_ = std::move(cb);
+}
+
+// ============================================================================
+// Reflection Tuning metrics
+// ============================================================================
+
+void PromptEngineeringMetrics::recordReflectionCycleStart(
+    const std::string& /*prompt_id*/) {
+    if (!config_.enabled) return;
+    reflection_cycle_starts_.fetch_add(1, std::memory_order_relaxed);
+}
+
+void PromptEngineeringMetrics::recordReflectionCycleComplete(
+    const std::string& /*prompt_id*/,
+    size_t iterations,
+    bool   improved) {
+    if (!config_.enabled) return;
+    reflection_cycle_completions_.fetch_add(1, std::memory_order_relaxed);
+    reflection_iterations_total_.fetch_add(static_cast<int64_t>(iterations),
+                                           std::memory_order_relaxed);
+    if (improved) {
+        reflection_improvements_.fetch_add(1, std::memory_order_relaxed);
+    }
+}
+
+void PromptEngineeringMetrics::recordReflectionGuardFired(
+    const std::string& /*prompt_id*/) {
+    if (!config_.enabled) return;
+    reflection_guard_fires_.fetch_add(1, std::memory_order_relaxed);
+}
+
+void PromptEngineeringMetrics::recordReflectionQualityDelta(
+    const std::string& /*prompt_id*/,
+    double delta) {
+    if (!config_.enabled) return;
+    // Atomic double accumulation via CAS loop (same pattern as existing code).
+    double current = reflection_quality_delta_sum_.load(std::memory_order_relaxed);
+    double desired;
+    do {
+        desired = current + delta;
+    } while (!reflection_quality_delta_sum_.compare_exchange_weak(
+                 current, desired,
+                 std::memory_order_relaxed,
+                 std::memory_order_relaxed));
 }
 
 } // namespace prompt_engineering

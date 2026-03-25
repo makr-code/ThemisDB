@@ -91,6 +91,8 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_rag_calibration_manager\\.cpp$"
         ".*test_rag_batch_evaluator\\.cpp$"
         ".*test_rag_pipeline_integration\\.cpp$"
+        ".*test_rag_replug_retriever\\.cpp$"
+        ".*test_rag_rlaif_trainer\\.cpp$"
         ".*test_raid_lora_integration\\.cpp$"
         ".*test_training_service_registry\\.cpp$"
         ".*test_signature_verifier\\.cpp$"
@@ -897,6 +899,10 @@ if(NOT THEMIS_ENABLE_LLM)
         ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_batch_evaluator.cpp
         # Pipeline integration test (heuristic/FAST mode, no LLM dependency).
         ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_pipeline_integration.cpp
+        # ReplugRetriever and RLAIFTrainer have no hard LLM runtime dependency
+        # (all LLM calls go through pluggable interfaces with heuristic defaults).
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_replug_retriever.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_rlaif_trainer.cpp
     )
 endif()
 
@@ -926,6 +932,8 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_SOURCE_DIR}/src/rag/evaluation_cache.cpp
     ${CMAKE_SOURCE_DIR}/src/rag/calibration_manager.cpp
     ${CMAKE_SOURCE_DIR}/src/rag/batch_evaluator.cpp
+    ${CMAKE_SOURCE_DIR}/src/rag/replug_retriever.cpp
+    ${CMAKE_SOURCE_DIR}/src/rag/rlaif_trainer.cpp
     ${CMAKE_SOURCE_DIR}/src/server/cdn_cache_middleware.cpp
 )
 
@@ -6762,6 +6770,42 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_mining_llm.cpp")
     message(STATUS "  ProcessMiningPattern: conformance, compliance, fraud detection, activity prediction")
 endif()
 
+# Process Discovery & Conformance Checking focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_discovery_conformance.cpp")
+    message(STATUS "Adding focused process discovery and conformance checking tests")
+
+    add_executable(test_process_discovery_conformance_focused
+        analytics/test_process_discovery_conformance.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/process_mining.cpp
+    )
+
+    target_include_directories(test_process_discovery_conformance_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_process_discovery_conformance_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_process_discovery_conformance_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ProcessDiscoveryConformanceFocusedTests
+             COMMAND test_process_discovery_conformance_focused)
+
+    set_tests_properties(ProcessDiscoveryConformanceFocusedTests PROPERTIES
+        LABELS "analytics;process-mining;inductive-miner;conformance;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ProcessDiscoveryConformance: Inductive Miner, alignment conformance checking")
+endif()
+
 # ============================================================================
 # Graph Module Focused Test Targets
 # Each target links only the graph source(s) it exercises, enabling fast
@@ -11724,6 +11768,44 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_input_validation_security.c
     message(STATUS "  InputValidationSecurity: AQL/path-traversal/XSS/command-injection prevention (legacy API disabled; DISABLED placeholder)")
 endif()
 
+# ── USB Volume Hardening focused tests ────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_usb_volume_hardening.cpp")
+    message(STATUS "Adding USB Volume Hardening focused tests")
+
+    add_executable(test_usb_volume_hardening_focused
+        test_usb_volume_hardening.cpp
+        ../src/security/usb_volume_hardening.cpp
+        ../src/security/usb_admin_authenticator.cpp
+    )
+
+    target_include_directories(test_usb_volume_hardening_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_usb_volume_hardening_focused PRIVATE
+        ${TEST_LIBS}
+        OpenSSL::Crypto
+        OpenSSL::SSL
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_usb_volume_hardening_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME USBVolumeHardeningFocusedTests
+             COMMAND test_usb_volume_hardening_focused)
+
+    set_tests_properties(USBVolumeHardeningFocusedTests PROPERTIES
+        LABELS "security;usb;volume-hardening;fat;integrity;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  USBVolumeHardening: volume hash (FAT-tamper detection), read-only mount, USB serial binding (anti-cloning)")
+endif()
+
 # ============================================================================
 # Time Series Module – Focused Standalone Test Targets
 # Each test is a standalone executable covering a distinct Phase 2 / Phase 3
@@ -14098,6 +14180,38 @@ add_prompt_focused_test(
 )
 
 add_prompt_focused_test(
+    test_cot_tracer_focused
+    test_cot_tracer.cpp
+    CoTTracerFocusedTests
+    "prompt_engineering;cot;tracer;cot_tracer;recording;collector;unit"
+    "IChainOfThoughtTracer, RecordingCoTTracer, CoTTraceCollector, ChainOfThoughtBuilder tracer wiring (AC-1 through AC-30)"
+)
+
+add_prompt_focused_test(
+    test_prompt_regression_runner_focused
+    test_prompt_regression_runner.cpp
+    PromptRegressionRunnerFocusedTests
+    "prompt_engineering;regression;quality;fixtures;feedback;unit"
+    "PromptRegressionRunner: golden fixtures, feedback integration, regression detection, block gate, log callback (AC-1 through AC-30)"
+)
+
+add_prompt_focused_test(
+    test_prompt_ab_experiment_focused
+    test_prompt_ab_experiment.cpp
+    PromptABExperimentFocusedTests
+    "prompt_engineering;ab_testing;experiment;traffic_split;winner_promotion;unit"
+    "PromptABExperimentFramework: create/stop, assignVariant (murmur3), recordOutcome, checkSignificance, promoteWinner, getSummary (AC-1 through AC-30)"
+)
+
+add_prompt_focused_test(
+    test_prompt_library_io_focused
+    test_prompt_library_io.cpp
+    PromptLibraryIOFocusedTests
+    "prompt_engineering;library_io;import;export;json;yaml;checksum;unit"
+    "PromptLibraryIO: JSON/YAML import+export, FNV-1a checksum, file round-trip, cross-env portability (AC-1 through AC-30)"
+)
+
+add_prompt_focused_test(
     test_rag_prompt_builder_focused
     test_rag_prompt_builder.cpp
     RAGPromptBuilderFocusedTests
@@ -14135,6 +14249,43 @@ add_prompt_focused_test(
     ContextWindowBudgetManagerFocusedTests
     "prompt_engineering;context_window;token_budget;budget_enforcement;unit"
     "ContextWindowBudgetManager: token counting, greedy chunk selection, budget enforcement, PromptBudgetExceededError"
+)
+
+add_prompt_focused_test(
+    test_reflection_tuner_focused
+    test_reflection_tuner.cpp
+    ReflectionTunerFocusedTests
+    "prompt_engineering;reflection_tuning;self_aware;hallucination_guard;dynamic_prompting;unit"
+    "ReflectionTuner: all strategies, SelfAwareContext, DynamicReflectionPromptBuilder, ReflectionHallucinationGuard, mock provider, edge cases"
+)
+
+add_prompt_focused_test(
+    test_reflection_integration_focused
+    test_reflection_integration.cpp
+    ReflectionIntegrationFocusedTests
+    "prompt_engineering;reflection_tuning;llm_adapter;metrics;integration;unit"
+    "ILLMProviderReflectionAdapter, reflection metrics, IntegrationConfig round-trip, facade wiring"
+    test_tree_of_thoughts_focused
+    test_tree_of_thoughts.cpp
+    TreeOfThoughtsFocusedTests
+    "prompt_engineering;tree_of_thoughts;tot;bfs;dfs;beam;unit"
+    "TreeOfThoughtsBuilder: BFS/DFS/BEAM search, pruning, custom generator/evaluator (v2.0.0)"
+)
+
+add_prompt_focused_test(
+    test_protegi_optimizer_focused
+    test_protegi_optimizer.cpp
+    ProTeGiOptimizerFocusedTests
+    "prompt_engineering;protegi;textual_gradient;beam_search;optimizer;unit"
+    "ProTeGiOptimizer: textual gradient descent, beam search, mini-batch critique, convergence (v2.0.0)"
+)
+
+add_prompt_focused_test(
+    test_dspy_module_focused
+    test_dspy_module.cpp
+    DspyModuleFocusedTests
+    "prompt_engineering;dspy;signature;predict;chain_of_thought;unit"
+    "DspyModule: DspySignature, DspyPredict, DspyChainOfThought, EchoDspyLLMProvider (v2.0.0)"
 )
 
 # ============================================================================
@@ -15982,6 +16133,42 @@ else()
     message(STATUS "Query JIT Compilation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_query_jit_compilation.cpp")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_vectorized_execution.cpp")
+    message(STATUS "Adding Vectorized Execution focused tests (v1.8.0, Issue #2434)")
+
+    add_executable(test_vectorized_execution_focused
+        test_vectorized_execution.cpp
+    )
+
+    target_include_directories(test_vectorized_execution_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_vectorized_execution_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_vectorized_execution_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME VectorizedExecutionFocusedTests
+        COMMAND test_vectorized_execution_focused)
+
+    set_tests_properties(VectorizedExecutionFocusedTests PROPERTIES
+        LABELS "query;vectorized;execution;simd;batch;v1.8.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  VectorizedExecution: filter/project/aggregate/sort, SIMD batch ops, stats, null handling")
+else()
+    message(STATUS "Vectorized Execution tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_vectorized_execution.cpp")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_materialized_view.cpp")
     message(STATUS "Adding Materialized Views focused tests (v1.8.0, Issue #195)")
 
@@ -16526,6 +16713,22 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_uncovered.cpp")
         TIMEOUT 60
     )
     message(STATUS "  ShardingUncovered: OrphanDetector, ShardLoadDetector")
+endif()
+
+# ── Epoch Fencing focused tests (Phase 4.1) ───────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_epoch_fencing.cpp")
+    message(STATUS "Adding Sharding: Epoch Fencing focused tests (Phase 4.1)")
+    add_executable(test_epoch_fencing_focused test_epoch_fencing.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/epoch_fencing.cpp)
+    target_include_directories(test_epoch_fencing_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_epoch_fencing_focused PRIVATE ${TEST_LIBS} spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_epoch_fencing_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME EpochFencingFocusedTests COMMAND test_epoch_fencing_focused)
+    set_tests_properties(EpochFencingFocusedTests PROPERTIES
+        LABELS "sharding;epoch;fencing;lease;stonith;phase4;focused;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  EpochFencing: EpochFencingManager, LeaseManager, NullStonithProvider")
 endif()
 
 # Process Modeling Module focused tests
@@ -17883,6 +18086,177 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_eid_authenticator.cpp")
     message(STATUS "  EIDAuthenticator: initialize, beginAuthSession, completeAuthSession, revokeSession, EIDIdentity attributes, fullName, thread-safety, polymorphic")
 else()
     message(STATUS "eID Authenticator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_eid_authenticator.cpp")
+# ReplugRetriever focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_replug_retriever.cpp")
+    message(STATUS "Adding ReplugRetriever focused tests (RAG module, REPLUG-LSR, v2.0.0)")
+
+    add_executable(test_rag_replug_retriever_focused
+        test_rag_replug_retriever.cpp
+        ${CMAKE_SOURCE_DIR}/src/rag/replug_retriever.cpp
+    )
+
+    target_include_directories(test_rag_replug_retriever_focused PRIVATE
+# ---------------------------------------------------------------------------
+# CypherParserFocusedTests (30 tests) – v1.6.0
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cypher_parser.cpp")
+    message(STATUS "Adding CypherParser focused tests (Cypher/AQL transpiler, v1.6.0)")
+
+    add_executable(test_cypher_parser
+        test_cypher_parser.cpp
+    )
+
+    target_include_directories(test_cypher_parser PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_rag_replug_retriever_focused PRIVATE
+    target_link_libraries(test_cypher_parser PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_rag_replug_retriever_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ReplugRetrieverFocusedTests COMMAND test_rag_replug_retriever_focused)
+
+    set_tests_properties(ReplugRetrieverFocusedTests PROPERTIES
+        LABELS "rag;replug;llm_scorer;fusion;weight_update;lsr;v2.0.0;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ReplugRetriever: ILLMScorer, HeuristicLLMScorer, fuse(), updateRetrieverWeights(), ReplugRetrieverFactory")
+else()
+    message(STATUS "ReplugRetriever focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_replug_retriever.cpp")
+endif()
+
+# RLAIFTrainer focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_rlaif_trainer.cpp")
+    message(STATUS "Adding RLAIFTrainer focused tests (RAG module, Constitutional AI / RLAIF, v2.0.0)")
+
+    add_executable(test_rag_rlaif_trainer_focused
+        test_rag_rlaif_trainer.cpp
+        ${CMAKE_SOURCE_DIR}/src/rag/rlaif_trainer.cpp
+    )
+
+    target_include_directories(test_rag_rlaif_trainer_focused PRIVATE
+    target_compile_definitions(test_cypher_parser PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CypherParserFocusedTests COMMAND test_cypher_parser)
+
+    set_tests_properties(CypherParserFocusedTests PROPERTIES
+        LABELS "query;cypher;parser;transpiler;v1.6.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CypherParser: MATCH/WHERE/RETURN, relationship patterns, AQL transpilation (30 tests)")
+else()
+    message(STATUS "Cypher parser focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cypher_parser.cpp")
+endif()
+
+# ---------------------------------------------------------------------------
+# GremlinParserFocusedTests (30 tests) – v1.6.0
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gremlin_parser.cpp")
+    message(STATUS "Adding GremlinParser focused tests (Gremlin/AQL transpiler, v1.6.0)")
+
+    add_executable(test_gremlin_parser
+        test_gremlin_parser.cpp
+    )
+
+    target_include_directories(test_gremlin_parser PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_rag_rlaif_trainer_focused PRIVATE
+    target_link_libraries(test_gremlin_parser PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_rag_rlaif_trainer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RLAIFTrainerFocusedTests COMMAND test_rag_rlaif_trainer_focused)
+
+    set_tests_properties(RLAIFTrainerFocusedTests PROPERTIES
+        LABELS "rag;rlaif;constitutional_ai;preference_pairs;training;v2.0.0;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  RLAIFTrainer: IAIJudge, HeuristicAIJudge, runTrainingStep(), createPreferencePair(), processBatch(), RLAIFTrainerFactory")
+else()
+    message(STATUS "RLAIFTrainer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_rlaif_trainer.cpp")
+    target_compile_definitions(test_gremlin_parser PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GremlinParserFocusedTests COMMAND test_gremlin_parser)
+
+    set_tests_properties(GremlinParserFocusedTests PROPERTIES
+        LABELS "query;gremlin;parser;transpiler;v1.6.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  GremlinParser: g.V()/g.E(), hasLabel/has/hasNot, out/in/both, values/valueMap, count/dedup, limit/range/order().by(), AQL transpilation (30 tests)")
+else()
+    message(STATUS "Gremlin parser focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_gremlin_parser.cpp")
+# ============================================================================
+# MQTT Client Service Focused Tests (v1.9.0 — MqttClientService /
+# MqttCDCTransport / IMqttMessageHandler; bidirectional MQTT client)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_mqtt_client_service.cpp")
+    message(STATUS "Adding MQTT Client Service focused tests (v1.9.0)")
+
+    add_executable(test_mqtt_client_service_focused
+        test_mqtt_client_service.cpp
+        ${THEMIS_ROOT_DIR}/src/server/mqtt_client_service.cpp
+        ${THEMIS_ROOT_DIR}/src/server/mqtt_session.cpp
+        ${THEMIS_ROOT_DIR}/src/plugins/rpc_service_registry.cpp
+    )
+
+    target_include_directories(test_mqtt_client_service_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_mqtt_client_service_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    if(TARGET Boost::system)
+        target_link_libraries(test_mqtt_client_service_focused PRIVATE Boost::system)
+    endif()
+
+    target_compile_definitions(test_mqtt_client_service_focused PRIVATE
+        THEMIS_ENABLE_MQTT=1
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MqttClientServiceFocusedTests COMMAND test_mqtt_client_service_focused)
+
+    set_tests_properties(MqttClientServiceFocusedTests PROPERTIES
+        LABELS "server;mqtt;client;cdc;pub-sub;service-registry;realtime;v1.9.0;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  MqttClientService: config defaults, stats/reset, IMqttMessageHandler, lifecycle, publish/subscribe, service-registry, MqttCDCTransport topic mapping, CDC publish delegation")
+else()
+    message(STATUS "MQTT Client Service focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_mqtt_client_service.cpp")
 endif()
 
 message(STATUS "Tests configured successfully")
