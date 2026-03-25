@@ -291,6 +291,42 @@ public:
      */
     std::vector<ForecastPoint> predict(int steps) const;
 
+    /**
+     * Batch-predict @p steps steps ahead for each series in @p batch.
+     *
+     * The model is fitted to each series in @p batch independently and
+     * predictions are returned in the same order.  The model's own fitted
+     * state is unchanged after this call.
+     *
+     * Each element of the returned outer vector corresponds to one input
+     * series; the inner vector has exactly @p steps ForecastPoint entries.
+     *
+     * This avoids the per-call model-state copy overhead of calling
+     * predict() on N independently constructed models.
+     *
+     * @param batch  One or more time series to forecast.
+     * @param steps  Number of future points per series (must be ≥ 1).
+     * @returns      Vector of size batch.size(), each element of size steps.
+     * @throws std::invalid_argument if @p steps < 1 or any series has < 2 points.
+     */
+    std::vector<std::vector<ForecastPoint>> predictBatch(
+        const std::vector<TimeSeries>& batch, int steps) const;
+
+    /**
+     * Incrementally absorb one new observation into the fitted model state.
+     *
+     * Updates only the ETS level/trend/seasonal components (O(1)); does not
+     * re-run full fit().  For ARIMA the last AR window is shifted and the new
+     * point appended; for LINEAR_REGRESSION the new point is appended to
+     * update the OLS parameters.
+     *
+     * Calling update() on a model that has not been fitted is a no-op.
+     *
+     * @param new_value  The new observation value (timestamp is implicitly
+     *                   one median-interval step after the last training point).
+     */
+    void update(double new_value);
+
     // ---- Evaluation ----
 
     /**

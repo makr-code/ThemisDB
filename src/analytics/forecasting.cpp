@@ -63,13 +63,16 @@
 
 #include "analytics/forecasting.h"
 
+#include <array>
 #include <cmath>
+#include <future>
 #include <iomanip>
 #include <limits>
 #include <numeric>
 #include <sstream>
 #include <stdexcept>
 #include <unordered_map>
+#include <vector>
 
 // SIMD intrinsics — guarded so non-SIMD platforms compile cleanly.
 #if defined(__AVX512F__)
@@ -682,6 +685,73 @@ struct ForecastModel::Impl {
     // In-sample RMSE
     double in_sample_rmse = 0.0;
 
+    // ---- fit-result cache ------------------------------------------------
+    // Key: FNV-1a 64-bit hash over (training_data_bytes + config_bytes).
+    // On cache hit we skip re-fitting and reuse the cached params.
+    struct FitCacheKey {
+        uint64_t data_hash   = 0;
+        uint64_t config_hash = 0;
+        bool operator==(const FitCacheKey& o) const noexcept {
+            return data_hash == o.data_hash && config_hash == o.config_hash;
+        }
+    };
+    struct FitCacheKeyHash {
+        size_t operator()(const FitCacheKey& k) const noexcept {
+            // Combine two 64-bit values using the Boost hash_combine pattern.
+            // 0x9e3779b97f4a7c15 is the 64-bit golden-ratio increment constant.
+            static constexpr uint64_t kGoldenRatio = 0x9e3779b97f4a7c15ULL;
+            size_t h = static_cast<size_t>(k.data_hash);
+            h ^= static_cast<size_t>(k.config_hash) + kGoldenRatio + (h << 6) + (h >> 2);
+            return h;
+        }
+    };
+    struct FitCacheEntry {
+        LinearParams      linear_p{};
+        SESParams         ses_p{};
+        HoltWintersParams hw_p{};
+        ArimaParams       arima_p{};
+        double            in_sample_rmse = 0.0;
+        ForecastConfig    config{};
+    };
+    // Single-entry cache (last fit)
+    bool            cache_valid = false;
+    FitCacheKey     cache_key{};
+    FitCacheEntry   cache_entry{};
+
+    // FNV-1a 64-bit hash over arbitrary bytes
+    static uint64_t fnv1a64(const void* data, size_t len) noexcept {
+        uint64_t hash = 14695981039346656037ULL;
+        const uint8_t* p = static_cast<const uint8_t*>(data);
+        for (size_t i = 0; i < len; ++i) {
+            hash ^= static_cast<uint64_t>(p[i]);
+            hash *= 1099511628211ULL;
+        }
+        return hash;
+    }
+
+    FitCacheKey computeCacheKey(const std::vector<double>& y,
+                                const std::vector<int64_t>& ts,
+                                const ForecastConfig& cfg) const noexcept {
+        FitCacheKey k;
+        // Hash the value vector bytes
+        k.data_hash = fnv1a64(y.data(), y.size() * sizeof(double));
+        k.data_hash = fnv1a64(ts.data(), ts.size() * sizeof(int64_t)) ^ k.data_hash;
+        // Hash the config fields that affect fitting
+        uint64_t cfg_h = fnv1a64(&cfg.alpha, sizeof(cfg.alpha));
+        cfg_h ^= fnv1a64(&cfg.beta,            sizeof(cfg.beta));
+        cfg_h ^= fnv1a64(&cfg.gamma,           sizeof(cfg.gamma));
+        cfg_h ^= fnv1a64(&cfg.seasonality,     sizeof(cfg.seasonality));
+        cfg_h ^= fnv1a64(&cfg.ar_order,        sizeof(cfg.ar_order));
+        cfg_h ^= fnv1a64(&cfg.diff_order,      sizeof(cfg.diff_order));
+        cfg_h ^= fnv1a64(&cfg.ma_order,        sizeof(cfg.ma_order));
+        uint8_t flags = (cfg.auto_tune ? 1 : 0)
+                      | (cfg.multiplicative ? 2 : 0)
+                      | (cfg.include_confidence ? 4 : 0);
+        cfg_h ^= static_cast<uint64_t>(flags);
+        k.config_hash = cfg_h;
+        return k;
+    }
+
     // ---- fit helpers ----
     void fitLinear() {
         linear_p = ::themisdb::analytics::fitLinear(train_y);
@@ -874,23 +944,48 @@ void ForecastModel::fit(const TimeSeries& ts, const ForecastConfig& config) {
     impl_->train_y  = ts.values();
     impl_->train_ts = ts.timestamps();
 
-    // Auto-tune alpha/beta/gamma if requested (simple grid search)
+    // ---- fit-result cache check ----------------------------------------
+    auto ck = impl_->computeCacheKey(impl_->train_y, impl_->train_ts, config);
+    if (impl_->cache_valid && impl_->cache_key == ck) {
+        // Restore cached parameters — skip all expensive fitting
+        impl_->linear_p      = impl_->cache_entry.linear_p;
+        impl_->ses_p         = impl_->cache_entry.ses_p;
+        impl_->hw_p          = impl_->cache_entry.hw_p;
+        impl_->arima_p       = impl_->cache_entry.arima_p;
+        impl_->in_sample_rmse = impl_->cache_entry.in_sample_rmse;
+        impl_->config        = impl_->cache_entry.config;
+        impl_->fitted        = true;
+        return;
+    }
+
+    // Auto-tune alpha/beta/gamma if requested — parallelised over 9 grid points
     if (config.auto_tune && impl_->method != ForecastMethod::LINEAR_REGRESSION
                          && impl_->method != ForecastMethod::ARIMA) {
-        // Grid-search alpha over {0.1, 0.2, …, 0.9}
-        double best_rmse = std::numeric_limits<double>::max();
-        double best_alpha = config.alpha;
+        const auto& y_ref = impl_->train_y;
+        // Launch 9 async tasks (one per alpha value)
+        std::array<std::future<std::pair<double,double>>, 9> futures;
         for (int ai = 1; ai <= 9; ++ai) {
-            double a = 0.1 * ai;
-            // Compute in-sample RMSE for this alpha
-            double lvl = impl_->train_y[0];
-            double ss = 0.0; size_t cnt = 0;
-            for (size_t i = 1; i < impl_->train_y.size(); ++i) {
-                double err = impl_->train_y[i] - lvl;
-                ss += err * err; ++cnt;
-                lvl = a * impl_->train_y[i] + (1.0 - a) * lvl;
-            }
-            double rmse = (cnt > 0) ? std::sqrt(ss / static_cast<double>(cnt)) : 1e38;
+            double a = 0.1 * static_cast<double>(ai);
+            futures[static_cast<size_t>(ai - 1)] = std::async(
+                std::launch::async,
+                [a, &y_ref]() -> std::pair<double,double> {
+                    double lvl = y_ref[0];
+                    double ss  = 0.0;
+                    size_t cnt = 0;
+                    for (size_t i = 1; i < y_ref.size(); ++i) {
+                        double err = y_ref[i] - lvl;
+                        ss += err * err; ++cnt;
+                        lvl = a * y_ref[i] + (1.0 - a) * lvl;
+                    }
+                    double rmse = (cnt > 0)
+                        ? std::sqrt(ss / static_cast<double>(cnt)) : 1e38;
+                    return {rmse, a};
+                });
+        }
+        double best_rmse  = std::numeric_limits<double>::max();
+        double best_alpha = config.alpha;
+        for (auto& f : futures) {
+            auto [rmse, a] = f.get();
             if (rmse < best_rmse) { best_rmse = rmse; best_alpha = a; }
         }
         impl_->config.alpha = best_alpha;
@@ -912,6 +1007,16 @@ void ForecastModel::fit(const TimeSeries& ts, const ForecastConfig& config) {
     }
     impl_->in_sample_rmse = preds.empty() ? 0.0
         : std::sqrt(ss / static_cast<double>(preds.size()));
+
+    // ---- populate cache ------------------------------------------------
+    impl_->cache_entry.linear_p       = impl_->linear_p;
+    impl_->cache_entry.ses_p          = impl_->ses_p;
+    impl_->cache_entry.hw_p           = impl_->hw_p;
+    impl_->cache_entry.arima_p        = impl_->arima_p;
+    impl_->cache_entry.in_sample_rmse = impl_->in_sample_rmse;
+    impl_->cache_entry.config         = impl_->config;
+    impl_->cache_key   = ck;
+    impl_->cache_valid = true;
 }
 
 bool ForecastModel::isFitted() const noexcept {
@@ -945,6 +1050,119 @@ std::vector<ForecastPoint> ForecastModel::predict(int steps) const {
         result.push_back(fp);
     }
     return result;
+}
+
+std::vector<std::vector<ForecastPoint>> ForecastModel::predictBatch(
+    const std::vector<TimeSeries>& batch, int steps) const
+{
+    if (steps < 1)
+        throw std::invalid_argument("ForecastModel::predictBatch: steps must be >= 1");
+
+    std::vector<std::vector<ForecastPoint>> results;
+    results.reserve(batch.size());
+
+    // Reuse this model's config and method for each series in the batch.
+    // Each series gets its own lightweight ForecastModel so that the
+    // caller's fitted state is not modified.
+    for (const auto& ts : batch) {
+        ForecastModel m(impl_->config, impl_->method);
+        m.fit(ts);
+        results.push_back(m.predict(steps));
+    }
+    return results;
+}
+
+void ForecastModel::update(double new_value) {
+    if (!impl_->fitted) return;  // no-op if not fitted
+
+    // ---- append to training series ----
+    int64_t interval = medianInterval(impl_->train_ts);
+    int64_t next_ts  = impl_->train_ts.empty()
+                     ? 0
+                     : impl_->train_ts.back() + interval;
+    impl_->train_ts.push_back(next_ts);
+    impl_->train_y.push_back(new_value);
+
+    // Invalidate fit cache (data changed)
+    impl_->cache_valid = false;
+
+    const double y = new_value;
+
+    // ---- LINEAR_REGRESSION: incremental OLS update ----
+    // Recompute alpha/beta using the full (extended) series (O(n) but simple).
+    // For true O(1) we would need Welford-style running moments — however the
+    // series growth is bounded in practice and the fit is already fast.
+    {
+        auto& lp = impl_->linear_p;
+        lp = ::themisdb::analytics::fitLinear(impl_->train_y);
+    }
+
+    // ---- EXP_SMOOTHING (SES): O(1) level update ----
+    {
+        auto& sp = impl_->ses_p;
+        sp.last_level = sp.alpha * y + (1.0 - sp.alpha) * sp.last_level;
+    }
+
+    // ---- HOLT_WINTERS: O(1) level/trend/seasonal update ----
+    {
+        auto& hp = impl_->hw_p;
+        int m = hp.m;
+        bool has_season = (m >= 2) && !hp.S.empty();
+        int n_prev = static_cast<int>(impl_->train_y.size()) - 1; // index before this obs
+
+        double L_prev = hp.L;
+        double T_prev = hp.T;
+
+        if (has_season) {
+            int si = (n_prev) % m;
+            if (si < 0) si += m;
+            double S_t = hp.S[static_cast<size_t>(si)];
+            double L_new, T_new, S_new;
+            if (hp.multiplicative) {
+                L_new = hp.alpha * (y / (S_t > 1e-12 ? S_t : 1e-12))
+                      + (1.0 - hp.alpha) * (L_prev + T_prev);
+                T_new = hp.beta * (L_new - L_prev) + (1.0 - hp.beta) * T_prev;
+                S_new = hp.gamma * (y / (L_new > 1e-12 ? L_new : 1e-12))
+                      + (1.0 - hp.gamma) * S_t;
+            } else {
+                L_new = hp.alpha * (y - S_t)
+                      + (1.0 - hp.alpha) * (L_prev + T_prev);
+                T_new = hp.beta * (L_new - L_prev) + (1.0 - hp.beta) * T_prev;
+                S_new = hp.gamma * (y - L_new) + (1.0 - hp.gamma) * S_t;
+            }
+            hp.L = L_new;
+            hp.T = T_new;
+            hp.S[static_cast<size_t>(si)] = S_new;
+        } else {
+            // Holt (no seasonal)
+            double L_new = hp.alpha * y + (1.0 - hp.alpha) * (L_prev + T_prev);
+            double T_new = hp.beta * (L_new - L_prev) + (1.0 - hp.beta) * T_prev;
+            hp.L = L_new;
+            hp.T = T_new;
+        }
+    }
+
+    // ---- ARIMA: shift window by one, append new value ----
+    {
+        auto& ap = impl_->arima_p;
+        // Compute differenced value (d==1): need at least 2 points (the previous
+        // training value is at train_y.size()-2 since we just pushed the new value).
+        double y_diff = (ap.d == 1 && impl_->train_y.size() >= 2)
+                      ? (y - impl_->train_y[impl_->train_y.size() - 2])
+                      : y;
+        // Update last window
+        if (!ap.last_window.empty()) {
+            ap.last_window.erase(ap.last_window.begin());
+            ap.last_window.push_back(y_diff - ap.mean_diff);
+        }
+        // Update last_obs (used for integration in multi-step predict)
+        ap.last_obs = y;
+        // Recompute residual for last step and shift residual buffer
+        if (!ap.last_resid.empty()) {
+            ap.last_resid.erase(ap.last_resid.begin());
+            ap.last_resid.push_back(0.0);  // future residual unknown → 0
+        }
+    }
 }
 
 ForecastMetrics ForecastModel::evaluate(const TimeSeries& test_ts) const {

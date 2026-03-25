@@ -1,4 +1,4 @@
-name: Sync Milestones from Roadmap
+name: "[Manual] Sync Milestones from Roadmap"
 
 # Manually triggered via the GitHub Actions UI or GitHub CLI.
 # Parses src/**/ROADMAP.md for (Target: QN YYYY) + (Issue: #NNN) annotations,

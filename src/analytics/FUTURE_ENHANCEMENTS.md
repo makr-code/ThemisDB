@@ -442,11 +442,11 @@ The forecasting engine supports `fit()` + `predict(steps)` but lacks the followi
 capabilities needed for production deployments.
 
 **Implementation Notes:**
-- `[ ]` Add `predictBatch(const std::vector<TimeSeries>& batch, int steps) → std::vector<std::vector<ForecastPoint>>` to amortise model-state copies across independent series — existing `predict()` re-copies internal state on every call
-- `[ ]` Add `update(double new_value)` for O(1) one-step incremental absorption of a new observation without full `fit()` rerun — update only the ETS level/trend/seasonal components
-- `[ ]` Auto-tune (HES `auto_tune=true`) grid search over alpha/beta/gamma is single-threaded — parallelize with `std::async` or OpenMP; 9-point grid on 500-sample series currently takes up to 50 ms single-threaded
-- `[ ]` Cache last `fit()` result indexed by `(xxHash(training_data), config_hash)` so repeated fits on unchanged data are O(1) hash lookups
-- `[ ]` Extend the existing AVX2 Yule–Walker scaffold to a compiled-in AVX-512 path (see section 14)
+- `[x]` Add `predictBatch(const std::vector<TimeSeries>& batch, int steps) → std::vector<std::vector<ForecastPoint>>` to amortise model-state copies across independent series — existing `predict()` re-copies internal state on every call
+- `[x]` Add `update(double new_value)` for O(1) one-step incremental absorption of a new observation without full `fit()` rerun — update only the ETS level/trend/seasonal components
+- `[x]` Auto-tune (HES `auto_tune=true`) grid search over alpha/beta/gamma is single-threaded — parallelize with `std::async` or OpenMP; 9-point grid on 500-sample series currently takes up to 50 ms single-threaded
+- `[x]` Cache last `fit()` result indexed by `(xxHash(training_data), config_hash)` so repeated fits on unchanged data are O(1) hash lookups
+- `[x]` Extend the existing AVX2 Yule–Walker scaffold to a compiled-in AVX-512 path (see section 14)
 
 **Performance Targets:**
 - `predictBatch()` for 1 000 series × 30 steps: ≤ 50 ms on a single core

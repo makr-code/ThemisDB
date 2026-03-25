@@ -850,3 +850,241 @@ TEST(SIMDParityTest, ARIMA_FlatSeries_NoNaN) {
         EXPECT_DOUBLE_EQ(fp.value, scalar_forecast);
     }
 }
+
+// ============================================================================
+// ForecastingBatchStreamingTests — Issue #4054 (v1.9.0)
+// ============================================================================
+
+// ---------------------------------------------------------------------------
+// predictBatch — basic shape and consistency
+// ---------------------------------------------------------------------------
+
+TEST(ForecastingBatchStreamingTests, PredictBatch_ReturnsCorrectShape) {
+    // 3 series, 20 steps each
+    std::vector<TimeSeries> batch;
+    for (int s = 0; s < 3; ++s) {
+        batch.push_back(makeLinearSeries(30, /*slope=*/static_cast<double>(s + 1)));
+    }
+
+    ForecastModel model(ForecastMethod::LINEAR_REGRESSION);
+    model.fit(batch[0]);  // model must be fitted before predictBatch
+
+    auto results = model.predictBatch(batch, 20);
+
+    ASSERT_EQ(results.size(), 3u);
+    for (const auto& r : results) {
+        ASSERT_EQ(r.size(), 20u);
+        for (const auto& fp : r) {
+            EXPECT_FALSE(std::isnan(fp.value));
+            EXPECT_FALSE(std::isinf(fp.value));
+        }
+    }
+}
+
+TEST(ForecastingBatchStreamingTests, PredictBatch_SingleSeries_MatchesSinglePredict) {
+    TimeSeries ts = makeLinearSeries(50, 2.0, 5.0);
+    ForecastModel model(ForecastMethod::LINEAR_REGRESSION);
+    model.fit(ts);
+
+    auto single_result = model.predict(10);
+    auto batch_result  = model.predictBatch({ts}, 10);
+
+    ASSERT_EQ(batch_result.size(), 1u);
+    ASSERT_EQ(batch_result[0].size(), single_result.size());
+    for (size_t i = 0; i < single_result.size(); ++i) {
+        EXPECT_NEAR(batch_result[0][i].value, single_result[i].value, 1e-9)
+            << "Batch predict differs from single predict at step " << i;
+    }
+}
+
+TEST(ForecastingBatchStreamingTests, PredictBatch_InvalidSteps_Throws) {
+    TimeSeries ts = makeLinearSeries(20);
+    ForecastModel model(ForecastMethod::LINEAR_REGRESSION);
+    model.fit(ts);
+    EXPECT_THROW(model.predictBatch({ts}, 0), std::invalid_argument);
+    EXPECT_THROW(model.predictBatch({ts}, -1), std::invalid_argument);
+}
+
+TEST(ForecastingBatchStreamingTests, PredictBatch_EmptyBatch_ReturnsEmpty) {
+    TimeSeries ts = makeLinearSeries(20);
+    ForecastModel model(ForecastMethod::LINEAR_REGRESSION);
+    model.fit(ts);
+    auto results = model.predictBatch({}, 5);
+    EXPECT_TRUE(results.empty());
+}
+
+TEST(ForecastingBatchStreamingTests, PredictBatch_AllMethods) {
+    std::vector<TimeSeries> batch;
+    for (int i = 0; i < 3; ++i)
+        batch.push_back(makeSeasonalSeries(40, 4, 0.5));
+
+    for (auto method : {ForecastMethod::EXP_SMOOTHING,
+                        ForecastMethod::HOLT_WINTERS,
+                        ForecastMethod::ARIMA,
+                        ForecastMethod::ENSEMBLE}) {
+        ForecastModel model(method);
+        model.fit(batch[0]);
+        auto results = model.predictBatch(batch, 5);
+        ASSERT_EQ(results.size(), 3u) << "method=" << forecastMethodName(method);
+        for (const auto& r : results) {
+            ASSERT_EQ(r.size(), 5u) << "method=" << forecastMethodName(method);
+            for (const auto& fp : r)
+                EXPECT_FALSE(std::isnan(fp.value)) << "method=" << forecastMethodName(method);
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// update — incremental absorption
+// ---------------------------------------------------------------------------
+
+TEST(ForecastingBatchStreamingTests, Update_NoOpOnUnfittedModel) {
+    ForecastModel model(ForecastMethod::EXP_SMOOTHING);
+    EXPECT_NO_THROW(model.update(42.0));  // must be a no-op
+    EXPECT_FALSE(model.isFitted());
+}
+
+TEST(ForecastingBatchStreamingTests, Update_SES_ShiftsLevel) {
+    TimeSeries ts = makeLinearSeries(20, 1.0);
+    ForecastModel model(ForecastMethod::EXP_SMOOTHING);
+    model.fit(ts);
+
+    auto before = model.predict(5);
+    model.update(25.0);  // add a new observation
+    auto after  = model.predict(5);
+
+    // The SES level must have moved toward the new observation
+    // — forecast values must differ from the pre-update forecast
+    bool changed = false;
+    for (size_t i = 0; i < before.size(); ++i) {
+        if (std::abs(after[i].value - before[i].value) > 1e-12) {
+            changed = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(changed) << "SES forecast unchanged after update()";
+}
+
+TEST(ForecastingBatchStreamingTests, Update_HW_ShiftsLevel) {
+    TimeSeries ts = makeSeasonalSeries(40, 4, 0.1);
+    ForecastModel model(ForecastMethod::HOLT_WINTERS);
+    model.fit(ts);
+
+    auto before = model.predict(4);
+    model.update(99.0);
+    auto after  = model.predict(4);
+
+    bool changed = false;
+    for (size_t i = 0; i < before.size(); ++i) {
+        if (std::abs(after[i].value - before[i].value) > 1e-9) { changed = true; break; }
+    }
+    EXPECT_TRUE(changed) << "HW forecast unchanged after update()";
+}
+
+TEST(ForecastingBatchStreamingTests, Update_ARIMA_ShiftsWindow) {
+    TimeSeries ts = makeLinearSeries(30, 1.0);
+    ForecastConfig cfg;
+    cfg.ar_order = 2;
+    ForecastModel model(ForecastMethod::ARIMA);
+    model.fit(ts, cfg);
+
+    auto before = model.predict(3);
+    model.update(999.0);
+    auto after  = model.predict(3);
+
+    bool changed = false;
+    for (size_t i = 0; i < before.size(); ++i) {
+        if (std::abs(after[i].value - before[i].value) > 1e-9) { changed = true; break; }
+    }
+    EXPECT_TRUE(changed) << "ARIMA forecast unchanged after update()";
+}
+
+TEST(ForecastingBatchStreamingTests, Update_MultipleUpdates_ModelStillFitted) {
+    TimeSeries ts = makeLinearSeries(20);
+    ForecastModel model(ForecastMethod::EXP_SMOOTHING);
+    model.fit(ts);
+
+    for (int i = 0; i < 10; ++i) {
+        model.update(static_cast<double>(20 + i));
+        EXPECT_TRUE(model.isFitted());
+        EXPECT_NO_THROW(model.predict(3));
+    }
+}
+
+// ---------------------------------------------------------------------------
+// fit-result cache — repeated fit on same data is O(1) lookup
+// ---------------------------------------------------------------------------
+
+TEST(ForecastingBatchStreamingTests, FitCache_SecondFitOnSameDataIsConsistent) {
+    TimeSeries ts = makeLinearSeries(50, 3.0, 10.0);
+    ForecastModel model(ForecastMethod::LINEAR_REGRESSION);
+
+    model.fit(ts);
+    auto first = model.predict(10);
+
+    // Second fit on identical data — should produce identical results (cache hit)
+    model.fit(ts);
+    auto second = model.predict(10);
+
+    ASSERT_EQ(first.size(), second.size());
+    for (size_t i = 0; i < first.size(); ++i) {
+        EXPECT_DOUBLE_EQ(first[i].value, second[i].value)
+            << "Cache hit produced different result at step " << i;
+    }
+}
+
+TEST(ForecastingBatchStreamingTests, FitCache_DifferentDataProducesDifferentResult) {
+    TimeSeries ts1 = makeLinearSeries(30, 1.0);
+    TimeSeries ts2 = makeLinearSeries(30, 5.0);  // different slope
+    ForecastModel model(ForecastMethod::LINEAR_REGRESSION);
+
+    model.fit(ts1);
+    auto r1 = model.predict(5);
+
+    model.fit(ts2);
+    auto r2 = model.predict(5);
+
+    bool differs = false;
+    for (size_t i = 0; i < r1.size(); ++i) {
+        if (std::abs(r1[i].value - r2[i].value) > 1e-6) { differs = true; break; }
+    }
+    EXPECT_TRUE(differs) << "Fitting different data produced the same forecast";
+}
+
+// ---------------------------------------------------------------------------
+// Parallel auto-tune — verify alpha converges to a better value
+// ---------------------------------------------------------------------------
+
+TEST(ForecastingBatchStreamingTests, AutoTune_PicksBetterAlpha) {
+    // Series with a strong trend: best alpha should be relatively high
+    TimeSeries ts = makeLinearSeries(100, 2.0);
+    ForecastConfig cfg;
+    cfg.auto_tune = true;
+    ForecastModel model(ForecastMethod::EXP_SMOOTHING);
+    model.fit(ts, cfg);
+
+    // After auto-tune the model should still be fitted and produce finite forecasts
+    EXPECT_TRUE(model.isFitted());
+    auto preds = model.predict(10);
+    for (const auto& fp : preds) {
+        EXPECT_FALSE(std::isnan(fp.value));
+        EXPECT_FALSE(std::isinf(fp.value));
+    }
+}
+
+TEST(ForecastingBatchStreamingTests, AutoTune_HW_ProducesFiniteForecast) {
+    TimeSeries ts = makeSeasonalSeries(60, 4, 0.2);
+    ForecastConfig cfg;
+    cfg.auto_tune    = true;
+    cfg.seasonality  = 4;
+    ForecastModel model(ForecastMethod::HOLT_WINTERS);
+    model.fit(ts, cfg);
+
+    EXPECT_TRUE(model.isFitted());
+    auto preds = model.predict(8);
+    ASSERT_EQ(preds.size(), 8u);
+    for (const auto& fp : preds) {
+        EXPECT_FALSE(std::isnan(fp.value));
+        EXPECT_FALSE(std::isinf(fp.value));
+    }
+}

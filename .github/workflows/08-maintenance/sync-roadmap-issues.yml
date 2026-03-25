@@ -1,4 +1,4 @@
-name: Sync Roadmap Issues
+name: "[Manual] Sync Roadmap Issues"
 
 on:
   workflow_dispatch:

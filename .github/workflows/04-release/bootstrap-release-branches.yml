@@ -1,4 +1,4 @@
-name: Bootstrap Release Branches
+name: "[Manual] Bootstrap Release Branches"
 
 # Creates the permanent release-lane branches (enterprise, hyperscaler)
 # from develop if they do not already exist.

@@ -1,4 +1,4 @@
-name: Add Documentation Metadata
+name: "[Manual] Add Documentation Metadata"
 
 on:
   # Allow manual trigger for testing and updates

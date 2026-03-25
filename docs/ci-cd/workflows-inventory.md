@@ -47,7 +47,7 @@
 
 ### Release
 
-- **create-release-archive.yml** - Create Release Archive
+- **create-release-archive.yml** - [Manual] Create Release Archive
 
 ### Scheduled & Manual
 
@@ -110,7 +110,7 @@
 
 ### create-release-archive.yml
 
-**Name:** Create Release Archive
+**Name:** [Manual] Create Release Archive
 
 **Path:** `.github/workflows/create-release-archive.yml`
 

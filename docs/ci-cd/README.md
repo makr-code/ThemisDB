@@ -6,7 +6,12 @@ This directory contains documentation and tools related to the GitHub Actions CI
 
 ### Documentation
 
-- **[workflows-inventory.md](workflows-inventory.md)** - Complete inventory of all 53 GitHub Actions workflows
+- **[workflows/](workflows/README.md)** - Per-Workflow-Dokumentation (217 Workflows)
+  - Aufgabe und Funktionsweise jedes Workflows
+  - Auslöser, Eingaben, Jobs und Schritte
+  - Automatisch generiert aus den Workflow-YAML-Dateien
+
+- **[workflows-inventory.md](workflows-inventory.md)** - Complete inventory of all GitHub Actions workflows
   - Workflow metadata and configuration
   - Categorization by purpose
   - Common patterns analysis

@@ -1,0 +1,47 @@
+# Remote Registry Client – Async Retry CI
+
+🔄 **CI/CD**
+
+> **Workflow-Datei:** `.github/workflows/02-feature-modules/resilience/remote-registry-client-async-retry-ci.yml`
+
+## Aufgabe
+
+CI-Workflow zur automatischen Überprüfung und Validierung von: **Remote Registry Client – Async Retry**.
+
+## Auslöser (Triggers)
+
+- **`push`** — Automatisch bei jedem Push auf die konfigurierten Branches (Branches: `main`, `develop`) (5 überwachte Pfade)
+- **`pull_request`** — Automatisch bei Pull Requests (opened, synchronize, reopened) (5 überwachte Pfade)
+
+## Nebenläufigkeit
+
+- **Gruppe:** `remote-registry-client-async-retry-${{ github.ref }}`
+- **Cancel-in-progress:** Ja
+
+## Jobs
+
+### `ci-scope-classifier`
+**Typ:** Reusable Workflow Call
+**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+
+### `remote-registry-client-tests`
+**Anzeigename:** RemoteRegistryClient Async Retry (${{ matrix.os }} / ${{ matrix.compiler }})
+
+**Läuft auf:** `${{ matrix.os }}`
+**Abhängigkeiten:** `ci-scope-classifier`
+**Bedingung:** `needs.ci-scope-classifier.outputs.has_code_changes == 'true'`
+**Matrix:** 2 Konfiguration(en)
+
+**Schritte:**
+
+- **Checkout repository** — `actions/checkout@v4`
+- **Set up C++ build environment** — `./.github/actions/setup-cpp-build`
+- **Configure and build** — `./.github/actions/configure-themis`
+- **Run RemoteRegistryClientFocusedTests** — `set -o pipefail`
+- **Run RemoteRegistryClient tests via unified binary** — `set -o pipefail`
+- **Upload test results** — `actions/upload-artifact@v4`
+
+## Verwandte Ressourcen
+
+- [Workflow-Datei](../../../.github/workflows/02-feature-modules/resilience/remote-registry-client-async-retry-ci.yml)
+- [Alle Workflows](../README.md)

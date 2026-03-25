@@ -1,4 +1,4 @@
-name: Create Release Archive
+name: "[Manual] Create Release Archive"
 
 on:
   workflow_dispatch:
