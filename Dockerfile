@@ -181,9 +181,11 @@ RUN if [ "$ENABLE_LLM" = "ON" ]; then \
         echo "Building llama.cpp for LLM support..."; \
         cd /opt/llama.cpp && \
         \
-        # Fix char8_t compilation issue in llama-chat.cpp (GCC 11+ bug) \
-        sed -i 's/#define LU8(x) u8##x/#define LU8(x) (const char*)(x)/' src/llama-chat.cpp && \
-        sed -i 's/const char8_t \* haystack/const char* haystack/' src/llama-chat.cpp && \
+        # Fix char8_t compilation issue in llama-chat.cpp (GCC 11+ bug, file may not exist in newer versions) \
+        if [ -f src/llama-chat.cpp ]; then \
+            sed -i 's/#define LU8(x) u8##x/#define LU8(x) (const char*)(x)/' src/llama-chat.cpp && \
+            sed -i 's/const char8_t \* haystack/const char* haystack/' src/llama-chat.cpp; \
+        fi && \
         \
         rm -rf build && \
         mkdir -p build && \
