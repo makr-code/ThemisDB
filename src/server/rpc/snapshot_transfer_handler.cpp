@@ -30,6 +30,7 @@
 #include <lz4.h>
 #include <snappy.h>
 #include <crc32c/crc32c.h>
+#include <xxhash.h>
 #include <openssl/sha.h>
 #include <fstream>
 #include <sstream>
@@ -70,11 +71,8 @@ public:
             return SnapshotStatus::ERROR_INVALID_CONFIG;
         }
         
-        // TODO: Get RocksDB instance from ThemisDB
-        // For now, this is a placeholder
-        // db_ = themis::storage::GetShardDB(config_.shard_id);
-        
         if (!db_) {
+            spdlog::error("CreateSnapshot: no RocksDB instance – call SetDB() first");
             return SnapshotStatus::ERROR_ROCKSDB_ERROR;
         }
         
@@ -361,10 +359,76 @@ public:
     }
     
     SnapshotStatus FinalizeSnapshot() {
-        // TODO: Restore RocksDB from checkpoint directory
-        // This would involve copying files to RocksDB data directory
-        // and opening the database
-        
+        if (snapshot_dir_.empty()) {
+            spdlog::error("FinalizeSnapshot: no snapshot directory set");
+            return SnapshotStatus::ERROR_SNAPSHOT_NOT_FOUND;
+        }
+
+        // Determine the RocksDB data directory from the db_ handle when available,
+        // otherwise fall back to the well-known ThemisDB data path.
+        std::string db_data_dir;
+        if (db_) {
+            db_data_dir = db_->GetName();
+        } else {
+            // Best-effort default; callers should inject db_ via SetDB() before calling.
+            db_data_dir = "/var/lib/themisdb/rocksdb";
+            spdlog::warn("FinalizeSnapshot: no RocksDB instance injected, "
+                         "using default data dir '{}'", db_data_dir);
+        }
+
+        fs::path dest_dir(db_data_dir);
+        if (!fs::exists(dest_dir)) {
+            std::error_code ec;
+            fs::create_directories(dest_dir, ec);
+            if (ec) {
+                spdlog::error("FinalizeSnapshot: cannot create destination dir '{}': {}",
+                              dest_dir.string(), ec.message());
+                return SnapshotStatus::ERROR_ROCKSDB_ERROR;
+            }
+        }
+
+        // Copy every file from the checkpoint directory into the RocksDB data dir.
+        // Existing files with the same name are overwritten (restore semantics).
+        // Note: callers should ensure the database is closed before calling
+        // FinalizeSnapshot() to avoid partial read-write overlap.
+        bool any_error = false;
+        try {
+        for (const auto& entry : fs::recursive_directory_iterator(snapshot_dir_)) {
+            if (!entry.is_regular_file()) continue;
+
+            fs::path rel    = fs::relative(entry.path(), snapshot_dir_);
+            fs::path target = dest_dir / rel;
+
+            std::error_code ec;
+            fs::create_directories(target.parent_path(), ec);
+            if (ec) {
+                spdlog::error("FinalizeSnapshot: mkdir '{}': {}", target.parent_path().string(), ec.message());
+                any_error = true;
+                continue;
+            }
+
+            fs::copy_file(entry.path(), target, fs::copy_options::overwrite_existing, ec);
+            if (ec) {
+                spdlog::error("FinalizeSnapshot: copy '{}' -> '{}': {}",
+                              entry.path().string(), target.string(), ec.message());
+                any_error = true;
+            } else {
+                spdlog::debug("FinalizeSnapshot: restored '{}'", rel.string());
+            }
+        }
+        } catch (const fs::filesystem_error& fse) {
+            spdlog::error("FinalizeSnapshot: filesystem error iterating '{}': {}",
+                          snapshot_dir_, fse.what());
+            return SnapshotStatus::ERROR_ROCKSDB_ERROR;
+        }
+
+        if (any_error) {
+            spdlog::error("FinalizeSnapshot: one or more files could not be restored");
+            return SnapshotStatus::ERROR_ROCKSDB_ERROR;
+        }
+
+        spdlog::info("FinalizeSnapshot: checkpoint '{}' restored to '{}'",
+                     snapshot_dir_, db_data_dir);
         return SnapshotStatus::OK;
     }
     
@@ -624,8 +688,10 @@ private:
             }
             
             case themis::sharding::CHECKSUM_XXH64: {
-                // TODO: Implement XXH64
-                return "";
+                XXH64_hash_t h = XXH64(data.data(), data.size(), 0);
+                std::ostringstream ss;
+                ss << std::hex << std::setw(16) << std::setfill('0') << h;
+                return ss.str();
             }
             
             default:
@@ -680,6 +746,15 @@ private:
     rocksdb::DB* db_;
     rocksdb::Checkpoint* checkpoint_;
     std::string snapshot_dir_;
+
+    // Allow external injection of the RocksDB instance (e.g. from the shard server).
+    void SetDB(rocksdb::DB* db) {
+        if (!db) {
+            spdlog::error("SetDB: null pointer rejected");
+            return;
+        }
+        db_ = db;
+    }
     uint64_t snapshot_timestamp_ns_;
     uint64_t snapshot_sequence_;
     
@@ -724,6 +799,10 @@ SnapshotProgress SnapshotTransferHandler::GetProgress() const {
 
 void SnapshotTransferHandler::Cancel() {
     impl_->Cancel();
+}
+
+void SnapshotTransferHandler::SetDB(rocksdb::DB* db) {
+    impl_->SetDB(db);
 }
 
 } // namespace rpc

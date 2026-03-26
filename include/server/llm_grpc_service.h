@@ -23,6 +23,7 @@
 #pragma once
 
 #include "llm/llm_plugin_manager.h"
+#include "auth/jwt_validator.h"
 #include "proto/llm_service.grpc.pb.h"
 #include <grpcpp/grpcpp.h>
 #include <memory>
@@ -134,11 +135,24 @@ public:
 
 private:
     std::shared_ptr<llm::LLMPluginManager> plugin_manager_;
+    std::shared_ptr<auth::JWTValidator> jwt_validator_;
 
     // Helper methods
     bool validateBearerToken(grpc::ServerContext* context);
     std::string extractBearerToken(grpc::ServerContext* context);
-    
+
+public:
+    /**
+     * @brief Inject a JWT validator for Bearer token authentication.
+     *
+     * When set, validateBearerToken() calls parseAndValidate() and rejects
+     * tokens that are expired, have an invalid signature, or fail issuer /
+     * audience checks.  If not set the method falls back to a structural
+     * check only (well-formed JWT + non-expired exp claim).
+     */
+    void setJwtValidator(std::shared_ptr<auth::JWTValidator> validator);
+
+private:
     // Conversion helpers between protobuf and internal types
     void convertToInternalRequest(
         const llm::InferenceRequest& pb_req,

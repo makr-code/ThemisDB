@@ -115,8 +115,21 @@ public:
     
 private:
     void workerLoop();
+
+    // Priority comparator: higher priority value → dequeued first.
+    struct PriorityCompare {
+        bool operator()(const std::shared_ptr<Task>& a,
+                        const std::shared_ptr<Task>& b) const {
+            return static_cast<int>(a->getPriority()) <
+                   static_cast<int>(b->getPriority());
+        }
+    };
     
-    std::queue<std::shared_ptr<Task>> task_queue_;
+    std::priority_queue<
+        std::shared_ptr<Task>,
+        std::vector<std::shared_ptr<Task>>,
+        PriorityCompare
+    > task_queue_;
     std::vector<std::thread> workers_;
     
     mutable std::shared_mutex mutex_;
@@ -127,6 +140,10 @@ private:
     std::atomic<size_t> active_threads_{0};
     std::atomic<uint64_t> total_executed_{0};
     std::atomic<uint64_t> total_failed_{0};
+
+    // Latency tracking (running sum + count protected by mutex_).
+    double latency_sum_ms_  = 0.0;
+    uint64_t latency_count_ = 0;
 };
 
 /**

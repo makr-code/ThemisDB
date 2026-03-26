@@ -420,7 +420,7 @@ Frühere externe Analysen enthielten fehlerhafte Aussagen:
 - ✅ Recht auf Löschung (PII Manager)
 - ✅ Recht auf Auskunft (Audit Log Viewer)
 - ✅ Pseudonymisierung (PII Pseudonymizer)
-- ✅ Spaltenverschlüsselung (Column-Level Encryption - Design Phase)
+- ✅ Spaltenverschlüsselung (Column-Level Encryption - ✅ Produktionsreif, v1.5.0)
 - **Dokumentation:** `docs/compliance.md`, `docs/pii_detection_engines.md`
 
 ##### SOC 2 ✅

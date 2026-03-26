@@ -38,6 +38,7 @@ class LoRAOrchestrator;
 class LoRAStorageService;
 class LoRATrainingService;
 }
+class InferenceEngineEnhanced;
 }
 namespace auth {
 class JWTValidator;
@@ -108,6 +109,16 @@ public:
      * @param config JWT validator configuration
      */
     void configureJWT(const auth::JWTValidatorConfig& config);
+
+    /**
+     * @brief Attach an inference engine for LoRA query execution.
+     *
+     * When set, POST /api/v1/llm/lora/query routes inference requests
+     * through this engine.  Without an engine the endpoint returns 501.
+     *
+     * @param engine InferenceEngineEnhanced instance (may be null to detach).
+     */
+    void setInferenceEngine(std::shared_ptr<llm::InferenceEngineEnhanced> engine);
     
     /**
      * @brief Handle LoRA API request
@@ -218,6 +229,7 @@ private:
     
     std::shared_ptr<llm::lora::LoRAOrchestrator> orchestrator_;
     std::unique_ptr<auth::JWTValidator> jwt_validator_;
+    std::shared_ptr<llm::InferenceEngineEnhanced> inference_engine_;
 };
 
 } // namespace themis::server

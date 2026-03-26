@@ -21,6 +21,9 @@
  */
 
 #include "llm/ml_model_manager.h"
+#include "llm/inference_engine_enhanced.h"
+#include "llm/llm_plugin_interface.h"
+#include "llm/model_loader.h"
 #include "utils/logger.h"
 #include <sstream>
 #include <algorithm>
@@ -410,14 +413,49 @@ Result<MLInferenceResponse> MLModelManager::infer(const MLInferenceRequest& requ
     response.queue_time_ms = static_cast<float>(queue_time);
     
     auto infer_start = std::chrono::steady_clock::now();
-    
-    // TODO: Actual inference logic based on model type
-    // For now, simulate inference
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
-    
-    response.success = true;
-    response.output_data = json{{"result", "simulated"}};
-    
+
+    if (config_.inference_engine) {
+        // Route via the configured InferenceEngineEnhanced.
+        InferenceEngineEnhanced::EnhancedInferenceRequest eng_req;
+        eng_req.base_request.model_id   = request.model_id;
+        eng_req.base_request.max_tokens =
+            request.inference_params.value("max_tokens", 512);
+        eng_req.base_request.temperature =
+            static_cast<float>(request.inference_params.value("temperature", 0.7));
+        if (request.input_data.is_object()) {
+            if (request.input_data.contains("prompt")) {
+                eng_req.base_request.prompt =
+                    request.input_data["prompt"].get<std::string>();
+            } else if (request.input_data.contains("text")) {
+                eng_req.base_request.prompt =
+                    request.input_data["text"].get<std::string>();
+            }
+        } else if (request.input_data.is_string()) {
+            eng_req.base_request.prompt = request.input_data.get<std::string>();
+        }
+        eng_req.priority           = request.priority;
+        eng_req.timeout            = std::chrono::milliseconds(request.timeout_ms);
+        eng_req.preferred_model_id = request.model_id;
+        try {
+            auto handle   = config_.inference_engine->submit(eng_req);
+            auto eng_resp = handle.get();
+            response.success     = true;
+            response.output_data = json{
+                {"text",              eng_resp.text},
+                {"tokens_generated",  eng_resp.tokens_generated},
+                {"tokens_prompt",     eng_resp.tokens_prompt},
+                {"tokens_per_second", eng_resp.tokens_per_second}
+            };
+        } catch (const std::exception& ex) {
+            response.success       = false;
+            response.error_message = std::string("InferenceEngine error: ") + ex.what();
+        }
+    } else {
+        response.success       = false;
+        response.error_message = "No InferenceEngineEnhanced configured in MLModelManager::Config. "
+                                 "Set config.inference_engine to enable real inference.";
+    }
+
     auto infer_end = std::chrono::steady_clock::now();
     auto inference_time = std::chrono::duration_cast<std::chrono::milliseconds>(
         infer_end - infer_start
@@ -769,10 +807,25 @@ Result<std::string> MLModelManager::deployInstance(
     instance->deployed_at = std::chrono::system_clock::now();
     instance->last_health_check = std::chrono::system_clock::now();
     
-    // TODO: Actual model loading logic based on model type
-    // For LLM models, use LazyModelLoader
-    // For other models, implement appropriate loaders
-    
+    // Use LazyModelLoader when available and a file path is configured.
+    if (config_.model_loader && !config.file_path.empty()) {
+        json load_cfg = config.inference_config;
+        if (config.gpu_device_id >= 0) {
+            load_cfg["n_gpu_layers"] = 99;
+        }
+        CachedModel* cached = config_.model_loader->getOrLoadModel(
+            model_id, config.file_path, load_cfg);
+        if (!cached) {
+            return themis::Err<std::string>(
+                themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                "LazyModelLoader failed to load model: " + config.file_path
+            );
+        }
+        THEMIS_INFO("Model loaded via LazyModelLoader: " + model_id);
+    } else if (!config.file_path.empty()) {
+        THEMIS_INFO("No model_loader configured; skipping file load for: " + config.file_path);
+    }
+
     std::string instance_id = instance->instance_id;
     entry->instances.push_back(std::move(instance));
     
@@ -780,9 +833,31 @@ Result<std::string> MLModelManager::deployInstance(
 }
 
 bool MLModelManager::shutdownInstance(const std::string& instance_id) {
-    // TODO: Actual cleanup logic
-    THEMIS_INFO("Shutdown instance: " + instance_id);
-    return true;
+    std::lock_guard<std::mutex> lock(models_mutex_);
+
+    for (auto& [model_id, entry] : models_) {
+        auto& instances = entry->instances;
+        auto it = std::find_if(instances.begin(), instances.end(),
+            [&instance_id](const std::unique_ptr<MLModelInstance>& inst) {
+                return inst->instance_id == instance_id;
+            });
+
+        if (it != instances.end()) {
+            (*it)->status = MLModelStatus::RETIRED;
+            instances.erase(it);
+            // Only unload model weights from LazyModelLoader when this is the
+            // last instance; other active instances still need the loaded model.
+            if (config_.model_loader && instances.empty()) {
+                config_.model_loader->unloadModel(model_id);
+            }
+            THEMIS_INFO("Shutdown instance: " + instance_id + " (model: " + model_id + ")"
+                        + (instances.empty() ? ", model weights unloaded" : ""));
+            return true;
+        }
+    }
+
+    THEMIS_WARN("shutdownInstance: instance not found: " + instance_id);
+    return false;
 }
 
 MLModelInstance* MLModelManager::selectInstance(const std::string& model_id) {

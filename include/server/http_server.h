@@ -937,7 +937,8 @@ private:
     std::unique_ptr<themis::server::ErrorApiHandler> error_api_handler_;
     
     // Ethics AI API Handler (ethical decision-making and evaluation)
-    std::unique_ptr<themis::server::EthicsApiHandler> ethics_api_;
+    std::unique_ptr<QueryEngine>                         ethics_query_engine_;
+    std::unique_ptr<themis::server::EthicsApiHandler>   ethics_api_;
     
     // Health/Error Service (separate port)
     std::unique_ptr<themis::server::HealthErrorService> health_error_service_;

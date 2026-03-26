@@ -28,6 +28,7 @@
 #include "llm/lora_framework/lora_training_service.h"
 #include "llm/lora_framework/lora_config.h"
 #include "llm/lora_framework/adapter_consistency_checker.h"
+#include "llm/inference_engine_enhanced.h"
 #include "utils/zstd_codec.h"
 #include "utils/cursor.h"
 #include <nlohmann/json.hpp>
@@ -72,6 +73,11 @@ void LoRAApiHandler::configureJWT(const auth::JWTValidatorConfig& config) {
     jwt_validator_ = std::make_unique<auth::JWTValidator>(config);
 }
 
+void LoRAApiHandler::setInferenceEngine(
+        std::shared_ptr<llm::InferenceEngineEnhanced> engine) {
+    inference_engine_ = std::move(engine);
+}
+
 http::response<http::string_body> LoRAApiHandler::handleRequest(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleRequest");
@@ -79,13 +85,11 @@ http::response<http::string_body> LoRAApiHandler::handleRequest(
     std::string_view target = req.target();
     auto method = req.method();
     
-    // Special handling for cross-shard sync endpoint - allow mTLS without JWT
-    // This endpoint is used for internal shard-to-shard communication with mTLS authentication
-    // TODO: Add proper service-to-service authentication (e.g., verify mTLS certificate)
-    bool is_internal_sync = (target == "/api/v1/lora/receive" && method == http::verb::post);
-    
-    // Validate Bearer Token (JWT) authentication for all endpoints except internal sync
-    if (!is_internal_sync && !validateBearerToken(req)) {
+    // Validate Bearer Token (JWT) authentication for all endpoints.
+    // Cross-shard calls to /api/v1/lora/receive are now authenticated via
+    // Authorization: Bearer <token> forwarded by SecureTransportClient, so
+    // no special bypass is required.
+    if (!validateBearerToken(req)) {
         return createErrorResponse(
             http::status::unauthorized,
             "Unauthorized",
@@ -749,11 +753,18 @@ http::response<http::string_body> LoRAApiHandler::handleAdapterStatus(
     
     try {
         bool is_loaded = orchestrator_->isLoaded(adapter_id);
-        
+
+        // Calculate per-adapter memory from orchestrator.
+        double memory_mb = 0.0;
+        auto adapter_opt = orchestrator_->getAdapter(adapter_id);
+        if (adapter_opt.has_value()) {
+            memory_mb = static_cast<double>(adapter_opt->memory_bytes) / (1024.0 * 1024.0);
+        }
+
         json response_data = {
             {"adapter_id", adapter_id},
             {"is_loaded", is_loaded},
-            {"memory_usage_mb", 0},  // TODO: Calculate actual memory usage from adapter manager
+            {"memory_usage_mb", memory_mb},
             {"last_used", std::chrono::system_clock::now().time_since_epoch().count()}
         };
         
@@ -871,13 +882,48 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAQuery(
             return createErrorResponse(http::status::bad_request, "Missing 'adapter_id' field");
         }
         
-        // Perform inference (simplified - would use actual LLM integration)
+        // Perform inference using InferenceEngineEnhanced when available.
         auto start_time = std::chrono::steady_clock::now();
-        
-        // TODO: Integrate with actual LLM inference engine
-        // This is a placeholder response for API structure demonstration
-        std::string response_text = "This is a placeholder response. In production, this would perform actual inference with adapter: " + adapter_id;
-        
+
+        std::string response_text;
+        int tokens_used = 0;
+
+        if (inference_engine_) {
+            // Build an EnhancedInferenceRequest from the LoRA query parameters.
+            InferenceEngineEnhanced::EnhancedInferenceRequest eng_req;
+            eng_req.base_request.prompt     = prompt;
+            eng_req.base_request.model_id   = model_id.empty() ? "default" : model_id;
+            eng_req.base_request.max_tokens = max_tokens;
+            eng_req.base_request.temperature = static_cast<float>(temperature);
+            if (!adapter_id.empty()) {
+                eng_req.base_request.lora_adapter_id = adapter_id;
+            }
+            eng_req.priority             = 0;
+            eng_req.timeout              = std::chrono::milliseconds(30000);
+            eng_req.preferred_model_id   = model_id;
+
+            try {
+                auto handle   = inference_engine_->submit(eng_req);
+                auto response = handle.get();  // blocking wait
+                response_text = response.text;
+                tokens_used   = response.tokens_generated;
+            } catch (const std::exception& ex) {
+                return createErrorResponse(
+                    http::status::internal_server_error,
+                    "Inference failed",
+                    ex.what()
+                );
+            }
+        } else {
+            // Inference engine not configured — return a clear 501.
+            return createErrorResponse(
+                http::status::not_implemented,
+                "Inference engine not configured",
+                "Set up an InferenceEngineEnhanced via LoRAApiHandler::setInferenceEngine() "
+                "to enable actual LLM inference."
+            );
+        }
+
         auto end_time = std::chrono::steady_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
         
@@ -885,7 +931,7 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAQuery(
             {"response", response_text},
             {"model_id", model_id.empty() ? "default" : model_id},
             {"adapter_id", adapter_id},
-            {"tokens_used", 145},
+            {"tokens_used", tokens_used},
             {"inference_time_ms", duration.count()},
             {"audit_id", "audit_" + std::to_string(std::chrono::system_clock::now().time_since_epoch().count())}
         };
@@ -1083,12 +1129,16 @@ http::response<http::string_body> LoRAApiHandler::handleReceiveAdapter(
         std::string version = metadata_json.at("version").get<std::string>();
         std::string base_model = metadata_json.at("base_model").get<std::string>();
         
-        // Extract and decode base64-encoded data
+        // Extract and decode base64-encoded data using Cursor::base64Decode.
         std::string data_str;
         if (body->at("data").is_string()) {
             std::string data_base64 = body->at("data").get<std::string>();
-            // Use direct base64 decode instead of private Cursor method
-            data_str = data_base64;  // TODO: Implement proper base64 decode
+            auto decoded = utils::Cursor::base64Decode(data_base64);
+            if (!decoded.has_value()) {
+                return createErrorResponse(http::status::bad_request,
+                                           "Invalid base64-encoded data");
+            }
+            data_str = std::move(*decoded);
         } else {
             return createErrorResponse(http::status::bad_request, "Data must be base64-encoded string");
         }

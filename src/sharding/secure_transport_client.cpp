@@ -157,18 +157,20 @@ SecureTransportClient::TransferResult SecureTransportClient::transferWithRetry(
         request["data"] = data_base64;
         request["content_type"] = payload.content_type;
         
-        // TODO: MTLSClient doesn't currently support custom headers (like Authorization: Bearer)
-        // For cross-shard communication, the receiving endpoint needs to either:
-        // 1. Bypass JWT validation when mTLS certificate is valid (service-to-service auth)
-        // 2. MTLSClient needs to be extended to accept custom headers
-        // 3. Use a separate endpoint that doesn't require JWT (only mTLS)
-        // Currently: authorization_token in payload is not used
-        
-        // Send via mTLS POST
+        // Send via mTLS POST, forwarding the authorization_token as an Authorization: Bearer
+        // header so that the receiving endpoint can validate the service-to-service JWT.
+        // This removes the need for the receiver to bypass JWT validation for mTLS calls.
         spdlog::debug("SecureTransportClient: Sending {} bytes (compressed: {}) to {}{}",
                      original_size, compressed, endpoint, path);
         
-        auto response = mtls_client_->post(endpoint, path, request);
+        std::string auth_header;
+        if (!payload.authorization_token.empty()) {
+            auth_header = "Bearer " + payload.authorization_token;
+        }
+        
+        auto response = auth_header.empty()
+            ? mtls_client_->post(endpoint, path, request)
+            : mtls_client_->post(endpoint, path, request, auth_header);
         
         if (response.success) {
             result.success = true;

@@ -61,14 +61,14 @@ void ThreadPool::workerLoop() {
                 continue;
             }
             
-            // Get next task (FIFO for now)
-            // TODO: Implement priority queue for proper priority-based scheduling
-            task = task_queue_.front();
+            // Dequeue highest-priority task from the priority queue.
+            task = task_queue_.top();
             task_queue_.pop();
         }
         
         if (task) {
             active_threads_++;
+            auto exec_start = std::chrono::steady_clock::now();
             try {
                 task->execute();
                 total_executed_++;
@@ -78,6 +78,14 @@ void ThreadPool::workerLoop() {
             } catch (...) {
                 spdlog::error("Task {} failed with unknown exception", task->getName());
                 total_failed_++;
+            }
+            double latency_ms = std::chrono::duration<double, std::milli>(
+                std::chrono::steady_clock::now() - exec_start
+            ).count();
+            {
+                std::unique_lock<std::shared_mutex> lk(mutex_);
+                latency_sum_ms_ += latency_ms;
+                ++latency_count_;
             }
             active_threads_--;
         }
@@ -138,8 +146,9 @@ ThreadPool::Statistics ThreadPool::getStatistics() const {
     stats.total_executed = total_executed_.load();
     stats.total_failed = total_failed_.load();
     
-    // TODO: Implement proper task latency tracking by storing execution times
-    stats.average_task_latency_ms = 0.0;
+    // Average latency from the running sum maintained in workerLoop.
+    stats.average_task_latency_ms =
+        (latency_count_ > 0) ? (latency_sum_ms_ / static_cast<double>(latency_count_)) : 0.0;
     
     return stats;
 }

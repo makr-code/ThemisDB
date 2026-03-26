@@ -125,6 +125,14 @@ MTLSClient::Response MTLSClient::post(const std::string& endpoint,
     return request("POST", endpoint, path, std::optional<nlohmann::json>(body));
 }
 
+MTLSClient::Response MTLSClient::post(const std::string& endpoint,
+                                      const std::string& path,
+                                      const nlohmann::json& body,
+                                      const std::string& authorization_header) {
+    return request("POST", endpoint, path, std::optional<nlohmann::json>(body),
+                   authorization_header);
+}
+
 MTLSClient::Response MTLSClient::put(const std::string& endpoint,
                                      const std::string& path,
                                      const nlohmann::json& body) {
@@ -138,7 +146,8 @@ MTLSClient::Response MTLSClient::del(const std::string& endpoint, const std::str
 MTLSClient::Response MTLSClient::request(const std::string& method,
                                         const std::string& endpoint,
                                         const std::string& path,
-                                        const std::optional<nlohmann::json>& body) {
+                                        const std::optional<nlohmann::json>& body,
+                                        const std::string& authorization_header) {
     Response response;
     response.success = false;
     
@@ -196,6 +205,11 @@ MTLSClient::Response MTLSClient::request(const std::string& method,
             req.set(http::field::host, host);
             req.set(http::field::user_agent, "ThemisDB-MTLSClient/1.0");
             req.set(http::field::accept, "application/json");
+            
+            // Add Authorization header when provided (e.g. for service-to-service JWT)
+            if (!authorization_header.empty()) {
+                req.set(http::field::authorization, authorization_header);
+            }
             
             // Add body for POST/PUT
             if (body && (method == "POST" || method == "PUT")) {
