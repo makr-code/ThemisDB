@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/06-infrastructure/gpu/gpu-ci.yml`
+> **Workflow-Datei:** `.github/workflows/06-infrastructure_gpu_gpu-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **GPU Module Ga
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `gpu-module-cpu-fallback`
 **Anzeigename:** GPU Module (CPU Fallback, ${{ matrix.edition }})
@@ -90,5 +90,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **GPU Module Ga
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/06-infrastructure/gpu/gpu-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/06-infrastructure_gpu_gpu-ci.yml)
 - [Alle Workflows](../README.md)

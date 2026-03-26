@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules/replication/geo-replication-consistency-ci.yml`
+> **Workflow-Datei:** `.github/workflows/02-feature-modules_replication_geo-replication-consistency-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Geo-Replicati
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `geo-replication-consistency-tests`
 **Anzeigename:** Geo-Replication Consistency (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -43,5 +43,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Geo-Replicati
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/02-feature-modules/replication/geo-replication-consistency-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/02-feature-modules_replication_geo-replication-consistency-ci.yml)
 - [Alle Workflows](../README.md)

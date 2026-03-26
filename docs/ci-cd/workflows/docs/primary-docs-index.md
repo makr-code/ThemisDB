@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/docs/primary-docs-index.yml`
+> **Workflow-Datei:** `.github/workflows/docs_primary-docs-index.yml`
 
 ## Aufgabe
 
@@ -49,5 +49,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Primary-Docs 
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/docs/primary-docs-index.yml)
+- [Workflow-Datei](../../.github/workflows/docs_primary-docs-index.yml)
 - [Alle Workflows](../README.md)

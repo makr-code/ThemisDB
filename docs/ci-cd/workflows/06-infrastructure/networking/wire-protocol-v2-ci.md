@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/06-infrastructure/networking/wire-protocol-v2-ci.yml`
+> **Workflow-Datei:** `.github/workflows/06-infrastructure_networking_wire-protocol-v2-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Wire Protocol
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `wire-protocol-v2-tests`
 **Anzeigename:** Wire Protocol V2 (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -68,5 +68,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Wire Protocol
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/06-infrastructure/networking/wire-protocol-v2-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/06-infrastructure_networking_wire-protocol-v2-ci.yml)
 - [Alle Workflows](../README.md)

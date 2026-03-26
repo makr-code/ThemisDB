@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules/chimera/chimera-integration-ci.yml`
+> **Workflow-Datei:** `.github/workflows/02-feature-modules_chimera_chimera-integration-ci.yml`
 
 ## Aufgabe
 
@@ -66,5 +66,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Chimera Integ
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/02-feature-modules/chimera/chimera-integration-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/02-feature-modules_chimera_chimera-integration-ci.yml)
 - [Alle Workflows](../README.md)

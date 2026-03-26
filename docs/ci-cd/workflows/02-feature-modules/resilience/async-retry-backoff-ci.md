@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules/resilience/async-retry-backoff-ci.yml`
+> **Workflow-Datei:** `.github/workflows/02-feature-modules_resilience_async-retry-backoff-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Async Retry B
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `async-retry-tests`
 **Anzeigename:** Async Retry Back-Off (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -44,5 +44,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Async Retry B
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/02-feature-modules/resilience/async-retry-backoff-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/02-feature-modules_resilience_async-retry-backoff-ci.yml)
 - [Alle Workflows](../README.md)

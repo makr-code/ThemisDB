@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules/llm/llm-cuda-gpu-ci.yml`
+> **Workflow-Datei:** `.github/workflows/02-feature-modules_llm_llm-cuda-gpu-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **LLM CUDA GPU*
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `cuda-compile-check`
 **Anzeigename:** CUDA Kernel Compile Check (nvcc, no GPU)
@@ -61,5 +61,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **LLM CUDA GPU*
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/02-feature-modules/llm/llm-cuda-gpu-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/02-feature-modules_llm_llm-cuda-gpu-ci.yml)
 - [Alle Workflows](../README.md)

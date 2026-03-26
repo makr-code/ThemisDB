@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/06-infrastructure/gpu/vulkan-compute-shader-pipeline-ci.yml`
+> **Workflow-Datei:** `.github/workflows/06-infrastructure_gpu_vulkan-compute-shader-pipeline-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Vulkan Comput
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `vulkan-compute-shader-pipeline-tests`
 **Anzeigename:** Vulkan Compute Shader Pipeline (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -60,5 +60,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Vulkan Comput
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/06-infrastructure/gpu/vulkan-compute-shader-pipeline-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/06-infrastructure_gpu_vulkan-compute-shader-pipeline-ci.yml)
 - [Alle Workflows](../README.md)

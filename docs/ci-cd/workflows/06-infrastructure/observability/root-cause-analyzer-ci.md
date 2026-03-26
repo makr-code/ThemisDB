@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/06-infrastructure/observability/root-cause-analyzer-ci.yml`
+> **Workflow-Datei:** `.github/workflows/06-infrastructure_observability_root-cause-analyzer-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Root Cause An
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `root-cause-analyzer-unit-tests`
 **Anzeigename:** Root Cause Analyzer tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -45,5 +45,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Root Cause An
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/06-infrastructure/observability/root-cause-analyzer-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/06-infrastructure_observability_root-cause-analyzer-ci.yml)
 - [Alle Workflows](../README.md)

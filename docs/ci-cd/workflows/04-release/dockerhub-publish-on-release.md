@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/04-release/dockerhub-publish-on-release.yml`
+> **Workflow-Datei:** `.github/workflows/04-release_dockerhub-publish-on-release.yml`
 
 ## Aufgabe
 
@@ -48,5 +48,5 @@ debug   = includes gdb/valgrind/strace/source; tag gets -debug suffix; no :lates
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/04-release/dockerhub-publish-on-release.yml)
+- [Workflow-Datei](../../.github/workflows/04-release_dockerhub-publish-on-release.yml)
 - [Alle Workflows](../README.md)

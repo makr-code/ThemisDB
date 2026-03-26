@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/06-infrastructure/distributed/shard-rpc-integration-ci.yml`
+> **Workflow-Datei:** `.github/workflows/06-infrastructure_distributed_shard-rpc-integration-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Shard RPC Int
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `shard-rpc-integration-unit-tests`
 **Anzeigename:** Shard RPC Integration tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -44,5 +44,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Shard RPC Int
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/06-infrastructure/distributed/shard-rpc-integration-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/06-infrastructure_distributed_shard-rpc-integration-ci.yml)
 - [Alle Workflows](../README.md)

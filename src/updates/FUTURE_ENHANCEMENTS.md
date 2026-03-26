@@ -210,7 +210,7 @@ Reduce download size by applying binary diffs instead of full file replacement.
 - ✅ Binary diff generation (bsdiff/xdelta3 — fallback to ZSTD_DICT; VCDIFF pure-C++ implementation)
 - ✅ Patch verification with checksums (SHA-256 base_hash / target_hash in FileDelta)
 - ✅ Fallback to full download if patch fails (per-file fallback in `DeltaApplyResult::files_fallback`)
-- ✅ Automatic patch generation in CI/CD (`generatePatch()` API; `.github/workflows/02-feature-modules/storage/binary-delta-patches-ci.yml`)
+- ✅ Automatic patch generation in CI/CD (`generatePatch()` API; `.github/workflows/02-feature-modules_storage_binary-delta-patches-ci.yml`)
 - ✅ Compression-friendly delta encoding (ZSTD_DICT dictionary compression + VCDIFF RFC 3284)
 
 **Algorithms:**

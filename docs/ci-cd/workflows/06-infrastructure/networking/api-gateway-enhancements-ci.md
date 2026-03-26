@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/06-infrastructure/networking/api-gateway-enhancements-ci.yml`
+> **Workflow-Datei:** `.github/workflows/06-infrastructure_networking_api-gateway-enhancements-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **API Gateway E
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `api-gateway-enhancements-tests`
 **Anzeigename:** API Gateway Enhancements (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -44,5 +44,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **API Gateway E
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/06-infrastructure/networking/api-gateway-enhancements-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/06-infrastructure_networking_api-gateway-enhancements-ci.yml)
 - [Alle Workflows](../README.md)

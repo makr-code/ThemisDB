@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/06-infrastructure/observability/ml-anomaly-detector-ci.yml`
+> **Workflow-Datei:** `.github/workflows/06-infrastructure_observability_ml-anomaly-detector-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **ML Anomaly De
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `ml-anomaly-detector-unit-tests`
 **Anzeigename:** ML Anomaly Detector tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -45,5 +45,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **ML Anomaly De
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/06-infrastructure/observability/ml-anomaly-detector-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/06-infrastructure_observability_ml-anomaly-detector-ci.yml)
 - [Alle Workflows](../README.md)

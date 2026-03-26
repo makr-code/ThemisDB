@@ -130,4 +130,4 @@ The GitHub Actions pipeline mirrors the local workflow:
 | **Build PDF** (on-demand) | `workflow_dispatch` with `enable_pdf: true`, or release tags `v*` | `build-pdf` |
 | **Deploy to GitHub Pages** | Push to `main` or manual dispatch | `deploy-pages` |
 
-See `.github/workflows/docs/docs-pipeline.yml` for the full definition.
+See `.github/workflows/docs_docs-pipeline.yml` for the full definition.

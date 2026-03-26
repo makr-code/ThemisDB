@@ -2,7 +2,7 @@
 
 ⏰ **Geplant**
 
-> **Workflow-Datei:** `.github/workflows/08-maintenance/code-maturity-analysis.yml`
+> **Workflow-Datei:** `.github/workflows/08-maintenance_code-maturity-analysis.yml`
 
 ## Aufgabe
 
@@ -37,5 +37,5 @@ Zeitgesteuert ausgeführter Workflow: **Code Maturity Analysis & Auto-Versioning
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/08-maintenance/code-maturity-analysis.yml)
+- [Workflow-Datei](../../.github/workflows/08-maintenance_code-maturity-analysis.yml)
 - [Alle Workflows](../README.md)

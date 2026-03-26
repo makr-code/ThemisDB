@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules/llm/llm-openai-compat-ci.yml`
+> **Workflow-Datei:** `.github/workflows/02-feature-modules_llm_llm-openai-compat-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **LLM OpenAI-Co
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `llm-openai-compat`
 **Anzeigename:** LLM OpenAI-Compat Adapter Tests
@@ -43,5 +43,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **LLM OpenAI-Co
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/02-feature-modules/llm/llm-openai-compat-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/02-feature-modules_llm_llm-openai-compat-ci.yml)
 - [Alle Workflows](../README.md)

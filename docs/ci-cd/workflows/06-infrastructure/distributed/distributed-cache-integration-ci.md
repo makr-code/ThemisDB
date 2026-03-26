@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/06-infrastructure/distributed/distributed-cache-integration-ci.yml`
+> **Workflow-Datei:** `.github/workflows/06-infrastructure_distributed_distributed-cache-integration-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Distributed C
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `distributed-cache-integration-unit-tests`
 **Anzeigename:** Distributed cache integration tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -43,5 +43,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Distributed C
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/06-infrastructure/distributed/distributed-cache-integration-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/06-infrastructure_distributed_distributed-cache-integration-ci.yml)
 - [Alle Workflows](../README.md)

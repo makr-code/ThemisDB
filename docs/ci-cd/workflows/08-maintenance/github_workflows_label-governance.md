@@ -2,7 +2,7 @@
 
 🖱️ **Manuell**
 
-> **Workflow-Datei:** `.github/workflows/08-maintenance/github_workflows_label-governance.yml`
+> **Workflow-Datei:** `.github/workflows/08-maintenance_github_workflows_label-governance.yml`
 
 ## Aufgabe
 
@@ -46,5 +46,5 @@ Manuell ausgelöster Workflow für: **Label Governance - Setup & Audit**.
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/08-maintenance/github_workflows_label-governance.yml)
+- [Workflow-Datei](../../.github/workflows/08-maintenance_github_workflows_label-governance.yml)
 - [Alle Workflows](../README.md)

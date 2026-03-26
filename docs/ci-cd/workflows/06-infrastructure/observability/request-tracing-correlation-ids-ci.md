@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/06-infrastructure/observability/request-tracing-correlation-ids-ci.yml`
+> **Workflow-Datei:** `.github/workflows/06-infrastructure_observability_request-tracing-correlation-ids-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Request Traci
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `request-tracing-tests`
 **Anzeigename:** Request Tracing (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -46,5 +46,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Request Traci
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/06-infrastructure/observability/request-tracing-correlation-ids-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/06-infrastructure_observability_request-tracing-correlation-ids-ci.yml)
 - [Alle Workflows](../README.md)

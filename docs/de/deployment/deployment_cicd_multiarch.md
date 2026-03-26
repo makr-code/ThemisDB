@@ -288,7 +288,7 @@ If builds fail with vcpkg errors:
 The README displays build status for all architectures:
 
 ```markdown
-[![CI](https://github.com/makr-code/ThemisDB/actions/workflows/01-core/themis-core-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/01-core/themis-core-ci.yml)
+[![CI](https://github.com/makr-code/ThemisDB/actions/workflows/01-core_themis-core-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/01-core_themis-core-ci.yml)
 ```
 
 > **Note:** Multi-arch build status (ARM, x86_64) is tracked via the `01-core/themis-core-ci.yml` workflow. Dedicated `arm-build.yml` and `build-multiarch.yml` workflows are not currently active.

@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/04-release/publish-hyperscaler.yml`
+> **Workflow-Datei:** `.github/workflows/04-release_publish-hyperscaler.yml`
 
 ## Aufgabe
 
@@ -79,5 +79,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Publish · Hy
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/04-release/publish-hyperscaler.yml)
+- [Workflow-Datei](../../.github/workflows/04-release_publish-hyperscaler.yml)
 - [Alle Workflows](../README.md)

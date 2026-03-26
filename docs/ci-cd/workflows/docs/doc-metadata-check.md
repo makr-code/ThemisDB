@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/docs/doc-metadata-check.yml`
+> **Workflow-Datei:** `.github/workflows/docs_doc-metadata-check.yml`
 
 ## Aufgabe
 
@@ -39,5 +39,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Doc Metadata 
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/docs/doc-metadata-check.yml)
+- [Workflow-Datei](../../.github/workflows/docs_doc-metadata-check.yml)
 - [Alle Workflows](../README.md)

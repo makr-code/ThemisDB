@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules/cli-migration-scanner-ci.yml`
+> **Workflow-Datei:** `.github/workflows/02-feature-modules_cli-migration-scanner-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **CLI Migration
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `cli-migration-scanner-unit-tests`
 **Anzeigename:** CLI Migration Scanner tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -62,5 +62,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **CLI Migration
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/02-feature-modules/cli-migration-scanner-ci.yml)
+- [Workflow-Datei](../../.github/workflows/02-feature-modules_cli-migration-scanner-ci.yml)
 - [Alle Workflows](../README.md)

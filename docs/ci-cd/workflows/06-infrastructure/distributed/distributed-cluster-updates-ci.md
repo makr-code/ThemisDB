@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/06-infrastructure/distributed/distributed-cluster-updates-ci.yml`
+> **Workflow-Datei:** `.github/workflows/06-infrastructure_distributed_distributed-cluster-updates-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Distributed C
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `distributed-cluster-updates-unit-tests`
 **Anzeigename:** Distributed cluster updates tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -45,5 +45,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Distributed C
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/06-infrastructure/distributed/distributed-cluster-updates-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/06-infrastructure_distributed_distributed-cluster-updates-ci.yml)
 - [Alle Workflows](../README.md)
