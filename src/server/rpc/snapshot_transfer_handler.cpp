@@ -388,8 +388,11 @@ public:
         }
 
         // Copy every file from the checkpoint directory into the RocksDB data dir.
-        // Existing files with the same name are overwritten.
+        // Existing files with the same name are overwritten (restore semantics).
+        // Note: callers should ensure the database is closed before calling
+        // FinalizeSnapshot() to avoid partial read-write overlap.
         bool any_error = false;
+        try {
         for (const auto& entry : fs::recursive_directory_iterator(snapshot_dir_)) {
             if (!entry.is_regular_file()) continue;
 
@@ -412,6 +415,11 @@ public:
             } else {
                 spdlog::debug("FinalizeSnapshot: restored '{}'", rel.string());
             }
+        }
+        } catch (const fs::filesystem_error& fse) {
+            spdlog::error("FinalizeSnapshot: filesystem error iterating '{}': {}",
+                          snapshot_dir_, fse.what());
+            return SnapshotStatus::ERROR_ROCKSDB_ERROR;
         }
 
         if (any_error) {
@@ -740,7 +748,13 @@ private:
     std::string snapshot_dir_;
 
     // Allow external injection of the RocksDB instance (e.g. from the shard server).
-    void SetDB(rocksdb::DB* db) { db_ = db; }
+    void SetDB(rocksdb::DB* db) {
+        if (!db) {
+            spdlog::error("SetDB: null pointer rejected");
+            return;
+        }
+        db_ = db;
+    }
     uint64_t snapshot_timestamp_ns_;
     uint64_t snapshot_sequence_;
     

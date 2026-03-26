@@ -844,11 +844,14 @@ bool MLModelManager::shutdownInstance(const std::string& instance_id) {
 
         if (it != instances.end()) {
             (*it)->status = MLModelStatus::RETIRED;
-            if (config_.model_loader) {
+            instances.erase(it);
+            // Only unload model weights from LazyModelLoader when this is the
+            // last instance; other active instances still need the loaded model.
+            if (config_.model_loader && instances.empty()) {
                 config_.model_loader->unloadModel(model_id);
             }
-            instances.erase(it);
-            THEMIS_INFO("Shutdown instance: " + instance_id + " (model: " + model_id + ")");
+            THEMIS_INFO("Shutdown instance: " + instance_id + " (model: " + model_id + ")"
+                        + (instances.empty() ? ", model weights unloaded" : ""));
             return true;
         }
     }
