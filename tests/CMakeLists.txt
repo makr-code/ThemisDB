@@ -18788,4 +18788,124 @@ else()
     message(STATUS "Cross-Module Security+Governance tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_security_governance.cpp")
 endif()
 
+# ============================================================================
+# Cross-Module: Cache + AnomalyDetection + Observability integration tests
+# ============================================================================
+# Group A (5 tests): AdaptiveQueryCache CacheStats → AnomalyDetector pipeline
+#   A-1: CacheStats fields produce valid DataPoint numeric features
+#   A-2: AnomalyDetector trained on normal hit-rate → in-range sample predicted normal
+#   A-3: AnomalyDetector flags anomalous sample when miss rate far exceeds baseline
+#   A-4: predictBatch returns one AnomalyResult per input DataPoint
+#   A-5: AnomalyExplanation contains feature contributions for miss-rate field
+# Group B (5 tests): MetricsCollector × AdaptiveQueryCache
+#   B-1: recordCacheHit increments counter for each successful cache get
+#   B-2: recordCacheMiss increments counter on each cache miss
+#   B-3: MetricsCollector::reset() zeroes all cache counters
+#   B-4: Prometheus text output contains cache_hits metric after recording
+#   B-5: Mixed hit/miss/eviction sequence all recorded independently
+# Group C (5 tests): StreamingAnomalyDetector × cache metric stream
+#   C-1: StreamingAnomalyDetector returns nullopt while warming up
+#   C-2: Anomalous sample flagged after detector has warmed up on normal window
+#   C-3: WindowStats.anomaly_count equals getAnomalies().size()
+#   C-4: clearAnomalies() resets anomaly history without affecting detector
+#   C-5: detector().isTrained() true once auto_train_after threshold is reached
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_cache_anomaly.cpp")
+    message(STATUS "Adding Cross-Module: Cache + AnomalyDetection + Observability integration tests")
+
+    add_executable(test_cross_module_cache_anomaly_focused
+        test_cross_module_cache_anomaly.cpp
+    )
+
+    target_include_directories(test_cross_module_cache_anomaly_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_cross_module_cache_anomaly_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cross_module_cache_anomaly_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CrossModuleCacheAnomalyTests
+        COMMAND test_cross_module_cache_anomaly_focused)
+
+    set_tests_properties(CrossModuleCacheAnomalyTests PROPERTIES
+        LABELS "cross-module;cache;analytics;anomaly-detection;observability;prometheus;v1.9.0;integration"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CrossModule Cache+Anomaly: CacheStats->AnomalyDetector (A1-A5), MetricsCollector (B1-B5), StreamingAnomalyDetector (C1-C5)")
+else()
+    message(STATUS "Cross-Module Cache+Anomaly tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_cache_anomaly.cpp")
+endif()
+
+# ============================================================================
+# Cross-Module: Training + Governance + Observability integration tests
+# ============================================================================
+# Group A (5 tests): AdaLoRAAdapter operations → DataLineageTracker lineage
+#   A-1: Adapter layer init recorded as INGESTION lineage event
+#   A-2: Rank reallocation recorded as TRANSFORMATION event with parent link
+#   A-3: Three-step chain has correct parent_event_id at each link
+#   A-4: getUpstreamLineage returns events in root-to-leaf order
+#   A-5: exportLineageAsJson contains event_type and dataset_id for all events
+# Group B (5 tests): LoRAAdapterMerger merge operations → DataLineageTracker
+#   B-1: Successful mergeLinear recorded as TRANSFORMATION lineage event
+#   B-2: MergeResult.success == true → lineage event count increases by 1
+#   B-3: Failed merge (empty adapters) does NOT create a spurious lineage event
+#   B-4: Independent merges produce independent lineage records per dataset_id
+#   B-5: getDownstreamLineage for merge event is initially empty
+# Group C (5 tests): MetricsCollector × Training pipeline
+#   C-1: recordEmbeddingGeneration tracks the batch count
+#   C-2: Multiple recordEmbeddingGeneration calls accumulate in Prometheus
+#   C-3: MetricsCollector::reset() clears embedding-generation counters
+#   C-4: Prometheus output contains an embedding metric after recording
+#   C-5: Full pipeline: AdaLoRA forward pass → lineage event → Prometheus counter
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_training_governance.cpp")
+    message(STATUS "Adding Cross-Module: Training + Governance + Observability integration tests")
+
+    add_executable(test_cross_module_training_governance_focused
+        test_cross_module_training_governance.cpp
+    )
+
+    target_include_directories(test_cross_module_training_governance_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_cross_module_training_governance_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cross_module_training_governance_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CrossModuleTrainingGovernanceTests
+        COMMAND test_cross_module_training_governance_focused)
+
+    set_tests_properties(CrossModuleTrainingGovernanceTests PROPERTIES
+        LABELS "cross-module;training;governance;ada-lora;lora-merger;data-lineage;observability;prometheus;v1.9.0;integration"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CrossModule Training+Governance: AdaLoRA->Lineage (A1-A5), LoRAMerger->Lineage (B1-B5), MetricsCollector (C1-C5)")
+else()
+    message(STATUS "Cross-Module Training+Governance tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_training_governance.cpp")
+endif()
+
 message(STATUS "Tests configured successfully")
