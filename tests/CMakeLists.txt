@@ -18725,4 +18725,67 @@ else()
     message(STATUS "Cross-Module Index+Matryoshka tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_index_matryoshka.cpp")
 endif()
 
+# ============================================================================
+# Cross-Module: Security × Governance × Observability
+# ZeroTrustPolicyEnforcer (security) → DataLineageTracker (governance) →
+# MetricsCollector (observability) integration tests
+#
+# Group A (5 tests): ZeroTrust × DataLineage — access control drives lineage
+#   A-1: Verified request → QUERY lineage event recorded
+#   A-2: Token failure    → no lineage event recorded
+#   A-3: Network denial   → no lineage event recorded
+#   A-4: Multiple verified requests → multiple QUERY events
+#   A-5: ZeroTrust::requests_allowed count == lineage event count
+# Group B (4 tests): DataLineage ancestry chains
+#   B-1: INGESTION→ENRICHMENT→QUERY chain has correct parent_event_id links
+#   B-2: getUpstreamLineage returns root-to-leaf order
+#   B-3: getDownstreamLineage returns all transitive descendants
+#   B-4: exportLineageAsJson contains all events and event_type field
+# Group C (3 tests): DataLineage × MetricsCollector
+#   C-1: recordEvent increments governance_lineage_events_total
+#   C-2: Different event types produce distinct Prometheus label series
+#   C-3: MetricsCollector::reset() clears lineage counters
+# Group D (3 tests): Full pipeline
+#   D-1: ZeroTrust allow → lineage QUERY → Prometheus counter incremented
+#   D-2: ZeroTrust deny  → no lineage   → counter not incremented
+#   D-3: Multi-user, multi-resource → distinct lineage records per dataset
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_security_governance.cpp")
+    message(STATUS "Adding Cross-Module: Security + Governance + Observability integration tests")
+
+    add_executable(test_cross_module_security_governance_focused
+        test_cross_module_security_governance.cpp
+    )
+
+    target_include_directories(test_cross_module_security_governance_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_cross_module_security_governance_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cross_module_security_governance_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CrossModuleSecurityGovernanceTests
+        COMMAND test_cross_module_security_governance_focused)
+
+    set_tests_properties(CrossModuleSecurityGovernanceTests PROPERTIES
+        LABELS "cross-module;security;governance;zero-trust;data-lineage;observability;prometheus;v1.9.0;integration"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CrossModule Security+Governance: ZeroTrust×DataLineage (A1-A5), ancestry chains (B1-B4), MetricsCollector (C1-C3), full pipeline (D1-D3)")
+else()
+    message(STATUS "Cross-Module Security+Governance tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_security_governance.cpp")
+endif()
+
 message(STATUS "Tests configured successfully")
