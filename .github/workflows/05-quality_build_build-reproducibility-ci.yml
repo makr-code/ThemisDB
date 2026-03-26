@@ -3,17 +3,6 @@ name: Build Reproducibility CI
 # Triggered on every push/PR that touches build reproducibility sources,
 # its test file, or this workflow itself.  Targets v1.7.0.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/themis/build_info.h'
-      - 'src/themis/build_info.cpp'
-      - 'tests/test_build_info.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/05-quality_build_build-reproducibility-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

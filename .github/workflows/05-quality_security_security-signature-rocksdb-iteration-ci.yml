@@ -4,19 +4,6 @@ name: Security Signature RocksDB Iteration CI
 # sources, the test file, or this workflow itself change.
 # Targets v1.8.0 (roadmap:206:storage:v1.8.0:securitysignaturemanager-implement-rocksdb-iteration).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/storage/rocksdb_wrapper.h'
-      - 'src/storage/rocksdb_wrapper.cpp'
-      - 'include/storage/security_signature_manager.h'
-      - 'src/storage/security_signature_manager.cpp'
-      - 'include/storage/security_signature.h'
-      - 'tests/test_security_signature_rocksdb_iteration.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/05-quality_security_security-signature-rocksdb-iteration-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

@@ -20,7 +20,7 @@
 
 ## Workflow File Structure
 
-All 233 workflow files are stored directly in `.github/workflows/` (flat
+All 220 workflow files are stored directly in `.github/workflows/` (flat
 directory). Logical grouping is encoded in the filename using `_` as a
 path separator (e.g. `02-feature-modules_llm_cot-tracer-ci.yml`).
 See **Workflow File Naming Convention** below for the full convention.
@@ -65,7 +65,7 @@ the **Actions** tab. The categories are:
 
 ## Manually Triggering Workflows
 
-All 233 workflow files are now at the root level and appear directly in the
+All 220 workflow files are now at the root level and appear directly in the
 GitHub Actions **Run workflow** UI (if they define a `workflow_dispatch`
 trigger). You can also trigger them via the CLI or REST API:
 
@@ -91,33 +91,7 @@ Steps:
 
 ---
 
-### Option 2 — Dedicated Root-Level Triggers (GitHub UI)
-
-For the most commonly used manual-only workflows, dedicated root-level trigger
-files mirror the exact input fields of the real workflow:
-
-| Root-level trigger | Workflow file |
-|--------------------|---------------|
-| `[Manual] Create Release Archive` | `04-release_create-release-archive.yml` |
-| `[Manual] Bootstrap Release Branches` | `04-release_bootstrap-release-branches.yml` |
-| `[Manual] Build Binary Release · Linux` | `04-release_build-binary-linux.yml` |
-| `[Manual] Build Binary Release · Windows` | `04-release_build-binary-windows.yml` |
-| `[Manual] Publish Docker Image to Docker Hub` | `04-release_dockerhub-publish-on-release.yml` |
-| `[Manual] Publish Enterprise Edition` | `04-release_publish-enterprise.yml` |
-| `[Manual] Publish Hyperscaler Edition` | `04-release_publish-hyperscaler.yml` |
-| `[Manual] Sync Roadmap Issues` | `08-maintenance_sync-roadmap-issues.yml` |
-| `[Manual] Sync Milestones from Roadmap` | `08-maintenance_sync-milestones.yml` |
-| `[Manual] Label Governance – Setup & Audit` | `08-maintenance_github_workflows_label-governance.yml` |
-| `[Manual] Add Documentation Metadata` | `08-maintenance_add-doc-metadata.yml` |
-| `[Manual] Code Maturity Analysis` | `08-maintenance_code-maturity-analysis.yml` |
-| `[Manual] CI Scope Classifier (Debug)` | `01-core_ci-scope-classifier.yml` |
-
-These wrappers appear in the **Actions** tab with the same input form as the
-real workflow. They dispatch the real workflow via the GitHub CLI and exit.
-
----
-
-### Option 3 — GitHub CLI (`gh workflow run`)
+### Option 2 — GitHub CLI (`gh workflow run`)
 
 Trigger any workflow directly from your terminal without the UI:
 

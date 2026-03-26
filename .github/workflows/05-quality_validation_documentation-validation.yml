@@ -1,23 +1,6 @@
 name: Documentation Validation
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-      - 'release/**'
-    paths:
-      - 'docs/**'
-      - 'compendium/**'
-      - 'aql/**'
-      - 'scripts/docs-lint.py'
-      - 'scripts/link-check.py'
-      - 'scripts/toc-check.py'
-      - 'scripts/doc-header-check.py'
-      - 'scripts/drift-detector.py'
-      - 'scripts/validate-docs.sh'
-      - 'mkdocs.yml'
-      - 'mkdocs-nopdf.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

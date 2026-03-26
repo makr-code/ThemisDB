@@ -1,18 +1,6 @@
 name: PII Redaction Policy Check
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/**'
-      - 'include/**'
-      - 'tests/**'
-      - 'fuzz/**'
-      - 'config/pii_patterns.yaml'
-      - '.github/scripts/check_pii_leakage.py'
-      - '.github/workflows/05-quality_security_pii-redaction-check.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

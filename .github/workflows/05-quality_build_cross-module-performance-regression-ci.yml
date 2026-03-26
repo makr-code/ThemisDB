@@ -19,19 +19,6 @@ name: Cross-Module Performance Regression CI
 # • Also runs on a weekly schedule to catch silent drift.
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/**'
-      - 'include/**'
-      - 'benchmarks/chimera/**'
-      - 'benchmarks/baselines/chimera/**'
-      - 'benchmarks/baselines/cross_module/**'
-      - 'benchmarks/cross_module_regression_detector.py'
-      - 'benchmarks/chimera/chimera_regression_detector.py'
-      - '.github/workflows/05-quality_build_cross-module-performance-regression-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

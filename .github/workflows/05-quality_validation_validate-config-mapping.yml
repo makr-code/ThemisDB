@@ -8,15 +8,6 @@ on:
       - 'src/config/config_path_resolver.h'
       - 'config/**'
       - 'scripts/validate_config_mapping.py'
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/config/config_path_resolver.cpp'
-      - 'src/config/config_path_resolver.h'
-      - 'config/**'
-      - 'scripts/validate_config_mapping.py'
   workflow_dispatch:
 
 concurrency:

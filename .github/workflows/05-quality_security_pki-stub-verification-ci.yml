@@ -3,19 +3,6 @@ name: PKI Stub Verification CI
 # Triggered on every push / PR that touches the PKI client sources or tests.
 # Targets v1.8.0 (roadmap:218:utils:v1.8.0:pkiclient-replace-fallback-stub-verification).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/utils/pki_client.h'
-      - 'include/utils/openssl_deleter.h'
-      - 'src/utils/pki_client.cpp'
-      - 'tests/test_pki_client.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/05-quality_security_pki-stub-verification-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

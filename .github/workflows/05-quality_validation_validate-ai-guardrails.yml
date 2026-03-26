@@ -1,15 +1,6 @@
 name: Validate AI-Guardrails
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - '.github/COPILOT_INSTRUCTIONS.md'
-      - '.github/copilot/**'
-      - '.github/scripts/validate_copilot_refs.py'
-      - '.github/workflows/05-quality_validation_validate-ai-guardrails.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

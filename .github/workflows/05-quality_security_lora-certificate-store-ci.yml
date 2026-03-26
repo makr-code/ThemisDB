@@ -4,22 +4,6 @@ name: LoRA Certificate Store CI
 # the LoRA security validator, or this workflow itself.
 # Targets v1.8.0 (roadmap:75:llm:v1.8.0:lorasecurityvalidator-certificate-store-integration).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/llm/lora_certificate_store.h'
-      - 'src/llm/lora_certificate_store.cpp'
-      - 'include/llm/lora_security_validator.h'
-      - 'src/llm/lora_security_validator.cpp'
-      - 'include/llm/security/signature_verifier.h'
-      - 'src/llm/security/signature_verifier.cpp'
-      - 'tests/test_lora_security.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/05-quality_security_lora-certificate-store-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

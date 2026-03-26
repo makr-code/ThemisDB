@@ -23,16 +23,6 @@ name: Plugin Security CRL/OCSP CI
 #   AC-REV-18 PE cert extraction – PE file with empty security dir returns nullopt
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/acceleration/plugin_security.h'
-      - 'src/acceleration/plugin_security.cpp'
-      - 'tests/test_plugin_security_crl_ocsp.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/05-quality_security_plugin-security-crl-ocsp-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

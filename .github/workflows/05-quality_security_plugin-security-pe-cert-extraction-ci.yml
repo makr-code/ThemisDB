@@ -18,16 +18,6 @@ name: Plugin Security PE Certificate Extraction CI
 #   AC-12 Non-existent file returns nullopt
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/acceleration/plugin_security.h'
-      - 'src/acceleration/plugin_security.cpp'
-      - 'tests/test_plugin_security_pe_cert_extraction.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/05-quality_security_plugin-security-pe-cert-extraction-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

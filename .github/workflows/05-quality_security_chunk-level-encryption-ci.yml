@@ -3,21 +3,6 @@ name: Chunk-Level Encryption at Rest CI
 # Triggered on every push / PR that touches chunk-level encryption sources or
 # tests.  Targets v1.7.0 milestone.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/timeseries/encrypted_chunk_store.h'
-      - 'include/timeseries/ts_encrypted_key_rotation.h'
-      - 'include/timeseries/tsstore.h'
-      - 'src/timeseries/encrypted_chunk_store.cpp'
-      - 'src/timeseries/ts_encrypted_key_rotation.cpp'
-      - 'src/timeseries/tsstore.cpp'
-      - 'tests/test_chunk_level_encryption.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - '.github/workflows/05-quality_security_chunk-level-encryption-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

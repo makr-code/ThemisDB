@@ -2,39 +2,6 @@ name: Security Hardening CI
 
 # Triggered whenever security-relevant sources or this workflow itself change.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/auth/**'
-      - 'src/security/**'
-      - 'src/server/api_auth_config.cpp'
-      - 'src/server/api_security_audit.cpp'
-      - 'src/server/auth_middleware.cpp'
-      - 'include/auth/**'
-      - 'include/security/**'
-      - 'include/server/api_auth_config.h'
-      - 'include/server/api_security_audit.h'
-      - 'include/server/auth_middleware.h'
-      - 'tests/security/**'
-      - 'tests/test_jwt_validator.cpp'
-      - 'tests/test_jwt_validation_hardening.cpp'
-      - 'tests/test_rbac_comprehensive.cpp'
-      - 'tests/test_api_security_audit.cpp'
-      - 'tests/test_vault_key_provider.cpp'
-      - 'tests/test_vault_signing_provider_errors.cpp'
-      - 'tests/test_hsm_stub_gating.cpp'
-      - 'tests/test_hsm_startup_integration.cpp'
-      - 'tests/test_hsm_security_checker.cpp'
-      - 'tests/test_hsm_security_metrics.cpp'
-      - 'tests/test_hsm_provider.cpp'
-      - 'tests/test_usb_admin_authenticator.cpp'
-      - 'tests/test_usb_volume_hardening.cpp'
-      - 'fuzz/harnesses/jwt_rbac_config_harness.cpp'
-      - 'fuzz/corpus/jwt/**'
-      - 'fuzz/corpus/rbac/**'
-      - '.github/workflows/05-quality_security_security-hardening-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
