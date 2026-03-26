@@ -18285,6 +18285,76 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_eid_authenticator.cpp")
     message(STATUS "  EIDAuthenticator: initialize, beginAuthSession, completeAuthSession, revokeSession, EIDIdentity attributes, fullName, thread-safety, polymorphic")
 else()
     message(STATUS "eID Authenticator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_eid_authenticator.cpp")
+endif()
+
+# ── Behörden-Genehmigungsverfahren E2E focused tests ─────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_behoerden_genehmigungsverfahren_e2e.cpp")
+    message(STATUS "Adding Behörden-Genehmigungsverfahren E2E focused tests (v1.9.0)")
+
+    add_executable(test_behoerden_genehmigungsverfahren_e2e_focused
+        test_behoerden_genehmigungsverfahren_e2e.cpp
+    )
+
+    target_include_directories(test_behoerden_genehmigungsverfahren_e2e_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_behoerden_genehmigungsverfahren_e2e_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_behoerden_genehmigungsverfahren_e2e_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME BehoerdenGenehmigungsverfahrenE2EFocusedTests
+             COMMAND test_behoerden_genehmigungsverfahren_e2e_focused)
+
+    set_tests_properties(BehoerdenGenehmigungsverfahrenE2EFocusedTests PROPERTIES
+        LABELS "e2e;german-gov;baugenehmigung;xdomea;eid;ozg;xoev;llm;bauonrw;v1.9.0;focused;integration"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  BehoerdenGenehmigungsverfahren: Baugenehmigung § 63 BauO NRW, 4 Behörden, 6 Phasen, 20 ACs (AC-BGV-01..20)")
+else()
+    message(STATUS "Behörden-Genehmigungsverfahren E2E focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_behoerden_genehmigungsverfahren_e2e.cpp")
+endif()
+
+# ── 9. BImSchV Genehmigungsverfahren E2E focused tests ───────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_bimschv_genehmigungsverfahren_e2e.cpp")
+    message(STATUS "Adding 9. BImSchV Genehmigungsverfahren E2E focused tests (v1.9.0)")
+
+    add_executable(test_bimschv_genehmigungsverfahren_e2e_focused
+        test_bimschv_genehmigungsverfahren_e2e.cpp
+    )
+
+    target_include_directories(test_bimschv_genehmigungsverfahren_e2e_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_bimschv_genehmigungsverfahren_e2e_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_bimschv_genehmigungsverfahren_e2e_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME BImSchVGenehmigungsverfahrenE2EFocusedTests
+             COMMAND test_bimschv_genehmigungsverfahren_e2e_focused)
+
+    set_tests_properties(BImSchVGenehmigungsverfahrenE2EFocusedTests PROPERTIES
+        LABELS "e2e;german-gov;bimschg;9-bimschv;uvp;xdomea;eid;ozg;xoev;llm;foermlich;v1.9.0;focused;integration"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  BImSchVGenehmigungsverfahren: § 10 BImSchG förmlich, 8 Behörden, 9 Phasen, UVP, Öffentlichkeitsbeteiligung, 30 ACs (AC-BIM-01..30)")
+else()
+    message(STATUS "9. BImSchV Genehmigungsverfahren E2E focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_bimschv_genehmigungsverfahren_e2e.cpp")
+endif()
+
 # ReplugRetriever focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_replug_retriever.cpp")
     message(STATUS "Adding ReplugRetriever focused tests (RAG module, REPLUG-LSR, v2.0.0)")
