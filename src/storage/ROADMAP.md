@@ -70,7 +70,7 @@ v1.8.0 – Production-grade persistent storage layer built on RocksDB with MVCC,
   - Constraints: all Linux-specific code (#ifdef __linux__); io_uring requires THEMIS_ENABLE_IO_URING compile flag; graceful fallback to pread/pwrite when unavailable
   - Errors: io_uring setup failure → disable io_uring and log WARN; ZNS unavailable → log WARN and skip; direct I/O unsupported filesystem → fall back to buffered I/O
   - Tests: `tests/test_nvme_manager.cpp` — 20+ focused unit tests (lifecycle, capabilities, Direct I/O flags, background threads, async I/O fallback, ZNS no-ops, RocksDB integration)
-  - CI: `.github/workflows/02-feature-modules/storage/nvme-manager-ci.yml`
+  - CI: `.github/workflows/02-feature-modules_storage_nvme-manager-ci.yml`
   - Perf target: 30–50% lower p99 latency vs. buffered I/O on NVMe with io_uring + Direct I/O enabled
 - [x] Erasure coding redundancy mode in `BlobRedundancyManager` (space-efficient alternative to RAID-1) (Target: v1.7.0) ✅
   - Implemented as `RedundancyMode::PARITY` using `ErasureCodingBackend` (Reed-Solomon)
@@ -78,7 +78,7 @@ v1.8.0 – Production-grade persistent storage layer built on RocksDB with MVCC,
   - Affected files: `blob_redundancy_manager.cpp` (PARITY path); `erasure_coding_backend.cpp` for RS encode/decode
   - Errors: reconstruction failure if fewer than k shards available
   - Tests: `tests/test_erasure_coding_backend.cpp` — RS(10,4)/RS(6,3)/RS(4,2) encode/decode, multi-shard fault tolerance, BlobRedundancyManager PARITY mode integration
-  - CI: `.github/workflows/02-feature-modules/storage/erasure-coding-blob-storage-ci.yml`
+  - CI: `.github/workflows/02-feature-modules_storage_erasure-coding-blob-storage-ci.yml`
 
 ### Long-term (6-12 months)
 - [x] Distributed transactions across shards via two-phase commit (2PC) with Raft coordination (Target: v1.7.0) ✅

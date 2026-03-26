@@ -156,7 +156,7 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] 3 focused standalone test targets added in `tests/CMakeLists.txt`: ReplicationHA, ReplicationNewFeatures, ReplicationTopologyApiHandler
 - [x] `logical_replication.cpp` added to `THEMIS_CORE_SOURCES` in `cmake/CMakeLists.txt` (was only in `ModularBuild.cmake`)
 - [x] 4 parallel-decoding tests added to `tests/test_logical_replication.cpp` (AC-6–AC-9)
-- [x] CI workflow added: `.github/workflows/02-feature-modules/replication/logical-replication-parallel-decoding-ci.yml`
+- [x] CI workflow added: `.github/workflows/02-feature-modules_replication_logical-replication-parallel-decoding-ci.yml`
 
 ### Phase 5: Parallel Replication (Status: Completed ✅ — v1.6.0)
 - [x] `ParallelReplicationWorker` class in `include/replication/replication_manager.h` + `src/replication/replication_manager.cpp`

@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/05-quality/security/secret-scanning-ci.yml`
+> **Workflow-Datei:** `.github/workflows/05-quality_security_secret-scanning-ci.yml`
 
 ## Aufgabe
 
@@ -64,5 +64,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Secret Scanni
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/05-quality/security/secret-scanning-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/05-quality_security_secret-scanning-ci.yml)
 - [Alle Workflows](../README.md)

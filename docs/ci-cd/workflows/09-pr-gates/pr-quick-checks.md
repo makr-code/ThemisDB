@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/09-pr-gates/pr-quick-checks.yml`
+> **Workflow-Datei:** `.github/workflows/09-pr-gates_pr-quick-checks.yml`
 
 ## Aufgabe
 
@@ -66,5 +66,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **PR Quick Chec
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/09-pr-gates/pr-quick-checks.yml)
+- [Workflow-Datei](../../.github/workflows/09-pr-gates_pr-quick-checks.yml)
 - [Alle Workflows](../README.md)

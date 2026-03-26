@@ -60,13 +60,13 @@ Das Updates-Modul ist ThemisDB's **Zero-Downtime-Update- und Migrations-System**
 
 | Workflow | Pfad | Abgedeckte Komponente |
 |---|---|---|
-| binary-delta-patches-ci | `.github/workflows/02-feature-modules/storage/binary-delta-patches-ci.yml` | DeltaUpdateEngine |
-| canary-deployments-ci | `.github/workflows/04-release/canary-deployments-ci.yml` | CanaryDeployment |
-| parallel-file-downloads-ci | `.github/workflows/02-feature-modules/storage/parallel-file-downloads-ci.yml` | ParallelDownloader |
-| dependency-resolution-engine-ci | `.github/workflows/02-feature-modules/dependency-resolution-engine-ci.yml` | DependencyResolver |
-| multi-tenant-update-scheduling-ci | `.github/workflows/02-feature-modules/multi-tenant-update-scheduling-ci.yml` | TenantUpdateScheduler |
-| manifest-database-file-deletion-ci | `.github/workflows/02-feature-modules/storage/manifest-database-file-deletion-ci.yml` | ManifestDatabase |
-| distributed-cluster-updates-ci | `.github/workflows/06-infrastructure/distributed/distributed-cluster-updates-ci.yml` | ClusterUpdateManager |
+| binary-delta-patches-ci | `.github/workflows/02-feature-modules_storage_binary-delta-patches-ci.yml` | DeltaUpdateEngine |
+| canary-deployments-ci | `.github/workflows/04-release_canary-deployments-ci.yml` | CanaryDeployment |
+| parallel-file-downloads-ci | `.github/workflows/02-feature-modules_storage_parallel-file-downloads-ci.yml` | ParallelDownloader |
+| dependency-resolution-engine-ci | `.github/workflows/02-feature-modules_dependency-resolution-engine-ci.yml` | DependencyResolver |
+| multi-tenant-update-scheduling-ci | `.github/workflows/02-feature-modules_multi-tenant-update-scheduling-ci.yml` | TenantUpdateScheduler |
+| manifest-database-file-deletion-ci | `.github/workflows/02-feature-modules_storage_manifest-database-file-deletion-ci.yml` | ManifestDatabase |
+| distributed-cluster-updates-ci | `.github/workflows/06-infrastructure_distributed_distributed-cluster-updates-ci.yml` | ClusterUpdateManager |
 
 ---
 

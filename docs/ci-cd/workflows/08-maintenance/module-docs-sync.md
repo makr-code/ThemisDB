@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/08-maintenance/module-docs-sync.yml`
+> **Workflow-Datei:** `.github/workflows/08-maintenance_module-docs-sync.yml`
 
 ## Aufgabe
 
@@ -48,5 +48,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Module Docs S
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/08-maintenance/module-docs-sync.yml)
+- [Workflow-Datei](../../.github/workflows/08-maintenance_module-docs-sync.yml)
 - [Alle Workflows](../README.md)

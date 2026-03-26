@@ -8,7 +8,7 @@ name: "[Manual] Publish Docker Image to Docker Hub"
 #
 # GitHub only shows workflow_dispatch triggers for workflows directly in
 # .github/workflows/. The real implementation lives in:
-#   .github/workflows/04-release/dockerhub-publish-on-release.yml
+#   .github/workflows/04-release_dockerhub-publish-on-release.yml
 #
 # The real workflow also runs automatically on GitHub release events
 # (release: published). Use this wrapper to manually re-run it for

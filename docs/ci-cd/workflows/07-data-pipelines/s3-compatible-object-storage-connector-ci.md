@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/07-data-pipelines/s3-compatible-object-storage-connector-ci.yml`
+> **Workflow-Datei:** `.github/workflows/07-data-pipelines_s3-compatible-object-storage-connector-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **S3-Compatible
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `s3-connector-tests`
 **Anzeigename:** S3-Compatible Connector (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -45,5 +45,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **S3-Compatible
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/07-data-pipelines/s3-compatible-object-storage-connector-ci.yml)
+- [Workflow-Datei](../../.github/workflows/07-data-pipelines_s3-compatible-object-storage-connector-ci.yml)
 - [Alle Workflows](../README.md)

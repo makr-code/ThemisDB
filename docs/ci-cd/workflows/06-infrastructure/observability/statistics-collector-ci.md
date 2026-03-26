@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/06-infrastructure/observability/statistics-collector-ci.yml`
+> **Workflow-Datei:** `.github/workflows/06-infrastructure_observability_statistics-collector-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Statistics Co
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `statistics-collector-unit-tests`
 **Anzeigename:** Statistics collector tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -47,5 +47,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Statistics Co
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/06-infrastructure/observability/statistics-collector-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/06-infrastructure_observability_statistics-collector-ci.yml)
 - [Alle Workflows](../README.md)

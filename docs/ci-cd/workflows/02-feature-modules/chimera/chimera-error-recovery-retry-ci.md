@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules/chimera/chimera-error-recovery-retry-ci.yml`
+> **Workflow-Datei:** `.github/workflows/02-feature-modules_chimera_chimera-error-recovery-retry-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Chimera Error
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `chimera-retry-tests`
 **Anzeigename:** Chimera Retry Policy (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -43,5 +43,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Chimera Error
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/02-feature-modules/chimera/chimera-error-recovery-retry-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/02-feature-modules_chimera_chimera-error-recovery-retry-ci.yml)
 - [Alle Workflows](../README.md)

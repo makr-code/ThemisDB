@@ -8,7 +8,7 @@ name: "[Manual] Bootstrap Release Branches"
 #
 # GitHub only shows workflow_dispatch triggers for workflows directly in
 # .github/workflows/. The real implementation lives in:
-#   .github/workflows/04-release/bootstrap-release-branches.yml
+#   .github/workflows/04-release_bootstrap-release-branches.yml
 #
 # This wrapper captures the inputs and dispatches the actual workflow via
 # the GitHub CLI.

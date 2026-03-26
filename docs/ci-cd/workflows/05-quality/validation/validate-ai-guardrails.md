@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/05-quality/validation/validate-ai-guardrails.yml`
+> **Workflow-Datei:** `.github/workflows/05-quality_validation_validate-ai-guardrails.yml`
 
 ## Aufgabe
 
@@ -10,7 +10,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Validate AI-G
 
 ## Auslöser (Triggers)
 
-- **`push`** — Automatisch bei jedem Push auf die konfigurierten Branches (Branches: `main`, `develop`) (Pfade: `.github/COPILOT_INSTRUCTIONS.md`, `.github/copilot/**`, `.github/scripts/validate_copilot_refs.py`, `.github/workflows/05-quality/validation/validate-ai-guardrails.yml`)
+- **`push`** — Automatisch bei jedem Push auf die konfigurierten Branches (Branches: `main`, `develop`) (Pfade: `.github/COPILOT_INSTRUCTIONS.md`, `.github/copilot/**`, `.github/scripts/validate_copilot_refs.py`, `.github/workflows/05-quality_validation_validate-ai-guardrails.yml`)
 - **`pull_request`** — Automatisch bei Pull Requests (opened, synchronize, reopened) (Pfade: `.github/COPILOT_INSTRUCTIONS.md`, `.github/copilot/**`, `.github/scripts/validate_copilot_refs.py`)
 - **`workflow_dispatch`** — Manuell über die GitHub Actions UI ausführbar
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Validate AI-G
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `validate-copilot-instructions`
 **Anzeigename:** Validate Copilot Instructions
@@ -73,5 +73,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Validate AI-G
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/05-quality/validation/validate-ai-guardrails.yml)
+- [Workflow-Datei](../../../.github/workflows/05-quality_validation_validate-ai-guardrails.yml)
 - [Alle Workflows](../README.md)

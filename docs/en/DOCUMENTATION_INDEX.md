@@ -191,9 +191,9 @@ docs/
 - **Issues:** https://github.com/makr-code/ThemisDB/issues
 
 ### Badges
-- [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/01-core/themis-core-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/01-core/themis-core-ci.yml)
-- [![Security CI](https://github.com/makr-code/ThemisDB/actions/workflows/05-quality/security/security-hardening-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/05-quality/security/security-hardening-ci.yml)
-- [![GPU CI](https://github.com/makr-code/ThemisDB/actions/workflows/06-infrastructure/gpu/gpu-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/06-infrastructure/gpu/gpu-ci.yml)
+- [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/01-core_themis-core-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/01-core_themis-core-ci.yml)
+- [![Security CI](https://github.com/makr-code/ThemisDB/actions/workflows/05-quality_security_security-hardening-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/05-quality_security_security-hardening-ci.yml)
+- [![GPU CI](https://github.com/makr-code/ThemisDB/actions/workflows/06-infrastructure_gpu_gpu-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/06-infrastructure_gpu_gpu-ci.yml)
 
 ## 📋 Navigation by Topic
 

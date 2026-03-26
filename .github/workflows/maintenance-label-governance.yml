@@ -8,7 +8,7 @@ name: "[Manual] Label Governance – Setup & Audit"
 #
 # GitHub only shows workflow_dispatch triggers for workflows directly in
 # .github/workflows/. The real implementation lives in:
-#   .github/workflows/08-maintenance/github_workflows_label-governance.yml
+#   .github/workflows/08-maintenance_github_workflows_label-governance.yml
 #
 # This wrapper captures the inputs and dispatches the actual workflow via
 # the GitHub CLI.

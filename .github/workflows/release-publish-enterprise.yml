@@ -8,7 +8,7 @@ name: "[Manual] Publish Enterprise Edition"
 #
 # GitHub only shows workflow_dispatch triggers for workflows directly in
 # .github/workflows/. The real implementation lives in:
-#   .github/workflows/04-release/publish-enterprise.yml
+#   .github/workflows/04-release_publish-enterprise.yml
 #
 # The real workflow also runs automatically on tag push matching
 # enterprise-v* from the enterprise branch.

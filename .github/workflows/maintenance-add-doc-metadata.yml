@@ -8,7 +8,7 @@ name: "[Manual] Add Documentation Metadata"
 #
 # GitHub only shows workflow_dispatch triggers for workflows directly in
 # .github/workflows/. The real implementation lives in:
-#   .github/workflows/08-maintenance/add-doc-metadata.yml
+#   .github/workflows/08-maintenance_add-doc-metadata.yml
 #
 # ALTERNATIVE: GitHub CLI
 #   gh workflow run "08-maintenance/add-doc-metadata.yml" \

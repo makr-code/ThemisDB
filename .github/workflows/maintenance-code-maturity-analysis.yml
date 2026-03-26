@@ -8,7 +8,7 @@ name: "[Manual] Code Maturity Analysis"
 #
 # GitHub only shows workflow_dispatch triggers for workflows directly in
 # .github/workflows/. The real implementation lives in:
-#   .github/workflows/08-maintenance/code-maturity-analysis.yml
+#   .github/workflows/08-maintenance_code-maturity-analysis.yml
 #
 # The real workflow also runs on a schedule. Use this wrapper to trigger
 # an on-demand analysis run without waiting for the next scheduled execution.

@@ -2,7 +2,7 @@
 
 🖱️ **Manuell**
 
-> **Workflow-Datei:** `.github/workflows/08-maintenance/sync-roadmap-issues.yml`
+> **Workflow-Datei:** `.github/workflows/08-maintenance_sync-roadmap-issues.yml`
 
 ## Aufgabe
 
@@ -45,5 +45,5 @@ Manuell ausgelöster Workflow für: **Sync Roadmap Issues**.
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/08-maintenance/sync-roadmap-issues.yml)
+- [Workflow-Datei](../../.github/workflows/08-maintenance_sync-roadmap-issues.yml)
 - [Alle Workflows](../README.md)

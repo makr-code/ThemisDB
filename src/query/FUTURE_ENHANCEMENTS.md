@@ -98,7 +98,7 @@ Just-In-Time compilation of frequently executed queries to native code for 5-10x
 - Integrated into `AQLRunner::executeAql()` conjunctive query path: every conjunctive AQL query is tracked by `QueryCompiler`; once `hot_threshold` (default 100) executions of the same query are observed it is promoted to the compiled specialisation.
 - `VectorizedExecutionEngine` (`include/query/vectorized_execution.h` + `src/query/vectorized_execution.cpp`): SIMD-accelerated column-store batch processing with filter, project, aggregate (Sum/Count/Avg/Min/Max + group-by), sort, configurable batch size, and execution statistics.
 - 30 focused unit tests in `tests/test_vectorized_execution.cpp` registered as `VectorizedExecutionFocusedTests` CMake target.
-- CI: `.github/workflows/02-feature-modules/adaptive-query/query-vectorized-execution-ci.yml`.
+- CI: `.github/workflows/02-feature-modules_adaptive-query_query-vectorized-execution-ci.yml`.
 
 **Features:**
 - Hot query detection (>100 executions, configurable via `QueryCompiler::Config::hot_threshold`)

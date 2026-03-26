@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules/replication/compressed-replication-ci.yml`
+> **Workflow-Datei:** `.github/workflows/02-feature-modules_replication_compressed-replication-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Compressed Re
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `compressed-replication-tests`
 **Anzeigename:** Compressed Replication (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -44,5 +44,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Compressed Re
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/02-feature-modules/replication/compressed-replication-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/02-feature-modules_replication_compressed-replication-ci.yml)
 - [Alle Workflows](../README.md)

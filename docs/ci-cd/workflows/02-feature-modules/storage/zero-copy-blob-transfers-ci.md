@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules/storage/zero-copy-blob-transfers-ci.yml`
+> **Workflow-Datei:** `.github/workflows/02-feature-modules_storage_zero-copy-blob-transfers-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Zero-Copy Blo
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `zero-copy-blob-unit-tests`
 **Anzeigename:** Zero-Copy Blob tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -44,5 +44,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Zero-Copy Blo
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/02-feature-modules/storage/zero-copy-blob-transfers-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/02-feature-modules_storage_zero-copy-blob-transfers-ci.yml)
 - [Alle Workflows](../README.md)

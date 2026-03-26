@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/07-data-pipelines/kafka-importer-ci.yml`
+> **Workflow-Datei:** `.github/workflows/07-data-pipelines_kafka-importer-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Kafka Importe
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `kafka-importer-unit-tests`
 **Anzeigename:** Kafka importer unit tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -58,5 +58,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Kafka Importe
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/07-data-pipelines/kafka-importer-ci.yml)
+- [Workflow-Datei](../../.github/workflows/07-data-pipelines_kafka-importer-ci.yml)
 - [Alle Workflows](../README.md)

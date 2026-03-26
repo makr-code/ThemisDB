@@ -66,7 +66,7 @@ Sharding is a database architecture pattern that involves breaking a database in
 - [x] 7 more focused targets registered: `test_sharding_chaos`, `test_sharding_e2e`, `test_sharding_gossip`, `test_sharding_integration`, `test_sharding_interfaces`, `test_sharding_operational_metrics`, `test_sharding_uncovered`
 - [x] `circuit_breaker.cpp` state-transition logging implemented via `spdlog::info`
 - [x] `OrphanDetector` wired to `DistributedCoordinator` (listed as done in FUTURE_ENHANCEMENTS.md)
-- [x] CI workflow added: `.github/workflows/06-infrastructure/distributed/sharding-focused-tests-ci.yml`
+- [x] CI workflow added: `.github/workflows/06-infrastructure_distributed_sharding-focused-tests-ci.yml`
 
 ### Phase 3: RPC Integration & Persistent State (Status: In Progress 🚧)
 - [?] Full RPC integration for cross-shard read/write operations (`sharding/rpc/`) (Target: Q2 2026)

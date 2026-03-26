@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/06-infrastructure/distributed/sharding-focused-tests-ci.yml`
+> **Workflow-Datei:** `.github/workflows/06-infrastructure_distributed_sharding-focused-tests-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Sharding Focu
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `sharding-focused-tests`
 **Anzeigename:** Sharding Focused Tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -50,5 +50,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Sharding Focu
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/06-infrastructure/distributed/sharding-focused-tests-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/06-infrastructure_distributed_sharding-focused-tests-ci.yml)
 - [Alle Workflows](../README.md)

@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules/adaptive-query/temporal-spatial-queries-ci.yml`
+> **Workflow-Datei:** `.github/workflows/02-feature-modules_adaptive-query_temporal-spatial-queries-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Temporal-Spat
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `temporal-spatial-queries-unit-tests`
 **Anzeigename:** Temporal-Spatial Queries tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -44,5 +44,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Temporal-Spat
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/02-feature-modules/adaptive-query/temporal-spatial-queries-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/02-feature-modules_adaptive-query_temporal-spatial-queries-ci.yml)
 - [Alle Workflows](../README.md)

@@ -2,7 +2,7 @@
 
 ⏰ **Geplant**
 
-> **Workflow-Datei:** `.github/workflows/05-quality/validation/research-validation.yml`
+> **Workflow-Datei:** `.github/workflows/05-quality_validation_research-validation.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ Zeitgesteuert ausgeführter Workflow: **Research Documentation Validation**.
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `check-research-links`
 **Anzeigename:** Validate Research Links
@@ -73,5 +73,5 @@ Zeitgesteuert ausgeführter Workflow: **Research Documentation Validation**.
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/05-quality/validation/research-validation.yml)
+- [Workflow-Datei](../../../.github/workflows/05-quality_validation_research-validation.yml)
 - [Alle Workflows](../README.md)

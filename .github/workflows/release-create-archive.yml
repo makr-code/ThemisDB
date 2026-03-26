@@ -8,7 +8,7 @@ name: "[Manual] Create Release Archive"
 #
 # GitHub only shows workflow_dispatch triggers for workflows directly in
 # .github/workflows/. The real implementation lives in:
-#   .github/workflows/04-release/create-release-archive.yml
+#   .github/workflows/04-release_create-release-archive.yml
 #
 # This wrapper captures the inputs and dispatches the actual workflow via
 # the GitHub REST API.

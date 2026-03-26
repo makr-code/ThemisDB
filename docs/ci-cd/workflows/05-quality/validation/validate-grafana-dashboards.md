@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/05-quality/validation/validate-grafana-dashboards.yml`
+> **Workflow-Datei:** `.github/workflows/05-quality_validation_validate-grafana-dashboards.yml`
 
 ## Aufgabe
 
@@ -10,8 +10,8 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Validate Graf
 
 ## Auslöser (Triggers)
 
-- **`pull_request`** — Automatisch bei Pull Requests (opened, synchronize, reopened) (Pfade: `grafana/**/*.json`, `scripts/validate_grafana_dashboards.py`, `.github/workflows/05-quality/validation/validate-grafana-dashboards.yml`)
-- **`push`** — Automatisch bei jedem Push auf die konfigurierten Branches (Branches: `main`, `develop`) (Pfade: `grafana/**/*.json`, `scripts/validate_grafana_dashboards.py`, `.github/workflows/05-quality/validation/validate-grafana-dashboards.yml`)
+- **`pull_request`** — Automatisch bei Pull Requests (opened, synchronize, reopened) (Pfade: `grafana/**/*.json`, `scripts/validate_grafana_dashboards.py`, `.github/workflows/05-quality_validation_validate-grafana-dashboards.yml`)
+- **`push`** — Automatisch bei jedem Push auf die konfigurierten Branches (Branches: `main`, `develop`) (Pfade: `grafana/**/*.json`, `scripts/validate_grafana_dashboards.py`, `.github/workflows/05-quality_validation_validate-grafana-dashboards.yml`)
 - **`workflow_dispatch`** — Manuell über die GitHub Actions UI ausführbar
 
 ## Nebenläufigkeit
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Validate Graf
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `validate-dashboards`
 **Anzeigename:** Validate Grafana Dashboard JSON
@@ -42,5 +42,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Validate Graf
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/05-quality/validation/validate-grafana-dashboards.yml)
+- [Workflow-Datei](../../../.github/workflows/05-quality_validation_validate-grafana-dashboards.yml)
 - [Alle Workflows](../README.md)

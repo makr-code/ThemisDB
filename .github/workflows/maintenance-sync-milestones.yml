@@ -8,7 +8,7 @@ name: "[Manual] Sync Milestones from Roadmap"
 #
 # GitHub only shows workflow_dispatch triggers for workflows directly in
 # .github/workflows/. The real implementation lives in:
-#   .github/workflows/08-maintenance/sync-milestones.yml
+#   .github/workflows/08-maintenance_sync-milestones.yml
 #
 # This wrapper captures the inputs and dispatches the actual workflow via
 # the GitHub CLI.

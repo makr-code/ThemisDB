@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules/adaptive-query/geo-spatial-join-ci.yml`
+> **Workflow-Datei:** `.github/workflows/02-feature-modules_adaptive-query_geo-spatial-join-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Geo Spatial J
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `geo-spatial-join-unit-tests`
 **Anzeigename:** Geo Spatial JOIN tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -44,5 +44,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Geo Spatial J
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/02-feature-modules/adaptive-query/geo-spatial-join-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/02-feature-modules_adaptive-query_geo-spatial-join-ci.yml)
 - [Alle Workflows](../README.md)

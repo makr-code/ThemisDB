@@ -8,7 +8,7 @@ name: "[Manual] Edition Build CI"
 #
 # GitHub only shows workflow_dispatch triggers for workflows directly in
 # .github/workflows/. The real implementation lives in:
-#   .github/workflows/03-editions/edition-build-ci.yml
+#   .github/workflows/03-editions_edition-build-ci.yml
 #
 # This wrapper provides a dropdown for every ThemisDB edition so that any
 # edition build can be triggered manually without remembering individual

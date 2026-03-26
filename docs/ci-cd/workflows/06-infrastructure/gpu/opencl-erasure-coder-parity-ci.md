@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/06-infrastructure/gpu/opencl-erasure-coder-parity-ci.yml`
+> **Workflow-Datei:** `.github/workflows/06-infrastructure_gpu_opencl-erasure-coder-parity-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **OpenCL Erasur
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `opencl-erasure-coder-parity-tests`
 **Anzeigename:** OpenCL ErasureCoder parity tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -56,5 +56,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **OpenCL Erasur
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/06-infrastructure/gpu/opencl-erasure-coder-parity-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/06-infrastructure_gpu_opencl-erasure-coder-parity-ci.yml)
 - [Alle Workflows](../README.md)

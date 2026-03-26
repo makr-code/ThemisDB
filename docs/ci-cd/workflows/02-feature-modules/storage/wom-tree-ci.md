@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules/storage/wom-tree-ci.yml`
+> **Workflow-Datei:** `.github/workflows/02-feature-modules_storage_wom-tree-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Write-Optimiz
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `wom-tree-unit-tests`
 **Anzeigename:** WOM Tree tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -45,5 +45,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Write-Optimiz
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/02-feature-modules/storage/wom-tree-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/02-feature-modules_storage_wom-tree-ci.yml)
 - [Alle Workflows](../README.md)

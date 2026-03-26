@@ -2,7 +2,7 @@
 
 ♻️ **Reusable Workflow**
 
-> **Workflow-Datei:** `.github/workflows/05-quality/validation/documentation-validation.yml`
+> **Workflow-Datei:** `.github/workflows/05-quality_validation_documentation-validation.yml`
 
 ## Aufgabe
 
@@ -145,5 +145,5 @@ Wiederverwendbarer Hilfs-Workflow: **Documentation Validation**.
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/05-quality/validation/documentation-validation.yml)
+- [Workflow-Datei](../../../.github/workflows/05-quality_validation_documentation-validation.yml)
 - [Alle Workflows](../README.md)

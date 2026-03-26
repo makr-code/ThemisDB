@@ -8,7 +8,7 @@ name: "[Manual] Build Binary Release · Windows"
 #
 # GitHub only shows workflow_dispatch triggers for workflows directly in
 # .github/workflows/. The real implementation lives in:
-#   .github/workflows/04-release/build-binary-windows.yml
+#   .github/workflows/04-release_build-binary-windows.yml
 #
 # The real workflow also runs automatically on tag push matching v*.
 #

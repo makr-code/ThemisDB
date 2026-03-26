@@ -8,7 +8,7 @@ name: "[Manual] Publish Hyperscaler Edition"
 #
 # GitHub only shows workflow_dispatch triggers for workflows directly in
 # .github/workflows/. The real implementation lives in:
-#   .github/workflows/04-release/publish-hyperscaler.yml
+#   .github/workflows/04-release_publish-hyperscaler.yml
 #
 # The real workflow also runs automatically on tag push matching
 # hyperscaler-v* from the hyperscaler branch.

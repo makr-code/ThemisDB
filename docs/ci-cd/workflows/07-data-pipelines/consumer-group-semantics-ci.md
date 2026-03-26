@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/07-data-pipelines/consumer-group-semantics-ci.yml`
+> **Workflow-Datei:** `.github/workflows/07-data-pipelines_consumer-group-semantics-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **CDC Consumer 
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `consumer-group-semantics-tests`
 **Anzeigename:** Consumer Group Semantics (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -45,5 +45,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **CDC Consumer 
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/07-data-pipelines/consumer-group-semantics-ci.yml)
+- [Workflow-Datei](../../.github/workflows/07-data-pipelines_consumer-group-semantics-ci.yml)
 - [Alle Workflows](../README.md)

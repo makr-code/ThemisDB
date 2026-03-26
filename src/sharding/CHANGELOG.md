@@ -17,7 +17,7 @@ Based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - WAL-backed lease persistence (`wal_path`) for crash-safe restart recovery
   - Per-manager `Metrics` structs for both `EpochFencingManager` and `LeaseManager`
   - 28 unit tests in `tests/test_epoch_fencing.cpp`; `EpochFencingFocusedTests` CMake target
-  - CI: `.github/workflows/06-infrastructure/distributed/epoch-fencing-ci.yml`
+  - CI: `.github/workflows/06-infrastructure_distributed_epoch-fencing-ci.yml`
 
 
 ### Added

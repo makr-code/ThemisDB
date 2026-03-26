@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/05-quality/security/pki-stub-verification-ci.yml`
+> **Workflow-Datei:** `.github/workflows/05-quality_security_pki-stub-verification-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **PKI Stub Veri
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `pki-stub-verification-tests`
 **Anzeigename:** PKI Stub Verification (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -43,5 +43,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **PKI Stub Veri
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/05-quality/security/pki-stub-verification-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/05-quality_security_pki-stub-verification-ci.yml)
 - [Alle Workflows](../README.md)

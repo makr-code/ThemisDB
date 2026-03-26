@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/08-maintenance/auto-label.yml`
+> **Workflow-Datei:** `.github/workflows/08-maintenance_auto-label.yml`
 
 ## Aufgabe
 
@@ -24,5 +24,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Auto Label**.
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/08-maintenance/auto-label.yml)
+- [Workflow-Datei](../../.github/workflows/08-maintenance_auto-label.yml)
 - [Alle Workflows](../README.md)
