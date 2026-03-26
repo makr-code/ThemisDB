@@ -18388,11 +18388,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_egov_data_driven.cpp")
                  COMMAND test_egov_data_driven_focused)
 
         set_tests_properties(EGovDataDrivenFocusedTests PROPERTIES
-            LABELS "e2e;german-gov;data-driven;json-fixtures;baugenehmigung;bimschg;local;no-ci;v1.9.0;focused;integration"
+            LABELS "e2e;german-gov;data-driven;markdown-fixtures;baugenehmigung;bimschg;local;v1.9.0;focused;integration"
             TIMEOUT 120
         )
 
-        message(STATUS "  EGovDataDriven: Baugenehmigung + BImSchV aus JSON-Fixtures (behoerden.json, antraege/, prozesse/, expected/)")
+        message(STATUS "  EGovDataDriven: Baugenehmigung + BImSchV aus Fixtures (behoerden.json, antraege/*.md, prozesse/, expected/)")
         message(STATUS "  Fixture-Pfad: ${CMAKE_CURRENT_SOURCE_DIR}/fixtures/egov")
         message(STATUS "  Überschreibbar: export THEMIS_EGOV_FIXTURES_DIR=<pfad>")
     else()
