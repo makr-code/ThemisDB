@@ -18481,4 +18481,127 @@ else()
     message(STATUS "MQTT Client Service focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_mqtt_client_service.cpp")
 endif()
 
+# ============================================================================
+# Cross-Module: Timeseries (ContinuousAgg / DistributedAgg) + Analytics
+# (ForecastModel) integration tests (v1.9.0)
+#
+# Group A – ContinuousAggMaterializationEngine → ForecastModel pipeline
+#   • A-1: linear-trend materialized data feeds linear regression forecast
+#   • A-2: empty materialized store causes ForecastModel::fit() to throw
+#   • A-3: partial refresh watermark is honoured by the forecasting consumer
+#   • A-4: two independent metrics produce independent forecast models
+#   • A-5: materialized timestamps are monotone in the resulting TimeSeries
+# Group B – mergeShardResults() mathematical correctness (no DB)
+#   • B-1: empty input returns invalid result
+#   • B-2: single valid shard – identity
+#   • B-3: two shards – sum/count additive
+#   • B-4: weighted average correct across unequal shards
+#   • B-5: min/max are global extrema
+#   • B-6: from_ms/to_ms form the union of all shard time ranges
+#   • B-7: invalid shard silently skipped
+#   • B-8: all shards invalid → merged result invalid
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_timeseries_forecasting.cpp")
+    message(STATUS "Adding Cross-Module: Timeseries+Forecasting integration tests (v1.9.0)")
+
+    add_executable(test_cross_module_timeseries_forecasting_focused
+        test_cross_module_timeseries_forecasting.cpp
+        ${CMAKE_SOURCE_DIR}/src/timeseries/continuous_agg.cpp
+        ${CMAKE_SOURCE_DIR}/src/timeseries/tsstore.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/forecasting.cpp
+    )
+
+    target_include_directories(test_cross_module_timeseries_forecasting_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_cross_module_timeseries_forecasting_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    if(TARGET themis_core)
+        target_link_libraries(test_cross_module_timeseries_forecasting_focused PRIVATE themis_core)
+    endif()
+
+    target_compile_definitions(test_cross_module_timeseries_forecasting_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CrossModuleTimeseriesForecastingTests
+        COMMAND test_cross_module_timeseries_forecasting_focused)
+
+    set_tests_properties(CrossModuleTimeseriesForecastingTests PROPERTIES
+        LABELS "cross-module;timeseries;analytics;forecasting;continuous-agg;shard-merge;v1.9.0;integration"
+        TIMEOUT 180
+    )
+
+    message(STATUS "  CrossModule Timeseries+Forecasting: ContinuousAgg->ForecastModel pipeline (A1-A5), mergeShardResults math (B1-B8)")
+else()
+    message(STATUS "Cross-Module Timeseries+Forecasting tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_timeseries_forecasting.cpp")
+endif()
+
+# ============================================================================
+# Cross-Module: TemporalQueryEngine + SystemVersionedTable + BiTemporalTable
+# integration tests (v1.9.0)
+#
+# Group A – executeTemporalQuery dispatcher (SystemVersionedTable)
+#   • A-1..A-5: AS_OF / FROM_TO / BETWEEN_AND / CONTAINED_IN / ALL clauses
+# Group B – executeTemporalQuery dispatcher (BiTemporalTable)
+#   • B-1..B-3: AS_OF valid-time, FROM_TO, gap detection
+# Group C – Cross-table join consistency
+#   • C-1: joinAsOf returns pairs current at specified instant
+#   • C-2: never-matching predicate returns empty
+#   • C-3: empty right table returns empty
+#   • C-4: joinBiTemporal enforces both sys_as_of and valid_at
+# Group D – Temporal invariants under mutation
+#   • D-1: AS_OF before first insert returns empty
+#   • D-2: FROM_TO full range captures all versions
+#   • D-3: deleted rows excluded by default, included with include_deleted
+#   • D-4: BiTemporalTable uniqueness constraint enforced
+#   • D-5: findGaps is consistent with queryApplicationTime
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_temporal_bitemporal.cpp")
+    message(STATUS "Adding Cross-Module: TemporalQueryEngine + BiTemporalTable integration tests (v1.9.0)")
+
+    add_executable(test_cross_module_temporal_bitemporal_focused
+        test_cross_module_temporal_bitemporal.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/temporal_query_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/system_versioned_table.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/bi_temporal.cpp
+    )
+
+    target_include_directories(test_cross_module_temporal_bitemporal_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_cross_module_temporal_bitemporal_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cross_module_temporal_bitemporal_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CrossModuleTemporalBiTemporalTests
+        COMMAND test_cross_module_temporal_bitemporal_focused)
+
+    set_tests_properties(CrossModuleTemporalBiTemporalTests PROPERTIES
+        LABELS "cross-module;temporal;bitemporal;query-engine;system-versioned;join;sql2011;v1.9.0;integration"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  CrossModule Temporal+BiTemporal: executeTemporalQuery dispatch (A1-A5,B1-B3), joinAsOf/joinBiTemporal (C1-C4), mutation invariants (D1-D5)")
+else()
+    message(STATUS "Cross-Module Temporal+BiTemporal tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_temporal_bitemporal.cpp")
+endif()
+
 message(STATUS "Tests configured successfully")
