@@ -99,7 +99,7 @@ struct CrossModuleTsFixture : ::testing::Test {
             TSStore::DataPoint p;
             p.metric       = metric;
             p.entity       = entity;
-            p.timestamp_ms = kBaseMs + static_cast<int64_t>(i) * kWindowMs + kWindowMs / 2;
+            p.timestamp_ms = kBaseMs + static_cast<int64_t>(i) * kWindowMs + kWindowMs / 2; // centre-of-window: ensures each point falls within exactly one materialization window
             p.value        = start_val + static_cast<double>(i) * step_val;
             ASSERT_TRUE(store->putDataPoint(p).has_value())
                 << "putDataPoint failed for " << metric << " i=" << i;
