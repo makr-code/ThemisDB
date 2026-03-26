@@ -967,11 +967,17 @@ HttpServer::HttpServer(
     THEMIS_INFO("WAL API Handler initialized");
 
     // Initialize Ethics AI API Handler
-    // TODO: Fix QueryEngine dependency
-    // ethics_api_ = std::make_unique<themis::server::EthicsApiHandler>(
-    //     storage_, query_api_->getQueryEngine(), auth_
-    // );
-    // THEMIS_INFO("Ethics AI API Handler initialized");
+    try {
+        ethics_query_engine_ = std::make_unique<QueryEngine>(*storage_, *secondary_index_);
+        ethics_api_ = std::make_unique<themis::server::EthicsApiHandler>(
+            storage_,
+            std::shared_ptr<QueryEngine>(ethics_query_engine_.get(), [](QueryEngine*) {}),
+            auth_
+        );
+        THEMIS_INFO("Ethics AI API Handler initialized");
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Ethics AI API Handler skipped: " + std::string(e.what()));
+    }
 
     // Initialize Update Checker (if feature enabled)
     if (config_.feature_update_checker) {
@@ -3351,8 +3357,6 @@ http::response<http::string_body> HttpServer::routeRequest(
     // tenant_guard will automatically release connection/query slots when it goes out of scope
 
     // Early routing for Ethics AI API
-    // TODO: Re-enable when EthicsApiHandler routing is fixed
-    /*
     {
         std::string path_only = target;
         auto qpos = path_only.find('?');
@@ -3369,7 +3373,6 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
         }
     }
-    */
 
     // Request body validation (JSON Schema per endpoint)
     // Validate all methods that may carry a body (POST, PUT, PATCH, DELETE).

@@ -26,6 +26,7 @@
 #include "query/query_engine.h"
 #include "query/aql_parser.h"
 #include "query/aql_translator.h"
+#include "version.h"
 #include <boost/beast/core.hpp>
 #include <algorithm>
 #include <iostream>
@@ -232,8 +233,7 @@ void PostgresSession::handleQuery(const std::string& query) {
             {"version", 0, 0, 25, -1, -1, 0} // text type
         };
         sendRowDescription(fields);
-        // TODO: Use centralized version from VERSION file (currently 1.3.4)
-        sendDataRow({"PostgreSQL 14.0 (ThemisDB 1.3.0 compatibility mode)"});
+        sendDataRow({"PostgreSQL 14.0 (ThemisDB " THEMIS_VERSION_STRING " compatibility mode)"});
         sendCommandComplete("SELECT 1");
         char txnStatus = (transactionState_ == TransactionState::IN_TRANSACTION) ? 'T' : 'I';
         sendReadyForQuery(txnStatus);
@@ -752,9 +752,47 @@ void PostgresSession::handleCopyDone() {
     size_t rowsInserted = 0;
     
     if (queryEngine_) {
-        // TODO: Batch insert the data using QueryEngine
-        // For now, count the rows that would be inserted
-        rowsInserted = copyBuffer_.size();
+        // Insert each CSV row from copyBuffer_ as an AQL document.
+        // Rows are CSV-formatted; we map each field to a sequential column name
+        // since the protocol does not forward column names in COPY FROM STDIN.
+        for (const auto& row : copyBuffer_) {
+            // Parse CSV fields (simple split on comma; quoted fields unsupported)
+            std::vector<std::string> fields;
+            {
+                std::istringstream ss(row);
+                std::string field;
+                while (std::getline(ss, field, ',')) {
+                    // Trim surrounding whitespace
+                    field.erase(0, field.find_first_not_of(" \t"));
+                    auto last = field.find_last_not_of(" \t");
+                    if (last != std::string::npos) field.erase(last + 1);
+                    fields.push_back(field);
+                }
+            }
+            if (fields.empty()) continue;
+
+            // Build JSON document: {col0: "v0", col1: "v1", ...}
+            nlohmann::json doc;
+            for (size_t i = 0; i < fields.size(); ++i) {
+                doc["col" + std::to_string(i)] = fields[i];
+            }
+
+            // Build AQL: INSERT <doc> INTO <table>
+            std::string aql = "INSERT " + doc.dump() + " INTO " + copyTableName_;
+            try {
+                query::AQLParser parser;
+                auto parse_res = parser.parse(aql);
+                if (parse_res.has_value()) {
+                    auto trans = query::AQLTranslator::translate(*parse_res);
+                    if (trans.success) {
+                        queryEngine_->executeAndEntities(trans.query);
+                        ++rowsInserted;
+                    }
+                }
+            } catch (const std::exception& ex) {
+                std::cerr << "PostgresSession COPY INSERT error: " << ex.what() << "\n";
+            }
+        }
     } else {
         // No query engine - return error
         sendErrorResponse("ERROR", "XX000", 
@@ -1356,12 +1394,19 @@ void PostgresSession::handleSchemaQuery(const std::string& query) {
         sendRowDescription(fields);
         
         if (queryEngine_) {
-            // TODO: Query actual tables from database
-            // For now, return example tables that demonstrate the structure
-            sendDataRow({"16384", "users", "r", "2200"});
-            sendDataRow({"16385", "orders", "r", "2200"});
-            sendDataRow({"16386", "products", "r", "2200"});
-            sendCommandComplete("SELECT 3");
+            // Query actual collections from the database via the key-schema scan.
+            auto collections = queryEngine_->listCollections();
+            int oid = 16384;
+            for (const auto& col : collections) {
+                sendDataRow({std::to_string(oid++), col, "r", "2200"});
+            }
+            if (collections.empty()) {
+                // No data yet: return a sentinel row so BI tools see the structure.
+                sendDataRow({"16384", "themisdb_default", "r", "2200"});
+                sendCommandComplete("SELECT 1");
+            } else {
+                sendCommandComplete("SELECT " + std::to_string(collections.size()));
+            }
         } else {
             // No query engine - return empty result
             sendCommandComplete("SELECT 0");
@@ -1377,12 +1422,38 @@ void PostgresSession::handleSchemaQuery(const std::string& query) {
         sendRowDescription(fields);
         
         if (queryEngine_) {
-            // TODO: Query actual columns from database schema
-            // For now, return example columns
-            sendDataRow({"16384", "id", "23", "1"});
-            sendDataRow({"16384", "name", "25", "2"});
-            sendDataRow({"16384", "email", "25", "3"});
-            sendCommandComplete("SELECT 3");
+            // Sample the first document from each collection to derive column names.
+            // This gives best-effort schema introspection without requiring separate
+            // metadata storage.
+            auto collections = queryEngine_->listCollections();
+            int total_cols = 0;
+            int oid = 16384;
+            for (const auto& col : collections) {
+                std::string aql = "FOR doc IN " + col + " LIMIT 1 RETURN doc";
+                try {
+                    query::AQLParser parser;
+                    auto parse_res = parser.parse(aql);
+                    if (parse_res.has_value()) {
+                        auto trans = query::AQLTranslator::translate(*parse_res);
+                        if (trans.success) {
+                            auto exec_res = queryEngine_->executeAndEntities(trans.query);
+                            if (exec_res.has_value() && !exec_res.value().empty()) {
+                                nlohmann::json doc = nlohmann::json::parse(
+                                    exec_res.value().front().toJson());
+                                int attnum = 1;
+                                for (auto it = doc.begin(); it != doc.end(); ++it, ++attnum) {
+                                    // atttypid 25 = text (generic fallback)
+                                    sendDataRow({std::to_string(oid), it.key(), "25",
+                                                 std::to_string(attnum)});
+                                    ++total_cols;
+                                }
+                            }
+                        }
+                    }
+                } catch (...) {}
+                ++oid;
+            }
+            sendCommandComplete("SELECT " + std::to_string(total_cols));
         } else {
             // No query engine - return empty result
             sendCommandComplete("SELECT 0");

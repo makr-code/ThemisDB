@@ -40,6 +40,7 @@
 #include "index/spatial_index.h"
 #include "index/vector_index.h"
 #include "storage/rocksdb_wrapper.h"
+#include "storage/storage_engine.h"
 #include "storage/base_entity.h"
 #include "storage/key_schema.h"
 #include "metadata/statistics_collector.h"
@@ -60,6 +61,7 @@
 #include <algorithm>
 #include <functional>
 #include <unordered_map>
+#include <unordered_set>
 #include <set>
 #include <map>
 #include <queue>
@@ -108,9 +110,37 @@ IExpressionEvaluatorPtr QueryEngine::get_expression_evaluator() {
 
 // Static factory for default implementation
 std::shared_ptr<QueryEngine> QueryEngine::createDefault() {
-    // This would create default implementations - for now just throw
-    // as we don't have concrete implementations of the interfaces yet
-    throw std::runtime_error("QueryEngine::createDefault() not yet implemented - use legacy constructors");
+    // Create default in-memory storage + no-op index manager using the
+    // StorageEngine factory (same pattern as StorageEngine::createDefault()).
+    auto storage      = StorageEngine::createDefault();
+    auto index_manager = StorageEngine::createDefaultIndexManager();
+    return std::make_shared<QueryEngine>(
+        std::static_pointer_cast<IStorageEngine>(storage),
+        index_manager
+    );
+}
+
+std::vector<std::string> QueryEngine::listCollections() const {
+    if (!db_) {
+        return {};
+    }
+    std::unordered_set<std::string> seen;
+    // Key schema: "doc:<collection>:<pk>" or "rel:<table>:<pk>"
+    // We scan all keys and extract the second segment.
+    for (const std::string& prefix : {"doc:", "rel:"}) {
+        db_->scanPrefix(prefix, [&](std::string_view key, std::string_view /*value*/) {
+            // key looks like "doc:name:pk" — extract "name"
+            std::string_view remainder = key.substr(prefix.size());
+            auto sep = remainder.find(':');
+            if (sep != std::string_view::npos) {
+                seen.emplace(remainder.substr(0, sep));
+            }
+            return true;  // continue iteration
+        });
+    }
+    std::vector<std::string> result(seen.begin(), seen.end());
+    std::sort(result.begin(), result.end());
+    return result;
 }
 
 // QueryExpressionEvaluator implementation

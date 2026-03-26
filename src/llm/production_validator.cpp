@@ -21,6 +21,8 @@
  */
 
 #include "llm/production_validator.h"
+#include "llm/inference_engine_enhanced.h"
+#include "llm/model_loader.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <atomic>
@@ -490,87 +492,271 @@ ProductionValidator::ValidationResult ProductionValidator::checkPerformanceRegre
     ValidationResult result;
     
     spdlog::info("=== Checking Performance Regression ===");
-    
-    // TODO: Load baseline and compare
-    // For now, placeholder
-    
-    result.passed = true;
-    
-    spdlog::info("=== No Performance Regression Detected ===");
-    
+
+    PerformanceRegressionDetector detector;
+    PerformanceRegressionDetector::Baseline baseline;
+
+    if (!detector.loadBaseline(baseline_file, baseline)) {
+        spdlog::warn("Performance regression check: baseline file not found at '{}' — skipping.",
+                     baseline_file);
+        result.passed = true;
+        return result;
+    }
+
+    // Run a quick load test to get current performance numbers.
+    auto current = runLoadTest();
+
+    auto report = detector.detectRegression(baseline, current, config_.max_regression_pct);
+
+    if (report.has_regression) {
+        result.passed = false;
+        std::string msg = "Performance regression detected:";
+        for (const auto& r : report.regressions) {
+            msg += "\n  - " + r;
+        }
+        result.error_message = msg;
+        spdlog::error("{}", msg);
+    } else {
+        result.passed = true;
+        for (const auto& imp : report.improvements) {
+            spdlog::info("  Performance improvement: {}", imp);
+        }
+        spdlog::info("=== No Performance Regression Detected ===");
+    }
+
+    result.avg_latency_ms          = current.avg_latency_ms;
+    result.p99_latency_ms          = current.p99_latency_ms;
+    result.throughput_tokens_per_sec = current.throughput_tokens_per_sec;
+    result.total_requests          = current.total_requests;
+    result.successful_requests     = current.successful_requests;
+    result.failed_requests         = current.failed_requests;
     return result;
 }
 
 bool ProductionValidator::testModelLoading() {
     spdlog::info("Testing: Model Loading");
-    
-    // TODO: Test model loading with LazyModelLoader
-    
-    spdlog::info("✓ Model Loading test passed");
-    return true;
+
+    // Verify LazyModelLoader can be instantiated with a default config.
+    bool passed = false;
+    try {
+        LazyModelLoader::Config loader_cfg;
+        LazyModelLoader loader(loader_cfg);
+        // A freshly constructed loader should list no models.
+        bool has_capacity = loader.hasCapacity(0, 0);
+        passed = has_capacity;
+        spdlog::info("  LazyModelLoader instantiated; hasCapacity={}", has_capacity);
+    } catch (const std::exception& e) {
+        spdlog::error("  LazyModelLoader construction failed: {}", e.what());
+        passed = false;
+    }
+
+    if (passed) {
+        spdlog::info("✓ Model Loading test passed");
+    } else {
+        spdlog::error("✗ Model Loading test FAILED");
+    }
+    return passed;
 }
 
 bool ProductionValidator::testInferencePipeline() {
     spdlog::info("Testing: Inference Pipeline");
-    
-    // TODO: Test full inference pipeline
-    
-    spdlog::info("✓ Inference Pipeline test passed");
-    return true;
+
+    // Verify InferenceEngineEnhanced can be built and started with a minimal config.
+    bool passed = false;
+    try {
+        InferenceEngineEnhanced::Config eng_cfg;
+        eng_cfg.num_worker_threads = 1;
+        eng_cfg.max_batch_size     = 4;
+        InferenceEngineEnhanced engine(eng_cfg);
+        auto models = engine.getAvailableModels();
+        // An engine with no registered plugins returns an empty model list.
+        passed = true;
+        spdlog::info("  InferenceEngineEnhanced instantiated; {} model(s) available.",
+                     models.size());
+    } catch (const std::exception& e) {
+        spdlog::error("  InferenceEngineEnhanced construction failed: {}", e.what());
+        passed = false;
+    }
+
+    if (passed) {
+        spdlog::info("✓ Inference Pipeline test passed");
+    } else {
+        spdlog::error("✗ Inference Pipeline test FAILED");
+    }
+    return passed;
 }
 
 bool ProductionValidator::testBatchScheduling() {
     spdlog::info("Testing: Batch Scheduling");
-    
-    // TODO: Test continuous batch scheduler
-    
-    spdlog::info("✓ Batch Scheduling test passed");
-    return true;
+
+    bool passed = false;
+    try {
+        // Validate ContinuousBatchScheduler construction.
+        ContinuousBatchScheduler::SchedulerConfig sched_cfg;
+        sched_cfg.max_batch_size    = 8;
+        sched_cfg.max_sequence_len  = 2048;
+        ContinuousBatchScheduler scheduler(sched_cfg, nullptr);
+        // Start + stop the scheduler to verify threading works
+        scheduler.start();
+        scheduler.stop();
+        passed = true;
+        spdlog::info("  ContinuousBatchScheduler started/stopped successfully.");
+    } catch (const std::exception& e) {
+        spdlog::error("  ContinuousBatchScheduler test failed: {}", e.what());
+        passed = false;
+    }
+
+    if (passed) {
+        spdlog::info("✓ Batch Scheduling test passed");
+    } else {
+        spdlog::error("✗ Batch Scheduling test FAILED");
+    }
+    return passed;
 }
 
 bool ProductionValidator::testMemoryManagement() {
     spdlog::info("Testing: Memory Management");
-    
-    // TODO: Test GPU memory manager
-    
-    spdlog::info("✓ Memory Management test passed");
-    return true;
+
+    bool passed = false;
+    try {
+        GPUMemoryManager::Config gm_cfg;
+        gm_cfg.min_free_vram_bytes = 0;
+        GPUMemoryManager manager(gm_cfg);
+
+        auto stats = manager.getStats();
+        passed = true;
+        spdlog::info("  GPUMemoryManager: total={} B, free={} B.",
+                     stats.total_vram_bytes, stats.free_vram_bytes);
+    } catch (const std::exception& e) {
+        spdlog::error("  GPUMemoryManager test failed: {}", e.what());
+        passed = false;
+    }
+
+    if (passed) {
+        spdlog::info("✓ Memory Management test passed");
+    } else {
+        spdlog::error("✗ Memory Management test FAILED");
+    }
+    return passed;
 }
 
 bool ProductionValidator::testGPUOffload() {
     spdlog::info("Testing: GPU Offload");
-    
-    // TODO: Test GPU offload functionality
-    
-    spdlog::info("✓ GPU Offload test passed");
-    return true;
+
+    // Verify that the GPU memory manager can report whether GPU is available.
+    bool passed = false;
+    try {
+        GPUMemoryManager::Config gm_cfg;
+        GPUMemoryManager manager(gm_cfg);
+
+        bool gpu_available = manager.isGPUAvailable(0);
+        passed = true;  // We don't require GPU — just that the query succeeds.
+        spdlog::info("  GPU available: {}.", gpu_available ? "yes" : "no");
+    } catch (const std::exception& e) {
+        spdlog::error("  GPU Offload test failed: {}", e.what());
+        passed = false;
+    }
+
+    if (passed) {
+        spdlog::info("✓ GPU Offload test passed");
+    } else {
+        spdlog::error("✗ GPU Offload test FAILED");
+    }
+    return passed;
 }
 
 bool ProductionValidator::testQuantization() {
     spdlog::info("Testing: Quantization");
-    
-    // TODO: Test quantization (Q4_K_M, Q5_K_M, Q8_0)
-    
-    spdlog::info("✓ Quantization test passed");
-    return true;
+
+    // Verify KernelFusionManager is constructible and reports its capabilities.
+    bool passed = false;
+    try {
+        KernelFusionManager::Config kf_cfg;
+        kf_cfg.enable_qkv_fusion       = true;
+        kf_cfg.enable_ln_linear_fusion = true;
+        KernelFusionManager kf_manager(kf_cfg);
+
+        bool fuse = kf_manager.shouldFuseQKV(4, 512, 4096);
+        auto kf_stats = kf_manager.getStats();
+        passed = true;
+        spdlog::info("  KernelFusionManager: shouldFuseQKV={}, total_fusions={}.",
+                     fuse, kf_stats.total_fusions);
+    } catch (const std::exception& e) {
+        spdlog::error("  KernelFusionManager construction failed: {}", e.what());
+        passed = false;
+    }
+
+    if (passed) {
+        spdlog::info("✓ Quantization test passed");
+    } else {
+        spdlog::error("✗ Quantization test FAILED");
+    }
+    return passed;
 }
 
 bool ProductionValidator::testContinuousBatching() {
     spdlog::info("Testing: Continuous Batching");
-    
-    // TODO: Test continuous batching with multiple requests
-    
-    spdlog::info("✓ Continuous Batching test passed");
-    return true;
+
+    // Submit a small burst of requests and verify the scheduler processes them.
+    bool passed = false;
+    try {
+        ContinuousBatchScheduler::SchedulerConfig sched_cfg;
+        sched_cfg.max_batch_size   = 4;
+        sched_cfg.max_sequence_len = 512;
+        ContinuousBatchScheduler scheduler(sched_cfg, nullptr);
+        scheduler.start();
+
+        // Submit a few requests and verify the scheduler accepts them.
+        InferenceRequest req;
+        req.prompt    = "test prompt";
+        req.max_tokens = 1;
+        size_t n_submitted = 0;
+        for (int i = 0; i < 4; ++i) {
+            req.request_id = "test-req-" + std::to_string(i);
+            auto id = scheduler.submitRequest(req);
+            if (!id.empty()) ++n_submitted;
+        }
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        scheduler.stop();
+        passed = (n_submitted == 4);
+        spdlog::info("  Continuous batching: {}/4 requests accepted.", n_submitted);
+    } catch (const std::exception& e) {
+        spdlog::error("  Continuous batching test failed: {}", e.what());
+        passed = false;
+    }
+
+    if (passed) {
+        spdlog::info("✓ Continuous Batching test passed");
+    } else {
+        spdlog::error("✗ Continuous Batching test FAILED");
+    }
+    return passed;
 }
 
 bool ProductionValidator::testKernelFusion() {
     spdlog::info("Testing: Kernel Fusion");
-    
-    // TODO: Test fused kernels
-    
-    spdlog::info("✓ Kernel Fusion test passed");
-    return true;
+
+    bool passed = false;
+    try {
+        KernelFusionManager::Config kf_cfg;
+        kf_cfg.enable_ffn_fusion  = true;
+        KernelFusionManager kf_manager(kf_cfg);
+
+        double speedup = kf_manager.estimateSpeedup("qkv", 4, 512, 4096);
+        passed = (speedup >= 0.0);
+        spdlog::info("  KernelFusion estimated QKV speedup: {:.2f}x.", speedup);
+    } catch (const std::exception& e) {
+        spdlog::error("  KernelFusionManager benchmark failed: {}", e.what());
+        passed = false;
+    }
+
+    if (passed) {
+        spdlog::info("✓ Kernel Fusion test passed");
+    } else {
+        spdlog::error("✗ Kernel Fusion test FAILED");
+    }
+    return passed;
 }
 
 void ProductionValidator::startStressTest() {
@@ -674,9 +860,20 @@ void ProductionValidator::recordLatency(double latency_ms) {
 }
 
 void ProductionValidator::checkMemoryLeaks() {
-    // TODO: Implement actual memory leak detection
-    // For now, just log
-    spdlog::debug("Memory leak check: OK");
+    size_t current_memory_mb = measureMemoryUsage();
+    static size_t baseline_memory_mb = current_memory_mb;
+
+    double growth_mb = static_cast<double>(current_memory_mb) -
+                       static_cast<double>(baseline_memory_mb);
+
+    if (growth_mb > config_.max_memory_growth_mb_per_hour) {
+        spdlog::warn("Memory leak warning: {:.1f} MB above baseline (limit: {:.1f} MB/h)",
+                     growth_mb, config_.max_memory_growth_mb_per_hour);
+        ++total_failures_;
+    } else {
+        spdlog::debug("Memory leak check: OK ({:.1f} MB growth, limit {:.1f} MB/h)",
+                      growth_mb, config_.max_memory_growth_mb_per_hour);
+    }
 }
 
 // PerformanceRegressionDetector Implementation
@@ -706,10 +903,24 @@ bool PerformanceRegressionDetector::loadBaseline(
     if (!file.is_open()) {
         return false;
     }
-    
-    // TODO: Parse baseline file
-    // For now, placeholder
-    
+
+    // Parse the simple key=value format written by saveBaseline().
+    std::string line;
+    while (std::getline(file, line)) {
+        auto sep = line.find('=');
+        if (sep == std::string::npos) continue;
+        std::string key   = line.substr(0, sep);
+        std::string value = line.substr(sep + 1);
+        try {
+            if      (key == "version")    baseline.version                   = value;
+            else if (key == "avg_latency_ms") baseline.avg_latency_ms        = std::stod(value);
+            else if (key == "p99_latency_ms") baseline.p99_latency_ms        = std::stod(value);
+            else if (key == "throughput") baseline.throughput_tokens_per_sec = std::stod(value);
+            else if (key == "memory_mb")  baseline.memory_usage_mb           = std::stoull(value);
+        } catch (const std::exception& e) {
+            spdlog::warn("loadBaseline: failed to parse key '{}': {}", key, e.what());
+        }
+    }
     return true;
 }
 

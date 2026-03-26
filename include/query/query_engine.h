@@ -678,6 +678,20 @@ public:
     /// @returns  Root node of the execution plan tree.
     query::QueryPlanNode buildExplainPlan(const ConjunctiveQuery& q) const;
 
+    /**
+     * @brief List all collection/table names known to the storage layer.
+     *
+     * Scans all keys in the underlying RocksDB and returns the unique
+     * collection or table names extracted from the key schema prefix
+     * (e.g. keys of the form `doc:<name>:<pk>` or `rel:<name>:<pk>`).
+     *
+     * Returns an empty vector when the engine was constructed with the DI
+     * constructor and no legacy RocksDB instance is available.
+     *
+     * @return Sorted list of unique collection/table names.
+     */
+    std::vector<std::string> listCollections() const;
+
 private:
     RocksDBWrapper* db_ = nullptr;  // Changed from reference to pointer to support nullptr in DI constructor
     SecondaryIndexManager* secIdx_ = nullptr;  // Changed from reference to pointer

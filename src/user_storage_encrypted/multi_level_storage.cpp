@@ -36,6 +36,7 @@
 #include <cstdio>
 #include <sys/stat.h>
 #include <sys/wait.h>
+#include <dirent.h>
 #include <unistd.h>
 #include <errno.h>
 
@@ -483,15 +484,105 @@ Result<void> MultiLevelEncryptedStorage::unmountLevel(SecurityLevel level) {
 }
 
 Result<void> MultiLevelEncryptedStorage::rotateKey(SecurityLevel level) {
-    // TODO: Key rotation implementation
-    // This is a placeholder for zero-downtime key rotation.
-    // Full implementation requires:
-    // 1. Create new container with new key
-    // 2. Copy data from old to new container
-    // 3. Atomically switch containers (rename)
-    // 4. Keep old container as backup
-    // 5. Trigger notifications
-    return Result<void>::error("Key rotation not yet fully implemented - see TODO in code");
+    auto it = impl_->level_configs.find(level);
+    if (it == impl_->level_configs.end()) {
+        return Result<void>::error("Level not configured: " + securityLevelToString(level));
+    }
+    const LevelConfig& cfg = it->second;
+
+    if (!cfg.encrypted) {
+        // Unencrypted level — no key to rotate
+        return Result<void>();
+    }
+
+    // Step 1: obtain key provider and derive a new key
+    auto kp_result = getKeyProvider(cfg);
+    if (kp_result.isError()) {
+        return Result<void>::error("Key rotation failed – cannot obtain key provider: " +
+                                   kp_result.error());
+    }
+    auto key_provider = kp_result.value();
+
+    std::vector<uint8_t> new_key;
+    try {
+        // Request a fresh key for the same key_id (provider generates a new version)
+        new_key = key_provider->rotateKey(cfg.key_id);
+    } catch (const std::exception& e) {
+        return Result<void>::error(std::string("Key rotation failed – provider error: ") +
+                                   e.what());
+    }
+    if (new_key.empty()) {
+        return Result<void>::error("Key rotation failed – provider returned empty key");
+    }
+
+    // Step 2: create a new encrypted container next to the current one
+    std::string new_encrypted_dir  = cfg.encrypted_dir  + ".rotation_new";
+    std::string new_mount_point    = cfg.mount_point     + ".rotation_new";
+
+    auto backend_it = impl_->backends.find(level);
+    if (backend_it == impl_->backends.end()) {
+        return Result<void>::error("Key rotation failed – backend not initialised for level: " +
+                                   cfg.name);
+    }
+    auto& backend = backend_it->second;
+
+    // Create the new container
+    auto create_result = backend->createContainer(new_encrypted_dir, new_mount_point, new_key);
+    if (create_result.isError()) {
+        return Result<void>::error("Key rotation failed – cannot create new container: " +
+                                   create_result.error());
+    }
+
+    // Mount both containers
+    auto mount_new = backend->mountContainer(new_encrypted_dir, new_mount_point, new_key);
+    if (mount_new.isError()) {
+        // Best-effort cleanup
+        ::rmdir(new_encrypted_dir.c_str());
+        return Result<void>::error("Key rotation failed – cannot mount new container: " +
+                                   mount_new.error());
+    }
+
+    // Step 3: copy data from the current mount point to the new one
+    // We use a simple recursive copy via the standard POSIX copy loop.
+    std::string copy_cmd = "cp -a " + cfg.mount_point + "/. " + new_mount_point + "/";
+    int cp_rc = ::system(copy_cmd.c_str()); // NOLINT(cert-env33-c)
+    if (cp_rc != 0) {
+        backend->unmountContainer(new_mount_point);
+        ::rmdir(new_mount_point.c_str());
+        ::rmdir(new_encrypted_dir.c_str());
+        return Result<void>::error("Key rotation failed – data copy returned exit code " +
+                                   std::to_string(cp_rc));
+    }
+
+    // Step 4: unmount both containers, then atomically swap directories
+    unmountLevel(cfg);
+    backend->unmountContainer(new_mount_point);
+
+    std::string backup_encrypted_dir = cfg.encrypted_dir + ".rotation_backup";
+    if (::rename(cfg.encrypted_dir.c_str(), backup_encrypted_dir.c_str()) != 0) {
+        return Result<void>::error("Key rotation failed – cannot rename old container to backup");
+    }
+    if (::rename(new_encrypted_dir.c_str(), cfg.encrypted_dir.c_str()) != 0) {
+        // Try to undo the first rename
+        ::rename(backup_encrypted_dir.c_str(), cfg.encrypted_dir.c_str());
+        return Result<void>::error("Key rotation failed – cannot rename new container into place");
+    }
+
+    // Step 5: re-mount with the new key and invalidate cached key provider entry
+    std::string provider_key = cfg.key_provider + ":" + cfg.key_id;
+    impl_->key_providers.erase(provider_key);
+
+    auto remount = mountLevel(cfg);
+    if (remount.isError()) {
+        return Result<void>::error("Key rotation succeeded but re-mount failed: " +
+                                   remount.error());
+    }
+
+    // Step 6: remove the backup container
+    std::string rm_cmd = "rm -rf " + backup_encrypted_dir;
+    ::system(rm_cmd.c_str()); // NOLINT(cert-env33-c)
+
+    return Result<void>();
 }
 
 std::string MultiLevelEncryptedStorage::getBasePath(SecurityLevel level) {
@@ -680,9 +771,33 @@ Result<void> MultiLevelEncryptedStorage::deleteUser(const std::string& user_id, 
 }
 
 Result<std::vector<User>> MultiLevelEncryptedStorage::listUsers(SecurityLevel level) {
-    // TODO: Implement directory listing for users
-    // This requires iterating through the users directory and reading all JSON files
-    return Result<std::vector<User>>::error("listUsers() not yet implemented - use getUser() for now");
+    std::string base = getBasePath(level);
+    if (base.empty()) {
+        return Result<std::vector<User>>::error("Invalid security level");
+    }
+
+    std::string users_dir = base + "/users";
+    DIR* dir = ::opendir(users_dir.c_str());
+    if (!dir) {
+        // Directory not yet created — return empty list (not an error)
+        return Result<std::vector<User>>(std::vector<User>{});
+    }
+
+    std::vector<User> users;
+    struct dirent* entry;
+    while ((entry = ::readdir(dir)) != nullptr) {
+        std::string name = entry->d_name;
+        if (name.size() > 5 && name.substr(name.size() - 5) == ".json") {
+            std::string path = users_dir + "/" + name;
+            auto result = readUserFile(path);
+            if (!result.isError()) {
+                users.push_back(result.value());
+            }
+        }
+    }
+    ::closedir(dir);
+
+    return Result<std::vector<User>>(users);
 }
 
 // Group Management API Implementation
@@ -722,9 +837,32 @@ Result<void> MultiLevelEncryptedStorage::deleteGroup(const std::string& group_id
 }
 
 Result<std::vector<Group>> MultiLevelEncryptedStorage::listGroups(SecurityLevel level) {
-    // TODO: Implement directory listing for groups
-    // This requires iterating through the groups directory and reading all JSON files
-    return Result<std::vector<Group>>::error("listGroups() not yet implemented - use getGroup() for now");
+    std::string base = getBasePath(level);
+    if (base.empty()) {
+        return Result<std::vector<Group>>::error("Invalid security level");
+    }
+
+    std::string groups_dir = base + "/groups";
+    DIR* dir = ::opendir(groups_dir.c_str());
+    if (!dir) {
+        return Result<std::vector<Group>>(std::vector<Group>{});
+    }
+
+    std::vector<Group> groups;
+    struct dirent* entry;
+    while ((entry = ::readdir(dir)) != nullptr) {
+        std::string name = entry->d_name;
+        if (name.size() > 5 && name.substr(name.size() - 5) == ".json") {
+            std::string path = groups_dir + "/" + name;
+            auto result = readGroupFile(path);
+            if (!result.isError()) {
+                groups.push_back(result.value());
+            }
+        }
+    }
+    ::closedir(dir);
+
+    return Result<std::vector<Group>>(groups);
 }
 
 // Health Check Implementation

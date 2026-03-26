@@ -28,6 +28,7 @@
 #include "llm/lora_framework/lora_training_service.h"
 #include "llm/lora_framework/lora_config.h"
 #include "llm/lora_framework/adapter_consistency_checker.h"
+#include "llm/inference_engine_enhanced.h"
 #include "utils/zstd_codec.h"
 #include "utils/cursor.h"
 #include <nlohmann/json.hpp>
@@ -70,6 +71,11 @@ LoRAApiHandler::LoRAApiHandler(
 
 void LoRAApiHandler::configureJWT(const auth::JWTValidatorConfig& config) {
     jwt_validator_ = std::make_unique<auth::JWTValidator>(config);
+}
+
+void LoRAApiHandler::setInferenceEngine(
+        std::shared_ptr<llm::InferenceEngineEnhanced> engine) {
+    inference_engine_ = std::move(engine);
 }
 
 http::response<http::string_body> LoRAApiHandler::handleRequest(
@@ -871,13 +877,48 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAQuery(
             return createErrorResponse(http::status::bad_request, "Missing 'adapter_id' field");
         }
         
-        // Perform inference (simplified - would use actual LLM integration)
+        // Perform inference using InferenceEngineEnhanced when available.
         auto start_time = std::chrono::steady_clock::now();
-        
-        // TODO: Integrate with actual LLM inference engine
-        // This is a placeholder response for API structure demonstration
-        std::string response_text = "This is a placeholder response. In production, this would perform actual inference with adapter: " + adapter_id;
-        
+
+        std::string response_text;
+        int tokens_used = 0;
+
+        if (inference_engine_) {
+            // Build an EnhancedInferenceRequest from the LoRA query parameters.
+            InferenceEngineEnhanced::EnhancedInferenceRequest eng_req;
+            eng_req.base_request.prompt     = prompt;
+            eng_req.base_request.model_id   = model_id.empty() ? "default" : model_id;
+            eng_req.base_request.max_tokens = max_tokens;
+            eng_req.base_request.temperature = static_cast<float>(temperature);
+            if (!adapter_id.empty()) {
+                eng_req.base_request.lora_adapter_id = adapter_id;
+            }
+            eng_req.priority             = 0;
+            eng_req.timeout              = std::chrono::milliseconds(30000);
+            eng_req.preferred_model_id   = model_id;
+
+            try {
+                auto handle   = inference_engine_->submit(eng_req);
+                auto response = handle.get();  // blocking wait
+                response_text = response.text;
+                tokens_used   = response.tokens_generated;
+            } catch (const std::exception& ex) {
+                return createErrorResponse(
+                    http::status::internal_server_error,
+                    "Inference failed",
+                    ex.what()
+                );
+            }
+        } else {
+            // Inference engine not configured — return a clear 501.
+            return createErrorResponse(
+                http::status::not_implemented,
+                "Inference engine not configured",
+                "Set up an InferenceEngineEnhanced via LoRAApiHandler::setInferenceEngine() "
+                "to enable actual LLM inference."
+            );
+        }
+
         auto end_time = std::chrono::steady_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
         
@@ -885,7 +926,7 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAQuery(
             {"response", response_text},
             {"model_id", model_id.empty() ? "default" : model_id},
             {"adapter_id", adapter_id},
-            {"tokens_used", 145},
+            {"tokens_used", tokens_used},
             {"inference_time_ms", duration.count()},
             {"audit_id", "audit_" + std::to_string(std::chrono::system_clock::now().time_since_epoch().count())}
         };
