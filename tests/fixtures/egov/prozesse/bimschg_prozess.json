@@ -1,0 +1,182 @@
+{
+  "version": "1.0",
+  "prozess_id": "bimschg-foermlich-9-bimschv",
+  "bezeichnung": "Förmliches Genehmigungsverfahren § 10 BImSchG / 9. BImSchV",
+  "rechtsgrundlage": "§ 10 BImSchG, 9. BImSchV, UVPG",
+
+  "federführende_behoerde": "rp-duesseldorf",
+
+  "fachbehoerden": [
+    {
+      "behoerde_id": "lanuv-nrw",
+      "phase": "UVP_VORPRUEFUNG",
+      "frist_tage": 30,
+      "stellungnahme_typ": "UVP_SCREENING",
+      "pflicht": true,
+      "sonderfunktion": "UVP_BEHÖRDE"
+    },
+    {
+      "behoerde_id": "umweltamt-koeln",
+      "phase": "FACHPRUEFUNG",
+      "frist_tage": 60,
+      "stellungnahme_typ": "GEWÄSSERSCHUTZ",
+      "pflicht": true
+    },
+    {
+      "behoerde_id": "gesundheitsamt-duesseldorf",
+      "phase": "FACHPRUEFUNG",
+      "frist_tage": 60,
+      "stellungnahme_typ": "LAERM_GESUNDHEIT",
+      "pflicht": true,
+      "metadaten_pflicht": ["laerm_db", "geruch_gwk"]
+    },
+    {
+      "behoerde_id": "bauaufsicht-duesseldorf",
+      "phase": "FACHPRUEFUNG",
+      "frist_tage": 45,
+      "stellungnahme_typ": "BAUORDNUNGSRECHT",
+      "pflicht": true
+    },
+    {
+      "behoerde_id": "gewerbeaufsicht-nrw",
+      "phase": "FACHPRUEFUNG",
+      "frist_tage": 60,
+      "stellungnahme_typ": "ARBEITSSCHUTZ",
+      "pflicht": true,
+      "metadaten_pflicht": ["auflage_betrsichv", "auflage_ex_schutz"]
+    },
+    {
+      "behoerde_id": "untere-wasserbeh-duesseldorf",
+      "phase": "FACHPRUEFUNG",
+      "frist_tage": 60,
+      "stellungnahme_typ": "WASSERRECHT",
+      "pflicht": true
+    },
+    {
+      "behoerde_id": "untere-naturschutz-duesseldorf",
+      "phase": "FACHPRUEFUNG",
+      "frist_tage": 60,
+      "stellungnahme_typ": "NATURSCHUTZ_ARTENSCHUTZ",
+      "pflicht": true
+    }
+  ],
+
+  "phasen": [
+    {
+      "id": "ANTRAGSTELLUNG",
+      "reihenfolge": 1,
+      "bezeichnung": "Antragstellung",
+      "schritte": [
+        "OZG_DIENST_REGISTRIERUNG",
+        "EID_AUTHENTIFIZIERUNG",
+        "XOEV_IMPORT",
+        "VERFAHRENSAKTE_ANLEGEN"
+      ]
+    },
+    {
+      "id": "VOLLSTAENDIGKEITSPRUEFUNG",
+      "reihenfolge": 2,
+      "bezeichnung": "Vollständigkeitsprüfung",
+      "schritte": [
+        "LLM_VOLLSTAENDIGKEITSPRUEFUNG",
+        "VERFAHRENSART_FESTLEGEN"
+      ]
+    },
+    {
+      "id": "UVP_VORPRUEFUNG",
+      "reihenfolge": 3,
+      "bezeichnung": "UVP-Vorprüfung (Screening)",
+      "schritte": [
+        "UVP_SCREENING_DOKUMENT",
+        "LANUV_ANFRAGE",
+        "LANUV_STELLUNGNAHME"
+      ]
+    },
+    {
+      "id": "ANTRAGSKONFERENZ",
+      "reihenfolge": 4,
+      "bezeichnung": "Antragskonferenz § 2a 9. BImSchV",
+      "schritte": [
+        "PROTOKOLL_ERSTELLEN",
+        "FACHBEHOERDEN_EINLADEN"
+      ]
+    },
+    {
+      "id": "AUSLEGUNG",
+      "reihenfolge": 5,
+      "bezeichnung": "Öffentliche Auslegung",
+      "schritte": [
+        "BEKANNTMACHUNG_ERSTELLEN",
+        "EINWENDUNGEN_ERFASSEN"
+      ]
+    },
+    {
+      "id": "FACHBEHOERDEN_PRUEFUNG",
+      "reihenfolge": 6,
+      "bezeichnung": "Fachbehörden-Prüfung (parallel)",
+      "schritte": [
+        "STELLUNGNAHMEN_EINHOLEN"
+      ],
+      "parallelisierung": true
+    },
+    {
+      "id": "EROERTERUNGSTERMIN",
+      "reihenfolge": 7,
+      "bezeichnung": "Erörterungstermin § 10 Abs. 6 BImSchG",
+      "schritte": [
+        "EROERTERUNGSPROTOKOLL_ERSTELLEN"
+      ]
+    },
+    {
+      "id": "ENTSCHEIDUNG",
+      "reihenfolge": 8,
+      "bezeichnung": "Entscheidung",
+      "schritte": [
+        "LLM_ENTSCHEIDUNGSANALYSE",
+        "BESCHEID_VORBEREITEN"
+      ]
+    },
+    {
+      "id": "GENEHMIGUNGSBESCHEID",
+      "reihenfolge": 9,
+      "bezeichnung": "Genehmigungsbescheid",
+      "schritte": [
+        "BESCHEID_XDOMEA_ERSTELLEN",
+        "BESCHEID_EXPORT",
+        "ZUSTELLUNG"
+      ]
+    }
+  ],
+
+  "oeffentlichkeitsbeteiligung": {
+    "aktiv": true,
+    "mindest_einwendungen_test": 1,
+    "auslegungsdauer_tage": 30,
+    "einwendungsfrist_tage": 45
+  },
+
+  "nebenbestimmungen_standard": [
+    "A-01: TA Luft 2021 einhalten",
+    "A-02: TA Lärm — Nachtwert einhalten",
+    "A-03: GIRL Geruchsimmissionsrichtlinie",
+    "A-04: WHG Einleiterlaubnis",
+    "A-05: BetrSichV ATEX-Zone",
+    "A-06: BNatSchG CEF-Maßnahmen",
+    "A-07: Kompensationspflicht Ausgleichsfläche"
+  ],
+
+  "llm_aufgaben": [
+    {
+      "id": "vollstaendigkeit",
+      "aufgabe_typ": "PROCESS_CONFORMANCE",
+      "domain": "BImSchG-Genehmigungsverfahren",
+      "min_score": 0.5
+    },
+    {
+      "id": "entscheidung",
+      "aufgabe_typ": "PROCESS_CONFORMANCE",
+      "domain": "BImSchG-Entscheidung",
+      "min_score": 0.5
+    }
+  ]
+}

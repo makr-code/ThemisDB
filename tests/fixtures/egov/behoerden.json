@@ -1,0 +1,138 @@
+{
+  "version": "1.0",
+  "beschreibung": "Generische deutsche Behörden für E-Government-Tests",
+  "behoerden": [
+    {
+      "id": "bauamt-koeln",
+      "name": "Bauamt Köln",
+      "kurzname": "Bauamt",
+      "typ": "KOMMUNAL",
+      "ozg_level": "MUNICIPAL",
+      "standort": "50667 Köln",
+      "ags": "05315000",
+      "rollen": ["FEDERFÜHREND", "GENEHMIGUNGSBEHÖRDE"],
+      "zuständigkeit": ["BAUGENEHMIGUNG", "BAUORDNUNG"],
+      "dms_id": "dms-bauamt-koeln"
+    },
+    {
+      "id": "denkmalschutz-nrw",
+      "name": "Denkmalschutzbehörde NRW",
+      "kurzname": "Denkmalschutz",
+      "typ": "LANDES",
+      "ozg_level": "STATE",
+      "standort": "40190 Düsseldorf",
+      "ags": "05111000",
+      "rollen": ["FACHBEHÖRDE", "STELLUNGNAHMEGEBER"],
+      "zuständigkeit": ["DENKMALSCHUTZ", "KULTURGÜTERSCHUTZ"],
+      "dms_id": "dms-denkmalschutz-nrw"
+    },
+    {
+      "id": "umweltamt-koeln",
+      "name": "Umweltamt Köln",
+      "kurzname": "Umweltamt",
+      "typ": "KOMMUNAL",
+      "ozg_level": "MUNICIPAL",
+      "standort": "50667 Köln",
+      "ags": "05315000",
+      "rollen": ["FACHBEHÖRDE", "STELLUNGNAHMEGEBER"],
+      "zuständigkeit": ["GEWÄSSERSCHUTZ", "BODENSCHUTZ", "LUFTREINHALTUNG"],
+      "dms_id": "dms-umweltamt-koeln"
+    },
+    {
+      "id": "feuerwehr-koeln",
+      "name": "Feuerwehr Köln / Brandschutzamt",
+      "kurzname": "Feuerwehr",
+      "typ": "KOMMUNAL",
+      "ozg_level": "MUNICIPAL",
+      "standort": "50667 Köln",
+      "ags": "05315000",
+      "rollen": ["FACHBEHÖRDE", "STELLUNGNAHMEGEBER"],
+      "zuständigkeit": ["BRANDSCHUTZ", "FEUERWEHRZUFAHRT"],
+      "dms_id": "dms-feuerwehr-koeln"
+    },
+    {
+      "id": "rp-duesseldorf",
+      "name": "Regierungspräsidium Düsseldorf",
+      "kurzname": "RP Düsseldorf",
+      "typ": "LANDES",
+      "ozg_level": "STATE",
+      "standort": "40213 Düsseldorf",
+      "ags": "05111000",
+      "rollen": ["FEDERFÜHREND", "GENEHMIGUNGSBEHÖRDE", "KOORDINIEREND"],
+      "zuständigkeit": ["BIMSCHG", "FOERMLICHES_VERFAHREN", "UVP"],
+      "dms_id": "dms-rp-duesseldorf"
+    },
+    {
+      "id": "lanuv-nrw",
+      "name": "Landesamt für Natur, Umwelt und Verbraucherschutz NRW",
+      "kurzname": "LANUV",
+      "typ": "LANDES",
+      "ozg_level": "STATE",
+      "standort": "45659 Recklinghausen",
+      "ags": "05562000",
+      "rollen": ["FACHBEHÖRDE", "STELLUNGNAHMEGEBER", "UVP_BEHÖRDE"],
+      "zuständigkeit": ["LUFTREINHALTUNG", "TA_LUFT", "UVP_SCREENING"],
+      "dms_id": "dms-lanuv-nrw"
+    },
+    {
+      "id": "gesundheitsamt-duesseldorf",
+      "name": "Gesundheitsamt Düsseldorf",
+      "kurzname": "Gesundheitsamt",
+      "typ": "KOMMUNAL",
+      "ozg_level": "MUNICIPAL",
+      "standort": "40213 Düsseldorf",
+      "ags": "05111000",
+      "rollen": ["FACHBEHÖRDE", "STELLUNGNAHMEGEBER"],
+      "zuständigkeit": ["LÄRM", "TA_LÄRM", "GESUNDHEITSSCHUTZ", "GERUCH"],
+      "dms_id": "dms-gesundheitsamt-duesseldorf"
+    },
+    {
+      "id": "bauaufsicht-duesseldorf",
+      "name": "Bauaufsichtsbehörde Düsseldorf",
+      "kurzname": "Bauaufsicht",
+      "typ": "KOMMUNAL",
+      "ozg_level": "MUNICIPAL",
+      "standort": "40213 Düsseldorf",
+      "ags": "05111000",
+      "rollen": ["FACHBEHÖRDE", "STELLUNGNAHMEGEBER"],
+      "zuständigkeit": ["BAUORDNUNG", "BRANDSCHUTZ_BAUGENEHMIGUNG"],
+      "dms_id": "dms-bauaufsicht-duesseldorf"
+    },
+    {
+      "id": "gewerbeaufsicht-nrw",
+      "name": "Gewerbeaufsichtsamt NRW",
+      "kurzname": "Gewerbeaufsicht",
+      "typ": "LANDES",
+      "ozg_level": "STATE",
+      "standort": "40213 Düsseldorf",
+      "ags": "05111000",
+      "rollen": ["FACHBEHÖRDE", "STELLUNGNAHMEGEBER"],
+      "zuständigkeit": ["ARBEITSSCHUTZ", "BETRSICHV", "EXPLOSIONSSCHUTZ"],
+      "dms_id": "dms-gewerbeaufsicht-nrw"
+    },
+    {
+      "id": "untere-wasserbeh-duesseldorf",
+      "name": "Untere Wasserbehörde Düsseldorf",
+      "kurzname": "Wasserbehörde",
+      "typ": "KOMMUNAL",
+      "ozg_level": "MUNICIPAL",
+      "standort": "40213 Düsseldorf",
+      "ags": "05111000",
+      "rollen": ["FACHBEHÖRDE", "STELLUNGNAHMEGEBER"],
+      "zuständigkeit": ["WASSERRECHT", "WHG", "GRUNDWASSERSCHUTZ"],
+      "dms_id": "dms-untere-wasserbeh-duesseldorf"
+    },
+    {
+      "id": "untere-naturschutz-duesseldorf",
+      "name": "Untere Naturschutzbehörde Düsseldorf",
+      "kurzname": "Naturschutzbehörde",
+      "typ": "KOMMUNAL",
+      "ozg_level": "MUNICIPAL",
+      "standort": "40213 Düsseldorf",
+      "ags": "05111000",
+      "rollen": ["FACHBEHÖRDE", "STELLUNGNAHMEGEBER"],
+      "zuständigkeit": ["NATURSCHUTZ", "BNATSCHG", "ARTENSCHUTZ", "KOMPENSATION"],
+      "dms_id": "dms-untere-naturschutz-duesseldorf"
+    }
+  ]
+}
