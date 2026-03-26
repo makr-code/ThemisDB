@@ -22,13 +22,13 @@
  *   EGovDataDrivenFocusedTests
  *
  * Fixtures (alle in tests/fixtures/egov/):
- *   behoerden.json                          — 11 generische Behörden
- *   antraege/baugenehmigung.json            — Baugenehmigungsantrag
- *   antraege/bimschg.json                   — BImSchG-Antrag
- *   prozesse/baugenehmigung_prozess.json    — Prozessphasen Baugenehmigung
- *   prozesse/bimschg_prozess.json           — Prozessphasen BImSchV
- *   expected/baugenehmigung_expected.json   — Kontrollergebnisse Baugenehmigung
- *   expected/bimschg_expected.json          — Kontrollergebnisse BImSchV
+ *   behoerden.json                          — 11 generische Behörden (JSON)
+ *   antraege/baugenehmigung.md              — Baugenehmigungsantrag (Markdown + JSON-Front-Matter)
+ *   antraege/bimschg.md                     — BImSchG-Antrag        (Markdown + JSON-Front-Matter)
+ *   prozesse/baugenehmigung_prozess.json    — Prozessphasen Baugenehmigung (JSON)
+ *   prozesse/bimschg_prozess.json           — Prozessphasen BImSchV (JSON)
+ *   expected/baugenehmigung_expected.json   — Kontrollergebnisse Baugenehmigung (JSON)
+ *   expected/bimschg_expected.json          — Kontrollergebnisse BImSchV (JSON)
  */
 
 #include <gtest/gtest.h>
@@ -45,6 +45,7 @@
 #include <filesystem>
 #include <fstream>
 #include <future>
+#include <iterator>
 #include <map>
 #include <memory>
 #include <mutex>
