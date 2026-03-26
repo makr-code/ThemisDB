@@ -427,7 +427,7 @@ private:
     ) {
         CURL* curl = curl_easy_init();
         if (!curl) {
-            return Result<void>::Err("Failed to initialize CURL");
+            return themis::ErrVoid(errors::ErrorCode::ERR_NET_CONNECTION_REFUSED, "Failed to initialize CURL");
         }
         
         // Build WebDAV URL for user's home directory
@@ -455,7 +455,8 @@ private:
         curl_easy_cleanup(curl);
         
         if (res != CURLE_OK) {
-            return Result<void>::Err(
+            return themis::ErrVoid(
+                errors::ErrorCode::ERR_NET_CONNECTION_REFUSED,
                 "WebDAV request failed: " + std::string(curl_easy_strerror(res))
             );
         }
@@ -467,10 +468,11 @@ private:
         
         // HTTP 401 Unauthorized
         if (response_code == 401) {
-            return Result<void>::Err("Invalid credentials");
+            return themis::ErrVoid(errors::ErrorCode::ERR_API_UNAUTHORIZED, "Invalid credentials");
         }
         
-        return Result<void>::Err(
+        return themis::ErrVoid(
+            errors::ErrorCode::ERR_API_UNAUTHORIZED,
             "WebDAV authentication failed with status: " + std::to_string(response_code)
         );
     }
