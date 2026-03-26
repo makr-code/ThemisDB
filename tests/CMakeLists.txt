@@ -18598,4 +18598,671 @@ else()
     message(STATUS "MQTT Client Service focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_mqtt_client_service.cpp")
 endif()
 
+# ============================================================================
+# Cross-Module: Timeseries (ContinuousAgg / DistributedAgg) + Analytics
+# (ForecastModel) integration tests (v1.9.0)
+#
+# Group A – ContinuousAggMaterializationEngine → ForecastModel pipeline
+#   • A-1: linear-trend materialized data feeds linear regression forecast
+#   • A-2: empty materialized store causes ForecastModel::fit() to throw
+#   • A-3: partial refresh watermark is honoured by the forecasting consumer
+#   • A-4: two independent metrics produce independent forecast models
+#   • A-5: materialized timestamps are monotone in the resulting TimeSeries
+# Group B – mergeShardResults() mathematical correctness (no DB)
+#   • B-1: empty input returns invalid result
+#   • B-2: single valid shard – identity
+#   • B-3: two shards – sum/count additive
+#   • B-4: weighted average correct across unequal shards
+#   • B-5: min/max are global extrema
+#   • B-6: from_ms/to_ms form the union of all shard time ranges
+#   • B-7: invalid shard silently skipped
+#   • B-8: all shards invalid → merged result invalid
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_timeseries_forecasting.cpp")
+    message(STATUS "Adding Cross-Module: Timeseries+Forecasting integration tests (v1.9.0)")
+
+    add_executable(test_cross_module_timeseries_forecasting_focused
+        test_cross_module_timeseries_forecasting.cpp
+        ${CMAKE_SOURCE_DIR}/src/timeseries/continuous_agg.cpp
+        ${CMAKE_SOURCE_DIR}/src/timeseries/tsstore.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/forecasting.cpp
+    )
+
+    target_include_directories(test_cross_module_timeseries_forecasting_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_cross_module_timeseries_forecasting_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    if(TARGET themis_core)
+        target_link_libraries(test_cross_module_timeseries_forecasting_focused PRIVATE themis_core)
+    endif()
+
+    target_compile_definitions(test_cross_module_timeseries_forecasting_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CrossModuleTimeseriesForecastingTests
+        COMMAND test_cross_module_timeseries_forecasting_focused)
+
+    set_tests_properties(CrossModuleTimeseriesForecastingTests PROPERTIES
+        LABELS "cross-module;timeseries;analytics;forecasting;continuous-agg;shard-merge;v1.9.0;integration"
+        TIMEOUT 180
+    )
+
+    message(STATUS "  CrossModule Timeseries+Forecasting: ContinuousAgg->ForecastModel pipeline (A1-A5), mergeShardResults math (B1-B8)")
+else()
+    message(STATUS "Cross-Module Timeseries+Forecasting tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_timeseries_forecasting.cpp")
+endif()
+
+# ============================================================================
+# Cross-Module: TemporalQueryEngine + SystemVersionedTable + BiTemporalTable
+# integration tests (v1.9.0)
+#
+# Group A – executeTemporalQuery dispatcher (SystemVersionedTable)
+#   • A-1..A-5: AS_OF / FROM_TO / BETWEEN_AND / CONTAINED_IN / ALL clauses
+# Group B – executeTemporalQuery dispatcher (BiTemporalTable)
+#   • B-1..B-3: AS_OF valid-time, FROM_TO, gap detection
+# Group C – Cross-table join consistency
+#   • C-1: joinAsOf returns pairs current at specified instant
+#   • C-2: never-matching predicate returns empty
+#   • C-3: empty right table returns empty
+#   • C-4: joinBiTemporal enforces both sys_as_of and valid_at
+# Group D – Temporal invariants under mutation
+#   • D-1: AS_OF before first insert returns empty
+#   • D-2: FROM_TO full range captures all versions
+#   • D-3: deleted rows excluded by default, included with include_deleted
+#   • D-4: BiTemporalTable uniqueness constraint enforced
+#   • D-5: findGaps is consistent with queryApplicationTime
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_temporal_bitemporal.cpp")
+    message(STATUS "Adding Cross-Module: TemporalQueryEngine + BiTemporalTable integration tests (v1.9.0)")
+
+    add_executable(test_cross_module_temporal_bitemporal_focused
+        test_cross_module_temporal_bitemporal.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/temporal_query_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/system_versioned_table.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/bi_temporal.cpp
+    )
+
+    target_include_directories(test_cross_module_temporal_bitemporal_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_cross_module_temporal_bitemporal_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cross_module_temporal_bitemporal_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CrossModuleTemporalBiTemporalTests
+        COMMAND test_cross_module_temporal_bitemporal_focused)
+
+    set_tests_properties(CrossModuleTemporalBiTemporalTests PROPERTIES
+        LABELS "cross-module;temporal;bitemporal;query-engine;system-versioned;join;sql2011;v1.9.0;integration"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  CrossModule Temporal+BiTemporal: executeTemporalQuery dispatch (A1-A5,B1-B3), joinAsOf/joinBiTemporal (C1-C4), mutation invariants (D1-D5)")
+else()
+    message(STATUS "Cross-Module Temporal+BiTemporal tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_temporal_bitemporal.cpp")
+endif()
+
+# ============================================================================
+# Cross-Module: German e-Government Connector Chain
+# eID (auth) → OZG Service Registry (importers) → XOEV Importer (importers)
+# → XDOMEA Connector (document) — integration tests
+#
+# Group A (5 tests): eID × OZG — authenticated citizen looks up OZG service
+#   A-1: Successful auth → OZG lookup by ID
+#   A-2: eID failure short-circuits; no OZG access
+#   A-3: eID identity attributes available for OZG compliance context
+#   A-4: OZG SDG-relevant flag accessible after auth
+#   A-5: Revoked session cannot be reused
+# Group B (4 tests): OZG × XOEV — service metadata drives XOEV records
+#   B-1: XOEV XBau record fields match OZG service fim_process_id
+#   B-2: OZG compliance_tags align with XOEVStandard::XBAU
+#   B-3: OZG field names match XOEV record field keys
+#   B-4: XOEV import for unknown OZG service is detectable
+# Group C (4 tests): XOEV × XDOMEA — XOEV records produce XDOMEA documents
+#   C-1: Single XOEV record → XDOMEA Dokument
+#   C-2: Multiple XOEV records → Akte + N children
+#   C-3: XDOMEA round-trip preserves betreff/aktenzeichen from XOEV
+#   C-4: XOEV record count == XDOMEA document count after full pipeline
+# Group D (3 tests): Full chain
+#   D-1: Baugenehmigung application end-to-end (eID→OZG→XOEV→XDOMEA)
+#   D-2: eID failure short-circuits entire chain
+#   D-3: Each chain step returns the correct module-specific result type
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_german_egov.cpp")
+    message(STATUS "Adding Cross-Module: German e-Government Connector Chain integration tests")
+
+    add_executable(test_cross_module_german_egov_focused
+        test_cross_module_german_egov.cpp
+    )
+
+    target_include_directories(test_cross_module_german_egov_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_cross_module_german_egov_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cross_module_german_egov_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CrossModuleGermanEGovTests
+        COMMAND test_cross_module_german_egov_focused)
+
+    set_tests_properties(CrossModuleGermanEGovTests PROPERTIES
+        LABELS "cross-module;german-gov;eid;ozg;xoev;xdomea;baugenehmigung;v1.9.0;integration"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CrossModule German e-Gov: eID×OZG (A1-A5), OZG×XOEV (B1-B4), XOEV×XDOMEA (C1-C4), Full chain (D1-D3)")
+else()
+    message(STATUS "Cross-Module German e-Gov tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_german_egov.cpp")
+endif()
+
+# ============================================================================
+# Cross-Module: Index (MatryoshkaTruncatedIndex / ScaNN / IAnnIndex) +
+# Analytics (TimeSeries / ForecastModel) integration tests
+#
+# Group A (3 tests): Two-stage retrieval pipeline
+#   A-1: 64-D coarse stage IDs overlap with 128-D fine stage IDs
+#   A-2: Ground-truth NN recalled by the 128-D stage
+#   A-3: Two independent truncations share no state
+# Group B (4 tests): Multi-granularity consistency
+#   B-1: 256-D build from 384-D vectors returns results
+#   B-2: Full-dim wrapper equals plain ScaNN on top-1
+#   B-3: add() vs build() agree on nearest neighbour
+#   B-4: kMRL_64/128/256 all return k results without crash
+# Group C (3 tests): Search scores → analytics::TimeSeries
+#   C-1: ANN scores feed ForecastModel (fit + predict)
+#   C-2: TimeSeries statistics match raw score vector
+#   C-3: All AnnSearchResult distances are finite and non-negative
+# Group D (3 tests): IAnnIndex polymorphism
+#   D-1: ScaNN and MatryoshkaTruncatedIndex both satisfy IAnnIndex contract
+#   D-2: Null backend raises std::invalid_argument
+#   D-3: Wrapper size() equals backend size()
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_index_matryoshka.cpp")
+    message(STATUS "Adding Cross-Module: Index + Matryoshka + Analytics integration tests")
+
+    add_executable(test_cross_module_index_matryoshka_focused
+        test_cross_module_index_matryoshka.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/forecasting.cpp
+    )
+
+    target_include_directories(test_cross_module_index_matryoshka_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_cross_module_index_matryoshka_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cross_module_index_matryoshka_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CrossModuleIndexMatryoshkaTests
+        COMMAND test_cross_module_index_matryoshka_focused)
+
+    set_tests_properties(CrossModuleIndexMatryoshkaTests PROPERTIES
+        LABELS "cross-module;index;matryoshka;scann;ann;analytics;forecasting;timeseries;two-stage;v1.9.0;integration"
+        TIMEOUT 180
+    )
+
+    message(STATUS "  CrossModule Index+Matryoshka: two-stage pipeline (A1-A3), multi-granularity (B1-B4), score trace (C1-C3), polymorphism (D1-D3)")
+else()
+    message(STATUS "Cross-Module Index+Matryoshka tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_index_matryoshka.cpp")
+endif()
+
+# ============================================================================
+# Cross-Module: Security × Governance × Observability
+# ZeroTrustPolicyEnforcer (security) → DataLineageTracker (governance) →
+# MetricsCollector (observability) integration tests
+#
+# Group A (5 tests): ZeroTrust × DataLineage — access control drives lineage
+#   A-1: Verified request → QUERY lineage event recorded
+#   A-2: Token failure    → no lineage event recorded
+#   A-3: Network denial   → no lineage event recorded
+#   A-4: Multiple verified requests → multiple QUERY events
+#   A-5: ZeroTrust::requests_allowed count == lineage event count
+# Group B (4 tests): DataLineage ancestry chains
+#   B-1: INGESTION→ENRICHMENT→QUERY chain has correct parent_event_id links
+#   B-2: getUpstreamLineage returns root-to-leaf order
+#   B-3: getDownstreamLineage returns all transitive descendants
+#   B-4: exportLineageAsJson contains all events and event_type field
+# Group C (3 tests): DataLineage × MetricsCollector
+#   C-1: recordEvent increments governance_lineage_events_total
+#   C-2: Different event types produce distinct Prometheus label series
+#   C-3: MetricsCollector::reset() clears lineage counters
+# Group D (3 tests): Full pipeline
+#   D-1: ZeroTrust allow → lineage QUERY → Prometheus counter incremented
+#   D-2: ZeroTrust deny  → no lineage   → counter not incremented
+#   D-3: Multi-user, multi-resource → distinct lineage records per dataset
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_security_governance.cpp")
+    message(STATUS "Adding Cross-Module: Security + Governance + Observability integration tests")
+
+    add_executable(test_cross_module_security_governance_focused
+        test_cross_module_security_governance.cpp
+    )
+
+    target_include_directories(test_cross_module_security_governance_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_cross_module_security_governance_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cross_module_security_governance_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CrossModuleSecurityGovernanceTests
+        COMMAND test_cross_module_security_governance_focused)
+
+    set_tests_properties(CrossModuleSecurityGovernanceTests PROPERTIES
+        LABELS "cross-module;security;governance;zero-trust;data-lineage;observability;prometheus;v1.9.0;integration"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CrossModule Security+Governance: ZeroTrust×DataLineage (A1-A5), ancestry chains (B1-B4), MetricsCollector (C1-C3), full pipeline (D1-D3)")
+else()
+    message(STATUS "Cross-Module Security+Governance tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_security_governance.cpp")
+endif()
+
+# ============================================================================
+# Cross-Module: Cache + AnomalyDetection + Observability integration tests
+# ============================================================================
+# Group A (5 tests): AdaptiveQueryCache CacheStats → AnomalyDetector pipeline
+#   A-1: CacheStats fields produce valid DataPoint numeric features
+#   A-2: AnomalyDetector trained on normal hit-rate → in-range sample predicted normal
+#   A-3: AnomalyDetector flags anomalous sample when miss rate far exceeds baseline
+#   A-4: predictBatch returns one AnomalyResult per input DataPoint
+#   A-5: AnomalyExplanation contains feature contributions for miss-rate field
+# Group B (5 tests): MetricsCollector × AdaptiveQueryCache
+#   B-1: recordCacheHit increments counter for each successful cache get
+#   B-2: recordCacheMiss increments counter on each cache miss
+#   B-3: MetricsCollector::reset() zeroes all cache counters
+#   B-4: Prometheus text output contains cache_hits metric after recording
+#   B-5: Mixed hit/miss/eviction sequence all recorded independently
+# Group C (5 tests): StreamingAnomalyDetector × cache metric stream
+#   C-1: StreamingAnomalyDetector returns nullopt while warming up
+#   C-2: Anomalous sample flagged after detector has warmed up on normal window
+#   C-3: WindowStats.anomaly_count equals getAnomalies().size()
+#   C-4: clearAnomalies() resets anomaly history without affecting detector
+#   C-5: detector().isTrained() true once auto_train_after threshold is reached
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_cache_anomaly.cpp")
+    message(STATUS "Adding Cross-Module: Cache + AnomalyDetection + Observability integration tests")
+
+    add_executable(test_cross_module_cache_anomaly_focused
+        test_cross_module_cache_anomaly.cpp
+    )
+
+    target_include_directories(test_cross_module_cache_anomaly_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_cross_module_cache_anomaly_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cross_module_cache_anomaly_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CrossModuleCacheAnomalyTests
+        COMMAND test_cross_module_cache_anomaly_focused)
+
+    set_tests_properties(CrossModuleCacheAnomalyTests PROPERTIES
+        LABELS "cross-module;cache;analytics;anomaly-detection;observability;prometheus;v1.9.0;integration"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CrossModule Cache+Anomaly: CacheStats->AnomalyDetector (A1-A5), MetricsCollector (B1-B5), StreamingAnomalyDetector (C1-C5)")
+else()
+    message(STATUS "Cross-Module Cache+Anomaly tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_cache_anomaly.cpp")
+endif()
+
+# ============================================================================
+# Cross-Module: Training + Governance + Observability integration tests
+# ============================================================================
+# Group A (5 tests): AdaLoRAAdapter operations → DataLineageTracker lineage
+#   A-1: Adapter layer init recorded as INGESTION lineage event
+#   A-2: Rank reallocation recorded as TRANSFORMATION event with parent link
+#   A-3: Three-step chain has correct parent_event_id at each link
+#   A-4: getUpstreamLineage returns events in root-to-leaf order
+#   A-5: exportLineageAsJson contains event_type and dataset_id for all events
+# Group B (5 tests): LoRAAdapterMerger merge operations → DataLineageTracker
+#   B-1: Successful mergeLinear recorded as TRANSFORMATION lineage event
+#   B-2: MergeResult.success == true → lineage event count increases by 1
+#   B-3: Failed merge (empty adapters) does NOT create a spurious lineage event
+#   B-4: Independent merges produce independent lineage records per dataset_id
+#   B-5: getDownstreamLineage for merge event is initially empty
+# Group C (5 tests): MetricsCollector × Training pipeline
+#   C-1: recordEmbeddingGeneration tracks the batch count
+#   C-2: Multiple recordEmbeddingGeneration calls accumulate in Prometheus
+#   C-3: MetricsCollector::reset() clears embedding-generation counters
+#   C-4: Prometheus output contains an embedding metric after recording
+#   C-5: Full pipeline: AdaLoRA forward pass → lineage event → Prometheus counter
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_training_governance.cpp")
+    message(STATUS "Adding Cross-Module: Training + Governance + Observability integration tests")
+
+    add_executable(test_cross_module_training_governance_focused
+        test_cross_module_training_governance.cpp
+    )
+
+    target_include_directories(test_cross_module_training_governance_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_cross_module_training_governance_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cross_module_training_governance_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CrossModuleTrainingGovernanceTests
+        COMMAND test_cross_module_training_governance_focused)
+
+    set_tests_properties(CrossModuleTrainingGovernanceTests PROPERTIES
+        LABELS "cross-module;training;governance;ada-lora;lora-merger;data-lineage;observability;prometheus;v1.9.0;integration"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CrossModule Training+Governance: AdaLoRA->Lineage (A1-A5), LoRAMerger->Lineage (B1-B5), MetricsCollector (C1-C5)")
+else()
+    message(STATUS "Cross-Module Training+Governance tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_training_governance.cpp")
+endif()
+
+# ============================================================================
+# Cross-Module: QueryFederation + ShardingManager + Observability integration tests
+# ============================================================================
+# Group A (5 tests): QueryFederation execution plan × ShardingManager routing
+#   A-1: createExecutionPlan for full-scan returns SCATTER_GATHER strategy
+#   A-2: createExecutionPlan for point-lookup returns PARTITION_PRUNING strategy
+#   A-3: analyzeQuery extracts _key predicate from equality query
+#   A-4: determineRelevantShards with point-lookup returns at most 1 shard
+#   A-5: determineRelevantShards with full-scan returns all shards
+# Group B (5 tests): mergeResults × ShardResult correctness
+#   B-1: mergeResults on empty ShardResult list returns empty array
+#   B-2: mergeResults on single shard retains all documents
+#   B-3: mergeResults on three shards concatenates all documents
+#   B-4: mergeResults skips failed shard results gracefully
+#   B-5: execute with point-lookup routes to at most 1 shard in merged output
+# Group C (5 tests): MetricsCollector × sharding pipeline
+#   C-1: recordShardRequest increments counter for each shard call
+#   C-2: recordShardLatency records shard-level latency
+#   C-3: MetricsCollector::reset() clears sharding counters
+#   C-4: Prometheus output contains shard metric after recording
+#   C-5: Mixed shard / query / rebalance metrics all recorded independently
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_query_sharding.cpp")
+    message(STATUS "Adding Cross-Module: QueryFederation + ShardingManager + Observability integration tests")
+
+    add_executable(test_cross_module_query_sharding_focused
+        test_cross_module_query_sharding.cpp
+    )
+
+    target_include_directories(test_cross_module_query_sharding_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_cross_module_query_sharding_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cross_module_query_sharding_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CrossModuleQueryShardingTests
+        COMMAND test_cross_module_query_sharding_focused)
+
+    set_tests_properties(CrossModuleQueryShardingTests PROPERTIES
+        LABELS "cross-module;query;sharding;federation;consistent-hash;observability;prometheus;v1.9.0;integration"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CrossModule Query+Sharding: ExecutionPlan×ShardingManager (A1-A5), mergeResults (B1-B5), MetricsCollector (C1-C5)")
+else()
+    message(STATUS "Cross-Module Query+Sharding tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_query_sharding.cpp")
+endif()
+
+# ============================================================================
+# Cross-Module: GraphIndexManager + DataLineageTracker + Observability tests
+# ============================================================================
+# Group A (5 tests): GraphIndexManager edge operations → DataLineageTracker
+#   A-1: Successful addEdge recorded as INGESTION lineage event
+#   A-2: Second addEdge recorded as ENRICHMENT event with parent link
+#   A-3: Three consecutive edge additions produce a three-event lineage chain
+#   A-4: getUpstreamLineage for latest event includes the root INGESTION event
+#   A-5: exportLineageAsJson contains event_id and performed_by for all events
+# Group B (5 tests): outNeighbors traversal results → DataLineageTracker
+#   B-1: Successful outNeighbors result recorded as QUERY lineage event
+#   B-2: QUERY event has correct dataset_id (graph dataset identifier)
+#   B-3: Multiple traversals on same dataset produce multiple QUERY events
+#   B-4: totalEventCount reflects all INGESTION + QUERY events combined
+#   B-5: getDownstreamLineage for INGESTION event includes QUERY events
+# Group C (5 tests): MetricsCollector × graph pipeline
+#   C-1: recordContentImport records edge-ingestion metrics
+#   C-2: recordQuery records graph traversal query metrics
+#   C-3: Combined content-import + query sequence accumulates in Prometheus
+#   C-4: MetricsCollector::reset() clears graph pipeline counters
+#   C-5: Full pipeline: addEdge → lineage INGESTION → Prometheus counter
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_graph_lineage.cpp")
+    message(STATUS "Adding Cross-Module: GraphIndexManager + DataLineageTracker + Observability integration tests")
+
+    add_executable(test_cross_module_graph_lineage_focused
+        test_cross_module_graph_lineage.cpp
+    )
+
+    target_include_directories(test_cross_module_graph_lineage_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_cross_module_graph_lineage_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cross_module_graph_lineage_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CrossModuleGraphLineageTests
+        COMMAND test_cross_module_graph_lineage_focused)
+
+    set_tests_properties(CrossModuleGraphLineageTests PROPERTIES
+        LABELS "cross-module;graph;data-lineage;governance;observability;prometheus;v1.9.0;integration"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CrossModule Graph+Lineage: addEdge→Lineage (A1-A5), outNeighbors→QueryEvents (B1-B5), MetricsCollector (C1-C5)")
+else()
+    message(STATUS "Cross-Module Graph+Lineage tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_graph_lineage.cpp")
+endif()
+
+# ============================================================================
+# Cross-Module: GeoRTree + SpatialJoinIterator + MetricsCollector tests
+# ============================================================================
+# Group A (5 tests): GeoRTree × SpatialJoin pipeline
+#   A-1: bulkLoad + intersects returns all keys whose MBR overlaps query bbox
+#   A-2: insert after bulkLoad increments size and remains queryable
+#   A-3: clear() empties the index; subsequent intersects returns empty list
+#   A-4: spatialJoin on two co-located point sets yields at least one pair
+#   A-5: haversineDistanceM is consistent with SpatialJoinPair.distance_m
+# Group B (5 tests): SpatialJoinIterator lazy evaluation
+#   B-1: advance() returns false immediately on empty inner collection
+#   B-2: Iterator over disjoint collections (threshold 1 m) yields no pairs
+#   B-3: Iterator over overlapping collections yields ≥1 pair within threshold
+#   B-4: All pairs from iterator satisfy distance_m ≤ threshold_m
+#   B-5: Materialised spatialJoin result count matches iterator advance count
+# Group C (5 tests): MetricsCollector × geo pipeline
+#   C-1: recordQuery("geo_intersects") increments query counter
+#   C-2: recordIndexScan("geo_rtree") increments index-scan counter
+#   C-3: MetricsCollector::reset() zeroes geo counters
+#   C-4: Prometheus output contains geo_intersects metric after full pipeline run
+#   C-5: Mixed geo query + index-scan sequence recorded independently
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_geo_spatial.cpp")
+    message(STATUS "Adding Cross-Module: GeoRTree + SpatialJoinIterator + MetricsCollector integration tests")
+
+    add_executable(test_cross_module_geo_spatial_focused
+        test_cross_module_geo_spatial.cpp
+    )
+
+    target_include_directories(test_cross_module_geo_spatial_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_cross_module_geo_spatial_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cross_module_geo_spatial_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CrossModuleGeoSpatialTests
+        COMMAND test_cross_module_geo_spatial_focused)
+
+    set_tests_properties(CrossModuleGeoSpatialTests PROPERTIES
+        LABELS "cross-module;geo;spatial-join;rtree;haversine;observability;prometheus;v1.9.0;integration"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CrossModule Geo+Spatial: GeoRTree×SpatialJoin (A1-A5), SpatialJoinIterator (B1-B5), MetricsCollector (C1-C5)")
+else()
+    message(STATUS "Cross-Module Geo+Spatial tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_geo_spatial.cpp")
+endif()
+
+# ============================================================================
+# Cross-Module: CPUVectorBackend + MatryoshkaTruncation + MetricsCollector tests
+# ============================================================================
+# Group A (5 tests): CPUVectorBackend distance computation
+#   A-1: computeDistances returns numQueries × numVectors results
+#   A-2: Self-distance (query == vector) is 0.0 for L2 metric
+#   A-3: L2 distance is commutative: d(a,b) == d(b,a) to within 1e-5
+#   A-4: computeDistances produces same result as manual squared-norm loop
+#   A-5: Cosine distance mode (useL2=false) yields values in [0.0, 2.0]
+# Group B (5 tests): CPUVectorBackend KNN search × MatryoshkaTruncation
+#   B-1: batchKnnSearch returns k results per query when k ≤ numVectors
+#   B-2: First result in batchKnnSearch is the nearest neighbour (brute-force)
+#   B-3: MatryoshkaTruncation::truncateAndNormalize reduces 768-D to 64-D
+#   B-4: Truncated vectors fed into CPUVectorBackend KNN recall nearest neighbour
+#   B-5: Two-stage pipeline: coarse 64-D KNN re-ranked at full dim recalls NN
+# Group C (5 tests): MetricsCollector × acceleration pipeline
+#   C-1: recordQuery("vector_knn") increments query counter
+#   C-2: recordIndexScan("ann_hnsw") increments index-scan counter
+#   C-3: MetricsCollector::reset() clears acceleration counters
+#   C-4: Prometheus output contains vector_knn metric after full pipeline run
+#   C-5: Mixed knn / embedding / index-scan sequence recorded independently
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_acceleration_index.cpp")
+    message(STATUS "Adding Cross-Module: CPUVectorBackend + MatryoshkaTruncation + MetricsCollector integration tests")
+
+    add_executable(test_cross_module_acceleration_index_focused
+        test_cross_module_acceleration_index.cpp
+    )
+
+    target_include_directories(test_cross_module_acceleration_index_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_cross_module_acceleration_index_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cross_module_acceleration_index_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CrossModuleAccelerationIndexTests
+        COMMAND test_cross_module_acceleration_index_focused)
+
+    set_tests_properties(CrossModuleAccelerationIndexTests PROPERTIES
+        LABELS "cross-module;acceleration;cpu-backend;matryoshka;ann;observability;prometheus;v1.9.0;integration"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CrossModule Acceleration+Index: CPUVectorBackend distances (A1-A5), KNN×Matryoshka (B1-B5), MetricsCollector (C1-C5)")
+else()
+    message(STATUS "Cross-Module Acceleration+Index tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_acceleration_index.cpp")
+endif()
+
 message(STATUS "Tests configured successfully")
