@@ -29,6 +29,9 @@
 #include <atomic>
 #include "shard_rpc.pb.h"
 
+// Forward-declare RocksDB to avoid pulling in heavy headers in consumers.
+namespace rocksdb { class DB; }
+
 namespace themis {
 namespace rpc {
 
@@ -181,6 +184,14 @@ public:
      * Cancel an in-progress snapshot transfer.
      */
     void Cancel();
+
+    /**
+     * Inject the RocksDB instance to use for snapshot creation and restore.
+     * Must be called before CreateSnapshot() or FinalizeSnapshot().
+     *
+     * @param db Pointer to the open RocksDB instance (not owned by this handler).
+     */
+    void SetDB(rocksdb::DB* db);
 
 private:
     class Impl;

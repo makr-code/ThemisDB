@@ -833,9 +833,28 @@ Result<std::string> MLModelManager::deployInstance(
 }
 
 bool MLModelManager::shutdownInstance(const std::string& instance_id) {
-    // TODO: Actual cleanup logic
-    THEMIS_INFO("Shutdown instance: " + instance_id);
-    return true;
+    std::lock_guard<std::mutex> lock(models_mutex_);
+
+    for (auto& [model_id, entry] : models_) {
+        auto& instances = entry->instances;
+        auto it = std::find_if(instances.begin(), instances.end(),
+            [&instance_id](const std::unique_ptr<MLModelInstance>& inst) {
+                return inst->instance_id == instance_id;
+            });
+
+        if (it != instances.end()) {
+            (*it)->status = MLModelStatus::RETIRED;
+            if (config_.model_loader) {
+                config_.model_loader->unloadModel(model_id);
+            }
+            instances.erase(it);
+            THEMIS_INFO("Shutdown instance: " + instance_id + " (model: " + model_id + ")");
+            return true;
+        }
+    }
+
+    THEMIS_WARN("shutdownInstance: instance not found: " + instance_id);
+    return false;
 }
 
 MLModelInstance* MLModelManager::selectInstance(const std::string& model_id) {
