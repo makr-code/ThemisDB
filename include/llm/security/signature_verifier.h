@@ -27,6 +27,9 @@
 #include <memory>
 #include <openssl/evp.h>
 #include <openssl/x509.h>
+#include <openssl/x509_vfy.h>
+#include <mutex>
+#include <chrono>
 
 namespace themis {
 namespace llm {
@@ -135,6 +138,20 @@ public:
 private:
     std::string crl_url_;
     
+    // In-memory CRL cache: parsed CRL + expiry time point
+    struct CRLCache {
+        X509_CRL* crl = nullptr;
+        std::chrono::steady_clock::time_point expires_at;
+    };
+    mutable std::mutex cache_mutex_;
+    mutable CRLCache crl_cache_;
+
+    /** Download and parse the CRL from crl_url_; returns nullptr on failure. */
+    X509_CRL* downloadAndParseCRL() const;
+
+    /** Return the cached CRL (re-fetching if expired), or nullptr. */
+    X509_CRL* getOrRefreshCRL() const;
+
     bool isCertificateRevoked(X509* cert);
 };
 

@@ -30,6 +30,7 @@
 #include <lz4.h>
 #include <snappy.h>
 #include <crc32c/crc32c.h>
+#include <xxhash.h>
 #include <openssl/sha.h>
 #include <fstream>
 #include <sstream>

@@ -140,6 +140,19 @@ public:
     Response post(const std::string& endpoint, 
                   const std::string& path,
                   const nlohmann::json& body);
+
+    /**
+     * Perform HTTP POST request with mTLS and custom Authorization header
+     * @param endpoint Server endpoint
+     * @param path Request path
+     * @param body Request body (JSON)
+     * @param authorization_header Value for the Authorization header (e.g. "Bearer <token>")
+     * @return Response with JSON body, or error
+     */
+    Response post(const std::string& endpoint,
+                  const std::string& path,
+                  const nlohmann::json& body,
+                  const std::string& authorization_header);
     
     /**
      * Perform HTTP PUT request with mTLS
@@ -215,7 +228,8 @@ private:
     Response request(const std::string& method,
                     const std::string& endpoint,
                     const std::string& path,
-                    const std::optional<nlohmann::json>& body = std::nullopt);
+                    const std::optional<nlohmann::json>& body = std::nullopt,
+                    const std::string& authorization_header = {});
     
     /**
      * Initialize SSL context with certificates

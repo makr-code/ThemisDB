@@ -85,13 +85,11 @@ http::response<http::string_body> LoRAApiHandler::handleRequest(
     std::string_view target = req.target();
     auto method = req.method();
     
-    // Special handling for cross-shard sync endpoint - allow mTLS without JWT
-    // This endpoint is used for internal shard-to-shard communication with mTLS authentication
-    // TODO: Add proper service-to-service authentication (e.g., verify mTLS certificate)
-    bool is_internal_sync = (target == "/api/v1/lora/receive" && method == http::verb::post);
-    
-    // Validate Bearer Token (JWT) authentication for all endpoints except internal sync
-    if (!is_internal_sync && !validateBearerToken(req)) {
+    // Validate Bearer Token (JWT) authentication for all endpoints.
+    // Cross-shard calls to /api/v1/lora/receive are now authenticated via
+    // Authorization: Bearer <token> forwarded by SecureTransportClient, so
+    // no special bypass is required.
+    if (!validateBearerToken(req)) {
         return createErrorResponse(
             http::status::unauthorized,
             "Unauthorized",
