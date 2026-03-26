@@ -77,11 +77,11 @@ static EIDIdentity makeCitizenIdentity(const std::string& txn_id = "TXN-BGV-001"
     id.assurance        = EIDAssuranceLevel::HIGH;
     id.authenticated_at = std::chrono::system_clock::now();
     id.attributes = {
-        {EIDAttributeType::GIVEN_NAMES,   "Erika",        true},
-        {EIDAttributeType::FAMILY_NAMES,  "Mustermann",   true},
-        {EIDAttributeType::DATE_OF_BIRTH, "19800215",     true},
-        {EIDAttributeType::NATIONALITY,   "DEU",          true},
-        {EIDAttributeType::ADDRESS,       "53113 Bonn",   true},
+        {EIDAttributeType::GIVEN_NAMES,      "Erika",       true},
+        {EIDAttributeType::FAMILY_NAMES,     "Mustermann",  true},
+        {EIDAttributeType::DATE_OF_BIRTH,    "19800215",    true},
+        {EIDAttributeType::NATIONALITY,      "DEU",         true},
+        {EIDAttributeType::PLACE_OF_RESIDENCE, "53113 Bonn", true},
     };
     return id;
 }
@@ -223,7 +223,7 @@ TEST_F(EIDAndOZGTest, EIDIdentity_AttributesAccessible_ForOZGContext) {
     const auto& identity = result.identity;
     EXPECT_EQ(identity.fullName(), "Erika Mustermann");
 
-    auto address = identity.getAttribute(EIDAttributeType::ADDRESS);
+    auto address = identity.getAttribute(EIDAttributeType::PLACE_OF_RESIDENCE);
     ASSERT_TRUE(address.has_value()) << "ADDRESS attribute must be present";
     EXPECT_EQ(*address, "53113 Bonn");
 
