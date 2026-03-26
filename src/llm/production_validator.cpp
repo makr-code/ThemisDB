@@ -56,6 +56,11 @@ ProductionValidator::ProductionValidator(const ValidationConfig& config)
     spdlog::info("  Min throughput: {} tokens/s", config_.min_throughput_tokens_per_sec);
 }
 
+void ProductionValidator::setInferenceEngine(
+        std::shared_ptr<InferenceEngineEnhanced> engine) {
+    inference_engine_ = std::move(engine);
+}
+
 ProductionValidator::ProductionMetrics ProductionValidator::benchmarkInference(
     const std::string& model_id
 ) {
@@ -87,17 +92,31 @@ ProductionValidator::ProductionMetrics ProductionValidator::benchmarkInference(
         auto req_start = std::chrono::high_resolution_clock::now();
         
         try {
-            // TODO: In real implementation, call actual LLM plugin via llm_plugin_->generate()
-            // Example: auto response = llm_plugin_->generate(prompt, generation_config);
-            //          size_t tokens_generated = response.tokens_generated;
-            //          total_tokens += tokens_generated;
-            //          successful++;
-            
-            // For now, skip actual inference if no plugin is configured
-            if (i == 0) {
-                spdlog::warn("Benchmark skipped: No LLM plugin configured. Set up llm_plugin_ to enable real benchmarking.");
+            // Route through InferenceEngineEnhanced when configured.
+            if (inference_engine_) {
+                InferenceEngineEnhanced::EnhancedInferenceRequest eng_req;
+                eng_req.base_request.prompt     = prompt;
+                eng_req.base_request.model_id   = model_id.empty() ? "default" : model_id;
+                eng_req.base_request.max_tokens = 128;
+                eng_req.timeout                 = std::chrono::milliseconds(30000);
+                eng_req.preferred_model_id      = model_id;
+                try {
+                    auto handle   = inference_engine_->submit(eng_req);
+                    auto response = handle.get();
+                    total_tokens += response.tokens_generated;
+                    successful++;
+                } catch (const std::exception& inner) {
+                    spdlog::warn("Benchmark request {} inference failed: {}", i, inner.what());
+                    failed++;
+                }
+            } else {
+                // No engine configured — skip but record timing
+                if (i == 0) {
+                    spdlog::warn("Benchmark skipped: No InferenceEngineEnhanced configured. "
+                                 "Call setInferenceEngine() to enable real benchmarking.");
+                }
+                skipped++;
             }
-            skipped++;
             
         } catch (const std::exception& e) {
             spdlog::warn("Benchmark request {} failed: {}", i, e.what());
@@ -314,8 +333,24 @@ ProductionValidator::ValidationResult ProductionValidator::runStressTest() {
         // Simulate request processing
         auto start = std::chrono::steady_clock::now();
         
-        // TODO: Actual inference request here
-        bool success = true;  // Placeholder
+        // Run an actual inference request through the engine when available.
+        bool success = true;
+        if (inference_engine_) {
+            InferenceEngineEnhanced::EnhancedInferenceRequest eng_req;
+            eng_req.base_request.prompt     = "stress test iteration " + std::to_string(iteration);
+            eng_req.base_request.model_id   = "default";
+            eng_req.base_request.max_tokens = 32;
+            eng_req.timeout                 = std::chrono::milliseconds(10000);
+            try {
+                auto handle = inference_engine_->submit(eng_req);
+                handle.get();
+                success = true;
+            } catch (const std::exception& e) {
+                spdlog::warn("Stress test request {} failed: {}", iteration, e.what());
+                success = false;
+            }
+        }
+        // If no engine, fall through with success=true (measure scheduling overhead only).
         
         auto end = std::chrono::steady_clock::now();
         double latency = std::chrono::duration<double, std::milli>(end - start).count();

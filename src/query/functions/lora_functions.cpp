@@ -32,6 +32,9 @@
 #include "llm/lora_framework/lora_storage_service.h"
 #include "llm/lora_framework/lora_training_service.h"
 #include <set>
+#include <sstream>
+#include <unordered_set>
+#include <cmath>
 #include "llm/llm_plugin_manager.h"
 #include "utils/logger.h"
 #include <chrono>
@@ -354,14 +357,55 @@ nlohmann::json LoraSimilarFunction::execute(
             
             json result;
             result["adapter_id"] = adapter.adapter_id;
-            // TODO: Replace with actual vector similarity calculation using embeddings
-            // For now, use a computed similarity based on matching attributes
-            double similarity = 0.8;  // Base similarity
-            // if (adapter.task == adapter_info->task) {
-            //     similarity += 0.1;  // Bonus for same task
-            // }
+
+            // Compute structural similarity from matching adapter attributes.
+            // Dimensions: same base_model (mandatory — 0.5), same rank (0.25),
+            // similar alpha (0.15), same description words overlap (0.10).
+            double similarity = 0.5;  // Already guaranteed same base_model from search criteria
+
+            // Rank proximity: equal rank = +0.25, difference reduces score linearly.
+            const int src_rank = adapter_info->hyperparameters.rank;
+            const int cand_rank = adapter.hyperparameters.rank;
+            if (src_rank > 0 && cand_rank > 0) {
+                double rank_diff_ratio = std::abs(src_rank - cand_rank) /
+                                         static_cast<double>(std::max(src_rank, cand_rank));
+                similarity += 0.25 * (1.0 - rank_diff_ratio);
+            }
+
+            // Alpha proximity: +0.15
+            const float src_alpha  = adapter_info->hyperparameters.alpha;
+            const float cand_alpha = adapter.hyperparameters.alpha;
+            if (src_alpha > 0 && cand_alpha > 0) {
+                double alpha_diff_ratio = std::abs(src_alpha - cand_alpha) /
+                                          static_cast<double>(std::max(src_alpha, cand_alpha));
+                similarity += 0.15 * (1.0 - alpha_diff_ratio);
+            }
+
+            // Description word overlap (Jaccard): +0.10
+            if (!adapter_info->description.empty() && !adapter.description.empty()) {
+                auto words = [](const std::string& s) {
+                    std::unordered_set<std::string> ws;
+                    std::istringstream iss(s);
+                    std::string w;
+                    while (iss >> w) ws.insert(w);
+                    return ws;
+                };
+                auto ws1 = words(adapter_info->description);
+                auto ws2 = words(adapter.description);
+                size_t inter = 0;
+                for (const auto& w : ws1) {
+                    if (ws2.count(w)) ++inter;
+                }
+                size_t uni = ws1.size() + ws2.size() - inter;
+                double jaccard = uni > 0 ? static_cast<double>(inter) / uni : 0.0;
+                similarity += 0.10 * jaccard;
+            }
+
+            similarity = std::min(similarity, 1.0);
+
+            if (similarity < threshold) continue;
+
             result["score"] = similarity;
-            // result["task"] = adapter.task;
             result["base_model"] = adapter.base_model;
             
             results.push_back(result);
@@ -605,11 +649,15 @@ nlohmann::json LoraRecommendFunction::execute(
         double best_score = 0.0;
         
         for (const auto& adapter : adapters) {
-            // TODO: Retrieve actual metrics from the metrics system
-            // Currently using placeholder values until metrics integration is complete
-            // Real implementation should call: orchestrator->getAdapterMetrics(adapter_id)
-            double accuracy = 0.92;  // PLACEHOLDER: Replace with actual validation_accuracy
-            int latency = 45;         // PLACEHOLDER: Replace with actual avg_latency_ms
+            // Retrieve actual validation_accuracy from adapter metadata.
+            // Latency is estimated from adapter size (rank × alpha heuristic):
+            //   larger adapters have slightly higher inference overhead.
+            double accuracy = static_cast<double>(adapter.metadata.validation_accuracy);
+            if (accuracy <= 0.0) accuracy = 0.5;  // Unknown accuracy — use conservative default.
+
+            // Estimate latency: base 20 ms + 0.5 ms per rank unit.
+            int estimated_latency = 20 + static_cast<int>(adapter.hyperparameters.rank) / 2;
+            int latency = estimated_latency;
             
             if (accuracy >= min_accuracy && latency <= max_latency_ms) {
                 // Score combines accuracy and latency: higher accuracy and lower latency = better score

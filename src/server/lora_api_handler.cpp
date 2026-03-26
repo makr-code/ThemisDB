@@ -755,11 +755,18 @@ http::response<http::string_body> LoRAApiHandler::handleAdapterStatus(
     
     try {
         bool is_loaded = orchestrator_->isLoaded(adapter_id);
-        
+
+        // Calculate per-adapter memory from orchestrator.
+        double memory_mb = 0.0;
+        auto adapter_opt = orchestrator_->getAdapter(adapter_id);
+        if (adapter_opt.has_value()) {
+            memory_mb = static_cast<double>(adapter_opt->memory_bytes) / (1024.0 * 1024.0);
+        }
+
         json response_data = {
             {"adapter_id", adapter_id},
             {"is_loaded", is_loaded},
-            {"memory_usage_mb", 0},  // TODO: Calculate actual memory usage from adapter manager
+            {"memory_usage_mb", memory_mb},
             {"last_used", std::chrono::system_clock::now().time_since_epoch().count()}
         };
         
@@ -1124,12 +1131,16 @@ http::response<http::string_body> LoRAApiHandler::handleReceiveAdapter(
         std::string version = metadata_json.at("version").get<std::string>();
         std::string base_model = metadata_json.at("base_model").get<std::string>();
         
-        // Extract and decode base64-encoded data
+        // Extract and decode base64-encoded data using Cursor::base64Decode.
         std::string data_str;
         if (body->at("data").is_string()) {
             std::string data_base64 = body->at("data").get<std::string>();
-            // Use direct base64 decode instead of private Cursor method
-            data_str = data_base64;  // TODO: Implement proper base64 decode
+            auto decoded = utils::Cursor::base64Decode(data_base64);
+            if (!decoded.has_value()) {
+                return createErrorResponse(http::status::bad_request,
+                                           "Invalid base64-encoded data");
+            }
+            data_str = std::move(*decoded);
         } else {
             return createErrorResponse(http::status::bad_request, "Data must be base64-encoded string");
         }

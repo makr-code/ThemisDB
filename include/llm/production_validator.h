@@ -26,6 +26,8 @@
 #include "llm/continuous_batch_scheduler.h"
 #include "llm/gpu_memory_manager.h"
 #include "llm/kernel_fusion.h"
+#include "llm/inference_engine_enhanced.h"
+#include <memory>
 #include <vector>
 #include <deque>
 #include <string>
@@ -194,10 +196,20 @@ public:
     };
     
     LiveStats getLiveStats() const;
+
+    /**
+     * @brief Set the inference engine used by benchmark and stress test.
+     *
+     * When set, benchmarkInference() and runStressTest() route requests
+     * through this engine.  Without an engine the benchmark logs a warning
+     * and reports skipped requests.
+     */
+    void setInferenceEngine(std::shared_ptr<InferenceEngineEnhanced> engine);
     
 private:
     ValidationConfig config_;
-    
+    std::shared_ptr<InferenceEngineEnhanced> inference_engine_;
+
     // Test state
     bool stress_test_running_ = false;
     std::chrono::system_clock::time_point stress_test_start_;
