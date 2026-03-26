@@ -18604,4 +18604,125 @@ else()
     message(STATUS "Cross-Module Temporal+BiTemporal tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_temporal_bitemporal.cpp")
 endif()
 
+# ============================================================================
+# Cross-Module: German e-Government Connector Chain
+# eID (auth) → OZG Service Registry (importers) → XOEV Importer (importers)
+# → XDOMEA Connector (document) — integration tests
+#
+# Group A (5 tests): eID × OZG — authenticated citizen looks up OZG service
+#   A-1: Successful auth → OZG lookup by ID
+#   A-2: eID failure short-circuits; no OZG access
+#   A-3: eID identity attributes available for OZG compliance context
+#   A-4: OZG SDG-relevant flag accessible after auth
+#   A-5: Revoked session cannot be reused
+# Group B (4 tests): OZG × XOEV — service metadata drives XOEV records
+#   B-1: XOEV XBau record fields match OZG service fim_process_id
+#   B-2: OZG compliance_tags align with XOEVStandard::XBAU
+#   B-3: OZG field names match XOEV record field keys
+#   B-4: XOEV import for unknown OZG service is detectable
+# Group C (4 tests): XOEV × XDOMEA — XOEV records produce XDOMEA documents
+#   C-1: Single XOEV record → XDOMEA Dokument
+#   C-2: Multiple XOEV records → Akte + N children
+#   C-3: XDOMEA round-trip preserves betreff/aktenzeichen from XOEV
+#   C-4: XOEV record count == XDOMEA document count after full pipeline
+# Group D (3 tests): Full chain
+#   D-1: Baugenehmigung application end-to-end (eID→OZG→XOEV→XDOMEA)
+#   D-2: eID failure short-circuits entire chain
+#   D-3: Each chain step returns the correct module-specific result type
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_german_egov.cpp")
+    message(STATUS "Adding Cross-Module: German e-Government Connector Chain integration tests")
+
+    add_executable(test_cross_module_german_egov_focused
+        test_cross_module_german_egov.cpp
+    )
+
+    target_include_directories(test_cross_module_german_egov_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_cross_module_german_egov_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cross_module_german_egov_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CrossModuleGermanEGovTests
+        COMMAND test_cross_module_german_egov_focused)
+
+    set_tests_properties(CrossModuleGermanEGovTests PROPERTIES
+        LABELS "cross-module;german-gov;eid;ozg;xoev;xdomea;baugenehmigung;v1.9.0;integration"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CrossModule German e-Gov: eID×OZG (A1-A5), OZG×XOEV (B1-B4), XOEV×XDOMEA (C1-C4), Full chain (D1-D3)")
+else()
+    message(STATUS "Cross-Module German e-Gov tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_german_egov.cpp")
+endif()
+
+# ============================================================================
+# Cross-Module: Index (MatryoshkaTruncatedIndex / ScaNN / IAnnIndex) +
+# Analytics (TimeSeries / ForecastModel) integration tests
+#
+# Group A (3 tests): Two-stage retrieval pipeline
+#   A-1: 64-D coarse stage IDs overlap with 128-D fine stage IDs
+#   A-2: Ground-truth NN recalled by the 128-D stage
+#   A-3: Two independent truncations share no state
+# Group B (4 tests): Multi-granularity consistency
+#   B-1: 256-D build from 384-D vectors returns results
+#   B-2: Full-dim wrapper equals plain ScaNN on top-1
+#   B-3: add() vs build() agree on nearest neighbour
+#   B-4: kMRL_64/128/256 all return k results without crash
+# Group C (3 tests): Search scores → analytics::TimeSeries
+#   C-1: ANN scores feed ForecastModel (fit + predict)
+#   C-2: TimeSeries statistics match raw score vector
+#   C-3: All AnnSearchResult distances are finite and non-negative
+# Group D (3 tests): IAnnIndex polymorphism
+#   D-1: ScaNN and MatryoshkaTruncatedIndex both satisfy IAnnIndex contract
+#   D-2: Null backend raises std::invalid_argument
+#   D-3: Wrapper size() equals backend size()
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_index_matryoshka.cpp")
+    message(STATUS "Adding Cross-Module: Index + Matryoshka + Analytics integration tests")
+
+    add_executable(test_cross_module_index_matryoshka_focused
+        test_cross_module_index_matryoshka.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/forecasting.cpp
+    )
+
+    target_include_directories(test_cross_module_index_matryoshka_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_cross_module_index_matryoshka_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cross_module_index_matryoshka_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CrossModuleIndexMatryoshkaTests
+        COMMAND test_cross_module_index_matryoshka_focused)
+
+    set_tests_properties(CrossModuleIndexMatryoshkaTests PROPERTIES
+        LABELS "cross-module;index;matryoshka;scann;ann;analytics;forecasting;timeseries;two-stage;v1.9.0;integration"
+        TIMEOUT 180
+    )
+
+    message(STATUS "  CrossModule Index+Matryoshka: two-stage pipeline (A1-A3), multi-granularity (B1-B4), score trace (C1-C3), polymorphism (D1-D3)")
+else()
+    message(STATUS "Cross-Module Index+Matryoshka tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_index_matryoshka.cpp")
+endif()
+
 message(STATUS "Tests configured successfully")
