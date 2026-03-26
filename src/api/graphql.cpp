@@ -140,6 +140,17 @@ Parser::Result Parser::parseDocument() {
     }
     
     skipWhitespace();
+
+    // Empty or whitespace-only documents are invalid GraphQL input.
+    if (pos_ >= source_.size()) {
+        result.success = false;
+        result.errors.push_back(ParseError{
+            .message = "Document must contain at least one operation",
+            .line = line_,
+            .column = column_
+        });
+        return result;
+    }
     
     while (pos_ < source_.size()) {
         auto opResult = parseOperation();

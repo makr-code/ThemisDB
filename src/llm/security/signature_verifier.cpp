@@ -632,7 +632,12 @@ X509_CRL* CRLChecker::getOrRefreshCRL() const {
     if (next_update) {
         struct tm tm_next{};
         if (ASN1_TIME_to_tm(next_update, &tm_next) == 1) {
-            time_t t_next  = timegm(&tm_next);
+            time_t t_next;
+#ifdef _WIN32
+            t_next = _mkgmtime(&tm_next);
+#else
+            t_next = timegm(&tm_next);
+#endif
             time_t t_now   = std::time(nullptr);
             long   secs    = static_cast<long>(t_next - t_now);
             if (secs > 60) {

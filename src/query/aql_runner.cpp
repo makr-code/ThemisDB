@@ -330,7 +330,7 @@ Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
     query::QueryCompiler::ExecuteFn exec_fn =
         [conj_query = tr.query](
             const std::string& /*q*/,
-            const query::QueryCompiler::QueryParams& /*params*/)
+            const query::QueryParams& /*params*/)
         -> Result<query::QueryResult> {
             auto res = tl_jit_engine->executeAndEntitiesWithFallback(conj_query, true);
             if (!res) {

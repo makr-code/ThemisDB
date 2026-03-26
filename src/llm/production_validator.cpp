@@ -23,6 +23,7 @@
 #include "llm/production_validator.h"
 #include "llm/inference_engine_enhanced.h"
 #include "llm/model_loader.h"
+#include "llm/kernel_fusion.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <atomic>
@@ -577,9 +578,9 @@ bool ProductionValidator::testModelLoading() {
         LazyModelLoader::Config loader_cfg;
         LazyModelLoader loader(loader_cfg);
         // A freshly constructed loader should list no models.
-        bool has_capacity = loader.hasCapacity(0, 0);
-        passed = has_capacity;
-        spdlog::info("  LazyModelLoader instantiated; hasCapacity={}", has_capacity);
+        auto loaded_models = loader.listLoadedModels();
+        passed = loaded_models.empty();
+        spdlog::info("  LazyModelLoader instantiated; loaded_models={}", loaded_models.size());
     } catch (const std::exception& e) {
         spdlog::error("  LazyModelLoader construction failed: {}", e.what());
         passed = false;
@@ -629,7 +630,6 @@ bool ProductionValidator::testBatchScheduling() {
         // Validate ContinuousBatchScheduler construction.
         ContinuousBatchScheduler::SchedulerConfig sched_cfg;
         sched_cfg.max_batch_size    = 8;
-        sched_cfg.max_sequence_len  = 2048;
         ContinuousBatchScheduler scheduler(sched_cfg, nullptr);
         // Start + stop the scheduler to verify threading works
         scheduler.start();
@@ -706,10 +706,10 @@ bool ProductionValidator::testQuantization() {
     // Verify KernelFusionManager is constructible and reports its capabilities.
     bool passed = false;
     try {
-        KernelFusionManager::Config kf_cfg;
+        kernels::KernelFusionManager::Config kf_cfg;
         kf_cfg.enable_qkv_fusion       = true;
         kf_cfg.enable_ln_linear_fusion = true;
-        KernelFusionManager kf_manager(kf_cfg);
+        kernels::KernelFusionManager kf_manager(kf_cfg);
 
         bool fuse = kf_manager.shouldFuseQKV(4, 512, 4096);
         auto kf_stats = kf_manager.getStats();
@@ -737,7 +737,6 @@ bool ProductionValidator::testContinuousBatching() {
     try {
         ContinuousBatchScheduler::SchedulerConfig sched_cfg;
         sched_cfg.max_batch_size   = 4;
-        sched_cfg.max_sequence_len = 512;
         ContinuousBatchScheduler scheduler(sched_cfg, nullptr);
         scheduler.start();
 
@@ -774,9 +773,9 @@ bool ProductionValidator::testKernelFusion() {
 
     bool passed = false;
     try {
-        KernelFusionManager::Config kf_cfg;
+        kernels::KernelFusionManager::Config kf_cfg;
         kf_cfg.enable_ffn_fusion  = true;
-        KernelFusionManager kf_manager(kf_cfg);
+        kernels::KernelFusionManager kf_manager(kf_cfg);
 
         double speedup = kf_manager.estimateSpeedup("qkv", 4, 512, 4096);
         passed = (speedup >= 0.0);

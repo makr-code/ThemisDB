@@ -76,24 +76,38 @@
     {
       "name": "graph-tests-debug",
       "displayName": "Graph Tests: Debug (focused)",
-      "description": "Debug build of only the two distributed-graph test executables",
+      "description": "Debug build of graph and GraphQL test executables",
       "configurePreset": "vscode-windows-debug",
       "targets": [
         "test_graph_distributed",
-        "test_graph_distributed_shared_mutex_focused"
+        "test_graph_distributed_shared_mutex_focused",
+        "test_graphql",
+        "test_graphql_performance",
+        "test_graphql_limits",
+        "test_graphql_error_masking",
+        "test_graphql_p1_features",
+        "test_graphql_multimodel",
+        "test_graphql_cache_security"
       ],
       "jobs": 4
     },
     {
       "name": "graph-tests-release",
       "displayName": "Graph Tests: Release (focused)",
-      "description": "Release build of only the two distributed-graph test executables",
+      "description": "Release build of graph and GraphQL test executables",
       "configurePreset": "vscode-windows-release",
       "targets": [
         "test_graph_distributed",
-        "test_graph_distributed_shared_mutex_focused"
+        "test_graph_distributed_shared_mutex_focused",
+        "test_graphql",
+        "test_graphql_performance",
+        "test_graphql_limits",
+        "test_graphql_error_masking",
+        "test_graphql_p1_features",
+        "test_graphql_multimodel",
+        "test_graphql_cache_security"
       ],
-      "jobs": 4
+      "jobs": 8
     },
     {
       "name": "cache-tests-release",

@@ -47,6 +47,53 @@ EthicsApiHandler::EthicsApiHandler(
 {
 }
 
+http::response<http::string_body> EthicsApiHandler::handle(
+    const http::request<http::string_body>& req,
+    const std::string& target
+) {
+    std::string path = target;
+    const auto qpos = path.find('?');
+    if (qpos != std::string::npos) {
+        path = path.substr(0, qpos);
+    }
+
+    // Normalize optional /api prefix so routing only needs /ethics/... paths.
+    if (path.rfind("/api/ethics/", 0) == 0) {
+        path = path.substr(4);  // "/api/ethics/..." -> "/ethics/..."
+    }
+
+    const auto method = req.method();
+    if (method == http::verb::post && path == "/ethics/debate/init") {
+        return handleDebateInit(req);
+    }
+    if (method == http::verb::post && path == "/ethics/decision/make") {
+        return handleMakeDecision(req);
+    }
+    if (method == http::verb::post && path == "/ethics/evaluation") {
+        return handleEvaluation(req);
+    }
+    if (method == http::verb::get && path == "/ethics/arguments") {
+        return handleGetArguments(req);
+    }
+    if (method == http::verb::post && path == "/ethics/arguments/search") {
+        return handleSearchArguments(req);
+    }
+    if (method == http::verb::get && path == "/ethics/philosophies") {
+        return handleListPhilosophies(req);
+    }
+    if (method == http::verb::get && path.rfind("/ethics/philosophies/", 0) == 0) {
+        return handleGetPhilosophy(req, path.substr(std::string("/ethics/philosophies/").size()));
+    }
+    if (method == http::verb::post && path == "/ethics/rag/context") {
+        return handleBuildContext(req);
+    }
+    if (method == http::verb::get && path == "/ethics/metrics") {
+        return handleGetMetrics(req);
+    }
+
+    return makeErrorResponse(http::status::not_found, "Ethics endpoint not found", req);
+}
+
 http::response<http::string_body> EthicsApiHandler::handleDebateInit(
     const http::request<http::string_body>& req
 ) {

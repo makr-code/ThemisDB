@@ -94,17 +94,6 @@ nlohmann::json QueryFederation::execute(const std::string& query) {
                     spdlog::warn("QueryFederation: broadcasting to {} shards (no shard-key predicate found); "
                                  "consider adding a FILTER on _key to enable partition pruning",
                                  plan.target_shards.size());
-                // Warn when broadcasting to a large number of shards — this is
-                // O(N shards) and should be avoided for key-addressable queries.
-                if (sharding_manager_) {
-                    size_t shard_count = sharding_manager_->GetNodeCount();
-                    if (shard_count > 10) {
-                        spdlog::warn(
-                            "QueryFederation: broadcasting query to {} shards "
-                            "(no shard-key predicate found); consider adding a "
-                            "_key filter to enable partition pruning",
-                            shard_count);
-                    }
                 }
                 shard_results = shard_router_->scatterGather(query);
                 break;

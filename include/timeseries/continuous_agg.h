@@ -32,10 +32,9 @@
 #include <memory>
 #include <limits>
 #include <unordered_map>
+#include "timeseries/tsstore.h"
 
 namespace themis {
-
-class TSStore;
 
 struct AggWindow {
     std::chrono::milliseconds size{std::chrono::minutes(1)};

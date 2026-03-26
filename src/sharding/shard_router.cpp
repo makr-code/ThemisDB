@@ -33,6 +33,7 @@
 #include <future>
 #include <thread>
 #include <vector>
+#include <spdlog/spdlog.h>
 
 namespace themis::sharding {
 

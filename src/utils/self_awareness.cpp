@@ -28,6 +28,7 @@
 #include <algorithm>
 #include <ctime>
 #include <thread>
+#include <spdlog/spdlog.h>
 
 #ifdef _WIN32
     #include <windows.h>

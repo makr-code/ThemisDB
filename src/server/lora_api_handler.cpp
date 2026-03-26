@@ -890,7 +890,7 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAQuery(
 
         if (inference_engine_) {
             // Build an EnhancedInferenceRequest from the LoRA query parameters.
-            InferenceEngineEnhanced::EnhancedInferenceRequest eng_req;
+            llm::InferenceEngineEnhanced::EnhancedInferenceRequest eng_req;
             eng_req.base_request.prompt     = prompt;
             eng_req.base_request.model_id   = model_id.empty() ? "default" : model_id;
             eng_req.base_request.max_tokens = max_tokens;

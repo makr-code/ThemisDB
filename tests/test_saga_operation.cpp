@@ -114,12 +114,14 @@ TEST_F(SagaOperationTest, PutEntityWithCompensation_InsertPath_DeletesKeyOnCompe
     const std::string key = "entity:users:u1";
     const std::vector<uint8_t> value = {'v', '1'};
 
-    // Key does not exist yet → insert path
-    db_->put(key, value);  // simulate the actual put
-
     Saga saga;
+    // Register compensation BEFORE the insert so the helper captures that the
+    // key did not exist yet (insert-path rollback should delete the key).
     SagaOperation::putEntityWithCompensation(*db_, key, value, saga);
     EXPECT_EQ(saga.stepCount(), 1u);
+
+    // Simulate the actual put
+    db_->put(key, value);
 
     // Compensate should delete the key
     saga.compensate();

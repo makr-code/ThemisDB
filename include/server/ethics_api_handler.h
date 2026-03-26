@@ -78,6 +78,13 @@ public:
     );
 
     /**
+     * @brief Dispatch ethics API requests by path and method.
+     */
+    http::response<http::string_body> handle(
+        const http::request<http::string_body>& req,
+        const std::string& target);
+
+    /**
      * @brief Handle POST /ethics/debate/init request
      * 
      * Request body:
