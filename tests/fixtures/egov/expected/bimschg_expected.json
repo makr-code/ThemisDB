@@ -1,0 +1,295 @@
+{
+  "version": "1.0",
+  "test_id": "BIMSCHV",
+  "beschreibung": "Erwartete Kontrollergebnisse für BImSchG-Genehmigungsverfahren (9. BImSchV)",
+  "aktenzeichen": "RP-D-BImSchG-2026-0017",
+
+  "assertions": [
+    {
+      "id": "AC-BIM-01",
+      "kategorie": "OZG_DIENST",
+      "beschreibung": "OZG-Dienst für BImSchG-Genehmigung muss nach Registrierung abrufbar sein",
+      "typ": "ozg_service_found",
+      "service_id": "DE-NRW-BIMSCHG-GENEHMIGUNG",
+      "erwartet": true
+    },
+    {
+      "id": "AC-BIM-02",
+      "kategorie": "EID_AUTH",
+      "beschreibung": "Betreiber-eID-Authentifizierung liefert verifizierten Vollnamen (HIGH)",
+      "typ": "eid_fullname",
+      "erwartet_vorname": "Klaus",
+      "erwartet_nachname": "Bergmann",
+      "erwartet_assurance": "HIGH"
+    },
+    {
+      "id": "AC-BIM-03",
+      "kategorie": "EID_AUTH",
+      "beschreibung": "Betreiber-eID enthält AGS Düsseldorf (05111000)",
+      "typ": "eid_attribut",
+      "attribut": "MUNICIPALITY_ID",
+      "erwartet_wert": "05111000"
+    },
+    {
+      "id": "AC-BIM-04",
+      "kategorie": "XOEV_IMPORT",
+      "beschreibung": "XÖV-OTHER-BImSchG-Antrag wird korrekt importiert",
+      "typ": "xoev_import_success",
+      "standard": "OTHER",
+      "erwartet_record_id": "RP-D-BImSchG-2026-0017",
+      "erwartet_success": true
+    },
+    {
+      "id": "AC-BIM-05",
+      "kategorie": "XOEV_EXPORT",
+      "beschreibung": "XÖV-Export des Antrags ist wohlgeformt und enthält Betreibernamen",
+      "typ": "xoev_export_wohlgeformt",
+      "standard": "OTHER",
+      "erwartet_enthaelt": "Klaus Bergmann",
+      "erwartet_xml_prefix": "<?xml"
+    },
+    {
+      "id": "AC-BIM-06",
+      "kategorie": "XDOMEA",
+      "beschreibung": "RP erzeugt Verfahrensakte (AKTE) mit korrektem Aktenzeichen",
+      "typ": "xdomea_akte_vorhanden",
+      "behoerde_id": "rp-duesseldorf",
+      "erwartet_az": "RP-D-BImSchG-2026-0017",
+      "erwartet_metadata": { "verfahrensart": "FOERMLICH" }
+    },
+    {
+      "id": "AC-BIM-07",
+      "kategorie": "LLM",
+      "beschreibung": "LLM-Vollständigkeitsprüfung score >= 0.5",
+      "typ": "llm_score_min",
+      "min_score": 0.5
+    },
+    {
+      "id": "AC-BIM-08",
+      "kategorie": "VERFAHREN",
+      "beschreibung": "Verfahrensart wird auf FOERMLICH gesetzt",
+      "typ": "metadata_wert",
+      "metadata_key": "verfahrensart",
+      "erwartet_wert": "FOERMLICH"
+    },
+    {
+      "id": "AC-BIM-09",
+      "kategorie": "XDOMEA",
+      "beschreibung": "UVP-Vorprüfungsdokument wird im DMS des RP gespeichert",
+      "typ": "xdomea_bescheid_vorhanden",
+      "behoerde_id": "rp-duesseldorf",
+      "metadata_key": "typ",
+      "metadata_wert": "UVP_VORPRUEFUNG",
+      "erwartet": true
+    },
+    {
+      "id": "AC-BIM-10",
+      "kategorie": "XDOMEA",
+      "beschreibung": "LANUV erhält UVP-Screening-Anfrage als VORGANG",
+      "typ": "xdomea_objekte_min",
+      "behoerde_id": "lanuv-nrw",
+      "typ_filter": "VORGANG",
+      "erwartet_min": 1
+    },
+    {
+      "id": "AC-BIM-11",
+      "kategorie": "XDOMEA",
+      "beschreibung": "LANUV liefert Stellungnahme mit Ergebnis UVP_PFLICHTIG",
+      "typ": "xdomea_bescheid_vorhanden",
+      "behoerde_id": "lanuv-nrw",
+      "metadata_key": "ergebnis",
+      "metadata_wert": "UVP_PFLICHTIG",
+      "erwartet": true
+    },
+    {
+      "id": "AC-BIM-12",
+      "kategorie": "XDOMEA",
+      "beschreibung": "RP erzeugt Antragskonferenz-Protokoll (DOKUMENT)",
+      "typ": "xdomea_bescheid_vorhanden",
+      "behoerde_id": "rp-duesseldorf",
+      "metadata_key": "typ",
+      "metadata_wert": "ANTRAGSKONFERENZ_PROTOKOLL",
+      "erwartet": true
+    },
+    {
+      "id": "AC-BIM-13",
+      "kategorie": "XDOMEA",
+      "beschreibung": "Alle 7 Fachbehörden erhalten Antragskonferenz-Einladung (VORGANG)",
+      "typ": "xdomea_objekte_min",
+      "alle_behoerden": [
+        "lanuv-nrw",
+        "umweltamt-koeln",
+        "gesundheitsamt-duesseldorf",
+        "bauaufsicht-duesseldorf",
+        "gewerbeaufsicht-nrw",
+        "untere-wasserbeh-duesseldorf",
+        "untere-naturschutz-duesseldorf"
+      ],
+      "typ_filter": "VORGANG",
+      "erwartet_min": 1
+    },
+    {
+      "id": "AC-BIM-14",
+      "kategorie": "XDOMEA",
+      "beschreibung": "Auslegungsbekanntmachung wird im RP-DMS gespeichert",
+      "typ": "xdomea_bescheid_vorhanden",
+      "behoerde_id": "rp-duesseldorf",
+      "metadata_key": "typ",
+      "metadata_wert": "AUSLEGUNGSBEKANNTMACHUNG",
+      "erwartet": true
+    },
+    {
+      "id": "AC-BIM-15",
+      "kategorie": "XDOMEA",
+      "beschreibung": "Mindestens 1 Einwendung wird als XDOMEA-Dokument erfasst",
+      "typ": "xdomea_bescheid_vorhanden",
+      "behoerde_id": "rp-duesseldorf",
+      "metadata_key": "typ",
+      "metadata_wert": "EINWENDUNG",
+      "erwartet": true
+    },
+    {
+      "id": "AC-BIM-16",
+      "kategorie": "XDOMEA",
+      "beschreibung": "Alle 7 Fachbehörden liefern Stellungnahmen (thread-sicher parallel)",
+      "typ": "xdomea_stellungnahmen_alle",
+      "behoerden": [
+        "lanuv-nrw",
+        "umweltamt-koeln",
+        "gesundheitsamt-duesseldorf",
+        "bauaufsicht-duesseldorf",
+        "gewerbeaufsicht-nrw",
+        "untere-wasserbeh-duesseldorf",
+        "untere-naturschutz-duesseldorf"
+      ],
+      "erwartet_min_je": 1
+    },
+    {
+      "id": "AC-BIM-17",
+      "kategorie": "XDOMEA_METADATA",
+      "beschreibung": "Gesundheitsamt-Stellungnahme enthält Lärmprüfungs-Metadaten",
+      "typ": "xdomea_metadaten_vorhanden",
+      "behoerde_id": "gesundheitsamt-duesseldorf",
+      "pflicht_metadata_keys": ["laerm_db", "geruch_gwk"]
+    },
+    {
+      "id": "AC-BIM-18",
+      "kategorie": "XDOMEA_METADATA",
+      "beschreibung": "Gewerbeaufsicht-Stellungnahme enthält Auflagen-Metadaten",
+      "typ": "xdomea_metadaten_vorhanden",
+      "behoerde_id": "gewerbeaufsicht-nrw",
+      "pflicht_metadata_keys": ["auflage_betrsichv", "auflage_ex_schutz"]
+    },
+    {
+      "id": "AC-BIM-19",
+      "kategorie": "XDOMEA",
+      "beschreibung": "Erörterungstermin-Protokoll wird im RP-DMS gespeichert",
+      "typ": "xdomea_bescheid_vorhanden",
+      "behoerde_id": "rp-duesseldorf",
+      "metadata_key": "typ",
+      "metadata_wert": "EROERTERUNGSTERMIN_PROTOKOLL",
+      "erwartet": true
+    },
+    {
+      "id": "AC-BIM-20",
+      "kategorie": "XDOMEA",
+      "beschreibung": "Erörterungstermin-Protokoll referenziert alle Einwendungen",
+      "typ": "xdomea_protokoll_einwendungsreferenzen",
+      "behoerde_id": "rp-duesseldorf",
+      "metadata_key": "einwendungen",
+      "erwartet_nichtleer": true
+    },
+    {
+      "id": "AC-BIM-21",
+      "kategorie": "LLM",
+      "beschreibung": "LLM-Entscheidungsanalyse score >= 0.5",
+      "typ": "llm_score_min",
+      "min_score": 0.5
+    },
+    {
+      "id": "AC-BIM-22",
+      "kategorie": "LLM",
+      "beschreibung": "LLM-Entscheidungsempfehlung Summary nicht leer",
+      "typ": "llm_summary_nichtleer",
+      "erwartet": true
+    },
+    {
+      "id": "AC-BIM-23",
+      "kategorie": "XDOMEA",
+      "beschreibung": "Genehmigungsbescheid wird als XDOMEA-DOKUMENT erzeugt",
+      "typ": "xdomea_bescheid_vorhanden",
+      "behoerde_id": "rp-duesseldorf",
+      "metadata_key": "typ",
+      "metadata_wert": "GENEHMIGUNGSBESCHEID",
+      "erwartet": true
+    },
+    {
+      "id": "AC-BIM-24",
+      "kategorie": "XDOMEA",
+      "beschreibung": "Genehmigungsbescheid enthält korrektes Aktenzeichen",
+      "typ": "xdomea_aktenzeichen",
+      "erwartet_az": "RP-D-BImSchG-2026-0017"
+    },
+    {
+      "id": "AC-BIM-25",
+      "kategorie": "XDOMEA",
+      "beschreibung": "Genehmigungsbescheid enthält alle 7 Nebenbestimmungen als child-Dokumente",
+      "typ": "xdomea_kinder_min",
+      "behoerde_id": "rp-duesseldorf",
+      "parent_id": "BESCHEID-001",
+      "erwartet_min": 7
+    },
+    {
+      "id": "AC-BIM-26",
+      "kategorie": "XDOMEA_EXPORT",
+      "beschreibung": "XDOMEA-Export des Genehmigungsbescheids ist wohlgeformt",
+      "typ": "xdomea_export_wohlgeformt",
+      "erwartet_xml_prefix": "<?xml",
+      "erwartet_enthaelt_tag": "dokument",
+      "erwartet_nichtleer": true
+    },
+    {
+      "id": "AC-BIM-27",
+      "kategorie": "ZUSTELLUNG",
+      "beschreibung": "Bescheid wird an Betreiber Klaus Bergmann zugestellt",
+      "typ": "xdomea_zustellung",
+      "empfaenger": "Klaus Bergmann",
+      "metadata_key": "typ",
+      "metadata_wert": "ZUSTELLUNG",
+      "erwartet": true
+    },
+    {
+      "id": "AC-BIM-28",
+      "kategorie": "XDOMEA",
+      "beschreibung": "RP-DMS enthält nach Verfahrensabschluss >= 12 Objekte",
+      "typ": "xdomea_stores_min",
+      "stores": [
+        { "behoerde_id": "rp-duesseldorf", "min_gesamt": 12 }
+      ]
+    },
+    {
+      "id": "AC-BIM-29",
+      "kategorie": "PROZESS",
+      "beschreibung": "Prozessschritte sind in korrekter 9-Phasen-Reihenfolge",
+      "typ": "prozess_reihenfolge",
+      "erwartete_reihenfolge": [
+        "ANTRAGSTELLUNG",
+        "VOLLSTAENDIGKEITSPRUEFUNG",
+        "UVP_VORPRUEFUNG",
+        "ANTRAGSKONFERENZ",
+        "AUSLEGUNG",
+        "FACHBEHOERDEN_PRUEFUNG",
+        "EROERTERUNGSTERMIN",
+        "ENTSCHEIDUNG",
+        "GENEHMIGUNGSBESCHEID"
+      ]
+    },
+    {
+      "id": "AC-BIM-30",
+      "kategorie": "VERFAHREN",
+      "beschreibung": "Gesamtverfahren endet mit Status GENEHMIGT",
+      "typ": "verfahrensstatus",
+      "erwartet_status": "GENEHMIGT"
+    }
+  ]
+}

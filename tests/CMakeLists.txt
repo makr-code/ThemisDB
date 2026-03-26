@@ -18285,6 +18285,123 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_eid_authenticator.cpp")
     message(STATUS "  EIDAuthenticator: initialize, beginAuthSession, completeAuthSession, revokeSession, EIDIdentity attributes, fullName, thread-safety, polymorphic")
 else()
     message(STATUS "eID Authenticator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_eid_authenticator.cpp")
+endif()
+
+# ── Behörden-Genehmigungsverfahren E2E focused tests ─────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_behoerden_genehmigungsverfahren_e2e.cpp")
+    message(STATUS "Adding Behörden-Genehmigungsverfahren E2E focused tests (v1.9.0)")
+
+    add_executable(test_behoerden_genehmigungsverfahren_e2e_focused
+        test_behoerden_genehmigungsverfahren_e2e.cpp
+    )
+
+    target_include_directories(test_behoerden_genehmigungsverfahren_e2e_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_behoerden_genehmigungsverfahren_e2e_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_behoerden_genehmigungsverfahren_e2e_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME BehoerdenGenehmigungsverfahrenE2EFocusedTests
+             COMMAND test_behoerden_genehmigungsverfahren_e2e_focused)
+
+    set_tests_properties(BehoerdenGenehmigungsverfahrenE2EFocusedTests PROPERTIES
+        LABELS "e2e;german-gov;baugenehmigung;xdomea;eid;ozg;xoev;llm;bauonrw;v1.9.0;focused;integration"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  BehoerdenGenehmigungsverfahren: Baugenehmigung § 63 BauO NRW, 4 Behörden, 6 Phasen, 20 ACs (AC-BGV-01..20)")
+else()
+    message(STATUS "Behörden-Genehmigungsverfahren E2E focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_behoerden_genehmigungsverfahren_e2e.cpp")
+endif()
+
+# ── 9. BImSchV Genehmigungsverfahren E2E focused tests ───────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_bimschv_genehmigungsverfahren_e2e.cpp")
+    message(STATUS "Adding 9. BImSchV Genehmigungsverfahren E2E focused tests (v1.9.0)")
+
+    add_executable(test_bimschv_genehmigungsverfahren_e2e_focused
+        test_bimschv_genehmigungsverfahren_e2e.cpp
+    )
+
+    target_include_directories(test_bimschv_genehmigungsverfahren_e2e_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_bimschv_genehmigungsverfahren_e2e_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_bimschv_genehmigungsverfahren_e2e_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME BImSchVGenehmigungsverfahrenE2EFocusedTests
+             COMMAND test_bimschv_genehmigungsverfahren_e2e_focused)
+
+    set_tests_properties(BImSchVGenehmigungsverfahrenE2EFocusedTests PROPERTIES
+        LABELS "e2e;german-gov;bimschg;9-bimschv;uvp;xdomea;eid;ozg;xoev;llm;foermlich;v1.9.0;focused;integration"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  BImSchVGenehmigungsverfahren: § 10 BImSchG förmlich, 8 Behörden, 9 Phasen, UVP, Öffentlichkeitsbeteiligung, 30 ACs (AC-BIM-01..30)")
+else()
+    message(STATUS "9. BImSchV Genehmigungsverfahren E2E focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_bimschv_genehmigungsverfahren_e2e.cpp")
+endif()
+
+# ── E-Government Datengetriebene Tests (ohne CI, aus JSON-Fixtures) ───────────
+# Läuft vollständig lokal ohne CI-Infrastruktur.
+# Fixtures unter tests/fixtures/egov/ (JSON).
+# Überschreibbar via env-Variable THEMIS_EGOV_FIXTURES_DIR.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_egov_data_driven.cpp")
+    find_package(nlohmann_json QUIET)
+    if(nlohmann_json_FOUND)
+        message(STATUS "Adding E-Gov data-driven focused tests (v1.9.0, CI-frei)")
+
+        add_executable(test_egov_data_driven_focused
+            test_egov_data_driven.cpp
+        )
+
+        target_include_directories(test_egov_data_driven_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+        )
+
+        # Zur Kompilierzeit: absoluter Pfad zu tests/fixtures/egov
+        target_compile_definitions(test_egov_data_driven_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+            THEMIS_EGOV_FIXTURES_DIR_COMPILETIME="${CMAKE_CURRENT_SOURCE_DIR}/fixtures/egov"
+        )
+
+        target_link_libraries(test_egov_data_driven_focused PRIVATE
+            ${TEST_LIBS}
+            nlohmann_json::nlohmann_json
+            Threads::Threads
+        )
+
+        add_test(NAME EGovDataDrivenFocusedTests
+                 COMMAND test_egov_data_driven_focused)
+
+        set_tests_properties(EGovDataDrivenFocusedTests PROPERTIES
+            LABELS "e2e;german-gov;data-driven;markdown-fixtures;baugenehmigung;bimschg;local;v1.9.0;focused;integration"
+            TIMEOUT 120
+        )
+
+        message(STATUS "  EGovDataDriven: Baugenehmigung + BImSchV aus Fixtures (behoerden.json, antraege/*.md, prozesse/, expected/)")
+        message(STATUS "  Fixture-Pfad: ${CMAKE_CURRENT_SOURCE_DIR}/fixtures/egov")
+        message(STATUS "  Überschreibbar: export THEMIS_EGOV_FIXTURES_DIR=<pfad>")
+    else()
+        message(STATUS "nlohmann_json not found — EGovDataDrivenFocusedTests werden übersprungen")
+    endif()
+else()
+    message(STATUS "E-Gov data-driven tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_egov_data_driven.cpp")
+endif()
+
 # ReplugRetriever focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_replug_retriever.cpp")
     message(STATUS "Adding ReplugRetriever focused tests (RAG module, REPLUG-LSR, v2.0.0)")
