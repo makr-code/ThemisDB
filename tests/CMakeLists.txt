@@ -19028,4 +19028,124 @@ else()
     message(STATUS "Cross-Module Graph+Lineage tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_graph_lineage.cpp")
 endif()
 
+# ============================================================================
+# Cross-Module: GeoRTree + SpatialJoinIterator + MetricsCollector tests
+# ============================================================================
+# Group A (5 tests): GeoRTree × SpatialJoin pipeline
+#   A-1: bulkLoad + intersects returns all keys whose MBR overlaps query bbox
+#   A-2: insert after bulkLoad increments size and remains queryable
+#   A-3: clear() empties the index; subsequent intersects returns empty list
+#   A-4: spatialJoin on two co-located point sets yields at least one pair
+#   A-5: haversineDistanceM is consistent with SpatialJoinPair.distance_m
+# Group B (5 tests): SpatialJoinIterator lazy evaluation
+#   B-1: advance() returns false immediately on empty inner collection
+#   B-2: Iterator over disjoint collections (threshold 1 m) yields no pairs
+#   B-3: Iterator over overlapping collections yields ≥1 pair within threshold
+#   B-4: All pairs from iterator satisfy distance_m ≤ threshold_m
+#   B-5: Materialised spatialJoin result count matches iterator advance count
+# Group C (5 tests): MetricsCollector × geo pipeline
+#   C-1: recordQuery("geo_intersects") increments query counter
+#   C-2: recordIndexScan("geo_rtree") increments index-scan counter
+#   C-3: MetricsCollector::reset() zeroes geo counters
+#   C-4: Prometheus output contains geo_intersects metric after full pipeline run
+#   C-5: Mixed geo query + index-scan sequence recorded independently
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_geo_spatial.cpp")
+    message(STATUS "Adding Cross-Module: GeoRTree + SpatialJoinIterator + MetricsCollector integration tests")
+
+    add_executable(test_cross_module_geo_spatial_focused
+        test_cross_module_geo_spatial.cpp
+    )
+
+    target_include_directories(test_cross_module_geo_spatial_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_cross_module_geo_spatial_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cross_module_geo_spatial_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CrossModuleGeoSpatialTests
+        COMMAND test_cross_module_geo_spatial_focused)
+
+    set_tests_properties(CrossModuleGeoSpatialTests PROPERTIES
+        LABELS "cross-module;geo;spatial-join;rtree;haversine;observability;prometheus;v1.9.0;integration"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CrossModule Geo+Spatial: GeoRTree×SpatialJoin (A1-A5), SpatialJoinIterator (B1-B5), MetricsCollector (C1-C5)")
+else()
+    message(STATUS "Cross-Module Geo+Spatial tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_geo_spatial.cpp")
+endif()
+
+# ============================================================================
+# Cross-Module: CPUVectorBackend + MatryoshkaTruncation + MetricsCollector tests
+# ============================================================================
+# Group A (5 tests): CPUVectorBackend distance computation
+#   A-1: computeDistances returns numQueries × numVectors results
+#   A-2: Self-distance (query == vector) is 0.0 for L2 metric
+#   A-3: L2 distance is commutative: d(a,b) == d(b,a) to within 1e-5
+#   A-4: computeDistances produces same result as manual squared-norm loop
+#   A-5: Cosine distance mode (useL2=false) yields values in [0.0, 2.0]
+# Group B (5 tests): CPUVectorBackend KNN search × MatryoshkaTruncation
+#   B-1: batchKnnSearch returns k results per query when k ≤ numVectors
+#   B-2: First result in batchKnnSearch is the nearest neighbour (brute-force)
+#   B-3: MatryoshkaTruncation::truncateAndNormalize reduces 768-D to 64-D
+#   B-4: Truncated vectors fed into CPUVectorBackend KNN recall nearest neighbour
+#   B-5: Two-stage pipeline: coarse 64-D KNN re-ranked at full dim recalls NN
+# Group C (5 tests): MetricsCollector × acceleration pipeline
+#   C-1: recordQuery("vector_knn") increments query counter
+#   C-2: recordIndexScan("ann_hnsw") increments index-scan counter
+#   C-3: MetricsCollector::reset() clears acceleration counters
+#   C-4: Prometheus output contains vector_knn metric after full pipeline run
+#   C-5: Mixed knn / embedding / index-scan sequence recorded independently
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_acceleration_index.cpp")
+    message(STATUS "Adding Cross-Module: CPUVectorBackend + MatryoshkaTruncation + MetricsCollector integration tests")
+
+    add_executable(test_cross_module_acceleration_index_focused
+        test_cross_module_acceleration_index.cpp
+    )
+
+    target_include_directories(test_cross_module_acceleration_index_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_cross_module_acceleration_index_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cross_module_acceleration_index_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CrossModuleAccelerationIndexTests
+        COMMAND test_cross_module_acceleration_index_focused)
+
+    set_tests_properties(CrossModuleAccelerationIndexTests PROPERTIES
+        LABELS "cross-module;acceleration;cpu-backend;matryoshka;ann;observability;prometheus;v1.9.0;integration"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CrossModule Acceleration+Index: CPUVectorBackend distances (A1-A5), KNN×Matryoshka (B1-B5), MetricsCollector (C1-C5)")
+else()
+    message(STATUS "Cross-Module Acceleration+Index tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_acceleration_index.cpp")
+endif()
+
 message(STATUS "Tests configured successfully")
