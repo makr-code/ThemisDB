@@ -3,32 +3,6 @@ name: Canary Deployments CI
 # Triggered on every push / PR that touches the CanaryRollout / CanaryDeployment
 # sources, tests, or this workflow file.  Targets v1.7.0 (Issue #4046).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/updates/canary_rollout.h'
-      - 'src/updates/canary_rollout.cpp'
-      - 'include/updates/updates_config.h'
-      - 'src/updates/updates_config.cpp'
-      - 'tests/test_canary_rollout.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/04-release_canary-deployments-ci.yml'
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - 'include/updates/canary_rollout.h'
-      - 'src/updates/canary_rollout.cpp'
-      - 'include/updates/updates_config.h'
-      - 'src/updates/updates_config.cpp'
-      - 'tests/test_canary_rollout.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/04-release_canary-deployments-ci.yml'
   workflow_dispatch:
 
 concurrency:

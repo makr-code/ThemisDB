@@ -4,18 +4,6 @@ name: Cache Warmup Parallel Bulk Load CI
 # the adaptive query cache header, or this workflow itself.
 # Targets v1.8.0 – Issue #244.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/cache/warmup.cpp'
-      - 'include/cache/adaptive_query_cache.h'
-      - 'src/server/cache_admin_api_handler.cpp'
-      - 'tests/test_cache_warmup.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_storage_cache-warmup-parallel-bulk-load-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

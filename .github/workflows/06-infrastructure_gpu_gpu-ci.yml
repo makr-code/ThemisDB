@@ -16,23 +16,6 @@ on:
       - 'include/index/cuda_hnsw_graph_traversal.h'
       - 'tests/test_cuda_hnsw_graph_traversal.cpp'
       - '.github/workflows/06-infrastructure_gpu_gpu-ci.yml'
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/gpu/**'
-      - 'src/geo/gpu_backend_stub.cpp'
-      - 'src/server/spatial_api_handler.cpp'
-      - 'include/themis/gpu/**'
-      - 'include/geo/spatial_backend.h'
-      - 'tests/test_gpu_*.cpp'
-      - 'tests/test_geo_gpu_backend.cpp'
-      - 'benchmarks/bench_gpu_module.cpp'
-      - 'src/index/cuda_hnsw_graph_traversal.cpp'
-      - 'include/index/cuda_hnsw_graph_traversal.h'
-      - 'tests/test_cuda_hnsw_graph_traversal.cpp'
-      - '.github/workflows/06-infrastructure_gpu_gpu-ci.yml'
   workflow_dispatch:
 
 concurrency:

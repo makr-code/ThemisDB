@@ -3,21 +3,6 @@ name: Distributed Cache Integration CI
 # Triggered on every push/PR that touches the RedisCache sources,
 # its test file, or this workflow itself.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/core/concerns/redis_cache.cpp'
-      - 'include/core/concerns/redis_cache.h'
-      - 'include/core/concerns/concerns_context.h'
-      - 'src/core/concerns/concerns_context.cpp'
-      - 'include/core/config_validator.h'
-      - 'tests/test_distributed_cache_integration.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/06-infrastructure_distributed_distributed-cache-integration-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

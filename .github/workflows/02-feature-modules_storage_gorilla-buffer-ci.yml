@@ -3,20 +3,6 @@ name: Gorilla Buffer CI
 # Validates TSStore single-point insert buffering for Gorilla compression (v1.8.0, Issue #116).
 # Triggered on every push/PR that touches the relevant source files.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/timeseries/ts_auto_buffer.h'
-      - 'src/timeseries/ts_auto_buffer.cpp'
-      - 'include/timeseries/tsstore.h'
-      - 'src/timeseries/tsstore.cpp'
-      - 'include/timeseries/query_optimizer.h'
-      - 'src/timeseries/query_optimizer.cpp'
-      - 'tests/test_tsstore_gorilla_buffer.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_storage_gorilla-buffer-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

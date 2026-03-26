@@ -5,20 +5,6 @@ name: Adaptive Compaction CI
 # or this workflow itself.
 # Targets v1.7.0 (roadmap:209:storage:v1.7.0:adaptive-compaction).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/storage/adaptive_compaction.h'
-      - 'src/storage/adaptive_compaction.cpp'
-      - 'include/storage/compaction_manager.h'
-      - 'src/storage/compaction_manager.cpp'
-      - 'tests/test_adaptive_compaction.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_storage_adaptive-compaction-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

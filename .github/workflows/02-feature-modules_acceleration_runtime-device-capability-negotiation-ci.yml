@@ -15,19 +15,6 @@ name: Runtime Device Capability Negotiation CI
 #   AC-9  Impossible requirements yield nullptr for the relevant category
 #   AC-10 Second initializeRuntime() call refreshes the cached selection
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/acceleration/device_manager.h'
-      - 'src/acceleration/device_manager.cpp'
-      - 'include/acceleration/compute_backend.h'
-      - 'src/acceleration/backend_registry.cpp'
-      - 'tests/test_device_manager.cpp'
-      - 'tests/test_backend_registry_startup.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_acceleration_runtime-device-capability-negotiation-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

@@ -3,16 +3,6 @@ name: Distributed Transaction Coordinator (2PC) CI
 # Triggered on every push/PR that touches the 2PC coordinator sources or tests.
 # Targets milestone v1.9.0.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/transaction/distributed_transaction_manager.h'
-      - 'src/transaction/distributed_transaction_manager.cpp'
-      - 'tests/test_transaction_distributed_2pc.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_transactions_transaction-distributed-2pc-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

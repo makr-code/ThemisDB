@@ -18,17 +18,6 @@ on:
       - 'include/llm/kernel_fusion_cuda.h'
       - 'tests/llm/test_kernel_fusion_cpu_fallback.cpp'
       - '.github/workflows/02-feature-modules_llm_llm-cpu-fallback-ci.yml'
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/llm/kernel_fusion.cpp'
-      - 'src/llm/kernel_fusion.cu'
-      - 'include/llm/kernel_fusion.h'
-      - 'include/llm/kernel_fusion_cuda.h'
-      - 'tests/llm/test_kernel_fusion_cpu_fallback.cpp'
-      - '.github/workflows/02-feature-modules_llm_llm-cpu-fallback-ci.yml'
   workflow_dispatch:
 
 concurrency:

@@ -3,18 +3,6 @@ name: Query Plan Caching CI
 # Triggered on every push/PR that touches the PlanCache sources,
 # its test file, or this workflow itself.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/query/plan_cache.h'
-      - 'src/query/plan_cache.cpp'
-      - 'tests/test_query_plan_caching.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_adaptive-query_query-plan-caching-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

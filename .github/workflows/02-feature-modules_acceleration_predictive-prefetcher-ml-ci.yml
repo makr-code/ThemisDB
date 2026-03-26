@@ -4,18 +4,6 @@ name: Predictive Prefetcher ML CI
 # its test file, or this workflow itself.
 # Targets v1.8.0 (roadmap:cache:v1.8.0:predictive-prefetcher-ml-based-access-pattern-model).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/cache/predictive_prefetcher.h'
-      - 'src/cache/predictive_prefetcher.cpp'
-      - 'include/cache/adaptive_query_cache.h'
-      - 'src/cache/adaptive_query_cache.cpp'
-      - 'tests/test_predictive_prefetcher_markov.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_acceleration_predictive-prefetcher-ml-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

@@ -5,23 +5,6 @@ name: Transaction SSI CI
 # Targets v1.8.0
 # (roadmap:122:transaction:v1.8.0:serializable-snapshot-isolation-ssi).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/transaction/isolation_level.h'
-      - 'include/transaction/lock_manager.h'
-      - 'include/transaction/transaction_manager.h'
-      - 'src/transaction/lock_manager.cpp'
-      - 'src/transaction/transaction_manager.cpp'
-      - 'src/storage/transaction_retry_manager.cpp'
-      - 'include/storage/transaction_retry_manager.h'
-      - 'tests/test_transaction_ssi.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_transactions_transaction-ssi-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

@@ -35,17 +35,6 @@ name: Prompt Engineering – Reflection Tuning CI
 #   AC-20  ReflectionResult::toJson — serialises all required fields
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/prompt_engineering/reflection_tuner.h'
-      - 'src/prompt_engineering/reflection_tuner.cpp'
-      - 'tests/test_reflection_tuner.cpp'
-      - 'tests/CMakeLists.txt'
-      - 'cmake/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_llm_reflection-tuner-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

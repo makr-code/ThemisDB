@@ -1,16 +1,6 @@
 name: ConfigEncryptedStore Lock Upgrade CI
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/config/config_encrypted_store.h'
-      - 'src/config/config_encrypted_store.cpp'
-      - 'tests/test_config_encrypted_store.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_config_config-encrypted-store-lock-upgrade-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

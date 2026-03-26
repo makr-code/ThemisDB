@@ -38,15 +38,6 @@ name: XDOMEA Connector CI
 #   AC-XDM-30  Polymorphic usage via IXDOMEAConnector*
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/document/xdomea_connector.h'
-      - 'tests/test_xdomea_connector.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/07-data-pipelines_xdomea-connector-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

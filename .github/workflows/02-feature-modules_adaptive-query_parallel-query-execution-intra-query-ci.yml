@@ -3,18 +3,6 @@ name: Parallel Query Execution (Intra-Query) CI
 # Triggered on every push / PR that touches the parallel executor sources
 # or its test file.  Targets v1.7.0 (roadmap:92).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/query/parallel_executor.h'
-      - 'src/query/parallel_executor.cpp'
-      - 'tests/test_parallel_executor.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_adaptive-query_parallel-query-execution-intra-query-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

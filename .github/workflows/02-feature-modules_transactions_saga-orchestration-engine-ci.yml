@@ -3,16 +3,6 @@ name: SAGA Orchestration Engine CI
 # Triggered on every push/PR that touches the SAGA orchestrator sources or tests.
 # Targets milestone v1.8.0 / Issue #4043.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/transaction/saga_orchestrator.h'
-      - 'src/transaction/saga_orchestrator.cpp'
-      - 'tests/test_saga_orchestrator.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_transactions_saga-orchestration-engine-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

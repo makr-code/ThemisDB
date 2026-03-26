@@ -3,18 +3,6 @@ name: Query Vectorized Execution CI
 # Triggered on every push/PR that touches the VectorizedExecutionEngine sources,
 # its test file, or this workflow itself.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/query/vectorized_execution.h'
-      - 'src/query/vectorized_execution.cpp'
-      - 'tests/test_vectorized_execution.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_adaptive-query_query-vectorized-execution-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

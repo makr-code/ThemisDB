@@ -19,17 +19,6 @@ on:
       - 'include/llm/llm_model_storage.h'
       - 'tests/llm/test_llm_deployment_plugin.cpp'
       - '.github/workflows/02-feature-modules_llm_llm-deployment-plugin-rocksdb-storage-ci.yml'
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/llm/llm_deployment_plugin.cpp'
-      - 'include/llm/llm_deployment_plugin.h'
-      - 'src/llm/llm_model_storage.cpp'
-      - 'include/llm/llm_model_storage.h'
-      - 'tests/llm/test_llm_deployment_plugin.cpp'
-      - '.github/workflows/02-feature-modules_llm_llm-deployment-plugin-rocksdb-storage-ci.yml'
   workflow_dispatch:
 
 concurrency:

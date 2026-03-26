@@ -1,28 +1,8 @@
 name: Data Augmentation Pipeline Tests
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/exporters/data_augmentation.cpp'
-      - 'src/exporters/jsonl_llm_exporter.cpp'
-      - 'src/exporters/exporter_metrics.cpp'
-      - 'include/exporters/data_augmentation.h'
-      - 'include/exporters/exporter_interface.h'
-      - 'tests/exporters/test_data_augmentation.cpp'
-      - '.github/workflows/08-maintenance_data-augmentation-tests.yml'
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - 'src/exporters/data_augmentation.cpp'
-      - 'src/exporters/jsonl_llm_exporter.cpp'
-      - 'src/exporters/exporter_metrics.cpp'
-      - 'include/exporters/data_augmentation.h'
-      - 'include/exporters/exporter_interface.h'
-      - 'tests/exporters/test_data_augmentation.cpp'
-      - '.github/workflows/08-maintenance_data-augmentation-tests.yml'
+  schedule:
+    - cron: '0 2 * * *'  # Nightly at 02:00 UTC – data augmentation regression suite
   workflow_dispatch:
 
 concurrency:

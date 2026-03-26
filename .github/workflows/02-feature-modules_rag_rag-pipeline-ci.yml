@@ -18,16 +18,6 @@ on:
       - 'tests/test_rag_*.cpp'
       - 'tests/CMakeLists.txt'
       - '.github/workflows/02-feature-modules_rag_rag-pipeline-ci.yml'
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/rag/**'
-      - 'include/rag/**'
-      - 'tests/test_rag_*.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_rag_rag-pipeline-ci.yml'
   workflow_dispatch:
 
 concurrency:

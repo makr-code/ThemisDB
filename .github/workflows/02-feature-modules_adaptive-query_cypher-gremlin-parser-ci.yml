@@ -4,22 +4,6 @@ name: Cypher/Gremlin Parser CI
 # test files, or this workflow itself.
 # Targets v1.6.0 (roadmap:query:v1.6.0:cypher-gremlin-parser).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/query/cypher_parser.h'
-      - 'src/query/cypher_parser.cpp'
-      - 'include/query/gremlin_parser.h'
-      - 'src/query/gremlin_parser.cpp'
-      - 'include/query/aql_runner.h'
-      - 'src/query/aql_runner.cpp'
-      - 'tests/test_cypher_parser.cpp'
-      - 'tests/test_gremlin_parser.cpp'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_adaptive-query_cypher-gremlin-parser-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

@@ -3,21 +3,6 @@ name: Erasure Coding for Blob Storage CI
 # Triggered on every push / PR that touches ErasureCodingBackend sources,
 # its tests, the BlobRedundancyManager, or this workflow itself.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/storage/erasure_coding_backend.cpp'
-      - 'include/storage/erasure_coding_backend.h'
-      - 'src/storage/blob_redundancy_manager.cpp'
-      - 'include/storage/blob_redundancy_manager.h'
-      - 'src/sharding/redundancy_strategy.cpp'
-      - 'include/sharding/redundancy_strategy.h'
-      - 'tests/test_erasure_coding_backend.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_storage_erasure-coding-blob-storage-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

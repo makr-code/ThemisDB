@@ -3,22 +3,6 @@ name: Versioned API Routing CI
 # Validates the Versioned API Routing and /v2/ Prefix feature (v1.8.0).
 # Triggered on every push/PR that touches the relevant source files.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/server/route_version_router.h'
-      - 'include/server/entity_api_handler.h'
-      - 'src/server/entity_api_handler.cpp'
-      - 'include/server/query_api_handler.h'
-      - 'src/server/query_api_handler.cpp'
-      - 'include/server/async_job_api_handler.h'
-      - 'src/server/async_job_api_handler.cpp'
-      - 'src/server/http_server.cpp'
-      - 'tests/test_versioned_api_routing.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_versioned-api-routing-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

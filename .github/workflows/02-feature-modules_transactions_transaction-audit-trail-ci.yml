@@ -29,17 +29,6 @@ name: Transaction Audit Trail CI
 #   AC-24 Operations list inside AuditRecord is preserved
 #   AC-25 Default limit of 1000 is respected
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/transaction/transaction_auditor.h'
-      - 'include/transaction/isolation_level.h'
-      - 'src/transaction/transaction_auditor.cpp'
-      - 'tests/test_transaction_auditor.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_transactions_transaction-audit-trail-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

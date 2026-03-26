@@ -3,18 +3,6 @@ name: Automatic Schema Migration CI
 # Triggered on every push/PR that touches the SchemaMigration sources,
 # its test file, or this workflow itself.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/updates/schema_migration.cpp'
-      - 'include/updates/schema_migration.h'
-      - 'tests/test_automatic_schema_migration.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_storage_automatic-schema-migration-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

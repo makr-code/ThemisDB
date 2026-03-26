@@ -3,18 +3,6 @@ name: Config Audit Trail CI
 # Triggered on every push/PR that touches the ConfigAuditLog sources,
 # audit-trail test files, or this workflow itself.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/config/config_audit_log.h'
-      - 'src/config/config_audit_log.cpp'
-      - 'src/config/config_path_resolver.cpp'
-      - 'src/config/config_path_resolver.h'
-      - 'tests/test_config_path_resolver.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_config_config-audit-trail-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

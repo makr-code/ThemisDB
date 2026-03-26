@@ -4,18 +4,6 @@ name: RocksDBWrapper Size Calculation CI
 # the test file, or this workflow itself change.
 # Targets v1.8.0 (roadmap:205:storage:v1.8.0:rocksdbwrapper-implement-proper-size-calculation).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/storage/rocksdb_wrapper.h'
-      - 'src/storage/rocksdb_wrapper.cpp'
-      - 'include/storage/disk_space_monitor.h'
-      - 'src/storage/disk_space_monitor.cpp'
-      - 'tests/test_rocksdb_size_calculation.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_storage_rocksdb-size-calculation-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

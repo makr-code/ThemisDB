@@ -13,26 +13,6 @@ name: Content Deduplication via Perceptual Hashing CI
 #   AC-7  MinHash + LSH lookup with warm 100 K-entry index in < 1 ms (opt-in perf test)
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/content/deduplication_checker.h'
-      - 'src/content/deduplication_checker.cpp'
-      - 'include/content/image_processor.h'
-      - 'src/content/image_processor.cpp'
-      - 'include/content/content_processor.h'
-      - 'src/content/text_processor.cpp'
-      - 'include/content/content_metrics.h'
-      - 'src/content/content_metrics.cpp'
-      - 'include/content/content_policy.h'
-      - 'src/content/content_policy.cpp'
-      - 'include/content/content_manager.h'
-      - 'src/content/content_manager.cpp'
-      - 'tests/test_content_deduplication.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_storage_content-dedup-perceptual-hashing-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

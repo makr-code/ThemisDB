@@ -3,18 +3,6 @@ name: Query JIT Compilation CI
 # Triggered on every push/PR that touches the QueryCompiler sources,
 # its test file, or this workflow itself.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/query/query_compiler.h'
-      - 'src/query/query_compiler.cpp'
-      - 'tests/test_query_jit_compilation.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_adaptive-query_query-jit-compilation-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

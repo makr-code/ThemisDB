@@ -3,18 +3,6 @@ name: Parallel File Downloads CI
 # Triggered on every push / PR that touches the parallel downloader sources
 # or its test file. Targets v1.6.0.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/updates/parallel_downloader.h'
-      - 'src/updates/parallel_downloader.cpp'
-      - 'tests/test_parallel_file_downloads.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_storage_parallel-file-downloads-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

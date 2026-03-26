@@ -4,21 +4,6 @@ name: SIMD Vectorization — AVX-512 and ARM NEON CI
 # their test files, or this workflow itself.
 # Targets v1.8.0 (roadmap:46:analytics:v1.8.0:14-simd-vectorization-avx-512-and-arm-neon).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/analytics/olap.cpp'
-      - 'src/analytics/columnar_execution.cpp'
-      - 'src/analytics/forecasting.cpp'
-      - 'include/analytics/columnar_execution.h'
-      - 'tests/analytics/test_columnar_execution.cpp'
-      - 'tests/analytics/test_forecasting.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_acceleration_simd-vectorization-avx512-arm-neon-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

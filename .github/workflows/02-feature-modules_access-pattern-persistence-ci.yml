@@ -4,18 +4,6 @@ name: IndexRecommender Access-Pattern Persistence CI
 # or this workflow itself change.
 # Targets v1.9.0 (roadmap:metadata:Q3-2026:index-recommender:access-pattern-persistence).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/metadata/index_recommender.h'
-      - 'src/metadata/index_recommender.cpp'
-      - 'include/storage/rocksdb_wrapper.h'
-      - 'src/storage/rocksdb_wrapper.cpp'
-      - 'tests/test_index_recommender.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_access-pattern-persistence-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

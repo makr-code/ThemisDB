@@ -4,22 +4,6 @@ name: Geo Spatial JOIN CI
 # the AQL translator/runner, its test file, or this workflow itself.
 # Targets v1.6.0 (roadmap:170:geo:v1.6.0:spatial-join-support).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/geo/spatial_join.h'
-      - 'src/geo/spatial_join.cpp'
-      - 'include/query/aql_translator.h'
-      - 'src/query/aql_translator.cpp'
-      - 'src/query/aql_runner.cpp'
-      - 'tests/geo/test_geo_spatial_join.cpp'
-      - 'benchmarks/bench_spatial_join.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_adaptive-query_geo-spatial-join-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

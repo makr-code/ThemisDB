@@ -15,17 +15,6 @@ name: Prompt Engineering – Library Import/Export CI
 #   AC-27 to AC-30  round-trip file, PromptLibraryBundle::fromJson(toJson())
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/prompt_engineering/prompt_library_io.h'
-      - 'src/prompt_engineering/prompt_library_io.cpp'
-      - 'tests/test_prompt_library_io.cpp'
-      - 'tests/CMakeLists.txt'
-      - 'cmake/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_llm_prompt-library-io-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

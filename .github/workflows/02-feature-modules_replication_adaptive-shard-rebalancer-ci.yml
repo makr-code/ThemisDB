@@ -3,23 +3,6 @@ name: Adaptive Shard Rebalancer CI
 # Triggered on every push / PR that touches the adaptive shard rebalancer
 # sources or its test file.  Targets v1.7.0 (Issue #203).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/sharding/auto_rebalancer.h'
-      - 'src/sharding/auto_rebalancer.cpp'
-      - 'include/sharding/shard_load_detector.h'
-      - 'src/sharding/shard_load_detector.cpp'
-      - 'include/sharding/data_migrator.h'
-      - 'src/sharding/data_migrator.cpp'
-      - 'include/utils/audit_logger.h'
-      - 'src/utils/audit_logger.cpp'
-      - 'tests/test_adaptive_shard_rebalancer.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_replication_adaptive-shard-rebalancer-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

@@ -4,18 +4,6 @@ name: Geo Point Clustering (DBSCAN / k-means) CI
 # its test file, or this workflow itself.
 # Targets v1.8.0 (roadmap:172:geo:v1.8.0:geo-point-clustering-dbscan-and-k-means | Issue-4003).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/geo/geo_clustering.h'
-      - 'src/geo/geo_clustering.cpp'
-      - 'tests/geo/test_geo_clustering.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_adaptive-query_geo-point-clustering-dbscan-kmeans-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

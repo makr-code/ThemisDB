@@ -15,16 +15,6 @@ name: VLLMResourceManager Multi-GPU NVML Monitoring CI
 #   AC-7  shutdownNVML() clears all device handles before nvmlShutdown().
 #   AC-8  queryGPUUtilization() propagates mock provider value through getStats().
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/acceleration/vllm_resource_manager.h'
-      - 'src/acceleration/vllm_resource_manager.cpp'
-      - 'tests/test_vllm_resource_stats.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_acceleration_vllm-multi-gpu-nvml-monitoring-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

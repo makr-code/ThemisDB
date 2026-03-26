@@ -3,17 +3,6 @@ name: UDP Server (Ingestion) CI
 # Triggered on every push / PR that touches the UDP Server sources
 # (header, implementation, tests) or this workflow.  Targets v1.8.0.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/network/udp_server.h'
-      - 'src/network/udp_server.cpp'
-      - 'tests/test_udp_server.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/06-infrastructure_networking_udp-server-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

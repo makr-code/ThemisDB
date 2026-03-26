@@ -4,21 +4,6 @@ name: Plugin Registry Shared Mutex CI
 # the WASM host API / loader scaffold, its test file, or this workflow.
 # Targets v1.8.0 (roadmap:193:plugins:v1.8.0:pluginregistry-upgrade-global-mutex-to-shared-mutex).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/plugins/plugin_registry.h'
-      - 'src/plugins/plugin_registry.cpp'
-      - 'include/plugins/wasm_host_api.h'
-      - 'src/plugins/wasm_plugin_loader.cpp'
-      - 'src/plugins/plugin_system_edition.cpp'
-      - 'tests/test_generic_plugin_registry.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_plugin-registry-shared-mutex-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

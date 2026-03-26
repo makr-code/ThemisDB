@@ -23,38 +23,6 @@ name: Plugin Manager & Lifecycle CI
 #   CN-1   PluginCapabilityNegotiation – version-range matching, negotiateCapabilities API
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/plugins/plugin_manager.h'
-      - 'include/plugins/plugin_interface.h'
-      - 'include/plugins/plugin_registry.h'
-      - 'include/plugins/plugin_health_monitor.h'
-      - 'include/plugins/plugin_hot_plug_monitor.h'
-      - 'include/plugins/plugin_metrics.h'
-      - 'include/plugins/plugin_dependency_resolver.h'
-      - 'include/plugins/plugin_api.h'
-      - 'src/plugins/plugin_manager.cpp'
-      - 'src/plugins/plugin_registry.cpp'
-      - 'src/plugins/plugin_health_monitor.cpp'
-      - 'src/plugins/plugin_hot_plug_monitor.cpp'
-      - 'src/plugins/plugin_metrics.cpp'
-      - 'src/plugins/plugin_system_edition.cpp'
-      - 'tests/test_plugin_manager.cpp'
-      - 'tests/test_plugin_lifecycle.cpp'
-      - 'tests/test_generic_plugin_registry.cpp'
-      - 'tests/test_plugin_health_monitor.cpp'
-      - 'tests/test_plugin_hot_plug.cpp'
-      - 'tests/test_plugin_hot_reload_enhanced.cpp'
-      - 'tests/test_plugin_metrics.cpp'
-      - 'tests/test_plugin_metrics_integration.cpp'
-      - 'tests/test_plugin_dependency_resolver.cpp'
-      - 'tests/test_plugin_dependency_graph.cpp'
-      - 'tests/test_plugin_capability_negotiation.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_plugin-manager-lifecycle-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

@@ -3,21 +3,6 @@ name: RedisCacheCoordinator Async Pub/Sub CI
 # Triggered on every push / PR that touches the RedisCacheCoordinator sources
 # or related cache health / admin API files.  Targets v1.7.0.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/cache/distributed_cache_coordinator.h'
-      - 'src/cache/distributed_cache_coordinator.cpp'
-      - 'include/cache/redis_cache_coordinator.h'
-      - 'src/cache/redis_cache_coordinator.cpp'
-      - 'src/cache/adaptive_query_cache.cpp'
-      - 'tests/test_distributed_cache_coordinator.cpp'
-      - 'tests/test_cache_admin_api_handler.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_resilience_redis-cache-coordinator-async-loop-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

@@ -3,18 +3,6 @@ name: Load Balancing with Raft Coordination CI
 # Triggered on every push / PR that touches the Raft load balancer sources or tests.
 # Targets v1.8.0 (roadmap:78:network:v1.8.0:load-balancing-with-raft-coordination).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/network/raft_load_balancer.h'
-      - 'src/network/raft_load_balancer.cpp'
-      - 'tests/test_raft_load_balancer.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/06-infrastructure_distributed_load-balancing-raft-coordination-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

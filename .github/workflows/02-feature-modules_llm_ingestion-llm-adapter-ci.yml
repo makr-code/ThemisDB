@@ -11,18 +11,6 @@ name: Ingestion LLM Adapter CI
 # compiles only the ingestion sources and requires no RocksDB / themis_core.
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/ingestion/llm_adapter.h'
-      - 'src/ingestion/llm_adapter.cpp'
-      - 'include/ingestion/deontic_extractor.h'
-      - 'src/ingestion/deontic_extractor.cpp'
-      - 'tests/test_ingestion_llm_adapter.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_llm_ingestion-llm-adapter-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

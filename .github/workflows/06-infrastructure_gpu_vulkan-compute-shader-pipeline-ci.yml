@@ -4,20 +4,6 @@ name: Vulkan Compute Shader Pipeline CI
 # hardening sources (MoltenVK probe, specialization constants, double-buffer
 # staging) or its test file.  Targets v1.7.0.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/acceleration/graphics_backends.h'
-      - 'src/acceleration/graphics_backends.cpp'
-      - 'src/acceleration/vulkan/shaders/l2_distance.comp'
-      - 'src/acceleration/vulkan/shaders/batch_search.comp'
-      - 'tests/test_vulkan_compute_shader_hardening.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/06-infrastructure_gpu_vulkan-compute-shader-pipeline-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

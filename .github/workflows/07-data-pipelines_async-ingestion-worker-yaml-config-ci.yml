@@ -4,17 +4,6 @@ name: AsyncIngestionWorker YAML Config CI
 # sources, the YAML config file, or this workflow itself.
 # Targets v1.8.0 (Issue #3998: AsyncIngestionWorker YAML Config Loading and User Context).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/content/async_ingestion_worker.h'
-      - 'src/content/async_ingestion_worker.cpp'
-      - 'config/content/async_worker.yaml'
-      - 'tests/test_async_ingestion_yaml_config.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/07-data-pipelines_async-ingestion-worker-yaml-config-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

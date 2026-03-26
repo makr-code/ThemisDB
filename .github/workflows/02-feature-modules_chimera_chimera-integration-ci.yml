@@ -9,22 +9,6 @@ name: Chimera Integration CI
 # changes.
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/chimera/mongodb_adapter.cpp'
-      - 'src/chimera/qdrant_adapter.cpp'
-      - 'src/chimera/neo4j_adapter.cpp'
-      - 'include/chimera/mongodb_adapter.hpp'
-      - 'include/chimera/qdrant_adapter.hpp'
-      - 'include/chimera/neo4j_adapter.hpp'
-      - 'include/chimera/connection_pool.hpp'
-      - 'adapters/chimera/CMakeLists.txt'
-      - 'tests/chimera/**'
-      - 'docker/docker-compose.chimera-integration.yml'
-      - '.github/workflows/02-feature-modules_chimera_chimera-integration-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

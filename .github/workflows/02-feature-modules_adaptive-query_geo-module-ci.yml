@@ -4,20 +4,6 @@ name: Geo Module CI
 # header, test, or this workflow itself.
 # Covers all focused geo test targets (v2.2.0).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/geo/**'
-      - 'src/geo/**'
-      - 'tests/geo/**'
-      - 'include/utils/geo/**'
-      - 'src/utils/geo/**'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_adaptive-query_geo-module-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

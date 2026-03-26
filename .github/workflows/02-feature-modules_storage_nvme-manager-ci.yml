@@ -3,19 +3,6 @@ name: NVMe Manager CI
 # Triggered on every push/PR that touches NVMeManager sources, RocksDBWrapper
 # NVMe integration, tests, or this workflow itself.  Targets v1.6.0.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/storage/nvme_manager.h'
-      - 'src/storage/nvme_manager.cpp'
-      - 'include/storage/rocksdb_wrapper.h'
-      - 'src/storage/rocksdb_wrapper.cpp'
-      - 'tests/test_nvme_manager.cpp'
-      - 'tests/CMakeLists.txt'
-      - 'cmake/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_storage_nvme-manager-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

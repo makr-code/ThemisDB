@@ -3,16 +3,6 @@ name: Geo-Replication Consistency Levels CI
 # Triggered on every push / PR that touches GeoReplicationManager
 # sources or its test file.  Targets v1.7.0.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/replication/replication_manager.h'
-      - 'src/replication/replication_manager.cpp'
-      - 'tests/test_geo_replication_consistency.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_replication_geo-replication-consistency-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

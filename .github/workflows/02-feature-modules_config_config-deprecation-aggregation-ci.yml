@@ -3,23 +3,6 @@ name: Config Deprecation Aggregation CI
 # Triggered on every push/PR that touches the ConfigPathResolver sources,
 # deprecation aggregation-related test files, or this workflow itself.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/config/config_path_resolver.cpp'
-      - 'src/config/config_path_resolver.h'
-      - 'src/config/config_audit_log.cpp'
-      - 'src/config/config_audit_log.h'
-      - 'src/config/config_metrics_exporter.cpp'
-      - 'src/config/config_metrics_exporter.h'
-      - 'src/config/path_mapping_metadata.h'
-      - 'tests/test_config_path_resolver.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_config_config-deprecation-aggregation-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

@@ -4,16 +4,6 @@ name: Matryoshka Truncation CI
 # Covers MRL prefix truncation, L2 normalisation, IAnnIndex wrapper correctness
 # and recall, save/load roundtrip, edge cases (zero vector, zero-pad, k > size).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/index/matryoshka_truncation.h'
-      - 'src/index/matryoshka_truncation.cpp'
-      - 'tests/index/test_matryoshka_truncation.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_matryoshka-truncation-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

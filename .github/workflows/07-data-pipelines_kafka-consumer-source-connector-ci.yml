@@ -3,20 +3,6 @@ name: Kafka Consumer Source Connector CI
 # Triggered on every push / PR that touches the KafkaConnector sources,
 # its test file, or this workflow itself.  Targets v1.7.0.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/ingestion/kafka_connector.h'
-      - 'src/ingestion/kafka_connector.cpp'
-      - 'src/ingestion/ingestion_manager.cpp'
-      - 'include/ingestion/ingestion_manager.h'
-      - 'tests/test_ingestion_kafka.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/07-data-pipelines_kafka-consumer-source-connector-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

@@ -3,22 +3,6 @@ name: Sync-Milestones CI
 # Run unit tests and a dry-run smoke-test whenever the sync script,
 # its tests, or any roadmap file changes.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'scripts/sync-milestones-from-roadmap.py'
-      - 'tests/test_sync_milestones.py'
-      - 'src/**/ROADMAP.md'
-      - '.github/workflows/08-maintenance_sync-milestones-ci.yml'
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - 'scripts/sync-milestones-from-roadmap.py'
-      - 'tests/test_sync_milestones.py'
-      - 'src/**/ROADMAP.md'
-      - '.github/workflows/08-maintenance_sync-milestones-ci.yml'
   workflow_dispatch:
 
 concurrency:

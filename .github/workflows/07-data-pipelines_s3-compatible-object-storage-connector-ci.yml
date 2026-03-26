@@ -3,20 +3,6 @@ name: S3-Compatible Object Storage Source Connector CI
 # Triggered on every push / PR that touches the S3Connector sources,
 # its test file, or this workflow itself.  Targets v1.7.0 (Issue #178).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/ingestion/s3_connector.h'
-      - 'src/ingestion/s3_connector.cpp'
-      - 'src/ingestion/ingestion_manager.cpp'
-      - 'include/ingestion/ingestion_manager.h'
-      - 'tests/test_s3_connector.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/07-data-pipelines_s3-compatible-object-storage-connector-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

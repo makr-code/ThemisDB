@@ -29,16 +29,6 @@ name: Transaction Write Batching CI
 #   AC-25 setTablePolicy with zero fields inherits global config
 #   AC-26 High-throughput: 1000 submitters all get resolved futures (opt-in)
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/transaction/transaction_batcher.h'
-      - 'src/transaction/transaction_batcher.cpp'
-      - 'tests/test_transaction_batcher.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_transactions_transaction-write-batching-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

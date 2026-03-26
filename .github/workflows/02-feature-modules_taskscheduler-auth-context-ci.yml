@@ -3,16 +3,6 @@ name: TaskScheduler Auth Context CI
 # Triggered on every push / PR that touches the scheduler auth-context sources or tests.
 # Targets v1.8.0 (Issue #98).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/scheduler/task_scheduler.h'
-      - 'src/scheduler/task_scheduler.cpp'
-      - 'tests/test_task_scheduler_auth_context.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_taskscheduler-auth-context-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

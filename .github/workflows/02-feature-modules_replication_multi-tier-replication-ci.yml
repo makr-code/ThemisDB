@@ -3,18 +3,6 @@ name: Multi-Tier Replication CI
 # Triggered on every push / PR that touches MultiTierReplicationManager
 # sources or its test file.  Targets v1.8.0.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/replication/multi_tier_replication.h'
-      - 'src/replication/multi_tier_replication.cpp'
-      - 'tests/test_replication_ha.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_replication_multi-tier-replication-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

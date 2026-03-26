@@ -4,16 +4,6 @@ name: CDC Changefeed Sequence Counter CI
 # the sequence-counter test file.  Targets v1.8.0
 # (roadmap:160:cdc:v1.8.0:changefeed-sequence-counter-rocksdb-merge-operator).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/cdc/changefeed.h'
-      - 'src/cdc/changefeed.cpp'
-      - 'tests/test_cdc_changefeed_sequence_counter.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/07-data-pipelines_cdc-changefeed-sequence-counter-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

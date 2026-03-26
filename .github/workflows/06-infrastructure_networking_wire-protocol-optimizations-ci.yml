@@ -4,22 +4,6 @@ name: Wire Protocol Optimizations CI
 # sources (zero-copy, batch/Nagle, Zstd dictionary compression) or their
 # test file.  Targets v1.7.0.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/network/wire_protocol_zero_copy.h'
-      - 'include/network/wire_protocol_batch.h'
-      - 'include/network/connection_compression.h'
-      - 'src/network/wire_protocol_zero_copy.cpp'
-      - 'src/network/wire_protocol_batch.cpp'
-      - 'src/network/connection_compression.cpp'
-      - 'tests/test_wire_protocol_optimizations.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/06-infrastructure_networking_wire-protocol-optimizations-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

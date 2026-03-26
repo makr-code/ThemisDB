@@ -16,17 +16,6 @@ name: Prompt Engineering – Tree-of-Thoughts Reasoner CI
 #   AC-10 verbose flag — intermediate thoughts logged when true
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/prompt_engineering/tree_of_thoughts.h'
-      - 'src/prompt_engineering/tree_of_thoughts.cpp'
-      - 'tests/test_tree_of_thoughts.cpp'
-      - 'tests/CMakeLists.txt'
-      - 'cmake/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_llm_tree-of-thoughts-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

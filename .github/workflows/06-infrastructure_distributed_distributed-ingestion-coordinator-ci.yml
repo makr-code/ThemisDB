@@ -9,19 +9,6 @@ name: Distributed Ingestion Coordinator CI
 # or themis_core.
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/ingestion/ingestion_coordinator.h'
-      - 'src/ingestion/ingestion_coordinator.cpp'
-      - 'proto/ingestion_coordinator.proto'
-      - 'include/ingestion/ingestion_manager.h'
-      - 'src/ingestion/ingestion_coordinator.cpp'
-      - 'tests/test_ingestion_coordinator.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/06-infrastructure_distributed_distributed-ingestion-coordinator-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

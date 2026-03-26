@@ -11,16 +11,6 @@ name: LLMProcessAnalyzer LRU Cache CI
 #
 # No GPU hardware or external LLM API required — uses the built-in simulated stub.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/analytics/llm_process_analyzer.h'
-      - 'src/analytics/llm_process_analyzer.cpp'
-      - 'tests/analytics/test_llm_process_analyzer.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_llm_llm-process-analyzer-lru-cache-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

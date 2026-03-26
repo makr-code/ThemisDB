@@ -4,18 +4,6 @@ name: Logical Replication – Parallel Decoding CI
 # sources or its test file.  Targets v1.7.0 logical replication with
 # parallel-decoding support (parallel_decoding config flag).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/replication/logical_replication.h'
-      - 'src/replication/logical_replication.cpp'
-      - 'tests/test_logical_replication.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_replication_logical-replication-parallel-decoding-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

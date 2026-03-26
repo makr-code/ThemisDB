@@ -3,16 +3,6 @@ name: WAL Archival to Object Storage CI
 # Triggered on every push/PR that touches WALArchivalManager sources,
 # its tests, or this workflow itself.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/replication/replication_manager.cpp'
-      - 'include/replication/replication_manager.h'
-      - 'tests/test_replication_ha.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/07-data-pipelines_wal-archival-object-storage-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

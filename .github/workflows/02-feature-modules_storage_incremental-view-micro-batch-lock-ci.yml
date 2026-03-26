@@ -7,16 +7,6 @@ name: IncrementalView Micro-Batch Lock CI
 #   AC-IVM-2  passesBaseFilters() pre-computed outside the write lock
 #   AC-IVM-3  Reader P99 ≤ 10 ms during 10 000-row batch apply (opt-in perf test)
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/analytics/incremental_view.h'
-      - 'src/analytics/incremental_view.cpp'
-      - 'tests/analytics/test_incremental_view.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_storage_incremental-view-micro-batch-lock-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

@@ -8,23 +8,6 @@ name: CDC Interfaces CI
 #   - ICDCEventSchema / InMemoryCDCEventSchema / ISchemaEvolutionCallback
 #   - IDeliveryGuaranteeConfig / InMemoryDeliveryGuaranteeConfig / InMemoryIdempotentListener
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/cdc/icdc_pause_control.h'
-      - 'include/cdc/icdc_backpressure_signal.h'
-      - 'include/cdc/icdc_fan_in.h'
-      - 'include/cdc/icdc_event_schema.h'
-      - 'include/cdc/idelivery_guarantee_config.h'
-      - 'tests/test_cdc_pause_control.cpp'
-      - 'tests/test_cdc_backpressure_signal.cpp'
-      - 'tests/test_cdc_fan_in.cpp'
-      - 'tests/test_cdc_event_schema.cpp'
-      - 'tests/test_cdc_delivery_guarantee_config.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/07-data-pipelines_cdc-interfaces-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

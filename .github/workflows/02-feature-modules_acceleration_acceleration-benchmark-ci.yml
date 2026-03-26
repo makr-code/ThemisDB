@@ -12,18 +12,6 @@ name: Acceleration Benchmark CI
 #   fails if major (≥ 10 %) or critical (≥ 20 %) regressions are found.
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/acceleration/**'
-      - 'include/acceleration/**'
-      - 'benchmarks/bench_cuda_vs_cpu.cpp'
-      - 'benchmarks/performance_regression_detector.py'
-      - 'benchmarks/baseline_manager.py'
-      - 'benchmarks/baselines/acceleration/**'
-      - '.github/workflows/02-feature-modules_acceleration_acceleration-benchmark-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

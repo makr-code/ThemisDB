@@ -5,17 +5,6 @@ name: Chimera Error Recovery & Retry CI
 # across GCC 12 and GCC 14.
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/chimera/retry_policy.hpp'
-      - 'include/chimera/database_adapter.hpp'
-      - 'tests/chimera/test_retry_policy.cpp'
-      - 'adapters/chimera/CMakeLists.txt'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_chimera_chimera-error-recovery-retry-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

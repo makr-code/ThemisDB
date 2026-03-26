@@ -4,17 +4,6 @@ name: Bandwidth Management and QoS CI
 # Covers: LeakyBucket shaping, priority queue scheduling, fair-queuing
 # starvation guard, CongestionController AIMD, Linux tc integration.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/network/qos_manager.h'
-      - 'src/network/qos_manager.cpp'
-      - 'tests/test_bandwidth_management_qos.cpp'
-      - 'tests/test_qos_manager.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/06-infrastructure_networking_bandwidth-management-qos-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

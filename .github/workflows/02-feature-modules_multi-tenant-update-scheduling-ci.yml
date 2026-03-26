@@ -3,18 +3,6 @@ name: Multi-Tenant Update Scheduling CI
 # Triggered on every push / PR that touches the scheduler sources or tests.
 # Targets v1.8.0 (Issue #262).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/updates/tenant_update_scheduler.h'
-      - 'src/updates/tenant_update_scheduler.cpp'
-      - 'tests/test_multi_tenant_update_scheduling.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_multi-tenant-update-scheduling-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

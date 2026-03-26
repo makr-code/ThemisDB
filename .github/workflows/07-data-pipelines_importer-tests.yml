@@ -1,29 +1,6 @@
 name: Importer Module Tests
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/importers/**'
-      - 'include/importers/**'
-      - 'include/server/import_api_handler.h'
-      - 'src/server/import_api_handler.cpp'
-      - 'tests/test_postgres_importer*.cpp'
-      - 'tests/test_importer_async_api.cpp'
-      - 'tests/test_importer_conflict_resolver.cpp'
-      - 'tests/test_mysql_importer.cpp'
-      - 'tests/test_mongo_importer.cpp'
-      - 'tests/test_sqlite_importer.cpp'
-      - 'tests/test_flatfile_importer.cpp'
-      - 'tests/test_importer_plugin_api.cpp'
-      - 'tests/test_kafka_importer.cpp'
-      - 'tests/fixtures/importers/**'
-      - 'tools/import_cli.cpp'
-      - 'docs/importers_roadmap.md'
-      - 'docs/importers_runbook.md'
-      - '.github/workflows/07-data-pipelines_importer-tests.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

@@ -17,20 +17,8 @@ name: Acceleration ROADMAP Audit
 # calls.  The job uses GITHUB_TOKEN (automatically available in Actions).
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/acceleration/ROADMAP.md'
-      - 'src/acceleration/**'
-      - 'scripts/acceleration_roadmap_audit.py'
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - 'src/acceleration/ROADMAP.md'
-      - 'src/acceleration/**'
-      - 'scripts/acceleration_roadmap_audit.py'
+  schedule:
+    - cron: '0 4 * * 1'  # Weekly on Monday at 04:00 UTC
   workflow_dispatch:
 
 concurrency:

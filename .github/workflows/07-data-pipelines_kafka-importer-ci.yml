@@ -1,16 +1,6 @@
 name: Kafka Importer CI
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/importers/kafka_importer.cpp'
-      - 'include/importers/kafka_importer.h'
-      - 'tests/test_kafka_importer.cpp'
-      - 'plugins/importers/kafka/plugin.json'
-      - '.github/workflows/07-data-pipelines_kafka-importer-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

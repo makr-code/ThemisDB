@@ -3,20 +3,6 @@ name: GPU Memory Oversubscription CI
 # Triggered on every push/PR that touches the oversubscription sources,
 # its test file, or this workflow itself.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/index/gpu_memory_oversubscription.h'
-      - 'src/index/gpu_memory_oversubscription.cpp'
-      - 'include/index/gpu_vector_index.h'
-      - 'src/index/gpu_vector_index.cpp'
-      - 'tests/index/test_gpu_memory_oversubscription.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/06-infrastructure_gpu_gpu-memory-oversubscription-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

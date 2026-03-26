@@ -4,23 +4,6 @@ name: Temporal-Spatial Queries CI
 # the temporal versioning system, its test file, or this workflow itself.
 # Targets v1.7.0 (roadmap:171:geo:v1.7.0:temporal-spatial-queries-location-at-time-t).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/geo/temporal_spatial_query.h'
-      - 'src/geo/temporal_spatial_query.cpp'
-      - 'include/temporal/system_versioned_table.h'
-      - 'src/temporal/system_versioned_table.cpp'
-      - 'include/temporal/temporal_types.h'
-      - 'include/geo/spatial_join.h'
-      - 'src/geo/spatial_join.cpp'
-      - 'tests/geo/test_temporal_spatial_query.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_adaptive-query_temporal-spatial-queries-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

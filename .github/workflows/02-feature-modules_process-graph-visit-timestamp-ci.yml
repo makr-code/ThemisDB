@@ -4,18 +4,6 @@ name: Process Graph Visit Timestamp CI
 # sources or their test file.
 # Implements roadmap:255:network:v1.8.0:wireprotocolserver-processgraph-visit-timestamp-todo
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/index/process_graph.h'
-      - 'src/index/process_graph.cpp'
-      - 'src/network/wire_protocol_server.cpp'
-      - 'tests/test_process_graph.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_process-graph-visit-timestamp-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

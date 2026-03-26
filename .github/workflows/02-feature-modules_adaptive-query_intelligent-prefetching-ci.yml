@@ -4,18 +4,6 @@ name: Intelligent Prefetching CI
 # its test file, or this workflow itself.
 # Targets v1.8.0 (roadmap:192:performance:v1.8.0:intelligent-prefetching-system).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/performance/intelligent_prefetcher.h'
-      - 'src/performance/intelligent_prefetcher.cpp'
-      - 'tests/test_intelligent_prefetcher.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_adaptive-query_intelligent-prefetching-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

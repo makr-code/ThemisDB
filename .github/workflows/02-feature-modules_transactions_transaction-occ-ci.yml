@@ -5,19 +5,6 @@ name: Transaction OCC CI
 # Targets v1.8.0
 # (roadmap:233:transaction:v1.8.0:optimistic-concurrency-control-occ).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/transaction/transaction_manager.h'
-      - 'src/transaction/transaction_manager.cpp'
-      - 'tests/test_transaction_occ.cpp'
-      - 'benchmarks/bench_transaction_throughput.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_transactions_transaction-occ-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

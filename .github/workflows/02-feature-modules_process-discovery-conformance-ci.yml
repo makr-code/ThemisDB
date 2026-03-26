@@ -11,16 +11,6 @@ name: Process Discovery & Conformance Checking CI
 #   AC-PDC-5  BPMN 2.0 export from Inductive Miner result produces valid XML
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/analytics/process_mining.h'
-      - 'src/analytics/process_mining.cpp'
-      - 'tests/analytics/test_process_discovery_conformance.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_process-discovery-conformance-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

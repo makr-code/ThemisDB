@@ -4,20 +4,6 @@ name: OrphanDetector DistributedCoordinator Wiring CI
 # DistributedCoordinator sources, their test files, or this workflow.
 # Targets v1.8.0 (roadmap:202:sharding:v1.8.0:orphandetector-wire-to-distributedcoordinator-transaction-list).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/sharding/orphan_detector.h'
-      - 'src/sharding/orphan_detector.cpp'
-      - 'include/sharding/distributed_coordinator.h'
-      - 'src/sharding/distributed_coordinator.cpp'
-      - 'include/sharding/cross_shard_transaction.h'
-      - 'src/sharding/cross_shard_transaction.cpp'
-      - 'tests/test_orphan_detector_wired.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_storage_orphan-detector-wired-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

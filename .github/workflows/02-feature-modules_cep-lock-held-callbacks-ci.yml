@@ -9,16 +9,6 @@ name: CEP Lock-Held-Across-Callbacks CI
 #   AC-4  metricsLoop() uses condition_variable::wait_for (not sleep_for)
 #   AC-5  CEPEngine::shutdown() returns within 100 ms regardless of metrics_interval
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/analytics/cep_engine.h'
-      - 'src/analytics/cep_engine.cpp'
-      - 'tests/analytics/test_cep_engine.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_cep-lock-held-callbacks-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

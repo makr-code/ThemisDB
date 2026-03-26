@@ -4,16 +4,6 @@ name: DistributedGraphManager Shared Mutex CI
 # its test file, or this workflow.
 # Targets v1.8.0 (roadmap:graph:v1.8.0:distributed-graph-manager-read-path-lock-upgrade).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/graph/distributed_graph.h'
-      - 'src/graph/distributed_graph.cpp'
-      - 'tests/test_graph_distributed.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/06-infrastructure_distributed_distributed-graph-shared-mutex-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

@@ -16,19 +16,6 @@ name: CUDA HNSW Large-k CI
 # CudaHnswTraversalEngine.
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/acceleration/cuda/cuda_hnsw_kernels.cu'
-      - 'src/index/cuda_hnsw_graph_traversal.cpp'
-      - 'include/index/cuda_hnsw_graph_traversal.h'
-      - 'src/acceleration/cuda_backend.cpp'
-      - 'include/acceleration/cuda_backend.h'
-      - 'tests/test_cuda_hnsw_large_k.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_acceleration_cuda-hnsw-large-k-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

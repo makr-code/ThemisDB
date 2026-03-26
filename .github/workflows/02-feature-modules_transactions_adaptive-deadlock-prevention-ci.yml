@@ -3,18 +3,6 @@ name: Adaptive Deadlock Prevention CI
 # Triggered on every push/PR that touches DeadlockPredictor or its tests.
 # Targets v1.9.0.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/transaction/deadlock_predictor.h'
-      - 'src/transaction/deadlock_predictor.cpp'
-      - 'include/transaction/transaction_manager.h'
-      - 'src/transaction/transaction_manager.cpp'
-      - 'tests/test_adaptive_deadlock_prevention.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_transactions_adaptive-deadlock-prevention-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

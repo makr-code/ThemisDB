@@ -3,20 +3,6 @@ name: Index Compression CI
 # Triggered on every push/PR that touches the index compression sources,
 # its test file, or this workflow itself.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/index/index_compression.h'
-      - 'src/index/index_compression.cpp'
-      - 'include/index/secondary_index.h'
-      - 'src/index/secondary_index.cpp'
-      - 'tests/index/test_index_compression.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_storage_index-compression-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

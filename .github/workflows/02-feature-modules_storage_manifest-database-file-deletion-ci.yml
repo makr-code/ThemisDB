@@ -3,18 +3,6 @@ name: ManifestDatabase File Deletion CI
 # Triggered on every push/PR that touches the ManifestDatabase sources,
 # its test file, or this workflow itself.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/updates/manifest_database.cpp'
-      - 'include/updates/manifest_database.h'
-      - 'tests/test_manifest_database_file_deletion.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_storage_manifest-database-file-deletion-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

@@ -4,16 +4,6 @@ name: Remote Registry Client – Async Retry CI
 # its test file, or this workflow.  Validates the async retry back-off API
 # (listPluginsAsync / fetchPluginAsync / downloadPluginAsync).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/themis/base/remote_registry_client.h'
-      - 'src/base/remote_registry_client.cpp'
-      - 'tests/test_remote_registry_client.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_resilience_remote-registry-client-async-retry-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

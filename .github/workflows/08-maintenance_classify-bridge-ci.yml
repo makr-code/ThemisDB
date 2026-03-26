@@ -3,32 +3,6 @@ name: Classify Bridge CI
 # Triggered on every push / PR that touches the classify-bridge sources,
 # docs_assistant_functions, or the integration test.  Targets v1.7.0.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/aql/classify_bridge.h'
-      - 'include/aql/docs_assistant_functions.h'
-      - 'src/aql/classify_bridge.cpp'
-      - 'src/aql/docs_assistant_functions.cpp'
-      - 'tests/test_classify_bridge_integration.cpp'
-      - 'cmake/LLMIntegration.cmake'
-      - 'cmake/CMakeLists.txt'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/08-maintenance_classify-bridge-ci.yml'
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - 'include/aql/classify_bridge.h'
-      - 'include/aql/docs_assistant_functions.h'
-      - 'src/aql/classify_bridge.cpp'
-      - 'src/aql/docs_assistant_functions.cpp'
-      - 'tests/test_classify_bridge_integration.cpp'
-      - 'cmake/LLMIntegration.cmake'
-      - 'cmake/CMakeLists.txt'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/08-maintenance_classify-bridge-ci.yml'
   workflow_dispatch:
 
 concurrency:

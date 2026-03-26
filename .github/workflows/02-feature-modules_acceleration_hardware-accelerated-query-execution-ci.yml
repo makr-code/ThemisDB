@@ -4,18 +4,6 @@ name: Hardware-Accelerated Query Execution CI
 # its test file, or this workflow itself.
 # Targets v1.8.0 (roadmap:85:performance:v1.8.0:hardware-accelerated-query-execution).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/performance/hardware_accelerator.h'
-      - 'src/performance/hardware_accelerator.cpp'
-      - 'tests/test_performance_hardware_accelerator.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_acceleration_hardware-accelerated-query-execution-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

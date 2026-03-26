@@ -4,16 +4,6 @@ name: MetricsCollector Shared Mutex CI
 # its test file, or this workflow.
 # Targets v1.8.0 (roadmap:191:observability:v1.8.0:metricscollector-upgrade-shared-mutex-for-metric-read-path).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/observability/metrics_collector.h'
-      - 'src/observability/metrics_collector.cpp'
-      - 'tests/test_metrics_collector.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/06-infrastructure_observability_metrics-collector-shared-mutex-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

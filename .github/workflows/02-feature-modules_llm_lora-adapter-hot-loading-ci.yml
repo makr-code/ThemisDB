@@ -13,22 +13,6 @@ name: LoRA Adapter Hot-Loading CI
 #
 # No GPU hardware or external LLM API required — uses the built-in simulated stub.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/llm/adapter_registry.h'
-      - 'src/llm/adapter_registry.cpp'
-      - 'include/llm/adapter_load_balancer.h'
-      - 'src/llm/adapter_load_balancer.cpp'
-      - 'include/server/lora_api_handler.h'
-      - 'src/server/lora_api_handler.cpp'
-      - 'include/llm/inference_engine_enhanced.h'
-      - 'src/llm/inference_engine_enhanced.cpp'
-      - 'tests/llm/test_lora_hot_loading.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_llm_lora-adapter-hot-loading-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

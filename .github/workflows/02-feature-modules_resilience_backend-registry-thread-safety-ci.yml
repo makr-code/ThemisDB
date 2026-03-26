@@ -4,17 +4,6 @@ name: BackendRegistry Thread-Safety CI
 # the thread-safety test file, or this workflow itself.
 # Targets v1.8.0 (roadmap:133:acceleration:v1.8.0:backendregistry-thread-safe-read-access-after-initialization).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/acceleration/compute_backend.h'
-      - 'src/acceleration/backend_registry.cpp'
-      - 'tests/acceleration/test_backend_registry_thread_safety.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_resilience_backend-registry-thread-safety-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

@@ -3,19 +3,6 @@ name: Statistics Collector CI
 # Triggered on every push/PR that touches the StatisticsCollector sources,
 # test files, or this workflow itself.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/metadata/statistics_collector.cpp'
-      - 'include/metadata/statistics_collector.h'
-      - 'tests/test_statistics_collector.cpp'
-      - 'tests/test_statistics_auto_refresh.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/06-infrastructure_observability_statistics-collector-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

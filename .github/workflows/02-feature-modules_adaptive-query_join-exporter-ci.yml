@@ -4,16 +4,6 @@ name: Join Exporter CI
 # Covers cross-collection hash-join, output-field aliasing, join predicate
 # filtering, PII detection/redaction, memory budget enforcement, throughput.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/exporters/join_exporter.h'
-      - 'src/exporters/join_exporter.cpp'
-      - 'tests/exporters/test_join_exporter.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_adaptive-query_join-exporter-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

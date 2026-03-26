@@ -3,20 +3,6 @@ name: Auth Middleware JWT Scope Enforcement CI
 # Triggered on every push / PR that touches the AuthMiddleware sources
 # (header, implementation, tests) or this workflow.  Targets v1.8.0.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/auth/jwt_validator.h'
-      - 'src/auth/jwt_validator.cpp'
-      - 'include/server/auth_middleware.h'
-      - 'src/server/auth_middleware.cpp'
-      - 'tests/test_auth_middleware.cpp'
-      - 'config/security/rbac_roles.yaml'
-      - 'cmake/CMakeLists.txt'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_security_auth-middleware-jwt-scope-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

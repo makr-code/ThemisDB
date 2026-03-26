@@ -16,17 +16,6 @@ name: Prompt Engineering – DSPy Module CI
 #   AC-10 EchoDspyLLMProvider — returns one echo line per output label
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/prompt_engineering/dspy_module.h'
-      - 'src/prompt_engineering/dspy_module.cpp'
-      - 'tests/test_dspy_module.cpp'
-      - 'tests/CMakeLists.txt'
-      - 'cmake/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_llm_dspy-module-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

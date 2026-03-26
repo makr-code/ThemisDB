@@ -18,16 +18,6 @@ name: GraphQL WebSocket Handler — CDC Callback Safety CI
 #   AC-10 validateVariables(): optional variable omitted → OK
 #   AC-11 validateVariables(): variables field is array (not object) → error
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/api/graphql_ws_handler.h'
-      - 'src/api/graphql_ws_handler.cpp'
-      - 'tests/test_graphql_ws_handler.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/06-infrastructure_networking_graphql-ws-handler-cdc-callback-safety-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

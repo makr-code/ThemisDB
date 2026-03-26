@@ -3,22 +3,6 @@ name: Sharding Focused Tests CI
 # Triggered on every push / PR that touches sharding sources or the 7
 # newly-registered focused test files.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/sharding/**'
-      - 'src/sharding/**'
-      - 'tests/test_sharding_chaos.cpp'
-      - 'tests/test_sharding_e2e.cpp'
-      - 'tests/test_sharding_gossip.cpp'
-      - 'tests/test_sharding_integration.cpp'
-      - 'tests/test_sharding_interfaces.cpp'
-      - 'tests/test_sharding_operational_metrics.cpp'
-      - 'tests/test_sharding_uncovered.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/06-infrastructure_distributed_sharding-focused-tests-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

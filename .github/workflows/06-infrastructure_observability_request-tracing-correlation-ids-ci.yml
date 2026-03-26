@@ -12,24 +12,6 @@ name: Request Tracing and Correlation IDs CI
 # Targets: v1.7.0 — Issue #140
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/api/tracing_middleware.h'
-      - 'src/api/tracing_middleware.cpp'
-      - 'include/api/otlp_exporter.h'
-      - 'src/api/otlp_exporter.cpp'
-      - 'include/api/correlation_id.h'
-      - 'config/networking/otlp.yaml'
-      - 'tests/test_tracing_middleware.cpp'
-      - 'tests/test_otlp_exporter.cpp'
-      - 'tests/test_otel_api_tracing.cpp'
-      - 'tests/CMakeLists.txt'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - '.github/workflows/06-infrastructure_observability_request-tracing-correlation-ids-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

@@ -3,18 +3,6 @@ name: Materialized Views Incremental Maintenance CI
 # Triggered on every push/PR that touches the MaterializedView sources,
 # its test file, or this workflow itself.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/query/materialized_view.h'
-      - 'src/query/materialized_view.cpp'
-      - 'tests/test_materialized_view.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_adaptive-query_materialized-views-incremental-maintenance-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

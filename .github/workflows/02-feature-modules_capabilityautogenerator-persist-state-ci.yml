@@ -4,18 +4,6 @@ name: CapabilityAutoGenerator Persist State CI
 # or this workflow itself change.
 # Targets v1.8.0 (roadmap:217:utils:v1.8.0:capabilityautogenerator-persist-schedule-and-document-count-state).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/utils/capability_auto_generator.h'
-      - 'src/utils/capability_auto_generator.cpp'
-      - 'include/storage/rocksdb_wrapper.h'
-      - 'src/storage/rocksdb_wrapper.cpp'
-      - 'tests/test_capabilityautogenerator_persist_state.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_capabilityautogenerator-persist-state-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

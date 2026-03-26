@@ -1,16 +1,6 @@
 name: ML Anomaly Detector CI
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/observability/ml_anomaly_detector.cpp'
-      - 'include/observability/ml_anomaly_detector.h'
-      - 'tests/test_ml_anomaly_detector.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/06-infrastructure_observability_ml-anomaly-detector-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

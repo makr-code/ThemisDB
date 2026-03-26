@@ -38,15 +38,6 @@ name: eID Authenticator CI
 #   AC-EID-30  Polymorphic usage via IEIDAuthenticator*
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/auth/eid_authenticator.h'
-      - 'tests/test_eid_authenticator.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_security_eid-authenticator-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

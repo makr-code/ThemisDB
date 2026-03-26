@@ -4,23 +4,6 @@ name: RS Repair Engine Parallelisation CI
 # shard_resource_manager, slo_monitor, or their test files.
 # Targets v1.6.0 (Issue #204).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/sharding/shard_repair_engine.h'
-      - 'src/sharding/shard_repair_engine.cpp'
-      - 'include/sharding/shard_resource_manager.h'
-      - 'src/sharding/shard_resource_manager.cpp'
-      - 'include/sharding/slo_monitor.h'
-      - 'src/sharding/slo_monitor.cpp'
-      - 'include/utils/thread_pool_manager.h'
-      - 'src/utils/thread_pool_manager.cpp'
-      - 'include/utils/rate_limiter.h'
-      - 'tests/test_sharding_repair.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_storage_rs-repair-engine-parallelisation-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

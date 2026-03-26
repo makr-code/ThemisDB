@@ -37,15 +37,6 @@ name: OZG Service Registry CI
 #   AC-OZG-30  ONLINE_TRANSACTION services are searchable by status
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/importers/ozg_service_registry.h'
-      - 'tests/test_ozg_service_registry.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_security_ozg-service-registry-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

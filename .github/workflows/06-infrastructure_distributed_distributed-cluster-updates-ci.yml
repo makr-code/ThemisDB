@@ -3,18 +3,6 @@ name: Distributed Cluster Updates CI
 # Triggered on every push/PR that touches the ClusterUpdateManager sources,
 # its test file, or this workflow itself.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/updates/cluster_update_manager.cpp'
-      - 'include/updates/cluster_update_manager.h'
-      - 'tests/test_distributed_cluster_updates.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/06-infrastructure_distributed_distributed-cluster-updates-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

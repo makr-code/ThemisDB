@@ -22,20 +22,6 @@ on:
       - 'src/governance/policy_engine.cpp'
       - 'benchmarks/llm_bench.cpp'
       - '.github/workflows/02-feature-modules_llm_llm-openai-compat-ci.yml'
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/llm/openai_compat_adapter.cpp'
-      - 'include/llm/openai_compat_adapter.h'
-      - 'src/server/llm_api_handler.cpp'
-      - 'include/server/llm_api_handler.h'
-      - 'tests/llm/test_openai_compat_adapter.cpp'
-      - 'include/governance/policy_engine.h'
-      - 'src/governance/policy_engine.cpp'
-      - 'benchmarks/llm_bench.cpp'
-      - '.github/workflows/02-feature-modules_llm_llm-openai-compat-ci.yml'
   workflow_dispatch:
 
 concurrency:

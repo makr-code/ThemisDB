@@ -4,18 +4,6 @@ name: TSStore Out-of-Order Write CI
 # (v1.8.0, Issue #1976).  Triggered on every push/PR that touches the relevant
 # source files.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/timeseries/tsstore.h'
-      - 'src/timeseries/tsstore.cpp'
-      - 'include/timeseries/timeseries_metrics.h'
-      - 'src/timeseries/timeseries_metrics.cpp'
-      - 'tests/test_tsstore_out_of_order.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_storage_tsstore-out-of-order-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

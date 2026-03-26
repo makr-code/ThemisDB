@@ -5,25 +5,6 @@ name: Content Embedding Pipeline CI
 # or this workflow itself.
 # Targets v1.8.0 (roadmap:62:content:v1.8.0:embedding-generation-pipeline-text-vector).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/content/embedding_pipeline.h'
-      - 'src/content/embedding_pipeline.cpp'
-      - 'src/content/content_manager_embedding.cpp'
-      - 'include/content/content_manager.h'
-      - 'src/content/content_manager.cpp'
-      - 'include/content/content_metrics.h'
-      - 'src/content/content_metrics.cpp'
-      - 'include/content/content_policy.h'
-      - 'src/content/content_policy.cpp'
-      - 'tests/test_content_embedding_pipeline.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/07-data-pipelines_content-embedding-pipeline-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

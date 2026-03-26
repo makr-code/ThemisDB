@@ -4,18 +4,6 @@ name: Async Retry RemoteRegistryClient CI
 # the LLM timeout manager (RetryPolicy fix), or the focused test file.
 # Targets v1.3.0, Issue #3986.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/themis/base/remote_registry_client.h'
-      - 'src/base/remote_registry_client.cpp'
-      - 'include/aql/llm_timeout_manager.h'
-      - 'tests/test_remote_registry_client.cpp'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_resilience_async-retry-remote-registry-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

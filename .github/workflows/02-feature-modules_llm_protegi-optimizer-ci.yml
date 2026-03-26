@@ -16,18 +16,6 @@ name: Prompt Engineering – ProTeGi Optimizer CI
 #   AC-10 ProTeGiResult::best_score — matches score of best_prompt at end
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/prompt_engineering/protegi_optimizer.h'
-      - 'src/prompt_engineering/protegi_optimizer.cpp'
-      - 'include/prompt_engineering/prompt_optimizer.h'
-      - 'tests/test_protegi_optimizer.cpp'
-      - 'tests/CMakeLists.txt'
-      - 'cmake/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_llm_protegi-optimizer-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

@@ -10,16 +10,6 @@ name: Chimera Retry Policy CI
 #                           transparently; execute_with_retry, health_check
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/chimera/retry_policy.hpp'
-      - 'include/chimera/database_adapter.hpp'
-      - 'tests/chimera/test_retry_policy.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_chimera_chimera-retry-policy-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

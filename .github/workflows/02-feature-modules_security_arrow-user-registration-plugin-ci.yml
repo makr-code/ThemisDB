@@ -3,16 +3,6 @@ name: Arrow User Registration Plugin CI
 # Validates ArrowUserRegistrationPlugin Arrow integration (v1.8.0, Issue #99).
 # Covers bulkSyncFromArrow, authenticateFromArrow, and all four TODO stubs.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/security/arrow_user_registration_plugin.h'
-      - 'src/security/arrow_user_registration_plugin.cpp'
-      - 'tests/security/test_arrow_user_registration_plugin.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_security_arrow-user-registration-plugin-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

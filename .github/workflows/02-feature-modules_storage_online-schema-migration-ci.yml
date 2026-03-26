@@ -3,18 +3,6 @@ name: Online Schema Migration CI
 # Triggered on every push/PR that touches the SchemaMigrator sources,
 # its test file, or this workflow itself.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/storage/online_schema_migration.cpp'
-      - 'include/storage/online_schema_migration.h'
-      - 'tests/test_online_schema_migration.cpp'
-      - 'cmake/StorageEnhancements.cmake'
-      - 'cmake/CMakeLists.txt'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_storage_online-schema-migration-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

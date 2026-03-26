@@ -1,17 +1,8 @@
 name: OpenAPI SDK Generation
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'openapi/openapi.yaml'
-      - 'scripts/generate-sdks.sh'
-  pull_request:
-    paths:
-      - 'openapi/openapi.yaml'
-      - 'scripts/generate-sdks.sh'
+  schedule:
+    - cron: '0 2 * * 0'  # Weekly on Sunday at 02:00 UTC
   workflow_dispatch:
 
 # Default: read-only; the commit job overrides to contents:write

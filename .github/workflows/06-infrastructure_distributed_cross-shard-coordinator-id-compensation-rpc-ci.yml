@@ -7,18 +7,6 @@ name: CrossShard Coordinator ID + Compensation RPC CI
 #   AC-3  ShardRPCClient::compensate() dispatches a dedicated compensate RPC
 #   AC-4  Compensation retry queue bounded (max_retries=3, exponential backoff)
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/sharding/cross_shard_transaction.h'
-      - 'src/sharding/cross_shard_transaction.cpp'
-      - 'include/sharding/shard_rpc_client.h'
-      - 'src/sharding/shard_rpc_client.cpp'
-      - 'tests/test_cross_shard_coordinator.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/06-infrastructure_distributed_cross-shard-coordinator-id-compensation-rpc-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

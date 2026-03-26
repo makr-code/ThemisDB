@@ -3,17 +3,6 @@ name: Write-Optimized Merge (WOM) Tree CI
 # Triggered on every push/PR that touches WomTree sources, tests, or this
 # workflow.  Targets v1.8.0.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/storage/wom_tree.h'
-      - 'src/storage/wom_tree.cpp'
-      - 'tests/test_wom_tree.cpp'
-      - 'tests/CMakeLists.txt'
-      - 'cmake/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_storage_wom-tree-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

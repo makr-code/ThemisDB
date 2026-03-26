@@ -2,17 +2,6 @@ name: Epoch Fencing CI (Phase 4.1)
 
 # Triggered on every push / PR that touches epoch fencing sources or tests.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/sharding/epoch_fencing.h'
-      - 'src/sharding/epoch_fencing.cpp'
-      - 'tests/test_epoch_fencing.cpp'
-      - 'tests/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - '.github/workflows/06-infrastructure_distributed_epoch-fencing-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

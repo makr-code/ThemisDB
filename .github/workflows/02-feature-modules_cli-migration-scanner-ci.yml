@@ -3,22 +3,6 @@ name: CLI Migration Scanner CI
 # Triggered on every push/PR that touches the migration scanner sources,
 # the implementation header, or this workflow itself.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'tools/config_migration_scanner.cpp'
-      - 'src/config/config_migration_scanner_impl.h'
-      - 'src/config/config_path_resolver.cpp'
-      - 'src/config/config_path_resolver.h'
-      - 'src/config/path_mapping_metadata.h'
-      - 'src/config/config_audit_log.cpp'
-      - 'src/config/config_audit_log.h'
-      - 'tests/test_config_migration_scanner.cpp'
-      - 'tests/CMakeLists.txt'
-      - 'cmake/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_cli-migration-scanner-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

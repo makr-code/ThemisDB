@@ -38,15 +38,6 @@ name: XÖV Importer CI
 #   AC-XOEV-30  Round-trip: export then re-import preserves record count
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/importers/xoev_importer.h'
-      - 'tests/test_xoev_importer.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/07-data-pipelines_xoev-importer-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

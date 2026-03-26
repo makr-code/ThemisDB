@@ -4,17 +4,6 @@ name: ModelServingEngine Inference Under Registry Lock CI
 # its test file, or this workflow itself.
 # Targets v1.8.0 (roadmap:43:analytics:v1.8.0:4-modelservingenginepredict-inference-under-registry-lock).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/analytics/model_serving.h'
-      - 'src/analytics/model_serving.cpp'
-      - 'tests/analytics/test_model_serving.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_llm_model-serving-inference-lock-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

@@ -19,34 +19,6 @@ name: Governance Module CI
 #   AC-11 ModelGovernancePolicy blocks training exports of geheim/streng-geheim data
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/governance/**'
-      - 'src/governance/**'
-      - 'tests/test_ccpa_rules.cpp'
-      - 'tests/test_compliance_reporting.cpp'
-      - 'tests/test_compliance_security_governance.cpp'
-      - 'tests/test_cross_tenant_policy_inheritance.cpp'
-      - 'tests/test_data_lineage.cpp'
-      - 'tests/test_data_masker.cpp'
-      - 'tests/test_governance_compliance_time_window.cpp'
-      - 'tests/test_governance_opa_adapter.cpp'
-      - 'tests/test_governance_policy_hot_reload.cpp'
-      - 'tests/test_governance_policy_simulation.cpp'
-      - 'tests/test_governance_review_scheduler.cpp'
-      - 'tests/test_http_changefeed_governance.cpp'
-      - 'tests/test_http_governance.cpp'
-      - 'tests/test_model_governance.cpp'
-      - 'tests/test_pci_dss_rules.cpp'
-      - 'tests/test_policy_review.cpp'
-      - 'tests/test_policy_template.cpp'
-      - 'tests/test_policy_versioning.cpp'
-      - 'tests/test_soc2_controls.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_governance-module-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

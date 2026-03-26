@@ -7,15 +7,6 @@ name: User Storage Encrypted CI
 #   - Stale mount reconciliation (reconcileStaleMounts, v0.2.0)
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/user_storage_encrypted/**'
-      - 'include/user_storage_encrypted/**'
-      - 'plugins/user_storage_encrypted/**'
-      - '.github/workflows/02-feature-modules_security_user-storage-encrypted-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

@@ -13,17 +13,6 @@ name: Prompt Engineering – Prompt Regression Runner CI
 #   AC-28 to AC-30  setRunConfig, independent runs, valid-run check
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/prompt_engineering/prompt_regression_runner.h'
-      - 'src/prompt_engineering/prompt_regression_runner.cpp'
-      - 'tests/test_prompt_regression_runner.cpp'
-      - 'tests/CMakeLists.txt'
-      - 'cmake/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_llm_prompt-regression-runner-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

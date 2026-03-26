@@ -3,18 +3,6 @@ name: API Gateway Enhancements CI
 # Triggered on every push/PR that touches RequestCoalescingManager,
 # SmartRouter, or their tests.  Targets v1.7.0 / v1.8.0.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/server/request_coalescing.h'
-      - 'src/server/request_coalescing.cpp'
-      - 'include/server/smart_routing.h'
-      - 'src/server/smart_routing.cpp'
-      - 'tests/test_api_gateway_enhancements.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/06-infrastructure_networking_api-gateway-enhancements-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

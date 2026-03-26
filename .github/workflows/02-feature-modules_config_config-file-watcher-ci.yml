@@ -3,18 +3,6 @@ name: Config File Watcher CI
 # Triggered on every push/PR that touches the ConfigFileWatcher sources,
 # hot-reload test files, or this workflow itself.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/config/config_file_watcher.h'
-      - 'src/config/config_file_watcher.cpp'
-      - 'src/config/config_path_resolver.cpp'
-      - 'src/config/config_path_resolver.h'
-      - 'tests/test_config_file_watcher.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_config_config-file-watcher-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

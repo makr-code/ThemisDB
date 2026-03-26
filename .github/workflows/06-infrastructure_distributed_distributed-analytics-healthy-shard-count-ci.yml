@@ -8,16 +8,6 @@ name: DistributedAnalytics Healthy Shard Count CI
 #   AC-DAS-3  getHealthyShardCountAsync() performs live isHealthy() calls off the registry lock
 #   AC-DAS-4  addShard() completes within 50 ms while a 500 ms health check is in progress
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/analytics/distributed_analytics.h'
-      - 'src/analytics/distributed_analytics.cpp'
-      - 'tests/analytics/test_distributed_analytics.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/06-infrastructure_distributed_distributed-analytics-healthy-shard-count-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

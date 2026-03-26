@@ -7,17 +7,6 @@ name: MQTT Client Service CI
 #   - MqttCDCTransport (ICDCTransport bridge to MQTT broker)
 #   - MqttClientService (bidirectional MQTT client with service registration)
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/server/mqtt_client_service.h'
-      - 'src/server/mqtt_client_service.cpp'
-      - 'tests/test_mqtt_client_service.cpp'
-      - 'tests/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - '.github/workflows/06-infrastructure_networking_mqtt-client-service-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

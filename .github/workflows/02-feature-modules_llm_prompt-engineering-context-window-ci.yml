@@ -17,18 +17,6 @@ name: Prompt Engineering – Context Window Budget Manager CI
 #   AC-10 ModelTokenBudget::promptBudget() — saturates at 0 when reserved >= max
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/prompt_engineering/context_window_manager.h'
-      - 'src/prompt_engineering/context_window_manager.cpp'
-      - 'include/prompt_engineering/rag_prompt_builder.h'
-      - 'tests/test_context_window_manager.cpp'
-      - 'tests/CMakeLists.txt'
-      - 'cmake/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_llm_prompt-engineering-context-window-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

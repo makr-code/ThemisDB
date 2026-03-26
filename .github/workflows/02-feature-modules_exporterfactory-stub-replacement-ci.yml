@@ -4,17 +4,6 @@ name: ExporterFactory Stub Replacement CI
 # Covers ArrowIPCExporter, ParquetExporter, FeatherExporter, JSONCSVExporter,
 # and createExporter() dispatch with and without THEMIS_HAS_ARROW.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/analytics/analytics_export.h'
-      - 'src/analytics/analytics_export.cpp'
-      - 'src/analytics/arrow_export.cpp'
-      - 'tests/analytics/test_arrow_export.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_exporterfactory-stub-replacement-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

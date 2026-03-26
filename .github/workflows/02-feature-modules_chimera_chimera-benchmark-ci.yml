@@ -12,18 +12,6 @@ name: Chimera Benchmark CI
 #   fails if major (≥ 10 %) or critical (≥ 20 %) regressions are found.
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/chimera/**'
-      - 'include/chimera/**'
-      - 'adapters/chimera/**'
-      - 'benchmarks/chimera/**'
-      - 'benchmarks/baselines/chimera/**'
-      - 'tests/chimera/**'
-      - '.github/workflows/02-feature-modules_chimera_chimera-benchmark-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

@@ -10,16 +10,6 @@ name: ML Serving TOCTOU + Lock Fix CI
 #   AC-5e  ConcurrentInferDifferentModelsNoDeadlock – two threads, two models, no throw
 #   AC-5f  ConcurrentInferSameModelNoDeadlock – two threads, same model, no deadlock
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/analytics/ml_serving.h'
-      - 'src/analytics/ml_serving.cpp'
-      - 'tests/analytics/test_ml_serving.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_llm_ml-serving-toctou-lock-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

@@ -4,18 +4,6 @@ name: Adaptive Query Compilation CI
 # its test file, or this workflow itself.
 # Targets v1.8.0 (roadmap:86:performance:v1.8.0:adaptive-query-compilation).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/performance/adaptive_query_compiler.h'
-      - 'src/performance/adaptive_query_compiler.cpp'
-      - 'tests/test_adaptive_query_compilation.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_adaptive-query_adaptive-query-compilation-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

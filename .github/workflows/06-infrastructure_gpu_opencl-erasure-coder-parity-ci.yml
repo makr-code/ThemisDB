@@ -3,18 +3,6 @@ name: OpenCL ErasureCoder Parity CI
 # Triggered on every push / PR that touches the OpenCL erasure coder sources,
 # its tests, or this workflow itself.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/sharding/gpu_erasure_coder_opencl.cpp'
-      - 'include/sharding/gpu_erasure_coder.h'
-      - 'include/sharding/redundancy_strategy.h'
-      - 'tests/test_opencl_erasure_coder_parity.cpp'
-      - 'tests/CMakeLists.txt'
-      - 'cmake/CMakeLists.txt'
-      - '.github/workflows/06-infrastructure_gpu_opencl-erasure-coder-parity-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

@@ -1,16 +1,6 @@
 name: Root Cause Analyzer CI
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/observability/root_cause_analyzer.cpp'
-      - 'include/observability/root_cause_analyzer.h'
-      - 'tests/test_root_cause_analyzer.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/06-infrastructure_observability_root-cause-analyzer-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

@@ -1,16 +1,6 @@
 name: Adaptive Join Strategies CI
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/query/adaptive_join.cpp'
-      - 'include/query/adaptive_join.h'
-      - 'tests/test_adaptive_join_strategies.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_adaptive-query_adaptive-join-strategies-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

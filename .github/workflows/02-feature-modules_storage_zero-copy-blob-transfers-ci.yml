@@ -3,17 +3,6 @@ name: Zero-Copy Blob Transfers CI
 # Triggered on every push/PR that touches ZeroCopyBlobTransfer sources,
 # its tests, or this workflow itself.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/storage/zero_copy_blob_transfer.h'
-      - 'src/storage/zero_copy_blob_transfer.cpp'
-      - 'tests/test_zero_copy_blob_transfers.cpp'
-      - 'cmake/BlobStorage.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_storage_zero-copy-blob-transfers-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

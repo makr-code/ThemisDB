@@ -5,19 +5,6 @@ name: Transaction Savepoints CI
 # Targets v1.8.0
 # (roadmap:232:transaction:v1.8.0:transaction-savepoints).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/transaction/transaction_manager.h'
-      - 'src/transaction/transaction_manager.cpp'
-      - 'tests/test_savepoints.cpp'
-      - 'benchmarks/bench_transaction_throughput.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_transactions_transaction-savepoints-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

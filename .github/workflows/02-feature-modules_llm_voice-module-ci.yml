@@ -20,21 +20,6 @@ name: Voice Module CI
 #   AC-16  VoiceTelephony — SIP/WebRTC bridge, IVR engine, TelephonyBridge coordinator
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/voice/**'
-      - 'src/voice/**'
-      - 'include/server/voice_api_handler.h'
-      - 'src/server/voice_api_handler.cpp'
-      - 'tests/test_voice_production.cpp'
-      - 'tests/test_voice_coverage.cpp'
-      - 'tests/test_voice_browser_streaming.cpp'
-      - 'tests/test_voice_telephony.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_llm_voice-module-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

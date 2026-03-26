@@ -11,19 +11,6 @@ name: Prompt Engineering – CoT Step Tracer CI
 #   AC-28 to AC-30  Edge cases (multiple builders, static methods, reset)
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/prompt_engineering/cot_tracer.h'
-      - 'src/prompt_engineering/cot_tracer.cpp'
-      - 'include/prompt_engineering/chain_of_thought.h'
-      - 'src/prompt_engineering/chain_of_thought.cpp'
-      - 'tests/test_cot_tracer.cpp'
-      - 'tests/CMakeLists.txt'
-      - 'cmake/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_llm_cot-tracer-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

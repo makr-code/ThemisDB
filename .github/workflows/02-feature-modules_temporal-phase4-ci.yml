@@ -6,21 +6,6 @@ name: Temporal Phase 4 CI
 #   - TemporalCDC: version-aware change data capture with subscribe/replay
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/temporal/interval_tree_index.h'
-      - 'src/temporal/interval_tree_index.cpp'
-      - 'include/temporal/temporal_compressor.h'
-      - 'src/temporal/temporal_compressor.cpp'
-      - 'include/temporal/temporal_cdc.h'
-      - 'src/temporal/temporal_cdc.cpp'
-      - 'tests/temporal/test_interval_tree_index.cpp'
-      - 'tests/temporal/test_temporal_compressor.cpp'
-      - 'tests/temporal/test_temporal_cdc.cpp'
-      - '.github/workflows/02-feature-modules_temporal-phase4-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

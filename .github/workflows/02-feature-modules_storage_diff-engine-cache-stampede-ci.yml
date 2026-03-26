@@ -10,19 +10,6 @@ name: DiffEngine Cache Stampede CI
 #   AC-5  All original DiffEngine scenarios continue to pass
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/analytics/diff_engine.h'
-      - 'src/analytics/diff_engine.cpp'
-      - 'include/cdc/changefeed.h'
-      - 'src/cdc/changefeed.cpp'
-      - 'tests/test_diff_engine.cpp'
-      - 'tests/test_cdc_changefeed_core.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_storage_diff-engine-cache-stampede-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

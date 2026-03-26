@@ -3,18 +3,6 @@ name: BlobRedundancyManager – RocksDB Event Listener CI
 # Triggered on every push/PR that touches the BlobRedundancyManager sources,
 # the RocksDBWrapper, the RAID/redundancy test file, or this workflow itself.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/storage/blob_redundancy_manager.cpp'
-      - 'include/storage/blob_redundancy_manager.h'
-      - 'src/storage/rocksdb_wrapper.cpp'
-      - 'include/storage/rocksdb_wrapper.h'
-      - 'tests/test_raid_redundancy.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_storage_blob-redundancy-event-listener-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

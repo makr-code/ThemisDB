@@ -12,16 +12,6 @@ name: CSV Export for Compliance Reports CI
 #   AC-5  ChangeHistoryReport::toCSV() column headers and delimiter escaping.
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/governance/compliance_reporting.h'
-      - 'src/governance/compliance_reporting.cpp'
-      - 'tests/test_compliance_reporting.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_csv-export-compliance-reporting-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

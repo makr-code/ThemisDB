@@ -3,18 +3,6 @@ name: Dependency Resolution Engine CI
 # Triggered on every push / PR that touches the dependency resolver sources
 # or its test file. Targets v1.6.0.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/updates/dependency_resolver.h'
-      - 'src/updates/dependency_resolver.cpp'
-      - 'tests/test_dependency_resolution_engine.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_dependency-resolution-engine-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

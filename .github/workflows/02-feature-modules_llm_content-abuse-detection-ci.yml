@@ -4,20 +4,6 @@ name: Content Abuse Detection CI
 # content_security, or this workflow itself.
 # Targets v1.8.0 (roadmap:61:content:v1.8.0:abuse-detection-stub-replacement).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/content/abuse_detector.h'
-      - 'src/content/abuse_detector.cpp'
-      - 'include/content/content_security.h'
-      - 'src/content/content_security.cpp'
-      - 'config/security/abuse_patterns.yaml'
-      - 'tests/test_content_security.cpp'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_llm_content-abuse-detection-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

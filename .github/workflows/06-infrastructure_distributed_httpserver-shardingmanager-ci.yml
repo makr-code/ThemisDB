@@ -3,20 +3,6 @@ name: HttpServer ShardingManager CI
 # Triggered on every push / PR that touches the ShardingManager injection
 # sources or its test file.  Targets v1.8.0 (Issue #201).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/sharding/sharding_manager.h'
-      - 'src/sharding/sharding_manager_edition.cpp'
-      - 'include/server/http_server.h'
-      - 'src/server/http_server.cpp'
-      - 'src/main_server.cpp'
-      - 'tests/test_http_sharding_admin.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/06-infrastructure_distributed_httpserver-shardingmanager-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

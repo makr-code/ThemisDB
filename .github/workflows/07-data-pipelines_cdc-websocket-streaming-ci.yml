@@ -4,23 +4,6 @@ name: CDC WebSocket Streaming CI
 # sources or its test file. Targets v1.7.0
 # (roadmap:55:cdc:v1.7.0:websocket-change-streaming-transport).
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/cdc/cdc_ws_handler.h'
-      - 'include/cdc/ws_transport.h'
-      - 'src/cdc/cdc_ws_handler.cpp'
-      - 'src/cdc/ws_transport.cpp'
-      - 'src/server/websocket_session.cpp'
-      - 'include/server/websocket_session.h'
-      - 'tests/test_cdc_ws_handler.cpp'
-      - 'tests/test_websocket_cdc.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/07-data-pipelines_cdc-websocket-streaming-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

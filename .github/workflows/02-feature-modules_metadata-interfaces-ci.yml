@@ -9,19 +9,6 @@ name: Metadata Interfaces CI
 #   - IMetadataExportPolicy / AlwaysExportPolicy / NeverExportPolicy /
 #     FilteredExportPolicy
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/metadata/imetadata_security_provider.h'
-      - 'include/metadata/imetadata_change_listener.h'
-      - 'include/metadata/imetadata_export_policy.h'
-      - 'tests/test_metadata_security_provider.cpp'
-      - 'tests/test_metadata_change_listener.cpp'
-      - 'tests/test_metadata_export_policy.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_metadata-interfaces-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

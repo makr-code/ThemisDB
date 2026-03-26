@@ -3,22 +3,6 @@ name: Percolator Distributed Transaction Coordinator CI
 # Triggered on every push/PR that touches the Percolator coordinator sources,
 # the TrueTime clock, OrphanDetector, or their tests.  Targets v1.7.0.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/sharding/cross_shard_transaction.h'
-      - 'src/sharding/cross_shard_transaction.cpp'
-      - 'include/sharding/truetime.h'
-      - 'src/sharding/truetime.cpp'
-      - 'include/sharding/orphan_detector.h'
-      - 'src/sharding/orphan_detector.cpp'
-      - 'include/sharding/distributed_transaction.h'
-      - 'src/sharding/distributed_transaction.cpp'
-      - 'tests/test_cross_shard_coordinator.cpp'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_transactions_percolator-distributed-transaction-coordinator-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

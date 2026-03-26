@@ -8,16 +8,6 @@ name: AQL v1.8.0 Interfaces CI
 # No GPU hardware is required.
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/aql/multimodal_infer_request.h'
-      - 'include/aql/iasync_llm_backend.h'
-      - 'tests/test_aql_multimodal.cpp'
-      - 'tests/test_aql_async_backend.cpp'
-      - '.github/workflows/02-feature-modules_adaptive-query_aql-v1.8-interfaces-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

@@ -3,19 +3,6 @@ name: Binary Delta Patches CI
 # Triggered on every push/PR that touches the DeltaUpdateEngine sources,
 # its test file, or this workflow itself.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'src/updates/delta_update_engine.cpp'
-      - 'include/updates/delta_update_engine.h'
-      - 'tests/test_binary_delta_patches.cpp'
-      - 'tests/test_updates_production.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_storage_binary-delta-patches-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

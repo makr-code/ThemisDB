@@ -3,18 +3,6 @@ name: Bidirectional Replication CI
 # Triggered on every push / PR that touches BidirectionalReplicationManager
 # sources or its test file.  Targets v1.7.0.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/replication/replication_manager.h'
-      - 'src/replication/replication_manager.cpp'
-      - 'tests/test_replication_ha.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_replication_bidirectional-replication-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

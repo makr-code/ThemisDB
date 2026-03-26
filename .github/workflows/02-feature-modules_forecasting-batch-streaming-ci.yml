@@ -20,18 +20,6 @@ name: Analytics – Forecasting Batch/Streaming CI
 #   AC-14 Parallel auto-tune (HOLT_WINTERS): model remains fitted with finite output
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/analytics/forecasting.h'
-      - 'src/analytics/forecasting.cpp'
-      - 'tests/analytics/test_forecasting.cpp'
-      - 'tests/CMakeLists.txt'
-      - 'cmake/CMakeLists.txt'
-      - 'cmake/ModularBuild.cmake'
-      - '.github/workflows/02-feature-modules_forecasting-batch-streaming-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

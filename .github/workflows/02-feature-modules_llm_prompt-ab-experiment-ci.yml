@@ -15,17 +15,6 @@ name: Prompt Engineering – A/B Experiment Framework CI
 #   AC-29 to AC-30  getSummary() fields, PromptExperiment JSON round-trip
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/prompt_engineering/prompt_ab_experiment.h'
-      - 'src/prompt_engineering/prompt_ab_experiment.cpp'
-      - 'tests/test_prompt_ab_experiment.cpp'
-      - 'tests/CMakeLists.txt'
-      - 'cmake/CMakeLists.txt'
-      - '.github/workflows/02-feature-modules_llm_prompt-ab-experiment-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

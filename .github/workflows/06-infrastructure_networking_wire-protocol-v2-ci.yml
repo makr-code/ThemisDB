@@ -3,17 +3,6 @@ name: Wire Protocol V2 CI
 # Triggered on every push / PR that touches the Wire Protocol V2 sources
 # (header, implementation, tests) or this workflow.  Targets v1.8.0.
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'include/themis/network/wire_protocol_v2.hpp'
-      - 'src/network/wire_protocol_v2.cpp'
-      - 'tests/test_wire_protocol_v2.cpp'
-      - 'cmake/CMakeLists.txt'
-      - 'tests/CMakeLists.txt'
-      - '.github/workflows/06-infrastructure_networking_wire-protocol-v2-ci.yml'
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
