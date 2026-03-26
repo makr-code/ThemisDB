@@ -18908,4 +18908,124 @@ else()
     message(STATUS "Cross-Module Training+Governance tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_training_governance.cpp")
 endif()
 
+# ============================================================================
+# Cross-Module: QueryFederation + ShardingManager + Observability integration tests
+# ============================================================================
+# Group A (5 tests): QueryFederation execution plan × ShardingManager routing
+#   A-1: createExecutionPlan for full-scan returns SCATTER_GATHER strategy
+#   A-2: createExecutionPlan for point-lookup returns PARTITION_PRUNING strategy
+#   A-3: analyzeQuery extracts _key predicate from equality query
+#   A-4: determineRelevantShards with point-lookup returns at most 1 shard
+#   A-5: determineRelevantShards with full-scan returns all shards
+# Group B (5 tests): mergeResults × ShardResult correctness
+#   B-1: mergeResults on empty ShardResult list returns empty array
+#   B-2: mergeResults on single shard retains all documents
+#   B-3: mergeResults on three shards concatenates all documents
+#   B-4: mergeResults skips failed shard results gracefully
+#   B-5: execute with point-lookup routes to at most 1 shard in merged output
+# Group C (5 tests): MetricsCollector × sharding pipeline
+#   C-1: recordShardRequest increments counter for each shard call
+#   C-2: recordShardLatency records shard-level latency
+#   C-3: MetricsCollector::reset() clears sharding counters
+#   C-4: Prometheus output contains shard metric after recording
+#   C-5: Mixed shard / query / rebalance metrics all recorded independently
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_query_sharding.cpp")
+    message(STATUS "Adding Cross-Module: QueryFederation + ShardingManager + Observability integration tests")
+
+    add_executable(test_cross_module_query_sharding_focused
+        test_cross_module_query_sharding.cpp
+    )
+
+    target_include_directories(test_cross_module_query_sharding_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_cross_module_query_sharding_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cross_module_query_sharding_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CrossModuleQueryShardingTests
+        COMMAND test_cross_module_query_sharding_focused)
+
+    set_tests_properties(CrossModuleQueryShardingTests PROPERTIES
+        LABELS "cross-module;query;sharding;federation;consistent-hash;observability;prometheus;v1.9.0;integration"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CrossModule Query+Sharding: ExecutionPlan×ShardingManager (A1-A5), mergeResults (B1-B5), MetricsCollector (C1-C5)")
+else()
+    message(STATUS "Cross-Module Query+Sharding tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_query_sharding.cpp")
+endif()
+
+# ============================================================================
+# Cross-Module: GraphIndexManager + DataLineageTracker + Observability tests
+# ============================================================================
+# Group A (5 tests): GraphIndexManager edge operations → DataLineageTracker
+#   A-1: Successful addEdge recorded as INGESTION lineage event
+#   A-2: Second addEdge recorded as ENRICHMENT event with parent link
+#   A-3: Three consecutive edge additions produce a three-event lineage chain
+#   A-4: getUpstreamLineage for latest event includes the root INGESTION event
+#   A-5: exportLineageAsJson contains event_id and performed_by for all events
+# Group B (5 tests): outNeighbors traversal results → DataLineageTracker
+#   B-1: Successful outNeighbors result recorded as QUERY lineage event
+#   B-2: QUERY event has correct dataset_id (graph dataset identifier)
+#   B-3: Multiple traversals on same dataset produce multiple QUERY events
+#   B-4: totalEventCount reflects all INGESTION + QUERY events combined
+#   B-5: getDownstreamLineage for INGESTION event includes QUERY events
+# Group C (5 tests): MetricsCollector × graph pipeline
+#   C-1: recordContentImport records edge-ingestion metrics
+#   C-2: recordQuery records graph traversal query metrics
+#   C-3: Combined content-import + query sequence accumulates in Prometheus
+#   C-4: MetricsCollector::reset() clears graph pipeline counters
+#   C-5: Full pipeline: addEdge → lineage INGESTION → Prometheus counter
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_graph_lineage.cpp")
+    message(STATUS "Adding Cross-Module: GraphIndexManager + DataLineageTracker + Observability integration tests")
+
+    add_executable(test_cross_module_graph_lineage_focused
+        test_cross_module_graph_lineage.cpp
+    )
+
+    target_include_directories(test_cross_module_graph_lineage_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_cross_module_graph_lineage_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cross_module_graph_lineage_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CrossModuleGraphLineageTests
+        COMMAND test_cross_module_graph_lineage_focused)
+
+    set_tests_properties(CrossModuleGraphLineageTests PROPERTIES
+        LABELS "cross-module;graph;data-lineage;governance;observability;prometheus;v1.9.0;integration"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CrossModule Graph+Lineage: addEdge→Lineage (A1-A5), outNeighbors→QueryEvents (B1-B5), MetricsCollector (C1-C5)")
+else()
+    message(STATUS "Cross-Module Graph+Lineage tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_graph_lineage.cpp")
+endif()
+
 message(STATUS "Tests configured successfully")
