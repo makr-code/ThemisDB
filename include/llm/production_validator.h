@@ -201,6 +201,7 @@ private:
     // Test state
     bool stress_test_running_ = false;
     std::chrono::system_clock::time_point stress_test_start_;
+    size_t memory_baseline_mb_ = 0;   ///< Set on first checkMemoryLeaks() call or reset()
     
     // Statistics
     std::deque<double> latency_samples_;  // Use deque for efficient removal of old samples

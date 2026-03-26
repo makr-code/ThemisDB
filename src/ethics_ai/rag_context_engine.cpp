@@ -25,6 +25,7 @@
 #include "rag_context_engine.h"
 #include <algorithm>
 #include <cmath>
+#include <deque>
 #include <sstream>
 #include <unordered_set>
 
@@ -227,15 +228,16 @@ std::variant<std::vector<std::string>, Status> RAGContextEngine::traverseArgumen
     // BFS traversal following `supports` / `counterarguments` links.
     std::vector<std::string> visited_order;
     std::unordered_set<std::string> visited;
-    // frontier: (id, depth)
-    std::vector<std::pair<std::string, size_t>> frontier;
+    // Use a deque for proper FIFO BFS ordering.
+    // Each entry: (argument_id, depth)
+    std::deque<std::pair<std::string, size_t>> frontier;
     frontier.emplace_back(start_argument_id, 0);
     visited.insert(start_argument_id);
     visited_order.push_back(start_argument_id);
 
     while (!frontier.empty()) {
-        auto [current_id, depth] = frontier.back();
-        frontier.pop_back();
+        auto [current_id, depth] = frontier.front();
+        frontier.pop_front();
         if (depth >= max_depth) continue;
 
         auto arg_result = store_->getArgument(current_id);

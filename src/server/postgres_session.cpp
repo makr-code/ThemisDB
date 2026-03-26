@@ -756,16 +756,46 @@ void PostgresSession::handleCopyDone() {
         // Rows are CSV-formatted; we map each field to a sequential column name
         // since the protocol does not forward column names in COPY FROM STDIN.
         for (const auto& row : copyBuffer_) {
-            // Parse CSV fields (simple split on comma; quoted fields unsupported)
+            // Parse CSV fields with RFC 4180 quoted field support.
             std::vector<std::string> fields;
             {
-                std::istringstream ss(row);
-                std::string field;
-                while (std::getline(ss, field, ',')) {
-                    // Trim surrounding whitespace
-                    field.erase(0, field.find_first_not_of(" \t"));
-                    auto last = field.find_last_not_of(" \t");
-                    if (last != std::string::npos) field.erase(last + 1);
+                size_t pos = 0;
+                const size_t len = row.size();
+                while (pos <= len) {
+                    std::string field;
+                    if (pos < len && row[pos] == '"') {
+                        // Quoted field
+                        ++pos;
+                        while (pos < len) {
+                            if (row[pos] == '"') {
+                                if (pos + 1 < len && row[pos + 1] == '"') {
+                                    field += '"';
+                                    pos += 2;
+                                } else {
+                                    ++pos;
+                                    break;
+                                }
+                            } else {
+                                field += row[pos++];
+                            }
+                        }
+                        // Skip optional comma after closing quote
+                        if (pos < len && row[pos] == ',') ++pos;
+                    } else {
+                        // Unquoted field — read until comma or end
+                        size_t start = pos;
+                        while (pos < len && row[pos] != ',') ++pos;
+                        field = row.substr(start, pos - start);
+                        // Trim surrounding whitespace
+                        auto ltrim = field.find_first_not_of(" \t");
+                        auto rtrim = field.find_last_not_of(" \t");
+                        if (ltrim == std::string::npos) {
+                            field.clear();
+                        } else {
+                            field = field.substr(ltrim, rtrim - ltrim + 1);
+                        }
+                        if (pos < len) ++pos;  // skip comma
+                    }
                     fields.push_back(field);
                 }
             }

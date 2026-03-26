@@ -861,10 +861,14 @@ void ProductionValidator::recordLatency(double latency_ms) {
 
 void ProductionValidator::checkMemoryLeaks() {
     size_t current_memory_mb = measureMemoryUsage();
-    static size_t baseline_memory_mb = current_memory_mb;
+
+    // Initialise the baseline on the first call.
+    if (memory_baseline_mb_ == 0) {
+        memory_baseline_mb_ = current_memory_mb;
+    }
 
     double growth_mb = static_cast<double>(current_memory_mb) -
-                       static_cast<double>(baseline_memory_mb);
+                       static_cast<double>(memory_baseline_mb_);
 
     if (growth_mb > config_.max_memory_growth_mb_per_hour) {
         spdlog::warn("Memory leak warning: {:.1f} MB above baseline (limit: {:.1f} MB/h)",

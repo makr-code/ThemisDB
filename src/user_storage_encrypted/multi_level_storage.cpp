@@ -38,6 +38,8 @@
 #include <sys/wait.h>
 #include <dirent.h>
 #include <unistd.h>
+#include <filesystem>
+#include <spdlog/spdlog.h>
 #include <errno.h>
 
 using json = nlohmann::json;
@@ -542,16 +544,20 @@ Result<void> MultiLevelEncryptedStorage::rotateKey(SecurityLevel level) {
                                    mount_new.error());
     }
 
-    // Step 3: copy data from the current mount point to the new one
-    // We use a simple recursive copy via the standard POSIX copy loop.
-    std::string copy_cmd = "cp -a " + cfg.mount_point + "/. " + new_mount_point + "/";
-    int cp_rc = ::system(copy_cmd.c_str()); // NOLINT(cert-env33-c)
-    if (cp_rc != 0) {
+    // Step 3: copy data from the current mount point to the new one using std::filesystem.
+    try {
+        std::filesystem::copy(
+            cfg.mount_point,
+            new_mount_point,
+            std::filesystem::copy_options::recursive |
+            std::filesystem::copy_options::overwrite_existing
+        );
+    } catch (const std::filesystem::filesystem_error& e) {
         backend->unmountContainer(new_mount_point);
-        ::rmdir(new_mount_point.c_str());
-        ::rmdir(new_encrypted_dir.c_str());
-        return Result<void>::error("Key rotation failed – data copy returned exit code " +
-                                   std::to_string(cp_rc));
+        std::filesystem::remove_all(new_mount_point);
+        std::filesystem::remove_all(new_encrypted_dir);
+        return Result<void>::error(
+            std::string("Key rotation failed – data copy error: ") + e.what());
     }
 
     // Step 4: unmount both containers, then atomically swap directories
@@ -578,9 +584,13 @@ Result<void> MultiLevelEncryptedStorage::rotateKey(SecurityLevel level) {
                                    remount.error());
     }
 
-    // Step 6: remove the backup container
-    std::string rm_cmd = "rm -rf " + backup_encrypted_dir;
-    ::system(rm_cmd.c_str()); // NOLINT(cert-env33-c)
+    // Step 6: remove the backup container securely.
+    std::error_code ec;
+    std::filesystem::remove_all(backup_encrypted_dir, ec);
+    if (ec) {
+        spdlog::warn("Key rotation: could not remove backup container '{}': {}",
+                     backup_encrypted_dir, ec.message());
+    }
 
     return Result<void>();
 }
