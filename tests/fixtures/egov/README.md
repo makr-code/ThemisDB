@@ -1,21 +1,25 @@
 # E-Government Test-Fixtures
 
-Generische JSON-Fixtures für datengetriebene E-Gov-Tests (ohne CI-Abhängigkeit).
+Generische Fixtures für datengetriebene E-Gov-Tests (ohne CI-Abhängigkeit).
+
+**Anträge** liegen als **Markdown** (`.md`) mit JSON-Front-Matter vor —  
+lesbar als Dokument und maschinell parsbar durch den Test.  
+Behörden, Prozesse und Kontrollergebnisse bleiben als **JSON**.
 
 ## Verzeichnisstruktur
 
 ```
 fixtures/egov/
-├── behoerden.json                        # 11 generische deutsche Behörden
+├── behoerden.json                        # 11 generische deutsche Behörden (JSON)
 ├── antraege/
-│   ├── baugenehmigung.json               # Baugenehmigungsantrag (§ 63 BauO NRW)
-│   └── bimschg.json                      # BImSchG-Antrag (§ 4 / § 10 BImSchG)
+│   ├── baugenehmigung.md                 # Baugenehmigungsantrag (Markdown + JSON-Front-Matter)
+│   └── bimschg.md                        # BImSchG-Antrag      (Markdown + JSON-Front-Matter)
 ├── prozesse/
-│   ├── baugenehmigung_prozess.json       # Prozessdefinition Baugenehmigung (6 Phasen)
-│   └── bimschg_prozess.json              # Prozessdefinition BImSchV (9 Phasen)
+│   ├── baugenehmigung_prozess.json       # Prozessdefinition Baugenehmigung (6 Phasen, JSON)
+│   └── bimschg_prozess.json              # Prozessdefinition BImSchV (9 Phasen, JSON)
 └── expected/
-    ├── baugenehmigung_expected.json      # Kontrollergebnisse Baugenehmigung (20 ACs)
-    └── bimschg_expected.json             # Kontrollergebnisse BImSchV (30 ACs)
+    ├── baugenehmigung_expected.json      # Kontrollergebnisse Baugenehmigung (20 ACs, JSON)
+    └── bimschg_expected.json             # Kontrollergebnisse BImSchV (30 ACs, JSON)
 ```
 
 ## Lokal ausführen (ohne CI)
@@ -78,17 +82,35 @@ Definiert alle Behörden, die in Verfahren beteiligt sein können:
 }
 ```
 
-### `antraege/*.json`
+### `antraege/*.md` — Markdown mit JSON-Front-Matter
 
-Beschreibt den Antrag mit Antragsteller, Antragsgegenstand und Unterlagen:
+Anträge liegen als **Markdown-Dokument** vor. Das Front-Matter (zwischen den
+`---`-Trennern) enthält die maschinenlesbare JSON-Struktur. Der Body ist
+menschenlesbares Markdown mit Tabellen und Erläuterungen.
 
-```json
+Der Test-Loader liest die `.md`-Datei, extrahiert automatisch das JSON-Front-Matter
+und speichert den Prosatext im zusätzlichen Feld `_dokument_text`.
+
+```markdown
+---
 {
   "aktenzeichen": "BAUAMT-KN-2026-0042",
-  "antragsteller": { "vorname": "...", "eid_tx_id": "...", ... },
-  "unterlagen": [ { "id": "...", "typ": "...", "pflicht": true } ],
-  "xoev_xml_vorlage": { "wurzelelement": "xbau", "felder": {...} }
+  "antragsteller": { "vorname": "Hans", "eid_tx_id": "TX-BAU-2026-001", ... },
+  "unterlagen": [ { "id": "DOC-BAU-001", "typ": "LAGEPLAN", "pflicht": true } ],
+  "xoev_xml_vorlage": { "wurzelelement": "xbau", "felder": { ... } }
 }
+---
+
+# Bauantrag — Neubau Wohngebäude
+
+**Aktenzeichen:** BAUAMT-KN-2026-0042
+
+## 1 · Antragsteller
+
+| Feld | Wert |
+|------|------|
+| Name | Hans Mustermann |
+...
 ```
 
 ### `prozesse/*.json`

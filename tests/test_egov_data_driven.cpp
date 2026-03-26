@@ -82,7 +82,66 @@ static std::string fixturesDir() {
 }
 
 /**
- * @brief Lädt eine JSON-Datei aus dem Fixture-Verzeichnis.
+ * @brief Extrahiert das JSON-Front-Matter aus einer Markdown-Datei.
+ *
+ * Erwartet folgendes Format:
+ * @code
+ *   ---
+ *   { ... JSON-Objekt ... }
+ *   ---
+ *   # Markdown-Titel
+ *   ...
+ * @endcode
+ *
+ * Das JSON-Front-Matter wird geparst und zurückgegeben. Der restliche
+ * Markdown-Prosatext wird als String im Feld "_dokument_text" gespeichert.
+ *
+ * @throws std::runtime_error wenn das Front-Matter fehlt oder ungültiges JSON enthält.
+ */
+static json parseFrontMatter(const std::string& content, const std::string& path_hint) {
+    // Front matter muss mit "---\n" beginnen
+    const std::string fence = "---";
+    if (content.substr(0, 3) != fence) {
+        throw std::runtime_error("Markdown-Fixture '" + path_hint +
+                                 "' hat kein Front-Matter (erwartet '---' am Anfang)");
+    }
+
+    // Abschnitt zwischen erstem und zweitem "---" finden
+    size_t first_end = content.find('\n', 0);          // Ende der Zeile "---"
+    if (first_end == std::string::npos) first_end = 3;
+    else first_end += 1;                               // hinter das \n
+
+    size_t second_start = content.find("\n---", first_end);
+    if (second_start == std::string::npos) {
+        throw std::runtime_error("Markdown-Fixture '" + path_hint +
+                                 "': schließendes '---' für Front-Matter nicht gefunden");
+    }
+
+    std::string fm_text = content.substr(first_end, second_start - first_end);
+
+    // Prosatext nach dem zweiten "---"
+    size_t prose_start = second_start + 4; // hinter "\n---"
+    if (prose_start < content.size() && content[prose_start] == '\n') prose_start++;
+    std::string prose = (prose_start < content.size()) ? content.substr(prose_start) : "";
+
+    json j;
+    try {
+        j = json::parse(fm_text);
+    } catch (const json::parse_error& e) {
+        throw std::runtime_error("JSON-Parse-Fehler im Front-Matter von '" + path_hint +
+                                 "': " + e.what());
+    }
+    j["_dokument_text"] = std::move(prose);
+    return j;
+}
+
+/**
+ * @brief Lädt eine Fixture-Datei aus dem Fixture-Verzeichnis.
+ *
+ * Unterstützt:
+ *  - `.md`   — Markdown mit JSON-Front-Matter (Pflichtformat für Anträge)
+ *  - `.json` — Reines JSON (für Behörden, Prozesse, Kontrollergebnisse)
+ *
  * @throws std::runtime_error wenn Datei nicht gefunden oder ungültig.
  */
 static json loadFixture(const std::string& relpath) {
@@ -92,9 +151,17 @@ static json loadFixture(const std::string& relpath) {
         throw std::runtime_error("Fixture nicht gefunden: " + p.string() +
                                  "\n  Setze THEMIS_EGOV_FIXTURES_DIR auf den Pfad zu tests/fixtures/egov/");
     }
+    std::string content((std::istreambuf_iterator<char>(f)),
+                         std::istreambuf_iterator<char>());
+
+    const std::string ext = p.extension().string();
+    if (ext == ".md") {
+        return parseFrontMatter(content, p.string());
+    }
+
     json j;
     try {
-        f >> j;
+        j = json::parse(content);
     } catch (const json::parse_error& e) {
         throw std::runtime_error("JSON-Parse-Fehler in " + p.string() + ": " + e.what());
     }
@@ -1009,9 +1076,14 @@ TEST_P(EGovDataDrivenTest, FixturesWerdenKorrektGeladen) {
     ASSERT_TRUE(ctx_->behoerden.contains("behoerden")) << "behoerden.json fehlt 'behoerden'-Array";
     EXPECT_GE(ctx_->behoerden.at("behoerden").size(), 1u);
 
-    // antrag.json
+    // antrag.md — Markdown mit JSON-Front-Matter
     EXPECT_FALSE(ctx_->az.empty()) << "Antrag hat kein Aktenzeichen";
     EXPECT_TRUE(ctx_->antrag.contains("antragsteller"));
+    // Prosatext aus dem Markdown-Body muss vorhanden sein
+    ASSERT_TRUE(ctx_->antrag.contains("_dokument_text"))
+        << "Antrag-Markdown hat kein Front-Matter oder keinen Prosatext";
+    EXPECT_FALSE(ctx_->antrag.at("_dokument_text").get<std::string>().empty())
+        << "Antrag-Markdown-Prosatext ist leer";
 
     // prozess.json
     EXPECT_TRUE(ctx_->prozess.contains("phasen"));
@@ -1020,6 +1092,32 @@ TEST_P(EGovDataDrivenTest, FixturesWerdenKorrektGeladen) {
     // expected.json
     EXPECT_TRUE(ctx_->expected.contains("assertions"));
     EXPECT_GE(ctx_->expected.at("assertions").size(), 1u);
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+//  Test 1b: Markdown-Front-Matter korrekt geladen (Antrag ist Markdown)
+// ══════════════════════════════════════════════════════════════════════════════
+
+TEST_P(EGovDataDrivenTest, MarkdownAntragFrontMatterValide) {
+    // Pflichtfelder aus dem JSON-Front-Matter der .md-Datei
+    EXPECT_TRUE(ctx_->antrag.contains("version"))           << "Feld 'version' fehlt";
+    EXPECT_TRUE(ctx_->antrag.contains("antrag_typ"))        << "Feld 'antrag_typ' fehlt";
+    EXPECT_TRUE(ctx_->antrag.contains("rechtsgrundlage"))   << "Feld 'rechtsgrundlage' fehlt";
+    EXPECT_TRUE(ctx_->antrag.contains("aktenzeichen"))      << "Feld 'aktenzeichen' fehlt";
+    EXPECT_TRUE(ctx_->antrag.contains("ozg_dienst_id"))     << "Feld 'ozg_dienst_id' fehlt";
+    EXPECT_TRUE(ctx_->antrag.contains("xoev_standard"))     << "Feld 'xoev_standard' fehlt";
+    EXPECT_TRUE(ctx_->antrag.contains("antragsteller"))     << "Feld 'antragsteller' fehlt";
+    EXPECT_TRUE(ctx_->antrag.contains("unterlagen"))        << "Feld 'unterlagen' fehlt";
+    EXPECT_TRUE(ctx_->antrag.contains("xoev_xml_vorlage"))  << "Feld 'xoev_xml_vorlage' fehlt";
+
+    // Prosatext (Markdown-Body nach Front-Matter)
+    ASSERT_TRUE(ctx_->antrag.contains("_dokument_text"));
+    const std::string& text = ctx_->antrag.at("_dokument_text").get_ref<const std::string&>();
+    EXPECT_FALSE(text.empty()) << "Markdown-Prosatext ist leer";
+    // Der Prosatext muss mindestens eine Überschrift (# ...) enthalten
+    EXPECT_NE(text.find('#'), std::string::npos) << "Markdown-Body hat keine Überschrift (#)";
+    // Muss mindestens eine Tabelle enthalten (|)
+    EXPECT_NE(text.find('|'), std::string::npos) << "Markdown-Body hat keine Tabelle";
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -1187,13 +1285,13 @@ INSTANTIATE_TEST_SUITE_P(
     EGovDataDrivenTest,
     ::testing::Values(
         std::make_tuple(
-            "antraege/baugenehmigung.json",
+            "antraege/baugenehmigung.md",
             "prozesse/baugenehmigung_prozess.json",
             "expected/baugenehmigung_expected.json",
             "BAUGENEHMIGUNG"
         ),
         std::make_tuple(
-            "antraege/bimschg.json",
+            "antraege/bimschg.md",
             "prozesse/bimschg_prozess.json",
             "expected/bimschg_expected.json",
             "BIMSCHV"

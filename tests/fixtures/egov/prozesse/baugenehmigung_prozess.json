@@ -11,14 +11,14 @@
       "behoerde_id": "denkmalschutz-nrw",
       "phase": "STELLUNGNAHME",
       "frist_tage": 30,
-      "stellungnahme_typ": "FACBEHÖRDLICH",
+      "stellungnahme_typ": "FACHBEHÖRDLICH",
       "pflicht": true
     },
     {
       "behoerde_id": "umweltamt-koeln",
       "phase": "STELLUNGNAHME",
       "frist_tage": 30,
-      "stellungnahme_typ": "FACBEHÖRDLICH",
+      "stellungnahme_typ": "FACHBEHÖRDLICH",
       "pflicht": true
     },
     {
