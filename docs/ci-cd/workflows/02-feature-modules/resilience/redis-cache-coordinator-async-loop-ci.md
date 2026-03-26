@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules/resilience/redis-cache-coordinator-async-loop-ci.yml`
+> **Workflow-Datei:** `.github/workflows/02-feature-modules_resilience_redis-cache-coordinator-async-loop-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **RedisCacheCoo
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `redis-cache-coordinator-tests`
 **Anzeigename:** RedisCacheCoordinator (${{ matrix.name }})
@@ -45,5 +45,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **RedisCacheCoo
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/02-feature-modules/resilience/redis-cache-coordinator-async-loop-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/02-feature-modules_resilience_redis-cache-coordinator-async-loop-ci.yml)
 - [Alle Workflows](../README.md)

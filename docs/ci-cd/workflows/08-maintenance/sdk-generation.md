@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/08-maintenance/sdk-generation.yml`
+> **Workflow-Datei:** `.github/workflows/08-maintenance_sdk-generation.yml`
 
 ## Aufgabe
 
@@ -96,5 +96,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **OpenAPI SDK G
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/08-maintenance/sdk-generation.yml)
+- [Workflow-Datei](../../.github/workflows/08-maintenance_sdk-generation.yml)
 - [Alle Workflows](../README.md)

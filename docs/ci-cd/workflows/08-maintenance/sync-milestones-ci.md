@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/08-maintenance/sync-milestones-ci.yml`
+> **Workflow-Datei:** `.github/workflows/08-maintenance_sync-milestones-ci.yml`
 
 ## Aufgabe
 
@@ -10,8 +10,8 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Sync-Mileston
 
 ## Auslöser (Triggers)
 
-- **`push`** — Automatisch bei jedem Push auf die konfigurierten Branches (Branches: `main`, `develop`) (Pfade: `scripts/sync-milestones-from-roadmap.py`, `tests/test_sync_milestones.py`, `src/**/ROADMAP.md`, `.github/workflows/08-maintenance/sync-milestones-ci.yml`)
-- **`pull_request`** — Automatisch bei Pull Requests (opened, synchronize, reopened) (Pfade: `scripts/sync-milestones-from-roadmap.py`, `tests/test_sync_milestones.py`, `src/**/ROADMAP.md`, `.github/workflows/08-maintenance/sync-milestones-ci.yml`)
+- **`push`** — Automatisch bei jedem Push auf die konfigurierten Branches (Branches: `main`, `develop`) (Pfade: `scripts/sync-milestones-from-roadmap.py`, `tests/test_sync_milestones.py`, `src/**/ROADMAP.md`, `.github/workflows/08-maintenance_sync-milestones-ci.yml`)
+- **`pull_request`** — Automatisch bei Pull Requests (opened, synchronize, reopened) (Pfade: `scripts/sync-milestones-from-roadmap.py`, `tests/test_sync_milestones.py`, `src/**/ROADMAP.md`, `.github/workflows/08-maintenance_sync-milestones-ci.yml`)
 - **`workflow_dispatch`** — Manuell über die GitHub Actions UI ausführbar
 
 ## Nebenläufigkeit
@@ -53,5 +53,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Sync-Mileston
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/08-maintenance/sync-milestones-ci.yml)
+- [Workflow-Datei](../../.github/workflows/08-maintenance_sync-milestones-ci.yml)
 - [Alle Workflows](../README.md)

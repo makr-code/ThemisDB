@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/docs/docs-pipeline.yml`
+> **Workflow-Datei:** `.github/workflows/docs_docs-pipeline.yml`
 
 ## Aufgabe
 
@@ -32,7 +32,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Documentation
 **Anzeigename:** Validate (lint + links + TOC + header + drift)
 
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/05-quality/validation/documentation-validation.yml`
+**Verwendet:** `./.github/workflows/05-quality_validation_documentation-validation.yml`
 
 ### `build-site`
 **Anzeigename:** Build MkDocs Site
@@ -88,5 +88,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Documentation
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/docs/docs-pipeline.yml)
+- [Workflow-Datei](../../.github/workflows/docs_docs-pipeline.yml)
 - [Alle Workflows](../README.md)

@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/05-quality/security/pii-redaction-check.yml`
+> **Workflow-Datei:** `.github/workflows/05-quality_security_pii-redaction-check.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **PII Redaction
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `pii-leakage-lint`
 **Anzeigename:** PII Leakage Static Lint
@@ -74,5 +74,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **PII Redaction
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/05-quality/security/pii-redaction-check.yml)
+- [Workflow-Datei](../../../.github/workflows/05-quality_security_pii-redaction-check.yml)
 - [Alle Workflows](../README.md)

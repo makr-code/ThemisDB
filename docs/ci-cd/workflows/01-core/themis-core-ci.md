@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/01-core/themis-core-ci.yml`
+> **Workflow-Datei:** `.github/workflows/01-core_themis-core-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Themis Core F
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `core-tests`
 **Anzeigename:** Core tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -124,5 +124,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Themis Core F
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/01-core/themis-core-ci.yml)
+- [Workflow-Datei](../../.github/workflows/01-core_themis-core-ci.yml)
 - [Alle Workflows](../README.md)

@@ -2,7 +2,7 @@
 
 ♻️ **Reusable Workflow**
 
-> **Workflow-Datei:** `.github/workflows/01-core/ci-scope-classifier.yml`
+> **Workflow-Datei:** `.github/workflows/01-core_ci-scope-classifier.yml`
 
 ## Aufgabe
 
@@ -31,5 +31,5 @@ Wiederverwendbarer Hilfs-Workflow: **CI Scope Classifier**.
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/01-core/ci-scope-classifier.yml)
+- [Workflow-Datei](../../.github/workflows/01-core_ci-scope-classifier.yml)
 - [Alle Workflows](../README.md)

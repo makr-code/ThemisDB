@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/05-quality/validation/validate-config-mapping.yml`
+> **Workflow-Datei:** `.github/workflows/05-quality_validation_validate-config-mapping.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Validate Conf
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `validate-mapping`
 **Anzeigename:** Validate Config Path Mapping Table
@@ -42,5 +42,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Validate Conf
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/05-quality/validation/validate-config-mapping.yml)
+- [Workflow-Datei](../../../.github/workflows/05-quality_validation_validate-config-mapping.yml)
 - [Alle Workflows](../README.md)

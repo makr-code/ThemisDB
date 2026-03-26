@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules/transactions/transaction-occ-ci.yml`
+> **Workflow-Datei:** `.github/workflows/02-feature-modules_transactions_transaction-occ-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Transaction O
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `transaction-occ-unit-tests`
 **Anzeigename:** Transaction OCC tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -44,5 +44,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Transaction O
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/02-feature-modules/transactions/transaction-occ-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/02-feature-modules_transactions_transaction-occ-ci.yml)
 - [Alle Workflows](../README.md)

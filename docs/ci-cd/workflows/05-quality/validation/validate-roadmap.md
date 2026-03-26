@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/05-quality/validation/validate-roadmap.yml`
+> **Workflow-Datei:** `.github/workflows/05-quality_validation_validate-roadmap.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Validate Road
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `validate-roadmap`
 **Anzeigename:** Validate Roadmap Structure
@@ -44,5 +44,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Validate Road
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/05-quality/validation/validate-roadmap.yml)
+- [Workflow-Datei](../../../.github/workflows/05-quality_validation_validate-roadmap.yml)
 - [Alle Workflows](../README.md)

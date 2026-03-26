@@ -2,7 +2,7 @@
 
 🖱️ **Manuell**
 
-> **Workflow-Datei:** `.github/workflows/04-release/bootstrap-release-branches.yml`
+> **Workflow-Datei:** `.github/workflows/04-release_bootstrap-release-branches.yml`
 
 ## Aufgabe
 
@@ -41,5 +41,5 @@ Manuell ausgelöster Workflow für: **Bootstrap Release Branches**.
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/04-release/bootstrap-release-branches.yml)
+- [Workflow-Datei](../../.github/workflows/04-release_bootstrap-release-branches.yml)
 - [Alle Workflows](../README.md)

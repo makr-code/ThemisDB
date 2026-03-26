@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules/storage/automatic-schema-migration-ci.yml`
+> **Workflow-Datei:** `.github/workflows/02-feature-modules_storage_automatic-schema-migration-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Automatic Sch
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `automatic-schema-migration-unit-tests`
 **Anzeigename:** Automatic schema migration tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -45,5 +45,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Automatic Sch
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/02-feature-modules/storage/automatic-schema-migration-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/02-feature-modules_storage_automatic-schema-migration-ci.yml)
 - [Alle Workflows](../README.md)

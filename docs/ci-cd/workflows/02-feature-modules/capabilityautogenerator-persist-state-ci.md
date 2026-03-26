@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules/capabilityautogenerator-persist-state-ci.yml`
+> **Workflow-Datei:** `.github/workflows/02-feature-modules_capabilityautogenerator-persist-state-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **CapabilityAut
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `capabilityautogenerator-persist-state-unit-tests`
 **Anzeigename:** CapGenPersistState tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -44,5 +44,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **CapabilityAut
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/02-feature-modules/capabilityautogenerator-persist-state-ci.yml)
+- [Workflow-Datei](../../.github/workflows/02-feature-modules_capabilityautogenerator-persist-state-ci.yml)
 - [Alle Workflows](../README.md)

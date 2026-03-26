@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules/storage/nvme-manager-ci.yml`
+> **Workflow-Datei:** `.github/workflows/02-feature-modules_storage_nvme-manager-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **NVMe Manager*
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `nvme-manager-unit-tests`
 **Anzeigename:** NVMe Manager tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -56,5 +56,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **NVMe Manager*
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/02-feature-modules/storage/nvme-manager-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/02-feature-modules_storage_nvme-manager-ci.yml)
 - [Alle Workflows](../README.md)

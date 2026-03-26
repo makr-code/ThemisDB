@@ -103,7 +103,7 @@ infrastructure.
 > **Files:** `include/auth/jwt_validator.h`, `src/auth/jwt_validator.cpp`,
 > `include/server/auth_middleware.h`, `src/server/auth_middleware.cpp`,
 > `tests/test_auth_middleware.cpp`, `config/security/rbac_roles.yaml`,
-> `.github/workflows/02-feature-modules/security/auth-middleware-jwt-scope-ci.yml`
+> `.github/workflows/02-feature-modules_security_auth-middleware-jwt-scope-ci.yml`
 
 - `JWTClaims` gains a `scopes` field populated from the `scope` / `scp` OAuth2 claim.
 - `AuthMiddleware::authorizeViaJWT()` checks `required_scope` against `granted_scopes` plus `role_scope_map_`.
@@ -118,7 +118,7 @@ infrastructure.
 > **Files:** `include/security/arrow_user_registration_plugin.h`,
 > `src/security/arrow_user_registration_plugin.cpp`,
 > `tests/security/test_arrow_user_registration_plugin.cpp`,
-> `.github/workflows/02-feature-modules/security/arrow-user-registration-plugin-ci.yml`
+> `.github/workflows/02-feature-modules_security_arrow-user-registration-plugin-ci.yml`
 
 - Apache Arrow-backed in-memory user store using `arrow::StringArray` columns for `user_id`, `password_hash`, `roles`, and `email`.
 - `bulkSyncFromArrow()` upserts records from an Arrow `RecordBatch` into `user_store_` under `store_mutex_`.
@@ -144,7 +144,7 @@ infrastructure.
 > `include/transaction/transaction_manager.h`, `src/transaction/lock_manager.cpp`,
 > `src/transaction/transaction_manager.cpp`, `src/storage/transaction_retry_manager.cpp`,
 > `tests/test_transaction_ssi.cpp`,
-> `.github/workflows/02-feature-modules/transactions/transaction-ssi-ci.yml`
+> `.github/workflows/02-feature-modules_transactions_transaction-ssi-ci.yml`
 
 - `IsolationLevel::SerializableSnapshot = 4` — new isolation level alias.
 - `SSIConfig { enable_predicate_locking, max_predicate_locks = 10000, conflict_detection_interval }`.
@@ -250,7 +250,7 @@ infrastructure.
 
 > **Files:** `include/analytics/analytics_export.h`, `src/analytics/analytics_export.cpp`,
 > `tests/analytics/test_arrow_export.cpp`,
-> `.github/workflows/02-feature-modules/exporterfactory-stub-replacement-ci.yml`
+> `.github/workflows/02-feature-modules_exporterfactory-stub-replacement-ci.yml`
 
 - Concrete implementations: `ArrowIPCExporter`, `ParquetExporter`, `FeatherExporter`, `JSONCSVExporter`.
 - `createExporter()` dispatches on format string; throws `std::runtime_error` for Arrow formats when built without `THEMIS_HAS_ARROW`.
@@ -302,7 +302,7 @@ infrastructure.
 
 > **Files:** `include/performance/intelligent_prefetcher.h`, `src/performance/intelligent_prefetcher.cpp`,
 > `tests/performance/test_intelligent_prefetcher.cpp`,
-> `.github/workflows/02-feature-modules/adaptive-query/intelligent-prefetching-ci.yml`
+> `.github/workflows/02-feature-modules_adaptive-query_intelligent-prefetching-ci.yml`
 
 - Access-pattern driven prefetch scheduler with configurable lookahead depth.
 - Integrates with `PredictivePrefetcher` Markov model for next-key prediction.
@@ -313,7 +313,7 @@ infrastructure.
 
 > **Files:** `include/query/materialized_view_manager.h`, `src/query/materialized_view_manager.cpp`,
 > `tests/test_materialized_view_manager.cpp`,
-> `.github/workflows/02-feature-modules/adaptive-query/materialized-views-incremental-maintenance-ci.yml`
+> `.github/workflows/02-feature-modules_adaptive-query_materialized-views-incremental-maintenance-ci.yml`
 
 - `MaterializedViewManager` — create, refresh, and drop pre-computed query results.
 - Incremental maintenance: only recomputes affected view partitions on source data changes.
@@ -475,7 +475,7 @@ infrastructure.
 
 ### Transaction Module — Savepoints CI (PR #4276)
 
-- Full CI coverage added for `TransactionSavepoints` (`.github/workflows/02-feature-modules/transactions/transaction-savepoints-ci.yml`).
+- Full CI coverage added for `TransactionSavepoints` (`.github/workflows/02-feature-modules_transactions_transaction-savepoints-ci.yml`).
 - `CHANGELOG.md` updated with roadmap traceability entry for item #232.
 
 ### Storage Module — Stats Endpoint Documentation

@@ -31,7 +31,7 @@ Prüfstand: 2026-03-20 | Branch: `develop`
 | **Claim-Quelle** | `src/updates/ROADMAP.md` (6 CI-Workflow-Referenzen) |
 | **Erwartet** | CI-Pfade zeigen auf die tatsächlichen Workflow-Dateien im Repository |
 | **Beobachtet** | 5 von 7 CI-Workflow-Pfade fehlen die Unterverzeichnis-Präfixe (z.B. `02-feature-modules/storage/`) |
-| **Evidence** | `find .github/workflows -name "binary-delta-patches-ci.yml"` → `.github/workflows/02-feature-modules/storage/binary-delta-patches-ci.yml` (nicht `.github/workflows/binary-delta-patches-ci.yml`) |
+| **Evidence** | `find .github/workflows -name "binary-delta-patches-ci.yml"` → `.github/workflows/02-feature-modules_storage_binary-delta-patches-ci.yml` (nicht `.github/workflows/binary-delta-patches-ci.yml`) |
 | **Betroffene Pfade** | `canary-deployments-ci.yml` → `.github/workflows/04-release/`; `binary-delta-patches-ci.yml` → `.github/workflows/02-feature-modules/storage/`; `parallel-file-downloads-ci.yml` → `.github/workflows/02-feature-modules/storage/`; `dependency-resolution-engine-ci.yml` → `.github/workflows/02-feature-modules/`; `multi-tenant-update-scheduling-ci.yml` → `.github/workflows/02-feature-modules/` |
 | **Status** | ✅ **Behoben** — Alle 5 Pfade korrigiert; 2 fehlende CI-Referenzen ergänzt (2026-03-20) |
 | **Lösung** | `src/updates/ROADMAP.md`: Korrekte Unterverzeichnis-Pfade eingetragen; Referenzen für `manifest-database-file-deletion-ci.yml` und `distributed-cluster-updates-ci.yml` neu hinzugefügt |

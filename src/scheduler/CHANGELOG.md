@@ -13,7 +13,7 @@ All notable changes documented here. Based on [Keep a Changelog](https://keepach
 - `static setRequestContext(ctx)`, `clearRequestContext()`, `currentUserId(fallback)`, `currentClientIp()` API using `thread_local TLSRequestContext` — HTTP handlers set context before scheduler ops; scheduler thread falls back to `"system"`
 - `sandbox_execution` config flag: when `true`, wraps user-provided task functions in `modules::ModuleSandbox` with cgroups v2 memory/CPU limits, seccomp-bpf syscall filtering on Linux; graceful fallback when sandbox launch fails in constrained environments
 - `TaskSchedulerAuthContextFocusedTests` — 11 unit tests covering TLS context isolation, fallback behaviour, and `sandbox_execution` flag (`tests/test_task_scheduler_auth_context.cpp`)
-- CI workflow: `.github/workflows/02-feature-modules/taskscheduler-auth-context-ci.yml`
+- CI workflow: `.github/workflows/02-feature-modules_taskscheduler-auth-context-ci.yml`
 
 ### Fixed
 - Audit events no longer hardcode `"system"` as actor; all `registerTask`, `updateTask`, `enableTask`, `disableTask`, `executeTaskNow` audit log entries now use the thread-local `currentUserId()` / `currentClientIp()` values

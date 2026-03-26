@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/07-data-pipelines/importer-tests.yml`
+> **Workflow-Datei:** `.github/workflows/07-data-pipelines_importer-tests.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Importer Modu
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `importer-unit-tests`
 **Anzeigename:** Importer unit tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -120,5 +120,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Importer Modu
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/07-data-pipelines/importer-tests.yml)
+- [Workflow-Datei](../../.github/workflows/07-data-pipelines_importer-tests.yml)
 - [Alle Workflows](../README.md)

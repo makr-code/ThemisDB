@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules/acceleration/runtime-device-capability-negotiation-ci.yml`
+> **Workflow-Datei:** `.github/workflows/02-feature-modules_acceleration_runtime-device-capability-negotiation-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Runtime Devic
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `runtime-device-capability-tests`
 **Anzeigename:** Runtime Device Capability (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -46,5 +46,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Runtime Devic
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/02-feature-modules/acceleration/runtime-device-capability-negotiation-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/02-feature-modules_acceleration_runtime-device-capability-negotiation-ci.yml)
 - [Alle Workflows](../README.md)

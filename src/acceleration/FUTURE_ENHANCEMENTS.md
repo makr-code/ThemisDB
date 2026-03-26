@@ -164,7 +164,7 @@ This means any GPU plugin with a revoked code-signing certificate will pass secu
   - `MockProvider_CanUseGPU_ReturnsFalse_WhenNullopt` — nullopt treated as busy
   - `MockProvider_CanUseGPU_At79Percent_AllowsUse` — boundary below threshold
   - `MockProvider_CanUseGPU_At80Percent_Blocks` — boundary at threshold
-- `[x]` CI workflow added: `.github/workflows/02-feature-modules/acceleration/vllm-multi-gpu-nvml-monitoring-ci.yml`
+- `[x]` CI workflow added: `.github/workflows/02-feature-modules_acceleration_vllm-multi-gpu-nvml-monitoring-ci.yml`
 
 ---
 
@@ -186,7 +186,7 @@ This means any GPU plugin with a revoked code-signing certificate will pass secu
 - `[x]` Release builds: overflow condition propagated as `AccelerationErrorCode::InvalidInputShape` via `setError()` in `CUDAVectorBackend::annBatchSearch()` / `batchKnnSearch()`; makes `getHealthStatus()` return `BackendHealthStatus::makeDegraded()` automatically.
 - `[x]` `kHnswSinglePassMaxK = 1024u` constant added to `cuda_backend.cpp` for consistent threshold checks.
 - `[x]` Test: `tests/test_cuda_hnsw_large_k.cpp` with k=257, k=512, k=1024, k=1025 (multi-pass), health-degraded, sort-order, multi-query tests (7 test cases total).
-- `[x]` CI workflow: `.github/workflows/02-feature-modules/acceleration/cuda-hnsw-large-k-ci.yml` triggers on changes to kernel / traversal / backend / test files.
+- `[x]` CI workflow: `.github/workflows/02-feature-modules_acceleration_cuda-hnsw-large-k-ci.yml` triggers on changes to kernel / traversal / backend / test files.
 
 **Performance Targets:**
 - k=256: no regression vs. prior implementation (same block size, same shared memory layout).

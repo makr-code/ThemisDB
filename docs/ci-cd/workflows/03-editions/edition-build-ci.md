@@ -2,7 +2,7 @@
 
 ♻️ **Reusable Workflow**
 
-> **Workflow-Datei:** `.github/workflows/03-editions/edition-build-ci.yml`
+> **Workflow-Datei:** `.github/workflows/03-editions_edition-build-ci.yml`
 
 ## Aufgabe
 
@@ -42,5 +42,5 @@ Wiederverwendbarer Hilfs-Workflow: **Edition Build (reusable)**.
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/03-editions/edition-build-ci.yml)
+- [Workflow-Datei](../../.github/workflows/03-editions_edition-build-ci.yml)
 - [Alle Workflows](../README.md)

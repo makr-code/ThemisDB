@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/07-data-pipelines/kafka-consumer-source-connector-ci.yml`
+> **Workflow-Datei:** `.github/workflows/07-data-pipelines_kafka-consumer-source-connector-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Kafka Consume
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `kafka-connector-tests`
 **Anzeigename:** Kafka Consumer Source Connector (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -45,5 +45,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Kafka Consume
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/07-data-pipelines/kafka-consumer-source-connector-ci.yml)
+- [Workflow-Datei](../../.github/workflows/07-data-pipelines_kafka-consumer-source-connector-ci.yml)
 - [Alle Workflows](../README.md)

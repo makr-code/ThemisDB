@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules/adaptive-query/adaptive-query-compilation-ci.yml`
+> **Workflow-Datei:** `.github/workflows/02-feature-modules_adaptive-query_adaptive-query-compilation-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Adaptive Quer
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `adaptive-query-compilation-unit-tests`
 **Anzeigename:** Adaptive Query Compilation tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -43,5 +43,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Adaptive Quer
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/02-feature-modules/adaptive-query/adaptive-query-compilation-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/02-feature-modules_adaptive-query_adaptive-query-compilation-ci.yml)
 - [Alle Workflows](../README.md)

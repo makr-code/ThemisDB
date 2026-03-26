@@ -2,7 +2,7 @@
 
 🖱️ **Manuell**
 
-> **Workflow-Datei:** `.github/workflows/04-release/create-release-archive.yml`
+> **Workflow-Datei:** `.github/workflows/04-release_create-release-archive.yml`
 
 ## Aufgabe
 
@@ -42,5 +42,5 @@ Manuell ausgelöster Workflow für: **Create Release Archive**.
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/04-release/create-release-archive.yml)
+- [Workflow-Datei](../../.github/workflows/04-release_create-release-archive.yml)
 - [Alle Workflows](../README.md)

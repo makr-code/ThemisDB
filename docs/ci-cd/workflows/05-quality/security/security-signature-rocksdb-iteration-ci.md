@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/05-quality/security/security-signature-rocksdb-iteration-ci.yml`
+> **Workflow-Datei:** `.github/workflows/05-quality_security_security-signature-rocksdb-iteration-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Security Sign
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `security-signature-rocksdb-iteration-unit-tests`
 **Anzeigename:** SecuritySignature RocksDB Iteration tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -44,5 +44,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Security Sign
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/05-quality/security/security-signature-rocksdb-iteration-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/05-quality_security_security-signature-rocksdb-iteration-ci.yml)
 - [Alle Workflows](../README.md)

@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/07-data-pipelines/wal-archival-object-storage-ci.yml`
+> **Workflow-Datei:** `.github/workflows/07-data-pipelines_wal-archival-object-storage-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **WAL Archival 
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `wal-archival-unit-tests`
 **Anzeigename:** WAL Archival tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -45,5 +45,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **WAL Archival 
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/07-data-pipelines/wal-archival-object-storage-ci.yml)
+- [Workflow-Datei](../../.github/workflows/07-data-pipelines_wal-archival-object-storage-ci.yml)
 - [Alle Workflows](../README.md)

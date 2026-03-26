@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/03-editions/edition-enterprise-ci.yml`
+> **Workflow-Datei:** `.github/workflows/03-editions_edition-enterprise-ci.yml`
 
 ## Aufgabe
 
@@ -22,7 +22,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Edition · EN
 
 ### `build`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/03-editions/edition-build-ci.yml`
+**Verwendet:** `./.github/workflows/03-editions_edition-build-ci.yml`
 
 ## Berechtigungen
 
@@ -30,5 +30,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Edition · EN
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/03-editions/edition-enterprise-ci.yml)
+- [Workflow-Datei](../../.github/workflows/03-editions_edition-enterprise-ci.yml)
 - [Alle Workflows](../README.md)

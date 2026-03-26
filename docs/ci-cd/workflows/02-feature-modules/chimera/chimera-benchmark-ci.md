@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules/chimera/chimera-benchmark-ci.yml`
+> **Workflow-Datei:** `.github/workflows/02-feature-modules_chimera_chimera-benchmark-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Chimera Bench
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `chimera-benchmarks`
 **Anzeigename:** Chimera Benchmarks (${{ matrix.os }})
@@ -73,5 +73,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Chimera Bench
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/02-feature-modules/chimera/chimera-benchmark-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/02-feature-modules_chimera_chimera-benchmark-ci.yml)
 - [Alle Workflows](../README.md)

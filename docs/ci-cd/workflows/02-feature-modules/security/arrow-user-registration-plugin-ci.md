@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules/security/arrow-user-registration-plugin-ci.yml`
+> **Workflow-Datei:** `.github/workflows/02-feature-modules_security_arrow-user-registration-plugin-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Arrow User Re
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `arrow-user-registration-plugin-tests`
 **Anzeigename:** Arrow User Registration Plugin (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -46,5 +46,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Arrow User Re
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/02-feature-modules/security/arrow-user-registration-plugin-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/02-feature-modules_security_arrow-user-registration-plugin-ci.yml)
 - [Alle Workflows](../README.md)

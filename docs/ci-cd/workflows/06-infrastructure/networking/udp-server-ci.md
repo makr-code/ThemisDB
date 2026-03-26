@@ -2,7 +2,7 @@
 
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/06-infrastructure/networking/udp-server-ci.yml`
+> **Workflow-Datei:** `.github/workflows/06-infrastructure_networking_udp-server-ci.yml`
 
 ## Aufgabe
 
@@ -23,7 +23,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **UDP Server (I
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core/ci-scope-classifier.yml`
+**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
 
 ### `udp-server-tests`
 **Anzeigename:** UDP Server (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -68,5 +68,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **UDP Server (I
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/06-infrastructure/networking/udp-server-ci.yml)
+- [Workflow-Datei](../../../.github/workflows/06-infrastructure_networking_udp-server-ci.yml)
 - [Alle Workflows](../README.md)
