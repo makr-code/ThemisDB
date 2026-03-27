@@ -1,9 +1,14 @@
 [docs](../../index.md) > [de](../index.md) > [sharding](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-03-16  
+**Datum:** 2026-03-27  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
+- `include/sharding/ARCHITECTURE.md`
+- `include/sharding/AUDIT.md`
+- `include/sharding/CHANGELOG.md`
 - `include/sharding/FUTURE_ENHANCEMENTS.md`
 - `include/sharding/README.md`
+- `include/sharding/ROADMAP.md`
+- `include/sharding/SECURITY.md`
 - `src/sharding/ARCHITECTURE.md`
 - `src/sharding/AUDIT.md`
 - `src/sharding/CHANGELOG.md`
@@ -40,9 +45,14 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`sharding`*
 
 | Datei | Pfad |
 |-------|------|
+| `ARCHITECTURE.md` | [`include/sharding/ARCHITECTURE.md`](../../../include/sharding/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/sharding/AUDIT.md`](../../../include/sharding/AUDIT.md) |
+| `CHANGELOG.md` | [`include/sharding/CHANGELOG.md`](../../../include/sharding/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/sharding/FUTURE_ENHANCEMENTS.md`](../../../include/sharding/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/sharding/README.md`](../../../include/sharding/README.md) |
+| `ROADMAP.md` | [`include/sharding/ROADMAP.md`](../../../include/sharding/ROADMAP.md) |
+| `SECURITY.md` | [`include/sharding/SECURITY.md`](../../../include/sharding/SECURITY.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-16*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-27*

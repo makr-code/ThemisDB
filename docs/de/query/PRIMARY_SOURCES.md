@@ -1,9 +1,14 @@
 [docs](../../index.md) > [de](../index.md) > [query](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-03-16  
+**Datum:** 2026-03-27  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
+- `include/query/ARCHITECTURE.md`
+- `include/query/AUDIT.md`
+- `include/query/CHANGELOG.md`
 - `include/query/FUTURE_ENHANCEMENTS.md`
 - `include/query/README.md`
+- `include/query/ROADMAP.md`
+- `include/query/SECURITY.md`
 - `src/query/ARCHITECTURE.md`
 - `src/query/AUDIT.md`
 - `src/query/CHANGELOG.md`
@@ -11,6 +16,7 @@
 - `src/query/README.md`
 - `src/query/ROADMAP.md`
 - `src/query/SECURITY.md`
+- `src/query/roadmap.md`
 
 **Bezug / Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -35,14 +41,20 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`query`** a
 | `README.md` | [`src/query/README.md`](../../../src/query/README.md) |
 | `ROADMAP.md` | [`src/query/ROADMAP.md`](../../../src/query/ROADMAP.md) |
 | `SECURITY.md` | [`src/query/SECURITY.md`](../../../src/query/SECURITY.md) |
+| `roadmap.md` | [`src/query/roadmap.md`](../../../src/query/roadmap.md) |
 
 ### `include/query/`
 
 | Datei | Pfad |
 |-------|------|
+| `ARCHITECTURE.md` | [`include/query/ARCHITECTURE.md`](../../../include/query/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/query/AUDIT.md`](../../../include/query/AUDIT.md) |
+| `CHANGELOG.md` | [`include/query/CHANGELOG.md`](../../../include/query/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/query/FUTURE_ENHANCEMENTS.md`](../../../include/query/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/query/README.md`](../../../include/query/README.md) |
+| `ROADMAP.md` | [`include/query/ROADMAP.md`](../../../include/query/ROADMAP.md) |
+| `SECURITY.md` | [`include/query/SECURITY.md`](../../../include/query/SECURITY.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-16*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-27*

@@ -1,9 +1,14 @@
 [docs](../../index.md) > [de](../index.md) > [scheduler](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-03-16  
+**Datum:** 2026-03-27  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
+- `include/scheduler/ARCHITECTURE.md`
+- `include/scheduler/AUDIT.md`
+- `include/scheduler/CHANGELOG.md`
 - `include/scheduler/FUTURE_ENHANCEMENTS.md`
 - `include/scheduler/README.md`
+- `include/scheduler/ROADMAP.md`
+- `include/scheduler/SECURITY.md`
 - `src/scheduler/ARCHITECTURE.md`
 - `src/scheduler/AUDIT.md`
 - `src/scheduler/CHANGELOG.md`
@@ -40,9 +45,14 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`scheduler`
 
 | Datei | Pfad |
 |-------|------|
+| `ARCHITECTURE.md` | [`include/scheduler/ARCHITECTURE.md`](../../../include/scheduler/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/scheduler/AUDIT.md`](../../../include/scheduler/AUDIT.md) |
+| `CHANGELOG.md` | [`include/scheduler/CHANGELOG.md`](../../../include/scheduler/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/scheduler/FUTURE_ENHANCEMENTS.md`](../../../include/scheduler/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/scheduler/README.md`](../../../include/scheduler/README.md) |
+| `ROADMAP.md` | [`include/scheduler/ROADMAP.md`](../../../include/scheduler/ROADMAP.md) |
+| `SECURITY.md` | [`include/scheduler/SECURITY.md`](../../../include/scheduler/SECURITY.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-16*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-27*

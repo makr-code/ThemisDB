@@ -1,9 +1,14 @@
 [docs](../../index.md) > [de](../index.md) > [network](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-03-16  
+**Datum:** 2026-03-27  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
+- `include/network/ARCHITECTURE.md`
+- `include/network/AUDIT.md`
+- `include/network/CHANGELOG.md`
 - `include/network/FUTURE_ENHANCEMENTS.md`
 - `include/network/README.md`
+- `include/network/ROADMAP.md`
+- `include/network/SECURITY.md`
 - `src/network/ARCHITECTURE.md`
 - `src/network/AUDIT.md`
 - `src/network/CHANGELOG.md`
@@ -40,9 +45,14 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`network`**
 
 | Datei | Pfad |
 |-------|------|
+| `ARCHITECTURE.md` | [`include/network/ARCHITECTURE.md`](../../../include/network/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/network/AUDIT.md`](../../../include/network/AUDIT.md) |
+| `CHANGELOG.md` | [`include/network/CHANGELOG.md`](../../../include/network/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/network/FUTURE_ENHANCEMENTS.md`](../../../include/network/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/network/README.md`](../../../include/network/README.md) |
+| `ROADMAP.md` | [`include/network/ROADMAP.md`](../../../include/network/ROADMAP.md) |
+| `SECURITY.md` | [`include/network/SECURITY.md`](../../../include/network/SECURITY.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-16*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-27*

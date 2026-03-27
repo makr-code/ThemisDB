@@ -1,9 +1,14 @@
 [docs](../../index.md) > [de](../index.md) > [graph](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-03-16  
+**Datum:** 2026-03-27  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
+- `include/graph/ARCHITECTURE.md`
+- `include/graph/AUDIT.md`
+- `include/graph/CHANGELOG.md`
 - `include/graph/FUTURE_ENHANCEMENTS.md`
 - `include/graph/README.md`
+- `include/graph/ROADMAP.md`
+- `include/graph/SECURITY.md`
 - `src/graph/ADVANCED_FEATURES_README.md`
 - `src/graph/ARCHITECTURE.md`
 - `src/graph/AUDIT.md`
@@ -42,9 +47,14 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`graph`** a
 
 | Datei | Pfad |
 |-------|------|
+| `ARCHITECTURE.md` | [`include/graph/ARCHITECTURE.md`](../../../include/graph/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/graph/AUDIT.md`](../../../include/graph/AUDIT.md) |
+| `CHANGELOG.md` | [`include/graph/CHANGELOG.md`](../../../include/graph/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/graph/FUTURE_ENHANCEMENTS.md`](../../../include/graph/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/graph/README.md`](../../../include/graph/README.md) |
+| `ROADMAP.md` | [`include/graph/ROADMAP.md`](../../../include/graph/ROADMAP.md) |
+| `SECURITY.md` | [`include/graph/SECURITY.md`](../../../include/graph/SECURITY.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-16*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-27*

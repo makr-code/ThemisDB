@@ -1,9 +1,14 @@
 [docs](../../index.md) > [de](../index.md) > [observability](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-03-16  
+**Datum:** 2026-03-27  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
+- `include/observability/ARCHITECTURE.md`
+- `include/observability/AUDIT.md`
+- `include/observability/CHANGELOG.md`
 - `include/observability/FUTURE_ENHANCEMENTS.md`
 - `include/observability/README.md`
+- `include/observability/ROADMAP.md`
+- `include/observability/SECURITY.md`
 - `src/observability/ARCHITECTURE.md`
 - `src/observability/AUDIT.md`
 - `src/observability/CHANGELOG.md`
@@ -40,9 +45,14 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`observabil
 
 | Datei | Pfad |
 |-------|------|
+| `ARCHITECTURE.md` | [`include/observability/ARCHITECTURE.md`](../../../include/observability/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/observability/AUDIT.md`](../../../include/observability/AUDIT.md) |
+| `CHANGELOG.md` | [`include/observability/CHANGELOG.md`](../../../include/observability/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/observability/FUTURE_ENHANCEMENTS.md`](../../../include/observability/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/observability/README.md`](../../../include/observability/README.md) |
+| `ROADMAP.md` | [`include/observability/ROADMAP.md`](../../../include/observability/ROADMAP.md) |
+| `SECURITY.md` | [`include/observability/SECURITY.md`](../../../include/observability/SECURITY.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-16*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-27*

@@ -1,9 +1,14 @@
 [docs](../../index.md) > [de](../index.md) > [analytics](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-03-16  
+**Datum:** 2026-03-27  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
+- `include/analytics/ARCHITECTURE.md`
+- `include/analytics/AUDIT.md`
+- `include/analytics/CHANGELOG.md`
 - `include/analytics/FUTURE_ENHANCEMENTS.md`
 - `include/analytics/README.md`
+- `include/analytics/ROADMAP.md`
+- `include/analytics/SECURITY.md`
 - `src/analytics/ARCHITECTURE.md`
 - `src/analytics/AUDIT.md`
 - `src/analytics/CHANGELOG.md`
@@ -40,9 +45,14 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`analytics`
 
 | Datei | Pfad |
 |-------|------|
+| `ARCHITECTURE.md` | [`include/analytics/ARCHITECTURE.md`](../../../include/analytics/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/analytics/AUDIT.md`](../../../include/analytics/AUDIT.md) |
+| `CHANGELOG.md` | [`include/analytics/CHANGELOG.md`](../../../include/analytics/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/analytics/FUTURE_ENHANCEMENTS.md`](../../../include/analytics/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/analytics/README.md`](../../../include/analytics/README.md) |
+| `ROADMAP.md` | [`include/analytics/ROADMAP.md`](../../../include/analytics/ROADMAP.md) |
+| `SECURITY.md` | [`include/analytics/SECURITY.md`](../../../include/analytics/SECURITY.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-16*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-27*

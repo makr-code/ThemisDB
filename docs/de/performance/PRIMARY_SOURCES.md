@@ -1,9 +1,14 @@
 [docs](../../index.md) > [de](../index.md) > [performance](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-03-16  
+**Datum:** 2026-03-27  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
+- `include/performance/ARCHITECTURE.md`
+- `include/performance/AUDIT.md`
+- `include/performance/CHANGELOG.md`
 - `include/performance/FUTURE_ENHANCEMENTS.md`
 - `include/performance/README.md`
+- `include/performance/ROADMAP.md`
+- `include/performance/SECURITY.md`
 - `src/performance/ARCHITECTURE.md`
 - `src/performance/AUDIT.md`
 - `src/performance/CHANGELOG.md`
@@ -40,9 +45,14 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`performanc
 
 | Datei | Pfad |
 |-------|------|
+| `ARCHITECTURE.md` | [`include/performance/ARCHITECTURE.md`](../../../include/performance/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/performance/AUDIT.md`](../../../include/performance/AUDIT.md) |
+| `CHANGELOG.md` | [`include/performance/CHANGELOG.md`](../../../include/performance/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/performance/FUTURE_ENHANCEMENTS.md`](../../../include/performance/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/performance/README.md`](../../../include/performance/README.md) |
+| `ROADMAP.md` | [`include/performance/ROADMAP.md`](../../../include/performance/ROADMAP.md) |
+| `SECURITY.md` | [`include/performance/SECURITY.md`](../../../include/performance/SECURITY.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-16*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-27*

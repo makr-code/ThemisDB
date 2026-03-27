@@ -1,9 +1,14 @@
 [docs](../../index.md) > [de](../index.md) > [importers](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-03-16  
+**Datum:** 2026-03-27  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
+- `include/importers/ARCHITECTURE.md`
+- `include/importers/AUDIT.md`
+- `include/importers/CHANGELOG.md`
 - `include/importers/FUTURE_ENHANCEMENTS.md`
 - `include/importers/README.md`
+- `include/importers/ROADMAP.md`
+- `include/importers/SECURITY.md`
 - `src/importers/ARCHITECTURE.md`
 - `src/importers/AUDIT.md`
 - `src/importers/CHANGELOG.md`
@@ -40,9 +45,14 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`importers`
 
 | Datei | Pfad |
 |-------|------|
+| `ARCHITECTURE.md` | [`include/importers/ARCHITECTURE.md`](../../../include/importers/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/importers/AUDIT.md`](../../../include/importers/AUDIT.md) |
+| `CHANGELOG.md` | [`include/importers/CHANGELOG.md`](../../../include/importers/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/importers/FUTURE_ENHANCEMENTS.md`](../../../include/importers/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/importers/README.md`](../../../include/importers/README.md) |
+| `ROADMAP.md` | [`include/importers/ROADMAP.md`](../../../include/importers/ROADMAP.md) |
+| `SECURITY.md` | [`include/importers/SECURITY.md`](../../../include/importers/SECURITY.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-16*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-27*

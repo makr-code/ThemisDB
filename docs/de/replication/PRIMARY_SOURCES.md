@@ -1,9 +1,14 @@
 [docs](../../index.md) > [de](../index.md) > [replication](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-03-16  
+**Datum:** 2026-03-27  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
+- `include/replication/ARCHITECTURE.md`
+- `include/replication/AUDIT.md`
+- `include/replication/CHANGELOG.md`
 - `include/replication/FUTURE_ENHANCEMENTS.md`
 - `include/replication/README.md`
+- `include/replication/ROADMAP.md`
+- `include/replication/SECURITY.md`
 - `src/replication/ARCHITECTURE.md`
 - `src/replication/AUDIT.md`
 - `src/replication/CHANGELOG.md`
@@ -40,9 +45,14 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`replicatio
 
 | Datei | Pfad |
 |-------|------|
+| `ARCHITECTURE.md` | [`include/replication/ARCHITECTURE.md`](../../../include/replication/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/replication/AUDIT.md`](../../../include/replication/AUDIT.md) |
+| `CHANGELOG.md` | [`include/replication/CHANGELOG.md`](../../../include/replication/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/replication/FUTURE_ENHANCEMENTS.md`](../../../include/replication/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/replication/README.md`](../../../include/replication/README.md) |
+| `ROADMAP.md` | [`include/replication/ROADMAP.md`](../../../include/replication/ROADMAP.md) |
+| `SECURITY.md` | [`include/replication/SECURITY.md`](../../../include/replication/SECURITY.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-16*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-27*

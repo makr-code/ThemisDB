@@ -1,9 +1,14 @@
 [docs](../../index.md) > [de](../index.md) > [cdc](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-03-16  
+**Datum:** 2026-03-27  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
+- `include/cdc/ARCHITECTURE.md`
+- `include/cdc/AUDIT.md`
+- `include/cdc/CHANGELOG.md`
 - `include/cdc/FUTURE_ENHANCEMENTS.md`
 - `include/cdc/README.md`
+- `include/cdc/ROADMAP.md`
+- `include/cdc/SECURITY.md`
 - `src/cdc/ARCHITECTURE.md`
 - `src/cdc/AUDIT.md`
 - `src/cdc/CHANGELOG.md`
@@ -40,9 +45,14 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`cdc`** aus
 
 | Datei | Pfad |
 |-------|------|
+| `ARCHITECTURE.md` | [`include/cdc/ARCHITECTURE.md`](../../../include/cdc/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/cdc/AUDIT.md`](../../../include/cdc/AUDIT.md) |
+| `CHANGELOG.md` | [`include/cdc/CHANGELOG.md`](../../../include/cdc/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/cdc/FUTURE_ENHANCEMENTS.md`](../../../include/cdc/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/cdc/README.md`](../../../include/cdc/README.md) |
+| `ROADMAP.md` | [`include/cdc/ROADMAP.md`](../../../include/cdc/ROADMAP.md) |
+| `SECURITY.md` | [`include/cdc/SECURITY.md`](../../../include/cdc/SECURITY.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-16*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-27*
