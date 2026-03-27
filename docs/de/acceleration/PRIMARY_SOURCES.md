@@ -1,9 +1,14 @@
 [docs](../../index.md) > [de](../index.md) > [acceleration](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-03-16  
+**Datum:** 2026-03-27  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
+- `include/acceleration/ARCHITECTURE.md`
+- `include/acceleration/AUDIT.md`
+- `include/acceleration/CHANGELOG.md`
 - `include/acceleration/FUTURE_ENHANCEMENTS.md`
 - `include/acceleration/README.md`
+- `include/acceleration/ROADMAP.md`
+- `include/acceleration/SECURITY.md`
 - `include/acceleration/raii/README.md`
 - `src/acceleration/ARCHITECTURE.md`
 - `src/acceleration/AUDIT.md`
@@ -43,10 +48,15 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`accelerati
 
 | Datei | Pfad |
 |-------|------|
+| `ARCHITECTURE.md` | [`include/acceleration/ARCHITECTURE.md`](../../../include/acceleration/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/acceleration/AUDIT.md`](../../../include/acceleration/AUDIT.md) |
+| `CHANGELOG.md` | [`include/acceleration/CHANGELOG.md`](../../../include/acceleration/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/acceleration/FUTURE_ENHANCEMENTS.md`](../../../include/acceleration/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/acceleration/README.md`](../../../include/acceleration/README.md) |
+| `ROADMAP.md` | [`include/acceleration/ROADMAP.md`](../../../include/acceleration/ROADMAP.md) |
+| `SECURITY.md` | [`include/acceleration/SECURITY.md`](../../../include/acceleration/SECURITY.md) |
 | `README.md` | [`include/acceleration/raii/README.md`](../../../include/acceleration/raii/README.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-16*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-27*

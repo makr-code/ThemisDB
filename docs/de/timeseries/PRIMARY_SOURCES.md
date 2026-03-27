@@ -1,9 +1,14 @@
 [docs](../../index.md) > [de](../index.md) > [timeseries](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-03-16  
+**Datum:** 2026-03-27  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
+- `include/timeseries/ARCHITECTURE.md`
+- `include/timeseries/AUDIT.md`
+- `include/timeseries/CHANGELOG.md`
 - `include/timeseries/FUTURE_ENHANCEMENTS.md`
 - `include/timeseries/README.md`
+- `include/timeseries/ROADMAP.md`
+- `include/timeseries/SECURITY.md`
 - `src/timeseries/ARCHITECTURE.md`
 - `src/timeseries/AUDIT.md`
 - `src/timeseries/CHANGELOG.md`
@@ -40,9 +45,14 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`timeseries
 
 | Datei | Pfad |
 |-------|------|
+| `ARCHITECTURE.md` | [`include/timeseries/ARCHITECTURE.md`](../../../include/timeseries/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/timeseries/AUDIT.md`](../../../include/timeseries/AUDIT.md) |
+| `CHANGELOG.md` | [`include/timeseries/CHANGELOG.md`](../../../include/timeseries/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/timeseries/FUTURE_ENHANCEMENTS.md`](../../../include/timeseries/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/timeseries/README.md`](../../../include/timeseries/README.md) |
+| `ROADMAP.md` | [`include/timeseries/ROADMAP.md`](../../../include/timeseries/ROADMAP.md) |
+| `SECURITY.md` | [`include/timeseries/SECURITY.md`](../../../include/timeseries/SECURITY.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-16*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-27*

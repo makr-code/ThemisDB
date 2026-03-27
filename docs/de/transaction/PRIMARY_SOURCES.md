@@ -1,9 +1,14 @@
 [docs](../../index.md) > [de](../index.md) > [transaction](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-03-16  
+**Datum:** 2026-03-27  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
+- `include/transaction/ARCHITECTURE.md`
+- `include/transaction/AUDIT.md`
+- `include/transaction/CHANGELOG.md`
 - `include/transaction/FUTURE_ENHANCEMENTS.md`
 - `include/transaction/README.md`
+- `include/transaction/ROADMAP.md`
+- `include/transaction/SECURITY.md`
 - `src/transaction/ARCHITECTURE.md`
 - `src/transaction/AUDIT.md`
 - `src/transaction/CHANGELOG.md`
@@ -40,9 +45,14 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`transactio
 
 | Datei | Pfad |
 |-------|------|
+| `ARCHITECTURE.md` | [`include/transaction/ARCHITECTURE.md`](../../../include/transaction/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/transaction/AUDIT.md`](../../../include/transaction/AUDIT.md) |
+| `CHANGELOG.md` | [`include/transaction/CHANGELOG.md`](../../../include/transaction/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/transaction/FUTURE_ENHANCEMENTS.md`](../../../include/transaction/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/transaction/README.md`](../../../include/transaction/README.md) |
+| `ROADMAP.md` | [`include/transaction/ROADMAP.md`](../../../include/transaction/ROADMAP.md) |
+| `SECURITY.md` | [`include/transaction/SECURITY.md`](../../../include/transaction/SECURITY.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-16*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-27*

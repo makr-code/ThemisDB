@@ -1,10 +1,15 @@
 [docs](../../index.md) > [de](../index.md) > [utils](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-03-16  
+**Datum:** 2026-03-27  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
+- `include/utils/ARCHITECTURE.md`
+- `include/utils/AUDIT.md`
+- `include/utils/CHANGELOG.md`
 - `include/utils/FUTURE_ENHANCEMENTS.md`
 - `include/utils/LOSSLESS_COMPRESSION_README.md`
 - `include/utils/README.md`
+- `include/utils/ROADMAP.md`
+- `include/utils/SECURITY.md`
 - `src/utils/ARCHITECTURE.md`
 - `src/utils/AUDIT.md`
 - `src/utils/CHANGELOG.md`
@@ -41,10 +46,15 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`utils`** a
 
 | Datei | Pfad |
 |-------|------|
+| `ARCHITECTURE.md` | [`include/utils/ARCHITECTURE.md`](../../../include/utils/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/utils/AUDIT.md`](../../../include/utils/AUDIT.md) |
+| `CHANGELOG.md` | [`include/utils/CHANGELOG.md`](../../../include/utils/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/utils/FUTURE_ENHANCEMENTS.md`](../../../include/utils/FUTURE_ENHANCEMENTS.md) |
 | `LOSSLESS_COMPRESSION_README.md` | [`include/utils/LOSSLESS_COMPRESSION_README.md`](../../../include/utils/LOSSLESS_COMPRESSION_README.md) |
 | `README.md` | [`include/utils/README.md`](../../../include/utils/README.md) |
+| `ROADMAP.md` | [`include/utils/ROADMAP.md`](../../../include/utils/ROADMAP.md) |
+| `SECURITY.md` | [`include/utils/SECURITY.md`](../../../include/utils/SECURITY.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-16*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-27*

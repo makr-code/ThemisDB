@@ -1,9 +1,14 @@
 [docs](../../index.md) > [de](../index.md) > [rag](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-03-16  
+**Datum:** 2026-03-27  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
+- `include/rag/ARCHITECTURE.md`
+- `include/rag/AUDIT.md`
+- `include/rag/CHANGELOG.md`
 - `include/rag/FUTURE_ENHANCEMENTS.md`
 - `include/rag/README.md`
+- `include/rag/ROADMAP.md`
+- `include/rag/SECURITY.md`
 - `src/rag/ARCHITECTURE.md`
 - `src/rag/AUDIT.md`
 - `src/rag/CHANGELOG.md`
@@ -42,9 +47,14 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`rag`** aus
 
 | Datei | Pfad |
 |-------|------|
+| `ARCHITECTURE.md` | [`include/rag/ARCHITECTURE.md`](../../../include/rag/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/rag/AUDIT.md`](../../../include/rag/AUDIT.md) |
+| `CHANGELOG.md` | [`include/rag/CHANGELOG.md`](../../../include/rag/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/rag/FUTURE_ENHANCEMENTS.md`](../../../include/rag/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/rag/README.md`](../../../include/rag/README.md) |
+| `ROADMAP.md` | [`include/rag/ROADMAP.md`](../../../include/rag/ROADMAP.md) |
+| `SECURITY.md` | [`include/rag/SECURITY.md`](../../../include/rag/SECURITY.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-16*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-27*

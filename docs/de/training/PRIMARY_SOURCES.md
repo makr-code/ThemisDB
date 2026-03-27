@@ -1,8 +1,14 @@
 [docs](../../index.md) > [de](../index.md) > [training](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-03-16  
+**Datum:** 2026-03-27  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
+- `include/training/ARCHITECTURE.md`
+- `include/training/AUDIT.md`
+- `include/training/CHANGELOG.md`
 - `include/training/FUTURE_ENHANCEMENTS.md`
+- `include/training/README.md`
+- `include/training/ROADMAP.md`
+- `include/training/SECURITY.md`
 - `src/training/ARCHITECTURE.md`
 - `src/training/AUDIT.md`
 - `src/training/CHANGELOG.md`
@@ -39,8 +45,14 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`training`*
 
 | Datei | Pfad |
 |-------|------|
+| `ARCHITECTURE.md` | [`include/training/ARCHITECTURE.md`](../../../include/training/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/training/AUDIT.md`](../../../include/training/AUDIT.md) |
+| `CHANGELOG.md` | [`include/training/CHANGELOG.md`](../../../include/training/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/training/FUTURE_ENHANCEMENTS.md`](../../../include/training/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`include/training/README.md`](../../../include/training/README.md) |
+| `ROADMAP.md` | [`include/training/ROADMAP.md`](../../../include/training/ROADMAP.md) |
+| `SECURITY.md` | [`include/training/SECURITY.md`](../../../include/training/SECURITY.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-16*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-27*

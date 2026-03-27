@@ -1,8 +1,14 @@
 [docs](../../index.md) > [de](../index.md) > [prompt_engineering](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-03-16  
+**Datum:** 2026-03-27  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
+- `include/prompt_engineering/ARCHITECTURE.md`
+- `include/prompt_engineering/AUDIT.md`
+- `include/prompt_engineering/CHANGELOG.md`
 - `include/prompt_engineering/FUTURE_ENHANCEMENTS.md`
+- `include/prompt_engineering/README.md`
+- `include/prompt_engineering/ROADMAP.md`
+- `include/prompt_engineering/SECURITY.md`
 - `src/prompt_engineering/ARCHITECTURE.md`
 - `src/prompt_engineering/AUDIT.md`
 - `src/prompt_engineering/CHANGELOG.md`
@@ -39,8 +45,14 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`prompt_eng
 
 | Datei | Pfad |
 |-------|------|
+| `ARCHITECTURE.md` | [`include/prompt_engineering/ARCHITECTURE.md`](../../../include/prompt_engineering/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/prompt_engineering/AUDIT.md`](../../../include/prompt_engineering/AUDIT.md) |
+| `CHANGELOG.md` | [`include/prompt_engineering/CHANGELOG.md`](../../../include/prompt_engineering/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/prompt_engineering/FUTURE_ENHANCEMENTS.md`](../../../include/prompt_engineering/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`include/prompt_engineering/README.md`](../../../include/prompt_engineering/README.md) |
+| `ROADMAP.md` | [`include/prompt_engineering/ROADMAP.md`](../../../include/prompt_engineering/ROADMAP.md) |
+| `SECURITY.md` | [`include/prompt_engineering/SECURITY.md`](../../../include/prompt_engineering/SECURITY.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-16*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-27*

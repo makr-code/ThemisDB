@@ -1,8 +1,14 @@
 [docs](../../index.md) > [de](../index.md) > [ingestion](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-03-16  
+**Datum:** 2026-03-27  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
+- `include/ingestion/ARCHITECTURE.md`
+- `include/ingestion/AUDIT.md`
+- `include/ingestion/CHANGELOG.md`
 - `include/ingestion/FUTURE_ENHANCEMENTS.md`
+- `include/ingestion/README.md`
+- `include/ingestion/ROADMAP.md`
+- `include/ingestion/SECURITY.md`
 - `src/ingestion/ARCHITECTURE.md`
 - `src/ingestion/AUDIT.md`
 - `src/ingestion/CHANGELOG.md`
@@ -39,8 +45,14 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`ingestion`
 
 | Datei | Pfad |
 |-------|------|
+| `ARCHITECTURE.md` | [`include/ingestion/ARCHITECTURE.md`](../../../include/ingestion/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/ingestion/AUDIT.md`](../../../include/ingestion/AUDIT.md) |
+| `CHANGELOG.md` | [`include/ingestion/CHANGELOG.md`](../../../include/ingestion/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/ingestion/FUTURE_ENHANCEMENTS.md`](../../../include/ingestion/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`include/ingestion/README.md`](../../../include/ingestion/README.md) |
+| `ROADMAP.md` | [`include/ingestion/ROADMAP.md`](../../../include/ingestion/ROADMAP.md) |
+| `SECURITY.md` | [`include/ingestion/SECURITY.md`](../../../include/ingestion/SECURITY.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-16*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-27*

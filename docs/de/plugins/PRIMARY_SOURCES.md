@@ -1,9 +1,14 @@
 [docs](../../index.md) > [de](../index.md) > [plugins](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-03-16  
+**Datum:** 2026-03-27  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
+- `include/plugins/ARCHITECTURE.md`
+- `include/plugins/AUDIT.md`
+- `include/plugins/CHANGELOG.md`
 - `include/plugins/FUTURE_ENHANCEMENTS.md`
 - `include/plugins/README.md`
+- `include/plugins/ROADMAP.md`
+- `include/plugins/SECURITY.md`
 - `src/plugins/ARCHITECTURE.md`
 - `src/plugins/AUDIT.md`
 - `src/plugins/CHANGELOG.md`
@@ -40,9 +45,14 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`plugins`**
 
 | Datei | Pfad |
 |-------|------|
+| `ARCHITECTURE.md` | [`include/plugins/ARCHITECTURE.md`](../../../include/plugins/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/plugins/AUDIT.md`](../../../include/plugins/AUDIT.md) |
+| `CHANGELOG.md` | [`include/plugins/CHANGELOG.md`](../../../include/plugins/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/plugins/FUTURE_ENHANCEMENTS.md`](../../../include/plugins/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/plugins/README.md`](../../../include/plugins/README.md) |
+| `ROADMAP.md` | [`include/plugins/ROADMAP.md`](../../../include/plugins/ROADMAP.md) |
+| `SECURITY.md` | [`include/plugins/SECURITY.md`](../../../include/plugins/SECURITY.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-16*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-27*

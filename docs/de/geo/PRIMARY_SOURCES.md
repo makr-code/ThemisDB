@@ -1,9 +1,14 @@
 [docs](../../index.md) > [de](../index.md) > [geo](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-03-16  
+**Datum:** 2026-03-27  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
+- `include/geo/ARCHITECTURE.md`
+- `include/geo/AUDIT.md`
+- `include/geo/CHANGELOG.md`
 - `include/geo/FUTURE_ENHANCEMENTS.md`
 - `include/geo/README.md`
+- `include/geo/ROADMAP.md`
+- `include/geo/SECURITY.md`
 - `src/geo/ARCHITECTURE.md`
 - `src/geo/AUDIT.md`
 - `src/geo/CHANGELOG.md`
@@ -40,9 +45,14 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`geo`** aus
 
 | Datei | Pfad |
 |-------|------|
+| `ARCHITECTURE.md` | [`include/geo/ARCHITECTURE.md`](../../../include/geo/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/geo/AUDIT.md`](../../../include/geo/AUDIT.md) |
+| `CHANGELOG.md` | [`include/geo/CHANGELOG.md`](../../../include/geo/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/geo/FUTURE_ENHANCEMENTS.md`](../../../include/geo/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/geo/README.md`](../../../include/geo/README.md) |
+| `ROADMAP.md` | [`include/geo/ROADMAP.md`](../../../include/geo/ROADMAP.md) |
+| `SECURITY.md` | [`include/geo/SECURITY.md`](../../../include/geo/SECURITY.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-16*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-27*
