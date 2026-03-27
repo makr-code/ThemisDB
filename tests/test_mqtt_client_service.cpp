@@ -401,10 +401,10 @@ TEST(MqttClientServiceFocusedTests, ResetStatsClearsErrors) {
 // ── AC-CDC: MqttCDCTransport::topicForEvent ───────────────────────────────────
 
 namespace {
-cdc::Changefeed::ChangeEvent makeEvent(
-        cdc::Changefeed::ChangeEventType type,
+::themis::Changefeed::ChangeEvent makeEvent(
+        ::themis::Changefeed::ChangeEventType type,
         const std::string& collection = "orders") {
-    cdc::Changefeed::ChangeEvent ev;
+    ::themis::Changefeed::ChangeEvent ev;
     ev.sequence     = 1;
     ev.type         = type;
     ev.key          = "key-1";
@@ -417,21 +417,21 @@ cdc::Changefeed::ChangeEvent makeEvent(
 TEST(MqttCDCTransportFocusedTests, TopicForPutEvent) {
     MqttClientService svc;
     auto& tr = svc.cdcTransport();
-    auto ev = makeEvent(cdc::Changefeed::ChangeEventType::EVENT_PUT, "orders");
+    auto ev = makeEvent(::themis::Changefeed::ChangeEventType::EVENT_PUT, "orders");
     EXPECT_EQ(tr.topicForEvent(ev), "themis/cdc/orders/PUT");
 }
 
 TEST(MqttCDCTransportFocusedTests, TopicForDeleteEvent) {
     MqttClientService svc;
     auto& tr = svc.cdcTransport();
-    auto ev = makeEvent(cdc::Changefeed::ChangeEventType::EVENT_DELETE, "users");
+    auto ev = makeEvent(::themis::Changefeed::ChangeEventType::EVENT_DELETE, "users");
     EXPECT_EQ(tr.topicForEvent(ev), "themis/cdc/users/DELETE");
 }
 
 TEST(MqttCDCTransportFocusedTests, TopicForTransactionCommit) {
     MqttClientService svc;
     auto& tr = svc.cdcTransport();
-    auto ev = makeEvent(cdc::Changefeed::ChangeEventType::EVENT_TRANSACTION_COMMIT,
+    auto ev = makeEvent(::themis::Changefeed::ChangeEventType::EVENT_TRANSACTION_COMMIT,
                         "$system");
     EXPECT_EQ(tr.topicForEvent(ev), "themis/cdc/$system/TRANSACTION_COMMIT");
 }
@@ -439,7 +439,7 @@ TEST(MqttCDCTransportFocusedTests, TopicForTransactionCommit) {
 TEST(MqttCDCTransportFocusedTests, TopicForTransactionRollback) {
     MqttClientService svc;
     auto& tr = svc.cdcTransport();
-    auto ev = makeEvent(cdc::Changefeed::ChangeEventType::EVENT_TRANSACTION_ROLLBACK,
+    auto ev = makeEvent(::themis::Changefeed::ChangeEventType::EVENT_TRANSACTION_ROLLBACK,
                         "$system");
     EXPECT_EQ(tr.topicForEvent(ev), "themis/cdc/$system/TRANSACTION_ROLLBACK");
 }
@@ -447,8 +447,8 @@ TEST(MqttCDCTransportFocusedTests, TopicForTransactionRollback) {
 TEST(MqttCDCTransportFocusedTests, DefaultCollectionWhenMetadataMissing) {
     MqttClientService svc;
     auto& tr = svc.cdcTransport();
-    cdc::Changefeed::ChangeEvent ev;
-    ev.type = cdc::Changefeed::ChangeEventType::EVENT_PUT;
+    ::themis::Changefeed::ChangeEvent ev;
+    ev.type = ::themis::Changefeed::ChangeEventType::EVENT_PUT;
     // no "collection" in metadata
     std::string topic = tr.topicForEvent(ev);
     EXPECT_EQ(topic, "themis/cdc/default/PUT");
@@ -458,7 +458,7 @@ TEST(MqttCDCTransportFocusedTests, CustomPrefixApplied) {
     MqttClientService svc;
     auto& tr = svc.cdcTransport();
     tr.setTopicPrefix("iot/events/");
-    auto ev = makeEvent(cdc::Changefeed::ChangeEventType::EVENT_PUT, "sensors");
+    auto ev = makeEvent(::themis::Changefeed::ChangeEventType::EVENT_PUT, "sensors");
     EXPECT_EQ(tr.topicForEvent(ev), "iot/events/sensors/PUT");
 }
 
@@ -482,14 +482,14 @@ TEST(MqttCDCTransportFocusedTests, TopicPrefixReflectsConfig) {
 
 TEST(MqttCDCTransportFocusedTests, PublishNotConnectedReturnsFalse) {
     MqttClientService svc;
-    auto ev = makeEvent(cdc::Changefeed::ChangeEventType::EVENT_PUT, "items");
+    auto ev = makeEvent(::themis::Changefeed::ChangeEventType::EVENT_PUT, "items");
     bool ok = svc.cdcTransport().publish(ev);
     EXPECT_FALSE(ok);
 }
 
 TEST(MqttCDCTransportFocusedTests, PublishNotConnectedIncrementsErrors) {
     MqttClientService svc;
-    auto ev = makeEvent(cdc::Changefeed::ChangeEventType::EVENT_DELETE, "items");
+    auto ev = makeEvent(::themis::Changefeed::ChangeEventType::EVENT_DELETE, "items");
     svc.cdcTransport().publish(ev);
     EXPECT_GE(svc.getStats().publish_errors.load(), 1u);
 }

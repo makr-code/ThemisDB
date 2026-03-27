@@ -504,6 +504,8 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_SOURCE_DIR}/src/performance/hardware_accelerator.cpp
     ${CMAKE_SOURCE_DIR}/src/transaction/distributed_transaction_manager.cpp
     ${CMAKE_SOURCE_DIR}/src/network/udp_server.cpp
+    ${CMAKE_SOURCE_DIR}/src/training/ada_lora_adapter.cpp
+    ${CMAKE_SOURCE_DIR}/src/training/lora_adapter_merger.cpp
 )
 
 # Enforce feature-gated exclusions on the resolved target source list as a
@@ -6315,7 +6317,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_pattern_matcher.cp
         analytics/test_process_pattern_matcher.cpp
         ${CMAKE_SOURCE_DIR}/src/analytics/process_pattern_matcher.cpp
         ${CMAKE_SOURCE_DIR}/src/analytics/process_mining.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
     )
+
+    set(_process_pattern_matcher_focused_libs)
+    foreach(_mod themis_base themis_storage themis_security)
+        if(TARGET ${_mod})
+            list(APPEND _process_pattern_matcher_focused_libs ${_mod})
+        endif()
+    endforeach()
 
     target_include_directories(test_process_pattern_matcher_focused PRIVATE
         ${CMAKE_SOURCE_DIR}/include
@@ -6324,6 +6334,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_pattern_matcher.cp
 
     target_link_libraries(test_process_pattern_matcher_focused PRIVATE
         ${TEST_LIBS}
+        ${_process_pattern_matcher_focused_libs}
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
         spdlog::spdlog
         Threads::Threads
     )
@@ -6452,6 +6465,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_jit_aggregation.cpp")
     add_executable(test_jit_aggregation_focused
         analytics/test_jit_aggregation.cpp
         ${CMAKE_SOURCE_DIR}/src/analytics/jit_aggregation.cpp
+            ${CMAKE_SOURCE_DIR}/src/analytics/columnar_execution.cpp
     )
 
     target_include_directories(test_jit_aggregation_focused PRIVATE
@@ -6500,6 +6514,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_ml_serving.cpp")
         Threads::Threads
     )
 
+    if(TARGET onnxruntime::onnxruntime)
+        target_link_libraries(test_ml_serving_focused PRIVATE onnxruntime::onnxruntime)
+    endif()
+
     target_compile_definitions(test_ml_serving_focused PRIVATE
         THEMIS_TEST_BUILD=1
     )
@@ -6521,6 +6539,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_model_serving.cpp")
     add_executable(test_model_serving_focused
         analytics/test_model_serving.cpp
         ${CMAKE_SOURCE_DIR}/src/analytics/model_serving.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/automl.cpp
         ${CMAKE_SOURCE_DIR}/src/analytics/anomaly_detection.cpp
     )
 
@@ -6556,6 +6575,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_arrow_flight.cpp")
     add_executable(test_arrow_flight_focused
         analytics/test_arrow_flight.cpp
         ${CMAKE_SOURCE_DIR}/src/analytics/arrow_flight.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/arrow_export.cpp
     )
 
     target_include_directories(test_arrow_flight_focused PRIVATE
@@ -6569,12 +6589,33 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_arrow_flight.cpp")
         Threads::Threads
     )
 
-    if(THEMIS_HAS_ARROW)
+    if(DEFINED THEMIS_ARROW_TARGET AND TARGET ${THEMIS_ARROW_TARGET})
         target_link_libraries(test_arrow_flight_focused PRIVATE ${THEMIS_ARROW_TARGET})
         target_compile_definitions(test_arrow_flight_focused PRIVATE THEMIS_HAS_ARROW=1)
     endif()
 
     if(THEMIS_HAS_ARROW_FLIGHT)
+        if(TARGET ArrowFlight::arrow_flight)
+            target_link_libraries(test_arrow_flight_focused PRIVATE ArrowFlight::arrow_flight)
+        elseif(TARGET ArrowFlight::arrow_flight_shared)
+            target_link_libraries(test_arrow_flight_focused PRIVATE ArrowFlight::arrow_flight_shared)
+        elseif(TARGET ArrowFlight::arrow_flight_static)
+            target_link_libraries(test_arrow_flight_focused PRIVATE ArrowFlight::arrow_flight_static)
+        elseif(TARGET Arrow::arrow_flight)
+            target_link_libraries(test_arrow_flight_focused PRIVATE Arrow::arrow_flight)
+        elseif(TARGET Arrow::arrow_flight_shared)
+            target_link_libraries(test_arrow_flight_focused PRIVATE Arrow::arrow_flight_shared)
+        elseif(TARGET Arrow::arrow_flight_static)
+            target_link_libraries(test_arrow_flight_focused PRIVATE Arrow::arrow_flight_static)
+        elseif(TARGET arrow_flight)
+            target_link_libraries(test_arrow_flight_focused PRIVATE arrow_flight)
+        elseif(TARGET arrow_flight_shared)
+            target_link_libraries(test_arrow_flight_focused PRIVATE arrow_flight_shared)
+        elseif(TARGET arrow_flight_static)
+            target_link_libraries(test_arrow_flight_focused PRIVATE arrow_flight_static)
+        elseif(EXISTS "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/arrow_flight.lib")
+            target_link_libraries(test_arrow_flight_focused PRIVATE "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/arrow_flight.lib")
+        endif()
         target_compile_definitions(test_arrow_flight_focused PRIVATE THEMIS_HAS_ARROW_FLIGHT=1)
     endif()
 

@@ -247,7 +247,7 @@ public:
      * @return true if the event was accepted for delivery; false when the
      *         service is not connected or the outbound queue is full.
      */
-    bool publish(const cdc::Changefeed::ChangeEvent& event) override;
+    bool publish(const Changefeed::ChangeEvent& event) override;
 
     /**
      * @brief Compute the MQTT topic for a given ChangeEvent.
@@ -256,7 +256,7 @@ public:
      * where EVENT_TYPE is one of PUT, DELETE, TRANSACTION_COMMIT,
      * TRANSACTION_ROLLBACK, or UNKNOWN.
      */
-    std::string topicForEvent(const cdc::Changefeed::ChangeEvent& event) const;
+    std::string topicForEvent(const Changefeed::ChangeEvent& event) const;
 
     /** @brief Override the CDC topic prefix (default from MqttClientConfig). */
     void setTopicPrefix(const std::string& prefix);
@@ -328,7 +328,7 @@ public:
     void stop();
 
     /** @return true while the CONNACK has been received and the link is live. */
-    bool isConnected() const noexcept { return stats_.is_connected.load(); }
+    bool isConnected() const noexcept;
 
     // ── Publish ────────────────────────────────────────────────────────────
 
@@ -532,8 +532,8 @@ public:
     explicit MqttCDCTransport(MqttClientService& s) : service_(s) {}
     bool start() override { return false; }
     void stop()  override {}
-    bool publish(const cdc::Changefeed::ChangeEvent&) override { return false; }
-    std::string topicForEvent(const cdc::Changefeed::ChangeEvent&) const { return {}; }
+    bool publish(const Changefeed::ChangeEvent&) override { return false; }
+    std::string topicForEvent(const Changefeed::ChangeEvent&) const { return {}; }
     void setTopicPrefix(const std::string&) {}
     void setQos(uint8_t) {}
     const std::string& topicPrefix() const noexcept { static std::string s; return s; }

@@ -66,6 +66,39 @@ struct MqttMetrics {
     std::chrono::steady_clock::time_point startTime;
     
     MqttMetrics() : startTime(std::chrono::steady_clock::now()) {}
+
+    MqttMetrics(const MqttMetrics& other)
+        : messagesReceived(other.messagesReceived.load())
+        , messagesSent(other.messagesSent.load())
+        , bytesReceived(other.bytesReceived.load())
+        , bytesSent(other.bytesSent.load())
+        , connectCount(other.connectCount.load())
+        , disconnectCount(other.disconnectCount.load())
+        , subscribeCount(other.subscribeCount.load())
+        , publishCount(other.publishCount.load())
+        , qos0Messages(other.qos0Messages.load())
+        , qos1Messages(other.qos1Messages.load())
+        , qos2Messages(other.qos2Messages.load())
+        , rateLimitedMessages(other.rateLimitedMessages.load())
+        , startTime(other.startTime) {}
+
+    MqttMetrics& operator=(const MqttMetrics& other) {
+        if (this == &other) return *this;
+        messagesReceived.store(other.messagesReceived.load());
+        messagesSent.store(other.messagesSent.load());
+        bytesReceived.store(other.bytesReceived.load());
+        bytesSent.store(other.bytesSent.load());
+        connectCount.store(other.connectCount.load());
+        disconnectCount.store(other.disconnectCount.load());
+        subscribeCount.store(other.subscribeCount.load());
+        publishCount.store(other.publishCount.load());
+        qos0Messages.store(other.qos0Messages.load());
+        qos1Messages.store(other.qos1Messages.load());
+        qos2Messages.store(other.qos2Messages.load());
+        rateLimitedMessages.store(other.rateLimitedMessages.load());
+        startTime = other.startTime;
+        return *this;
+    }
     
     void reset() {
         messagesReceived = 0;
@@ -194,6 +227,7 @@ private:
     
     asio::ip::tcp::socket socket_;
     std::shared_ptr<websocket::stream<asio::ip::tcp::socket>> wsStream_;
+    boost::beast::flat_buffer wsReadBuffer_;
     TransportType transportType_;
     std::array<char, 8192> buffer_;
     bool isConnected_;

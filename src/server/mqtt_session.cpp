@@ -137,7 +137,7 @@ void MqttSession::handleConnect() {
     sendConnAck(sessionPresent, 0); // Connection accepted
     
     // Start keepalive timer
-    keepaliveTimer_.expires_after(keepaliveInterval_ * 1.5);
+    keepaliveTimer_.expires_after(keepaliveInterval_ + (keepaliveInterval_ / 2));
     keepaliveTimer_.async_wait([this, self = shared_from_this()](boost::beast::error_code ec) {
         if (!ec) {
             // Keepalive timeout - disconnect
@@ -266,7 +266,7 @@ void MqttSession::handleUnsubscribe(const std::string& topic) {
 void MqttSession::handlePingReq() {
     // MQTT PINGREQ packet handler
     // Reset keepalive timer
-    keepaliveTimer_.expires_after(keepaliveInterval_ * 1.5);
+    keepaliveTimer_.expires_after(keepaliveInterval_ + (keepaliveInterval_ / 2));
     sendPingResp();
 }
 
@@ -758,7 +758,7 @@ void MqttSession::doWebSocketRead() {
     
     auto self = shared_from_this();
     wsStream_->async_read(
-        boost::beast::flat_buffer(),
+        wsReadBuffer_,
         [this, self](boost::beast::error_code ec, std::size_t bytes_transferred) {
             if (ec) {
                 stop();
@@ -770,6 +770,7 @@ void MqttSession::doWebSocketRead() {
             
             // Parse MQTT packet from WebSocket frame
             // WebSocket frames contain complete MQTT packets
+            wsReadBuffer_.consume(wsReadBuffer_.size());
             doWebSocketRead();
         });
 }

@@ -312,7 +312,7 @@ C:\VCC\themis\
 │   ├── VcpkgPackageSystem.cmake        # 🆕 Package-Building
 │   ├── VcpkgPackageBuild.cmake         # 🆕 Build-Skript
 │   ├── DockerBuildSystem.cmake         # 🆕 Docker-Integration
-│   └── CMakeOnlyBuildSystem.cmake      # 🆕 Unified System
+│   └── ... weitere Moduldateien
 │
 ├── vcpkg/                              # vcpkg-Installation
 │   ├── vcpkg.exe / vcpkg
@@ -356,7 +356,15 @@ endif()
 ### Option 2: Via CMake-Skript
 
 ```cmake
-include(cmake/CMakeOnlyBuildSystem.cmake)
+option(THEMIS_ENABLE_PACKAGE_SYSTEM "Enable package building targets" ON)
+if(THEMIS_ENABLE_PACKAGE_SYSTEM)
+  include(cmake/VcpkgPackageSystem.cmake OPTIONAL)
+endif()
+
+option(THEMIS_ENABLE_DOCKER_SYSTEM "Enable Docker build targets" ON)
+if(THEMIS_ENABLE_DOCKER_SYSTEM)
+  include(cmake/DockerBuildSystem.cmake OPTIONAL)
+endif()
 ```
 
 ---

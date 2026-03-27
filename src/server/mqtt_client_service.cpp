@@ -240,13 +240,13 @@ void MqttClientService::stop() {
         asio_->reconnect_timer.cancel();
         asio_->connect_timer.cancel();
         if (stats_.is_connected.load()) {
-            asio::error_code ec;
+            boost::system::error_code ec;
             auto pkt = detail::buildDisconnect();
             asio::write(asio_->socket, asio::buffer(pkt), ec);
             asio_->socket.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
             asio_->socket.close(ec);
         } else {
-            asio::error_code ec;
+            boost::system::error_code ec;
             asio_->socket.close(ec);
         }
         asio_->work_guard.reset();
@@ -340,14 +340,13 @@ void MqttClientService::unregisterFromServiceRegistry(
 // ── Internal ──────────────────────────────────────────────────────────────────
 
 void MqttClientService::ioThreadEntry() {
-    asio::error_code ec;
-    asio_->io_ctx.run(ec);
+    asio_->io_ctx.run();
 }
 
 void MqttClientService::doConnect() {
     if (!running_.load()) return;
 
-    asio::error_code ec;
+    boost::system::error_code ec;
     asio_->socket.close(ec);
     stats_.is_connected = false;
     packet_buf_.clear();
@@ -365,13 +364,13 @@ void MqttClientService::doConnect() {
 
     asio_->socket.async_connect(
         *results.begin(),
-        [this, connected](asio::error_code ec2) {
+        [this, connected](boost::system::error_code ec2) {
             asio_->connect_timer.cancel(); // cancel connection timeout
             connected->store(true);
             if (ec2) { scheduleReconnect(); return; }
             // Send CONNECT
             auto pkt = detail::buildConnect(config_, effective_client_id_);
-            asio::error_code we;
+            boost::system::error_code we;
             asio::write(asio_->socket, asio::buffer(pkt), we);
             if (we) { scheduleReconnect(); return; }
             stats_.bytes_sent += pkt.size();
@@ -381,9 +380,9 @@ void MqttClientService::doConnect() {
     // Independent timer for connection-establishment timeout.
     asio_->connect_timer.expires_after(
         std::chrono::milliseconds(config_.connect_timeout_ms));
-    asio_->connect_timer.async_wait([this, connected](asio::error_code ec3) {
+    asio_->connect_timer.async_wait([this, connected](boost::system::error_code ec3) {
         if (!ec3 && !connected->load()) {
-            asio::error_code ce;
+            boost::system::error_code ce;
             asio_->socket.close(ce); // triggers the async_connect error handler
         }
     });
@@ -394,7 +393,7 @@ void MqttClientService::doRead() {
 
     asio_->socket.async_read_some(
         asio::buffer(read_buf_),
-        [this](asio::error_code ec, size_t n) {
+        [this](boost::system::error_code ec, size_t n) {
             if (ec) { handleDisconnect(ec.message()); return; }
             stats_.bytes_received += n;
             packet_buf_.insert(packet_buf_.end(),
@@ -525,7 +524,7 @@ void MqttClientService::doWrite() {
     asio::async_write(
         asio_->socket,
         asio::buffer(*buf),
-        [this, buf](asio::error_code ec, size_t n) {
+        [this, buf](boost::system::error_code ec, size_t n) {
             writing_ = false;
             if (ec) { handleDisconnect(ec.message()); return; }
             stats_.bytes_sent += n;
@@ -552,7 +551,7 @@ void MqttClientService::startKeepalive() {
     if (config_.keepalive_seconds == 0) return;
     asio_->keepalive_timer.expires_after(
         std::chrono::seconds(config_.keepalive_seconds));
-    asio_->keepalive_timer.async_wait([this](asio::error_code ec) {
+    asio_->keepalive_timer.async_wait([this](boost::system::error_code ec) {
         if (ec) return;
         if (stats_.is_connected.load())
             enqueuePacket(detail::buildPingReq());
@@ -581,7 +580,7 @@ void MqttClientService::scheduleReconnect() {
     delay_ms = std::min(delay_ms, r.maxRetryDelayMs);
 
     asio_->reconnect_timer.expires_after(std::chrono::milliseconds(delay_ms));
-    asio_->reconnect_timer.async_wait([this](asio::error_code ec) {
+    asio_->reconnect_timer.async_wait([this](boost::system::error_code ec) {
         if (!ec && running_.load()) doConnect();
     });
 }
@@ -590,7 +589,7 @@ void MqttClientService::handleDisconnect(const std::string& reason) {
     bool was_connected = stats_.is_connected.exchange(false);
     asio_->keepalive_timer.cancel();
 
-    asio::error_code ec;
+    boost::system::error_code ec;
     asio_->socket.close(ec);
 
     if (was_connected) {
@@ -627,7 +626,7 @@ void MqttCDCTransport::stop() {
     service_.stop();
 }
 
-bool MqttCDCTransport::publish(const cdc::Changefeed::ChangeEvent& event) {
+bool MqttCDCTransport::publish(const Changefeed::ChangeEvent& event) {
     try {
         nlohmann::json j = event.toJson();
         std::string    payload = j.dump();
@@ -639,8 +638,8 @@ bool MqttCDCTransport::publish(const cdc::Changefeed::ChangeEvent& event) {
 }
 
 std::string MqttCDCTransport::topicForEvent(
-        const cdc::Changefeed::ChangeEvent& event) const {
-    using ET = cdc::Changefeed::ChangeEventType;
+        const Changefeed::ChangeEvent& event) const {
+    using ET = Changefeed::ChangeEventType;
     std::string type_str;
     switch (event.type) {
     case ET::EVENT_PUT:                  type_str = "PUT";                  break;

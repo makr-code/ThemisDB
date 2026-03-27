@@ -28,11 +28,10 @@ Gesamt: ~2000 Zeilen Shell-Skripte
 cmake/VcpkgPackageSystem.cmake        ← 200 Zeilen CMake
 cmake/VcpkgPackageBuild.cmake         ← 200 Zeilen CMake
 cmake/DockerBuildSystem.cmake         ← 200 Zeilen CMake
-cmake/CMakeOnlyBuildSystem.cmake      ← 100 Zeilen CMake
 CMakePresets.json                     ← 400 Zeilen JSON (deklarativ)
 
-Gesamt: ~700 Zeilen CMake + 400 Zeilen JSON
-Ersparnis: ~900 Zeilen Code!
+Gesamt: ~600 Zeilen CMake + 400 Zeilen JSON
+Ersparnis: ~1000 Zeilen Code!
 ```
 
 ## Migrations-Tabelle
