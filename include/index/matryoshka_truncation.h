@@ -125,6 +125,21 @@ public:
         return truncate(vector.data(), vector.size());
     }
 
+    // Legacy compatibility alias.
+    [[nodiscard]] std::vector<float> truncateAndNormalize(
+            const float* vector,
+            size_t full_dim) const
+    {
+        return truncate(vector, full_dim);
+    }
+
+    // Legacy compatibility alias.
+    [[nodiscard]] std::vector<float> truncateAndNormalize(
+            const std::vector<float>& vector) const
+    {
+        return truncate(vector);
+    }
+
     size_t trunc_dim()  const noexcept { return trunc_dim_; }
     bool   normalize()  const noexcept { return normalize_; }
 

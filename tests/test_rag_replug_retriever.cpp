@@ -219,7 +219,7 @@ TEST(ReplugRetrieverValidate, ConstructorThrowsOnInvalidConfig)
 {
     ReplugConfig cfg;
     cfg.llm_weight = 2.0;
-    EXPECT_THROW(ReplugRetriever(cfg), std::invalid_argument);
+    EXPECT_THROW(ReplugRetriever{cfg}, std::invalid_argument);
 }
 
 // ---------------------------------------------------------------------------

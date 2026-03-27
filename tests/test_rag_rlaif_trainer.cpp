@@ -200,7 +200,7 @@ TEST(RLAIFTrainerValidate, ConstructorThrowsOnInvalidConfig)
 {
     RLAIFConfig cfg;
     cfg.max_revision_iterations = 0;
-    EXPECT_THROW(RLAIFTrainer(cfg), std::invalid_argument);
+    EXPECT_THROW(RLAIFTrainer{cfg}, std::invalid_argument);
 }
 
 // ---------------------------------------------------------------------------

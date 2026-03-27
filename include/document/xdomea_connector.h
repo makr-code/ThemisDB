@@ -291,8 +291,21 @@ public:
         const std::string xml(xml_content);
         std::size_t pos = 0;
 
+        const auto findTagStart = [&xml](const std::string& tag, std::size_t from) -> std::size_t {
+            std::size_t cursor = from;
+            while (true) {
+                auto hit = xml.find(tag, cursor);
+                if (hit == std::string::npos) return std::string::npos;
+                const std::size_t next = hit + tag.size();
+                if (next >= xml.size() || xml[next] == '>' || xml[next] == ' ') {
+                    return hit;
+                }
+                cursor = hit + 1;
+            }
+        };
+
         while (true) {
-            auto ds = xml.find("<dokument", pos);
+            auto ds = findTagStart("<dokument", pos);
             if (ds == std::string::npos) break;
             auto de = xml.find("</dokument>", ds);
             if (de == std::string::npos) {
@@ -323,7 +336,7 @@ public:
         // Also scan for <akte> elements.
         pos = 0;
         while (true) {
-            auto as = xml.find("<akte", pos);
+            auto as = findTagStart("<akte", pos);
             if (as == std::string::npos) break;
             auto ae = xml.find("</akte>", as);
             if (ae == std::string::npos) {

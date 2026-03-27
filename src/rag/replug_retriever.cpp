@@ -104,10 +104,9 @@ ReplugRetriever::ReplugRetriever()
 
 ReplugRetriever::ReplugRetriever(const ReplugConfig&         config,
                                   std::shared_ptr<ILLMScorer> scorer)
-    : config_(config)
-    , scorer_(scorer ? std::move(scorer)
-                     : std::make_shared<HeuristicLLMScorer>()) {
-    validateConfig(config);
+    : ReplugRetriever() {
+    setConfig(config);
+    setScorer(std::move(scorer));
 }
 
 void ReplugRetriever::validateConfig(const ReplugConfig& config) {
@@ -122,6 +121,10 @@ void ReplugRetriever::validateConfig(const ReplugConfig& config) {
     if (config.weight_update_lr < 0.0) {
         throw std::invalid_argument(
             "ReplugRetriever: weight_update_lr must be >= 0");
+    }
+    if (config.min_retrieval_score < 0.0) {
+        throw std::invalid_argument(
+            "ReplugRetriever: min_retrieval_score must be >= 0");
     }
 }
 

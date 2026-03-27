@@ -469,6 +469,10 @@ struct GremlinParser::Parser {
                     consume();
                 }
                 if (check(GremlinTokenType::COMMA)) consume();
+                if (matchIdent("Order")) {
+                    consume();
+                    expect(GremlinTokenType::DOT, "'.' after Order");
+                }
                 if (matchIdent("decr") || matchIdent("desc")) {
                     step.ascending = false;
                     consume();
@@ -511,8 +515,11 @@ struct GremlinParser::Parser {
         expect(GremlinTokenType::LPAREN, "'('");
         // Optional seed ID: g.V("id") or g.V(123)
         if (!check(GremlinTokenType::RPAREN)) {
-            if (check(GremlinTokenType::STRING_LIT) || check(GremlinTokenType::INT_LIT)) {
-                start.strings.push_back(peek().value);
+            if (check(GremlinTokenType::STRING_LIT)) {
+                start.values.emplace_back(peek().value);
+                consume();
+            } else if (check(GremlinTokenType::INT_LIT)) {
+                start.values.emplace_back(static_cast<int64_t>(std::stoll(peek().value)));
                 consume();
             }
         }
@@ -683,11 +690,19 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
         for (const auto& step : ast.steps) {
             switch (step.kind) {
                 case GremlinStepKind::V:
-                    if (!step.strings.empty()) seedId = step.strings[0];
+                    if (!step.strings.empty()) {
+                        seedId = step.strings[0];
+                    } else if (!step.values.empty()) {
+                        seedId = valueToAQL(step.values[0]);
+                    }
                     break;
                 case GremlinStepKind::E:
                     startedWithE = true;
-                    if (!step.strings.empty()) seedId = step.strings[0];
+                    if (!step.strings.empty()) {
+                        seedId = step.strings[0];
+                    } else if (!step.values.empty()) {
+                        seedId = valueToAQL(step.values[0]);
+                    }
                     break;
                 case GremlinStepKind::HasLabel:
                     for (const auto& l : step.strings) labels.push_back(l);
@@ -790,8 +805,12 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
 
         // FOR loop / source
         if (!seedId.empty()) {
-            // Seed vertex: start from specific ID
-            aql << "LET " << vVar << " = DOCUMENT(\"" << seedId << "\")\n";
+            aql << "FOR " << vVar << " IN " << collection << "\n";
+            if (seedId.size() >= 2 && seedId.front() == '"' && seedId.back() == '"') {
+                aql << "FILTER " << vVar << "._key == " << seedId << "\n";
+            } else {
+                aql << "FILTER " << vVar << "._key == \"" << seedId << "\"\n";
+            }
         } else {
             aql << "FOR " << vVar << " IN " << collection << "\n";
         }
@@ -850,10 +869,10 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
             return Ok(aql.str());
         }
 
-        if (useDedup) aql << "COLLECT " << retVar << " = " << retVar << "\n";
+        const std::string returnPrefix = useDedup ? "RETURN DISTINCT " : "RETURN ";
 
         if (!selectAliases.empty()) {
-            aql << "RETURN {";
+            aql << returnPrefix << "{";
             for (size_t i = 0; i < selectAliases.size(); ++i) {
                 if (i) aql << ", ";
                 aql << selectAliases[i] << ": " << retVar;
@@ -861,9 +880,9 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
             aql << "}";
         } else if (!valueProps.empty()) {
             if (valueProps.size() == 1) {
-                aql << "RETURN " << retVar << "." << valueProps[0];
+                aql << returnPrefix << retVar << "." << valueProps[0];
             } else {
-                aql << "RETURN {";
+                aql << returnPrefix << "{";
                 for (size_t i = 0; i < valueProps.size(); ++i) {
                     if (i) aql << ", ";
                     aql << valueProps[i] << ": " << retVar << "." << valueProps[i];
@@ -872,9 +891,9 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
             }
         } else if (useValueMap) {
             if (valueMapProps.empty()) {
-                aql << "RETURN " << retVar;
+                aql << returnPrefix << retVar;
             } else {
-                aql << "RETURN {";
+                aql << returnPrefix << "{";
                 for (size_t i = 0; i < valueMapProps.size(); ++i) {
                     if (i) aql << ", ";
                     aql << valueMapProps[i] << ": " << retVar << "." << valueMapProps[i];
@@ -882,11 +901,11 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
                 aql << "}";
             }
         } else if (useId) {
-            aql << "RETURN " << retVar << "._key";
+            aql << returnPrefix << retVar << "._key";
         } else if (useLabel) {
-            aql << "RETURN " << retVar << "._label";
+            aql << returnPrefix << retVar << "._label";
         } else {
-            aql << "RETURN " << retVar;
+            aql << returnPrefix << retVar;
         }
 
         return Ok(aql.str());

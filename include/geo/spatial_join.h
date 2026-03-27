@@ -118,6 +118,9 @@ public:
      */
     bool done() const;
 
+    // Legacy compatibility alias.
+    bool exhausted() const { return done(); }
+
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;

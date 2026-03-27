@@ -180,9 +180,12 @@ std::pair<bool, LLMResponse> LLMProcessAnalyzer::analyze(const LLMRequest& reque
         
         // Generate prompt
         nlohmann::json data;
-        data["trace"] = request.process_trace;
+        const auto& trace = request.process_trace.is_null()
+            ? request.process_data
+            : request.process_trace;
+        data["trace"] = trace;
         data["model"] = request.ideal_model;
-        data["context"] = request.context;
+        data["context"] = request.context.is_null() ? request.process_data : request.context;
         
         std::string prompt = generatePrompt(request.task_type, data, request.domain);
         
@@ -253,6 +256,13 @@ std::pair<bool, LLMResponse> LLMProcessAnalyzer::analyze(const LLMRequest& reque
                         rec.potential_improvement = r.value("potential_improvement", 0.0);
                         response.recommendations.push_back(rec);
                     }
+                }
+                if (parsed.contains("summary") && parsed["summary"].is_string()) {
+                    response.summary = parsed["summary"].get<std::string>();
+                } else if (!response.recommendations.empty()) {
+                    response.summary = response.recommendations.front().description;
+                } else {
+                    response.summary = "Process conformance analysis completed";
                 }
                 break;
                 
@@ -556,7 +566,10 @@ std::string LLMProcessAnalyzer::getCacheKey(const LLMRequest& request) const {
         return oss.str();
     };
 
-    const std::string trace_hash = sha256hex(request.process_trace.dump());
+    const auto& trace = request.process_trace.is_null()
+        ? request.process_data
+        : request.process_trace;
+    const std::string trace_hash = sha256hex(trace.dump());
     const std::string model_hash = sha256hex(request.ideal_model.dump());
 
     return std::to_string(static_cast<int>(request.task_type)) + ":" +

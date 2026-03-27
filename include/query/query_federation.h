@@ -206,7 +206,7 @@ public:
      */
     nlohmann::json getStatistics() const;
 
-private:
+public:
     std::shared_ptr<sharding::ShardRouter> shard_router_;
     // Non-owning pointer; nullptr when no ShardingManager was injected.
     sharding::ShardingManager* sharding_manager_ = nullptr;

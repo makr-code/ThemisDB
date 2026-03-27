@@ -18165,6 +18165,35 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/query/test_query_federation_routing.cpp")
     )
 
     target_include_directories(test_query_federation_routing_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_query_federation_routing_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_query_federation_routing_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME QueryFederationRoutingFocusedTests
+        COMMAND test_query_federation_routing_focused)
+
+    set_tests_properties(QueryFederationRoutingFocusedTests PROPERTIES
+        LABELS "query;federation;shard-key;routing;point-lookup;range;broadcast;v1.9.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  QueryFederation: point-lookup→1 shard, range→subset, full-scan→broadcast; ShardingManager::GetShardForKey+GetShardsForKeyRange")
+else()
+    message(STATUS "QueryFederation routing tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/query/test_query_federation_routing.cpp")
+endif()
+
 # OZG Service Registry focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ozg_service_registry.cpp")
     message(STATUS "Adding OZG Service Registry focused tests (v2.2.0)")
@@ -18303,6 +18332,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_behoerden_genehmigungsverfahren_e2e.
 
     add_executable(test_behoerden_genehmigungsverfahren_e2e_focused
         test_behoerden_genehmigungsverfahren_e2e.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/llm_process_analyzer.cpp
     )
 
     target_include_directories(test_behoerden_genehmigungsverfahren_e2e_focused PRIVATE
@@ -18311,6 +18341,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_behoerden_genehmigungsverfahren_e2e.
 
     target_link_libraries(test_behoerden_genehmigungsverfahren_e2e_focused PRIVATE
         ${TEST_LIBS}
+        themis_core
         Threads::Threads
     )
 
@@ -18337,6 +18368,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_bimschv_genehmigungsverfahren_e2e.cp
 
     add_executable(test_bimschv_genehmigungsverfahren_e2e_focused
         test_bimschv_genehmigungsverfahren_e2e.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/llm_process_analyzer.cpp
     )
 
     target_include_directories(test_bimschv_genehmigungsverfahren_e2e_focused PRIVATE
@@ -18345,6 +18377,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_bimschv_genehmigungsverfahren_e2e.cp
 
     target_link_libraries(test_bimschv_genehmigungsverfahren_e2e_focused PRIVATE
         ${TEST_LIBS}
+        themis_core
         Threads::Threads
     )
 
@@ -18419,49 +18452,14 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_replug_retriever.cpp")
     add_executable(test_rag_replug_retriever_focused
         test_rag_replug_retriever.cpp
         ${CMAKE_SOURCE_DIR}/src/rag/replug_retriever.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_rag_replug_retriever_focused PRIVATE
-# ---------------------------------------------------------------------------
-# CypherParserFocusedTests (30 tests) – v1.6.0
-# ---------------------------------------------------------------------------
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cypher_parser.cpp")
-    message(STATUS "Adding CypherParser focused tests (Cypher/AQL transpiler, v1.6.0)")
-
-    add_executable(test_cypher_parser
-        test_cypher_parser.cpp
-    )
-
-    target_include_directories(test_cypher_parser PRIVATE
         ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
     )
 
-    target_link_libraries(test_query_federation_routing_focused PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_query_federation_routing_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME QueryFederationRoutingFocusedTests
-        COMMAND test_query_federation_routing_focused)
-
-    set_tests_properties(QueryFederationRoutingFocusedTests PROPERTIES
-        LABELS "query;federation;shard-key;routing;point-lookup;range;broadcast;v1.9.0;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  QueryFederation: point-lookup→1 shard, range→subset, full-scan→broadcast; ShardingManager::GetShardForKey+GetShardsForKeyRange")
-else()
-    message(STATUS "QueryFederation routing tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/query/test_query_federation_routing.cpp")
     target_link_libraries(test_rag_replug_retriever_focused PRIVATE
-    target_link_libraries(test_cypher_parser PRIVATE
         ${TEST_LIBS}
         themis_core
         Threads::Threads
@@ -18490,9 +18488,57 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_rlaif_trainer.cpp")
     add_executable(test_rag_rlaif_trainer_focused
         test_rag_rlaif_trainer.cpp
         ${CMAKE_SOURCE_DIR}/src/rag/rlaif_trainer.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_rag_rlaif_trainer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_rag_rlaif_trainer_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_rag_rlaif_trainer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RLAIFTrainerFocusedTests COMMAND test_rag_rlaif_trainer_focused)
+
+    set_tests_properties(RLAIFTrainerFocusedTests PROPERTIES
+        LABELS "rag;rlaif;constitutional_ai;preference_pairs;training;v2.0.0;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  RLAIFTrainer: IAIJudge, HeuristicAIJudge, runTrainingStep(), createPreferencePair(), processBatch(), RLAIFTrainerFactory")
+else()
+    message(STATUS "RLAIFTrainer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_rlaif_trainer.cpp")
+endif()
+
+# ---------------------------------------------------------------------------
+# CypherParserFocusedTests (30 tests) – v1.6.0
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cypher_parser.cpp")
+    message(STATUS "Adding CypherParser focused tests (Cypher/AQL transpiler, v1.6.0)")
+
+    add_executable(test_cypher_parser
+        test_cypher_parser.cpp
+        ${CMAKE_SOURCE_DIR}/src/query/cypher_parser.cpp
+    )
+
+    target_include_directories(test_cypher_parser PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_cypher_parser PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
     target_compile_definitions(test_cypher_parser PRIVATE
         THEMIS_TEST_BUILD=1
     )
@@ -18517,6 +18563,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gremlin_parser.cpp")
 
     add_executable(test_gremlin_parser
         test_gremlin_parser.cpp
+        ${CMAKE_SOURCE_DIR}/src/query/gremlin_parser.cpp
     )
 
     target_include_directories(test_gremlin_parser PRIVATE
@@ -18524,27 +18571,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gremlin_parser.cpp")
         ${CMAKE_SOURCE_DIR}/src
     )
 
-    target_link_libraries(test_rag_rlaif_trainer_focused PRIVATE
     target_link_libraries(test_gremlin_parser PRIVATE
         ${TEST_LIBS}
         themis_core
         Threads::Threads
     )
 
-    target_compile_definitions(test_rag_rlaif_trainer_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME RLAIFTrainerFocusedTests COMMAND test_rag_rlaif_trainer_focused)
-
-    set_tests_properties(RLAIFTrainerFocusedTests PROPERTIES
-        LABELS "rag;rlaif;constitutional_ai;preference_pairs;training;v2.0.0;focused;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  RLAIFTrainer: IAIJudge, HeuristicAIJudge, runTrainingStep(), createPreferencePair(), processBatch(), RLAIFTrainerFactory")
-else()
-    message(STATUS "RLAIFTrainer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_rlaif_trainer.cpp")
     target_compile_definitions(test_gremlin_parser PRIVATE
         THEMIS_TEST_BUILD=1
     )
@@ -18559,6 +18591,8 @@ else()
     message(STATUS "  GremlinParser: g.V()/g.E(), hasLabel/has/hasNot, out/in/both, values/valueMap, count/dedup, limit/range/order().by(), AQL transpilation (30 tests)")
 else()
     message(STATUS "Gremlin parser focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_gremlin_parser.cpp")
+endif()
+
 # ============================================================================
 # MQTT Client Service Focused Tests (v1.9.0 — MqttClientService /
 # MqttCDCTransport / IMqttMessageHandler; bidirectional MQTT client)

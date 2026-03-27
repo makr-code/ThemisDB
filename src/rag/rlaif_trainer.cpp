@@ -136,7 +136,8 @@ std::string HeuristicAIJudge::critique(const std::string& /*prompt*/,
         return "The response contains content that violates the principle: " +
                principle.description + ". Please revise to address this.";
     }
-    return {};
+    return "Review the response against the principle: " + principle.description +
+           ". No explicit violation was detected, but the answer should remain aligned with it.";
 }
 
 std::string HeuristicAIJudge::revise(const std::string& /*prompt*/,
@@ -202,6 +203,10 @@ void RLAIFTrainer::validateConfig(const RLAIFConfig& config) {
         config.min_preference_score > 1.0) {
         throw std::invalid_argument(
             "RLAIFTrainer: min_preference_score must be in [0, 1]");
+    }
+    if (config.improvement_threshold < 0.0) {
+        throw std::invalid_argument(
+            "RLAIFTrainer: improvement_threshold must be >= 0");
     }
 }
 

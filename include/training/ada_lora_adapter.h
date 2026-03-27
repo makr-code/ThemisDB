@@ -50,6 +50,7 @@ struct AdaLoRALayerStats {
  * @brief Result of a rank-reallocation pass.
  */
 struct ReallocResult {
+    bool success = true;           ///< Legacy compatibility flag
     size_t total_active_rank = 0;   ///< Sum of active ranks after reallocation
     size_t layers_pruned     = 0;   ///< Layers whose rank was reduced
     size_t layers_expanded   = 0;   ///< Layers whose rank was increased

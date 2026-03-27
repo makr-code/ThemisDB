@@ -119,6 +119,8 @@ struct OZGServiceEntry {
 
     // ── Jurisdiction ──────────────────────────────────────────────────────────
     OZGFederalLevel level{OZGFederalLevel::MUNICIPAL};
+    // Legacy compatibility field used by older tests and fixtures.
+    std::string responsible_authority;
     std::vector<std::string> applicable_states; ///< ISO 3166-2:DE state codes ("DE-BY", …)
 
     // ── Legal basis ───────────────────────────────────────────────────────────

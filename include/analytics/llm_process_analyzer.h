@@ -61,6 +61,7 @@ std::string sanitizeApiKey(const std::string& api_key);
 
 enum class TaskType {
     ANALYZE_PROCESS,      // General process analysis & conformance
+    PROCESS_CONFORMANCE = ANALYZE_PROCESS, // Backward-compatible alias
     PREDICT_NEXT,         // Next activity prediction
     VERIFY_5R_RULE,       // Healthcare 5R Rule verification
     DETECT_FRAUD,         // Financial anomaly/fraud detection
@@ -108,11 +109,16 @@ struct LLMRequest {
     
     // Task-specific parameters
     std::map<std::string, std::string> parameters;
+
+    // Backward-compatible field used by older tests.
+    nlohmann::json process_data;
 };
 
 struct LLMResponse {
     bool success = false;
     std::string error_message;
+    // Backward-compatible summary text used by older tests.
+    std::string summary;
     
     // Core metrics
     double conformance_score = 0.0;  // 0.0 - 1.0

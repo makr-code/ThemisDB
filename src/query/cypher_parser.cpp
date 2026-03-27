@@ -186,10 +186,18 @@ struct CypherParser::Lexer {
                 std::string num;
                 if (ch == '-') num += advance();
                 bool is_float = false;
-                while (pos < src.size() &&
-                       (std::isdigit(static_cast<unsigned char>(peek())) || peek() == '.')) {
-                    if (peek() == '.') is_float = true;
-                    num += advance();
+                while (pos < src.size()) {
+                    if (std::isdigit(static_cast<unsigned char>(peek()))) {
+                        num += advance();
+                        continue;
+                    }
+                    if (peek() == '.' && !is_float &&
+                        std::isdigit(static_cast<unsigned char>(peek(1)))) {
+                        is_float = true;
+                        num += advance();
+                        continue;
+                    }
+                    break;
                 }
                 // Scientific notation
                 if (pos < src.size() && (peek() == 'e' || peek() == 'E')) {
@@ -514,6 +522,19 @@ struct CypherParser::Parser {
         if (!left_arrow)
             expect(TokenType::DASH, "Expected '-' to start relationship pattern");
 
+        if (!check(TokenType::LBRACKET)) {
+            if (left_arrow) {
+                expect(TokenType::DASH, "Expected '-' after '<-' in anonymous relationship");
+                rel.direction = CypherRelDirection::In;
+            } else if (match(TokenType::ARROW_R)) {
+                rel.direction = CypherRelDirection::Out;
+            } else {
+                expect(TokenType::DASH, "Expected '-' or '->' in anonymous relationship");
+                rel.direction = CypherRelDirection::Both;
+            }
+            return rel;
+        }
+
         expect(TokenType::LBRACKET, "Expected '[' for relationship pattern");
 
         // Optional variable
@@ -691,6 +712,35 @@ struct CypherParser::Parser {
             return e;
         }
 
+        if (match(TokenType::LBRACKET)) {
+            std::string list_literal = "[";
+            bool first = true;
+            while (!check(TokenType::RBRACKET)) {
+                if (!first) {
+                    expect(TokenType::COMMA, "Expected ',' between list literal elements");
+                    list_literal += ", ";
+                }
+
+                if (check(TokenType::STRING_LIT)) {
+                    list_literal += '"' + current().value + '"';
+                    ++cursor;
+                } else if (check(TokenType::INT_LIT) || check(TokenType::FLOAT_LIT) ||
+                           check(TokenType::KW_TRUE) || check(TokenType::KW_FALSE) ||
+                           check(TokenType::KW_NULL)) {
+                    list_literal += current().value;
+                    ++cursor;
+                } else {
+                    throw CypherParseError{
+                        "Expected literal value inside list expression",
+                        current().position
+                    };
+                }
+                first = false;
+            }
+            expect(TokenType::RBRACKET, "Expected ']' to close list expression");
+            return std::make_shared<CypherLiteralExpr>(std::move(list_literal));
+        }
+
         // NULL / TRUE / FALSE
         if (match(TokenType::KW_NULL))  return std::make_shared<CypherLiteralExpr>(nullptr);
         if (match(TokenType::KW_TRUE))  return std::make_shared<CypherLiteralExpr>(true);
@@ -830,6 +880,9 @@ std::string CypherToAQLTranspiler::literalToAQL(const CypherLiteralValue& val) {
             return oss.str();
         } else {
             // std::string – escape inner double quotes
+            if (v.size() >= 2 && v.front() == '[' && v.back() == ']') {
+                return v;
+            }
             std::string out;
             out.reserve(v.size() + 2);
             out += '"';

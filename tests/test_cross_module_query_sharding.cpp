@@ -213,13 +213,13 @@ TEST_F(QueryShardingTest, A3_AnalyzeQuery_ExtractsKeyPredicate) {
         R"(FOR doc IN customers FILTER doc._key == "cust-42" RETURN doc)";
     auto meta = federation_->analyzeQuery(query);
 
-    EXPECT_TRUE(meta.has_shard_key_predicate)
+    EXPECT_TRUE(meta.shard_key_predicate.has_value())
         << "analyzeQuery must detect the _key == predicate";
-    if (meta.has_shard_key_predicate) {
-        EXPECT_EQ(meta.shard_key_predicate.kind,
+    if (meta.shard_key_predicate.has_value()) {
+        EXPECT_EQ(meta.shard_key_predicate->kind,
                   QueryFederation::QueryMetadata::ShardKeyPredicate::Kind::POINT)
             << "Equality predicate must be classified as POINT";
-        EXPECT_EQ(meta.shard_key_predicate.lower_key, "cust-42")
+        EXPECT_EQ(meta.shard_key_predicate->key_value, "cust-42")
             << "Extracted key must match the literal in the query";
     }
 }
@@ -242,7 +242,7 @@ TEST_F(QueryShardingTest, A5_FullScan_DeterminesAllShards) {
     const std::string query = "FOR doc IN products RETURN doc";
     auto meta = federation_->analyzeQuery(query);
 
-    EXPECT_FALSE(meta.has_shard_key_predicate)
+    EXPECT_FALSE(meta.shard_key_predicate.has_value())
         << "Full-scan query must not have a shard key predicate";
 
     auto shards = federation_->determineRelevantShards(meta);
@@ -259,7 +259,7 @@ TEST_F(QueryShardingTest, A5_FullScan_DeterminesAllShards) {
 // B-1: mergeResults on empty ShardResult list returns empty array
 TEST_F(QueryShardingTest, B1_MergeResults_EmptyInput_ReturnsEmptyArray) {
     QueryFederation::QueryMetadata meta;
-    meta.has_shard_key_predicate = false;
+    meta.shard_key_predicate = std::nullopt;
 
     json merged = federation_->mergeResults({}, meta);
 
@@ -281,7 +281,7 @@ TEST_F(QueryShardingTest, B2_MergeResults_SingleShard_RetainsAllDocs) {
     });
 
     QueryFederation::QueryMetadata meta;
-    meta.has_shard_key_predicate = false;
+    meta.shard_key_predicate = std::nullopt;
 
     json merged = federation_->mergeResults({r}, meta);
 
@@ -310,7 +310,7 @@ TEST_F(QueryShardingTest, B3_MergeResults_ThreeShards_ConcatenatesAll) {
     };
 
     QueryFederation::QueryMetadata meta;
-    meta.has_shard_key_predicate = false;
+    meta.shard_key_predicate = std::nullopt;
 
     json merged = federation_->mergeResults(results, meta);
 
@@ -332,7 +332,7 @@ TEST_F(QueryShardingTest, B4_MergeResults_SkipsFailedShards) {
     failed.data     = json{};
 
     QueryFederation::QueryMetadata meta;
-    meta.has_shard_key_predicate = false;
+    meta.shard_key_predicate = std::nullopt;
 
     json merged = federation_->mergeResults({ok, failed}, meta);
 

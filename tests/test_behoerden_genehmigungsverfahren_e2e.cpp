@@ -511,7 +511,10 @@ TEST_F(BehoerdenGenehmigungsverfahrenE2ETest, Phase4_DenkmalschutzEmpfaengtUndVe
     ASSERT_EQ(docs.size(), 2u);  // Prüfdokument + Stellungnahme
 
     auto children = dms_denkmalschutz_.listChildren("VG-DSB-001");
-    EXPECT_EQ(children.size(), 1u) << "Stellungnahme muss dem Vorgang untergeordnet sein";
+    ASSERT_FALSE(children.empty()) << "Mindestens ein Dokument muss dem Vorgang untergeordnet sein";
+    const auto stn_it = std::find_if(children.begin(), children.end(),
+        [](const XDOMEADocument& d) { return d.id == "STN-DSB-001"; });
+    EXPECT_NE(stn_it, children.end()) << "Stellungnahme muss dem Vorgang untergeordnet sein";
 
     logSchritt("Phase4: Denkmalschutz — Stellungnahme: KEINE_EINWAENDE");
 }

@@ -101,13 +101,13 @@ nlohmann::json QueryFederation::execute(const std::string& query) {
             case ExecutionPlan::Strategy::PARTITION_PRUNING:
                 partition_pruned_queries_++;
                 spdlog::debug("QueryFederation: partition pruning to {} shard(s)", plan.target_shards.size());
-                shard_results = shard_router_->executeOnShards(query, plan.target_shards);
                 {
-                    // Execute on all shards (ShardRouter API does not yet expose
-                    // per-shard execution), then retain only results from the
-                    // shards identified by routing analysis.
+                    // Execute once and retain only the results from shards
+                    // identified by routing analysis.
                     auto all_results = shard_router_->scatterGather(query);
                     const auto& targets = plan.target_shards;
+                    shard_results.clear();
+                    shard_results.reserve(all_results.size());
                     for (auto& sr : all_results) {
                         bool relevant = targets.empty() ||
                             std::find(targets.begin(), targets.end(), sr.shard_id)
@@ -507,6 +507,35 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
 std::vector<std::string> QueryFederation::determineRelevantShards(
     const QueryMetadata& metadata
 ) {
+    if (sharding_manager_) {
+        const std::string collection =
+            metadata.tables.empty() ? std::string{} : metadata.tables.front();
+
+        if (metadata.point_lookup_key.has_value()) {
+            std::string shard = sharding_manager_->GetShardForKey(
+                collection, *metadata.point_lookup_key);
+            if (!shard.empty()) {
+                spdlog::debug("Shard-key point-lookup: key=\"{}\" → shard={}",
+                              *metadata.point_lookup_key, shard);
+                return {shard};
+            }
+        }
+
+        if (metadata.key_range.has_value()) {
+            auto shards = sharding_manager_->GetShardsForKeyRange(
+                collection,
+                metadata.key_range->first,
+                metadata.key_range->second);
+            if (!shards.empty()) {
+                spdlog::debug("Shard-key range [{}, {}] → {} shard(s)",
+                              metadata.key_range->first,
+                              metadata.key_range->second,
+                              shards.size());
+                return shards;
+            }
+        }
+    }
+
     // If a shard-key predicate was detected, use the ShardRouter's routing
     // methods (via the URNResolver + ConsistentHashRing) to identify exactly
     // which shards are responsible.
@@ -542,47 +571,6 @@ std::vector<std::string> QueryFederation::determineRelevantShards(
         ids.push_back(s.shard_id);
     }
     return ids;
-    // If a ShardingManager was injected, use its consistent-hash ring for
-    // key-based routing.  Otherwise fall back to the former placeholder.
-    if (sharding_manager_) {
-        const std::string collection =
-            metadata.tables.empty() ? std::string{} : metadata.tables.front();
-
-        // Point-lookup: single-shard routing
-        if (metadata.point_lookup_key.has_value()) {
-            std::string shard = sharding_manager_->GetShardForKey(
-                collection, *metadata.point_lookup_key);
-            if (!shard.empty()) {
-                spdlog::debug("Shard-key point-lookup: key=\"{}\" → shard={}",
-                              *metadata.point_lookup_key, shard);
-                return {shard};
-            }
-        }
-
-        // Range query: subset of shards
-        if (metadata.key_range.has_value()) {
-            auto shards = sharding_manager_->GetShardsForKeyRange(
-                collection,
-                metadata.key_range->first,
-                metadata.key_range->second);
-            if (!shards.empty()) {
-                spdlog::debug("Shard-key range [{}, {}] → {} shard(s)",
-                              metadata.key_range->first,
-                              metadata.key_range->second,
-                              shards.size());
-                return shards;
-            }
-        }
-
-        // No key predicate — return empty to signal broadcast (SCATTER_GATHER).
-        spdlog::debug("No shard-key predicate; will use broadcast");
-        return {};
-    }
-
-    // Legacy fallback: return a small placeholder set so that
-    // createExecutionPlan() may choose PARTITION_PRUNING.
-    spdlog::debug("Determining relevant shards - no ShardingManager injected");
-    return {"shard-001", "shard-002"};
 }
 
 std::string QueryFederation::rewriteQueryForShard(

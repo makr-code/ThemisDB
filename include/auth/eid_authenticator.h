@@ -206,10 +206,65 @@ enum class EIDAuthErrorCode {
  * @brief Result of an eID authentication attempt.
  */
 struct EIDAuthResult {
+    class IdentityResult {
+    public:
+        IdentityResult() = default;
+        IdentityResult(EIDIdentity id)
+            : value_(std::move(id)) {}
+
+        IdentityResult& operator=(EIDIdentity id) {
+            value_ = std::move(id);
+            return *this;
+        }
+
+        IdentityResult& operator=(std::optional<EIDIdentity> id) {
+            value_ = std::move(id);
+            return *this;
+        }
+
+        bool has_value() const { return value_.has_value(); }
+        explicit operator bool() const { return value_.has_value(); }
+
+        EIDIdentity& value() { return value_.value(); }
+        const EIDIdentity& value() const { return value_.value(); }
+
+        EIDIdentity* operator->() {
+            return value_ ? &(*value_) : nullptr;
+        }
+
+        const EIDIdentity* operator->() const {
+            return value_ ? &(*value_) : nullptr;
+        }
+
+        std::string fullName() const {
+            return value_ ? value_->fullName() : std::string{};
+        }
+
+        std::optional<std::string> getAttribute(EIDAttributeType type) const {
+            return value_ ? value_->getAttribute(type) : std::nullopt;
+        }
+
+    private:
+        std::optional<EIDIdentity> value_;
+    };
+
     bool success{false};
     EIDAuthErrorCode error_code{EIDAuthErrorCode::NONE};
     std::string error_message;
-    std::optional<EIDIdentity> identity; ///< Populated on success
+    IdentityResult identity; ///< Populated on success
+
+    // Legacy optional-like helpers used in older tests.
+    bool has_value() const {
+        return success && identity.has_value();
+    }
+
+    const EIDIdentity* operator->() const {
+        return identity.operator->();
+    }
+
+    EIDIdentity* operator->() {
+        return identity.operator->();
+    }
 
     static EIDAuthResult Success(EIDIdentity id) {
         EIDAuthResult r;
@@ -225,6 +280,26 @@ struct EIDAuthResult {
         r.error_message = std::move(msg);
         return r;
     }
+};
+
+// Legacy compatibility types for older tests.
+enum class EIDSessionStatus {
+    PENDING,
+    COMPLETED,
+    FAILED
+};
+
+struct EIDAuthRequest {
+    std::string transaction_id;
+    std::string service_provider;
+    std::vector<EIDAttributeType> requested_attributes;
+    EIDAssuranceLevel minimum_assurance{EIDAssuranceLevel::HIGH};
+};
+
+struct EIDAuthSession {
+    std::string session_id;
+    std::string redirect_url;
+    EIDSessionStatus status{EIDSessionStatus::PENDING};
 };
 
 // ── IEIDAuthenticator ─────────────────────────────────────────────────────────
@@ -321,6 +396,11 @@ public:
         test_identities_[std::string(session_id)] = identity;
     }
 
+    // Legacy helper name kept for compatibility with older tests.
+    void storeIdentity(const EIDIdentity& identity) {
+        registerTestIdentity(identity.transaction_id, identity);
+    }
+
     /**
      * @brief Pre-configure a failure result for a given session.
      */
@@ -350,10 +430,28 @@ public:
 
     std::string beginAuthSession(std::string_view session_id) override {
         std::unique_lock<std::mutex> lk(mutex_);
-        if (!initialized_) return "";
+        if (!initialized_) {
+            // Keep in-memory test authenticator usable without explicit init.
+            initialized_ = true;
+            config_.enabled = true;
+            if (config_.eid_server_url.empty()) {
+                config_.eid_server_url = "https://eid.test.local/auth";
+            }
+        }
         const std::string sid(session_id);
         active_sessions_.insert(sid);
         return config_.eid_server_url + "?sessionId=" + sid;
+    }
+
+    // Legacy overload used by older tests.
+    EIDAuthSession beginAuthSession(const EIDAuthRequest& request) {
+        EIDAuthSession session;
+        session.session_id = request.transaction_id;
+        session.redirect_url = beginAuthSession(request.transaction_id);
+        session.status = session.redirect_url.empty()
+            ? EIDSessionStatus::FAILED
+            : EIDSessionStatus::PENDING;
+        return session;
     }
 
     EIDAuthResult completeAuthSession(std::string_view session_id,
