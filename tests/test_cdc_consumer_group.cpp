@@ -55,6 +55,8 @@ protected:
         config.db_path            = test_db_path_;
         config.memtable_size_mb   = 64;
         config.block_cache_size_mb = 128;
+        config.merge_operator_preset =
+            RocksDBWrapper::Config::MergeOperatorPreset::SequenceU64Increment;
 
         db_ = std::make_unique<RocksDBWrapper>(config);
         ASSERT_TRUE(db_->open());

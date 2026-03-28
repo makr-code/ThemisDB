@@ -46,6 +46,8 @@ protected:
         cfg.db_path             = path;
         cfg.memtable_size_mb    = 32;
         cfg.block_cache_size_mb = 64;
+        cfg.merge_operator_preset =
+            RocksDBWrapper::Config::MergeOperatorPreset::SequenceU64Increment;
         auto db = std::make_unique<RocksDBWrapper>(cfg);
         if (!db->open()) {
             throw std::runtime_error("Failed to open test DB at " + path);

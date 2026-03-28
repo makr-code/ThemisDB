@@ -270,7 +270,8 @@ private:
      */
     DiffResult processEvents(
         const std::vector<Changefeed::ChangeEvent>& events,
-        const DiffOptions& options
+        const DiffOptions& options,
+        uint64_t from_sequence
     );
     
     /**

@@ -43,6 +43,8 @@ protected:
         RocksDBWrapper::Config config;
         config.db_path = test_db_path_;
         config.enable_wal = true;
+        config.merge_operator_preset =
+            RocksDBWrapper::Config::MergeOperatorPreset::SequenceU64Increment;
         db_ = std::make_unique<RocksDBWrapper>(config);
         ASSERT_TRUE(db_->open());
         
@@ -177,7 +179,11 @@ TEST_F(DiffEngineTest, FilterByTable) {
     // Should only contain users:2
     bool has_users = false;
     bool has_orders = false;
-    for (const auto& change : result.modified) {
+    std::vector<DiffEngine::Change> all_changes;
+    all_changes.insert(all_changes.end(), result.added.begin(), result.added.end());
+    all_changes.insert(all_changes.end(), result.modified.begin(), result.modified.end());
+    all_changes.insert(all_changes.end(), result.deleted.begin(), result.deleted.end());
+    for (const auto& change : all_changes) {
         if (change.key.find("users") != std::string::npos) has_users = true;
         if (change.key.find("orders") != std::string::npos) has_orders = true;
     }
@@ -199,7 +205,11 @@ TEST_F(DiffEngineTest, FilterByKeyPrefix) {
     auto result = diff_engine_->computeDiff(seq1, seq2, options);
     
     // Should only contain entity:users keys
-    for (const auto& change : result.modified) {
+    std::vector<DiffEngine::Change> all_changes;
+    all_changes.insert(all_changes.end(), result.added.begin(), result.added.end());
+    all_changes.insert(all_changes.end(), result.modified.begin(), result.modified.end());
+    all_changes.insert(all_changes.end(), result.deleted.begin(), result.deleted.end());
+    for (const auto& change : all_changes) {
         EXPECT_TRUE(change.key.find("entity:users") == 0);
     }
 }
@@ -577,6 +587,8 @@ TEST_F(DiffEngineTest, TimestampConversionEmptyChangefeed) {
     RocksDBWrapper::Config config;
     config.db_path = empty_db_path;
     config.enable_wal = true;
+    config.merge_operator_preset =
+        RocksDBWrapper::Config::MergeOperatorPreset::SequenceU64Increment;
     db_ = std::make_unique<RocksDBWrapper>(config);
     ASSERT_TRUE(db_->open());
     
@@ -591,6 +603,11 @@ TEST_F(DiffEngineTest, TimestampConversionEmptyChangefeed) {
     auto result = diff_engine_->computeDiffByTimestamp(ts - 1000, ts);
     
     EXPECT_EQ(result.stats.total_changes, 0);
+
+    diff_engine_.reset();
+    changefeed_.reset();
+    db_->close();
+    db_.reset();
     
     if (std::filesystem::exists(empty_db_path)) {
         std::filesystem::remove_all(empty_db_path);

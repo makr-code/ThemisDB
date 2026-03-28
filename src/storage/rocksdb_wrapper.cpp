@@ -39,12 +39,14 @@
 #include <rocksdb/table.h>
 #include <rocksdb/filter_policy.h>
 #include <rocksdb/cache.h>
+#include <rocksdb/merge_operator.h>
 #include <rocksdb/advanced_options.h>
 #include <rocksdb/statistics.h>
 #include <rocksdb/utilities/checkpoint.h>
 #include <rocksdb/utilities/backup_engine.h> // v1.1.0: Incremental Backup
 #include <filesystem>
 #include <algorithm>  // For std::max, std::min
+#include <cstring>
 #include <nlohmann/json.hpp>
 #include <unordered_map>
 #include <iostream> // For debugging
@@ -54,6 +56,52 @@
 namespace themis {
 
 using json = nlohmann::json;
+
+namespace {
+
+// Merge operator for uint64 little-endian counters.
+// This is used by CDC Changefeed sequence persistence when configured via
+// RocksDBWrapper::Config::merge_operator_preset.
+class SequenceU64IncrementMergeOperator final
+    : public rocksdb::AssociativeMergeOperator {
+public:
+    bool Merge(const rocksdb::Slice& /*key*/,
+               const rocksdb::Slice* existing_value,
+               const rocksdb::Slice& value,
+               std::string* new_value,
+               rocksdb::Logger* /*logger*/) const override {
+        uint64_t base = 0;
+        if (existing_value != nullptr && !existing_value->empty()) {
+            if (existing_value->size() == sizeof(uint64_t)) {
+                std::memcpy(&base, existing_value->data(), sizeof(uint64_t));
+            } else {
+                // Legacy decimal-string compatibility
+                try {
+                    base = std::stoull(
+                        std::string(existing_value->data(), existing_value->size()));
+                } catch (...) {
+                    base = 0;
+                }
+            }
+        }
+
+        uint64_t delta = 0;
+        if (value.size() == sizeof(uint64_t)) {
+            std::memcpy(&delta, value.data(), sizeof(uint64_t));
+        }
+
+        const uint64_t result = base + delta;
+        new_value->resize(sizeof(uint64_t));
+        std::memcpy(new_value->data(), &result, sizeof(uint64_t));
+        return true;
+    }
+
+    const char* Name() const override {
+        return "RocksDBWrapper.SequenceU64IncrementMergeOperator";
+    }
+};
+
+} // namespace
 
 RocksDBWrapper::RocksDBWrapper(const Config& config) : config_(config) {
     options_ = std::make_unique<rocksdb::Options>();
@@ -175,6 +223,16 @@ void RocksDBWrapper::configureOptions() {
     }
     // Create DB if missing
     options_->create_if_missing = true;
+
+    // Optional built-in merge operator preset.
+    switch (config_.merge_operator_preset) {
+        case Config::MergeOperatorPreset::None:
+            break;
+        case Config::MergeOperatorPreset::SequenceU64Increment:
+            options_->merge_operator =
+                std::make_shared<SequenceU64IncrementMergeOperator>();
+            break;
+    }
     
     // Enable statistics for monitoring (can be disabled for microbenchmarks)
     if (config_.enable_statistics) {
@@ -514,13 +572,17 @@ bool RocksDBWrapper::open() {
     
     // Prepare column family descriptors
     std::vector<rocksdb::ColumnFamilyDescriptor> cf_descriptors;
-    
+
     for (const auto& cf_name : cf_names) {
         rocksdb::ColumnFamilyOptions cf_opts;
         // Avoid calling OptimizeForPointLookup which can cause issues with large values
         // Instead configure options directly for stability
         cf_opts.write_buffer_size = options_->write_buffer_size;
         cf_opts.max_write_buffer_number = options_->max_write_buffer_number;
+        // Preserve configured merge operator for all opened column families.
+        // Without this, DB::Merge() fails with
+        // "ColumnFamilyOptions::merge_operator != nullptr" in CDC paths.
+        cf_opts.merge_operator = options_->merge_operator;
         cf_descriptors.emplace_back(cf_name, cf_opts);
     }
     

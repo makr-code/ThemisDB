@@ -209,7 +209,7 @@ static boost::asio::ip::tcp::socket make_client_socket(
     const auto port = acceptor.local_endpoint().port();
 
     tcp::socket client(ioc);
-    client.connect(tcp::endpoint(tcp::v4(), port));
+    client.connect(tcp::endpoint(boost::asio::ip::address_v4::loopback(), port));
 
     // Accept the server side to complete the handshake (synchronous).
     tcp::socket server_side(ioc);

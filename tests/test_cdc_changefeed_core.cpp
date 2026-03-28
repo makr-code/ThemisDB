@@ -29,7 +29,7 @@
 
 #include <gtest/gtest.h>
 #include "cdc/changefeed.h"
-#include <rocksdb/utilities/transaction_db.h>
+#include "storage/rocksdb_wrapper.h"
 #include <filesystem>
 #include <atomic>
 #include <chrono>
@@ -53,21 +53,21 @@ protected:
                                            .count());
         fs::create_directories(test_db_path_);
 
-        rocksdb::Options opts;
-        opts.create_if_missing = true;
-        rocksdb::TransactionDBOptions txn_opts;
-        rocksdb::TransactionDB* raw = nullptr;
-        auto s = rocksdb::TransactionDB::Open(opts, txn_opts, test_db_path_, &raw);
-        ASSERT_TRUE(s.ok()) << s.ToString();
-        db_.reset(raw);
+        RocksDBWrapper::Config cfg;
+        cfg.db_path = test_db_path_;
+        cfg.merge_operator_preset =
+            RocksDBWrapper::Config::MergeOperatorPreset::SequenceU64Increment;
+        db_ = std::make_unique<RocksDBWrapper>(cfg);
+        ASSERT_TRUE(db_->open());
 
         Changefeed::RetentionPolicy rp;
         rp.enabled = false;
-        feed_ = std::make_unique<Changefeed>(db_.get(), nullptr, rp);
+        feed_ = std::make_unique<Changefeed>(db_->getDB(), nullptr, rp);
     }
 
     void TearDown() override {
         feed_.reset();
+        db_->close();
         db_.reset();
         fs::remove_all(test_db_path_);
     }
@@ -88,9 +88,9 @@ protected:
         return ev;
     }
 
-    std::string                            test_db_path_;
-    std::unique_ptr<rocksdb::TransactionDB> db_;
-    std::unique_ptr<Changefeed>            feed_;
+    std::string                    test_db_path_;
+    std::unique_ptr<RocksDBWrapper> db_;
+    std::unique_ptr<Changefeed>    feed_;
 };
 
 // ===========================================================================

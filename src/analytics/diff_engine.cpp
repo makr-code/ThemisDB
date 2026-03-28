@@ -178,9 +178,19 @@ DiffEngine::DiffResult DiffEngine::computeDiff(
     spdlog::debug("Computing diff: from_seq={} to_seq={}", from_sequence, to_sequence);
     
     const CacheKey cache_key{from_sequence, to_sequence};
+
+    // Cache currently keys by sequence range only. To avoid incorrect cache
+    // hits across different filters/pagination/value-inclusion settings,
+    // enable caching only for default option shape.
+    const bool use_cache = options.enable_caching &&
+                           !options.table_filter.has_value() &&
+                           !options.key_prefix.has_value() &&
+                           options.include_values &&
+                           options.offset == 0 &&
+                           options.limit == DiffOptions{}.limit;
     
     // ── Stampede-prevention: only one thread computes a given range ──────────
-    if (options.enable_caching) {
+    if (use_cache) {
         std::unique_lock<std::mutex> lock(cache_mutex_);
         
         // Wait while the same range is already being computed by another caller.
@@ -222,7 +232,7 @@ DiffEngine::DiffResult DiffEngine::computeDiff(
             }
         }
     } inflight_guard{cache_mutex_, inflight_cv_, inflight_keys_, cache_key,
-                     options.enable_caching, options.enable_caching};
+                     use_cache, use_cache};
 
     // Testing hook — allows tests to inject failures or count actual computations.
     if (compute_hook_for_testing_) {
@@ -239,12 +249,12 @@ DiffEngine::DiffResult DiffEngine::computeDiff(
     spdlog::debug("Found {} events in range [{}, {}]", events.size(), from_sequence, to_sequence);
 
     // Process events
-    DiffResult result = processEvents(events, options);
+    DiffResult result = processEvents(events, options, from_sequence);
     result.from_sequence = from_sequence;
     result.to_sequence = to_sequence;
 
     // ── Cache result and release in-flight marker ─────────────────────────
-    if (options.enable_caching) {
+    if (use_cache) {
         // Copy-evict-then-lock pattern:
         //   Phase 1 — identify the oldest key under a brief lock (no expensive
         //              work done here, just a key copy).
@@ -303,6 +313,17 @@ DiffEngine::DiffResult DiffEngine::computeDiffByTimestamp(
     
     // Find corresponding sequence numbers
     auto [from_seq, to_seq] = findSequenceRange(from_timestamp, to_timestamp);
+
+    // Empty timestamp range in terms of events -> return empty diff instead of
+    // forwarding to computeDiff(0,0), which would throw invalid range.
+    if (to_seq == 0 || from_seq >= to_seq) {
+        DiffResult empty;
+        empty.from_sequence = from_seq;
+        empty.to_sequence = to_seq;
+        empty.from_timestamp_ms = from_timestamp;
+        empty.to_timestamp_ms = to_timestamp;
+        return empty;
+    }
     
     spdlog::debug("Timestamp range maps to sequence range [{}, {}]", from_seq, to_seq);
     
@@ -377,7 +398,8 @@ json DiffEngine::getCacheStats() const {
 // Process events and categorize them
 DiffEngine::DiffResult DiffEngine::processEvents(
     const std::vector<Changefeed::ChangeEvent>& events,
-    const DiffOptions& options) {
+    const DiffOptions& options,
+    uint64_t from_sequence) {
     
     DiffResult result;
     
@@ -431,7 +453,7 @@ DiffEngine::DiffResult DiffEngine::processEvents(
                     // Otherwise, conservatively mark as MODIFIED
                     
                     // If from_sequence is 0, this is definitely ADDED (new key)
-                    if (result.from_sequence == 0) {
+                    if (from_sequence == 0) {
                         change.type = ChangeType::ADDED;
                         result.added.push_back(change);
                         result.stats.added_count++;
@@ -556,7 +578,7 @@ std::pair<uint64_t, uint64_t> DiffEngine::findSequenceRange(
     // Fetch all events (Note: This could be optimized with index on timestamps)
     Changefeed::ListOptions opts;
     opts.from_sequence = 0;
-    opts.limit = 0; // No limit
+    opts.limit = std::numeric_limits<size_t>::max(); // No practical limit
     
     auto all_events = changefeed_.listEvents(opts);
     

@@ -290,6 +290,8 @@ protected:
 
         RocksDBWrapper::Config cfg;
         cfg.db_path = test_db_path_;
+        cfg.merge_operator_preset =
+            RocksDBWrapper::Config::MergeOperatorPreset::SequenceU64Increment;
         db_ = std::make_unique<RocksDBWrapper>(cfg);
         ASSERT_TRUE(db_->open());
 
@@ -446,6 +448,8 @@ protected:
 
         RocksDBWrapper::Config cfg;
         cfg.db_path = test_db_path_;
+        cfg.merge_operator_preset =
+            RocksDBWrapper::Config::MergeOperatorPreset::SequenceU64Increment;
         db_ = std::make_unique<RocksDBWrapper>(cfg);
         ASSERT_TRUE(db_->open());
 

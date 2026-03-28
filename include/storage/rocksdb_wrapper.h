@@ -231,6 +231,16 @@ public:
             XXH3        // Fastest (3x faster than CRC32, recommended)
         };
         ChecksumType checksum_type = ChecksumType::XXH3;
+
+        // Optional built-in RocksDB MergeOperator presets.
+        // Use SequenceU64Increment for CDC Changefeed sequence persistence
+        // when components call DB::Merge on an uint64 LE counter key.
+        enum class MergeOperatorPreset {
+            None,
+            SequenceU64Increment
+        };
+        MergeOperatorPreset merge_operator_preset =
+            MergeOperatorPreset::None;
     };
     
     explicit RocksDBWrapper(const Config& config);
