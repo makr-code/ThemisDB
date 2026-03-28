@@ -431,8 +431,12 @@ TEST_F(ES384ValidatorTest, AlgNoneAttack_Rejected) {
     auto exp = std::chrono::duration_cast<std::chrono::seconds>(
                    now.time_since_epoch()).count() + 300;
     nlohmann::json payload = {{"sub","admin"}, {"iss","issuerX"}, {"aud","audX"}, {"exp", exp}};
-    auto h = b64url(std::vector<uint8_t>(header.dump().begin(),  header.dump().end()));
-    auto p = b64url(std::vector<uint8_t>(payload.dump().begin(), payload.dump().end()));
+
+    // Materialize dumps first; using begin/end on different temporaries is undefined behavior.
+    const std::string header_str = header.dump();
+    const std::string payload_str = payload.dump();
+    auto h = b64url(std::vector<uint8_t>(header_str.begin(), header_str.end()));
+    auto p = b64url(std::vector<uint8_t>(payload_str.begin(), payload_str.end()));
     EXPECT_THROW(validator_->parseAndValidate(h + "." + p + "."), std::runtime_error);
 }
 

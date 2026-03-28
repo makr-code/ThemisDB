@@ -65,13 +65,13 @@ BuildConfiguration getBuildConfiguration() {
     
     switch (edition_info.type) {
         case edition::EditionType::COMMUNITY:
-            config.edition_type = "Community";
+            config.edition_type = THEMIS_EDITION_STRING;
             break;
         case edition::EditionType::ENTERPRISE:
-            config.edition_type = "Enterprise";
+            config.edition_type = THEMIS_EDITION_STRING;
             break;
         case edition::EditionType::HYPERSCALER:
-            config.edition_type = "Hyperscaler";
+            config.edition_type = THEMIS_EDITION_STRING;
             break;
         default:
             config.edition_type = "Unknown";
