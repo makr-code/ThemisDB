@@ -1,114 +1,536 @@
 #include "sharding/redundancy_strategy.h"
 
 #include <algorithm>
+#include <cstring>
 #include <stdexcept>
 
 namespace themis {
 namespace sharding {
 
-namespace {
-
-class LocalXorErasureCoder final : public ErasureCoder {
-public:
-    std::vector<std::vector<uint8_t>> encode(const std::vector<uint8_t>& data,
-                                             uint32_t data_shards,
-                                             uint32_t parity_shards) override {
-        if (data_shards == 0 || parity_shards == 0) {
-            throw std::invalid_argument("ErasureCoder: data_shards/parity_shards must be > 0");
-        }
-
-        const size_t shard_size = (data.size() + data_shards - 1) / data_shards;
-        std::vector<std::vector<uint8_t>> chunks(data_shards + parity_shards,
-                                                 std::vector<uint8_t>(shard_size, 0));
-
-        for (uint32_t i = 0; i < data_shards; ++i) {
-            const size_t begin = static_cast<size_t>(i) * shard_size;
-            if (begin >= data.size()) break;
-            const size_t end = std::min(begin + shard_size, data.size());
-            std::copy(data.begin() + static_cast<std::ptrdiff_t>(begin),
-                      data.begin() + static_cast<std::ptrdiff_t>(end),
-                      chunks[i].begin());
-        }
-
-        std::vector<uint8_t> parity(shard_size, 0);
-        for (uint32_t i = 0; i < data_shards; ++i) {
-            for (size_t j = 0; j < shard_size; ++j) {
-                parity[j] ^= chunks[i][j];
-            }
-        }
-        for (uint32_t p = 0; p < parity_shards; ++p) {
-            chunks[data_shards + p] = parity;
-        }
-
-        return chunks;
+std::vector<std::vector<uint8_t>> ReedSolomonCoder::buildVandermondeMatrix(
+    uint32_t rows, uint32_t cols
+) {
+    if (rows + cols > 255) {
+        throw std::invalid_argument("Too many shards: rows + cols must be <= 255");
     }
 
-    std::vector<uint8_t> decode(const std::map<uint32_t, std::vector<uint8_t>>& available_chunks,
-                                const std::vector<uint32_t>&,
-                                uint32_t data_shards,
-                                uint32_t parity_shards) override {
-        if (available_chunks.empty()) {
-            throw std::runtime_error("ErasureCoder: no chunks available");
+    std::vector<std::vector<uint8_t>> matrix(rows, std::vector<uint8_t>(cols));
+    for (uint32_t row = 0; row < rows; ++row) {
+        const uint8_t base = static_cast<uint8_t>(row + 1);
+        for (uint32_t col = 0; col < cols; ++col) {
+            matrix[row][col] = gf_pow(base, static_cast<uint8_t>(col));
         }
+    }
+    return matrix;
+}
 
-        const size_t shard_size = available_chunks.begin()->second.size();
-        std::vector<std::vector<uint8_t>> data_chunks(data_shards,
-                                                      std::vector<uint8_t>(shard_size, 0));
-        std::vector<uint8_t> parity(shard_size, 0);
-        bool has_parity = false;
+bool ReedSolomonCoder::invertMatrix(std::vector<std::vector<uint8_t>>& matrix) {
+    const size_t size = matrix.size();
+    std::vector<std::vector<uint8_t>> augmented(size, std::vector<uint8_t>(2 * size, 0));
 
-        uint32_t missing_data = 0;
-        uint32_t missing_idx = 0;
-
-        for (uint32_t i = 0; i < data_shards; ++i) {
-            auto it = available_chunks.find(i);
-            if (it == available_chunks.end()) {
-                ++missing_data;
-                missing_idx = i;
-                continue;
-            }
-            data_chunks[i] = it->second;
+    for (size_t row = 0; row < size; ++row) {
+        for (size_t col = 0; col < size; ++col) {
+            augmented[row][col] = matrix[row][col];
         }
+        augmented[row][size + row] = 1;
+    }
 
-        for (uint32_t p = 0; p < parity_shards; ++p) {
-            auto it = available_chunks.find(data_shards + p);
-            if (it != available_chunks.end()) {
-                parity = it->second;
-                has_parity = true;
+    for (size_t col = 0; col < size; ++col) {
+        size_t pivot = size;
+        for (size_t row = col; row < size; ++row) {
+            if (augmented[row][col] != 0) {
+                pivot = row;
                 break;
             }
         }
 
-        if (missing_data > 1) {
-            throw std::runtime_error("ErasureCoder: local fallback supports recovery of only one missing data shard");
-        }
-        if (missing_data == 1) {
-            if (!has_parity) {
-                throw std::runtime_error("ErasureCoder: missing parity shard for recovery");
-            }
-            std::vector<uint8_t> recovered = parity;
-            for (uint32_t i = 0; i < data_shards; ++i) {
-                if (i == missing_idx) continue;
-                for (size_t j = 0; j < shard_size; ++j) {
-                    recovered[j] ^= data_chunks[i][j];
-                }
-            }
-            data_chunks[missing_idx] = std::move(recovered);
+        if (pivot == size) {
+            return false;
         }
 
-        std::vector<uint8_t> out;
-        out.reserve(static_cast<size_t>(data_shards) * shard_size);
-        for (uint32_t i = 0; i < data_shards; ++i) {
-            out.insert(out.end(), data_chunks[i].begin(), data_chunks[i].end());
+        std::swap(augmented[col], augmented[pivot]);
+
+        const uint8_t inv_pivot = gf_inv(augmented[col][col]);
+        for (size_t j = 0; j < 2 * size; ++j) {
+            augmented[col][j] = gf_mul(augmented[col][j], inv_pivot);
         }
-        return out;
+
+        for (size_t row = 0; row < size; ++row) {
+            if (row == col || augmented[row][col] == 0) {
+                continue;
+            }
+
+            const uint8_t factor = augmented[row][col];
+            for (size_t j = 0; j < 2 * size; ++j) {
+                augmented[row][j] ^= gf_mul(factor, augmented[col][j]);
+            }
+        }
     }
-};
 
-} // namespace
+    for (size_t row = 0; row < size; ++row) {
+        for (size_t col = 0; col < size; ++col) {
+            matrix[row][col] = augmented[row][size + col];
+        }
+    }
 
-std::unique_ptr<ErasureCoder> ErasureCoder::create(ErasureCodingAlgorithm) {
-    return std::make_unique<LocalXorErasureCoder>();
+    return true;
+}
+
+std::vector<std::vector<uint8_t>> ReedSolomonCoder::encode(
+    const std::vector<uint8_t>& data,
+    uint32_t data_shards,
+    uint32_t parity_shards
+) {
+    const size_t chunk_size = (data.size() + data_shards - 1) / data_shards;
+    std::vector<std::vector<uint8_t>> chunks;
+    chunks.reserve(data_shards + parity_shards);
+
+    for (uint32_t shard = 0; shard < data_shards; ++shard) {
+        const size_t offset = static_cast<size_t>(shard) * chunk_size;
+        std::vector<uint8_t> chunk(chunk_size, 0);
+        if (offset < data.size()) {
+            const size_t size = std::min(chunk_size, data.size() - offset);
+            std::memcpy(chunk.data(), data.data() + offset, size);
+        }
+        chunks.push_back(std::move(chunk));
+    }
+
+    const auto vandermonde = buildVandermondeMatrix(parity_shards, data_shards);
+    for (uint32_t parity_row = 0; parity_row < parity_shards; ++parity_row) {
+        std::vector<uint8_t> parity(chunk_size, 0);
+        for (uint32_t data_row = 0; data_row < data_shards; ++data_row) {
+            const uint8_t coeff = vandermonde[parity_row][data_row];
+            if (coeff == 0) {
+                continue;
+            }
+            for (size_t byte = 0; byte < chunk_size; ++byte) {
+                parity[byte] ^= gf_mul(coeff, chunks[data_row][byte]);
+            }
+        }
+        chunks.push_back(std::move(parity));
+    }
+
+    return chunks;
+}
+
+std::vector<uint8_t> ReedSolomonCoder::decode(
+    const std::map<uint32_t, std::vector<uint8_t>>& available_chunks,
+    const std::vector<uint32_t>& missing_indices,
+    uint32_t data_shards,
+    uint32_t parity_shards
+) {
+    if (missing_indices.size() > parity_shards) {
+        throw std::runtime_error(
+            "Too many missing chunks: " + std::to_string(missing_indices.size()) +
+            " missing, but only " + std::to_string(parity_shards) + " parity shard(s) available"
+        );
+    }
+    if (available_chunks.size() < data_shards) {
+        throw std::runtime_error("Not enough chunks for recovery");
+    }
+
+    bool all_data_available = true;
+    for (uint32_t shard = 0; shard < data_shards; ++shard) {
+        if (available_chunks.find(shard) == available_chunks.end()) {
+            all_data_available = false;
+            break;
+        }
+    }
+
+    if (all_data_available) {
+        std::vector<uint8_t> recovered;
+        for (uint32_t shard = 0; shard < data_shards; ++shard) {
+            const auto& chunk = available_chunks.at(shard);
+            recovered.insert(recovered.end(), chunk.begin(), chunk.end());
+        }
+        return recovered;
+    }
+
+    const uint32_t total_shards = data_shards + parity_shards;
+    const auto vandermonde = buildVandermondeMatrix(parity_shards, data_shards);
+    std::vector<std::vector<uint8_t>> full_matrix(total_shards,
+                                                  std::vector<uint8_t>(data_shards, 0));
+
+    for (uint32_t row = 0; row < data_shards; ++row) {
+        full_matrix[row][row] = 1;
+    }
+    for (uint32_t row = 0; row < parity_shards; ++row) {
+        full_matrix[data_shards + row] = vandermonde[row];
+    }
+
+    std::vector<uint32_t> available_indices;
+    available_indices.reserve(data_shards);
+    for (const auto& [index, _] : available_chunks) {
+        if (available_indices.size() < data_shards) {
+            available_indices.push_back(index);
+        }
+    }
+
+    std::vector<std::vector<uint8_t>> decode_matrix(data_shards,
+                                                    std::vector<uint8_t>(data_shards));
+    for (size_t row = 0; row < data_shards; ++row) {
+        decode_matrix[row] = full_matrix[available_indices[row]];
+    }
+
+    if (!invertMatrix(decode_matrix)) {
+        throw std::runtime_error("Failed to invert decode matrix for Reed-Solomon recovery");
+    }
+
+    const size_t chunk_size = available_chunks.begin()->second.size();
+    std::vector<std::vector<uint8_t>> recovered_data(data_shards,
+                                                     std::vector<uint8_t>(chunk_size, 0));
+    for (size_t byte = 0; byte < chunk_size; ++byte) {
+        std::vector<uint8_t> available_bytes(data_shards);
+        for (size_t row = 0; row < data_shards; ++row) {
+            available_bytes[row] = available_chunks.at(available_indices[row])[byte];
+        }
+
+        std::vector<uint8_t> recovered_bytes;
+        gf_matrix_mul(decode_matrix, available_bytes, recovered_bytes);
+        for (size_t row = 0; row < data_shards; ++row) {
+            recovered_data[row][byte] = recovered_bytes[row];
+        }
+    }
+
+    std::vector<uint8_t> result;
+    result.reserve(static_cast<size_t>(data_shards) * chunk_size);
+    for (const auto& chunk : recovered_data) {
+        result.insert(result.end(), chunk.begin(), chunk.end());
+    }
+    return result;
+}
+
+uint8_t ReedSolomonCoder::gf_mul(uint8_t a, uint8_t b) {
+    uint8_t product = 0;
+    for (int i = 0; i < 8; ++i) {
+        if (b & 1) {
+            product ^= a;
+        }
+        const uint8_t hi = a & 0x80;
+        a <<= 1;
+        if (hi) {
+            a ^= 0x1d;
+        }
+        b >>= 1;
+    }
+    return product;
+}
+
+uint8_t ReedSolomonCoder::gf_inv(uint8_t a) {
+    if (a == 0) {
+        return 0;
+    }
+
+    uint8_t result = 1;
+    for (int i = 7; i >= 0; --i) {
+        result = gf_mul(result, result);
+        if ((254 >> i) & 1) {
+            result = gf_mul(result, a);
+        }
+    }
+    return result;
+}
+
+uint8_t ReedSolomonCoder::gf_div(uint8_t a, uint8_t b) {
+    return gf_mul(a, gf_inv(b));
+}
+
+uint8_t ReedSolomonCoder::gf_pow(uint8_t a, uint8_t exp) {
+    uint8_t result = 1;
+    for (uint8_t i = 0; i < exp; ++i) {
+        result = gf_mul(result, a);
+    }
+    return result;
+}
+
+void ReedSolomonCoder::gf_matrix_mul(
+    const std::vector<std::vector<uint8_t>>& matrix,
+    const std::vector<uint8_t>& vec,
+    std::vector<uint8_t>& result
+) {
+    const size_t rows = matrix.size();
+    result.assign(rows, 0);
+    for (size_t row = 0; row < rows; ++row) {
+        uint8_t sum = 0;
+        for (size_t col = 0; col < matrix[row].size() && col < vec.size(); ++col) {
+            sum ^= gf_mul(matrix[row][col], vec[col]);
+        }
+        result[row] = sum;
+    }
+}
+
+uint8_t CauchyReedSolomonCoder::gf_mul(uint8_t a, uint8_t b) {
+    uint8_t product = 0;
+    for (int i = 0; i < 8; ++i) {
+        if (b & 1) {
+            product ^= a;
+        }
+        const uint8_t hi = a & 0x80;
+        a <<= 1;
+        if (hi) {
+            a ^= 0x1d;
+        }
+        b >>= 1;
+    }
+    return product;
+}
+
+uint8_t CauchyReedSolomonCoder::gf_inv(uint8_t a) {
+    if (a == 0) {
+        return 0;
+    }
+
+    uint8_t result = 1;
+    for (int i = 7; i >= 0; --i) {
+        result = gf_mul(result, result);
+        if ((254 >> i) & 1) {
+            result = gf_mul(result, a);
+        }
+    }
+    return result;
+}
+
+std::vector<std::vector<uint8_t>> CauchyReedSolomonCoder::buildCauchyMatrix(
+    uint32_t rows, uint32_t cols
+) {
+    if (rows + cols > 256) {
+        throw std::invalid_argument("Too many shards: rows + cols must be <= 256");
+    }
+
+    std::vector<uint8_t> x(rows);
+    std::vector<uint8_t> y(cols);
+    for (uint32_t row = 0; row < rows; ++row) {
+        x[row] = static_cast<uint8_t>(row);
+    }
+    for (uint32_t col = 0; col < cols; ++col) {
+        y[col] = static_cast<uint8_t>(rows + col);
+    }
+
+    std::vector<std::vector<uint8_t>> matrix(rows, std::vector<uint8_t>(cols));
+    for (uint32_t row = 0; row < rows; ++row) {
+        for (uint32_t col = 0; col < cols; ++col) {
+            const uint8_t diff = x[row] ^ y[col];
+            if (diff == 0) {
+                throw std::runtime_error("Invalid Cauchy matrix: x[i] == y[j]");
+            }
+            matrix[row][col] = gf_inv(diff);
+        }
+    }
+
+    return matrix;
+}
+
+void CauchyReedSolomonCoder::gf_matrix_mul(
+    const std::vector<std::vector<uint8_t>>& matrix,
+    const std::vector<uint8_t>& vec,
+    std::vector<uint8_t>& result
+) {
+    const size_t rows = matrix.size();
+    result.assign(rows, 0);
+    for (size_t row = 0; row < rows; ++row) {
+        uint8_t sum = 0;
+        for (size_t col = 0; col < matrix[row].size() && col < vec.size(); ++col) {
+            sum ^= gf_mul(matrix[row][col], vec[col]);
+        }
+        result[row] = sum;
+    }
+}
+
+bool CauchyReedSolomonCoder::invertMatrix(std::vector<std::vector<uint8_t>>& matrix) {
+    const size_t size = matrix.size();
+    if (size == 0 || matrix[0].size() != size) {
+        return false;
+    }
+
+    std::vector<std::vector<uint8_t>> augmented(size, std::vector<uint8_t>(2 * size, 0));
+    for (size_t row = 0; row < size; ++row) {
+        for (size_t col = 0; col < size; ++col) {
+            augmented[row][col] = matrix[row][col];
+        }
+        augmented[row][size + row] = 1;
+    }
+
+    for (size_t col = 0; col < size; ++col) {
+        size_t pivot = col;
+        for (size_t row = col + 1; row < size; ++row) {
+            if (augmented[row][col] != 0) {
+                pivot = row;
+                break;
+            }
+        }
+
+        if (augmented[pivot][col] == 0) {
+            return false;
+        }
+
+        if (pivot != col) {
+            std::swap(augmented[col], augmented[pivot]);
+        }
+
+        const uint8_t pivot_inv = gf_inv(augmented[col][col]);
+        for (size_t j = 0; j < 2 * size; ++j) {
+            augmented[col][j] = gf_mul(augmented[col][j], pivot_inv);
+        }
+
+        for (size_t row = 0; row < size; ++row) {
+            if (row == col || augmented[row][col] == 0) {
+                continue;
+            }
+
+            const uint8_t factor = augmented[row][col];
+            for (size_t j = 0; j < 2 * size; ++j) {
+                augmented[row][j] ^= gf_mul(factor, augmented[col][j]);
+            }
+        }
+    }
+
+    for (size_t row = 0; row < size; ++row) {
+        for (size_t col = 0; col < size; ++col) {
+            matrix[row][col] = augmented[row][size + col];
+        }
+    }
+
+    return true;
+}
+
+std::vector<std::vector<uint8_t>> CauchyReedSolomonCoder::encode(
+    const std::vector<uint8_t>& data,
+    uint32_t data_shards,
+    uint32_t parity_shards
+) {
+    const size_t chunk_size = (data.size() + data_shards - 1) / data_shards;
+    std::vector<std::vector<uint8_t>> chunks;
+    chunks.reserve(data_shards + parity_shards);
+
+    for (uint32_t shard = 0; shard < data_shards; ++shard) {
+        const size_t offset = static_cast<size_t>(shard) * chunk_size;
+        std::vector<uint8_t> chunk(chunk_size, 0);
+        if (offset < data.size()) {
+            const size_t size = std::min(chunk_size, data.size() - offset);
+            std::memcpy(chunk.data(), data.data() + offset, size);
+        }
+        chunks.push_back(std::move(chunk));
+    }
+
+    const auto cauchy_matrix = buildCauchyMatrix(parity_shards, data_shards);
+    for (uint32_t parity_row = 0; parity_row < parity_shards; ++parity_row) {
+        std::vector<uint8_t> parity(chunk_size, 0);
+        for (size_t byte = 0; byte < chunk_size; ++byte) {
+            uint8_t parity_byte = 0;
+            for (uint32_t data_row = 0; data_row < data_shards; ++data_row) {
+                parity_byte ^= gf_mul(cauchy_matrix[parity_row][data_row], chunks[data_row][byte]);
+            }
+            parity[byte] = parity_byte;
+        }
+        chunks.push_back(std::move(parity));
+    }
+
+    return chunks;
+}
+
+std::vector<uint8_t> CauchyReedSolomonCoder::decode(
+    const std::map<uint32_t, std::vector<uint8_t>>& available_chunks,
+    const std::vector<uint32_t>& missing_indices,
+    uint32_t data_shards,
+    uint32_t parity_shards
+) {
+    if (missing_indices.size() > parity_shards) {
+        throw std::runtime_error(
+            "Too many missing chunks: " + std::to_string(missing_indices.size()) +
+            " missing, but only " + std::to_string(parity_shards) + " parity shard(s) available"
+        );
+    }
+    if (available_chunks.size() < data_shards) {
+        throw std::runtime_error("Not enough chunks for recovery");
+    }
+
+    bool all_data_available = true;
+    for (uint32_t shard = 0; shard < data_shards; ++shard) {
+        if (available_chunks.find(shard) == available_chunks.end()) {
+            all_data_available = false;
+            break;
+        }
+    }
+
+    if (all_data_available) {
+        std::vector<uint8_t> recovered;
+        for (uint32_t shard = 0; shard < data_shards; ++shard) {
+            const auto& chunk = available_chunks.at(shard);
+            recovered.insert(recovered.end(), chunk.begin(), chunk.end());
+        }
+        return recovered;
+    }
+
+    const size_t chunk_size = available_chunks.begin()->second.size();
+    const uint32_t total_shards = data_shards + parity_shards;
+    std::vector<std::vector<uint8_t>> full_matrix(total_shards,
+                                                  std::vector<uint8_t>(data_shards, 0));
+
+    for (uint32_t row = 0; row < data_shards; ++row) {
+        full_matrix[row][row] = 1;
+    }
+
+    const auto cauchy_matrix = buildCauchyMatrix(parity_shards, data_shards);
+    for (uint32_t row = 0; row < parity_shards; ++row) {
+        for (uint32_t col = 0; col < data_shards; ++col) {
+            full_matrix[data_shards + row][col] = cauchy_matrix[row][col];
+        }
+    }
+
+    std::vector<uint32_t> available_indices;
+    available_indices.reserve(data_shards);
+    for (const auto& [index, _] : available_chunks) {
+        if (available_indices.size() < data_shards) {
+            available_indices.push_back(index);
+        }
+    }
+
+    std::vector<std::vector<uint8_t>> decode_matrix(data_shards,
+                                                    std::vector<uint8_t>(data_shards));
+    for (size_t row = 0; row < data_shards; ++row) {
+        for (size_t col = 0; col < data_shards; ++col) {
+            decode_matrix[row][col] = full_matrix[available_indices[row]][col];
+        }
+    }
+
+    if (!invertMatrix(decode_matrix)) {
+        throw std::runtime_error("Failed to invert decode matrix");
+    }
+
+    std::vector<std::vector<uint8_t>> recovered_data(data_shards,
+                                                     std::vector<uint8_t>(chunk_size, 0));
+    for (size_t byte = 0; byte < chunk_size; ++byte) {
+        std::vector<uint8_t> available_bytes(data_shards);
+        for (size_t row = 0; row < data_shards; ++row) {
+            available_bytes[row] = available_chunks.at(available_indices[row])[byte];
+        }
+
+        std::vector<uint8_t> recovered_bytes;
+        gf_matrix_mul(decode_matrix, available_bytes, recovered_bytes);
+        for (size_t row = 0; row < data_shards; ++row) {
+            recovered_data[row][byte] = recovered_bytes[row];
+        }
+    }
+
+    std::vector<uint8_t> result;
+    result.reserve(static_cast<size_t>(data_shards) * chunk_size);
+    for (const auto& chunk : recovered_data) {
+        result.insert(result.end(), chunk.begin(), chunk.end());
+    }
+    return result;
+}
+
+std::unique_ptr<ErasureCoder> ErasureCoder::create(ErasureCodingAlgorithm algorithm) {
+    switch (algorithm) {
+        case ErasureCodingAlgorithm::REED_SOLOMON:
+            return std::make_unique<ReedSolomonCoder>();
+        case ErasureCodingAlgorithm::CAUCHY:
+            return std::make_unique<CauchyReedSolomonCoder>();
+        case ErasureCodingAlgorithm::LRC:
+            return std::make_unique<CauchyReedSolomonCoder>();
+        default:
+            return nullptr;
+    }
 }
 
 } // namespace sharding

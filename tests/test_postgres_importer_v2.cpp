@@ -231,9 +231,11 @@ static bool parseCreateIndex(const std::string& sql, IndexMetadata& index) {
     std::istringstream css(cols);
     std::string col;
     while (std::getline(css, col, ',')) {
+        // Trim leading/trailing whitespace FIRST
+        col = trimStr(col);
+        // Then strip expression parts like ASC/DESC, NULLS FIRST
         size_t sp = col.find_first_of(" \t(");
         if (sp != std::string::npos) col = col.substr(0, sp);
-        col = trimStr(col);
         if (!col.empty() && col.front() == '"') col = col.substr(1, col.size()-2);
         if (!col.empty()) index.columns.push_back(col);
     }

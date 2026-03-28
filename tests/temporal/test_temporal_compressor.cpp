@@ -110,6 +110,9 @@ TEST_F(TemporalCompressorTest, CompressHistory_ZstdAlgo_ProcessesVersions) {
 TEST_F(TemporalCompressorTest, CompressHistory_SkipsRecentVersions) {
     auto table = SystemVersionedTable::createVersionedTable("recent_tbl", {});
     table.insert("key1", {{"name", "Bob"}, {"score", 100}});
+    // Second upsert makes the first version historical (non-current),
+    // so the delay check can fire on it.
+    table.upsert("key1", {{"name", "Bob"}, {"score", 101}});
 
     CompressionConfig cfg;
     cfg.algorithm = CompressionAlgorithm::DELTA;

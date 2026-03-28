@@ -571,7 +571,7 @@ TEST(PluginDependencyGraph, ThemisModuleGraph_EndToEnd) {
     g.buildFromResolver(resolver);
 
     EXPECT_EQ(g.nodeCount(), 6u);
-    EXPECT_EQ(g.edgeCount(), 6u);
+    EXPECT_EQ(g.edgeCount(), 7u);
 
     // Must be acyclic.
     EXPECT_TRUE(g.detectCycles().empty());

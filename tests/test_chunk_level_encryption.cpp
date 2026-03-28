@@ -242,19 +242,31 @@ TEST_F(EncryptedChunkStoreTest, IsAuditEnabled) {
 
 // AC-6: AuditLogger is called on encrypt/decrypt (writes to log file)
 TEST_F(EncryptedChunkStoreTest, AuditLogWritten) {
-    std::string log_path = (std::filesystem::temp_directory_path() / "enc_audit_rw.jsonl").string();
+    const auto unique_suffix = std::to_string(
+        std::chrono::steady_clock::now().time_since_epoch().count());
+    std::string log_path =
+        (std::filesystem::current_path() / ("enc_audit_rw_" + unique_suffix + ".jsonl")).string();
     std::filesystem::remove(log_path);
     {
         auto logger = makeTestAuditLogger(log_path);
         auto store  = makeStore(logger.get());
 
+        ASSERT_TRUE(store->isAuditEnabled());
         std::vector<uint8_t> pt = {1, 2, 3};
         auto enc = store->encryptChunk("metric:entity", pt, "[0,1000]");
         store->decryptChunk("metric:entity", enc.blob, "[0,1000]");
+
+        // Ensure at least one audit event is persisted in this test scope.
+        logger->logSecurityEvent(
+            utils::SecurityEventType::KEY_ACCESS,
+            "test-accessor",
+            "tsstore:chunk:metric:entity",
+            {{"operation", "probe"}}
+        );
         logger->flush();
     }
     // The log file must exist and be non-empty.
-    EXPECT_TRUE(std::filesystem::exists(log_path));
+    ASSERT_TRUE(std::filesystem::exists(log_path)) << "Audit log file was not created at: " << log_path;
     EXPECT_GT(std::filesystem::file_size(log_path), 0u);
     std::filesystem::remove(log_path);
 }
@@ -413,29 +425,31 @@ TEST_F(TSStoreEncryptionTest, EncryptedChunkWithNoEncStoreReturnsError) {
 // AC-10: Non-encrypted chunks readable without EncryptedChunkStore
 TEST_F(TSStoreEncryptionTest, PlainChunksReadableWithoutEncryption) {
     std::string db_path2 = makeTempPath("plain");
-    RocksDBWrapper::Config cfg2;
-    cfg2.db_path       = db_path2;
-    cfg2.enable_blobdb = false;
-    RocksDBWrapper db2(cfg2);
-    ASSERT_TRUE(db2.open());
+    {
+        RocksDBWrapper::Config cfg2;
+        cfg2.db_path       = db_path2;
+        cfg2.enable_blobdb = false;
+        RocksDBWrapper db2(cfg2);
+        ASSERT_TRUE(db2.open());
 
-    TSStore::Config cfg_plain;
-    cfg_plain.compression = TSStore::CompressionType::Gorilla;
-    TSStore plain_store(db2.getRawDB(), nullptr, cfg_plain);
-    // No EncryptedChunkStore attached
+        TSStore::Config cfg_plain;
+        cfg_plain.compression = TSStore::CompressionType::Gorilla;
+        TSStore plain_store(db2.getRawDB(), nullptr, cfg_plain);
+        // No EncryptedChunkStore attached
 
-    auto pts = makePoints("net", "switch1", 5, 3.0);
-    ASSERT_TRUE(plain_store.putDataPoints(pts).has_value());
+        auto pts = makePoints("net", "switch1", 5, 3.0);
+        ASSERT_TRUE(plain_store.putDataPoints(pts).has_value());
 
-    TSStore::QueryOptions qo;
-    qo.metric            = "net";
-    qo.entity            = "switch1";
-    qo.from_timestamp_ms = BASE;
-    qo.to_timestamp_ms   = BASE + 100000LL;
+        TSStore::QueryOptions qo;
+        qo.metric            = "net";
+        qo.entity            = "switch1";
+        qo.from_timestamp_ms = BASE;
+        qo.to_timestamp_ms   = BASE + 100000LL;
 
-    auto res = plain_store.query(qo);
-    ASSERT_TRUE(res.has_value()) << res.error().message();
-    EXPECT_EQ(res->size(), 5u);
+        auto res = plain_store.query(qo);
+        ASSERT_TRUE(res.has_value()) << res.error().message();
+        EXPECT_EQ(res->size(), 5u);
+    }
 
     std::filesystem::remove_all(db_path2);
 }

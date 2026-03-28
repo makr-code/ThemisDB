@@ -43,8 +43,12 @@ namespace fs = std::filesystem;
 class GraphQueryOptimizerTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        test_db_path_ = "./data/themis_graph_optimizer_test";
-        fs::remove_all(test_db_path_);
+        test_db_path_ = (fs::temp_directory_path() /
+            ("themis_graph_optimizer_test_" +
+             std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()))
+            ).string();
+        std::error_code ec;
+        fs::remove_all(test_db_path_, ec);
         
         themis::RocksDBWrapper::Config config;
         config.db_path = test_db_path_;
@@ -67,7 +71,8 @@ protected:
         optimizer_.reset();
         graph_mgr_.reset();
         db_.reset();
-        fs::remove_all(test_db_path_);
+        std::error_code ec;
+        fs::remove_all(test_db_path_, ec);
     }
 
     void createTestGraph() {
@@ -3318,8 +3323,12 @@ TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_EmptyPatternPathsFoundIsOne)
 class GraphAnalyticsIntegrationTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        test_db_path_ = "./data/themis_graph_analytics_integration_test";
-        fs::remove_all(test_db_path_);
+        test_db_path_ = (fs::temp_directory_path() /
+            ("themis_graph_analytics_integration_test_" +
+             std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()))
+            ).string();
+        std::error_code ec;
+        fs::remove_all(test_db_path_, ec);
 
         themis::RocksDBWrapper::Config config;
         config.db_path = test_db_path_;
@@ -3358,7 +3367,8 @@ protected:
         optimizer_.reset();
         graph_mgr_.reset();
         db_.reset();
-        fs::remove_all(test_db_path_);
+        std::error_code ec;
+        fs::remove_all(test_db_path_, ec);
     }
 
     std::string test_db_path_;

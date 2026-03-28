@@ -78,6 +78,7 @@ static ReplicationConfig makeConfig(
     cfg.degraded_lag_threshold_ms    = 5000;
     cfg.min_sync_replicas            = 1;
     cfg.wal_sync_on_commit           = false;
+    cfg.enable_leader_lease          = false;
     return cfg;
 }
 

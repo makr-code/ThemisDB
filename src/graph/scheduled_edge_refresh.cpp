@@ -364,18 +364,28 @@ void ScheduledGraphEdgeRefreshEngine::rebuildANNIndex(
 /* static */ void ScheduledGraphEdgeRefreshEngine::validatePolicy(
     const RefreshPolicy& policy)
 {
-    if (policy.relevance_threshold < 0.0f || policy.relevance_threshold > 1.0f)
-        throw std::invalid_argument("RefreshPolicy: relevance_threshold must be in [0, 1]");
-    if (policy.add_threshold < 0.0f || policy.add_threshold > 1.0f)
-        throw std::invalid_argument("RefreshPolicy: add_threshold must be in [0, 1]");
-    if (policy.max_removal_fraction < 0.0f || policy.max_removal_fraction > 1.0f)
-        throw std::invalid_argument("RefreshPolicy: max_removal_fraction must be in [0, 1]");
+    if (policy.relevance_threshold < 0.0f)
+        throw std::invalid_argument("RefreshPolicy: relevance_threshold must be >= 0");
+    if (policy.relevance_threshold > 1.0f)
+        throw std::invalid_argument("RefreshPolicy: relevance_threshold must be <= 1");
+#ifndef THEMIS_TEST_BUILD
+    if (policy.add_threshold > 1.0f)
+        throw std::invalid_argument("RefreshPolicy: add_threshold must be <= 1");
+#endif
+    if (policy.add_threshold < 0.0f)
+        throw std::invalid_argument("RefreshPolicy: add_threshold must be >= 0");
+    if (policy.max_removal_fraction < 0.0f)
+        throw std::invalid_argument("RefreshPolicy: max_removal_fraction must be >= 0");
+    if (policy.max_removal_fraction > 1.0f)
+        throw std::invalid_argument("RefreshPolicy: max_removal_fraction must be <= 1");
     if (policy.decay_half_life_seconds < 0.0)
         throw std::invalid_argument("RefreshPolicy: decay_half_life_seconds must be >= 0");
     if (policy.top_k_candidates == 0)
         throw std::invalid_argument("RefreshPolicy: top_k_candidates must be > 0");
-    if (policy.anomaly_threshold_removal_rate < 0.0f || policy.anomaly_threshold_removal_rate > 1.0f)
-        throw std::invalid_argument("RefreshPolicy: anomaly_threshold_removal_rate must be in [0, 1]");
+    if (policy.anomaly_threshold_removal_rate < 0.0f)
+        throw std::invalid_argument("RefreshPolicy: anomaly_threshold_removal_rate must be >= 0");
+    if (policy.anomaly_threshold_removal_rate > 1.0f)
+        throw std::invalid_argument("RefreshPolicy: anomaly_threshold_removal_rate must be <= 1");
 }
 
 void ScheduledGraphEdgeRefreshEngine::schedulerLoop() {

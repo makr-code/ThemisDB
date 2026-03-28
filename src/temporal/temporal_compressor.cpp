@@ -297,12 +297,12 @@ nlohmann::json TemporalCompressor::applyDictionary(
 
 std::string TemporalCompressor::algorithmName(CompressionAlgorithm algo) {
     switch (algo) {
-        case CompressionAlgorithm::DELTA:      return "delta";
-        case CompressionAlgorithm::ZSTD:       return "zstd";
-        case CompressionAlgorithm::GORILLA:    return "gorilla";
-        case CompressionAlgorithm::DICTIONARY: return "dictionary";
+        case CompressionAlgorithm::DELTA:      return "DELTA";
+        case CompressionAlgorithm::ZSTD:       return "ZSTD";
+        case CompressionAlgorithm::GORILLA:    return "GORILLA";
+        case CompressionAlgorithm::DICTIONARY: return "DICTIONARY";
     }
-    return "unknown";
+    return "UNKNOWN";
 }
 
 // ============================================================================

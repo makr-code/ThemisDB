@@ -254,13 +254,41 @@ MMWriteEntry ThreeWayMergeResolver::resolve(
 {
     if (conflicting_writes.size() == 1) return conflicting_writes[0];
 
-    const MMWriteEntry base  = selectBase(conflicting_writes);
-    // left = earliest HLC (excluding base), right = latest HLC
-    const MMWriteEntry& left  = pickEarliestHlc(conflicting_writes);
-    const MMWriteEntry& right = pickLatestHlc(conflicting_writes);
+    const MMWriteEntry base = selectBase(conflicting_writes);
 
-    MMWriteEntry winner = right; // start from latest
-    winner.data = mergeJson(base.data, left.data, right.data);
+    // Find the index of the base to exclude it from left/right selection
+    size_t base_idx = 0;
+    {
+        int best_score = -1;
+        for (size_t i = 0; i < conflicting_writes.size(); ++i) {
+            int dominated = 0;
+            for (size_t j = 0; j < conflicting_writes.size(); ++j) {
+                if (i == j) continue;
+                if (conflicting_writes[i].vector_clock.happensBefore(
+                        conflicting_writes[j].vector_clock))
+                    ++dominated;
+            }
+            if (dominated > best_score) { best_score = dominated; base_idx = i; }
+        }
+    }
+
+    // Collect non-base entry indices; pick earliest as left, latest as right
+    size_t left_idx  = base_idx;
+    size_t right_idx = base_idx;
+    bool   first     = true;
+    for (size_t i = 0; i < conflicting_writes.size(); ++i) {
+        if (i == base_idx) continue;
+        if (first) { left_idx = right_idx = i; first = false; continue; }
+        if (conflicting_writes[i].hlc < conflicting_writes[left_idx].hlc)  left_idx  = i;
+        if (conflicting_writes[right_idx].hlc < conflicting_writes[i].hlc) right_idx = i;
+    }
+
+    if (first) return conflicting_writes[base_idx]; // no non-base entries
+
+    MMWriteEntry winner = conflicting_writes[right_idx];
+    winner.data = mergeJson(base.data,
+                            conflicting_writes[left_idx].data,
+                            conflicting_writes[right_idx].data);
     return winner;
 }
 

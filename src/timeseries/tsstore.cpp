@@ -586,17 +586,33 @@ TSStore::query(const QueryOptions& options) const {
                 std::string metric = key.substr(pos1, pos2 - pos1);
                 std::string entity = key.substr(pos2 + 1, pos3 - pos2 - 1);
 
-                // Decrypt if the chunk was encrypted (compress-then-encrypt path).
-                auto raw_data = chunk_meta["data"].get<std::vector<uint8_t>>();
-                if (chunk_meta.value("encryption", "") == "aes-256-gcm") {
-                    if (!enc_chunk_store_) {
-                        // We cannot return partial results — the query must fail so
-                        // callers are not silently handed incomplete data.
-                        return Err<std::vector<DataPoint>>(
-                            errors::ErrorCode::ERR_CRYPTO_DECRYPTION_FAILED,
-                            "Encrypted chunk at " + key +
-                            " cannot be decrypted: no EncryptedChunkStore attached");
-                    }
+                const bool is_encrypted =
+                    (chunk_meta.value("encryption", "") == "aes-256-gcm");
+                if (is_encrypted && !enc_chunk_store_) {
+                    // We cannot return partial results — the query must fail so
+                    // callers are not silently handed incomplete data.
+                    return Err<std::vector<DataPoint>>(
+                        errors::ErrorCode::ERR_CRYPTO_DECRYPTION_FAILED,
+                        "Encrypted chunk at " + key +
+                        " cannot be decrypted: no EncryptedChunkStore attached");
+                }
+
+                std::vector<uint8_t> raw_data;
+                if (chunk_meta.contains("data") && chunk_meta["data"].is_binary()) {
+                    raw_data = chunk_meta["data"].get<std::vector<uint8_t>>();
+                } else if (chunk_meta.contains("data") && chunk_meta["data"].is_array()) {
+                    raw_data = chunk_meta["data"].get<std::vector<uint8_t>>();
+                } else if (chunk_meta.contains("data") && chunk_meta["data"].is_object() &&
+                           chunk_meta["data"].contains("bytes") &&
+                           chunk_meta["data"]["bytes"].is_array()) {
+                    raw_data = chunk_meta["data"]["bytes"].get<std::vector<uint8_t>>();
+                } else {
+                    THEMIS_WARN("Chunk {} has unsupported data field encoding", key);
+                    it->Next();
+                    continue;
+                }
+
+                if (is_encrypted) {
                     size_t pos4 = key.find(':', pos3 + 1);
                     std::string chunk_range;
                     if (pos4 == std::string::npos) {

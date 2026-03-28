@@ -188,7 +188,18 @@ size_t TsEncryptedKeyRotation::runOnce()
                                     + "," + key.substr(pos4 + 1) + "]";
 
             // Decrypt with old key.
-            auto encrypted_data = chunk_meta["data"].get<std::vector<uint8_t>>();
+            std::vector<uint8_t> encrypted_data;
+            if (chunk_meta.contains("data") && chunk_meta["data"].is_binary()) {
+                encrypted_data = chunk_meta["data"].get<std::vector<uint8_t>>();
+            } else if (chunk_meta.contains("data") && chunk_meta["data"].is_array()) {
+                encrypted_data = chunk_meta["data"].get<std::vector<uint8_t>>();
+            } else if (chunk_meta.contains("data") && chunk_meta["data"].is_object() &&
+                       chunk_meta["data"].contains("bytes") &&
+                       chunk_meta["data"]["bytes"].is_array()) {
+                encrypted_data = chunk_meta["data"]["bytes"].get<std::vector<uint8_t>>();
+            } else {
+                throw std::runtime_error("Unsupported encrypted chunk data encoding");
+            }
             std::vector<uint8_t> plaintext =
                 enc_store_->decryptChunk(series_id, encrypted_data, chunk_range);
 

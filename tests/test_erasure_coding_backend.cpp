@@ -554,7 +554,7 @@ TEST_F(ErasureCodingBlobManagerTest, WriteRead_RS10_4) {
     BlobRedundancyManager::Config cfg;
     BlobRedundancyManager mgr(cfg);
 
-    auto blob_id = registerParityBlob(mgr, 10, 4);
+    auto blob_id = registerParityBlob(mgr, 10, 4, 4096);
     auto data    = makeData(4096);
 
     auto wres = mgr.writeBlob(blob_id, data, writeHandler());

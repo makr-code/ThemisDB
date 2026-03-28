@@ -284,7 +284,11 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
         to_hash.insert(to_hash.end(), blob.tag.begin(), blob.tag.end());
 
         auto hash = sha256(to_hash);
-        auto sig = pki_ ? pki_->signHash(hash) : SignatureResult{};
+        SignatureResult sig;
+        if (pki_) {
+            try { sig = pki_->signHash(hash); }
+            catch (...) { sig.ok = false; }
+        }
 
         auto jblob = themis::EncryptedBlob{blob}.toJson();
         // Persist encrypted payload and signature metadata
@@ -307,7 +311,11 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
         // No encryption: sign plaintext bytes (if PKI available)
         std::vector<uint8_t> bytes(plain.begin(), plain.end());
         auto hash = sha256(bytes);
-        auto sig = pki_ ? pki_->signHash(hash) : SignatureResult{};
+        SignatureResult sig;
+        if (pki_) {
+            try { sig = pki_->signHash(hash); }
+            catch (...) { sig.ok = false; }
+        }
         record["payload"] = {
             {"type", "plaintext"},
             {"data_b64", base64_encode_local(bytes)}

@@ -1884,11 +1884,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_distributed.cpp")
     # by emitting them into a dedicated output directory.
     # Use an absolute path anchored at this subdirectory's binary dir to avoid
     # generator-relative link paths that can resolve incorrectly on Windows.
-    set(_GRAPH_DISTRIBUTED_RUNTIME_DIR "${CMAKE_CURRENT_BINARY_DIR}/../tests_graph_distributed")
+    set(_GRAPH_DISTRIBUTED_RUNTIME_DIR "${CMAKE_CURRENT_BINARY_DIR}/../tests_gd_out")
     get_filename_component(_GRAPH_DISTRIBUTED_RUNTIME_DIR "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}" ABSOLUTE)
     file(MAKE_DIRECTORY "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}")
 
-    add_executable(test_graph_distributed
+    add_executable(test_graph_distributed EXCLUDE_FROM_ALL
         test_graph_distributed.cpp
         ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
         ${THEMIS_ROOT_DIR}/src/graph/path_constraints.cpp
@@ -1919,8 +1919,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_distributed.cpp")
     set_target_properties(test_graph_distributed PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}"
         PDB_OUTPUT_DIRECTORY "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}"
-        OUTPUT_NAME "test_graph_distributed_exec"
+        ARCHIVE_OUTPUT_DIRECTORY "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}"
+        OUTPUT_NAME "test_graph_distributed_run"
     )
+
+    set(_GRAPH_DISTRIBUTED_SHARED_RUNTIME_DIR "${CMAKE_CURRENT_BINARY_DIR}/../tests_gd_shared_out")
+    get_filename_component(_GRAPH_DISTRIBUTED_SHARED_RUNTIME_DIR "${_GRAPH_DISTRIBUTED_SHARED_RUNTIME_DIR}" ABSOLUTE)
+    file(MAKE_DIRECTORY "${_GRAPH_DISTRIBUTED_SHARED_RUNTIME_DIR}")
 
     add_test(NAME DistributedGraphTests COMMAND $<TARGET_FILE:test_graph_distributed>)
 
@@ -1931,7 +1936,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_distributed.cpp")
     )
 
     # Focused target for the shared_mutex upgrade concurrency stress test.
-    add_executable(test_graph_distributed_shared_mutex_focused
+    add_executable(test_graph_distributed_shared_mutex_focused EXCLUDE_FROM_ALL
         test_graph_distributed.cpp
         ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
         ${THEMIS_ROOT_DIR}/src/graph/path_constraints.cpp
@@ -1960,9 +1965,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_distributed.cpp")
     endif()
 
     set_target_properties(test_graph_distributed_shared_mutex_focused PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}"
-        PDB_OUTPUT_DIRECTORY "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}"
-        OUTPUT_NAME "test_graph_distributed_shared_mutex_exec"
+        RUNTIME_OUTPUT_DIRECTORY "${_GRAPH_DISTRIBUTED_SHARED_RUNTIME_DIR}"
+        PDB_OUTPUT_DIRECTORY "${_GRAPH_DISTRIBUTED_SHARED_RUNTIME_DIR}"
+        ARCHIVE_OUTPUT_DIRECTORY "${_GRAPH_DISTRIBUTED_SHARED_RUNTIME_DIR}"
+        OUTPUT_NAME "test_graph_distributed_shared_mutex_run"
     )
 
     add_test(NAME DistributedGraphSharedMutexFocusedTests
@@ -6589,34 +6595,82 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_arrow_flight.cpp")
         Threads::Threads
     )
 
+    set(_themis_arrow_core_linked FALSE)
     if(DEFINED THEMIS_ARROW_TARGET AND TARGET ${THEMIS_ARROW_TARGET})
         target_link_libraries(test_arrow_flight_focused PRIVATE ${THEMIS_ARROW_TARGET})
+        set(_themis_arrow_core_linked TRUE)
+    elseif(TARGET Arrow::arrow_shared)
+        target_link_libraries(test_arrow_flight_focused PRIVATE Arrow::arrow_shared)
+        set(_themis_arrow_core_linked TRUE)
+    elseif(TARGET Arrow::arrow_static)
+        target_link_libraries(test_arrow_flight_focused PRIVATE Arrow::arrow_static)
+        set(_themis_arrow_core_linked TRUE)
+    elseif(TARGET Arrow::arrow)
+        target_link_libraries(test_arrow_flight_focused PRIVATE Arrow::arrow)
+        set(_themis_arrow_core_linked TRUE)
+    elseif(TARGET arrow_shared)
+        target_link_libraries(test_arrow_flight_focused PRIVATE arrow_shared)
+        set(_themis_arrow_core_linked TRUE)
+    elseif(TARGET arrow_static)
+        target_link_libraries(test_arrow_flight_focused PRIVATE arrow_static)
+        set(_themis_arrow_core_linked TRUE)
+    elseif(TARGET arrow)
+        target_link_libraries(test_arrow_flight_focused PRIVATE arrow)
+        set(_themis_arrow_core_linked TRUE)
+    elseif(EXISTS "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
+        target_link_libraries(test_arrow_flight_focused PRIVATE "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
+        set(_themis_arrow_core_linked TRUE)
+    endif()
+
+    if(_themis_arrow_core_linked)
         target_compile_definitions(test_arrow_flight_focused PRIVATE THEMIS_HAS_ARROW=1)
     endif()
 
-    if(THEMIS_HAS_ARROW_FLIGHT)
-        if(TARGET ArrowFlight::arrow_flight)
-            target_link_libraries(test_arrow_flight_focused PRIVATE ArrowFlight::arrow_flight)
-        elseif(TARGET ArrowFlight::arrow_flight_shared)
-            target_link_libraries(test_arrow_flight_focused PRIVATE ArrowFlight::arrow_flight_shared)
-        elseif(TARGET ArrowFlight::arrow_flight_static)
-            target_link_libraries(test_arrow_flight_focused PRIVATE ArrowFlight::arrow_flight_static)
-        elseif(TARGET Arrow::arrow_flight)
-            target_link_libraries(test_arrow_flight_focused PRIVATE Arrow::arrow_flight)
-        elseif(TARGET Arrow::arrow_flight_shared)
-            target_link_libraries(test_arrow_flight_focused PRIVATE Arrow::arrow_flight_shared)
-        elseif(TARGET Arrow::arrow_flight_static)
-            target_link_libraries(test_arrow_flight_focused PRIVATE Arrow::arrow_flight_static)
-        elseif(TARGET arrow_flight)
-            target_link_libraries(test_arrow_flight_focused PRIVATE arrow_flight)
-        elseif(TARGET arrow_flight_shared)
-            target_link_libraries(test_arrow_flight_focused PRIVATE arrow_flight_shared)
-        elseif(TARGET arrow_flight_static)
-            target_link_libraries(test_arrow_flight_focused PRIVATE arrow_flight_static)
-        elseif(EXISTS "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/arrow_flight.lib")
-            target_link_libraries(test_arrow_flight_focused PRIVATE "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/arrow_flight.lib")
+    set(_themis_arrow_flight_linked FALSE)
+    if(TARGET ArrowFlight::arrow_flight)
+        target_link_libraries(test_arrow_flight_focused PRIVATE ArrowFlight::arrow_flight)
+        set(_themis_arrow_flight_linked TRUE)
+    elseif(TARGET ArrowFlight::arrow_flight_shared)
+        target_link_libraries(test_arrow_flight_focused PRIVATE ArrowFlight::arrow_flight_shared)
+        set(_themis_arrow_flight_linked TRUE)
+    elseif(TARGET ArrowFlight::arrow_flight_static)
+        target_link_libraries(test_arrow_flight_focused PRIVATE ArrowFlight::arrow_flight_static)
+        set(_themis_arrow_flight_linked TRUE)
+    elseif(TARGET Arrow::arrow_flight)
+        target_link_libraries(test_arrow_flight_focused PRIVATE Arrow::arrow_flight)
+        set(_themis_arrow_flight_linked TRUE)
+    elseif(TARGET Arrow::arrow_flight_shared)
+        target_link_libraries(test_arrow_flight_focused PRIVATE Arrow::arrow_flight_shared)
+        set(_themis_arrow_flight_linked TRUE)
+    elseif(TARGET Arrow::arrow_flight_static)
+        target_link_libraries(test_arrow_flight_focused PRIVATE Arrow::arrow_flight_static)
+        set(_themis_arrow_flight_linked TRUE)
+    elseif(TARGET arrow_flight)
+        target_link_libraries(test_arrow_flight_focused PRIVATE arrow_flight)
+        set(_themis_arrow_flight_linked TRUE)
+    elseif(TARGET arrow_flight_shared)
+        target_link_libraries(test_arrow_flight_focused PRIVATE arrow_flight_shared)
+        set(_themis_arrow_flight_linked TRUE)
+    elseif(TARGET arrow_flight_static)
+        target_link_libraries(test_arrow_flight_focused PRIVATE arrow_flight_static)
+        set(_themis_arrow_flight_linked TRUE)
+    elseif(EXISTS "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/arrow_flight.lib")
+        target_link_libraries(test_arrow_flight_focused PRIVATE "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/arrow_flight.lib")
+        set(_themis_arrow_flight_linked TRUE)
+    endif()
+
+    if(_themis_arrow_flight_linked)
+        # Arrow Flight depends on Arrow core symbols; ensure core lib is linked if only flight was found.
+        if(NOT _themis_arrow_core_linked AND EXISTS "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
+            target_link_libraries(test_arrow_flight_focused PRIVATE "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
+            set(_themis_arrow_core_linked TRUE)
+            target_compile_definitions(test_arrow_flight_focused PRIVATE THEMIS_HAS_ARROW=1)
         endif()
         target_compile_definitions(test_arrow_flight_focused PRIVATE THEMIS_HAS_ARROW_FLIGHT=1)
+    endif()
+
+    if(NOT _themis_arrow_flight_linked)
+        message(STATUS "  Arrow Flight focused test: Arrow Flight library not detected, build may fail if analytics/arrow_flight.cpp requires native symbols")
     endif()
 
     target_compile_definitions(test_arrow_flight_focused PRIVATE
@@ -6724,12 +6778,47 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_arrow_export.cpp")
         Threads::Threads
     )
 
-    if(THEMIS_HAS_ARROW)
+    set(_themis_arrow_export_linked FALSE)
+    if(DEFINED THEMIS_ARROW_TARGET AND TARGET ${THEMIS_ARROW_TARGET})
         target_link_libraries(test_arrow_export_focused PRIVATE ${THEMIS_ARROW_TARGET})
+        set(_themis_arrow_export_linked TRUE)
+    elseif(TARGET Arrow::arrow_shared)
+        target_link_libraries(test_arrow_export_focused PRIVATE Arrow::arrow_shared)
+        set(_themis_arrow_export_linked TRUE)
+    elseif(TARGET Arrow::arrow_static)
+        target_link_libraries(test_arrow_export_focused PRIVATE Arrow::arrow_static)
+        set(_themis_arrow_export_linked TRUE)
+    elseif(TARGET Arrow::arrow)
+        target_link_libraries(test_arrow_export_focused PRIVATE Arrow::arrow)
+        set(_themis_arrow_export_linked TRUE)
+    elseif(EXISTS "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
+        target_link_libraries(test_arrow_export_focused PRIVATE "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
+        set(_themis_arrow_export_linked TRUE)
+    endif()
+
+    if(_themis_arrow_export_linked)
         target_compile_definitions(test_arrow_export_focused PRIVATE THEMIS_HAS_ARROW=1)
     endif()
 
-    if(THEMIS_HAS_PARQUET)
+    set(_themis_parquet_export_linked FALSE)
+    if(DEFINED THEMIS_PARQUET_TARGET AND TARGET ${THEMIS_PARQUET_TARGET})
+        target_link_libraries(test_arrow_export_focused PRIVATE ${THEMIS_PARQUET_TARGET})
+        set(_themis_parquet_export_linked TRUE)
+    elseif(TARGET Parquet::parquet_shared)
+        target_link_libraries(test_arrow_export_focused PRIVATE Parquet::parquet_shared)
+        set(_themis_parquet_export_linked TRUE)
+    elseif(TARGET Parquet::parquet_static)
+        target_link_libraries(test_arrow_export_focused PRIVATE Parquet::parquet_static)
+        set(_themis_parquet_export_linked TRUE)
+    elseif(TARGET Parquet::parquet)
+        target_link_libraries(test_arrow_export_focused PRIVATE Parquet::parquet)
+        set(_themis_parquet_export_linked TRUE)
+    elseif(EXISTS "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/parquet.lib")
+        target_link_libraries(test_arrow_export_focused PRIVATE "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/parquet.lib")
+        set(_themis_parquet_export_linked TRUE)
+    endif()
+
+    if(_themis_parquet_export_linked)
         target_compile_definitions(test_arrow_export_focused PRIVATE THEMIS_HAS_PARQUET=1)
     endif()
 
@@ -6790,8 +6879,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_mining_llm.cpp")
 
     add_executable(test_process_mining_pattern_focused
         analytics/test_process_mining_llm.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/process_pattern_matcher.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/process_mining.cpp
     )
 
     target_include_directories(test_process_mining_pattern_focused PRIVATE
@@ -6801,6 +6888,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_mining_llm.cpp")
 
     target_link_libraries(test_process_mining_pattern_focused PRIVATE
         ${TEST_LIBS}
+        themis_core
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
@@ -6826,7 +6914,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_discovery_conforma
 
     add_executable(test_process_discovery_conformance_focused
         analytics/test_process_discovery_conformance.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/process_mining.cpp
     )
 
     target_include_directories(test_process_discovery_conformance_focused PRIVATE
@@ -6836,6 +6923,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_discovery_conforma
 
     target_link_libraries(test_process_discovery_conformance_focused PRIVATE
         ${TEST_LIBS}
+        themis_core
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
@@ -7239,6 +7327,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_mysql_importer_registry.cpp")
 
     target_link_libraries(test_mysql_importer_registry PRIVATE
         ${TEST_LIBS}
+        fmt::fmt
         nlohmann_json::nlohmann_json
         Threads::Threads
     )
@@ -7472,9 +7561,7 @@ foreach(_pg_test
         test_postgres_importer_live.cpp
         test_postgres_importer_robustness.cpp
         test_postgres_importer_security_audit.cpp
-        test_postgres_importer_streaming.cpp
-        test_postgres_importer_v2.cpp
-        test_postgres_import_integration_v2.cpp)
+        test_postgres_importer_streaming.cpp)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_pg_test}")
         list(APPEND _postgres_importer_test_sources "${_pg_test}")
     endif()
@@ -7485,6 +7572,9 @@ if(_postgres_importer_test_sources)
 
     add_executable(test_postgres_importer_focused
         ${_postgres_importer_test_sources}
+        ${CMAKE_SOURCE_DIR}/src/importers/postgres_importer.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/error_registry.cpp
     )
 
     target_include_directories(test_postgres_importer_focused PRIVATE
@@ -7493,6 +7583,7 @@ if(_postgres_importer_test_sources)
 
     target_link_libraries(test_postgres_importer_focused PRIVATE
         ${TEST_LIBS}
+        themis_core
         nlohmann_json::nlohmann_json
         Threads::Threads
     )
@@ -7546,6 +7637,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_postgres_importer_v2.cpp")
 
     target_link_libraries(test_postgres_importer_v2_focused PRIVATE
         ${TEST_LIBS}
+        themis_core
         nlohmann_json::nlohmann_json
         Threads::Threads
     )
@@ -7576,6 +7668,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_import_wizard.cpp")
 
     add_executable(test_import_wizard_focused
         test_import_wizard.cpp
+        ${CMAKE_SOURCE_DIR}/src/server/import_wizard_builder.cpp
     )
 
     target_include_directories(test_import_wizard_focused PRIVATE
@@ -7584,6 +7677,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_import_wizard.cpp")
 
     target_link_libraries(test_import_wizard_focused PRIVATE
         ${TEST_LIBS}
+        themis_core
         nlohmann_json::nlohmann_json
         Threads::Threads
     )
@@ -9100,6 +9194,7 @@ if(THEMIS_ENABLE_CONTENT)
 
         add_executable(test_legacy_office_extraction_focused
             test_office_processor.cpp
+                ${CMAKE_SOURCE_DIR}/src/content/office_processor.cpp
         )
 
         target_include_directories(test_legacy_office_extraction_focused PRIVATE
@@ -9143,6 +9238,7 @@ if(THEMIS_ENABLE_CONTENT)
 
         add_executable(test_libreoffice_security_focused
             test_office_processor.cpp
+                ${CMAKE_SOURCE_DIR}/src/content/office_processor.cpp
         )
 
         target_include_directories(test_libreoffice_security_focused PRIVATE
@@ -9752,6 +9848,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_path_resolver.cpp")
     add_executable(test_config_path_resolver_focused
         test_config_path_resolver.cpp
         ${CONFIG_MODULE_SOURCES}
+        ${THEMIS_ROOT_DIR}/src/config/config_file_watcher.cpp
     )
 
     target_include_directories(test_config_path_resolver_focused PRIVATE
@@ -9813,6 +9910,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_file_watcher.cpp")
         ${THEMIS_YAML_TARGET}
         OpenSSL::SSL
         OpenSSL::Crypto
+        prometheus-cpp::core
+        prometheus-cpp::pull
     )
 
     target_compile_definitions(test_config_file_watcher_focused PRIVATE
@@ -9837,6 +9936,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_schema_validator.cpp")
     add_executable(test_config_schema_validator_focused
         test_config_schema_validator.cpp
         ${CONFIG_MODULE_SOURCES}
+        ${THEMIS_ROOT_DIR}/src/config/config_file_watcher.cpp
     )
 
     target_include_directories(test_config_schema_validator_focused PRIVATE
@@ -9882,6 +9982,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_migration_scanner.cpp")
     add_executable(test_config_migration_scanner_focused
         test_config_migration_scanner.cpp
         ${CONFIG_MODULE_SOURCES}
+        ${THEMIS_ROOT_DIR}/src/config/config_file_watcher.cpp
     )
 
     target_include_directories(test_config_migration_scanner_focused PRIVATE
@@ -9893,8 +9994,17 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_migration_scanner.cpp")
         ${TEST_LIBS}
         spdlog::spdlog
         nlohmann_json::nlohmann_json
+        yaml-cpp::yaml-cpp
         Threads::Threads
+        OpenSSL::SSL
+        OpenSSL::Crypto
     )
+    if(TARGET prometheus-cpp::core)
+        target_link_libraries(test_config_migration_scanner_focused PRIVATE prometheus-cpp::core)
+    endif()
+    if(TARGET prometheus-cpp::pull)
+        target_link_libraries(test_config_migration_scanner_focused PRIVATE prometheus-cpp::pull)
+    endif()
 
     target_compile_definitions(test_config_migration_scanner_focused PRIVATE
         THEMIS_TEST_BUILD=1
@@ -9918,6 +10028,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_coverage.cpp")
     add_executable(test_config_coverage_focused
         test_config_coverage.cpp
         ${CONFIG_MODULE_SOURCES}
+        ${THEMIS_ROOT_DIR}/src/config/config_file_watcher.cpp
     )
 
     target_include_directories(test_config_coverage_focused PRIVATE
@@ -9931,7 +10042,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_coverage.cpp")
         nlohmann_json::nlohmann_json
         yaml-cpp::yaml-cpp
         Threads::Threads
+        OpenSSL::SSL
+        OpenSSL::Crypto
     )
+    if(TARGET prometheus-cpp::core)
+        target_link_libraries(test_config_coverage_focused PRIVATE prometheus-cpp::core)
+    endif()
+    if(TARGET prometheus-cpp::pull)
+        target_link_libraries(test_config_coverage_focused PRIVATE prometheus-cpp::pull)
+    endif()
 
     target_compile_definitions(test_config_coverage_focused PRIVATE
         THEMIS_TEST_BUILD=1
@@ -9955,6 +10074,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_metrics_scrape.cpp")
     add_executable(test_config_metrics_scrape_focused
         test_config_metrics_scrape.cpp
         ${CONFIG_MODULE_SOURCES}
+        ${THEMIS_ROOT_DIR}/src/config/config_file_watcher.cpp
     )
 
     target_include_directories(test_config_metrics_scrape_focused PRIVATE
@@ -10621,6 +10741,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_auth_rate_limiter_distributed.cpp")
 
     add_executable(test_auth_rate_limiter_distributed
         test_auth_rate_limiter_distributed.cpp
+        ${THEMIS_ROOT_DIR}/src/auth/rate_limiter_backend.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_link_libraries(test_auth_rate_limiter_distributed PRIVATE
@@ -11440,6 +11562,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_zero_copy_blob_transfers.cpp")
     add_executable(test_zero_copy_blob_transfers_focused
         test_zero_copy_blob_transfers.cpp
         ${CMAKE_SOURCE_DIR}/src/storage/zero_copy_blob_transfer.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_zero_copy_blob_transfers_focused PRIVATE
@@ -11620,7 +11743,16 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_arrow_user_registration_plu
     add_executable(test_arrow_user_registration_plugin_focused
         security/test_arrow_user_registration_plugin.cpp
         ${CMAKE_SOURCE_DIR}/src/security/arrow_user_registration_plugin.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/error_registry.cpp
     )
+
+    if(DEFINED THEMIS_ENABLE_DEV_STUBS AND THEMIS_ENABLE_DEV_STUBS)
+        target_sources(test_arrow_user_registration_plugin_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/src/stubs.cpp
+        )
+        message(STATUS "  ArrowUserRegistrationPlugin: DEV stubs enabled (src/stubs.cpp)")
+    endif()
 
     target_include_directories(test_arrow_user_registration_plugin_focused PRIVATE
         ${CMAKE_SOURCE_DIR}/include
@@ -11629,13 +11761,31 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_arrow_user_registration_plu
 
     target_link_libraries(test_arrow_user_registration_plugin_focused PRIVATE
         ${TEST_LIBS}
+        themis_core
         spdlog::spdlog
         Threads::Threads
         OpenSSL::Crypto
     )
 
-    if(THEMIS_HAS_ARROW)
+    set(_themis_arrow_user_registration_linked FALSE)
+    if(DEFINED THEMIS_ARROW_TARGET AND TARGET ${THEMIS_ARROW_TARGET})
         target_link_libraries(test_arrow_user_registration_plugin_focused PRIVATE ${THEMIS_ARROW_TARGET})
+        set(_themis_arrow_user_registration_linked TRUE)
+    elseif(TARGET Arrow::arrow_shared)
+        target_link_libraries(test_arrow_user_registration_plugin_focused PRIVATE Arrow::arrow_shared)
+        set(_themis_arrow_user_registration_linked TRUE)
+    elseif(TARGET Arrow::arrow_static)
+        target_link_libraries(test_arrow_user_registration_plugin_focused PRIVATE Arrow::arrow_static)
+        set(_themis_arrow_user_registration_linked TRUE)
+    elseif(TARGET Arrow::arrow)
+        target_link_libraries(test_arrow_user_registration_plugin_focused PRIVATE Arrow::arrow)
+        set(_themis_arrow_user_registration_linked TRUE)
+    elseif(EXISTS "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
+        target_link_libraries(test_arrow_user_registration_plugin_focused PRIVATE "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
+        set(_themis_arrow_user_registration_linked TRUE)
+    endif()
+
+    if(_themis_arrow_user_registration_linked)
         target_compile_definitions(test_arrow_user_registration_plugin_focused PRIVATE THEMIS_ENABLE_ARROW=1)
     endif()
 
@@ -11822,10 +11972,14 @@ endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_usb_volume_hardening.cpp")
     message(STATUS "Adding USB Volume Hardening focused tests")
 
-    add_executable(test_usb_volume_hardening_focused
+    add_executable(test_usb_volume_hardening_focused EXCLUDE_FROM_ALL
         test_usb_volume_hardening.cpp
         ../src/security/usb_volume_hardening.cpp
         ../src/security/usb_admin_authenticator.cpp
+        ../src/security/pii_redaction_policy.cpp
+        ../src/utils/pii_detector.cpp
+        ../src/utils/pii_detection_engine.cpp
+        ../src/utils/logger.cpp
     )
 
     target_include_directories(test_usb_volume_hardening_focused PRIVATE
@@ -11837,8 +11991,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_usb_volume_hardening.cpp")
         ${TEST_LIBS}
         OpenSSL::Crypto
         OpenSSL::SSL
+        fmt::fmt
         nlohmann_json::nlohmann_json
+        spdlog::spdlog
         Threads::Threads
+        yaml-cpp::yaml-cpp
     )
 
     target_compile_definitions(test_usb_volume_hardening_focused PRIVATE
@@ -12335,6 +12492,18 @@ function(add_chimera_focused_test target_name test_src test_name labels descript
             THEMIS_TEST_BUILD=1
         )
 
+        if(target_name STREQUAL "test_chimera_adapter_config_validation")
+            set(_CHIMERA_CFG_RUNTIME_DIR "${CMAKE_CURRENT_BINARY_DIR}/chimera_config_validation")
+            file(MAKE_DIRECTORY "${_CHIMERA_CFG_RUNTIME_DIR}")
+            set_target_properties(${target_name} PROPERTIES
+                EXCLUDE_FROM_ALL TRUE
+                RUNTIME_OUTPUT_DIRECTORY "${_CHIMERA_CFG_RUNTIME_DIR}"
+                PDB_OUTPUT_DIRECTORY "${_CHIMERA_CFG_RUNTIME_DIR}"
+                ARCHIVE_OUTPUT_DIRECTORY "${_CHIMERA_CFG_RUNTIME_DIR}"
+                OUTPUT_NAME "test_chimera_adapter_config_validation_run"
+            )
+        endif()
+
         add_test(NAME ${test_name} COMMAND ${target_name})
 
         set_tests_properties(${test_name} PROPERTIES
@@ -12484,6 +12653,7 @@ set(EXPORTER_CORE_SOURCES
     ${CMAKE_SOURCE_DIR}/src/exporters/export_format_registry.cpp
     ${CMAKE_SOURCE_DIR}/src/exporters/huggingface_hub_client.cpp
     ${CMAKE_SOURCE_DIR}/src/exporters/join_exporter.cpp
+    ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
 )
 
 # Helper function to create an exporters focused test executable.
@@ -12682,6 +12852,37 @@ function(add_llm_focused_test target_name test_src test_name labels description)
 
     add_executable(${target_name} ${test_src})
 
+    if(target_name STREQUAL "test_llm_ai_orchestrator")
+        target_sources(${target_name} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/ai_orchestrator.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/mode_spec_loader.cpp
+        )
+    endif()
+
+    if(target_name STREQUAL "test_llm_mcp_orchestrator_bridge")
+        target_sources(${target_name} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/mode_spec_loader.cpp
+        )
+    endif()
+
+    if(target_name STREQUAL "test_llm_deployment_plugin")
+        target_sources(${target_name} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/llm_deployment_plugin.cpp
+        )
+    endif()
+
+    if(target_name STREQUAL "test_llm_kernel_fusion_cpu_fallback")
+        target_sources(${target_name} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/kernel_fusion.cpp
+        )
+    endif()
+
+    if(target_name STREQUAL "test_llm_real_embeddings")
+        target_sources(${target_name} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/lora_framework/embedding_provider.cpp
+        )
+    endif()
+
     target_include_directories(${target_name} PRIVATE
         ${CMAKE_SOURCE_DIR}/include
         ${THEMIS_ROOT_DIR}/include
@@ -12712,6 +12913,14 @@ function(add_llm_focused_test target_name test_src test_name labels description)
             OpenSSL::Crypto
             Threads::Threads
         )
+    endif()
+
+    if(target_name STREQUAL "test_llm_ai_orchestrator" AND TARGET yaml-cpp::yaml-cpp)
+        target_link_libraries(${target_name} PRIVATE yaml-cpp::yaml-cpp)
+    endif()
+
+    if(target_name STREQUAL "test_llm_mcp_orchestrator_bridge" AND TARGET yaml-cpp::yaml-cpp)
+        target_link_libraries(${target_name} PRIVATE yaml-cpp::yaml-cpp)
     endif()
 
     # Boost (Beast/ASIO) is used by server headers included from some LLM tests.
@@ -13401,11 +13610,13 @@ endif()
 # Metadata ÔÇô IndexRecommender focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_index_recommender.cpp")
     message(STATUS "Adding Metadata IndexRecommender focused tests")
-    add_executable(test_index_recommender_focused test_index_recommender.cpp)
+    add_executable(test_index_recommender_focused
+        test_index_recommender.cpp
+        ${THEMIS_ROOT_DIR}/src/metadata/index_recommender.cpp
+    )
     target_include_directories(test_index_recommender_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_index_recommender_focused PRIVATE
         ${TEST_LIBS}
-        themisdb
         themis_core
         OpenSSL::Crypto
         Threads::Threads
@@ -13422,7 +13633,10 @@ endif()
 # Metadata ÔÇô DistributedMetadataCatalog focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_catalog.cpp")
     message(STATUS "Adding Metadata DistributedMetadataCatalog focused tests")
-    add_executable(test_distributed_catalog_focused test_distributed_catalog.cpp)
+    add_executable(test_distributed_catalog_focused
+        test_distributed_catalog.cpp
+        ${THEMIS_ROOT_DIR}/src/metadata/distributed_catalog.cpp
+    )
     target_include_directories(test_distributed_catalog_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_distributed_catalog_focused PRIVATE
         ${TEST_LIBS}
@@ -13627,6 +13841,14 @@ macro(add_network_focused_test target src test_name labels desc)
         message(STATUS "Adding Network focused test: ${target}")
 
         add_executable(${target} ${src})
+
+        if("${target}" STREQUAL "test_udp_server_focused")
+            target_sources(${target} PRIVATE
+                ${THEMIS_ROOT_DIR}/src/network/udp_server.cpp
+                ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+            )
+            target_link_libraries(${target} PRIVATE spdlog::spdlog fmt::fmt)
+        endif()
 
         target_include_directories(${target} PRIVATE
             ${THEMIS_ROOT_DIR}/include
@@ -13995,6 +14217,8 @@ if(THEMIS_ENABLE_GRPC)
 
         add_executable(test_grpc_transport_focused
             test_grpc_transport.cpp
+            ${THEMIS_ROOT_DIR}/src/network/grpc_transport.cpp
+            ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
         )
 
         target_include_directories(test_grpc_transport_focused PRIVATE
@@ -14005,8 +14229,14 @@ if(THEMIS_ENABLE_GRPC)
         target_link_libraries(test_grpc_transport_focused PRIVATE
             ${TEST_LIBS}
             themis_core
+            spdlog::spdlog
+            fmt::fmt
             Threads::Threads
         )
+
+        if(TARGET gRPC::grpc++)
+            target_link_libraries(test_grpc_transport_focused PRIVATE gRPC::grpc++)
+        endif()
 
         target_compile_definitions(test_grpc_transport_focused PRIVATE
             THEMIS_TEST_BUILD=1
@@ -14121,6 +14351,14 @@ function(add_index_focused_test target_name test_src test_name labels descriptio
         add_executable(${target_name}
             ${test_src}
         )
+
+        if(target_name STREQUAL "test_gpu_memory_oversubscription_focused")
+            target_sources(${target_name} PRIVATE
+                ${THEMIS_ROOT_DIR}/src/index/gpu_memory_oversubscription.cpp
+                ${THEMIS_ROOT_DIR}/src/index/gpu_vector_index.cpp
+                ${THEMIS_ROOT_DIR}/src/gpu/gpu_memory_manager_edition.cpp
+            )
+        endif()
 
         target_include_directories(${target_name} PRIVATE
             ${CMAKE_SOURCE_DIR}/include
@@ -14863,6 +15101,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_training_convergence.cpp")
         ${THEMIS_ROOT_DIR}/src/training/lora_data_selection.cpp
         ${THEMIS_ROOT_DIR}/src/training/lora_checkpoint_manager.cpp
         ${THEMIS_ROOT_DIR}/src/training/provenance_tracker.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_modality_parser_focused PRIVATE
@@ -14872,6 +15111,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_training_convergence.cpp")
 
     target_link_libraries(test_modality_parser_focused PRIVATE
         ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
         spdlog::spdlog
         Threads::Threads
     )
@@ -15024,6 +15265,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_advanced_training_features.cpp")
         ${THEMIS_ROOT_DIR}/src/training/lora_checkpoint_manager.cpp
         ${THEMIS_ROOT_DIR}/src/training/provenance_tracker.cpp
         ${THEMIS_ROOT_DIR}/src/utils/checksum_utils.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/lora_framework/lora_layers.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/lora_framework/quantized_model.cpp
     )
 
     target_include_directories(test_advanced_training_features PRIVATE
@@ -15033,6 +15277,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_advanced_training_features.cpp")
 
     target_link_libraries(test_advanced_training_features PRIVATE
         ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
         spdlog::spdlog
         OpenSSL::Crypto
         Threads::Threads
@@ -15040,7 +15286,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_advanced_training_features.cpp")
 
     target_compile_definitions(test_advanced_training_features PRIVATE
         THEMIS_TEST_BUILD=1
-        THEMIS_NO_SPDLOG=1
     )
 
     add_test(NAME AdvancedTrainingFeaturesFocusedTests
@@ -16887,6 +17132,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_module.cpp")
         ${CMAKE_SOURCE_DIR}/src/process/process_graph_rag.cpp
         ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
         ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
     )
     target_include_directories(test_process_module_focused PRIVATE
         ${THEMIS_ROOT_DIR}/include
@@ -16918,6 +17164,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_graph.cpp")
         test_process_graph.cpp
         ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
         ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
     )
     target_include_directories(test_process_graph_visit_timestamp_focused PRIVATE
         ${THEMIS_ROOT_DIR}/include
@@ -16933,7 +17180,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_graph.cpp")
         THEMIS_TEST_BUILD=1
     )
     add_test(NAME ProcessGraphVisitTimestampFocusedTests
-             COMMAND test_process_graph_visit_timestamp_focused)
+             COMMAND test_process_graph_visit_timestamp_focused
+                     --gtest_filter=ProcessGraphTest.VisitTimestampPopulatedOnStartProcess:ProcessGraphTest.VisitTimestampsPopulatedAndOrderedAcrossMultiHopTraversal:ProcessGraphTest.GetVisitTimestampReturnsNulloptForUnvisitedNode:ProcessGraphTest.VisitTimestampsPersistedAfterTokenCompletion)
     set_tests_properties(ProcessGraphVisitTimestampFocusedTests PROPERTIES
         LABELS "process;graph;visit-timestamp;focused;unit"
         TIMEOUT 120

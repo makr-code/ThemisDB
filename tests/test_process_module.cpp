@@ -254,7 +254,7 @@ id: bauantrag_einfach
 name: Einfaches Bauantragsverfahren
 domain: VERWALTUNG
 description: Vereinfachtes Verfahren fuer Kleinbauten
-compliance_tags:
+compliance:
   - BauO NRW §75
 activities:
   - id: act1
@@ -408,7 +408,9 @@ TEST_F(ProcessModuleTest, DeleteModel) {
     EXPECT_TRUE(mgr_->load("to-delete").has_value());
 
     EXPECT_TRUE(mgr_->remove("to-delete").ok);
-    EXPECT_FALSE(mgr_->load("to-delete").has_value());
+    auto archived = mgr_->load("to-delete");
+    ASSERT_TRUE(archived.has_value());
+    EXPECT_EQ(archived->state, themis::process::ProcessModelState::ARCHIVED);
 }
 
 TEST_F(ProcessModuleTest, ImportBpmnViaManager) {
