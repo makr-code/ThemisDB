@@ -87,7 +87,7 @@ bool ModuleLoader::removeZoneIdentifier(const std::string& modulePath) {
         return true;
     }
     DWORD err = GetLastError();
-    if (err == ERROR_FILE_NOT_FOUND) {
+    if (err == ERROR_FILE_NOT_FOUND || err == ERROR_PATH_NOT_FOUND) {
         // Already absent – treat as success
         return true;
     }

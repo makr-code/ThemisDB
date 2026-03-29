@@ -42,6 +42,7 @@
 #include "config/config_path_resolver.h"
 #include "config/config_schema_validator.h"
 #include <chrono>
+#include <filesystem>
 #include <random>
 #include <sstream>
 #include <iomanip>
@@ -960,17 +961,29 @@ std::string AsyncIngestionWorker::submitSourceJob(
         throw std::runtime_error("Worker not running");
     }
     
+    // For source-backed jobs, a registered plugin is preferred so we can
+    // estimate work size. Tests and custom integrations may instead provide
+    // a direct job-type handler, in which case plugin lookup is optional.
+    bool has_custom_handler = false;
+    {
+        std::lock_guard<std::mutex> lock(handlers_mutex_);
+        has_custom_handler = job_handlers_.find(source.type) != job_handlers_.end();
+    }
+
     // Find plugin
     std::shared_ptr<IngestionPlugin> plugin;
     {
         std::lock_guard<std::mutex> lock(plugins_mutex_);
         auto it = plugins_.find(source.plugin_name);
         if (it == plugins_.end()) {
-            throw std::runtime_error(
-                "Plugin not found: " + source.plugin_name
-            );
+            if (!has_custom_handler) {
+                throw std::runtime_error(
+                    "Plugin not found: " + source.plugin_name
+                );
+            }
+        } else {
+            plugin = it->second;
         }
-        plugin = it->second;
     }
     
     // Create job
@@ -989,13 +1002,18 @@ std::string AsyncIngestionWorker::submitSourceJob(
     job.processed_items = 0;
     job.progress = 0.0f;
     
-    // Estimate size
-    try {
-        job.total_items = static_cast<int>(plugin->estimateJobSize(job));
-    } catch (const std::exception& e) {
-        THEMIS_WARN("Plugin {} failed to estimate job size: {}", 
-            source.plugin_name, e.what());
-        job.total_items = -1;  // Unknown
+    // Estimate size when a plugin is available; otherwise default to a single
+    // logical item for handler-driven source jobs.
+    if (plugin) {
+        try {
+            job.total_items = static_cast<int>(plugin->estimateJobSize(job));
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Plugin {} failed to estimate job size: {}", 
+                source.plugin_name, e.what());
+            job.total_items = -1;  // Unknown
+        }
+    } else {
+        job.total_items = 1;
     }
     
     {
@@ -1023,8 +1041,15 @@ std::string AsyncIngestionWorker::submitSourceJob(
 }
 
 void AsyncIngestionWorker::loadSourcesFromConfig(const std::string& config_path) {
-    // Resolve the config path (supports legacy path remapping and env overlays)
-    std::string resolved_path = themis::config::ConfigPathResolver::resolve(config_path);
+    // Allow explicit absolute file paths (e.g. tests using temp files).
+    // Otherwise, resolve via ConfigPathResolver for mapped repository configs.
+    std::string resolved_path;
+    std::filesystem::path requested_path(config_path);
+    if (requested_path.is_absolute() && std::filesystem::exists(requested_path)) {
+        resolved_path = requested_path.lexically_normal().string();
+    } else {
+        resolved_path = themis::config::ConfigPathResolver::resolve(config_path);
+    }
 
     // Load and parse the YAML config file
     nlohmann::json cfg = themis::config::ConfigSchemaValidator::loadAsJson(resolved_path);

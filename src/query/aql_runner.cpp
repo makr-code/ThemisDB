@@ -107,6 +107,17 @@ collectGeometries(QueryEngine& engine,
     return out;
 }
 
+static nlohmann::json entityToResultRow(const BaseEntity& entity) {
+    nlohmann::json row = nlohmann::json::parse(entity.toJson());
+    if (!row.contains("pk")) {
+        row["pk"] = entity.getPrimaryKey();
+    }
+    if (!row.contains("_key")) {
+        row["_key"] = entity.getPrimaryKey();
+    }
+    return row;
+}
+
 // GAP-002: Migrated from std::pair<Status, json> to Result<json>
 Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
     // NLP Pre-processing (PR #317 Integration Phase 1)
@@ -199,7 +210,7 @@ Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
         auto ents = std::move(*result);
         nlohmann::json arr = nlohmann::json::array();
         for (auto& e : ents) {
-            arr.push_back(nlohmann::json::parse(e.toJson()));
+            arr.push_back(entityToResultRow(e));
         }
         reopt_guard.finish(ents.size());
         return Ok(nlohmann::json({{"type","or"},{"results", arr}}));
@@ -342,7 +353,7 @@ Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
             query::QueryResult qr;
             qr.rows.reserve(res->size());
             for (auto& e : *res) {
-                qr.rows.push_back(nlohmann::json::parse(e.toJson()));
+                qr.rows.push_back(entityToResultRow(e));
             }
             qr.rows_examined = qr.rows.size();
             return Ok(std::move(qr));
@@ -586,7 +597,7 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, QueryEng
                                 i + 1, res.error().message()));
             }
             nlohmann::json arr = nlohmann::json::array();
-            for (auto& e : *res) arr.push_back(nlohmann::json::parse(e.toJson()));
+            for (auto& e : *res) arr.push_back(entityToResultRow(e));
             stmtResult = {{"type", "or"}, {"results", arr}};
         } else if (tr.traversal.has_value()) {
             const auto& tv = *tr.traversal;
@@ -661,7 +672,7 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, QueryEng
                                 i + 1, res.error().message()));
             }
             nlohmann::json arr = nlohmann::json::array();
-            for (auto& e : *res) arr.push_back(nlohmann::json::parse(e.toJson()));
+            for (auto& e : *res) arr.push_back(entityToResultRow(e));
             stmtResult = {{"type", "and"}, {"results", arr}};
         }
 

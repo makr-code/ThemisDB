@@ -363,7 +363,7 @@ TEST_F(DiskAnnAdapterTest, Save_And_Load_Metadata_Roundtrip) {
 // IAnnIndex polymorphism via unique_ptr
 // ---------------------------------------------------------------------------
 
-TEST(IAnnIndexPolymorphismTest, UniquePtr_ScaNN) {
+TEST(IAnnIndexPolymorphismStandaloneTest, UniquePtr_ScaNN) {
     constexpr size_t N = 500, DIM = 16;
     auto vecs = make_random_vectors(N, DIM);
     auto flat = flatten(vecs);

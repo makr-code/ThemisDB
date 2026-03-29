@@ -607,7 +607,7 @@ TEST_F(LLMApiHandlerPolicyTest, WithPolicyEngine_ValidBearerKeyPassesPolicyGate)
     // it must NOT fail at the policy check layer with 401 or 403.
     handler_->setPolicyEngine(&policy_engine_);
 
-    auto req = makeChatRequest("******");
+    auto req = makeChatRequest("Bearer sk-test-api-key-12345");
     auto res = handler_->handleRequest(req);
 
     EXPECT_NE(res.result_int(), 401)

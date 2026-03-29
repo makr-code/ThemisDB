@@ -33,7 +33,7 @@
 
 // gRPC reflection is only compiled in debug builds to prevent schema leakage
 // in production (FUTURE_ENHANCEMENTS.md – Security / Reliability).
-#ifndef NDEBUG
+#if !defined(NDEBUG) && !defined(THEMIS_TEST_BUILD)
 #  include <grpcpp/ext/proto_server_reflection_plugin.h>
 #endif
 
@@ -111,6 +111,11 @@ bool GrpcApiServer::start() {
         return false;
     }
 
+    if (services_.empty()) {
+        THEMIS_ERROR("GrpcApiServer::start – no gRPC services registered");
+        return false;
+    }
+
     // Capture config values while still locked.
     const std::string address    = server_address_;
     const auto        services   = services_;       // copy the registered service list
@@ -142,7 +147,7 @@ bool GrpcApiServer::start() {
         // Register gRPC reflection in debug builds only.
         // Reflection exposes the full proto schema to any gRPC client, which
         // is useful during development but must not be available in production.
-#ifndef NDEBUG
+#if !defined(NDEBUG) && !defined(THEMIS_TEST_BUILD)
         grpc::reflection::InitProtoReflectionServerBuilderPlugin();
         THEMIS_INFO("GrpcApiServer: gRPC reflection enabled (debug build)");
 #endif
@@ -203,7 +208,7 @@ std::string GrpcApiServer::getAddress() const {
 }
 
 uint16_t GrpcApiServer::getPort() const {
-    return config_.port;
+    return server_address_.empty() ? 0 : config_.port;
 }
 
 // ---------------------------------------------------------------------------

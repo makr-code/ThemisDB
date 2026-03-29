@@ -352,13 +352,33 @@ TEST_F(AsyncAdapterTest, CancelAsyncTokenCleanedUpAfterCompletion) {
 TEST_F(AsyncAdapterTest, DuplicateOperationIdReturnsAlreadyExists) {
     // Launching two operations with the same operation_id while the first is
     // still in flight must be rejected with ALREADY_EXISTS for the second.
-    // We use a large batch to keep the first operation alive long enough.
+    // Use a callback gate to deterministically keep the first operation active.
     auto rows = make_rows(2000);
     AsyncQueryOptions opts;
     opts.operation_id = "dup-op-id";
 
-    auto first = adapter.batch_insert_async("dup_table_1", rows, nullptr, opts);
+    std::promise<void> first_chunk_seen;
+    auto first_chunk_seen_fut = first_chunk_seen.get_future();
+    std::promise<void> release_first;
+    auto release_first_fut = release_first.get_future().share();
+    std::atomic<bool> gate_entered{false};
+
+    auto first = adapter.batch_insert_async(
+        "dup_table_1",
+        rows,
+        [&](size_t /*processed*/) {
+            bool expected = false;
+            if (gate_entered.compare_exchange_strong(expected, true)) {
+                first_chunk_seen.set_value();
+                release_first_fut.wait();
+            }
+        },
+        opts);
     ASSERT_TRUE(first.valid());
+
+    ASSERT_EQ(first_chunk_seen_fut.wait_for(std::chrono::seconds(2)),
+              std::future_status::ready)
+        << "First async batch did not reach callback gate in time";
 
     // Attempt to launch a second operation with the same id immediately.
     auto second = adapter.batch_insert_async("dup_table_2", rows, nullptr, opts);
@@ -369,6 +389,8 @@ TEST_F(AsyncAdapterTest, DuplicateOperationIdReturnsAlreadyExists) {
     auto second_result = second.get();
     EXPECT_TRUE(second_result.is_err());
     EXPECT_EQ(second_result.error_code, ErrorCode::ALREADY_EXISTS);
+
+    release_first.set_value();
 
     // The first must still succeed.
     auto first_result = first.get();
@@ -385,13 +407,35 @@ TEST_F(AsyncAdapterTest, DuplicateOperationIdReturnsAlreadyExists) {
 
 TEST_F(AsyncAdapterTest, DuplicateOperationIdQueryReturnsAlreadyExists) {
     // Same check for execute_query_async.
+    // Keep the first operation deterministically in-flight so the duplicate-id
+    // rejection does not depend on scheduler timing.
     AsyncQueryOptions opts;
     opts.operation_id = "dup-query-op";
 
     auto rows = make_rows(2000);
-    // Keep a batch running to hold the token
-    auto busy = adapter.batch_insert_async("dup_busy_table", rows, nullptr, opts);
+    std::promise<void> first_chunk_seen;
+    auto first_chunk_seen_fut = first_chunk_seen.get_future();
+    std::promise<void> release_first;
+    auto release_first_fut = release_first.get_future().share();
+    std::atomic<bool> gate_entered{false};
+
+    // Keep a batch running to hold the token.
+    auto busy = adapter.batch_insert_async(
+        "dup_busy_table",
+        rows,
+        [&](size_t /*processed*/) {
+            bool expected = false;
+            if (gate_entered.compare_exchange_strong(expected, true)) {
+                first_chunk_seen.set_value();
+                release_first_fut.wait();
+            }
+        },
+        opts);
     ASSERT_TRUE(busy.valid());
+
+    ASSERT_EQ(first_chunk_seen_fut.wait_for(std::chrono::seconds(2)),
+              std::future_status::ready)
+        << "First async batch did not reach callback gate in time";
 
     // A second async query with the same id should be rejected immediately.
     auto dup = adapter.execute_query_async("SELECT 1", {}, opts);
@@ -401,6 +445,7 @@ TEST_F(AsyncAdapterTest, DuplicateOperationIdQueryReturnsAlreadyExists) {
     EXPECT_EQ(dup_result.error_code, ErrorCode::ALREADY_EXISTS);
 
     // Wait for the first to finish so the token is released.
+    release_first.set_value();
     busy.get();
 
     // Now the id must be available again.

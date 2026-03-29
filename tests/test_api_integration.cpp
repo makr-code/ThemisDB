@@ -58,6 +58,13 @@ static const std::string  kDbPath = "data/themis_api_integration_test";
 
 class ApiIntegrationTest : public ::testing::Test {
 protected:
+    static bool isRedirectStatus(http::status status) {
+        return status == http::status::moved_permanently ||
+               status == http::status::found ||
+               status == http::status::temporary_redirect ||
+               status == http::status::permanent_redirect;
+    }
+
     void SetUp() override {
         if (std::filesystem::exists(kDbPath)) {
             std::filesystem::remove_all(kDbPath);
@@ -98,22 +105,30 @@ protected:
     http::response<http::string_body> get(const std::string& target,
                                           const std::string& auth = "") {
         try {
-            net::io_context ioc;
-            tcp::resolver resolver(ioc);
-            beast::tcp_stream stream(ioc);
-            stream.connect(resolver.resolve(kHost, std::to_string(kPort)));
+            auto issue_get = [&](const std::string& path) {
+                net::io_context ioc;
+                tcp::resolver resolver(ioc);
+                beast::tcp_stream stream(ioc);
+                stream.connect(resolver.resolve(kHost, std::to_string(kPort)));
 
-            http::request<http::string_body> req{http::verb::get, target, 11};
-            req.set(http::field::host, kHost);
-            if (!auth.empty()) req.set(http::field::authorization, auth);
-            req.prepare_payload();
-            http::write(stream, req);
+                http::request<http::string_body> req{http::verb::get, path, 11};
+                req.set(http::field::host, kHost);
+                if (!auth.empty()) req.set(http::field::authorization, auth);
+                req.prepare_payload();
+                http::write(stream, req);
 
-            beast::flat_buffer buf;
-            http::response<http::string_body> res;
-            http::read(stream, buf, res);
-            beast::error_code ec;
-            stream.socket().shutdown(tcp::socket::shutdown_both, ec);
+                beast::flat_buffer buf;
+                http::response<http::string_body> res;
+                http::read(stream, buf, res);
+                beast::error_code ec;
+                stream.socket().shutdown(tcp::socket::shutdown_both, ec);
+                return res;
+            };
+
+            auto res = issue_get(target);
+            if (isRedirectStatus(res.result()) && res.base().find(http::field::location) != res.base().end()) {
+                return issue_get(std::string(res.base()[http::field::location]));
+            }
             return res;
         } catch (const std::exception& e) {
             ADD_FAILURE() << "GET " << target << " failed: " << e.what();
@@ -125,24 +140,33 @@ protected:
                                            const json& body,
                                            const std::string& auth = "") {
         try {
-            net::io_context ioc;
-            tcp::resolver resolver(ioc);
-            beast::tcp_stream stream(ioc);
-            stream.connect(resolver.resolve(kHost, std::to_string(kPort)));
+            const std::string payload = body.dump();
+            auto issue_post = [&](const std::string& path) {
+                net::io_context ioc;
+                tcp::resolver resolver(ioc);
+                beast::tcp_stream stream(ioc);
+                stream.connect(resolver.resolve(kHost, std::to_string(kPort)));
 
-            http::request<http::string_body> req{http::verb::post, target, 11};
-            req.set(http::field::host, kHost);
-            req.set(http::field::content_type, "application/json");
-            if (!auth.empty()) req.set(http::field::authorization, auth);
-            req.body() = body.dump();
-            req.prepare_payload();
-            http::write(stream, req);
+                http::request<http::string_body> req{http::verb::post, path, 11};
+                req.set(http::field::host, kHost);
+                req.set(http::field::content_type, "application/json");
+                if (!auth.empty()) req.set(http::field::authorization, auth);
+                req.body() = payload;
+                req.prepare_payload();
+                http::write(stream, req);
 
-            beast::flat_buffer buf;
-            http::response<http::string_body> res;
-            http::read(stream, buf, res);
-            beast::error_code ec;
-            stream.socket().shutdown(tcp::socket::shutdown_both, ec);
+                beast::flat_buffer buf;
+                http::response<http::string_body> res;
+                http::read(stream, buf, res);
+                beast::error_code ec;
+                stream.socket().shutdown(tcp::socket::shutdown_both, ec);
+                return res;
+            };
+
+            auto res = issue_post(target);
+            if (isRedirectStatus(res.result()) && res.base().find(http::field::location) != res.base().end()) {
+                return issue_post(std::string(res.base()[http::field::location]));
+            }
             return res;
         } catch (const std::exception& e) {
             ADD_FAILURE() << "POST " << target << " failed: " << e.what();
@@ -153,22 +177,30 @@ protected:
     http::response<http::string_body> del(const std::string& target,
                                           const std::string& auth = "") {
         try {
-            net::io_context ioc;
-            tcp::resolver resolver(ioc);
-            beast::tcp_stream stream(ioc);
-            stream.connect(resolver.resolve(kHost, std::to_string(kPort)));
+            auto issue_delete = [&](const std::string& path) {
+                net::io_context ioc;
+                tcp::resolver resolver(ioc);
+                beast::tcp_stream stream(ioc);
+                stream.connect(resolver.resolve(kHost, std::to_string(kPort)));
 
-            http::request<http::string_body> req{http::verb::delete_, target, 11};
-            req.set(http::field::host, kHost);
-            if (!auth.empty()) req.set(http::field::authorization, auth);
-            req.prepare_payload();
-            http::write(stream, req);
+                http::request<http::string_body> req{http::verb::delete_, path, 11};
+                req.set(http::field::host, kHost);
+                if (!auth.empty()) req.set(http::field::authorization, auth);
+                req.prepare_payload();
+                http::write(stream, req);
 
-            beast::flat_buffer buf;
-            http::response<http::string_body> res;
-            http::read(stream, buf, res);
-            beast::error_code ec;
-            stream.socket().shutdown(tcp::socket::shutdown_both, ec);
+                beast::flat_buffer buf;
+                http::response<http::string_body> res;
+                http::read(stream, buf, res);
+                beast::error_code ec;
+                stream.socket().shutdown(tcp::socket::shutdown_both, ec);
+                return res;
+            };
+
+            auto res = issue_delete(target);
+            if (isRedirectStatus(res.result()) && res.base().find(http::field::location) != res.base().end()) {
+                return issue_delete(std::string(res.base()[http::field::location]));
+            }
             return res;
         } catch (const std::exception& e) {
             ADD_FAILURE() << "DELETE " << target << " failed: " << e.what();

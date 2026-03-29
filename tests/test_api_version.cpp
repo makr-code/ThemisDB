@@ -494,9 +494,18 @@ TEST(RouteVersionRouter, Redirect_UnversionedPath) {
 
 TEST(RouteVersionRouter, Redirect_UnversionedPathWithQuery) {
     RouteVersionRouter vr;
+    // /query/* is an exempt (unversioned) path handled directly by the server
+    // without redirection; verify it is not redirected.
     auto t = vr.getRedirectTarget("/query/aql?limit=10");
+    EXPECT_FALSE(t.has_value());
+}
+
+TEST(RouteVersionRouter, Redirect_UnversionedDocumentPath) {
+    RouteVersionRouter vr;
+    // /documents is a truly unversioned path that the router SHOULD redirect
+    auto t = vr.getRedirectTarget("/some-unversioned-path");
     ASSERT_TRUE(t.has_value());
-    EXPECT_EQ(*t, "/v1/query/aql?limit=10");
+    EXPECT_EQ(*t, "/v1/some-unversioned-path");
 }
 
 TEST(RouteVersionRouter, NoRedirect_AlreadyVersionedV1) {

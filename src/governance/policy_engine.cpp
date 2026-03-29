@@ -27,6 +27,7 @@
 #include "governance/policy_engine.h"
 
 #include <algorithm>
+#include <cctype>
 #include <chrono>
 #include <filesystem>
 #include <fstream>
@@ -645,17 +646,52 @@ InferencePermissionResult PolicyEngine::checkInferencePermission(
     static const std::string k_auth_header = "Authorization";
     static const std::string k_bearer_prefix = "Bearer ";
 
-    auto auth_it = headers.find(k_auth_header);
-    if (auth_it == headers.end() || auth_it->second.empty()) {
+    auto find_header_ci = [&headers](const std::string& key)
+        -> std::optional<std::string> {
+        auto it = headers.find(key);
+        if (it != headers.end()) {
+            return it->second;
+        }
+        for (const auto& kv : headers) {
+            if (kv.first.size() != key.size()) {
+                continue;
+            }
+            bool equal_ci = true;
+            for (size_t i = 0; i < key.size(); ++i) {
+                if (std::tolower(static_cast<unsigned char>(kv.first[i])) !=
+                    std::tolower(static_cast<unsigned char>(key[i]))) {
+                    equal_ci = false;
+                    break;
+                }
+            }
+            if (equal_ci) {
+                return kv.second;
+            }
+        }
+        return std::nullopt;
+    };
+
+    auto auth_value_opt = find_header_ci(k_auth_header);
+    if (!auth_value_opt.has_value() || auth_value_opt->empty()) {
         result.allowed       = false;
         result.http_status   = 401;
         result.denial_reason = "Missing Authorization header; provide a Bearer API key";
         return result;
     }
 
-    const std::string& auth_value = auth_it->second;
-    if (auth_value.size() < k_bearer_prefix.size() ||
-        auth_value.substr(0, k_bearer_prefix.size()) != k_bearer_prefix) {
+    const std::string& auth_value = *auth_value_opt;
+    const bool has_bearer_prefix =
+        auth_value.size() >= k_bearer_prefix.size() &&
+        std::equal(
+            k_bearer_prefix.begin(),
+            k_bearer_prefix.end(),
+            auth_value.begin(),
+            [](char a, char b) {
+                return std::tolower(static_cast<unsigned char>(a)) ==
+                       std::tolower(static_cast<unsigned char>(b));
+            });
+
+    if (!has_bearer_prefix) {
         result.allowed       = false;
         result.http_status   = 401;
         result.denial_reason = "Invalid Authorization header format; expected 'Bearer <api-key>'";

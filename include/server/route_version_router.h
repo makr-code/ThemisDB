@@ -214,6 +214,8 @@ inline bool RouteVersionRouter::isExemptFromRedirect(
     // Well-known paths that must NOT be redirected
     static constexpr std::string_view exempt[] = {
         "/health",
+        "/version",
+        "/stats",
         "/metrics",
         "/ready",
         "/_internal/",
@@ -222,6 +224,26 @@ inline bool RouteVersionRouter::isExemptFromRedirect(
         "/static/",
         "/admin/",
         "/favicon.ico",
+        // Core CRUD / query endpoints registered directly without a /v1/ prefix
+        "/entities",
+        "/query/",
+        "/api/aql",
+        "/indexes",
+        "/index/",
+        "/spatial/",
+        "/graph/",
+        "/transaction",
+        "/config",
+        "/ts/",
+        "/streams",
+        "/vector/",
+        "/geo/",
+        "/search",
+        "/triggers",
+        "/jobs",
+        "/bpmn/",
+        "/crdt/",
+        "/timeseries/",
     };
     for (auto& ex : exempt) {
         if (path == ex || path.rfind(ex, 0) == 0) return true;

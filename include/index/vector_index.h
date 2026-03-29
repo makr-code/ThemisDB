@@ -368,7 +368,12 @@ public:
     int getEfSearch() const { return efSearch_; }
     int getM() const { return m_; }
     int getEfConstruction() const { return efConstruction_; }
-    size_t getVectorCount() const { return pkToId_.size(); }
+    size_t getVectorCount() const {
+        if (useHnsw_ || ann_backend_ != nullptr) {
+            return pkToId_.size();
+        }
+        return cache_.size();
+    }
     bool isHnswEnabled() const { return useHnsw_; }
     const std::string& getSavePath() const { return savePath_; }
     

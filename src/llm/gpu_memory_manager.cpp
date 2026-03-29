@@ -694,7 +694,24 @@ bool GPUMemoryManager::defragment() {
         return false;
     }
     
-    size_t initial_frag = getMemoryFragmentation();
+    auto compute_fragmentation_unlocked = [this]() -> size_t {
+        size_t total_allocations = 0;
+        for (const auto& [_, allocs] : allocations_) {
+            total_allocations += allocs.size();
+        }
+
+        const size_t num_models = allocations_.size();
+        if (num_models == 0) {
+            return 0;
+        }
+
+        const size_t excess_allocations =
+            total_allocations > num_models ? total_allocations - num_models : 0;
+        return std::min(static_cast<size_t>(100),
+                        static_cast<size_t>((excess_allocations * 100) / num_models));
+    };
+
+    size_t initial_frag = compute_fragmentation_unlocked();
     if (initial_frag < 10) {
         spdlog::debug("Fragmentation low ({}%), skipping defragmentation", initial_frag);
         return false;
@@ -744,7 +761,7 @@ bool GPUMemoryManager::defragment() {
         }
     }
     
-    size_t final_frag = getMemoryFragmentation();
+    size_t final_frag = compute_fragmentation_unlocked();
     
     if (models_defragmented > 0) {
         spdlog::info("Defragmentation complete: {} models defragmented, {} allocations consolidated", 

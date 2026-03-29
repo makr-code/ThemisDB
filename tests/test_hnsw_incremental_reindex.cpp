@@ -308,7 +308,8 @@ TEST_F(MaintenanceFixture, WithVIM_ReturnsJobStatus) {
     EXPECT_TRUE(job.is_completed);
     EXPECT_FALSE(job.is_failed);
     EXPECT_EQ(job.operation, MaintenanceOperation::VECTOR_INCREMENTAL_REINDEX);
-    EXPECT_GT(job.duration_ms, 0u);
+    EXPECT_GE(job.end_time_ms, job.start_time_ms);
+    EXPECT_EQ(job.duration_ms, job.end_time_ms - job.start_time_ms);
 }
 
 // Test 10: vectorIncrementalReindex stats flow through job message

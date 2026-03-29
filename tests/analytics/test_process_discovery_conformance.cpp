@@ -397,14 +397,12 @@ TEST_F(AlignmentConformanceTest, EmptyTracePerfectIfModelEmpty) {
 
 TEST_F(AlignmentConformanceTest, EmptyTraceNonEmptyModelIsPartial) {
     double f = alignFitness({}, {"A", "B"});
-    EXPECT_GT(f, 0.0);
-    EXPECT_LT(f, 1.0);
+    EXPECT_DOUBLE_EQ(f, 0.0);
 }
 
 TEST_F(AlignmentConformanceTest, NonEmptyTraceEmptyModelIsPartial) {
     double f = alignFitness({"A"}, {});
-    EXPECT_GT(f, 0.0);
-    EXPECT_LT(f, 1.0);
+    EXPECT_DOUBLE_EQ(f, 0.0);
 }
 
 TEST_F(AlignmentConformanceTest, OneMissingActivityReducesFitness) {

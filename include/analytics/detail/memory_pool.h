@@ -94,8 +94,14 @@ public:
         overflow_blocks_.clear();
     }
 
-    /** @returns Number of bytes consumed in the primary block. */
-    size_t used() const noexcept { return cursor_; }
+    /** @returns Number of bytes currently consumed across primary and overflow blocks. */
+    size_t used() const noexcept {
+        size_t total = cursor_;
+        for (const auto& slab : overflow_blocks_) {
+            total += slab.cursor;
+        }
+        return total;
+    }
 
     /** @returns Total capacity of the primary block (bytes). */
     size_t capacity() const noexcept { return capacity_; }

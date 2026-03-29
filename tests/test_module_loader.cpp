@@ -121,12 +121,13 @@ TEST(ModuleVerificationResult, DefaultValues) {
     
     EXPECT_FALSE(result.success);
     EXPECT_EQ(result.errorCode, ModuleErrorCode::SUCCESS);
-    EXPECT_EQ(result.errorCategory, ErrorCategory::PERMANENT);
+    EXPECT_EQ(result.errorCategory, ErrorCategory::NONE);
     EXPECT_TRUE(result.errorMessage.empty());
     EXPECT_TRUE(result.moduleHash.empty());
     EXPECT_TRUE(result.modulePath.empty());
     EXPECT_EQ(result.verificationTimestamp, 0u);
     EXPECT_FALSE(result.metadata.isValid());
+    EXPECT_EQ(result.zoneId, -1);
 }
 
 TEST(ModuleVerificationResult, SuccessState) {
@@ -322,11 +323,13 @@ TEST(ModuleLoader, FailedLoadDoesNotPreventRetry) {
     EXPECT_FALSE(result1.success);
     EXPECT_EQ(result1.errorCode, ModuleErrorCode::MODULE_NOT_FOUND);
     
-    // Second attempt should also fail with MODULE_NOT_FOUND
-    // (not MODULE_ALREADY_LOADED) since first load failed
+    // The second attempt must not be treated as "already loaded".
+    // Current loader semantics apply exponential backoff after the first
+    // recorded failure, so the immediate retry is rejected as a policy/backoff
+    // violation instead of re-probing the filesystem.
     auto result2 = loader.loadModule("/nonexistent1.so", "test_module");
     EXPECT_FALSE(result2.success);
-    EXPECT_EQ(result2.errorCode, ModuleErrorCode::MODULE_NOT_FOUND);
+    EXPECT_EQ(result2.errorCode, ModuleErrorCode::POLICY_VIOLATION);
 }
 
 // ===== Security Policy Tests =====

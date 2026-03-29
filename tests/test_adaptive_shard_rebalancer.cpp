@@ -244,17 +244,22 @@ TEST(HotShardSplitPolicy, PredictiveProposal_WhenForecastExceedsThreshold) {
 
     // CPU rising from 50% to 70% over 5 samples (+5%/sample).
     // Current value at sample 4 is 70% – below the 80% reactive threshold.
-    // The linear trend projects ~80%+ within a few samples, so the predictive
-    // path with a 70-point threshold should fire.
+    // Predictive splitting compares against the detector's weighted composite
+    // load score (0..100), not raw CPU percent.
     for (int i = 0; i < 5; ++i) {
         det2->updateShardLoad("s_predictive",
                               makeMetrics("s_predictive", 50.0 + i * 5.0, 30.0));
     }
 
+    auto forecast = det2->forecastLoad("s_predictive", std::chrono::minutes{5});
+    ASSERT_TRUE(forecast.has_value());
+    ASSERT_TRUE(forecast->has_sufficient_history);
+
     HotShardSplitPolicy::Config cfg;
     cfg.cpu_split_threshold           = 0.80;   // Reactive: fires only at 80%+ current CPU
-    // Lower composite threshold so the predictive path fires for the rising trend
-    cfg.predictive_load_threshold     = 60.0;
+    // Keep the test robust to load-score weighting changes by setting the
+    // threshold just below the forecasted composite score.
+    cfg.predictive_load_threshold     = std::max(0.0, forecast->predicted_composite_load - 0.5);
     cfg.enable_predictive_splitting   = true;
     cfg.forecast_horizon              = std::chrono::minutes{5};
     HotShardSplitPolicy policy(det2, cfg);

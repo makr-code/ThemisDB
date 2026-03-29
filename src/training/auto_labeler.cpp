@@ -28,6 +28,7 @@
 #include "training/modality_parser.h"
 #include "analytics/nlp_text_analyzer.h"
 #include "query/aql_runner.h"
+#include "storage/base_entity.h"
 #include "utils/logger.h"
 #include <stdexcept>
 #include <chrono>
@@ -35,6 +36,7 @@
 #include <sstream>
 #include <numeric>
 #include <cctype>
+#include <regex>
 namespace themis {
 namespace training {
 // ============================================================================
@@ -124,6 +126,9 @@ public:
             auto query = buildQuery(aql_templates::FETCH_ALL_DOCUMENTS,
                                     {{"@source_collection", config_.source_collection}});
             document_ids = executeAqlQuery(query);
+            if (document_ids.empty()) {
+                document_ids = fetchAllDocumentIdsDirect();
+            }
         }
 
         size_t processed = 0;
@@ -394,6 +399,66 @@ private:
     size_t total_processed_;
     size_t total_errors_;
 
+    std::vector<BaseEntity> fetchAllDocumentsDirect() const {
+        if (!query_engine_) {
+            return {};
+        }
+        ConjunctiveQuery query;
+        query.table = config_.source_collection;
+        auto result = query_engine_->executeAndEntitiesWithFallback(query, true);
+        if (!result) {
+            return {};
+        }
+        return *result;
+    }
+
+    std::vector<std::string> fetchAllDocumentIdsDirect() const {
+        std::vector<std::string> ids;
+        for (const auto& entity : fetchAllDocumentsDirect()) {
+            auto text = entity.getFieldAsString("text");
+            if (text.has_value() && !text->empty()) {
+                ids.push_back(entity.getPrimaryKey());
+            }
+        }
+        return ids;
+    }
+
+    std::vector<std::string> tryDirectKeyQueryFallback(const std::string& aql) const {
+        std::vector<std::string> ids;
+        if (!query_engine_) {
+            return ids;
+        }
+
+        static const std::regex simple_key_query(
+            R"(^\s*FOR\s+(\w+)\s+IN\s+(\w+)\s*(?:FILTER\s+\1\.(\w+)\s*==\s*['\"]([^'\"]+)['\"]\s*)?RETURN\s+\1\._key\s*$)",
+            std::regex::icase);
+
+        std::smatch match;
+        if (!std::regex_match(aql, match, simple_key_query)) {
+            return ids;
+        }
+
+        const std::string collection = match[2].str();
+        if (collection != config_.source_collection) {
+            return ids;
+        }
+
+        const bool has_filter = match[3].matched && match[4].matched;
+        const std::string filter_field = has_filter ? match[3].str() : std::string{};
+        const std::string filter_value = has_filter ? match[4].str() : std::string{};
+
+        for (const auto& entity : fetchAllDocumentsDirect()) {
+            if (has_filter) {
+                auto field_value = entity.getFieldAsString(filter_field);
+                if (!field_value.has_value() || *field_value != filter_value) {
+                    continue;
+                }
+            }
+            ids.push_back(entity.getPrimaryKey());
+        }
+        return ids;
+    }
+
     // Execute an AQL query via the wired QueryEngine and extract document IDs
     // from the "results" array of the JSON response envelope.
     // Returns an empty vector when no engine is available or the query fails.
@@ -403,29 +468,31 @@ private:
             return ids;
         }
         auto result = executeAql(aql, *query_engine_);
-        if (!result) {
-            return ids;
-        }
-        const auto& json = *result;
-        if (json.is_object() && json.contains("results") && json["results"].is_array()) {
-            for (const auto& item : json["results"]) {
-                if (item.is_string()) {
-                    ids.push_back(item.get<std::string>());
-                } else if (item.is_object()) {
-                    // Standard AQL response envelope: each entry carries "pk"
-                    if (item.contains("pk") && item["pk"].is_string()) {
-                        ids.push_back(item["pk"].get<std::string>());
-                    } else if (item.contains("_key") && item["_key"].is_string()) {
-                        ids.push_back(item["_key"].get<std::string>());
+        if (result) {
+            const auto& json = *result;
+            if (json.is_object() && json.contains("results") && json["results"].is_array()) {
+                for (const auto& item : json["results"]) {
+                    if (item.is_string()) {
+                        ids.push_back(item.get<std::string>());
+                    } else if (item.is_object()) {
+                        if (item.contains("pk") && item["pk"].is_string()) {
+                            ids.push_back(item["pk"].get<std::string>());
+                        } else if (item.contains("_key") && item["_key"].is_string()) {
+                            ids.push_back(item["_key"].get<std::string>());
+                        }
+                    }
+                }
+            } else if (json.is_array()) {
+                for (const auto& item : json) {
+                    if (item.is_string()) {
+                        ids.push_back(item.get<std::string>());
                     }
                 }
             }
-        } else if (json.is_array()) {
-            for (const auto& item : json) {
-                if (item.is_string()) {
-                    ids.push_back(item.get<std::string>());
-                }
-            }
+        }
+
+        if (ids.empty()) {
+            ids = tryDirectKeyQueryFallback(aql);
         }
         return ids;
     }
@@ -434,7 +501,6 @@ private:
     // Falls back to a representative German legal text in offline / test mode.
     std::string fetchDocumentText(const std::string& document_id) const {
         if (query_engine_ && !document_id.empty()) {
-            // Escape characters that would break the AQL inline string literal.
             std::string safe_id;
             safe_id.reserve(document_id.size());
             for (char c : document_id) {
@@ -465,10 +531,16 @@ private:
                     return (*doc_ptr)["text"].get<std::string>();
                 }
             }
-            // AQL succeeded but the document has no "text" field – treat as empty.
+
+            for (const auto& entity : fetchAllDocumentsDirect()) {
+                if (entity.getPrimaryKey() != document_id) {
+                    continue;
+                }
+                auto text = entity.getFieldAsString("text");
+                return text.value_or("");
+            }
             return "";
         }
-        // Offline / test fallback: representative German legal text
         if (!document_id.empty()) {
             return "Die Behörde muss die Genehmigung erteilen, wenn alle "
                    "Voraussetzungen erfüllt sind. Sie soll die Entscheidung "

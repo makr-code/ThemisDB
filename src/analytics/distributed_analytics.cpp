@@ -358,17 +358,31 @@ void DistributedAnalyticsSharding::runHealthMonitor() {
 void DistributedAnalyticsSharding::addShard(
         const std::string& shard_id,
         std::shared_ptr<ShardQueryExecutor> executor) {
+    bool initial_healthy = true;
+    if (executor) {
+        try {
+            initial_healthy = executor->isHealthy();
+        } catch (...) {
+            initial_healthy = false;
+        }
+    }
+
     std::lock_guard<std::mutex> lock(mutex_);
     for (auto& e : shards_) {
         if (e.shard_id == shard_id) {
             e.executor = std::move(executor);
+            if (!e.cached_healthy) {
+                e.cached_healthy = std::make_shared<std::atomic<bool>>(initial_healthy);
+            } else {
+                e.cached_healthy->store(initial_healthy, std::memory_order_release);
+            }
             return;
         }
     }
     ShardEntry entry;
     entry.shard_id = shard_id;
     entry.executor = std::move(executor);
-    entry.cached_healthy = std::make_shared<std::atomic<bool>>(true);
+    entry.cached_healthy = std::make_shared<std::atomic<bool>>(initial_healthy);
     shards_.push_back(std::move(entry));
 }
 

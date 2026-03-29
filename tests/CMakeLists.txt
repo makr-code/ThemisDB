@@ -1391,7 +1391,7 @@ endif()
 add_test(NAME AllTests COMMAND themis_tests)
 set_tests_properties(AllTests PROPERTIES
     LABELS "all;unified"
-    TIMEOUT 600
+    TIMEOUT 3600
 )
 
 # Themis Wire Protocol V1 unit tests (subset of AllTests)

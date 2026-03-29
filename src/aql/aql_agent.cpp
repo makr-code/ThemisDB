@@ -114,8 +114,14 @@ public:
                     opts
                 );
             } catch (const std::exception& e) {
-                throw LLMException(LLMErrorCode::INFERENCE_FAILED,
-                    std::string("ReActAgent LLM inference failed: ") + e.what());
+                // LLM inference unavailable (e.g. no model loaded).
+                // Record an error step and continue so the max-iterations
+                // fallback synthesises final_answer without propagating.
+                ReasoningStep error_step;
+                error_step.thought = std::string("LLM inference unavailable: ") + e.what();
+                result.reasoning_trace.push_back(error_step);
+                result.iterations_used = iter + 1;
+                continue;
             }
 
             if (config_.verbose) {

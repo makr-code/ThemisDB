@@ -685,9 +685,9 @@ TEST(DistributedAnalyticsShardingTest, CachedHealthyShardCount) {
     das.addShard("h2", std::make_shared<HealthyExec>());
     das.addShard("u1", std::make_shared<UnhealthyExec>());
 
-    // Shards are initialised with cached_healthy=true; monitor is disabled,
-    // so the cached value is never updated — all three report healthy initially.
-    EXPECT_EQ(das.getHealthyShardCount(), 3u);
+    // cached_healthy is initialised from executor->isHealthy(); with monitor
+    // disabled, the cached value remains at that initial snapshot.
+    EXPECT_EQ(das.getHealthyShardCount(), 2u);
 }
 
 // ============================================================================
@@ -742,7 +742,7 @@ TEST(DistributedAnalyticsShardingTest, BackgroundMonitorUpdatesCachedHealth) {
     auto exec = std::make_shared<ToggleExec>();
     das.addShard("toggle", exec);
 
-    // Initially cached_healthy=true (optimistic default).
+    // Initial cached value mirrors current executor health.
     EXPECT_EQ(das.getHealthyShardCount(), 1u);
 
     // Mark executor unhealthy and wait for at least two monitor cycles.

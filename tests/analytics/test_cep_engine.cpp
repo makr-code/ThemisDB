@@ -1192,7 +1192,7 @@ TEST(CEPEngineBackpressureTest, BackpressureMetricInPrometheus) {
     engine.shutdown();
 }
 
-TEST(CEPEngineBackpressureTest, BackpressureDisabledAllowsUnboundedQueue) {
+TEST(CEPEngineBackpressureTest, BackpressureDisabledStillUsesBoundedQueue) {
     auto& engine = CEPEngine::getInstance();
     if (engine.isInitialized()) engine.shutdown();
 
@@ -1204,13 +1204,21 @@ TEST(CEPEngineBackpressureTest, BackpressureDisabledAllowsUnboundedQueue) {
     cfg.max_queue_depth       = 2;      // Would drop at 2 if enabled
     engine.initialize(cfg);
 
-    // All events should be accepted when backpressure is disabled
+    size_t accepted = 0;
+    size_t rejected = 0;
     for (int i = 0; i < 8; ++i) {
-        EXPECT_TRUE(engine.submitEvent(makeEvent("unbounded-" + std::to_string(i))));
+        if (engine.submitEvent(makeEvent("bounded-" + std::to_string(i)))) {
+            ++accepted;
+        } else {
+            ++rejected;
+        }
     }
 
     auto stats = engine.getStats();
-    EXPECT_EQ(stats.events_dropped, 0u);
+    EXPECT_GT(accepted, 0u);
+    EXPECT_GT(rejected, 0u);
+    EXPECT_EQ(stats.events_dropped, rejected);
+    EXPECT_EQ(stats.backpressure_events, 0u);
 
     engine.shutdown();
 }

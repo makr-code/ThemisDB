@@ -167,9 +167,34 @@ AQLInjectionDetector::validateUnboundedForLoops(const std::string& aql) {
     // Step 1: Parse query into AST.
     auto parse_result = parseAQL(aql);
     if (!parse_result) {
+        // Fallback: Some valid AQL aggregate forms (e.g. "COLLECT ... WITH
+        // COUNT INTO") are not fully represented in the current parser.
+        // For unbounded-loop validation we can conservatively rely on keyword
+        // structure: FOR + LIMIT is bounded; FOR + COLLECT is treated as
+        // aggregation-bounded; FOR without LIMIT/COLLECT is rejected.
+        static const std::regex k_for_re(R"(\bFOR\b)", std::regex::icase);
+        static const std::regex k_limit_re(R"(\bLIMIT\b)", std::regex::icase);
+        static const std::regex k_collect_re(R"(\bCOLLECT\b)", std::regex::icase);
+
+        const bool has_for_clause = std::regex_search(aql, k_for_re);
+        if (!has_for_clause) {
+            return result;
+        }
+
+        const bool has_limit_clause = std::regex_search(aql, k_limit_re);
+        if (has_limit_clause) {
+            return result;
+        }
+
+        const bool has_collect_clause = std::regex_search(aql, k_collect_re);
+        if (has_collect_clause) {
+            return result;
+        }
+
         result.is_safe = false;
         result.error_message =
-            fmt::format("Parse error: {}", parse_result.error().message());
+            "Query contains an unbounded FOR loop without a LIMIT clause; "
+            "add LIMIT to prevent full-collection scans";
         return result;
     }
 

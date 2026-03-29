@@ -371,16 +371,18 @@ bool GrpcChannelPool::healthCheck(const std::string& target,
 
         if (!ch) return false;
 
-        // Trigger a connection attempt and wait up to `timeout`
+        // Trigger a connection attempt and wait up to `timeout`.
+        // IDLE is not considered healthy here because it does not prove that a
+        // transport connection can actually be established to the target.
         auto state = ch->GetState(/*try_to_connect=*/true);
-        if (state == GRPC_CHANNEL_READY || state == GRPC_CHANNEL_IDLE) {
+        if (state == GRPC_CHANNEL_READY) {
             return true;
         }
 
         auto deadline = std::chrono::system_clock::now() + timeout;
         if (ch->WaitForStateChange(state, deadline)) {
             state = ch->GetState(false);
-            return state == GRPC_CHANNEL_READY || state == GRPC_CHANNEL_IDLE;
+            return state == GRPC_CHANNEL_READY;
         }
         return false;
     } catch (const std::exception&) {

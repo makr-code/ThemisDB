@@ -25,6 +25,7 @@
 
 #include <gtest/gtest.h>
 #include "api/grpc_server.h"
+#include "api/themisdb_grpc_service.h"
 #include <grpcpp/grpcpp.h>
 
 using namespace themis::api;
@@ -38,6 +39,11 @@ static GrpcServerConfig makeInsecureConfig(uint16_t port = 50099) {
     cfg.port        = port;
     cfg.tls_enabled = false;
     return cfg;
+}
+
+static grpc::Service* testService() {
+    static ThemisDBGrpcService service(nullptr, nullptr);
+    return static_cast<grpc::Service*>(service.service());
 }
 
 // ============================================================================
@@ -71,6 +77,11 @@ TEST(GrpcApiServerTest, InitializeWhileRunning) {
     // Start a server and verify that calling initialize() again is rejected.
     GrpcApiServer srv;
     ASSERT_TRUE(srv.initialize(makeInsecureConfig(50091)));
+    auto* service = testService();
+    if (!service) {
+        GTEST_SKIP() << "No generated gRPC API service available in this test target";
+    }
+    srv.registerService(service);
     ASSERT_TRUE(srv.start());
     ASSERT_TRUE(srv.isRunning());
 
@@ -88,6 +99,11 @@ TEST(GrpcApiServerTest, InitializeWhileRunning) {
 TEST(GrpcApiServerTest, StartStopCycle) {
     GrpcApiServer srv;
     ASSERT_TRUE(srv.initialize(makeInsecureConfig(50088)));
+    auto* service = testService();
+    if (!service) {
+        GTEST_SKIP() << "No generated gRPC API service available in this test target";
+    }
+    srv.registerService(service);
 
     EXPECT_FALSE(srv.isRunning());
     ASSERT_TRUE(srv.start());
@@ -107,6 +123,11 @@ TEST(GrpcApiServerTest, StartWithoutInitializeFails) {
 TEST(GrpcApiServerTest, DoubleStartReturnsFalse) {
     GrpcApiServer srv;
     ASSERT_TRUE(srv.initialize(makeInsecureConfig(50087)));
+    auto* service = testService();
+    if (!service) {
+        GTEST_SKIP() << "No generated gRPC API service available in this test target";
+    }
+    srv.registerService(service);
     ASSERT_TRUE(srv.start());
     EXPECT_TRUE(srv.isRunning());
 
@@ -119,6 +140,11 @@ TEST(GrpcApiServerTest, DoubleStartReturnsFalse) {
 TEST(GrpcApiServerTest, StopIdempotent) {
     GrpcApiServer srv;
     ASSERT_TRUE(srv.initialize(makeInsecureConfig(50086)));
+    auto* service = testService();
+    if (!service) {
+        GTEST_SKIP() << "No generated gRPC API service available in this test target";
+    }
+    srv.registerService(service);
     ASSERT_TRUE(srv.start());
 
     srv.stop();
@@ -153,8 +179,8 @@ TEST(GrpcApiServerTest, TlsEnabledWithMissingCertFailsToStart) {
 
     ASSERT_TRUE(srv.initialize(cfg));
 
-    // start() should throw or return false when cert files are missing
-    EXPECT_THROW(srv.start(), std::runtime_error);
+    // start() fails closed and reports the credential error via a false return.
+    EXPECT_FALSE(srv.start());
     EXPECT_FALSE(srv.isRunning());
 }
 

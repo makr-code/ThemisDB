@@ -146,12 +146,33 @@ DependencyResolutionResult ModuleDependencyResolver::resolveFor(
     // Build the closure: moduleNames + all registered transitive dependencies.
     std::map<std::string, bool> visited;
     std::queue<std::string> toVisit;
+    DependencyResolutionResult precheck;
 
     for (const auto& n : moduleNames) {
-        if (!visited[n]) {
-            visited[n] = true;
+        if (!modules_.count(n)) {
+            precheck.missingRequired.push_back(n);
+            continue;
+        }
+
+        if (visited.emplace(n, true).second) {
             toVisit.push(n);
         }
+    }
+
+    if (!precheck.missingRequired.empty()) {
+        std::sort(precheck.missingRequired.begin(), precheck.missingRequired.end());
+        precheck.missingRequired.erase(
+            std::unique(precheck.missingRequired.begin(), precheck.missingRequired.end()),
+            precheck.missingRequired.end());
+
+        std::ostringstream oss;
+        oss << "Missing required dependencies:";
+        for (const auto& m : precheck.missingRequired) {
+            oss << ' ' << m;
+        }
+        precheck.errorMessage = oss.str();
+        precheck.success = false;
+        return precheck;
     }
 
     while (!toVisit.empty()) {
@@ -163,8 +184,11 @@ DependencyResolutionResult ModuleDependencyResolver::resolveFor(
             continue;
         }
         for (const auto& dep : it->second.deps) {
-            if (!visited[dep.name] && modules_.count(dep.name)) {
-                visited[dep.name] = true;
+            if (!modules_.count(dep.name)) {
+                continue;
+            }
+
+            if (visited.emplace(dep.name, true).second) {
                 toVisit.push(dep.name);
             }
         }

@@ -60,7 +60,9 @@ public:
     mutable std::mutex               history_mutex_; // guards history_, turn_count_, last_query_
     std::mutex                       call_mutex_;    // serializes LLM round-trips and reset/start
 
-    // Build the system prompt once so every call uses a consistent context
+    // Build the system prompt once so every call uses a consistent context.
+    // For very small token budgets, shrink the prompt to a compact variant so
+    // max_history_tokens can still be satisfied.
     std::string buildSystemPrompt() const {
         std::ostringstream sp;
         sp << "You are an expert in AQL (ArangoDB Query Language) for ThemisDB.\n"
@@ -73,7 +75,17 @@ public:
            << "- Return ONLY the AQL query, no markdown fences, no explanations.\n"
            << "- Incorporate every refinement from the conversation history.\n"
            << "- Use standard AQL keywords (FOR, FILTER, SORT, LIMIT, RETURN).\n";
-        return sp.str();
+
+        const std::string prompt = sp.str();
+        if (config_.max_history_tokens > 0 &&
+            estimator_->estimate(prompt) > config_.max_history_tokens) {
+            if (!schema_context_.empty()) {
+                return "Return exactly one valid AQL query. Use this schema context:\n" +
+                       schema_context_;
+            }
+            return "Return exactly one valid AQL query.";
+        }
+        return prompt;
     }
 
     // Strip markdown code fences from the LLM response
@@ -170,9 +182,32 @@ public:
 
             {
                 std::lock_guard<std::mutex> lock(history_mutex_);
+
+                // Reserve room for the assistant response before appending it.
+                const std::size_t assistant_tokens = estimator_->estimate("assistant") +
+                                                     estimator_->estimate(response);
+                evictOldestPairs(assistant_tokens);
+
                 history_.emplace_back("assistant", response);
                 last_query_ = query;
                 ++turn_count_;
+
+                // Also enforce token budget after append; do not apply max_turns
+                // here because turn-count eviction is handled before adding a turn.
+                if (config_.max_history_tokens > 0) {
+                    while (estimateHistoryTokens() > config_.max_history_tokens) {
+                        const std::size_t first_user =
+                            (history_.front().role == "system") ? 1 : 0;
+                        if (first_user + 1 >= history_.size()) {
+                            break;
+                        }
+                        history_.erase(history_.begin() + static_cast<std::ptrdiff_t>(first_user),
+                                       history_.begin() + static_cast<std::ptrdiff_t>(first_user) + 2);
+                        if (turn_count_ > 0) {
+                            --turn_count_;
+                        }
+                    }
+                }
             }
             return query;
         } catch (const std::exception& e) {
@@ -265,7 +300,7 @@ std::string AQLConversationContext::refine(const std::string& instruction) {
     }
     {
         std::lock_guard<std::mutex> lock(impl_->history_mutex_);
-        if (impl_->turn_count_ == 0) {
+        if (impl_->last_query_.empty()) {
             throw std::logic_error(
                 "AQLConversationContext::refine: call start() before refine()"
             );

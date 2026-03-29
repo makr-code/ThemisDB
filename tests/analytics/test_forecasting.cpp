@@ -772,6 +772,8 @@ TEST(SIMDParityTest, ARIMA_AR1_ScalarVsSIMD) {
     // Production path: internally uses SIMD computeAutocovariance
     ForecastConfig cfg;
     cfg.ar_order = 1;
+    cfg.diff_order = 0;
+    cfg.ma_order = 0;
     ForecastModel model(ForecastMethod::ARIMA);
     model.fit(ts, cfg);
     auto fp = model.predict(1);
@@ -808,6 +810,8 @@ TEST(SIMDParityTest, ARIMA_AR2_ScalarVsSIMD) {
     // Production SIMD path
     ForecastConfig cfg;
     cfg.ar_order = 2;
+    cfg.diff_order = 0;
+    cfg.ma_order = 0;
     ForecastModel model(ForecastMethod::ARIMA);
     model.fit(ts, cfg);
     auto fp = model.predict(1);
@@ -839,6 +843,8 @@ TEST(SIMDParityTest, ARIMA_FlatSeries_NoNaN) {
 
     ForecastConfig cfg;
     cfg.ar_order = 2;
+    cfg.diff_order = 0;
+    cfg.ma_order = 0;
     ForecastModel model(ForecastMethod::ARIMA);
     model.fit(ts, cfg);
     auto forecast = model.predict(3);
