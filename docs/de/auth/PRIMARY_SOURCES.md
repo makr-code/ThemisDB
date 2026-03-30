@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [auth](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-03-29  
+**Datum:** 2026-03-30  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `include/auth/ARCHITECTURE.md`
@@ -55,4 +55,4 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`auth`** au
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-29*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-30*
