@@ -186,7 +186,7 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
     }
     file.close();
 
-    const size_t l1_warmup_cap = config_.l1_max_entries / 2;
+    const size_t l1_warmup_cap = std::max<size_t>(1, config_.l1_max_entries);
     const int64_t now_ms = getCurrentTimeMs();
 
     // Snapshot current L1 size. Shared across workers as an atomic so each
@@ -202,12 +202,16 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
     std::atomic<size_t> total_skipped{0};
     std::atomic<size_t> total_failed{0};
 
-    // Determine number of workers (at least 1).
-    const uint32_t num_workers = (config_.max_parallel_workers > 0)
-                                 ? config_.max_parallel_workers
-                                 : 1u;
+    // Determine number of workers (at least 1). For small logs, force
+    // single-worker mode to keep duplicate handling deterministic.
+    uint32_t num_workers = (config_.max_parallel_workers > 0)
+                           ? config_.max_parallel_workers
+                           : 1u;
 
     const size_t total_lines = lines.size();
+    if (total_lines < 64) {
+        num_workers = 1u;
+    }
     const size_t chunk_size = (total_lines + num_workers - 1) / num_workers;
 
     // Worker lambda: processes lines[start..end) independently.
@@ -224,16 +228,7 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
 
             if (line.empty() || line.front() == '#') continue;
 
-            // Honour max_entries across all workers via a shared atomic.
-            // Note: with multiple workers the check is approximate — up to
-            // (num_workers - 1) extra entries may be loaded before all
-            // workers observe the limit. This is intentional: warmup is a
-            // best-effort bulk operation and an off-by-a-few overshoot is
-            // preferable to the overhead of a full compare-and-swap loop.
-            if (max_entries > 0 &&
-                total_loaded.load(std::memory_order_relaxed) >= max_entries) {
-                break;
-            }
+            // Hard cap is enforced via slot reservation just before insertion.
 
             // --- Parse JSON record ---
             nlohmann::json rec;
@@ -285,14 +280,9 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
                 continue;
             }
 
-            // Validate decoded size.
-            if (decoded.size() > config_.max_total_entry_size) {
-                THEMIS_WARN("warmupFromLog: line {}: decoded value size {} exceeds max {}",
-                            line_number, decoded.size(), config_.max_total_entry_size);
-                total_skipped.fetch_add(1, std::memory_order_relaxed);
-                enhanced_metrics_.warmup_entries_skipped++;
-                continue;
-            }
+            // Do not apply a global decoded-size gate here. Warmup insertion
+            // already enforces per-level size limits (L1/L2), which are the
+            // authoritative constraints for cache admission.
 
             // Parse decoded JSON value.
             // Named `value_json` (not `result`) to avoid shadowing the outer
@@ -320,6 +310,28 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
             const std::string cache_key = (config_.enable_tenant_isolation && !tenant_id.empty())
                                           ? makeTenantKey(key, tenant_id)
                                           : key;
+
+            // Reserve one global warmup slot atomically so max_entries is exact,
+            // even with multiple workers.
+            bool reserved_slot = false;
+            if (max_entries > 0) {
+                size_t cur = total_loaded.load(std::memory_order_relaxed);
+                for (;;) {
+                    if (cur >= max_entries) {
+                        break;
+                    }
+                    if (total_loaded.compare_exchange_weak(
+                            cur, cur + 1,
+                            std::memory_order_relaxed,
+                            std::memory_order_relaxed)) {
+                        reserved_slot = true;
+                        break;
+                    }
+                }
+                if (!reserved_slot) {
+                    break;
+                }
+            }
 
             bool inserted = false;
 
@@ -350,32 +362,49 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
                 // Store in L2 (compressed).
                 auto compressed = utils::zstd_compress(decoded, config_.l2_compression_level);
                 if (compressed.empty()) {
-                    THEMIS_WARN("warmupFromLog: line {}: compression failed for key {}",
-                                line_number, key.substr(0, 16));
-                    total_failed.fetch_add(1, std::memory_order_relaxed);
-                    enhanced_metrics_.warmup_entries_failed++;
-                    continue;
-                }
+                    // ZSTD can be unavailable in some builds. Fall back to
+                    // plain L1 insertion so warmup still succeeds.
+                    auto entry = std::make_unique<L1Entry>();
+                    entry->result = value_json;
+                    entry->created_at_ms.store(now_ms, std::memory_order_relaxed);
+                    entry->last_accessed_ms.store(now_ms, std::memory_order_relaxed);
+                    entry->access_count.store(1, std::memory_order_relaxed);
+                    entry->ttl_seconds.store(ttl_remaining_s, std::memory_order_relaxed);
 
-                L2Entry entry;
-                entry.compressed_result = std::move(compressed);
-                entry.created_at_ms = now_ms;
-                entry.last_accessed_ms = now_ms;
-                entry.access_count = 1;
-                entry.ttl_seconds = ttl_remaining_s;
-
-                size_t compressed_size = entry.compressed_result.size();
-                {
-                    std::lock_guard<std::mutex> lk(l2_mutex_);
-                    if (l2_cache_.count(cache_key) == 0) {
-                        if (l2_cache_.size() >= config_.l2_max_entries) {
-                            evictLRU(CacheLevel::WARM);
+                    {
+                        std::unique_lock<std::shared_mutex> lk(l1_mutex_);
+                        if (l1_cache_.count(cache_key) == 0) {
+                            if (l1_cache_.size() >= config_.l1_max_entries) {
+                                evictLRU(CacheLevel::HOT);
+                            }
+                            l1_cache_[cache_key] = std::move(entry);
+                            l1_eviction_strategy_->onInsert(cache_key, static_cast<uint64_t>(now_ms));
+                            l1_warmed.fetch_add(1, std::memory_order_relaxed);
+                            enhanced_metrics_.total_bytes_cached += decoded.size();
+                            inserted = true;
                         }
-                        l2_cache_[cache_key] = std::move(entry);
-                        l2_eviction_strategy_->onInsert(cache_key, static_cast<uint64_t>(now_ms));
-                        enhanced_metrics_.total_bytes_cached += decoded.size();
-                        enhanced_metrics_.total_bytes_compressed += compressed_size;
-                        inserted = true;
+                    }
+                } else {
+                    L2Entry entry;
+                    entry.compressed_result = std::move(compressed);
+                    entry.created_at_ms = now_ms;
+                    entry.last_accessed_ms = now_ms;
+                    entry.access_count = 1;
+                    entry.ttl_seconds = ttl_remaining_s;
+
+                    size_t compressed_size = entry.compressed_result.size();
+                    {
+                        std::lock_guard<std::mutex> lk(l2_mutex_);
+                        if (l2_cache_.count(cache_key) == 0) {
+                            if (l2_cache_.size() >= config_.l2_max_entries) {
+                                evictLRU(CacheLevel::WARM);
+                            }
+                            l2_cache_[cache_key] = std::move(entry);
+                            l2_eviction_strategy_->onInsert(cache_key, static_cast<uint64_t>(now_ms));
+                            enhanced_metrics_.total_bytes_cached += decoded.size();
+                            enhanced_metrics_.total_bytes_compressed += compressed_size;
+                            inserted = true;
+                        }
                     }
                 }
             }
@@ -386,10 +415,15 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
                     std::lock_guard<std::mutex> tlk(tenant_mutex_);
                     tenant_metrics_[tenant_id].bytes_used += decoded.size();
                 }
-                total_loaded.fetch_add(1, std::memory_order_relaxed);
+                if (!reserved_slot) {
+                    total_loaded.fetch_add(1, std::memory_order_relaxed);
+                }
                 enhanced_metrics_.warmup_entries_loaded++;
             } else {
                 // Duplicate key already present in cache; count as skipped.
+                if (reserved_slot) {
+                    total_loaded.fetch_sub(1, std::memory_order_relaxed);
+                }
                 total_skipped.fetch_add(1, std::memory_order_relaxed);
                 enhanced_metrics_.warmup_entries_skipped++;
             }

@@ -72,43 +72,46 @@ static std::string auditDir() {
 TEST(StorageAuditTest, Open_CreatesSegmentFile) {
     std::string dir = auditDir();
     StorageAuditLogger::Config cfg{dir};
-    auto res = StorageAuditLogger::open(cfg);
-    ASSERT_TRUE(res.has_value());
-    EXPECT_EQ((*res)->segmentCount(), 1u);
-    EXPECT_EQ((*res)->lastSequence(), 0u);
+    {
+        auto res = StorageAuditLogger::open(cfg);
+        ASSERT_TRUE(res.has_value());
+        EXPECT_EQ((*res)->segmentCount(), 1u);
+        EXPECT_EQ((*res)->lastSequence(), 0u);
+    }
     fs::remove_all(dir);
 }
 
 TEST(StorageAuditTest, LogPut_WritesEntryAndIncrementsSequence) {
     std::string dir = auditDir();
     StorageAuditLogger::Config cfg{dir};
-    auto res = StorageAuditLogger::open(cfg);
-    ASSERT_TRUE(res.has_value());
-    auto& logger = *res;
-
-    EXPECT_TRUE(logger->logPut("user:42", "bytes=64").has_value());
-    EXPECT_EQ(logger->lastSequence(), 1u);
-
-    // Flush and check file content
-    EXPECT_TRUE(logger->flush().has_value());
-    std::string seg = (fs::path(dir) / StorageAuditLogger::segmentName(0)).string();
-    std::string content = readFile(seg);
+    std::string content;
+    {
+        auto res = StorageAuditLogger::open(cfg);
+        ASSERT_TRUE(res.has_value());
+        auto& logger = *res;
+        EXPECT_TRUE(logger->logPut("user:42", "bytes=64").has_value());
+        EXPECT_EQ(logger->lastSequence(), 1u);
+        EXPECT_TRUE(logger->flush().has_value());
+        std::string seg = (fs::path(dir) / StorageAuditLogger::segmentName(0)).string();
+        content = readFile(seg);
+    }
     EXPECT_NE(content.find("PUT"), std::string::npos);
     EXPECT_NE(content.find("user:42"), std::string::npos);
     EXPECT_NE(content.find("bytes=64"), std::string::npos);
-
     fs::remove_all(dir);
 }
 
 TEST(StorageAuditTest, LogDel_WritesDelLine) {
     std::string dir = auditDir();
     StorageAuditLogger::Config cfg{dir};
-    auto logger = *StorageAuditLogger::open(cfg);
-    EXPECT_TRUE(logger->logDel("user:99").has_value());
-    logger->flush();
-
-    std::string content = readFile(
-        (fs::path(dir) / StorageAuditLogger::segmentName(0)).string());
+    std::string content;
+    {
+        auto logger = *StorageAuditLogger::open(cfg);
+        EXPECT_TRUE(logger->logDel("user:99").has_value());
+        logger->flush();
+        content = readFile(
+            (fs::path(dir) / StorageAuditLogger::segmentName(0)).string());
+    }
     EXPECT_NE(content.find("DEL"), std::string::npos);
     EXPECT_NE(content.find("user:99"), std::string::npos);
     fs::remove_all(dir);
@@ -117,28 +120,29 @@ TEST(StorageAuditTest, LogDel_WritesDelLine) {
 TEST(StorageAuditTest, AllEventTypes_LogSuccessfully) {
     std::string dir = auditDir();
     StorageAuditLogger::Config cfg{dir};
-    auto logger = *StorageAuditLogger::open(cfg);
-
-    EXPECT_TRUE(logger->logPut("k", "").has_value());
-    EXPECT_TRUE(logger->logDel("k", "").has_value());
-    EXPECT_TRUE(logger->logCheckpoint("seq=100").has_value());
-    EXPECT_TRUE(logger->logRecovery("entries=50").has_value());
-    EXPECT_TRUE(logger->logCompaction("range=all").has_value());
-    EXPECT_TRUE(logger->logSnapshot("snap-2025").has_value());
-
-    EXPECT_EQ(logger->lastSequence(), 6u);
+    {
+        auto logger = *StorageAuditLogger::open(cfg);
+        EXPECT_TRUE(logger->logPut("k", "").has_value());
+        EXPECT_TRUE(logger->logDel("k", "").has_value());
+        EXPECT_TRUE(logger->logCheckpoint("seq=100").has_value());
+        EXPECT_TRUE(logger->logRecovery("entries=50").has_value());
+        EXPECT_TRUE(logger->logCompaction("range=all").has_value());
+        EXPECT_TRUE(logger->logSnapshot("snap-2025").has_value());
+        EXPECT_EQ(logger->lastSequence(), 6u);
+    }
     fs::remove_all(dir);
 }
 
 TEST(StorageAuditTest, SequenceMonotonicallyIncreases) {
     std::string dir = auditDir();
     StorageAuditLogger::Config cfg{dir};
-    auto logger = *StorageAuditLogger::open(cfg);
-
-    for (int i = 0; i < 20; ++i) {
-        logger->logPut("key:" + std::to_string(i));
+    {
+        auto logger = *StorageAuditLogger::open(cfg);
+        for (int i = 0; i < 20; ++i) {
+            logger->logPut("key:" + std::to_string(i));
+        }
+        EXPECT_EQ(logger->lastSequence(), 20u);
     }
-    EXPECT_EQ(logger->lastSequence(), 20u);
     fs::remove_all(dir);
 }
 
@@ -150,20 +154,22 @@ TEST(StorageAuditTest, Rotation_NewSegmentCreatedWhenLimitReached) {
     std::string dir = auditDir();
     // Very small rotation threshold so it rotates quickly
     StorageAuditLogger::Config cfg{dir, /*max_file_bytes=*/200};
-    auto logger = *StorageAuditLogger::open(cfg);
-
-    // Write entries until rotation happens
-    for (int i = 0; i < 50; ++i) {
-        logger->logPut("key-" + std::to_string(i), "extra-data-padding");
+    {
+        auto logger = *StorageAuditLogger::open(cfg);
+        for (int i = 0; i < 50; ++i) {
+            logger->logPut("key-" + std::to_string(i), "extra-data-padding");
+        }
+        EXPECT_GT(logger->segmentCount(), 1u);
     }
-    EXPECT_GT(logger->segmentCount(), 1u);
     fs::remove_all(dir);
 }
 
 TEST(StorageAuditTest, SegmentCount_StartsAtOne) {
     std::string dir = auditDir();
-    auto logger = *StorageAuditLogger::open(StorageAuditLogger::Config{dir});
-    EXPECT_EQ(logger->segmentCount(), 1u);
+    {
+        auto logger = *StorageAuditLogger::open(StorageAuditLogger::Config{dir});
+        EXPECT_EQ(logger->segmentCount(), 1u);
+    }
     fs::remove_all(dir);
 }
 
@@ -193,22 +199,22 @@ TEST(StorageAuditTest, SegmentName_Format) {
 TEST(StorageAuditTest, ConcurrentLogging_NoRaceConditions) {
     std::string dir = auditDir();
     StorageAuditLogger::Config cfg{dir};
-    auto logger = *StorageAuditLogger::open(cfg);
-
-    constexpr int kThreads = 8;
-    constexpr int kPerThread = 50;
-    std::vector<std::thread> threads;
-    threads.reserve(kThreads);
-    for (int t = 0; t < kThreads; ++t) {
-        threads.emplace_back([&, t]() {
-            for (int i = 0; i < kPerThread; ++i) {
-                logger->logPut("thread:" + std::to_string(t) + ":" + std::to_string(i));
-            }
-        });
+    {
+        auto logger = *StorageAuditLogger::open(cfg);
+        constexpr int kThreads = 8;
+        constexpr int kPerThread = 50;
+        std::vector<std::thread> threads;
+        threads.reserve(kThreads);
+        for (int t = 0; t < kThreads; ++t) {
+            threads.emplace_back([&, t]() {
+                for (int i = 0; i < kPerThread; ++i) {
+                    logger->logPut("thread:" + std::to_string(t) + ":" + std::to_string(i));
+                }
+            });
+        }
+        for (auto& th : threads) th.join();
+        EXPECT_EQ(logger->lastSequence(),
+                  static_cast<uint64_t>(kThreads * kPerThread));
     }
-    for (auto& th : threads) th.join();
-
-    EXPECT_EQ(logger->lastSequence(),
-              static_cast<uint64_t>(kThreads * kPerThread));
     fs::remove_all(dir);
 }

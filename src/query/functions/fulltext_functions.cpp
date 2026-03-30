@@ -299,9 +299,17 @@ size_t bestSnippetOffset(const std::string& lower,
             bestStart = mid > windowSize / 2 ? mid - windowSize / 2 : 0;
         }
     }
-    // Align bestStart to a word boundary to avoid splitting UTF-8 sequences
-    while (bestStart > 0 &&
-           std::isalnum(static_cast<unsigned char>(lower[bestStart]))) --bestStart;
+    // Align to a boundary without rewinding across a very long token.
+    // Rewinding can move the window far away from the actual match cluster.
+    if (bestStart > 0 && std::isalnum(static_cast<unsigned char>(lower[bestStart]))) {
+        while (bestStart < lower.size() &&
+               std::isalnum(static_cast<unsigned char>(lower[bestStart]))) {
+            ++bestStart;
+        }
+    }
+    if (bestStart >= lower.size()) {
+        bestStart = lower.size() > windowSize ? (lower.size() - windowSize) : 0;
+    }
     return bestStart;
 }
 
