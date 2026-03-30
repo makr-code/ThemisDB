@@ -12000,6 +12000,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_usb_volume_hardening.cpp")
 
     target_link_libraries(test_usb_volume_hardening_focused PRIVATE
         ${TEST_LIBS}
+        themis_core
         OpenSSL::Crypto
         OpenSSL::SSL
         fmt::fmt
@@ -15815,6 +15816,7 @@ if(THEMIS_ENABLE_LLM)
 
         target_link_libraries(test_voice_assistant_focused PRIVATE
             ${TEST_LIBS}
+            themis_core
             nlohmann_json::nlohmann_json
             spdlog::spdlog
             Threads::Threads
@@ -18723,6 +18725,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_egov_data_driven.cpp")
 
         target_link_libraries(test_egov_data_driven_focused PRIVATE
             ${TEST_LIBS}
+            themis_core
             nlohmann_json::nlohmann_json
             Threads::Threads
         )
@@ -18980,6 +18983,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_timeseries_forecasting.
 
     target_link_libraries(test_cross_module_timeseries_forecasting_focused PRIVATE
         ${TEST_LIBS}
+        themis_core
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
@@ -19044,6 +19048,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_temporal_bitemporal.cpp
 
     target_link_libraries(test_cross_module_temporal_bitemporal_focused PRIVATE
         ${TEST_LIBS}
+        themis_core
         nlohmann_json::nlohmann_json
         Threads::Threads
     )

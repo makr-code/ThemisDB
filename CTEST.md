@@ -1,7 +1,39 @@
 # CTest Inventory — ThemisDB
 
 > Preset: `msvc-ninja-release` · Stand: 2026-03-30 · Build: `build-msvc-ninja-release`
-> Generiert aus: `ctest --preset msvc-ninja-release --show-only`
+> Letzter Komplett-Run: `ctest --preset msvc-ninja-release --output-on-failure --parallel 4`
+> Laufzeit: 1338 Sek (~22 Min) · Datum: 30.03.2026 17:43 UTC
+
+---
+
+## Ergebnis des Komplett-Runs (Istzustand 30.03.2026)
+
+```
+73% tests passed, 164 tests failed out of 617
+Total Test time (real) = 1338.74 sec
+```
+
+| Kategorie | Anzahl |
+|---|---|
+| **Gesamt registrierte CTest-Tests** | **617** |
+| ✅ Passed | 453 |
+| ❌ Failed (Logik-/Assertion-Fehler) | 105 |
+| ⏱️ Timeout | 11 |
+| 🚫 Not Run (Binary fehlt) | 13 |
+| 🚫 Bewusst deaktiviert (`_NOT_BUILT`) | 24 |
+| 🔬 Benchmark (kein Pass/Fail) | 1 |
+
+### Fehler-Kategorien
+
+| Kategorie | Ursache | Typische Tests |
+|---|---|---|
+| **File-Lock Konflikte** | Parallele Tests schreiben in dasselbe Temp-Dir | StorageAuditLogger |
+| **Fehlende LLM-Runtime** | `EmbeddedLLMManager not initialized` (kein Plugin im CI-Test-Kontext) | AQL Builder, LLM-Timeout |
+| **Stub-Implementierungen** | `stub: apply failed` — Methode noch nicht implementiert | BlueGreenDeployment, CanaryRollout |
+| **Sharding-Timeouts** | Raft-Konsens braucht echte Netzwerk-Peers | ShardingCore, ShardingIntegration |
+| **JWT-Fehler** | Schlüssel/Validierungs-Konfiguration im Test-Umfeld | JWTValidator, JWTEdDSA |
+| **Importer-Fehler** | Missing DB-Connections (Mongo/SQLite/Oracle ohne Local-Instanz) | MongoImporter, SQLiteImporter |
+| **Not Run** | Binary noch nicht kompiliert (v1.9.0 Features, CUDA) | Temporal, CUDA, e-Gov |
 
 ---
 
@@ -10,17 +42,16 @@
 | Kategorie | Anzahl |
 |---|---|
 | **Gesamt registrierte CTest-Tests** | **617** |
-| ✅ Binary vorhanden / lauffähig | 48 |
-| ⬜ Binary fehlt (`EXCLUDE_FROM_ALL`, noch nicht gebaut) | 545 |
+| ✅ Passed (Komplett-Run 30.03.2026) | **453** (73 %) |
+| ❌ Nicht bestanden (gesamt) | **164** (27 %) |
 | 🚫 Bewusst deaktiviert (`_NOT_BUILT` im Ziel-Namen) | 24 |
 | 🔬 Benchmarks (Laufzeit-Benchmarks, kein Pass/Fail) | 1 |
 
-> **Warum 545 „fehlend"?**
-> Fast alle Test-Executables sind in `tests/CMakeLists.txt` mit
-> `EXCLUDE_FROM_ALL` definiert — sie werden durch einen normalen
-> `cmake --build` nicht automatisch gebaut. Sie müssen explizit per
-> `cmake --build --preset vscode-windows-release --target <name>`
-> oder per Sammel-Build angefordert werden.
+> **Zur Methodik:** Alle 544 zuvor mit `EXCLUDE_FROM_ALL` markierten Test-Binaries
+> wurden in einem dedizierten Build-Schritt kompiliert. Anschließend wurde der
+> vollständige 617-Test-Run via `ctest --preset msvc-ninja-release` durchgeführt.
+> `Not Run`-Tests betreffen entweder noch nicht gebaute v1.9.0-Targets (Temporal,
+> CUDA) oder `_NOT_BUILT`-Platzhalter.
 >
 > **`_NOT_BUILT`-Targets** sind bewusst deaktivierte Platzhalter —
 > ihr CMake-Target existiert (per `set_tests_properties ... LABELS`),
@@ -681,6 +712,96 @@ Sie sind in CTest registriert, um den Fehlerstatus sichtbar zu machen.
 |-----|------|--------|
 | 403 | LlmBenchContinuousBatchScheduler | ⬜ Binary fehlt (`EXCLUDE_FROM_ALL`) |
 |  23 | test_wire_perf_benchmark_NOT_BUILT | 🚫 Deaktiviert |
+
+---
+
+## ❌ Fehlgeschlagene Tests — Komplett-Run 30.03.2026
+
+> Offizielle CTest-Summary: **164 tests failed out of 617** (73 % passed)
+> Kategorien: `Failed` = Logik/Assertion-Fehler · `Timeout` = Zeitlimit überschritten · `Not Run` = Binary fehlt
+
+### _NOT_BUILT (24 — bewusst deaktivierte Platzhalter)
+| ID | Test |
+|----|------|
+| 1 | themis_secidx_tests_NOT_BUILT |
+| 2 | themis_tests_critical_NOT_BUILT |
+| 3–14 | test_phase1_*, test_ann_index, test_erasure_coding, test_search_highlighter, test_distributed_hybrid_search, test_bitemporal_join, test_temporal_snapshot_manager, test_interval_tree_index, test_temporal_compressor, test_temporal_cdc, test_ts_auto_buffer_adaptive |
+| 15–18 | test_chunk_level_encryption, test_wasm_runtime_injector, WasmSandboxInjectionFocusedTests, test_simd_distance |
+| 19–24 | test_memory_pressure, test_workload_predictor, test_cycle_metrics, test_numa_topology, test_wire_perf_benchmark, test_adaptive_batch_tuner |
+
+### Not Run (fehlende Binaries — v1.7/1.9 Features, CUDA)
+| ID | Test | Grund |
+|----|------|-------|
+| 519 | VoiceBrowserStreamingFocusedTests | Binary fehlt |
+| 520 | VoiceTelephonyFocusedTests | Binary fehlt |
+| 540 | WomTreeFocusedTests | Binary fehlt |
+| 564 | TemporalConflictResolverFocusedTests | v1.9 (nicht gebaut) |
+| 567 | TemporalQueryEngineFocusedTests | v1.9 (nicht gebaut) |
+| 568 | ContinuousAggMaterializationFocusedTests | v1.9 (nicht gebaut) |
+| 570 | OnlineSchemaMigrationFocusedTests | v1.7 (nicht gebaut) |
+| 583 | LoRACertificateStoreFocusedTests | v1.8 (nicht gebaut) |
+| 592 | CudaHnswLargeKFocusedTests | CUDA nicht aktiviert |
+| 601 | EGovDataDrivenFocusedTests | Linker (cross-module) |
+| 607 | CrossModuleTimeseriesForecastingTests | Linker (cross-module) |
+| 608 | CrossModuleTemporalBiTemporalTests | Linker (cross-module) |
+| 613 | CrossModuleTrainingGovernanceTests | Linker (cross-module) |
+
+### Timeout (11 Tests)
+| ID | Test |
+|----|------|
+| 223 | PluginHotPlugFocusedTests |
+| 235 | LLMTimeoutCancellationTests |
+| 239 | ParallelScanTests |
+| 256 | TenantBufferManagerFocusedTests |
+| 312 | LockFreeMetricsFocusedTests |
+| 413 | IngestionSchemaValidationFocusedTests |
+| 551 | ShardingCoreFocusedTests |
+| 557 | ShardingIntegrationFocusedTests |
+| 569 | DistributedCacheIntegrationFocusedTests |
+
+### Failed (Logik/Assertion-Fehler — nach Themenbereich)
+
+**Transaktionen & SAGA**
+25 (AllTests), 102 (TransactionOcc), 106 (TransactionTimeout), 108 (TransactionSSI), 112 (SAGAOrchestrator), 119 (SAGALogger), 130 (ShardingTransactionWAL), 131 (MultiShardTransaction), 133 (PercolatorCoordinator)
+
+**Cache & Replikation**
+52 (HTTPClientPool), 60 (CacheAdminApiHandler), 61 (CacheWarmup), 63 (CacheReplicationCoordinator), 64 (DistributedCacheCoordinator), 67 (ReplicationHAFocused), 70 (ReplicationHA), 73 (ReplicationTopologyAPI)
+
+**Index & Storage**
+94 (InvertedIndex), 97 (PITRManager), 99 (VectorCompressionLossless), 325 (USBVolumeHardening), 539 (StorageAuditLogger), 541 (StorageEngineDI), 542 (StorageEngineProd), 587 (RocksDBSizeCalculation)
+
+**Auth & Security (JWT/LDAP/TOTP)**
+275–284 (JWT-Suite: JWTValidator, JWTEdDSA, JWTES256, JWTKeyRotation, JWTTokenRevocation, JWTValidationHardening), 295 (LDAPAuthenticator), 296 (LDAPConnectionPool), 305 (TOTPReplayCache), 306 (TOTPSecretEncryption)
+
+**Governance & Policy**
+154 (ModelGovernance), 156 (HttpGovernance), 158 (HttpChangefeedGovernance), 165–167 (PolicyReview/Template/Versioning), 170 (LEKManager)
+
+**Tracing & Observability**
+145 (DistributedTracing), 146 (OtelApiTracing), 491 (MetricsAggregation), 496 (ObservabilityTracer), 497 (LogAggregator)
+
+**Plugin-System**
+219 (PluginManager), 222 (PluginHealthMonitor), 228 (PluginMetricsIntegration), 229 (PluginSecurityAudit), 231 (PluginSecurityCRLOCSP), 233 (PluginMarketplaceManifest), 234 (PluginManagerComprehensive), 386 (LlmDeploymentPlugin)
+
+**Importer**
+199 (ImporterPluginApi), 207 (MongoImporter), 208 (SQLiteImporter), 210 (OracleImporter)
+
+**Ingestion-Pipeline**
+252 (AsyncIngestionYamlConfig), 406 (IngestionBuilder), 408 (IngestionErrors), 409 (IngestionCheckpoint), 415 (IngestionOauth), 421 (IngestionCoordinator), 423 (IngestionIntegration), 424 (IngestionPipeline), 425 (IngestionLineage), 426 (LegalExtraction)
+
+**Prompt Engineering & LLM**
+363 (JsonlLlmExporter), 462–465 (PromptVersionControl, FeedbackCollector, PromptOptimizer, MetaPromptGenerator), 473 (SelfImprovementOrchestrator), 477–478 (PromptRegressionRunner, PromptABExperiment), 486 (ReflectionIntegration), 488 (DspyModule)
+
+**Content & CDC**
+243 (ContentSecurity), 245 (ContentAudioProcessor), 247 (ContentDeduplication), 254 (LibreOfficeSecurity), 255 (CDCAdmin), 257 (CDCRetention), 258 (CDCChangefeedSequenceCounter)
+
+**Schema & Metadata**
+271 (ConfigMigrationScanner), 428 (SchemaManager), 434 (SchemaConsistencyChecker), 435 (IndexRecommender), 436 (DistributedMetadataCatalog)
+
+**Sharding**
+553 (RSRepairParallelisation), 559 (ShardingOperationalMetrics), 560 (ShardingUncovered), 585 (OrphanDetectorWired)
+
+**Sonstiges**
+122 (PIIStreamScanner), 126 (UtilsInterfaces), 127 (RateLimiterV2), 128 (RateLimitingImprovements), 129 (UtilsStandalone), 165 (RateLimiting), 310 (ConcernsContext), 451 (NetworkTimeout), 453 (WireProtocolConnectionPool), 500 (ModalityParser), 501 (TrainingConvergence), 509 (VoiceProduction), 513 (BinaryDeltaPatches), 518 (VoiceAssistant), 524 (ParallelFileDownloads), 529 (DistributedGateway), 531 (DatabaseMaintenanceOrchestrator), 533 (QueryFederationShardRouting), 590 (PredictivePrefetcherMarkov), 591 (VersionedApiRouting), 593 (ComputeInterfaces), 598 (EIDAuthenticator), 614 (CrossModuleQuerySharding)
 
 ---
 
