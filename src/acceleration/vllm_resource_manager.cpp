@@ -3,20 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vllm_resource_manager.cpp                          ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:13:01                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:13:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     389                                            ║
+    • Quality Score:   97.0/100                                       ║
+    • Total Lines:     510                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 137d06cfe  2026-03-18  fix: handle dtotal==0 CPU cache-hit and guard perf test a... ║
+    • 3254a3d48  2026-03-18  feat(acceleration): VLLMResourceManager multi-GPU NVML mo... ║
+    • 7a41ab30d  2026-03-18  feat(acceleration): implement CPU snapshot cache (200ms T... ║
     • 592b54382  2026-03-15  fix(scheduler,acceleration): remove stale TODOs, add VLLM... ║
-    • e627c556b  2026-03-15  feat(acceleration): BackendRegistry thread-safety, VLLMRe... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

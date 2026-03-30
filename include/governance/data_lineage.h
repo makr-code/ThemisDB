@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            data_lineage.h                                     ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:06:46                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:07:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

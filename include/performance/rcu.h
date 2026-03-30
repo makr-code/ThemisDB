@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rcu.h                                              ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:08:43                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:09:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

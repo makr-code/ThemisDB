@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_tsstore_gorilla_buffer.cpp                    ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-16 04:31:57                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-30 04:34:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     304                                            ║
+    • Total Lines:     328                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 971a3c49d  2026-03-20  Build/test fixes and auth role mapping refactor ║
     • d9e68edf7  2026-03-15  fix: address code review - INVALID_INPUT status, test acc... ║
     • 822b0afce  2026-03-15  feat(timeseries): implement TSStore single-point insert b... ║
 ╠═════════════════════════════════════════════════════════════════════╣

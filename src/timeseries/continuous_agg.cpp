@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            continuous_agg.cpp                                 ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:19:38                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     286                                            ║
+    • Total Lines:     413                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • e155b627e  2026-03-24  feat(temporal,timeseries): SQL:2011 temporal query dispat... ║
     • 4dbd7efde  2026-03-13  feat(timeseries): incremental continuous aggregation with... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣

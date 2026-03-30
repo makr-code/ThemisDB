@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            quic_transport.h                                   ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:08:13                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:08:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

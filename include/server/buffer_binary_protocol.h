@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            buffer_binary_protocol.h                           ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:10:07                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            shard_rpc_client.h                                 ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:10:39                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     259                                            ║
+    • Total Lines:     268                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 971a3c49d  2026-03-20  Build/test fixes and auth role mapping refactor ║
     • 715714948  2026-03-15  feat(sharding): fix coordinator ID + implement SAGA compe... ║
     • 2a280bfd0  2026-03-15  feat: Complete Shard RPC Integration acceptance criteria ... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║

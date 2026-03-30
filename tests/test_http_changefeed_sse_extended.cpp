@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_http_changefeed_sse_extended.cpp              ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:26:00                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:28:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

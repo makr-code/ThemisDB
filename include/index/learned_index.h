@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            learned_index.h                                    ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:07:25                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:08:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

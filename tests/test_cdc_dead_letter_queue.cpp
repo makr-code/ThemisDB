@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_dead_letter_queue.cpp                     ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:23:21                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:25:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

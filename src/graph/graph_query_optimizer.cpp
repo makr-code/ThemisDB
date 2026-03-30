@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_query_optimizer.cpp                          ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:15:14                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:16:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     2793                                           ║
+    • Total Lines:     2867                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 5bfa861df  2026-03-23  Add runtime DLL copying functionality and error handling ║
+    • 39ac8c3ef  2026-03-20  Split default-arg constructors into overloads ║
     • 43a91f179  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 0fccc8956  2026-02-26  fix(code-audit): add estimated_cost_ms to executeSubgraph... ║
-    • 469b792c1  2026-02-26  fix: add explanatory comment for cost-to-ms conversion fa... ║
-    • 8b26f1ce4  2026-02-26  feat: add cost estimation accuracy tracking to graph cost... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            warmup.cpp                                         ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-03-16 04:13:48                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-03-30 04:14:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     531                                            ║
+    • Total Lines:     535                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 9c4b80d3b  2026-03-22  Refactor AdaptiveQueryCache: Remove unused warmup functio... ║
     • 20a1e4a44  2026-03-15  refactor(cache): address code review on warmup parallel b... ║
     • 9d355f584  2026-03-15  feat(cache): implement warmup parallel bulk load (v1.8.0) ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • c45386355  2026-02-24  fix(cache): fix 3 bugs in warmup.cpp found during code audit ║
-    • 1808900b2  2026-02-22  feat: implement auto-bootstrap for third-party dependenci... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

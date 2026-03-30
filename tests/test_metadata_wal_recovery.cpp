@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_metadata_wal_recovery.cpp                     ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:27:20                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:29:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

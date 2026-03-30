@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_manager.cpp                                ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:14:19                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:15:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     2770                                           ║
+    • Total Lines:     2777                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 4468db516  2026-03-19  fix(content): dedup default-off, strengthen policy-absent... ║
+    • 55d1f8241  2026-03-19  fix(content): wire enable_deduplication config gate, add ... ║
     • 67549ed6f  2026-03-15  fix(content): wire ContentPolicy::embedding_model gate in... ║
     • 0e2644909  2026-03-11  fix(content): thread-safe OCR routing — add shouldTrigger... ║
-    • fbee25556  2026-03-11  feat(content): wire ContentPolicy::ocrEnabled() to MimeDe... ║
-    • 7e6930569  2026-03-11  feat(content): wire OCR integration into content_manager:... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

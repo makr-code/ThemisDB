@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_security.h                                   ║
-  Version:         0.0.30                                             ║
-  Last Modified:   2026-03-16 04:11:55                                ║
+  Version:         0.0.31                                             ║
+  Last Modified:   2026-03-30 04:13:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

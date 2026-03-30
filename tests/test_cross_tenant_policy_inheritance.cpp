@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cross_tenant_policy_inheritance.cpp           ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:24:11                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:26:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

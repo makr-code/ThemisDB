@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            websocket_session.h                                ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:10:31                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:11:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

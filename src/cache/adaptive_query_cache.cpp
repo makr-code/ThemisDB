@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_query_cache.cpp                           ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:13:42                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:14:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     2545                                           ║
+    • Total Lines:     2317                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 5b1c0eb4a  2026-03-14  fix(cache): address PR review comments on RedisCacheCoord... ║
-    • 84e885494  2026-03-14  feat(cache): implement RedisCacheCoordinator async pub/su... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
-    • e0b252ddc  2026-02-25  feat(cache): implement Redis-compatible distributed cache... ║
+    • 9c4b80d3b  2026-03-22  Refactor AdaptiveQueryCache: Remove unused warmup functio... ║
+    • a95475dd7  2026-03-22  fix(cache): complete lock-free L1 read path migration + u... ║
+    • c24f94c9c  2026-03-22  feat(cmake): add join_exporter to THEMIS_CORE_SOURCES and... ║
+    • c4d262210  2026-03-22  Changes before error encountered         ║
+    • 804169974  2026-03-17  fix(cache): address all review comments on predictive pre... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

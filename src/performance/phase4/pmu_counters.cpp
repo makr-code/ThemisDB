@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pmu_counters.cpp                                   ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:17:07                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:18:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   90.0/100                                       ║
-    • Total Lines:     246                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     732                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • c24f94c9c  2026-03-22  feat(cmake): add join_exporter to THEMIS_CORE_SOURCES and... ║
+    • 0bdd4b7ab  2026-03-21  Changes before error encountered         ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 3fc507357  2026-02-25  feat(performance/phase4): add PMU hardware counter integr... ║
 ╠═════════════════════════════════════════════════════════════════════╣

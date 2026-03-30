@@ -1,4 +1,27 @@
 /*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_behoerden_genehmigungsverfahren_e2e.cpp       ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-30 04:24:40                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1074                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 7811d1486  2026-03-27  feat: Enhance backward compatibility and legacy support a... ║
+    • e5c131657  2026-03-26  Add simple Baugenehmigung E2E test as foundation ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
  * ThemisDB — Vollautomatisches Behörden-Genehmigungsverfahren E2E-Testszenario
  *
  * Szenario:  Baugenehmigungsverfahren (§ 63 BauO NRW)

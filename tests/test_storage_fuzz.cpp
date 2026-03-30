@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_storage_fuzz.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-16 04:31:17                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-30 04:34:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

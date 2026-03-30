@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_column_lineage.cpp                            ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:23:40                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:25:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

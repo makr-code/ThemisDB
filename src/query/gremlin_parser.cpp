@@ -3,8 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gremlin_parser.cpp                                 ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-03-24                                         ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-30 04:18:30                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     920                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 7811d1486  2026-03-27  feat: Enhance backward compatibility and legacy support a... ║
+    • 2b0224e30  2026-03-24  feat(query): add Gremlin parser + focused test targets fo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

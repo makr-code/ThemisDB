@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            phase2_feature_flags.cpp                           ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:17:01                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:17:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

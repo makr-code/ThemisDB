@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mongo_importer.cpp                                 ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-03-16 04:15:30                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-03-30 04:16:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

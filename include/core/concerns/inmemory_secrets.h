@@ -4,17 +4,17 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            inmemory_secrets.h                                 ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-03-22 07:12:03                                ║
+  Last Modified:   2026-03-30 04:06:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     220                                            ║
+    • Total Lines:     256                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • initial        2026-03-22  feat(core): implement InMemorySecrets and EnvSecretsProvider ║
+    • 090f93ef2  2026-03-22  feat(core): implement InMemorySecrets and EnvSecretsProvi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

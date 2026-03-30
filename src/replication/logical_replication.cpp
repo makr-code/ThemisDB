@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            logical_replication.cpp                            ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-16 04:18:01                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-30 04:19:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     701                                            ║
+    • Total Lines:     734                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 67965456c  2026-03-22  Add constructors with default config for various classes ... ║
     • 16aed6bb0  2026-03-15  refactor: enhance modular build configuration and improve... ║
     • bb58b60db  2026-03-14  Respect parallel_decoding config and document fallback be... ║
     • ac49d216f  2026-03-14  adjust row filter warning and temp dir uniqueness ║
     • d2968d487  2026-03-14  tighten logical replication diagnostics and randomness ║
-    • 7de16fb22  2026-03-14  add logging for logical slot persistence and filters ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

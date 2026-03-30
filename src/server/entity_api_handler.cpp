@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            entity_api_handler.cpp                             ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:18:39                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:19:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

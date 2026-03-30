@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            neo4j_adapter.cpp                                  ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:14:01                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:14:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   80.0/100                                       ║
-    • Total Lines:     1256                                           ║
+    • Total Lines:     1258                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            huggingface_hub_client.h                           ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-16 04:06:37                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-30 04:07:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     249                                            ║
+    • Total Lines:     268                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 17ac0cd31  2026-03-16  feat(exporters): HuggingFace Hub Client HTTP 429 back-off... ║
     • c64ea5aac  2026-03-11  feat(exporters): add hf_token_kek_id for KEK/KMS-protecte... ║
     • 07dbc3052  2026-03-11  feat(exporters): add memory-streaming upload API for Hugg... ║
     • e7c18a826  2026-03-11  feat(exporters): HuggingFace Hub upload with PolicyEngine... ║
-    • 3db37eb45  2026-03-10  feat(exporters): implement EXP-001 PolicyEngine auth, EXP... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

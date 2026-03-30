@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_server.cpp                                    ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:18:43                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:19:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   91.0/100                                       ║
-    • Total Lines:     10737                                          ║
-    • Open Issues:     TODOs: 3, Stubs: 0                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     10740                                          ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 490de27f0  2026-03-26  fix: implement all P0/P1 blockers - QueryEngine, RAG, eth... ║
     • 80ae5c5d3  2026-03-15  fix(storage/audit): remove dead dsm.setRocksDBSize() call... ║
     • 9f9d86ceb  2026-03-15  feat(storage): implement proper size calculation in Rocks... ║
     • c9b143394  2026-03-15  feat(server): inject live ShardingManager into HttpServer... ║
     • 2fed5b1c6  2026-03-15  fix(cdc): wire ConsumerGroupManager into WebSocket server... ║
-    • af1b62452  2026-03-12  fix: address review feedback - null safety, HTTP route fo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

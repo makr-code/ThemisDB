@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            openapi_route_registry.cpp                         ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:18:48                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:19:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

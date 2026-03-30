@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plugin_security.cpp                                ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:13:00                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:13:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1549                                           ║
+    • Total Lines:     2230                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f2b4fd08c  2026-02-26  fix(audit): correct enum ordering, string JSON serializat... ║
-    • 3f47ce19e  2026-02-23  feat(acceleration): security hardening pass for plugin/dr... ║
-    • 40c623acf  2026-02-23  Implement security audit for backend plugin loading and r... ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 6b9a39c6d  2026-03-16  fix(acceleration): add CI workflow, fix overflow guard, c... ║
+    • adb14cd81  2026-03-16  feat(acceleration): implement PE certificate table extrac... ║
+    • b89c76ed9  2026-03-16  feat(test): add signature-invalid test cases for CRL/OCSP... ║
+    • e4976f04e  2026-03-16  feat(acceleration): implement CRL/OCSP certificate revoca... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

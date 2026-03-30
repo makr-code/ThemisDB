@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rocksdb_stats_json.cpp                        ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:30:14                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:33:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

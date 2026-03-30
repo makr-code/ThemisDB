@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ml_serving.cpp                                     ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:13:07                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:13:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
-    • Total Lines:     644                                            ║
+    • Total Lines:     714                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • cc2751810  2026-03-17  fix(analytics): MLServingEngine::infer() TOCTOU + full-in... ║
     • edcfeb984  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 197b8b5b1  2026-02-24  feat(analytics): integrate ONNX Runtime and TensorFlow Se... ║

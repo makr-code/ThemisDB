@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            add_doc_metadata.py                                ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:12:38                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:13:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,6 +15,7 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • f99589551  2026-02-17  Add automated YAML metadata generation for markdown docum... ║
     • 06eb0fd92  2026-02-17  fix: Improve YAML safety and git log handling in metadata... ║
     • 581ebcf80  2026-02-17  Add script and workflow for automated documentation metadata ║
 ╠═════════════════════════════════════════════════════════════════════╣

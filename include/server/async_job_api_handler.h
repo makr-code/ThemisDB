@@ -3,20 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            async_job_api_handler.h                            ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:10:06                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:11:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     243                                            ║
+    • Total Lines:     251                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • bc826baaf  2026-03-17  fix(server): address review comments - namespace, deadloc... ║
+    • 4b3823144  2026-03-16  Changes before error encountered         ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • baa1f73a1  2026-02-24  fix(api): code audit fixes for async job API ║
-    • e182799cd  2026-02-23  feat(api): async job API for long-running AQL queries ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

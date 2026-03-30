@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cuda_backend.cpp                                   ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:12:57                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:13:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     2253                                           ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     2284                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 04753d4ac  2026-03-18  feat(acceleration): remove silent k>kMaxK clamping, incre... ║
     • e627c556b  2026-03-15  feat(acceleration): BackendRegistry thread-safety, VLLMRe... ║
     • d64a17619  2026-03-11  fix(acceleration): update cuda_backend.cpp file header me... ║
     • e2fff830f  2026-03-11  feat(acceleration): wire HNSW graph traversal into CUDAVe... ║
-    • 7e608ea7c  2026-03-11  feat(acceleration): implement CUDAGraphBackend BFS and sh... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

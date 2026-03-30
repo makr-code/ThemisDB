@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_chunk_level_encryption.cpp                    ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-16 04:23:35                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-30 04:25:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     561                                            ║
+    • Total Lines:     600                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 79f081505  2026-03-28  Add test statistics documentation and collection script ║
     • 16aed6bb0  2026-03-15  refactor: enhance modular build configuration and improve... ║
     • c7373858e  2026-03-14  fix(timeseries): address all PR review comments on chunk-... ║
     • e6b1e7c6d  2026-03-14  refactor(timeseries): address code review feedback on chu... ║

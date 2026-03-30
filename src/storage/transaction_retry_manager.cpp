@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            transaction_retry_manager.cpp                      ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:19:26                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     328                                            ║
+    • Total Lines:     330                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 97ce99ded  2026-03-15  feat(transaction): Serializable Snapshot Isolation (SSI) ... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • ad5decdf5  2026-02-26  Code audit: fix const_cast UB, pow() overflow, jitter val... ║
 ╠═════════════════════════════════════════════════════════════════════╣

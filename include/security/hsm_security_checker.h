@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hsm_security_checker.h                             ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:09:54                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:10:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

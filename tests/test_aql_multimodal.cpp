@@ -4,8 +4,17 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_aql_multimodal.cpp                            ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-03-22                                         ║
+  Last Modified:   2026-03-30 04:24:17                                ║
   Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     374                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • ecd4473e7  2026-03-22  feat(aql): implement MultiModalInferRequest and IAsyncLLM... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

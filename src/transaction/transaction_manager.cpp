@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            transaction_manager.cpp                            ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:19:52                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:21:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     2054                                           ║
+    • Total Lines:     2199                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • d5eddfb16  2026-03-20  feat(transaction): add Read-Only Transaction Optimization... ║
+    • b6f602bb2  2026-03-16  fix(transaction/ssi): fix detectConflicts range intersect... ║
+    • 97ce99ded  2026-03-15  feat(transaction): Serializable Snapshot Isolation (SSI) ... ║
     • 7be96cdad  2026-03-14  fix(transaction): address PR review feedback on DeadlockP... ║
     • 531f9a095  2026-03-13  feat(transaction): implement Adaptive Deadlock Prevention... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 935e2696e  2026-03-01  feat(transaction): implement time-travel queries against ... ║
-    • f770f4a5b  2026-02-28  refactor(transaction): address code review feedback ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

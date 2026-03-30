@@ -1,4 +1,28 @@
 /*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_egov_data_driven.cpp                          ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-30 04:26:50                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1304                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • a53df4bcd  2026-03-26  chore: remove old .json antrag fixtures, fix header comme... ║
+    • f6270cfcf  2026-03-26  feat: convert antrag fixtures to Markdown with JSON front... ║
+    • 0cb606c95  2026-03-26  Changes before error encountered         ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
  * ThemisDB — Datengetriebene E-Government-Tests
  *
  * Dieser Test lädt generische Behörden, Anträge, Prozessdefinitionen und

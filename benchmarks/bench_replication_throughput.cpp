@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_replication_throughput.cpp                   ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-16 04:04:09                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-30 04:04:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

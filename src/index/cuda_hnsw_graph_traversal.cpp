@@ -3,17 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cuda_hnsw_graph_traversal.cpp                      ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-16 04:15:41                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-30 04:16:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     476                                            ║
+    • Total Lines:     614                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 539fd56b3  2026-03-18  fix(acceleration): address code review - replace __trap()... ║
+    • 04753d4ac  2026-03-18  feat(acceleration): remove silent k>kMaxK clamping, incre... ║
     • e2fff830f  2026-03-11  feat(acceleration): wire HNSW graph traversal into CUDAVe... ║
     • 15e6e3143  2026-03-09  feat: implement all features from problem statement ║
 ╠═════════════════════════════════════════════════════════════════════╣

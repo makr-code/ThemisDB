@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wasm_kernel_sandbox.cpp                            ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:15:12                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:16:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

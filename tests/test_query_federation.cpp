@@ -3,19 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_query_federation.cpp                          ║
-  Version:         1.9.0                                              ║
-  Last Modified:   2026-03-24                                         ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:31:59                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Tests: QueryFederation shard-key routing (v1.9.0)                  ║
-  Coverage:                                                           ║
-    • analyzeQuery – point-lookup _key predicate extraction           ║
-    • analyzeQuery – range _key predicate extraction                  ║
-    • analyzeQuery – no _key predicate (full-scan)                    ║
-    • determineRelevantShards – POINT routes to single shard          ║
-    • determineRelevantShards – RANGE routes to subset                ║
-    • determineRelevantShards – full-scan returns all shards          ║
-    • execute – PARTITION_PRUNING calls executeOnShards               ║
-    • execute – SCATTER_GATHER warns when > 10 shards                 ║
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     186                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • bc061a79d  2026-03-24  feat(query): QueryFederation shard-key routing v1.9.0 ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

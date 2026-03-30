@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_config_path_resolver.cpp                      ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:23:49                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:25:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1377                                           ║
+    • Total Lines:     1426                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 8aa77a0ee  2026-03-16  fix(config): atomic enabled_ flag + concurrency stress te... ║
     • 535cee36d  2026-03-13  feat: export config metrics via Prometheus registry ║
     • d38f9d8e2  2026-03-13  fix(config): fix broken AC-5 test; add AC-7 benchmark for... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • b801c6da3  2026-02-28  feat(config): reject symlinks outside config root for abs... ║
-    • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

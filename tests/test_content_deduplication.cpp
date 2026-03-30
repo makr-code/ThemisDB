@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_content_deduplication.cpp                     ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:23:54                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:25:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     535                                            ║
+    • Total Lines:     878                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 4468db516  2026-03-19  fix(content): dedup default-off, strengthen policy-absent... ║
+    • 55d1f8241  2026-03-19  fix(content): wire enable_deduplication config gate, add ... ║
+    • 05af90207  2026-03-18  feat(content): add perceptual hashing dedup perf tests an... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b617bb3a1  2026-02-28  Implement content deduplication via SHA-256 hash before s... ║
-    • 8af0ff1a8  2026-02-27  refactor(content): address code review feedback on dedupl... ║
-    • 95da435db  2026-02-27  feat(content): add content deduplication via perceptual h... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

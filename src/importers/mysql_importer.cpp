@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mysql_importer.cpp                                 ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-03-16 04:15:31                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-03-30 04:16:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
-    • Total Lines:     1403                                           ║
+    • Total Lines:     1424                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 971a3c49d  2026-03-20  Build/test fixes and auth role mapping refactor ║
+    • a522f154e  2026-03-16  feat(importers): wire & verify MySQL/MariaDB importer reg... ║
+    • 9bccf09a7  2026-03-16  Changes before error encountered         ║
     • 786e4a8df  2026-03-15  feat(importers): incremental import, MySQL benchmark, Mon... ║
     • e8972c533  2026-03-15  feat(importers): add MySQL-specific Prometheus metrics an... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 25e8cec73  2026-02-28  Implement JDBC-compatible config for MySQL/MariaDB importer ║
-    • 0315f4af6  2026-02-27  refactor(importers): simplify streaming callback pattern ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            docs_assistant_functions.cpp                       ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:13:20                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:14:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     537                                            ║
+    • Total Lines:     559                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • a7b41e3e7  2026-03-22  feat(docs): refactor DocsAssistantFunctions to use unique... ║
     • 3da4977c8  2026-03-14  fix(aql): address classify-bridge PR review comments ║
     • f62f9c89c  2026-03-14  feat(aql): wire detectIntentWithNativeNLP() to IClassifyF... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║

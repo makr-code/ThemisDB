@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_vram_allocation.cpp                       ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:25:32                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:27:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_change_stream_compressor.cpp              ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:23:16                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:25:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

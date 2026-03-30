@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_cross_functional_end_to_end.cpp              ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:03:47                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:04:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

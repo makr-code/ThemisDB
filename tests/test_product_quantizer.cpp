@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_product_quantizer.cpp                         ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:29:04                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:31:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

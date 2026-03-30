@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            task_scheduler.cpp                                 ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:18:10                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:19:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     2685                                           ║
+    • Quality Score:   99.0/100                                       ║
+    • Total Lines:     2696                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 5e4a201cc  2026-03-21  docs(scheduler): update FUTURE_ENHANCEMENTS, CHANGELOG, R... ║
+    • c8aa40193  2026-03-15  feat(scheduler): propagate authenticated user context to ... ║
     • 592b54382  2026-03-15  fix(scheduler,acceleration): remove stale TODOs, add VLLM... ║
     • c97360e57  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
     • 646fb7bd6  2026-03-10  feat(scheduler): build-system audit – register sources, a... ║
-    • 3d8fa9313  2026-03-09  feat(scheduler): dynamic task scaling based on queue dept... ║
-    • a64247126  2026-03-08  Refactor code structure for improved readability and main... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

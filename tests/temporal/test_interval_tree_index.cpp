@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_interval_tree_index.cpp                       ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:22:04                                ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-30 04:23:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     200                                            ║
+    • Total Lines:     204                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • ab6254146  2026-03-20  docs(temporal): document Phase 4 components and enrich tests ║
+    • f8f5de7b2  2026-03-20  feat(temporal): add Phase 4 tests, update CMake/CI/ROADMAP ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

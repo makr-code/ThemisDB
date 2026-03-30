@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_cuda_vs_cpu.cpp                              ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:03:48                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:04:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_transaction_isolation_levels.cpp              ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:31:47                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:34:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

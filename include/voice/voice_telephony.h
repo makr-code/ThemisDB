@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_telephony.h                                  ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-16 04:11:56                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-30 04:13:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            huggingface_hub_client.cpp                         ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-16 04:14:38                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-30 04:15:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     654                                            ║
+    • Total Lines:     791                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 17ac0cd31  2026-03-16  feat(exporters): HuggingFace Hub Client HTTP 429 back-off... ║
     • c64ea5aac  2026-03-11  feat(exporters): add hf_token_kek_id for KEK/KMS-protecte... ║
     • 07dbc3052  2026-03-11  feat(exporters): add memory-streaming upload API for Hugg... ║
     • f838f7700  2026-03-11  docs(exporters): add Hub upload usage examples, update RO... ║
-    • e7c18a826  2026-03-11  feat(exporters): HuggingFace Hub upload with PolicyEngine... ║
-    • a3ec4aa9e  2026-03-10  refactor: update tenant metrics handling and improve modu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

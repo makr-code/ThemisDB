@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_multi_modal_search.cpp                        ║
-  Version:         0.0.31                                             ║
-  Last Modified:   2026-03-16 04:27:42                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-03-30 04:30:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

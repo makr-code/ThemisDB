@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auth_middleware.cpp                                ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:18:34                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:19:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     556                                            ║
+    • Total Lines:     698                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 971a3c49d  2026-03-20  Build/test fixes and auth role mapping refactor ║
+    • 55c042995  2026-03-15  refactor(auth): improve naming clarity in JWT scope test ... ║
+    • 76eef4d70  2026-03-15  feat(auth): implement JWT scope extraction and role-to-sc... ║
     • 592b54382  2026-03-15  fix(scheduler,acceleration): remove stale TODOs, add VLLM... ║
     • c97360e57  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
-    • c21f255d8  2026-03-12  fix(auth): address review feedback on JWT issuer/audience... ║
-    • 1470edf9b  2026-03-12  feat(auth): mandatory JWT issuer and audience validation ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            api_connector.h                                    ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:07:29                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gui_import_wizard.cpp                              ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-16 04:15:26                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-30 04:16:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     386                                            ║
+    • Total Lines:     392                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 67965456c  2026-03-22  Add constructors with default config for various classes ... ║
     • da5848ffb  2026-03-10  fix: apply all 7 code review recommendations + LSN.toStri... ║
     • a3ec4aa9e  2026-03-10  refactor: update tenant metrics handling and improve modu... ║
     • 15e6e3143  2026-03-09  feat: implement all features from problem statement ║

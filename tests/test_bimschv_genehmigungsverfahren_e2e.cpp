@@ -1,4 +1,26 @@
 /*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_bimschv_genehmigungsverfahren_e2e.cpp         ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-30 04:24:41                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1164                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 6d23ed09b  2026-03-26  Add 9. BImSchV E2E test (30 ACs), CMakeLists entries, and... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
  * ThemisDB — 9. BImSchV Genehmigungsverfahren E2E-Testszenario
  *
  * Szenario:  Förmliches Genehmigungsverfahren nach § 10 BImSchG i. V. m.

@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            global_transaction_manager.cpp                     ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:19:52                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:21:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     591                                            ║
+    • Total Lines:     599                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 39ac8c3ef  2026-03-20  Split default-arg constructors into overloads ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • d928a3fdd  2026-03-01  feat(transaction): Add GlobalTransactionManager for multi... ║
 ╠═════════════════════════════════════════════════════════════════════╣

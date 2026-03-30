@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hkdf_helper.h                                      ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:11:45                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:12:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

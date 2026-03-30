@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rag_streaming_retriever.cpp                   ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-03-16 04:29:55                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-03-30 04:32:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

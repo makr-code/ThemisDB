@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            async_inference_engine.cpp                         ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:16:02                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:16:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   91.0/100                                       ║
-    • Total Lines:     921                                            ║
+    • Quality Score:   90.0/100                                       ║
+    • Total Lines:     1056                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • d1f0cf3ca  2026-03-19  fix(llm): address all PR review issues - sentinel deliver... ║
+    • cdc974975  2026-03-18  Changes before error encountered         ║
     • 334ca1434  2026-03-11  fix: selectAdapterForRequest traffic routing; DocsAssista... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d0fa9e609  2026-02-28  feat(llm): implement prompt injection mitigation and secu... ║
-    • 2a2c0cc88  2026-02-28  fix(llm): propagate per-request timeouts to caller's futu... ║
-    • 5626526f4  2026-02-28  feat(llm): add tokens/sec and latency p99 performance ben... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            parallel_executor.cpp                              ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-16 04:17:30                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-30 04:18:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     390                                            ║
+    • Total Lines:     403                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 39ac8c3ef  2026-03-20  Split default-arg constructors into overloads ║
     • c195c25f5  2026-03-14  fix(query): address PR review comments on ParallelExecutor ║
     • c00dc0fda  2026-03-14  feat(query): Parallel Query Execution (Intra-Query) v1.7.0 ║
 ╠═════════════════════════════════════════════════════════════════════╣

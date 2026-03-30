@@ -4,13 +4,18 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_jwt_ec_curves_comprehensive.cpp               ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-03-22 08:00:00                                ║
+  Last Modified:   2026-03-30 04:28:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
+    • Total Lines:     621                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 52f52d4a5  2026-03-28  Fix edition type assignment to use THEMIS_EDITION_STRING ... ║
+    • 435595de1  2026-03-22  Changes before error encountered         ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

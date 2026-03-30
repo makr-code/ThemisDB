@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            archive_processor.cpp                              ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:14:18                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:15:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   86.0/100                                       ║
-    • Total Lines:     730                                            ║
+    • Total Lines:     746                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 39ac8c3ef  2026-03-20  Split default-arg constructors into overloads ║
     • 2737ade5b  2026-03-11  fix(content/security): audit corrections - test rename, z... ║
     • 1bacdae51  2026-03-11  fix(content/security): add zip-bomb protection in archive... ║
     • c613ea7a9  2026-03-04  Refactor error masking and enhance archive processor vali... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e21224bb7  2026-02-28  feat(content): implement file upload security checks ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

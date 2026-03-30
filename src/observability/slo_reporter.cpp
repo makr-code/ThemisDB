@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            slo_reporter.cpp                                   ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-16 04:16:56                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-30 04:17:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     351                                            ║
+    • Total Lines:     355                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 67965456c  2026-03-22  Add constructors with default config for various classes ... ║
     • 3ff41bb3e  2026-03-09  feat(observability): implement SLO/SLA compliance reporte... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

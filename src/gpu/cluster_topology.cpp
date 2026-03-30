@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cluster_topology.cpp                               ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:15:03                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:15:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

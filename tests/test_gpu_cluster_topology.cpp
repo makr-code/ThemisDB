@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_cluster_topology.cpp                      ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:25:15                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:27:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

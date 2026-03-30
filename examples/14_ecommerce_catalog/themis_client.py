@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            themis_client.py                                   ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:04:42                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:05:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

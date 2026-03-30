@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lora_data_selection.cpp                            ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-03-16 04:19:47                                ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-03-30 04:21:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

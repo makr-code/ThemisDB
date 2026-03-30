@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_runner.cpp                                     ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:17:24                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:18:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     857                                            ║
+    • Total Lines:     911                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • f38c013cd  2026-03-29  Enhance various components with improvements and fixes ║
+    • 13e4bb297  2026-03-26  Enhance GraphQL Performance Tests and Saga Operation Comp... ║
+    • fe549ead1  2026-03-24  feat(query): wire QueryCompiler JIT hot-path into execute... ║
     • acb2238a5  2026-03-14  refactor: clean up CMake configuration and improve test d... ║
     • 441ccba68  2026-03-13  feat(geo/bench): AC5 – add spatial join performance bench... ║
-    • a183c645f  2026-03-13  fix: address code review - extract collectGeometries help... ║
-    • 3a43c52c9  2026-03-13  feat(geo): add SpatialJoinIterator lazy iterator and AQL ... ║
-    • ab3b22a88  2026-03-09  feat(query): implement query cancellation via request ID ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

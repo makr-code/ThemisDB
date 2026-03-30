@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            postgresql_adapter.cpp                             ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:14:05                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:14:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

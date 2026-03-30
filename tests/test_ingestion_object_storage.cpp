@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ingestion_object_storage.cpp                  ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:26:24                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:28:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

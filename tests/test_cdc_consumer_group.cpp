@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_consumer_group.cpp                        ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:23:19                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:25:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     701                                            ║
+    • Total Lines:     703                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 197320301  2026-03-28  Implement SequenceU64Increment merge operator for RocksDB... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 3e9f0fc58  2026-02-24  fix(cdc): audit fixes — deleteGroup inflight cleanup, con... ║
     • 0e1d6bd1a  2026-02-24  feat(cdc): implement at-least-once delivery with consumer... ║
     • fd945c509  2026-02-24  fix(cdc): fix test partition coverage - use consumer IDs ... ║
-    • b01221ca9  2026-02-24  feat(cdc): implement consumer group semantics with offset... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

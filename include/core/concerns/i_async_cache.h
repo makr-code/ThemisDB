@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            i_async_cache.h                                    ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:06:21                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:06:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

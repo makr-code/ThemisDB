@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auto_labeler.cpp                                   ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:19:45                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     609                                            ║
+    • Total Lines:     684                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • f38c013cd  2026-03-29  Enhance various components with improvements and fixes ║
     • c6daefeb7  2026-03-15  fix: add mean confidence per modality to THEMIS_INFO log;... ║
     • f9bd87798  2026-03-15  feat: ProvenanceTracker live AQL connection, KGE fail-fas... ║
     • 8f0ee70ec  2026-03-11  fix(training): close all acceptance criteria gaps from AQ... ║
     • eeae3f101  2026-03-11  fix(training): audit follow-up — total_processed_ in labe... ║
-    • f499362b1  2026-03-11  feat(training): wire LegalAutoLabeler DB fetch to AQL que... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

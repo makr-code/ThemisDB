@@ -1,4 +1,30 @@
 /*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            memory_pool.h                                      ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-30 04:05:25                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     204                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • f38c013cd  2026-03-29  Enhance various components with improvements and fixes ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 5a0ad3972  2026-03-17  fix(analytics): address code-review polish — rename effec... ║
+    • 41d5cc48b  2026-03-17  fix(analytics): address all code review findings from aut... ║
+    • c826f73cd  2026-03-17  feat(analytics): implement memory pool allocator for hot ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
  * ThemisDB Analytics – AnalyticsMemoryPool
  *
  * Arena allocator for hot analytics paths (GROUP BY intermediates,

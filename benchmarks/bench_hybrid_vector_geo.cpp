@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_hybrid_vector_geo.cpp                        ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:03:56                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:04:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_remote_registry_client.cpp                    ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:30:04                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:32:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     760                                            ║
+    • Total Lines:     691                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • c0a50c2ca  2026-03-19  Refactor build flags, IO, benchmarks & tests ║
     • 2c1b27b6f  2026-03-15  feat(base): async retry RemoteRegistryClient + LLM RetryP... ║
     • e56570ab4  2026-03-15  feat(base): add async methods to RemoteRegistryClient; fi... ║
     • 4e273a130  2026-03-14  feat(base): implement async retry API for RemoteRegistryC... ║
     • 8b7f5ae1f  2026-03-14  Enforce shared ownership for async calls ║
-    • 0eaab53bf  2026-03-14  Address review feedback                  ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

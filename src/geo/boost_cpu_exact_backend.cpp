@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            boost_cpu_exact_backend.cpp                        ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:14:41                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:15:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

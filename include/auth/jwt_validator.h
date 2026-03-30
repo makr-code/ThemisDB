@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            jwt_validator.h                                    ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:05:27                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:05:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     241                                            ║
+    • Total Lines:     261                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 435595de1  2026-03-22  Changes before error encountered         ║
+    • 76eef4d70  2026-03-15  feat(auth): implement JWT scope extraction and role-to-sc... ║
     • c97360e57  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
     • 3071a3bb7  2026-03-12  fix(auth): address JWT JTI reviewer feedback ║
     • 6903f5910  2026-03-12  feat(auth): JWT JTI replay prevention warning (v1.2.0) ║
-    • fc7a85ac8  2026-03-12  fix(auth): address PR review - curl_multi_info_read, void... ║
-    • 57fef95c4  2026-03-12  feat(auth): async/non-blocking LDAP and HTTP authenticati... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

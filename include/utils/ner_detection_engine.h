@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ner_detection_engine.h                             ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-03-16 04:11:46                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-03-30 04:12:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

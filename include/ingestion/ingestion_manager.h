@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ingestion_manager.h                                ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:07:33                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

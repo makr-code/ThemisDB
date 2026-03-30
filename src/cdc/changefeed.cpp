@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            changefeed.cpp                                     ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:13:50                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:14:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     987                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1113                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • a6b60b3e3  2026-03-18  Changes before error encountered         ║
+    • 5083e3481  2026-03-18  Changes before error encountered         ║
+    • 63b0ba358  2026-03-16  feat(cdc): implement Changefeed sequence counter via Rock... ║
     • a9f387ce0  2026-03-11  feat(cdc): runtime-configurable change log retention poli... ║
-    • 2317d0155  2026-03-10  Changes before error encountered         ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • de9fb43e7  2026-03-01  Implement CDC event filtering by operation type ║
-    • 06f59a69f  2026-02-24  fix(cdc): restore missing deleteOldEvents signature; fix ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

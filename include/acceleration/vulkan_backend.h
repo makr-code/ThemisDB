@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vulkan_backend.h                                   ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-03-16 04:05:00                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-03-30 04:05:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     41                                             ║
+    • Total Lines:     164                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • fe4492690  2026-03-19  Changes before error encountered         ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
     • 2f0d63150  2026-02-21  feat(acceleration): implement Vulkan compute shader pipel... ║

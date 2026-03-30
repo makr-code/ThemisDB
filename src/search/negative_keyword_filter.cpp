@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            negative_keyword_filter.cpp                        ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-16 04:18:15                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-30 04:19:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     175                                            ║
+    • Total Lines:     182                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 48fbf5b22  2026-03-21  Update search, temporal, and build artifacts ║
     • 90be68e12  2026-03-09  fix(search): address code review - configurable scan limi... ║
     • e9b769e55  2026-03-09  feat(search): implement NegativeKeywordFilter for NOT ope... ║
 ╠═════════════════════════════════════════════════════════════════════╣

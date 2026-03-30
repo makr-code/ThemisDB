@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_aql_predicate_filter.cpp                      ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:20:52                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:22:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

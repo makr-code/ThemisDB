@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_resource_limits.h                            ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:09:11                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:10:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

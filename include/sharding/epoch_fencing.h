@@ -3,14 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            epoch_fencing.h                                    ║
-  Version:         1.9.0                                              ║
-  Last Modified:   2026-03-24                                         ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-30 04:11:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Total Lines:     587                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • acc4f424c  2026-03-24  feat(sharding): Phase 4.1 epoch-based fencing + lease man... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            scheduled_edge_refresh.cpp                         ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-16 04:15:16                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-30 04:16:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     775                                            ║
+    • Total Lines:     971                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 79f081505  2026-03-28  Add test statistics documentation and collection script ║
+    • 89945cb4d  2026-03-22  feat(graph): ANN-accelerated candidate discovery + CEP ca... ║
+    • 1795733ac  2026-03-21  Changes before error encountered         ║
     • 43a91f179  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
     • 8452353dc  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
-    • bbaa6edd8  2026-03-11  feat(graph): close issue gaps for ScheduledGraphEdgeRefre... ║
-    • 87955cec9  2026-03-11  feat(graph): implement ScheduledGraphEdgeRefreshEngine mo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

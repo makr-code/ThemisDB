@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            columnar_format.cpp                                ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:19:18                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

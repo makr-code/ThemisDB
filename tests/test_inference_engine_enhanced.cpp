@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_inference_engine_enhanced.cpp                 ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:26:14                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:28:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   93.0/100                                       ║
-    • Total Lines:     1159                                           ║
+    • Quality Score:   81.0/100                                       ║
+    • Total Lines:     1499                                           ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • d1f0cf3ca  2026-03-19  fix(llm): address all PR review issues - sentinel deliver... ║
+    • 3ea7ab4a4  2026-03-19  feat(llm): implement tool call parsing, submitStreaming, ... ║
     • c3fa68410  2026-03-11  fix(llm): audit pass 2 - fix generated_text, prompt-key c... ║
     • 5f9187ff6  2026-03-11  feat(llm): implement KV-cache prewarming with embedding-b... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 23579d0c4  2026-02-28  feat(llm): implement per-model resource quotas (memory, c... ║
-    • d581d7dd9  2026-02-26  test(llm): add concurrent and rapid-swap tests for hot-sw... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

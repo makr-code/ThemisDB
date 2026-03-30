@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cross_module_regression_detector.py           ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:04:33                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:04:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

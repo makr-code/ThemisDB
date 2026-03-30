@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            citation_highlighter.cpp                           ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:17:44                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:18:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

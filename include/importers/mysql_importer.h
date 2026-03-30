@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mysql_importer.h                                   ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-03-16 04:07:10                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-03-30 04:07:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     186                                            ║
+    • Total Lines:     221                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 9bccf09a7  2026-03-16  Changes before error encountered         ║
     • 786e4a8df  2026-03-15  feat(importers): incremental import, MySQL benchmark, Mon... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 25e8cec73  2026-02-28  Implement JDBC-compatible config for MySQL/MariaDB importer ║

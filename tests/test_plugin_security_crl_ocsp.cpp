@@ -2,11 +2,23 @@
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_plugin_security_crl_ocsp.cpp                 ║
-  Version:         0.0.35                                             ║
+  File:            test_plugin_security_crl_ocsp.cpp                  ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-30 04:31:15                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Tests for PluginSecurityVerifier CRL and OCSP revocation checking  ║
-  (Issue #38, v1.8.0 milestone).                                      ║
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     667                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 971a3c49d  2026-03-20  Build/test fixes and auth role mapping refactor ║
+    • b89c76ed9  2026-03-16  feat(test): add signature-invalid test cases for CRL/OCSP... ║
+    • e4976f04e  2026-03-16  feat(acceleration): implement CRL/OCSP certificate revoca... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

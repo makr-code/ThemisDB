@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_backend_stub.cpp                               ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:14:46                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:15:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     705                                            ║
+    • Total Lines:     709                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 67965456c  2026-03-22  Add constructors with default config for various classes ... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • d4d1128ca  2026-02-28  fix(geo): integrate GeoDeviceDetector into gpu_backend_st... ║
     • 0f84568fb  2026-02-27  feat(geo): circuit-breaker immediately fails when no CUDA... ║
     • 7a427cad5  2026-02-27  feat(geo): fix stale header metadata and add CPU fallback... ║
-    • e8e316290  2026-02-25  fix(geo): add geodesicDistance delegation to GPU stub and... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

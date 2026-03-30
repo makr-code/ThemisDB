@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            concerns_context.h                                 ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:06:21                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:06:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     426                                            ║
+    • Total Lines:     443                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 090f93ef2  2026-03-22  feat(core): implement InMemorySecrets and EnvSecretsProvi... ║
     • e1c78c360  2026-03-13  feat(core): implement RedisCache distributed cache adapte... ║
     • 50ae658f6  2026-03-09  feat(core): implement dynamic log level adjustment and au... ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • f0410cbb0  2026-02-27  audit(core): wire Jaeger/Zipkin adapters into ConcernsCon... ║
-    • 57bf541b2  2026-02-24  chore(core): code audit — fix stale annotations and expli... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

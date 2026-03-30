@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lora_rope.h                                        ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:07:25                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:08:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

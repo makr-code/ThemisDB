@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_kge_vector_search.cpp                         ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-16 04:26:40                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-30 04:28:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   93.0/100                                       ║
-    • Total Lines:     285                                            ║
+    • Total Lines:     310                                            ║
     • Open Issues:     TODOs: 0, Stubs: 5                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

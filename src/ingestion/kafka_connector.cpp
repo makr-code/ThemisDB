@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            kafka_connector.cpp                                ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:15:55                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:16:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   83.0/100                                       ║
-    • Total Lines:     596                                            ║
+    • Total Lines:     598                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_acceleration_dispatch.cpp                    ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-16 04:03:39                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-30 04:03:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     253                                            ║
+    • Total Lines:     255                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • c0a50c2ca  2026-03-19  Refactor build flags, IO, benchmarks & tests ║
     • 3c11df78a  2026-03-03  feat(benchmarks): add 6 missing benchmark suites for acce... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

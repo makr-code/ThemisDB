@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            changefeed.h                                       ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:05:49                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:06:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     442                                            ║
+    • Total Lines:     476                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 5083e3481  2026-03-18  Changes before error encountered         ║
+    • 63b0ba358  2026-03-16  feat(cdc): implement Changefeed sequence counter via Rock... ║
     • a9f387ce0  2026-03-11  feat(cdc): runtime-configurable change log retention poli... ║
     • 2317d0155  2026-03-10  Changes before error encountered         ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • de9fb43e7  2026-03-01  Implement CDC event filtering by operation type ║
-    • 288df1bc2  2026-02-26  fix(cdc): fix GCC compilation error - use RetentionPolicy... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

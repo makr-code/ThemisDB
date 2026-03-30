@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tsstore.cpp                                        ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:19:44                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:20:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1116                                           ║
+    • Total Lines:     1134                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 79f081505  2026-03-28  Add test statistics documentation and collection script ║
     • cafa45a9d  2026-03-15  fix(audit): upgrade tsstore decode path to GorillaSIMDDec... ║
     • d9e68edf7  2026-03-15  fix: address code review - INVALID_INPUT status, test acc... ║
     • 822b0afce  2026-03-15  feat(timeseries): implement TSStore single-point insert b... ║
     • c7373858e  2026-03-14  fix(timeseries): address all PR review comments on chunk-... ║
-    • e6b1e7c6d  2026-03-14  refactor(timeseries): address code review feedback on chu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

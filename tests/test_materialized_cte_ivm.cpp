@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_materialized_cte_ivm.cpp                      ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:27:14                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:29:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

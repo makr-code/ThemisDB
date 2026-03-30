@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_jit_aggregation.cpp                           ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-16 04:20:30                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-30 04:21:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

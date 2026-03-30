@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            result_stream.cpp                                  ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:17:34                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:18:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

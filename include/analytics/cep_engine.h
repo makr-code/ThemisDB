@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cep_engine.h                                       ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-16 04:05:03                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-03-30 04:05:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1199                                           ║
+    • Total Lines:     1223                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 46115ba8b  2026-02-26  audit: fix file header line counts, update ROADMAP and RE... ║
-    • c4315d917  2026-02-26  audit(cep): fix stale doc comments, file metadata, and RO... ║
-    • 5f1b20fc0  2026-02-26  feat(cep): implement stateful pattern matching with check... ║
-    • 13ff5a532  2026-02-26  feat(analytics): enhance EPL parser with CREATE RULE, SEL... ║
+    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 5706ac4f3  2026-03-18  fix(analytics): streaming_window — configurable expiry in... ║
+    • 41d5cc48b  2026-03-17  fix(analytics): address all code review findings from aut... ║
+    • c826f73cd  2026-03-17  feat(analytics): implement memory pool allocator for hot ... ║
+    • 245a5fba1  2026-03-16  fix(analytics): release window lock before invoking user ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
