@@ -692,7 +692,7 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 	if (keys.size() < PARALLEL_THRESHOLD) {
 		// Sequential für kleine Mengen (weniger Overhead)
 		for (const auto& pk : keys) {
-			auto blob = db_->get(q.table + ":" + pk);
+			auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
 			if (!blob) continue;
 			try { out.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 			catch (...) { THEMIS_WARN("executeAndEntities: Deserialisierung fehlgeschlagen für PK={}", pk); }
@@ -711,7 +711,7 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 
 				for (size_t i = start; i < end; ++i) {
 					const auto& pk = keys[i];
-					auto blob = db_->get(q.table + ":" + pk);
+					auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
 					if (!blob) continue;
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 					catch (...) { THEMIS_WARN("executeAndEntities: Deserialisierung fehlgeschlagen für PK={}", pk); }
@@ -889,7 +889,7 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 
 	if (keys.size() < PARALLEL_THRESHOLD) {
 		for (const auto& pk : keys) {
-			auto blob = db_->get(q.table + ":" + pk);
+			auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
 			if (!blob) continue;
 			try { out.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 			catch (...) { THEMIS_WARN("executeOrEntitiesWithFallback: Deserialisierung fehlgeschlagen für PK={}", pk); }
@@ -905,7 +905,7 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 				local_entities.reserve(end - start);
 				for (size_t i = start; i < end; ++i) {
 					const auto& pk = keys[i];
-					auto blob = db_->get(q.table + ":" + pk);
+					auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
 					if (!blob) continue;
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 					catch (...) { THEMIS_WARN("executeOrEntitiesWithFallback: Deserialisierung fehlgeschlagen für PK={}", pk); }
@@ -943,7 +943,7 @@ QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 
 	if (keys.size() < PARALLEL_THRESHOLD) {
 		for (const auto& pk : keys) {
-			auto blob = db_->get(q.table + ":" + pk);
+			auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
 			if (!blob) continue;
 			try { out.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 			catch (...) { THEMIS_WARN("executeOrEntities: Deserialisierung fehlgeschlagen für PK={}", pk); }
@@ -961,7 +961,7 @@ QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 
 				for (size_t i = start; i < end; ++i) {
 					const auto& pk = keys[i];
-					auto blob = db_->get(q.table + ":" + pk);
+					auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
 					if (!blob) continue;
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 					catch (...) { THEMIS_WARN("executeOrEntities: Deserialisierung fehlgeschlagen für PK={}", pk); }
@@ -1064,7 +1064,7 @@ QueryEngine::executeAndEntitiesSequential(const std::string& table,
 	if (keys.size() < PARALLEL_THRESHOLD) {
 		// Sequential für kleine Mengen
 		for (const auto& pk : keys) {
-			auto blob = db_->get(table + ":" + pk);
+			auto blob = db_->get(KeySchema::makeRelationalKey(table, pk));
 			if (!blob) continue;
 			try { out.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 			catch (...) { THEMIS_WARN("executeAndEntitiesSequential: Deserialisierung fehlgeschlagen für PK={}", pk); }
@@ -1083,7 +1083,7 @@ QueryEngine::executeAndEntitiesSequential(const std::string& table,
 
 				for (size_t i = start; i < end; ++i) {
 					const auto& pk = keys[i];
-					auto blob = db_->get(table + ":" + pk);
+					auto blob = db_->get(KeySchema::makeRelationalKey(table, pk));
 					if (!blob) continue;
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 					catch (...) { /* Silent failure in parallel context */ }
@@ -2065,7 +2065,7 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 	span.setAttribute("query.range_count", static_cast<int64_t>(q.rangePredicates.size()));
 	std::vector<std::string> out;
 	if (q.table.empty()) return out;
-	const std::string prefix = q.table + ":";
+	const std::string prefix = KeySchema::makeRelationalKey(q.table, "");
 
 	// Helper for numeric comparison: try to parse as numbers, fall back to string comparison
 	auto compareValues = [](const std::string& a, const std::string& b) -> int {
@@ -2284,7 +2284,7 @@ QueryEngine::executeAndEntitiesWithFallback(const ConjunctiveQuery& q, bool opti
 	auto keys = std::move(*result);
 	std::vector<BaseEntity> out; out.reserve(keys.size());
 	for (const auto& pk : keys) {
-		auto blob = db_->get(q.table + ":" + pk);
+		auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
 		if (!blob) continue;
 		try { out.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 		catch (...) { THEMIS_WARN("executeAndEntitiesWithFallback: Deserialisierung fehlgeschlagen für PK={}", pk); }
@@ -2417,7 +2417,7 @@ QueryEngine::executeAndEntitiesRangeAware_(const ConjunctiveQuery& q) const {
 	auto& keys = *keysResult;
 	std::vector<BaseEntity> out; out.reserve(keys.size());
 	for (const auto& pk : keys) {
-		auto blob = db_->get(q.table + ":" + pk);
+		auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
 		if (!blob) continue;
 		try { out.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 		catch (...) { THEMIS_WARN("executeAndEntitiesRangeAware_: Deserialisierung fehlgeschlagen für PK={}", pk); }

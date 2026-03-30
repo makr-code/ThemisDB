@@ -194,9 +194,9 @@ public:
         }
 
         // Multi-modal extraction: ModalityDetector dispatches to per-modality
-        // extractors (text clause, table, citation, OCR), producing correctly
-        // typed TrainingSample records.  This runs first so structural modality
-        // tags (TABLE, CITATION, OCR_IMAGE) are captured before the NLP pass.
+        // extractors (text clause, table, citation, OCR). For auto-labeling we
+        // keep only the non-redundant structural modalities here; plain-text
+        // clauses are labeled by the dedicated NLP pass below.
         auto parse_result = modality_detector_->parseDocument(document_text, document_id);
 
         // Emit per-modality extraction statistics at INFO level.
@@ -243,8 +243,14 @@ public:
                 parse_result.stats.samples_total);
         }
 
-        // Apply confidence threshold to modality-detected samples
+        // Apply confidence threshold to structural modality-detected samples.
+        // TEXT_CLAUSE samples overlap with the NLP-derived deontic labels and
+        // would otherwise mix generic legal_clause records into plain-text
+        // labeling results.
         for (auto& sample : parse_result.samples) {
+            if (sample.modality == ContentModality::TEXT_CLAUSE) {
+                continue;
+            }
             if (sample.confidence >= config_.min_confidence) {
                 samples.push_back(std::move(sample));
             } else if (config_.flag_low_confidence) {

@@ -1033,6 +1033,17 @@ if(THEMIS_BUILD_MODULAR)
             list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/llm/lora_framework/(gpu_tensor|gpu_lora_layers|flash_lora|paged_optimizer|paged_memory_manager|custom_allreduce|multi_gpu|multi_gpu_trainer|multi_gpu_lora_layer)\\.cpp$")
             message(STATUS "themis_tests: excluding direct LLM sources (provided by themis_llm module)")
         endif()
+        if(TARGET themis_storage)
+            # Exclude schema_migration / updates sources that are already compiled
+            # into themis_storage.dll.  Including them again in themis_tests would
+            # create an ODR violation: two copies of SchemaMigration::Impl with
+            # anonymous-namespace types, causing silent virtual-dispatch failures.
+            list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/updates/schema_migration\\.cpp$")
+            list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/updates/schema_migration_tester\\.cpp$")
+            list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]updates[\\\\/]schema_migration\\.cpp$")
+            list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]updates[\\\\/]schema_migration_tester\\.cpp$")
+            message(STATUS "themis_tests: excluding direct schema_migration sources (provided by themis_storage module)")
+        endif()
         target_sources(themis_tests PRIVATE ${_themis_test_core_sources})
         target_compile_definitions(themis_tests PRIVATE
             THEMIS_BASE_EXPORTS
