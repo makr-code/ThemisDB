@@ -186,7 +186,8 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
     }
     file.close();
 
-    const size_t l1_warmup_cap = std::max<size_t>(1, config_.l1_max_entries);
+    // Keep warmup headroom in L1 so live traffic can still promote hot entries.
+    const size_t l1_warmup_cap = std::max<size_t>(1, config_.l1_max_entries / 2);
     const int64_t now_ms = getCurrentTimeMs();
 
     // Snapshot current L1 size. Shared across workers as an atomic so each

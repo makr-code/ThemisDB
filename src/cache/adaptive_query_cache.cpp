@@ -780,6 +780,12 @@ bool AdaptiveQueryCache::put(
             std::lock_guard<std::mutex> tenant_lock(tenant_mutex_);
             tenant_metrics_[tenant_id].bytes_used += result_size;
         }
+        if (!pii_uuids.empty()) {
+            std::lock_guard<std::mutex> plock(pii_index_mutex_);
+            for (const auto& pii_uuid : pii_uuids) {
+                pii_key_index_[pii_uuid].insert(key);
+            }
+        }
         notifyCoordinator();
         if (rep_listener) {
             cache::CacheReplicationEvent ev;

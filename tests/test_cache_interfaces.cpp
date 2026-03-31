@@ -395,7 +395,7 @@ TEST(VectorWarmupSourceTest, ReturnsBatchesThenEmpty) {
     EXPECT_TRUE(src.nextBatch().empty());
 }
 
-TEST(CacheWarmupTest, WarmSuccessInsertsSingleBatch) {
+TEST(CacheWarmupInterfaceTest, WarmSuccessInsertsSingleBatch) {
     MockCacheWarmup warmup;
     VectorWarmupSource src;
     CacheEntry<std::string, std::string> e;
@@ -413,7 +413,7 @@ TEST(CacheWarmupTest, WarmSuccessInsertsSingleBatch) {
     EXPECT_EQ(result.stats.entries_inserted, 1u);
 }
 
-TEST(CacheWarmupTest, WarmSuccessMultipleBatches) {
+TEST(CacheWarmupInterfaceTest, WarmSuccessMultipleBatches) {
     MockCacheWarmup warmup;
     VectorWarmupSource src;
     for (int i = 0; i < 3; ++i) {
@@ -429,7 +429,7 @@ TEST(CacheWarmupTest, WarmSuccessMultipleBatches) {
     EXPECT_EQ(result.stats.entries_inserted, 3u);
 }
 
-TEST(CacheWarmupTest, WarmReturnsErrorWhenFlagSet) {
+TEST(CacheWarmupInterfaceTest, WarmReturnsErrorWhenFlagSet) {
     MockCacheWarmup warmup;
     warmup.should_error = true;
     warmup.error_message = "redis unavailable";
@@ -441,7 +441,7 @@ TEST(CacheWarmupTest, WarmReturnsErrorWhenFlagSet) {
     EXPECT_EQ(result.stats.entries_inserted, 0u);
 }
 
-TEST(CacheWarmupTest, WarmStatsContainDuration) {
+TEST(CacheWarmupInterfaceTest, WarmStatsContainDuration) {
     MockCacheWarmup warmup;
     VectorWarmupSource src;
     CacheEntry<std::string, std::string> e;

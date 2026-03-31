@@ -75,6 +75,10 @@ static ReplicationConfig makeConfig(const std::string& wal_dir = "/tmp/themis_re
     cfg.degraded_lag_threshold_ms    = 5000;
     cfg.min_sync_replicas            = 1;
     cfg.wal_sync_on_commit           = false;
+    // Keep generic helper configs valid for short election timeouts used by
+    // many focused tests. Lease-specific tests use makeLeaseConfig().
+    cfg.enable_leader_lease          = false;
+    cfg.leader_lease_duration_ms     = 0;
     return cfg;
 }
 
@@ -136,6 +140,7 @@ TEST_F(ReplicationConfigTest, LeaseDurationGEElectionTimeoutFails) {
     ReplicationConfig cfg = makeConfig(wd.path);
     cfg.enable_leader_lease       = true;
     cfg.election_timeout_min_ms   = 3000;
+    cfg.election_timeout_max_ms   = 5000;
     cfg.leader_lease_duration_ms  = 3000;  // equal → invalid (must be strictly less)
 
     ReplicationManager mgr(cfg);
@@ -147,6 +152,7 @@ TEST_F(ReplicationConfigTest, LeaseDurationLTElectionTimeoutSucceeds) {
     ReplicationConfig cfg = makeConfig(wd.path);
     cfg.enable_leader_lease       = true;
     cfg.election_timeout_min_ms   = 3000;
+    cfg.election_timeout_max_ms   = 5000;
     cfg.leader_lease_duration_ms  = 2999;  // strictly less → valid
 
     ReplicationManager mgr(cfg);
@@ -159,6 +165,7 @@ TEST_F(ReplicationConfigTest, LeaseDisabledIgnoresLeaseDuration) {
     ReplicationConfig cfg = makeConfig(wd.path);
     cfg.enable_leader_lease       = false;
     cfg.election_timeout_min_ms   = 500;
+    cfg.election_timeout_max_ms   = 1000;
     // duration >= election_timeout but lease is disabled → should still succeed
     cfg.leader_lease_duration_ms  = 5000;
 
@@ -2903,6 +2910,8 @@ TEST(CDCManagerTest, ReplicationManagerDeliversCDCEvents) {
     // itself as leader quickly.
     cfg.election_timeout_min_ms = 50;
     cfg.election_timeout_max_ms = 100;
+    // This test validates CDC delivery, not lease semantics.
+    cfg.enable_leader_lease = false;
 
     ReplicationManager mgr(cfg);
     ASSERT_TRUE(mgr.initialize());
@@ -3129,27 +3138,31 @@ TEST(WALArchivalTest, EncryptionAtRest_RoundTrip) {
     cfg.encrypt_at_rest         = true;
     cfg.encryption_key_hex      = kTestKeyHex;
 
-    WALArchivalManager mgr(cfg);
-    uint32_t n = mgr.archiveSegments({"seg_000100.wal"});
-    ASSERT_EQ(n, 1u);
+    {
+        WALArchivalManager mgr(cfg);
+        uint32_t n = mgr.archiveSegments({"seg_000100.wal"});
+        ASSERT_EQ(n, 1u);
 
-    auto list = mgr.listArchived();
-    ASSERT_EQ(list.size(), 1u);
-    EXPECT_TRUE(list[0].encrypted);
-    EXPECT_FALSE(list[0].compressed);
+        auto list = mgr.listArchived();
+        ASSERT_EQ(list.size(), 1u);
+        EXPECT_TRUE(list[0].encrypted);
+        EXPECT_FALSE(list[0].compressed);
 
-    // Archived file on disk must NOT contain plaintext
-    std::ifstream raw_file(list[0].archive_path, std::ios::binary);
-    ASSERT_TRUE(raw_file.good());
-    std::string disk_content(std::istreambuf_iterator<char>(raw_file), {});
-    EXPECT_EQ(disk_content.find("SECRET"), std::string::npos)
-        << "Encrypted archive must not contain plaintext";
+        // Archived file on disk must NOT contain plaintext
+        {
+            std::ifstream raw_file(list[0].archive_path, std::ios::binary);
+            ASSERT_TRUE(raw_file.good());
+            std::string disk_content(std::istreambuf_iterator<char>(raw_file), {});
+            EXPECT_EQ(disk_content.find("SECRET"), std::string::npos)
+                << "Encrypted archive must not contain plaintext";
+        }
 
-    // Retrieve and decrypt – must recover original content
-    auto data = mgr.retrieveSegment(list[0].segment_id);
-    ASSERT_TRUE(data.has_value());
-    std::string recovered(data->begin(), data->end());
-    EXPECT_EQ(recovered, "SECRET WAL CONTENT");
+        // Retrieve and decrypt – must recover original content
+        auto data = mgr.retrieveSegment(list[0].segment_id);
+        ASSERT_TRUE(data.has_value());
+        std::string recovered(data->begin(), data->end());
+        EXPECT_EQ(recovered, "SECRET WAL CONTENT");
+    }
 
     std::filesystem::remove_all(wal_dir);
     std::filesystem::remove_all(arc_dir);
@@ -4843,7 +4856,10 @@ TEST(BidirectionalReplicationTest, ConcurrentWritesDetectedAsConflict) {
     remote.data         = R"({"name":"Bob","ts":200})";
     remote.origin_node  = "node-east";
     remote.origin_seq   = 10;
-    remote.timestamp_ms = 200;  // remote is newer → should win under LWW
+    remote.timestamp_ms = static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count()) + 1000;
+    // Remote timestamp is guaranteed newer than the local submitWrite() wall clock.
 
     mgr.applyRemoteWrite(remote);
 

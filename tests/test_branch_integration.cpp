@@ -45,6 +45,8 @@ protected:
         
         RocksDBWrapper::Config config;
         config.db_path = test_db_path_;
+        config.merge_operator_preset =
+            RocksDBWrapper::Config::MergeOperatorPreset::SequenceU64Increment;
         db_ = std::make_unique<RocksDBWrapper>(config);
         ASSERT_TRUE(db_->open());
         changefeed_ = std::make_unique<Changefeed>(db_->getRawDB());

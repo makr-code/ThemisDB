@@ -17213,6 +17213,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_conflict_resolver.
         temporal/test_temporal_conflict_resolver.cpp
         ${CMAKE_SOURCE_DIR}/src/temporal/temporal_conflict_resolver.cpp
         ${CMAKE_SOURCE_DIR}/src/replication/replication_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_temporal_conflict_resolver_focused PRIVATE
@@ -17333,6 +17334,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_query_engine.cpp")
         ${CMAKE_SOURCE_DIR}/src/temporal/temporal_query_engine.cpp
         ${CMAKE_SOURCE_DIR}/src/temporal/system_versioned_table.cpp
         ${CMAKE_SOURCE_DIR}/src/temporal/bi_temporal.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/temporal_index.cpp
     )
 
     target_include_directories(test_temporal_query_engine_focused PRIVATE
@@ -18974,6 +18976,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_timeseries_forecasting.
         ${CMAKE_SOURCE_DIR}/src/timeseries/continuous_agg.cpp
         ${CMAKE_SOURCE_DIR}/src/timeseries/tsstore.cpp
         ${CMAKE_SOURCE_DIR}/src/analytics/forecasting.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_cross_module_timeseries_forecasting_focused PRIVATE

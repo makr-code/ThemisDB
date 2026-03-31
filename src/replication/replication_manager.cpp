@@ -580,7 +580,18 @@ void LeaderElection::receiveHeartbeat(
     {
         std::lock_guard<std::mutex> lock(election_mutex_);
         if (term >= current_term_) {
-            becomeFollower(term, leader_id);
+            const bool self_heartbeat = (leader_id == node_id_);
+            const bool staying_leader = (role_.load() == ReplicationRole::LEADER) &&
+                                        (term == current_term_.load());
+
+            if (self_heartbeat && staying_leader) {
+                // Local leader loop uses receiveHeartbeat() to refresh timers.
+                // Do not demote the current leader on its own heartbeat.
+                current_leader_ = leader_id;
+                last_heartbeat_time_ = std::chrono::steady_clock::now();
+            } else {
+                becomeFollower(term, leader_id);
+            }
         }
     }
     // Notify the election loop so it resets its timeout countdown
@@ -2992,7 +3003,7 @@ MultiMasterReplicationManager::TopologySnapshot MultiMasterReplicationManager::g
     {
         std::shared_lock<std::shared_mutex> lock(peers_mutex_);
         snapshot.nodes.reserve(snapshot.nodes.size() + peers_.size());
-        snapshot.edges.reserve(peers_.size());
+        snapshot.edges.reserve(peers_.size() * 2);
 
         for (const auto& [peer_id, peer] : peers_) {
             TopologyNode node;
@@ -3010,6 +3021,13 @@ MultiMasterReplicationManager::TopologySnapshot MultiMasterReplicationManager::g
             edge.to = peer_id;
             edge.type = "PEER";
             snapshot.edges.push_back(std::move(edge));
+
+            // Multi-master links are symmetric for topology visualization.
+            TopologyEdge reverse_edge;
+            reverse_edge.from = peer_id;
+            reverse_edge.to = config_.node_id;
+            reverse_edge.type = "PEER";
+            snapshot.edges.push_back(std::move(reverse_edge));
         }
     }
 
