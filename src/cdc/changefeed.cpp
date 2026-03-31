@@ -248,7 +248,9 @@ Changefeed::Changefeed(rocksdb::TransactionDB* db,
 
     // Initialise the in-process atomic counter from the persisted value so
     // that sequence numbers are monotonically increasing across restarts.
-    sequence_counter_.store(loadInitialSequence(), std::memory_order_relaxed);
+    const uint64_t initial_sequence = loadInitialSequence();
+    sequence_counter_.store(initial_sequence, std::memory_order_relaxed);
+    persisted_sequence_.store(initial_sequence, std::memory_order_relaxed);
     
     // Start retention cleanup if enabled
     if (retention_policy_.enabled) {
@@ -286,12 +288,47 @@ uint64_t Changefeed::nextSequence() {
         s = db_->Merge(write_opts, SEQUENCE_KEY, delta_slice);
     }
 
-    if (!s.ok()) {
-        // The atomic counter is still authoritative within this process
-        // lifetime.  On the next restart, crash recovery falls back to
-        // scanMaxSequence() if Get(SEQUENCE_KEY) cannot be resolved.
-        THEMIS_ERROR("Changefeed: failed to persist sequence via Merge: {}",
-                     s.ToString());
+    if (s.ok()) {
+        uint64_t persisted = persisted_sequence_.load(std::memory_order_relaxed);
+        while (persisted < seq &&
+               !persisted_sequence_.compare_exchange_weak(
+                   persisted, seq, std::memory_order_relaxed)) {
+        }
+        return seq;
+    }
+
+    // The atomic counter remains authoritative within this process lifetime.
+    // If Merge() is unavailable, persist the monotonic maximum via Put() so
+    // restart recovery does not depend on a merge operator being registered.
+    THEMIS_ERROR("Changefeed: failed to persist sequence via Merge: {}",
+                 s.ToString());
+
+    uint64_t persisted = persisted_sequence_.load(std::memory_order_acquire);
+    if (seq <= persisted) {
+        return seq;
+    }
+
+    std::lock_guard<std::mutex> lock(sequence_persist_mutex_);
+    persisted = persisted_sequence_.load(std::memory_order_relaxed);
+    if (seq <= persisted) {
+        return seq;
+    }
+
+    std::string seq_value(sizeof(uint64_t), '\0');
+    std::memcpy(seq_value.data(), &seq, sizeof(uint64_t));
+
+    rocksdb::Status persist_status;
+    if (cf_) {
+        persist_status = db_->Put(write_opts, cf_, SEQUENCE_KEY, seq_value);
+    } else {
+        persist_status = db_->Put(write_opts, SEQUENCE_KEY, seq_value);
+    }
+
+    if (!persist_status.ok()) {
+        THEMIS_ERROR("Changefeed: fallback Put persistence failed: {}",
+                     persist_status.ToString());
+    } else {
+        persisted_sequence_.store(seq, std::memory_order_release);
     }
 
     return seq;

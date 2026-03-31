@@ -449,6 +449,12 @@ private:
     // nextSequence() call; persisted to RocksDB via Merge() for crash recovery.
     // Eliminates the need for sequence_mutex_ and a Get+Put round-trip per event.
     std::atomic<uint64_t> sequence_counter_{0};
+
+    // Tracks the highest sequence known to be durably persisted. When RocksDB
+    // Merge() is unavailable because no merge_operator was configured, we fall
+    // back to a monotonic Put() path guarded by this mutex.
+    std::atomic<uint64_t> persisted_sequence_{0};
+    mutable std::mutex sequence_persist_mutex_;
     
     // Retention cleanup thread
     std::atomic<bool> retention_thread_running_{false};

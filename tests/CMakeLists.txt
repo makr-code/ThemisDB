@@ -9,6 +9,9 @@ endif()
 
 message(STATUS "Configuring ThemisDB test suite")
 
+# Global output directory for all test binaries → bin/ folder
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+
 if(MSVC)
     message(STATUS "MSVC Runtime: ${CMAKE_MSVC_RUNTIME_LIBRARY}")
 endif()

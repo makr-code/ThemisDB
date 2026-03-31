@@ -4078,11 +4078,11 @@ target_link_libraries(themis_server
         themis_core
 )
 
-# Set output directory to build root instead of cmake/ subdirectory
+# Set output directory to bin/ folder (consistent with test binaries)
 set_target_properties(themis_server PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
-    RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}"
-    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+    RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin"
+    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin"
 )
 
 # Ensure themis_server does not directly link mimalloc; rely on themis_core

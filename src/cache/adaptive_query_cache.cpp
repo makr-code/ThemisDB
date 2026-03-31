@@ -733,7 +733,7 @@ bool AdaptiveQueryCache::put(
                 std::lock_guard<std::mutex> plock(pii_index_mutex_);
                 for (const auto& pii_uuid : pii_uuids) {
                     pii_key_index_[pii_uuid].insert(key);
-                    pii_key_index_[pii_uuid].insert(fingerprint);
+                       pii_key_index_[pii_uuid].insert(fingerprint);
                 }
             }
             if (config_.enable_tenant_isolation && !tenant_id.empty()) {
@@ -783,7 +783,8 @@ bool AdaptiveQueryCache::put(
         if (!pii_uuids.empty()) {
             std::lock_guard<std::mutex> plock(pii_index_mutex_);
             for (const auto& pii_uuid : pii_uuids) {
-                pii_key_index_[pii_uuid].insert(key);
+                pii_key_index_[pii_uuid].insert(key);         // tenanted version
+                pii_key_index_[pii_uuid].insert(fingerprint);  // untenanted version
             }
         }
         notifyCoordinator();
@@ -828,7 +829,8 @@ bool AdaptiveQueryCache::put(
         if (!pii_uuids.empty()) {
             std::lock_guard<std::mutex> plock(pii_index_mutex_);
             for (const auto& pii_uuid : pii_uuids) {
-                pii_key_index_[pii_uuid].insert(fingerprint);
+                pii_key_index_[pii_uuid].insert(fingerprint);  // untenanted version
+                pii_key_index_[pii_uuid].insert(key);         // tenanted version
             }
         }
         notifyCoordinator();
@@ -1952,6 +1954,8 @@ size_t AdaptiveQueryCache::invalidatePII(const std::string& pii_uuid) {
         if (it != pii_key_index_.end()) {
             keys_to_purge = std::move(it->second);
             pii_key_index_.erase(it);
+        } else {
+            THEMIS_DEBUG("invalidatePII: No keys found in index for uuid={}", pii_uuid);
         }
     }
 
@@ -1973,8 +1977,19 @@ size_t AdaptiveQueryCache::invalidatePII(const std::string& pii_uuid) {
         {
             std::lock_guard<std::mutex> lock(l2_mutex_);
             for (const auto& k : keys_to_purge) {
-                auto it = l2_cache_.find(k);
-                if (it != l2_cache_.end()) {
+                   // L2 is indexed by fingerprint, not tenanted key
+                   // Extract fingerprint from k if it's a tenanted key, otherwise use k as-is
+                   std::string l2_key = k;
+                   const std::string prefix = "tenant:";
+                   if (k.compare(0, prefix.length(), prefix) == 0) {
+                       // Extract fingerprint from tenanted key format: tenant:xxx:fingerprint
+                       size_t last_colon = k.rfind(':');
+                       if (last_colon != std::string::npos) {
+                           l2_key = k.substr(last_colon + 1);
+                       }
+                   }
+                   auto it = l2_cache_.find(l2_key);
+                   if (it != l2_cache_.end()) {
                     l2_eviction_strategy_->onRemove(it->first);
                     l2_cache_.erase(it);
                     count++;
