@@ -54,9 +54,31 @@ json ContentType::toJson() const {
 }
 
 ContentType ContentType::fromJson(const json& j) {
+    auto parseCategory = [](const json& value) -> ContentCategory {
+        if (value.is_number_integer()) {
+            return static_cast<ContentCategory>(value.get<int>());
+        }
+        if (value.is_string()) {
+            std::string category = value.get<std::string>();
+            std::transform(category.begin(), category.end(), category.begin(),
+                           [](unsigned char ch) { return static_cast<char>(std::toupper(ch)); });
+            if (category == "TEXT") return ContentCategory::TEXT;
+            if (category == "IMAGE") return ContentCategory::IMAGE;
+            if (category == "AUDIO") return ContentCategory::AUDIO;
+            if (category == "VIDEO") return ContentCategory::VIDEO;
+            if (category == "GEO") return ContentCategory::GEO;
+            if (category == "CAD") return ContentCategory::CAD;
+            if (category == "ARCHIVE") return ContentCategory::ARCHIVE;
+            if (category == "STRUCTURED") return ContentCategory::STRUCTURED;
+            if (category == "BINARY") return ContentCategory::BINARY;
+            if (category == "UNKNOWN") return ContentCategory::UNKNOWN;
+        }
+        return ContentCategory::UNKNOWN;
+    };
+
     ContentType type;
     type.mime_type = j["mime_type"];
-    type.category = static_cast<ContentCategory>(j["category"].get<int>());
+    type.category = parseCategory(j["category"]);
     type.extensions = j["extensions"].get<std::vector<std::string>>();
     type.supports_text_extraction = j["supports_text_extraction"];
     type.supports_embedding = j["supports_embedding"];

@@ -137,7 +137,7 @@ protected:
         json chunks = json::array();
         for (size_t i = 0; i < chunk_texts.size(); ++i) {
             chunks.push_back({
-                {"id", "chunk-" + std::to_string(i)},
+                {"id", cid + "-chunk-" + std::to_string(i)},
                 {"content_id", cid},
                 {"seq_num", i},
                 {"chunk_type", "text"},

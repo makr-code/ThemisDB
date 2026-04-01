@@ -332,14 +332,14 @@ TEST_F(AuditLogDirectTest, ShrinkingMaxEvictsOldest) {
 // Config exception classes
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST(ConfigErrorsTest, ConfigNotFoundExceptionMessage) {
+TEST(ConfigErrorsStatelessTest, ConfigNotFoundExceptionMessage) {
     ConfigNotFoundException ex("config/foo.yaml", {"config/core/foo.yaml", "config/foo.yaml"});
     std::string msg(ex.what());
     EXPECT_NE(msg.find("foo.yaml"), std::string::npos);
     EXPECT_NE(msg.find("config/core/foo.yaml"), std::string::npos);
 }
 
-TEST(ConfigErrorsTest, ConfigNotFoundExceptionAccessors) {
+TEST(ConfigErrorsStatelessTest, ConfigNotFoundExceptionAccessors) {
     std::vector<std::string> attempted = {"a", "b"};
     ConfigNotFoundException ex("config/foo.yaml", attempted);
     EXPECT_EQ(ex.requested_path(), "config/foo.yaml");
@@ -348,14 +348,14 @@ TEST(ConfigErrorsTest, ConfigNotFoundExceptionAccessors) {
     EXPECT_EQ(ex.attempted_paths()[1], "b");
 }
 
-TEST(ConfigErrorsTest, MappingNotFoundExceptionMessage) {
+TEST(ConfigErrorsStatelessTest, MappingNotFoundExceptionMessage) {
     MappingNotFoundException ex("config/old.yaml");
     std::string msg(ex.what());
     EXPECT_NE(msg.find("old.yaml"), std::string::npos);
     EXPECT_EQ(ex.legacy_path(), "config/old.yaml");
 }
 
-TEST(ConfigErrorsTest, InvalidPathExceptionAccessors) {
+TEST(ConfigErrorsStatelessTest, InvalidPathExceptionAccessors) {
     InvalidPathException ex("config/../escape.yaml", "path traversal not allowed");
     EXPECT_EQ(ex.invalid_path(), "config/../escape.yaml");
     EXPECT_EQ(ex.reason(), "path traversal not allowed");
@@ -363,14 +363,14 @@ TEST(ConfigErrorsTest, InvalidPathExceptionAccessors) {
     EXPECT_NE(msg.find("path traversal"), std::string::npos);
 }
 
-TEST(ConfigErrorsTest, ConfigPermissionExceptionAccessor) {
+TEST(ConfigErrorsStatelessTest, ConfigPermissionExceptionAccessor) {
     ConfigPermissionException ex("/secure/config.yaml");
     EXPECT_EQ(ex.config_path(), "/secure/config.yaml");
     std::string msg(ex.what());
     EXPECT_NE(msg.find("config.yaml"), std::string::npos);
 }
 
-TEST(ConfigErrorsTest, ExceptionHierarchy) {
+TEST(ConfigErrorsStatelessTest, ExceptionHierarchy) {
     // All config exceptions derive from ConfigException (-> std::exception)
     EXPECT_NO_THROW({
         try {
@@ -385,29 +385,29 @@ TEST(ConfigErrorsTest, ExceptionHierarchy) {
 // PathMappingMetadata helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST(PathMappingMetadataTest, IsDeprecatedWhenDateInPast) {
+TEST(PathMappingMetadataNoFixtureTest, IsDeprecatedWhenDateInPast) {
     PathMappingMetadata m;
     m.deprecated_date = std::chrono::system_clock::now() - std::chrono::hours(24);
     EXPECT_TRUE(m.isDeprecated());
 }
 
-TEST(PathMappingMetadataTest, NotDeprecatedWhenNoDate) {
+TEST(PathMappingMetadataNoFixtureTest, NotDeprecatedWhenNoDate) {
     PathMappingMetadata m;
     EXPECT_FALSE(m.isDeprecated());
 }
 
-TEST(PathMappingMetadataTest, IsRemovalDueWhenDateInPast) {
+TEST(PathMappingMetadataNoFixtureTest, IsRemovalDueWhenDateInPast) {
     PathMappingMetadata m;
     m.removal_date = std::chrono::system_clock::now() - std::chrono::hours(1);
     EXPECT_TRUE(m.isRemovalDue());
 }
 
-TEST(PathMappingMetadataTest, NotRemovalDueWhenNoDate) {
+TEST(PathMappingMetadataNoFixtureTest, NotRemovalDueWhenNoDate) {
     PathMappingMetadata m;
     EXPECT_FALSE(m.isRemovalDue());
 }
 
-TEST(PathMappingMetadataTest, NotRemovalDueWhenDateInFuture) {
+TEST(PathMappingMetadataNoFixtureTest, NotRemovalDueWhenDateInFuture) {
     PathMappingMetadata m;
     m.removal_date = std::chrono::system_clock::now() + std::chrono::hours(24 * 365);
     EXPECT_FALSE(m.isRemovalDue());

@@ -251,6 +251,19 @@ Changefeed::Changefeed(rocksdb::TransactionDB* db,
     const uint64_t initial_sequence = loadInitialSequence();
     sequence_counter_.store(initial_sequence, std::memory_order_relaxed);
     persisted_sequence_.store(initial_sequence, std::memory_order_relaxed);
+
+    // Detect whether this DB/CF has a merge operator configured. If not, do
+    // not call Merge() in nextSequence(); use Put-based monotonic persistence.
+    bool merge_supported = true;
+    try {
+        auto opts = cf_ ? db_->GetOptions(cf_) : db_->GetOptions();
+        merge_supported = (opts.merge_operator != nullptr);
+    } catch (...) {
+        // Keep the optimistic default; nextSequence() will self-disable merge
+        // if Merge() returns an error.
+        merge_supported = true;
+    }
+    sequence_merge_supported_.store(merge_supported, std::memory_order_relaxed);
     
     // Start retention cleanup if enabled
     if (retention_policy_.enabled) {
@@ -277,31 +290,35 @@ uint64_t Changefeed::nextSequence() {
     // Persist the increment to RocksDB via the SequenceIncrementOperator for
     // crash recovery.  Merge() is non-blocking from the caller perspective
     // (the operand is buffered in the LSM write-path and applied lazily).
-    const uint64_t delta = 1;
-    const rocksdb::Slice delta_slice(reinterpret_cast<const char*>(&delta),
-                                     sizeof(delta));
     rocksdb::WriteOptions write_opts;
-    rocksdb::Status s;
-    if (cf_) {
-        s = db_->Merge(write_opts, cf_, SEQUENCE_KEY, delta_slice);
-    } else {
-        s = db_->Merge(write_opts, SEQUENCE_KEY, delta_slice);
-    }
 
-    if (s.ok()) {
-        uint64_t persisted = persisted_sequence_.load(std::memory_order_relaxed);
-        while (persisted < seq &&
-               !persisted_sequence_.compare_exchange_weak(
-                   persisted, seq, std::memory_order_relaxed)) {
+    if (sequence_merge_supported_.load(std::memory_order_acquire)) {
+        const uint64_t delta = 1;
+        const rocksdb::Slice delta_slice(reinterpret_cast<const char*>(&delta),
+                                         sizeof(delta));
+
+        rocksdb::Status s;
+        if (cf_) {
+            s = db_->Merge(write_opts, cf_, SEQUENCE_KEY, delta_slice);
+        } else {
+            s = db_->Merge(write_opts, SEQUENCE_KEY, delta_slice);
         }
-        return seq;
-    }
 
-    // The atomic counter remains authoritative within this process lifetime.
-    // If Merge() is unavailable, persist the monotonic maximum via Put() so
-    // restart recovery does not depend on a merge operator being registered.
-    THEMIS_ERROR("Changefeed: failed to persist sequence via Merge: {}",
-                 s.ToString());
+        if (s.ok()) {
+            uint64_t persisted = persisted_sequence_.load(std::memory_order_relaxed);
+            while (persisted < seq &&
+                   !persisted_sequence_.compare_exchange_weak(
+                       persisted, seq, std::memory_order_relaxed)) {
+            }
+            return seq;
+        }
+
+        // Disable Merge path after first failure to avoid repeated write-path
+        // errors on DBs/CFs opened without a merge operator.
+        sequence_merge_supported_.store(false, std::memory_order_release);
+        THEMIS_ERROR("Changefeed: failed to persist sequence via Merge: {}",
+                     s.ToString());
+    }
 
     uint64_t persisted = persisted_sequence_.load(std::memory_order_acquire);
     if (seq <= persisted) {

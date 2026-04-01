@@ -227,8 +227,28 @@ size_t ContinuousAggregateManager::refreshIncremental(const AggConfig& cfg,
                                                         ContinuousAggWatermarkStore& wm_store) {
     if (!store_) return 0;
 
-    // Read the current watermark; scan starts from there (0 = full history)
+    // Read the current watermark; initial bootstrap picks the first available
+    // data point to avoid creating misaligned pre-history windows from epoch 0.
     int64_t from_ms = wm_store.getWatermark(agg_id);
+
+    if (from_ms == 0) {
+        TSStore::QueryOptions first;
+        first.metric = cfg.metric;
+        first.entity = cfg.entity;
+        first.from_timestamp_ms = 0;
+        first.to_timestamp_ms = to_ms - 1;
+        first.limit = 1;
+
+        auto first_point = store_->query(first);
+        if (!first_point.has_value() || first_point->empty()) {
+            // No source data to aggregate in this interval; advance watermark so
+            // repeated refreshes do not rescan empty history.
+            wm_store.setWatermark(agg_id, to_ms);
+            return 0;
+        }
+
+        from_ms = (*first_point)[0].timestamp_ms;
+    }
 
     // Nothing to do if already up-to-date
     if (from_ms >= to_ms) return 0;

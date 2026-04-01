@@ -173,6 +173,8 @@ private:
 // ============================================================================
 // SchemaMigration::Impl
 // ============================================================================
+// NOTE: Keep this translation unit rebuilt together with schema_migration.h
+// to avoid ABI drift in IMigrationStorage virtual dispatch.
 
 struct SchemaMigration::Impl {
     std::string        version_;

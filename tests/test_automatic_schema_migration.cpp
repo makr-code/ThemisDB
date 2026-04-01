@@ -55,6 +55,9 @@ using namespace themis::updates;
 // Helpers: in-memory IMigrationStorage
 // ============================================================================
 
+namespace {  // anonymous namespace prevents ODR conflicts with InMemoryStorage
+             // defined in other test TUs (e.g. test_ab_test_manager.cpp).
+
 /**
  * @brief Simple in-memory key-value store for testing.
  *
@@ -116,6 +119,8 @@ public:
     bool get(const std::string&, std::string&) override { return false; }
     bool remove(const std::string&) override { return true; }
 };
+
+}  // anonymous namespace
 
 // ============================================================================
 // Test suite: AutomaticSchemaMigrationFocusedTests

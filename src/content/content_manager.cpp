@@ -42,6 +42,7 @@
 #include <openssl/sha.h>
 #include <algorithm>
 #include <chrono>
+#include <cctype>
 #include <random>
 #include <sstream>
 #include <iomanip>
@@ -360,10 +361,32 @@ json ContentMeta::toJson() const {
 }
 
 ContentMeta ContentMeta::fromJson(const json& j) {
+    auto parseCategory = [](const json& value) -> ContentCategory {
+        if (value.is_number_integer()) {
+            return static_cast<ContentCategory>(value.get<int>());
+        }
+        if (value.is_string()) {
+            std::string category = value.get<std::string>();
+            std::transform(category.begin(), category.end(), category.begin(),
+                           [](unsigned char ch) { return static_cast<char>(std::toupper(ch)); });
+            if (category == "TEXT") return ContentCategory::TEXT;
+            if (category == "IMAGE") return ContentCategory::IMAGE;
+            if (category == "AUDIO") return ContentCategory::AUDIO;
+            if (category == "VIDEO") return ContentCategory::VIDEO;
+            if (category == "GEO") return ContentCategory::GEO;
+            if (category == "CAD") return ContentCategory::CAD;
+            if (category == "ARCHIVE") return ContentCategory::ARCHIVE;
+            if (category == "STRUCTURED") return ContentCategory::STRUCTURED;
+            if (category == "BINARY") return ContentCategory::BINARY;
+            if (category == "UNKNOWN") return ContentCategory::UNKNOWN;
+        }
+        return ContentCategory::UNKNOWN;
+    };
+
     ContentMeta m;
     m.id = j.value("id", "");
     m.mime_type = j.value("mime_type", "");
-    m.category = j.contains("category") ? static_cast<ContentCategory>(j["category"].get<int>()) : ContentCategory::UNKNOWN;
+    m.category = j.contains("category") ? parseCategory(j["category"]) : ContentCategory::UNKNOWN;
     m.original_filename = j.value("original_filename", "");
     m.size_bytes = j.value("size_bytes", 0LL);
     m.compressed = j.value("compressed", false);

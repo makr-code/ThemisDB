@@ -454,6 +454,7 @@ private:
     // Merge() is unavailable because no merge_operator was configured, we fall
     // back to a monotonic Put() path guarded by this mutex.
     std::atomic<uint64_t> persisted_sequence_{0};
+    std::atomic<bool> sequence_merge_supported_{true};
     mutable std::mutex sequence_persist_mutex_;
     
     // Retention cleanup thread

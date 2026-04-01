@@ -47,7 +47,7 @@ protected:
 
 // ==================== LRUCache Tests ====================
 
-TEST(LRUCacheTest, BasicOperations) {
+TEST(DiskANNLRUCachePerformanceTest, BasicOperations) {
     LRUCache<int, std::string> cache(3);
     
     cache.put(1, "one");
@@ -64,7 +64,7 @@ TEST(LRUCacheTest, BasicOperations) {
     EXPECT_FALSE(cache.get(99, value));
 }
 
-TEST(LRUCacheTest, Eviction) {
+TEST(DiskANNLRUCachePerformanceTest, Eviction) {
     LRUCache<int, std::string> cache(2);
     
     cache.put(1, "one");

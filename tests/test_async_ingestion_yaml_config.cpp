@@ -133,6 +133,22 @@ std::string writeTempYaml(const std::string& content) {
     return tmp.string();
 }
 
+/** Resolve config/content/async_worker.yaml by walking parent directories. */
+std::string findAsyncWorkerConfigPath() {
+    std::filesystem::path base = std::filesystem::current_path();
+    for (int i = 0; i < 8; ++i) {
+        const auto candidate = base / "config" / "content" / "async_worker.yaml";
+        if (std::filesystem::exists(candidate)) {
+            return candidate.string();
+        }
+        if (!base.has_parent_path()) {
+            break;
+        }
+        base = base.parent_path();
+    }
+    return "config/content/async_worker.yaml";
+}
+
 // ============================================================================
 // Fixture
 // ============================================================================
@@ -429,13 +445,10 @@ TEST_F(AsyncIngestionYamlConfigTest, LoadConfig_NonExistentFile_Throws) {
 // ============================================================================
 
 TEST_F(AsyncIngestionYamlConfigTest, DefaultAsyncWorkerYaml_ExistsAndParseable) {
-    // Locate the config/content/async_worker.yaml relative to the repo root.
-    // In CI the working directory is the repo root; the config must exist.
     auto worker = makeWorker();
-    // Resolve via ConfigPathResolver (handles env overlays automatically).
-    // We simply confirm the file can be loaded without error.
+    const std::string cfg_path = findAsyncWorkerConfigPath();
     EXPECT_NO_THROW(
-        worker->loadSourcesFromConfig("config/content/async_worker.yaml")
+        worker->loadSourcesFromConfig(cfg_path)
     );
 }
 
