@@ -1,0 +1,48 @@
+# ============================================================================
+# ThemisDB Scraper Plugin – Government Source Catalog Overlay
+# ============================================================================
+# This file extends or overrides the built-in government source catalog.
+# Add custom sources or override fields in built-in sources (e.g. enable/disable).
+#
+# Fields per source (all optional except id):
+#   id, name, type (BUND|BUNDESLAND|EU|OTHER),
+#   search_style (HTML_FORM|REST_JSON|EURLEX_API|LISTING|SITEMAP),
+#   bundesland (ISO 3166-2:DE code, e.g. DE-BY),
+#   language, base_url, search_url, sitemap_url,
+#   search_param, page_param, results_per_page, form_method,
+#   extra_params (map), result_list_selector, next_page_selector,
+#   api_endpoint, api_results_field, api_cursor_field, api_key_env,
+#   notes, requires_auth, enabled
+#
+# Built-in source IDs (reference):
+#   Bund:        gesetze_im_internet, rechtsprechung_im_internet,
+#                bundesanzeiger, bundestag_dip, bundesrat, openjur,
+#                dejure, bverfg
+#   Bundesland:  gesetze_bw, gesetze_by, gesetze_be, gesetze_bb,
+#                gesetze_hb, gesetze_hh, gesetze_he, gesetze_mv,
+#                gesetze_ni, gesetze_nw, gesetze_rp, gesetze_sl,
+#                gesetze_sn, gesetze_st, gesetze_sh, gesetze_th
+#   EU:          eurlex, eurlex_api, curia, europarl, eu_publications
+# ============================================================================
+
+sources:
+  # --------------------------------------------------------------------------
+  # Example: disable a built-in source you don't need
+  # --------------------------------------------------------------------------
+  - id: "bundesanzeiger"
+    enabled: false
+
+  # --------------------------------------------------------------------------
+  # Example: add a custom project-specific source
+  # --------------------------------------------------------------------------
+  # - id: "custom_project_portal"
+  #   name: "Projekt-internes Rechtsportal"
+  #   type: "OTHER"
+  #   search_style: "HTML_FORM"
+  #   base_url: "https://intern.example.de"
+  #   search_url: "https://intern.example.de/search"
+  #   search_param: "q"
+  #   page_param: "page"
+  #   result_list_selector: ".search-results li"
+  #   next_page_selector: "a.next"
+  #   enabled: true

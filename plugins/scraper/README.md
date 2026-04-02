@@ -1,0 +1,103 @@
+# Scraper Plugin
+
+Agentic AI module for gap-detection-driven web scraping in ThemisDB.
+
+## Overview
+
+The scraper plugin fills data gaps by:
+
+1. **Searching** – submitting gap keywords to configured web portals via
+   HTML search forms (e.g. openjur.de, Gesetze im Internet)
+2. **Scraping** – fetching and extracting text from result pages
+3. **Rendering** – using a headless browser for JavaScript-rendered SPAs
+   (React, Vue, Next.js, webpack-dev-server)
+4. **Querying APIs** – calling JSON REST endpoints (Bundestag DIP, EUR-Lex)
+5. **Evaluating** – scoring each document against the gap context via LLM
+   (or heuristic keyword-density fallback)
+6. **Writing** – storing relational records, graph nodes/edges, and vector
+   records to the ThemisDB metadata layer
+
+## Government Source Catalog
+
+The built-in catalog covers **29 official sources**:
+
+| Group | Count | Examples |
+|-------|-------|---------|
+| Bund (Federal) | 8 | openjur.de, Gesetze im Internet, Bundesanzeiger, Bundestag DIP, BVerfG |
+| Bundesländer (16 states) | 16 | gesetze-by.de, landesrecht-bw.de, recht.nrw.de, … |
+| EU | 5 | EUR-Lex, CURIA, European Parliament, Publications Office |
+
+Extend the catalog by adding entries to `config/gov_sources.yaml`.
+
+## Configuration
+
+Copy `config/scraper_urls.yaml` and adapt for your gap:
+
+```yaml
+gap_context:
+  gap_id: "GAP-001"
+  description: "Fehlende Daten zu Baugenehmigungsverfahren Bayern"
+  keywords: ["Baugenehmigung", "BauGB", "Bebauungsplan"]
+
+gov_sources:
+  bund_enabled: true
+  eu_enabled: true
+  source_ids: ["openjur", "gesetze_im_internet", "eurlex"]
+```
+
+## Render Modes
+
+| Mode | Description |
+|------|-------------|
+| `static` | Plain HTTP GET + HTML parsing |
+| `js_rendered` | External headless browser (Puppeteer/Playwright) |
+| `api_json` | JSON REST API endpoint |
+| `api_graphql` | GraphQL POST endpoint |
+
+For `js_rendered`, configure `js_renderer_cmd` with the path to your renderer:
+
+```yaml
+crawl_options:
+  render_mode: js_rendered
+  js_renderer_cmd: "node /opt/themis/scripts/renderer.js"
+```
+
+## Building
+
+```bash
+# With all features enabled:
+cmake -DTHEMIS_PLUGIN_SCRAPER=ON \
+      -DTHEMIS_ENABLE_YAML=ON \
+      -DTHEMIS_ENABLE_CURL=ON \
+      -DTHEMIS_ENABLE_LLM=ON \
+      ..
+```
+
+Dependencies: `yaml-cpp`, `pugixml`, `libcurl`, `nlohmann_json`
+Optional: `llama.cpp` (via `THEMIS_ENABLE_LLM`)
+
+## Usage (C++ API)
+
+```cpp
+#include "scraper_plugin.h"
+using namespace themis::scraper;
+
+ScraperConfig cfg = ScraperConfig::loadFromFile("config/scraper_urls.yaml");
+ScraperPlugin plugin;
+plugin.initialize(cfg);
+const ScraperRunStats stats = plugin.scrape();
+// stats.docs_accepted, stats.docs_discarded, stats.elapsed_ms
+```
+
+## Tests
+
+40 unit tests in `tests/test_scraper_plugin.cpp`:
+
+- **Group A** (6) – UrlPolicy
+- **Group B** (5) – ScraperConfig YAML loading
+- **Group C** (5) – GovSourceCatalog (Bund, Länder, EU, YAML overlay)
+- **Group D** (5) – HtmlSearchEngine (form discovery, result-list parsing)
+- **Group E** (4) – ApiClient (page/cursor pagination)
+- **Group F** (4) – LLM Evaluator (LLM path, heuristic fallback, threshold)
+- **Group G** (4) – MetadataWriter (relational, graph, vector)
+- **Group H** (7) – ScraperPlugin integration (init, search, API, JS, blacklist)
