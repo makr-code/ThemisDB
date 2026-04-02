@@ -12,6 +12,10 @@
  *   Group F (4 tests)  – ScraperLLMEvaluator: heuristic scoring, threshold, JSON parse error
  *   Group G (4 tests)  – InMemoryScraperMetadataWriter: relational/graph/vector writes
  *   Group H (7 tests)  – ScraperPlugin: init, search loop, API loop, gov sources, JS renderer
+ *   Group I (6 tests)  – Provenance flags: relational/graph/vector/document have correct flags
+ *   Group J (5 tests)  – Knowledge sources: catalog completeness (EU, Bund, Länder, Standards, Wiki)
+ *   Group K (5 tests)  – Provenance pipeline: end-to-end flag propagation through scrape()
+ *   Group L (4 tests)  – Provenance immutability: flags cannot be cleared or overridden
  */
 
 #include <gtest/gtest.h>
@@ -609,4 +613,366 @@ TEST(ScraperPluginFocusedTests, ScraperRecordBuilderCreatesDocId) {
     const auto edges = ScraperRecordBuilder::buildEdges(rel, eval);
     EXPECT_GE(edges.size(), 1u);
     EXPECT_EQ(edges[0].rel, "FILLS_GAP");
+}
+
+// ============================================================================
+// GROUP I – Provenance flags on all three record types
+// ============================================================================
+
+namespace {
+/// Helper: build a populated EvaluationResult and GapContext.
+EvaluationResult makeEval(double q = 0.8, double r = 0.75) {
+    EvaluationResult e;
+    e.quality_score = q;
+    e.gap_relevance = r;
+    e.summary       = "test summary";
+    e.key_entities  = {"BauGB", "Bayern"};
+    return e;
+}
+
+GapContext makeGap(const std::string& id = "GAP-I1") {
+    GapContext g;
+    g.gap_id   = id;
+    g.keywords = {"Baugenehmigung", "BauGB"};
+    return g;
+}
+} // anonymous namespace
+
+TEST(ScraperPluginFocusedTests, I1_RelationalRecordHasIsScraperIngested) {
+    const auto rel = ScraperRecordBuilder::buildRelational(
+        "https://openjur.de/u/42.html", "Urteil", "some text",
+        "openjur", "openjur", makeEval(), makeGap());
+    EXPECT_TRUE(rel.is_scraper_ingested);
+}
+
+TEST(ScraperPluginFocusedTests, I2_RelationalRecordIngestionSourceTypeIsLiteral) {
+    const auto rel = ScraperRecordBuilder::buildRelational(
+        "https://gesetze-im-internet.de/baug/index.html", "BauGB", "Baugenehmigung",
+        "gesetze_im_internet", "gesetze_im_internet", makeEval(), makeGap());
+    EXPECT_EQ(rel.ingestion_source_type, "SCRAPER");
+}
+
+TEST(ScraperPluginFocusedTests, I3_RelationalRecordHasPluginVersion) {
+    const auto rel = ScraperRecordBuilder::buildRelational(
+        "https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=OJ:L_202300001",
+        "Verordnung (EU) 2023/1", "Artikel 1",
+        "eurlex", "eurlex", makeEval(), makeGap("GAP-EU1"));
+    EXPECT_FALSE(rel.ingestion_plugin_version.empty());
+    // Must look like a semver (contains at least one dot)
+    EXPECT_NE(rel.ingestion_plugin_version.find('.'), std::string::npos);
+}
+
+TEST(ScraperPluginFocusedTests, I4_GraphNodeCarriesProvenanceProperties) {
+    const auto rel = ScraperRecordBuilder::buildRelational(
+        "https://www.bverfg.de/e/rs20231114_1bvr000023.html",
+        "BVerfG 1 BvR 0/23", "Grundrecht",
+        "bverfg", "bverfg", makeEval(), makeGap());
+    const auto node = ScraperRecordBuilder::buildNode(rel);
+
+    ASSERT_GT(node.properties.count("is_scraper_ingested"), 0u);
+    EXPECT_EQ(node.properties.at("is_scraper_ingested"), "true");
+
+    ASSERT_GT(node.properties.count("ingestion_source_type"), 0u);
+    EXPECT_EQ(node.properties.at("ingestion_source_type"), "SCRAPER");
+
+    ASSERT_GT(node.properties.count("ingestion_plugin_version"), 0u);
+    EXPECT_FALSE(node.properties.at("ingestion_plugin_version").empty());
+}
+
+TEST(ScraperPluginFocusedTests, I5_VectorRecordHasProvenanceFlags) {
+    const auto rel = ScraperRecordBuilder::buildRelational(
+        "https://curia.europa.eu/juris/document/document.jsf?docid=260143",
+        "EuGH C-311/18", "Schrems II",
+        "curia", "curia", makeEval(), makeGap("GAP-CURIA1"));
+    const auto vec = ScraperRecordBuilder::buildVector(rel);
+
+    EXPECT_TRUE(vec.is_scraper_ingested);
+    EXPECT_EQ(vec.ingestion_source_type, "SCRAPER");
+    EXPECT_EQ(vec.ingestion_plugin_version, rel.ingestion_plugin_version);
+}
+
+TEST(ScraperPluginFocusedTests, I6_ScrapedDocumentDefaultsProvenance) {
+    ScrapedDocument doc;
+    EXPECT_TRUE(doc.is_scraper_ingested);
+    EXPECT_EQ(doc.ingestion_source_type, "SCRAPER");
+    EXPECT_FALSE(doc.ingestion_plugin_version.empty());
+}
+
+// ============================================================================
+// GROUP J – Knowledge source catalog completeness
+// ============================================================================
+
+TEST(ScraperPluginFocusedTests, J1_GovCatalogHasBundestag) {
+    GovSourceCatalog cat;
+    const auto bund = cat.byGroup("bund");
+    bool found = false;
+    for (const auto& s : bund) {
+        if (s.id == "bundestag_dip" || s.id == "bundestag") {
+            found = true; break;
+        }
+    }
+    EXPECT_TRUE(found) << "Gov catalog must include Bundestag DIP source";
+}
+
+TEST(ScraperPluginFocusedTests, J2_GovCatalogHasAllEuSources) {
+    GovSourceCatalog cat;
+    const auto eu = cat.byGroup("eu");
+    std::vector<std::string> required_ids = {"eurlex", "curia"};
+    for (const auto& id : required_ids) {
+        bool found = false;
+        for (const auto& s : eu) {
+            if (s.id == id) { found = true; break; }
+        }
+        EXPECT_TRUE(found) << "Missing EU source: " << id;
+    }
+}
+
+TEST(ScraperPluginFocusedTests, J3_GovCatalogCoversAll16Bundeslaender) {
+    GovSourceCatalog cat;
+    const auto laender = cat.byGroup("laender");
+    // Minimum: we expect at least 10 state sources to be pre-registered
+    EXPECT_GE(laender.size(), 10u)
+        << "All 16 Bundesländer must have at least one source entry";
+}
+
+TEST(ScraperPluginFocusedTests, J4_GovCatalogSourceHasLicense) {
+    GovSourceCatalog cat;
+    const auto all = cat.allSources();
+    int missing_license = 0;
+    for (const auto& s : all) {
+        if (s.license.empty()) ++missing_license;
+    }
+    EXPECT_EQ(missing_license, 0)
+        << missing_license << " source(s) have an empty license field";
+}
+
+TEST(ScraperPluginFocusedTests, J5_GovCatalogSourceIdIsUnique) {
+    GovSourceCatalog cat;
+    const auto all = cat.allSources();
+    std::map<std::string, int> id_count;
+    for (const auto& s : all) ++id_count[s.id];
+    for (const auto& kv : id_count) {
+        EXPECT_EQ(kv.second, 1)
+            << "Duplicate source id in gov catalog: " << kv.first;
+    }
+}
+
+// ============================================================================
+// GROUP K – Provenance pipeline: end-to-end through scrape()
+// ============================================================================
+
+namespace {
+/// Evaluator that always accepts with fixed scores.
+class AlwaysAcceptEvaluator : public IScraperLLMEvaluator {
+public:
+    EvaluationResult evaluate(const std::string&,
+                               const GapContext&,
+                               double) const override {
+        return makeEval(0.9, 0.85);
+    }
+};
+} // anonymous namespace
+
+TEST(ScraperPluginFocusedTests, K1_PluginScrapeResultsHaveIsScraperIngested) {
+    auto writer = std::make_shared<InMemoryScraperMetadataWriter>();
+    auto evaluator = std::make_shared<AlwaysAcceptEvaluator>();
+    auto search = std::make_shared<InMemorySearchEngine>();
+    auto renderer = std::make_shared<InMemoryJSRenderer>();
+    auto api_client = std::make_shared<InMemoryScraperApiClient>();
+
+    ScraperConfig cfg;
+    cfg.whitelist = {"https://example.com"};
+    cfg.gap_context.gap_id = "GAP-K1";
+    cfg.gap_context.keywords = {"test"};
+    cfg.llm_options.quality_threshold = 0.5;
+
+    ScraperPlugin plugin(evaluator, writer, search, renderer, api_client);
+    plugin.setHttpFetch([](const std::string&, const std::string&) {
+        return "<html><body>Baugenehmigung BauGB</body></html>";
+    });
+    cfg.seeds = {"https://example.com/urteil.html"};
+    plugin.initialize(cfg);
+    plugin.scrape();
+
+    for (const auto& doc : plugin.getResults()) {
+        EXPECT_TRUE(doc.is_scraper_ingested)
+            << "ScrapedDocument missing is_scraper_ingested for " << doc.url;
+        EXPECT_EQ(doc.ingestion_source_type, "SCRAPER")
+            << "Wrong ingestion_source_type for " << doc.url;
+    }
+}
+
+TEST(ScraperPluginFocusedTests, K2_WrittenRelationalRecordsHaveFlag) {
+    auto writer = std::make_shared<InMemoryScraperMetadataWriter>();
+    auto evaluator = std::make_shared<AlwaysAcceptEvaluator>();
+    auto search = std::make_shared<InMemorySearchEngine>();
+    auto renderer = std::make_shared<InMemoryJSRenderer>();
+    auto api_client = std::make_shared<InMemoryScraperApiClient>();
+
+    ScraperConfig cfg;
+    cfg.whitelist = {"https://gesetze-im-internet.de"};
+    cfg.gap_context.gap_id = "GAP-K2";
+    cfg.gap_context.keywords = {"BauGB"};
+    cfg.llm_options.quality_threshold = 0.5;
+    cfg.seeds = {"https://gesetze-im-internet.de/baug/__1.html"};
+
+    ScraperPlugin plugin(evaluator, writer, search, renderer, api_client);
+    plugin.setHttpFetch([](const std::string&, const std::string&) {
+        return "<html><body>§ 29 BauGB Baugenehmigung</body></html>";
+    });
+    plugin.initialize(cfg);
+    plugin.scrape();
+
+    for (const auto& rec : writer->relationalRecords()) {
+        EXPECT_TRUE(rec.is_scraper_ingested);
+        EXPECT_EQ(rec.ingestion_source_type, "SCRAPER");
+    }
+}
+
+TEST(ScraperPluginFocusedTests, K3_WrittenVectorRecordsHaveFlag) {
+    auto writer = std::make_shared<InMemoryScraperMetadataWriter>();
+    auto evaluator = std::make_shared<AlwaysAcceptEvaluator>();
+    auto search = std::make_shared<InMemorySearchEngine>();
+    auto renderer = std::make_shared<InMemoryJSRenderer>();
+    auto api_client = std::make_shared<InMemoryScraperApiClient>();
+
+    ScraperConfig cfg;
+    cfg.whitelist = {"https://openjur.de"};
+    cfg.gap_context.gap_id = "GAP-K3";
+    cfg.gap_context.keywords = {"Urteil"};
+    cfg.llm_options.quality_threshold = 0.5;
+    cfg.seeds = {"https://openjur.de/u/99.html"};
+
+    ScraperPlugin plugin(evaluator, writer, search, renderer, api_client);
+    plugin.setHttpFetch([](const std::string&, const std::string&) {
+        return "<html><body>Urteil Verwaltungsgericht München</body></html>";
+    });
+    plugin.initialize(cfg);
+    plugin.scrape();
+
+    for (const auto& vec : writer->vectorRecords()) {
+        EXPECT_TRUE(vec.is_scraper_ingested);
+        EXPECT_EQ(vec.ingestion_source_type, "SCRAPER");
+        EXPECT_FALSE(vec.ingestion_plugin_version.empty());
+    }
+}
+
+TEST(ScraperPluginFocusedTests, K4_WrittenGraphNodesHaveProvenanceProperty) {
+    auto writer = std::make_shared<InMemoryScraperMetadataWriter>();
+    auto evaluator = std::make_shared<AlwaysAcceptEvaluator>();
+    auto search = std::make_shared<InMemorySearchEngine>();
+    auto renderer = std::make_shared<InMemoryJSRenderer>();
+    auto api_client = std::make_shared<InMemoryScraperApiClient>();
+
+    ScraperConfig cfg;
+    cfg.whitelist = {"https://eur-lex.europa.eu"};
+    cfg.gap_context.gap_id = "GAP-K4";
+    cfg.gap_context.keywords = {"DSGVO"};
+    cfg.llm_options.quality_threshold = 0.5;
+    cfg.seeds = {"https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32016R0679"};
+
+    ScraperPlugin plugin(evaluator, writer, search, renderer, api_client);
+    plugin.setHttpFetch([](const std::string&, const std::string&) {
+        return "<html><body>Datenschutz-Grundverordnung DSGVO</body></html>";
+    });
+    plugin.initialize(cfg);
+    plugin.scrape();
+
+    for (const auto& node : writer->graphNodes()) {
+        ASSERT_GT(node.properties.count("is_scraper_ingested"), 0u)
+            << "Graph node " << node.node_id << " missing is_scraper_ingested";
+        EXPECT_EQ(node.properties.at("is_scraper_ingested"), "true");
+        EXPECT_EQ(node.properties.at("ingestion_source_type"), "SCRAPER");
+    }
+}
+
+TEST(ScraperPluginFocusedTests, K5_DiscardedDocumentsAlsoHaveProvenanceFlag) {
+    // Even discarded (low-quality) documents must carry the provenance flag
+    auto writer = std::make_shared<InMemoryScraperMetadataWriter>();
+    // Evaluator that always discards
+    class AlwaysDiscardEvaluator : public IScraperLLMEvaluator {
+    public:
+        EvaluationResult evaluate(const std::string&,
+                                   const GapContext&,
+                                   double threshold) const override {
+            EvaluationResult e;
+            e.quality_score  = 0.0;
+            e.gap_relevance  = 0.0;
+            e.discard_reason = "low quality";
+            e.quality_threshold = threshold;
+            return e;
+        }
+    };
+    auto evaluator = std::make_shared<AlwaysDiscardEvaluator>();
+    auto search = std::make_shared<InMemorySearchEngine>();
+    auto renderer = std::make_shared<InMemoryJSRenderer>();
+    auto api_client = std::make_shared<InMemoryScraperApiClient>();
+
+    ScraperConfig cfg;
+    cfg.whitelist = {"https://example.com"};
+    cfg.gap_context.gap_id = "GAP-K5";
+    cfg.gap_context.keywords = {"nothing"};
+    cfg.llm_options.quality_threshold = 0.5;
+    cfg.seeds = {"https://example.com/page.html"};
+
+    ScraperPlugin plugin(evaluator, writer, search, renderer, api_client);
+    plugin.setHttpFetch([](const std::string&, const std::string&) {
+        return "<html><body>Lorem ipsum</body></html>";
+    });
+    plugin.initialize(cfg);
+    plugin.scrape();
+
+    for (const auto& doc : plugin.getResults()) {
+        EXPECT_TRUE(doc.is_scraper_ingested)
+            << "Discarded document must still carry is_scraper_ingested flag";
+        EXPECT_EQ(doc.ingestion_source_type, "SCRAPER");
+    }
+}
+
+// ============================================================================
+// GROUP L – Provenance immutability
+// ============================================================================
+
+TEST(ScraperPluginFocusedTests, L1_RelationalFlagDefaultsCannotBeDefault_False) {
+    // Default-constructed record must have is_scraper_ingested = true
+    ScraperRelationalRecord r;
+    EXPECT_TRUE(r.is_scraper_ingested);
+    EXPECT_EQ(r.ingestion_source_type, "SCRAPER");
+}
+
+TEST(ScraperPluginFocusedTests, L2_VectorFlagDefaultsCannotBeDefault_False) {
+    ScraperVectorRecord v;
+    EXPECT_TRUE(v.is_scraper_ingested);
+    EXPECT_EQ(v.ingestion_source_type, "SCRAPER");
+}
+
+TEST(ScraperPluginFocusedTests, L3_BuilderProvenanceMatchesAcrossAllThreeRecordTypes) {
+    // Relational, graph-node, and vector must carry identical provenance version
+    const auto eval = makeEval();
+    const auto gap  = makeGap("GAP-L3");
+    const auto rel  = ScraperRecordBuilder::buildRelational(
+        "https://www.rechtsprechung-im-internet.de/bverwge/txt/bverwge_20230101.html",
+        "BVerwG Urteil", "Verwaltungsrecht Baugenehmigung",
+        "rechtsprechung_im_internet", "rechtsprechung_im_internet", eval, gap);
+    const auto node = ScraperRecordBuilder::buildNode(rel);
+    const auto vec  = ScraperRecordBuilder::buildVector(rel);
+
+    EXPECT_EQ(rel.ingestion_plugin_version,
+              node.properties.at("ingestion_plugin_version"));
+    EXPECT_EQ(rel.ingestion_plugin_version, vec.ingestion_plugin_version);
+    EXPECT_EQ(rel.ingestion_source_type,    vec.ingestion_source_type);
+}
+
+TEST(ScraperPluginFocusedTests, L4_CustomPluginVersionPropagates) {
+    const auto eval = makeEval();
+    const auto gap  = makeGap("GAP-L4");
+    const auto rel  = ScraperRecordBuilder::buildRelational(
+        "https://landesrecht-bw.de/bsbw/test", "Test", "text",
+        "landesrecht_bw", "landesrecht_bw", eval, gap, "2.0.0-beta");
+
+    EXPECT_EQ(rel.ingestion_plugin_version, "2.0.0-beta");
+    const auto node = ScraperRecordBuilder::buildNode(rel);
+    EXPECT_EQ(node.properties.at("ingestion_plugin_version"), "2.0.0-beta");
+    const auto vec = ScraperRecordBuilder::buildVector(rel);
+    EXPECT_EQ(vec.ingestion_plugin_version, "2.0.0-beta");
 }

@@ -10,6 +10,12 @@ namespace themis {
 namespace scraper {
 
 // ============================================================================
+// Plugin version constant
+// ============================================================================
+
+/*static*/ const char* ScraperRecordBuilder::kPluginVersion = "1.0.0";
+
+// ============================================================================
 // Helpers
 // ============================================================================
 
@@ -63,7 +69,8 @@ std::string iso8601Now() {
         const std::string& source_name,
         const std::string& gov_source_id,
         const EvaluationResult& eval,
-        const GapContext& gap) {
+        const GapContext& gap,
+        const std::string& plugin_version) {
     ScraperRelationalRecord r;
     r.doc_id       = computeDocId(url, text);
     r.url          = url;
@@ -75,6 +82,12 @@ std::string iso8601Now() {
     r.quality_score = eval.quality_score;
     r.gap_relevance = eval.gap_relevance;
     r.scraped_at   = iso8601Now();
+
+    // ── Provenance stamp (MANDATORY – must never be skipped) ─────────────
+    r.is_scraper_ingested      = true;
+    r.ingestion_source_type    = "SCRAPER";
+    r.ingestion_plugin_version = plugin_version.empty() ? kPluginVersion
+                                                        : plugin_version;
     return r;
 }
 
@@ -84,16 +97,21 @@ std::string iso8601Now() {
     node.node_id = rel.doc_id;
     node.label   = "ScrapedDocument";
     node.properties = {
-        {"url",           rel.url},
-        {"title",         rel.title},
-        {"source",        rel.source_name},
-        {"gov_source_id", rel.gov_source_id},
-        {"gap_id",        rel.gap_id},
-        {"quality_score", std::to_string(rel.quality_score)},
-        {"gap_relevance", std::to_string(rel.gap_relevance)},
-        {"scraped_at",    rel.scraped_at},
-        {"document_type", rel.document_type},
-        {"date_issued",   rel.date_issued},
+        {"url",                       rel.url},
+        {"title",                     rel.title},
+        {"source",                    rel.source_name},
+        {"gov_source_id",             rel.gov_source_id},
+        {"gap_id",                    rel.gap_id},
+        {"quality_score",             std::to_string(rel.quality_score)},
+        {"gap_relevance",             std::to_string(rel.gap_relevance)},
+        {"scraped_at",                rel.scraped_at},
+        {"document_type",             rel.document_type},
+        {"date_issued",               rel.date_issued},
+        // Provenance properties — copied from the relational record so that
+        // graph queries can filter by ingestion origin without a join.
+        {"is_scraper_ingested",       rel.is_scraper_ingested ? "true" : "false"},
+        {"ingestion_source_type",     rel.ingestion_source_type},
+        {"ingestion_plugin_version",  rel.ingestion_plugin_version},
     };
     return node;
 }
@@ -143,6 +161,12 @@ std::string iso8601Now() {
     v.gap_id        = rel.gap_id;
     v.source_url    = rel.url;
     v.quality_score = rel.quality_score;
+
+    // Provenance stamp — mirrors the relational record
+    v.is_scraper_ingested      = true;
+    v.ingestion_source_type    = rel.ingestion_source_type;
+    v.ingestion_plugin_version = rel.ingestion_plugin_version;
+
     // Embedding is populated externally by an embedding model
     return v;
 }

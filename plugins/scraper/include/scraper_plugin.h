@@ -24,6 +24,9 @@ namespace scraper {
 
 /**
  * @brief One document collected during a scraper run.
+ *
+ * Carries a copy of the provenance fields so that callers can inspect the
+ * ingestion origin without looking up the relational record.
  */
 struct ScrapedDocument {
     std::string url;
@@ -39,6 +42,14 @@ struct ScrapedDocument {
     std::string discard_reason;
     std::string doc_id;          ///< Content hash (set after evaluation)
     std::map<std::string, std::string> metadata;
+
+    // ── Provenance (MANDATORY – always set by ScraperPlugin) ──────────────
+    /// Always true for documents collected by this plugin.
+    bool        is_scraper_ingested      = true;
+    /// Fixed literal "SCRAPER".
+    std::string ingestion_source_type    = "SCRAPER";
+    /// Semver of the scraper plugin that produced this document.
+    std::string ingestion_plugin_version = "1.0.0";
 };
 
 // ============================================================================

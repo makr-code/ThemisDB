@@ -16,9 +16,19 @@ namespace scraper {
 
 /**
  * @brief Relational record written for each accepted scraped document.
+ *
+ * PROVENANCE GUARANTEE
+ * Every record written by the scraper plugin MUST carry the three fields
+ * below. They allow any consumer to trace data back to automated ingestion
+ * and treat it accordingly (e.g. require manual review before using in a
+ * legal proceeding).
+ *
+ *   is_scraper_ingested   – always `true` for records produced by this plugin
+ *   ingestion_source_type – "SCRAPER" (constant literal)
+ *   ingestion_plugin_version – semver of the scraper plugin that produced the record
  */
 struct ScraperRelationalRecord {
-    std::string doc_id;         ///< SHA-256 of URL + content hash (hex, 16 chars)
+    std::string doc_id;         ///< FNV-1a hash of URL + content (hex, 16 chars)
     std::string url;
     std::string title;
     std::string source_name;    ///< E.g. "openjur.de", "gesetze_im_internet"
@@ -30,6 +40,14 @@ struct ScraperRelationalRecord {
     std::string scraped_at;     ///< ISO-8601 timestamp
     std::string document_type;  ///< Urteil, Beschluss, Gesetz, …
     std::string date_issued;    ///< Publication/decision date from page metadata
+
+    // ── Provenance / ingestion traceability (MANDATORY) ────────────────────
+    /// Always true for records produced by this plugin.
+    bool        is_scraper_ingested      = true;
+    /// Fixed literal "SCRAPER" — identifies automated web-scraping as origin.
+    std::string ingestion_source_type    = "SCRAPER";
+    /// Semver of the scraper plugin that produced this record.
+    std::string ingestion_plugin_version = "1.0.0";
 };
 
 /**
@@ -50,6 +68,9 @@ struct ScraperGraphEdge {
 
 /**
  * @brief Vector record for the ANN index.
+ *
+ * Carries the same provenance fields as ScraperRelationalRecord so the
+ * vector layer can also be audited independently.
  */
 struct ScraperVectorRecord {
     std::string doc_id;
@@ -58,6 +79,11 @@ struct ScraperVectorRecord {
     double      quality_score = 0.0;
     /// Embedding vector (produced externally; empty until embedding is generated)
     std::vector<float> embedding;
+
+    // ── Provenance (MANDATORY) ──────────────────────────────────────────────
+    bool        is_scraper_ingested      = true;
+    std::string ingestion_source_type    = "SCRAPER";
+    std::string ingestion_plugin_version = "1.0.0";
 };
 
 // ============================================================================
@@ -136,8 +162,16 @@ private:
 
 /**
  * @brief Build the relational, graph, and vector records from a document.
+ *
+ * All builder methods unconditionally set the three provenance fields
+ * (`is_scraper_ingested`, `ingestion_source_type`, `ingestion_plugin_version`)
+ * on every record they produce.  These fields MUST NOT be cleared or overridden
+ * by the caller — they are the authoritative ingestion trail.
  */
 struct ScraperRecordBuilder {
+    /// Semver injected at plugin initialisation; default "1.0.0".
+    static const char* kPluginVersion;
+
     static ScraperRelationalRecord buildRelational(
         const std::string& url,
         const std::string& title,
@@ -145,7 +179,8 @@ struct ScraperRecordBuilder {
         const std::string& source_name,
         const std::string& gov_source_id,
         const EvaluationResult& eval,
-        const GapContext& gap);
+        const GapContext& gap,
+        const std::string& plugin_version = "");
 
     static ScraperGraphNode buildNode(const ScraperRelationalRecord& rel);
 

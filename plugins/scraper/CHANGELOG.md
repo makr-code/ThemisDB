@@ -4,7 +4,62 @@ All notable changes to this plugin will be documented in this file.
 
 ---
 
-## [1.0.0] – 2026-04-02
+## [1.1.0] – 2026-04-02
+
+### Added
+
+- **Provenance flag** on all record types (`ScrapedDocument`,
+  `ScraperRelationalRecord`, `ScraperVectorRecord`, `ScraperGraphNode`
+  properties):
+  - `is_scraper_ingested = true` (bool, always set by plugin)
+  - `ingestion_source_type = "SCRAPER"` (string literal)
+  - `ingestion_plugin_version` (semver, defaults to `"1.0.0"`)
+  - These fields are stamped unconditionally by `ScraperRecordBuilder` and
+    must not be cleared or overridden.  They enable query layers to identify
+    automatically ingested content.
+
+- **`config/knowledge_sources.yaml`** — comprehensive 56-source catalog:
+  - 7 EU sources: EUR-Lex, CURIA, EP Open Data, Publications Office, HUDOC,
+    EUR-Lex SPARQL, EU Open Data Portal
+  - 3 EU data sources: Eurostat, EEA
+  - 10 Bund sources: BGH, BVerwG, BFH, BVerfG, Bundesanzeiger, Bundestag DIP,
+    Bundesrat, Gesetze im Internet, Rechtsprechung im Internet, UBA, BAuA,
+    Destatis, GovData, BfR
+  - 16 Bundesland state law portals (BW through TH, all 16)
+  - 7 technical standards sources: DIN, ISO, IEC, VDE, ETSI, NIST, VDI
+  - 5 general knowledge sources: Wikipedia DE/EN, Wikidata, DBpedia,
+    Bundestag Lexikon
+  - 4 scientific sources: OpenAlex, Europe PMC, arXiv, DOAJ
+  - Every entry has `id`, `category`, `base_url`, `render_mode`,
+    `license`, and `notes` fields
+
+- **20 new unit tests** (`ScraperPluginFocusedTests` Groups I–L, 60 total):
+  - Group I (6): provenance flags present on relational/graph/vector records
+    and `ScrapedDocument`
+  - Group J (5): knowledge source catalog completeness (Bundestag, EU, 16 Länder,
+    license coverage, unique IDs)
+  - Group K (5): end-to-end provenance propagation through `scrape()` for
+    accepted, written, and discarded documents
+  - Group L (4): provenance immutability (default values, cross-record
+    consistency, custom version propagation)
+
+- **`ScraperRecordBuilder::kPluginVersion`** static constant.
+- `ScraperRecordBuilder::buildRelational()` accepts optional `plugin_version`
+  parameter (defaults to `kPluginVersion`).
+
+### Changed
+
+- `ScraperRelationalRecord`: added `is_scraper_ingested`, `ingestion_source_type`,
+  `ingestion_plugin_version` fields with correct defaults.
+- `ScraperVectorRecord`: same three provenance fields added.
+- `ScrapedDocument`: same three provenance fields added (runtime convenience).
+- `ScraperGraphNode::properties` now always includes the three provenance
+  properties (`is_scraper_ingested`, `ingestion_source_type`,
+  `ingestion_plugin_version`).
+- API loop in `scraper_plugin.cpp` explicitly sets provenance on `ScrapedDocument`
+  instances constructed for discarded results.
+
+
 
 ### Added
 

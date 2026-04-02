@@ -17,7 +17,51 @@ The scraper plugin fills data gaps by:
 6. **Writing** – storing relational records, graph nodes/edges, and vector
    records to the ThemisDB metadata layer
 
-## Government Source Catalog
+## Provenance Flag – Mandatory Ingestion Marker
+
+**Every** document, record, node, and vector produced by this plugin carries
+three provenance fields that serve as an authoritative ingestion trail:
+
+| Field | Value | Where |
+|-------|-------|-------|
+| `is_scraper_ingested` | `true` (bool) | `ScrapedDocument`, `ScraperRelationalRecord`, `ScraperVectorRecord` |
+| `ingestion_source_type` | `"SCRAPER"` (string) | all three + graph-node property |
+| `ingestion_plugin_version` | semver e.g. `"1.0.0"` | all three + graph-node property |
+
+These fields default to the correct values and are explicitly set by
+`ScraperRecordBuilder` — **they must never be cleared or overridden**.
+
+Consumers (query layers, review pipelines) can use these fields to:
+- Require human review before using scraped data in legal proceedings
+- Filter or report on automatically ingested content
+- Trace any DB record back to its automated source
+
+```aql
+// AQL example: find all scraper-ingested documents
+FOR doc IN scraper_documents
+  FILTER doc.is_scraper_ingested == true
+  RETURN doc
+```
+
+## Knowledge Sources
+
+The plugin ships a comprehensive catalog of reliable sources in
+`config/knowledge_sources.yaml`:
+
+| Category | Count | Examples |
+|----------|-------|---------|
+| EU Law (`LAW_EU`) | 7 | EUR-Lex, CURIA, EP Open Data, HUDOC |
+| EU Data (`DATA`) | 3 | Eurostat, EU Open Data Portal, EEA |
+| Bund Law/Courts (`LAW_BUND`, `CASE_BUND`) | 10 | BGH, BVerwG, BFH, BVerfG, Gesetze im Internet |
+| Bund Data (`DATA`) | 4 | GovData, Destatis, UBA, BAuA |
+| Bundesländer (`LAW_LAND_*`) | 16 | All 16 state law portals |
+| Standards (`STANDARD`) | 7 | DIN, ISO, IEC, VDE, ETSI, NIST, VDI |
+| General knowledge (`WIKI`) | 5 | Wikipedia DE/EN, Wikidata, DBpedia, Bundestag Lexikon |
+| Scientific (`SCIENTIFIC`) | 4 | OpenAlex, Europe PMC, arXiv, DOAJ |
+
+**Total: 56 authoritative sources** — all with explicit license information.
+
+
 
 The built-in catalog covers **29 official sources**:
 

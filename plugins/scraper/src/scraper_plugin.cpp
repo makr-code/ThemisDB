@@ -459,16 +459,19 @@ void ScraperPlugin::runApiLoop(
                     r.url, r.title, r.extracted_text,
                     source_name, gov_source_id, eval, config_.gap_context);
                 ScrapedDocument doc;
-                doc.url            = r.url;
-                doc.title          = r.title;
-                doc.extracted_text = r.extracted_text;
-                doc.source_name    = source_name;
-                doc.document_type  = "API";
-                doc.date_issued    = r.date;
-                doc.quality_score  = eval.quality_score;
-                doc.gap_relevance  = eval.gap_relevance;
-                doc.doc_id         = rel.doc_id;
-                doc.discarded      = false;
+                doc.url                     = r.url;
+                doc.title                   = r.title;
+                doc.extracted_text          = r.extracted_text;
+                doc.source_name             = source_name;
+                doc.document_type           = "API";
+                doc.date_issued             = r.date;
+                doc.quality_score           = eval.quality_score;
+                doc.gap_relevance           = eval.gap_relevance;
+                doc.doc_id                  = rel.doc_id;
+                doc.discarded               = false;
+                doc.is_scraper_ingested     = true;
+                doc.ingestion_source_type   = rel.ingestion_source_type;
+                doc.ingestion_plugin_version = rel.ingestion_plugin_version;
                 results_.push_back(doc);
 
                 const auto node  = ScraperRecordBuilder::buildNode(rel);
@@ -481,9 +484,12 @@ void ScraperPlugin::runApiLoop(
             } else {
                 ++stats_.docs_discarded;
                 ScrapedDocument doc;
-                doc.url           = r.url;
-                doc.discarded     = true;
-                doc.discard_reason = eval.discard_reason;
+                doc.url                     = r.url;
+                doc.discarded               = true;
+                doc.discard_reason          = eval.discard_reason;
+                doc.is_scraper_ingested     = true;
+                doc.ingestion_source_type   = "SCRAPER";
+                doc.ingestion_plugin_version = ScraperRecordBuilder::kPluginVersion;
                 results_.push_back(doc);
             }
         }
