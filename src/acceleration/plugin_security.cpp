@@ -1208,7 +1208,13 @@ bool PluginSecurityAuditor::exportEvents(const std::string& outputPath) const {
         }
         
         std::ofstream file(outputPath);
+        if (!file) {
+            return false;
+        }
         file << j.dump(2);
+        if (!file.good()) {
+            return false;
+        }
         
         return true;
         

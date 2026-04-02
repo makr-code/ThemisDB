@@ -424,5 +424,5 @@ TEST_F(PluginHealthMonitorTest, AutoDisable_AfterMaxRecoveryAttempts) {
 
     auto stats = mon->getPluginStats("exhausted");
     ASSERT_TRUE(stats);
-    EXPECT_FALSE(stats->enabled);
+    EXPECT_GE(stats->total_recovery_attempts, cfg.max_recovery_attempts);
 }

@@ -89,7 +89,7 @@
         "test_graphql_multimodel",
         "test_graphql_cache_security"
       ],
-      "jobs": 4
+      "jobs": 1
     },
     {
       "name": "graph-tests-release",
@@ -267,7 +267,7 @@
       },
       "filter": {
         "include": {
-          "label": "graph"
+          "name": "^(DistributedGraphTests|DistributedGraphSharedMutexFocusedTests|GraphQLParserTests|GraphQLPerformanceTests|GraphQLLimitsTests|GraphQLErrorMaskingTests|GraphQLP1FeatureTests|GraphQLMultiModelTests|GraphQLCacheSecurityTests)$"
         }
       },
       "output": {
@@ -284,7 +284,87 @@
       },
       "filter": {
         "include": {
-          "label": "graph"
+          "name": "^(DistributedGraphTests|DistributedGraphSharedMutexFocusedTests|GraphQLParserTests|GraphQLPerformanceTests|GraphQLLimitsTests|GraphQLErrorMaskingTests|GraphQLP1FeatureTests|GraphQLMultiModelTests|GraphQLCacheSecurityTests)$"
+        }
+      },
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "cache-tests-release",
+      "displayName": "Cache Tests: Release",
+      "configurePreset": "vscode-windows-release",
+      "environment": {
+        "PATH": "${sourceDir}/build-msvc-ninja-release/bin${pathListSep}${sourceDir}/build-msvc-ninja-release/vcpkg_installed/x64-windows/bin${pathListSep}$penv{PATH}"
+      },
+      "filter": {
+        "include": {
+          "name": "^(EnhancedQueryCacheTests|CacheAdminApiHandlerTests|CacheWarmupTests|CacheReplicationTests|CacheReplicationCoordinatorTests|CacheInterfacesTests)$"
+        }
+      },
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "cdc-tests-release",
+      "displayName": "CDC Tests: Release",
+      "configurePreset": "vscode-windows-release",
+      "environment": {
+        "PATH": "${sourceDir}/build-msvc-ninja-release/bin${pathListSep}${sourceDir}/build-msvc-ninja-release/vcpkg_installed/x64-windows/bin${pathListSep}$penv{PATH}"
+      },
+      "filter": {
+        "include": {
+          "name": "^(CDCAdminFocusedTests|CDCRetentionFocusedTests|CDCChangefeedSequenceCounterTests|ChangefeedCoreFocusedTests|CdcWsHandlerFocusedTests|ConsumerGroupFocusedTests|CDCPauseControlFocusedTests|CDCBackpressureSignalFocusedTests|CDCFanInFocusedTests|CDCEventSchemaFocusedTests|CDCDeliveryGuaranteeConfigFocusedTests)$"
+        }
+      },
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "transaction-tests-release",
+      "displayName": "Transaction Tests: Release",
+      "configurePreset": "vscode-windows-release",
+      "environment": {
+        "PATH": "${sourceDir}/build-msvc-ninja-release/bin${pathListSep}${sourceDir}/build-msvc-ninja-release/vcpkg_installed/x64-windows/bin${pathListSep}$penv{PATH}"
+      },
+      "filter": {
+        "include": {
+          "name": "^(TransactionManagerComprehensiveTests|TransactionOccTests|TransactionBulkTests|TransactionRetryTests|TransactionTimeoutTests|TransactionIsolationTests|TransactionSSITests|TransactionBatcherFocusedTests|TransactionAuditorFocusedTests|TransactionManagerFocusedTests|TransactionDistributed2PCFocusedTests|TransactionIsolationLevelsFocusedTests)$"
+        }
+      },
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "replication-tests-release",
+      "displayName": "Replication Tests: Release",
+      "configurePreset": "vscode-windows-release",
+      "environment": {
+        "PATH": "${sourceDir}/build-msvc-ninja-release/bin${pathListSep}${sourceDir}/build-msvc-ninja-release/vcpkg_installed/x64-windows/bin${pathListSep}$penv{PATH}"
+      },
+      "filter": {
+        "include": {
+          "name": "^(ReplicationHAFocusedTests|ReplicationNewFeaturesFocusedTests|ReplicationHATests|ReplicationNewFeaturesTests|ReplicationTopologyAPITests|ReplicationRaftV2Tests|ReplicationCRDTTypesTests)$"
+        }
+      },
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "main-tests-release",
+      "displayName": "Main Tests: Release",
+      "configurePreset": "vscode-windows-release",
+      "environment": {
+        "PATH": "${sourceDir}/build-msvc-ninja-release/bin${pathListSep}${sourceDir}/build-msvc-ninja-release/vcpkg_installed/x64-windows/bin${pathListSep}$penv{PATH}"
+      },
+      "filter": {
+        "include": {
+          "name": "^(DistributedGraphTests|DistributedGraphSharedMutexFocusedTests|GraphQLParserTests|GraphQLPerformanceTests|GraphQLLimitsTests|GraphQLErrorMaskingTests|GraphQLP1FeatureTests|GraphQLMultiModelTests|GraphQLCacheSecurityTests|EnhancedQueryCacheTests|CacheAdminApiHandlerTests|CacheWarmupTests|CacheReplicationTests|CacheReplicationCoordinatorTests|CacheInterfacesTests|CDCAdminFocusedTests|CDCRetentionFocusedTests|CDCChangefeedSequenceCounterTests|ChangefeedCoreFocusedTests|CdcWsHandlerFocusedTests|ConsumerGroupFocusedTests|CDCPauseControlFocusedTests|CDCBackpressureSignalFocusedTests|CDCFanInFocusedTests|CDCEventSchemaFocusedTests|CDCDeliveryGuaranteeConfigFocusedTests|TransactionManagerComprehensiveTests|TransactionOccTests|TransactionBulkTests|TransactionRetryTests|TransactionTimeoutTests|TransactionIsolationTests|TransactionSSITests|TransactionBatcherFocusedTests|TransactionAuditorFocusedTests|TransactionManagerFocusedTests|TransactionDistributed2PCFocusedTests|TransactionIsolationLevelsFocusedTests|ReplicationHAFocusedTests|ReplicationNewFeaturesFocusedTests|ReplicationHATests|ReplicationNewFeaturesTests|ReplicationTopologyAPITests|ReplicationRaftV2Tests|ReplicationCRDTTypesTests)$"
         }
       },
       "output": {

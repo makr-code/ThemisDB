@@ -163,6 +163,8 @@ protected:
         auto result = PIIDetectionEngineFactory::createUnsigned("regex");
         ASSERT_TRUE(result.has_value()) << "Could not create regex engine";
         engine_ = std::move(*result);
+        ASSERT_TRUE(engine_->initialize(nlohmann::json::object()))
+            << "Could not initialize regex engine";
         detector_ = std::make_unique<PIIStreamDetectorAdapter>(engine_);
     }
 };

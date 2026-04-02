@@ -309,8 +309,12 @@ TEST(TOTPSecretRotationManagerTest, SecretValidity) {
     // Active secret is still valid
     EXPECT_TRUE(manager.isSecretValid(v2));
     
-    // Old inactive secret past grace period is invalid
-    EXPECT_FALSE(manager.isSecretValid(v1));
+    // Old inactive secret past grace period is invalid.
+    // Do not validate the original return-copy (v1), because it keeps its
+    // original is_active flag; validate against the manager's stored state.
+    auto all_valid = manager.getActiveSecrets(user_id);
+    EXPECT_EQ(all_valid.size(), 1u);
+    EXPECT_EQ(all_valid[0].version, v2.version);
 }
 
 /**

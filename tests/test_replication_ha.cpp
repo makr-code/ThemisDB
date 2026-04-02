@@ -85,11 +85,30 @@ static ReplicationConfig makeConfig(const std::string& wal_dir = "/tmp/themis_re
 // RAII helper that removes the WAL directory on destruction.
 struct TempWALDir {
     std::string path;
-    explicit TempWALDir(const std::string& p) : path(p) {
-        std::filesystem::remove_all(path);
-        std::filesystem::create_directories(path);
+    explicit TempWALDir(const std::string& p) {
+        const auto ticks = std::chrono::high_resolution_clock::now()
+                               .time_since_epoch()
+                               .count();
+        const auto tid_hash = std::hash<std::thread::id>{}(std::this_thread::get_id());
+        const std::string base = std::filesystem::path(p).filename().string();
+        path = (std::filesystem::temp_directory_path() /
+                (base + "_" + std::to_string(ticks) + "_" + std::to_string(tid_hash)))
+                   .string();
+
+        std::error_code ec;
+        std::filesystem::remove_all(path, ec);
+        std::filesystem::create_directories(path, ec);
     }
-    ~TempWALDir() { std::filesystem::remove_all(path); }
+    ~TempWALDir() {
+        for (int i = 0; i < 5; ++i) {
+            std::error_code ec;
+            std::filesystem::remove_all(path, ec);
+            if (!ec) {
+                break;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(20));
+        }
+    }
 };
 
 // ============================================================================
@@ -2042,9 +2061,33 @@ TEST(QuorumReadManagerTest, SessionConsistency_FreshReplicasLateInIterationOrder
 
 class PersistentStateTest : public ::testing::Test {
 protected:
-    std::string path_{"/tmp/themis_repl_state_test.dat"};
-    void SetUp()    override { std::filesystem::remove(path_); }
-    void TearDown() override { std::filesystem::remove(path_); }
+    std::string path_;
+
+    void SetUp() override {
+        const auto ticks = std::chrono::high_resolution_clock::now()
+                               .time_since_epoch()
+                               .count();
+        const auto tid_hash = std::hash<std::thread::id>{}(std::this_thread::get_id());
+        path_ = (std::filesystem::temp_directory_path() /
+                 ("themis_repl_state_test_" + std::to_string(ticks) + "_" +
+                  std::to_string(tid_hash) + ".dat"))
+                    .string();
+        cleanupPath();
+    }
+
+    void TearDown() override { cleanupPath(); }
+
+private:
+    void cleanupPath() {
+        for (int i = 0; i < 5; ++i) {
+            std::error_code ec;
+            std::filesystem::remove(path_, ec);
+            if (!ec || !std::filesystem::exists(path_)) {
+                break;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(20));
+        }
+    }
 };
 
 TEST_F(PersistentStateTest, FileDoesNotExistInitially) {
@@ -2451,12 +2494,27 @@ TEST(CompressedStreamTest, AdaptiveFalseAlwaysCompressesInAutoMode) {
 class ReplicationStreamCompressionTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        wal_dir_ = "/tmp/themis_rs_compress_test";
-        std::filesystem::remove_all(wal_dir_);
-        std::filesystem::create_directories(wal_dir_);
+        const auto ticks = std::chrono::high_resolution_clock::now()
+                               .time_since_epoch()
+                               .count();
+        const auto tid_hash = std::hash<std::thread::id>{}(std::this_thread::get_id());
+        wal_dir_ = (std::filesystem::temp_directory_path() /
+                    ("themis_rs_compress_test_" + std::to_string(ticks) + "_" +
+                     std::to_string(tid_hash)))
+                       .string();
+        std::error_code ec;
+        std::filesystem::remove_all(wal_dir_, ec);
+        std::filesystem::create_directories(wal_dir_, ec);
     }
     void TearDown() override {
-        std::filesystem::remove_all(wal_dir_);
+        for (int i = 0; i < 5; ++i) {
+            std::error_code ec;
+            std::filesystem::remove_all(wal_dir_, ec);
+            if (!ec || !std::filesystem::exists(wal_dir_)) {
+                break;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(20));
+        }
     }
     std::string wal_dir_;
 };
@@ -2723,46 +2781,60 @@ TEST(ReplicationAnalyticsTest, ConcurrentRecordIsThreadSafe) {
 
 TEST(ReplicationBenchmarkTest, RunProducesPositiveThroughput) {
     ReplicationConfig config;
-    config.wal_directory        = "/tmp/themis_bench_wal_test";
+    config.wal_directory        = (std::filesystem::temp_directory_path() /
+                                   ("themis_bench_wal_test_" +
+                                    std::to_string(std::chrono::high_resolution_clock::now()
+                                                       .time_since_epoch().count())))
+                                      .string();
     config.heartbeat_interval_ms = 100;
     config.batch_size            = 64;
     std::filesystem::create_directories(config.wal_directory);
-    auto wal = std::make_shared<WALManager>(config);
+    {
+        auto wal = std::make_shared<WALManager>(config);
 
-    ReplicationBenchmark::BenchmarkConfig bcfg;
-    bcfg.num_entries      = 100;
-    bcfg.entry_size_bytes = 128;
-    bcfg.warmup_entries   = 10;
-    bcfg.collection       = "bench_col";
+        ReplicationBenchmark::BenchmarkConfig bcfg;
+        bcfg.num_entries      = 100;
+        bcfg.entry_size_bytes = 128;
+        bcfg.warmup_entries   = 10;
+        bcfg.collection       = "bench_col";
 
-    ReplicationBenchmark bench(wal, bcfg);
-    auto result = bench.run();
+        ReplicationBenchmark bench(wal, bcfg);
+        auto result = bench.run();
 
-    EXPECT_EQ(result.total_entries, 100u);
-    EXPECT_GT(result.writes_per_second, 0.0);
-    EXPECT_GT(result.bytes_written, 0u);
-    EXPECT_GE(result.latency_p50_us, 0);
-    EXPECT_GE(result.latency_p95_us, result.latency_p50_us);
-    EXPECT_GE(result.latency_p99_us, result.latency_p95_us);
+        EXPECT_EQ(result.total_entries, 100u);
+        EXPECT_GT(result.writes_per_second, 0.0);
+        EXPECT_GT(result.bytes_written, 0u);
+        EXPECT_GE(result.latency_p50_us, 0);
+        EXPECT_GE(result.latency_p95_us, result.latency_p50_us);
+        EXPECT_GE(result.latency_p99_us, result.latency_p95_us);
+    }
 
-    std::filesystem::remove_all(config.wal_directory);
+    std::error_code ec;
+    std::filesystem::remove_all(config.wal_directory, ec);
 }
 
 TEST(ReplicationBenchmarkTest, DefaultConstructorWorks) {
     ReplicationConfig config;
-    config.wal_directory         = "/tmp/themis_bench_default_test";
+    config.wal_directory         = (std::filesystem::temp_directory_path() /
+                                    ("themis_bench_default_test_" +
+                                     std::to_string(std::chrono::high_resolution_clock::now()
+                                                        .time_since_epoch().count())))
+                                       .string();
     config.heartbeat_interval_ms = 100;
     config.batch_size            = 64;
     std::filesystem::create_directories(config.wal_directory);
-    auto wal = std::make_shared<WALManager>(config);
+    {
+        auto wal = std::make_shared<WALManager>(config);
 
-    ReplicationBenchmark bench(wal);
-    // Just check it runs without crashing (full benchmark is slow – use small override)
-    // We only call format here to avoid 10K entries in tests
-    auto result = bench.run();
-    EXPECT_GT(result.writes_per_second, 0.0);
+        ReplicationBenchmark bench(wal);
+        // Just check it runs without crashing (full benchmark is slow – use small override)
+        // We only call format here to avoid 10K entries in tests
+        auto result = bench.run();
+        EXPECT_GT(result.writes_per_second, 0.0);
+    }
 
-    std::filesystem::remove_all(config.wal_directory);
+    std::error_code ec;
+    std::filesystem::remove_all(config.wal_directory, ec);
 }
 
 TEST(ReplicationBenchmarkTest, FormatContainsKeyFields) {
@@ -2785,23 +2857,30 @@ TEST(ReplicationBenchmarkTest, FormatContainsKeyFields) {
 
 TEST(ReplicationBenchmarkTest, LatencyPercentilesAreSorted) {
     ReplicationConfig config;
-    config.wal_directory         = "/tmp/themis_bench_pct_test";
+    config.wal_directory         = (std::filesystem::temp_directory_path() /
+                                    ("themis_bench_pct_test_" +
+                                     std::to_string(std::chrono::high_resolution_clock::now()
+                                                        .time_since_epoch().count())))
+                                       .string();
     config.heartbeat_interval_ms = 100;
     config.batch_size            = 64;
     std::filesystem::create_directories(config.wal_directory);
-    auto wal = std::make_shared<WALManager>(config);
+    {
+        auto wal = std::make_shared<WALManager>(config);
 
-    ReplicationBenchmark::BenchmarkConfig bcfg;
-    bcfg.num_entries    = 200;
-    bcfg.warmup_entries = 20;
-    ReplicationBenchmark bench(wal, bcfg);
-    auto r = bench.run();
+        ReplicationBenchmark::BenchmarkConfig bcfg;
+        bcfg.num_entries    = 200;
+        bcfg.warmup_entries = 20;
+        ReplicationBenchmark bench(wal, bcfg);
+        auto r = bench.run();
 
-    EXPECT_LE(r.latency_p50_us, r.latency_p95_us);
-    EXPECT_LE(r.latency_p95_us, r.latency_p99_us);
-    EXPECT_LE(r.latency_p99_us, r.latency_max_us);
+        EXPECT_LE(r.latency_p50_us, r.latency_p95_us);
+        EXPECT_LE(r.latency_p95_us, r.latency_p99_us);
+        EXPECT_LE(r.latency_p99_us, r.latency_max_us);
+    }
 
-    std::filesystem::remove_all(config.wal_directory);
+    std::error_code ec;
+    std::filesystem::remove_all(config.wal_directory, ec);
 }
 
 // ============================================================================

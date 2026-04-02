@@ -252,18 +252,28 @@ Changefeed::Changefeed(rocksdb::TransactionDB* db,
     sequence_counter_.store(initial_sequence, std::memory_order_relaxed);
     persisted_sequence_.store(initial_sequence, std::memory_order_relaxed);
 
-    // Detect whether this DB/CF has a merge operator configured. If not, do
-    // not call Merge() in nextSequence(); use Put-based monotonic persistence.
-    bool merge_supported = true;
-    try {
-        auto opts = cf_ ? db_->GetOptions(cf_) : db_->GetOptions();
-        merge_supported = (opts.merge_operator != nullptr);
-    } catch (...) {
-        // Keep the optimistic default; nextSequence() will self-disable merge
-        // if Merge() returns an error.
-        merge_supported = true;
+    // Keep Merge enabled by default and rely on the first Merge() status in
+    // nextSequence() to self-disable when the DB/CF was opened without a merge
+    // operator. TransactionDB option introspection can be unreliable across
+    // wrappers and may falsely report no merge operator.
+    // Detect merge operator support at construction time by querying the DB's
+    // ColumnFamilyOptions.  This MUST happen before the first nextSequence()
+    // call: calling db_->Merge() on a CF without a merge_operator triggers
+    // RocksDB's background error handler (stop=1) which permanently blocks
+    // all subsequent writes — even plain Put() calls.
+    {
+        bool merge_available = false;
+        try {
+            rocksdb::Options opts = cf_
+                ? db_->GetOptions(cf_)
+                : db_->GetOptions();
+            merge_available = (opts.merge_operator != nullptr);
+        } catch (...) {
+            // If introspection fails, default to disabled (safe — prevents error state).
+            merge_available = false;
+        }
+        sequence_merge_supported_.store(merge_available, std::memory_order_relaxed);
     }
-    sequence_merge_supported_.store(merge_supported, std::memory_order_relaxed);
     
     // Start retention cleanup if enabled
     if (retention_policy_.enabled) {
@@ -1118,6 +1128,7 @@ Changefeed::subscribe(SubscriptionFilter filter, SubscriptionCallback callback)
     {
         std::lock_guard<std::mutex> lk(subscriptions_mutex_);
         subscriptions_.emplace(id, SubscriptionEntry{std::move(filter), std::move(callback)});
+        subscription_count_.fetch_add(1, std::memory_order_release);
     }
     THEMIS_DEBUG("Changefeed: subscription {} registered", id);
     return SubscriptionHandle{this, id};
@@ -1126,12 +1137,19 @@ Changefeed::subscribe(SubscriptionFilter filter, SubscriptionCallback callback)
 void Changefeed::unsubscribe(uint64_t subscription_id) noexcept
 {
     std::lock_guard<std::mutex> lk(subscriptions_mutex_);
-    subscriptions_.erase(subscription_id);
+    if (subscriptions_.erase(subscription_id) > 0) {
+        subscription_count_.fetch_sub(1, std::memory_order_release);
+    }
     THEMIS_DEBUG("Changefeed: subscription {} cancelled", subscription_id);
 }
 
 void Changefeed::notifySubscribers(const ChangeEvent& event)
 {
+    // Fast path: skip snapshot + mutex acquisition when no subscribers registered.
+    if (subscription_count_.load(std::memory_order_acquire) == 0) {
+        return;
+    }
+
     // Take a snapshot of the current subscriber map under the lock so that
     // callbacks can themselves call subscribe/unsubscribe without deadlocking.
     std::vector<SubscriptionEntry> snapshot;

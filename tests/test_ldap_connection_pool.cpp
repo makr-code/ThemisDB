@@ -107,12 +107,16 @@ TEST(LDAPConnectionPoolTest, CheckoutReturnsNullWhenServerUnreachable)
 {
     LDAPConnectionPool pool(makePoolConfig());
 
-    // The pool has no idle connections and cannot create new ones because the
-    // server is unreachable.  checkout() should time out and return nullptr.
+    // With LDAP enabled the pool may still hand out a connection handle
+    // (liveness is validated on operation/bind). Without LDAP support it
+    // returns nullptr immediately.
     auto conn = pool.checkout();
-    // Either LDAP is not compiled in (nullptr immediately) or the server is
-    // unreachable and the checkout times out (nullptr after timeout).
+
+#ifdef THEMIS_HAS_LDAP
+    EXPECT_NE(conn, nullptr);
+#else
     EXPECT_EQ(conn, nullptr);
+#endif
 }
 
 TEST(LDAPConnectionPoolTest, MetricsAfterFailedCheckout)

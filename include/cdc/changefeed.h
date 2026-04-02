@@ -78,11 +78,11 @@ public:
     };
 
     struct ChangeEvent {
-        uint64_t sequence;                // Monotonic sequence number
-        ChangeEventType type;             // Event type
+        uint64_t sequence = 0;            // Monotonic sequence number (0 = not persisted yet)
+        ChangeEventType type = ChangeEventType::EVENT_PUT; // Event type
         std::string key;                  // Affected key
         std::optional<std::string> value; // Value (nullopt for DELETE)
-        int64_t timestamp_ms;             // Event timestamp
+        int64_t timestamp_ms = 0;         // Event timestamp
         nlohmann::json metadata;          // Additional metadata (tx_id, user, etc.)
 
         // Before/after document snapshots for change event enrichment.
@@ -473,6 +473,7 @@ private:
     std::unordered_map<uint64_t, SubscriptionEntry> subscriptions_;
     mutable std::mutex subscriptions_mutex_;
     std::atomic<uint64_t> next_subscription_id_{1};
+    std::atomic<size_t> subscription_count_{0};
 
     /// Notify all registered subscribers whose filter matches @p event.
     void notifySubscribers(const ChangeEvent& event);

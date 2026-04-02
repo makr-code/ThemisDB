@@ -32,6 +32,7 @@
 #include <gtest/gtest.h>
 #include "plugins/plugin_interface.h"
 #include <nlohmann/json.hpp>
+#include <filesystem>
 #include <fstream>
 
 // Project root used by integration tests that load plugin.json files from disk.
@@ -41,6 +42,7 @@
 
 using namespace themis::plugins;
 using json = nlohmann::json;
+namespace fs = std::filesystem;
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -526,36 +528,55 @@ static json loadJsonFile(const std::string& path) {
     return j;
 }
 
+static std::string workspacePluginPath(const std::string& rel) {
+    for (fs::path cur = fs::current_path(); !cur.empty(); cur = cur.parent_path()) {
+        const fs::path candidate = cur / rel;
+        if (fs::exists(candidate)) {
+            return candidate.string();
+        }
+        if (cur == cur.root_path()) {
+            break;
+        }
+    }
+
+    const fs::path project_root_candidate = fs::path(THEMIS_PROJECT_ROOT) / rel;
+    if (fs::exists(project_root_candidate)) {
+        return project_root_candidate.string();
+    }
+
+    return project_root_candidate.string();
+}
+
 TEST(ManifestSchemaValidator, ExistingPluginS3ValidatesOk) {
-    auto j = loadJsonFile(std::string(THEMIS_PROJECT_ROOT) + "/plugins/blob_storage/s3/plugin.json");
+    auto j = loadJsonFile(workspacePluginPath("plugins/blob_storage/s3/plugin.json"));
     auto r = ManifestSchemaValidator::validate(j);
     EXPECT_TRUE(r.valid) << [&]() {
         std::string m; for (const auto& e : r.errors) m += e + "\n"; return m; }();
 }
 
 TEST(ManifestSchemaValidator, ExistingPluginAzureValidatesOk) {
-    auto j = loadJsonFile(std::string(THEMIS_PROJECT_ROOT) + "/plugins/blob_storage/azure/plugin.json");
+    auto j = loadJsonFile(workspacePluginPath("plugins/blob_storage/azure/plugin.json"));
     auto r = ManifestSchemaValidator::validate(j);
     EXPECT_TRUE(r.valid) << [&]() {
         std::string m; for (const auto& e : r.errors) m += e + "\n"; return m; }();
 }
 
 TEST(ManifestSchemaValidator, ExistingPluginHuggingfaceValidatesOk) {
-    auto j = loadJsonFile(std::string(THEMIS_PROJECT_ROOT) + "/plugins/huggingface/plugin.json");
+    auto j = loadJsonFile(workspacePluginPath("plugins/huggingface/plugin.json"));
     auto r = ManifestSchemaValidator::validate(j);
     EXPECT_TRUE(r.valid) << [&]() {
         std::string m; for (const auto& e : r.errors) m += e + "\n"; return m; }();
 }
 
 TEST(ManifestSchemaValidator, ExistingPluginPostgresValidatesOk) {
-    auto j = loadJsonFile(std::string(THEMIS_PROJECT_ROOT) + "/plugins/importers/postgres/plugin.json");
+    auto j = loadJsonFile(workspacePluginPath("plugins/importers/postgres/plugin.json"));
     auto r = ManifestSchemaValidator::validate(j);
     EXPECT_TRUE(r.valid) << [&]() {
         std::string m; for (const auto& e : r.errors) m += e + "\n"; return m; }();
 }
 
 TEST(ManifestSchemaValidator, ExistingPluginJsonlLlmExporterValidatesOk) {
-    auto j = loadJsonFile(std::string(THEMIS_PROJECT_ROOT) + "/plugins/exporters/jsonl_llm/plugin.json");
+    auto j = loadJsonFile(workspacePluginPath("plugins/exporters/jsonl_llm/plugin.json"));
     auto r = ManifestSchemaValidator::validate(j);
     EXPECT_TRUE(r.valid) << [&]() {
         std::string m; for (const auto& e : r.errors) m += e + "\n"; return m; }();

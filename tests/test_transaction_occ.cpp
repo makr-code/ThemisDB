@@ -47,6 +47,7 @@ protected:
         cfg.db_path = DB_PATH;
         cfg.enable_statistics = false;
         db_ = std::make_unique<RocksDBWrapper>(cfg);
+        ASSERT_TRUE(db_->open());
         sec_idx_ = std::make_unique<SecondaryIndexManager>(*db_);
         graph_idx_ = std::make_unique<GraphIndexManager>(*db_);
         vec_idx_ = std::make_unique<VectorIndexManager>(*db_);

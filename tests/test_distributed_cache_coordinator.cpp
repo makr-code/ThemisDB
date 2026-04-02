@@ -358,8 +358,9 @@ TEST(RedisCacheCoordinatorTest, HmacEmptySecretPublishAndStatsOk) {
 // ============================================================================
 
 TEST(RedisCacheCoordinatorTest, ReconnectCountIncreasesOverTime) {
-    // The subscriber thread should attempt reconnects when Redis is absent
-    // and increment reconnect_count_ on each failure.
+    // On POSIX builds the subscriber thread attempts reconnects when Redis is
+    // absent. On Windows the coordinator is a deliberate no-op stub without a
+    // background reconnect loop.
     RedisCacheCoordinatorConfig cfg = makeOfflineConfig();
     cfg.connect_timeout_ms   = 100;
     cfg.reconnect_interval_ms = 50;  // fast for test; back-off overrides this
@@ -371,7 +372,11 @@ TEST(RedisCacheCoordinatorTest, ReconnectCountIncreasesOverTime) {
 
     auto stats = coord.getStats();
     ASSERT_TRUE(stats.contains("reconnect_count"));
+#if defined(_WIN32)
+    EXPECT_EQ(stats["reconnect_count"].get<uint64_t>(), 0u);
+#else
     EXPECT_GE(stats["reconnect_count"].get<uint64_t>(), 1u);
+#endif
 }
 
 TEST(RedisCacheCoordinatorTest, IsConnectedFalseAfterMultipleAttempts) {

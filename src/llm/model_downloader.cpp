@@ -443,28 +443,70 @@ std::optional<ModelDownloadConfig> loadModelConfigFromYAML(
 ) {
     try {
         YAML::Node config = YAML::LoadFile(config_path);
+        ModelDownloadConfig dl_config;
+        dl_config.model_name = model_name;
+        dl_config.ollama_url = config["ollama_url"]
+            ? config["ollama_url"].as<std::string>()
+            : "http://localhost:11434";
+        dl_config.download_dir = config["download_dir"]
+            ? config["download_dir"].as<std::string>()
+            : "";
         
         if (!config["models"]) {
             THEMIS_ERROR("No 'models' section in config: {}", config_path);
             return std::nullopt;
         }
+
+        auto apply_model_node = [&](const YAML::Node& model) -> std::optional<ModelDownloadConfig> {
+            if (!model || !model.IsMap()) {
+                return std::nullopt;
+            }
+
+            ModelDownloadConfig resolved = dl_config;
+
+            if (model["ollama_url"]) {
+                resolved.ollama_url = model["ollama_url"].as<std::string>();
+            }
+            if (model["download_dir"]) {
+                resolved.download_dir = model["download_dir"].as<std::string>();
+            }
+            if (model["use_cache"]) {
+                resolved.use_cache = model["use_cache"].as<bool>();
+            }
+            if (model["timeout_seconds"]) {
+                resolved.timeout_seconds = model["timeout_seconds"].as<int>();
+            }
+
+            if (model["sources"] && model["sources"].IsMap() && model["sources"]["ollama"]) {
+                resolved.model_name = model["sources"]["ollama"].as<std::string>();
+            }
+
+            return resolved;
+        };
         
-        // Search for model by name
-        for (const auto& model : config["models"]) {
-            if (model["name"].as<std::string>() == model_name) {
-                ModelDownloadConfig dl_config;
-                dl_config.model_name = model_name;
-                
-                // Get Ollama source if available
-                if (model["sources"] && model["sources"]["ollama"]) {
-                    std::string ollama_model = model["sources"]["ollama"].as<std::string>();
-                    dl_config.model_name = ollama_model;
+        // Supported layouts:
+        // 1. Sequence: models: [ { name: ..., ... } ]
+        // 2. Legacy map: models: { model_name: { ... } }
+        YAML::Node models = config["models"];
+        if (models.IsSequence()) {
+            for (const auto& model : models) {
+                if (model.IsMap() && model["name"] && model["name"].as<std::string>() == model_name) {
+                    return apply_model_node(model);
                 }
-                
-                // Default Ollama URL
-                dl_config.ollama_url = "http://localhost:11434";
-                
-                return dl_config;
+            }
+        } else if (models.IsMap()) {
+            if (models[model_name]) {
+                auto resolved = apply_model_node(models[model_name]);
+                if (resolved) {
+                    return resolved;
+                }
+            }
+
+            for (const auto& entry : models) {
+                if (entry.second.IsMap() && entry.second["name"] &&
+                    entry.second["name"].as<std::string>() == model_name) {
+                    return apply_model_node(entry.second);
+                }
             }
         }
         

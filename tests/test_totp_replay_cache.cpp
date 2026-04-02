@@ -192,10 +192,14 @@ TEST(TOTPReplayCacheTest, MaxEntriesPerUser) {
     EXPECT_TRUE(cache.checkAndMarkUsed(user_id, "555555"));
     
     // Oldest codes should be evicted, newest should still be protected
-    EXPECT_TRUE(cache.checkAndMarkUsed(user_id, "111111"));   // Evicted, can reuse
     EXPECT_FALSE(cache.checkAndMarkUsed(user_id, "555555"));  // Recent, protected
     EXPECT_FALSE(cache.checkAndMarkUsed(user_id, "444444"));  // Recent, protected
     EXPECT_FALSE(cache.checkAndMarkUsed(user_id, "333333"));  // Recent, protected
+
+    // Re-inserting an evicted old code can evict the current oldest retained
+    // code due to max_entries_per_user LRU behaviour.
+    EXPECT_TRUE(cache.checkAndMarkUsed(user_id, "111111"));   // Evicted, can reuse
+    EXPECT_TRUE(cache.checkAndMarkUsed(user_id, "333333"));   // Became oldest and got evicted
 }
 
 /**

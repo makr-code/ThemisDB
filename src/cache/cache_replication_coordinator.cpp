@@ -29,6 +29,7 @@
 
 #include "cache/cache_replication_coordinator.h"
 #include "utils/logger.h"
+#include <unordered_map>
 
 namespace themis {
 namespace cache {
@@ -198,16 +199,32 @@ void CacheReplicationCoordinator::refreshPeers() {
 
     const auto addresses = cluster_view_->getPeerAddresses();
 
+    std::lock_guard<std::mutex> lk(peers_mutex_);
+
+    // Build a lookup map from address → existing peer to avoid
+    // tearing down and rebuilding connections that haven't changed.
+    std::unordered_map<std::string, std::shared_ptr<IRemoteCachePeer>> existing;
+    existing.reserve(remote_peers_.size());
+    for (auto& p : remote_peers_) {
+        existing[p->address()] = p;
+    }
+
     std::vector<std::shared_ptr<IRemoteCachePeer>> new_peers;
     new_peers.reserve(addresses.size());
     for (const auto& addr : addresses) {
-        auto peer = peer_factory_(addr);
-        if (peer) {
-            new_peers.emplace_back(std::move(peer));
+        auto it = existing.find(addr);
+        if (it != existing.end()) {
+            // Reuse the existing connection for this address.
+            new_peers.emplace_back(it->second);
+        } else {
+            // New address: create a fresh peer via the factory.
+            auto peer = peer_factory_(addr);
+            if (peer) {
+                new_peers.emplace_back(std::move(peer));
+            }
         }
     }
 
-    std::lock_guard<std::mutex> lk(peers_mutex_);
     remote_peers_ = std::move(new_peers);
 
     THEMIS_DEBUG("CacheReplicationCoordinator: refreshed {} remote peers",

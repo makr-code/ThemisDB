@@ -553,6 +553,15 @@ void PluginHotPlugMonitor::stop() {
     }
     
     running_ = false;
+
+#ifdef _WIN32
+    // On Windows, ReadDirectoryChangesW can block indefinitely.
+    // Closing the watched directory handle first unblocks the monitor thread.
+    if (dir_handle_ != nullptr && dir_handle_ != INVALID_HANDLE_VALUE) {
+        CloseHandle(dir_handle_);
+        dir_handle_ = nullptr;
+    }
+#endif
     
     // Wait for thread to finish
     if (monitor_thread_.joinable()) {
@@ -560,10 +569,7 @@ void PluginHotPlugMonitor::stop() {
     }
     
 #ifdef _WIN32
-    if (dir_handle_ != nullptr && dir_handle_ != INVALID_HANDLE_VALUE) {
-        CloseHandle(dir_handle_);
-        dir_handle_ = nullptr;
-    }
+    // Handle already closed before join to unblock ReadDirectoryChangesW.
 #elif defined(__APPLE__)
     // Cleanup handled in thread
 #else

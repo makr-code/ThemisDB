@@ -455,27 +455,12 @@ TEST(JWTValidatorAsyncTest, ValidateAsyncMatchesSyncWithCachedJWKS)
 
     JWTValidator validator(cfg);
 
-    // Pre-load JWKS from the RSA fixture
-    const BIGNUM* n = nullptr;
-    const BIGNUM* e_bn = nullptr;
-    RSA_get0_key(EVP_PKEY_get0_RSA(rsa.pkey), &n, &e_bn, nullptr);
-    auto n_bytes = std::vector<uint8_t>(BN_num_bytes(n));
-    auto e_bytes = std::vector<uint8_t>(BN_num_bytes(e_bn));
-    BN_bn2bin(n, n_bytes.data());
-    BN_bn2bin(e_bn, e_bytes.data());
-
-    nlohmann::json jwks = {
-        {"keys", {{
-            {"kty", "RSA"}, {"use", "sig"}, {"alg", "RS256"},
-            {"kid", "k1"},
-            {"n", b64url(n_bytes)},
-            {"e", b64url(e_bytes)}
-        }}}
-    };
+    // Reuse the shared helper used by stable sync tests.
+    nlohmann::json jwks = make_jwks(rsa.rsa);
     validator.setJWKSForTesting(jwks);
 
     // Build a minimal valid JWT
-    nlohmann::json hdr = {{"alg", "RS256"}, {"kid", "k1"}};
+    nlohmann::json hdr = {{"alg", "RS256"}, {"kid", "test-key-1"}};
     auto now_tp = std::chrono::system_clock::now();
     long now = static_cast<long>(std::chrono::duration_cast<std::chrono::seconds>(
         now_tp.time_since_epoch()).count());
@@ -485,10 +470,10 @@ TEST(JWTValidatorAsyncTest, ValidateAsyncMatchesSyncWithCachedJWKS)
         {"iat", now}
     };
 
-    auto b64hdr  = b64url(std::vector<uint8_t>(
-        hdr.dump().begin(), hdr.dump().end()));
-    auto b64pay  = b64url(std::vector<uint8_t>(
-        payload.dump().begin(), payload.dump().end()));
+    const std::string hdr_str = hdr.dump();
+    const std::string payload_str = payload.dump();
+    auto b64hdr = b64url(std::vector<uint8_t>(hdr_str.begin(), hdr_str.end()));
+    auto b64pay = b64url(std::vector<uint8_t>(payload_str.begin(), payload_str.end()));
     std::string header_payload = b64hdr + "." + b64pay;
     std::string sig = sign_RS256(rsa.pkey, header_payload);
     std::string token = header_payload + "." + sig;
@@ -523,16 +508,7 @@ TEST(JWTValidatorAsyncTest, ValidateAsyncPropagatesExceptionForInvalidToken)
     JWTValidator validator(cfg);
 
     // Pre-load JWKS so no HTTP fetch is triggered.
-    const BIGNUM* n = nullptr;
-    const BIGNUM* e_bn = nullptr;
-    RSA_get0_key(EVP_PKEY_get0_RSA(rsa.pkey), &n, &e_bn, nullptr);
-    auto n_bytes = std::vector<uint8_t>(BN_num_bytes(n));
-    auto e_bytes = std::vector<uint8_t>(BN_num_bytes(e_bn));
-    BN_bn2bin(n, n_bytes.data());
-    BN_bn2bin(e_bn, e_bytes.data());
-    nlohmann::json jwks = {
-        {"keys", {{{"kty","RSA"},{"use","sig"},{"alg","RS256"},{"kid","k1"},
-                   {"n", b64url(n_bytes)}, {"e", b64url(e_bytes)}}}}};
+    nlohmann::json jwks = make_jwks(rsa.rsa);
     validator.setJWKSForTesting(jwks);
 
     // Malformed token (not a valid JWT) must cause an exception that the
@@ -556,29 +532,17 @@ TEST(JWTValidatorAsyncTest, ConcurrentValidateAsyncNoCrash)
     JWTValidator validator(cfg);
 
     // Pre-load JWKS
-    const BIGNUM* n = nullptr;
-    const BIGNUM* e_bn = nullptr;
-    RSA_get0_key(EVP_PKEY_get0_RSA(rsa.pkey), &n, &e_bn, nullptr);
-    auto n_bytes = std::vector<uint8_t>(BN_num_bytes(n));
-    auto e_bytes = std::vector<uint8_t>(BN_num_bytes(e_bn));
-    BN_bn2bin(n, n_bytes.data());
-    BN_bn2bin(e_bn, e_bytes.data());
-    nlohmann::json jwks = {
-        {"keys", {{
-            {"kty", "RSA"}, {"use", "sig"}, {"alg", "RS256"},
-            {"kid", "k1"},
-            {"n", b64url(n_bytes)},
-            {"e", b64url(e_bytes)}
-        }}}
-    };
+    nlohmann::json jwks = make_jwks(rsa.rsa);
     validator.setJWKSForTesting(jwks);
 
     long now = static_cast<long>(std::chrono::duration_cast<std::chrono::seconds>(
         std::chrono::system_clock::now().time_since_epoch()).count());
-    nlohmann::json hdr = {{"alg", "RS256"}, {"kid", "k1"}};
+    nlohmann::json hdr = {{"alg", "RS256"}, {"kid", "test-key-1"}};
     nlohmann::json payload = {{"sub", "u"}, {"exp", now + 3600}, {"iat", now}};
-    auto b64hdr = b64url(std::vector<uint8_t>(hdr.dump().begin(), hdr.dump().end()));
-    auto b64pay = b64url(std::vector<uint8_t>(payload.dump().begin(), payload.dump().end()));
+    const std::string hdr_str = hdr.dump();
+    const std::string payload_str = payload.dump();
+    auto b64hdr = b64url(std::vector<uint8_t>(hdr_str.begin(), hdr_str.end()));
+    auto b64pay = b64url(std::vector<uint8_t>(payload_str.begin(), payload_str.end()));
     std::string hp = b64hdr + "." + b64pay;
     std::string token = hp + "." + sign_RS256(rsa.pkey, hp);
 

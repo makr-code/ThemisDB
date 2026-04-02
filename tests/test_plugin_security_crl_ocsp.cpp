@@ -349,18 +349,19 @@ TEST_F(PluginSecurityCRLOCSPTest, DERParse_RevokedSerial_DetectedByOpenSSL) {
         buildDERCRL(issuer_key, issuer_cert, 42 /*revoke*/);
     ASSERT_FALSE(crl_der.empty());
 
-    // Parse the CRL and verify serial 42 is listed as revoked
+    // Parse the CRL and verify serial 42 is listed as revoked.
+    // Use serial-based lookup to avoid issuer-subject coupling in this unit fixture.
     const unsigned char* p = crl_der.data();
     X509_CRL* crl = d2i_X509_CRL(nullptr, &p, static_cast<long>(crl_der.size()));
     ASSERT_NE(crl, nullptr);
 
     X509_REVOKED* revoked = nullptr;
-    int rv = X509_CRL_get0_by_cert(crl, &revoked, leaf_cert);
+    int rv = X509_CRL_get0_by_serial(crl, &revoked, X509_get_serialNumber(leaf_cert));
     EXPECT_EQ(rv, 1) << "Serial 42 should be in the revocation list";
 
     // Verify that serial 99 (the issuer itself) is NOT revoked
     X509_REVOKED* not_revoked = nullptr;
-    int rv2 = X509_CRL_get0_by_cert(crl, &not_revoked, issuer_cert);
+    int rv2 = X509_CRL_get0_by_serial(crl, &not_revoked, X509_get_serialNumber(issuer_cert));
     EXPECT_EQ(rv2, 0) << "Serial 99 should not be in the revocation list";
 
     X509_CRL_free(crl);
@@ -389,7 +390,7 @@ TEST_F(PluginSecurityCRLOCSPTest, DERParse_NonRevokedSerial_NotDetected) {
     ASSERT_NE(crl, nullptr);
 
     X509_REVOKED* entry = nullptr;
-    int rv = X509_CRL_get0_by_cert(crl, &entry, leaf_cert);
+    int rv = X509_CRL_get0_by_serial(crl, &entry, X509_get_serialNumber(leaf_cert));
     EXPECT_EQ(rv, 0) << "Serial 42 should not be in an empty revocation list";
 
     X509_CRL_free(crl);

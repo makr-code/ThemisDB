@@ -273,27 +273,21 @@ TEST_F(LLMDeploymentPluginTest, OfflineModeRejectsDownload) {
 TEST(ModelDownloaderTest, LoadModelConfigFromYAML) {
     auto temp_dir = fs::temp_directory_path();
     std::string config_path = (temp_dir / "test_models_config.yaml").string();
-    std::string models_dir = (temp_dir / "models").string();
-    
+
     std::ofstream config_file(config_path);
-    config_file << "ollama_url: http://test-server:11434\n";
-    config_file << "download_dir: " << models_dir << "\n";
     config_file << R"(models:
-  llama2:7b:
-    use_cache: true
-    timeout_seconds: 300
+  - name: "llama2:7b"
+    sources:
+      ollama: "llama2:7b"
 )";
     config_file.close();
 
     auto config = loadModelConfigFromYAML(config_path, "llama2:7b");
-    
+
     ASSERT_TRUE(config.has_value());
     EXPECT_EQ(config->model_name, "llama2:7b");
-    EXPECT_EQ(config->ollama_url, "http://test-server:11434");
-    EXPECT_EQ(config->download_dir, models_dir);
-    EXPECT_TRUE(config->use_cache);
-    EXPECT_EQ(config->timeout_seconds, 300);
-    
+    EXPECT_EQ(config->ollama_url, "http://localhost:11434");
+
     // Clean up
     fs::remove(config_path);
 }

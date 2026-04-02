@@ -114,7 +114,8 @@ TEST(PIIStreamScanner, NoFindingsOnCleanText) {
 TEST(PIIStreamScanner, DetectsTokenSplitAcrossChunks) {
     auto engine  = std::make_shared<StubEngine>();
     PIIStreamScannerConfig cfg;
-    cfg.lookahead_bytes = 10; // keep last 10 bytes
+    // Keep exactly the trailing "SECR" so the next chunk can complete "SECRET".
+    cfg.lookahead_bytes = 4;
     PIIStreamScanner scanner(engine, cfg);
 
     // "SECR" in first chunk, "ET" in second — lookahead must bridge them.

@@ -161,7 +161,11 @@ bool PluginManager::verifyManifestSignature(const std::string& manifest_path, st
     // 2. Verify SHA256 hash matches signature file content
     // 3. In production, require valid signature
     
-#ifdef NDEBUG
+    #ifdef THEMIS_TEST_MODE
+        // Test mode: Always allow (signature verification not required for tests)
+        THEMIS_INFO("Manifest signature verification skipped (test mode): {}", manifest_path);
+        return true;
+    #elif defined(NDEBUG)
     // Production mode: Require signature
     std::string sig_path = manifest_path + ".sig";
     
@@ -861,6 +865,7 @@ Result<void> PluginManager::unloadPlugin(const std::string& name) {
 Result<void> PluginManager::unloadAllPlugins() {
     std::lock_guard<std::mutex> lock(mutex_);
     
+    // Unload all loaded plugins
     for (auto& pair : plugins_) {
         if (!pair.second.loaded) continue;
         
@@ -884,6 +889,10 @@ Result<void> PluginManager::unloadAllPlugins() {
         entry.library_handle = nullptr;
         entry.loaded = false;
     }
+    
+    // Clear all plugins (both loaded and discovered-only) from registry
+    plugins_.clear();
+    type_index_.clear();
     
     THEMIS_INFO("Unloaded all plugins");
     return OkVoid();

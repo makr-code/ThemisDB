@@ -43,6 +43,7 @@
 #include <gtest/gtest.h>
 #include "plugins/plugin_manager.h"
 #include "plugins/plugin_interface.h"
+#include "acceleration/plugin_security.h"
 #include "utils/error_registry.h"
 #include <nlohmann/json.hpp>
 #include <filesystem>
@@ -115,8 +116,20 @@ protected:
             manifest["dependencies"] = deps;
         }
 
-        std::ofstream file(plugin_dir + "/plugin.json");
+        std::string manifest_path = plugin_dir + "/plugin.json";
+        std::ofstream file(manifest_path);
         file << manifest.dump(2);
+        file.close();
+
+        // Release builds require manifest signature files; write expected hash.
+        themis::acceleration::PluginSecurityPolicy policy;
+        themis::acceleration::PluginSecurityVerifier verifier(policy);
+        std::string manifest_hash = verifier.calculateFileHash(manifest_path);
+
+        std::string sig_path = manifest_path + ".sig";
+        std::ofstream sig_file(sig_path);
+        sig_file << manifest_hash;
+        sig_file.close();
     }
 };
 

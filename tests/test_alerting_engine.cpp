@@ -405,6 +405,7 @@ TEST(AlertingEngineSendTest, ResolveAlert_NonexistentId_IsNoOp) {
 // Backend forwarding
 // ============================================================================
 
+namespace {
 class MockAlertmanager : public Alertmanager {
 public:
     int send_count    = 0;
@@ -424,6 +425,7 @@ public:
         return {};
     }
 };
+} // namespace
 
 TEST(AlertingEngineBackendTest, SendAlert_ForwardsToBackend) {
     auto mock = std::make_shared<MockAlertmanager>();

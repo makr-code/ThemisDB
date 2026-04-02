@@ -466,11 +466,9 @@ TEST(LDAPAuthenticatorTest, BuildGroupSearchFilter_EscapesFilterSpecialCharsInDN
         auth.buildGroupSearchFilter("CN=j*doe(evil),DC=example,DC=com");
     EXPECT_EQ(filter,
         "(&(objectClass=group)(member=CN=j\\2adoe\\28evil\\29,DC=example,DC=com))");
-    // Must not contain unescaped wildcards or parentheses.
+    // Must not contain unescaped wildcard in substituted member DN.
     const std::string substituted = filter.substr(filter.find("member=") + 7);
     EXPECT_EQ(substituted.find('*'), std::string::npos);
-    EXPECT_EQ(substituted.find('('), std::string::npos);
-    EXPECT_EQ(substituted.find(')'), std::string::npos);
 }
 
 /**

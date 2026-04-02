@@ -1769,6 +1769,7 @@ TEST_F(TaskResultStoreTest, DAGExecutionPersistsResults) {
 /**
  * @brief Simple mock Alertmanager that records sent/resolved alerts.
  */
+namespace {
 class MockAlertmanager : public themis::observability::Alertmanager {
 public:
     std::vector<themis::observability::Alert> sent_alerts;
@@ -1784,6 +1785,7 @@ public:
         return {};
     }
 };
+} // namespace
 
 class TaskSchedulerAlertTest : public ::testing::Test {
 protected:

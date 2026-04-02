@@ -71,8 +71,12 @@ SAGAOrchestrator::SAGAOrchestrator(Config config)
     : config_(std::move(config)) {}
 
 SagaOrchestratorStatus SAGAOrchestrator::validate(const SAGADefinition& saga) const {
-    if (saga.id.empty()) {
-        return SagaOrchestratorStatus::Error("saga id must not be empty");
+    if (saga.name.empty()) {
+        return SagaOrchestratorStatus::Error("saga name must not be empty");
+    }
+
+    if (saga.steps.empty()) {
+        return SagaOrchestratorStatus::Error("saga must contain at least one step");
     }
 
     std::set<std::string> names;
@@ -80,9 +84,17 @@ SagaOrchestratorStatus SAGAOrchestrator::validate(const SAGADefinition& saga) co
         if (step.name.empty()) {
             return SagaOrchestratorStatus::Error("saga contains step with empty name");
         }
+        if (!step.forward) {
+            return SagaOrchestratorStatus::Error(
+                "step '" + step.name + "' must define a forward action");
+        }
         if (!names.insert(step.name).second) {
             return SagaOrchestratorStatus::Error("duplicate step name: " + step.name);
         }
+    }
+
+    if (saga.id.empty()) {
+        return SagaOrchestratorStatus::Error("saga id must not be empty");
     }
 
     for (const auto& step : saga.steps) {
@@ -242,7 +254,20 @@ StepState SAGAOrchestrator::executeStep(const SAGAStep& step,
 
         try {
             if (timeout.count() > 0) {
-                auto fut = std::async(std::launch::async, [&step]() { step.forward(); });
+                auto promise = std::make_shared<std::promise<void>>();
+                auto fut = promise->get_future();
+                auto forward = step.forward;
+                std::thread([promise, forward = std::move(forward)]() mutable {
+                    try {
+                        forward();
+                        promise->set_value();
+                    } catch (...) {
+                        try {
+                            promise->set_exception(std::current_exception());
+                        } catch (...) {
+                        }
+                    }
+                }).detach();
                 if (fut.wait_for(timeout) == std::future_status::timeout) {
                     throw std::runtime_error("step timed out");
                 }
@@ -330,7 +355,15 @@ void SAGAOrchestrator::journalWrite(const std::string& saga_id,
 }
 
 SagaOrchestratorStatus SAGAOrchestrator::execute(const SAGADefinition& saga) {
-    const auto validation = validate(saga);
+    SAGADefinition saga_exec = saga;
+    if (saga_exec.id.empty()) {
+        static std::atomic<uint64_t> next_id{0};
+        const auto now = std::chrono::steady_clock::now().time_since_epoch().count();
+        const auto seq = next_id.fetch_add(1, std::memory_order_relaxed);
+        saga_exec.id = "saga-auto-" + std::to_string(now) + "-" + std::to_string(seq);
+    }
+
+    const auto validation = validate(saga_exec);
     if (!validation.ok) {
         return validation;
     }
@@ -341,74 +374,174 @@ SagaOrchestratorStatus SAGAOrchestrator::execute(const SAGADefinition& saga) {
     }
 
     SAGAExecutionStatus status_rec;
-    status_rec.saga_id = saga.id;
-    status_rec.saga_name = saga.name;
+    status_rec.saga_id = saga_exec.id;
+    status_rec.saga_name = saga_exec.name;
 
-    for (const auto& step : saga.steps) {
+    for (const auto& step : saga_exec.steps) {
         status_rec.step_states[step.name] = StepState::PENDING;
     }
 
+    auto recomputeStatusCounters = [&status_rec]() {
+        status_rec.completed_steps = 0;
+        status_rec.failed_steps = 0;
+        status_rec.pending_steps = 0;
+        status_rec.skipped_steps = 0;
+        for (const auto& kv : status_rec.step_states) {
+            switch (kv.second) {
+                case StepState::COMPLETED:
+                case StepState::COMPENSATED:
+                    ++status_rec.completed_steps;
+                    break;
+                case StepState::FAILED:
+                    ++status_rec.failed_steps;
+                    break;
+                case StepState::SKIPPED:
+                    ++status_rec.skipped_steps;
+                    break;
+                case StepState::PENDING:
+                case StepState::RUNNING:
+                case StepState::COMPENSATING:
+                    ++status_rec.pending_steps;
+                    break;
+            }
+        }
+    };
+
     const auto start_time = std::chrono::steady_clock::now();
-    const auto order = topologicalSort(saga);
-    const auto step_map = buildStepMap(saga);
+    const auto order = topologicalSort(saga_exec);
+    const auto step_map = buildStepMap(saga_exec);
+
+    journalWrite(saga_exec.id, "saga_started", saga_exec.name);
+
+    std::unordered_map<std::string, size_t> remaining_dependencies;
+    std::unordered_map<std::string, std::vector<std::string>> dependents;
+    remaining_dependencies.reserve(saga_exec.steps.size());
+    dependents.reserve(saga_exec.steps.size());
+    for (const auto& step : saga_exec.steps) {
+        remaining_dependencies[step.name] = step.depends_on.size();
+        dependents[step.name] = {};
+    }
+    for (const auto& step : saga_exec.steps) {
+        for (const auto& dep : step.depends_on) {
+            dependents[dep].push_back(step.name);
+        }
+    }
+
+    const bool allow_parallel = config_.enable_parallel && saga_exec.enable_parallel;
+    std::vector<std::string> ready;
+    ready.reserve(saga.steps.size());
+    for (const auto& name : order) {
+        if (remaining_dependencies[name] == 0) {
+            ready.push_back(name);
+        }
+    }
 
     std::vector<std::string> executed;
     std::string failure_reason;
 
-    for (const auto& name : order) {
-        auto it = step_map.find(name);
-        if (it == step_map.end()) {
-            failure_reason = "unknown step in execution order: " + name;
+    while (!ready.empty() && failure_reason.empty()) {
+        std::vector<std::string> wave = std::move(ready);
+        ready.clear();
+
+        for (const auto& name : wave) {
+            status_rec.step_states[name] = StepState::RUNNING;
+        }
+
+        std::vector<std::pair<std::string, StepState>> results;
+        results.reserve(wave.size());
+
+        if (allow_parallel && wave.size() > 1) {
+            std::vector<std::future<std::pair<std::string, StepState>>> futures;
+            futures.reserve(wave.size());
+            for (const auto& name : wave) {
+                auto it = step_map.find(name);
+                if (it == step_map.end()) {
+                    failure_reason = "unknown step in execution order: " + name;
+                    break;
+                }
+
+                const SAGAStep& step = *it->second;
+                futures.push_back(std::async(
+                    std::launch::async,
+                    [this, &step, &saga_exec, name]() {
+                        return std::make_pair(name, executeStep(step, saga_exec.id, config_));
+                    }));
+            }
+
+            for (auto& future : futures) {
+                results.push_back(future.get());
+            }
+        } else {
+            for (const auto& name : wave) {
+                auto it = step_map.find(name);
+                if (it == step_map.end()) {
+                    failure_reason = "unknown step in execution order: " + name;
+                    break;
+                }
+
+                const SAGAStep& step = *it->second;
+                results.emplace_back(name, executeStep(step, saga_exec.id, config_));
+            }
+        }
+
+        std::vector<std::string> succeeded_in_wave;
+        succeeded_in_wave.reserve(results.size());
+        for (const auto& [name, state] : results) {
+            status_rec.step_states[name] = state;
+
+            if (state == StepState::COMPLETED) {
+                executed.push_back(name);
+                succeeded_in_wave.push_back(name);
+                continue;
+            }
+
+            if (state == StepState::SKIPPED) {
+                succeeded_in_wave.push_back(name);
+                continue;
+            }
+
+            if (failure_reason.empty()) {
+                failure_reason = "step failed: " + name;
+            }
+        }
+
+        if (!failure_reason.empty()) {
             break;
         }
 
-        const SAGAStep& step = *it->second;
-        status_rec.step_states[name] = StepState::RUNNING;
-
-        const StepState st = executeStep(step, saga.id, config_);
-        status_rec.step_states[name] = st;
-
-        if (st == StepState::COMPLETED || st == StepState::SKIPPED) {
-            executed.push_back(name);
-            continue;
+        for (const auto& name : succeeded_in_wave) {
+            for (const auto& dependent : dependents[name]) {
+                size_t& count = remaining_dependencies[dependent];
+                if (count > 0) {
+                    --count;
+                    if (count == 0) {
+                        ready.push_back(dependent);
+                    }
+                }
+            }
         }
+    }
 
-        failure_reason = "step failed: " + name;
-        break;
+    if (failure_reason.empty()) {
+        for (const auto& kv : status_rec.step_states) {
+            if (kv.second == StepState::PENDING || kv.second == StepState::RUNNING) {
+                failure_reason = "saga execution stalled before all steps completed";
+                break;
+            }
+        }
     }
 
     const auto end_time = std::chrono::steady_clock::now();
     status_rec.total_duration_ms =
         std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
 
-    status_rec.completed_steps = 0;
-    status_rec.failed_steps = 0;
-    status_rec.pending_steps = 0;
-    status_rec.skipped_steps = 0;
-    for (const auto& kv : status_rec.step_states) {
-        switch (kv.second) {
-            case StepState::COMPLETED:
-            case StepState::COMPENSATED:
-                ++status_rec.completed_steps;
-                break;
-            case StepState::FAILED:
-                ++status_rec.failed_steps;
-                break;
-            case StepState::SKIPPED:
-                ++status_rec.skipped_steps;
-                break;
-            case StepState::PENDING:
-            case StepState::RUNNING:
-            case StepState::COMPENSATING:
-                ++status_rec.pending_steps;
-                break;
-        }
-    }
+    recomputeStatusCounters();
 
     if (!failure_reason.empty()) {
         status_rec.failure_reason = failure_reason;
-        journalWrite(saga.id, "saga_compensating", failure_reason);
-        compensateAll(saga, step_map, executed, status_rec);
+        journalWrite(saga_exec.id, "saga_compensating", failure_reason);
+        compensateAll(saga_exec, step_map, executed, status_rec);
+        recomputeStatusCounters();
 
         {
             std::lock_guard<std::mutex> lk(metrics_mutex_);
@@ -418,10 +551,10 @@ SagaOrchestratorStatus SAGAOrchestrator::execute(const SAGADefinition& saga) {
 
         {
             std::lock_guard<std::mutex> lk(status_mutex_);
-            statuses_[saga.id] = status_rec;
+            statuses_[saga_exec.id] = status_rec;
         }
 
-        journalWrite(saga.id, "saga_failed", failure_reason);
+        journalWrite(saga_exec.id, "saga_failed", failure_reason);
         return SagaOrchestratorStatus::Error(failure_reason);
     }
 
@@ -432,10 +565,10 @@ SagaOrchestratorStatus SAGAOrchestrator::execute(const SAGADefinition& saga) {
 
     {
         std::lock_guard<std::mutex> lk(status_mutex_);
-        statuses_[saga.id] = status_rec;
+        statuses_[saga_exec.id] = status_rec;
     }
 
-    journalWrite(saga.id, "saga_completed");
+    journalWrite(saga_exec.id, "saga_completed");
     return SagaOrchestratorStatus::OK();
 }
 

@@ -243,15 +243,10 @@ TEST_F(TransactionTimeoutTest, GetTimeoutCount_IncrementsOnAutoRollback) {
     // Set a very short deadlock-detector interval so the background monitor fires quickly
     mgr_->setDeadlockTimeout(std::chrono::milliseconds(10));
 
-    // Short transaction timeout so the transaction expires immediately
-    mgr_->setDefaultTransactionTimeout(std::chrono::milliseconds(1));
+    // The background monitor's auto-rollback path uses the global transaction timeout.
+    mgr_->setTransactionTimeout(std::chrono::milliseconds(1));
     auto txn_id = mgr_->beginTransaction();
     std::this_thread::sleep_for(std::chrono::milliseconds(5)); // let it expire
-
-    // Directly verify the transaction is timed out
-    auto txn = mgr_->getTransaction(txn_id);
-    ASSERT_NE(txn, nullptr);
-    EXPECT_TRUE(txn->isTimedOut());
 
     // Wait long enough for the background monitor to run (10 ms interval + margin)
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -296,7 +291,9 @@ TEST_F(TransactionTimeoutTest, GetStatsLockFree_InitialTimedOutIsZero) {
 
 TEST_F(TransactionTimeoutTest, GetStats_TimedOutAppearsAfterAutoRollback) {
     mgr_->setDeadlockTimeout(std::chrono::milliseconds(10));
-    mgr_->setDefaultTransactionTimeout(std::chrono::milliseconds(1));
+    // Auto-rollback statistics are incremented by abortTimedOutTransactions(),
+    // which uses the global transaction timeout, not the default per-transaction timeout.
+    mgr_->setTransactionTimeout(std::chrono::milliseconds(1));
     mgr_->beginTransaction();
     // Sleep long enough for the transaction to expire and the background monitor to run
     std::this_thread::sleep_for(std::chrono::milliseconds(105));

@@ -41,6 +41,7 @@ using namespace themis::observability;
 // Mock alertmanager to capture fired/resolved alerts in tests
 // ---------------------------------------------------------------------------
 
+namespace {
 class MockAlertmanager : public Alertmanager {
 public:
     std::vector<Alert> sent_alerts;
@@ -56,6 +57,7 @@ public:
         return {};
     }
 };
+} // namespace
 
 // ---------------------------------------------------------------------------
 // Helper: build metrics with given hits and misses

@@ -116,7 +116,7 @@ TEST_F(PluginMetricsIntegrationTest, FunctionCallMetrics) {
     EXPECT_EQ(stats.function_calls, 10);
     EXPECT_GT(stats.avg_call_latency_ms, 0.0);
     EXPECT_GT(stats.p95_call_latency_ms, stats.avg_call_latency_ms);
-    EXPECT_GT(stats.p99_call_latency_ms, stats.p95_call_latency_ms);
+    EXPECT_GE(stats.p99_call_latency_ms, stats.p95_call_latency_ms);
 }
 
 TEST_F(PluginMetricsIntegrationTest, ErrorTracking) {

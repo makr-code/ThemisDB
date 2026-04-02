@@ -34,6 +34,7 @@
 #include "plugins/plugin_interface.h"
 #include "plugins/plugin_health_monitor.h"
 #include "plugins/self_healing_plugin.h"
+#include "acceleration/plugin_security.h"
 #include "utils/error_registry.h"
 #include <nlohmann/json.hpp>
 #include <filesystem>
@@ -41,6 +42,8 @@
 #include <string>
 #include <vector>
 #include <atomic>
+#include <chrono>
+#include <thread>
 
 using namespace themis::plugins;
 namespace fs = std::filesystem;
@@ -73,7 +76,14 @@ protected:
         manager_->clearReloadListeners();
 
         if (fs::exists(test_dir_)) {
-            fs::remove_all(test_dir_);
+            // Hot-plug monitor shutdown can release handles asynchronously on Windows.
+            std::error_code ec;
+            fs::remove_all(test_dir_, ec);
+            if (ec) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(50));
+                ec.clear();
+                fs::remove_all(test_dir_, ec);
+            }
         }
     }
 
@@ -109,8 +119,18 @@ protected:
             manifest["dependencies"] = deps;
         }
 
-        std::ofstream file(plugin_dir + "/plugin.json");
+        std::string manifest_path = plugin_dir + "/plugin.json";
+        std::ofstream file(manifest_path);
         file << manifest.dump(2);
+        file.close();
+
+        // Release builds require manifest signature files; write expected hash.
+        themis::acceleration::PluginSecurityPolicy policy;
+        themis::acceleration::PluginSecurityVerifier verifier(policy);
+        std::string manifest_hash = verifier.calculateFileHash(manifest_path);
+
+        std::ofstream sig_file(manifest_path + ".sig");
+        sig_file << manifest_hash;
     }
 };
 

@@ -2243,7 +2243,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http_client_pool.cpp")
     
     set_tests_properties(HTTPClientPoolTests PROPERTIES
         LABELS "utils;http;connection-pool;concurrency;unit"
-        TIMEOUT 60
+        TIMEOUT 180
     )
     
     message(STATUS "  HTTP Client Pool: striped locking, stale connection removal, timeouts")

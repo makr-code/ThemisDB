@@ -107,8 +107,9 @@ TEST_F(PathValidationTest, ShellInjectionCharsAreRejected) {
 
 TEST_F(PathValidationTest, AbsoluteCleanPathIsAccepted) {
     std::string err;
-    // A simple absolute path without traversal should be accepted
-    EXPECT_TRUE(PluginSecurityVerifier::validatePluginPath("/opt/themis/plugins/good_plugin.so", err))
+    // A simple absolute path without traversal should be accepted.
+    const std::string good_path = (fs::temp_directory_path() / "good_plugin.so").string();
+    EXPECT_TRUE(PluginSecurityVerifier::validatePluginPath(good_path, err))
         << "Unexpected error: " << err;
 }
 
@@ -312,8 +313,8 @@ TEST_F(AuditorExportTest, ExportCreatesJsonFile) {
 }
 
 TEST_F(AuditorExportTest, ExportToInvalidPathReturnsFalse) {
-    EXPECT_FALSE(PluginSecurityAuditor::instance()
-                     .exportEvents("/nonexistent_dir_xyz/audit.json"));
+    fs::path invalid_path = test_dir_ / "missing_parent" / "audit.json";
+    EXPECT_FALSE(PluginSecurityAuditor::instance().exportEvents(invalid_path.string()));
 }
 
 TEST_F(AuditorExportTest, ExportContainsPluginUnloadedTypeName) {

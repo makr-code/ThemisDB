@@ -78,14 +78,16 @@ TEST_F(ReplicationTopologyApiHandlerNoReplTest, TopologyReturns503WhenNoCoordina
     auto resp = handler_->handleTopologyGet(makeGet("/api/v1/replication/topology"));
     EXPECT_EQ(resp.result(), http::status::service_unavailable);
     json body = json::parse(resp.body());
-    EXPECT_TRUE(body["error"].get<bool>());
+    EXPECT_TRUE(body.contains("error"));
+    EXPECT_FALSE(body["error"].get<std::string>().empty());
 }
 
 TEST_F(ReplicationTopologyApiHandlerNoReplTest, HealthReturns503WhenNoCoordinator) {
     auto resp = handler_->handleHealthGet(makeGet("/api/v1/replication/health"));
     EXPECT_EQ(resp.result(), http::status::service_unavailable);
     json body = json::parse(resp.body());
-    EXPECT_TRUE(body["error"].get<bool>());
+    EXPECT_TRUE(body.contains("error"));
+    EXPECT_FALSE(body["error"].get<std::string>().empty());
 }
 
 TEST_F(ReplicationTopologyApiHandlerNoReplTest, UiAlwaysServes200) {
@@ -94,7 +96,7 @@ TEST_F(ReplicationTopologyApiHandlerNoReplTest, UiAlwaysServes200) {
     // Content-Type must be text/html
     EXPECT_NE(resp[http::field::content_type].find("text/html"), std::string::npos);
     // Body must contain DOCTYPE
-    EXPECT_NE(resp.body().find("<!DOCTYPE html>"), std::string::npos);
+    EXPECT_NE(resp.body().find("<!doctype html>"), std::string::npos);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -144,19 +146,21 @@ TEST_F(ReplicationTopologyApiHandlerWithReplTest, UiPageContainsExpectedElements
     // Must include auto-refresh logic
     EXPECT_NE(body.find("setInterval"), std::string::npos);
 
-    // Must embed the SVG graph container
-    EXPECT_NE(body.find("topology-svg"), std::string::npos);
+    // Current UI renders JSON views (pre blocks) for topology/health.
+    EXPECT_NE(body.find("id=\"topology\""), std::string::npos);
+    EXPECT_NE(body.find("id=\"health\""), std::string::npos);
 }
 
 TEST_F(ReplicationTopologyApiHandlerWithReplTest, UiPageInjectsApiBaseFromHostHeader) {
-    http::request<http::string_body> req{http::verb::get, "/ui/replication/topology", 11};
+    // API_BASE is derived from the URL prefix before /ui/replication/topology.
+    http::request<http::string_body> req{http::verb::get, "/proxy/ui/replication/topology", 11};
     req.set(http::field::host, "db.example.com:8765");
 
     auto resp = handler_->handleUiGet(req);
     EXPECT_EQ(resp.result(), http::status::ok);
 
-    // The injected API_BASE constant must contain the host
-    EXPECT_NE(resp.body().find("db.example.com:8765"), std::string::npos);
+    // The injected API_BASE constant must reflect the URL path prefix.
+    EXPECT_NE(resp.body().find("const API_BASE=\"/proxy\";"), std::string::npos);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
