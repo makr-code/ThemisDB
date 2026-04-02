@@ -1,6 +1,7 @@
 #include "scraper_api_client.h"
 #include <stdexcept>
 #include <sstream>
+#include <iomanip>
 #include <algorithm>
 
 #ifdef THEMIS_ENABLE_CURL
@@ -36,7 +37,10 @@ std::string urlEncodeComponent(const std::string& s) {
         if (std::isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~') {
             out << c;
         } else {
-            out << '%' << std::hex << ((c >> 4) & 0xF) << (c & 0xF);
+            out << '%'
+                << std::hex << std::uppercase
+                << std::setw(2) << std::setfill('0')
+                << static_cast<int>(c);
         }
     }
     return out.str();
