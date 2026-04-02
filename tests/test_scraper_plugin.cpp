@@ -765,9 +765,9 @@ namespace {
 /// Evaluator that always accepts with fixed scores.
 class AlwaysAcceptEvaluator : public IScraperLLMEvaluator {
 public:
-    EvaluationResult evaluate(const std::string&,
-                               const GapContext&,
-                               double) const override {
+    EvaluationResult evaluate(const std::string& /*text*/,
+                               const GapContext&  /*gap*/,
+                               double             /*threshold*/) const override {
         return makeEval(0.9, 0.85);
     }
 };
@@ -892,8 +892,8 @@ TEST(ScraperPluginFocusedTests, K5_DiscardedDocumentsAlsoHaveProvenanceFlag) {
     // Evaluator that always discards
     class AlwaysDiscardEvaluator : public IScraperLLMEvaluator {
     public:
-        EvaluationResult evaluate(const std::string&,
-                                   const GapContext&,
+        EvaluationResult evaluate(const std::string& /*text*/,
+                                   const GapContext& /*gap*/,
                                    double threshold) const override {
             EvaluationResult e;
             e.quality_score  = 0.0;

@@ -19622,15 +19622,19 @@ endif()
 
 # ============================================================================
 # Scraper Plugin – ScraperPluginFocusedTests
-# 40 tests across 8 groups:
-#   Group A (6) – UrlPolicy: whitelist, blacklist, glob, SSRF, edge cases
-#   Group B (5) – ScraperConfig: YAML parsing, effectiveSearchQueries
-#   Group C (5) – GovSourceCatalog: Bund, Bundesländer, EU, YAML overlay
-#   Group D (5) – HtmlSearchEngine: form discovery, result-list, pagination
-#   Group E (4) – ApiClient: page/cursor pagination, mock fetch
-#   Group F (4) – LLMEvaluator: heuristic scoring, threshold, mock
-#   Group G (4) – MetadataWriter: relational/graph/vector writes, flush
-#   Group H (7) – ScraperPlugin: init, search, API, gov, JS renderer, blacklist
+# 60 tests across 12 groups:
+#   Group A (6)  – UrlPolicy: whitelist, blacklist, glob, SSRF, edge cases
+#   Group B (5)  – ScraperConfig: YAML parsing, effectiveSearchQueries
+#   Group C (5)  – GovSourceCatalog: Bund, Bundesländer, EU, YAML overlay
+#   Group D (5)  – HtmlSearchEngine: form discovery, result-list, pagination
+#   Group E (4)  – ApiClient: page/cursor pagination, mock fetch
+#   Group F (4)  – LLMEvaluator: heuristic scoring, threshold, mock
+#   Group G (4)  – MetadataWriter: relational/graph/vector writes, flush
+#   Group H (7)  – ScraperPlugin: init, search, API, gov, JS renderer, blacklist
+#   Group I (6)  – Provenance flags on relational/graph/vector/document
+#   Group J (5)  – Knowledge source catalog completeness
+#   Group K (5)  – End-to-end provenance propagation through scrape()
+#   Group L (4)  – Provenance immutability
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_scraper_plugin.cpp")
@@ -19668,7 +19672,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_scraper_plugin.cpp")
         TIMEOUT 60
     )
 
-    message(STATUS "  ScraperPlugin: UrlPolicy(A1-A6), Config(B1-B5), GovCatalog(C1-C5), SearchEngine(D1-D5), ApiClient(E1-E4), LLMEvaluator(F1-F4), MetadataWriter(G1-G4), Plugin(H1-H7)")
+    message(STATUS "  ScraperPlugin: UrlPolicy(A1-A6), Config(B1-B5), GovCatalog(C1-C5), SearchEngine(D1-D5), ApiClient(E1-E4), LLMEvaluator(F1-F4), MetadataWriter(G1-G4), Plugin(H1-H7), Provenance(I1-I6), KnowledgeSources(J1-J5), Pipeline(K1-K5), Immutability(L1-L4)")
 else()
     message(STATUS "Scraper Plugin tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_scraper_plugin.cpp")
 endif()
