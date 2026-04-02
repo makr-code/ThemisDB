@@ -41,6 +41,13 @@ if(THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/
     add_subdirectory(user_storage_encrypted)
 endif()
 
+# Scraper Plugin – agentic gap-detection web scraper
+option(THEMIS_PLUGIN_SCRAPER "Build the agentic Scraper Plugin" ON)
+if(THEMIS_PLUGIN_SCRAPER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/scraper/CMakeLists.txt")
+    message(STATUS "  - Scraper Plugin (agentic gap-detection scraper)")
+    add_subdirectory(scraper)
+endif()
+
 # GPU Impact Analysis Plugin (enterprise/non-open source)
 option(THEMIS_BUILD_GPU_IMPACT_PLUGIN "Build GPU Impact Analysis Plugin" ON)
 if(THEMIS_BUILD_GPU_IMPACT_PLUGIN)
