@@ -1050,3 +1050,104 @@
 
 > **Wichtige Relativierung:** Mehrere Regressionen (insb. SecondaryIndex, VectorIndex, Graph) sind auf geänderte Test-Infrastruktur zurückzuführen (per-test temp dirs, einzelne RocksDB-Transaktionen pro `put()`), nicht auf Produktions-Regressions — vgl. `PERFORMANCE_COMPARISON_V1.3.0_VS_V1.3.3.md`.
 
+
+---
+
+## 37. Durchgeführte Performance-Maßnahmen (mit GitHub-PR)
+
+> Chronologisch absteigend (neueste zuerst). Alle PRs liegen auf dem `develop`-Branch.
+> Links: `https://github.com/makr-code/ThemisDB/pull/<Nr>`
+
+---
+
+### 37.1 v1.9.0 – Aktuelle Maßnahmen
+
+| # | Maßnahme | Modul | PR | Version | Messbare Wirkung |
+|---|----------|-------|----|---------|-----------------|
+| 1 | **Batch-Prediction, O(1)-Update, Parallel-Auto-Tune, FNV-1a Fit-Cache** — `predictBatch()` für N Serien, inkrementelles ETS/ARIMA/LR-Update, 9 parallele `std::async`-Auto-Tune-Tasks | Analytics / Forecasting | [#4054 (Issue)](https://github.com/makr-code/ThemisDB/issues/4054) | v1.9.0 | Auto-Tune: 9× Parallelisierung; Fit-Cache: wiederholte Serien O(1) statt O(n) |
+| 2 | **QueryCompiler JIT Hot-Path** — JIT-kompilierte Ausführungspfade in `executeAql()` verdrahtet, vectorized-execution-Tests registriert | Query | [#4398](https://github.com/makr-code/ThemisDB/pull/4398) | v1.9.0 | AQL Hot-Path: JIT-Pfad aktiv |
+| 3 | **Cache Warmup-Logik** — `warmupFromLog` max_entries-Grenze korrekt durchgesetzt, Snippet-Boundary-Alignment verbessert | Cache | (direct commit `64a9ae4`) | v1.9.0 | Weniger Overfetch bei Warmup |
+| 4 | **AdaLoRA + Multi-Adapter** — Importance-basiertes Rank-Pruning, `LoRAAdapterMerger` mit TIES-Merging und Power-Iteration-SVD | Training | [#4405](https://github.com/makr-code/ThemisDB/pull/4405) | v1.9.0 | LoRA Memory-Footprint reduziert, Merge ohne separaten Checkpoint |
+| 5 | **DiskANN / MRL-Truncation** — Matryoshka Representation Learning für mehrstufige ANN-Retrieval-Pipeline | Index | [#4399](https://github.com/makr-code/ThemisDB/pull/4399) | v1.9.0 | Ersten Stage mit 64-dim statt 1536-dim → ≥10× weniger FLOPS in Stage 1 |
+
+---
+
+### 37.2 v1.8.0 – Maßnahmen
+
+| # | Maßnahme | Modul | PR | Version | Messbare Wirkung |
+|---|----------|-------|----|---------|-----------------|
+| 6 | **SIMD-Vektorisierung AVX-512 + ARM NEON** — Aggregations- und Distanz-Kernels mit AVX-512-Intrinsics, ARM NEON-Fallback; CPUID-Check gecacht (static const) | Analytics | [#4317](https://github.com/makr-code/ThemisDB/pull/4317) | v1.8.0 | Benchmark-Ziel: ≥4 GB/s auf Cortex-A78; AVX-512 check: O(1) statt O(n) |
+| 7 | **Predictive Prefetcher (ML-basiertes Zugriffsmuster-Modell)** — Erkennt wiederkehrende Zugriffsmuster und löst Prefetch vor dem Cache-Miss aus | Cache / Performance | [#4293](https://github.com/makr-code/ThemisDB/pull/4293) | v1.8.0 | Ziel: Cache-Miss-Rate −20 % bei sequenziellen Workloads |
+| 8 | **Intelligent Prefetching System** — Zweite Prefetch-Schicht mit konfigurierbarem Lookahead, adaptive Prefetch-Tiefe | Performance | [#4257](https://github.com/makr-code/ThemisDB/pull/4257) | v1.8.0 | Ziel: Prefetch-Overfetch ≤10 % |
+| 9 | **Query Compilation & JIT** — `AdaptiveQueryCompiler` mit JIT-Codegen-Pfad, Expressions zu nativer Code kompiliert | Query | [#4246](https://github.com/makr-code/ThemisDB/pull/4246) | v1.8.0 | Ziel: AQL-Parse+Execute P99 ≤ 2 ms; JIT-Erstcompilierung ≤ 50 ms |
+| 10 | **Parallel Query Execution (Intra-Query)** — Parallele Ausführung unabhängiger Query-Teilpläne via Thread-Pool | Query | [#4211](https://github.com/makr-code/ThemisDB/pull/4211) | v1.7.0 | Ziel: multi-core Skalierung für OLAP-Queries |
+| 11 | **Parallel `translateBatchNLToAQL()`** — Bounded-Worker-Pool + `std::async`-Semaphor-Throttle für NL→AQL-Batch-Übersetzungen | AQL | [#4221](https://github.com/makr-code/ThemisDB/pull/4221) | v1.7.0 | Batch-Throughput proportional zu Worker-Count |
+| 12 | **Write-Optimized Merge (WOM) Tree** — LSM-Tree-Optimierungen: Delayed Compaction, Tiered-Merge-Policy, Write-Stall-Prävention | Storage | [#4204](https://github.com/makr-code/ThemisDB/pull/4204) | v1.8.0 | Ziel: Write-Amplification <1.5×; WAL OFF: 507 k ops/s @ 8 Threads |
+| 13 | **Write Batching & Coalescing** — Transaktions-Batcher mit konfigurierbarem Fenster 1–100 ms, adaptive Batch-Größe | Transaction | [#4335](https://github.com/makr-code/ThemisDB/pull/4335) | v1.8.0 | Konfigurierbar 1–100 ms Batch-Fenster; adaptive ±10 % |
+| 14 | **Optimistic Concurrency Control (OCC)** — Conflict-Detection-Phase nach Lese-Phase, Retry-Backoff, Deadlock-Watchdog | Transaction | [#4264](https://github.com/makr-code/ThemisDB/pull/4264) | v1.8.0 | OCC Commit P50: 100 µs, P99: 5 ms; Deadlock-Overhead: 1 % |
+| 15 | **Index-Kompression** — Delta-, Prefix-, RLE-, Dictionary-, Bloom-Filter-Encoding für B-Tree/sekundäre Indizes | Index | [#4226](https://github.com/makr-code/ThemisDB/pull/4226) | v1.7.0 | Index-Größe −40–60 % (dokumentiert); Lookup-Latenz unverändert |
+| 16 | **Cache Warmup Parallel Bulk-Load** — `warmupParallelBulkLoad()` mit konfigurierbaren Worker-Threads | Cache | [#4250](https://github.com/makr-code/ThemisDB/pull/4250) | v1.8.0 | Warmup-Throughput: Ziel ≥500 k Entries/s |
+| 17 | **zlib → ZSTD Migration** — StreamWriter-Kompression vollständig auf ZSTD Level 3 umgestellt | Exporters | [#4252](https://github.com/makr-code/ThemisDB/pull/4252) | v1.8.0 | ZSTD: −30–50 % Datenvolumen vs. zlib bei vergleichbarer Latenz |
+| 18 | **Wire Protocol Performance** — TCP-Framing optimiert, Zero-Copy-Payload-Transfer, Keep-Alive-Pooling | Network | [#4214](https://github.com/makr-code/ThemisDB/pull/4214) | v1.7.0 | Ziel: ≥100 k req/s/Core (128 B, kein TLS) |
+| 19 | **Arrow Zero-Copy IPC + OLAP LRU-Cache** — Apache Arrow Record-Batch für spaltenweisen Zero-Copy-Transfer; OLAP-Ergebnis-Cache mit TTL und LRU-Eviction | Analytics | [#4328](https://github.com/makr-code/ThemisDB/pull/4328) | v1.8.0 | Zero-Copy: kein Memcpy bei OLAP-Ausgabe; LRU: Wiederholte Queries aus Cache |
+| 20 | **Memory Pool Allocator (Hot Analytics)** — `slab`-basierter Pool für kurzzeitige Analytics-Allocations auf kritischen Pfaden | Analytics | [#4311](https://github.com/makr-code/ThemisDB/pull/4311) | v1.8.0 | Reduziert Allocator-Contention auf Hot-Paths; jemalloc-freundlich |
+| 21 | **SAGA Orchestrator (DAG-Parallelausführung)** — Parallele Kompensations-Ausführung via topologisch sortiertem DAG | Transaction | [#4305](https://github.com/makr-code/ThemisDB/pull/4305) | v1.8.0 | SAGA Compensation Time: 20 ms Ziel; parallelisierte Steps |
+| 22 | **Read-Only Transaction Optimization** — Skip-Lock-Pfad für reine Lese-Transaktionen, kein Snapshot-Overhead | Transaction | (direct commit `d5eddfb`) | v1.8.0 | Lese-Transaktionen: kein 2PC-Overhead |
+| 23 | **SLO Monitor Latency Percentile Tracking** — P50/P95/P99-Histogramm mit konfigurierbaren Schwellwert-Alerts | Cache / Observability | [#4329](https://github.com/makr-code/ThemisDB/pull/4329) | v1.8.0 | Echtzeit-Regression-Erkennung; CI-Gate blockiert bei P99 >20 % über Baseline |
+| 24 | **DiffEngine::computeDiff() + Cache-Stampede-Fix** — O(N)-Changefeed-Scan durch Diff-Cache ersetzt; Cache-Stampede durch Single-Fetch-Lock | Analytics / Cache | [#4325](https://github.com/makr-code/ThemisDB/pull/4325) | v1.8.0 | Changefeed-Scan: O(N) → O(1) für gecachte Diffs |
+| 25 | **Perceptual Hashing Deduplication** — pHash-basierte Bild-Deduplizierung mit Hamming-Distance-Index | Content | [#4331](https://github.com/makr-code/ThemisDB/pull/4331) | v1.8.0 | Speichereinsparung durch Dedup; kein Re-Embedding für Duplikate |
+| 26 | **CUDA k>kMaxK Silent-Clamping entfernt** — `kMaxK` auf 1024 erhöht mit dynamischem Shared Memory; kein silentes Trunkieren mehr | Acceleration | [#4320](https://github.com/makr-code/ThemisDB/pull/4320) | v1.8.0 | CUDA Shared Memory: ≤32 KB bei k=1024 laut Ziel-Spec |
+| 27 | **VLLMResourceManager Multi-GPU NVML-Monitoring** — Per-GPU Memory/Utilization-Monitoring via NVML; CPU-Snapshot-Cache 200 ms TTL | Acceleration | [#4318](https://github.com/makr-code/ThemisDB/pull/4318) | v1.8.0 | getStats()-Latenz: <2 ms (gecacht) statt NVML-Call auf Hot-Path |
+| 28 | **BackendRegistry Thread-Safe Read-Access** — Dedizierter Read-Lock-Pfad ohne Writer-Contention | Acceleration | [#4321](https://github.com/makr-code/ThemisDB/pull/4321) | v1.8.0 | Concurrent Registry-Lookups ohne Mutex-Bottleneck |
+| 29 | **LLMProcessAnalyzer O(1) LRU-Cache-Eviction unter Lock** — `std::list`-basierter LRU statt O(N)-Scan | LLM | [#4322](https://github.com/makr-code/ThemisDB/pull/4322) | v1.8.0 | Eviction: O(N) → O(1) |
+| 30 | **LoRA Adapter Hot-Loading** — Adapter laden ohne Neustart; `unique_lock` für thread-sicheres Hot-Swap | LLM / Training | [#4333](https://github.com/makr-code/ThemisDB/pull/4333) | v1.8.0 | Ziel: ≤5 s Wall-Clock für 7B-Modell, Rank 64, 16-bit |
+| 31 | **Logical Replication Parallel Decoding** — WAL-Decoder mit parallelisierten Decode-Threads | Replication | (direct commit `02ecdca`) | v1.8.0 | Replication WAL-Shipping Throughput-Ziel: ≥500 MB/s/Follower |
+| 32 | **Distributed Analytics Sharding – gecachter Health-State** — `getHealthyShardCount()` ohne Network-I/O unter Lock | Sharding | [#4324](https://github.com/makr-code/ThemisDB/pull/4324) | v1.8.0 | Shard-Health-Lookup: O(1) aus Cache statt synchroner RPC |
+| 33 | **Lock-Free L1 Cache Read-Path** — Migration L1-Lese-Pfad auf `std::atomic` ohne Mutex | Cache | (direct commit `a95475d`) | v1.8.0 | L1 Read Hot-Path: mutex-frei → Ziel ≥5 M ops/s/Core |
+| 34 | **Geo DBSCAN / k-Means GPU** — DBSCAN und k-Means mit GPU-Beschleunigung für große Punkt-Mengen | Geo | [#4298](https://github.com/makr-code/ThemisDB/pull/4298) | v1.8.0 | DBSCAN GPU Speedup: >100× vs. CPU (100K Punkte) |
+| 35 | **Distributed Ingestion Coordinator** — Mehrstufige Ingestion-Pipeline mit Retry-Quarantäne und parallelen S3-Downloads | Ingestion | [#4309](https://github.com/makr-code/ThemisDB/pull/4309) | v1.8.0 | S3 concurrent: ≥200 MB/s agg. (4 parallel, 10 Gbps) |
+| 36 | **Incremental View Lock-Free Apply** — `applyChanges()` ohne globalen Write-Lock für inkrementelle Materialized-View-Updates | Analytics | [#4316](https://github.com/makr-code/ThemisDB/pull/4316) | v1.8.0 | IVM Delta-Application: ≤50 ms (10k Rows) |
+| 37 | **StreamingWindow konfigurierbare Expiry-Poll-Intervalle** — Kein Busy-Wait; konfigurierbare Sleep-Dauer für Expiry-Worker | Analytics | [#4327](https://github.com/makr-code/ThemisDB/pull/4327) | v1.8.0 | CPU-Idle beim Streaming-Worker signifikant reduziert |
+
+---
+
+### 37.3 v1.7.0 – Maßnahmen
+
+| # | Maßnahme | Modul | PR | Version | Messbare Wirkung |
+|---|----------|-------|----|---------|-----------------|
+| 38 | **CUDA ANN-Kernel-Vollimplementierung** — Fused-Cosine-Kernel + Shared-Memory Top-K-Helper; HIP/RCCL `mergeTopK` für Multi-GPU | Acceleration | [#4193](https://github.com/makr-code/ThemisDB/pull/4193) | v1.7.0 | mergeTopK <500 µs (worldSize=4, k=100, NVLink-3) |
+| 39 | **GPU Hardware Support Gaps** — HIP Top-K-Heap, CUDA HNSW Bitset, NCCL/RCCL `mergeTopK` | Acceleration | (direct commit `73d8f8a`) | v1.7.0 | Bitset-Optimierung: 8× Memory-Reduktion (5 GB → 640 MB) |
+| 40 | **TSStore Single-Point Insert Buffering (Gorilla)** — In-Memory-Buffer vor Gorilla-Kompressionsflush; kein WAL-Write per Punkt | Timeseries | (direct commit `822b0af`) | v1.7.0 | Ziel: >500 k pts/s (von ~200 k pts/s); Buffer-to-Storage Flush P99 <10 ms |
+| 41 | **AdaptiveQueryCompiler Audit-Gaps** — Lücken in Compiler-Pipeline geschlossen (Issue #86) | Query | (direct commit `2efe683`) | v1.7.0 | Compiler-Regression-Gate: ≤5 % |
+| 42 | **HardwareAccelerator v1.8.0** — CPU-affinity-basierte NUMA-Zuweisung, GPU-Backend-Selection | Performance | (direct commit `139f96c`) | v1.7.0 | NUMA-lokale Allokation; reduzierten Cross-Socket-Traffic |
+
+---
+
+### 37.4 v1.6.0 und früher
+
+| # | Maßnahme | Modul | PR | Version | Messbare Wirkung |
+|---|----------|-------|----|---------|-----------------|
+| 43 | **GPU-Acceleration Multi-Tenancy** — Erste GPU-Backend-Integration, CUDA-Kernel-Grundgerüst | Acceleration | [#44](https://github.com/makr-code/ThemisDB/pull/44) | früh | GPU-Backend-Grundlage |
+| 44 | **Hardware Acceleration Support** — CPU AVX2-Baseline, erste Vektoroperationen | Acceleration | [#30](https://github.com/makr-code/ThemisDB/pull/30) | früh | CPU AVX2-Baseline für Benchmarks |
+| 45 | **Benchmark-Datenbank-Tests** — Erste Google-Benchmark-Targets, Baseline für spätere Regression-Tests | Benchmarks | [#54](https://github.com/makr-code/ThemisDB/pull/54) | früh | Benchmark-Infrastruktur aufgebaut |
+| 46 | **Benchmarks-Repository-Erweiterung** — Neue Bench-Targets für Vektor-, Timeseries-, Graph-Operationen | Benchmarks | [#33](https://github.com/makr-code/ThemisDB/pull/33) | früh | Benchmark-Coverage auf 9 Module erweitert |
+| 47 | **Lossless Compression-Methoden (Research)** — Evaluierung LZ4 vs. Zstd vs. Snappy → Entscheidung für Zstd | Storage | [#70](https://github.com/makr-code/ThemisDB/pull/70) | früh | Grundlage für PR #4252 (Zstd-Migration) |
+| 48 | **OpenCL Erasure Coder** — GF(2^8)-Arithmetik-basiertes Reed-Solomon Encode/Decode/BatchEncode | Sharding | (direct commit `dc202ef`) | v1.7.0 | GPU Reed-Solomon: >4 GB/s Ziel (NVIDIA A10) |
+
+---
+
+### 37.5 Offene / Geplante Performance-Maßnahmen (noch nicht umgesetzt)
+
+| # | Geplante Maßnahme | Modul | Ziel-Metrik | Ziel-Version |
+|---|-------------------|-------|-------------|--------------|
+| P-1 | **Gorilla Decode AVX-optimierung** — SIMD-Decode-Pfad für Gorilla-Kompression | Timeseries | >2 GB/s (von ~400 MB/s) | Q3 2026 |
+| P-2 | **SecondaryIndex Batch-Transaktionen** — Mehrere `put()`-Aufrufe in einer Transaktion bündeln | Index / Storage | 1.78 M/s wiederherstellen (von 217 k/s) | Q2 2026 |
+| P-3 | **CUDA Geospatial Distanz-Kernels** — WGS84-Haversine und Point-in-Polygon auf GPU | Geo | GPU Contains 1M Punkte <50 ms (A10G) | Q3 2026 |
+| P-4 | **Vector Insert Throughput** — HNSW-Build-Parallelisierung, Segment-basiertes Insert | Index | 600 k/s (FAISS-Parität) | Q3 2026 |
+| P-5 | **1 MB Blob Write-Throughput** — Async WAL + Background Flush | Storage | ≥100 k ops/s (von 741 ops/s) | Q2 2026 |
+| P-6 | **Concurrent Concurrency-Stabilisierung** — CV-Reduktion bei 10-Client-Lasttest | Storage | CV <5 % (von 20.74 %) | Q2 2026 |
+| P-7 | **2PC Throughput-Steigerung** — Pipelined 2PC (Phase 1+2 überlappend) | Transaction | 15 k/s (TiDB-Parität) | Q3 2026 |
+| P-8 | **Query Engine vs. ClickHouse** — Columnar SIMD Aggregation, Vectorized Scan | Query | 1.2 G items/s | Q4 2026 |
+| P-9 | **TLS 1.3 Session Resumption** — TLS-Session-Ticket-Cache | Network | <1 ms P99 | Q2 2026 |
+| P-10 | **QUIC 0-RTT** — QUIC-Transport für LAN-Kommunikation | Network | <2 ms P99 | Q3 2026 |
+
