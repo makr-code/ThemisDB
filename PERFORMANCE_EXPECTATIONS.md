@@ -1324,3 +1324,535 @@
 | v1.3.3 | 2025-11-30 | 800 | 340 | 215 | – | – | 780 | Parallelization + Advanced Patterns |
 | **v1.3.4** | 2025-12-29 | **814.5** | **351.4** | **217.2** | **155.8 M/s** | **6.4 k** | **1078** | Neu: Cache, 2PC, Hybrid Search |
 
+
+---
+
+## 39. API- und Schnittstellen-Performance-Annahmen (aus `src/` extrahiert)
+
+> Quellen: FUTURE_ENHANCEMENTS.md, ROADMAP.md, README.md der jeweiligen Module unter `src/`.  
+> Typ-Legende: **[Z]** = Ziel/Target (noch nicht gemessen), **[M]** = gemessener Wert, **[I]** = Implementiert/bestätigt
+
+---
+
+### 39.1 API-Modul (`src/api/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| `IHttpHandler::handle()` Dispatch-Overhead (Router-Lookup + Invocation) | ≤ 5 µs / Req @ 10k RPS | [Z] | FUTURE_ENHANCEMENTS.md L80 |
+| `IGraphQLSchemaBuilder` Type-Lookup (Query-Planning) | ≤ 1 µs / Field-Resolution | [Z] | FUTURE_ENHANCEMENTS.md L81 |
+| WebSocket Frame-Dispatch via `IWebSocketFrameCallback` | ≤ 10 µs / Frame | [Z] | FUTURE_ENHANCEMENTS.md L82 |
+| `IAPIVersionRouter::route()` Version-Extraktion + Handler-Auflösung | ≤ 2 µs | [Z] | FUTURE_ENHANCEMENTS.md L83 |
+| `ICorrelationIDProvider::generate()` UUID-Generierung | ≤ 500 ns / Call | [Z] | FUTURE_ENHANCEMENTS.md L84 |
+| `IGRPCBridge::dispatch()` Protobuf→Internal-Konvertierung | ≤ 20 µs / RPC-Call | [Z] | FUTURE_ENHANCEMENTS.md L85 |
+| GraphQL parse + validate + execute (10-Feld-Query, 500 concurrent HTTP/2) | < 2 ms p99 | [Z] | README.md L56, FE L50 |
+| GraphQL parse+execute aktuell (Schätzung) | ~5 ms | [M est.] | FUTURE_ENHANCEMENTS.md L260 |
+| gRPC unary `GetDocument` Added-Latency vs. äquivalentem REST-Call | < 1 ms | [Z] | README.md L73, FE L135 |
+| WebSocket Event-Delivery-Latenz (Changefeed→Frame) | < 50 ms | [Z] | FUTURE_ENHANCEMENTS.md L51 |
+| WebSocket Frame-Delivery p99 @ 5 000 events/s | < 30 ms | [Z] | FUTURE_ENHANCEMENTS.md L87 |
+| Bulk-Insert 10 000 256-Byte-Dokumente (ohne Netzwerk) | < 500 ms | [Z] | FUTURE_ENHANCEMENTS.md L105 |
+| SSE Streaming First-Byte-Latenz (nach Query-Planning) | < 5 ms | [Z] | FUTURE_ENHANCEMENTS.md L106 |
+| Middleware-Overhead (UUID + Thread-Local Write) | < 10 µs / Req | [Z] | README.md L115, FE L154 |
+| OTLP Span-Enqueue (Hot-Path, single lock + push_back) | < 500 ns / Span | [Z] | FUTURE_ENHANCEMENTS.md L172 |
+| OTLP Flush (64 Spans → lokaler OTLP-Collector, persistent conn) | < 5 ms | [Z] | FE L173 |
+
+---
+
+### 39.2 gRPC/RPC-Modul (`src/rpc_grpc/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| gRPC Health-Check (`SERVING`) nach `start()` | Sofort, `grpc_health_probe` exit 0 | [I] | FE L24–25 |
+| gRPC Prometheus-Histogramm Latency (per method) | verfügbar unter `/metrics` | [Z] | FE L45 |
+| TLS-Zertifikat Hot-Rotation (neue Connections) | ≤ 1 Verbindung mit altem Cert | [Z] | FE L96 |
+| QUIC/HTTP3 Verbindungsaufbau (0-RTT Resumption) | Ziel: < 2 ms p99 | [Z] | FE L11 |
+| gRPC Transport Port 8771 (bidirektionales Streaming) | standard | [I] | FE L12 |
+
+---
+
+### 39.3 Network-Modul (`src/network/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| TCP Accept | 1–5 ms | [M] | README.md L1052 |
+| TLS 1.3 Handshake (neue Verbindung) | 10–50 ms (README); < 5 ms p99 (ROADMAP) | [M]/[Z] | README.md L1053, FE L288 |
+| TLS 1.3 Session Resumption | < 1 ms p99 | [Z] | FE L288 |
+| Frame Read/Write (Zero-Copy) | 100–500 µs | [M] | README.md L1054 |
+| Connection Pool Acquire (Lock-Free Fast-Path) | 10–100 µs | [M] | README.md L1055 |
+| Keep-Alive Check | 1–10 ms (alle 60 s) | [M] | README.md L1056 |
+| Circuit-Breaker Check | ~1 µs (Lock-Free Atomic) | [M] | README.md L1057 |
+| Wire-Protocol Round-Trip p99 (≤ 64 KiB Payload) | < 1 ms | [Z] | ROADMAP.md L66 |
+| WebSocket Text-Frame Round-Trip (localhost) | < 2 ms p99 | [Z] | FE L289 |
+| QUIC 0-RTT Verbindungsaufbau | < 2 ms p99 | [Z] | FE L290 |
+| UDP Fast-Path GET Response (localhost) | < 500 µs p99 | [Z] | FE L291 |
+| DPDK Kernel-Bypass Latenz | 1–10 µs | [Z] | FE L284 |
+| DPDK Throughput | 100 Gbps | [Z] | FE L284 |
+| io_uring Latenz | 10–50 µs | [Z] | FE L285 |
+| io_uring Throughput | 10 Gbps | [Z] | FE L285 |
+
+---
+
+### 39.4 Server-Modul (`src/server/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| HTTP/1.1 Keep-Alive Sustained Throughput (4-Core, 1 KB Payload) | ≥ 50 000 req/s | [Z] | FE L1083 |
+| p50 Latenz | ≤ 5 ms | [Z] | FE L1084, ROADMAP L26 |
+| p99 Latenz @ 80 % CPU | ≤ 50 ms | [Z] | FE L1084, ROADMAP L26 |
+| TLS 1.3 Handshake (ECDSA P-256, Commodity HW) | ≤ 2 ms | [Z] | FE L1086 |
+| Rate-Limiter State Sync (Distributed Token Bucket) | ≤ 10 ms Propagation Delay | [Z] | FE L18, ROADMAP L54 |
+| Redis Round-Trip (Rate-Limit Check, same LAN) | ≤ 5 ms p99 | [Z] | ROADMAP L57 |
+| Rate-Limit Throughput per Node | ≥ 50 000 checks/s | [Z] | ROADMAP L57 |
+| Raft Config Propagation (5 Nodes, LAN) | ≤ 100 ms | [Z] | ROADMAP L65 |
+| Leader Failover via `leader_failover_timeout` | ≤ 500 ms | [I] | FE L172 |
+| JWT Validation Overhead | 100–500 µs / Req | [M] | README.md L1346 |
+| Auth Middleware p50/p99 | < 100 µs / < 500 µs | [Z] | README.md L1313 |
+| Rate Limiter p50/p99 | < 50 µs / < 200 µs | [Z] | README.md L1314 |
+| Entity CRUD p50/p99 | < 5 ms / < 50 ms | [Z] | README.md L1315 |
+| Query Execution (einfach) p50/p99 | < 10 ms / < 100 ms | [Z] | README.md L1316 |
+| Vector Search p50/p99 | < 10 ms / < 50 ms | [Z] | README.md L1317 |
+| Request Wall-Clock Timeout | 500 ms default → HTTP 504 | [I] | FE L130 |
+| Congestion p99 > 500 ms → Adaptive Rate Reduction | auf 50 % | [I] | FE L383 |
+| WASM Function CPU-Time Limit | 500 ms default | [Z] | ROADMAP L74 |
+
+---
+
+### 39.5 Query-Modul (`src/query/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| Parse + Optimize (≤ 10 Collections) | ≤ 5 ms p99 | [Z] | ROADMAP L198, FE L1393 |
+| Simple AQL Execution (3-Node Cluster, warm Cache) | ≥ 10 000 queries/s @ p99 < 20 ms | [Z] | ROADMAP L199, FE L1394 |
+| Exact-Match Cache Lookup (10 000 Concurrent Clients) | ≤ 1 ms p99 | [Z] | ROADMAP L200, FE L1395 |
+| Semantic Cache Lookup (inkl. Embedding-Similarity) | ≤ 10 ms p99 | [Z] | FE L1396 |
+| JIT First-Compile Latenz | ≤ 50 ms | [Z] | FE L1397 |
+| JIT Execution Speedup (Arithmetic-Heavy) | ≥ 3× vs. Interpreter | [Z] | FE L1397 |
+| Federation Cost-Schätzung (5-Cluster-Plan) | ≤ 20 ms | [Z] | FE L1398 |
+| Streaming Result First-Chunk | ≤ 50 ms | [Z] | ROADMAP L201, FE L1399 |
+| Query Cancellation (Memory + Locks freigegeben) | innerhalb 100 ms nach Signal | [Z] | FE L1408 |
+| Optimizer `optimize()` (einfach, 1–2 Prädikate) | 0.1–5 ms | [M] | README.md L185 |
+| Optimizer `optimize()` (komplex, 10+ Prädikate) | 5–50 ms | [M] | README.md L186 |
+| Simple Query Execution (1–2 Prädikate) | 1–10 ms | [M] | README.md L256 |
+| Complex Query (5–10 Prädikate, Joins) | 10–100 ms | [M] | README.md L257 |
+| Graph Traversal (Depth 3–5) | 50–500 ms | [M] | README.md L258 |
+| Hybrid Query (Vector+Geo) | 10–50 ms | [M] | README.md L259 |
+| Fan-Out Latenz (16 Shards, LAN) | ≤ 200 ms | [Z] | ROADMAP L91 |
+
+---
+
+### 39.6 AQL-Modul (`src/aql/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| Lexer Tokenisierung | ≥ 50 MB/s / Core (ASCII) | [Z] | FE L14, L772 |
+| Parser AST-Konstruktion (64 KB Query) | ≤ 10 ms | [Z] | FE L15, L773 |
+| Full Round-Trip (parse + execute, 10-Table-Join, 100k Rows) | ≤ 500 ms | [Z] | FE L774 |
+| LLM Command Async-Dispatch (ohne Inferenz) | ≤ 5 ms / Command | [Z] | FE L775 |
+| Query Optimizer Rewrite Pass | ≤ 2 ms / 1000 AST-Nodes | [Z] | FE L776 |
+| Batch NL→AQL (10 Requests, mock LLM 50 ms, concurrency ≥ 4) | ≤ 150 ms Wall-Time | [I] | FE L159, L778 |
+| AQL Validation Overhead | ≤ 1 ms / Generated Query | [Z] | FE L60 |
+| Timeout-Thread Terminierung nach `executeWithTimeout()` | innerhalb `timeout + 500 ms` | [Z] | FE L788 |
+| `push()` / `nextToken()` Overhead (ohne Modell-Generierung) | ≤ 500 ns | [Z] | ROADMAP L46 |
+| Tool-Dispatch-Overhead (ohne Tool-Ausführung) | ≤ 1 ms / Step | [Z] | ROADMAP L55 |
+
+---
+
+### 39.7 Cache-Modul (`src/cache/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| Prefetch Prediction Latenz | ≤ 100 µs / Call | [Z] | FE L102 |
+| L3 Cache Hit-Path (RocksDB-backed) | ≤ 5 ms p99 | [Z] | FE L161 |
+| Admin API Response | ≤ 5 ms unabhängig von L1-Cache-Größe | [Z] | FE L163 |
+| Redis-Async Peer-Discovery (libuv-backed) | non-blocking | [I] | FE L82 |
+| Distributed Cache Invalidation (alle Nodes) | propagiert innerhalb 500 ms | [Z] | FUTURE_ENHANCEMENTS core L572 |
+| Distributed Cache `get` Round-Trip (Redis localhost) | ≤ 1 ms p99 | [Z] | core FE L582 |
+
+---
+
+### 39.8 Replication-Modul (`src/replication/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| Replication Lag p99 (SEMI_SYNC, 3-Node LAN, 10k writes/s) | ≤ 50 ms | [Z] | FE L17, L841 |
+| WAL-Shipping Throughput / Follower (Zstd Level 3, 10 GbE) | ≥ 500 MB/s | [Z] | FE L18, L842 |
+| Vector-Clock / HLC Conflict-Detection Overhead | < 5 µs / Write-Op | [Z] | FE L20, L844 |
+| CRDT Merge Latenz (G-Counter / LWW-Register) | ≤ 1 µs / Merge | [Z] | FE L845 |
+| Point-in-Time Recovery WAL Replay | ≥ 200 MB/s; 100 GB in ≤ 10 min | [Z] | FE L846 |
+| CDC Event Emission (Commit → Queue Enqueue) | ≤ 1 ms p99 | [Z] | FE L847 |
+| Cross-Datacenter Replication Lag (ASYNC, 50 ms RTT WAN) | ≤ 200 ms p99 | [Z] | FE L848 |
+| Async Mode Latenz | < 1 ms | [M] | README.md L952 |
+| Semi-Sync Mode Latenz | 1–5 ms | [M] | README.md L953 |
+| Sync Mode Latenz | 2–10 ms | [M] | README.md L954 |
+| Tier 1 Critical SLA (SYNC, 3+ Replicas) | ≤ 10 ms | [Z] | ROADMAP L194 |
+| Tier 2 Standard SLA (SEMI_SYNC, 2 Replicas) | ≤ 50 ms | [Z] | ROADMAP L194 |
+| WAL Append Throughput | > 50 000 entries/s | [I] | ROADMAP L242 |
+| WAL `readFrom` 1000 Entries | < 5 ms | [I] | ROADMAP L242 |
+| WAL Serialize/Deserialize | < 2 µs | [I] | ROADMAP L242 |
+
+---
+
+### 39.9 Storage-Modul (`src/storage/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| Point Read (Cache Hit) | 10–50 µs | [M] | ARCHITECTURE.md L189, README.md L107 |
+| Point Read (Cache Miss / Disk) | 100–500 µs | [M] | ARCHITECTURE.md L189, README.md L675 |
+| Hot-Tier (NVMe) | < 1 ms | [Z] | FE Storage |
+| Warm-Tier (SATA) | ~5 ms | [Z] | FE Storage |
+| Cold-Tier (S3) | ~50 ms | [Z] | FE Storage |
+| Sustained Write Throughput (NVMe, 256er Batch, 4 KB avg) | ≥ 100 000 ops/s | [Z] | FE L738 |
+| p99 Point-Read (Hot-Tier, Bloom-Filter enabled) | ≤ 1 ms | [Z] | FE L739 |
+| Incremental Backup Throughput (NVMe, parallel SSTable) | ≥ 500 MB/s | [Z] | FE L740 |
+| Streaming Ingest End-to-End Latenz | ≤ 50 ms | [Z] | FE general |
+| Streaming Ingest Throughput | 1 M events/s | [Z] | FE general |
+| Erasure Coding 6+3 Overhead | 50 % (vs. RAID-1 200 %) | [Z] | FE general |
+| RocksDB WriteBatch Commit Latenz (Vector Add) | < 2 ms p99 | [Z] | index FE L970 |
+
+---
+
+### 39.10 CDC-Modul (`src/cdc/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| Sequence Generation Throughput (8 Writer-Threads) | ≥ 200 k/s | [I] | FE L405 — Lock-free `atomic<uint64_t>` |
+| Event Delivery p99 (Changefeed → WebSocket Frame) | < 20 ms | [Z] | FE L334 |
+| Consumer Group Offset Commit (RocksDB Write) | < 1 ms p99 | [Z] | FE L365 |
+| End-to-End Latenz (Change → Kafka `ack`, LAN) | < 10 ms p99 | [Z] | FE L387 |
+| Compaction I/O Bandwidth Cap | 50 MB/s (konfigurierbar) | [Z] | FE L425 |
+| SSE Event Delivery p99 (aktuell) | < 50 ms (Schätzung) | [M est.] | FE L461 |
+
+---
+
+### 39.11 Sharding-Modul (`src/sharding/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| Cross-Shard RPC p99 (LAN, ohne Consensus) | < 5 ms | [Z] | FE L85 — aktuell ~18 ms |
+| Cross-Shard RPC aktuell (gemessen) | ~18 ms | [M] | FE L179 |
+| 2PC Commit (5 Shards) aktuell | ~35 ms | [M] | FE L180 |
+| 2PC Commit Ziel (5 Shards) | < 15 ms | [Z] | FE L180 |
+| Percolator Commit (10 Shards) | < 20 ms p99 | [Z] | FE L104, L181 |
+| Topology Change Propagation (100-Node Cluster) | ≤ 500 ms | [Z] | FE L13, L255 — aktuell ~1.2 s |
+| Topology Change aktuell (gemessen) | ~1.2 s | [M] | FE L184 |
+| Anti-Entropy Scan Throughput (NVMe, 8 Workers) | > 1 GB/s / Node | [Z] | FE L141 |
+| GPU Reed-Solomon Reconstruction | > 4 GB/s (NVIDIA A10) | [Z] | FE L142 |
+| Lagging Replica Catch-Up (Snapshot, 10 GbE) | > 200 MB/s | [Z] | FE L162 |
+| `replaceEndpoint()` (In-Memory, kein etcd Write) | < 1 ms | [Z] | FE L253 |
+| `replaceEndpoint()` (mit etcd Write) | < 10 ms | [Z] | FE L253 |
+| `NodeIdentity::loadFrom()` (NVMe, ~200 Bytes) | < 5 ms | [Z] | FE L254 |
+| Shard Split Migration Read-Unavailability | 0 ms (Dual-Write) | [Z] | FE L122 |
+
+---
+
+### 39.12 Search-Modul (`src/search/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| Hybrid Search (BM25 + HNSW RRF, Top-10, 10 M Docs) | ≤ 20 ms p99 | [Z] | FE L471 |
+| LLM Query-Rewriter Overhead | ≤ 200 ms Added Latency p99; 0 ms wenn LLM unavailable | [Z] | FE L471 |
+| Facet Counting (1 000 Werte, 100k Docs) | ≤ 5 ms | [Z] | FE L472 |
+| LTR Re-Ranking (Top-100, 6-dim Linear Model) | ≤ 2 ms | [Z] | FE L473 |
+| Autocomplete Suggestion (1 M-Term Dictionary) | ≤ 5 ms p99 | [Z] | FE L475 |
+| BM25/FTS Query Latenz | 1–10 ms | [M] | README.md L113 |
+| Vector Search Query Latenz | 1–10 ms (k=10, 1M vectors) | [M] | README.md L119 |
+| Hybrid Search Query Latenz | 5–20 ms | [M] | README.md L125 |
+
+---
+
+### 39.13 Security-Modul (`src/security/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| AES-256-GCM Encrypt/Decrypt Throughput (AES-NI, 1 Core) | ≥ 1 GB/s | [Z] | FE L967, ROADMAP L130 |
+| RSA-4096 Signature Verification | p99 ≤ 5 ms | [Z] | FE L968 |
+| Kyber-1024 Key Encapsulation | ≥ 2 000 ops/s | [Z] | FE L969, ROADMAP L132 |
+| Dilithium-5 Signing | ≥ 1 000 ops/s | [Z] | FE L970, ROADMAP L133 |
+| TLS 1.3 Handshake (ECDHE-AES256-GCM) | p99 ≤ 10 ms | [Z] | FE L971 |
+| RBAC Policy Evaluation (≤ 100 Roles) | p99 ≤ 0.5 ms | [Z] | FE L972 |
+| HSM-backed RSA-2048 Sign (SoftHSM2 Baseline) | p99 ≤ 20 ms | [Z] | FE L973 |
+| Audit Log Tamper-Evident Append | p99 ≤ 2 ms / Entry | [Z] | FE L974, ROADMAP L136 |
+| Encryption Overhead / Feld (256-Byte Payload) | ~5–10 µs | [M] | README.md L194 |
+| Decryption Overhead / Feld | ~3–7 µs | [M] | README.md L195 |
+| Key Cache Lookup (In-Memory) | ~100 ns | [M] | README.md L196 |
+| Vault API Call (gecacht, 1 Std.) | ~50–100 ms | [M] | README.md L197 |
+| HSM Operation (Hardware) | ~5–20 ms | [M] | README.md L198 |
+| Document Insert mit Verschlüsselung | 1.4 ms (+16 % vs. plain) | [M] | README.md L859 |
+| Document Query mit Verschlüsselung | 1.1 ms (+37 % vs. plain) | [M] | README.md L860 |
+| Bulk Insert 1k Docs mit Verschlüsselung | 1050 ms (+23 % vs. plain) | [M] | README.md L861 |
+
+---
+
+### 39.14 Analytics-Modul (`src/analytics/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| IVM Delta-Application (≤ 10 000 Rows) | ≤ 50 ms | [Z] | FE L22, L32 |
+| IVM Reader p99 während 10k-Row-Batch-Apply | ≤ 10 ms | [Z] | FE L209 |
+| CSV Export 1 M Rows (Streaming, kein Full In-Memory) | ≤ 500 ms | [Z] | FE L81 |
+| CEP Engine `stop()` | ≤ 100 ms | [Z] | FE L104 |
+| CEP `process()` Lock-Hold-Dauer | ≤ 50 µs | [Z] | FE L130 |
+| IsolationForest Training (1000-Punkt-Window) | ≤ 10 ms | [Z] | FE L131 |
+| CEP p99 Latenz (8 Threads @ 100 kHz) | ≤ 1 ms | [Z] | FE L127 |
+| `putInCache()` / `getFromCache()` | O(1) amortisiert, ≤ 1 µs p99 (16 Concurrent) | [Z] | FE L236 |
+| `getCacheKey()` (500-Event Trace, Hash-basiert) | ≤ 50 µs | [Z] | FE L237 |
+| Einfache Aggregation SUM (1 M Rows) | 15 ms (66k rows/s) | [M] | README.md L1193 |
+| Einfache Aggregation SUM (10 M Rows) | 142 ms (70k rows/s) | [M] | README.md L1194 |
+| GROUP BY 1 Dim. (1 M Rows) | 45 ms (22k rows/s) | [M] | README.md L1195 |
+| GROUP BY 1 Dim. (10 M Rows) | 425 ms (23k rows/s) | [M] | README.md L1196 |
+| GROUP BY 3 Dim. (1 M Rows) | 120 ms (8.3k rows/s) | [M] | README.md L1197 |
+| Window Function ROW_NUMBER (1 M Rows) | 80 ms (12.5k rows/s) | [M] | README.md L1199 |
+| Window Function Moving Average (1 M Rows) | 95 ms (10.5k rows/s) | [M] | README.md L1200 |
+| Complex OLAP CUBE (1 M Rows) | 350 ms (2.8k rows/s) | [M] | README.md L1201 |
+| Complex OLAP ROLLUP (1 M Rows) | 280 ms (3.5k rows/s) | [M] | README.md L1202 |
+| SIMD SUM (10 M Rows) | 28 ms (5.1× Speedup vs. Scalar 142 ms) | [M] | README.md L1207 |
+| SIMD AVG (10 M Rows) | 35 ms (4.5× Speedup) | [M] | README.md L1208 |
+| SIMD MIN/MAX (10 M Rows) | 18 ms (6.9× Speedup) | [M] | README.md L1209 |
+| SIMD Complex Filter (10 M Rows) | 45 ms (4.7× Speedup) | [M] | README.md L1210 |
+| JSON Export (100k Rows) | 250 ms (400k rows/s, 45 MB) | [M] | README.md L1216 |
+| Fan-Out Latenz (16 Shards, LAN) | ≤ 200 ms | [Z] | ROADMAP L72 |
+| Model Export (≤ 1 M Samples) | ≤ 500 ms | [Z] | ROADMAP L86 |
+
+---
+
+### 39.15 Timeseries-Modul (`src/timeseries/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| Single-Point Insert p99 (Gorilla compressed) | ≤ 50 µs | [Z] | FE L39 |
+| Gorilla on-disk compression (1000 Punkte) | ≤ 15 % raw size | [Z] | FE L39 |
+| Gorilla Decode Throughput (aktuell) | ~400 MB/s | [M] | FE L153 |
+| Gorilla Decode Throughput (SIMD Ziel) | > 2 GB/s | [Z] | FE L59, L153 |
+| Range Scan 1 M Punkte float64 (aktuell) | ~300 ms | [M] | FE L154 |
+| Range Scan 1 M Punkte float64 (Ziel) | < 50 ms p99 | [Z] | FE L60, L154 |
+| Continuous Aggregate Refresh (aktuell) | ~5 s | [M] | FE L155 |
+| Continuous Aggregate Refresh (Ziel, 100k inserts/s) | < 500 ms / Aggregat / Minute | [Z] | FE L77, L155 |
+| Buffer-to-Storage Flush p99 | < 10 ms | [Z] | FE L114 |
+| AES-256-GCM Throughput / Core (AES-NI via OpenSSL EVP) | > 1 GB/s | [Z] | FE L135 |
+
+---
+
+### 39.16 Transaction-Modul (`src/transaction/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| Begin-Latenz | < 1 µs | [M] | README.md L130 |
+| Commit-Latenz (abhängig von Batch-Größe) | 100 µs–5 ms | [M] | README.md L130 |
+| Lock-Overhead / Lock-Acquire | ~5 ns (Atomics) | [M] | README.md L131 |
+| Deadlock-Detection Intervall (konfigurierbar) | 100 ms | [M] | README.md L132 |
+| Lock-Free Read (Fast-Path, kein Contention) | < 10 ns | [M] | README.md L820 |
+| Stats Collection / Operation | < 5 ns (Atomic Increment) | [M] | README.md L819 |
+| OCC Commit p50 → aktuell | 1 ms | [M] | FE L872 |
+| OCC Commit p99 → aktuell | 10 ms | [M] | FE L872 |
+| OCC Commit p50 → Ziel | 100 µs | [Z] | FE L872 |
+| OCC Commit p99 → Ziel | 5 ms | [Z] | FE L873 |
+| SAGA Compensation Time → aktuell | 100 ms | [M] | FE L875 |
+| SAGA Compensation Time → Ziel | 20 ms | [Z] | FE L875 |
+| Distributed 2PC Latenz → aktuell | 10 ms | [M] | FE L876 |
+| Distributed 2PC Latenz → Ziel | 5 ms | [Z] | FE L876 |
+| Batch Window (konfigurierbar) | 1–100 ms | [I] | FE L495 |
+| Retry-Kosten / Versuch | ~1 ms | [M] | FE L163 |
+| Deadlock-Watchdog Fallback-Timer | innerhalb 500 ms | [Z] | FE L938 |
+| Conflict Detection | ~1 ms / 1000 Keys | [M] | README.md L656 |
+
+---
+
+### 39.17 Index-Modul (`src/index/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| HNSW Vector Search (1M 128-dim, k=10) CPU | ≥ 5 000 QPS | [Z] | FE L964 |
+| HNSW Vector Search (1M 128-dim, k=10) GPU (RTX) | ≥ 50 000 QPS | [Z] | FE L964 |
+| B-Tree Secondary Index Point Lookup (10M Keys) | < 500 µs p99 | [Z] | FE L966 |
+| R-Tree Spatial Range Query (1M Punkte, 1 % Selectivity) | < 10 ms p99 | [Z] | FE L967 |
+| HNSW CPU Brute-Force Query (1M vectors) | 10–100 ms | [M] | README.md L882 |
+| HNSW CPU Query | 0.1–1 ms | [M] | README.md L883 |
+| HNSW GPU (Vulkan, Batch) | 0.01–0.1 ms | [M] | README.md L884 |
+| B-Tree Point Lookup (mit Cache) | 10–50 µs | [M] | README.md L298 |
+| R-Tree Bounding Box | 1–10 ms | [M] | README.md L487 |
+| R-Tree Radius Search | 1–20 ms | [M] | README.md L488 |
+| Generic Loop Scan | ~1 GB/s | [M] | FE L398 |
+| AVX-512 SIMD Scan (geplant) | ~50 GB/s | [Z] | FE L399 |
+
+---
+
+### 39.18 Geo-Modul (`src/geo/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| `intersects` (1M Punkte, linear) | ~2 000 ms | [M] | FE L210 |
+| `intersects` (1M Punkte, R-Tree) | ≤ 5 ms p99 | [Z] | FE L73, L210 |
+| ST_BUFFER (10k Punkte @ 500 m, CPU) | ≤ 200 ms | [Z] | FE L98, L212 |
+| ST_BUFFER (10k Punkte @ 500 m, A10G) | ≤ 20 ms (10× CPU) | [Z] | FE L352 |
+| GPU Contains (1M Punkte, A10G) | ≤ 50 ms | [Z] | FE L213 |
+| Spatial JOIN (2 × 100k Punkte, 1 km, erste 1000 Ergebnisse) | ≤ 500 ms | [Z] | FE L126 |
+| `sampleAt` (1M-Cell Grid) | ≤ 1 µs / Call | [Z] | FE L150 |
+| `queryBBox` (10k Cells aus 1M-Cell Grid) | ≤ 10 ms | [Z] | FE L151 |
+| `generateHeatmap` (100k Punkte, 100×100, 500 m BW) | ≤ 500 ms | [Z] | FE L152 |
+| Ellipsoidal ST_Distance (1M Paare, CPU) | ≤ 500 ms | [Z] | FE L275 |
+| Ellipsoidal ST_Distance (1M Paare, A10G) | ≤ 50 ms | [Z] | FE L276 |
+| ST_UNION (1000 Polygon-Paare, A10G) | ≤ 10 ms | [Z] | FE L353 |
+| `locationAtTime` (100k Rows) | ≤ 1 ms | [Z] | FE L193 |
+| `entitiesWithinDistanceAtTime` (10k Entities, linear) | ≤ 50 ms | [Z] | FE L194 |
+
+---
+
+### 39.19 Acceleration-Modul (`src/acceleration/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| CUDA L2-Search (1M × 128-dim, RTX 3090) | < 8 ms | [Z] | FE L45, L427 |
+| Cosine Search Vulkan/MoltenVK (500k × 128-dim, M2 Pro) | < 20 ms ✅ | [I] | FE L428 |
+| GPU Distributed Index (100M × 128-dim, 4× A100, k=100) | < 15 ms p99 | [Z] | FE L79, L369 |
+| NCCL `mergeTopK` (worldSize=4, k=100, NVLink-3) | < 500 µs | [Z] | FE L80, L432 |
+| Device Probe (4-GPU System) | < 50 ms ✅ | [I] | FE L431 |
+| `getStats()` Call Latenz (Linux /proc/stat) | < 2 ms ✅ | [I] | FE L434 |
+| `canUseGPU()` NVML-Timeout-Guard | 500 ms Timeout → false (CPU-Fallback) | [I] | FE L443 |
+| CPU Monitoring `/proc/stat` Polling-Intervall | 100 ms | [I] | FE L131 |
+
+---
+
+### 39.20 LLM-Modul (`src/llm/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| Time-to-First-Token (512-Token Prompt, A10G) aktuell | ~350 ms (Schätzung) | [M est.] | FE L238 |
+| Time-to-First-Token (512-Token Prompt, A10G) Ziel | ≤ 200 ms p99 | [Z] | FE L138, L238 |
+| TTFT Bypass DeduplicationCache für Streaming | aktiviert (TTFT ≤ 200 ms) | [I] | FE L125 |
+| OpenAI-Compat Adapter Round-Trip Overhead | ≤ 2 ms vs. direktem `submitRequest()` | [I] | FE L165 |
+| Work-Stealing Pool Task Dispatch | ≤ 50 µs p99 (submit → Worker Pickup) | [Z] | FE L185, L241 |
+| LoRA Adapter Application | < 1 ms Overhead | [M] | llama_lora_adapter_README L163 |
+| Incomplete-Stream Warning (EOF ohne Marker) | innerhalb 500 ms | [Z] | FE L86 |
+
+---
+
+### 39.21 RAG-Modul (`src/rag/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| Fast Evaluation Mode E2E | ≤ 100 ms p99 (kein LLM-Call) | [I] | FE L17, ROADMAP L28 |
+| Balanced Evaluation Mode E2E | ≤ 500 ms p99 | [I] | FE L18 |
+| Thorough Evaluation Mode E2E | ≤ 2 000 ms p99 | [Z] | FE L18 |
+| StreamingRetriever First-Chunk | ≤ 50 ms | [Z] | FE L767 |
+| ClaimExtractor (1000-Zeichen Antwort, LLM-First) | ≤ 500 ms | [Z] | FE L769 |
+| ClaimExtractor (heuristischer Fallback) | ≤ 50 ms | [Z] | FE L769 |
+| RAG Query E2E (Vector Search + LLM Generation) | 50–500 ms | [M] | aql README L165 |
+
+---
+
+### 39.22 Observability-Modul (`src/observability/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| Metrics Collection Overhead | < 1 % CPU @ 1 000 req/s | [Z] | FE L20, L1221 |
+| Prometheus `/metrics` Scrape Response | < 50 ms p99 @ 10 000 active series | [Z] | FE L1225 |
+| Span Creation + In-Process Propagation | < 5 µs / Span | [Z] | FE L1226 |
+| OTLP Export Latenz (async, 1 000 spans/s) | < 5 ms p99 | [Z] | FE L1227 |
+| `QueryProfiler` per-Operator Timing Overhead | < 1 µs / Operator Boundary | [Z] | FE L1228 |
+| CPU Sampling Period | ~100 ms (1 % CPU Overhead) | [I] | README.md L630 |
+| Query P99 Alert-Threshold (Default) | > 1 000 ms | [I] | ROADMAP L58 |
+
+---
+
+### 39.23 Performance-Modul (`src/performance/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| RDTSC/RDTSCP Measurement Overhead (x86-64) | < 1 ns / Messpunkt | [I] | FE L20, ROADMAP L87 |
+| RAII Scoped Timer Overhead (1M Iterationen) | < 2 ns / Call average | [Z] | FE L809 |
+| P99-Percentile-Lookup (Ring bis 1 M Samples) | < 500 ns | [Z] | FE L821 |
+| GPU Metric Export Overhead (CUDA Stream / Inference) | < 100 µs | [Z] | FE L823 |
+| PMU Counter Read (`perf_event_open`) | < 1 µs | [Z] | FE L825 |
+| Query Compilation Time | < 100 ms | [Z] | FE L235 |
+| No-Op Adapter | < 1 ns / Call | [M] | core README L319 |
+| Spdlog Async Adapter | ~50–100 ns / Log Call | [M] | core README L320 |
+| Prometheus Metrics Update | ~200–500 ns | [M] | core README L321 |
+| OTEL Span Creation | ~1–5 µs | [M] | core README L322 |
+
+---
+
+### 39.24 ONNX/CLIP-Modul (`src/onnx_clip/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| ViT-B/32 Image Encoding (CPU) | ≤ 150 ms / Image | [Z] | AUDIT L51, ROADMAP L43 |
+| ViT-B/32 CUDA Batch-64 | ≤ 20 ms (≤ 0.31 ms / Image) | [Z] | FE L30 |
+| Text Encoding (CPU) | ≤ 5 ms p95 | [Z] | FE L56, L59 |
+| Metrics Collection Overhead | ≤ 0.05 ms / Call | [Z] | FE L100 |
+
+---
+
+### 39.25 Content-Modul (`src/content/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| DOCX Extraktion (500 KB) | < 200 ms | [Z] | FE L43 |
+| NDJSON Streaming Ingestion (1 GB, NVMe) | ≥ 100 MB/s | [Z] | FE L102, ROADMAP L107 |
+| pHash (4 MP JPEG) | < 5 ms | [Z] | FE L121, ROADMAP L108 |
+| MinHash + LSH Lookup (10 KB Text, 100k Entries) | < 1 ms | [Z] | FE L122 |
+| Tesseract Init (warm, per Language Pack) | < 500 ms | [Z] | FE L143 |
+| Embedding (384-dim, batch=32, CPU) | < 50 ms | [Z] | FE L161, ROADMAP L110 |
+| Embedding (384-dim, batch=32, CUDA) | < 5 ms | [Z] | FE L161 |
+| Ingestion + Embedding Overhead vs. Plain Ingestion | < 100 ms (Batch-amortisiert) | [Z] | FE L162 |
+
+---
+
+### 39.26 Ingestion-Modul (`src/ingestion/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| HTTP GET Round-Trip Overhead (vs. raw TCP) | ≤ 5 ms | [Z] | FE L69 |
+| Kafka → ThemisDB E2E Latenz | ≤ 500 ms p99 | [Z] | FE L89 |
+| S3 `ListObjectsV2` (1000 Objekte) | ≤ 100 ms | [Z] | FE L109 |
+| S3 Concurrent Downloads (4 parallel, 10 Gbps) | ≥ 200 MB/s aggregate | [Z] | FE L110, L189 |
+| Per-Dokument Quarantäne Retry (≤ 1 MB) | ≤ 10 ms | [Z] | FE L146, L190 |
+
+---
+
+### 39.27 Exporters-Modul (`src/exporters/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| JSONL Export Throughput (aktuell) | ~150 MB/s (Full Batch) | [M] | FE L107 |
+| JSONL Export Throughput (Ziel) | ≥ 200 000 docs/s sustained | [Z] | FE L107 |
+| Parquet Export (Arrow Path, uncompressed) | ≥ 500 MB/s | [Z] | FE L109 |
+| Retry Initial Delay (konfigurierbar, Default) | 500 ms (doubles each retry) | [I] | README.md L193 |
+
+---
+
+### 39.28 Chimera-Modul (`src/chimera/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| Vector Search (k=10, 1M Vectors) | 1–10 ms | [M] | README.md L799 |
+| `insert_vector()` HNSW | 1–10 ms | [M] | README.md L798 |
+| Graph Traversal Depth 5 (1M Nodes) | < 100 ms | [Z] | FE L860 |
+| `shortest_path()` | 10–500 ms | [M] | README.md L800 |
+| `execute_query()` | 1–1000 ms | [M] | README.md L797 |
+| `find_documents()` | 1–100 ms | [M] | README.md L801 |
+| Connection Pool Acquire | < 1 ms | [Z] | FE L866 |
+| Streaming Result Throughput | 100 MB/s | [Z] | FE L864 |
+| Metric Export | < 100 µs | [Z] | FE L870 |
+| Schema-Operations (Index-Erstellung) | < 100 ms | [Z] | FE L871 |
+| Connection State Check Overhead | ~1 ns | [M] | README.md L391 |
+
+---
+
+### 39.29 Graph-Modul (`src/graph/`)
+
+| Schnittstelle | Ziel/Messwert | Typ | Quelle |
+|---------------|---------------|-----|--------|
+| Algorithm Selection (≤ 10M Nodes) | < 1 ms p99 | [Z] | FE L1122 |
+| Plan Cache Lookup (inkl. Fingerprint-Vergleich) | < 100 µs p99 | [Z] | FE L1122 |
+| Subgraph Isomorphism (100-Node Pattern, 1M-Node Graph) | < 500 ms p95 | [Z] | FE L1125 |
+| Audit Trail `appendAudit()` Overhead | < 1 µs / Mutation (Bounded Ring Buffer) | [Z] | FE L1079 |
+| `ChangeFeed::recordEvent()` (RocksDB single put) | < 5 µs / Event | [Z] | FE L1080 |
+| Background Scheduler Wake-Up Jitter | < 50 ms | [Z] | FE L1082 |
+| Observierter BFS (10k-Node Graph) | ~8 ms | [M] | FE L146 |
+| Statistics Collection | 10–100 ms (gecacht nach erstem Aufruf) | [M] | README.md L803 |
+| Plan Generation (einfach) | 0.1–5 ms | [M] | README.md L804 |
+| Complex Queries (Pattern Matching) | 5–50 ms | [M] | README.md L805 |
+| Plan Cache Lookup Hit Rate | 80–90 % | [M] | README.md L806 |
+| Single Constraint Check | ~0.1 µs | [M] | README.md L820 |
+| Path Validation (10 Constraints) | ~1 µs / Path | [M] | README.md L821 |
+| `findConstrainedPaths` (1000 explored, 10 valid) | 10–100 ms | [M] | README.md L822 |
+
