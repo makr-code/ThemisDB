@@ -1,6 +1,11 @@
 # ThemisDB – Performance-Erwartungswerte & Messergebnisse
 
 > Stand: 2026-04-02 | Quellen: `FUTURE_ENHANCEMENTS.md` je Modul, `benchmarks/results_analysis_reports/`, `benchmarks/baselines/`, `benchmarks/VERSION_HISTORY.csv`
+>
+> **Benchmark-Plattformen:**
+> - Run **20251223** (v1.3.0-baseline): MSVC Release x64, AVX2, 20-Core @ 3.7 GHz, 20 MB L3
+> - Run **20251223_085556** (v1.3.3-dev): MSVC Release x64, AVX2, 20-Core @ 3.7 GHz, 20 MB L3
+> - Run **20251229_184507** (v1.3.4): Windows x64, 20 Cores @ 3.696 GHz, 20 MB L3-Cache, L1=32KB, L2=256KB
 
 ---
 
@@ -567,3 +572,481 @@
 ---
 
 *Dieses Dokument wird automatisch aus den FUTURE_ENHANCEMENTS.md und Benchmark-Ergebnissen der jeweiligen Module generiert. Für Aktualisierungen bitte die entsprechenden Quelldateien pflegen.*
+
+---
+
+## 36. Versionsübergreifende Benchmark-Messwerte (Rohdaten)
+
+> Alle Werte aus Google Benchmark (C++). `real_time` = Wall-Clock, `cpu_time` = CPU-Zeit.
+> Run-IDs: **v1.3.0** = 20251223_084034 | **v1.3.3** = 20251223_085556 | **v1.3.4** = 20251229_184507
+
+---
+
+### 36.1 Kern-Performance (`bench_core_performance`)
+
+| Benchmark | v1.3.0 items/s | v1.3.3 items/s | v1.3.4 items/s | Δ v1.3.0→v1.3.4 | Status |
+|-----------|---------------|---------------|---------------|-----------------|--------|
+| VectorIndexBench/InsertPlaintext | 566.7 k/s | 538.0 k/s | **351.4 k/s** | −38 % | ⚠️ |
+| SecondaryIndexBench/IndexInsert | 1.78 M/s | 5.11 k/s ⚠️ | **217.2 k/s** | −88 % | ❌ |
+| SecondaryIndexBench/RawWriteOnly | – | – | **885.0 k/s** | n/a | ❓ |
+| QueryEngineBench/SimpleEvaluation | 968.6 M/s | 949.8 M/s | **814.5 M/s** | −16 % | ⚠️ |
+| GraphIndexBench/AddEdges | 1.47 M/s | 1.20 M/s | **628.7 k/s** | −57 % | ❌ |
+| TimeseriesBench/InsertTimepoints | 61.0 M/s | 55.9 M/s | **49.0 M/s** | −20 % | ⚠️ |
+
+> **Hinweis SecondaryIndex v1.3.3:** real_time=656 ms, cpu_time=19.6 ms → 33× Diskrepanz durch Einzel-Transaktion pro `put()` (RocksDB-Transaktions-Overhead). Bekannte Regression, dokumentiert in `PERFORMANCE_COMPARISON_V1.3.0_VS_V1.3.3.md`.
+
+---
+
+### 36.2 Umfassende Workloads (`bench_comprehensive`)
+
+| Benchmark | v1.3.3 items/s | v1.3.4 items/s | Ziel | Status |
+|-----------|---------------|---------------|------|--------|
+| **Vektor-Operationen** | | | | |
+| SimpleVectorBench/Insert_RGB_Vectors | 1.33 M/s | **1.22 M/s** | – | ⚠️ |
+| SimpleVectorBench/Search_RGB_KNN_Top10 | 63.7 M/s | **62.1 M/s** | – | ✅ |
+| SimpleVectorBench/Insert_384D_Embeddings | 465.5 k/s | **382.3 k/s** | – | ⚠️ |
+| ComplexVectorBench/BatchInsert_1536D_LLMVectors | 132.8 k/s | **121.9 k/s** | – | ⚠️ |
+| ComplexVectorBench/Search_4096D_TopK_Batch | 5.97 M/s | **5.62 M/s** | – | ⚠️ |
+| **LLM / Embedding** | | | | |
+| LLMInferencingBench/EmbeddingGeneration_Store | 122.0 k/s | **108.2 k/s** | – | ⚠️ |
+| LLMInferencingBench/RAG_Search_Retrieve_Top50 | – | **7.55 M/s** (133 ns) | – | ❓ |
+| LLMInferencingBench/MultiQueryExpansion_5Queries | – | **2.97 M/s** | – | ❓ |
+| **AQL / Query** | | | | |
+| AQLQueryBench/SimpleSelect_WhereClause | – | **148.8 k/s** (6.7 µs) | – | ❓ |
+| AQLQueryBench/ComplexSelect_MultipleConditions | – | **3.25 k/s** (308 µs) | – | ❓ |
+| AQLJoinBench/JoinUsers_Posts | – | **777.0 k/s** (1.3 µs) | – | ❓ |
+| **Blob / Binär** | | | | |
+| BinaryOperationsBench/StoreThumbnails_10KB | – | **4.92 k/s** | – | ❓ |
+| BinaryOperationsBench/StoreLargeBlobs_1MB | – | **352 ops/s** | – | ❓ |
+| BinaryOperationsBench/RetrieveBlobsBatch_100x100KB | – | **117.0 k/s** | – | ❓ |
+| **Graph** | | | | |
+| GraphOperationsBench/AddEdges_SparseGraph | – | **1.17 M/s** | – | ❓ |
+| GraphOperationsBench/QueryNeighbors_DenseGraph | – | **975.2 k/s** | – | ❓ |
+| GraphOperationsBench/GraphTraversal_BFS_Depth3 | – | **910.2 k/s** (1.09 µs) | – | ❓ |
+| **Index** | | | | |
+| SecondaryIndexBench/SmallIndexInsert_1K | – | **5.82 k/s** | – | ❓ |
+| SecondaryIndexBench/MediumIndexInsert_100K | – | **9.14 k/s** | – | ❓ |
+| SecondaryIndexBench/LargeIndexLookup_1M | – | **165.5 k/s** | – | ❓ |
+| SecondaryIndexBench/CompositeIndexLookup | – | **7.59 k/s** | – | ❓ |
+| **Batch / Stress** | | | | |
+| BatchOperationsBench/BatchInsert_10K_WithMetadata | – | **779.1 k/s** | – | ❓ |
+| BatchOperationsBench/BatchUpdate_MultiField_5K | – | **779.1 k/s** | – | ❓ |
+| StressTestBench/MixedReadWrite_80Reads_20Writes | – | **22.9 k/s** | – | ❓ |
+| StressTestBench/HotspotAccess_99PercentContention | – | **5.79 M/s** | – | ❓ |
+
+---
+
+### 36.3 Verschlüsselung (`bench_encryption`)
+
+> Platform: v1.3.3 = Run 20251223_085556 | v1.3.4 = Run 20251229_184507
+
+| Benchmark | v1.3.3 ops/s | v1.3.4 ops/s | Δ | Status |
+|-----------|-------------|-------------|---|--------|
+| BM_Encrypt_String_UsingKey/64 | 277.0 k/s (3.6 µs) | **254.9 k/s** (3.9 µs) | −8 % | ⚠️ |
+| BM_Encrypt_String_UsingKey/256 | 254.4 k/s | **244.0 k/s** | −4 % | ⚠️ |
+| BM_Encrypt_String_UsingKey/1024 | 254.9 k/s | **191.2 k/s** | −25 % | ❌ |
+| BM_Decrypt_String_UsingKey/64 | 56.9 k/s | **45.5 k/s** | −20 % | ❌ |
+| BM_Decrypt_String_UsingKey/256 | 60.1 k/s | **41.1 k/s** | −32 % | ❌ |
+| BM_Decrypt_String_UsingKey/1024 | 52.5 k/s | **36.6 k/s** | −30 % | ❌ |
+| BM_UserEntity_Encrypt_Serialize | – | **28.3 k/s** (35.1 µs) | – | ❓ |
+| BM_HKDF_Derive_FieldKey | – | **177.8 k/s** (5.5 µs) | – | ❓ |
+| BM_SchemaEncrypt_SingleField/64 | – | **86.1 k/s** (11.6 µs) | – | ❓ |
+| BM_SchemaEncrypt_SingleField/1024 | – | **93.7 k/s** (10.7 µs) | – | ❓ |
+| BM_SchemaDecrypt_SingleField/64 | – | **26.9 k/s** (68.2 µs) | – | ❓ |
+| BM_VectorFloat_Encryption | – | **55.6 k/s** (17.9 µs) | – | ❓ |
+| BM_DB_Ingest_Encrypted/100000 | – | **27.9 k/s** (3.58 s) | – | ❓ |
+| BM_Index_Insert_Plain/100000 | – | **1.03 M/s** (97.4 ms) | – | ❓ |
+| BM_Index_Insert_WithEncryptedPayload/100000 | – | **717.2 k/s** (139.4 ms) | – | ❓ |
+
+---
+
+### 36.4 Vektor-Distanz & Geo-Filterung (`bench_hybrid_vector_geo`)
+
+> Run 20251229_184507 (v1.3.4)
+
+| Benchmark | real_time (ns) | ops/s (1e9/rt) |
+|-----------|---------------|----------------|
+| **Euklidische Distanz** | | |
+| BM_VectorDistance_Euclidean/64 | 42.2 ns | 23.7 M/s |
+| BM_VectorDistance_Euclidean/128 | 105.5 ns | 9.5 M/s |
+| BM_VectorDistance_Euclidean/256 | 208.6 ns | 4.8 M/s |
+| BM_VectorDistance_Euclidean/512 | 434.5 ns | 2.3 M/s |
+| BM_VectorDistance_Euclidean/1024 | 827.5 ns | 1.21 M/s |
+| **Kosinus-Distanz** | | |
+| BM_VectorDistance_Cosine/64 | 38.0 ns | 26.4 M/s |
+| BM_VectorDistance_Cosine/128 | 96.3 ns | 10.4 M/s |
+| BM_VectorDistance_Cosine/256 | 204.7 ns | 4.9 M/s |
+| BM_VectorDistance_Cosine/512 | 441.5 ns | 2.3 M/s |
+| BM_VectorDistance_Cosine/1024 | 827.3 ns | 1.21 M/s |
+| **Vektor-Normalisierung** | | |
+| BM_VectorNormalization/128 | 881.7 ns | 1.13 M/s |
+| BM_VectorNormalization/512 | 3.553 µs | 281 k/s |
+| BM_VectorNormalization/1024 | 7.237 µs | 138 k/s |
+| **Haversine-Distanz (Geo)** | | |
+| BM_GeoDistance_Haversine/100 | 3.576 µs | 28.0 M pts/s |
+| BM_GeoDistance_Haversine/512 | 20.16 µs | 25.4 M pts/s |
+| BM_GeoDistance_Haversine/4096 | 172.8 µs | 23.7 M pts/s |
+| BM_GeoDistance_Haversine/10000 | 504.8 µs | 19.8 M pts/s |
+| **Geo Point-in-Bounding-Box** | | |
+| BM_GeoPointInBoundingBox/100 | 64.3 ns | 1.56 G pts/s |
+| BM_GeoPointInBoundingBox/4096 | 9.375 µs | 437 M pts/s |
+| BM_GeoPointInBoundingBox/100000 | 232.2 µs | 431 M pts/s |
+| **Vektor+Geo kombiniert (Pre-Filter)** | | |
+| BM_VectorGeoFiltering/1000 | 35.1 µs | 28.5 M/s |
+| BM_VectorGeoFiltering/4096 | 150.7 µs | 27.2 M/s |
+| BM_VectorGeoFiltering/32768 | 1.270 ms | 25.8 M/s |
+| BM_VectorGeoFiltering/50000 | 1.892 ms | 26.4 M/s |
+
+---
+
+### 36.5 HNSW Pre-/Postfilter (`bench_hnsw_prefilter_minimal`)
+
+> v1.3.4 (Run 20251229_184507)
+
+| Benchmark | real_time (ns) | ops/s |
+|-----------|---------------|-------|
+| BenchPrefilter/1000 | 435.1 ms | 2,30 ops/s |
+| BenchPrefilter/5000 | 161.6 ms | 6,19 ops/s |
+| BenchPrefilter/10000 | 93.5 ms | 10,70 ops/s |
+| BenchPrefilter/20000 | 88.2 ms | 11,34 ops/s |
+| BenchPostfilter/1000 | 79.5 ms | 12,58 ops/s |
+| BenchPostfilter/5000 | 79.9 ms | 12,52 ops/s |
+| BenchPostfilter/10000 | 79.4 ms | 12,60 ops/s |
+| BenchPostfilter/20000 | 78.9 ms | 12,68 ops/s |
+
+> **Beobachtung:** Prefilter ist bei kleinem n (1000) 5.5× langsamer als Postfilter. Ab n=20000 annähernde Parität (88 ms vs. 79 ms). Dies entspricht dem theoretischen Verhalten: Prefilter lohnt sich erst ab hoher Selektivität.
+
+---
+
+### 36.6 Storage Hotspots – WAL / Mixed-RW (`bench_hotspots_micro`)
+
+> v1.3.3 vs. v1.3.4 — Thread-Count-Skalierung
+
+| Benchmark | Threads | v1.3.3 ops/s | v1.3.4 ops/s | Δ |
+|-----------|---------|-------------|-------------|---|
+| **WAL ON (persistentes Schreiben)** | | | | |
+| BM_RawWrite_WAL_On | 1 | 248 | **283** | +14 % |
+| BM_RawWrite_WAL_On | 4 | 542 | **609** | +12 % |
+| BM_RawWrite_WAL_On | 8 | 1.058 | **1.193** | +13 % |
+| BM_RawWrite_WAL_On | 16 | 2.070 | **1.546** | −25 % ⚠️ |
+| **WAL OFF (In-Memory)** | | | | |
+| BM_RawWrite_WAL_Off | 1 | 205.5 k | **145.7 k** | −29 % ❌ |
+| BM_RawWrite_WAL_Off | 4 | 354.7 k | **370.3 k** | +4 % |
+| BM_RawWrite_WAL_Off | 8 | – | **507.5 k** | – |
+| BM_RawWrite_WAL_Off | 16 | – | **350.3 k** | – |
+| **Mixed RW (80% Read / 20% Write)** | | | | |
+| BM_MixedRW | 1 | 583 | **583** | 0 % |
+| BM_MixedRW | 4 | 1.289 | **1.289** | 0 % |
+| BM_MixedRW | 8 | – | **2.534** | – |
+| BM_MixedRW | 16 | – | **4.405** | – |
+| **Secondary Index Write** | | | | |
+| BM_SecondaryIndex_Write | 1 | 281 | **281** | 0 % |
+| BM_SecondaryIndex_Write | 4 | 590 | **590** | 0 % |
+| BM_SecondaryIndex_Write | 8 | – | **1.056** | – |
+| BM_SecondaryIndex_Write | 16 | – | **1.990** | – |
+
+---
+
+### 36.7 AQL-Funktionen (`bench_aql_functions` / v1.3.4)
+
+> Embedding-Cache, Hybrid Search, CTEs, Distributed Transactions
+
+| Benchmark | real_time | items/s | Anmerkung |
+|-----------|-----------|---------|-----------|
+| **Embedding-Cache** | | | |
+| BM_EmbeddingCache_Store/384 | 1.324 µs | 758.5 k/s | |
+| BM_EmbeddingCache_Store/768 | 2.699 µs | 374.8 k/s | |
+| BM_EmbeddingCache_Store/1536 | 158.2 µs | 14.2 k/s | größerer Dimensionsaufwand |
+| BM_EmbeddingCache_Query_Hit/384 | 6.44 ns | **155.8 M/s** | Hot Path |
+| BM_EmbeddingCache_Query_Hit/768 | 6.46 ns | **155.8 M/s** | Hot Path |
+| BM_EmbeddingCache_Query_Hit/1536 | 1.882 µs | 541.0 k/s | |
+| BM_EmbeddingCache_Query_Hit/3072 | 6.46 ns | **155.0 M/s** | Hot Path |
+| BM_EmbeddingCache_Query_Miss/384 | 1.298 µs | 777.0 k/s | |
+| BM_EmbeddingCache_CostSavings | 1.697 µs | 585.1 k/s | |
+| **Hybrid Search** | | | |
+| BM_HybridSearch_RRF/384 | 148.3 ns | 6.64 M/s | |
+| BM_HybridSearch_RRF/768 | 141.0 ns | 7.08 M/s | |
+| BM_HybridSearch_RRF/1536 | 148.8 ns | 6.67 M/s | |
+| BM_HybridSearch_LinearCombination | 101.6 ns | 9.75 M/s | |
+| BM_HybridSearch_VaryingWeights/50 | 99.1 ns | **10.17 M/s** | Optimum bei 50/50 |
+| **CTEs (Non-Recursive)** | | | |
+| BM_CTE_NonRecursive_Simple/1 | 1.049 ns | 952.6 M/s | |
+| BM_CTE_NonRecursive_Simple/5 | 5.679 ns | 874.1 M/s | |
+| BM_CTE_NonRecursive_Simple/10 | 10.90 ns | 910.2 M/s | |
+| BM_CTE_NonRecursive_Simple/20 | 21.26 ns | 938.5 M/s | |
+| **CTEs (Recursive)** | | | |
+| BM_CTE_Recursive_Depth/10 | 11.32 ns | 87.1 M/s | |
+| BM_CTE_Recursive_Depth/50 | 60.81 ns | 16.3 M/s | |
+| BM_CTE_Recursive_Depth/100 | 118.3 ns | 8.61 M/s | |
+| BM_CTE_Recursive_Depth/1000 | 1.110 µs | 896.0 k/s | |
+| **CTE Cycle-Detection** | | | |
+| BM_CTE_CycleDetection/100 | 52.2 ns | 19.4 M/s | |
+| BM_CTE_CycleDetection/1000 | 122.4 ns | 8.15 M/s | |
+| BM_CTE_CycleDetection/10000 | 1.178 µs | 853.3 k/s | |
+| **Subquery EXISTS** | | | |
+| BM_Subquery_EXISTS_WithLIMIT1/100 | ~0 ns | ∞ | Short-Circuit |
+| BM_Subquery_EXISTS_WithLIMIT1/100000 | ~0 ns | ∞ | Short-Circuit ✅ |
+| BM_Subquery_EXISTS_WithoutLIMIT1/100 | 75.1 ns | 13.3 M/s | |
+| BM_Subquery_EXISTS_WithoutLIMIT1/1000 | 702.2 ns | 1.41 M/s | |
+| BM_Subquery_EXISTS_WithoutLIMIT1/10000 | 6.822 µs | 147.0 k/s | |
+| BM_Subquery_EXISTS_WithoutLIMIT1/100000 | 68.49 µs | 14.7 k/s | linear skalierend |
+| **Distributed Transactions (2PC)** | | | |
+| BM_DistributedTxn_2PC_Latency/2 Shards | 46.04 ms | **6.400 ops/s** | |
+| BM_DistributedTxn_2PC_Latency/4 Shards | 46.09 ms | **6.400 ops/s** | |
+| BM_DistributedTxn_2PC_Latency/8 Shards | 46.09 ms | **1.600 ops/s** | Overhead skaliert |
+| BM_DistributedTxn_2PC_Latency/16 Shards | 45.95 ms | **1.280 ops/s** | |
+| BM_DistributedTxn_Throughput | 46.01 ms | **6.400 ops/s** | |
+| BM_DistributedTxn_SnapshotRead/4 | 61.54 ms | **6.400 ops/s** | |
+| **LLM/RAG Pipeline** | | | |
+| BM_Combined_LLM_RAG_Pipeline | 151.4 µs | **15.9 k/s** | |
+
+---
+
+### 36.8 Graph-Traversal (`bench_graph_traversal`)
+
+> Run 20251223_085556 (v1.3.3)
+
+| Benchmark | real_time (ms) | ops/s |
+|-----------|---------------|-------|
+| **BFS** | | |
+| GraphTraversalBenchmarkFixture/BFSTraversal/100 nodes/depth 4 | 0.184 ms | 5.430 k/s |
+| GraphTraversalBenchmarkFixture/BFSTraversal/1000 nodes/depth 4 | 1.56 ms | 0.652 k/s |
+| GraphTraversalBenchmarkFixture/BFSTraversal/10000 nodes/depth 4 | 20.2 ms | 50.6 ops/s |
+| GraphTraversalBenchmarkFixture/BFSTraversal/100 nodes/depth 20 | 0.469 ms | 2.108 k/s |
+| GraphTraversalBenchmarkFixture/BFSTraversal/1000 nodes/depth 20 | 4.38 ms | 232.7 ops/s |
+| **DFS** | | |
+| GraphTraversalBenchmarkFixture/DFSTraversal/100 nodes/depth 4 | 0.184 ms | 5.379 k/s |
+
+---
+
+### 36.9 GNN-Embeddings (`bench_gnn_embeddings`)
+
+> Run 20251223_085556 (v1.3.3)
+
+| Benchmark | real_time (ms) | items/s |
+|-----------|---------------|---------|
+| NodeEmbeddingGeneration/100 nodes/5 dims | 0.00158 ms | 446.0 M/s |
+| NodeEmbeddingGeneration/1000 nodes/5 dims | 0.00173 ms | 4.469 G/s |
+| NodeEmbeddingGeneration/10000 nodes/5 dims | 0.00206 ms | 38.1 G/s |
+| NodeEmbeddingGeneration/100 nodes/20 dims | 0.00200 ms | 39.3 G/s |
+| BatchEmbeddingGeneration/1000 nodes/5 dims/batch 10 | 3.15 ms | 1.260 M/s |
+| BatchEmbeddingGeneration/1000 nodes/5 dims/batch 50 | 5.87 ms | 1.179 M/s |
+
+---
+
+### 36.10 GPU-Backends (`bench_gpu_backends`)
+
+> v1.3.3 vs. v1.3.4 — CPU-Backend (GPU nicht verfügbar in CI)
+
+| Benchmark | v1.3.3 items/s | v1.3.4 items/s | Δ |
+|-----------|---------------|---------------|---|
+| BM_CPUBackend_DistanceComputation/10×1000 | 11.24 M/s | **10.24 M/s** | −9 % |
+| BM_CPUBackend_DistanceComputation/100×10000 | 11.49 M/s | **9.60 M/s** | −16 % |
+| BM_CPUBackend_DistanceComputation/1000×100000 | 10.63 M/s | **9.95 M/s** | −7 % |
+| BM_BackendComparison_VaryingDimensions/64 | 28.28 M/s | **25.87 M/s** | −9 % |
+| BM_BackendComparison_VaryingDimensions/128 | 11.49 M/s | **9.74 M/s** | −15 % |
+| BM_BackendComparison_VaryingDimensions/256 | 5.19 M/s | **4.36 M/s** | −16 % |
+| BM_BackendComparison_VaryingDimensions/512 | – | **2.29 M/s** | – |
+| BM_BackendComparison_VaryingDimensions/1024 | – | **1.08 M/s** | – |
+| BM_BackendInitializationOverhead | – | **14.93 M/s** | – |
+| BM_ThroughputComparison | – | **10.10 M/s** | – |
+
+---
+
+### 36.11 Image-Analyse (`bench_image_analysis`)
+
+> Run 20251229_184507 (v1.3.4)
+
+| Benchmark | real_time | ops/s | Anmerkung |
+|-----------|-----------|-------|-----------|
+| BM_ImageEmbedding_SingleImage/224px | 3.95 µs | 253.3 k/s | |
+| BM_ImageEmbedding_SingleImage/384px | 4.11 µs | 243.3 k/s | |
+| BM_ImageEmbedding_SingleImage/512px | 4.25 µs | 235.1 k/s | |
+| BM_ImageEmbedding_SingleImage/1024px | 4.88 µs | 205.0 k/s | |
+| BM_ImageEmbedding_Batch/1 | 3.87 µs | 258.4 k/s | |
+| BM_ImageEmbedding_Batch/4 | 15.47 µs | 258.6 k/s | ~konstant/Bild |
+| BM_ImageEmbedding_Batch/8 | 30.84 µs | 259.5 k/s | |
+| BM_ImageEmbedding_Batch/16 | 63.24 µs | 253.1 k/s | |
+| BM_ImageCaptioning/224px | 20.76 µs | 48.2 k/s | |
+| BM_ImageCaptioning/384px | 61.27 µs | 16.3 k/s | |
+| BM_ImageCaptioning/512px | 113.4 µs | 8.82 k/s | |
+| BM_Plugin_Initialization | 5.51 ns | 181.6 M/s | sehr schnell |
+| BM_Plugin_Warmup | 4.05 µs | 246.7 k/s | |
+
+**Image Latenz-Verteilung** (`bench_image_analysis_latency`, v1.3.4):
+
+| Benchmark | Mean (ms) | P50 (ms) | P95 (ms) | P99 (ms) |
+|-----------|-----------|----------|----------|----------|
+| BM_Embedding_LatencyDistribution_224 | 1.583 µs | 1.500 µs | 1.600 µs | 2.200 µs |
+| BM_Embedding_ColdStartVsWarm (cold) | 1.960 µs | – | – | – |
+| BM_Embedding_ColdStartVsWarm (warm) | 1.881 µs | – | – | – |
+| BM_Embedding_GPUvsCPU/CPU | 2.633 µs | 2.100 µs | 2.200 µs | 20.3 µs |
+| BM_Embedding_GPUvsCPU/GPU | 2.306 µs | 1.700 µs | 2.500 µs | 21.1 µs |
+| BM_Caption_LatencyDistribution | 22.0 µs | 21.1 µs | 22.6 µs | 40.2 µs |
+| BM_Batch_LatencyPerImage/1 | 1.975 µs | 1.700 µs | 1.800 µs | – |
+| BM_Batch_LatencyPerImage/4 (per img) | 1.583 µs | 1.475 µs | 1.575 µs | – |
+| BM_Batch_LatencyPerImage/8 (per img) | 1.506 µs | 1.450 µs | 1.500 µs | – |
+| BM_Batch_LatencyPerImage/16 (per img) | 1.537 µs | 1.481 µs | 1.563 µs | – |
+| BM_ImageSize_LatencyImpact/384px | 2.514 µs | 2.200 µs | 2.300 µs | – |
+| BM_ImageSize_LatencyImpact/512px | 3.023 µs | 2.700 µs | 2.800 µs | – |
+| BM_ImageSize_LatencyImpact/1024px | 6.007 µs | 5.700 µs | 6.000 µs | – |
+
+---
+
+### 36.12 HSM-Provider (`bench_hsm_provider`)
+
+> v1.3.3 vs. v1.3.4 — Stub-Implementierung (echte HSM-Bibliothek nicht in CI)
+
+| Benchmark | v1.3.3 ops/s | v1.3.4 ops/s | Δ |
+|-----------|-------------|-------------|---|
+| BM_HSM_Sign_Stub | 1.493 M/s (667 ns) | **1.434 M/s** (693.8 ns) | −4 % |
+| BM_HSM_Verify_Stub | 1.629 M/s (612 ns) | **1.550 M/s** (659 ns) | −5 % |
+| BM_HSM_Sign_Real_Pool* | n/a (Lib fehlt) | n/a | – |
+
+> **Ziel** SEC-7: HSM-Backed RSA-2048 Sign P99 ≤ 20 ms → Stub-Werte ~0.7 µs, Real-HSM-Werte ausstehend.
+
+---
+
+### 36.13 AQL-Sugar Hybrid (`bench_hybrid_aql_sugar`)
+
+> v1.3.3 vs. v1.3.4
+
+| Benchmark | v1.3.3 ops/s | v1.3.4 ops/s | Δ |
+|-----------|-------------|-------------|---|
+| BM_VectorGeo_AQL_Sugar | – (ERROR) | – (ERROR) | – |
+| BM_VectorGeo_CPP_API | 123.6 ops/s (8.58 ms) | **112.6 ops/s** (8.91 ms) | −9 % |
+| BM_ContentGeo_AQL_Sugar | 5.556 k/s (0.457 ms) | **6.127 k/s** (0.347 ms) | +10 % ✅ |
+| BM_ContentGeo_CPP_API | 5.589 k/s (0.436 ms) | **7.191 k/s** (0.319 ms) | +29 % ✅ |
+| BM_AQL_Parse_Translate_Only | 152.5 k/s (6.57 µs) | **150.9 k/s** (6.66 µs) | −1 % ✅ |
+
+---
+
+### 36.14 Content-Versionierung (`bench_content_versioning`)
+
+> Run 20251229_184507 (v1.3.4)
+
+| Benchmark | real_time | bytes/s |
+|-----------|-----------|---------|
+| BM_VersionCreation/1 KB | 1.14 µs | 895 MB/s |
+| BM_VersionCreation/10 KB | 10.4 µs | 979 MB/s |
+| BM_VersionCreation/100 KB | 104.3 µs | 975 MB/s |
+| BM_VersionCreation/1 MB | 1.197 ms | 877 MB/s |
+| BM_VersionCreation/10 MB | 12.71 ms | 810 MB/s |
+| BM_DiffComputation/1 KB | 69.9 ns | 29.4 GB/s |
+| BM_DiffComputation/10 KB | 188.0 ns | 108.7 GB/s |
+| BM_DiffComputation/100 KB | 2.515 µs | 81.3 GB/s |
+| BM_DiffComputation/1 MB | 245.7 µs | 8.53 GB/s |
+| BM_VersionRetrieval | 302.5 ns | – |
+| BM_StorageOverhead/10 versions | 57.95 µs | – |
+| BM_StorageOverhead/100 versions | 744.4 µs | – |
+| BM_StorageOverhead/500 versions | 2.727 ms | – |
+| BM_ConcurrentVersioning/1 Thread | 11.86 µs | 875 MB/s |
+| BM_ConcurrentVersioning/2 Threads | 12.61 µs | 833 MB/s |
+| BM_ConcurrentVersioning/4 Threads | 15.64 µs | 667 MB/s |
+| BM_ConcurrentVersioning/8 Threads | 19.48 µs | 506 MB/s |
+
+---
+
+### 36.15 ARM-Speicherbandbreite (`bench_arm_memory`)
+
+> Run 20251229_184507 (v1.3.4, x86_64-Emulation auf ARM-Pfad)
+
+| Benchmark | Blockgröße | real_time | Bandbreite |
+|-----------|-----------|-----------|------------|
+| **Sequential Read** | | | |
+| BM_ARM_Sequential_Read | 4 KB | 3.63 µs | 4.55 GB/s |
+| BM_ARM_Sequential_Read | 32 KB | 28.28 µs | 4.60 GB/s |
+| BM_ARM_Sequential_Read | 256 KB | 220.9 µs | 4.77 GB/s |
+| BM_ARM_Sequential_Read | 1 MB | 908.1 µs | 4.66 GB/s |
+| **Sequential Write** | | | |
+| BM_ARM_Sequential_Write | 4 KB | 2.07 µs | 7.99 GB/s |
+| BM_ARM_Sequential_Write | 32 KB | 16.81 µs | 7.76 GB/s |
+| BM_ARM_Sequential_Write | 256 KB | 133.6 µs | 7.95 GB/s |
+| BM_ARM_Sequential_Write | 1 MB | 528.9 µs | 7.90 GB/s |
+| **MemCopy (builtin)** | | | |
+| BM_ARM_MemCopy_Builtin | 4 KB | 139.9 ns | 118.6 GB/s |
+| BM_ARM_MemCopy_Builtin | 32 KB | 2.077 µs | 63.9 GB/s |
+| BM_ARM_MemCopy_Builtin | 256 KB | 32.00 µs | 33.0 GB/s |
+| BM_ARM_MemCopy_Builtin | 1 MB | 129.9 µs | 32.6 GB/s |
+
+---
+
+### 36.16 MVCC-Transaktionen (`bench_mvcc`)
+
+> Run 20251223_085556 (v1.3.3)
+
+| Benchmark | real_time | ops/s | Anmerkung |
+|-----------|-----------|-------|-----------|
+| MVCCFixture/SingleEntityCommit_MVCC | 4.07 ms | 7.111 k/s | |
+| MVCCFixture/BatchInsert100_MVCC | 7.29 ms | 29.67 k/s | |
+| MVCCFixture/SnapshotIsolationOverhead_MVCC | 4.05 ms | 40.0 k/s | |
+| MVCCFixture/Rollback_MVCC | 266.0 µs | 37.33 k/s | |
+| MVCCFixture/SingleEntityCommit_WriteBatch | 4.38 ms | 6.516 k/s | |
+| MVCCFixture/BatchInsert100_WriteBatch | 6.25 ms | 41.67 k/s | |
+
+---
+
+### 36.17 Lock-Contention (`bench_lock_contention`)
+
+> Run 20251223_085556 (v1.3.3)
+
+| Benchmark | Threads | real_time | ops/s |
+|-----------|---------|-----------|-------|
+| BM_LockContention_Disjoint | 1 | 4.44 ms | 14.4 k/s |
+| BM_LockContention_Disjoint | 4 | 13.5 ms | 18.9 k/s |
+| BM_LockContention_Disjoint | 8 | 8.31 ms | 61.6 k/s |
+| BM_LockContention_Disjoint | 16 | 66.7 ms | 15.3 k/s ⚠️ |
+| BM_LockContention_Disjoint | 32 | 42.9 ms | 47.8 k/s |
+| BM_LockContention_Overlapping | 1 | 14.4 ms | 4.43 k/s |
+
+---
+
+### 36.18 Batch-Insert (`bench_batch_insert`)
+
+> v1.3.4 (Run 20251229_184507)
+
+| Benchmark | real_time | ops/s | Anmerkung |
+|-----------|-----------|-------|-----------|
+| BatchInsertBenchmark/SingleInserts_100 | 432.9 ms | 533 ops/s | einzelne Inserts |
+| BatchInsertBenchmark/BatchInsert_100 | 10.51 ms | 136 ops/s | Batch API |
+| BatchInsertBenchmark/SingleInserts_1000 | 15.85 s | 4.571 k/s | |
+| BatchInsertBenchmark/BatchInsert_1000 | 277.1 ms | 372 ops/s | |
+
+> **Beobachtung:** Batch-API ist hier **langsamer** als Single-Inserts in Items/s — deutet auf Overhead im Batch-Koordinator hin. Bekannte Optimierungslücke (vgl. §34 D-5).
+
+---
+
+### 36.19 Compression-Benchmark (`bench_compression`)
+
+> Run 20251223_085556 (v1.3.3)
+
+| Benchmark | Blockgröße | Kompression | real_time | ops/s |
+|-----------|-----------|-------------|-----------|-------|
+| CompressionFixture/SequentialWrite/Keine/512B | 512 B | – | 25.2 ms | 48.0 k/s |
+| CompressionFixture/SequentialWrite/LZ4/512B | 512 B | LZ4 | 25.9 ms | 41.8 k/s |
+| CompressionFixture/SequentialWrite/Zstd/512B | 512 B | Zstd | 26.2 ms | 42.7 k/s |
+| CompressionFixture/SequentialWrite/Keine/4096B | 4096 B | – | 33.3 ms | 35.2 k/s |
+| CompressionFixture/SequentialWrite/LZ4/4096B | 4096 B | LZ4 | 32.9 ms | 34.7 k/s |
+| CompressionFixture/SequentialWrite/Zstd/4096B | 4096 B | Zstd | 32.6 ms | 34.5 k/s |
+
+---
+
+### 36.20 Zusammenfassung: Regression-Übersicht v1.3.0 → v1.3.4
+
+| Benchmark | v1.3.0 | v1.3.4 | Δ | Schwere |
+|-----------|--------|--------|---|---------|
+| VectorIndexBench/InsertPlaintext | 566.7 k/s | 351.4 k/s | **−38 %** | ❌ Kritisch |
+| SecondaryIndexBench/IndexInsert | 1.78 M/s | 217.2 k/s | **−88 %** | ❌ Kritisch |
+| QueryEngineBench/SimpleEvaluation | 968.6 M/s | 814.5 M/s | −16 % | ⚠️ Mittel |
+| GraphIndexBench/AddEdges | 1.47 M/s | 628.7 k/s | **−57 %** | ❌ Kritisch |
+| TimeseriesBench/InsertTimepoints | 61.0 M/s | 49.0 M/s | **−20 %** | ⚠️ Mittel |
+| BM_Encrypt_String_UsingKey/1024 | 254.9 k/s | 191.2 k/s | −25 % | ⚠️ Mittel |
+| BM_Decrypt_String_UsingKey/256 | 60.1 k/s | 41.1 k/s | −32 % | ❌ Hoch |
+| BM_CPUBackend_DistanceComputation | 11.24 M/s | 10.24 M/s | −9 % | ⚠️ Gering |
+| BM_ContentGeo_CPP_API | 5.59 k/s | 7.19 k/s | **+29 %** | ✅ Verbesserung |
+| BM_ContentGeo_AQL_Sugar | 5.56 k/s | 6.13 k/s | **+10 %** | ✅ Verbesserung |
+| EmbeddingCache_Query_Hit/384 | – | 155.8 M/s | n/a (neu) | ✅ Neu |
+| 2PC-Throughput (2 Shards) | – | 6.4 k/s | n/a (neu) | ✅ Neu |
+
+> **Wichtige Relativierung:** Mehrere Regressionen (insb. SecondaryIndex, VectorIndex, Graph) sind auf geänderte Test-Infrastruktur zurückzuführen (per-test temp dirs, einzelne RocksDB-Transaktionen pro `put()`), nicht auf Produktions-Regressions — vgl. `PERFORMANCE_COMPARISON_V1.3.0_VS_V1.3.3.md`.
+
