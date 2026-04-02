@@ -19620,4 +19620,61 @@ else()
     message(STATUS "Cross-Module Acceleration+Index tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_acceleration_index.cpp")
 endif()
 
+# ============================================================================
+# Scraper Plugin – ScraperPluginFocusedTests
+# 60 tests across 12 groups:
+#   Group A (6)  – UrlPolicy: whitelist, blacklist, glob, SSRF, edge cases
+#   Group B (5)  – ScraperConfig: YAML parsing, effectiveSearchQueries
+#   Group C (5)  – GovSourceCatalog: Bund, Bundesländer, EU, YAML overlay
+#   Group D (5)  – HtmlSearchEngine: form discovery, result-list, pagination
+#   Group E (4)  – ApiClient: page/cursor pagination, mock fetch
+#   Group F (4)  – LLMEvaluator: heuristic scoring, threshold, mock
+#   Group G (4)  – MetadataWriter: relational/graph/vector writes, flush
+#   Group H (7)  – ScraperPlugin: init, search, API, gov, JS renderer, blacklist
+#   Group I (6)  – Provenance flags on relational/graph/vector/document
+#   Group J (5)  – Knowledge source catalog completeness
+#   Group K (5)  – End-to-end provenance propagation through scrape()
+#   Group L (4)  – Provenance immutability
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_scraper_plugin.cpp")
+    message(STATUS "Adding Scraper Plugin focused tests")
+
+    add_executable(test_scraper_plugin_focused
+        test_scraper_plugin.cpp
+    )
+
+    target_include_directories(test_scraper_plugin_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/plugins/scraper/include
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_scraper_plugin_focused PRIVATE
+        scraper_plugin
+        GTest::GTest
+        GTest::Main
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_features(test_scraper_plugin_focused PRIVATE cxx_std_17)
+
+    target_compile_definitions(test_scraper_plugin_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ScraperPluginFocusedTests
+        COMMAND test_scraper_plugin_focused)
+
+    set_tests_properties(ScraperPluginFocusedTests PROPERTIES
+        LABELS "scraper;plugin;agentic;gap-detection;ingestion;gov;eu;search-engine;llm;v1.0.0"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ScraperPlugin: UrlPolicy(A1-A6), Config(B1-B5), GovCatalog(C1-C5), SearchEngine(D1-D5), ApiClient(E1-E4), LLMEvaluator(F1-F4), MetadataWriter(G1-G4), Plugin(H1-H7), Provenance(I1-I6), KnowledgeSources(J1-J5), Pipeline(K1-K5), Immutability(L1-L4)")
+else()
+    message(STATUS "Scraper Plugin tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_scraper_plugin.cpp")
+endif()
+
 message(STATUS "Tests configured successfully")
