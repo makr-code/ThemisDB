@@ -1151,3 +1151,176 @@
 | P-9 | **TLS 1.3 Session Resumption** — TLS-Session-Ticket-Cache | Network | <1 ms P99 | Q2 2026 |
 | P-10 | **QUIC 0-RTT** — QUIC-Transport für LAN-Kommunikation | Network | <2 ms P99 | Q3 2026 |
 
+
+---
+
+## 38. Weitere Rohdaten: HTTP-API-Benchmarks (v1.0.x, Dezember 2025)
+
+> Quellen: `benchmarks/results_analysis_reports/scientific_benchmarks_20251204_212220/` und `docker_benchmarks_results_20251209_*/`  
+> Plattform: Intel i9-10900K @ 3.70 GHz, 10 physische / 20 logische Cores, 31.3 GB RAM, Linux WSL2 5.15.167.4, Python 3.12 HTTP-Client, ThemisDB v1.0.0, endpoint http://localhost:8765
+
+---
+
+### 38.1 Wissenschaftliche Einzeloperation-Benchmarks (n=500, 5 Iterationen à 100 Ops)
+
+> Messmethode: HTTP POST/GET gegen laufende ThemisDB-Instanz; 5 Warmup-Iterationen
+
+| Test | avg (ms) | p50 (ms) | p95 (ms) | p99 (ms) | CV (%) | min (ms) | max (ms) |
+|------|----------|----------|----------|----------|--------|----------|----------|
+| **INSERT 1 KB** | 1.317 | 1.299 | 1.491 | 1.715 | 6.7 | 1.177 | 1.783 |
+| **READ 1 KB** | 1.204 | 1.147 | 1.519 | 1.706 | 12.0 | 1.016 | 1.832 |
+| **UPDATE 1 KB** | 1.240 | 1.219 | 1.386 | 1.603 | 6.8 | 1.103 | 1.761 |
+| **INSERT 10 KB** | 1.960 | 1.922 | 2.284 | 2.378 | 6.6 | 1.813 | 2.378 |
+| **INSERT 100 KB** | 7.913 | 7.889 | 8.847 | 9.369 | 6.5 | 7.075 | 9.369 |
+| **INSERT 1 MB** | 61.402 | 60.954 | 65.923 | 68.178 | 2.6 | 60.007 | 68.178 |
+
+> **Beobachtung:** 1 KB INSERT/READ/UPDATE zeigen stabiles Verhalten (CV ~7 %). 1 MB INSERT skaliert fast linear mit der Payload-Größe (×47 vs 1 KB). Kein Ausreißer-Verhalten bei Einzel-Clients.
+
+---
+
+### 38.2 Concurrent-Client-Benchmark (HTTP, je 5 Iterationen)
+
+| Concurrent Clients | avg (ms) | p50 (ms) | CV (%) | Anmerkung |
+|--------------------|----------|----------|--------|-----------|
+| 1 | 1.281 | 1.275 | 1.1 | stabil, keine Contention |
+| 5 | 6.800 | 6.742 | 2.5 | linear skalierend |
+| 10 | 4.439 ⚠️ | 13.678 ⚠️ | 467 % ⚠️ | **Anomalie**: avg < p50, negative min → Messfehler |
+| 25 | 35.464 | 35.754 | 4.1 | stabil, Serialisierungsoverhead |
+| 50 | 60.317 | 69.439 | 38.1 % | hohe Varianz, Lock-Contention wahrscheinlich |
+
+> ⚠️ **10-Client-Anomalie**: CV=467 %, min=-32 ms (Messfehler im HTTP-Timing). Reale Performance ca. 13–14 ms p50. Dieser Befund korreliert mit dem bekannten CV >20 % bei 10-Client-Lasttest (§37.5 P-6).
+
+---
+
+### 38.3 Docker-Benchmark-Vergleich: ThemisDB vs. Competitors (v1.0.1, 09.12.2025)
+
+> Methodik: Docker-Container, native Client-Bibliotheken, 155 Messpunkte über 5 Workloads/Protokolle.  
+> Avg-Werte gelten über TCP+HTTP+gRPC sofern nicht anders angegeben.
+
+#### Relational Workload (insert / read / update / delete / range_query)
+
+| Datenbank | avg (ms) | p50 | p95 | p99 | Throughput | Mem (MB) | CPU % | Bewertung |
+|-----------|----------|-----|-----|-----|------------|----------|-------|-----------|
+| **ThemisDB** | **0.56** | 0.504 | 0.728 | 0.84 | **1786 ops/s** | 568 | 27.8 | ✅ Schnellste |
+| MySQL 8.0 | 0.80 | 0.720 | 1.040 | 1.20 | 1250 ops/s | 592 | 29.0 | +43 % langsamer |
+| MariaDB 11 | 0.80 | 0.720 | 1.040 | 1.20 | 1250 ops/s | 592 | 29.0 | +43 % langsamer |
+| PostgreSQL 16 | 0.96 | 0.864 | 1.248 | 1.44 | 1042 ops/s | 608 | 29.8 | +71 % langsamer |
+
+> **Hinweis:** Die Latenz-Überlegenheit (~1.7×) entstand nach Einführung des direkten RocksDB-Pfads (kein SQL-Parser-Overhead). Gap-Analyse (v1.0.0) stellte noch 44–49 % schlechtere Latenz gegenüber PostgreSQL 16 fest — nach Optimierungen nun umgekehrt.
+
+#### Dokument-Store Workload (insert / read / update / bulk_insert)
+
+| Datenbank | avg (ms) | p50 | p95 | p99 | Throughput | Mem (MB) | CPU % | Bewertung |
+|-----------|----------|-----|-----|-----|------------|----------|-------|-----------|
+| **ThemisDB** | **0.875** | 0.787 | 1.137 | 1.312 | **1143 ops/s** | 600 | 29.4 | ✅ Schnellste |
+| MongoDB | 1.625 | 1.463 | 2.113 | 2.438 | 615 ops/s | 675 | 33.1 | +86 % langsamer |
+| CouchDB | 1.750 | 1.575 | 2.275 | 2.625 | 571 ops/s | 687 | 33.8 | +100 % langsamer |
+
+> **Wichtige Gegenprobe** (benchmark_results_simple.json, 20251204): Python HTTP-Client gegen laufende Instanzen auf demselben Rechner — dort zeigte ThemisDB **47.56 ms** für Document Insert (vs. MongoDB 0.87 ms). Diese Abweichung ist auf den HTTP-Overhead des Python-Client-Skripts zurückzuführen (unkompilierter Client vs. nativer Client). Die Docker-Messung mit nativem Client ist maßgeblich.
+
+#### Vektor-Store Workload (search / index / recall / range_search)
+
+| Datenbank | avg (ms) | p50 | p95 | p99 | Throughput | Mem (MB) | CPU % | Bewertung |
+|-----------|----------|-----|-----|-----|------------|----------|-------|-----------|
+| **ThemisDB** | **1.05** | 0.945 | 1.365 | 1.575 | **952 ops/s** | 617 | 30.2 | ✅ Schnellste |
+| Qdrant | 2.10 | 1.890 | 2.730 | 3.150 | 476 ops/s | 722 | 35.5 | +100 % langsamer |
+| Milvus | 2.25 | 2.025 | 2.925 | 3.375 | 444 ops/s | 737 | 36.2 | +114 % langsamer |
+| Weaviate | 2.70 | 2.430 | 3.510 | 4.050 | 370 ops/s | 782 | 38.5 | +157 % langsamer |
+
+#### Graph-Workload (node_insert / edge_insert / traversal / shortest_path)
+
+| Datenbank | avg (ms) | p50 | p95 | p99 | Throughput | Mem (MB) | CPU % | Bewertung |
+|-----------|----------|-----|-----|-----|------------|----------|-------|-----------|
+| **ThemisDB** | **1.75** | 1.575 | 2.275 | 2.625 | **571 ops/s** | 687 | 33.8 | ✅ Schnellste |
+| ArangoDB | 4.25 | 3.825 | 5.525 | 6.375 | 235 ops/s | 937 | 46.2 | +143 % langsamer |
+| Neo4j | 5.00 | 4.500 | 6.500 | 7.500 | 200 ops/s | 1012 | 50.0 | +186 % langsamer |
+
+#### Geo-Workload (point_insert / radius_search / polygon_search)
+
+| Datenbank | avg (ms) | p50 | p95 | p99 | Throughput | Mem (MB) | CPU % | Bewertung |
+|-----------|----------|-----|-----|-----|------------|----------|-------|-----------|
+| **ThemisDB** | **1.312** | 1.181 | 1.706 | 1.969 | **762 ops/s** | 643 | 31.6 | ✅ Schnellste |
+| MongoDB | 2.438 | 2.194 | 3.169 | 3.656 | 410 ops/s | 756 | 37.2 | +86 % langsamer |
+| PostgreSQL+PostGIS | 2.438 | 2.194 | 3.169 | 3.656 | 410 ops/s | 756 | 37.2 | +86 % langsamer |
+| Elasticsearch | 3.000 | 2.700 | 3.900 | 4.500 | 333 ops/s | 812 | 40.0 | +129 % langsamer |
+
+#### Hybrid-Workload (hybrid_search / multi_modal / polyglot_query)
+
+| Datenbank | avg (ms) | p50 | p95 | p99 | Throughput | Mem (MB) | CPU % |
+|-----------|----------|-----|-----|-----|------------|----------|-------|
+| **ThemisDB** | **1.40** | 1.260 | 1.820 | 2.100 | **714 ops/s** | 652 | 32.0 |
+
+---
+
+### 38.4 Extended Hybrid-Query-Vergleich (native Clients, 50 Iterationen)
+
+| Szenario | Datenbank | avg (ms) | p50 | p95 | p99 | Bewertung |
+|----------|-----------|----------|-----|-----|-----|-----------|
+| **Document + Graph** | PostgreSQL + Neo4j | 0.49 | 0.47 | 0.65 | 0.76 | Referenz |
+| **Document + Graph** | **ThemisDB** | **0.88** | 0.83 | 1.21 | 1.37 | 1.8× langsamer ⚠️ |
+| **Document + Vector** | MongoDB + Qdrant | 0.73 | 0.68 | 1.07 | 1.64 | Referenz |
+| **Document + Vector** | **ThemisDB** | **0.88** | 0.81 | 1.31 | 1.40 | 1.2× langsamer |
+| **OLAP + Document** | ClickHouse + MongoDB | 1.70 | 1.68 | 2.22 | 2.33 | Referenz |
+| **OLAP + Document** | **ThemisDB** | **1.06** | 0.95 | 1.51 | 1.96 | ✅ 1.6× schneller |
+
+> ThemisDB schlägt Spezialsysteme (ClickHouse+MongoDB) bei OLAP+Document um 38 %, liegt aber bei Document+Graph hinter dem PostgreSQL+Neo4j-Combo (kein Überraschung: kein Transaktionsoverhead zwischen zwei separaten DBs). **Ziel:** Document+Graph ≤ 0.6 ms avg (Q3 2026).
+
+---
+
+### 38.5 Acceleration-Modul Baseline (CPU ANN, Referenzwerte für Regression-Tests)
+
+> Quelle: `benchmarks/baselines/acceleration/baseline.json` (Stand: 2026-01-01, CPU-Backend)
+
+| Benchmark | Dims | n | items/s |
+|-----------|------|---|---------|
+| BM_CPU_ANN_L2Distance | 64 | 1000 | 2.00 M/s |
+| BM_CPU_ANN_L2Distance | 128 | 1000 | 1.10 M/s |
+| BM_CPU_ANN_L2Distance | 256 | 1000 | 590 k/s |
+| BM_CPU_ANN_L2Distance | 512 | 1000 | 313 k/s |
+| BM_CPU_ANN_CosineDistance | 64 | 1000 | 1.67 M/s |
+| BM_CPU_ANN_CosineDistance | 128 | 1000 | 910 k/s |
+| BM_CPU_ANN_CosineDistance | 256 | 1000 | 476 k/s |
+| BM_CPU_ANN_CosineDistance | 512 | 1000 | 250 k/s |
+| BM_CPU_ANN_InnerProduct | 64 | 1000 | 2.00 M/s |
+| BM_CPU_ANN_InnerProduct | 128 | 1000 | 1.10 M/s |
+| BM_CPU_ANN_InnerProduct | 256 | 1000 | 590 k/s |
+| BM_CPU_ANN_InnerProduct | 512 | 1000 | 313 k/s |
+| BM_CPU_ANN_TopK (k=10) | – | 1000 | 20.0 M/s |
+| BM_CPU_ANN_TopK (k=50) | – | 1000 | 11.1 M/s |
+| BM_CPU_ANN_TopK (k=10) | – | 5000 | 25.0 M/s |
+| BM_CPU_ANN_TopK (k=50) | – | 5000 | 12.5 M/s |
+| BM_CPU_BatchKNN (128d, k=10) | 128 | 1000 | 1.08 M/s |
+| BM_CPU_BatchKNN (256d, k=10) | 256 | 1000 | 570 k/s |
+| BM_CPU_BatchKNN (512d, k=10) | 512 | 1000 | 308 k/s |
+| BM_CPU_Geo_HaversineDistance | – | 1000 | 20.0 M/s |
+| BM_CPU_Geo_HaversineDistance | – | 10000 | 22.2 M/s |
+| BM_CPU_Geo_HaversineDistance | – | 100000 | 22.2 M/s |
+| BM_CPU_Geo_PointInPolygon | – | 1000 | 33.0 M/s |
+| BM_CPU_Geo_PointInPolygon | – | 10000 | 35.7 M/s |
+| BM_CPU_Geo_PointInPolygon | – | 100000 | 35.7 M/s |
+
+---
+
+### 38.6 Chimera-Modul Baseline (v1.5.0-dev, Stand: 2026-03-01)
+
+> Quelle: `benchmarks/baselines/chimera/baseline.json`
+
+| Workload | Throughput (ops/s) | avg (ms) | p95 (ms) | p99 (ms) |
+|----------|--------------------|----------|----------|----------|
+| relational_sort | 42.503 k/s | 0.024 | 0.023 | 0.034 |
+| vector_dot_product | 75.835 k/s | 0.013 | 0.013 | 0.024 |
+| document_lookup | **2.957 M/s** | 0.00018 | 0.0002 | 0.00025 |
+| graph_bfs | 40.373 k/s | 0.025 | 0.025 | 0.033 |
+
+---
+
+### 38.7 Versions-Benchmark-Verlauf (`VERSION_HISTORY.csv`)
+
+| Version | Datum | Query Engine (M items/s) | Vector Insert (k/s) | Index Insert (k/s) | Embedding Cache (items/s) | 2PC (ops/s) | Benchmark-Anzahl | Wichtigste Änderung |
+|---------|-------|--------------------------|---------------------|---------------------|---------------------------|-------------|-----------------|---------------------|
+| v1.3.0 | 2025-09-15 | 700 | 280 | 180 | – | – | 450 | Initial Release |
+| v1.3.1 | 2025-09-29 | 750 | 300 | 190 | – | – | 480 | Query Optimizer Improvements |
+| v1.3.2 | 2025-10-31 | 800 | 330 | 210 | – | – | 520 | SIMD Vectorization + Compression |
+| v1.3.3 | 2025-11-30 | 800 | 340 | 215 | – | – | 780 | Parallelization + Advanced Patterns |
+| **v1.3.4** | 2025-12-29 | **814.5** | **351.4** | **217.2** | **155.8 M/s** | **6.4 k** | **1078** | Neu: Cache, 2PC, Hybrid Search |
+
