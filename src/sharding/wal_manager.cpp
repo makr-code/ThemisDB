@@ -226,6 +226,9 @@ std::optional<WALEntry> WALManager::read(const LSN& lsn) {
 std::vector<WALEntry> WALManager::readRange(const LSN& start_lsn, 
                                             const std::optional<LSN>& end_lsn) {
     std::lock_guard<std::mutex> lock(mutex_);
+
+    // Make in-memory buffered writes visible to readers.
+    flush();
     
     std::vector<WALEntry> result;
     
@@ -306,8 +309,10 @@ void WALManager::flush() {
     current_segment_->write(reinterpret_cast<const char*>(write_buffer_.data()), 
                            write_buffer_.size());
     
+    // Always flush the C++ stream buffer so same-process readers can observe
+    // recently appended entries. sync_on_write controls fsync-level durability.
+    current_segment_->flush();
     if (config_.sync_on_write) {
-        current_segment_->flush();
         // Note: fsync() would be called here for true durability
     }
     

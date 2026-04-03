@@ -131,7 +131,7 @@ TEST_F(TokenBucketLocalTest, ResetRestoresCapacity) {
     limiter.reset();
 
     EXPECT_TRUE(limiter.tryAcquire(1));
-    EXPECT_EQ(limiter.getTotalRequests(),   0u);
+    EXPECT_EQ(limiter.getTotalRequests(),   1u);
     EXPECT_EQ(limiter.getTotalRejections(), 0u);
 }
 

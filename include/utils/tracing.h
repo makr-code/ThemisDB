@@ -85,8 +85,8 @@ public:
     explicit SamplingStrategy(Type type = Type::ALWAYS_ON, double probability = 1.0)
         : type_(type), probability_(probability) {}
 
-    static SamplingStrategy alwaysOn()  { return SamplingStrategy(Type::ALWAYS_ON);  }
-    static SamplingStrategy alwaysOff() { return SamplingStrategy(Type::ALWAYS_OFF); }
+    static SamplingStrategy alwaysOn()  { return SamplingStrategy(Type::ALWAYS_ON, 1.0);  }
+    static SamplingStrategy alwaysOff() { return SamplingStrategy(Type::ALWAYS_OFF, 0.0); }
     static SamplingStrategy probability(double p) {
         return SamplingStrategy(Type::PROBABILITY, p);
     }

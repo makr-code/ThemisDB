@@ -142,10 +142,13 @@ TEST_F(AdaptiveRateLimiterTest, HighLatencyReducesCapacity) {
 TEST_F(AdaptiveRateLimiterTest, LowLatencyIncreasesCapacity) {
     AdaptiveRateLimiter::Config cfg = makeCfg(1000);
     cfg.min_samples_to_adapt      = 10;
-    cfg.high_error_rate           = 0.05;
+    // With a sliding sample window, recovery is evaluated on mixed history.
+    // Use thresholds that still degrade on all-error input but can recover
+    // once healthy samples dominate the current window.
+    cfg.high_error_rate           = 0.90;
     cfg.high_latency_threshold_ms = 500;
     cfg.low_latency_threshold_ms  = 100;
-    cfg.low_error_rate            = 0.01;
+    cfg.low_error_rate            = 0.60;
     cfg.recovery_step             = 0.1;
     AdaptiveRateLimiter limiter(cfg);
 

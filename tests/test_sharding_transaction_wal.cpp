@@ -116,10 +116,16 @@ TEST_F(TransactionWALTest, GetCurrentLSN_InitialState) {
 // ============================================================================
 
 TEST_F(TransactionWALTest, LogBegin_ReturnsValidLSN) {
+    auto before = wal_->getCurrentLSN();
     auto lsn = wal_->logBegin("txn-001",
                                TransactionProtocol::TWO_PHASE_COMMIT,
                                {"shard-1", "shard-2"});
-    EXPECT_TRUE(validLSN(lsn));
+    auto after = wal_->getCurrentLSN();
+
+    // The first WAL entry is written at 0/0 and advances current LSN after write.
+    EXPECT_EQ(lsn.segment, before.segment);
+    EXPECT_EQ(lsn.offset, before.offset);
+    EXPECT_TRUE(after.segment > before.segment || after.offset > before.offset);
 }
 
 TEST_F(TransactionWALTest, LogBegin_IncrementsCurrentLSN) {

@@ -4290,12 +4290,22 @@ TEST(CrossClusterIntegrationTest, PublicationReceivesEntriesViaReplicationManage
     // Wait for single-node leader election
     std::this_thread::sleep_for(std::chrono::milliseconds(300));
 
+    auto replicate_with_retry = [&](const WALEntry& entry) {
+        for (int i = 0; i < 20; ++i) {
+            if (mgr.replicate(entry)) {
+                return true;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
+        return false;
+    };
+
     WALEntry entry;
     entry.operation   = "INSERT";
     entry.collection  = "docs";
     entry.document_id = "doc-001";
     entry.data        = R"({"v":1})";
-    bool ok = mgr.replicate(entry);
+    bool ok = replicate_with_retry(entry);
 
     mgr.shutdown();
     ASSERT_TRUE(ok) << "replicate() failed – node may not be leader yet";
@@ -4330,20 +4340,32 @@ TEST(CrossClusterIntegrationTest, FilterDropsNonMatchingEntriesViaReplicationMan
 
     std::this_thread::sleep_for(std::chrono::milliseconds(300));
 
+    auto replicate_with_retry = [&](const WALEntry& entry) {
+        for (int i = 0; i < 20; ++i) {
+            if (mgr.replicate(entry)) {
+                return true;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
+        return false;
+    };
+
     // Replicate two entries: one passes the filter, one doesn't
     WALEntry e_orders;
     e_orders.operation   = "INSERT";
     e_orders.collection  = "orders";
     e_orders.document_id = "ord-1";
     e_orders.data        = R"({"v":1})";
-    mgr.replicate(e_orders);
+    ASSERT_TRUE(replicate_with_retry(e_orders))
+        << "replicate(orders) failed - node may not be leader yet";
 
     WALEntry e_users;
     e_users.operation   = "INSERT";
     e_users.collection  = "users";
     e_users.document_id = "usr-1";
     e_users.data        = R"({"v":1})";
-    mgr.replicate(e_users);
+    ASSERT_TRUE(replicate_with_retry(e_users))
+        << "replicate(users) failed - node may not be leader yet";
 
     mgr.shutdown();
 

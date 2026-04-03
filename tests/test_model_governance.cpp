@@ -258,7 +258,13 @@ TEST(BiasFieldStatsTest, ToJsonContainsRequiredFields) {
 
 // ─── BiasAuditReport ─────────────────────────────────────────────────────────
 
-TEST(BiasAuditReportTest, ToJsonContainsRequiredFields) {
+class BiasAuditReportTest : public ::testing::Test {
+protected:
+    std::shared_ptr<PolicyManager> pm{std::make_shared<PolicyManager>()};
+    ComplianceReporter reporter{pm};
+};
+
+TEST_F(BiasAuditReportTest, ToJsonContainsRequiredFields) {
     BiasAuditReport report;
     report.report_id          = "bias-r-1";
     report.adapter_id         = "adapter-x";
@@ -287,12 +293,6 @@ TEST(BiasAuditReportTest, ToJsonContainsRequiredFields) {
 }
 
 // ─── ComplianceReporter::generateBiasAuditReport ─────────────────────────────
-
-class BiasAuditReportTest : public ::testing::Test {
-protected:
-    std::shared_ptr<PolicyManager> pm{std::make_shared<PolicyManager>()};
-    ComplianceReporter reporter{pm};
-};
 
 TEST_F(BiasAuditReportTest, PassedWhenGroupsAreBalanced) {
     // Uniform distribution → parity ≈ 1.0 → PASSED

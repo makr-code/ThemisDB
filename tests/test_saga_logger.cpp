@@ -43,6 +43,10 @@ bool IsFieldEncryptionAvailable() {
 class SAGALoggerTest : public ::testing::Test {
 protected:
     void SetUp() override {
+    if (!IsFieldEncryptionAvailable()) {
+      GTEST_SKIP() << "Field encryption unavailable in Community edition";
+    }
+
         // Clean test directories
         std::filesystem::remove_all("data/test_saga");
         std::filesystem::create_directories("data/test_saga");

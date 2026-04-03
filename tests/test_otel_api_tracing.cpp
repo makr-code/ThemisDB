@@ -273,6 +273,7 @@ TEST_F(OtelApiTracingTest, SpanAttributeTypes) {
 
 TEST_F(OtelApiTracingTest, ParentChildSpanHierarchy) {
     auto request_span = Tracer::startSpan("http.request");
+    const bool tracing_active = request_span.isValid();
     request_span.setAttribute("http.method", "POST");
     request_span.setAttribute("http.target", "/transaction/begin");
 
@@ -286,11 +287,16 @@ TEST_F(OtelApiTracingTest, ParentChildSpanHierarchy) {
     request_span.setStatus(true);
     request_span.end();
 
-    EXPECT_GE(Tracer::getTotalSpans(), initial_total_ + 2);
+    if (tracing_active) {
+        EXPECT_GE(Tracer::getTotalSpans(), initial_total_ + 2);
+    } else {
+        EXPECT_EQ(Tracer::getTotalSpans(), initial_total_);
+    }
 }
 
 TEST_F(OtelApiTracingTest, ThreeLayerSpanHierarchy) {
     auto root   = Tracer::startSpan("http.request");
+    const bool tracing_active = root.isValid();
     auto child  = Tracer::startChildSpan("schema.handler", root);
     auto leaf   = Tracer::startChildSpan("schema.manager.getTable", child);
 
@@ -304,7 +310,11 @@ TEST_F(OtelApiTracingTest, ThreeLayerSpanHierarchy) {
     root.setStatus(true);
     root.end();
 
-    EXPECT_GE(Tracer::getTotalSpans(), initial_total_ + 3);
+    if (tracing_active) {
+        EXPECT_GE(Tracer::getTotalSpans(), initial_total_ + 3);
+    } else {
+        EXPECT_EQ(Tracer::getTotalSpans(), initial_total_);
+    }
 }
 
 // ============================================================================

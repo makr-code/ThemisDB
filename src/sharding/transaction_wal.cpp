@@ -81,7 +81,7 @@ LSN TransactionWAL::logBegin(const std::string& transaction_id,
     auto wal_entry = toWALEntry(entry);
     LSN lsn = wal_manager_->append(wal_entry);
     
-    current_lsn_ = lsn;
+    current_lsn_ = wal_manager_->getCurrentLSN();
     entry.lsn = lsn;
 
     spdlog::debug("Logged BEGIN for transaction {} at LSN {}", transaction_id, lsn.toString());
@@ -101,7 +101,7 @@ LSN TransactionWAL::logPrepare(const std::string& transaction_id,
     auto wal_entry = toWALEntry(entry);
     LSN lsn = wal_manager_->append(wal_entry);
     
-    current_lsn_ = lsn;
+    current_lsn_ = wal_manager_->getCurrentLSN();
     entry.lsn = lsn;
 
     spdlog::debug("Logged PREPARE for transaction {} participant {} at LSN {}",
@@ -129,7 +129,7 @@ LSN TransactionWAL::logPrepared(const std::string& transaction_id,
     auto wal_entry = toWALEntry(entry);
     LSN lsn = wal_manager_->append(wal_entry);
     
-    current_lsn_ = lsn;
+    current_lsn_ = wal_manager_->getCurrentLSN();
     entry.lsn = lsn;
 
     spdlog::debug("Logged PREPARED for transaction {} participant {} vote={} at LSN {}",
@@ -148,7 +148,7 @@ LSN TransactionWAL::logCommit(const std::string& transaction_id,
     auto wal_entry = toWALEntry(entry);
     LSN lsn = wal_manager_->append(wal_entry);
     
-    current_lsn_ = lsn;
+    current_lsn_ = wal_manager_->getCurrentLSN();
     entry.lsn = lsn;
 
     spdlog::debug("Logged COMMIT for transaction {} at LSN {}", transaction_id, lsn.toString());
@@ -166,7 +166,7 @@ LSN TransactionWAL::logCommitted(const std::string& transaction_id,
     auto wal_entry = toWALEntry(entry);
     LSN lsn = wal_manager_->append(wal_entry);
     
-    current_lsn_ = lsn;
+    current_lsn_ = wal_manager_->getCurrentLSN();
     entry.lsn = lsn;
 
     spdlog::debug("Logged COMMITTED for transaction {} participant {} at LSN {}",
@@ -189,7 +189,7 @@ LSN TransactionWAL::logAbort(const std::string& transaction_id,
     auto wal_entry = toWALEntry(entry);
     LSN lsn = wal_manager_->append(wal_entry);
     
-    current_lsn_ = lsn;
+    current_lsn_ = wal_manager_->getCurrentLSN();
     entry.lsn = lsn;
 
     spdlog::debug("Logged ABORT for transaction {} reason='{}' at LSN {}",
@@ -208,7 +208,7 @@ LSN TransactionWAL::logAborted(const std::string& transaction_id,
     auto wal_entry = toWALEntry(entry);
     LSN lsn = wal_manager_->append(wal_entry);
     
-    current_lsn_ = lsn;
+    current_lsn_ = wal_manager_->getCurrentLSN();
     entry.lsn = lsn;
 
     spdlog::debug("Logged ABORTED for transaction {} participant {} at LSN {}",
@@ -229,7 +229,7 @@ LSN TransactionWAL::logCompensate(const std::string& transaction_id,
     auto wal_entry = toWALEntry(entry);
     LSN lsn = wal_manager_->append(wal_entry);
     
-    current_lsn_ = lsn;
+    current_lsn_ = wal_manager_->getCurrentLSN();
     entry.lsn = lsn;
 
     spdlog::debug("Logged COMPENSATE for transaction {} step {} at LSN {}",
@@ -267,6 +267,9 @@ bool TransactionWAL::shouldCreateSnapshot(uint64_t operations_count) const {
 }
 
 LSN TransactionWAL::getCurrentLSN() const {
+    if (wal_manager_) {
+        return wal_manager_->getCurrentLSN();
+    }
     return current_lsn_;
 }
 

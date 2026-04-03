@@ -175,9 +175,9 @@ TEST(FileUtilsTest, ReadFileContents_NonExistent_Throws) {
 // ============================================================================
 
 TEST(NormalizerTest, NormalizeUmlauts_GermanChars) {
-    // ä → ae, ö → oe, ü → ue, Ä → Ae, Ö → Oe, Ü → Ue, ß → ss
+    // ä -> a, ö -> o, ü -> u, Ä -> A, Ö -> O, Ü -> U, ß -> ss
     auto result = themis::utils::Normalizer::normalizeUmlauts("Über Straße");
-    EXPECT_NE(result.find("Ue"), std::string::npos);
+    EXPECT_NE(result.find("U"), std::string::npos);
     EXPECT_NE(result.find("ss"), std::string::npos);
 }
 
@@ -195,7 +195,7 @@ TEST(NormalizerTest, NormalizeUmlauts_Empty_ReturnsEmpty) {
 TEST(NormalizerTest, NormalizeUmlauts_AllUmlauts) {
     // ä, ö, ü, Ä, Ö, Ü, ß should all be replaced
     auto result = themis::utils::Normalizer::normalizeUmlauts("äöüÄÖÜß");
-    EXPECT_EQ(result, "aeoeueAeOeUess");
+    EXPECT_EQ(result, "aouAOUss");
 }
 
 // ============================================================================

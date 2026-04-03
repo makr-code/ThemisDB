@@ -22,7 +22,8 @@ using json = nlohmann::json;
 bool ScraperLLMEvaluator::isLlmAvailable() const {
 #ifdef THEMIS_ENABLE_LLM
     try {
-        return themis::llm::LLMPluginManager::instance().isAvailable();
+        auto& mgr = themis::llm::LLMPluginManager::instance();
+        return !mgr.listPlugins().empty() && mgr.getDefaultPlugin() != nullptr;
     } catch (...) {}
 #endif
     return false;

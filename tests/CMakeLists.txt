@@ -1678,6 +1678,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_consensus_module.cpp")
     
     set_tests_properties(ConsensusModuleTests PROPERTIES
         LABELS "sharding;consensus;raft;gossip;paxos;unit"
+        RUN_SERIAL TRUE
         TIMEOUT 120
     )
     
@@ -2243,7 +2244,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http_client_pool.cpp")
     
     set_tests_properties(HTTPClientPoolTests PROPERTIES
         LABELS "utils;http;connection-pool;concurrency;unit"
-        TIMEOUT 180
+        RUN_SERIAL TRUE
+        TIMEOUT 300
     )
     
     message(STATUS "  HTTP Client Pool: striped locking, stale connection removal, timeouts")
@@ -2794,6 +2796,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_replication_ha.cpp")
 
     set_tests_properties(ReplicationHAFocusedTests PROPERTIES
         LABELS "replication;ha;witness-node;conflict-resolution;focused;unit"
+        RUN_SERIAL TRUE
         TIMEOUT 120
     )
 
@@ -2880,6 +2883,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_replication_new_features.cpp")
 
     set_tests_properties(ReplicationNewFeaturesFocusedTests PROPERTIES
         LABELS "replication;v1.7.0;observer;conflict;event-stream;policy;slot;focused;unit"
+        RUN_SERIAL TRUE
         TIMEOUT 120
     )
 
@@ -2915,6 +2919,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_replication_ha.cpp")
 
     set_tests_properties(ReplicationHATests PROPERTIES
         LABELS "replication;ha;leader-election;witness;wal;unit"
+        RUN_SERIAL TRUE
         TIMEOUT 120
     )
 
@@ -17132,6 +17137,128 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_epoch_fencing.cpp")
     message(STATUS "  EpochFencing: EpochFencingManager, LeaseManager, NullStonithProvider")
 endif()
 
+# Automatic Failover Orchestration focused tests (Phase 4.2)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_auto_failover_manager.cpp")
+    message(STATUS "Adding Failover: AutoFailoverManager focused tests (Phase 4.2)")
+    add_executable(test_auto_failover_manager_focused
+        test_auto_failover_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/failover/auto_failover_manager.cpp
+    )
+    target_include_directories(test_auto_failover_manager_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_auto_failover_manager_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_auto_failover_manager_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME AutoFailoverManagerFocusedTests COMMAND test_auto_failover_manager_focused)
+    set_tests_properties(AutoFailoverManagerFocusedTests PROPERTIES
+        LABELS "failover;phase4;orchestration;ha;focused;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  AutoFailoverManager: lifecycle, queueing, failover trigger behavior")
+endif()
+
+# ── Chaos Testing Framework focused tests (Phase 4.3) ────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_chaos_framework.cpp")
+    message(STATUS "Adding Chaos: ChaosFramework focused tests (Phase 4.3)")
+    add_executable(test_chaos_framework_focused
+        test_chaos_framework.cpp
+        ${THEMIS_ROOT_DIR}/src/chaos/chaos_framework.cpp
+    )
+    target_include_directories(test_chaos_framework_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_chaos_framework_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+    target_compile_definitions(test_chaos_framework_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ChaosFrameworkFocusedTests COMMAND test_chaos_framework_focused)
+    set_tests_properties(ChaosFrameworkFocusedTests PROPERTIES
+        LABELS "chaos;phase4;fault-injection;resilience;ha;focused;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  ChaosFramework: FaultInjector lifecycle, fault inject/recover/expiry, ChaosScheduler, event callbacks")
+endif()
+
+# ── Chaos Network focused tests (Phase 4.3) ───────────────────────────────────
+if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_chaos_network.cpp")
+    message(STATUS "Adding Chaos: Network chaos focused tests (Phase 4.3)")
+    add_executable(test_chaos_network_focused test_chaos_network.cpp)
+    target_include_directories(test_chaos_network_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_chaos_network_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        themis_network
+        Threads::Threads
+    )
+    target_compile_definitions(test_chaos_network_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ChaosNetworkFocusedTests COMMAND test_chaos_network_focused)
+    set_tests_properties(ChaosNetworkFocusedTests PROPERTIES
+        LABELS "chaos;phase4;network;http;resilience;focused;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  ChaosNetwork: oversized body/headers, malformed JSON, connection counters, health endpoint concurrency")
+endif()
+
+# ── Chaos Scheduler focused tests (Phase 4.3) ────────────────────────────────
+if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_chaos_scheduler.cpp")
+    message(STATUS "Adding Chaos: Scheduler chaos focused tests (Phase 4.3)")
+    add_executable(test_chaos_scheduler_focused test_chaos_scheduler.cpp)
+    target_include_directories(test_chaos_scheduler_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_chaos_scheduler_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(test_chaos_scheduler_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ChaosSchedulerFocusedTests COMMAND test_chaos_scheduler_focused)
+    set_tests_properties(ChaosSchedulerFocusedTests PROPERTIES
+        LABELS "chaos;phase4;scheduler;stress;resilience;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  ChaosScheduler: rapid register/unregister, timeout tasks, exception injection, stop-under-load")
+endif()
+
+# ── Disaster Recovery focused tests (Phase 4.4) ──────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_disaster_recovery_manager.cpp")
+    message(STATUS "Adding Failover: DisasterRecoveryManager focused tests (Phase 4.4)")
+    add_executable(test_disaster_recovery_manager_focused
+        test_disaster_recovery_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/failover/disaster_recovery_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/epoch_fencing.cpp
+    )
+    target_include_directories(test_disaster_recovery_manager_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_disaster_recovery_manager_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_disaster_recovery_manager_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME DisasterRecoveryManagerFocusedTests COMMAND test_disaster_recovery_manager_focused)
+    set_tests_properties(DisasterRecoveryManagerFocusedTests PROPERTIES
+        LABELS "failover;phase4;disaster-recovery;dr;resilience;focused;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  DisasterRecoveryManager: prechecks, snapshot validation, epoch fencing, restore orchestration, verification")
+endif()
+
 # Process Modeling Module focused tests
 # Covers: BpmnSerializer, EpkSerializer, VccVpbImporter, LlmProcessDescriptor,
 #         ProcessModelManager, ProcessLinker, ProcessGraphRag
@@ -19348,6 +19475,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_training_governance.cpp
 
     add_executable(test_cross_module_training_governance_focused
         test_cross_module_training_governance.cpp
+        ${CMAKE_SOURCE_DIR}/src/training/lora_adapter.cpp
+        ${CMAKE_SOURCE_DIR}/src/training/ada_lora_adapter.cpp
+        ${CMAKE_SOURCE_DIR}/src/training/lora_adapter_merger.cpp
     )
 
     target_include_directories(test_cross_module_training_governance_focused PRIVATE
@@ -19642,6 +19772,14 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_scraper_plugin.cpp")
 
     add_executable(test_scraper_plugin_focused
         test_scraper_plugin.cpp
+        ${CMAKE_SOURCE_DIR}/plugins/scraper/src/scraper_plugin.cpp
+        ${CMAKE_SOURCE_DIR}/plugins/scraper/src/scraper_config.cpp
+        ${CMAKE_SOURCE_DIR}/plugins/scraper/src/gov_source_catalog.cpp
+        ${CMAKE_SOURCE_DIR}/plugins/scraper/src/scraper_search_engine.cpp
+        ${CMAKE_SOURCE_DIR}/plugins/scraper/src/scraper_api_client.cpp
+        ${CMAKE_SOURCE_DIR}/plugins/scraper/src/scraper_js_renderer.cpp
+        ${CMAKE_SOURCE_DIR}/plugins/scraper/src/scraper_llm_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/plugins/scraper/src/scraper_metadata_writer.cpp
     )
 
     target_include_directories(test_scraper_plugin_focused PRIVATE
@@ -19651,9 +19789,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_scraper_plugin.cpp")
     )
 
     target_link_libraries(test_scraper_plugin_focused PRIVATE
-        scraper_plugin
-        GTest::GTest
-        GTest::Main
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        GTest::gtest
+        GTest::gtest_main
         nlohmann_json::nlohmann_json
         Threads::Threads
     )

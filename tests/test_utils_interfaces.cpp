@@ -163,7 +163,20 @@ protected:
         auto result = PIIDetectionEngineFactory::createUnsigned("regex");
         ASSERT_TRUE(result.has_value()) << "Could not create regex engine";
         engine_ = std::move(*result);
-        ASSERT_TRUE(engine_->initialize(nlohmann::json::object()))
+
+        nlohmann::json cfg;
+        cfg["enabled"] = true;
+        cfg["patterns"] = nlohmann::json::array({
+            {
+                {"name", "EMAIL"},
+                {"regex", R"([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})"},
+                {"confidence", 0.95},
+                {"enabled", true},
+                {"flags", nlohmann::json::array({"icase"})}
+            }
+        });
+
+        ASSERT_TRUE(engine_->initialize(cfg))
             << "Could not initialize regex engine";
         detector_ = std::make_unique<PIIStreamDetectorAdapter>(engine_);
     }
